@@ -1534,10 +1534,6 @@ sub Footer {
             = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
     }
 
-    my $AutocompleteConfigJSON = $Self->JSONEncode(
-        Data => $AutocompleteConfig,
-    );
-
     # Search frontend (JavaScript)
     my $SearchFrontendConfig = $ConfigObject->Get('Frontend::Search::JavaScript');
 
@@ -1603,7 +1599,7 @@ sub Footer {
                 )
             ) ? 1 : 0,
         SearchFrontend => $JSCall,
-        Autocomplete   => $AutocompleteConfigJSON,
+        Autocomplete   => $AutocompleteConfig,
     );
 
     for my $Config ( sort keys %JSConfig ) {

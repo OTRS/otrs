@@ -1,0 +1,72 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% RenderBlockStart("ContentLargeCustomerIDListNavBar") %]
+<span class="Pagination">
+    [% Data.SiteNavBar %]
+</span>
+[% RenderBlockEnd("ContentLargeCustomerIDListNavBar") %]
+[% RenderBlockStart("ContentLargeCustomerIDAdd") %]
+<h2><a class="CallForAction" href="[% Env("Baselink") %]Action=AdminCustomerUserCustomer;Subaction=CustomerUser;ID=[% Data.CustomerUserID | uri %]"><span><i class="fa fa-plus-square"></i> [% Translate("Change Customer Relations") | html %]</span></a></h2>
+[% RenderBlockEnd("ContentLargeCustomerIDAdd") %]
+
+<table class="DataTable">
+    <thead>
+        <tr>
+            <th>[% Translate("CustomerID") | html %]</th>
+            <th>[% Translate("Name") | html %]</th>
+            <th>[% Translate("Open") | html %]</th>
+            <th>[% Translate("Closed") | html %]</th>
+        [% IF Data.EditCustomerIDPermission %]
+            <th class="Center">[% Translate("Edit") | html %]</th>
+        [% END %]
+        </tr>
+    </thead>
+    <tbody>
+[% RenderBlockStart("ContentLargeCustomerIDListRow") %]
+        <tr>
+            <td>
+                <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | uri %]" class="MasterActionLink">
+                    [% Data.CustomerID | html %]
+                </a>
+            </td>
+            <td>
+                [% Data.CustomerCompanyName | html %]
+            </td>
+[% RenderBlockStart("ContentLargeCustomerIDListRowCustomerIDTicketsOpen") %]
+            <td>
+                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=open;CustomerID=[% Data.CustomerIDSQL | uri %]" title="[% Translate("%s open ticket(s) of %s", Data.Count, Data.CustomerID) | html %]" class="AsBlock">
+                    [% Data.Count | html %]
+                </a>
+            </td>
+[% RenderBlockEnd("ContentLargeCustomerIDListRowCustomerIDTicketsOpen") %]
+[% RenderBlockStart("ContentLargeCustomerIDListRowCustomerIDTicketsClosed") %]
+            <td>
+                <a href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;StateType=closed;CustomerID=[% Data.CustomerIDSQL | uri %]" title="[% Translate("%s closed ticket(s) of %s", Data.Count, Data.CustomerID) | html %]" class="AsBlock">
+                    [% Data.Count | html %]
+                </a>
+            </td>
+[% RenderBlockEnd("ContentLargeCustomerIDListRowCustomerIDTicketsClosed") %]
+        [% IF Data.EditCustomerIDPermission %]
+            <td class="Center">
+                <a href="[% Env("Baselink") %]Action=AdminCustomerCompany;Subaction=Change;CustomerID=[% Data.CustomerID | uri %];Nav=Agent" title="Edit customer ID">
+                    <i class="fa fa-pencil-square-o"></i>
+                </a>
+            </td>
+        [% END %]
+        </tr>
+[% RenderBlockEnd("ContentLargeCustomerIDListRow") %]
+[% RenderBlockStart("ContentLargeCustomerIDListNone") %]
+        <tr>
+            <td>
+                [% Translate("none") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("ContentLargeCustomerIDListNone") %]
+    </tbody>
+</table>

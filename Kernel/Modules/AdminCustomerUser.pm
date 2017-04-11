@@ -1000,10 +1000,16 @@ sub _Edit {
         Data => \%Param,
     );
 
-    # shows header
     if ( $Param{Action} eq 'Change' ) {
+
+        # shows edit header
         $LayoutObject->Block( Name => 'HeaderEdit' );
+
+        # shows effective permissions matrix
+        $Self->_EffectivePermissions(%Param);
     }
+
+    # shows add header
     else {
         $LayoutObject->Block( Name => 'HeaderAdd' );
     }
@@ -1256,6 +1262,229 @@ sub _Edit {
         TemplateFile => 'AdminCustomerUser',
         Data         => \%Param,
     );
+}
+
+sub _EffectivePermissions {
+    my ( $Self, %Param ) = @_;
+
+    # only if customer group feature is active
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupSupport') ) {
+        return 1;
+    }
+
+    # get needed objects
+    my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $CustomerGroupObject = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+
+    # show tables
+    $LayoutObject->Block(
+        Name => 'EffectivePermissions',
+    );
+
+    my %Groups;
+    my %Permissions;
+
+    # go through permission types
+    my @Types = @{ $ConfigObject->Get('System::Customer::Permission') };
+    for my $Type (@Types) {
+
+        # show header
+        $LayoutObject->Block(
+            Name => "HeaderGroupPermissionType",
+            Data => {
+                Type => $Type,
+            },
+        );
+
+        # get groups of the user
+        my %UserGroups = $CustomerGroupObject->GroupMemberList(
+            UserID         => $Param{ID},
+            Type           => $Type,
+            Result         => 'HASH',
+            RawPermissions => 0,            # get effective permissions
+        );
+
+        # store data in lookup hashes
+        for my $GroupID ( sort keys %UserGroups ) {
+            $Groups{$GroupID} = $UserGroups{$GroupID};
+            $Permissions{$GroupID}{$Type} = 1;
+        }
+    }
+
+    # show message if no permissions found
+    if ( !%Permissions ) {
+        $LayoutObject->Block(
+            Name => 'NoGroupPermissionsFoundMsg',
+        );
+    }
+
+    # go through groups, sort by name
+    else {
+        for my $GroupID ( sort { uc( $Groups{$a} ) cmp uc( $Groups{$b} ) } keys %Groups ) {
+
+            # show table rows
+            $LayoutObject->Block(
+                Name => 'GroupPermissionTableRow',
+                Data => {
+                    ID   => $GroupID,
+                    Name => $Groups{$GroupID},
+                },
+            );
+
+            # show permission marks
+            for my $Type (@Types) {
+                my $PermissionMark = $Permissions{$GroupID}{$Type} ? 'On' : 'Off';
+                my $HighlightMark = $Type eq 'rw' ? 'Highlight' : '';
+                $LayoutObject->Block(
+                    Name => 'GroupPermissionMark',
+                );
+                $LayoutObject->Block(
+                    Name => 'GroupPermissionMark' . $PermissionMark,
+                    Data => {
+                        Highlight => $HighlightMark,
+                    },
+                );
+            }
+        }
+    }
+
+    # get all accessible customers of the user
+    my %Customers = $CustomerGroupObject->GroupContextCustomers(
+        CustomerUserID => $Param{ID},
+    );
+
+    # show message if no customers found
+    if ( !%Customers ) {
+        $LayoutObject->Block(
+            Name => 'NoCustomerAccessFoundMsg',
+        );
+        return 1;
+    }
+
+    # get permission contexts
+    my $ContextConfig            = $ConfigObject->Get('CustomerGroupPermissionContext');
+    my $DirectAccessContextKey   = '001-CustomerID-same';
+    my $IndirectAccessContextKey = '100-CustomerID-other';
+
+    # use default context if none are found
+    if ( !IsHashRefWithData($ContextConfig) ) {
+        $ContextConfig = {
+            $DirectAccessContextKey => {
+                Name => Translatable('Same Customer'),
+            },
+        };
+    }
+
+    # show default and extra context headers if available
+    if ( $ContextConfig->{$DirectAccessContextKey} ) {
+        $LayoutObject->Block(
+            Name => 'HeaderCustomerAccessContext',
+            Data => {
+                Name => Translatable('Direct'),
+            },
+        );
+    }
+    if ( $ContextConfig->{$IndirectAccessContextKey} ) {
+        $LayoutObject->Block(
+            Name => 'HeaderCustomerAccessContext',
+            Data => {
+                Name => Translatable('Indirect'),
+            },
+        );
+    }
+
+    # determine customers for direct and indirect access
+    my @UserCustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
+        User => $Param{ID},
+    );
+    my %ExtraCustomerIDs;
+    if ( $ContextConfig->{$IndirectAccessContextKey} ) {
+        my $ExtraContextName = $CustomerGroupObject->GroupContextNameGet(
+            SysConfigName => $IndirectAccessContextKey,
+        );
+
+        # for all CustomerIDs get groups with extra access
+        my %ExtraPermissionGroups;
+        CUSTOMERID:
+        for my $CustomerID (@UserCustomerIDs) {
+            my %GroupList = $CustomerGroupObject->GroupCustomerList(
+                CustomerID => $CustomerID,
+                Type       => 'ro',
+                Context    => $ExtraContextName,
+                Result     => 'HASH',
+            );
+            next CUSTOMERID if !%GroupList;
+
+            # add to groups
+            %ExtraPermissionGroups = (
+                %ExtraPermissionGroups,
+                %GroupList,
+            );
+        }
+
+        # add all unique accessible Group<->Customer combinations
+        GROUPID:
+        for my $GroupID ( sort keys %ExtraPermissionGroups ) {
+            my @GroupCustomerIDs = $CustomerGroupObject->GroupCustomerList(
+                GroupID => $GroupID,
+                Type    => 'ro',
+                Result  => 'ID',
+            );
+            next GROUPID if !@GroupCustomerIDs;
+
+            # add to ExtraCustomerIDs
+            %ExtraCustomerIDs = (
+                %ExtraCustomerIDs,
+                map { $_ => 1 } @GroupCustomerIDs,
+            );
+        }
+    }
+
+    # go through customers
+    CUSTOMERID:
+    for my $CustomerID ( sort keys %Customers ) {
+
+        # show table rows
+        $LayoutObject->Block(
+            Name => 'CustomerAccessTableRow',
+            Data => {
+                ID   => $CustomerID,
+                Name => $Customers{$CustomerID},
+            },
+        );
+
+        # 'Same Customer'
+        if ( $ContextConfig->{$DirectAccessContextKey} ) {
+
+            # check if we should show check mark for 'Same Customer'
+            my $AccessMark = ( grep { $_ eq $CustomerID } @UserCustomerIDs ) ? 'On' : 'Off';
+
+            # show blocks
+            $LayoutObject->Block(
+                Name => 'CustomerAccessMark',
+            );
+            $LayoutObject->Block(
+                Name => 'CustomerAccessMark' . $AccessMark,
+            );
+        }
+
+        # 'Other Customers'
+        next CUSTOMERID if !$ContextConfig->{$IndirectAccessContextKey};
+
+        # check if we should show check mark for 'Other Customers'
+        my $AccessMark = $ExtraCustomerIDs{$CustomerID} ? 'On' : 'Off';
+
+        # show blocks
+        $LayoutObject->Block(
+            Name => 'CustomerAccessMark',
+        );
+        $LayoutObject->Block(
+            Name => 'CustomerAccessMark' . $AccessMark,
+        );
+    }
+
+    return 1;
 }
 
 1;

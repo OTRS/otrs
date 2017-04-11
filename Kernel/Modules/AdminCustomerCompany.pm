@@ -51,9 +51,10 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $CustomerID   = $ParamObject->GetParam( Param => 'CustomerID' )   || '';
+        my $CustomerID
+            = $ParamObject->GetParam( Param => 'CustomerID' ) || $ParamObject->GetParam( Param => 'ID' ) || '';
         my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
-        my %Data         = $CustomerCompanyObject->CustomerCompanyGet(
+        my %Data = $CustomerCompanyObject->CustomerCompanyGet(
             CustomerID => $CustomerID,
         );
         $Data{CustomerCompanyID} = $CustomerID;
@@ -87,7 +88,6 @@ sub Run {
         my $Note = '';
         my ( %GetParam, %Errors );
         $GetParam{Source}            = $ParamObject->GetParam( Param => 'Source' );
-        $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
         $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
 
         # Get dynamic field backend object.

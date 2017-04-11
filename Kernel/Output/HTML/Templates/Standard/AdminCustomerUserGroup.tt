@@ -9,12 +9,12 @@
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <div class="Header">
-        <h1>[% Translate("Manage Customer-Group Relations") | html %]</h1>
+        <h1>[% Translate("Manage Customer User-Group Relations") | html %]</h1>
     </div>
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Manage Customer-Group Relations'),
+                Name => Translate('Manage Customer User-Group Relations'),
                 Link => Data.OverviewLink,
             },
         ]
@@ -93,9 +93,9 @@
 [% RenderBlockEnd("Search") %]
 [% RenderBlockStart("AlwaysGroupsConfig") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Customer Default Groups") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Frontend::Customer" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Customer User Default Groups") | html %]</span></a>
                         <p class="FieldExplanation">
-                            [% Translate("These groups are automatically assigned to all customers.") | html %]
+                            [% Translate("These groups are automatically assigned to all customer users.") | html %]
                             [% Translate("You can manage these groups via the configuration setting \"CustomerGroupAlwaysGroups\".") | html %]
                         </p>
                     </li>
@@ -130,7 +130,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Select the customer:group permissions.") | html %]
+                    [% Translate("Select the customer user:group permissions.") | html %]
                 </p>
                 <p class="FieldExplanation">
                     [% Translate("If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).") | html %]
@@ -149,7 +149,7 @@
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Customers">
-                        <li class="Header">[% Translate("Customers") | html %]
+                        <li class="Header">[% Translate("Customer Users") | html %]
 [% RenderBlockStart("ResultCustomerUserCount") %]
                             ([% Data.CustomerUserCount | html %])
 [% RenderBlockEnd("ResultCustomerUserCount") %]
@@ -185,7 +185,7 @@
 [% RenderBlockStart("Change") %]
             <div class="Header">
                 <h2>
-                [% Translate(Data.BreadcrumbTitle) | html %]
+                    [% Translate(Data.BreadcrumbTitle) | html %]
                     <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
                 </h2>
             </div>
@@ -195,9 +195,7 @@
                     <input type="hidden" name="Subaction" value="Change[% Data.Type | html %]"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
                     <input type="hidden" name="CustomerUserSearch" value="[% Data.CustomerUserSearch | html %]" />
-                    [% IF Data.Subaction == 'CustomerUser' OR Data.Subaction == 'Group' %]
-                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
-                    [% END %]
+                    <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
                     <table class="DataTable VariableWidth" id="[% Data.VisibleNeType | html %]">
                         <thead>
                             <tr>
@@ -241,13 +239,9 @@
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">
-                        [% IF Data.Subaction == 'CustomerUser' OR Data.Subaction == 'Group' %]
                         <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
                         [% Translate("or") | html %]
                         <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                    [% ELSE %]
-                        <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
-                    [% END %]
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>
@@ -260,7 +254,7 @@
 [% RenderBlockStart("AlwaysGroups") %]
         <div class="WidgetSimple SpacingTop">
             <div class="Header">
-                <h2>[% Translate("Customer Default Groups:") | html %]</h2>
+                <h2>[% Translate("Customer User Default Groups:") | html %]</h2>
             </div>
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">

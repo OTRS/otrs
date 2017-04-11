@@ -55,6 +55,15 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get customer id from customer user data if neccessary
+    if ( !$Param{CustomerID} && $Param{CustomerUserID} ) {
+        my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            User => $Self->{CustomerUserID},
+        );
+
+        $Param{CustomerID} = $CustomerUserData{UserCustomerID} || '';
+    }
+
     return if !$Param{CustomerID};
 
     my %CustomerCompany = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(

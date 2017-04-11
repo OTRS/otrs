@@ -46,6 +46,27 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # Create some CustomerIDs for the test.
+        my @CustomerIDs;
+
+        for my $Counter ( 1 .. 3 ) {
+
+            # create test Customer
+            my $CustomerName = "Customer-$Counter-" . $Helper->GetRandomID();
+            my $CustomerID   = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
+                CustomerID          => $CustomerName,
+                CustomerCompanyName => $CustomerName,
+                ValidID             => 1,
+                UserID              => 1,
+            );
+            $Self->True(
+                $CustomerID,
+                "CustomerCompanyAdd - $CustomerID",
+            );
+
+            push @CustomerIDs, $CustomerID
+        }
+
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         # create a test customer
@@ -57,7 +78,7 @@ $Selenium->RunTest(
         my $Success = $CustomerUserObject->CustomerUserUpdate(
             Source         => 'CustomerUser',
             ID             => $TestCustomerUser1,
-            UserCustomerID => $TestCustomerUser1,
+            UserCustomerID => $CustomerIDs[0],
             UserLogin      => $TestCustomerUser1,
             UserFirstname  => "$CustomerUser-1",
             UserLastname   => "$CustomerUser-1",
@@ -70,6 +91,19 @@ $Selenium->RunTest(
         $Self->True(
             $Success,
             "Updated test user 1"
+        );
+
+        # set customer user as a member of company
+        $Success = $CustomerUserObject->CustomerUserCustomerMemberAdd(
+            CustomerUserID => $TestCustomerUser1,
+            CustomerID     => $CustomerIDs[1],
+            Active         => 1,
+            UserID         => 1,
+        );
+
+        $Self->True(
+            $Success,
+            "Added a additional CustomerID relation to customer test user 1"
         );
 
         my $TestCustomerUser2 = $Helper->TestCustomerUserCreate()
@@ -127,27 +161,66 @@ $Selenium->RunTest(
         # open AgentTicketPhone screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
+        # First test that the additional CustomerID select button is visible but disabled, because the field
+        #   is readonly as default.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
+            1,
+            "Button to select a other CustomerID is disabled",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('title')"),
+            'The customer ID is not changeable, no other customer ID can be assigned to this ticket.',
+            'Button text for the not changeable CustomerID is found on screen',
+        );
+
+        $Helper->ConfigSettingChange(
+            Key   => 'Ticket::Frontend::AgentTicketPhone::CustomerIDReadOnly',
+            Value => 0,
+        );
+
+        # Check if the additional CustomerID select button is not disabled.
+        $Selenium->VerifiedRefresh();
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
+            1,
+            "Button to select a other CustomerID is disabled",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('title')"),
+            'First select a customer user, then you can select a customer ID to assign to this ticket.',
+            'Button text for changeable CustomerID but disabled button is found on screen',
+        );
+
         my %AutoCompleteExpected = (
             "$CustomerUser" => {
                 Expected => 2,    # AgentCustomerSearch should return only 2 records (see bug#11996)
                 CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
+                CustomerID   => $CustomerIDs[0],
                 AutocompleteInput =>
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
             },
             "$CustomerUser-1" => {
                 Expected     => 1,
                 CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
+                CustomerID   => $CustomerIDs[1],
                 AutocompleteInput =>
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
+                SelectAssigendCustomerID => $CustomerIDs[1],
             },
             "$CustomerUser-2" => {
                 Expected => 1,    # AgentCustomerSearch should return only 1 record (see bug#11996)
                 CustomerUser => "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com>",
+                CustomerID   => $CustomerIDs[2],
                 AutocompleteInput =>
                     "\"$CustomerUser-2 $CustomerUser-2\" <$CustomerUser-2\@localunittest.com> ($TestCustomerUser2)",
+                SelectAllCustomerID => $CustomerIDs[2],
             },
             "$CustomerUser-nonexisting" => {
-                Expected => 0,
+                Expected            => 0,
+                CustomerID          => $CustomerIDs[2],
+                SelectAllCustomerID => $CustomerIDs[2],
             },
         );
 
@@ -157,11 +230,22 @@ $Selenium->RunTest(
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys($AutocompleteInput);
 
-            if ( $AutoCompleteExpected{$AutocompleteInput}{Expected} ) {
+            if ( $AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
 
                 # wait for autocomplete to load
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                );
+            }
+            else {
+
+                # Send a "tab" to trigger the javascript events, because we need a change of the field,
+                #   if no auto complete result exists.
+                $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys("\N{U+E004}");
+
+                # Wait for ajax call after customer user selection.
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length',
                 );
             }
 
@@ -171,24 +255,136 @@ $Selenium->RunTest(
 
             $Self->Is(
                 $AutoCompleteEntries,
-                $AutoCompleteExpected{$AutocompleteInput}{Expected},
+                $AutoCompleteExpected{$AutocompleteInput}->{Expected},
                 "Found entries in the autocomplete dropdown for input string $AutocompleteInput",
             );
 
-            if ( $AutoCompleteExpected{$AutocompleteInput}{Expected} ) {
+            if ( $AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
 
                 # select customer user
                 $Selenium->find_element("//*[text()='$AutocompleteInput']")->VerifiedClick();
 
+                # Wait until customer data is loading (CustomerID is filled after CustomerAutoComplete)
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
+
+                # Wait for ajax call after customer user selection.
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length',
+                );
+
                 # check if customer is selected
                 $Self->Is(
                     $Selenium->find_element( "#CustomerTicketText_1", 'css' )->get_value(),
-                    $AutoCompleteExpected{$AutocompleteInput}{CustomerUser},
+                    $AutoCompleteExpected{$AutocompleteInput}->{CustomerUser},
                     "Customer user is selected",
                 );
             }
 
+            if (
+                $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID}
+                || $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID}
+                )
+            {
+
+                $Selenium->WaitFor(
+                    JavaScript => 'return !$("#SelectionCustomerID").prop("disabled")',
+                );
+
+                $Selenium->find_element( "#SelectionCustomerID", 'css' )->click();
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+                );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $(".Dialog #SelectionCustomerIDAll:visible").length'
+                );
+
+                if ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID} ) {
+                    $Selenium->execute_script(
+                        "\$('.Dialog #SelectionCustomerIDAssigned').val('$AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID}').trigger('redraw.InputField').trigger('change');"
+                    );
+                }
+                elsif ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} ) {
+
+                    # Check if the assigend dropdown is not visible for a not existing customer user.
+                    if ( !$AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
+                        $Self->Is(
+                            $Selenium->execute_script(
+                                "return \$('.Dialog #SelectionCustomerIDAssigned:visible').length"
+                            ),
+                            0,
+                            "SelectionCustomerIDAssigned is not visible",
+                        );
+                    }
+
+                    $Selenium->find_element( ".Dialog #SelectionCustomerIDAll", 'css' )->clear();
+                    $Selenium->find_element( ".Dialog #SelectionCustomerIDAll", 'css' )
+                        ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
+
+                    # Wait for autocomplete to load.
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                    );
+
+                    my $AutoCompleteEntries = $Selenium->execute_script(
+                        "return \$('ul.ui-autocomplete li.ui-menu-item:visible').length",
+                    );
+
+                    $Self->Is(
+                        $AutoCompleteEntries,
+                        1,
+                        "Found entries in the customer id autocomplete dropdown for input string $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID}",
+                    );
+
+                    # select customer id
+                    $Selenium->find_element(
+                        "//*[text()='$AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID}']"
+                    )->VerifiedClick();
+                }
+
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length;'
+                );
+            }
+
+            # check if correct CustomerID is filled
+            $Self->Is(
+                $Selenium->find_element( "#CustomerID", 'css' )->get_value(),
+                $AutoCompleteExpected{$AutocompleteInput}->{CustomerID},
+                "CustomerID is selected",
+            );
+
             $Selenium->VerifiedRefresh();
+        }
+
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        for my $CustomerID (@CustomerIDs) {
+
+            my $Success = $DBObject->Do(
+                SQL  => "DELETE FROM customer_user_customer WHERE customer_id = ?",
+                Bind => [ \$CustomerID ],
+            );
+            $Self->True(
+                $Success,
+                "Deleted CustomerUserCustomer Relation - $CustomerID",
+            );
+
+            $Success = $DBObject->Do(
+                SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
+                Bind => [ \$CustomerID ],
+            );
+            $Self->True(
+                $Success,
+                "Deleted CustomerCompany - $CustomerID",
+            );
+        }
+
+        # Make sure the cache is correct.
+        for my $Cache (qw(CustomerUser CustomerCompany)) {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => $Cache,
+            );
         }
     }
 );

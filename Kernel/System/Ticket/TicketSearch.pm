@@ -11,6 +11,8 @@ package Kernel::System::Ticket::TicketSearch;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(IsArrayRefWithData);
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -937,10 +939,13 @@ sub TicketSearch {
 
         # return if we have no permissions
         return if !%GroupList;
+
+        # add groups to query
+        $SQLExt .= ' AND sq.group_id IN (' . join( ',', sort keys %GroupList ) . ') ';
     }
 
     # customer groups
-    elsif ( $Param{CustomerUserID} ) {
+    if ( $Param{CustomerUserID} ) {
 
         %GroupList = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
             UserID => $Param{CustomerUserID},
@@ -952,45 +957,137 @@ sub TicketSearch {
         return if !%GroupList;
 
         # get all customer ids
-        $SQLExt .= ' AND (';
         my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
             User => $Param{CustomerUserID},
         );
 
-        if (@CustomerIDs) {
+        # prepare combination of customer<->group access
 
-            my $Lower = '';
-            if ( $DBObject->GetDatabaseFunction('CaseSensitive') ) {
-                $Lower = 'LOWER';
+        # add default combination first ( CustomerIDs + CustomerUserID <-> rw access groups )
+        # this group will always be added (ensures previous behavior)
+        my @CustomerGroupPermission;
+        push @CustomerGroupPermission, {
+            CustomerIDs    => \@CustomerIDs,
+            CustomerUserID => $Param{CustomerUserID},
+            GroupIDs       => [ sort keys %GroupList ],
+        };
+
+        # add all combinations based on group access for other CustomerIDs (if available)
+        # only active if customer group support and extra permission context are enabled
+        my $CustomerGroupObject    = $Kernel::OM->Get('Kernel::System::CustomerGroup');
+        my $ExtraPermissionContext = $CustomerGroupObject->GroupContextNameGet(
+            SysConfigName => '100-CustomerID-other',
+        );
+        if ( $Kernel::OM->Get('Kernel::Config')->Get('CustomerGroupSupport') && $ExtraPermissionContext ) {
+
+            # add lookup for CustomerID
+            my %CustomerIDsLookup = map { $_ => $_ } @CustomerIDs;
+
+            # for all CustomerIDs get groups with access to other CustomerIDs
+            my %ExtraPermissionGroups;
+            CUSTOMERID:
+            for my $CustomerID (@CustomerIDs) {
+                my %CustomerIDExtraPermissionGroups = $CustomerGroupObject->GroupCustomerList(
+                    CustomerID => $CustomerID,
+                    Type       => $Param{Permission} || 'ro',
+                    Context    => $ExtraPermissionContext,
+                    Result     => 'HASH',
+                );
+                next CUSTOMERID if !%CustomerIDExtraPermissionGroups;
+
+                # add to groups
+                %ExtraPermissionGroups = (
+                    %ExtraPermissionGroups,
+                    %CustomerIDExtraPermissionGroups,
+                );
             }
 
-            $SQLExt .= "$Lower(st.customer_id) IN (";
-            my $Exists = 0;
+            # add all unique accessible Group<->Customer combinations to query
+            # for performance reasons all groups corresponsing with a unique customer id combination
+            #   will be combined into one part
+            my %CustomerIDCombinations;
+            GROUPID:
+            for my $GroupID ( sort keys %ExtraPermissionGroups ) {
+                my @ExtraCustomerIDs = $CustomerGroupObject->GroupCustomerList(
+                    GroupID => $GroupID,
+                    Type    => $Param{Permission} || 'ro',
+                    Result  => 'ID',
+                );
+                next GROUPID if !@ExtraCustomerIDs;
 
-            for (@CustomerIDs) {
+                # exclude own CustomerIDs for performance reasons
+                my @MergedCustomerIDs = grep { !$CustomerIDsLookup{$_} } @ExtraCustomerIDs;
+                next GROUPID if !@MergedCustomerIDs;
 
-                if ($Exists) {
-                    $SQLExt .= ', ';
+                # remember combination
+                my $CustomerIDString = join ',', sort @MergedCustomerIDs;
+                if ( !$CustomerIDCombinations{$CustomerIDString} ) {
+                    $CustomerIDCombinations{$CustomerIDString} = {
+                        CustomerIDs => \@MergedCustomerIDs,
+                    };
                 }
-                else {
-                    $Exists = 1;
-                }
-                $SQLExt .= "$Lower('" . $DBObject->Quote($_) . "')";
+                push @{ $CustomerIDCombinations{$CustomerIDString}->{GroupIDs} }, $GroupID;
             }
-            $SQLExt .= ') OR ';
+
+            # add to query combinations
+            push @CustomerGroupPermission, sort values %CustomerIDCombinations;
         }
 
-        # get all own tickets
-        my $CustomerUserIDQuoted = $DBObject->Quote( $Param{CustomerUserID} );
-        $SQLExt .= "st.customer_user_id = '$CustomerUserIDQuoted') ";
-    }
+        # prepare LOWER call depending on database
+        my $Lower = '';
+        if ( $DBObject->GetDatabaseFunction('CaseSensitive') ) {
+            $Lower = 'LOWER';
+        }
 
-    # add group ids to sql string
-    if (%GroupList) {
+        # now add all combinations to query:
+        # this will compile a search restriction based on customer_id/customer_user_id and group
+        #   and will match if any of the permission combination is met
+        # a permission combination could be:
+        #     ( <CustomerUserID> OR <CUSTOMERID1> ) AND ( <GROUPID1> )
+        # or
+        #     ( <CustomerID1> OR <CUSTOMERID2> OR <CUSTOMERID3> ) AND ( <GROUPID1> OR <GROUPID2> )
+        $SQLExt .= ' AND (';
+        my $CustomerGroupSQL = '';
+        ENTRY:
+        for my $Entry (@CustomerGroupPermission) {
+            $CustomerGroupSQL .= $CustomerGroupSQL ? ' OR (' : '(';
 
-        my $GroupIDString = join ',', sort keys %GroupList;
+            my $CustomerIDsSQL;
+            if ( IsArrayRefWithData( $Entry->{CustomerIDs} ) ) {
+                $CustomerIDsSQL =
+                    $Lower . '(st.customer_id) IN ('
+                    . join(
+                    ',',
+                    map {
+                        "$Lower('" . $DBObject->Quote($_) . "')"
+                        } @{
+                        $Entry->{CustomerIDs}
+                        }
+                    )
+                    . ')';
+            }
 
-        $SQLExt .= " AND sq.group_id IN ($GroupIDString) ";
+            my $CustomerUserIDSQL;
+            if ( $Entry->{CustomerUserID} ) {
+                $CustomerUserIDSQL = 'st.customer_user_id = ' . "'" . $DBObject->Quote( $Param{CustomerUserID} ) . "'";
+            }
+
+            if ( $CustomerIDsSQL && $CustomerUserIDSQL ) {
+                $CustomerGroupSQL .= '( ' . $CustomerIDsSQL . ' OR ' . $CustomerUserIDSQL . ' )';
+            }
+            elsif ($CustomerIDsSQL) {
+                $CustomerGroupSQL .= $CustomerIDsSQL;
+            }
+            elsif ($CustomerUserIDSQL) {
+                $CustomerGroupSQL .= $CustomerUserIDSQL;
+            }
+            else {
+                next ENTRY;
+            }
+
+            $CustomerGroupSQL .= ' AND sq.group_id IN (' . join( ',', @{ $Entry->{GroupIDs} } ) . ') )';
+        }
+        $SQLExt .= $CustomerGroupSQL . ') ';
     }
 
     # current priority lookup

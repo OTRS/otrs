@@ -37,8 +37,8 @@
                     <p>[% Translate("e. g. 10*5155 or 105658*") | html %]</p>
                 </div>
                 <div>
-                    <label for="CustomerID">[% Translate("Customer ID") | html %]</label>
-                    <input title="[% Translate("Customer ID") | html %]" type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" size="20" />
+                    <label for="CustomerID">[% Translate("CustomerID") | html %]</label>
+                    [% Data.CustomerIDStrg %]
                 </div>
             </fieldset>
             <fieldset>

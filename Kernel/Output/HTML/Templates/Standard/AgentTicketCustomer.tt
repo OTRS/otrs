@@ -45,13 +45,8 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="CustomerID" class="Mandatory"><span class="Marker">*</span> [% Translate("Customer ID") | html %]:</label>
-                            <div class="Field">
-                                <input type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" [% IF Config("Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly") %] readonly [% END %] class="W75pc Validate_Required [% Data.CustomerIDInvalid | html %]"/>
-                                <div id="CustomerIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                                <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            </div>
-                            <div class="Clear"></div>
+                            [% INCLUDE "CustomerCompany/TicketCustomerIDSelection.tt" Required = 1 Readonly = Config("Ticket::Frontend::AgentTicketCustomer::CustomerIDReadOnly") %]
+
                             <div class="Field">
 <!-- put the button here and not into the footer, because the CustomerTickets table can be very long -->
                                 <button class="CallForAction Primary" id="Submit" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>

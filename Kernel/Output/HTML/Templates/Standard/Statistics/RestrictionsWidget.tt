@@ -33,7 +33,7 @@
 [% RenderBlockStart("InputField") %]
         <label></label>
         <div class="Field">
-            <input type="text" name="[% Data.Element | html %]" id="[% Data.Element| html %]" value="[% Data.SelectedValue | html %]" class="W50pc [% Data.Invalid | html %]"/>
+            <input type="text" name="[% Data.Element | html %]" id="[% Data.Element| html %]" value="[% Data.SelectedValue | html %]" class="W50pc [% Data.Invalid | html %] [% Data.CSSClass | html %]"[% FOR DataAttribute IN Data.HTMLDataAttributes.keys.sort %] data-[% DataAttribute | html %]="[% Data.HTMLDataAttributes.$DataAttribute | html %]"[% END %]/>
             <div id="[% Data.Element| html %]ServerError" class="TooltipErrorMessage">
                 <p>[% Data.InvalidTooltip | html %]</p>
             </div>

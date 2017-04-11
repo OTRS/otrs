@@ -1,4 +1,6 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-04-11 Added the Customer User Information Center frontend.
+ - 2017-04-11 Added support for multi-tiered customer and customer user relationships.
  - 2017-04-04 Added new db function 'QueryInCondition' (bug#9723).
  - 2017-03-31 Fixed bug#[8811](https://bugs.otrs.org/show_bug.cgi?id=8811) - Link screen doesn't indicate search progress in any way.
  - 2017-03-30 Fixed bug#[12696](https://bugs.otrs.org/show_bug.cgi?id=12696) - Follow-up: radio buttons were partically overlapped in mobile mode.

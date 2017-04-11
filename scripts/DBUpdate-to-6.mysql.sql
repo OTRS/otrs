@@ -11,6 +11,7 @@ CREATE TABLE dynamic_field_obj_id_name (
     PRIMARY KEY(object_id),
     UNIQUE INDEX dynamic_field_object_name (object_name, object_type)
 );
+CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text(150));
 # ----------------------------------------------------------
 #  create table sysconfig_default
 # ----------------------------------------------------------
@@ -165,6 +166,35 @@ ALTER TABLE article CHANGE a_references a_references MEDIUMTEXT NULL;
 # ----------------------------------------------------------
 ALTER TABLE article CHANGE a_in_reply_to a_in_reply_to MEDIUMTEXT NULL;
 CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
+# ----------------------------------------------------------
+#  create table group_customer
+# ----------------------------------------------------------
+CREATE TABLE group_customer (
+    customer_id VARCHAR (150) NOT NULL,
+    group_id INTEGER NOT NULL,
+    permission_key VARCHAR (20) NOT NULL,
+    permission_value SMALLINT NOT NULL,
+    permission_context VARCHAR (100) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    INDEX group_customer_customer_id (customer_id),
+    INDEX group_customer_group_id (group_id)
+);
+# ----------------------------------------------------------
+#  create table customer_user_customer
+# ----------------------------------------------------------
+CREATE TABLE customer_user_customer (
+    user_id VARCHAR (100) NOT NULL,
+    customer_id VARCHAR (150) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    INDEX customer_user_customer_customer_id (customer_id),
+    INDEX customer_user_customer_user_id (user_id)
+);
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_exclusive_lock_user_id_id FOREIGN KEY (exclusive_lock_user_id) REFERENCES users (id);
@@ -182,3 +212,8 @@ ALTER TABLE sysconfig_modified_version ADD CONSTRAINT FK_sysconfig_modified_vers
 ALTER TABLE sysconfig_deployment_lock ADD CONSTRAINT FK_sysconfig_deployment_lock_exclusive_lock_user_id_id FOREIGN KEY (exclusive_lock_user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);

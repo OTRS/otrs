@@ -8143,6 +8143,40 @@ You can log in via the following URL:
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CustomerGroupCompanyAlwaysGroups" Required="1" Valid="1">
+        <Description Translatable="1">Defines the groups every customer will be in (if CustomerGroupSupport is enabled and you don't want to manage every customer for these groups).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Array>
+                <Item>users</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerGroupPermissionContext###001-CustomerID-same" Required="1" Valid="1">
+        <Description Translatable="1">Defines a permission context for customer to group assignment.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Value">Ticket::CustomerID::Same</Item>
+                <Item Key="Name" Translatable="1">Same Customer</Item>
+                <Item Key="Description" Translatable="1">Gives customer users group based access to tickets from customer users of the same customer (ticket CustomerID is a CustomerID of the customer user).</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerGroupPermissionContext###100-CustomerID-other" Required="0" Valid="0">
+        <Description Translatable="1">Defines a permission context for customer to group assignment.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Value">Ticket::CustomerID::Other</Item>
+                <Item Key="Name" Translatable="1">Other Customers</Item>
+                <Item Key="Description" Translatable="1">Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="CustomerFrontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to generate code for periodic page reloads.</Description>
         <Group>Framework</Group>
@@ -8990,6 +9024,103 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Frontend::Module###AgentCustomerUserInformationCenter" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description Translatable="1">Customer User Information Center.</Description>
+                <Title></Title>
+                <NavBarName>Customer Users</NavBarName>
+                <NavBar>
+                    <Description Translatable="1"></Description>
+                    <Name Translatable="1">Customer User Information Center</Name>
+                    <Link>Action=AgentCustomerUserInformationCenter</Link>
+                    <LinkOption>onclick="window.setTimeout(function(){Core.Agent.CustomerUserInformationCenterSearch.OpenSearchDialog();}, 0); return false;"</LinkOption>
+                    <NavBar>Customers</NavBar>
+                    <Type></Type>
+                    <Block>ItemArea</Block>
+                    <AccessKey>u</AccessKey>
+                    <Prio>55</Prio>
+                </NavBar>
+                <Loader>
+                    <CSS>Core.AllocationList.css</CSS>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.Dashboard.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                    <JavaScript>Core.Agent.CustomerUserInformationCenter.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentCustomerUserInformationCenterSearch" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description Translatable="1">Customer User Information Center Search.</Description>
+                <Title></Title>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Search###AgentCustomerUserInformationCenter" Required="0" Valid="1">
+        <Description Translatable="1">Search backend router.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="^AgentCustomerUserInformationCenter">Action=AgentCustomerUserInformationCenterSearch</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Search::JavaScript###AgentCustomerUserInformationCenter" Required="0" Valid="1">
+        <Description Translatable="1">JavaScript function for the search frontend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="^AgentCustomerUserInformationCenter">Core.Agent.CustomerUserInformationCenterSearch.OpenSearchDialog()</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerUserInformationCenter::Backend###0600-CUIC-CustomerCompanyInformation" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerCompanyInformation</Item>
+                <Item Key="Title" Translatable="1">Customer Information</Item>
+                <Item Key="Description" Translatable="1">Customer Information</Item>
+                <Item Key="Attributes"></Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentCustomerUserInformationCenter::Backend###0100-CUIC-CustomerUserInformation" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the dashboard backend of the customer user information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerUserInformation</Item>
+                <Item Key="Title" Translatable="1">Customer User Information</Item>
+                <Item Key="Description" Translatable="1">Customer User Information</Item>
+                <Item Key="Attributes"></Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+
+
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
@@ -9348,18 +9479,42 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Customers ↔ Groups</Title>
+                <Title Translatable="1">Customer Users ↔ Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
-                    <Name Translatable="1">Customer User ↔ Groups</Name>
-                    <Description Translatable="1">Link customer user to groups.</Description>
+                    <Name Translatable="1">Customer Users ↔ Groups</Name>
+                    <Description Translatable="1">Link customer users to groups.</Description>
                     <IconBig>fa-male</IconBig>
                     <IconSmall>fa-users</IconSmall>
                     <Prio>400</Prio>
                 </NavBarModule>
                 <Loader>
-                    <JavaScript>Core.Agent.Admin.CustomerUserGroup.js</JavaScript>
+                    <JavaScript>Core.Agent.Admin.CustomerGroup.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCustomerGroup" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Customers ↔ Groups</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">Customers ↔ Groups</Name>
+                    <Description Translatable="1">Link customers to groups.</Description>
+                    <IconBig>fa-building-o</IconBig>
+                    <IconSmall>fa-users</IconSmall>
+                    <Prio>410</Prio>
+                </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.CustomerGroup.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9372,15 +9527,39 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Customer User ↔ Services</Title>
+                <Title Translatable="1">Customer Users ↔ Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
-                    <Name Translatable="1">Customer User ↔ Services</Name>
-                    <Description Translatable="1">Link customer user to services.</Description>
+                    <Name Translatable="1">Customer Users ↔ Services</Name>
+                    <Description Translatable="1">Link customer users to services.</Description>
                     <IconBig>fa-male</IconBig>
                     <IconSmall>fa-wrench</IconSmall>
                     <Prio>500</Prio>
+                </NavBarModule>
+                <Loader>
+                    <JavaScript>Core.Agent.Admin.CustomerUserService.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCustomerUserCustomer" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Customer Users ↔ Customers</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">Customer Users ↔ Customers</Name>
+                    <Description Translatable="1">Link customer users to customers.</Description>
+                    <IconBig>fa-male</IconBig>
+                    <IconSmall>fa-building-o</IconSmall>
+                    <Prio>510</Prio>
                 </NavBarModule>
                 <Loader>
                     <JavaScript>Core.Agent.Admin.CustomerUserService.js</JavaScript>
@@ -10775,6 +10954,8 @@ via the Preferences button after logging in.
                 <Item>Core.Agent.js</Item>
                 <Item>Core.Agent.Search.js</Item>
                 <Item>Core.Agent.CustomerInformationCenterSearch.js</Item>
+                <Item>Core.Agent.CustomerSearch.js</Item>
+                <Item>Core.Agent.CustomerUserInformationCenterSearch.js</Item>
                 <Item>Core.Agent.Header.js</Item>
                 <Item>Core.UI.Notification.js</Item>
                 <Item>Core.Agent.Responsive.js</Item>

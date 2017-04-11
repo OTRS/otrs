@@ -39,6 +39,7 @@ BEGIN
 END;
 /
 --;
+CREATE INDEX dynamic_field_value_search_tbc ON dynamic_field_value (field_id, value_text);
 -- ----------------------------------------------------------
 --  create table sysconfig_default
 -- ----------------------------------------------------------
@@ -366,6 +367,39 @@ UPDATE article SET a_in_reply_to_TEMP = a_in_reply_to;
 ALTER TABLE article DROP COLUMN a_in_reply_to;
 ALTER TABLE article RENAME COLUMN a_in_reply_to_TEMP TO a_in_reply_to;
 CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
+-- ----------------------------------------------------------
+--  create table group_customer
+-- ----------------------------------------------------------
+CREATE TABLE group_customer (
+    customer_id VARCHAR2 (150) NOT NULL,
+    group_id NUMBER (12, 0) NOT NULL,
+    permission_key VARCHAR2 (20) NOT NULL,
+    permission_value NUMBER (5, 0) NOT NULL,
+    permission_context VARCHAR2 (100) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+CREATE INDEX FK_group_customer_change_by ON group_customer (change_by);
+CREATE INDEX FK_group_customer_create_by ON group_customer (create_by);
+CREATE INDEX group_customer_customer_id ON group_customer (customer_id);
+CREATE INDEX group_customer_group_id ON group_customer (group_id);
+-- ----------------------------------------------------------
+--  create table customer_user_customer
+-- ----------------------------------------------------------
+CREATE TABLE customer_user_customer (
+    user_id VARCHAR2 (100) NOT NULL,
+    customer_id VARCHAR2 (150) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+CREATE INDEX FK_customer_user_customer_ch28 ON customer_user_customer (change_by);
+CREATE INDEX FK_customer_user_customer_cr61 ON customer_user_customer (create_by);
+CREATE INDEX customer_user_customer_custo95 ON customer_user_customer (customer_id);
+CREATE INDEX customer_user_customer_user_id ON customer_user_customer (user_id);
 SET DEFINE OFF;
 SET SQLBLANKLINES ON;
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_create_53 FOREIGN KEY (create_by) REFERENCES users (id);
@@ -385,3 +419,8 @@ ALTER TABLE sysconfig_modified_version ADD CONSTRAINT FK_sysconfig_modified_vers
 ALTER TABLE sysconfig_deployment_lock ADD CONSTRAINT FK_sysconfig_deployment_lock49 FOREIGN KEY (exclusive_lock_user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_usereb FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_creaf6 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
+ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_cr02 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_ch5b FOREIGN KEY (change_by) REFERENCES users (id);

@@ -98,7 +98,7 @@
         [% Data.SelectField %]
 [% RenderBlockEnd("SelectField") %]
 [% RenderBlockStart("InputField") %]
-        <input type="text" name="[% Data.Key | html %]" value="[% Data.Value | html %]" class="W25pc"/>
+        <input type="text" id="[% Data.Key | html %]" name="[% Data.Key | html %]" value="[% Data.Value | html %]" class="W25pc [% Data.CSSClass | html %]"[% FOR DataAttribute IN Data.HTMLDataAttributes.keys.sort %] data-[% DataAttribute | html %]="[% Data.HTMLDataAttributes.$DataAttribute | html %]"[% END %]/>
 [% RenderBlockEnd("InputField") %]
     </div>
     <div class="Clear"></div>

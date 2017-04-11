@@ -86,6 +86,11 @@ TargetNS.Init = function() {
             }
             return false;
         });
+
+
+        $('.CustomerAutoCompleteSimple').each(function() {
+            Core.Agent.CustomerSearch.InitSimple($(this));
+        });
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

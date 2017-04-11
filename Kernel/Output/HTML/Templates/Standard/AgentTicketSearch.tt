@@ -84,19 +84,25 @@
         <div class="Clear"></div>
         <label for="CustomerIDRaw" id="LabelCustomerIDRaw">[% Translate("Customer ID (exact match)") | html %]:</label>
         <div class="Field">
-            <input type="text" name="CustomerIDRaw" placeholder="[% Translate("(e. g. 234321)") | html %]" value="[% Data.CustomerIDRaw | html %]" class="W50pc"/>
+            <input type="text" id="CustomerIDRaw" name="CustomerIDRaw" placeholder="[% Translate("(e. g. 234321)") | html %]" value="[% Data.CustomerIDRaw | html %]" class="W50pc CustomerAutoCompleteSimple" data-customer-search-type="CustomerID"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerUserLogin" id="LabelCustomerUserLogin">[% Translate("Customer User Login (complex search)") | html %]:</label>
+        <label for="CustomerUserLogin" id="LabelCustomerUserLogin">[% Translate("Assigned to Customer User Login (complex search)") | html %]:</label>
         <div class="Field">
             <input type="text" name="CustomerUserLogin" placeholder="[% Translate("(e. g. U51*)") | html %]" value="[% Data.CustomerUserLogin | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="CustomerUserLoginRaw" id="LabelCustomerUserLoginRaw">[% Translate("Customer User Login (exact match)") | html %]:</label>
+        <label for="CustomerUserLoginRaw" id="LabelCustomerUserLoginRaw">[% Translate("Assigned to Customer User Login (exact match)") | html %]:</label>
         <div class="Field">
-            <input type="text" name="CustomerUserLoginRaw" placeholder="[% Translate("(e. g. U5150)") | html %]" value="[% Data.CustomerUserLoginRaw | html %]" class="W50pc"/>
+            <input type="text" id="CustomerUserLoginRaw" name="CustomerUserLoginRaw" placeholder="[% Translate("(e. g. U5150)") | html %]" value="[% Data.CustomerUserLoginRaw | html %]" class="W50pc CustomerAutoCompleteSimple" data-customer-search-type="CustomerUser"/>
+            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+        </div>
+        <div class="Clear"></div>
+        <label for="CustomerUserID" id="LabelCustomerUserID">[% Translate("Accessible to Customer User Login (exact match)") | html %]:</label>
+        <div class="Field">
+            <input type="text" id="CustomerUserID" name="CustomerUserID" placeholder="[% Translate("(e. g. U5150)") | html %]" value="[% Data.CustomerUserID | html %]" class="W50pc CustomerAutoCompleteSimple" data-customer-search-type="CustomerUser"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>

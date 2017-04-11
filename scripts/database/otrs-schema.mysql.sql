@@ -130,6 +130,22 @@ CREATE TABLE group_customer_user (
     INDEX group_customer_user_user_id (user_id)
 );
 # ----------------------------------------------------------
+#  create table group_customer
+# ----------------------------------------------------------
+CREATE TABLE group_customer (
+    customer_id VARCHAR (150) NOT NULL,
+    group_id INTEGER NOT NULL,
+    permission_key VARCHAR (20) NOT NULL,
+    permission_value SMALLINT NOT NULL,
+    permission_context VARCHAR (100) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    INDEX group_customer_customer_id (customer_id),
+    INDEX group_customer_group_id (group_id)
+);
+# ----------------------------------------------------------
 #  create table roles
 # ----------------------------------------------------------
 CREATE TABLE roles (
@@ -934,6 +950,19 @@ CREATE TABLE customer_company (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(customer_id),
     UNIQUE INDEX customer_company_name (name)
+);
+# ----------------------------------------------------------
+#  create table customer_user_customer
+# ----------------------------------------------------------
+CREATE TABLE customer_user_customer (
+    user_id VARCHAR (100) NOT NULL,
+    customer_id VARCHAR (150) NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    INDEX customer_user_customer_customer_id (customer_id),
+    INDEX customer_user_customer_user_id (user_id)
 );
 # ----------------------------------------------------------
 #  create table mail_account

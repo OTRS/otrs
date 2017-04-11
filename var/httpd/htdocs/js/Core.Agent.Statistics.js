@@ -120,6 +120,10 @@ Core.Agent.Statistics = (function (TargetNS) {
                 }
                 RebuildEditDialogAddSelection();
                 Core.UI.InputFields.Activate($('#EditDialog .Fields'));
+
+                $('.CustomerAutoCompleteSimple').each(function() {
+                    Core.Agent.CustomerSearch.InitSimple($(this));
+                });
             }
 
             function EditDialogDelete(ElementName) {
@@ -161,6 +165,11 @@ Core.Agent.Statistics = (function (TargetNS) {
                 $CloneFormFieldsElement.appendTo('#EditDialog .Fields');
 
                 Core.UI.InputFields.Activate($('#EditDialog .Fields'));
+
+                $('.CustomerAutoCompleteSimple').each(function() {
+                    Core.Agent.CustomerSearch.InitSimple($(this));
+                });
+
                 if (ConfigurationLimit && $('#EditDialog .Fields .Element').length >= ConfigurationLimit) {
                     $('#EditDialog .Add').hide();
                 }

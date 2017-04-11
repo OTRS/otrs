@@ -52,7 +52,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
             },
             source: function (Request, Response) {
                 var URL = Core.Config.Get('Baselink'), Data = {
-                    Action: 'AgentCustomerInformationCenterSearch',
+                    Action: 'AgentCustomerSearch',
                     Subaction: 'SearchCustomerID',
                     IncludeUnknownTicketCustomers: parseInt(Core.Config.Get('IncludeUnknownTicketCustomers'), 10),
                     Term: Request.term,
@@ -134,9 +134,9 @@ Core.Agent.TableFilters = (function (TargetNS) {
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
                         ValueData.push({
-                            label: this.CustomerValue + " (" + this.CustomerKey + ")",
-                            value: this.CustomerValue,
-                            key: this.CustomerKey
+                            label: this.Label + " (" + this.Value + ")",
+                            value: this.Label,
+                            key: this.Value
                         });
                     });
                     Response(ValueData);

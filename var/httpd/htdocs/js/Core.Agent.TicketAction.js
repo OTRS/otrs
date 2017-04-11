@@ -93,6 +93,72 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
     /**
      * @private
+     * @name OpenCustomerIDSelection
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @description
+     *      Open the CustomerIDSelectionDialog screen.
+     */
+    function OpenCustomerIDSelection() {
+        var Data = {
+            Action: 'AgentCustomerSearch',
+            Subaction: 'AssignedCustomerIDs',
+            CustomerUserID: $('#SelectedCustomerUser').val(),
+        };
+
+        $('#SelectionCustomerIDAssigned').empty();
+
+        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, function (Response) {
+            $.each(Response, function(Index, CustomerID) {
+                var CustomerIDOption = new Option(CustomerID, CustomerID);
+
+                // Overwrite option text, because of wrong html quoting of text content.
+                // (This is needed for IE.)
+                CustomerIDOption.innerHTML = CustomerID;
+                $('#SelectionCustomerIDAssigned').append(CustomerIDOption);
+            });
+
+            if (!$('#SelectionCustomerIDAssigned > option').length) {
+                $('#TemplateSelectionCustomerID fieldset:last').addClass('Hidden');
+            }
+            else {
+                $('#TemplateSelectionCustomerID fieldset:last').removeClass('Hidden');
+            }
+
+            Core.UI.Dialog.ShowContentDialog($('#TemplateSelectionCustomerID'), Core.Language.Translate('Select a customer ID to assign to this ticket'), '10px', 'Center', true);
+
+            Core.Agent.CustomerSearch.InitSimple($('#SelectionCustomerIDAll'));
+
+            $('#SelectionCustomerIDAssigned').val($('#CustomerID').val()).trigger('redraw.InputField').trigger('change');
+
+            $('#SelectionCustomerIDAll').on('select.Autocomplete', function() {
+                CloseCustomerIDSelection($(this).val());
+            });
+
+            $('#SelectionCustomerIDAssigned').on('change', function() {
+                CloseCustomerIDSelection($(this).val());
+            });
+        });
+    }
+
+    /**
+     * @private
+     * @name CloseCustomerIDSelection
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @param {String} CustomerID - The selected customer ID value.
+     * @description
+     *      Close the customer ID selection dialog.
+     */
+    function CloseCustomerIDSelection(CustomerID) {
+        $('#CustomerID').val(CustomerID);
+        $('#ShowCustomerID').html(CustomerID);
+
+        Core.UI.Dialog.CloseDialog($('.Dialog'));
+    }
+
+    /**
+     * @private
      * @name MarkPrimaryCustomer
      * @memberof Core.Agent.TicketAction
      * @function
@@ -141,6 +207,15 @@ Core.Agent.TicketAction = (function (TargetNS) {
             OpenCustomerDialog();
             return false;
         });
+
+        // Register the event for customer id selection dialog.
+        $('#SelectionCustomerID').on('click', function () {
+            OpenCustomerIDSelection();
+            return false;
+        });
+
+        // Deactivate the fields in the template.
+        Core.UI.InputFields.Deactivate($('#TemplateSelectionCustomerID'));
 
         // check if spell check is being used
         if (parseInt(Core.Config.Get('SpellChecker'), 10) === 1 && parseInt(Core.Config.Get('NeedSpellCheck'), 10) === 1) {

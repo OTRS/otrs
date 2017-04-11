@@ -58,20 +58,10 @@ sub Run {
     # get customer user object
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-    # check customer id
-    my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
-        User => $Param{UserID},
-    );
-
     # get customer ids
     my @CustomerIDs = $CustomerUserObject->CustomerIDs(
         User => $Param{UserID},
     );
-
-    # add own customer id
-    if ( $CustomerData{UserCustomerID} ) {
-        push @CustomerIDs, $CustomerData{UserCustomerID};
-    }
 
     # check customer ids, return access if customer id is the same
     CUSTOMERID:

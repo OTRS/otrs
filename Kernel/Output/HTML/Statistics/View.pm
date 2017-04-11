@@ -419,6 +419,8 @@ sub StatsParamsWidget {
                                 Key   => $ElementName,
                                 Value => $LocalGetParam->( Param => $ElementName )
                                     // $ObjectAttribute->{SelectedValues}[0],
+                                CSSClass           => $ObjectAttribute->{CSSClass},
+                                HTMLDataAttributes => $ObjectAttribute->{HTMLDataAttributes},
                             },
                         );
                     }
@@ -1057,9 +1059,11 @@ sub RestrictionsWidget {
 
     for my $ObjectAttribute ( @{ $Stat->{UseAsRestriction} } ) {
         my %BlockData;
-        $BlockData{Fixed}   = 'checked="checked"';
-        $BlockData{Checked} = '';
-        $BlockData{Block}   = $ObjectAttribute->{Block};
+        $BlockData{Fixed}              = 'checked="checked"';
+        $BlockData{Checked}            = '';
+        $BlockData{Block}              = $ObjectAttribute->{Block};
+        $BlockData{CSSClass}           = $ObjectAttribute->{CSSClass};
+        $BlockData{HTMLDataAttributes} = $ObjectAttribute->{HTMLDataAttributes};
 
         if ( $ObjectAttribute->{Selected} ) {
             $BlockData{Checked} = 'checked="checked"';

@@ -146,7 +146,7 @@ $Selenium->RunTest(
         my $Count = 1;
         my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
-            'Manage Customer-Group Relations',
+            'Manage Customer User-Group Relations',
             'Change Customer User Relations for Group \'' . $GroupRandomID . '\''
             )
         {

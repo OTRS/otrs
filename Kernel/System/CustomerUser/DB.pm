@@ -1095,7 +1095,7 @@ sub CustomerIDs {
     if ( !$Param{User} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need User!',
+            Message  => 'Need User!'
         );
         return;
     }
@@ -1110,26 +1110,30 @@ sub CustomerIDs {
     }
 
     # get customer data
-    my %Data = $Self->CustomerUserDataGet( User => $Param{User} );
+    my %Data = $Self->CustomerUserDataGet(
+        User => $Param{User},
+    );
 
     # there are multi customer ids
     my @CustomerIDs;
     if ( $Data{UserCustomerIDs} ) {
 
         # used separators
-        SPLIT:
-        for my $Split ( ';', ',', '|' ) {
+        SEPARATOR:
+        for my $Separator ( ';', ',', '|' ) {
 
-            next SPLIT if $Data{UserCustomerIDs} !~ /\Q$Split\E/;
+            next SEPARATOR if $Data{UserCustomerIDs} !~ /\Q$Separator\E/;
 
             # split it
-            my @IDs = split /\Q$Split\E/, $Data{UserCustomerIDs};
+            my @IDs = split /\Q$Separator\E/, $Data{UserCustomerIDs};
+
             for my $ID (@IDs) {
                 $ID =~ s/^\s+//g;
                 $ID =~ s/\s+$//g;
                 push @CustomerIDs, $ID;
             }
-            last SPLIT;
+
+            last SEPARATOR;
         }
 
         # fallback if no separator got found
@@ -1149,7 +1153,7 @@ sub CustomerIDs {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => "CustomerIDs::$Param{User}",
+            Key   => 'CustomerIDs::' . $Param{User},
             Value => \@CustomerIDs,
             TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );

@@ -954,7 +954,7 @@ sub _GeneralDataGet {
         }
     }
 
-    my $FuctionName = $Param{FunctionName};
+    my $FunctionName = $Param{FunctionName};
 
     # set the backend file
     my $BackendModule = $Param{ModuleName};
@@ -988,7 +988,7 @@ sub _GeneralDataGet {
     }
 
     # get data list
-    my %DataList = $BackendObject->$FuctionName(
+    my %DataList = $BackendObject->$FunctionName(
         Valid  => 1,
         UserID => $Param{UserID},
     );

@@ -8,7 +8,14 @@
 
 [% RenderBlockStart("ContentLargeTicketGenericFilter") %]
 <div class="DashboardActions">
+
     <ul class="Tab Actions">
+[% RenderBlockStart("ContentLargeTicketGenericFilterAssignedToCustomerUser") %]
+        <li class="AdditionalFilter [% Data.item("AssignedToCustomerUser::Selected") | html %]"><a href="#" id="DashboardAdditionalFilter[% Data.Name | html %]AssignedToCustomerUser" data-filter="AssignedToCustomerUser">[% Translate("Assigned to customer user") | html %]</a></li>
+[% RenderBlockEnd("ContentLargeTicketGenericFilterAssignedToCustomerUser") %]
+[% RenderBlockStart("ContentLargeTicketGenericFilterAccessibleForCustomerUser") %]
+        <li class="AdditionalFilter [% Data.item("AccessibleForCustomerUser::Selected") | html %]"><a href="#" id="DashboardAdditionalFilter[% Data.Name | html %]AccessibleForCustomerUser" data-filter="AccessibleForCustomerUser">[% Translate("Accessible for customer user") | html %]</a></li>
+[% RenderBlockEnd("ContentLargeTicketGenericFilterAccessibleForCustomerUser") %]
 [% RenderBlockStart("ContentLargeTicketGenericFilterLocked") %]
         <li class="[% Data.item("Locked::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Locked" data-filter="Locked">[% Translate("My locked tickets") | html %] ([% Data.Locked | html %])</a></li>
 [% RenderBlockEnd("ContentLargeTicketGenericFilterLocked") %]
@@ -27,6 +34,7 @@
         <li class="[% Data.item("All::Selected") | html %] Last"><a href="#" id="Dashboard[% Data.Name | html %]All" data-filter="All">[% Translate("All tickets") | html %] ([% Data.All | html %])</a></li>
     </ul>
 </div>
+
 [% RenderBlockStart("ContentLargeTicketGenericFilterNavBar") %]
 <span class="Pagination">
     [% Data.SiteNavBar %]
@@ -37,7 +45,9 @@
 #<!-- This form will not be submitted, we need it for the AJAX calls. -->
 <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
     <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+    <input type="hidden" name="CustomerUserID" value="[% Data.CustomerUserID | html %]"/>
     <input type="hidden" name="Filter[% Data.Name | html %]" id="Filter[% Data.Name | html %]" value="[% Data.FilterValue | html %]" />
+    <input type="hidden" name="AdditionalFilter[% Data.Name | html %]" id="AdditionalFilter[% Data.Name | html %]" value="[% Data.AdditionalFilterValue | html %]" />
     <table class="DataTable">
         <thead>
 [% RenderBlockStart("ContentLargeTicketGenericHeader") %]

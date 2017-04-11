@@ -37,7 +37,8 @@
 .DataTable tbody tr:hover td,
 .TableSmall tbody tr:hover td,
 .DataTable tbody tr:active td.Clickable,
-.TableSmall tbody tr:active td.Clickable {
+.TableSmall tbody tr:active td.Clickable,
+.DataTable tr:nth-child(even):hover td.Highlight {
     background: #FCB24B;
 }
 
@@ -208,6 +209,14 @@ table tr.MasterAction {
 
 .DataTable tr:nth-child(even) td.Highlight {
     background-color: #E5E5E5;
+}
+
+.DataTable tr td.Highlight {
+    border-right: 1px solid #CCC;
+}
+
+.DataTable tr td.Highlight:last-child {
+    border-right: none;
 }
 
 .DataTable tr:hover td a {

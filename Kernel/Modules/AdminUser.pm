@@ -534,12 +534,20 @@ sub _Edit {
         Data => \%Param,
     );
 
-    # shows header
     if ( $Param{Action} eq 'Change' ) {
+
+        # shows edit header
         $LayoutObject->Block( Name => 'HeaderEdit' );
+
+        # shows effective permissions matrix
+        $Self->_EffectivePermissions(%Param);
     }
     else {
+
+        # shows add header and hints
         $LayoutObject->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'MarkerMandatory' );
+        $LayoutObject->Block( Name => 'ShowPasswordHint' );
         $LayoutObject->Block(
             Name => 'ShowPasswordHint',
         );
@@ -692,6 +700,82 @@ sub _Overview {
     }
 
     return 1;
+}
+
+sub _EffectivePermissions {
+    my ( $Self, %Param ) = @_;
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # show tables
+    $LayoutObject->Block(
+        Name => 'EffectivePermissions',
+    );
+
+    my %Groups;
+    my %Permissions;
+
+    # go through permission types
+    my @Types = @{ $Kernel::OM->Get('Kernel::Config')->Get('System::Permission') };
+    for my $Type (@Types) {
+
+        # show header
+        $LayoutObject->Block(
+            Name => 'HeaderGroupPermissionType',
+            Data => {
+                Type => $Type,
+            },
+        );
+
+        # get groups of the user
+        my %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
+            UserID => $Param{UserID},
+            Type   => $Type,
+        );
+
+        # store data in lookup hashes
+        for my $GroupID ( sort keys %UserGroups ) {
+            $Groups{$GroupID} = $UserGroups{$GroupID};
+            $Permissions{$GroupID}{$Type} = 1;
+        }
+    }
+
+    # show message if no permissions found
+    if ( !%Permissions ) {
+        $LayoutObject->Block(
+            Name => 'NoGroupPermissionsFoundMsg',
+        );
+        return;
+    }
+
+    # go through groups, sort by name
+    for my $GroupID ( sort { uc( $Groups{$a} ) cmp uc( $Groups{$b} ) } keys %Groups ) {
+
+        # show table rows
+        $LayoutObject->Block(
+            Name => 'GroupPermissionTableRow',
+            Data => {
+                ID   => $GroupID,
+                Name => $Groups{$GroupID},
+            },
+        );
+
+        # show permission marks
+        for my $Type (@Types) {
+            my $PermissionMark = $Permissions{$GroupID}{$Type} ? 'On' : 'Off';
+            my $HighlightMark = $Type eq 'rw' ? 'Highlight' : '';
+            $LayoutObject->Block(
+                Name => 'GroupPermissionMark',
+            );
+            $LayoutObject->Block(
+                Name => 'GroupPermissionMark' . $PermissionMark,
+                Data => {
+                    Highlight => $HighlightMark,
+                },
+            );
+        }
+    }
 }
 
 1;

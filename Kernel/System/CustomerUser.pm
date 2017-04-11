@@ -20,6 +20,7 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
+    'Kernel::System::Cache',
     'Kernel::System::CustomerCompany',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
@@ -54,6 +55,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    $Self->{CacheType} = 'CustomerUser';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -752,18 +756,48 @@ get customer user customer ids
 sub CustomerIDs {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    if ( !$Param{User} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
+        return;
+    }
+
+    # get customer ids (stop after first source with results)
+    my @CustomerIDs;
     SOURCE:
     for my $Count ( '', 1 .. 10 ) {
 
         next SOURCE if !$Self->{"CustomerUser$Count"};
 
-        # get customer id's and return it
-        my @CustomerIDs = $Self->{"CustomerUser$Count"}->CustomerIDs(%Param);
-        if (@CustomerIDs) {
-            return @CustomerIDs;
-        }
+        # get customer ids from source
+        my @SourceCustomerIDs = $Self->{"CustomerUser$Count"}->CustomerIDs(%Param);
+        next SOURCE if !@SourceCustomerIDs;
+
+        @CustomerIDs = @SourceCustomerIDs;
+        last SOURCE;
     }
-    return;
+
+    # create hash with existing customer ids
+    my %CustomerIDs = map { $_ => 1 } @CustomerIDs;
+
+    # get related customer ids
+    my @RelatedCustomerIDs = $Self->CustomerUserCustomerMemberList(
+        CustomerUserID => $Param{User},
+    );
+
+    # add related customer ids if not found in source
+    RELATEDCUSTOMERID:
+    for my $RelatedCustomerID (@RelatedCustomerIDs) {
+        next RELATEDCUSTOMERID if $CustomerIDs{$RelatedCustomerID};
+
+        push @CustomerIDs, $RelatedCustomerID;
+    }
+
+    # return customer ids
+    return @CustomerIDs;
 }
 
 =head2 CustomerUserDataGet()
@@ -1263,6 +1297,189 @@ sub CustomerUserCacheClear {
     }
 
     return 1;
+}
+
+=head2 CustomerUserCustomerMemberAdd()
+
+to add a customer user to a customer
+
+    my $Success = $CustomerUserObject->CustomerUserCustomerMemberAdd(
+        CustomerUserID => 123,
+        CustomerID     => 123,
+        Active         => 1,        # optional
+        UserID         => 123,
+    );
+
+=cut
+
+sub CustomerUserCustomerMemberAdd {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(CustomerUserID CustomerID UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # delete affected caches
+    my $CacheKey = 'Cache::CustomerUserCustomerMemberList::';
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey . 'CustomerUserID::' . $Param{CustomerUserID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey . 'CustomerID::' . $Param{CustomerID},
+    );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # delete existing relation
+    return if !$DBObject->Do(
+        SQL => 'DELETE FROM customer_user_customer
+            WHERE user_id = ?
+            AND customer_id = ?',
+        Bind => [ \$Param{CustomerUserID}, \$Param{CustomerID} ],
+    );
+
+    # return if relation is not active
+    return 1 if !$Param{Active};
+
+    # insert new relation
+    return if !$DBObject->Do(
+        SQL => '
+            INSERT INTO customer_user_customer (user_id, customer_id, create_time, create_by,
+            change_time, change_by)
+            VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [ \$Param{CustomerUserID}, \$Param{CustomerID}, \$Param{UserID}, \$Param{UserID}, ],
+    );
+
+    return 1;
+}
+
+=head2 CustomerUserCustomerMemberList()
+
+get related customer IDs of a customer user
+
+    my @CustomerIDs = $CustomerUserObject->CustomerUserCustomerMemberList(
+        CustomerUserID => 123,
+    );
+
+Returns:
+    @CustomerIDs = (
+        '123',
+        '456',
+    );
+
+get related customer users of a customer ID
+
+    my @CustomerUsers = $CustomerUserObject->CustomerUserCustomerMemberList(
+        CustomerID => 123,
+    );
+
+Returns:
+    @CustomerUsers = (
+        '123',
+        '456',
+    );
+
+=cut
+
+sub CustomerUserCustomerMemberList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{CustomerUserID} && !$Param{CustomerID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no CustomerUserID or CustomerID!',
+        );
+        return;
+    }
+
+    # get needed objects
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $CacheKey = 'Cache::CustomerUserCustomerMemberList::';
+
+    if ( $Param{CustomerUserID} ) {
+
+        # check if this result is present (in cache)
+        $CacheKey .= 'CustomerUserID::' . $Param{CustomerUserID};
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
+        return @{$Cache} if $Cache;
+
+        # get customer ids
+        return if !$DBObject->Prepare(
+            SQL =>
+                'SELECT customer_id
+                FROM customer_user_customer
+                WHERE user_id = ?
+                ORDER BY customer_id',
+            Bind => [ \$Param{CustomerUserID}, ],
+        );
+
+        # fetch the result
+        my @CustomerIDs;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            push @CustomerIDs, $Row[0];
+        }
+
+        # cache the result
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => \@CustomerIDs,
+
+        );
+
+        return @CustomerIDs;
+    }
+    else {
+
+        # check if this result is present (in cache)
+        $CacheKey .= 'CustomerID::' . $Param{CustomerID};
+        my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
+        return @{$Cache} if $Cache;
+
+        # get customer users
+        return if !$DBObject->Prepare(
+            SQL =>
+                'SELECT user_id
+                FROM customer_user_customer WHERE
+                customer_id = ?
+                ORDER BY user_id',
+            Bind => [ \$Param{CustomerID}, ],
+        );
+
+        # fetch the result
+        my @CustomerUserIDs;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            push @CustomerUserIDs, $Row[0];
+        }
+
+        # cache the result
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type  => $Self->{CacheType},
+            TTL   => $Self->{CacheTTL},
+            Key   => $CacheKey,
+            Value => \@CustomerUserIDs,
+        );
+
+        return @CustomerUserIDs;
+    }
 }
 
 sub DESTROY {

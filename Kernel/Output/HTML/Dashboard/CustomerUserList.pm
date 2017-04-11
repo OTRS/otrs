@@ -173,6 +173,8 @@ sub Run {
                 CustomerID => $Self->{CustomerID},
             },
         );
+
+        $Self->{EditCustomerPermission} = 1;
     }
 
     # get the permission for the phone ticket creation
@@ -209,32 +211,11 @@ sub Run {
             Name => 'ContentLargeCustomerUserListRow',
             Data => {
                 %Param,
-                CustomerKey       => $CustomerKey,
-                CustomerListEntry => $CustomerIDs->{$CustomerKey},
+                EditCustomerPermission => $Self->{EditCustomerPermission},
+                CustomerKey            => $CustomerKey,
+                CustomerListEntry      => $CustomerIDs->{$CustomerKey},
             },
         );
-
-        # can edit?
-        if ( $AddAccess && scalar keys %CustomerSource ) {
-            $LayoutObject->Block(
-                Name => 'ContentLargeCustomerUserListRowCustomerKeyLink',
-                Data => {
-                    %Param,
-                    CustomerKey       => $CustomerKey,
-                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
-                },
-            );
-        }
-        else {
-            $LayoutObject->Block(
-                Name => 'ContentLargeCustomerUserListRowCustomerKeyText',
-                Data => {
-                    %Param,
-                    CustomerKey       => $CustomerKey,
-                    CustomerListEntry => $CustomerIDs->{$CustomerKey},
-                },
-            );
-        }
 
         if ( $ConfigObject->Get('ChatEngine::Active') ) {
 
@@ -444,7 +425,7 @@ sub Run {
                 NameHTML    => $NameHTML,
                 RefreshTime => $Refresh,
                 CustomerID  => $Param{CustomerID},
-                }
+            },
         );
     }
 
@@ -452,7 +433,8 @@ sub Run {
         TemplateFile => 'AgentDashboardCustomerUserList',
         Data         => {
             %{ $Self->{Config} },
-            Name => $Self->{Name},
+            EditCustomerPermission => $Self->{EditCustomerPermission},
+            Name                   => $Self->{Name},
         },
         AJAX => $Param{AJAX},
     );

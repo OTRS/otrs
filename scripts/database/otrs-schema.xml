@@ -198,6 +198,34 @@
     </ForeignKey>
 </Table>
 
+<!-- group_customer - relation group<->customer -->
+<Table Name="group_customer">
+    <Column Name="customer_id" Required="true" Size="150" Type="VARCHAR"/>
+    <Column Name="group_id" Required="true" Type="INTEGER"/>
+    <Column Name="permission_key" Required="true" Size="20" Type="VARCHAR"/>
+    <!-- Here permission_value is still used (0/1) because CustomerGroup.pm
+        was not yet refactored like Group.pm. -->
+    <Column Name="permission_value" Required="true" Type="SMALLINT"/>
+    <Column Name="permission_context" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Index Name="group_customer_customer_id">
+        <IndexColumn Name="customer_id"/>
+    </Index>
+    <Index Name="group_customer_group_id">
+        <IndexColumn Name="group_id"/>
+    </Index>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="groups">
+        <Reference Local="group_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 <!-- role - all roles -->
 <Table Name="roles">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
@@ -1493,6 +1521,26 @@
     <Unique Name="customer_company_name">
         <UniqueColumn Name="name"/>
     </Unique>
+</Table>
+
+<!-- customer_user_customer - relation customer user<->customer -->
+<Table Name="customer_user_customer">
+    <Column Name="user_id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="customer_id" Required="true" Size="150" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Index Name="customer_user_customer_user_id">
+        <IndexColumn Name="user_id"/>
+    </Index>
+    <Index Name="customer_user_customer_customer_id">
+        <IndexColumn Name="customer_id"/>
+    </Index>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
 </Table>
 
 <!-- mail_account -->

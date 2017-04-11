@@ -114,14 +114,11 @@ sub Run {
     # get search string params (get submitted params)
     else {
         for my $Key (
-            qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType StateType
-            SearchInArchive AttachmentName
-            TicketCreateTimePointFormat TicketCreateTimePoint
-            TicketCreateTimePointStart
-            TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
-            TicketCreateTimeStartYear
-            TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
-            TicketCreateTimeStopYear
+            qw(TicketNumber From To Cc Subject Body ResultForm TimeSearchType StateType
+            SearchInArchive AttachmentName TicketCreateTimePointFormat TicketCreateTimePoint
+            TicketCreateTimePointStart TicketCreateTimeStart TicketCreateTimeStartDay
+            TicketCreateTimeStartMonth TicketCreateTimeStartYear TicketCreateTimeStop
+            TicketCreateTimeStopDay TicketCreateTimeStopMonth TicketCreateTimeStopYear
             )
             )
         {
@@ -138,7 +135,9 @@ sub Run {
 
         # get array params
         for my $Key (
-            qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs ServiceIDs TypeIDs)
+            qw(CustomerID StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs ServiceIDs
+            TypeIDs
+            )
             )
         {
 
@@ -1646,6 +1645,19 @@ sub MaskForm {
         Class       => 'Modernize',
     );
 
+    my %Customers = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupContextCustomers(
+        CustomerUserID => $Self->{UserID},
+    );
+
+    $Param{CustomerIDStrg} = $LayoutObject->BuildSelection(
+        Data       => \%Customers,
+        Name       => 'CustomerID',
+        Multiple   => 1,
+        Size       => 5,
+        SelectedID => $Param{CustomerID},
+        Class      => 'Modernize',
+    );
+
     # get service object
     my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
@@ -1653,13 +1665,13 @@ sub MaskForm {
     if ( $ConfigObject->Get('Customer::TicketSearch::AllServices') ) {
         %ServiceList = $ServiceObject->ServiceList(
             UserID => $Self->{UserID},
-            ),
+        );
     }
     else {
         %ServiceList = $ServiceObject->CustomerUserServiceMemberList(
             CustomerUserLogin => $Self->{UserID},
             Result            => 'HASH',
-            ),
+        );
     }
 
     $Param{ServicesStrg} = $LayoutObject->BuildSelection(

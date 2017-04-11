@@ -277,6 +277,55 @@
             </div>
 [% RenderBlockEnd("OverviewUpdate") %]
         </div>
+[% RenderBlockStart("EffectivePermissions") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Effective Permissions for Agent") | html %]</h2>
+            </div>
+            <div class="Content">
+                <dl>
+                    <dt>[% Translate("Group Permissions") | html %]</dt>
+                    <dd>
+                        <table class="DataTable VariableWidth SpacingTopSmall" id="GroupPermissionsTable">
+                            <thead>
+                                <tr>
+                                    <th>[% Translate("Group") | html %]</th>
+[% RenderBlockStart("HeaderGroupPermissionType") %]
+                                    <th class="Center">[% Data.Type | html %]</th>
+[% RenderBlockEnd("HeaderGroupPermissionType") %]
+                                </tr>
+                            </thead>
+                            <tbody>
+[% RenderBlockStart("NoGroupPermissionsFoundMsg") %]
+                                <tr>
+                                    <td>
+                                        [% Translate("This agent has no group permissions.") | html %]
+                                    </td>
+                                </tr>
+[% RenderBlockEnd("NoGroupPermissionsFoundMsg") %]
+[% RenderBlockStart("GroupPermissionTableRow") %]
+                                <tr>
+                                    <td><a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+[% RenderBlockStart("GroupPermissionMark") %]
+[% RenderBlockStart("GroupPermissionMarkOn") %]
+                                    <td class="Center [% Data.Highlight | html %]"><i class="fa fa-check" style="color: green;" /></td>
+[% RenderBlockEnd("GroupPermissionMarkOn") %]
+[% RenderBlockStart("GroupPermissionMarkOff") %]
+                                    <td class="Center [% Data.Highlight | html %]"><i class="fa fa-times" style="color: lightgray;" /></td>
+[% RenderBlockEnd("GroupPermissionMarkOff") %]
+[% RenderBlockEnd("GroupPermissionMark") %]
+                                </tr>
+[% RenderBlockEnd("GroupPermissionTableRow") %]
+                            </tbody>
+                        </table>
+                        <p class="FieldExplanation">
+                            [% Translate("Table above shows effective group permissions for the agent. The matrix takes into account all inherited permissions (e.g. via roles).") | html %]
+                        </p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+[% RenderBlockEnd("EffectivePermissions") %]
     </div>
     <div class="Clear"></div>
 </div>

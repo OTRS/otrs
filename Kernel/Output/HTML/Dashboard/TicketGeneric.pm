@@ -31,9 +31,7 @@ sub new {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $RemoveFilters = $ParamObject->GetParam( Param => 'RemoveFilters' )
-        || $Param{RemoveFilters}
-        || 0;
+    my $RemoveFilters = $ParamObject->GetParam( Param => 'RemoveFilters' ) || $Param{RemoveFilters} || 0;
 
     # get sorting params
     for my $Item (qw(SortBy OrderBy)) {
@@ -184,13 +182,15 @@ sub new {
     }
 
     # get current filter
-    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
-    my $PreferencesKey = 'UserDashboardTicketGenericFilter' . $Self->{Name};
+    my $Name                     = $ParamObject->GetParam( Param => 'Name' ) || '';
+    my $PreferencesKey           = 'UserDashboardTicketGenericFilter' . $Self->{Name};
+    my $AdditionalPreferencesKey = 'UserDashboardTicketGenericAdditionalFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
-        $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
+        $Self->{Filter}           = $ParamObject->GetParam( Param => 'Filter' )           || '';
+        $Self->{AdditionalFilter} = $ParamObject->GetParam( Param => 'AdditionalFilter' ) || '';
     }
 
-    # remember filter
+    # Remember the selected filter in the session.
     if ( $Self->{Filter} ) {
 
         # update session
@@ -211,6 +211,34 @@ sub new {
     }
     else {
         $Self->{Filter} = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'All';
+    }
+
+    # The additional filter are at the moment only relevant for the customer user information center.
+    if ( $Self->{Action} eq 'AgentCustomerUserInformationCenter' ) {
+
+        # Remember the selected filter in the session.
+        if ( $Self->{AdditionalFilter} ) {
+
+            # update session
+            $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key       => $AdditionalPreferencesKey,
+                Value     => $Self->{AdditionalFilter},
+            );
+
+            # update preferences
+            if ( !$ConfigObject->Get('DemoSystem') ) {
+                $UserObject->SetPreferences(
+                    UserID => $Self->{UserID},
+                    Key    => $AdditionalPreferencesKey,
+                    Value  => $Self->{AdditionalFilter},
+                );
+            }
+        }
+        else {
+            $Self->{AdditionalFilter}
+                = $Self->{$AdditionalPreferencesKey} || $Self->{Config}->{AdditionalFilter} || 'AssignedToCustomerUser';
+        }
     }
 
     $Self->{PrefKeyShown}   = 'UserDashboardPref' . $Self->{Name} . '-Shown';
@@ -268,6 +296,20 @@ sub new {
         delete $Self->{GetColumnFilterSelect}->{CustomerID};
         delete $Self->{ValidFilterableColumns}->{CustomerID};
         delete $Self->{ValidSortableColumns}->{CustomerID};
+    }
+    elsif (
+        $Self->{Action} eq 'AgentCustomerUserInformationCenter'
+        && $Self->{AdditionalFilter} eq 'AssignedToCustomerUser'
+        )
+    {
+
+        for my $DeleteColumnFilter (qw(CustomerUserLogin CustomerUserLoginRaw)) {
+            delete $Self->{ColumnFilter}->{$DeleteColumnFilter};
+            delete $Self->{GetColumnFilter}->{$DeleteColumnFilter};
+        }
+        delete $Self->{GetColumnFilter}->{CustomerUserID};
+        delete $Self->{GetColumnFilterSelect}->{CustomerUserID};
+        delete $Self->{ValidFilterableColumns}->{CustomerUserID};
     }
 
     $Self->{UseTicketService} = $ConfigObject->Get('Ticket::Service') || 0;
@@ -442,11 +484,15 @@ sub FilterContent {
             };
         }
 
-        if (
-            !$Self->{Config}->{IsProcessWidget}
-            || IsArrayRefWithData( $Self->{ProcessList} )
-            )
-        {
+        # Add the additional filter to the ticket search param.
+        if ( $Self->{AdditionalFilter} ) {
+            %TicketSearch = (
+                %TicketSearch,
+                %{ $TicketSearchSummary{ $Self->{AdditionalFilter} } },
+            );
+        }
+
+        if ( !$Self->{Config}->{IsProcessWidget} || IsArrayRefWithData( $Self->{ProcessList} ) ) {
             @OriginalViewableTickets = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
                 %TicketSearch,
                 %{ $TicketSearchSummary{ $Self->{Filter} } },
@@ -516,17 +562,18 @@ sub Run {
     my %TicketSearch        = %{ $SearchParams{TicketSearch} };
     my %TicketSearchSummary = %{ $SearchParams{TicketSearchSummary} };
 
-    my $CacheKey = join '-', $Self->{Name},
-        $Self->{Action},
-        $Self->{PageShown},
-        $Self->{StartHit},
-        $Self->{UserID};
+    # Add the additional filter to the ticket search param.
+    if ( $Self->{AdditionalFilter} ) {
+        %TicketSearch = (
+            %TicketSearch,
+            %{ $TicketSearchSummary{ $Self->{AdditionalFilter} } },
+        );
+    }
+
+    my $CacheKey = join '-', $Self->{Name}, $Self->{Action}, $Self->{PageShown}, $Self->{StartHit}, $Self->{UserID};
     my $CacheColumns = join(
         ',',
-        map {
-            $_ . '=>' . $Self->{GetColumnFilterSelect}->{$_}
-            }
-            sort keys %{ $Self->{GetColumnFilterSelect} }
+        map { $_ . '=>' . $Self->{GetColumnFilterSelect}->{$_} } sort keys %{ $Self->{GetColumnFilterSelect} }
     );
     $CacheKey .= '-' . $CacheColumns if $CacheColumns;
 
@@ -536,6 +583,16 @@ sub Run {
     # CustomerInformationCenter shows data per CustomerID
     if ( $Param{CustomerID} ) {
         $CacheKey .= '-' . $Param{CustomerID};
+    }
+
+    # CustomerUserInformationCenter shows data per CustomerUserID
+    if ( $Param{CustomerUserID} ) {
+        $CacheKey .= '-' . $Param{CustomerUserID};
+    }
+
+    # Add the additional filter always to the cache key, if a additional filter exists.
+    if ( $Self->{AdditionalFilter} ) {
+        $CacheKey .= '-' . $Self->{AdditionalFilter};
     }
 
     # get cache object
@@ -563,11 +620,7 @@ sub Run {
         }
 
         # add sort by parameter to the search
-        if (
-            !defined $TicketSearch{SortBy}
-            || !$Self->{ValidSortableColumns}->{ $TicketSearch{SortBy} }
-            )
-        {
+        if ( !defined $TicketSearch{SortBy} || !$Self->{ValidSortableColumns}->{ $TicketSearch{SortBy} } ) {
             if ( $Self->{SortBy} && $Self->{ValidSortableColumns}->{ $Self->{SortBy} } ) {
                 $TicketSearch{SortBy} = $Self->{SortBy};
             }
@@ -590,11 +643,7 @@ sub Run {
 
         $CacheUsed = 0;
         my @TicketIDsArray;
-        if (
-            !$Self->{Config}->{IsProcessWidget}
-            || IsArrayRefWithData( $Self->{ProcessList} )
-            )
-        {
+        if ( !$Self->{Config}->{IsProcessWidget} || IsArrayRefWithData( $Self->{ProcessList} ) ) {
             @TicketIDsArray = $TicketObject->TicketSearch(
                 Result => 'ARRAY',
                 %TicketSearch,
@@ -612,21 +661,32 @@ sub Run {
         Key  => $CacheKey . '-Summary',
     );
 
-    # if no cache or new list result, do count lookup
+    # If no cache or new list result, do count lookup.
     if ( !$Summary || !$CacheUsed ) {
+
+        # Define the summary types for which no count is needed, because we have no output.
+        my %LookupNoCountSummaryType = (
+            AssignedToCustomerUser    => 1,
+            AccessibleForCustomerUser => 1,
+        );
+
         TYPE:
         for my $Type ( sort keys %TicketSearchSummary ) {
+            next TYPE if $LookupNoCountSummaryType{$Type};
             next TYPE if !$TicketSearchSummary{$Type};
 
-            # copy original column filter
+            # Copy original column filter.
             my %ColumnFilter = %{ $Self->{ColumnFilter} || {} };
 
-            # loop through all column filter elements
+            # Loop through all column filter elements.
             for my $Element ( sort keys %ColumnFilter ) {
 
-                # verify if current column filter element is already present in the ticket search
-                # summary, to delete it from the column filter hash
+                # Verify if current column filter element is already present in the ticket search
+                #   summary, to delete it from the column filter hash.
                 if ( $TicketSearchSummary{$Type}->{$Element} ) {
+                    delete $ColumnFilter{$Element};
+                }
+                if ( $Self->{AdditionalFilter} && $TicketSearchSummary{ $Self->{AdditionalFilter} }->{$Element} ) {
                     delete $ColumnFilter{$Element};
                 }
             }
@@ -640,11 +700,7 @@ sub Run {
 
             $Summary->{$Type} = 0;
 
-            if (
-                !$Self->{Config}->{IsProcessWidget}
-                || IsArrayRefWithData( $Self->{ProcessList} )
-                )
-            {
+            if ( !$Self->{Config}->{IsProcessWidget} || IsArrayRefWithData( $Self->{ProcessList} ) ) {
                 $Summary->{$Type} = $TicketObject->TicketSearch(
                     Result => 'COUNT',
                     %TicketSearch,
@@ -672,10 +728,12 @@ sub Run {
         );
     }
 
-    # set css class
+    # Set the css class for the selected filter and additional filter.
     $Summary->{ $Self->{Filter} . '::Selected' } = 'Selected';
+    if ( $Self->{AdditionalFilter} ) {
+        $Summary->{ $Self->{AdditionalFilter} . '::Selected' } = 'Selected';
+    }
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # get filter ticket counts
@@ -689,8 +747,33 @@ sub Run {
         },
     );
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # show only AssignedToCustomerUser if we have the filter
+    if ( $TicketSearchSummary{AssignedToCustomerUser} ) {
+        $LayoutObject->Block(
+            Name => 'ContentLargeTicketGenericFilterAssignedToCustomerUser',
+            Data => {
+                %Param,
+                %{ $Self->{Config} },
+                Name => $Self->{Name},
+                %{$Summary},
+            },
+        );
+    }
+
+    # show only locked if we have the filter
+    if ( $TicketSearchSummary{AccessibleForCustomerUser} ) {
+        $LayoutObject->Block(
+            Name => 'ContentLargeTicketGenericFilterAccessibleForCustomerUser',
+            Data => {
+                %Param,
+                %{ $Self->{Config} },
+                Name => $Self->{Name},
+                %{$Summary},
+            },
+        );
+    }
 
     # show also watcher if feature is enabled and there is a watcher filter
     if ( $ConfigObject->Get('Ticket::Watcher') && $TicketSearchSummary{Watcher} ) {
@@ -775,13 +858,17 @@ sub Run {
     my $LinkPage =
         'Subaction=Element;Name=' . $Self->{Name}
         . ';Filter=' . $Self->{Filter}
-        . ';SortBy=' .  ( $Self->{SortBy}  || '' )
-        . ';OrderBy=' . ( $Self->{OrderBy} || '' )
+        . ';AdditionalFilter=' . ( $Self->{AdditionalFilter} || '' )
+        . ';SortBy=' .           ( $Self->{SortBy}           || '' )
+        . ';OrderBy=' .          ( $Self->{OrderBy}          || '' )
         . $ColumnFilterLink
         . ';';
 
     if ( $Param{CustomerID} ) {
         $LinkPage .= "CustomerID=$Param{CustomerID};";
+    }
+    if ( $Param{CustomerUserID} ) {
+        $LinkPage .= "CustomerUserID=$Param{CustomerUserID};";
     }
     my %PageNav = $LayoutObject->PageNavBar(
         StartHit    => $Self->{StartHit},
@@ -895,11 +982,7 @@ sub Run {
     for my $HeaderColumn (@Columns) {
 
         # skip CustomerID if Customer Information Center
-        if (
-            $Self->{Action} eq 'AgentCustomerInformationCenter'
-            && $HeaderColumn eq 'CustomerID'
-            )
-        {
+        if ( $Self->{Action} eq 'AgentCustomerInformationCenter' && $HeaderColumn eq 'CustomerID' ) {
             next HEADERCOLUMN;
         }
 
@@ -977,10 +1060,8 @@ sub Run {
                     Data => {
                         %Param,
                         CSS => $CSS || '',
-                        Name    => $Self->{Name},
-                        OrderBy => $OrderBy || 'Up',
-                        Filter  => $Self->{Filter},
-                        Title   => $Title,
+                        Name  => $Self->{Name},
+                        Title => $Title,
                     },
                 );
                 next HEADERCOLUMN;
@@ -988,8 +1069,7 @@ sub Run {
 
             my $FilterTitle     = $TranslatedWord;
             my $FilterTitleDesc = Translatable('filter not active');
-            if ( $Self->{GetColumnFilterSelect} && $Self->{GetColumnFilterSelect}->{$HeaderColumn} )
-            {
+            if ( $Self->{GetColumnFilterSelect} && $Self->{GetColumnFilterSelect}->{$HeaderColumn} ) {
                 $CSS .= ' FilterActive';
                 $FilterTitleDesc = Translatable('filter active');
             }
@@ -1064,13 +1144,14 @@ sub Run {
                             QueryDelay          => 100,
                             MaxResultsDisplayed => 20,
                             MinQueryLength      => 2,
-                            }
+                        },
                     );
                     $LayoutObject->Block(
                         Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerIDSearch',
                         Data => {},
                     );
                 }
+
                 elsif ( $HeaderColumn eq 'Responsible' || $HeaderColumn eq 'Owner' ) {
 
                     # send data to JS
@@ -1080,7 +1161,7 @@ sub Run {
                             QueryDelay          => 100,
                             MaxResultsDisplayed => 20,
                             MinQueryLength      => 2,
-                            }
+                        },
                     );
                     $LayoutObject->Block(
                         Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkUserSearch',
@@ -1137,7 +1218,7 @@ sub Run {
                             QueryDelay          => 100,
                             MaxResultsDisplayed => 20,
                             MinQueryLength      => 2,
-                            }
+                        },
                     );
                     $LayoutObject->Block(
                         Name => 'ContentLargeTicketGenericHeaderColumnFilterLinkCustomerUserSearch',
@@ -1212,11 +1293,7 @@ sub Run {
             my $CSS             = '';
             my $FilterTitle     = $Label;
             my $FilterTitleDesc = Translatable('filter not active');
-            if (
-                $Self->{GetColumnFilterSelect}
-                && defined $Self->{GetColumnFilterSelect}->{$DynamicFieldName}
-                )
-            {
+            if ( $Self->{GetColumnFilterSelect} && defined $Self->{GetColumnFilterSelect}->{$DynamicFieldName} ) {
                 $CSS .= 'FilterActive ';
                 $FilterTitleDesc = Translatable('filter active');
             }
@@ -1495,11 +1572,7 @@ sub Run {
         for my $Column (@Columns) {
 
             # skip CustomerID if Customer Information Center
-            if (
-                $Self->{Action} eq 'AgentCustomerInformationCenter'
-                && $Column eq 'CustomerID'
-                )
-            {
+            if ( $Self->{Action} eq 'AgentCustomerInformationCenter' && $Column eq 'CustomerID' ) {
                 next COLUMN;
             }
 
@@ -1539,8 +1612,7 @@ sub Run {
                         Age   => $EscalationData{EscalationTimeWorkingTime},
                         Space => ' ',
                     );
-                    if ( defined $Ticket{EscalationTime} && $Ticket{EscalationTime} < 60 * 60 * 1 )
-                    {
+                    if ( defined $Ticket{EscalationTime} && $Ticket{EscalationTime} < 60 * 60 * 1 ) {
                         $EscalationData{EscalationClass} = 'Warning';
                     }
                     $LayoutObject->Block(
@@ -1760,10 +1832,11 @@ sub Run {
         $LayoutObject->AddJSData(
             Key   => 'WidgetRefresh' . $WidgetName,
             Value => {
-                Name        => $Self->{Name},
-                NameHTML    => $WidgetName,
-                RefreshTime => $Refresh,
-                CustomerID  => $Param{CustomerID},
+                Name           => $Self->{Name},
+                NameHTML       => $WidgetName,
+                RefreshTime    => $Refresh,
+                CustomerID     => $Param{CustomerID},
+                CustomerUserID => $Param{CustomerUserID},
             },
         );
     }
@@ -1778,9 +1851,10 @@ sub Run {
     $LayoutObject->AddJSData(
         Key   => 'WidgetContainer' . $WidgetName,
         Value => {
-            Name         => $Self->{Name},
-            CustomerID   => $Param{CustomerID},
-            FilterActive => $FilterActive,
+            Name           => $Self->{Name},
+            CustomerID     => $Param{CustomerID},
+            CustomerUserID => $Param{CustomerUserID},
+            FilterActive   => $FilterActive,
         },
     );
 
@@ -1790,8 +1864,10 @@ sub Run {
             %{ $Self->{Config} },
             Name => $Self->{Name},
             %{$Summary},
-            FilterValue => $Self->{Filter},
-            CustomerID  => $Self->{CustomerID},
+            FilterValue      => $Self->{Filter},
+            AdditionalFilter => $Self->{AdditionalFilter},
+            CustomerID       => $Self->{CustomerID},
+            CustomerUserID   => $Self->{CustomerUserID},
         },
         AJAX => $Param{AJAX},
     );
@@ -2026,11 +2102,7 @@ sub _SearchParamsGet {
 
     # check for default settings
     my @Columns;
-    if (
-        $Self->{Config}->{DefaultColumns}
-        && IsHashRefWithData( $Self->{Config}->{DefaultColumns} )
-        )
-    {
+    if ( $Self->{Config}->{DefaultColumns} && IsHashRefWithData( $Self->{Config}->{DefaultColumns} ) ) {
         @Columns = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
             sort { $Self->_DefaultColumnSort() } keys %{ $Self->{Config}->{DefaultColumns} };
     }
@@ -2257,10 +2329,15 @@ sub _SearchParamsGet {
         }
     }
 
+    my %LockList = $Kernel::OM->Get('Kernel::System::Lock')->LockList(
+        UserID => $Self->{UserID},
+    );
+    my %LockName2ID = reverse %LockList;
+
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => $TicketSearch{OwnerIDs} // [ $Self->{UserID}, ],
-            LockIDs => [ '2', '3' ],    # 'lock' and 'tmp_lock'
+            LockIDs => [ $LockName2ID{lock}, $LockName2ID{tmp_lock} ],
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],
@@ -2284,6 +2361,21 @@ sub _SearchParamsGet {
             LockIDs  => $TicketSearch{LockIDs}  // undef,
         },
     );
+
+    if ( $Self->{Action} eq 'AgentCustomerUserInformationCenter' ) {
+
+        # Add filters for assigend and accessible tickets for the customer user information center as a
+        #   additional filter together with the other filters. One of them must be always active.
+        %TicketSearchSummary = (
+            AssignedToCustomerUser => {
+                CustomerUserLoginRaw => $Param{CustomerUserID} // undef,
+            },
+            AccessibleForCustomerUser => {
+                CustomerUserID => $Param{CustomerUserID} // undef,
+            },
+            %TicketSearchSummary,
+        );
+    }
 
     if ( defined $TicketSearch{LockIDs} || defined $TicketSearch{Locks} ) {
         delete $TicketSearchSummary{Locked};

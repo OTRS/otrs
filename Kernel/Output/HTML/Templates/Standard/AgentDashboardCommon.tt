@@ -19,6 +19,7 @@
                 <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                 <input type="hidden" name="Subaction" value="UpdateSettings"/>
                 <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+                <input type="hidden" name="CustomerUserID" value="[% Data.CustomerUserID | html %]"/>
                 <ul>
 [% RenderBlockStart("ContentSettings") %]
                     <li>
@@ -57,7 +58,7 @@
                 </div>
 [% RenderBlockEnd("ContentSmallRefresh") %]
                 <div class="WidgetAction Close">
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];CustomerUserID=[% Data.CustomerUserID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
@@ -72,6 +73,7 @@
                     <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                     <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
                     <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+                    <input type="hidden" name="CustomerUserID" value="[% Data.CustomerUserID | html %]"/>
                     <fieldset class="TableLike DontPrint">
 [% RenderBlockStart("ContentSmallPreferencesItem") %]
 [% RenderBlockStart("ContentSmallPreferencesItemOption") %]
@@ -143,7 +145,7 @@
                 </div>
 [% RenderBlockEnd("ContentLargePreferences") %]
                 <div class="WidgetAction Close">
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];CustomerUserID=[% Data.CustomerUserID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
@@ -159,6 +161,7 @@
                     <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                     <input type="hidden" name="Name" value="[% Data.Name | html %]"/>
                     <input type="hidden" name="CustomerID" value="[% Data.CustomerID | html %]"/>
+                    <input type="hidden" name="CustomerUserID" value="[% Data.CustomerUserID | html %]"/>
                     <fieldset class="TableLike FixedLabelSmall DontPrint">
 [% RenderBlockStart("ContentLargePreferencesItem") %]
 [% RenderBlockStart("ContentLargePreferencesItemOption") %]

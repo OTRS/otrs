@@ -50,6 +50,8 @@ sub Run {
     # set search limit
     my $SearchLimit = 200;
 
+    $Param{CustomerUserSearch} = $ParamObject->GetParam( Param => 'CustomerUserSearch' ) || '*';
+
     # ------------------------------------------------------------ #
     # user <-> group 1:n
     # ------------------------------------------------------------ #
@@ -65,9 +67,10 @@ sub Run {
         my %Types;
         for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
             my %Data = $CustomerGroupObject->GroupMemberList(
-                UserID => $ID,
-                Type   => $Type,
-                Result => 'HASH',
+                UserID         => $ID,
+                Type           => $Type,
+                Result         => 'HASH',
+                RawPermissions => 1,
             );
             $Types{$Type} = \%Data;
         }
@@ -76,10 +79,11 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $Self->_Change(
             %Types,
-            Data => \%GroupData,
-            ID   => $UserData{UserID},
-            Name => "$CustomerName ($UserData{UserLogin})",
-            Type => 'CustomerUser',
+            Data               => \%GroupData,
+            ID                 => $UserData{UserID},
+            Name               => "$CustomerName ($UserData{UserLogin})",
+            Type               => 'CustomerUser',
+            CustomerUserSearch => $Param{CustomerUserSearch},
         );
         $Output .= $LayoutObject->Footer();
 
@@ -93,9 +97,6 @@ sub Run {
 
         # Get params.
         $Param{Subaction} = $ParamObject->GetParam( Param => 'Subaction' );
-
-        $Param{CustomerUserSearch} = $ParamObject->GetParam( Param => "CustomerUserSearch" )
-            || '*';
 
         # get group data
         my $ID = $ParamObject->GetParam( Param => 'ID' );
@@ -133,9 +134,10 @@ sub Run {
         my %Types;
         for my $Type ( @{ $ConfigObject->Get('System::Customer::Permission') } ) {
             my %Data = $CustomerGroupObject->GroupMemberList(
-                GroupID => $ID,
-                Type    => $Type,
-                Result  => 'HASH',
+                GroupID        => $ID,
+                Type           => $Type,
+                Result         => 'HASH',
+                RawPermissions => 1,
             );
             $Types{$Type} = \%Data;
         }
@@ -166,9 +168,6 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
-
-        $Param{CustomerUserSearch} = $ParamObject->GetParam( Param => 'CustomerUserSearch' )
-            || '*';
 
         # get new groups
         my %Permissions;
@@ -202,7 +201,8 @@ sub Run {
             );
         }
 
-     # if the user would like to continue editing the customer user relations for group just redirect to the edit screen
+        # If the user would like to continue editing the customer user relations for group
+        #   just redirect to the edit screen.
         if (
             defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
             && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
@@ -214,8 +214,6 @@ sub Run {
             );
         }
         else {
-
-            # otherwise return to relations overview
             return $LayoutObject->Redirect(
                 OP => "Action=$Self->{Action};CustomerUserSearch=$Param{CustomerUserSearch}"
             );
@@ -231,9 +229,6 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my $ID = $ParamObject->GetParam( Param => 'ID' );
-
-        $Param{CustomerUserSearch} = $ParamObject->GetParam( Param => 'CustomerUserSearch' )
-            || '*';
 
         # get new groups
         my %Permissions;
@@ -263,7 +258,8 @@ sub Run {
             );
         }
 
-     # if the user would like to continue editing the customer user relations for group just redirect to the edit screen
+        # If the user would like to continue editing the group relations for customer user
+        #   just redirect to the edit screen and otherwise return to relations overview.
         if (
             defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
             && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
@@ -275,8 +271,6 @@ sub Run {
             );
         }
         else {
-
-            # otherwise return to relations overview
             return $LayoutObject->Redirect(
                 OP => "Action=$Self->{Action};CustomerUserSearch=$Param{CustomerUserSearch}"
             );
@@ -286,10 +280,6 @@ sub Run {
     # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
-
-    # get params
-    $Param{CustomerUserSearch} = $ParamObject->GetParam( Param => 'CustomerUserSearch' )
-        || '*';
 
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
@@ -358,14 +348,14 @@ sub _Change {
     my $Type        = $Param{Type} || 'CustomerUser';
     my $NeType      = $Type eq 'Group' ? 'CustomerUser' : 'Group';
     my %VisibleType = (
-        CustomerUser => 'Customer',
+        CustomerUser => 'Customer User',
         Group        => 'Group',
     );
     my $SearchLimit = $Param{SearchLimit};
 
     my @ItemList = ();
 
-    if ( $VisibleType{$NeType} eq 'Customer' ) {
+    if ( $VisibleType{$NeType} eq 'Customer User' ) {
         $Param{BreadcrumbTitle} = "Change Customer User Relations for Group";
     }
     else {
@@ -385,7 +375,7 @@ sub _Change {
         Name => 'ActionOverview',
         Data => {
             CustomerUserSearch => $Param{CustomerUserSearch},
-            }
+        },
     );
 
     if ( $NeType eq 'CustomerUser' ) {
@@ -427,6 +417,10 @@ sub _Change {
             VisibleType   => $VisibleType{$Type},
             Subaction     => $Self->{Subaction},
         },
+    );
+
+    $LayoutObject->Block(
+        Name => 'ChangeHeading' . $NeType,
     );
 
     my @GroupPermissions;
@@ -540,7 +534,7 @@ sub _Change {
                 Data => {
                     Name => $CustomerAlwaysGroups[ $ID - 1 ],
                 },
-                )
+            );
         }
     }
 

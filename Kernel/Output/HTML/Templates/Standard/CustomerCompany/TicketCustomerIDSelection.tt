@@ -1,0 +1,43 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<label for="CustomerID"[% IF Required %] class="Mandatory"[% END %]>[% IF Required %]<span class="Marker">*</span> [% END %][% Translate("Customer ID") | html %]:</label>
+<div class="Field">
+    <input type="text" name="CustomerID" id="CustomerID" value="[% Data.CustomerID | html %]"  readonly="readonly" class="W75pc[% IF Required %] Validate_Required[% END %] [% Data.CustomerIDInvalid | html %]"/>
+[% IF Required %]
+    <div id="CustomerAutoCompleteError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="CustomerAutoCompleteServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+[% END %]
+    <button id="SelectionCustomerID" class="CallForAction Inline[% IF Readonly || !Data.SelectedCustomerUser %] Disabled[% END %]" title="[% IF Readonly %][% Translate("The customer ID is not changeable, no other customer ID can be assigned to this ticket.") | html %][% ELSIF !Data.SelectedCustomerUser %][% Translate("First select a customer user, then you can select a customer ID to assign to this ticket.") | html %][% ELSE %][% Translate("Select a customer ID to assign to this ticket.") | html %][% END %]" [% IF Readonly || !Data.SelectedCustomerUser %] disabled="disabled"[% END %]>
+        <span><i class="fa fa-building-o"></i> [% Translate("Select") | html %]</span>
+    </button>
+[% RenderBlockStart("rw:Customer:DescriptionShort") %]
+    <div class="FieldExplanation">[% Data.DescriptionShort %]</div>
+[% RenderBlockEnd("rw:Customer:DescriptionShort") %]
+[% IF !Readonly %]
+    <div id="TemplateSelectionCustomerID" class="Hidden">
+        <div id="AgentTicketCustomerIDSelection" class="InnerContent WidgetSettingsForm">
+            <fieldset class="TableLike">
+                <label>[% Translate("From all Customer IDs") | html %]:</label>
+                <div class="Field">
+                    <input type="text" name="SelectionCustomerIDAll" id="SelectionCustomerIDAll" class="W90pc" data-customer-search-type="CustomerID" />
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+            <fieldset class="TableLike">
+                <label>[% Translate("From assigned Customer IDs") | html %]:</label>
+                <div class="Field">
+                    <select name="SelectionCustomerIDAssigned" id="SelectionCustomerIDAssigned" class="Modernize"></select>
+                </div>
+                <div class="Clear"></div>
+            </fieldset>
+        </div>
+    </div>
+[% END %]
+</div>
+<div class="Clear"></div>

@@ -106,13 +106,11 @@ $Selenium->RunTest(
         # navigate to AdminCustomerInformationCenter screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter");
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length'
+            JavaScript => 'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length',
         );
 
         # input search parameters
-        $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )
-            ->send_keys($TestCustomerUserLogin);
+        $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )->send_keys($TestCustomerUserLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$TestCustomerUserLogin']")->VerifiedClick();
 
@@ -184,6 +182,20 @@ $Selenium->RunTest(
             );
 
         }
+
+        # Click on the customer user link in the customer user list (go to the AgentCustomerUserInformationCenter).
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentCustomerUserInformationCenter;CustomerUserID=$TestCustomerUserLogin' )]"
+        )->VerifiedClick();
+
+        $Self->True(
+            index( $Selenium->get_page_source(), "Customer User Information Center" ) > -1,
+            "Found title value on page",
+        );
+        $Self->True(
+            index( $Selenium->get_page_source(), $TestCustomerUserLogin ) > -1,
+            "Found customer user login on page",
+        );
 
         # delete created test tickets
         for my $TicketState ( sort keys %TicketData ) {

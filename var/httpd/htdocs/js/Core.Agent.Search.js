@@ -76,6 +76,10 @@ Core.Agent.Search = (function (TargetNS) {
                     return false;
                 });
 
+            $('.CustomerAutoCompleteSimple').each(function() {
+                Core.Agent.CustomerSearch.InitSimple($(this));
+            });
+
             // Register event for tree selection dialog
             Core.UI.TreeSelection.InitTreeSelection();
 

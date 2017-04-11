@@ -132,7 +132,7 @@ sub Run {
     else {
         for my $Key (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerIDRaw
-            CustomerUserLogin CustomerUserLoginRaw StateType Agent ResultForm
+            CustomerUserLogin CustomerUserLoginRaw CustomerUserID StateType Agent ResultForm
             TimeSearchType ChangeTimeSearchType CloseTimeSearchType LastChangeTimeSearchType
             EscalationTimeSearchType PendingTimeSearchType
             UseSubQueues AttachmentName
@@ -1376,11 +1376,15 @@ sub Run {
             },
             {
                 Key   => 'CustomerUserLogin',
-                Value => Translatable('Customer User Login (complex search)'),
+                Value => Translatable('Assigned to Customer User Login (complex search)'),
             },
             {
                 Key   => 'CustomerUserLoginRaw',
-                Value => Translatable('Customer User Login (exact match)'),
+                Value => Translatable('Assigned to Customer User Login (exact match)'),
+            },
+            {
+                Key   => 'CustomerUserID',
+                Value => Translatable('Accessible to Customer User Login (exact match)'),
             },
             {
                 Key   => 'StateIDs',

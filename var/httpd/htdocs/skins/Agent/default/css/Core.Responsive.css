@@ -676,12 +676,14 @@
         font-size: 16px;
     }
 
-    #SearchForm, #AgentCustomerInformationCenterSearchForm {
+    #SearchForm, #AgentCustomerInformationCenterSearchForm, #AgentCustomerUserInformationCenterSearchForm {
         width: auto;
     }
 
     #AgentCustomerInformationCenterSearchForm fieldset.TableLike > .Field > input,
-    #AgentCustomerInformationCenterSearchForm fieldset.TableLike > .Row > .Field > input {
+    #AgentCustomerInformationCenterSearchForm fieldset.TableLike > .Row > .Field > input,
+    #AgentCustomerUserInformationCenterSearchForm fieldset.TableLike > .Field > input,
+    #AgentCustomerUserInformationCenterSearchForm fieldset.TableLike > .Row > .Field > input {
         width: 100%;
     }
 

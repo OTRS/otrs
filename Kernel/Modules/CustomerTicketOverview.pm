@@ -111,15 +111,44 @@ sub Run {
 
     my $UserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-    # add filter for customer company if not disabled
+    # Add filter for customer company if the company tickets are not disabled.
     if ( !$DisableCompanyTickets ) {
+        my @CustomerIDs;
+        my %AccessibleCustomers = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupContextCustomers(
+            CustomerUserID => $Self->{UserID},
+        );
+
+        # Show customer companies as additional filter selection.
+        if ( $Self->{Subaction} eq 'CompanyTickets' && scalar keys %AccessibleCustomers > 1 ) {
+
+            @CustomerIDs = $ParamObject->GetArray( Param => 'CustomerIDs' );
+            $Param{CustomerIDStrg} = $LayoutObject->BuildSelection(
+                Data       => \%AccessibleCustomers,
+                Name       => 'CustomerIDs',
+                Multiple   => 1,
+                Size       => 1,
+                SelectedID => \@CustomerIDs,
+                Class      => 'Modernize',
+            );
+
+            # Remember the active customer ID filter.
+            $Param{CustomerIDs} = '';
+            for my $CustomerID (@CustomerIDs) {
+                $Param{CustomerIDs} .= ';CustomerIDs=' . $LayoutObject->LinkEncode($CustomerID);
+            }
+        }
+        else {
+
+            # Default behavior - use all available customer IDs.
+            @CustomerIDs = sort keys %AccessibleCustomers;
+        }
+
         $Filters{CompanyTickets} = {
             All => {
                 Name   => 'All',
                 Prio   => 1000,
                 Search => {
-                    CustomerIDRaw =>
-                        [ $UserObject->CustomerIDs( User => $Self->{UserLogin} ) ],
+                    CustomerIDRaw  => \@CustomerIDs,
                     OrderBy        => $OrderByCurrent,
                     SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
@@ -130,8 +159,7 @@ sub Run {
                 Name   => 'Open',
                 Prio   => 1100,
                 Search => {
-                    CustomerIDRaw =>
-                        [ $UserObject->CustomerIDs( User => $Self->{UserLogin} ) ],
+                    CustomerIDRaw  => \@CustomerIDs,
                     StateType      => 'Open',
                     OrderBy        => $OrderByCurrent,
                     SortBy         => $SortBy,
@@ -143,8 +171,7 @@ sub Run {
                 Name   => 'Closed',
                 Prio   => 1200,
                 Search => {
-                    CustomerIDRaw =>
-                        [ $UserObject->CustomerIDs( User => $Self->{UserLogin} ) ],
+                    CustomerIDRaw  => \@CustomerIDs,
                     StateType      => 'Closed',
                     OrderBy        => $OrderByCurrent,
                     SortBy         => $SortBy,
@@ -358,6 +385,7 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'FilterHeader',
                 Data => {
+                    %Param,
                     %{ $NavBarFilter{$Key} },
                 },
             );

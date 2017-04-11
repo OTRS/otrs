@@ -253,6 +253,24 @@ CREATE INDEX FK_group_customer_user_creata6 ON group_customer_user (create_by);
 CREATE INDEX group_customer_user_group_id ON group_customer_user (group_id);
 CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);
 -- ----------------------------------------------------------
+--  create table group_customer
+-- ----------------------------------------------------------
+CREATE TABLE group_customer (
+    customer_id VARCHAR2 (150) NOT NULL,
+    group_id NUMBER (12, 0) NOT NULL,
+    permission_key VARCHAR2 (20) NOT NULL,
+    permission_value NUMBER (5, 0) NOT NULL,
+    permission_context VARCHAR2 (100) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+CREATE INDEX FK_group_customer_change_by ON group_customer (change_by);
+CREATE INDEX FK_group_customer_create_by ON group_customer (create_by);
+CREATE INDEX group_customer_customer_id ON group_customer (customer_id);
+CREATE INDEX group_customer_group_id ON group_customer (group_id);
+-- ----------------------------------------------------------
 --  create table roles
 -- ----------------------------------------------------------
 CREATE TABLE roles (
@@ -1997,6 +2015,21 @@ CREATE TABLE customer_company (
     CONSTRAINT customer_company_name UNIQUE (name)
 );
 ALTER TABLE customer_company ADD CONSTRAINT PK_customer_company PRIMARY KEY (customer_id);
+-- ----------------------------------------------------------
+--  create table customer_user_customer
+-- ----------------------------------------------------------
+CREATE TABLE customer_user_customer (
+    user_id VARCHAR2 (100) NOT NULL,
+    customer_id VARCHAR2 (150) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+CREATE INDEX FK_customer_user_customer_ch28 ON customer_user_customer (change_by);
+CREATE INDEX FK_customer_user_customer_cr61 ON customer_user_customer (create_by);
+CREATE INDEX customer_user_customer_custo95 ON customer_user_customer (customer_id);
+CREATE INDEX customer_user_customer_user_id ON customer_user_customer (user_id);
 -- ----------------------------------------------------------
 --  create table mail_account
 -- ----------------------------------------------------------

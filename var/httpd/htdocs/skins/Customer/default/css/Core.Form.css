@@ -325,6 +325,16 @@ textarea {
 }
 
 /**
+ * @subsection  Input Readonly
+ */
+input[type=text][readonly],
+input[type=password][readonly],
+input[type=email][readonly],
+textarea[readonly] {
+    background-color: #DDD;
+}
+
+/**
 * @note         Validation
 */
 form label.Mandatory {

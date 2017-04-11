@@ -1026,7 +1026,8 @@ iframe.TextOption.CustomerUserAddressBook {
  * @subsection global search
  */
 #SearchForm,
-#AgentCustomerInformationCenterSearchForm {
+#AgentCustomerInformationCenterSearchForm, #AgentCustomerUserInformationCenterSearchForm,
+#AgentTicketCustomerIDSelection {
     width: 560px;
     padding-right: 20px;
 }
