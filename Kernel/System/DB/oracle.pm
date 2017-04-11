@@ -249,15 +249,10 @@ sub TableCreate {
 
         # auto increment
         if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-            my $Sequence = 'SE_' . $TableName;
-            if ( length $Sequence > 28 ) {
-                my $MD5 = $MainObject->MD5sum(
-                    String => $Sequence,
-                );
-                $Sequence = substr $Sequence, 0, 26;
-                $Sequence .= substr $MD5, 0,  1;
-                $Sequence .= substr $MD5, 31, 1;
-            }
+
+            my $Sequence = $Self->_SequenceName(
+                TableName => $TableName,
+            );
             my $Shell = '';
             if ( $ConfigObject->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
@@ -375,9 +370,26 @@ sub TableDrop {
             }
         }
 
+        # get sequence name
+        my $Sequence = $Self->_SequenceName(
+            TableName => $Tag->{Name},
+        );
+        my $Shell = '';
+        if ( $ConfigObject->Get('Database::ShellOutput') ) {
+            $Shell = "/\n--";
+        }
+
+        # build sql to drop sequence
+        my $DropSequenceSQL = "BEGIN
+            EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
+            EXCEPTION
+              WHEN OTHERS THEN NULL;
+            END;
+            $Shell";
+
         $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
 
-        return ($SQL);
+        return ($SQL, $DropSequenceSQL);
     }
     return ();
 }
@@ -888,6 +900,31 @@ sub _TypeTranslation {
         $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
     return $Tag;
+}
+
+sub _SequenceName {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TableName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TableName!",
+        );
+        return;
+    }
+
+    my $Sequence = 'SE_' . $Param{TableName};
+    if ( length $Sequence > 28 ) {
+        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+            String => $Sequence,
+        );
+        $Sequence = substr $Sequence, 0, 26;
+        $Sequence .= substr $MD5, 0,  1;
+        $Sequence .= substr $MD5, 31, 1;
+    }
+
+    return $Sequence;
 }
 
 1;
