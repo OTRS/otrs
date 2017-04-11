@@ -106,13 +106,12 @@ sub new {
         || $LayoutObject->{BrowserRichText}
         || 0;
 
-    # strip HTML and ASCII attachments of content
-    $Self->{StripPlainBodyAsAttachment} = 1;
-
-    # check if rich text is enabled, if not only strip ASCII attachments
-    if ( !$Self->{RichText} ) {
-        $Self->{StripPlainBodyAsAttachment} = 2;
-    }
+    # Always exclude plain text attachment, but exclude HTML body only if rich text is enabled.
+    $Self->{ExcludeAttachments} = {
+        ExcludePlainText => 1,
+        ExcludeHTMLBody  => $Self->{RichText},
+        ExcludeInline    => $Self->{RichText},
+    };
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -186,11 +185,14 @@ sub new {
         && $ConfigObject->Get('TimelineViewEnabled') == 1
         )
     {
-        my $ZoomFrontendConfiguration = $ConfigObject->Get('Frontend::Module')->{AgentTicketZoom};
-        my @CustomJSFiles             = (
-            'Core.Agent.TicketZoom.TimelineView.js',
+        $ConfigObject->Set(
+            Key   => 'Loader::Module::AgentTicketZoom###003-OTRSBusiness',
+            Value => {
+                JavaScript => [
+                    'Core.Agent.TicketZoom.TimelineView.js',
+                ],
+            },
         );
-        push( @{ $ZoomFrontendConfiguration->{Loader}->{JavaScript} || [] }, @CustomJSFiles );
     }
 
     return $Self;
@@ -417,7 +419,10 @@ sub Run {
 
         # always show archived tickets as seen
         if ( $Ticket{ArchiveFlag} ne 'y' ) {
-            $Success = $Self->_ArticleItemSeen( ArticleID => $Self->{ArticleID} );
+            $Success = $Self->_ArticleItemSeen(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $Self->{ArticleID},
+            );
         }
 
         return $LayoutObject->Attachment(
@@ -431,18 +436,26 @@ sub Run {
     # article update
     elsif ( $Self->{Subaction} eq 'ArticleUpdate' ) {
         my $Count = $ParamObject->GetParam( Param => 'Count' );
-        my %Article = $ArticleObject->ArticleGet(
+
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Self->{ArticleID},
+        );
+
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID      => $Self->{TicketID},
             ArticleID     => $Self->{ArticleID},
+            RealNames     => 1,
             DynamicFields => 0,
+            UserID        => $Self->{UserID},
         );
         $Article{Count} = $Count;
 
-        # get attachment index (without attachments)
-        my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
-            ArticleID                  => $Self->{ArticleID},
-            StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
-            Article                    => \%Article,
-            UserID                     => $Self->{UserID},
+        # Get attachment index (excluding body attachments).
+        my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID => $Self->{ArticleID},
+            UserID    => $Self->{UserID},
+            %{ $Self->{ExcludeAttachments} },
         );
         $Article{Atms} = \%AtmIndex;
 
@@ -502,15 +515,19 @@ sub Run {
         # get params
         my $TicketID     = $ParamObject->GetParam( Param => 'TicketID' );
         my $SaveDefaults = $ParamObject->GetParam( Param => 'SaveDefaults' );
-        my @ArticleTypeFilterIDs       = $ParamObject->GetArray( Param => 'ArticleTypeFilter' );
+        my @CommunicationChannelFilterIDs = $ParamObject->GetArray( Param => 'CommunicationChannelFilter' );
+        my $CustomerVisibility = $ParamObject->GetParam( Param => 'CustomerVisibilityFilter' );
         my @ArticleSenderTypeFilterIDs = $ParamObject->GetArray( Param => 'ArticleSenderTypeFilter' );
 
         # build session string
         my $SessionString = '';
-        if (@ArticleTypeFilterIDs) {
-            $SessionString .= 'ArticleTypeFilter<';
-            $SessionString .= join ',', @ArticleTypeFilterIDs;
+        if (@CommunicationChannelFilterIDs) {
+            $SessionString .= 'CommunicationChannelFilter<';
+            $SessionString .= join ',', @CommunicationChannelFilterIDs;
             $SessionString .= '>';
+        }
+        if ( defined $CustomerVisibility && $CustomerVisibility != 2 ) {
+            $SessionString .= "CustomerVisibilityFilter<$CustomerVisibility>";
         }
         if (@ArticleSenderTypeFilterIDs) {
             $SessionString .= 'ArticleSenderTypeFilter<';
@@ -644,14 +661,23 @@ sub Run {
             $ArticleFilterSessionString = '';
         }
 
-        # extract ArticleTypeIDs
+        # extract CommunicationChannels
         if (
             $ArticleFilterSessionString
-            && $ArticleFilterSessionString =~ m{ ArticleTypeFilter < ( [^<>]+ ) > }xms
+            && $ArticleFilterSessionString =~ m{ CommunicationChannelFilter < ( [^<>]+ ) > }xms
             )
         {
             my @IDs = split /,/, $1;
-            $Self->{ArticleFilter}->{ArticleTypeID} = \@IDs;
+            $Self->{ArticleFilter}->{CommunicationChannelID} = \@IDs;
+        }
+
+        # extract CustomerVisibility
+        if (
+            $ArticleFilterSessionString
+            && $ArticleFilterSessionString =~ m{ CustomerVisibilityFilter < ( [^<>]+ ) > }xms
+            )
+        {
+            $Self->{ArticleFilter}->{CustomerVisibility} = $1;
         }
 
         # extract ArticleSenderTypeIDs
@@ -676,16 +702,6 @@ sub Run {
         elsif ( $EventTypeFilterSessionString eq 'off' ) {
             $EventTypeFilterSessionString = '';
         }
-
-        # extract ArticleTypeIDs
-        if (
-            $EventTypeFilterSessionString
-            && $EventTypeFilterSessionString =~ m{ EventTypeFilter < ( [^<>]+ ) > }xms
-            )
-        {
-            my @IDs = split /,/, $1;
-            $Self->{EventTypeFilter}->{EventTypeID} = \@IDs,
-        }
     }
 
     # return if HTML email
@@ -698,8 +714,10 @@ sub Run {
 
         # get article data
         my %Article = $ArticleObject->ArticleGet(
+            TicketID      => $Self->{TicketID},
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
+            UserID        => $Self->{UserID},
         );
 
         # check if article data exists
@@ -771,15 +789,34 @@ sub MaskAgentZoom {
     # get article page
     my $ArticlePage = $ParamObject->GetParam( Param => 'ArticlePage' );
 
+    my $IsVisibleForCustomer;
+    if ( defined $Self->{ArticleFilter}->{CustomerVisibility} ) {
+        $IsVisibleForCustomer = $Self->{ArticleFilter}->{CustomerVisibility};
+    }
+
     # Get all articles.
-    my @ArticleContentArgsAll = (
-        TicketID                   => $Self->{TicketID},
-        StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
-        UserID                     => $Self->{UserID},
-        Order                      => $Order,
-        DynamicFields => 0,    # fetch later only for the article(s) to display
+    my @ArticleBoxAll = $ArticleObject->ArticleList(
+        TicketID             => $Self->{TicketID},
+        IsVisibleForCustomer => $IsVisibleForCustomer,
     );
-    my @ArticleBoxAll = $ArticleObject->ArticleContentIndex(@ArticleContentArgsAll);
+
+    if ( IsArrayRefWithData( $Self->{ArticleFilter}->{CommunicationChannelID} ) ) {
+        my %Filter;
+        @Filter{ @{ $Self->{ArticleFilter}->{CommunicationChannelID} } } = 1;
+
+        @ArticleBoxAll = grep { $Filter{ $_->{CommunicationChannelID} } } @ArticleBoxAll;
+    }
+
+    if ( IsArrayRefWithData( $Self->{ArticleFilter}->{ArticleSenderTypeID} ) ) {
+        my %Filter;
+        @Filter{ @{ $Self->{ArticleFilter}->{ArticleSenderTypeID} } } = 1;
+
+        @ArticleBoxAll = grep { $Filter{ $_->{SenderTypeID} } } @ArticleBoxAll;
+    }
+
+    if ( $Order eq 'DESC' ) {
+        @ArticleBoxAll = reverse @ArticleBoxAll;
+    }
 
     my %ArticleFlags = $ArticleObject->ArticleFlagsOfTicketGet(
         TicketID => $Ticket{TicketID},
@@ -788,13 +825,15 @@ sub MaskAgentZoom {
     my $ArticleID;
 
     if ( $Self->{ArticleID} ) {
-        $Page = $ArticleObject->ArticlePage(
-            TicketID    => $Self->{TicketID},
-            ArticleID   => $Self->{ArticleID},
-            RowsPerPage => $Limit,
-            Order       => $Order,
-            %{ $Self->{ArticleFilter} // {} },
-        );
+
+        my @ArticleIDs = map { $_->{ArticleID} } @ArticleBoxAll;
+
+        my %ArticleIndex;
+        @ArticleIndex{@ArticleIDs} = ( 0 .. $#ArticleIDs );
+
+        my $Index = $ArticleIndex{ $Self->{ArticleID} };
+        $Index //= 0;
+        $Page = int( $Index / $Limit ) + 1;
     }
     elsif ($ArticlePage) {
         $Page = $ArticlePage;
@@ -817,13 +856,14 @@ sub MaskAgentZoom {
             next ARTICLE if $ArticleFlags{ $Article->{ArticleID} }->{Seen};
             $ArticleID = $Article->{ArticleID};
 
-            $Page = $ArticleObject->ArticlePage(
-                TicketID    => $Self->{TicketID},
-                ArticleID   => $ArticleID,
-                RowsPerPage => $Limit,
-                Order       => $Order,
-                %{ $Self->{ArticleFilter} // {} },
-            );
+            my @ArticleIDs = map { $_->{ArticleID} } @ArticleBoxAll;
+
+            my %ArticleIndex;
+            @ArticleIndex{@ArticleIDs} = ( 0 .. $#ArticleIDs );
+
+            my $Index = $ArticleIndex{$ArticleID};
+            $Page = int( $Index / $Limit ) + 1;
+
             last ARTICLE;
         }
 
@@ -841,111 +881,47 @@ sub MaskAgentZoom {
     #    returned, pagination is necessary
     my $Extra = $Page > 1 ? 0 : 1;
     my $NeedPagination;
-    my $ArticleCount;
 
-    my @ArticleContentArgs = (
-        TicketID                   => $Self->{TicketID},
-        StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
-        UserID                     => $Self->{UserID},
-        Limit                      => $Limit + $Extra,
-        Order                      => $Order,
-        DynamicFields => 0,    # fetch later only for the article(s) to display
-        %{ $Self->{ArticleFilter} // {} },    # limit by ArticleSenderTypeID/ArticleTypeID
-
-    );
-
-    # get content
-    my @ArticleBox = $ArticleObject->ArticleContentIndex(
-        @ArticleContentArgs,
-        Page => $Page,
+    my @ArticleBox = $Self->_ArticleBoxGet(
+        Page          => $Page,
+        ArticleBoxAll => \@ArticleBoxAll,
+        Limit         => $Limit,
     );
 
     if ( !@ArticleBox && $Page > 1 ) {
 
-        # if the page argument is past the actual number of pages,
-        # assume page 1 instead.
+        # If the page argument is past the actual number of pages.
         # This can happen when a new article filter was added.
-        $Page       = 1;
-        @ArticleBox = $ArticleObject->ArticleContentIndex(
-            @ArticleContentArgs,
-            Page => $Page,
+        # Try to get results for the 1st page.
+
+        @ArticleBox = $Self->_ArticleBoxGet(
+            Page          => 1,
+            ArticleBoxAll => \@ArticleBoxAll,
+            Limit         => $Limit,
         );
-        $ArticleCount = $ArticleObject->ArticleCount(
-            TicketID => $Self->{TicketID},
-            %{ $Self->{ArticleFilter} // {} },
-        );
-        $NeedPagination = $ArticleCount > $Limit;
     }
-    elsif ( @ArticleBox > $Limit ) {
+
+    if ( @ArticleBox > $Limit ) {
         pop @ArticleBox;
         $NeedPagination = 1;
-        $ArticleCount   = $ArticleObject->ArticleCount(
-            TicketID => $Self->{TicketID},
-            %{ $Self->{ArticleFilter} // {} },
-        );
     }
-    elsif ( $Page == 1 ) {
-        $ArticleCount   = @ArticleBox;
+    elsif ( $Page == 1 && scalar @ArticleBoxAll <= $Limit ) {
         $NeedPagination = 0;
     }
     else {
         $NeedPagination = 1;
-        $ArticleCount   = $ArticleObject->ArticleCount(
-            TicketID => $Ticket{TicketID},
-            %{ $Self->{ArticleFilter} // {} },
-        );
     }
 
     $Page ||= 1;
 
     my $Pages;
     if ($NeedPagination) {
-        $Pages = ceil( $ArticleCount / $Limit );
-    }
-
-    my $Count;
-    if ( $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort') eq 'reverse' ) {
-        $Count = scalar @ArticleBox + 1;
-    }
-    else {
-        $Count = 0;
-    }
-
-    if ( scalar @ArticleBox != scalar @ArticleBoxAll ) {
-
-        if ( $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort') eq 'reverse' ) {
-            $Count = scalar @ArticleBoxAll + 1;
-        }
-
-        for my $Article (@ArticleBoxAll) {
-            if ( $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort') eq 'reverse' ) {
-                $Count--;
-            }
-            else {
-                $Count++;
-            }
-            $Article->{Count} = $Count;
-        }
+        $Pages = ceil( scalar @ArticleBoxAll / $Limit );
     }
 
     my $ArticleIDFound = 0;
     ARTICLE:
     for my $Article (@ArticleBox) {
-
-        if ( scalar @ArticleBox != scalar @ArticleBoxAll ) {
-            my @ArticleOnPage = grep { $_->{ArticleID} =~ $Article->{ArticleID} } @ArticleBoxAll;
-            $Article->{Count} = $ArticleOnPage[0]->{Count};
-        }
-        else {
-            if ( $ConfigObject->Get('Ticket::Frontend::ZoomExpandSort') eq 'reverse' ) {
-                $Count--;
-            }
-            else {
-                $Count++;
-            }
-            $Article->{Count} = $Count;
-        }
-
         next ARTICLE if !$Self->{ArticleID};
         next ARTICLE if !$Article->{ArticleID};
         next ARTICLE if $Self->{ArticleID} ne $Article->{ArticleID};
@@ -1696,26 +1672,38 @@ sub MaskAgentZoom {
         }
         else {
 
-            # get article types
-            my %ArticleTypes = $ArticleObject->ArticleTypeList(
-                Result => 'HASH',
+            my @CommunicationChannels = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList(
+                ValidID => 1,
             );
 
+            my %Channels = map { $_->{ChannelID} => $_->{ChannelName} } @CommunicationChannels;
+
             # build article type list for filter dialog
-            $Param{ArticleTypeFilterString} = $LayoutObject->BuildSelection(
-                Data        => \%ArticleTypes,
-                SelectedID  => $Self->{ArticleFilter}->{ArticleTypeID},
+            $Param{Channels} = $LayoutObject->BuildSelection(
+                Data        => \%Channels,
+                SelectedID  => $Self->{ArticleFilter}->{CommunicationChannelID},
                 Translation => 1,
                 Multiple    => 1,
                 Sort        => 'AlphanumericValue',
-                Name        => 'ArticleTypeFilter',
+                Name        => 'CommunicationChannelFilter',
+                Class       => 'Modernize',
+            );
+
+            $Param{CustomerVisibility} = $LayoutObject->BuildSelection(
+                Data => {
+                    0 => "Invisible only",
+                    1 => "Visible only",
+                    2 => "Visible and invisible",
+                },
+                SelectedID => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
+                Translation => 1,
+                Sort        => 'NumericKey',
+                Name        => 'CustomerVisibilityFilter',
                 Class       => 'Modernize',
             );
 
             # get sender types
-            my %ArticleSenderTypes = $ArticleObject->ArticleSenderTypeList(
-                Result => 'HASH',
-            );
+            my %ArticleSenderTypes = $ArticleObject->ArticleSenderTypeList();
 
             # build article sender type list for filter dialog
             $Param{ArticleSenderTypeFilterString} = $LayoutObject->BuildSelection(
@@ -1742,7 +1730,6 @@ sub MaskAgentZoom {
                 Data => {%Param},
             );
         }
-
     }
 
     # check if ticket need to be marked as seen
@@ -1897,7 +1884,7 @@ sub _ArticleTree {
 
         # build article filter reset link only if filter is set
         if (
-            ( !$Self->{ZoomTimeline} && $Self->{ArticleFilter} )
+            ( !$Self->{ZoomTimeline} && IsHashRefWithData( $Self->{ArticleFilter} ) )
             || ( $Self->{ZoomTimeline} && $Self->{EventTypeFilter} )
             )
         {
@@ -1968,8 +1955,8 @@ sub _ArticleTree {
                 # just show ticket flags if agent belongs to the ticket
                 my $ShowMeta;
                 if (
-                    $Self->{UserID} == $Article{OwnerID}
-                    || $Self->{UserID} == $Article{ResponsibleID}
+                    $Self->{UserID} == $Ticket{OwnerID}
+                    || $Self->{UserID} == $Ticket{ResponsibleID}
                     )
                 {
                     $ShowMeta = 1;
@@ -1998,7 +1985,8 @@ sub _ArticleTree {
             }
 
             my $TmpSubject = $TicketObject->TicketSubjectClean(
-                TicketNumber => $Article{TicketNumber},
+
+                TicketNumber => $Ticket{TicketNumber},
                 Subject      => $Article{Subject} || '',
             );
 
@@ -2052,7 +2040,7 @@ sub _ArticleTree {
             }
 
             # Determine communication direction
-            if ( $Article{ArticleType} =~ /-internal$/smx ) {
+            if ( !$Article{IsVisibleForCustomer} ) {
                 $LayoutObject->Block( Name => 'TreeItemDirectionInternal' );
             }
             else {
@@ -2063,6 +2051,14 @@ sub _ArticleTree {
                     $LayoutObject->Block( Name => 'TreeItemDirectionOutgoing' );
                 }
             }
+
+            # Get attachment index (excluding body attachments).
+            my %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
+                ArticleID => $Article{ArticleID},
+                UserID    => $Self->{UserID},
+                %{ $Self->{ExcludeAttachments} },
+            );
+            $Article{Atms} = \%AtmIndex;
 
             # show attachment info
             # Bugfix for IE7: a table cell should not be empty
@@ -2085,6 +2081,7 @@ sub _ArticleTree {
                 $LayoutObject->Block(
                     Name => 'TreeItemAttachment',
                     Data => {
+                        TicketID    => $Article{TicketID},
                         ArticleID   => $Article{ArticleID},
                         Attachments => $Attachments,
                     },
@@ -2104,25 +2101,49 @@ sub _ArticleTree {
         );
 
         # get articles for later use
-        my @TimelineArticleBox = $ArticleObject->ArticleContentIndex(
-            TicketID                   => $Self->{TicketID},
-            DynamicFields              => 0,
-            UserID                     => $Self->{UserID},
-            StripPlainBodyAsAttachment => 2,
+        my @TimelineArticleBox = $ArticleObject->ArticleList(
+            TicketID => $Self->{TicketID},
         );
+
+        for my $ArticleItem (@TimelineArticleBox) {
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$ArticleItem} );
+
+            my %Article = $ArticleBackendObject->ArticleGet(
+                TicketID      => $Self->{TicketID},
+                ArticleID     => $ArticleItem->{ArticleID},
+                DynamicFields => 1,
+                RealNames     => 1,
+                UserID        => $Self->{UserID},
+            );
+
+            # Append article meta data.
+            $ArticleItem = {
+                %{$ArticleItem},
+                %Article,
+            };
+        }
 
         my $ArticlesByArticleID = {};
         for my $Article ( sort @TimelineArticleBox ) {
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
 
-            # get attachment index (without attachments)
-            my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
-                ArticleID                  => $Article->{ArticleID},
-                Article                    => $Article,
-                UserID                     => $Self->{UserID},
-                StripPlainBodyAsAttachment => 1,
+            # Get attachment index (excluding body attachments).
+            my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $Article->{ArticleID},
+                UserID    => $Self->{UserID},
+                %{ $Self->{ExcludeAttachments} },
             );
-            $Article->{Atms} = \%AtmIndex;
+            $Article->{Atms}                                = \%AtmIndex;
+            $Article->{Backend}                             = $ArticleBackendObject->ChannelNameGet();
             $ArticlesByArticleID->{ $Article->{ArticleID} } = $Article;
+
+            # Check if there is HTML body attachment.
+            my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID    => $Article->{ArticleID},
+                UserID       => $Self->{UserID},
+                OnlyHTMLBody => 1,
+            );
+            ( $Article->{HTMLBodyAttachmentID} ) = sort keys %AttachmentIndexHTMLBody;
         }
 
         # do not display these types
@@ -2306,7 +2327,9 @@ sub _ArticleTree {
                 $Item->{ArticleID}
                 && $Item->{HistoryType} eq 'EmailAgent'
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'email-internal'
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Email'
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'agent'
+                && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
                 )
             {
                 $Item->{Class}       = 'TypeNoteInternal';
@@ -2317,7 +2340,8 @@ sub _ArticleTree {
             elsif (
                 $Item->{ArticleID}
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'chat-external'
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Chat'
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
                 )
             {
                 $Item->{HistoryType} = 'ChatExternal';
@@ -2326,7 +2350,8 @@ sub _ArticleTree {
             elsif (
                 $Item->{ArticleID}
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'chat-internal'
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Chat'
+                && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
                 )
             {
                 $Item->{HistoryType} = 'ChatInternal';
@@ -2336,7 +2361,9 @@ sub _ArticleTree {
                 $Item->{HistoryType} eq 'Forward'
                 && $Item->{ArticleID}
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'email-internal'
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend} eq 'Email'
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'agent'
+                && !$ArticlesByArticleID->{ $Item->{ArticleID} }->{IsVisibleForCustomer}
                 )
             {
 
@@ -2381,8 +2408,7 @@ sub _ArticleTree {
                 $Item->{ArticleData}->{ArticleIsSeen}      = $ArticleFlagsMe{Seen};
 
                 if (
-                    $Item->{ArticleData}->{ArticleType} eq 'chat-external'
-                    || $Item->{ArticleData}->{ArticleType} eq 'chat-internal'
+                    $Item->{ArticleData}->{Backend} eq 'Chat'
                     )
                 {
                     $Item->{IsChatArticle} = 1;
@@ -2583,13 +2609,14 @@ sub _ArticleTree {
 sub _TicketItemSeen {
     my ( $Self, %Param ) = @_;
 
-    my @ArticleIDs = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndex(
+    my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
         TicketID => $Param{TicketID},
     );
 
-    for my $ArticleID (@ArticleIDs) {
+    for my $Article (@Articles) {
         $Self->_ArticleItemSeen(
-            ArticleID => $ArticleID,
+            TicketID  => $Param{TicketID},
+            ArticleID => $Article->{ArticleID},
         );
     }
 
@@ -2601,6 +2628,7 @@ sub _ArticleItemSeen {
 
     # mark shown article as seen
     $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagSet(
+        TicketID  => $Param{TicketID},
         ArticleID => $Param{ArticleID},
         Key       => 'Seen',
         Value     => 1,
@@ -2623,7 +2651,9 @@ sub _ArticleItem {
 
     # cleanup subject
     $Article{Subject} = $TicketObject->TicketSubjectClean(
-        TicketNumber => $Article{TicketNumber},
+
+        # TicketNumber => $Article{TicketNumber},
+        TicketNumber => $Ticket{TicketNumber},
         Subject      => $Article{Subject} || '',
         Size         => 0,
     );
@@ -2641,20 +2671,45 @@ sub _ArticleItem {
         Article => \%Article
     );
 
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
+        TicketID  => $Ticket{TicketID},
+        ArticleID => $Article{ArticleID},
+    );
+
+    # Check if there is HTML body attachment.
+    my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
+        ArticleID    => $Article{ArticleID},
+        UserID       => $Self->{UserID},
+        OnlyHTMLBody => 1,
+    );
+
+    if ( !%AttachmentIndexHTMLBody ) {
+        %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID    => $Article{ArticleID},
+            UserID       => $Self->{UserID},
+            OnlyHTMLBody => 1,
+        );
+    }
+
+    my ($HTMLBodyAttachmentID) = sort keys %AttachmentIndexHTMLBody;
+
     $LayoutObject->Block(
         Name => 'ArticleItem',
         Data => {
             %Param, %Article, %AclAction,
-            MenuItems       => \@MenuItems,
-            ArticleMetaData => \@ArticleMetaData
+            MenuItems            => \@MenuItems,
+            ArticleMetaData      => \@ArticleMetaData,
+            HTMLBodyAttachmentID => $HTMLBodyAttachmentID,
         },
     );
 
     push @{ $Self->{MenuItems} }, \@MenuItems;
 
     # show created by if different from User ID 1
-    if ( $Article{CreatedBy} > 1 ) {
-        $Article{CreatedByUser} = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Article{CreatedBy} );
+    if ( $Article{CreateBy} > 1 ) {
+        $Article{CreateByUser} = $Kernel::OM->Get('Kernel::System::User')->UserName(
+            UserID => $Article{CreateBy}
+        );
         $LayoutObject->Block(
             Name => 'ArticleCreatedBy',
             Data => {%Article},
@@ -2666,7 +2721,10 @@ sub _ArticleItem {
 
         # mark shown article as seen
         if ( $Param{Type} eq 'OnLoad' ) {
-            $Self->_ArticleItemSeen( ArticleID => $Article{ArticleID} );
+            $Self->_ArticleItemSeen(
+                TicketID  => $Article{TicketID},
+                ArticleID => $Article{ArticleID},
+            );
         }
         else {
             if (
@@ -2899,17 +2957,18 @@ sub _ArticleItem {
         }
     }
 
-    %Article = $ArticleObject->ArticleGet(
+    %Article = $ArticleBackendObject->ArticleGet(
+        TicketID      => $Article{TicketID},
         ArticleID     => $Article{ArticleID},
         DynamicFields => 0,
+        UserID        => $Self->{UserID},
     );
 
-    # get attachment index (without attachments)
-    my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
-        ArticleID                  => $Article{ArticleID},
-        StripPlainBodyAsAttachment => $Self->{StripPlainBodyAsAttachment},
-        Article                    => \%Article,
-        UserID                     => $Self->{UserID},
+    # Get attachment index (excluding body attachments).
+    my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+        ArticleID => $Article{ArticleID},
+        UserID    => $Self->{UserID},
+        %{ $Self->{ExcludeAttachments} },
     );
     $Article{Atms} = \%AtmIndex;
 
@@ -2952,7 +3011,8 @@ sub _ArticleItem {
                         %File,
                         FileID => $FileID,
                     },
-                    Article => \%Article,
+                    TicketID => $Self->{TicketID},
+                    Article  => \%Article,
                 );
 
                 if (%Data) {
@@ -2966,7 +3026,7 @@ sub _ArticleItem {
     }
 
     # Special treatment for chat articles
-    if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+    if ( $ArticleBackendObject->ChannelNameGet() eq 'Chat' ) {
 
         $LayoutObject->Block(
             Name => 'BodyChat',
@@ -2985,7 +3045,7 @@ sub _ArticleItem {
 
     # in case show plain article body (if no HTML body as attachment exists of if rich
     # text is not enabled)
-    if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
+    if ( !$Self->{RichText} || !$HTMLBodyAttachmentID ) {
         $ViewMode = 'BodyPlain';
 
         # remember plain body for further processing by ArticleViewModules
@@ -3006,7 +3066,10 @@ sub _ArticleItem {
     # the LayoutObject, because %Article may be modified afterwards.
     $LayoutObject->Block(
         Name => $ViewMode,
-        Data => {%Article},
+        Data => {
+            %Article,
+            HTMLBodyAttachmentID => $HTMLBodyAttachmentID,
+        },
     );
 
     # show message about links in iframes, if user didn't close it already
@@ -3017,7 +3080,7 @@ sub _ArticleItem {
     }
 
     # restore plain body for further processing by ArticleViewModules
-    if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
+    if ( !$Self->{RichText} || !$HTMLBodyAttachmentID ) {
         $Article{Body} = $Article{BodyPlain};
     }
 
@@ -3041,8 +3104,26 @@ sub _ArticleMenu {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
+        TicketID  => $Ticket{TicketID},
+        ArticleID => $Article{ArticleID},
+    );
+
+    my $ChannelName = $ArticleBackendObject->ChannelNameGet();
+
     # select the output template
-    if ( $Article{ArticleType} !~ /^(note|email-noti|chat)/i ) {
+    if (
+        $ChannelName ne 'Chat' &&
+        (
+            $ChannelName ne 'Internal' ||
+            ( $ChannelName eq 'Internal' && $Article{SenderType} ne 'agent' )
+        ) &&
+        (
+            $ChannelName ne 'Email' ||
+            ( $ChannelName eq 'Email' && $Article{SenderType} ne 'system' )
+        )
+        )
+    {
 
         # check if compose link should be shown
         if (
@@ -3178,7 +3259,13 @@ sub _ArticleMenu {
         if (
             $ConfigObject->Get('Frontend::Module')->{AgentTicketForward}
             && $AclActionLookup{AgentTicketForward}
-            && $Article{ArticleType} =~ /^(email-external|email-internal|phone|webrequest|fax)$/i
+
+            # TODO: Hard to implement.
+            && (
+                ( $ChannelName eq 'Email' && $Article{SenderType} ne 'system' ) ||
+                $ChannelName eq 'Phone' ||
+                ( $ChannelName eq 'Internal' && $Article{SenderType} ne 'system' )
+            )
             )
         {
             my $Access = 1;
@@ -3261,11 +3348,12 @@ sub _ArticleMenu {
         }
 
         # check if bounce link should be shown
-        # (only show forward on email-external and email-internal
+        # (only show bounce on email-external and email-internal
         if (
             $ConfigObject->Get('Frontend::Module')->{AgentTicketBounce}
             && $AclActionLookup{AgentTicketBounce}
-            && $Article{ArticleType} =~ /^(email-external|email-internal)$/i
+            && $ChannelName eq 'Email'
+            && $Article{SenderType} ne 'system'
             )
         {
             my $Access = 1;
@@ -3311,7 +3399,7 @@ sub _ArticleMenu {
     if (
         $ConfigObject->Get('Frontend::Module')->{AgentTicketPhone}
         && $AclActionLookup{AgentTicketPhone}
-        && $Article{ArticleType} !~ /^(chat-external|chat-internal)$/i
+        && $ChannelName ne 'Chat'
         )
     {
 
@@ -3344,7 +3432,7 @@ sub _ArticleMenu {
                 Name        => Translatable('Print'),
                 Class       => 'AsPopup PopupType_TicketAction',
                 Link =>
-                    "Action=AgentTicketPrint;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};ArticleNumber=$Article{Count}"
+                    "Action=AgentTicketPrint;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};ArticleNumber=$Article{ArticleNumber}"
             };
         }
     }
@@ -3354,7 +3442,7 @@ sub _ArticleMenu {
         $ConfigObject->Get('Frontend::Module')->{AgentTicketPlain}
         && $ConfigObject->Get('Ticket::Frontend::PlainView')
         && $AclActionLookup{AgentTicketPlain}
-        && $Article{ArticleType} =~ /email/i
+        && $ChannelName eq 'Email'
         )
     {
         my $OK = $TicketObject->TicketPermission(
@@ -3414,7 +3502,7 @@ sub _ArticleMenu {
     if (
         $ConfigObject->Get('Frontend::Module')->{AgentTicketNote}
         && $AclActionLookup{AgentTicketNote}
-        && $Article{ArticleType} =~ /^note-(internal|external)$/i
+        && $ChannelName eq 'Internal'
         )
     {
 
@@ -3570,6 +3658,56 @@ sub _CollectArticleAttachments {
     }
 
     return \%Attachments;
+}
+
+sub _ArticleBoxGet {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(Page ArticleBoxAll Limit)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    my $Start = ( $Param{Page} - 1 ) * $Param{Limit};
+
+    my $End = $Param{Page} * $Param{Limit} - 1;
+    if ( $End >= scalar @{ $Param{ArticleBoxAll} } ) {
+
+        # Make sure that end index doesn't exceed array size.
+        $End = scalar @{ $Param{ArticleBoxAll} } - 1;
+    }
+
+    my @ArticleIndexes = ( $Start .. $End );
+
+    my @ArticleBox;
+    for my $Index (@ArticleIndexes) {
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
+        );
+
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID      => $Self->{TicketID},
+            ArticleID     => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
+            DynamicFields => 1,
+            RealNames     => 1,
+            UserID        => $Self->{UserID},
+        );
+
+        $Article{Channel} = $ArticleBackendObject->ChannelNameGet();
+
+        push @ArticleBox, \%Article;
+    }
+
+    return @ArticleBox;
 }
 
 1;

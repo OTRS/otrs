@@ -68,9 +68,9 @@
                             </div>
                             <div class="Clear"></div>
 
-                            <label for="ArticleTypeID">[% Translate("Note type") | html %]:</label>
+                            <label for="IsVisibleForCustomer">[% Translate("Visible for customer") | html %]:</label>
                             <div class="Field">
-                                [% Data.NoteStrg %]
+                                <input type="checkbox" id="IsVisibleForCustomer" name="IsVisibleForCustomer" value="1" [% IF Data.IsVisibleForCustomer %]checked="checked"[% END %]/>
                             </div>
                             <div class="Clear"></div>
 [% RenderBlockStart("TimeUnitsLabel") %]

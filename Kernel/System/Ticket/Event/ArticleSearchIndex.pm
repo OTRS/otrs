@@ -52,6 +52,7 @@ sub Run {
     return 1 if !$Param{Data}->{ArticleID};
 
     $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndexBuild(
+        TicketID  => $Param{Data}->{TicketID},
         ArticleID => $Param{Data}->{ArticleID},
         UserID    => 1,
     );

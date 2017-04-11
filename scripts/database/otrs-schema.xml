@@ -891,28 +891,6 @@
     </Index>
 </Table>
 
-<!-- article_type - all types of articles (e. g. email, fax, phone, ...) -->
-<Table Name="article_type">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="article_type_name">
-        <UniqueColumn Name="name"/>
-    </Unique>
-    <ForeignKey ForeignTable="valid">
-        <Reference Local="valid_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
 <!-- article_sender_type - all possibles sender types (e. g. agent, system, customer, ...) -->
 <Table Name="article_sender_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -959,12 +937,73 @@
     </ForeignKey>
 </Table>
 
-<!-- article - all articles -->
+<Table Name="communication_channel">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="module" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="package_name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="channel_data" Required="true" Type="LONGBLOB"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+
+    <Unique Name="communication_channel_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- article meta data -->
 <Table Name="article">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-    <Column Name="article_type_id" Required="true" Type="SMALLINT"/>
     <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>
+    <Column Name="communication_channel_id" Required="true" Type="BIGINT"/>
+    <Column Name="is_visible_for_customer" Required="true" Type="SMALLINT"/>
+    <Column Name="insert_fingerprint" Required="false" Size="64" Type="VARCHAR"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+
+    <Index Name="article_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <Index Name="article_article_sender_type_id">
+        <IndexColumn Name="article_sender_type_id"/>
+    </Index>
+    <Index Name="article_communication_channel_id">
+        <IndexColumn Name="communication_channel_id"/>
+    </Index>
+
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="communication_channel">
+        <Reference Local="communication_channel_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="article_sender_type">
+        <Reference Local="article_sender_type_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- article data for MIME based backends (Email, Phone etc.) -->
+<Table Name="article_data_mime">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="article_id" Required="true" Type="BIGINT"/>
     <Column Name="a_from" Required="false" Size="1800000" Type="VARCHAR"/>
     <Column Name="a_reply_to" Required="false" Size="1800000" Type="VARCHAR"/>
     <Column Name="a_to" Required="false" Size="1800000" Type="VARCHAR"/>
@@ -978,34 +1017,20 @@
     <Column Name="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
     <Column Name="incoming_time" Required="true" Type="INTEGER"/>
     <Column Name="content_path" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Index Name="article_ticket_id">
-        <IndexColumn Name="ticket_id"/>
-    </Index>
-    <Index Name="article_article_type_id">
-        <IndexColumn Name="article_type_id"/>
-    </Index>
-    <Index Name="article_article_sender_type_id">
-        <IndexColumn Name="article_sender_type_id"/>
-    </Index>
-    <Index Name="article_message_id_md5">
+
+    <Index Name="article_data_mime_message_id_md5">
         <IndexColumn Name="a_message_id_md5"/>
     </Index>
-    <ForeignKey ForeignTable="valid">
-        <Reference Local="valid_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="ticket">
-        <Reference Local="ticket_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="article_type">
-        <Reference Local="article_type_id" Foreign="id"/>
-    </ForeignKey>
-    <ForeignKey ForeignTable="article_sender_type">
-        <Reference Local="article_sender_type_id" Foreign="id"/>
+    <Index Name="article_data_mime_article_id">
+        <IndexColumn Name="article_id"/>
+    </Index>
+
+    <ForeignKey ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
@@ -1017,7 +1042,6 @@
 <Table Name="article_search">
     <Column Name="id" Required="true" PrimaryKey="true" Type="BIGINT"/>
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-    <Column Name="article_type_id" Required="true" Type="SMALLINT"/>
     <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>
     <Column Name="a_from" Required="false" Size="3800" Type="VARCHAR"/>
     <Column Name="a_to" Required="false" Size="3800" Type="VARCHAR"/>
@@ -1028,25 +1052,19 @@
     <Index Name="article_search_ticket_id">
         <IndexColumn Name="ticket_id"/>
     </Index>
-    <Index Name="article_search_article_type_id">
-        <IndexColumn Name="article_type_id"/>
-    </Index>
     <Index Name="article_search_article_sender_type_id">
         <IndexColumn Name="article_sender_type_id"/>
     </Index>
     <ForeignKey ForeignTable="ticket">
         <Reference Local="ticket_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="article_type">
-        <Reference Local="article_type_id" Foreign="id"/>
-    </ForeignKey>
     <ForeignKey ForeignTable="article_sender_type">
         <Reference Local="article_sender_type_id" Foreign="id"/>
     </ForeignKey>
 </Table>
 
-<!-- article_plain - all articles -->
-<Table Name="article_plain">
+<!-- article raw email data for MIME based backends (Email, Phone etc.) -->
+<Table Name="article_data_mime_plain">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="article_id" Required="true" Type="BIGINT"/>
     <Column Name="body" Required="true" Type="LONGBLOB"/>
@@ -1054,9 +1072,11 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Index Name="article_plain_article_id">
+
+    <Index Name="article_data_mime_plain_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
+
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>
@@ -1066,8 +1086,8 @@
     </ForeignKey>
 </Table>
 
-<!-- article_plain - attachments -->
-<Table Name="article_attachment">
+<!-- article attachment data for MIME based backends (Email, Phone etc.) -->
+<Table Name="article_data_mime_attachment">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="article_id" Required="true" Type="BIGINT"/>
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
@@ -1081,9 +1101,11 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Index Name="article_attachment_article_id">
+
+    <Index Name="article_data_mime_attachment_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
+
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>

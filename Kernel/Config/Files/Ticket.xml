@@ -284,16 +284,16 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1" ConfigLevel="200">
+    <ConfigItem Name="Ticket::Article::Backend::MIMEBase###ArticleStorage" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <Option Location="Kernel/System/Ticket/ArticleStorage*.pm" SelectedID="Kernel::System::Ticket::ArticleStorageDB">
+            <Option Location="Kernel/System/Ticket/Article/Backend/MIMEBase/ArticleStorage*.pm" SelectedID="Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB">
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::StorageModule::CheckAllBackends" Required="1" Valid="1" ConfigLevel="200">
+    <ConfigItem Name="Ticket::Article::Backend::MIMEBase###CheckAllStorageBackends" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -304,8 +304,8 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="ArticleDir" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Specifies the directory to store the data in, if "FS" was selected for TicketStorageModule.</Description>
+    <ConfigItem Name="Ticket::Article::Backend::MIMEBase###ArticleDataDir" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1582,12 +1582,15 @@
             <String Regex="^[0-9]$">5</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::Overview::PreviewArticleTypeExpanded" Required="0" Valid="0">
-        <Description Translatable="1">Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.</Description>
+    <ConfigItem Name="Ticket::Frontend::Overview::PreviewIsVisibleForCustomerExpanded" Required="0" Valid="0">
+        <Description Translatable="1">Defines if the first article should be displayed as expanded, that is visible for the related customer. If nothing defined, latest article will be expanded.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
-            <String></String>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
@@ -2973,24 +2976,15 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket free text screen of the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the ticket free text screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">1</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Priority" Required="1" Valid="1">
@@ -3057,14 +3051,6 @@
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket phone outbound screen of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
-        <Setting>
-            <String Regex="">phone</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###SenderType" Required="1" Valid="1">
@@ -3146,14 +3132,6 @@
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneInbound###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket phone inbound screen of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
-        <Setting>
-            <String Regex="">phone</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneInbound###SenderType" Required="1" Valid="1">
@@ -3301,20 +3279,23 @@
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Sets the default article type for new phone tickets in the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex="">phone</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###SenderType" Required="1" Valid="1">
         <Description Translatable="1">Sets the default sender type for new phone ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex="">customer</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###IsVisibleForCustomer" Required="1" Valid="1">
+        <Description Translatable="1">Sets the default article customer visibility for new phone tickets in the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone::CustomerIDReadOnly" Required="1" Valid="1">
@@ -3438,12 +3419,15 @@
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Sets the default article type for new email tickets in the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###IsVisibleForCustomer" Required="1" Valid="1">
+        <Description Translatable="1">Sets the default article customer visibility for new email tickets in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
-            <String Regex="">email-external</String>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###SenderType" Required="1" Valid="1">
@@ -3775,24 +3759,15 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the close ticket screen of the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the close ticket screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">0</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Priority" Required="1" Valid="1">
@@ -4078,24 +4053,15 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket note screen of the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the ticket note screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">1</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Priority" Required="1" Valid="1">
@@ -4380,24 +4346,15 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the ticket owner screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">0</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Priority" Required="1" Valid="1">
@@ -4680,24 +4637,15 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the ticket pending screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">0</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Priority" Required="1" Valid="1">
@@ -4982,24 +4930,15 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the ticket priority screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">0</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Priority" Required="0" Valid="1">
@@ -5284,24 +5223,15 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket responsible screen of the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the ticket responsible screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">0</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Priority" Required="1" Valid="1">
@@ -5448,24 +5378,15 @@
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket bulk screen of the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the note in the ticket bulk screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different note types that will be used in the system.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">1</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
@@ -5645,26 +5566,18 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different article types that will be used in the system.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###IsVisibleForCustomerDefault" Required="1" Valid="1">
+        <Description Translatable="1">Defines if the message in the ticket compose screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
-            <Array>
-                <Item Translatable="1">email-external</Item>
-                <Item Translatable="1">email-internal</Item>
-            </Array>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###DefaultArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
-        <Setting>
-            <String Regex="">email-external</String>
-        </Setting>
-    </ConfigItem>
-        <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###RichTextWidth" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###RichTextWidth" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
@@ -5773,23 +5686,15 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of forwarded message in the ticket forward screen of the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the message in the ticket forward screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
-            <String Regex="">email-external</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different article types that will be used in the system.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
-        <Setting>
-            <Array>
-                <Item Translatable="1">email-external</Item>
-                <Item Translatable="1">email-internal</Item>
-            </Array>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###Permission" Required="1" Valid="1">
@@ -5833,23 +5738,15 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Translatable="1">Defines the default type of the message in the email outbound screen of the agent interface.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
         <Setting>
-            <String Regex="">email-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###ArticleTypes" Required="0" Valid="1">
-        <Description Translatable="1">Specifies the different article types that will be used in the system.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
-        <Setting>
-            <Array>
-                <Item Translatable="1">email-external</Item>
-                <Item Translatable="1">email-internal</Item>
-            </Array>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###Permission" Required="1" Valid="1">
@@ -8155,14 +8052,6 @@
             <String Regex="">new</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default type for article in the customer interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
-        <Setting>
-            <String Regex="">webrequest</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###SenderType" Required="1" Valid="1">
         <Description Translatable="1">Sender type for new tickets from the customer inteface.</Description>
         <Group>Ticket</Group>
@@ -8234,14 +8123,6 @@
                 <Item Key="CustomerTicketOverview" Translatable="1">Customer ticket overview</Item>
                 <Item Key="CustomerTicketZoom" Translatable="1">Customer ticket zoom</Item>
             </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default type of the note in the ticket zoom screen of the customer interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
-        <Setting>
-            <String Regex="">webrequest</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###SenderType" Required="1" Valid="1">
@@ -10490,7 +10371,7 @@
                 <Item>X-OTRS-CustomerNo</Item>
                 <Item>X-OTRS-CustomerUser</Item>
                 <Item>X-OTRS-SenderType</Item>
-                <Item>X-OTRS-ArticleType</Item>
+                <Item>X-OTRS-IsVisibleForCustomer</Item>
                 <Item>X-OTRS-FollowUp-Owner</Item>
                 <Item>X-OTRS-FollowUp-OwnerID</Item>
                 <Item>X-OTRS-FollowUp-Responsible</Item>
@@ -10504,7 +10385,7 @@
                 <Item>X-OTRS-FollowUp-Service</Item>
                 <Item>X-OTRS-FollowUp-SLA</Item>
                 <Item>X-OTRS-FollowUp-SenderType</Item>
-                <Item>X-OTRS-FollowUp-ArticleType</Item>
+                <Item>X-OTRS-FollowUp-IsVisibleForCustomer</Item>
                 <Item>X-OTRS-FollowUp-Title</Item>
                 <Item>X-OTRS-BodyDecrypted</Item>
             </Array>
@@ -10664,14 +10545,14 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::PreCreateFilterModule###000-FollowUpArticleTypeCheck" Required="0" Valid="1">
-        <Description Translatable="1">Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.</Description>
+    <ConfigItem Name="PostMaster::PreCreateFilterModule###000-FollowUpArticleVisibilityCheck" Required="0" Valid="1">
+        <Description Translatable="1">Module to check if arrived emails should be marked as internal (because of original forwarded internal email). IsVisibleForCustomer and SenderType define the values for the arrived email/article.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>
-                <Item Key="ArticleType" Translatable="1">email-internal</Item>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck</Item>
+                <Item Key="IsVisibleForCustomer" Translatable="1">0</Item>
                 <Item Key="SenderType" Translatable="1">customer</Item>
             </Hash>
         </Setting>
@@ -10691,7 +10572,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType" Translatable="1">system</Item>
-                <Item Key="ArticleType" Translatable="1">note-report</Item>
+                <Item Key="IsVisibleForCustomer">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10710,7 +10591,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType" Translatable="1">system</Item>
-                <Item Key="ArticleType" Translatable="1">note-report</Item>
+                <Item Key="IsVisibleForCustomer">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10729,7 +10610,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType" Translatable="1">system</Item>
-                <Item Key="ArticleType" Translatable="1">note-report</Item>
+                <Item Key="IsVisibleForCustomer">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10748,7 +10629,7 @@ Thanks for your help!
                 <Item Key="TicketStateTypes">new;open</Item>
                 <Item Key="DynamicFieldName">Name_X</Item>
                 <Item Key="SenderType" Translatable="1">system</Item>
-                <Item Key="ArticleType" Translatable="1">note-report</Item>
+                <Item Key="IsVisibleForCustomer">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -12441,6 +12322,42 @@ Thanks for your help!
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::CommunicationChannel###1000-Email" Required="0" Valid="1">
+        <Description Translatable="1">Defines email communication channel.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Ticket::CommunicationChannel</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name" Translatable="1">Email</Item>
+                <Item Key="Description" Translatable="1">Email communication channel.</Item>
+                <Item Key="Module">Kernel::System::CommunicationChannel::Email</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::CommunicationChannel###2000-Internal" Required="0" Valid="1">
+        <Description Translatable="1">Defines internal communication channel.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Ticket::CommunicationChannel</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name" Translatable="1">Internal</Item>
+                <Item Key="Description" Translatable="1">Internal communication channel.</Item>
+                <Item Key="Module">Kernel::System::CommunicationChannel::Internal</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::CommunicationChannel###3000-Phone" Required="0" Valid="1">
+        <Description Translatable="1">Defines phone communication channel.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Ticket::CommunicationChannel</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name" Translatable="1">Phone</Item>
+                <Item Key="Description" Translatable="1">Phone communication channel.</Item>
+                <Item Key="Module">Kernel::System::CommunicationChannel::Phone</Item>
             </Hash>
         </Setting>
     </ConfigItem>

@@ -12,11 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
-my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
-my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
+my $TypeObject           = $Kernel::OM->Get('Kernel::System::Type');
+my $StateObject          = $Kernel::OM->Get('Kernel::System::State');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Internal',
+);
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -53,32 +55,32 @@ my @Tests = (
             },
             {
                 ArticleCreate => {
-                    ArticleType    => 'note-internal',
-                    SenderType     => 'agent',
-                    From           => 'Some Agent <email@example.com>',
-                    To             => 'Some Customer A <customer-a@example.com>',
-                    Subject        => 'some short description',
-                    Body           => 'the message text',
-                    Charset        => 'ISO-8859-15',
-                    MimeType       => 'text/plain',
-                    HistoryType    => 'OwnerUpdate',
-                    HistoryComment => 'Some free text!',
-                    UserID         => 1,
+                    SenderType           => 'agent',
+                    IsVisibleForCustomer => 0,
+                    From                 => 'Some Agent <email@example.com>',
+                    To                   => 'Some Customer A <customer-a@example.com>',
+                    Subject              => 'some short description',
+                    Body                 => 'the message text',
+                    Charset              => 'ISO-8859-15',
+                    MimeType             => 'text/plain',
+                    HistoryType          => 'OwnerUpdate',
+                    HistoryComment       => 'Some free text!',
+                    UserID               => 1,
                 },
             },
             {
                 ArticleCreate => {
-                    ArticleType    => 'note-internal',
-                    SenderType     => 'agent',
-                    From           => 'Some other Agent <email2@example.com>',
-                    To             => 'Some Customer A <customer-a@example.com>',
-                    Subject        => 'some short description',
-                    Body           => 'the message text',
-                    Charset        => 'UTF-8',
-                    MimeType       => 'text/plain',
-                    HistoryType    => 'OwnerUpdate',
-                    HistoryComment => 'Some free text!',
-                    UserID         => 1,
+                    SenderType           => 'agent',
+                    IsVisibleForCustomer => 0,
+                    From                 => 'Some other Agent <email2@example.com>',
+                    To                   => 'Some Customer A <customer-a@example.com>',
+                    Subject              => 'some short description',
+                    Body                 => 'the message text',
+                    Charset              => 'UTF-8',
+                    MimeType             => 'text/plain',
+                    HistoryType          => 'OwnerUpdate',
+                    HistoryComment       => 'Some free text!',
+                    UserID               => 1,
                 },
             },
         ],
@@ -229,7 +231,7 @@ for my $Test (@Tests) {
             }
 
             if ( $CreateData->{ArticleCreate} ) {
-                my $HistoryCreateArticleID = $ArticleObject->ArticleCreate(
+                my $HistoryCreateArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID => $HistoryCreateTicketID,
                     %{ $CreateData->{ArticleCreate} },
                 );

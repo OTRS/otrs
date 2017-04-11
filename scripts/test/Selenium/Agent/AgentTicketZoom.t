@@ -72,8 +72,7 @@ $Selenium->RunTest(
             User => $TestCustomerUser,
         );
 
-        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test ticket
         my $TitleRandom  = "Title" . $Helper->GetRandomID();
@@ -95,20 +94,24 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Phone',
+        );
+
         # create two ticket articles
         my @ArticleIDs;
         for my $ArticleCreate ( 1 .. 2 ) {
-            my $ArticleID = $ArticleObject->ArticleCreate(
-                TicketID       => $TicketID,
-                ArticleType    => 'note-internal',
-                SenderType     => 'agent',
-                Subject        => 'Selenium subject test',
-                Body           => "Article $ArticleCreate",
-                ContentType    => 'text/plain; charset=ISO-8859-15',
-                HistoryType    => 'OwnerUpdate',
-                HistoryComment => 'Some free text!',
-                UserID         => 1,
-                NoAgentNotify  => 1,
+            my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TicketID,
+                IsVisibleForCustomer => 1,
+                SenderType           => 'agent',
+                Subject              => 'Selenium subject test',
+                Body                 => "Article $ArticleCreate",
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'Some free text!',
+                UserID               => 1,
+                NoAgentNotify        => 1,
             );
             $Self->True(
                 $ArticleID,

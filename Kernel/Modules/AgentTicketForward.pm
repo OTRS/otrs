@@ -20,19 +20,16 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # get params
     for (
-        qw(From To Cc Bcc Subject Body InReplyTo References ComposeStateID ArticleTypeID
-        ArticleID TimeUnits Year Month Day Hour Minute FormID)
+        qw(From To Cc Bcc Subject Body InReplyTo References ComposeStateID IsVisibleForCustomerPresent
+        IsVisibleForCustomer ArticleID TimeUnits Year Month Day Hour Minute FormID)
         )
     {
         my $Value = $ParamObject->GetParam( Param => $_ );
@@ -122,7 +119,6 @@ sub Form {
         );
     }
 
-    # get needed objects
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -224,19 +220,25 @@ sub Form {
         );
     }
 
-    # get last customer article or selected article
+    # Get selected or last customer article.
     my %Data;
     if ( $GetParam{ArticleID} ) {
-        %Data = $ArticleObject->ArticleGet(
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $GetParam{ArticleID},
+        );
+        %Data = $ArticleBackendObject->ArticleGet(
+            TicketID      => $Self->{TicketID},
             ArticleID     => $GetParam{ArticleID},
             DynamicFields => 1,
+            UserID        => $Self->{UserID},
         );
 
-        # Check if article is from the same TicketID as we checked permissions for.
-        if ( $Data{TicketID} ne $Self->{TicketID} ) {
+        # Check if article exists.
+        if ( !%Data ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Article does not belong to ticket %s!', $Self->{TicketID} ),
+                    ->Translate( 'Article %s could not be found!', $GetParam{ArticleID} ),
             );
         }
     }
@@ -245,6 +247,38 @@ sub Form {
             TicketID      => $Self->{TicketID},
             DynamicFields => 1,
         );
+
+        # Get last customer article.
+        my @Articles = $ArticleObject->ArticleList(
+            TicketID   => $Self->{TicketID},
+            SenderType => 'customer',
+            OnlyLast   => 1,
+        );
+
+        # If the ticket has no customer article, get the last agent article.
+        if ( !@Articles ) {
+            @Articles = $ArticleObject->ArticleList(
+                TicketID   => $Self->{TicketID},
+                SenderType => 'agent',
+                OnlyLast   => 1,
+            );
+        }
+
+        # Finally, if everything failed, get latest article.
+        if ( !@Articles ) {
+            @Articles = $ArticleObject->ArticleList(
+                TicketID => $Self->{TicketID},
+                OnlyLast => 1,
+            );
+        }
+
+        for my $Article (@Articles) {
+            %Data = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                %{$Article},
+                DynamicFields => 1,
+                UserID        => $Self->{UserID},
+            );
+        }
     }
 
     # prepare signature
@@ -1038,38 +1072,33 @@ sub SendEmail {
         $To .= $GetParam{$Key}
     }
 
-    # if there is no ArticleTypeID, use the default value
-    my $ArticleTypeID = $GetParam{ArticleTypeID} //
-        $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeLookup(
-        ArticleType => $Config->{ArticleTypeDefault},
-        );
-
-    # error page
-    if ( !$ArticleTypeID ) {
-        return $LayoutObject->ErrorScreen(
-            Message => Translatable('Can not determine the ArticleType!'),
-            Comment => Translatable('Please contact the administrator.'),
-        );
+    my $IsVisibleForCustomer = $Config->{IsVisibleForCustomerDefault};
+    if ( $GetParam{IsVisibleForCustomerPresent} ) {
+        $IsVisibleForCustomer = $GetParam{IsVisibleForCustomer} ? 1 : 0;
     }
 
-    my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSend(
-        ArticleTypeID  => $ArticleTypeID,
-        SenderType     => 'agent',
-        TicketID       => $Self->{TicketID},
-        HistoryType    => 'Forward',
-        HistoryComment => "\%\%$To",
-        From           => $GetParam{From},
-        To             => $GetParam{To},
-        Cc             => $GetParam{Cc},
-        Bcc            => $GetParam{Bcc},
-        Subject        => $GetParam{Subject},
-        UserID         => $Self->{UserID},
-        Body           => $GetParam{Body},
-        InReplyTo      => $GetParam{InReplyTo},
-        References     => $GetParam{References},
-        Charset        => $LayoutObject->{UserCharset},
-        MimeType       => $MimeType,
-        Attachment     => \@AttachmentData,
+    my $EmailArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+        ChannelName => 'Email',
+    );
+
+    my $ArticleID = $EmailArticleBackendObject->ArticleSend(
+        TicketID             => $Self->{TicketID},
+        SenderType           => 'agent',
+        IsVisibleForCustomer => $IsVisibleForCustomer,
+        HistoryType          => 'Forward',
+        HistoryComment       => "\%\%$To",
+        From                 => $GetParam{From},
+        To                   => $GetParam{To},
+        Cc                   => $GetParam{Cc},
+        Bcc                  => $GetParam{Bcc},
+        Subject              => $GetParam{Subject},
+        UserID               => $Self->{UserID},
+        Body                 => $GetParam{Body},
+        InReplyTo            => $GetParam{InReplyTo},
+        References           => $GetParam{References},
+        Charset              => $LayoutObject->{UserCharset},
+        MimeType             => $MimeType,
+        Attachment           => \@AttachmentData,
         %ArticleParam,
     );
 
@@ -1420,43 +1449,9 @@ sub _Mask {
         %State,
     );
 
-    #  get article type
-    my %ArticleTypeList;
-
-    # get article object
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-    if ( IsArrayRefWithData( $Config->{ArticleTypes} ) ) {
-
-        my @ArticleTypesPossible = @{ $Config->{ArticleTypes} };
-        for my $ArticleType (@ArticleTypesPossible) {
-
-            my $ArticleTypeID = $ArticleObject->ArticleTypeLookup(
-                ArticleType => $ArticleType,
-            );
-
-            $ArticleTypeList{$ArticleTypeID} = $ArticleType;
-        }
-
-        my %Selected;
-        if ( $Self->{GetParam}->{ArticleTypeID} ) {
-            $Selected{SelectedID} = $Self->{GetParam}->{ArticleTypeID};
-        }
-        else {
-            $Selected{SelectedValue} = $Config->{ArticleTypeDefault};
-        }
-
-        $Param{ArticleTypesStrg} = $LayoutObject->BuildSelection(
-            Data  => \%ArticleTypeList,
-            Name  => 'ArticleTypeID',
-            Class => 'Modernize',
-            %Selected,
-        );
-
-        $LayoutObject->Block(
-            Name => 'ArticleType',
-            Data => \%Param,
-        );
+    $Param{IsVisibleForCustomer} = $Config->{IsVisibleForCustomerDefault};
+    if ( $Self->{GetParam}->{IsVisibleForCustomerPresent} ) {
+        $Param{IsVisibleForCustomer} = $Self->{GetParam}->{IsVisibleForCustomer} ? 1 : 0;
     }
 
     # prepare errors!

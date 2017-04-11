@@ -37,7 +37,7 @@ sub Run {
         Organization
         Ticket::IndexModule
         Ticket::SearchIndexModule
-        Ticket::StorageModule
+        Ticket::Article::Backend::MIMEBase
         SendmailModule
         Frontend::RichText
     );

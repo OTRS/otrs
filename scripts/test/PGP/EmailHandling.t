@@ -18,11 +18,12 @@ use Kernel::System::PostMaster;
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
-my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject   = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $HTMLUtilsObject      = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -252,23 +253,30 @@ for my $Test (@Tests) {
         push @AddedTickets, $TicketID;
 
         # get ticket articles
-        my @ArticleIDs = $ArticleObject->ArticleIndex(
-            TicketID => $TicketID,
+        my @Articles = $ArticleObject->ArticleList(
+            TicketID  => $TicketID,
+            OnlyFirst => 1,
         );
 
         # use the first result (it should be only 1)
-        my %RawArticle = $ArticleObject->ArticleGet(
-            ArticleID     => $ArticleIDs[0],
-            DynamicFields => 0,
-            UserID        => 1,
-        );
+        my %RawArticle;
+        if ( scalar @Articles ) {
+            %RawArticle = %{ $Articles[0] };
+        }
 
         # use ArticleCheck::PGP to decrypt the article
         my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
-            ArticleID => $ArticleIDs[0],
+            ArticleID => $Articles[0]->{ArticleID},
             UserID    => 1,
         );
-        my @CheckResult = $CheckObject->Check( Article => \%RawArticle );
+
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $RawArticle{TicketID},
+            ArticleID => $RawArticle{ArticleID},
+            UserID    => 1,
+        );
+
+        my @CheckResult = $CheckObject->Check( Article => \%Article );
 
         # sanity destroy object
         $CheckObject = undef;
@@ -297,10 +305,10 @@ for my $Test (@Tests) {
         }
 
         # check actual contents (subject and body)
-        my %Article = $ArticleObject->ArticleGet(
-            ArticleID     => $ArticleIDs[0],
-            DynamicFields => 0,
-            UserID        => 1,
+        %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $RawArticle{TicketID},
+            ArticleID => $RawArticle{ArticleID},
+            UserID    => 1,
         );
 
         $Self->Is(
@@ -316,11 +324,12 @@ for my $Test (@Tests) {
         );
 
         # get the list of attachments
-        my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
-            ArticleID                  => $ArticleIDs[0],
-            Article                    => \%Article,
-            StripPlainBodyAsAttachment => 1,
-            UserID                     => 1,
+        my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID        => $Articles[0]->{ArticleID},
+            UserID           => 1,
+            ExcludePlainText => 1,
+            ExcludeHTMLBody  => 1,
+            ExcludeInline    => 1,
         );
 
         FILEID:
@@ -330,8 +339,8 @@ for my $Test (@Tests) {
             next FILEID if $AtmIndex{$FileID}->{Filename} =~ m{\A file-\d+ \z}msx;
 
             # get the attachment from the article (it should be already decrypted)
-            my %Attachment = $ArticleObject->ArticleAttachment(
-                ArticleID => $ArticleIDs[0],
+            my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                ArticleID => $Articles[0]->{ArticleID},
                 FileID    => $FileID,
                 UserID    => 1,
             );
@@ -653,16 +662,16 @@ push @AddedTickets, $TicketID;
 
 for my $Test (@TestVariations) {
 
-    my $ArticleID = $ArticleObject->ArticleSend(
+    my $ArticleID = $ArticleBackendObject->ArticleSend(
         %{ $Test->{ArticleData} },
-        TicketID       => $TicketID,
-        ArticleType    => 'email-external',
-        SenderType     => 'customer',
-        HistoryType    => 'AddNote',
-        HistoryComment => 'note',
-        Subject        => 'Unittest data',
-        Charset        => 'utf-8',
-        UserID         => 1,
+        TicketID             => $TicketID,
+        SenderType           => 'customer',
+        IsVisibleForCustomer => 1,
+        HistoryType          => 'AddNote',
+        HistoryComment       => 'note',
+        Subject              => 'Unittest data',
+        Charset              => 'utf-8',
+        UserID               => 1,
     );
 
     $Self->True(
@@ -670,9 +679,10 @@ for my $Test (@TestVariations) {
         "$Test->{Name} - ArticleSend()",
     );
 
-    my %Article = $ArticleObject->ArticleGet(
+    my %Article = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
+        UserID    => 1,
     );
 
     my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
@@ -704,9 +714,10 @@ for my $Test (@TestVariations) {
         );
     }
 
-    my %FinalArticleData = $ArticleObject->ArticleGet(
+    my %FinalArticleData = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
+        UserID    => 1,
     );
 
     my $TestBody = $Test->{ArticleData}->{Body};
@@ -726,11 +737,9 @@ for my $Test (@TestVariations) {
 
     if ( defined $Test->{ArticleData}->{Attachment} ) {
         my $Found;
-        my %Index = $ArticleObject->ArticleAttachmentIndex(
-            ArticleID                  => $ArticleID,
-            UserID                     => 1,
-            Article                    => \%FinalArticleData,
-            StripPlainBodyAsAttachment => 0,
+        my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID => $ArticleID,
+            UserID    => 1,
         );
 
         TESTATTACHMENT:

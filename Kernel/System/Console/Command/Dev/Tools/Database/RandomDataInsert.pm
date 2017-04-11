@@ -196,20 +196,23 @@ sub Run {
             print "Ticket with ID '$TicketID' created.\n";
 
             for ( 1 .. $Self->GetOption('articles-per-ticket') // 10 ) {
-                my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-                    TicketID       => $TicketID,
-                    ArticleType    => 'note-external',
-                    SenderType     => 'customer',
-                    From           => RandomAddress(),
-                    To             => RandomAddress(),
-                    Cc             => RandomAddress(),
-                    Subject        => RandomSubject(),
-                    Body           => RandomBody(),
-                    ContentType    => 'text/plain; charset=ISO-8859-15',
-                    HistoryType    => 'AddNote',
-                    HistoryComment => 'Some free text!',
-                    UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
-                    NoAgentNotify  => 1,                                 # if you don't want to send agent notifications
+                my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+                    ChannelName => 'Internal',
+                );
+                my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                    TicketID             => $TicketID,
+                    IsVisibleForCustomer => 1,
+                    SenderType           => 'customer',
+                    From                 => RandomAddress(),
+                    To                   => RandomAddress(),
+                    Cc                   => RandomAddress(),
+                    Subject              => RandomSubject(),
+                    Body                 => RandomBody(),
+                    ContentType          => 'text/plain; charset=ISO-8859-15',
+                    HistoryType          => 'AddNote',
+                    HistoryComment       => 'Some free text!',
+                    UserID               => $UserIDs[ int( rand($#UserIDs) ) ],
+                    NoAgentNotify => 1,    # if you don't want to send agent notifications
                 );
 
                 if ( $Self->GetOption('mark-tickets-as-seen') ) {

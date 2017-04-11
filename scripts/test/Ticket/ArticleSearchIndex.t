@@ -13,10 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -24,27 +22,32 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
 
-    # make sure that the TicketObject gets recreated for each loop.
-    $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::Ticket', 'Kernel::System::Article' ] );
+    # Make sure that the ticket and article objects get recreated for each loop.
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::Ticket',
+            'Kernel::System::Ticket::Article',
+        ],
+    );
 
     $ConfigObject->Set(
         Key   => 'Ticket::SearchIndexModule',
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
 
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
     $Self->Is(
         $ArticleObject->{ArticleSearchIndexModule},
         'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
-        "ArticleObject loaded the correct backend",
+        'ArticleObject loaded the correct backend',
     );
 
     # create some content
@@ -61,17 +64,17 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     );
     $Self->True(
         $TicketID,
-        'TicketCreate()',
+        'TicketCreate()'
     );
 
-    my $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID    => $TicketID,
-        ArticleType => 'note-internal',
-        SenderType  => 'agent',
-        From        => 'Some Agent <email@example.com>',
-        To          => 'Some Customer <customer@example.com>',
-        Subject     => 'some short description',
-        Body        => 'the message text
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketID,
+        SenderType           => 'agent',
+        IsVisibleForCustomer => 0,
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer@example.com>',
+        Subject              => 'some short description',
+        Body                 => 'the message text
 Perl modules provide a range of features to help you avoid reinventing the wheel, and can be downloaded from CPAN ( http://www.cpan.org/ ). A number of popular modules are included with the Perl distribution itself.',
         ContentType    => 'text/plain; charset=ISO-8859-15',
         HistoryType    => 'OwnerUpdate',
@@ -81,7 +84,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
     $Self->True(
         $ArticleID,
-        'ArticleCreate()',
+        'ArticleCreate()'
     );
 
     # search
@@ -97,14 +100,14 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'TicketSearch() (HASH:Subject)',
     );
 
-    $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID    => $TicketID,
-        ArticleType => 'note-internal',
-        SenderType  => 'agent',
-        From        => 'Some Agent <email@example.com>',
-        To          => 'Some Customer <customer@example.com>',
-        Subject     => 'Fax Agreement laalala',
-        Body        => 'the message text
+    $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketID,
+        SenderType           => 'agent',
+        IsVisibleForCustomer => 0,
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer@example.com>',
+        Subject              => 'Fax Agreement laalala',
+        Body                 => 'the message text
 Perl modules provide a range of features to help you avoid reinventing the wheel, and can be downloaded from CPAN ( http://www.cpan.org/ ). A number of popular modules are included with the Perl distribution itself.',
         ContentType    => 'text/plain; charset=ISO-8859-15',
         HistoryType    => 'OwnerUpdate',
@@ -114,7 +117,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
     $Self->True(
         $ArticleID,
-        'ArticleCreate()',
+        'ArticleCreate()'
     );
 
     # search
@@ -158,23 +161,23 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
 
     # use full text search on ticket with Cyrillic characters
     # see bug #11791 ( http://bugs.otrs.org/show_bug.cgi?id=11791 )
-    $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID       => $TicketID,
-        ArticleType    => 'note-internal',
-        SenderType     => 'agent',
-        From           => 'Some Agent <email@example.com>',
-        To             => 'Some Customer <customer@example.com>',
-        Subject        => 'Испытуемый',
-        Body           => 'Это полный приговор',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify  => 1,
+    $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketID,
+        SenderType           => 'agent',
+        IsVisibleForCustomer => 0,
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer@example.com>',
+        Subject              => 'Испытуемый',
+        Body                 => 'Это полный приговор',
+        ContentType          => 'text/plain; charset=ISO-8859-15',
+        HistoryType          => 'OwnerUpdate',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        NoAgentNotify        => 1,
     );
     $Self->True(
         $ArticleID,
-        'ArticleCreate()',
+        'ArticleCreate()'
     );
 
     # search

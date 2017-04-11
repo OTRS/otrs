@@ -69,25 +69,25 @@ sub Run {
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # get article index
-    my @Index = $ArticleObject->ArticleIndex(
+    my @MetaArticles = $ArticleObject->ArticleList(
         TicketID => $Self->GetArgument('ticket-id'),
     );
 
     my $Counter      = 1;
     my $ArticleLimit = $Self->GetOption('article-limit');
-    ARTICLEID:
-    for my $ArticleID (@Index) {
+    META_ARTICLE:
+    for my $MetaArticle (@MetaArticles) {
 
-        last ARTICLEID if defined $ArticleLimit && $ArticleLimit < $Counter;
-        next ARTICLEID if !$ArticleID;
+        last META_ARTICLE if defined $ArticleLimit && $ArticleLimit < $Counter;
 
         # get article data
-        my %Article = $ArticleObject->ArticleGet(
-            ArticleID     => $ArticleID,
+        my %Article = $ArticleObject->BackendForArticle( %{$MetaArticle} )->ArticleGet(
+            %{$MetaArticle},
             DynamicFields => 0,
+            UserID        => 1,
         );
 
-        next ARTICLEID if !%Article;
+        next META_ARTICLE if !%Article;
 
         KEY:
         for my $Key (qw(ArticleID From To Cc Subject ReplyTo InReplyTo Created SenderType)) {

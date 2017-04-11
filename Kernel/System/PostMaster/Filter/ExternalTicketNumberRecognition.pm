@@ -34,7 +34,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # checking mandatory configuration options
-    for my $Option (qw(NumberRegExp DynamicFieldName SenderType ArticleType)) {
+    for my $Option (qw(NumberRegExp DynamicFieldName SenderType IsVisibleForCustomer)) {
         if ( !defined $Param{JobConfig}->{$Option} && !$Param{JobConfig}->{$Option} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -207,13 +207,13 @@ sub Run {
         $Param{GetParam}->{Subject} .= " [$TicketHook$TicketHookDivider$TicketNumber]";
 
         # set sender type and article type.
-        $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}  = $Param{JobConfig}->{SenderType};
-        $Param{GetParam}->{'X-OTRS-FollowUp-ArticleType'} = $Param{JobConfig}->{ArticleType};
+        $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}           = $Param{JobConfig}->{SenderType};
+        $Param{GetParam}->{'X-OTRS-FollowUp-IsVisibleForCustomer'} = $Param{JobConfig}->{IsVisibleForCustomer};
 
         # also set these parameters. It could be that the follow up is rejected by Reject.pm
         #   (follow-ups not allowed), but the original article will still be attached to the ticket.
-        $Param{GetParam}->{'X-OTRS-SenderType'}  = $Param{JobConfig}->{SenderType};
-        $Param{GetParam}->{'X-OTRS-ArticleType'} = $Param{JobConfig}->{ArticleType};
+        $Param{GetParam}->{'X-OTRS-SenderType'}           = $Param{JobConfig}->{SenderType};
+        $Param{GetParam}->{'X-OTRS-IsVisibleForCustomer'} = $Param{JobConfig}->{IsVisibleForCustomer};
 
     }
     else {
@@ -229,8 +229,8 @@ sub Run {
         $Param{GetParam}->{ 'X-OTRS-DynamicField-' . $TicketDynamicFieldName } = $Self->{Number};
 
         # set sender type and article type
-        $Param{GetParam}->{'X-OTRS-SenderType'}  = $Param{JobConfig}->{SenderType};
-        $Param{GetParam}->{'X-OTRS-ArticleType'} = $Param{JobConfig}->{ArticleType};
+        $Param{GetParam}->{'X-OTRS-SenderType'}           = $Param{JobConfig}->{SenderType};
+        $Param{GetParam}->{'X-OTRS-IsVisibleForCustomer'} = $Param{JobConfig}->{IsVisibleForCustomer};
     }
 
     return 1;

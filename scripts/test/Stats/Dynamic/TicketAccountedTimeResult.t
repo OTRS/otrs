@@ -22,11 +22,14 @@ $ConfigObject->Set(
     Value => 'UTC',
 );
 
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $StatsObject   = $Kernel::OM->Get('Kernel::System::Stats');
-my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Internal',
+);
+
+my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
+my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -176,21 +179,21 @@ for my $Ticket (@Tickets) {
 
         for my $AccountTime ( @{ $Ticket->{TicketData}->{AccountTimes} } ) {
 
-            my $ArticleID = $ArticleObject->ArticleCreate(
-                TicketID       => $TicketID,
-                ArticleType    => 'note-internal',
-                SenderType     => 'agent',
-                From           => 'Agent Some Agent Some Agent <email@example.com>',
-                To             => 'Customer A <customer-a@example.com>',
-                Cc             => 'Customer B <customer-b@example.com>',
-                ReplyTo        => 'Customer B <customer-b@example.com>',
-                Subject        => 'some short subject',
-                Body           => 'some short body',
-                ContentType    => 'text/plain; charset=ISO-8859-15',
-                HistoryType    => 'OwnerUpdate',
-                HistoryComment => 'Some free text!',
-                UserID         => 1,
-                NoAgentNotify  => 1,
+            my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TicketID,
+                SenderType           => 'agent',
+                IsVisibleForCustomer => 0,
+                From                 => 'Agent Some Agent Some Agent <email@example.com>',
+                To                   => 'Customer A <customer-a@example.com>',
+                Cc                   => 'Customer B <customer-b@example.com>',
+                ReplyTo              => 'Customer B <customer-b@example.com>',
+                Subject              => 'some short subject',
+                Body                 => 'some short body',
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'Some free text!',
+                UserID               => 1,
+                NoAgentNotify        => 1,
             );
 
             my $TicketAccountTime = $TicketObject->TicketAccountTime(

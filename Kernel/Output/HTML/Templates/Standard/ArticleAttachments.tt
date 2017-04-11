@@ -16,7 +16,7 @@
             <h3>
 # Bugfix for bug#5579 - Spaces in filenames are converted to + characters when downloading in IE.
 # Filename must be escaped with "| html", not "| uri".
-                <a href="[% Env("Baselink") %]Action=AgentTicketAttachment;ArticleID=[% Data.ArticleID | uri %];FileID=[% File.FileID | uri %]" [% File.Target %]>[% File.Filename | html %]</a>
+                <a href="[% Env("Baselink") %]Action=AgentTicketAttachment;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];FileID=[% File.FileID | uri %]" [% File.Target %]>[% File.Filename | html %]</a>
             </h3>
             <p>[% File.Filesize | html %]</p>
         </div>

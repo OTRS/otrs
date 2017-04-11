@@ -36,17 +36,19 @@ sub Run {
     my @References = $Self->{ParserObject}->GetReferences();
     return if !@References;
 
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+        ChannelName => 'Email',
+    );
 
     for my $Reference (@References) {
 
-        # get ticket id of message id
-        my $TicketID = $ArticleObject->ArticleGetTicketIDOfMessageID(
+        my %Article = $ArticleBackendObject->ArticleGetByMessageID(
             MessageID => "<$Reference>",
+            UserID    => $Param{UserID},
         );
 
-        if ($TicketID) {
-            return $TicketID;
+        if (%Article) {
+            return $Article{TicketID};
         }
     }
 

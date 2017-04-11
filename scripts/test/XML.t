@@ -14,10 +14,7 @@ use Storable;
 
 use vars (qw($Self));
 
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $XMLObject     = $Kernel::OM->Get('Kernel::System::XML');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -575,6 +572,12 @@ for my $Key (@Keys) {
 # a test to find charset problems with XML files
 #------------------------------------------------#
 
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Internal',
+);
+
 # get the example XML
 my $Path = $ConfigObject->Get('Home');
 $Path .= "/scripts/test/sample/XML/";
@@ -611,15 +614,15 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
         'XMLParse2XMLHash() - charset test - create ticket',
     );
 
-    my $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID    => $TicketID,
-        ArticleType => 'note-internal',
-        SenderType  => 'agent',
-        From        => 'Some Agent <email@example.com>',
-        To          => 'Some Customer <customer-a@example.com>',
-        Cc          => 'Some Customer <customer-b@example.com>',
-        ReplyTo     => 'Some Customer <customer-b@example.com>',
-        Subject     => 'some short description',
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketID,
+        IsVisibleForCustomer => 0,
+        SenderType           => 'agent',
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer-a@example.com>',
+        Cc                   => 'Some Customer <customer-b@example.com>',
+        ReplyTo              => 'Some Customer <customer-b@example.com>',
+        Subject              => 'some short description',
         Body =>
             'the message text Perl modules provide a range of featurheel, and can be downloaded',
         ContentType    => 'text/plain; charset=ISO-8859-15',
@@ -634,7 +637,7 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
         'XMLParse2XMLHash() - charset test - create article',
     );
 
-    my $Feedback = $ArticleObject->ArticleWriteAttachment(
+    my $Feedback = $ArticleBackendObject->ArticleWriteAttachment(
         Content     => $String,
         ContentType => 'text/html; charset="iso-8859-15"',
         Filename    => $File,
@@ -646,7 +649,7 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
         'XMLParse2XMLHash() - charset test - write an article attachment to storage',
     );
 
-    my %Attachment = $ArticleObject->ArticleAttachment(
+    my %Attachment = $ArticleBackendObject->ArticleAttachment(
         ArticleID => $ArticleID,
         FileID    => 1,
         UserID    => 1,

@@ -44,7 +44,7 @@ sub Run {
                     %{ $Param{File} },
                     Action => 'Viewer',
                     Link   => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
-                        "Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID};Viewer=1",
+                        "Action=AgentTicketAttachment;TicketID=$Param{Article}->{TicketID};ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID};Viewer=1",
                     Target => 'target="attachment"',
                     Class  => 'ViewAttachment',
                 );

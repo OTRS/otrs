@@ -1291,8 +1291,10 @@ sub GetStatTable {
 
         # add the number of articles if needed
         if ( $TicketAttributes{NumberOfArticles} ) {
-            $Ticket{NumberOfArticles}
-                = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCount( TicketID => $TicketID );
+            $Ticket{NumberOfArticles} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+                TicketID => $TicketID,
+                UserID   => 1
+            );
         }
 
         $Ticket{Closed}                      ||= '';

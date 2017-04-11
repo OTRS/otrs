@@ -281,7 +281,7 @@ sub Run {
         # get all parameters
         for my $Key (
             qw(OwnerID Owner ResponsibleID Responsible PriorityID Priority QueueID Queue Subject
-            Body ArticleTypeID ArticleType TypeID StateID State MergeToSelection MergeTo LinkTogether
+            Body IsVisibleForCustomer TypeID StateID State MergeToSelection MergeTo LinkTogether
             EmailSubject EmailBody EmailTimeUnits
             LinkTogetherParent Unlock MergeToChecked MergeToOldestChecked)
             )
@@ -631,30 +631,56 @@ sub Run {
                     }
                 }
 
-                # check if we have an address, otherwise deduct it from the articles
+                # Check if we have an address, otherwise deduce it from the article.
                 if ( !$Customer ) {
-                    my %Data = $ArticleObject->ArticleLastCustomerArticle(
-                        TicketID      => $TicketID,
-                        DynamicFields => 0,
+
+                    # Get last customer article.
+                    my @Articles = $ArticleObject->ArticleList(
+                        TicketID   => $TicketID,
+                        SenderType => 'customer',
+                        OnlyLast   => 1,
                     );
 
-                    # use ReplyTo if set, otherwise use From
-                    $Customer = $Data{ReplyTo} ? $Data{ReplyTo} : $Data{From};
-
-                    # check article type and replace To with From (in case)
-                    if ( $Data{SenderType} !~ /customer/ ) {
-
-                        # replace From/To, To/From because sender is agent
-                        $Customer = $Data{To};
+                    # If the ticket has no customer article, get the last agent article.
+                    if ( !@Articles ) {
+                        @Articles = $ArticleObject->ArticleList(
+                            TicketID   => $TicketID,
+                            SenderType => 'agent',
+                            OnlyLast   => 1,
+                        );
                     }
 
+                    # Finally, if everything failed, get latest article.
+                    if ( !@Articles ) {
+                        @Articles = $ArticleObject->ArticleList(
+                            TicketID => $TicketID,
+                            OnlyLast => 1,
+                        );
+                    }
+
+                    my %Article;
+                    for my $Article (@Articles) {
+                        %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                            %{$Article},
+                            DynamicFields => 0,
+                            UserID        => $Self->{UserID},
+                        );
+                    }
+
+                    # Use ReplyTo if set, otherwise use From.
+                    $Customer = $Article{ReplyTo} ? $Article{ReplyTo} : $Article{From};
+
+                    # Check article sender type and replace From with To (in case sender is not customer).
+                    if ( $Article{SenderType} !~ /customer/ ) {
+                        $Customer = $Article{To};
+                    }
                 }
 
                 # get template generator object
                 my $TemplateGeneratorObject = $Kernel::OM->ObjectParamAdd(
                     'Kernel::System::TemplateGenerator' => {
                         CustomerUserObject => $CustomerUserObject,
-                        }
+                    },
                 );
 
                 $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
@@ -673,19 +699,21 @@ sub Run {
                     Subject      => $GetParam{EmailSubject} || '',
                 );
 
-                $EmailArticleID = $ArticleObject->ArticleSend(
-                    TicketID       => $TicketID,
-                    ArticleType    => 'email-external',
-                    SenderType     => 'agent',
-                    From           => $From,
-                    To             => $Customer,
-                    Subject        => $EmailSubject,
-                    Body           => $GetParam{EmailBody},
-                    MimeType       => $MimeType,
-                    Charset        => $LayoutObject->{UserCharset},
-                    UserID         => $Self->{UserID},
-                    HistoryType    => 'SendAnswer',
-                    HistoryComment => '%%' . $Customer,
+                my $EmailArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
+                $EmailArticleID = $EmailArticleBackendObject->ArticleSend(
+                    TicketID             => $TicketID,
+                    SenderType           => 'agent',
+                    IsVisibleForCustomer => 1,
+                    From                 => $From,
+                    To                   => $Customer,
+                    Subject              => $EmailSubject,
+                    Body                 => $GetParam{EmailBody},
+                    MimeType             => $MimeType,
+                    Charset              => $LayoutObject->{UserCharset},
+                    UserID               => $Self->{UserID},
+                    HistoryType          => 'SendAnswer',
+                    HistoryComment       => '%%' . $Customer,
                 );
             }
 
@@ -694,7 +722,6 @@ sub Run {
             if (
                 $GetParam{'Subject'}
                 && $GetParam{'Body'}
-                && ( $GetParam{'ArticleTypeID'} || $GetParam{'ArticleType'} )
                 )
             {
                 my $MimeType = 'text/plain';
@@ -706,19 +733,20 @@ sub Run {
                         String => $GetParam{'Body'},
                     );
                 }
-                $ArticleID = $ArticleObject->ArticleCreate(
-                    TicketID       => $TicketID,
-                    ArticleTypeID  => $GetParam{'ArticleTypeID'},
-                    ArticleType    => $GetParam{'ArticleType'},
-                    SenderType     => 'agent',
-                    From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject        => $GetParam{'Subject'},
-                    Body           => $GetParam{'Body'},
-                    MimeType       => $MimeType,
-                    Charset        => $LayoutObject->{UserCharset},
-                    UserID         => $Self->{UserID},
-                    HistoryType    => 'AddNote',
-                    HistoryComment => '%%Bulk',
+                my $InternalArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
+
+                $ArticleID = $InternalArticleBackendObject->ArticleCreate(
+                    TicketID             => $TicketID,
+                    SenderType           => 'agent',
+                    IsVisibleForCustomer => $GetParam{IsVisibleForCustomer},
+                    From                 => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject              => $GetParam{'Subject'},
+                    Body                 => $GetParam{'Body'},
+                    MimeType             => $MimeType,
+                    Charset              => $LayoutObject->{UserCharset},
+                    UserID               => $Self->{UserID},
+                    HistoryType          => 'AddNote',
+                    HistoryComment       => '%%Bulk',
                 );
             }
 
@@ -967,41 +995,12 @@ sub _Mask {
         }
     }
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Config       = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
-
-    # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # build ArticleTypeID string
-    my %DefaultNoteTypes = %{ $Config->{ArticleTypes} };
-    my %NoteTypes        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeList(
-        Result => 'HASH',
-    );
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
-    for my $KeyNoteType ( sort keys %NoteTypes ) {
-        if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
-            delete $NoteTypes{$KeyNoteType};
-        }
-    }
-
-    if ( $Param{ArticleTypeID} ) {
-        $Param{NoteStrg} = $LayoutObject->BuildSelection(
-            Data       => \%NoteTypes,
-            Name       => 'ArticleTypeID',
-            SelectedID => $Param{ArticleTypeID},
-            Class      => 'Modernize',
-        );
-    }
-    else {
-        $Param{NoteStrg} = $LayoutObject->BuildSelection(
-            Data          => \%NoteTypes,
-            Name          => 'ArticleTypeID',
-            SelectedValue => $Config->{ArticleTypeDefault},
-            Class         => 'Modernize',
-        );
-    }
+    $Param{IsVisibleForCustomer} //= $Config->{IsVisibleForCustomerDefault} // 0;
 
     # build next states string
     if ( $Config->{State} ) {
@@ -1350,7 +1349,7 @@ sub _Mask {
     # get output back
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketBulk',
-        Data         => \%Param
+        Data         => \%Param,
     );
 }
 

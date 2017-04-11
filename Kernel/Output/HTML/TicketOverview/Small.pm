@@ -381,7 +381,6 @@ sub Run {
         $Self->{AvailableFilterableColumns} = {};    # disable all column filters
     }
 
-    # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -426,7 +425,6 @@ sub Run {
     my $Counter = 0;
     my @ArticleBox;
 
-    # get needed objects
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -434,19 +432,48 @@ sub Run {
         $Counter++;
         if ( $Counter >= $Param{StartHit} && $Counter < ( $Param{PageShown} + $Param{StartHit} ) ) {
 
-            # get last customer article
-            my %Article = $ArticleObject->ArticleLastCustomerArticle(
-                TicketID      => $TicketID,
-                DynamicFields => 0,
+            # Get last customer article.
+            my @Articles = $ArticleObject->ArticleList(
+                TicketID   => $TicketID,
+                SenderType => 'customer',
+                OnlyLast   => 1,
             );
 
-            # get ticket data
+            # If the ticket has no customer article, get the last agent article.
+            if ( !@Articles ) {
+                @Articles = $ArticleObject->ArticleList(
+                    TicketID   => $TicketID,
+                    SenderType => 'agent',
+                    OnlyLast   => 1,
+                );
+            }
+
+            # Finally, if everything failed, get latest article.
+            if ( !@Articles ) {
+                @Articles = $ArticleObject->ArticleList(
+                    TicketID => $TicketID,
+                    OnlyLast => 1,
+                );
+            }
+
+            my %Article;
+            for my $Article (@Articles) {
+                %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                    %{$Article},
+                    DynamicFields => 0,
+                    UserID        => $Self->{UserID},
+                );
+            }
+
+            # Get ticket data.
             my %Ticket = $TicketObject->TicketGet(
                 TicketID      => $TicketID,
                 DynamicFields => 0,
             );
 
-            # Fallback for tickets without articles: get at least basic ticket data
+            %Article = ( %Article, %Ticket );
+
+            # Fallback for tickets without articles: get at least basic ticket data.
             if ( !%Article ) {
                 %Article = %Ticket;
                 if ( !$Article{Title} ) {

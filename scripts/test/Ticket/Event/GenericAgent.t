@@ -142,9 +142,10 @@ for my $FieldName ( sort keys %AddDynamicFields ) {
     $NewJob{Data}->{ 'DynamicField_' . $FieldName . $RandomID } = $AddDynamicFields{$FieldName};
 }
 
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
+my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject         = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleInternalObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
+my $GenericAgentObject    = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
 # create the new job
 my $JobAdd = $GenericAgentObject->JobAdd(
@@ -195,14 +196,14 @@ for my $Item ( sort keys %{ $TicketValues{Create} } ) {
     );
 }
 
-my $ArticleID = $ArticleObject->ArticleCreate(
-    TicketID    => $TicketID,
-    ArticleType => 'note-internal',
-    SenderType  => 'agent',
-    From        => 'Agent Some Agent Some Agent <email@example.com>',
-    To          => 'Customer A <customer-a@example.com>',
-    Subject     => 'some short description',
-    Body        => 'this article is just for trigger a ArticleCreate event.',
+my $ArticleID = $ArticleInternalObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 0,
+    SenderType           => 'agent',
+    From                 => 'Agent Some Agent Some Agent <email@example.com>',
+    To                   => 'Customer A <customer-a@example.com>',
+    Subject              => 'some short description',
+    Body                 => 'this article is just for trigger a ArticleCreate event.',
 
     #    MessageID => '<asdasdasd.123@example.com>',
     ContentType    => 'text/plain; charset=ISO-8859-15',

@@ -681,16 +681,31 @@ sub AutoResponse {
     return if !%AutoResponse;
 
     # get old article for quoting
-    my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleLastCustomerArticle(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my @ArticleList   = $ArticleObject->ArticleList(
+        TicketID   => $Param{TicketID},
+        SenderType => 'customer',
+        OnlyLast   => 1,
     );
 
-    for (qw(From To Cc Subject Body)) {
-        if ( !$Param{OrigHeader}->{$_} ) {
-            $Param{OrigHeader}->{$_} = $Article{$_} || '';
+    if ( !@ArticleList ) {
+        @ArticleList = $ArticleObject->ArticleList(
+            TicketID             => $Param{TicketID},
+            IsVisibleForCustomer => 1,
+            OnlyLast             => 1,
+        );
+    }
+
+    if (@ArticleList) {
+        my %Article = $ArticleObject->BackendForArticle( %{ $ArticleList[0] } )
+            ->ArticleGet( %{ $ArticleList[0] }, UserID => $Param{UserID} );
+
+        for (qw(From To Cc Subject Body)) {
+            if ( !$Param{OrigHeader}->{$_} ) {
+                $Param{OrigHeader}->{$_} = $Article{$_} || '';
+            }
+            chomp $Param{OrigHeader}->{$_};
         }
-        chomp $Param{OrigHeader}->{$_};
     }
 
     # format body (only if longer than 86 chars)
@@ -869,37 +884,51 @@ sub NotificationEvent {
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    # get last article from customer
-    my %Article = $ArticleObject->ArticleLastCustomerArticle(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
+    # Get last article from customer.
+    my @CustomerArticles = $ArticleObject->ArticleList(
+        TicketID   => $Param{TicketID},
+        SenderType => 'customer',
+        OnlyLast   => 1,
     );
 
-    # get last article from agent
-    my @ArticleBoxAgent = $ArticleObject->ArticleGet(
-        TicketID      => $Param{TicketID},
-        UserID        => $Param{UserID},
-        DynamicFields => 0,
-    );
-
-    my %ArticleAgent;
+    my %CustomerArticle;
 
     ARTICLE:
-    for my $Article ( reverse @ArticleBoxAgent ) {
+    for my $Article (@CustomerArticles) {
+        next ARTICLE if !$Article->{ArticleID};
 
-        next ARTICLE if $Article->{SenderType} ne 'agent';
-
-        %ArticleAgent = %{$Article};
-
-        last ARTICLE;
+        %CustomerArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+            %{$Article},
+            DynamicFields => 0,
+            UserID        => $Param{UserID},
+        );
     }
 
-    # get  HTMLUtils object
+    # Get last article from agent.
+    my @AgentArticles = $ArticleObject->ArticleList(
+        TicketID   => $Param{TicketID},
+        SenderType => 'agent',
+        OnlyLast   => 1,
+    );
+
+    my %AgentArticle;
+
+    ARTICLE:
+    for my $Article (@AgentArticles) {
+        next ARTICLE if !$Article->{ArticleID};
+
+        %AgentArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+            %{$Article},
+            DynamicFields => 0,
+            UserID        => $Param{UserID},
+        );
+    }
+
     my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
     # set the accounted time as part of the articles information
     ARTICLE:
-    for my $ArticleData ( \%Article, \%ArticleAgent ) {
+    for my $ArticleData ( \%CustomerArticle, \%AgentArticle ) {
 
         next ARTICLE if !$ArticleData->{ArticleID};
 
@@ -938,9 +967,9 @@ sub NotificationEvent {
         $Notification{$Attribute} = $Notification{Message}->{$Language}->{$Attribute};
     }
 
-    for my $Key (qw(From To Cc Subject Body ContentType ArticleType)) {
+    for my $Key (qw(From To Cc Subject Body ContentType)) {
         if ( !$Param{CustomerMessageParams}->{$Key} ) {
-            $Param{CustomerMessageParams}->{$Key} = $Article{$Key} || '';
+            $Param{CustomerMessageParams}->{$Key} = $CustomerArticle{$Key} || '';
         }
         chomp $Param{CustomerMessageParams}->{$Key};
     }
@@ -1019,7 +1048,7 @@ sub NotificationEvent {
         Text      => $Notification{Body},
         Recipient => $Param{Recipient},
         Data      => $Param{CustomerMessageParams},
-        DataAgent => \%ArticleAgent,
+        DataAgent => \%AgentArticle,
         TicketID  => $Param{TicketID},
         UserID    => $Param{UserID},
         Language  => $Language,
@@ -1029,7 +1058,7 @@ sub NotificationEvent {
         Text      => $Notification{Subject},
         Recipient => $Param{Recipient},
         Data      => $Param{CustomerMessageParams},
-        DataAgent => \%ArticleAgent,
+        DataAgent => \%AgentArticle,
         TicketID  => $Param{TicketID},
         UserID    => $Param{UserID},
         Language  => $Language,

@@ -16,9 +16,10 @@ use vars (qw($Self));
 use Kernel::System::PostMaster;
 
 # get needed objects
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -32,7 +33,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 for my $Backend (qw(DB FS)) {
 
     $ConfigObject->Set(
-        Key   => 'Ticket::StorageModule',
+        Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
     );
 
@@ -61,13 +62,13 @@ for my $Backend (qw(DB FS)) {
         "$Backend - Ticket created",
     );
 
-    my @ArticleIDs = $ArticleObject->ArticleIndex( TicketID => $TicketID );
+    my @ArticleIDs = map { $_->{ArticleID} } $ArticleObject->ArticleList( TicketID => $TicketID );
     $Self->True(
         $ArticleIDs[0],
         "$Backend - Article created",
     );
 
-    my %Attachments = $ArticleObject->ArticleAttachmentIndex(
+    my %Attachments = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $ArticleIDs[0],
         UserID    => 1,
     );

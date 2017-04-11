@@ -743,72 +743,6 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
     VALUES
     ('TitleUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('email-external', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('email-internal', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('email-notification-ext', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('email-notification-int', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('phone', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('fax', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('sms', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('webrequest', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('note-internal', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('note-external', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
---  insert into table article_type
--- ----------------------------------------------------------
-INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('note-report', 1, 1, current_timestamp, 1, current_timestamp);
--- ----------------------------------------------------------
 --  insert into table article_sender_type
 -- ----------------------------------------------------------
 INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_by, change_time)
@@ -833,11 +767,56 @@ INSERT INTO ticket (tn, queue_id, ticket_lock_id, user_id, responsible_user_id, 
     VALUES
     ('2015071510123456', 2, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1436949030, 0, 0, 0, 0, 0, 0, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
+--  insert into table communication_channel
+-- ----------------------------------------------------------
+INSERT INTO communication_channel (name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Email', 'Kernel::System::CommunicationChannel::Email', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table communication_channel
+-- ----------------------------------------------------------
+INSERT INTO communication_channel (name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Phone', 'Kernel::System::CommunicationChannel::Phone', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table communication_channel
+-- ----------------------------------------------------------
+INSERT INTO communication_channel (name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Internal', 'Kernel::System::CommunicationChannel::Internal', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
 --  insert into table article
 -- ----------------------------------------------------------
-INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article (ticket_id, communication_channel_id, article_sender_type_id, is_visible_for_customer, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 3, 'OTRS Feedback <marketing@otrs.com>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome to OTRS!
+    (1, 1, 3, 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table article_data_mime
+-- ----------------------------------------------------------
+INSERT INTO article_data_mime (article_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, create_by, create_time, change_by, change_time)
+    VALUES
+    (1, 'OTRS Feedback <marketing@otrs.com>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome to OTRS!
 
 Thank you for installing OTRS, the world’s most popular service management software available in more than 35 languages and used by 150,000 companies worldwide.
 
@@ -861,11 +840,11 @@ Find more information about it at https://www.otrs.com/solutions/.
 Best regards and ((enjoy)) OTRS,
 
 Your OTRS Group
-', '<007@localhost>', 1436949030, '2015/07/15', 1, 1, current_timestamp, 1, current_timestamp);
+', '<007@localhost>', 1436949030, '2015/07/15', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table article_plain
+--  insert into table article_data_mime_plain
 -- ----------------------------------------------------------
-INSERT INTO article_plain (article_id, body, create_by, create_time, change_by, change_time)
+INSERT INTO article_data_mime_plain (article_id, body, create_by, create_time, change_by, change_time)
     VALUES
     (1, 'From: OTRS Feedback <marketing@otrs.com>
 To: Your OTRS System <otrs@localhost>

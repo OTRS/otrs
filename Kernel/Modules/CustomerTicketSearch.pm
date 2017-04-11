@@ -223,11 +223,10 @@ sub Run {
         );
     }
 
-    # get needed objects
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    # get profil search and template data
+    # Get profile search and template data.
     my $SaveProfile    = $ParamObject->GetParam( Param => 'SaveProfile' )    || '';
     my $SelectTemplate = $ParamObject->GetParam( Param => 'SelectTemplate' ) || '';
     my $EraseTemplate  = $ParamObject->GetParam( Param => 'EraseTemplate' )  || '';
@@ -542,26 +541,40 @@ sub Run {
             my @CSVData;
             for my $TicketID (@ViewableTicketIDs) {
 
-                # get first article data
-                my %Data = $ArticleObject->ArticleFirstArticle(
+                # Get ticket data.
+                my %Ticket = $TicketObject->TicketGet(
                     TicketID      => $TicketID,
+                    DynamicFields => 0,
                     Extended      => 1,
-                    DynamicFields => 1,
+                    UserID        => $Self->{UserID},
                 );
 
-                # if no article found, use ticket information
-                if ( !%Data ) {
-                    my %Ticket = $TicketObject->TicketGet(
+                # Get first article data.
+                my @Articles = $ArticleObject->ArticleList(
+                    TicketID  => $TicketID,
+                    OnlyFirst => 1,
+                );
+                my %Article;
+                for my $Article (@Articles) {
+                    %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                         TicketID      => $TicketID,
-                        DynamicFields => 0,
+                        ArticleID     => $Article->{ArticleID},
+                        DynamicFields => 1,
                         UserID        => $Self->{UserID},
                     );
+                }
+
+                my %Data;
+
+                # If no article was found, set some defaults.
+                if ( !%Article ) {
                     %Data = %Ticket;
-                    $Data{Subject} = $Ticket{Title} || 'Untitled';
-                    $Data{Body} = $LayoutObject->{LanguageObject}->Translate(
-                        'This item has no articles yet.'
-                    );
-                    $Data{From} = '--';
+                    $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
+                    $Data{Body}    = $LayoutObject->{LanguageObject}->Translate('This item has no articles yet.');
+                    $Data{From}    = '--';
+                }
+                else {
+                    %Data = ( %Ticket, %Article );
                 }
 
                 for my $Key (qw(State Lock)) {
@@ -575,26 +588,32 @@ sub Run {
 
                 # get whole article (if configured!)
                 if ( $Config->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
-                    my @Article = $ArticleObject->ArticleGet(
-                        TicketID      => $TicketID,
-                        DynamicFields => 0,
+                    my @Articles = $ArticleObject->ArticleList(
+                        TicketID => $TicketID,
                     );
-                    if ( $#Article == -1 ) {
+                    if (@Articles) {
+                        for my $Article (@Articles) {
+                            my %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                                TicketID      => $TicketID,
+                                ArticleID     => $Article->{ArticleID},
+                                DynamicFields => 0,
+                                UserID        => $Self->{UserID},
+                            );
+                            if ( $Article{Body} ) {
+                                $Data{ArticleTree}
+                                    .= "\n-->"
+                                    . "||$Article{SenderType}"
+                                    . "||$Article{From}"
+                                    . "||$Article{CreateTime}"
+                                    . "||<--------------\n"
+                                    . $Article{Body};
+                            }
+                        }
+                    }
+                    else {
                         $Data{ArticleTree} .= $LayoutObject->{LanguageObject}->Translate(
                             'This item has no articles yet.'
                         );
-                    }
-                    else
-                    {
-                        for my $Articles (@Article) {
-                            if ( $Articles->{Body} ) {
-                                $Data{ArticleTree}
-                                    .= "\n-->||$Articles->{ArticleType}||$Articles->{From}||"
-                                    . $Articles->{Created}
-                                    . "||<--------------\n"
-                                    . $Articles->{Body};
-                            }
-                        }
                     }
                 }
 
@@ -725,25 +744,57 @@ sub Run {
             my @PDFData;
             for my $TicketID (@ViewableTicketIDs) {
 
-                # get first article data
-                my %Data = $ArticleObject->ArticleLastCustomerArticle(
+                # Get ticket data.
+                my %Ticket = $TicketObject->TicketGet(
                     TicketID      => $TicketID,
+                    DynamicFields => 1,
                     Extended      => 1,
-                    DynamicFields => 0,
+                    UserID        => $Self->{UserID},
                 );
 
-                if ( !%Data ) {
+                # Get last customer article.
+                my @Articles = $ArticleObject->ArticleList(
+                    TicketID   => $TicketID,
+                    SenderType => 'customer',
+                    OnlyLast   => 1,
+                );
 
-                    # get ticket data instead
-                    %Data = $TicketObject->TicketGet(
-                        TicketID      => $TicketID,
-                        DynamicFields => 1,
+                # If the ticket has no customer article, get the last agent article.
+                if ( !@Articles ) {
+                    @Articles = $ArticleObject->ArticleList(
+                        TicketID   => $TicketID,
+                        SenderType => 'agent',
+                        OnlyLast   => 1,
+                    );
+                }
+
+                # Finally, if everything failed, get latest article.
+                if ( !@Articles ) {
+                    @Articles = $ArticleObject->ArticleList(
+                        TicketID => $TicketID,
+                        OnlyLast => 1,
+                    );
+                }
+
+                my %Article;
+                for my $Article (@Articles) {
+                    %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                        %{$Article},
+                        DynamicFields => 0,
                         UserID        => $Self->{UserID},
                     );
+                }
 
-                    # set missing information
-                    $Data{Subject} = $Data{Title} || 'Untitled';
+                my %Data;
+
+                # If no article was found, set some defaults.
+                if ( !%Article ) {
+                    %Data = %Ticket;
+                    $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
                     $Data{From} = '--';
+                }
+                else {
+                    %Data = ( %Ticket, %Article );
                 }
 
                 # customer info
@@ -1060,74 +1111,106 @@ sub Run {
                     )
                 {
 
-                    # get first article data
-                    my %Article = $ArticleObject->ArticleLastCustomerArticle(
-                        TicketID      => $TicketID,
-                        Extended      => 1,
-                        DynamicFields => 1,
-                    );
-
+                    # Get ticket data.
                     my %Ticket = $TicketObject->TicketGet(
                         TicketID      => $TicketID,
                         DynamicFields => 0,
+                        Extended      => 1,
                         UserID        => $Self->{UserID},
                     );
 
-                    # if no article found, use ticket information
+                    # Get last customer article.
+                    my @Articles = $ArticleObject->ArticleList(
+                        TicketID   => $TicketID,
+                        SenderType => 'customer',
+                        OnlyLast   => 1,
+                    );
+
+                    # If the ticket has no customer article, get the last agent article.
+                    if ( !@Articles ) {
+                        @Articles = $ArticleObject->ArticleList(
+                            TicketID   => $TicketID,
+                            SenderType => 'agent',
+                            OnlyLast   => 1,
+                        );
+                    }
+
+                    # Finally, if everything failed, get latest article.
+                    if ( !@Articles ) {
+                        @Articles = $ArticleObject->ArticleList(
+                            TicketID => $TicketID,
+                            OnlyLast => 1,
+                        );
+                    }
+
+                    my %Article;
+                    for my $Article (@Articles) {
+                        %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                            %{$Article},
+                            DynamicFields => 1,
+                            UserID        => $Self->{UserID},
+                        );
+                    }
+
+                    my %Data;
+
+                    # If no article was found, set some defaults.
                     if ( !%Article ) {
-                        %Article = %Ticket;
-                        $Article{Subject} = $Ticket{Title} || 'Untitled';
-                        $Article{Body} = $LayoutObject->{LanguageObject}->Translate(
+                        %Data = %Ticket;
+                        $Data{Subject} = $Ticket{Title} || $LayoutObject->{LanguageObject}->Translate('Untitled');
+                        $Data{Body} = $LayoutObject->{LanguageObject}->Translate(
                             'This item has no articles yet.'
                         );
+                    }
+                    else {
+                        %Data = ( %Ticket, %Article );
                     }
 
                     # customer info
                     my %CustomerData;
-                    if ( $Article{CustomerUserID} ) {
+                    if ( $Data{CustomerUserID} ) {
                         %CustomerData = $CustomerUserObject->CustomerUserDataGet(
-                            User => $Article{CustomerUserID},
+                            User => $Data{CustomerUserID},
                         );
                     }
-                    elsif ( $Article{CustomerID} ) {
+                    elsif ( $Data{CustomerID} ) {
                         %CustomerData = $CustomerUserObject->CustomerUserDataGet(
-                            User => $Article{CustomerID},
+                            User => $Data{CustomerID},
                         );
                     }
 
                     # customer info (customer name)
                     if ( $CustomerData{UserLogin} ) {
-                        $Article{CustomerName} = $CustomerUserObject->CustomerName(
+                        $Data{CustomerName} = $CustomerUserObject->CustomerName(
                             UserLogin => $CustomerData{UserLogin},
                         );
                     }
 
                     # user info
                     my %Owner = $UserObject->GetUserData(
-                        User => $Article{Owner},
+                        User => $Data{Owner},
                     );
 
                     # Condense down the subject
                     my $Subject = $TicketObject->TicketSubjectClean(
-                        TicketNumber => $Article{TicketNumber},
-                        Subject      => $Article{Subject} || '',
+                        TicketNumber => $Data{TicketNumber},
+                        Subject      => $Data{Subject} || '',
                     );
-                    $Article{CustomerAge} = $LayoutObject->CustomerAge(
-                        Age   => $Article{Age},
-                        Space => ' '
+                    $Data{CustomerAge} = $LayoutObject->CustomerAge(
+                        Age   => $Data{Age},
+                        Space => ' ',
                     );
 
                     # customer info string
-                    if ( $Article{CustomerName} ) {
-                        $Article{CustomerName} = '(' . $Article{CustomerName} . ')';
+                    if ( $Data{CustomerName} ) {
+                        $Data{CustomerName} = '(' . $Data{CustomerName} . ')';
                     }
 
                     # add blocks to template
                     $LayoutObject->Block(
                         Name => 'Record',
                         Data => {
-                            %Article,
-                            %Ticket,
+                            %Data,
                             Subject => $Subject,
                             %Owner,
                         },
@@ -1142,7 +1225,7 @@ sub Run {
                         # get field value
                         my $ValueStrg = $BackendObject->DisplayValueRender(
                             DynamicFieldConfig => $DynamicFieldConfig,
-                            Value              => $Article{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+                            Value              => $Data{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
                             ValueMaxChars      => 20,
                             LayoutObject       => $LayoutObject,
                         );
@@ -1837,13 +1920,13 @@ sub MaskForm {
     }
 
     if (
-        $ConfigObject->Get('Ticket::StorageModule') eq
-        'Kernel::System::Ticket::ArticleStorageDB'
+        $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{ArticleStorage} eq
+        'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB'
         )
     {
         $LayoutObject->Block(
             Name => 'Attachment',
-            Data => \%Param
+            Data => \%Param,
         );
     }
 

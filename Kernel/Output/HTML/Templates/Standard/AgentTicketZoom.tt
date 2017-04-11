@@ -14,9 +14,14 @@
         <input type="hidden" value="ArticleFilterSet" name="Subaction"/>
         <input type="hidden" value="[% Data.TicketID | html %]" name="TicketID"/>
         <fieldset class="TableLike">
-            <label for="ArticleTypeFilter">[% Translate("Article Type") | html %]:</label>
+            <label for="CommunicationChannelFilter">[% Translate("Communication channel") | html %]:</label>
             <div class="Field">
-                [% Data.ArticleTypeFilterString %]
+                [% Data.Channels %]
+            </div>
+            <div class="Clear"></div>
+            <label for="CustomerVisibilityFilter">[% Translate("Customer visibility") | html %]:</label>
+            <div class="Field">
+                [% Data.CustomerVisibility %]
             </div>
             <div class="Clear"></div>
             <label for="ArticleSenderTypeFilter">[% Translate("Sender Type") | html %]:</label>
@@ -40,7 +45,7 @@
         <input type="hidden" value="EvenTypeFilterSet" name="Subaction"/>
         <input type="hidden" value="[% Data.TicketID | html %]" name="TicketID"/>
         <fieldset class="TableLike">
-            <label for="ArticleTypeFilter">[% Translate("Event Type") | html %]:</label>
+            <label for="EventTypeFilter">[% Translate("Event Type") | html %]:</label>
             <div class="Field">
                 [% Data.EventTypeFilterString %]
             </div>
@@ -316,6 +321,8 @@
                                 </th>
                                 <th class="No Sortable"><a href="#">[% Translate("No.") | html %]</a></th>
                                 <th class="Type Sortable"><a href="#">[% Translate("Type") | html %]</a></th>
+                                <th class="Channel Sortable"><a href="#">[% Translate("Channel") | html %]</a></th>
+                                <th class="IsVisibleForCustomer Sortable"><a href="#">[% Translate("Customer visible") | html %]</a></th>
                                 <th class="Direction Sortable"><a href="#" title="[% Translate("Direction") | html %]"><i class="fa fa-exchange"></i></a></th>
                                 <th class="From Sortable"><a href="#">[% Translate("From") | html %]</a></th>
                                 <th class="Subject Sortable"><a href="#">[% Translate("Subject") | html %]</a></th>
@@ -329,7 +336,7 @@
                         </thead>
                         <tbody>
 [% RenderBlockStart("TreeItem") %]
-                            <tr class="[% Data.SenderType | html %]-[% Data.ArticleType | html %] [% Data.ClassRow | html %]" id="Row[% Data.Count | uri %]">
+                            <tr class="[% Data.SenderType | html %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% END %] [% Data.ClassRow | html %]" id="Row[% Data.ArticleNumber | uri %]">
                                 <td class="[% Data.Class | html %] UnreadArticles Fixed NonTextContent">
 [% RenderBlockStart("TreeItemImportantArticle") %]
                                     <span class="ImportantArticles" title="[% Translate("Important") | html %]">
@@ -348,14 +355,28 @@
 [% RenderBlockEnd("TreeItemNoNewArticle") %]
                                 </td>
                                 <td class="No">
-                                    [% Data.Count | html %]
-                                    <input type="hidden" class="ArticleInfo" name="Link[% Data.Count | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.Count | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>
+                                    [% Data.ArticleNumber | html %]
+                                    <input type="hidden" class="ArticleInfo" name="Link[% Data.ArticleNumber | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.ArticleNumber | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>
                                     <input type="hidden" class="ArticleID" value="[% Data.ArticleID | html %]" />
-                                    <input type="hidden" class="SortData" value="[% Data.Count | html %]" />
+                                    <input type="hidden" class="SortData" value="[% Data.ArticleNumber | html %]" />
                                 </td>
                                 <td class="Type">
-                                    <div>[% Translate(Data.SenderType) | html %] &ndash; [% Translate(Data.ArticleType) | html %]</div>
-                                    <input type="hidden" class="SortData" value="[% Translate(Data.SenderType) | html %] &ndash; [% Translate(Data.ArticleType) | html %]" />
+                                    <div>[% Translate(Data.SenderType) | html %]</div>
+                                    <input type="hidden" class="SortData" value="[% Translate(Data.SenderType) | html %]" />
+                                </td>
+                                <td class="Channel">
+                                    <div>[% Translate(Data.Channel) | html %]</div>
+                                    <input type="hidden" class="SortData" value="[% Translate(Data.Channel) | html %]" />
+                                </td>
+                                <td class="IsVisibleForCustomer">
+                                    <div>
+                                        [% IF Data.IsVisibleForCustomer %]
+                                            [% Translate("Yes") | html %]
+                                        [% ELSE %]
+                                            [% Translate("No") | html %]
+                                        [% END %]
+                                    </div>
+                                    <input type="hidden" class="SortData" value="[% Translate(Data.Channel) | html %]" />
                                 </td>
                                 <td class="Direction">
 [% RenderBlockStart("TreeItemDirectionIncoming") %]
@@ -388,7 +409,7 @@
                                     <input type="hidden" class="SortData" value="[% Data.Subject | html %]" />
                                 </td>
                                 <td class="Created">
-                                    <a href="#">[% Data.Created | Localize("TimeShort") %]</a>
+                                    <a href="#">[% Data.CreateTime | Localize("TimeShort") %]</a>
 # Include custom sorting information: date in ISO format.
 # Other date formats cannot be sorted reliably.
                                     <input type="hidden" class="SortData" value="[% Data.Created | html %]" />
@@ -489,16 +510,16 @@
 [% RenderBlockStart("ArticleItem") %]
 <div>
     <a name="Article[% Data.ArticleID | html %]"></a>
-    <div class="WidgetSimple Expanded [% Data.SenderType | html %]-[% Data.ArticleType | html %]">
+    <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% END %]">
         <div class="Header">
             <div class="WidgetAction Toggle">
                 <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
             </div>
-            <h2>[% Translate("Article") | html %] #[% Data.Count | html %] &ndash; [% Data.Subject | html %]</h2>
+            <h2>[% Translate("Article") | html %] #[% Data.ArticleNumber | html %] &ndash; [% Data.Subject | html %]</h2>
             <div class="AdditionalInformation SpacingLoader">
-                [% Translate("Created") | html %]: [% Data.Created | Localize("TimeShort") %]
+                [% Translate("Created") | html %]: [% Data.CreateTime | Localize("TimeShort") %]
 [% RenderBlockStart("ArticleCreatedBy") %]
-                [% Translate("by") | html %] [% Data.CreatedByUser | html %]
+                [% Translate("by") | html %] [% Data.CreateBy | html %]
 [% RenderBlockEnd("ArticleCreatedBy") %]
             </div>
         </div>
@@ -636,7 +657,7 @@ function CheckIFrameHeight(IFrameID) {
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-                    <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" width="100%" frameborder="0" id="Iframe[% Data.ArticleID | html %]" onload="window.setTimeout( function (){ CheckIFrameHeight('Iframe[% Data.ArticleID | html %]'); }, 500);" src="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
+                    <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" width="100%" frameborder="0" id="Iframe[% Data.ArticleID | html %]" onload="window.setTimeout( function (){ CheckIFrameHeight('Iframe[% Data.ArticleID | html %]'); }, 500);" src="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];FileID=[% Data.HTMLBodyAttachmentID | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
                     <script type="text/javascript">
                     // workaround for firefox, which seems to cache the src attribute of iframes sometimes which leads to
                     // the wrong iframe content being displayed (see https://bugzilla.mozilla.org/show_bug.cgi?id=356558)

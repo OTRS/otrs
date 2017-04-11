@@ -13,10 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -64,8 +62,9 @@ my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->Custome
     User => $CustomerUserLogin,
 );
 
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
 # create ticket
 my $TicketID = $TicketObject->TicketCreate(
@@ -94,28 +93,28 @@ my $TicketNumber = $TicketObject->TicketNumberLookup(
 
 $Self->True(
     $TicketNumber,
-    "TicketNumberLookup() successful for Ticket# $TicketNumber",
+    "TicketNumberLookup() successful for Ticket# $TicketNumber"
 );
 
-my $ArticleID = $ArticleObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'webrequest',
-    SenderType     => 'customer',
-    From           => $CustomerUserData{UserEmail},
-    To             => $UserData{UserEmail},
-    Subject        => 'some short description',
-    Body           => 'the message text',
-    Charset        => 'utf8',
-    MimeType       => 'text/plain',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    SenderType           => 'customer',
+    IsVisibleForCustomer => 1,
+    From                 => $CustomerUserData{UserEmail},
+    To                   => $UserData{UserEmail},
+    Subject              => 'some short description',
+    Body                 => 'the message text',
+    Charset              => 'utf8',
+    MimeType             => 'text/plain',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
 );
 
 # sanity check
 $Self->True(
     $ArticleID,
-    "ArticleCreate() successful for Article ID $ArticleID",
+    "ArticleCreate() successful for Article ID $ArticleID"
 );
 
 my $NotificationEventObject      = $Kernel::OM->Get('Kernel::System::NotificationEvent');
@@ -165,27 +164,22 @@ $Self->True(
     'ArticleCreate event raised'
 );
 
-# get ticket article IDs
-my @ArticleIDs = $ArticleObject->ArticleIndex(
+# Get ticket articles.
+my @Articles = $ArticleObject->ArticleList(
     TicketID => $TicketID,
 );
 
 $Self->Is(
-    scalar @ArticleIDs,
+    scalar @Articles,
     2,
-    'ArticleIndex() should return two elements',
+    'ArticleList() should return two elements',
 );
 
 # get last article
-my %Article = $ArticleObject->ArticleGet(
-    ArticleID => $ArticleIDs[-1],    # last
+my %Article = $ArticleBackendObject->ArticleGet(
+    TicketID  => $TicketID,
+    ArticleID => $Articles[-1]->{ArticleID},    # last
     UserID    => $UserID,
-);
-
-$Self->Is(
-    $Article{ArticleType},
-    'email-notification-ext',
-    'ArticleGet() should return external notification',
 );
 
 $Self->Is(

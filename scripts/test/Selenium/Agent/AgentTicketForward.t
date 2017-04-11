@@ -17,8 +17,6 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
-
-        # get helper object
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -47,7 +45,6 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test ticket
@@ -67,18 +64,22 @@ $Selenium->RunTest(
             "TicketCreate - ID $TicketID",
         );
 
-        # create test email article
-        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'email-external',
-            SenderType     => 'customer',
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            Charset        => 'ISO-8859-15',
-            MimeType       => 'text/plain',
-            HistoryType    => 'EmailCustomer',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Email',
+        );
+
+        # Create test email article.
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'customer',
+            IsVisibleForCustomer => 1,
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
         );
         $Self->True(
             $ArticleID,
@@ -139,7 +140,7 @@ $Selenium->RunTest(
         # check AgentTicketFoward page
         for my $ID (
             qw(ToCustomer CcCustomer BccCustomer Subject RichText
-            FileUpload ComposeStateID ArticleTypeID submitRichText)
+            FileUpload ComposeStateID IsVisibleForCustomer submitRichText)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -167,7 +168,7 @@ $Selenium->RunTest(
         # verify for expected action
         $Self->True(
             index( $Selenium->get_page_source(), "Forwarded to " ) > -1,
-            "Action Forward executed correctly",
+            'Action Forward executed correctly'
         );
 
         # delete created test ticket

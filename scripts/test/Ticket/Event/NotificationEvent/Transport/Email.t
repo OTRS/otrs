@@ -105,19 +105,19 @@ $Self->True(
     "TicketCreate() successful for Ticket ID $TicketID",
 );
 
-my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'webrequest',
-    SenderType     => 'customer',
-    From           => 'customerOne@example.com, customerTwo@example.com',
-    To             => 'Some Agent A <agent-a@example.com>',
-    Subject        => 'some short description',
-    Body           => 'the message text',
-    Charset        => 'utf8',
-    MimeType       => 'text/plain',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
+my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 1,
+    SenderType           => 'customer',
+    From                 => 'customerOne@example.com, customerTwo@example.com',
+    To                   => 'Some Agent A <agent-a@example.com>',
+    Subject              => 'some short description',
+    Body                 => 'the message text',
+    Charset              => 'utf8',
+    MimeType             => 'text/plain',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
 );
 
 # sanity check

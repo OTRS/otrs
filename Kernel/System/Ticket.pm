@@ -760,11 +760,11 @@ sub TicketDelete {
         UserID   => $Param{UserID},
     );
 
-    # delete article, attachments and plain emails
-    my @Articles = $ArticleObject->ArticleIndex( TicketID => $Param{TicketID} );
-    for my $ArticleID (@Articles) {
-        return if !$ArticleObject->ArticleDelete(
-            ArticleID => $ArticleID,
+    # Delete all articles and associated data.
+    my @Articles = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
+    for my $MetaArticle (@Articles) {
+        return if !$ArticleObject->BackendForArticle( %{$MetaArticle} )->ArticleDelete(
+            ArticleID => $MetaArticle->{ArticleID},
             %Param,
         );
     }
@@ -2634,15 +2634,15 @@ sub TicketEscalationIndexBuild {
         # check if update escalation should be set
         my @SenderHistory;
         return if !$DBObject->Prepare(
-            SQL => 'SELECT article_sender_type_id, article_type_id, create_time FROM '
+            SQL => 'SELECT article_sender_type_id, is_visible_for_customer, create_time FROM '
                 . 'article WHERE ticket_id = ? ORDER BY create_time ASC',
             Bind => [ \$Param{TicketID} ],
         );
         while ( my @Row = $DBObject->FetchrowArray() ) {
             push @SenderHistory, {
-                SenderTypeID  => $Row[0],
-                ArticleTypeID => $Row[1],
-                Created       => $Row[2],
+                SenderTypeID         => $Row[0],
+                IsVisibleForCustomer => $Row[1],
+                Created              => $Row[2],
             };
         }
 
@@ -2650,15 +2650,8 @@ sub TicketEscalationIndexBuild {
 
         # fill up lookups
         for my $Row (@SenderHistory) {
-
-            # get sender type
             $Row->{SenderType} = $ArticleObject->ArticleSenderTypeLookup(
                 SenderTypeID => $Row->{SenderTypeID},
-            );
-
-            # get article type
-            $Row->{ArticleType} = $ArticleObject->ArticleTypeLookup(
-                ArticleTypeID => $Row->{ArticleTypeID},
             );
         }
 
@@ -2676,8 +2669,8 @@ sub TicketEscalationIndexBuild {
             # do not use locked tickets for calculation
             #last ROW if $Ticket{Lock} eq 'lock';
 
-            # do not use internal article types for calculation
-            next ROW if $Row->{ArticleType} =~ /-int/i;
+            # do not use internal articles for calculation
+            next ROW if !$Row->{IsVisibleForCustomer};
 
             # only use 'agent' and 'customer' sender types for calculation
             next ROW if $Row->{SenderType} !~ /^(agent|customer)$/;
@@ -3905,10 +3898,11 @@ sub TicketArchiveFlagSet {
 
             my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-            my @Articles = $ArticleObject->ArticleIndex( TicketID => $Param{TicketID} );
-            for my $ArticleID (@Articles) {
+            my @Articles = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
+            for my $Article (@Articles) {
                 $ArticleObject->ArticleFlagDelete(
-                    ArticleID => $ArticleID,
+                    TicketID  => $Param{TicketID},
+                    ArticleID => $Article->{ArticleID},
                     Key       => 'Seen',
                     AllUsers  => 1,
                 );
@@ -5879,19 +5873,20 @@ sub TicketMerge {
     $Body =~ s{<OTRS_TICKET>}{$MergeTicket{TicketNumber}}xms;
     $Body =~ s{<OTRS_MERGE_TO_TICKET>}{$MainTicket{TicketNumber}}xms;
 
-    # add merge article to merge ticket
-    $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-        TicketID       => $Param{MergeTicketID},
-        SenderType     => 'agent',
-        ArticleType    => 'note-external',
-        ContentType    => "text/plain; charset=ascii",
-        UserID         => $Param{UserID},
-        HistoryType    => 'AddNote',
-        HistoryComment => '%%Note',
-        Subject        => $ConfigObject->Get('Ticket::Frontend::AutomaticMergeSubject')
-            || 'Ticket Merged',
-        Body          => $Body,
-        NoAgentNotify => 1,
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    # Add merge article to merge ticket using internal channel.
+    $ArticleObject->BackendForChannel( ChannelName => 'Internal' )->ArticleCreate(
+        TicketID             => $Param{MergeTicketID},
+        SenderType           => 'agent',
+        IsVisibleForCustomer => 1,
+        ContentType          => "text/plain; charset=ascii",
+        UserID               => $Param{UserID},
+        HistoryType          => 'AddNote',
+        HistoryComment       => '%%Note',
+        Subject              => $ConfigObject->Get('Ticket::Frontend::AutomaticMergeSubject') || 'Ticket Merged',
+        Body                 => $Body,
+        NoAgentNotify        => 1,
     );
 
     # add merge history to merge ticket
@@ -6791,43 +6786,51 @@ sub TicketArticleStorageSwitch {
     # make sure that CheckAllBackends is set for the duration of this method
     $Self->{CheckAllBackends} = 1;
 
-    # get articles
-    my @ArticleIndex = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndex(
+    my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    # Get articles.
+    my @Articles = $ArticleObject->ArticleList(
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
     );
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    ARTICLE:
+    for my $Article (@Articles) {
 
-    ARTICLEID:
-    for my $ArticleID (@ArticleIndex) {
+        # Handle only MIME based articles.
+        my $BackendName = $ArticleObject->BackendForArticle(
+            TicketID  => $Param{TicketID},
+            ArticleID => $Article->{ArticleID}
+        )->ChannelNameGet();
+        next ARTICLE if $BackendName !~ /^(Email|Phone|Internal)$/;
 
-        my $ArticleObjectSource = Kernel::System::Ticket::Article->new(
-            ArticleStorageModule => 'Kernel::System::Ticket::' . $Param{Source},
+        my $ArticleObjectSource = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
+            ArticleStorageModule => 'Kernel::System::Ticket::Article::Backend::MIMEBase::' . $Param{Source},
         );
         if (
             !$ArticleObjectSource
-            || $ArticleObjectSource->{ArticleStorageModule} ne "Kernel::System::Ticket::$Param{Source}"
+            || $ArticleObjectSource->{ArticleStorageModule} ne
+            "Kernel::System::Ticket::Article::Backend::MIMEBase::$Param{Source}"
             )
         {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => "error",
-                Message  => "Could not create Kernel::System::Ticket::" . $Param{Source},
+                Priority => 'error',
+                Message  => "Could not create Kernel::System::Ticket::Article::Backend::MIMEBase::" . $Param{Source},
             );
             die;
         }
 
         # read source attachments
         my %Index = $ArticleObjectSource->ArticleAttachmentIndex(
-            ArticleID     => $ArticleID,
+            ArticleID     => $Article->{ArticleID},
             UserID        => $Param{UserID},
             OnlyMyBackend => 1,
         );
 
         # read source plain
         my $Plain = $ArticleObjectSource->ArticlePlain(
-            ArticleID     => $ArticleID,
+            ArticleID     => $Article->{ArticleID},
             OnlyMyBackend => 1,
         );
         my $PlainMD5Sum = '';
@@ -6843,7 +6846,7 @@ sub TicketArticleStorageSwitch {
         my %MD5Sums;
         for my $FileID ( sort keys %Index ) {
             my %Attachment = $ArticleObjectSource->ArticleAttachment(
-                ArticleID     => $ArticleID,
+                ArticleID     => $Article->{ArticleID},
                 FileID        => $FileID,
                 UserID        => $Param{UserID},
                 OnlyMyBackend => 1,
@@ -6857,18 +6860,19 @@ sub TicketArticleStorageSwitch {
         }
 
         # nothing to transfer
-        next ARTICLEID if !@Attachments && !$Plain;
+        next ARTICLE if !@Attachments && !$Plain;
 
-        my $ArticleObjectDestination = Kernel::System::Ticket::Article->new(
-            ArticleStorageModule => 'Kernel::System::Ticket::' . $Param{Destination},
+        my $ArticleObjectDestination = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
+            ArticleStorageModule => 'Kernel::System::Ticket::Article::Backend::MIMEBase::' . $Param{Destination},
         );
         if (
             !$ArticleObjectDestination
-            || $ArticleObjectDestination->{ArticleStorageModule} ne "Kernel::System::Ticket::$Param{Destination}"
+            || $ArticleObjectDestination->{ArticleStorageModule} ne
+            "Kernel::System::Ticket::Article::Backend::MIMEBase::$Param{Destination}"
             )
         {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => "error",
+                Priority => 'error',
                 Message  => "Could not create Kernel::System::Ticket::" . $Param{Destination},
             );
             die;
@@ -6876,7 +6880,7 @@ sub TicketArticleStorageSwitch {
 
         # read destination attachments
         %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
-            ArticleID     => $ArticleID,
+            ArticleID     => $Article->{ArticleID},
             UserID        => $Param{UserID},
             OnlyMyBackend => 1,
         );
@@ -6886,7 +6890,7 @@ sub TicketArticleStorageSwitch {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "Attachments of TicketID:$Param{TicketID}/ArticleID:$ArticleID already in $Param{Destination}!"
+                    "Attachments of TicketID:$Param{TicketID}/ArticleID:$Article->{ArticleID} already in $Param{Destination}!",
             );
         }
         else {
@@ -6915,7 +6919,7 @@ sub TicketArticleStorageSwitch {
 
                 $ArticleObjectDestination->ArticleWriteAttachment(
                     %{$Attachment},
-                    ArticleID => $ArticleID,
+                    ArticleID => $Article->{ArticleID},
                     UserID    => $Param{UserID},
                 );
             }
@@ -6924,14 +6928,14 @@ sub TicketArticleStorageSwitch {
             if ($Plain) {
                 $ArticleObjectDestination->ArticleWritePlain(
                     Email     => $Plain,
-                    ArticleID => $ArticleID,
+                    ArticleID => $Article->{ArticleID},
                     UserID    => $Param{UserID},
                 );
             }
 
             # verify destination attachments
             %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
-                ArticleID     => $ArticleID,
+                ArticleID     => $Article->{ArticleID},
                 UserID        => $Param{UserID},
                 OnlyMyBackend => 1,
             );
@@ -6939,7 +6943,7 @@ sub TicketArticleStorageSwitch {
 
         for my $FileID ( sort keys %Index ) {
             my %Attachment = $ArticleObjectDestination->ArticleAttachment(
-                ArticleID     => $ArticleID,
+                ArticleID     => $Article->{ArticleID},
                 FileID        => $FileID,
                 UserID        => $Param{UserID},
                 OnlyMyBackend => 1,
@@ -6958,12 +6962,12 @@ sub TicketArticleStorageSwitch {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
-                        "Corrupt file: $Attachment{Filename} (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
+                        "Corrupt file: $Attachment{Filename} (TicketID:$Param{TicketID}/ArticleID:$Article->{ArticleID})!",
                 );
 
                 # delete corrupt attachments from destination
                 $ArticleObjectDestination->ArticleDeleteAttachment(
-                    ArticleID     => $ArticleID,
+                    ArticleID     => $Article->{ArticleID},
                     UserID        => 1,
                     OnlyMyBackend => 1,
                 );
@@ -6979,12 +6983,12 @@ sub TicketArticleStorageSwitch {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "Not all files are moved! (TicketID:$Param{TicketID}/ArticleID:$ArticleID)!",
+                    "Not all files are moved! (TicketID:$Param{TicketID}/ArticleID:$Article->{ArticleID})!",
             );
 
             # delete incomplete attachments from destination
             $ArticleObjectDestination->ArticleDeleteAttachment(
-                ArticleID     => $ArticleID,
+                ArticleID     => $Article->{ArticleID},
                 UserID        => 1,
                 OnlyMyBackend => 1,
             );
@@ -6997,7 +7001,7 @@ sub TicketArticleStorageSwitch {
         # verify destination plain if exists in source backend
         if ($Plain) {
             my $PlainVerify = $ArticleObjectDestination->ArticlePlain(
-                ArticleID     => $ArticleID,
+                ArticleID     => $Article->{ArticleID},
                 OnlyMyBackend => 1,
             );
             my $PlainMD5SumVerify = '';
@@ -7010,12 +7014,12 @@ sub TicketArticleStorageSwitch {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
-                        "Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)",
+                        "Corrupt plain file: ArticleID: $Article->{ArticleID} ($PlainMD5Sum/$PlainMD5SumVerify)",
                 );
 
                 # delete corrupt plain file from destination
                 $ArticleObjectDestination->ArticleDeletePlain(
-                    ArticleID     => $ArticleID,
+                    ArticleID     => $Article->{ArticleID},
                     UserID        => 1,
                     OnlyMyBackend => 1,
                 );
@@ -7027,21 +7031,21 @@ sub TicketArticleStorageSwitch {
         }
 
         $ArticleObjectSource->ArticleDeleteAttachment(
-            ArticleID     => $ArticleID,
+            ArticleID     => $Article->{ArticleID},
             UserID        => 1,
             OnlyMyBackend => 1,
         );
 
         # remove source plain
         $ArticleObjectSource->ArticleDeletePlain(
-            ArticleID     => $ArticleID,
+            ArticleID     => $Article->{ArticleID},
             UserID        => 1,
             OnlyMyBackend => 1,
         );
 
         # read source attachments
         %Index = $ArticleObjectSource->ArticleAttachmentIndex(
-            ArticleID     => $ArticleID,
+            ArticleID     => $Article->{ArticleID},
             UserID        => $Param{UserID},
             OnlyMyBackend => 1,
         );
@@ -7050,7 +7054,7 @@ sub TicketArticleStorageSwitch {
         if (%Index) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Attachments still in $Param{Source}!"
+                Message  => "Attachments still in $Param{Source}!",
             );
             return;
         }
@@ -7059,9 +7063,9 @@ sub TicketArticleStorageSwitch {
     # set events
     $ConfigObject->{'Ticket::EventModulePost'} = $EventConfig;
 
-    # restore previous behaviour
+    # Restore previous behavior.
     $Self->{CheckAllBackends} =
-        $ConfigObject->Get('Ticket::StorageModule::CheckAllBackends')
+        $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{'CheckAllStorageBackends'}
         // 0;
 
     return 1;
@@ -7479,12 +7483,14 @@ sub _TicketGetFirstResponse {
 
     # check if first response is already done
     return if !$DBObject->Prepare(
-        SQL => 'SELECT a.create_time,a.id FROM article a, article_sender_type ast, article_type art'
-            . ' WHERE a.article_sender_type_id = ast.id AND a.article_type_id = art.id AND'
-            . ' a.ticket_id = ? AND ast.name = \'agent\' AND'
-            . ' (art.name LIKE \'email-ext%\' OR art.name LIKE \'note-ext%\' OR art.name = \'phone\' OR art.name = \'fax\' OR art.name = \'sms\')'
-            . ' ORDER BY a.create_time',
-        Bind  => [ \$Param{TicketID} ],
+        SQL => '
+            SELECT a.create_time,a.id FROM article a, article_sender_type ast
+            WHERE a.article_sender_type_id = ast.id
+                AND a.ticket_id = ?
+                AND ast.name = ?
+                AND a.is_visible_for_customer = ?
+            ORDER BY a.create_time',
+        Bind  => [ \$Param{TicketID}, \'agent', \1 ],
         Limit => 1,
     );
 

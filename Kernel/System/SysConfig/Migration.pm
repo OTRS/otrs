@@ -1432,6 +1432,9 @@ sub MigrateConfigEffectiveValues {
         next SETTINGNAME if $SettingName eq 'Ticket::Frontend::ComposeExcludeCcRecipients';
         next SETTINGNAME if $SettingName eq 'TimeZoneUser';
         next SETTINGNAME if $SettingName eq 'TimeZoneUserBrowserAutoOffset';
+        next SETTINGNAME if $SettingName eq 'Ticket::StorageModule';
+        next SETTINGNAME if $SettingName eq 'Ticket::StorageModule::CheckAllBackends';
+        next SETTINGNAME if $SettingName eq 'ArticleDir';
 
         # check if this OTRS5 setting has subhashes in the name
         if ( $SettingsWithSubLevels{$SettingName} ) {

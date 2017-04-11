@@ -12,18 +12,17 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
-my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
-my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
-my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
-my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
-my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
+my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
+my $ServiceObject        = $Kernel::OM->Get('Kernel::System::Service');
+my $SLAObject            = $Kernel::OM->Get('Kernel::System::SLA');
+my $StateObject          = $Kernel::OM->Get('Kernel::System::State');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
+my $TimeObject           = $Kernel::OM->Get('Kernel::System::Time');
+my $TypeObject           = $Kernel::OM->Get('Kernel::System::Type');
+my $UserObject           = $Kernel::OM->Get('Kernel::System::User');
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -194,10 +193,10 @@ $Self->Is(
     'TicketOwnerSet() (ChangeBy - System ID 1 now)',
 );
 
-my $ArticleID = $ArticleObject->ArticleCreate(
-    TicketID    => $TicketID,
-    ArticleType => 'note-internal',
-    SenderType  => 'agent',
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    SenderType           => 'agent',
+    IsVisibleForCustomer => 0,
     From =>
         'Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent <email@example.com>',
     To =>
@@ -235,20 +234,19 @@ If you feel the urge to write Perl modules, perlnewmod will give you good advice
 
 $Self->True(
     $ArticleID,
-    'ArticleCreate()',
+    'ArticleCreate()'
 );
 
 $Self->Is(
-    $ArticleObject->ArticleCount( TicketID => $TicketID ),
+    scalar $ArticleObject->ArticleList( TicketID => $TicketID ),
     1,
     'ArticleCount',
 );
 
-my %Article = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
-$Self->Is(
-    $Article{Title},
-    'Some Ticket_Title',
-    'ArticleGet()',
+my %Article = $ArticleBackendObject->ArticleGet(
+    TicketID  => $TicketID,
+    ArticleID => $ArticleID,
+    UserID    => 1,
 );
 $Self->True(
     $Article{From} eq
@@ -257,31 +255,35 @@ $Self->True(
 );
 
 for my $Key (qw( Body Subject From To ReplyTo )) {
-    my $Success = $ArticleObject->ArticleUpdate(
+    my $Success = $ArticleBackendObject->ArticleUpdate(
+        TicketID  => $TicketID,
         ArticleID => $ArticleID,
         Key       => $Key,
         Value     => "New $Key",
         UserID    => 1,
-        TicketID  => $TicketID,
     );
     $Self->True(
         $Success,
-        'ArticleUpdate()',
+        'ArticleUpdate()'
     );
-    my %Article2 = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
+    my %Article2 = $ArticleBackendObject->ArticleGet(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
     $Self->Is(
         $Article2{$Key},
         "New $Key",
-        'ArticleUpdate()',
+        'ArticleUpdate()'
     );
 
     # set old value
-    $Success = $ArticleObject->ArticleUpdate(
+    $Success = $ArticleBackendObject->ArticleUpdate(
+        TicketID  => $TicketID,
         ArticleID => $ArticleID,
         Key       => $Key,
         Value     => $Article{$Key},
         UserID    => 1,
-        TicketID  => $TicketID,
     );
 }
 
@@ -1338,46 +1340,6 @@ $Self->Is(
     'TicketGet() (Lock)',
 );
 
-%Article = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
-$Self->Is(
-    $Article{Title},
-    'Very long title 01234567890123456789012345678901234567890123456789'
-        . '0123456789012345678901234567890123456789012345678901234567890123456789'
-        . '0123456789012345678901234567890123456789012345678901234567890123456789'
-        . '0123456789012345678901234567890123456789',
-    'ArticleGet() (Title)',
-);
-$Self->Is(
-    $Article{Queue},
-    'Junk',
-    'ArticleGet() (Queue)',
-);
-$Self->Is(
-    $Article{Priority},
-    '2 low',
-    'ArticleGet() (Priority)',
-);
-$Self->Is(
-    $Article{State},
-    'open',
-    'ArticleGet() (State)',
-);
-$Self->Is(
-    $Article{Owner},
-    'root@localhost',
-    'ArticleGet() (Owner)',
-);
-$Self->Is(
-    $Article{Responsible},
-    'root@localhost',
-    'ArticleGet() (Responsible)',
-);
-$Self->Is(
-    $Article{Lock},
-    'lock',
-    'ArticleGet() (Lock)',
-);
-
 my @MoveQueueList = $TicketObject->MoveQueueList(
     TicketID => $TicketID,
     Type     => 'Name',
@@ -1445,7 +1407,7 @@ my $AccountedTime2 = $ArticleObject->ArticleAccountedTimeGet(
 $Self->Is(
     $AccountedTime2,
     4132.56,
-    'ArticleAccountedTimeGet()',
+    'ArticleAccountedTimeGet()'
 );
 
 my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(

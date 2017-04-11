@@ -18,9 +18,9 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $Helper               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email');
 
         # Do not check email addresses.
         $Helper->ConfigSettingChange(
@@ -90,17 +90,17 @@ $Selenium->RunTest(
             );
 
             # Create test email article.
-            my $ArticleID = $ArticleObject->ArticleCreate(
-                TicketID       => $TicketID,
-                ArticleType    => 'email-external',
-                SenderType     => 'customer',
-                Subject        => 'some short description',
-                Body           => 'the message text',
-                Charset        => 'ISO-8859-15',
-                MimeType       => 'text/plain',
-                HistoryType    => 'EmailCustomer',
-                HistoryComment => 'Some free text!',
-                UserID         => 1,
+            my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TicketID,
+                IsVisibleForCustomer => 1,
+                SenderType           => 'customer',
+                Subject              => 'some short description',
+                Body                 => 'the message text',
+                Charset              => 'ISO-8859-15',
+                MimeType             => 'text/plain',
+                HistoryType          => 'EmailCustomer',
+                HistoryComment       => 'Some free text!',
+                UserID               => 1,
             );
             $Self->True(
                 $ArticleID,

@@ -13,9 +13,9 @@
 </div>
 <div class="Clear"></div>
 
-<label for="NotificationArticleTypeID">[% Translate("Notification article type") | html %]: </label>
+<label for="IsVisibleForCustomer">[% Translate("Article visible for customer") | html %]: </label>
 <div class="Field">
-    [% Data.NotificationArticleTypesStrg %]
+    <input type="checkbox" name="IsVisibleForCustomer" id="IsVisibleForCustomer" [% IF Data.Data.IsVisibleForCustomer.0 == 'on' %] checked="checked" [% END %]/>
     <p class="FieldExplanation">[% Translate("An article will be created if the notification is sent to the customer or an additional email address.") | html %]</p>
 </div>
 <div class="Clear"></div>

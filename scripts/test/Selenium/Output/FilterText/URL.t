@@ -58,13 +58,14 @@ $Selenium->RunTest(
         );
 
         # create test article with subject that is link
-        my $BodyText  = 'www.seleniumtest.com';
-        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            TicketID    => $TicketID,
-            ArticleType => 'phone',
-            SenderType  => 'agent',
-            Subject     => 'Selenium Test Article',
-            Body        => '
+        my $BodyText      = 'www.seleniumtest.com';
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleID     = $ArticleObject->BackendForChannel( ChannelName => 'Phone' )->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 1,
+            SenderType           => 'agent',
+            Subject              => 'Selenium Test Article',
+            Body                 => '
 www.seleniumtest.com
 ftp.seleniumtest.com
 cdn.www.seleniumtest.com

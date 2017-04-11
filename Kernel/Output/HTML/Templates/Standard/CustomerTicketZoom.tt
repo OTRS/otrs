@@ -62,15 +62,15 @@
             <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
             <ul id="Messages">
 [% RenderBlockStart("Article") %]
-                <li class="[% Data.SenderType | html %]-[% Data.ArticleType | html %] [% Data.Class | html %]">
+                <li class="[% Data.SenderType | html %]-[% Data.IsVisibleForCustomer | html %] [% Data.Class | html %]">
                     <div class="MessageHeader">
 
 [% RenderBlockStart("ArticleContracted") %]
-                        <h3><a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Data.FromRealname | html %] &ndash; <span title="[% Translate("Expand article") | html %]...">[% Data.Subject | html %]</span></a></h3>
+                        <h3><a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Data.FromRealname | html %] &ndash; <span title="[% Translate("Expand article") | html %]...">[% Data.Subject | html %]</span></a></h3>
 [% RenderBlockEnd("ArticleContracted") %]
 
 [% RenderBlockStart("ArticleExpanded") %]
-                        <h3><a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Data.FromRealname | html %] &ndash; <span title="[% Data.Subject | html %]">[% Data.Subject | html %]</span></a></h3>
+                        <h3><a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Data.FromRealname | html %] &ndash; <span title="[% Data.Subject | html %]">[% Data.Subject | html %]</span></a></h3>
 [% RenderBlockEnd("ArticleExpanded") %]
 
                         <span class="Age" title="[% Data.Created | Localize("TimeLong") | html %]">[% Data.Age %]</span>
@@ -170,11 +170,11 @@
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
-                            <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" title="about:blank" frameborder="0" id="VisibleFrame" class="VisibleFrame" src="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
+                            <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" title="about:blank" frameborder="0" id="VisibleFrame" class="VisibleFrame" src="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];FileID=[% Data.HTMLBodyAttachmentID | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
 [% RenderBlockEnd("BodyHTMLLoad") %]
 [% RenderBlockStart("BodyHTMLPlaceholder") %]
 #                           <!-- Here we need to append the session info if cookies are disabled, because the layout object cannot automatically do that here, like in the other iframe (only for src attribute). -->
-                            <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" src="about:blank" frameborder="0" title="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;ArticleID=[% Data.ArticleID | html %];FileID=[% Data.AttachmentIDOfHTMLBody | html %];[% Data.SessionInformation | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
+                            <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" src="about:blank" frameborder="0" title="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];FileID=[% Data.HTMLBodyAttachmentID | html %];[% Data.SessionInformation | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
 [% RenderBlockEnd("BodyHTMLPlaceholder") %]
 [% RenderBlockStart("BodyChat") %]
 [% INCLUDE "ChatDisplay.tt" %]

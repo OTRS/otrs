@@ -621,11 +621,11 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="GenericInterface::Operation::TicketCreate###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default type of the article for this operation.</Description>
+    <Setting Name="GenericInterface::Operation::TicketCreate###IsVisibleForCustomer" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default visibility of the article to customer for this operation.</Description>
         <Navigation>GenericInterface::Operation::TicketCreate</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">webrequest</Item>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="GenericInterface::Operation::TicketCreate###HistoryType" Required="1" Valid="1">
@@ -649,11 +649,11 @@
             <Item ValueType="String" ValueRegex="">auto reply</Item>
         </Value>
     </Setting>
-    <Setting Name="GenericInterface::Operation::TicketUpdate###ArticleType" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default type of the article for this operation.</Description>
+    <Setting Name="GenericInterface::Operation::TicketUpdate###IsVisibleForCustomer" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default visibility of the article to customer for this operation.</Description>
         <Navigation>GenericInterface::Operation::TicketUpdate</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">webrequest</Item>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="GenericInterface::Operation::ResponseLoggingMaxSize" Required="1" Valid="1">

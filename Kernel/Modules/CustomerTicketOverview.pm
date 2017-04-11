@@ -576,47 +576,62 @@ sub Run {
 sub ShowTicketStatus {
     my ( $Self, %Param ) = @_;
 
-    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $TicketID      = $Param{TicketID} || return;
+    my $LayoutObject               = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject               = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject              = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
+    my $TicketID                   = $Param{TicketID} || return;
 
     # contains last article (non-internal)
     my %Article;
+    my %LastNonInternalArticle;
 
-    # get whole article index
-    my @ArticleIDs = $ArticleObject->ArticleIndex( TicketID => $Param{TicketID} );
+    my @ArticleList = $ArticleObject->ArticleList(
+        TicketID => $Param{TicketID},
+    );
 
-    # get article data
-    if (@ArticleIDs) {
-        my %LastNonInternalArticle;
+    # TODO: chat backend not yet created, maybe this pattern needs an update afterwards!
+    my $CommunicationChannelPattern = qr{Internal|Chat}xms;
 
-        ARTICLEID:
-        for my $ArticleID ( reverse @ArticleIDs ) {
-            my %CurrentArticle = $ArticleObject->ArticleGet( ArticleID => $ArticleID );
+    ARTICLEMETADATA:
+    for my $ArticleMetaData (@ArticleList) {
 
-            # check for non-internal and non-chat article
-            next ARTICLEID if $CurrentArticle{ArticleType} =~ m{internal|chat}smx;
+        next ARTICLEMETADATA if !$ArticleMetaData;
+        next ARTICLEMETADATA if !IsHashRefWithData($ArticleMetaData);
 
-            # check for customer article
-            if ( $CurrentArticle{SenderType} eq 'customer' ) {
-                %Article = %CurrentArticle;
-                last ARTICLEID;
-            }
+        my %CommunicationChannelData = $CommunicationChannelObject->ChannelGet(
+            ChannelID => $ArticleMetaData->{CommunicationChannelID},
+        );
 
-            # check for last non-internal article (sender type does not matter)
-            if ( !%LastNonInternalArticle ) {
-                %LastNonInternalArticle = %CurrentArticle;
-            }
+        # check for non-internal and non-chat article
+        next ARTICLEMETADATA if $CommunicationChannelData{ChannelName} =~ m{$CommunicationChannelPattern}xms;
+
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$ArticleMetaData} );
+
+        my %CurrentArticle = $ArticleBackendObject->ArticleGet(
+            TicketID  => $Param{TicketID},
+            ArticleID => $ArticleMetaData->{ArticleID},
+            UserID    => $Self->{UserID},
+        );
+
+        # check for customer article
+        if ( $ArticleMetaData->{IsVisibleForCustomer} ) {
+            %Article = %CurrentArticle;
+            last ARTICLEMETADATA;
         }
 
-        if ( !%Article && %LastNonInternalArticle ) {
-            %Article = %LastNonInternalArticle;
+        # check for last non-internal article (sender type does not matter)
+        if ( !%LastNonInternalArticle ) {
+            %LastNonInternalArticle = %CurrentArticle;
         }
     }
 
+    if ( !IsHashRefWithData( \%Article ) && IsHashRefWithData( \%LastNonInternalArticle ) ) {
+        %Article = %LastNonInternalArticle;
+    }
+
     my $NoArticle;
-    if ( !%Article ) {
+    if ( !IsHashRefWithData( \%Article ) ) {
         $NoArticle = 1;
     }
 
@@ -672,7 +687,7 @@ sub ShowTicketStatus {
 
     # condense down the subject
     $Subject = $TicketObject->TicketSubjectClean(
-        TicketNumber => $Article{TicketNumber},
+        TicketNumber => $Ticket{TicketNumber},
         Subject      => $Subject,
     );
 

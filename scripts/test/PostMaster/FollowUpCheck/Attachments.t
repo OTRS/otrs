@@ -281,10 +281,22 @@ for my $Test (@Tests) {
         $Test->{NewTicket},
         "$Test->{Name} - article created",
     );
-    $Self->True(
-        $Return[1] || 0,
-        "$Test->{Name} - article created",
-    );
+
+    if ( $Test->{NewTicket} == 1 ) {
+        $Self->IsNot(
+            $Return[1] || 0,
+            $Ticket{TicketID},
+            "$Test->{Name} - new ticket created",
+        );
+    }
+    else {
+        $Self->Is(
+            $Return[1] || 0,
+            $Ticket{TicketID},
+            "$Test->{Name} - follow-up created",
+        );
+
+    }
 }
 
 # cleanup is done by RestoreDatabase.

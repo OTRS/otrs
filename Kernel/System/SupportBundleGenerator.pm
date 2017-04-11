@@ -610,7 +610,7 @@ sub _GetCustomFileList {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # article directory
-    my $ArticleDir = $ConfigObject->Get('ArticleDir');
+    my $ArticleDir = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{'ArticleDataDir'};
 
     # cleanup file name
     $ArticleDir =~ s/\/\//\//g;

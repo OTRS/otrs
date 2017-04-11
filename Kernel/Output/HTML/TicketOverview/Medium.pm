@@ -324,23 +324,52 @@ sub _Show {
         return;
     }
 
-    # get needed objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    # get last customer article
-    my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleLastCustomerArticle(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
+    # Get last customer article.
+    my @Articles = $ArticleObject->ArticleList(
+        TicketID   => $Param{TicketID},
+        SenderType => 'customer',
+        OnlyLast   => 1,
     );
 
-    # get ticket data
+    # If the ticket has no customer article, get the last agent article.
+    if ( !@Articles ) {
+        @Articles = $ArticleObject->ArticleList(
+            TicketID   => $Param{TicketID},
+            SenderType => 'agent',
+            OnlyLast   => 1,
+        );
+    }
+
+    # Finally, if everything failed, get latest article.
+    if ( !@Articles ) {
+        @Articles = $ArticleObject->ArticleList(
+            TicketID => $Param{TicketID},
+            OnlyLast => 1,
+        );
+    }
+
+    my %Article;
+    for my $Article (@Articles) {
+        %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+            %{$Article},
+            DynamicFields => 0,
+            UserID        => $Self->{UserID},
+        );
+    }
+
+    # Get ticket data.
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
 
-    # Fallback for tickets without articles: get at least basic ticket data
+    %Article = ( %Article, %Ticket );
+
+    # Fallback for tickets without articles: get at least basic ticket data.
     if ( !%Article ) {
         %Article = %Ticket;
         if ( !$Article{Title} ) {

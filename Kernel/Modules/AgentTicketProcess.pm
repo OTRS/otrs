@@ -4549,9 +4549,10 @@ sub _StoreActivityDialog {
     );
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
 
-    # get needed objects
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+        ChannelName => 'Internal',
+    );
 
     my @Notify;
 
@@ -4990,9 +4991,10 @@ sub _StoreActivityDialog {
                 }
 
                 my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
-                $ArticleID = $ArticleObject->ArticleCreate(
+                $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID                  => $TicketID,
                     SenderType                => 'agent',
+                    IsVisibleForCustomer      => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer},
                     From                      => $From,
                     MimeType                  => $MimeType,
                     Charset                   => $LayoutObject->{UserCharset},
@@ -5001,7 +5003,6 @@ sub _StoreActivityDialog {
                     HistoryComment            => '%%Note',
                     Body                      => $Param{GetParam}{Body},
                     Subject                   => $Param{GetParam}{Subject},
-                    ArticleType               => $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
                     ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}
                     ? $Param{GetParam}{InformUserID}
                     : [],
@@ -5051,7 +5052,7 @@ sub _StoreActivityDialog {
                     }
 
                     # write existing file to backend
-                    $ArticleObject->ArticleWriteAttachment(
+                    $ArticleBackendObject->ArticleWriteAttachment(
                         %{$Attachment},
                         ArticleID => $ArticleID,
                         UserID    => $Self->{UserID},

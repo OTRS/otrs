@@ -64,9 +64,8 @@ sub new {
         TransitionActionEntityID => 'TA123',
         Config                   => {
             # required:
-            ArticleType      => 'note-internal',                        # note-external|phone|fax|sms|...
-                                                                        #   excluding any email type
             SenderType       => 'agent',                                # agent|system|customer
+            IsVisibleForCustomer => 1,                                  # 0 or 1
             ContentType      => 'text/plain; charset=ISO-8859-15',      # or optional Charset & MimeType
             Subject          => 'some short description',               # required
             Body             => 'the message text',                     # required
@@ -141,16 +140,6 @@ sub Run {
         }
     }
 
-    # check ArticleType
-    if ( $Param{Config}->{ArticleType} =~ m{\A email }msxi ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $CommonMessage
-                . "ArticleType $Param{Config}->{ArticleType} is not supported",
-        );
-        return;
-    }
-
     # If "From" is not set
     if ( !$Param{Config}->{From} ) {
 
@@ -163,7 +152,11 @@ sub Run {
         $Param{Config}->{From} = $User{UserFullname} . ' <' . $User{UserEmail} . '>';
     }
 
-    my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+        ChannelName => 'Internal',
+    );
+
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
         %{ $Param{Config} },
         TicketID => $Param{Ticket}->{TicketID},
         UserID   => $Param{UserID},

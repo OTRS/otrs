@@ -14,6 +14,7 @@
     <input type="hidden" name="InReplyTo" value="[% Data.InReplyTo | html %]"/>
     <input type="hidden" name="References" value="[% Data.References | html %]"/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+    <input type="hidden" name="IsVisibleForCustomerPresent" value="1"/>
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
@@ -356,13 +357,12 @@
                 </div>
                 <div class="Clear"></div>
 
-[% RenderBlockStart("ArticleType") %]
-                <label for="ArticleTypeID">[% Translate("Article type") | html %]:</label>
+                <label for="IsVisibleForCustomer">[% Translate("Visible for customer") | html %]:</label>
                 <div class="Field">
-                    [% Data.ArticleTypesStrg %]
+                    <input type="checkbox" id="IsVisibleForCustomer" name="IsVisibleForCustomer" value="1" [% IF Data.IsVisibleForCustomer %]checked="checked"[% END %]/>
                 </div>
                 <div class="Clear"></div>
-[% RenderBlockEnd("ArticleType") %]
+
 [% RenderBlockStart("DynamicField") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %]">
                     [% Data.Label %]

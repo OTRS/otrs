@@ -1366,24 +1366,27 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
         # send email
-        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSend(
-            NoAgentNotify  => $NoAgentNotify,
-            Attachment     => \@Attachments,
-            TicketID       => $TicketID,
-            ArticleType    => $Config->{ArticleType},
-            SenderType     => $Config->{SenderType},
-            From           => $Sender,
-            To             => $GetParam{To},
-            Cc             => $GetParam{Cc},
-            Bcc            => $GetParam{Bcc},
-            Subject        => $GetParam{Subject},
-            Body           => $GetParam{Body},
-            Charset        => $LayoutObject->{UserCharset},
-            MimeType       => $MimeType,
-            UserID         => $Self->{UserID},
-            HistoryType    => $Config->{HistoryType},
-            HistoryComment => $Config->{HistoryComment}
+        my $ArticleID = $ArticleBackendObject->ArticleSend(
+            NoAgentNotify        => $NoAgentNotify,
+            Attachment           => \@Attachments,
+            TicketID             => $TicketID,
+            SenderType           => $Config->{SenderType},
+            IsVisibleForCustomer => $Config->{IsVisibleForCustomer},
+            From                 => $Sender,
+            To                   => $GetParam{To},
+            Cc                   => $GetParam{Cc},
+            Bcc                  => $GetParam{Bcc},
+            Subject              => $GetParam{Subject},
+            Body                 => $GetParam{Body},
+            Charset              => $LayoutObject->{UserCharset},
+            MimeType             => $MimeType,
+            UserID               => $Self->{UserID},
+            HistoryType          => $Config->{HistoryType},
+            HistoryComment       => $Config->{HistoryComment}
                 || "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
             %ArticleParam,
         );

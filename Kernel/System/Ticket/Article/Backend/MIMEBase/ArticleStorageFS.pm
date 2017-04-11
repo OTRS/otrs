@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Ticket::ArticleStorageFS;
+package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS;
 
 use strict;
 use warnings;
@@ -16,7 +16,7 @@ use MIME::Base64 qw();
 use Time::HiRes qw();
 use Unicode::Normalize qw();
 
-use base qw(Kernel::System::Ticket::ArticleStorage::Base);
+use base qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -28,53 +28,37 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Ticket',
-    'Kernel::System::Ticket::Article',
-    'Kernel::System::Ticket::ArticleStorageDB',
+    'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB',
     'Kernel::System::Time',
 );
 
 =head1 NAME
 
-Kernel::System::Ticket::ArticleStorageDB - FS based ticket article storage interface
+Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS - FS based ticket article storage interface
 
 =head1 DESCRIPTION
 
 This class provides functions to work manipulate ticket articles on the file system.
 The methods are currently documented in L<Kernel::System::Ticket::Article>.
 
-Inherits from L<Kernel::System::Ticket::ArticleStorage::Base>.
+Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
 
-See also L<Kernel::System::Ticket::ArticleStorageDB>.
+See also L<Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB>.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # ArticleDataDir
-    $Self->{ArticleDataDir} = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir')
-        || die 'Got no ArticleDir!';
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # do we need to check all backends, or just one?
-    $Self->{CheckAllBackends} = $ConfigObject->Get('Ticket::StorageModule::CheckAllBackends') // 0;
-
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # Call new() on Base.pm to execute the common code.
+    my $Self = $Type->SUPER::new(%Param);
 
     my $ArticleContentPath = $Self->BuildArticleContentPath();
     my $ArticleDir         = "$Self->{ArticleDataDir}/$ArticleContentPath/";
 
     File::Path::mkpath( $ArticleDir, 0, 0770 );    ## no critic
 
-    # check write permissions
+    # Check write permissions.
     if ( !-w $ArticleDir ) {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -84,12 +68,16 @@ sub new {
         die "Can't write $ArticleDir! try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
 
-    # get activated cache backend configuration
-    my $CacheModule = $ConfigObject->Get('Cache::Module') || '';
-
-    return $Self if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
+    # Get activated cache backend configuration.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     return $Self if !$ConfigObject->Get('Cache::ArticleStorageCache');
 
+    my $CacheModule = $ConfigObject->Get('Cache::Module') || '';
+    return $Self if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
+
+    # Turn on special cache used for speeding up article storage methods in huge systems with many
+    #   nodes and slow FS access. It will be used only in environments with configured Memcached
+    #   backend (see config above).
     $Self->{ArticleStorageCache} = 1;
     $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
 
@@ -110,27 +98,6 @@ sub ArticleDelete {
         }
     }
 
-    # Delete dynamic field values for this article.
-    $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ObjectValuesDelete(
-        ObjectType => 'Article',
-        ObjectID   => $Param{ArticleID},
-        UserID     => $Param{UserID},
-    );
-
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-    # delete index
-    $ArticleObject->ArticleIndexDelete(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
-    );
-
-    # delete time accounting
-    $ArticleObject->ArticleAccountedTimeDelete(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
-    );
-
     # delete attachments
     $Self->ArticleDeleteAttachment(
         ArticleID => $Param{ArticleID},
@@ -143,36 +110,14 @@ sub ArticleDelete {
         UserID    => $Param{UserID},
     );
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # delete article flags
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
-
-    # delete article history entries
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM ticket_history WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
-
     # delete storage directory
     $Self->_ArticleDeleteDirectory(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
 
-    # delete articles
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM article WHERE id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
-
-    # delete cache
+    # Delete special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'ArticleStorageFS_' . $Param{ArticleID},
         );
@@ -196,8 +141,9 @@ sub ArticleDeletePlain {
     }
 
     # delete from fs
-    my $ContentPath
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath = $Self->_ArticleContentPathGet(
+        ArticleID => $Param{ArticleID},
+    );
     my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
     if ( -f $File ) {
         if ( !unlink $File ) {
@@ -209,9 +155,8 @@ sub ArticleDeletePlain {
         }
     }
 
-    # delete cache
+    # Delete special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $Kernel::OM->Get('Kernel::System::Cache')->Delete(
             Type => 'ArticleStorageFS_' . $Param{ArticleID},
             Key  => 'ArticlePlain',
@@ -221,7 +166,7 @@ sub ArticleDeletePlain {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleDeletePlain(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')->ArticleDeletePlain(
         %Param,
         OnlyMyBackend => 1,
     );
@@ -242,8 +187,9 @@ sub ArticleDeleteAttachment {
     }
 
     # delete from fs
-    my $ContentPath
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath = $Self->_ArticleContentPathGet(
+        ArticleID => $Param{ArticleID},
+    );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
 
     if ( -e $Path ) {
@@ -268,9 +214,8 @@ sub ArticleDeleteAttachment {
         }
     }
 
-    # delete cache
+    # Delete special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'ArticleStorageFS_' . $Param{ArticleID},
         );
@@ -279,10 +224,11 @@ sub ArticleDeleteAttachment {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleDeleteAttachment(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')
+        ->ArticleDeleteAttachment(
         %Param,
         OnlyMyBackend => 1,
-    );
+        );
 }
 
 sub ArticleWritePlain {
@@ -304,8 +250,9 @@ sub ArticleWritePlain {
     $Param{ArticleID} =~ s/\0//g;
 
     # define path
-    my $ContentPath
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath = $Self->_ArticleContentPathGet(
+        ArticleID => $Param{ArticleID},
+    );
     my $Path = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
 
     # debug
@@ -324,9 +271,8 @@ sub ArticleWritePlain {
         Permission => '660',
     );
 
-    # set cache
+    # Write to special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $Kernel::OM->Get('Kernel::System::Cache')->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             TTL            => $Self->{ArticleStorageCacheTTL},
@@ -358,8 +304,9 @@ sub ArticleWriteAttachment {
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
-    my $ContentPath
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath = $Self->_ArticleContentPathGet(
+        ArticleID => $Param{ArticleID},
+    );
 
     # define path
     $Param{Path} = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
@@ -479,9 +426,8 @@ sub ArticleWriteAttachment {
 
     return if !$SuccessContent;
 
-    # delete cache
+    # Delete special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'ArticleStorageFS_' . $Param{ArticleID},
         );
@@ -509,9 +455,8 @@ sub ArticlePlain {
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # read cache
+    # Read from special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         my $Cache = $CacheObject->Get(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             Key            => 'ArticlePlain',
@@ -523,8 +468,9 @@ sub ArticlePlain {
     }
 
     # get content path
-    my $ContentPath
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath = $Self->_ArticleContentPathGet(
+        ArticleID => $Param{ArticleID},
+    );
 
     # open plain article
     if ( -f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
@@ -538,9 +484,8 @@ sub ArticlePlain {
 
         return if !$Data;
 
-        # set cache
+        # Write to special article storage cache.
         if ( $Self->{ArticleStorageCache} ) {
-
             $CacheObject->Set(
                 Type           => 'ArticleStorageFS_' . $Param{ArticleID},
                 TTL            => $Self->{ArticleStorageCacheTTL},
@@ -560,14 +505,13 @@ sub ArticlePlain {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    my $Data = $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticlePlain(
+    my $Data = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')->ArticlePlain(
         %Param,
         OnlyMyBackend => 1,
     );
 
-    # set cache
+    # Write to special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             TTL            => $Self->{ArticleStorageCacheTTL},
@@ -596,9 +540,8 @@ sub ArticleAttachmentIndexRaw {
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # read cache
+    # Read from special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         my $Cache = $CacheObject->Get(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             Key            => 'ArticleAttachmentIndexRaw',
@@ -609,8 +552,9 @@ sub ArticleAttachmentIndexRaw {
         return %{$Cache} if $Cache;
     }
 
-    my $ContentPath
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath = $Self->_ArticleContentPathGet(
+        ArticleID => $Param{ArticleID},
+    );
     my %Index;
     my $Counter = 0;
 
@@ -736,9 +680,8 @@ sub ArticleAttachmentIndexRaw {
         };
     }
 
-    # set cache
+    # Write to special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             TTL            => $Self->{ArticleStorageCacheTTL},
@@ -757,14 +700,14 @@ sub ArticleAttachmentIndexRaw {
     # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
 
-    %Index = $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleAttachmentIndexRaw(
+    %Index = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')
+        ->ArticleAttachmentIndexRaw(
         %Param,
         OnlyMyBackend => 1,
-    );
+        );
 
-    # set cache
+    # Write to special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             TTL            => $Self->{ArticleStorageCacheTTL},
@@ -799,9 +742,8 @@ sub ArticleAttachment {
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # read cache
+    # Read from special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         my $Cache = $CacheObject->Get(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             Key            => 'ArticleAttachment' . $Param{FileID},
@@ -819,8 +761,9 @@ sub ArticleAttachment {
     );
 
     # get content path
-    my $ContentPath
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
+    my $ContentPath = $Self->_ArticleContentPathGet(
+        ArticleID => $Param{ArticleID},
+    );
     my %Data = %{ $Index{ $Param{FileID} } // {} };
     my $Counter = 0;
 
@@ -941,9 +884,8 @@ sub ArticleAttachment {
 
                 chomp $Data{ContentType};
 
-                # set cache
+                # Write to special article storage cache.
                 if ( $Self->{ArticleStorageCache} ) {
-
                     $CacheObject->Set(
                         Type           => 'ArticleStorageFS_' . $Param{ArticleID},
                         TTL            => $Self->{ArticleStorageCacheTTL},
@@ -965,14 +907,13 @@ sub ArticleAttachment {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    %Data = $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageDB')->ArticleAttachment(
+    %Data = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')->ArticleAttachment(
         %Param,
         OnlyMyBackend => 1,
     );
 
-    # set cache
+    # Write to special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
-
         $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
             TTL            => $Self->{ArticleStorageCacheTTL},

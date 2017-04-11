@@ -600,19 +600,21 @@ for my $Test (@TestVariations) {
     # make a deep copy as the references gets modified over the tests
     $Test = Storable::dclone($Test);
 
-    my $ArticleID = $ArticleObject->ArticleSend(
-        TicketID       => $TicketID,
-        From           => $Test->{ArticleData}->{From},
-        To             => $Test->{ArticleData}->{To},
-        ArticleType    => 'email-external',
-        SenderType     => 'customer',
-        HistoryType    => 'AddNote',
-        HistoryComment => 'note',
-        Subject        => 'Unittest data',
-        Charset        => 'utf-8',
-        MimeType       => $Test->{ArticleData}->{MimeType},    # "text/plain" or "text/html"
-        Body           => 'Some nice text\n.',
-        Sign           => {
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
+    my $ArticleID = $ArticleBackendObject->ArticleSend(
+        TicketID             => $TicketID,
+        From                 => $Test->{ArticleData}->{From},
+        To                   => $Test->{ArticleData}->{To},
+        IsVisibleForCustomer => 1,
+        SenderType           => 'customer',
+        HistoryType          => 'AddNote',
+        HistoryComment       => 'note',
+        Subject              => 'Unittest data',
+        Charset              => 'utf-8',
+        MimeType             => $Test->{ArticleData}->{MimeType},    # "text/plain" or "text/html"
+        Body                 => 'Some nice text\n.',
+        Sign                 => {
             Type    => 'SMIME',
             SubType => 'Detached',
             Key     => $Test->{ArticleData}->{Sign}->{Key},
@@ -626,9 +628,10 @@ for my $Test (@TestVariations) {
         "$Test->{Name} - ArticleSend()",
     );
 
-    my %Article = $ArticleObject->ArticleGet(
+    my %Article = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
+        UserID    => 1,
     );
 
     my $CheckObject = Kernel::Output::HTML::ArticleCheck::SMIME->new(
@@ -660,9 +663,10 @@ for my $Test (@TestVariations) {
         );
     }
 
-    my %FinalArticleData = $ArticleObject->ArticleGet(
+    my %FinalArticleData = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
+        UserID    => 1,
     );
 
     my $TestBody = $Test->{ArticleData}->{Body};
@@ -682,11 +686,9 @@ for my $Test (@TestVariations) {
 
     if ( defined $Test->{ArticleData}->{Attachment} ) {
         my $Found;
-        my %Index = $ArticleObject->ArticleAttachmentIndex(
-            ArticleID                  => $ArticleID,
-            UserID                     => 1,
-            Article                    => \%FinalArticleData,
-            StripPlainBodyAsAttachment => 0,
+        my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID => $ArticleID,
+            UserID    => 1,
         );
 
         TESTATTACHMENT:

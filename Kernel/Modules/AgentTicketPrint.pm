@@ -114,26 +114,38 @@ sub Run {
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
     );
-    my @ArticleBox = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleContentIndex(
-        TicketID                   => $Self->{TicketID},
-        StripPlainBodyAsAttachment => 1,
-        UserID                     => $Self->{UserID},
-        DynamicFields              => 0,
+
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    my @MetaArticles = $ArticleObject->ArticleList(
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID},
     );
 
-    # check if only one article need printed
+    # Check if only one article should be printed.
     if ($ArticleID) {
-
-        ARTICLE:
-        for my $Article (@ArticleBox) {
-            if ( $Article->{ArticleID} == $ArticleID ) {
-                @ArticleBox = ($Article);
-                last ARTICLE;
-            }
-        }
+        @MetaArticles = grep { $_->{ArticleID} == $ArticleID } @MetaArticles;
     }
 
-    # get config object
+    my @ArticleBox;
+
+    for my $MetaArticle (@MetaArticles) {
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$MetaArticle} );
+        my %Article              = $ArticleBackendObject->ArticleGet(
+            %{$MetaArticle},
+            DynamicFields => 0,
+            UserID        => $Self->{UserID},
+        );
+        $Article{Atms} = $ArticleBackendObject->ArticleAttachmentIndex(
+            %{$MetaArticle},
+            UserID           => $Self->{UserID},
+            ExcludePlainText => 1,
+            ExcludeHTMLBody  => 1,
+            ExcludeInline    => 1,
+        );
+        push @ArticleBox, \%Article;
+    }
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # show total accounted time if feature is active:
@@ -1070,11 +1082,6 @@ sub _PDFOutputArticles {
             $Row++;
         }
 
-        $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Type') . ':';
-        $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-        $TableParam1{CellData}[$Row][1]{Content} = $LayoutObject->{LanguageObject}->Translate( $Article{ArticleType} );
-        $Row++;
-
         if ($Attachments) {
             $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Attachment') . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
@@ -1127,30 +1134,31 @@ sub _PDFOutputArticles {
             }
         }
 
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
-        {
-            $Article{Body} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-                Data => $Article{Body}
-            );
-            my $Lines;
-            if ( IsArrayRefWithData( $Article{Body} ) ) {
-                for my $Line ( @{ $Article{Body} } ) {
-                    my $CreateTime
-                        = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
-                    if ( $Line->{SystemGenerated} ) {
-                        $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
-                    }
-                    else {
-                        $Lines
-                            .= '['
-                            . $CreateTime . '] '
-                            . $Line->{ChatterName} . ' '
-                            . $Line->{MessageText} . "\n";
-                    }
-                }
-            }
-            $Article{Body} = $Lines;
-        }
+        # TODO: Handle articles coming from chat channel.
+        # if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
+        # {
+        #     $Article{Body} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+        #         Data => $Article{Body}
+        #     );
+        #     my $Lines;
+        #     if ( IsArrayRefWithData( $Article{Body} ) ) {
+        #         for my $Line ( @{ $Article{Body} } ) {
+        #             my $CreateTime
+        #                 = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
+        #             if ( $Line->{SystemGenerated} ) {
+        #                 $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
+        #             }
+        #             else {
+        #                 $Lines
+        #                     .= '['
+        #                     . $CreateTime . '] '
+        #                     . $Line->{ChatterName} . ' '
+        #                     . $Line->{MessageText} . "\n";
+        #             }
+        #         }
+        #     }
+        #     $Article{Body} = $Lines;
+        # }
 
         # table params (article body)
         my %TableParam2;

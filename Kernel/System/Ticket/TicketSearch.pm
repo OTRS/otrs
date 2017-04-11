@@ -490,19 +490,19 @@ sub TicketSearch {
     if (
         $Param{AttachmentName}
         && (
-            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StorageModule') eq
-            'Kernel::System::Ticket::ArticleStorageDB'
+            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{'ArticleStorage'} eq
+            'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB'
         )
         )
     {
 
-        # joins to article and article_attachments are needed, it can not use existing article joins
+        # joins to article and article_data_mime_attachment are needed, it can not use existing article joins
         # otherwise the search will be limited to already matching articles
         my $AttachmentJoinSQL = '
         INNER JOIN article art_for_att ON st.id = art_for_att.ticket_id
-        INNER JOIN article_attachment att ON att.article_id = art_for_att.id ';
+        INNER JOIN article_data_mime_attachment att ON att.article_id = art_for_att.id ';
 
-        # SQL, use also article_attachment table if needed
+        # SQL, use also article_data_mime_attachment table if needed
         $SQLFrom .= $AttachmentJoinSQL;
     }
 
@@ -1276,33 +1276,17 @@ sub TicketSearch {
     my $ArticleIndexSQLExt = $ArticleObject->_ArticleIndexQuerySQLExt( Data => \%Param );
     $SQLExt .= $ArticleIndexSQLExt;
 
-    my %CustomerArticleTypes;
-    my @CustomerArticleTypeIDs;
-    if ( $Param{CustomerUserID} ) {
-        %CustomerArticleTypes = $ArticleObject->ArticleTypeList(
-            Result => 'HASH',
-            Type   => 'Customer',
-        );
-        @CustomerArticleTypeIDs = keys %CustomerArticleTypes;
-    }
-
     # restrict search from customers to only customer articles
     if ( $Param{CustomerUserID} && $ArticleIndexSQLExt ) {
-        my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-            Key       => 'art.article_type_id',
-            Values    => \@CustomerArticleTypeIDs,
-            QuoteType => 'Integer',
-            BindMode  => 0,
-        );
-        $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
+        $SQLExt .= ' AND sa.is_visible_for_customer = 1 ';
     }
 
     # only search for attachment name if Article Storage is set to DB
     if (
         $Param{AttachmentName}
         && (
-            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StorageModule') eq
-            'Kernel::System::Ticket::ArticleStorageDB'
+            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{'ArticleStorage'} eq
+            'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB'
         )
         )
     {
@@ -1323,13 +1307,7 @@ sub TicketSearch {
 
         # restrict search from customers to only customer articles
         if ( $Param{CustomerUserID} ) {
-            my $SQLQueryInCondition = $Kernel::OM->Get('Kernel::System::DB')->QueryInCondition(
-                Key       => 'art_for_att.article_type_id',
-                Values    => \@CustomerArticleTypeIDs,
-                QuoteType => 'Integer',
-                BindMode  => 0,
-            );
-            $SQLExt .= ' AND ( ' . $SQLQueryInCondition . ' ) ';
+            $SQLExt .= ' AND art_for_att.is_visible_for_customer = 1 ';
         }
     }
 

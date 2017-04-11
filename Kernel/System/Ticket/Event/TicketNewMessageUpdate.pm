@@ -64,6 +64,7 @@ sub Run {
         #   This must also be done for articles with SenderType other than agent because
         #   it could be still coming from an agent (see bug#11565).
         $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagSet(
+            TicketID  => $Param{Data}->{TicketID},
             ArticleID => $Param{Data}->{ArticleID},
             Key       => 'Seen',
             Value     => 1,
@@ -85,10 +86,14 @@ sub Run {
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
         for my $SenderType (@SenderTypes) {
-            push @ArticleList, $ArticleObject->ArticleIndex(
+            my @Articles = $ArticleObject->ArticleList(
                 TicketID   => $Param{Data}->{TicketID},
                 SenderType => $SenderType,
             );
+
+            for my $Article (@Articles) {
+                push @ArticleList, $Article->{ArticleID};
+            }
         }
 
         # check if ticket needs to be marked as seen

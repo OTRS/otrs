@@ -12,17 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Article::StorageSwitch');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
+my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Article::StorageSwitch');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Internal',
+);
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# make sure ticket is created in ArticleStorageDB
-$HelperObject->ConfigSettingChange(
+# Make sure ticket is created in ArticleStorageDB.
+$Kernel::OM->Get('Kernel::Config')->Set(
     Valid => 1,
-    Key   => 'Ticket::StorageModule',
-    Value => 'Kernel::System::Ticket::ArticleStorageDB',
+    Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+    Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB',
 );
 
 # create isolated time environment during test
@@ -47,19 +49,19 @@ $Self->True(
     'TicketCreate()',
 );
 
-my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'note-internal',
-    SenderType     => 'agent',
-    From           => 'Some Agent <email@example.com>',
-    To             => 'Some Customer <customer-a@example.com>',
-    Subject        => 'some short description',
-    Body           => 'the message text',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    Attachment     => [
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 0,
+    SenderType           => 'agent',
+    From                 => 'Some Agent <email@example.com>',
+    To                   => 'Some Customer <customer-a@example.com>',
+    Subject              => 'some short description',
+    Body                 => 'the message text',
+    ContentType          => 'text/plain; charset=ISO-8859-15',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    Attachment           => [
         {
             Content     => 'empty',
             ContentType => 'text/csv',

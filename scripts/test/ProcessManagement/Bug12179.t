@@ -16,10 +16,8 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-# Get config object.
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# Get helper object.
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -89,24 +87,24 @@ my %Process = (
             Name   => 'Create Copy',
             Module => 'Kernel::System::ProcessManagement::TransitionAction::TicketCreate',
             Config => {
-                ArticleType       => 'phone',
-                Body              => 'Ticket Copy',
-                ContentType       => 'text/plain; charset=UTF8',
-                CustomerID        => '',
-                CustomerUser      => '',
-                $DynamicFieldName => "<OTRS_TICKET_$DynamicFieldName>",
-                HistoryComment    => 'Created new ticket copy',
-                HistoryType       => 'AddNote',
-                LinkAs            => 'Child',
-                Lock              => 'unlock',
-                OwnerID           => 1,
-                Priority          => '3 normal',
-                Queue             => '<OTRS_TICKET_Queue>',
-                SenderType        => 'agent',
-                State             => 'closed successful',
-                Subject           => '<OTRS_TICKET_Title>',
-                Title             => '<OTRS_TICKET_Title>',
-                Type              => '<OTRS_TICKET_Type>',
+                SenderType           => 'agent',
+                IsVisibleForCustomer => 1,
+                Body                 => 'Ticket Copy',
+                ContentType          => 'text/plain; charset=UTF8',
+                CustomerID           => '',
+                CustomerUser         => '',
+                $DynamicFieldName    => "<OTRS_TICKET_$DynamicFieldName>",
+                HistoryComment       => 'Created new ticket copy',
+                HistoryType          => 'AddNote',
+                LinkAs               => 'Child',
+                Lock                 => 'unlock',
+                OwnerID              => 1,
+                Priority             => '3 normal',
+                Queue                => '<OTRS_TICKET_Queue>',
+                State                => 'closed successful',
+                Subject              => '<OTRS_TICKET_Title>',
+                Title                => '<OTRS_TICKET_Title>',
+                Type                 => '<OTRS_TICKET_Type>',
             },
             ChangeTime => '2016-07-05 16:00:22',
             CreateTime => '2016-07-05 15:18:21',
@@ -169,8 +167,9 @@ $Self->IsNot(
 
 my $RandomID = $Helper->GetRandomID();
 
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
 # Create tickets.
 my %TicketTemplate = (
@@ -190,7 +189,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
 $Self->IsNot(
     $TicketID1,
     undef,
-    "TicketCrete() for Ticket 1",
+    'TicketCrete() for Ticket 1'
 );
 my $TicketID2 = $TicketObject->TicketCreate(
     %TicketTemplate,
@@ -199,37 +198,37 @@ my $TicketID2 = $TicketObject->TicketCreate(
 $Self->IsNot(
     $TicketID1,
     undef,
-    "TicketCrete() for Ticket 2",
+    'TicketCrete() for Ticket 2'
 );
 
 # Create articles.
 my %ArticleTemplate = (
-    ArticleType    => 'phone',
-    SenderType     => 'agent',
-    Subject        => 'some short description',
-    Body           => 'Ticket Original',
-    ContentType    => 'text/plain; charset=UTF8',
-    HistoryComment => 'Created new ticket',
-    HistoryType    => 'AddNote',
-    UserID         => 1,
+    SenderType           => 'agent',
+    IsVisibleForCustomer => 1,
+    Subject              => 'some short description',
+    Body                 => 'Ticket Original',
+    ContentType          => 'text/plain; charset=UTF8',
+    HistoryComment       => 'Created new ticket',
+    HistoryType          => 'AddNote',
+    UserID               => 1,
 );
-my $ArticleID1 = $ArticleObject->ArticleCreate(
+my $ArticleID1 = $ArticleBackendObject->ArticleCreate(
     %ArticleTemplate,
     TicketID => $TicketID1,
 );
 $Self->IsNot(
     $ArticleID1,
     undef,
-    "ArticleCrete() for Ticket 1",
+    'ArticleCrete() for Ticket 1'
 );
-my $ArticleID2 = $ArticleObject->ArticleCreate(
+my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
     %ArticleTemplate,
     TicketID => $TicketID1,
 );
 $Self->IsNot(
     $ArticleID2,
     undef,
-    "ArticleCrete() for Ticket 2",
+    'ArticleCrete() for Ticket 2'
 );
 
 # Get Dynamic Fields Configuration
@@ -253,7 +252,7 @@ for my $TicketID ( $TicketID1, $TicketID2 ) {
     );
     $Self->True(
         $Sucess,
-        "Process Enrollment DynamicField ValueSet() for Process for TicketID $TicketID",
+        'Process Enrollment DynamicField ValueSet() for Process for TicketID $TicketID'
     );
     $Sucess = $DynamicFieldBackendObject->ValueSet(
         DynamicFieldConfig => $ActivityIDDynamicFieldConfig,
@@ -263,7 +262,7 @@ for my $TicketID ( $TicketID1, $TicketID2 ) {
     );
     $Self->True(
         $Sucess,
-        "Process Enrollment DynamicField ValueSet() for Activity for TicketID $TicketID",
+        "Process Enrollment DynamicField ValueSet() for Activity for TicketID $TicketID"
     );
 }
 
@@ -304,7 +303,7 @@ for my $TicketID ( $TicketID1, $TicketID2 ) {
     );
     $Self->True(
         $Sucess,
-        "Transition Trigger DynamicField ValueSet() for TicketID $TicketID",
+        "Transition Trigger DynamicField ValueSet() for TicketID $TicketID"
     );
 }
 

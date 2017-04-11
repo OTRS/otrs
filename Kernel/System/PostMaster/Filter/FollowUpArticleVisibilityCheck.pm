@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck;
+package Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck;
 
 use strict;
 use warnings;
@@ -14,6 +14,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::Log',
+    'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
 );
 
@@ -33,11 +34,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # FollowUpArticleTypeCheck is not needed if there is no TicketID.
+    # This filter is not needed if there is no TicketID.
     return 1 if !$Param{TicketID};
 
     # check needed stuff
-    for (qw(JobConfig GetParam)) {
+    for (qw(JobConfig GetParam UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -59,18 +60,16 @@ sub Run {
         return 1;
     }
 
-    # Get all articles.
-    my @ArticleIndex = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
+    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
     );
-    return if !@ArticleIndex;
 
     # Check if it is a known customer, otherwise use email address from CustomerUserID field of the ticket.
     my %CustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-        User => $ArticleIndex[0]->{CustomerUserID},
+        User => $Ticket{CustomerUserID},
     );
-    my $CustomerEmailAddress = $CustomerData{UserEmail} || $ArticleIndex[0]->{CustomerUserID};
+    my $CustomerEmailAddress = $CustomerData{UserEmail} || $Ticket{CustomerUserID};
 
     # Email sender address
     my $SenderAddress = $Param{GetParam}->{'X-Sender'};
@@ -90,16 +89,30 @@ sub Run {
 
     my @References = $Self->{ParserObject}->GetReferences();
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    # Get all internal email articles sent by agents.
+    my @MetaArticleIndex = $ArticleObject->ArticleList(
+        TicketID             => $Param{TicketID},
+        CommunicationChannel => 'Email',
+        SenderType           => 'agent',
+        IsVisibleForCustomer => 0,
+    );
+    return 1 if !@MetaArticleIndex;
+
+    my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
     # check if current sender got an internal forward
-    my $InternalForward;
+    my $IsInternalForward;
     ARTICLE:
-    for my $Article ( reverse @ArticleIndex ) {
+    for my $MetaArticle ( reverse @MetaArticleIndex ) {
 
-        # just check agent sent article
-        next ARTICLE if $Article->{SenderType} ne 'agent';
-
-        # just check email-internal
-        next ARTICLE if $Article->{ArticleType} ne 'email-internal';
+        my $Article = {
+            $ArticleBackendObject->ArticleGet(
+                %{$MetaArticle},
+                UserID => $Param{UserID},
+                )
+        };
 
         # check recipients
         next ARTICLE if !$Article->{To};
@@ -119,11 +132,11 @@ sub Run {
                 Email => $Email,
             );
             if ( lc $Recipient eq lc $SenderAddress ) {
-                $InternalForward = 1;
+                $IsInternalForward = 1;
                 last ARTICLE;
             }
             if ( $ReplyToAddress && lc $Recipient eq lc $ReplyToAddress ) {
-                $InternalForward = 1;
+                $IsInternalForward = 1;
                 last ARTICLE;
             }
         }
@@ -131,18 +144,15 @@ sub Run {
         # check based on Message-ID of the article
         for my $Reference (@References) {
             if ( $Article->{MessageID} && $Article->{MessageID} eq $Reference ) {
-                $InternalForward = 1;
+                $IsInternalForward = 1;
                 last ARTICLE;
             }
         }
     }
 
-    return 1 if !$InternalForward;
+    return 1 if !$IsInternalForward;
 
-    # set 'X-OTRS-FollowUp-ArticleType to 'email-internal'
-    $Param{GetParam}->{'X-OTRS-FollowUp-ArticleType'} = $Param{JobConfig}->{ArticleType} || 'email-internal';
-
-    # set 'X-OTRS-FollowUp-SenderType to 'customer'
+    $Param{GetParam}->{'X-OTRS-FollowUp-IsVisibleForCustomer'} = $Param{JobConfig}->{IsVisibleForCustomer} // 0;
     $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'} = $Param{JobConfig}->{SenderType} || 'customer';
 
     return 1;

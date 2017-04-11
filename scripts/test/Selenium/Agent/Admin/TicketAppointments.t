@@ -23,6 +23,9 @@ $Selenium->RunTest(
         my $DynamicFieldObject      = $Kernel::OM->Get('Kernel::System::DynamicField');
         my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
         my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleBackendObject    = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Email',
+        );
 
         my $RandomID = $Helper->GetRandomID();
 
@@ -140,19 +143,19 @@ $Selenium->RunTest(
             "TicketCreate() - $TicketTitle ($TicketID)",
         );
 
-        # Create article.
-        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'email-external',
-            SenderType     => 'customer',
-            From           => 'Some Customer A <customer-a@example.com>',
-            To             => 'Some Agent <email@example.com>',
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            ContentType    => 'text/plain; charset=ISO-8859-15',
-            HistoryType    => 'EmailCustomer',
-            HistoryComment => 'Customer sent an email',
-            UserID         => 1,
+        # Create email article.
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'customer',
+            IsVisibleForCustomer => 1,
+            From                 => 'Some Customer A <customer-a@example.com>',
+            To                   => 'Some Agent <email@example.com>',
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            ContentType          => 'text/plain; charset=ISO-8859-15',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Customer sent an email',
+            UserID               => 1,
         );
 
         # Build escalation index.

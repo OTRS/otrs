@@ -3770,7 +3770,9 @@ sub _StoreActivityDialog {
             }
         }
         elsif ( $CurrentField eq 'Article' && ( $UpdateTicketID || $NewTicketID ) ) {
-            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+            my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+                ChannelName => 'Internal',
+            );
 
             my $TicketID = $UpdateTicketID || $NewTicketID;
 
@@ -3789,9 +3791,10 @@ sub _StoreActivityDialog {
                 }
 
                 my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
-                $ArticleID = $ArticleObject->ArticleCreate(
+                $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID                  => $TicketID,
                     SenderType                => 'customer',
+                    IsVisibleForCustomer      => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer},
                     From                      => $From,
                     MimeType                  => $MimeType,
                     Charset                   => $LayoutObject->{UserCharset},
@@ -3800,7 +3803,6 @@ sub _StoreActivityDialog {
                     HistoryComment            => '%%Note',
                     Body                      => $Param{GetParam}->{Body},
                     Subject                   => $Param{GetParam}->{Subject},
-                    ArticleType               => $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
                     ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}
                     ? $Param{GetParam}{InformUserID}
                     : [],
@@ -3850,7 +3852,7 @@ sub _StoreActivityDialog {
                     }
 
                     # write existing file to backend
-                    $ArticleObject->ArticleWriteAttachment(
+                    $ArticleBackendObject->ArticleWriteAttachment(
                         %{$Attachment},
                         ArticleID => $ArticleID,
                         UserID    => $ConfigObject->Get('CustomerPanelUserID'),

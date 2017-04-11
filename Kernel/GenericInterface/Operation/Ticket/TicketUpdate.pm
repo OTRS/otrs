@@ -110,8 +110,9 @@ if applicable the created ArticleID.
                 #},
             },
             Article => {                                                          # optional
-                ArticleTypeID                   => 123,                        # optional
-                ArticleType                     => 'some article type name',   # optional
+                CommunicationChannel            => 'Email',                    # CommunicationChannel or CommunicationChannelID must be provided.
+                CommunicationChannelID          => 1,
+                IsVisibleForCustomer            => 1,                          # optional
                 SenderTypeID                    => 123,                        # optional
                 SenderType                      => 'some sender type name',    # optional
                 AutoResponseType                => 'some auto response type',  # optional
@@ -370,10 +371,7 @@ sub Run {
     my $Article;
     if ( defined $Param{Data}->{Article} ) {
 
-        # isolate Article parameter
         $Article = $Param{Data}->{Article};
-
-        # add UserType to Validate ArticleType
         $Article->{UserType} = $UserType;
 
         # remove leading and trailing spaces
@@ -400,12 +398,17 @@ sub Run {
             }
         }
 
-        # check attributes that can be gather by sysconfig
+        # Check attributes that can be set by sysconfig.
         if ( !$Article->{AutoResponseType} ) {
             $Article->{AutoResponseType} = $Self->{Config}->{AutoResponseType} || '';
         }
-        if ( !$Article->{ArticleTypeID} && !$Article->{ArticleType} ) {
-            $Article->{ArticleType} = $Self->{Config}->{ArticleType} || '';
+
+        # TODO: GenericInterface::Operation::TicketUpdate###CommunicationChannel
+        if ( !$Article->{CommunicationChannelID} && !$Article->{CommunicationChannel} ) {
+            $Article->{CommunicationChannel} = 'Internal';
+        }
+        if ( !defined $Article->{IsVisibleForCustomer} ) {
+            $Article->{IsVisibleForCustomer} = $Self->{Config}->{IsVisibleForCustomer} // 1;
         }
         if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
             $Article->{SenderType} = $UserType eq 'User' ? 'agent' : 'customer';
@@ -765,8 +768,7 @@ sub _CheckArticle {
 
         # return internal server error
         return {
-            ErrorMessage => "TicketUpdate: Article->AutoResponseType parameter is required and"
-                . " Sysconfig ArticleTypeID setting could not be read!"
+            ErrorMessage => "TicketUpdate: Article->AutoResponseType parameter is required and",
         };
     }
 
@@ -777,19 +779,19 @@ sub _CheckArticle {
         };
     }
 
-    # check Article->ArticleType
-    if ( !$Article->{ArticleTypeID} && !$Article->{ArticleType} ) {
+    # check Article->CommunicationChannel
+    if ( !$Article->{CommunicationChannel} && !$Article->{CommunicationChannelID} ) {
 
         # return internal server error
         return {
-            ErrorMessage => "TicketUpdate: Article->ArticleTypeID or Article->ArticleType parameter"
-                . " is required and Sysconfig ArticleTypeID setting could not be read!"
+            ErrorMessage => "TicketUpdate: Article->CommunicationChannelID or Article->CommunicationChannel parameter"
+                . " is required and Sysconfig CommunicationChannelID setting could not be read!"
         };
     }
-    if ( !$Self->ValidateArticleType( %{$Article} ) ) {
+    if ( !$Self->ValidateArticleCommunicationChannel( %{$Article} ) ) {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
-            ErrorMessage => "TicketUpdate: Article->ArticleTypeID or Article->ArticleType parameter"
+            ErrorMessage => "TicketUpdate: Article->CommunicationChannel or Article->CommunicationChannelID parameter"
                 . " is invalid!",
         };
     }
@@ -1930,27 +1932,38 @@ sub _TicketUpdate {
         # set Article To
         my $To = '';
 
-        # create article
-        $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            NoAgentNotify  => $Article->{NoAgentNotify}  || 0,
-            TicketID       => $TicketID,
-            ArticleTypeID  => $Article->{ArticleTypeID}  || '',
-            ArticleType    => $Article->{ArticleType}    || '',
-            SenderTypeID   => $Article->{SenderTypeID}   || '',
-            SenderType     => $Article->{SenderType}     || '',
-            From           => $From,
-            To             => $To,
-            Subject        => $Article->{Subject},
-            Body           => $Article->{Body},
-            MimeType       => $Article->{MimeType}       || '',
-            Charset        => $Article->{Charset}        || '',
-            ContentType    => $Article->{ContentType}    || '',
-            UserID         => $Param{UserID},
-            HistoryType    => $Article->{HistoryType},
-            HistoryComment => $Article->{HistoryComment} || '%%',
-            AutoResponseType => $Article->{AutoResponseType},
-            UnlockOnAway     => $UnlockOnAway,
-            OrigHeader       => {
+        if ( !$Article->{CommunicationChannel} ) {
+
+            my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
+                ChannelID => $Article->{CommunicationChannelID},
+            );
+            $Article->{CommunicationChannel} = $CommunicationChannel{ChannelName};
+        }
+
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => $Article->{CommunicationChannel},
+        );
+
+        # Create article.
+        $ArticleID = $ArticleBackendObject->ArticleCreate(
+            NoAgentNotify => $Article->{NoAgentNotify} || 0,
+            TicketID      => $TicketID,
+            SenderTypeID  => $Article->{SenderTypeID}  || '',
+            SenderType    => $Article->{SenderType}    || '',
+            IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
+            From                 => $From,
+            To                   => $To,
+            Subject              => $Article->{Subject},
+            Body                 => $Article->{Body},
+            MimeType             => $Article->{MimeType} || '',
+            Charset              => $Article->{Charset} || '',
+            ContentType          => $Article->{ContentType} || '',
+            UserID               => $Param{UserID},
+            HistoryType          => $Article->{HistoryType},
+            HistoryComment       => $Article->{HistoryComment} || '%%',
+            AutoResponseType     => $Article->{AutoResponseType},
+            UnlockOnAway         => $UnlockOnAway,
+            OrigHeader           => {
                 From    => $From,
                 To      => $To,
                 Subject => $Article->{Subject},

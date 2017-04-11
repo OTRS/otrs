@@ -18,18 +18,25 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::ArchiveCleanup');
 
-my $ExitCode = $CommandObject->Execute();
+for my $ArchiveActive ( 0, 1 ) {
 
-# just check exit code
-$Self->Is(
-    $ExitCode,
-    $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ? 0 : 1,
-    "Maint::Ticket::ArchiveCleanup exit code",
-);
+    $Kernel::OM->Get('Kernel::Config')->Set(
+        Key   => 'Ticket::ArchiveSystem',
+        Value => $ArchiveActive
+    );
+
+    my $ExitCode = $CommandObject->Execute();
+
+    # just check exit code
+    $Self->Is(
+        $ExitCode,
+        $ArchiveActive ? 0 : 1,
+        "Maint::Ticket::ArchiveCleanup exit code for ArchiveActive $ArchiveActive",
+    );
+}
 
 # cleanup is done by RestoreDatabase
 

@@ -595,7 +595,7 @@
         </Value>
     </Setting>
     <Setting Name="MinimumLogLevel" Required="1" Valid="1">
-        <Description Translatable="1">Set minimum loglevel. If you select 'error', just errors are logged. With 'debug' you get all logging messages.</Description>
+        <Description Translatable="1">Set the minimum log level. If you select 'error', just errors are logged. With 'debug' you get all logging messages. The order of log levels is: 'debug', 'info', 'notice' and 'error'.</Description>
         <Navigation>Core::Log</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="error">

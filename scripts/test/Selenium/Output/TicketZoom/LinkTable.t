@@ -191,9 +191,9 @@ $Selenium->RunTest(
         # navigate to AgentTicketZoom for test created second ticket again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[1]");
 
-        # verify 'Linked Object' widget is in the main column with complex view
+        # Verify 'Linked Object' widget is in the main column with complex view.
         $Self->Is(
-            $Selenium->find_element( '.ContentColumn .Header>h2', 'css' )->get_text(),
+            $Selenium->find_element( '.ContentColumn #WidgetTicket .Header>h2', 'css' )->get_text(),
             'Linked: Ticket',
             'Linked Objects widget is positioned in the main column with complex view',
         );

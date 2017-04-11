@@ -44,7 +44,7 @@ ActivityDialogs:
       Fields:
         Article:
           Config:
-            ArticleType: phone
+            IsVisibleForCustomer: 1
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''
@@ -82,7 +82,7 @@ ActivityDialogs:
       Fields:
         Article:
           Config:
-            ArticleType: note-internal
+            IsVisibleForCustomer: 0
           DefaultValue: ''
           DescriptionLong: ''
           DescriptionShort: ''

@@ -340,7 +340,6 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     <xsd:element maxOccurs="1" name="ArticleType" type="xsd:string"/>
                     <xsd:element maxOccurs="1" name="ArticleTypeID" type="xsd:positiveInteger"/>
                     <xsd:element maxOccurs="unbounded" minOccurs="0" name="Attachment" type="tns:OTRS_TicketGetResponse_Attachment"/>
-                    <xsd:element maxOccurs="1" name="AttachmentIDOfHTMLBody" type="xsd:string"/>
                     <xsd:element maxOccurs="1" name="Body" type="xsd:string"/>
                     <xsd:element maxOccurs="1" name="Cc" type="xsd:string"/>
                     <xsd:element minOccurs="0" name="CcRealname" type="xsd:string"/>

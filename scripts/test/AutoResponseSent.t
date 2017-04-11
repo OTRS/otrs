@@ -13,12 +13,14 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
-my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $TestEmailObject    = $Kernel::OM->Get('Kernel::System::Email::Test');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $QueueObject          = $Kernel::OM->Get('Kernel::System::Queue');
+my $AutoResponseObject   = $Kernel::OM->Get('Kernel::System::AutoResponse');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TestEmailObject      = $Kernel::OM->Get('Kernel::System::Email::Test');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Email',
+);
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -46,7 +48,6 @@ my @Tests = (
         AutoResponseTypeID => 1,
         AutoResponseType   => 'auto reply',
         TicketState        => 'open',
-        ArticleType        => 'phone',
     },
     {
         Subject            => 'AutoResponse Follow Up',
@@ -54,7 +55,6 @@ my @Tests = (
         AutoResponseTypeID => 3,
         AutoResponseType   => 'auto follow up',
         TicketState        => 'open',
-        ArticleType        => 'webrequest',
     },
     {
         Subject            => 'AutoResponse Reject',
@@ -62,7 +62,6 @@ my @Tests = (
         AutoResponseTypeID => 2,
         AutoResponseType   => 'auto reject',
         TicketState        => 'closed successful',
-        ArticleType        => 'webrequest',
     },
     {
         Subject            => 'AutoResponse Reply/New Ticket',
@@ -70,14 +69,12 @@ my @Tests = (
         AutoResponseTypeID => 4,
         AutoResponseType   => 'auto reply/new ticket',
         TicketState        => 'closed successful',
-        ArticleType        => 'webrequest',
     },
     {
         Subject            => 'AutoResponse Remove',
         AutoResponseTypeID => 5,
         AutoResponseType   => 'auto remove',
         TicketState        => 'removed',
-        ArticleType        => 'webrequest',
     },
 );
 
@@ -167,22 +164,22 @@ for my $Test (@Tests) {
     push @TicketIDs, $TicketIDOne;
 
     # create article for test ticket one
-    my $ArticleIDOne = $ArticleObject->ArticleCreate(
-        TicketID         => $TicketIDOne,
-        ArticleType      => $Test->{ArticleType},
-        SenderType       => 'customer',
-        Subject          => 'UnitTest article one',
-        From             => '"test" <test@localunittest.com>',
-        To               => $QueueName,
-        Body             => 'UnitTest body',
-        Charset          => 'utf-8',
-        MimeType         => 'text/plain',
-        HistoryType      => 'PhoneCallCustomer',
-        HistoryComment   => 'Some free text!',
-        UserID           => 1,
-        UnlockOnAway     => 1,
-        AutoResponseType => $Test->{AutoResponseType},
-        OrigHeader       => {
+    my $ArticleIDOne = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDOne,
+        IsVisibleForCustomer => 1,
+        SenderType           => 'customer',
+        Subject              => 'UnitTest article one',
+        From                 => '"test" <test@localunittest.com>',
+        To                   => $QueueName,
+        Body                 => 'UnitTest body',
+        Charset              => 'utf-8',
+        MimeType             => 'text/plain',
+        HistoryType          => 'PhoneCallCustomer',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        UnlockOnAway         => 1,
+        AutoResponseType     => $Test->{AutoResponseType},
+        OrigHeader           => {
             From    => '"test" <test@localunittest.com>',
             To      => $QueueName,
             Subject => 'UnitTest article one',
@@ -217,22 +214,22 @@ for my $Test (@Tests) {
     );
 
     # check auto response suppression with X-OTRS-Loop
-    $ArticleIDOne = $ArticleObject->ArticleCreate(
-        TicketID         => $TicketIDOne,
-        ArticleType      => $Test->{ArticleType},
-        SenderType       => 'customer',
-        Subject          => 'UnitTest article one',
-        From             => '"test" <test@localunittest.com>',
-        To               => $QueueName,
-        Body             => 'UnitTest body',
-        Charset          => 'utf-8',
-        MimeType         => 'text/plain',
-        HistoryType      => 'PhoneCallCustomer',
-        HistoryComment   => 'Some free text!',
-        UserID           => 1,
-        UnlockOnAway     => 1,
-        AutoResponseType => $Test->{AutoResponseType},
-        OrigHeader       => {
+    $ArticleIDOne = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDOne,
+        IsVisibleForCustomer => 1,
+        SenderType           => 'customer',
+        Subject              => 'UnitTest article one',
+        From                 => '"test" <test@localunittest.com>',
+        To                   => $QueueName,
+        Body                 => 'UnitTest body',
+        Charset              => 'utf-8',
+        MimeType             => 'text/plain',
+        HistoryType          => 'PhoneCallCustomer',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        UnlockOnAway         => 1,
+        AutoResponseType     => $Test->{AutoResponseType},
+        OrigHeader           => {
             From          => '"test" <test@localunittest.com>',
             To            => $QueueName,
             Subject       => 'UnitTest article one',
@@ -268,22 +265,22 @@ for my $Test (@Tests) {
     );
 
     # check auto response re-enabling with X-OTRS-Loop
-    $ArticleIDOne = $ArticleObject->ArticleCreate(
-        TicketID         => $TicketIDOne,
-        ArticleType      => $Test->{ArticleType},
-        SenderType       => 'customer',
-        Subject          => 'UnitTest article one',
-        From             => '"test" <test@localunittest.com>',
-        To               => $QueueName,
-        Body             => 'UnitTest body',
-        Charset          => 'utf-8',
-        MimeType         => 'text/plain',
-        HistoryType      => 'PhoneCallCustomer',
-        HistoryComment   => 'Some free text!',
-        UserID           => 1,
-        UnlockOnAway     => 1,
-        AutoResponseType => $Test->{AutoResponseType},
-        OrigHeader       => {
+    $ArticleIDOne = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDOne,
+        IsVisibleForCustomer => 1,
+        SenderType           => 'customer',
+        Subject              => 'UnitTest article one',
+        From                 => '"test" <test@localunittest.com>',
+        To                   => $QueueName,
+        Body                 => 'UnitTest body',
+        Charset              => 'utf-8',
+        MimeType             => 'text/plain',
+        HistoryType          => 'PhoneCallCustomer',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        UnlockOnAway         => 1,
+        AutoResponseType     => $Test->{AutoResponseType},
+        OrigHeader           => {
             From          => '"test" <test@localunittest.com>',
             To            => $QueueName,
             Subject       => 'UnitTest article one',
@@ -356,22 +353,22 @@ for my $Test (@Tests) {
     push @TicketIDs, $TicketIDTwo;
 
     # create article two for test ticket two
-    my $ArticleIDTwo = $ArticleObject->ArticleCreate(
-        TicketID         => $TicketIDTwo,
-        ArticleType      => $Test->{ArticleType},
-        SenderType       => 'customer',
-        Subject          => 'UnitTest article two',
-        From             => '"test" <test@localunittest.com>',
-        To               => $QueueName,
-        Body             => 'UnitTest body',
-        Charset          => 'utf-8',
-        MimeType         => 'text/plain',
-        HistoryType      => 'PhoneCallCustomer',
-        HistoryComment   => 'Some free text!',
-        UserID           => 1,
-        UnlockOnAway     => 1,
-        AutoResponseType => $Test->{AutoResponseType},
-        OrigHeader       => {
+    my $ArticleIDTwo = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDTwo,
+        IsVisibleForCustomer => 1,
+        SenderType           => 'customer',
+        Subject              => 'UnitTest article two',
+        From                 => '"test" <test@localunittest.com>',
+        To                   => $QueueName,
+        Body                 => 'UnitTest body',
+        Charset              => 'utf-8',
+        MimeType             => 'text/plain',
+        HistoryType          => 'PhoneCallCustomer',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        UnlockOnAway         => 1,
+        AutoResponseType     => $Test->{AutoResponseType},
+        OrigHeader           => {
             From    => '"test" <test@localunittest.com>',
             To      => $QueueName,
             Subject => 'UnitTest article two',

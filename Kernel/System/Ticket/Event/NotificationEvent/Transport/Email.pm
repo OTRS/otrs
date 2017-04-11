@@ -31,6 +31,7 @@ our @ObjectDependencies = (
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::Ticket::Article::Backend::Email',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
@@ -208,32 +209,65 @@ sub SendNotification {
         my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-        my $QueueID;
+        # Get last article from customer.
+        my @CustomerArticles = $ArticleObject->ArticleList(
+            TicketID   => $Param{TicketID},
+            SenderType => 'customer',
+            OnlyLast   => 1,
+        );
 
-        # get article
-        my %Article = $ArticleObject->ArticleLastCustomerArticle(
+        my %CustomerArticle;
+
+        ARTICLE:
+        for my $Article (@CustomerArticles) {
+            next ARTICLE if !$Article->{ArticleID};
+
+            %CustomerArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                %{$Article},
+                DynamicFields => 0,
+                UserID        => $Param{UserID},
+            );
+        }
+
+        my %Article = %CustomerArticle;
+
+        # If the ticket has no customer article, get the last agent article.
+        if ( !%CustomerArticle ) {
+
+            # Get last article from agent.
+            my @AgentArticles = $ArticleObject->ArticleList(
+                TicketID   => $Param{TicketID},
+                SenderType => 'agent',
+                OnlyLast   => 1,
+            );
+
+            my %AgentArticle;
+
+            ARTICLE:
+            for my $Article (@AgentArticles) {
+                next ARTICLE if !$Article->{ArticleID};
+
+                %AgentArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                    %{$Article},
+                    DynamicFields => 0,
+                    UserID        => $Param{UserID},
+                );
+            }
+
+            %Article = %AgentArticle;
+        }
+
+        # Get raw ticket data.
+        my %Ticket = $TicketObject->TicketGet(
             TicketID      => $Param{TicketID},
             DynamicFields => 0,
         );
 
-        # set "From" address from Article if exist, otherwise use ticket information, see bug# 9035
-        if (%Article) {
-            $QueueID = $Article{QueueID};
-        }
-        else {
-
-            # get ticket data
-            my %Ticket = $TicketObject->TicketGet(
-                TicketID => $Param{TicketID},
-            );
-            $QueueID = $Ticket{QueueID};
-        }
-
-        my %Address = $QueueObject->GetSystemAddress( QueueID => $QueueID );
+        my %Address = $QueueObject->GetSystemAddress( QueueID => $Ticket{QueueID} );
 
         # get queue
         my %Queue = $QueueObject->QueueGet(
-            ID => $QueueID,
+            ID => $Ticket{QueueID},
         );
 
         # security part
@@ -244,33 +278,28 @@ sub SendNotification {
         );
         return if !$SecurityOptions;
 
-        my $ArticleType = 'email-notification-ext';
-
-        if ( IsArrayRefWithData( $Param{Notification}->{Data}->{NotificationArticleTypeID} ) ) {
-
-            # get notification article type
-            $ArticleType = $ArticleObject->ArticleTypeLookup(
-                ArticleTypeID => $Param{Notification}->{Data}->{NotificationArticleTypeID}->[0],
-            );
+        my $IsVisibleForCustomer = 1;
+        if ( defined $Notification{Data}->{IsVisibleForCustomer} ) {
+            $IsVisibleForCustomer = $Notification{Data}->{IsVisibleForCustomer}->[0];
         }
 
-        my $ArticleID = $ArticleObject->ArticleSend(
-            ArticleType    => $ArticleType,
-            SenderType     => 'system',
-            TicketID       => $Param{TicketID},
-            HistoryType    => 'SendCustomerNotification',
-            HistoryComment => "\%\%$Recipient{UserEmail}",
-            From           => "$Address{RealName} <$Address{Email}>",
-            To             => $Recipient{UserEmail},
-            Subject        => $Notification{Subject},
-            Body           => $Notification{Body},
-            MimeType       => $Notification{ContentType},
-            Type           => $Notification{ContentType},
-            Charset        => 'utf-8',
-            UserID         => $Param{UserID},
-            Loop           => 1,
-            Attachment     => $Param{Attachments},
-            EmailSecurity  => $SecurityOptions || {},
+        my $ArticleID = $ArticleObject->BackendForChannel( ChannelName => 'Email' )->ArticleSend(
+            TicketID             => $Param{TicketID},
+            SenderType           => 'system',
+            IsVisibleForCustomer => $IsVisibleForCustomer,
+            HistoryType          => 'SendCustomerNotification',
+            HistoryComment       => "\%\%$Recipient{UserEmail}",
+            From                 => "$Address{RealName} <$Address{Email}>",
+            To                   => $Recipient{UserEmail},
+            Subject              => $Notification{Subject},
+            Body                 => $Notification{Body},
+            MimeType             => $Notification{ContentType},
+            Type                 => $Notification{ContentType},
+            Charset              => 'utf-8',
+            UserID               => $Param{UserID},
+            Loop                 => 1,
+            Attachment           => $Param{Attachments},
+            EmailSecurity        => $SecurityOptions || {},
         );
 
         if ( !$ArticleID ) {
@@ -333,11 +362,8 @@ sub GetTransportRecipients {
             $Recipient{UserEmail} = $RecipientEmail;
 
             # check if we have a specified article type
-            if ( $Param{Notification}->{Data}->{NotificationArticleTypeID} ) {
-                $Recipient{NotificationArticleType}
-                    = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeLookup(
-                    ArticleTypeID => $Param{Notification}->{Data}->{NotificationArticleTypeID}->[0]
-                    ) || 'email-notification-ext';
+            if ( $Param{Notification}->{Data}->{IsVisibleForCustomer} ) {
+                $Recipient{IsVisibleForCustomer} = 1;
             }
 
             # check recipients
@@ -385,23 +411,6 @@ sub TransportSettingsDisplayGet {
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # Display article types for article creation if notification is sent
-    # only use 'email-notification-*'-type articles
-    my %NotificationArticleTypes
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeList( Result => 'HASH' );
-    for my $NotifArticleTypeID ( sort keys %NotificationArticleTypes ) {
-        if ( $NotificationArticleTypes{$NotifArticleTypeID} !~ /^email-notification-/ ) {
-            delete $NotificationArticleTypes{$NotifArticleTypeID};
-        }
-    }
-    $Param{NotificationArticleTypesStrg} = $LayoutObject->BuildSelection(
-        Data        => \%NotificationArticleTypes,
-        Name        => 'NotificationArticleTypeID',
-        Translation => 1,
-        SelectedID  => $Param{Data}->{NotificationArticleTypeID},
-        Class       => 'Modernize W50pc',
-    );
 
     $Param{TransportEmailTemplateStrg} = $LayoutObject->BuildSelection(
         Data        => \%Templates,

@@ -67,16 +67,15 @@ sub Run {
 
         $Count++;
 
-        # get articles
-        my @ArticleIndex = $ArticleObject->ArticleIndex(
+        my @MetaArticles = $ArticleObject->ArticleList(
             TicketID => $TicketID,
             UserID   => 1,
         );
 
-        for my $ArticleID (@ArticleIndex) {
+        for my $MetaArticle (@MetaArticles) {
             $ArticleObject->ArticleIndexBuild(
-                ArticleID => $ArticleID,
-                UserID    => 1,
+                %{$MetaArticle},
+                UserID => 1,
             );
         }
 

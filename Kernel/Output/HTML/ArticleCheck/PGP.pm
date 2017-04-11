@@ -57,13 +57,19 @@ sub Check {
     # check if pgp is enabled
     return if !$ConfigObject->Get('PGP');
 
+    my $ArticleObject = $Param{ArticleObject} || $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+        TicketID  => $Param{Article}->{TicketID},
+        ArticleID => $Param{Article}->{ArticleID},
+    );
+
     # check if article is an email
-    return if $Param{Article}->{ArticleType} !~ /email/i;
+    return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
 
     my $StoreDecryptedData = $ConfigObject->Get('PGP::StoreDecryptedData');
 
     # get needed objects
-    my $ArticleObject = $Param{ArticleObject} || $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
     # check inline pgp crypt
@@ -90,7 +96,7 @@ sub Check {
             if ($StoreDecryptedData) {
 
                 # updated article body
-                $ArticleObject->ArticleUpdate(
+                $ArticleBackendObject->ArticleUpdate(
                     TicketID  => $Param{Article}->{TicketID},
                     ArticleID => $Self->{ArticleID},
                     Key       => 'Body',
@@ -99,7 +105,7 @@ sub Check {
                 );
 
                 # get a list of all article attachments
-                my %Index = $ArticleObject->ArticleAttachmentIndex(
+                my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
                     ArticleID => $Self->{ArticleID},
                     UserID    => $Self->{UserID},
                 );
@@ -109,7 +115,7 @@ sub Check {
                     for my $FileID ( sort keys %Index ) {
 
                         # get attachment details
-                        my %Attachment = $ArticleObject->ArticleAttachment(
+                        my %Attachment = $ArticleBackendObject->ArticleAttachment(
                             ArticleID => $Self->{ArticleID},
                             FileID    => $FileID,
                             UserID    => $Self->{UserID},
@@ -142,14 +148,14 @@ sub Check {
                     }
 
                     # delete crypted attachments
-                    $ArticleObject->ArticleDeleteAttachment(
+                    $ArticleBackendObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write decrypted attachments to the storage
                     for my $Attachment (@Attachments) {
-                        $ArticleObject->ArticleWriteAttachment( %{$Attachment} );
+                        $ArticleBackendObject->ArticleWriteAttachment( %{$Attachment} );
                     }
                 }
             }
@@ -225,7 +231,7 @@ sub Check {
         # remember that it was crypted!
 
         # write email to fs
-        my $Message = $ArticleObject->ArticlePlain(
+        my $Message = $ArticleBackendObject->ArticlePlain(
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
@@ -291,7 +297,7 @@ sub Check {
                 if ($StoreDecryptedData) {
 
                     # updated article body
-                    $ArticleObject->ArticleUpdate(
+                    $ArticleBackendObject->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},
                         ArticleID => $Self->{ArticleID},
                         Key       => 'Body',
@@ -300,14 +306,14 @@ sub Check {
                     );
 
                     # delete crypted attachments
-                    $ArticleObject->ArticleDeleteAttachment(
+                    $ArticleBackendObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
-                        $ArticleObject->ArticleWriteAttachment(
+                        $ArticleBackendObject->ArticleWriteAttachment(
                             %{$Attachment},
                             ArticleID => $Self->{ArticleID},
                             UserID    => $Self->{UserID},

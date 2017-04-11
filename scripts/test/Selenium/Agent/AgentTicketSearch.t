@@ -120,14 +120,18 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
-        my $MinCharString = 'ct';
-        my $MaxCharString = $RandomID . ( 't' x 50 );
-        my $Subject       = 'Subject' . $RandomID;
-        my $ArticleID     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            TicketID    => $TicketID,
-            ArticleType => 'note-internal',
-            SenderType  => 'agent',
-            Subject     => $Subject,
+        my $MinCharString        = 'ct';
+        my $MaxCharString        = $RandomID . ( 't' x 50 );
+        my $Subject              = 'Subject' . $RandomID;
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Internal',
+        );
+
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'agent',
+            IsVisibleForCustomer => 0,
+            Subject              => $Subject,
             Body =>
                 "'maybe $MinCharString in an abbreviation' this is string with more than 30 characters $MaxCharString",
             ContentType    => 'text/plain; charset=ISO-8859-15',
@@ -216,6 +220,7 @@ $Selenium->RunTest(
         # Recreate article object and update article index for static DB.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket::Article'] );
         $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndexBuild(
+            TicketID  => $TicketID,
             ArticleID => $ArticleID,
             UserID    => 1,
         );

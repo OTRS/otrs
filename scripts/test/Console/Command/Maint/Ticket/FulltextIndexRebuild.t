@@ -18,19 +18,35 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-# get command object
+my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuild');
 
-my $ExitCode = $CommandObject->Execute();
+# tests for article search index modules
+for my $Module (qw(StaticDB RuntimeDB)) {
 
-# just check exit code
-$Self->Is(
-    $ExitCode,
-    0,
-    "Maint::Ticket::FulltextIndexRebuild exit code",
-);
+    # Make sure that the ticket and article objects get recreated for each loop.
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::Ticket',
+            'Kernel::System::Ticket::Article',
+        ],
+    );
+
+    $ConfigObject->Set(
+        Key   => 'Ticket::SearchIndexModule',
+        Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
+    );
+
+    my $ExitCode = $CommandObject->Execute();
+
+    # just check exit code
+    $Self->Is(
+        $ExitCode,
+        0,
+        "Maint::Ticket::FulltextIndexRebuild exit code for backend $Module",
+    );
+}
 
 # cleanup cache is done by RestoreDatabase
 

@@ -1094,50 +1094,6 @@ CREATE TABLE ticket_loop_protection (
 CREATE INDEX ticket_loop_protection_sent_37 ON ticket_loop_protection (sent_date);
 CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 -- ----------------------------------------------------------
---  create table article_type
--- ----------------------------------------------------------
-CREATE TABLE article_type (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    comments VARCHAR2 (250) NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT article_type_name UNIQUE (name)
-);
-ALTER TABLE article_type ADD CONSTRAINT PK_article_type PRIMARY KEY (id);
-BEGIN
-  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_article_type';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-/
---;
-CREATE SEQUENCE SE_article_type
-INCREMENT BY 1
-START WITH 1
-NOMAXVALUE
-NOCYCLE
-CACHE 20
-ORDER;
-CREATE OR REPLACE TRIGGER SE_article_type_t
-BEFORE INSERT ON article_type
-FOR EACH ROW
-BEGIN
-  IF :new.id IS NULL THEN
-    SELECT SE_article_type.nextval
-    INTO :new.id
-    FROM DUAL;
-  END IF;
-END;
-/
---;
-CREATE INDEX FK_article_type_change_by ON article_type (change_by);
-CREATE INDEX FK_article_type_create_by ON article_type (create_by);
-CREATE INDEX FK_article_type_valid_id ON article_type (valid_id);
--- ----------------------------------------------------------
 --  create table article_sender_type
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
@@ -1195,27 +1151,61 @@ CREATE INDEX FK_article_flag_create_by ON article_flag (create_by);
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
 CREATE INDEX article_flag_article_id_crea15 ON article_flag (article_id, create_by);
 -- ----------------------------------------------------------
+--  create table communication_channel
+-- ----------------------------------------------------------
+CREATE TABLE communication_channel (
+    id NUMBER (20, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    module VARCHAR2 (200) NOT NULL,
+    package_name VARCHAR2 (200) NOT NULL,
+    channel_data CLOB NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT communication_channel_name UNIQUE (name)
+);
+ALTER TABLE communication_channel ADD CONSTRAINT PK_communication_channel PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_communication_channel';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_communication_channel
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_communication_channel_t
+BEFORE INSERT ON communication_channel
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_communication_channel.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX FK_communication_channel_cha34 ON communication_channel (change_by);
+CREATE INDEX FK_communication_channel_cre1a ON communication_channel (create_by);
+CREATE INDEX FK_communication_channel_val71 ON communication_channel (valid_id);
+-- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------
 CREATE TABLE article (
     id NUMBER (20, 0) NOT NULL,
     ticket_id NUMBER (20, 0) NOT NULL,
-    article_type_id NUMBER (5, 0) NOT NULL,
     article_sender_type_id NUMBER (5, 0) NOT NULL,
-    a_from CLOB NULL,
-    a_reply_to CLOB NULL,
-    a_to CLOB NULL,
-    a_cc CLOB NULL,
-    a_subject VARCHAR2 (3800) NULL,
-    a_message_id VARCHAR2 (3800) NULL,
-    a_message_id_md5 VARCHAR2 (32) NULL,
-    a_in_reply_to CLOB NULL,
-    a_references CLOB NULL,
-    a_content_type VARCHAR2 (250) NULL,
-    a_body CLOB NOT NULL,
-    incoming_time NUMBER (12, 0) NOT NULL,
-    content_path VARCHAR2 (250) NULL,
-    valid_id NUMBER (5, 0) NOT NULL,
+    communication_channel_id NUMBER (20, 0) NOT NULL,
+    is_visible_for_customer NUMBER (5, 0) NOT NULL,
+    insert_fingerprint VARCHAR2 (64) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -1250,18 +1240,70 @@ END;
 --;
 CREATE INDEX FK_article_change_by ON article (change_by);
 CREATE INDEX FK_article_create_by ON article (create_by);
-CREATE INDEX FK_article_valid_id ON article (valid_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
-CREATE INDEX article_article_type_id ON article (article_type_id);
-CREATE INDEX article_message_id_md5 ON article (a_message_id_md5);
+CREATE INDEX article_communication_channe74 ON article (communication_channel_id);
 CREATE INDEX article_ticket_id ON article (ticket_id);
+-- ----------------------------------------------------------
+--  create table article_data_mime
+-- ----------------------------------------------------------
+CREATE TABLE article_data_mime (
+    id NUMBER (20, 0) NOT NULL,
+    article_id NUMBER (20, 0) NOT NULL,
+    a_from CLOB NULL,
+    a_reply_to CLOB NULL,
+    a_to CLOB NULL,
+    a_cc CLOB NULL,
+    a_subject VARCHAR2 (3800) NULL,
+    a_message_id VARCHAR2 (3800) NULL,
+    a_message_id_md5 VARCHAR2 (32) NULL,
+    a_in_reply_to CLOB NULL,
+    a_references CLOB NULL,
+    a_content_type VARCHAR2 (250) NULL,
+    a_body CLOB NOT NULL,
+    incoming_time NUMBER (12, 0) NOT NULL,
+    content_path VARCHAR2 (250) NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE article_data_mime ADD CONSTRAINT PK_article_data_mime PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_article_data_mime';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_article_data_mime
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_article_data_mime_t
+BEFORE INSERT ON article_data_mime
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_article_data_mime.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX FK_article_data_mime_change_by ON article_data_mime (change_by);
+CREATE INDEX FK_article_data_mime_create_by ON article_data_mime (create_by);
+CREATE INDEX article_data_mime_article_id ON article_data_mime (article_id);
+CREATE INDEX article_data_mime_message_idf3 ON article_data_mime (a_message_id_md5);
 -- ----------------------------------------------------------
 --  create table article_search
 -- ----------------------------------------------------------
 CREATE TABLE article_search (
     id NUMBER (20, 0) NOT NULL,
     ticket_id NUMBER (20, 0) NOT NULL,
-    article_type_id NUMBER (5, 0) NOT NULL,
     article_sender_type_id NUMBER (5, 0) NOT NULL,
     a_from VARCHAR2 (3800) NULL,
     a_to VARCHAR2 (3800) NULL,
@@ -1272,12 +1314,11 @@ CREATE TABLE article_search (
 );
 ALTER TABLE article_search ADD CONSTRAINT PK_article_search PRIMARY KEY (id);
 CREATE INDEX article_search_article_sendec7 ON article_search (article_sender_type_id);
-CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
 CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 -- ----------------------------------------------------------
---  create table article_plain
+--  create table article_data_mime_plain
 -- ----------------------------------------------------------
-CREATE TABLE article_plain (
+CREATE TABLE article_data_mime_plain (
     id NUMBER (20, 0) NOT NULL,
     article_id NUMBER (20, 0) NOT NULL,
     body CLOB NOT NULL,
@@ -1286,40 +1327,40 @@ CREATE TABLE article_plain (
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL
 );
-ALTER TABLE article_plain ADD CONSTRAINT PK_article_plain PRIMARY KEY (id);
+ALTER TABLE article_data_mime_plain ADD CONSTRAINT PK_article_data_mime_plain PRIMARY KEY (id);
 BEGIN
-  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_article_plain';
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_article_data_mime_plain';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
 /
 --;
-CREATE SEQUENCE SE_article_plain
+CREATE SEQUENCE SE_article_data_mime_plain
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_article_plain_t
-BEFORE INSERT ON article_plain
+CREATE OR REPLACE TRIGGER SE_article_data_mime_plain_t
+BEFORE INSERT ON article_data_mime_plain
 FOR EACH ROW
 BEGIN
   IF :new.id IS NULL THEN
-    SELECT SE_article_plain.nextval
+    SELECT SE_article_data_mime_plain.nextval
     INTO :new.id
     FROM DUAL;
   END IF;
 END;
 /
 --;
-CREATE INDEX FK_article_plain_change_by ON article_plain (change_by);
-CREATE INDEX FK_article_plain_create_by ON article_plain (create_by);
-CREATE INDEX article_plain_article_id ON article_plain (article_id);
+CREATE INDEX FK_article_data_mime_plain_ccf ON article_data_mime_plain (change_by);
+CREATE INDEX FK_article_data_mime_plain_c92 ON article_data_mime_plain (create_by);
+CREATE INDEX article_data_mime_plain_artid4 ON article_data_mime_plain (article_id);
 -- ----------------------------------------------------------
---  create table article_attachment
+--  create table article_data_mime_attachment
 -- ----------------------------------------------------------
-CREATE TABLE article_attachment (
+CREATE TABLE article_data_mime_attachment (
     id NUMBER (20, 0) NOT NULL,
     article_id NUMBER (20, 0) NOT NULL,
     filename VARCHAR2 (250) NULL,
@@ -1334,36 +1375,36 @@ CREATE TABLE article_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL
 );
-ALTER TABLE article_attachment ADD CONSTRAINT PK_article_attachment PRIMARY KEY (id);
+ALTER TABLE article_data_mime_attachment ADD CONSTRAINT PK_article_data_mime_attachmbb PRIMARY KEY (id);
 BEGIN
-  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_article_attachment';
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_article_data_mime_attac4b';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
 /
 --;
-CREATE SEQUENCE SE_article_attachment
+CREATE SEQUENCE SE_article_data_mime_attac4b
 INCREMENT BY 1
 START WITH 1
 NOMAXVALUE
 NOCYCLE
 CACHE 20
 ORDER;
-CREATE OR REPLACE TRIGGER SE_article_attachment_t
-BEFORE INSERT ON article_attachment
+CREATE OR REPLACE TRIGGER SE_article_data_mime_attac4b_t
+BEFORE INSERT ON article_data_mime_attachment
 FOR EACH ROW
 BEGIN
   IF :new.id IS NULL THEN
-    SELECT SE_article_attachment.nextval
+    SELECT SE_article_data_mime_attac4b.nextval
     INTO :new.id
     FROM DUAL;
   END IF;
 END;
 /
 --;
-CREATE INDEX FK_article_attachment_change1e ON article_attachment (change_by);
-CREATE INDEX FK_article_attachment_create01 ON article_attachment (create_by);
-CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
+CREATE INDEX FK_article_data_mime_attachm82 ON article_data_mime_attachment (change_by);
+CREATE INDEX FK_article_data_mime_attachmb3 ON article_data_mime_attachment (create_by);
+CREATE INDEX article_data_mime_attachmentcb ON article_data_mime_attachment (article_id);
 -- ----------------------------------------------------------
 --  create table time_accounting
 -- ----------------------------------------------------------

@@ -782,13 +782,13 @@
                         </div>
                         <div class="Clear"></div>
 
-[% RenderBlockStart("NewArticleType") %]
-                        <label for="NewArticleType">[% Translate("Type") | html %]:</label>
+                        <label for="NewNoteIsVisibleForCustomer">[% Translate("Visible for customer") | html %]:</label>
                         <div class="Field">
-                            [% Data.NewArticleType %]
+                            <input name="NewNoteIsVisibleForCustomer" id="NewNoteIsVisibleForCustomer" type="checkbox"
+                                [% IF Data.NewNoteIsVisibleForCustomer %] checked="checked"[% END %] />
                         </div>
                         <div class="Clear"></div>
-[% RenderBlockEnd("NewArticleType") %]
+
                         <label for="NewNoteTimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
                         <div class="Field">
                             <input type="text" name="NewNoteTimeUnits" id="NewNoteTimeUnits" value="[% Data.NewNoteTimeUnits | html %]" class="W20pc"/>

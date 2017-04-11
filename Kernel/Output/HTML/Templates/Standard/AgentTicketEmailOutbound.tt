@@ -363,11 +363,11 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="ArticleTypeID">[% Translate("Article type") | html %]:</label>
+                <label for="IsVisibleForCustomer">[% Translate("Visible for customer") | html %]:</label>
                 <div class="Field">
-                    [% Data.ArticleTypesStrg %]
+                    <input type="checkbox" id="IsVisibleForCustomer" name="IsVisibleForCustomer" value="1" [% IF Data.IsVisibleForCustomer %]checked="checked"[% END %]/>
+                    <input type="hidden" name="IsVisibleForCustomerPresent" value="1" />
                 </div>
-                <div class="Clear"></div>
 
 [% RenderBlockStart("DynamicField") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %]">

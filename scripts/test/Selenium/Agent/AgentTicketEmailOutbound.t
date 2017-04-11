@@ -150,7 +150,6 @@ $Selenium->RunTest(
             'RichText',
             'FileUpload',
             'ComposeStateID',
-            'ArticleTypeID',
             'submitRichText',
             $TestDynamicField
         );

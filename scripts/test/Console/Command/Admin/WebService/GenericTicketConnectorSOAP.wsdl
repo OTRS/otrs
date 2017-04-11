@@ -1214,11 +1214,6 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                 type="tns:OTRS_TicketGetResponse_Attachment" maxOccurs="unbounded" minOccurs="0">
             </xsd:element>
             <xsd:element
-                name="AttachmentIDOfHTMLBody"
-                type="xsd:string"
-                maxOccurs="1">
-            </xsd:element>
-            <xsd:element
                 name="Body"
                 type="xsd:string"
                 maxOccurs="1">

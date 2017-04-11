@@ -106,7 +106,7 @@ sub Run {
             NewCustomerID NewPendingTime NewPendingTimeType NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID NewResponsibleID
             NewTypeID NewServiceID NewSLAID
-            NewNoteFrom NewNoteSubject NewNoteBody NewArticleType NewNoteTimeUnits NewModule
+            NewNoteFrom NewNoteSubject NewNoteBody NewNoteIsVisibleForCustomer NewNoteTimeUnits NewModule
             NewParamKey1 NewParamKey2 NewParamKey3 NewParamKey4
             NewParamValue1 NewParamValue2 NewParamValue3 NewParamValue4
             NewParamKey5 NewParamKey6 NewParamKey7 NewParamKey8
@@ -1180,27 +1180,6 @@ sub _MaskUpdate {
         push @EventTypeList, $Type;
     }
 
-    my %ArticleTypeData = (
-        'note-internal' => 'note-internal',
-        'note-external' => 'note-external',
-    );
-
-    my $NewArticleType = $LayoutObject->BuildSelection(
-        Data        => \%ArticleTypeData,
-        Name        => 'NewArticleType',
-        Multiple    => 0,
-        Size        => 2,
-        Translation => 1,
-        SelectedID  => $JobData{NewArticleType} || 'note-internal',
-        Class       => 'Modernize',
-    );
-    $LayoutObject->Block(
-        Name => 'NewArticleType',
-        Data => {
-            NewArticleType => $NewArticleType,
-        },
-    );
-
     # create event type selector
     my $EventTypeStrg = $LayoutObject->BuildSelection(
         Data          => \@EventTypeList,
@@ -1364,11 +1343,15 @@ sub _MaskRun {
         );
         for my $TicketID (@TicketIDs) {
 
-            # get first article data
-            my %Data = $ArticleObject->ArticleFirstArticle(
-                TicketID      => $TicketID,
-                DynamicFields => 0,
+            my @Articles = $ArticleObject->ArticleList(
+                TicketID  => $TicketID,
+                OnlyFirst => 1,
             );
+
+            my %Data;
+            if ( scalar @Articles ) {
+                %Data = %{ $Articles[0] };
+            }
 
             # Fall-back for tickets without articles
             if ( !%Data ) {

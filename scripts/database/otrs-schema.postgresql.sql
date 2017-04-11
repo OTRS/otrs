@@ -529,21 +529,6 @@ CREATE TABLE ticket_loop_protection (
 CREATE INDEX ticket_loop_protection_sent_date ON ticket_loop_protection (sent_date);
 CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 -- ----------------------------------------------------------
---  create table article_type
--- ----------------------------------------------------------
-CREATE TABLE article_type (
-    id serial NOT NULL,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (250) NULL,
-    valid_id SMALLINT NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT article_type_name UNIQUE (name)
-);
--- ----------------------------------------------------------
 --  create table article_sender_type
 -- ----------------------------------------------------------
 CREATE TABLE article_sender_type (
@@ -571,13 +556,47 @@ CREATE TABLE article_flag (
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
 CREATE INDEX article_flag_article_id_create_by ON article_flag (article_id, create_by);
 -- ----------------------------------------------------------
+--  create table communication_channel
+-- ----------------------------------------------------------
+CREATE TABLE communication_channel (
+    id bigserial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    module VARCHAR (200) NOT NULL,
+    package_name VARCHAR (200) NOT NULL,
+    channel_data TEXT NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT communication_channel_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------
 CREATE TABLE article (
     id bigserial NOT NULL,
     ticket_id BIGINT NOT NULL,
-    article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
+    communication_channel_id BIGINT NOT NULL,
+    is_visible_for_customer SMALLINT NOT NULL,
+    insert_fingerprint VARCHAR (64) NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
+CREATE INDEX article_communication_channel_id ON article (communication_channel_id);
+CREATE INDEX article_ticket_id ON article (ticket_id);
+-- ----------------------------------------------------------
+--  create table article_data_mime
+-- ----------------------------------------------------------
+CREATE TABLE article_data_mime (
+    id bigserial NOT NULL,
+    article_id BIGINT NOT NULL,
     a_from VARCHAR NULL,
     a_reply_to VARCHAR NULL,
     a_to VARCHAR NULL,
@@ -591,24 +610,20 @@ CREATE TABLE article (
     a_body VARCHAR NOT NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250) NULL,
-    valid_id SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
-CREATE INDEX article_article_type_id ON article (article_type_id);
-CREATE INDEX article_message_id_md5 ON article (a_message_id_md5);
-CREATE INDEX article_ticket_id ON article (ticket_id);
+CREATE INDEX article_data_mime_article_id ON article_data_mime (article_id);
+CREATE INDEX article_data_mime_message_id_md5 ON article_data_mime (a_message_id_md5);
 -- ----------------------------------------------------------
 --  create table article_search
 -- ----------------------------------------------------------
 CREATE TABLE article_search (
     id BIGINT NOT NULL,
     ticket_id BIGINT NOT NULL,
-    article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
     a_from VARCHAR (3800) NULL,
     a_to VARCHAR (3800) NULL,
@@ -619,12 +634,11 @@ CREATE TABLE article_search (
     PRIMARY KEY(id)
 );
 CREATE INDEX article_search_article_sender_type_id ON article_search (article_sender_type_id);
-CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
 CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 -- ----------------------------------------------------------
---  create table article_plain
+--  create table article_data_mime_plain
 -- ----------------------------------------------------------
-CREATE TABLE article_plain (
+CREATE TABLE article_data_mime_plain (
     id bigserial NOT NULL,
     article_id BIGINT NOT NULL,
     body TEXT NOT NULL,
@@ -634,11 +648,11 @@ CREATE TABLE article_plain (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX article_plain_article_id ON article_plain (article_id);
+CREATE INDEX article_data_mime_plain_article_id ON article_data_mime_plain (article_id);
 -- ----------------------------------------------------------
---  create table article_attachment
+--  create table article_data_mime_attachment
 -- ----------------------------------------------------------
-CREATE TABLE article_attachment (
+CREATE TABLE article_data_mime_attachment (
     id bigserial NOT NULL,
     article_id BIGINT NOT NULL,
     filename VARCHAR (250) NULL,
@@ -654,7 +668,7 @@ CREATE TABLE article_attachment (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
+CREATE INDEX article_data_mime_attachment_article_id ON article_data_mime_attachment (article_id);
 -- ----------------------------------------------------------
 --  create table time_accounting
 -- ----------------------------------------------------------

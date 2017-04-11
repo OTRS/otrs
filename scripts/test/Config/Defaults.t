@@ -69,16 +69,17 @@ Kernel::Config::Files::ZZZAAuto->Load($ZZZAAutoConfig);
 
 # These entries are hashes
 my %CheckSubEntries = (
-    'Frontend::Module'            => 1,
-    'Frontend::NotifyModule'      => 1,
-    'Frontend::Navigation'        => 1,
-    'Frontend::NavigationModule'  => 1,
-    'CustomerFrontend::Module'    => 1,
-    'Loader::Agent::CommonJS'     => 1,
-    'Loader::Agent::CommonCSS'    => 1,
-    'Loader::Customer::CommonJS'  => 1,
-    'Loader::Customer::CommonCSS' => 1,
-    'PreferencesGroups'           => 1,
+    'Frontend::Module'                   => 1,
+    'Frontend::NotifyModule'             => 1,
+    'Frontend::Navigation'               => 1,
+    'Frontend::NavigationModule'         => 1,
+    'CustomerFrontend::Module'           => 1,
+    'Loader::Agent::CommonJS'            => 1,
+    'Loader::Agent::CommonCSS'           => 1,
+    'Loader::Customer::CommonJS'         => 1,
+    'Loader::Customer::CommonCSS'        => 1,
+    'PreferencesGroups'                  => 1,
+    'Ticket::Article::Backend::MIMEBase' => 1,
 );
 
 # These entries are hashes of hashes

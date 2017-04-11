@@ -117,6 +117,10 @@ sub _TasksGet {
             Module  => 'RebuildConfig',
         },
         {
+            Message => 'Migrating ticket storage configuration',
+            Module  => 'MigrateTicketStorageModule',
+        },
+        {
             Message => 'Drop deprecated table gi_object_lock_state',
             Module  => 'DropObjectLockState',
         },

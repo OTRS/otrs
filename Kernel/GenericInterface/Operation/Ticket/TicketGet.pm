@@ -191,8 +191,7 @@ one or more ticket entries in one call.
                             References
                             SenderType
                             SenderTypeID
-                            ArticleType
-                            ArticleTypeID
+                            IsVisibleForCustomer
                             ContentType
                             Charset
                             MimeType
@@ -332,8 +331,11 @@ sub Run {
         $ArticleSenderType = [ $Param{Data}->{ArticleSenderType} ]
     }
 
-    # By default does not include HYML body as attachment (3) unless is explicitly requested (2).
-    my $StripPlainBodyAsAttachment = $Param{Data}->{HTMLBodyAsAttachment} ? 2 : 3;
+    # By default, do not include HTML body as attachment, unless it is explicitly requested.
+    my %ExcludeAttachments = (
+        ExcludePlainText => 1,
+        ExcludeHTMLBody  => $Param{Data}->{HTMLBodyAsAttachment} ? 0 : 1,
+    );
 
     # start ticket loop
     TICKET:
@@ -393,37 +395,54 @@ sub Run {
             next TICKET;
         }
 
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-        my $ArticleTypes;
+        my %ArticleListFilters;
         if ( $UserType eq 'Customer' ) {
-            $ArticleTypes = [ $ArticleObject->ArticleTypeList( Type => 'Customer' ) ];
+            %ArticleListFilters = (
+                IsVisibleForCustomer => 1,
+            );
         }
 
-        my @ArticleBoxRaw = $ArticleObject->ArticleGet(
-            TicketID          => $TicketID,
-            ArticleSenderType => $ArticleSenderType,
-            ArticleType       => $ArticleTypes,
-            DynamicFields     => $DynamicFields,
-            Extended          => $Extended,
-            Order             => $ArticleOrder,
-            Limit             => $ArticleLimit,
-            UserID            => $UserID,
-        );
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+        my @Articles;
+        if ($ArticleSenderType) {
+            for my $SenderType ( @{ $ArticleSenderType || [] } ) {
+                my @ArticlesFiltered = $ArticleObject->ArticleList(
+                    TicketID   => $TicketID,
+                    SenderType => $SenderType,
+                    %ArticleListFilters,
+                );
+                push @Articles, @ArticlesFiltered;
+            }
+        }
+        else {
+            @Articles = $ArticleObject->ArticleList(
+                TicketID => $TicketID,
+                %ArticleListFilters,
+            );
+        }
 
         # start article loop
         ARTICLE:
-        for my $Article (@ArticleBoxRaw) {
+        for my $Article (@Articles) {
+
+            my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
+
+            my %ArticleData = $ArticleBackendObject->ArticleGet(
+                TicketID      => $TicketID,
+                ArticleID     => $Article->{ArticleID},
+                DynamicFields => $DynamicFields,
+                UserID        => 1,
+            );
+            $Article = \%ArticleData;
 
             next ARTICLE if !$Attachments;
 
             # get attachment index (without attachments)
-            my %AtmIndex = $ArticleObject->ArticleAttachmentIndex(
-                ContentPath                => $Article->{ContentPath},
-                ArticleID                  => $Article->{ArticleID},
-                StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
-                Article                    => $Article,
-                UserID                     => $UserID,
+            my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $Article->{ArticleID},
+                UserID    => $UserID,
+                %ExcludeAttachments,
             );
 
             next ARTICLE if !IsHashRefWithData( \%AtmIndex );
@@ -432,7 +451,7 @@ sub Run {
             ATTACHMENT:
             for my $FileID ( sort keys %AtmIndex ) {
                 next ATTACHMENT if !$FileID;
-                my %Attachment = $ArticleObject->ArticleAttachment(
+                my %Attachment = $ArticleBackendObject->ArticleAttachment(
                     ArticleID => $Article->{ArticleID},
                     FileID    => $FileID,                 # as returned by ArticleAttachmentIndex
                     UserID    => $UserID,
@@ -460,11 +479,11 @@ sub Run {
         }    # finish article loop
 
         # set Ticket entry data
-        if (@ArticleBoxRaw) {
+        if (@Articles) {
 
             my @ArticleBox;
 
-            for my $ArticleRaw (@ArticleBoxRaw) {
+            for my $ArticleRaw (@Articles) {
                 my %Article;
                 my @ArticleDynamicFields;
 

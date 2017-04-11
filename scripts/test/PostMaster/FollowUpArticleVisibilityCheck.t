@@ -57,21 +57,22 @@ $Self->True(
 );
 
 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
-my $ArticleID = $ArticleObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'email-external',
-    MessageID      => 'message-id-email-external',
-    SenderType     => 'customer',
-    From           => "Customer <$CustomerAddress>",
-    To             => "Agent <$AgentAddress>",
-    Subject        => 'subject',
-    Body           => 'the message text',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'NewTicket',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify  => 1,
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 1,
+    MessageID            => 'message-id-email-external',
+    SenderType           => 'customer',
+    From                 => "Customer <$CustomerAddress>",
+    To                   => "Agent <$AgentAddress>",
+    Subject              => 'subject',
+    Body                 => 'the message text',
+    ContentType          => 'text/plain; charset=ISO-8859-15',
+    HistoryType          => 'NewTicket',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    NoAgentNotify        => 1,
 );
 
 $Self->True(
@@ -79,20 +80,20 @@ $Self->True(
     "ArticleCreate()",
 );
 
-$ArticleID = $ArticleObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'email-internal',
-    MessageID      => 'message-id-email-internal',
-    SenderType     => 'agent',
-    From           => "Agent <$AgentAddress>",
-    To             => "Provider <$InternalAddress>",
-    Subject        => 'subject',
-    Body           => 'the message text',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'NewTicket',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify  => 1,
+$ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 0,
+    MessageID            => 'message-id-email-internal',
+    SenderType           => 'agent',
+    From                 => "Agent <$AgentAddress>",
+    To                   => "Provider <$InternalAddress>",
+    Subject              => 'subject',
+    Body                 => 'the message text',
+    ContentType          => 'text/plain; charset=ISO-8859-15',
+    HistoryType          => 'NewTicket',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    NoAgentNotify        => 1,
 );
 
 $Self->True(
@@ -101,20 +102,20 @@ $Self->True(
 );
 
 # Accidental internal forward to the customer to test that customer replies are still external.
-$ArticleID = $ArticleObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'email-internal',
-    MessageID      => 'message-id-email-internal-customer',
-    SenderType     => 'agent',
-    From           => "Agent <$AgentAddress>",
-    To             => "Customer <$CustomerAddress>",
-    Subject        => 'subject',
-    Body           => 'the message text',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'NewTicket',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify  => 1,
+$ArticleID = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 0,
+    MessageID            => 'message-id-email-internal-customer',
+    SenderType           => 'agent',
+    From                 => "Agent <$AgentAddress>",
+    To                   => "Customer <$CustomerAddress>",
+    Subject              => 'subject',
+    Body                 => 'the message text',
+    ContentType          => 'text/plain; charset=ISO-8859-15',
+    HistoryType          => 'NewTicket',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    NoAgentNotify        => 1,
 );
 
 $Self->True(
@@ -143,13 +144,13 @@ Subject: $Subject
 
 Some Content in Body",
         Check => {
-            ArticleType => 'email-external',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 1,
+            SenderType           => 'customer',
         },
         JobConfig => {
-            ArticleType => 'email-internal',
-            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            Module               => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            SenderType           => 'customer',
         },
     },
 
@@ -162,13 +163,13 @@ Subject: $Subject
 
 Some Content in Body",
         Check => {
-            ArticleType => 'email-internal',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            SenderType           => 'customer',
         },
         JobConfig => {
-            ArticleType => 'email-internal',
-            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            Module               => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            SenderType           => 'customer',
         },
     },
 
@@ -182,13 +183,13 @@ Subject: $Subject
 
 Some Content in Body",
         Check => {
-            ArticleType => 'email-internal',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            SenderType           => 'customer',
         },
         JobConfig => {
-            ArticleType => 'email-internal',
-            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            Module               => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            SenderType           => 'customer',
         },
     },
 
@@ -201,13 +202,13 @@ Subject: $Subject
 
 Some Content in Body",
         Check => {
-            ArticleType => 'email-external',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 1,
+            SenderType           => 'customer',
         },
         JobConfig => {
-            ArticleType => 'email-internal',
-            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            Module               => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            SenderType           => 'customer',
         },
     },
 
@@ -217,19 +218,18 @@ Some Content in Body",
         Name  => 'Provider notification',
         Email => "From: Provider <$InternalAddress>
 To: Agent <$AgentAddress>
-X-OTRS-FollowUp-ArticleType: note-report
 X-OTRS-FollowUp-SenderType: system
 Subject: $Subject
 
 Some Content in Body",
         Check => {
-            ArticleType => 'note-report',
-            SenderType  => 'system',
+            IsVisibleForCustomer => 1,
+            SenderType           => 'system',
         },
         JobConfig => {
-            ArticleType => 'email-internal',
-            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            Module               => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            SenderType           => 'customer',
         },
     },
 
@@ -243,13 +243,13 @@ Subject: $Subject
 
 Some Content in Body",
         Check => {
-            ArticleType => 'email-internal',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            SenderType           => 'customer',
         },
         JobConfig => {
-            ArticleType => 'email-internal',
-            Module      => 'Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck',
-            SenderType  => 'customer',
+            IsVisibleForCustomer => 0,
+            Module               => 'Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck',
+            SenderType           => 'customer',
         },
     },
 );
@@ -265,14 +265,15 @@ my $RunTest = sub {
     $ConfigObject->Set(
         Key   => 'PostMaster::PreCreateFilterModule',
         Value => {
-            '000-FollowUpArticleTypeCheck' => {
+            '000-FollowUpArticleVisibilityCheck' => {
                 %{ $Test->{JobConfig} }
             },
         },
     );
 
     # Get current state of articles
-    my @ArticleBoxOriginal = $ArticleObject->ArticleGet(
+    my @ArticleBoxOriginal = $ArticleObject->ArticleList(
+        UserID   => 1,
         TicketID => $TicketID,
     );
 
@@ -296,10 +297,10 @@ my $RunTest = sub {
     );
 
     # Get state of old articles after update
-    my @ArticleBoxUpdate = $ArticleObject->ArticleGet(
+    my @ArticleBoxUpdate = $ArticleObject->ArticleList(
         TicketID => $TicketID,
-        Limit    => scalar @ArticleBoxOriginal,
     );
+    my $NewMetaArticle = pop @ArticleBoxUpdate;
 
     # Make sure that old articles were not changed
     $Self->IsDeeply(
@@ -308,15 +309,14 @@ my $RunTest = sub {
         "$Test->{Name} - old articles unchanged"
     );
 
-    my @Article = $ArticleObject->ArticleGet(
-        TicketID => $Return[1],
-        Order    => 'DESC',
-        Limit    => 1,
+    my %Article = $ArticleBackendObject->ArticleGet(
+        %{$NewMetaArticle},
+        UserID => 1,
     );
 
     for my $Key ( sort keys %{ $Test->{Check} } ) {
         $Self->Is(
-            $Article[0]->{$Key},
+            $Article{$Key},
             $Test->{Check}->{$Key},
             "$Test->{Name} - Check value $Key",
         );

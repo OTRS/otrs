@@ -327,17 +327,17 @@ $Selenium->RunTest(
         );
 
         # add article to ticket
-        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'email-external',
-            SenderType     => 'customer',
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            Charset        => 'ISO-8859-15',
-            MimeType       => 'text/plain',
-            HistoryType    => 'EmailCustomer',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email')->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 1,
+            SenderType           => 'customer',
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
         );
         $Self->True(
             $ArticleID,

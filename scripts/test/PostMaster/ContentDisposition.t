@@ -139,13 +139,14 @@ my @Tests = (
 my @AddedTicketIDs;
 
 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
 for my $Test (@Tests) {
 
     for my $Backend (qw(DB FS)) {
 
         $ConfigObject->Set(
-            Key   => 'Ticket::StorageModule',
+            Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
             Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
         );
 
@@ -177,13 +178,13 @@ for my $Test (@Tests) {
         # remember added tickets
         push @AddedTicketIDs, $TicketID;
 
-        my @ArticleIDs = $ArticleObject->ArticleIndex( TicketID => $TicketID );
+        my @ArticleIDs = map { $_->{ArticleID} } $ArticleObject->ArticleList( TicketID => $TicketID );
         $Self->True(
             $ArticleIDs[0],
             "$Test->{Name} | $Backend - Article created",
         );
 
-        my %AttachmentIndex = $ArticleObject->ArticleAttachmentIndex(
+        my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $ArticleIDs[0],
             UserID    => 1,
         );

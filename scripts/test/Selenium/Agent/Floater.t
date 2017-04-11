@@ -72,15 +72,17 @@ $Selenium->RunTest(
             "TicketCreate - ID $TicketID",
         );
 
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
         my @ArticleIDs;
 
-        my $ArticleIDPlain = $ArticleObject->ArticleCreate(
-            TicketID    => $TicketID,
-            ArticleType => 'note-internal',
-            SenderType  => 'agent',
-            Subject     => 'Selenium subject test',
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Phone',
+        );
+
+        my $ArticleIDPlain = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'agent',
+            Subject              => 'Selenium subject test',
             Body =>
                 'This is a test with some CVE numbers in it. They CVE-353-22 should be recognized correctly and displayed next to the article body: CVE-353-19, CVE-353-13',
             ContentType    => 'text/plain; charset=ISO-8859-15',
@@ -97,11 +99,11 @@ $Selenium->RunTest(
 
         push @ArticleIDs, $ArticleIDPlain;
 
-        my $ArticleIDHTML = $ArticleObject->ArticleCreate(
-            TicketID    => $TicketID,
-            ArticleType => 'note-internal',
-            SenderType  => 'agent',
-            Subject     => 'some short description',
+        my $ArticleIDHTML = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'agent',
+            Subject              => 'some short description',
             Body =>
                 '<p>This is an HTML article containing some CVE-Numbers like <ul><li>CVE-353-19</li><li>CVE-353-13</li></ul></p>',
             ContentType    => 'text/html; charset=ISO-8859-15',

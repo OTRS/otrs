@@ -32,8 +32,8 @@ $ConfigObject->Set(
 );
 
 $ConfigObject->Set(
-    Key   => 'Ticket::StorageModule',
-    Value => 'Kernel::System::Ticket::ArticleStorageDB',
+    Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+    Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB',
 );
 
 my $UserID = 1;
@@ -57,8 +57,10 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         Value => "Kernel::System::Ticket::IndexAccelerator::$Module",
     );
 
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+        ChannelName => 'Internal',
+    );
 
     my @TicketIDs;
 
@@ -97,24 +99,24 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         push @TicketIDs, $TicketID;
     }
 
-    # create articles (ArticleType is 'note-internal' only for first article of first ticket)
+    # Create articles (article not visible for customer only for first article of first ticket).
     for my $Item ( 0 .. 1 ) {
         for my $SubjectDataItem (qw( Kumbala Acua )) {
-            my $ArticleID = $ArticleObject->ArticleCreate(
-                TicketID       => $TicketIDs[$Item],
-                ArticleType    => ( $Item == 0 && $SubjectDataItem eq 'Kumbala' ) ? 'note-internal' : 'note-external',
-                SenderType     => 'agent',
-                From           => 'Agent Some Agent Some Agent <email@example.com>',
-                To             => 'Customer A <customer-a@example.com>',
-                Cc             => 'Customer B <customer-b@example.com>',
-                ReplyTo        => 'Customer B <customer-b@example.com>',
-                Subject        => "$SubjectDataItem$RandomID",
-                Body           => 'A text for the body, Title äöüßÄÖÜ€ис',
-                ContentType    => 'text/plain; charset=ISO-8859-15',
-                HistoryType    => 'OwnerUpdate',
-                HistoryComment => 'first article',
-                UserID         => 1,
-                NoAgentNotify  => 1,
+            my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TicketIDs[$Item],
+                IsVisibleForCustomer => ( $Item == 0 && $SubjectDataItem eq 'Kumbala' ) ? 0 : 1,
+                SenderType           => 'agent',
+                From                 => 'Agent Some Agent Some Agent <email@example.com>',
+                To                   => 'Customer A <customer-a@example.com>',
+                Cc                   => 'Customer B <customer-b@example.com>',
+                ReplyTo              => 'Customer B <customer-b@example.com>',
+                Subject              => "$SubjectDataItem$RandomID",
+                Body                 => 'A text for the body, Title äöüßÄÖÜ€ис',
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'first article',
+                UserID               => 1,
+                NoAgentNotify        => 1,
             );
             $Self->True(
                 $ArticleID,

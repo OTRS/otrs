@@ -413,28 +413,35 @@ sub Run {
         }
     }
 
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+        ChannelName => 'Email',
+    );
+
+    my $IsVisibleForCustomer = 1;
+    if ( length $GetParam{'X-OTRS-FollowUp-IsVisibleForCustomer'} ) {
+        $IsVisibleForCustomer = $GetParam{'X-OTRS-FollowUp-IsVisibleForCustomer'};
+    }
 
     # do db insert
-    my $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID         => $Param{TicketID},
-        ArticleType      => $GetParam{'X-OTRS-FollowUp-ArticleType'},
-        SenderType       => $GetParam{'X-OTRS-FollowUp-SenderType'},
-        From             => $GetParam{From},
-        ReplyTo          => $GetParam{ReplyTo},
-        To               => $GetParam{To},
-        Cc               => $GetParam{Cc},
-        Subject          => $GetParam{Subject},
-        MessageID        => $GetParam{'Message-ID'},
-        InReplyTo        => $GetParam{'In-Reply-To'},
-        References       => $GetParam{'References'},
-        ContentType      => $GetParam{'Content-Type'},
-        Body             => $GetParam{Body},
-        UserID           => $Param{InmailUserID},
-        HistoryType      => 'FollowUp',
-        HistoryComment   => "\%\%$Param{Tn}\%\%$Comment",
-        AutoResponseType => $AutoResponseType,
-        OrigHeader       => \%GetParam,
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $Param{TicketID},
+        SenderType           => $GetParam{'X-OTRS-FollowUp-SenderType'},
+        IsVisibleForCustomer => $IsVisibleForCustomer,
+        From                 => $GetParam{From},
+        ReplyTo              => $GetParam{ReplyTo},
+        To                   => $GetParam{To},
+        Cc                   => $GetParam{Cc},
+        Subject              => $GetParam{Subject},
+        MessageID            => $GetParam{'Message-ID'},
+        InReplyTo            => $GetParam{'In-Reply-To'},
+        References           => $GetParam{'References'},
+        ContentType          => $GetParam{'Content-Type'},
+        Body                 => $GetParam{Body},
+        UserID               => $Param{InmailUserID},
+        HistoryType          => 'FollowUp',
+        HistoryComment       => "\%\%$Param{Tn}\%\%$Comment",
+        AutoResponseType     => $AutoResponseType,
+        OrigHeader           => \%GetParam,
     );
     return if !$ArticleID;
 
@@ -449,7 +456,7 @@ sub Run {
     }
 
     # write plain email to the storage
-    $ArticleObject->ArticleWritePlain(
+    $ArticleBackendObject->ArticleWritePlain(
         ArticleID => $ArticleID,
         Email     => $Self->{ParserObject}->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
@@ -457,7 +464,7 @@ sub Run {
 
     # write attachments to the storage
     for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
-        $ArticleObject->ArticleWriteAttachment(
+        $ArticleBackendObject->ArticleWriteAttachment(
             Filename           => $Attachment->{Filename},
             Content            => $Attachment->{Content},
             ContentType        => $Attachment->{ContentType},

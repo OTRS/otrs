@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Ticket::ArticleStorageDB;
+package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB;
 
 use strict;
 use warnings;
@@ -14,7 +14,7 @@ use warnings;
 use MIME::Base64;
 use MIME::Words qw(:all);
 
-use base qw(Kernel::System::Ticket::ArticleStorage::Base);
+use base qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -24,43 +24,23 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Encode',
     'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::Ticket',
-    'Kernel::System::Ticket::Article',
-    'Kernel::System::Ticket::ArticleStorageFS',
+    'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS',
 );
 
 =head1 NAME
 
-Kernel::System::Ticket::ArticleStorageDB - DB based ticket article storage interface
+Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB - DB based ticket article storage interface
 
 =head1 DESCRIPTION
 
 This class provides functions to work manipulate ticket articles in the database.
 The methods are currently documented in L<Kernel::System::Ticket::Article>.
 
-Inherits from L<Kernel::System::Ticket::ArticleStorage::Base>.
+Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
 
-See also L<Kernel::System::Ticket::ArticleStorageFS>.
+See also L<Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS>.
 
 =cut
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    # ArticleDataDir
-    $Self->{ArticleDataDir} = $Kernel::OM->Get('Kernel::Config')->Get('ArticleDir')
-        || die 'Got no ArticleDir!';
-
-    # do we need to check all backends, or just one?
-    $Self->{CheckAllBackends} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StorageModule::CheckAllBackends') // 0;
-
-    return $Self;
-}
 
 sub ArticleDelete {
     my ( $Self, %Param ) = @_;
@@ -76,27 +56,6 @@ sub ArticleDelete {
         }
     }
 
-    # Delete dynamic field values for this article.
-    $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ObjectValuesDelete(
-        ObjectType => 'Article',
-        ObjectID   => $Param{ArticleID},
-        UserID     => $Param{UserID},
-    );
-
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-    # delete index
-    $ArticleObject->ArticleIndexDelete(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
-    );
-
-    # delete time accounting
-    $ArticleObject->ArticleAccountedTimeDelete(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
-    );
-
     # delete attachments
     $Self->ArticleDeleteAttachment(
         ArticleID => $Param{ArticleID},
@@ -109,31 +68,10 @@ sub ArticleDelete {
         UserID    => $Param{UserID},
     );
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # delete article flags
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
-
-    # delete article history entries
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM ticket_history WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
-
     # Delete storage directory in case there are leftovers in the FS.
     $Self->_ArticleDeleteDirectory(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
-    );
-
-    # delete articles
-    return if !$DBObject->Do(
-        SQL  => 'DELETE FROM article WHERE id = ?',
-        Bind => [ \$Param{ArticleID} ],
     );
 
     return 1;
@@ -155,7 +93,7 @@ sub ArticleDeletePlain {
 
     # delete attachments
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_plain WHERE article_id = ?',
+        SQL  => 'DELETE FROM article_data_mime_plain WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 
@@ -165,7 +103,7 @@ sub ArticleDeletePlain {
     # return of only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleDeletePlain(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')->ArticleDeletePlain(
         %Param,
         OnlyMyBackend => 1,
     );
@@ -187,7 +125,7 @@ sub ArticleDeleteAttachment {
 
     # delete attachments
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_attachment WHERE article_id = ?',
+        SQL  => 'DELETE FROM article_data_mime_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 
@@ -197,10 +135,11 @@ sub ArticleDeleteAttachment {
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleDeleteAttachment(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')
+        ->ArticleDeleteAttachment(
         %Param,
         OnlyMyBackend => 1,
-    );
+        );
 }
 
 sub ArticleWritePlain {
@@ -230,7 +169,7 @@ sub ArticleWritePlain {
 
     # write article to db 1:1
     return if !$DBObject->Do(
-        SQL => 'INSERT INTO article_plain '
+        SQL => 'INSERT INTO article_data_mime_plain '
             . ' (article_id, body, create_time, create_by, change_time, change_by) '
             . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{ArticleID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
@@ -306,7 +245,7 @@ sub ArticleWriteAttachment {
     # write attachment to db
     return if !$DBObject->Do(
         SQL => '
-            INSERT INTO article_attachment (article_id, filename, content_type, content_size,
+            INSERT INTO article_data_mime_attachment (article_id, filename, content_type, content_size,
                 content, content_id, content_alternative, disposition, create_time, create_by,
                 change_time, change_by)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -340,7 +279,7 @@ sub ArticlePlain {
 
     # can't open article, try database
     return if !$DBObject->Prepare(
-        SQL    => 'SELECT body FROM article_plain WHERE article_id = ?',
+        SQL    => 'SELECT body FROM article_data_mime_plain WHERE article_id = ?',
         Bind   => [ \$Param{ArticleID} ],
         Encode => [0],
     );
@@ -364,7 +303,7 @@ sub ArticlePlain {
     # return of only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticlePlain(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')->ArticlePlain(
         %Param,
         OnlyMyBackend => 1,
     );
@@ -393,7 +332,7 @@ sub ArticleAttachmentIndexRaw {
         SQL => '
             SELECT filename, content_type, content_size, content_id, content_alternative,
                 disposition
-            FROM article_attachment
+            FROM article_data_mime_attachment
             WHERE article_id = ?
             ORDER BY filename, id',
         Bind => [ \$Param{ArticleID} ],
@@ -457,10 +396,11 @@ sub ArticleAttachmentIndexRaw {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleAttachmentIndexRaw(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')
+        ->ArticleAttachmentIndexRaw(
         %Param,
         OnlyMyBackend => 1,
-    );
+        );
 }
 
 sub ArticleAttachment {
@@ -497,7 +437,7 @@ sub ArticleAttachment {
     return if !$DBObject->Prepare(
         SQL => '
             SELECT id
-            FROM article_attachment
+            FROM article_data_mime_attachment
             WHERE article_id = ?
             ORDER BY filename, id',
         Bind  => [ \$Param{ArticleID} ],
@@ -512,7 +452,7 @@ sub ArticleAttachment {
     return if !$DBObject->Prepare(
         SQL => '
             SELECT content_type, content, content_id, content_alternative, disposition, filename
-            FROM article_attachment
+            FROM article_data_mime_attachment
             WHERE id = ?',
         Bind   => [ \$AttachmentID ],
         Encode => [ 1, 0, 0, 0, 1, 1 ],
@@ -562,7 +502,7 @@ sub ArticleAttachment {
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
 
-    return $Kernel::OM->Get('Kernel::System::Ticket::ArticleStorageFS')->ArticleAttachment(
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS')->ArticleAttachment(
         %Param,
         OnlyMyBackend => 1,
     );

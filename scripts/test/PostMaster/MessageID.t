@@ -15,10 +15,12 @@ use vars (qw($Self));
 
 use Kernel::System::PostMaster;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+    ChannelName => 'Email',
+);
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -76,14 +78,15 @@ for my $File (qw(1 2 3 5 6 11 21)) {
         ' Run() - NewTicket',
     );
 
-    my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGetTicketIDOfMessageID(
+    my %Article = $ArticleBackendObject->ArticleGetByMessageID(
         MessageID => $MessageID,
+        UserID    => 1,
     );
 
     $Self->Is(
-        $TicketID,
+        $Article{TicketID},
         $Return[1],
-        "ArticleGetTicketIDOfMessageID - TicketID for message ID $MessageID"
+        "ArticleGetByMessageID - TicketID for message ID $MessageID"
     );
 }
 

@@ -67,25 +67,27 @@ $Selenium->RunTest(
             "TicketCreate - ID $TicketID",
         );
 
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
         # create test email article
-        my $ArticleID = $ArticleObject->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'email-external',
-            SenderType     => 'customer',
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            Charset        => 'ISO-8859-15',
-            MimeType       => 'text/plain',
-            HistoryType    => 'EmailCustomer',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'customer',
+            IsVisibleForCustomer => 1,
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
         );
         $Self->True(
             $ArticleID,
             "ArticleCreate - ID $ArticleID",
         );
 
-        my $Success = $ArticleObject->ArticleWritePlain(
+        my $Success = $ArticleBackendObject->ArticleWritePlain(
             ArticleID => $ArticleID,
             Email     => 'Test Email string',
             UserID    => 1,

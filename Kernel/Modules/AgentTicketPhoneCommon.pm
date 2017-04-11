@@ -625,8 +625,6 @@ sub Run {
         }
         else {
 
-            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
             # get pre loaded attachment
             my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
                 FormID => $Self->{FormID},
@@ -681,6 +679,9 @@ sub Run {
 
             my $From;
 
+            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+            my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
+
             if ( lc $Config->{SenderType} eq 'customer' ) {
 
                 # get customer email address
@@ -698,12 +699,20 @@ sub Run {
                     }
                 }
                 else {
-                    # Use customer data as From, if possible
-                    my %LastCustomerArticle = $ArticleObject->ArticleLastCustomerArticle(
-                        TicketID      => $Self->{TicketID},
-                        DynamicFields => 0,
+                    # Use customer data as From, if possible.
+                    my @MetaArticles = $ArticleObject->ArticleList(
+                        SenderType => 'customer',
+                        OnlyLast   => 1,
                     );
-                    $From = $LastCustomerArticle{From};
+                    if (@MetaArticles) {
+                        my %LastCustomerArticle
+                            = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
+                            %{ $MetaArticles[0] },
+                            DynamicFields => 0,
+                            UserID        => $Self->{UserID},
+                            );
+                        $From = $LastCustomerArticle{From};
+                    }
                 }
             }
 
@@ -716,19 +725,19 @@ sub Run {
                 );
             }
 
-            my $ArticleID = $ArticleObject->ArticleCreate(
-                TicketID       => $Self->{TicketID},
-                ArticleType    => $Config->{ArticleType},
-                SenderType     => $Config->{SenderType},
-                From           => $From,
-                Subject        => $GetParam{Subject},
-                Body           => $GetParam{Body},
-                MimeType       => $MimeType,
-                Charset        => $LayoutObject->{UserCharset},
-                UserID         => $Self->{UserID},
-                HistoryType    => $Config->{HistoryType},
-                HistoryComment => $Config->{HistoryComment} || '%%',
-                UnlockOnAway   => 1,
+            my $ArticleID = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $Self->{TicketID},
+                IsVisibleForCustomer => 1,
+                SenderType           => $Config->{SenderType},
+                From                 => $From,
+                Subject              => $GetParam{Subject},
+                Body                 => $GetParam{Body},
+                MimeType             => $MimeType,
+                Charset              => $LayoutObject->{UserCharset},
+                UserID               => $Self->{UserID},
+                HistoryType          => $Config->{HistoryType},
+                HistoryComment       => $Config->{HistoryComment} || '%%',
+                UnlockOnAway         => 1,
             );
 
             # show error of creating article
@@ -748,8 +757,9 @@ sub Run {
 
             # write attachments
             for my $Attachment (@AttachmentData) {
-                $ArticleObject->ArticleWriteAttachment(
+                $ArticleBackendObject->ArticleWriteAttachment(
                     %{$Attachment},
+                    TicketID  => $Self->{TicketID},
                     ArticleID => $ArticleID,
                     UserID    => $Self->{UserID},
                 );

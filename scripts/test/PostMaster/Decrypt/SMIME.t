@@ -300,9 +300,16 @@ my %Ticket = $TicketObject->TicketGet(
     TicketID => $Return[1],
 );
 
-my @ArticleIndex = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+my @ArticleIndex         = $ArticleObject->ArticleList(
     TicketID => $Return[1],
     UserID   => 1,
+);
+
+my %FirstArticle = $ArticleBackendObject->ArticleGet(
+    %{ $ArticleIndex[0] },
+    UserID => 1,
 );
 
 $Self->Is(
@@ -311,13 +318,13 @@ $Self->Is(
     "Ticket created in $Ticket{Queue}",
 );
 
-my $GetBody = $ArticleIndex[0]{Body};
+my $GetBody = $FirstArticle{Body};
 chomp($GetBody);
 
 $Self->Is(
     $GetBody,
     'Hi',
-    "Body decrypted $ArticleIndex[0]{Body}",
+    "Body decrypted $FirstArticle{Body}",
 );
 
 # Delete needed test directories.

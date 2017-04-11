@@ -16,6 +16,7 @@
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
     <input type="hidden" name="ResponseID" value="[% Data.ResponseID | html %]"/>
     <input type="hidden" name="ReplyArticleID" value="[% Data.ReplyArticleID | html %]"/>
+    <input type="hidden" name="IsVisibleForCustomerPresent" value="1"/>
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>[% Translate("Compose Answer for %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
@@ -356,13 +357,13 @@
                     </div>
                     <div class="Clear"></div>
 
-[% RenderBlockStart("ArticleType") %]
-                    <label for="ArticleTypeID">[% Translate("Article type") | html %]:</label>
+[% RenderBlockStart("IsVisibleForCustomer") %]
+                    <label for="IsVisibleForCustomer">[% Translate("Visible for customer") | html %]:</label>
                     <div class="Field">
-                        [% Data.ArticleTypesStrg %]
+                        <input type="checkbox" id="IsVisibleForCustomer" name="IsVisibleForCustomer" value="1" [% IF Data.IsVisibleForCustomer %]checked="checked"[% END %]/>
                     </div>
                     <div class="Clear"></div>
-[% RenderBlockEnd("ArticleType") %]
+[% RenderBlockEnd("IsVisibleForCustomer") %]
 [% RenderBlockStart("DynamicField") %]
                     <div class="Row Row_DynamicField_[% Data.Name | html %]">
                         [% Data.Label %]

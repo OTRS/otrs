@@ -294,24 +294,24 @@ $Self->True(
     "TicketCreate() successful for Ticket ID $TicketID",
 );
 
-# get article object
 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
 
 # create first article
-my $ArticleID1 = $ArticleObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'email-external',
-    SenderType     => 'customer',
-    Subject        => 'Article 1',
-    Body           => 'This is the first article',
-    Charset        => 'ISO-8859-15',
-    MimeType       => 'text/plain',
-    HistoryType    => 'EmailCustomer',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    From           => "$CustomerUserLogin\@localunittest.com",
-    To             => 'test1@otrsexample.com',
-    Cc             => 'test2@otrsexample.com',
+my $ArticleID1 = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 1,
+    SenderType           => 'customer',
+    Subject              => 'Article 1',
+    Body                 => 'This is the first article',
+    Charset              => 'ISO-8859-15',
+    MimeType             => 'text/plain',
+    HistoryType          => 'EmailCustomer',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    From                 => "$CustomerUserLogin\@localunittest.com",
+    To                   => 'test1@otrsexample.com',
+    Cc                   => 'test2@otrsexample.com',
 );
 
 $Self->True(
@@ -320,20 +320,20 @@ $Self->True(
 );
 
 # create last article
-my $ArticleID2 = $ArticleObject->ArticleCreate(
-    TicketID       => $TicketID,
-    ArticleType    => 'email-external',
-    SenderType     => 'customer',
-    Subject        => 'Article 2',
-    Body           => 'This is the last article',
-    Charset        => 'ISO-8859-15',
-    MimeType       => 'text/plain',
-    HistoryType    => 'EmailCustomer',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    From           => "$CustomerUserLogin\@localunittest.com",
-    To             => 'test3@otrsexample.com',
-    Cc             => 'test4@otrsexample.com',
+my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 1,
+    SenderType           => 'customer',
+    Subject              => 'Article 2',
+    Body                 => 'This is the last article',
+    Charset              => 'ISO-8859-15',
+    MimeType             => 'text/plain',
+    HistoryType          => 'EmailCustomer',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    From                 => "$CustomerUserLogin\@localunittest.com",
+    To                   => 'test3@otrsexample.com',
+    Cc                   => 'test4@otrsexample.com',
 );
 
 $Self->True(
@@ -460,11 +460,6 @@ my $SuccessWatcher = $TicketObject->TicketWatchSubscribe(
 $Self->True(
     $SuccessWatcher,
     "TicketWatchSubscribe() successful for Ticket ID $TicketID",
-);
-
-# get article types email-notification-int ID
-my $ArticleTypeIntID = $ArticleObject->ArticleTypeLookup(
-    ArticleType => 'email-notification-int',
 );
 
 my @Tests = (
@@ -1001,11 +996,11 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name => 'RecipientCustomer + NotificationArticleType email-notification-int',
+        Name => 'RecipientCustomer + IsVisibleForCustomer = 0',
         Data => {
-            Events                    => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
-            Recipients                => ['Customer'],
-            NotificationArticleTypeID => [$ArticleTypeIntID],
+            Events               => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients           => ['Customer'],
+            IsVisibleForCustomer => [0],
         },
         Config => {
             Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
@@ -1502,11 +1497,13 @@ for my $Test (@Tests) {
     # check if there is email-notification-int article type when sending notification
     # to customer see bug#11592
     if ( $Test->{Name} =~ /RecipientCustomer/i ) {
-        my @ArticleBox = $ArticleObject->ArticleContentIndex(
-            TicketID      => $TicketID,
-            UserID        => 1,
-            ArticleTypeID => [$ArticleTypeIntID],
+        my @ArticleBox = $ArticleObject->ArticleList(
+            TicketID             => $TicketID,
+            CommunicationChannel => 'Email',
+            SenderType           => 'system',
+            IsVisibleForCustomer => 0,
         );
+
         $Self->Is(
             scalar @ArticleBox,
             1,

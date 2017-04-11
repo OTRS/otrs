@@ -20,7 +20,6 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
 
@@ -34,10 +33,8 @@ sub Run {
     my %Error;
     my %GetParam;
 
-    # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('No TicketID is given!'),
@@ -338,20 +335,25 @@ sub Run {
                 $GetParam{Body} =~ s/(&lt;|<)OTRS_TICKET(&gt;|>)/$Ticket{TicketNumber}/g;
                 $GetParam{Body}
                     =~ s/(&lt;|<)OTRS_MERGE_TO_TICKET(&gt;|>)/$GetParam{'MainTicketNumber'}/g;
-                my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSend(
-                    ArticleType    => 'email-external',
-                    SenderType     => 'agent',
-                    TicketID       => $Self->{TicketID},
-                    HistoryType    => 'SendAnswer',
-                    HistoryComment => "Merge info to '$GetParam{To}'.",
-                    From           => $GetParam{From},
-                    Email          => $GetParam{Email},
-                    To             => $GetParam{To},
-                    Subject        => $GetParam{Subject},
-                    UserID         => $Self->{UserID},
-                    Body           => $GetParam{Body},
-                    Charset        => $LayoutObject->{UserCharset},
-                    MimeType       => $MimeType,
+
+                my $EmailArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+                    ChannelName => 'Email',
+                );
+
+                my $ArticleID = $EmailArticleBackendObject->ArticleSend(
+                    TicketID             => $Self->{TicketID},
+                    SenderType           => 'agent',
+                    IsVisibleForCustomer => 1,
+                    HistoryType          => 'SendAnswer',
+                    HistoryComment       => "Merge info to '$GetParam{To}'.",
+                    From                 => $GetParam{From},
+                    Email                => $GetParam{Email},
+                    To                   => $GetParam{To},
+                    Subject              => $GetParam{Subject},
+                    UserID               => $Self->{UserID},
+                    Body                 => $GetParam{Body},
+                    Charset              => $LayoutObject->{UserCharset},
+                    MimeType             => $MimeType,
                 );
                 if ( !$ArticleID ) {
 
@@ -367,12 +369,40 @@ sub Run {
         }
     }
     else {
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-        # get last article
-        my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleLastCustomerArticle(
-            TicketID      => $Self->{TicketID},
-            DynamicFields => 1,
+        # Get last customer article.
+        my @Articles = $ArticleObject->ArticleList(
+            TicketID   => $Self->{TicketID},
+            SenderType => 'customer',
+            OnlyLast   => 1,
         );
+
+        # If the ticket has no customer article, get the last agent article.
+        if ( !@Articles ) {
+            @Articles = $ArticleObject->ArticleList(
+                TicketID   => $Self->{TicketID},
+                SenderType => 'agent',
+                OnlyLast   => 1,
+            );
+        }
+
+        # Finally, if everything failed, get latest article.
+        if ( !@Articles ) {
+            @Articles = $ArticleObject->ArticleList(
+                TicketID => $Self->{TicketID},
+                OnlyLast => 1,
+            );
+        }
+
+        my %Article;
+        for my $Article (@Articles) {
+            %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                %{$Article},
+                DynamicFields => 1,
+                UserID        => $Self->{UserID},
+            );
+        }
 
         # merge box
         my $Output = $LayoutObject->Header(
@@ -400,7 +430,7 @@ sub Run {
 
         # prepare subject ...
         $Article{Subject} = $TicketObject->TicketSubjectBuild(
-            TicketNumber => $Article{TicketNumber},
+            TicketNumber => $Ticket{TicketNumber},
             Subject      => $Article{Subject} || '',
         );
 

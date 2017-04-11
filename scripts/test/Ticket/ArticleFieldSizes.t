@@ -12,9 +12,9 @@ use utf8;
 
 use vars (qw($Self));
 
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+my $MainObject            = $Kernel::OM->Get('Kernel::System::Main');
+my $ArticleInternalObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -56,67 +56,67 @@ my @ArticleTests = (
     {
         Name        => 'Article with all fields < 998',
         ArticleData => {
-            ArticleType    => 'note-internal',
-            SenderType     => 'agent',
-            From           => $SmallEmail,
-            To             => $SmallEmail,
-            Cc             => $SmallEmail,
-            ReplyTo        => $SmallEmail,
-            MessageID      => $SmallReference,
-            References     => $SmallReference,
-            InReplyTo      => $SmallReference,
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            Charset        => 'iso-8859-15',
-            MimeType       => 'text/plain',
-            Loop           => 0,
-            HistoryType    => 'AddNote',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'agent',
+            From                 => $SmallEmail,
+            To                   => $SmallEmail,
+            Cc                   => $SmallEmail,
+            ReplyTo              => $SmallEmail,
+            MessageID            => $SmallReference,
+            References           => $SmallReference,
+            InReplyTo            => $SmallReference,
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'iso-8859-15',
+            MimeType             => 'text/plain',
+            Loop                 => 0,
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
         },
     },
     {
         Name        => 'Article with allowed fields > 3800 (bug#5420)',
         ArticleData => {
-            ArticleType    => 'note-internal',
-            SenderType     => 'agent',
-            From           => $MediumEmail,
-            To             => $MediumEmail,
-            Cc             => $MediumEmail,
-            ReplyTo        => $MediumEmail,
-            MessageID      => $SmallReference,
-            References     => $MediumReference,
-            InReplyTo      => $MediumReference,
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            Charset        => 'iso-8859-15',
-            MimeType       => 'text/plain',
-            Loop           => 0,
-            HistoryType    => 'AddNote',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'agent',
+            From                 => $MediumEmail,
+            To                   => $MediumEmail,
+            Cc                   => $MediumEmail,
+            ReplyTo              => $MediumEmail,
+            MessageID            => $SmallReference,
+            References           => $MediumReference,
+            InReplyTo            => $MediumReference,
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'iso-8859-15',
+            MimeType             => 'text/plain',
+            Loop                 => 0,
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
         },
     },
     {
         Name        => 'Article with huge fields (bug#5420)',
         ArticleData => {
-            ArticleType    => 'note-internal',
-            SenderType     => 'agent',
-            From           => $LargeEmail,
-            To             => $LargeEmail,
-            Cc             => $LargeEmail,
-            ReplyTo        => $LargeEmail,
-            MessageID      => $SmallReference,
-            References     => $LargeReference,
-            InReplyTo      => $LargeReference,
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            Charset        => 'iso-8859-15',
-            MimeType       => 'text/plain',
-            Loop           => 0,
-            HistoryType    => 'AddNote',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'agent',
+            From                 => $LargeEmail,
+            To                   => $LargeEmail,
+            Cc                   => $LargeEmail,
+            ReplyTo              => $LargeEmail,
+            MessageID            => $SmallReference,
+            References           => $LargeReference,
+            InReplyTo            => $LargeReference,
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'iso-8859-15',
+            MimeType             => 'text/plain',
+            Loop                 => 0,
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
         },
     },
 );
@@ -129,7 +129,7 @@ TEST:
 for my $Test (@ArticleTests) {
 
     # create article
-    $ArticleID = $ArticleObject->ArticleCreate(
+    $ArticleID = $ArticleInternalObject->ArticleCreate(
         TicketID => $TicketID,
         %{ $Test->{ArticleData} },
     );
@@ -139,7 +139,8 @@ for my $Test (@ArticleTests) {
         "$Test->{Name} - ArticleCreate()",
     );
 
-    my %Article = $ArticleObject->ArticleGet(
+    my %Article = $ArticleInternalObject->ArticleGet(
+        TicketID  => $TicketID,
         ArticleID => $ArticleID,
         UserID    => 1,
     );
@@ -154,8 +155,7 @@ for my $Test (@ArticleTests) {
             $Article{$Key},
             $Test->{ArticleData}->{$Key},
             "$Test->{Name} - ArticleGet() $Key"
-
-            )
+        );
     }
 }
 

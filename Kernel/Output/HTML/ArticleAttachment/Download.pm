@@ -31,7 +31,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Needed (qw(File Article)) {
+    for my $Needed (qw(File TicketID Article)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -54,7 +54,7 @@ sub Run {
         %{ $Param{File} },
         Action => 'Download',
         Link   => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
-            "Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
+            "Action=AgentTicketAttachment;TicketID=$Param{TicketID};ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
         Image  => 'disk-s.png',
         Target => $Target,
     );

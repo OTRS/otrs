@@ -57,17 +57,24 @@ $Selenium->RunTest(
         # create test article for test ticket
         my $SubjectRandom = "Subject" . $Helper->GetRandomID();
         my $TextRandom    = "Text" . $Helper->GetRandomID();
-        my $ArticleID     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'phone',
-            SenderType     => 'customer',
-            Subject        => $SubjectRandom,
-            Body           => $TextRandom,
-            ContentType    => 'text/html; charset=ISO-8859-15',
-            HistoryType    => 'AddNote',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Phone',
         );
+
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'customer',
+            IsVisibleForCustomer => 1,
+            Subject              => $SubjectRandom,
+            Body                 => $TextRandom,
+            Charset              => 'charset=ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
+        );
+
         $Self->True(
             $ArticleID,
             "Article is created - $ArticleID",

@@ -24,11 +24,9 @@ our @ObjectDependencies = (
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed params
     for my $Needed (qw(UserID ArticleID)) {
         if ( $Param{$Needed} ) {
             $Self->{$Needed} = $Param{$Needed};
@@ -57,13 +55,13 @@ sub Check {
     return if !$ConfigObject->Get('SMIME');
 
     # check if article is an email
-    return if $Param{Article}->{ArticleType} !~ /email/i;
+    my $ArticleBackendObject
+        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{ $Param{Article} // {} } );
+    return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
 
     my $StoreDecryptedData = $ConfigObject->Get('SMIME::StoreDecryptedData');
 
-    # get needed objects
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-    my $ArticleObject = $Param{ArticleObject} || $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # check inline smime
     if ( $Param{Article}->{Body} =~ /^-----BEGIN PKCS7-----/ ) {
@@ -90,7 +88,8 @@ sub Check {
     else {
 
         # get email from fs
-        my $Message = $ArticleObject->ArticlePlain(
+        my $Message = $ArticleBackendObject->ArticlePlain(
+            TicketID  => $Param{Article}->{TicketID},
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
@@ -297,7 +296,7 @@ sub Check {
                 if ($StoreDecryptedData) {
 
                     # updated article body
-                    $ArticleObject->ArticleUpdate(
+                    $ArticleBackendObject->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},
                         ArticleID => $Self->{ArticleID},
                         Key       => 'Body',
@@ -306,14 +305,14 @@ sub Check {
                     );
 
                     # delete crypted attachments
-                    $ArticleObject->ArticleDeleteAttachment(
+                    $ArticleBackendObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
-                        $ArticleObject->ArticleWriteAttachment(
+                        $ArticleBackendObject->ArticleWriteAttachment(
                             %{$Attachment},
                             ArticleID => $Self->{ArticleID},
                             UserID    => $Self->{UserID},
@@ -412,7 +411,7 @@ sub Check {
                 if ($StoreDecryptedData) {
 
                     # updated article body
-                    $ArticleObject->ArticleUpdate(
+                    $ArticleBackendObject->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},
                         ArticleID => $Self->{ArticleID},
                         Key       => 'Body',
@@ -421,14 +420,14 @@ sub Check {
                     );
 
                     # delete crypted attachments
-                    $ArticleObject->ArticleDeleteAttachment(
+                    $ArticleBackendObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
-                        $ArticleObject->ArticleWriteAttachment(
+                        $ArticleBackendObject->ArticleWriteAttachment(
                             %{$Attachment},
                             ArticleID => $Self->{ArticleID},
                             UserID    => $Self->{UserID},

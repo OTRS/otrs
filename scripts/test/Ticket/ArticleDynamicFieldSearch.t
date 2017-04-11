@@ -86,15 +86,16 @@ for my $Item ( 1 .. 2 ) {
 for my $Module (qw(StaticDB RuntimeDB)) {
 
     # Make sure that the TicketObject gets recreated for each loop.
-    $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::Ticket', 'Kernel::System::Article' ] );
+    $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::Ticket', 'Kernel::System::Ticket::Article' ] );
 
     $ConfigObject->Set(
         Key   => 'Ticket::SearchIndexModule',
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
 
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email');
 
     $Self->Is(
         $ArticleObject->{ArticleSearchIndexModule},
@@ -143,19 +144,19 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    my $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID       => $TicketIDs[0],
-        ArticleType    => 'note-internal',
-        SenderType     => 'agent',
-        From           => 'Some Agent <email@example.com>',
-        To             => 'Some Customer <customer-a@example.com>',
-        Subject        => 'some short description',
-        Body           => 'ticket1_article1',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDs[0],
+        IsVisibleForCustomer => 0,
+        SenderType           => 'agent',
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer-a@example.com>',
+        Subject              => 'some short description',
+        Body                 => 'ticket1_article1',
+        ContentType          => 'text/plain; charset=ISO-8859-15',
+        HistoryType          => 'OwnerUpdate',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        NoAgentNotify        => 1,                                       # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(
@@ -172,19 +173,19 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID       => $TicketIDs[0],
-        ArticleType    => 'note-internal',
-        SenderType     => 'agent',
-        From           => 'Some Agent <email@example.com>',
-        To             => 'Some Customer <customer-a@example.com>',
-        Subject        => 'some short description',
-        Body           => 'ticket1_article2',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
+    $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDs[0],
+        IsVisibleForCustomer => 0,
+        SenderType           => 'agent',
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer-a@example.com>',
+        Subject              => 'some short description',
+        Body                 => 'ticket1_article2',
+        ContentType          => 'text/plain; charset=ISO-8859-15',
+        HistoryType          => 'OwnerUpdate',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        NoAgentNotify        => 1,                                       # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(
@@ -201,19 +202,19 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID       => $TicketIDs[1],
-        ArticleType    => 'note-internal',
-        SenderType     => 'agent',
-        From           => 'Some Agent <email@example.com>',
-        To             => 'Some Customer <customer-a@example.com>',
-        Subject        => 'some short description',
-        Body           => 'ticket2_article1',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
+    $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDs[1],
+        IsVisibleForCustomer => 0,
+        SenderType           => 'agent',
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer-a@example.com>',
+        Subject              => 'some short description',
+        Body                 => 'ticket2_article1',
+        ContentType          => 'text/plain; charset=ISO-8859-15',
+        HistoryType          => 'OwnerUpdate',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        NoAgentNotify        => 1,                                       # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(
@@ -230,19 +231,19 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         UserID             => 1,
     );
 
-    $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID       => $TicketIDs[1],
-        ArticleType    => 'note-internal',
-        SenderType     => 'agent',
-        From           => 'Some Agent <email@example.com>',
-        To             => 'Some Customer <customer-a@example.com>',
-        Subject        => 'some short description',
-        Body           => 'ticket2_article2',
-        ContentType    => 'text/plain; charset=ISO-8859-15',
-        HistoryType    => 'OwnerUpdate',
-        HistoryComment => 'Some free text!',
-        UserID         => 1,
-        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
+    $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketIDs[1],
+        IsVisibleForCustomer => 0,
+        SenderType           => 'agent',
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer-a@example.com>',
+        Subject              => 'some short description',
+        Body                 => 'ticket2_article2',
+        ContentType          => 'text/plain; charset=ISO-8859-15',
+        HistoryType          => 'OwnerUpdate',
+        HistoryComment       => 'Some free text!',
+        UserID               => 1,
+        NoAgentNotify        => 1,                                       # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(

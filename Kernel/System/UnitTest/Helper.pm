@@ -749,7 +749,7 @@ sub UseTmpArticleDir {
 
     $Self->ConfigSettingChange(
         Valid => 1,
-        Key   => 'ArticleDir',
+        Key   => 'Ticket::Article::Backend::MIMEBase###ArticleDataDir',
         Value => $TmpArticleDir,
     );
 

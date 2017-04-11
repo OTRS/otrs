@@ -19,7 +19,6 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
 
@@ -33,7 +32,6 @@ sub Run {
     my $QueueID;
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # check needed stuff
     if ( !$Self->{TicketID} ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Need TicketID!'),
@@ -88,19 +86,65 @@ sub Run {
         }
     }
 
-    # get content
+    # Get ticket data.
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
         DynamicFields => 0,
     );
-    my @CustomerArticleTypes = $ArticleObject->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $ArticleObject->ArticleContentIndex(
-        TicketID                   => $Self->{TicketID},
-        ArticleType                => \@CustomerArticleTypes,
-        StripPlainBodyAsAttachment => 1,
-        UserID                     => $Self->{UserID},
-        DynamicFields              => 0,
+
+    # Get article data.
+    my @Articles = $ArticleObject->ArticleList(
+        TicketID             => $Self->{TicketID},
+        SenderType           => 'customer',
+        IsVisibleForCustomer => 1,
     );
+
+    my @ArticleBox;
+    my %ArticleData;
+    ARTICLE:
+    for my $Article (@Articles) {
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
+
+        %ArticleData = $ArticleBackendObject->ArticleGet(
+            TicketID      => $Self->{TicketID},
+            ArticleID     => $Article->{ArticleID},
+            DynamicFields => 0,
+            UserID        => $Self->{UserID},
+        );
+
+        # Get attachment index.
+        my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID        => $Article->{ArticleID},
+            UserID           => 1,
+            ExcludePlainText => 1,
+            ExcludeHTMLBody  => 1,
+            ExcludeInline    => 1,
+        );
+
+        next ARTICLE if !IsHashRefWithData( \%AtmIndex );
+
+        my @Attachments;
+        ATTACHMENT:
+        for my $FileID ( sort keys %AtmIndex ) {
+            next ATTACHMENT if !$FileID;
+            my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                ArticleID => $Article->{ArticleID},
+                FileID    => $FileID,
+                UserID    => $Self->{UserID},
+            );
+
+            next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+            $Attachment{FileID} = $FileID;
+
+            push @Attachments, {%Attachment};
+        }
+
+        $ArticleData{Attachment} = \@Attachments;
+    }
+    continue {
+        push @ArticleBox, \%ArticleData;
+    }
 
     # customer info
     my %CustomerData;
@@ -688,14 +732,13 @@ sub _PDFOutputArticles {
         my %Article = %{$ArticleTmp};
 
         # get attachment string
-        my %AtmIndex = ();
-        if ( $Article{Atms} ) {
-            %AtmIndex = %{ $Article{Atms} };
+        my @Attachments;
+        if ( $Article{Attachment} ) {
+            @Attachments = @{ $Article{Attachment} };
         }
-        my $Attachments;
-        for my $FileID ( sort keys %AtmIndex ) {
-            my %File = %{ $AtmIndex{$FileID} };
-            $Attachments .= $File{Filename} . ' (' . $File{Filesize} . ")\n";
+        my $AttachmentString;
+        for my $Attachment (@Attachments) {
+            $AttachmentString .= $Attachment->{Filename} . ' (' . $Attachment->{Filesize} . ")\n";
         }
 
         # generate article info table
@@ -733,7 +776,7 @@ sub _PDFOutputArticles {
         $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Created') . ':';
         $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content} = $LayoutObject->{LanguageObject}->FormatTimeString(
-            $Article{Created},
+            $Article{CreateTime},
             'DateFormat',
             ),
             $TableParam1{CellData}[$Row][1]{Content}
@@ -789,16 +832,11 @@ sub _PDFOutputArticles {
             $Row++;
         }
 
-        $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Type') . ':';
-        $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-        $TableParam1{CellData}[$Row][1]{Content} = $LayoutObject->{LanguageObject}->Translate( $Article{ArticleType} );
-        $Row++;
-
-        if ($Attachments) {
+        if ($AttachmentString) {
             $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Attachment') . ':';
             $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-            chomp($Attachments);
-            $TableParam1{CellData}[$Row][1]{Content} = $Attachments;
+            chomp($AttachmentString);
+            $TableParam1{CellData}[$Row][1]{Content} = $AttachmentString;
         }
         $TableParam1{ColumnData}[0]{Width} = 80;
         $TableParam1{ColumnData}[1]{Width} = 431;
@@ -846,30 +884,31 @@ sub _PDFOutputArticles {
             }
         }
 
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
-        {
-            $Article{Body} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-                Data => $Article{Body}
-            );
-            my $Lines;
-            if ( IsArrayRefWithData( $Article{Body} ) ) {
-                for my $Line ( @{ $Article{Body} } ) {
-                    my $CreateTime
-                        = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
-                    if ( $Line->{SystemGenerated} ) {
-                        $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
-                    }
-                    else {
-                        $Lines
-                            .= '['
-                            . $CreateTime . '] '
-                            . $Line->{ChatterName} . ' '
-                            . $Line->{MessageText} . "\n";
-                    }
-                }
-            }
-            $Article{Body} = $Lines;
-        }
+        # TODO: Handle articles coming from chat channel.
+        # if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
+        # {
+        #     $Article{Body} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+        #         Data => $Article{Body}
+        #     );
+        #     my $Lines;
+        #     if ( IsArrayRefWithData( $Article{Body} ) ) {
+        #         for my $Line ( @{ $Article{Body} } ) {
+        #             my $CreateTime
+        #                 = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
+        #             if ( $Line->{SystemGenerated} ) {
+        #                 $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
+        #             }
+        #             else {
+        #                 $Lines
+        #                     .= '['
+        #                     . $CreateTime . '] '
+        #                     . $Line->{ChatterName} . ' '
+        #                     . $Line->{MessageText} . "\n";
+        #             }
+        #         }
+        #     }
+        #     $Article{Body} = $Lines;
+        # }
 
         # table params (article body)
         my %TableParam2;

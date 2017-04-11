@@ -44,34 +44,40 @@ $Selenium->RunTest(
         # get test data
         my @Tests = (
             {
-                ArticleType => 'phone',
-                SenderType  => 'customer',
-                Subject     => 'First Test Article',
+                Backend              => 'Phone',
+                IsVisibleForCustomer => 1,
+                SenderType           => 'customer',
+                Subject              => 'First Test Article',
             },
             {
-                ArticleType => 'email-external',
-                SenderType  => 'system',
-                Subject     => 'Second Test Article',
+                Backend              => 'Email',
+                IsVisibleForCustomer => 1,
+                SenderType           => 'system',
+                Subject              => 'Second Test Article',
             },
             {
-                ArticleType => 'note-internal',
-                SenderType  => 'agent',
-                Subject     => 'Third Test Article',
+                Backend              => 'Internal',
+                IsVisibleForCustomer => 0,
+                SenderType           => 'agent',
+                Subject              => 'Third Test Article',
             },
             {
-                ArticleType => 'phone',
-                SenderType  => 'customer',
-                Subject     => 'Fourth Test Article',
+                Backend              => 'Phone',
+                IsVisibleForCustomer => 1,
+                SenderType           => 'customer',
+                Subject              => 'Fourth Test Article',
             },
             {
-                ArticleType => 'email-external',
-                SenderType  => 'system',
-                Subject     => 'Fifth Test Article',
+                Backend              => 'Email',
+                IsVisibleForCustomer => 1,
+                SenderType           => 'system',
+                Subject              => 'Fifth Test Article',
             },
             {
-                ArticleType => 'note-internal',
-                SenderType  => 'agent',
-                Subject     => 'Sixth Test Article',
+                Backend              => 'Internal',
+                IsVisibleForCustomer => 0,
+                SenderType           => 'agent',
+                Subject              => 'Sixth Test Article',
             }
         );
 
@@ -112,18 +118,19 @@ $Selenium->RunTest(
 
         # create test articles
         for my $Test (@Tests) {
-            my $ArticleID = $ArticleObject->ArticleCreate(
-                TicketID       => $TicketID,
-                ArticleType    => $Test->{ArticleType},
-                SenderType     => $Test->{SenderType},
-                Subject        => $Test->{Subject},
-                Body           => 'Selenium body article',
-                Charset        => 'ISO-8859-15',
-                MimeType       => 'text/plain',
-                HistoryType    => 'AddNote',
-                HistoryComment => 'Some free text!',
-                UserID         => $TestUserID,
-            );
+            my $ArticleID
+                = $Kernel::OM->Get("Kernel::System::Ticket::Article::Backend::$Test->{Backend}")->ArticleCreate(
+                TicketID             => $TicketID,
+                IsVisibleForCustomer => $Test->{IsVisibleForCustomer},
+                SenderType           => $Test->{SenderType},
+                Subject              => $Test->{Subject},
+                Body                 => 'Selenium body article',
+                Charset              => 'ISO-8859-15',
+                MimeType             => 'text/plain',
+                HistoryType          => 'AddNote',
+                HistoryComment       => 'Some free text!',
+                UserID               => $TestUserID,
+                );
             $Self->True(
                 $ArticleID,
                 "Article $Test->{Subject} - created",
@@ -179,9 +186,8 @@ $Selenium->RunTest(
         # click on article filter, open popup dialog
         $Selenium->find_element( "#SetArticleFilter", 'css' )->click();
 
-        # get phone ArticleTypeID
-        my $PhoneArticleTypeID = $ArticleObject->ArticleTypeLookup(
-            ArticleType => 'phone',
+        my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
+            ChannelName => 'Phone',
         );
 
         # get customer ArticleSenderTypeID
@@ -189,10 +195,11 @@ $Selenium->RunTest(
             SenderType => 'customer',
         );
 
-        # select phone as article type and customer as article sender type for article filter
+        # select phone backend and customer as article sender type for article filter
         $Selenium->execute_script(
-            "\$('#ArticleTypeFilter').val('$PhoneArticleTypeID').trigger('redraw.InputField').trigger('change');"
+            "\$('#CommunicationChannelFilter').val('$CommunicationChannel{ChannelID}').trigger('redraw.InputField').trigger('change');"
         );
+
         $Selenium->execute_script(
             "\$('#ArticleSenderTypeFilter').val('$CustomerSenderTypeID').trigger('redraw.InputField').trigger('change');"
         );
@@ -214,6 +221,7 @@ $Selenium->RunTest(
         # verify we now only have first and fourth article on screen and there numeration is intact
         my @ArticlesFilterOn = ( 'Article #1 – First Test Article', 'Article #4 – Fourth Test Article' );
         for my $ArticleFilterOn (@ArticlesFilterOn) {
+
             $Self->True(
                 index( $Selenium->get_page_source(), $ArticleFilterOn ) > -1,
                 "ZoomExpandSort: reverse - $ArticleFilterOn found on page with original numeration - article filter on",

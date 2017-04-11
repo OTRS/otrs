@@ -90,14 +90,13 @@ sub new {
             PendingTimeDiff => 123 ,                  # optional (for pending states)
 
             # article required: (if one of them is not present, article will not be created without any error message)
-            ArticleType      => 'note-internal',                        # note-external|phone|fax|sms|...
-                                                                        #   excluding any email type
-            SenderType       => 'agent',                                # agent|system|customer
-            ContentType      => 'text/plain; charset=ISO-8859-15',      # or optional Charset & MimeType
-            Subject          => 'some short description',               # required
-            Body             => 'the message text',                     # required
-            HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
-            HistoryComment   => 'Some free text!',
+            SenderType           => 'agent',                            # agent|system|customer
+            IsVisibleForCustomer => 1,                                  # required
+            ContentType          => 'text/plain; charset=ISO-8859-15',  # or optional Charset & MimeType
+            Subject              => 'some short description',           # required
+            Body                 => 'the message text',                 # required
+            HistoryType          => 'OwnerUpdate',                      # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+            HistoryComment       => 'Some free text!',
 
             # article optional:
             From             => 'Some Agent <email@example.com>',       # not required but useful
@@ -280,7 +279,7 @@ sub Run {
     # extract the article params
     my %ArticleParam;
     for my $Attribute (
-        qw( ArticleType SenderType ContentType Subject Body HistoryType
+        qw( SenderType IsVisibleForCustomer ContentType Subject Body HistoryType
         HistoryComment From To Cc ReplyTo MessageID InReplyTo References NoAgentNotify
         AutoResponseType ForceNotificationToUserID ExcludeNotificationToUserID
         ExcludeMuteNotificationToUserID
@@ -294,8 +293,8 @@ sub Run {
 
     # check if article can be created
     my $ArticleCreate = 1;
-    for my $Needed (qw(ArticleType SenderType ContentType Subject Body HistoryType HistoryComment)) {
-        if ( !$ArticleParam{$Needed} ) {
+    for my $Needed (qw(SenderType IsVisibleForCustomer ContentType Subject Body HistoryType HistoryComment)) {
+        if ( !defined $ArticleParam{$Needed} ) {
             $ArticleCreate = 0;
         }
     }
@@ -304,46 +303,35 @@ sub Run {
 
     if ($ArticleCreate) {
 
-        my $ValidArticleType = 1;
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Internal',
+        );
 
-        # check ArticleType
-        if ( $ArticleParam{ArticleType} =~ m{\A email }msxi ) {
+        # Create article for the new ticket.
+        $ArticleID = $ArticleBackendObject->ArticleCreate(
+            %ArticleParam,
+            TicketID => $TicketID,
+            UserID   => $Param{UserID},
+        );
+
+        if ( !$ArticleID ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => $CommonMessage
-                    . "ArticleType $Param{Config}->{ArticleType} is not supported",
+                    . "Couldn't create Article on Ticket: $TicketID from Ticket: "
+                    . $Param{Ticket}->{TicketID} . '!',
             );
-            $ValidArticleType = 0;
         }
+        else {
 
-        if ($ValidArticleType) {
-
-            # create article for the new ticket
-            $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-                %ArticleParam,
-                TicketID => $TicketID,
-                UserID   => $Param{UserID},
-            );
-
-            if ( !$ArticleID ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => $CommonMessage
-                        . "Couldn't create Article on Ticket: $TicketID from Ticket: "
-                        . $Param{Ticket}->{TicketID} . '!',
+            # set time units
+            if ( $Param{Config}->{TimeUnit} ) {
+                $TicketObject->TicketAccountTime(
+                    TicketID  => $TicketID,
+                    ArticleID => $ArticleID,
+                    TimeUnit  => $Param{Config}->{TimeUnit},
+                    UserID    => $Param{UserID},
                 );
-            }
-            else {
-
-                # set time units
-                if ( $Param{Config}->{TimeUnit} ) {
-                    $TicketObject->TicketAccountTime(
-                        TicketID  => $TicketID,
-                        ArticleID => $ArticleID,
-                        TimeUnit  => $Param{Config}->{TimeUnit},
-                        UserID    => $Param{UserID},
-                    );
-                }
             }
         }
     }

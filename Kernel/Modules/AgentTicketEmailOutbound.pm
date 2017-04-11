@@ -72,7 +72,7 @@ sub Run {
         my %GetParam;
         for my $Key (
             qw(
-            NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject NewQueueID
+            NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
             Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
             TypeID ServiceID SLAID Expand ReplyToArticle StandardTemplateID CreateArticle
             FormID ElementChanged
@@ -248,10 +248,17 @@ sub Run {
                 );
             }
 
-            # get first article of the ticket
-            my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFirstArticle(
-                TicketID      => $Self->{TicketID},
+            # Get the first article of the ticket.
+            my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+            my @MetaArticles  = $ArticleObject->ArticleList(
+                TicketID  => $Self->{TicketID},
+                UserID    => $Self->{UserID},
+                OnlyFirst => 1,
+            );
+            my %Article = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
+                %{ $MetaArticles[0] },
                 DynamicFields => 0,
+                UserID        => $Self->{UserID},
             );
 
             # get the matching signature for the current user
@@ -455,12 +462,19 @@ sub Form {
         );
     }
 
-    # get last customer article or selected article
     my %Data;
+
+    # Get selected article.
     if ( $GetParam{ArticleID} ) {
-        %Data = $ArticleObject->ArticleGet(
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $GetParam{ArticleID},
+        );
+        %Data = $ArticleBackendObject->ArticleGet(
+            TicketID      => $Self->{TicketID},
             ArticleID     => $GetParam{ArticleID},
             DynamicFields => 1,
+            UserID        => $Self->{UserID},
         );
 
         # Check if article is from the same TicketID as we checked permissions for.
@@ -472,11 +486,24 @@ sub Form {
             );
         }
     }
+
+    # Get the last customer article of the ticket.
     else {
-        %Data = $ArticleObject->ArticleLastCustomerArticle(
-            TicketID      => $Self->{TicketID},
-            DynamicFields => 1,
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my @MetaArticles  = $ArticleObject->ArticleList(
+            TicketID   => $Self->{TicketID},
+            SenderType => 'customer',
+            OnlyLast   => 1,
+            UserID     => $Self->{UserID},
         );
+        if (@MetaArticles) {
+            %Data = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
+                TicketID => $Self->{TicketID},
+                %{ $MetaArticles[0] },
+                DynamicFields => 0,
+                UserID        => $Self->{UserID},
+            );
+        }
     }
 
     # prepare signature
@@ -1197,22 +1224,20 @@ sub SendEmail {
         $To .= $GetParam{$Key}
     }
 
-    # get article type ID param
-    my $ArticleTypeID = $ParamObject->GetParam( Param => 'ArticleTypeID' );
-
-    my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSend(
-        ArticleTypeID  => $ArticleTypeID,
-        SenderType     => 'agent',
-        TicketID       => $Self->{TicketID},
-        HistoryType    => 'EmailAgent',
-        HistoryComment => "\%\%$To",
-        From           => $GetParam{From},
-        To             => $GetParam{To},
-        Cc             => $GetParam{Cc},
-        Bcc            => $GetParam{Bcc},
-        Subject        => $GetParam{Subject},
-        UserID         => $Self->{UserID},
-        Body           => $GetParam{Body},
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleID = $ArticleObject->BackendForChannel( ChannelName => 'Email' )->ArticleSend(
+        SenderType           => 'agent',
+        IsVisibleForCustomer => $GetParam{IsVisibleForCustomer} // 0,
+        TicketID             => $Self->{TicketID},
+        HistoryType          => 'EmailAgent',
+        HistoryComment       => "\%\%$To",
+        From                 => $GetParam{From},
+        To                   => $GetParam{To},
+        Cc                   => $GetParam{Cc},
+        Bcc                  => $GetParam{Bcc},
+        Subject              => $GetParam{Subject},
+        UserID               => $Self->{UserID},
+        Body                 => $GetParam{Body},
 
         # We start a new communication here, so don't send any references.
         #   This might lead to information disclosure (domain names; see bug#11246).
@@ -1572,34 +1597,9 @@ sub _Mask {
         Class        => 'Modernize',
         %State,
     );
-    my %ArticleTypes;
-    my @ArticleTypesPossible = @{ $Config->{ArticleTypes} };
-    for my $ArticleType (@ArticleTypesPossible) {
-        $ArticleTypes{
-            $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleTypeLookup(
-                ArticleType => $ArticleType,
-                )
-        } = $ArticleType;
-    }
 
-    # get article type ID param
-    my $ArticleTypeID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ArticleTypeID' );
-
-    if ($ArticleTypeID) {
-        $Param{ArticleTypesStrg} = $LayoutObject->BuildSelection(
-            Data       => \%ArticleTypes,
-            Name       => 'ArticleTypeID',
-            SelectedID => $ArticleTypeID,
-            Class      => 'Modernize',
-        );
-    }
-    else {
-        $Param{ArticleTypesStrg} = $LayoutObject->BuildSelection(
-            Data          => \%ArticleTypes,
-            Name          => 'ArticleTypeID',
-            SelectedValue => $Config->{ArticleTypeDefault},
-            Class         => 'Modernize',
-        );
+    if ( !$Param{IsVisibleForCustomerPresent} ) {
+        $Param{IsVisibleForCustomer} = $Config->{IsVisibleForCustomerDefault};
     }
 
     # prepare errors!
@@ -1975,7 +1975,7 @@ sub _GetExtendedParams {
     # get params
     my %GetParam;
     for my $Key (
-        qw(From To Cc Bcc Subject Body ComposeStateID ArticleTypeID
+        qw(From To Cc Bcc Subject Body ComposeStateID IsVisibleForCustomer IsVisibleForCustomerPresent
         ArticleID TimeUnits Year Month Day Hour Minute FormID)
         )
     {

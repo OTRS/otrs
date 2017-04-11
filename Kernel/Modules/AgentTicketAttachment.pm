@@ -31,6 +31,7 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get ArticleID
+    my $TicketID  = $ParamObject->GetParam( Param => 'TicketID' );
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
     my $FileID    = $ParamObject->GetParam( Param => 'FileID' );
 
@@ -39,35 +40,36 @@ sub Run {
     my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
     # check params
-    if ( !$FileID || !$ArticleID ) {
+    if ( !$FileID || !$ArticleID || !$TicketID ) {
         $LogObject->Log(
-            Message  => 'FileID and ArticleID are needed!',
+            Message  => 'FileID, TicketID and ArticleID are needed!',
             Priority => 'error',
         );
         return $LayoutObject->ErrorScreen();
     }
 
+    my $TicketNumber = $Kernel::OM->Get('Kernel::System::Ticket')->TicketNumberLookup(
+        TicketID => $TicketID,
+    );
+
     # get needed objects
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+    );
 
     # check permissions
-    my %Article = $ArticleObject->ArticleGet(
+    my %Article = $ArticleBackendObject->ArticleGet(
+        TicketID      => $TicketID,
         ArticleID     => $ArticleID,
         DynamicFields => 0,
         UserID        => $Self->{UserID},
     );
-    if ( !$Article{TicketID} ) {
-        $LogObject->Log(
-            Message  => "No TicketID for ArticleID ($ArticleID)!",
-            Priority => 'error',
-        );
-        return $LayoutObject->ErrorScreen();
-    }
 
     # check permissions
     my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
         Type     => 'ro',
-        TicketID => $Article{TicketID},
+        TicketID => $TicketID,
         UserID   => $Self->{UserID}
     );
     if ( !$Access ) {
@@ -75,7 +77,7 @@ sub Run {
     }
 
     # get a attachment
-    my %Data = $ArticleObject->ArticleAttachment(
+    my %Data = $ArticleBackendObject->ArticleAttachment(
         ArticleID => $ArticleID,
         FileID    => $FileID,
         UserID    => $Self->{UserID},
@@ -166,7 +168,7 @@ sub Run {
         }
 
         # set filename for inline viewing
-        $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
+        $Data{Filename} = "Ticket-$TicketNumber-ArticleID-$Article{ArticleID}.html";
 
         my $LoadExternalImages = $ParamObject->GetParam(
             Param => 'LoadExternalImages'
@@ -179,10 +181,10 @@ sub Run {
 
         # generate base url
         my $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
-            . ";ArticleID=$ArticleID;FileID=";
+            . ";TicketID=$TicketID;ArticleID=$ArticleID;FileID=";
 
         # replace links to inline images in html content
-        my %AtmBox = $ArticleObject->ArticleAttachmentIndex(
+        my %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $ArticleID,
             UserID    => $Self->{UserID},
         );

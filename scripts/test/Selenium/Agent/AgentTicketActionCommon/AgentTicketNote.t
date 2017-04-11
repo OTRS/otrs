@@ -45,8 +45,8 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -103,7 +103,7 @@ $Selenium->RunTest(
 
         # check page
         for my $ID (
-            qw(Subject RichText FileUpload ArticleTypeID submitRichText)
+            qw(Subject RichText FileUpload IsVisibleForCustomer submitRichText)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -214,17 +214,17 @@ $Selenium->RunTest(
         my $ContentID = 'inline173020.131906379.1472199795.695365.264540139@localhost';
 
         # create test note with inline attachment
-        my $ArticleID = $ArticleObject->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'note-internal',
-            SenderType     => 'agent',
-            Subject        => 'Selenium subject test',
-            Body           => '<!DOCTYPE html><html><body><img src="cid:' . $ContentID . '" /></body></html>',
-            ContentType    => 'text/html; charset="utf8"',
-            HistoryType    => 'AddNote',
-            HistoryComment => 'Added note (Note)',
-            UserID         => 1,
-            Attachment     => [
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'agent',
+            Subject              => 'Selenium subject test',
+            Body                 => '<!DOCTYPE html><html><body><img src="cid:' . $ContentID . '" /></body></html>',
+            ContentType          => 'text/html; charset="utf8"',
+            HistoryType          => 'AddNote',
+            HistoryComment       => 'Added note (Note)',
+            UserID               => 1,
+            Attachment           => [
                 {
                     Content     => $Content,
                     ContentID   => $ContentID,
@@ -275,21 +275,22 @@ $Selenium->RunTest(
         );
 
         # get last article id
-        my @ArticleIDs = $ArticleObject->ArticleIndex(
+        my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
             TicketID => $TicketID,
+            OnlyLast => 1,
         );
-        my $LastArticleID = pop @ArticleIDs;
+        my $LastArticleID = $Articles[0]->{ArticleID};
 
         # get article attachments
         my $HTMLContent     = '';
-        my %AttachmentIndex = $ArticleObject->ArticleAttachmentIndex(
+        my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $LastArticleID,
             UserID    => 1,
         );
 
         # go through all attachments
         for my $FileID ( sort keys %AttachmentIndex ) {
-            my %Attachment = $ArticleObject->ArticleAttachment(
+            my %Attachment = $ArticleBackendObject->ArticleAttachment(
                 ArticleID => $LastArticleID,
                 FileID    => $FileID,
                 UserID    => 1,

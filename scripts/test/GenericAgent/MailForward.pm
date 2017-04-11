@@ -25,7 +25,6 @@ our @ObjectDependencies = (
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
 
@@ -35,7 +34,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed param
     if ( !$Param{New}->{'TargetAddress'} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -50,15 +48,27 @@ sub Run {
     );
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject;
 
-    my %Article = $ArticleObject->ArticleFirstArticle(
+    my @Articles = $ArticleObject->ArticleList(
         %Param,
-        UserID => 1,
+        OnlyFirst => 1,
     );
-
+    my %Article;
+    for my $Article (@Articles) {
+        $ArticleBackendObject = $ArticleObject->BackendForArticle(
+            %Param,
+            ArticleID => $Article->{ArticleID},
+        );
+        %Article = $ArticleBackendObject->ArticleGet(
+            %Param,
+            ArticleID => $Article->{ArticleID},
+            UserID    => 1,
+        );
+    }
     return if !(%Article);
 
-    my %AttachmentIndex = $ArticleObject->ArticleAttachmentIndex(
+    my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         %Article,
         UserID => 1,
     );
@@ -66,7 +76,7 @@ sub Run {
     my @Attachments;
 
     for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
-        my %Attachment = $ArticleObject->ArticleAttachment(
+        my %Attachment = $ArticleBackendObject->ArticleAttachment(
             %Article,
             UserID => 1,
             FileID => $FileID,
@@ -78,13 +88,13 @@ sub Run {
 
     my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress( QueueID => $Ticket{QueueID} );
 
-    $ArticleObject->ArticleSend(
+    my $EmailArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
+
+    $EmailArticleBackendObject->ArticleSend(
         %Article,
         Attachment     => \@Attachments,
         To             => scalar $Param{New}->{'TargetAddress'},
         From           => "$FromQueue{RealName} <$FromQueue{Email}>",
-        ArticleType    => 'email-internal',
-        ArticleTypeID  => undef,                                        # overwrite from %Article
         SenderType     => 'system',
         SenderTypeID   => undef,                                        # overwrite from %Article
         HistoryType    => 'Forward',

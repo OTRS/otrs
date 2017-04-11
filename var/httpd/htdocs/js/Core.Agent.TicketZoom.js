@@ -376,7 +376,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                     {
                         Label: Core.Language.Translate("Reset"),
                         Function: function () {
-                            $('#ArticleTypeFilter').val('').trigger('redraw.InputField');
+                            $('#CommunicationChannelFilter').val('').trigger('redraw.InputField');
                             $('#ArticleSenderTypeFilter').val('').trigger('redraw.InputField');
                         }
                     }
@@ -467,18 +467,18 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             if (typeof ArticleID !== 'undefined' && ArticleID !== '') {
                 ListObject.article_data = {
                     sender_type   : TimelineView.Data.Items[Index].ArticleData.SenderType,
-                    article_type  : TimelineView.Data.Items[Index].ArticleData.ArticleType,
+                    is_visible_for_customer  : TimelineView.Data.Items[Index].ArticleData.IsVisibleForCustomer,
                     subject       : TimelineView.Data.Items[Index].ArticleData.Subject,
                     from          : TimelineView.Data.Items[Index].ArticleData.From,
                     to            : TimelineView.Data.Items[Index].ArticleData.To,
                     cc            : TimelineView.Data.Items[Index].ArticleData.Cc,
                     is_important  : TimelineView.Data.Items[Index].ArticleData.ArticleIsImportant,
                     is_seen       : TimelineView.Data.Items[Index].ArticleData.ArticleIsSeen,
-                    attachment_id : TimelineView.Data.Items[Index].ArticleData.AttachmentIDOfHTMLBody,
+                    attachment_id : TimelineView.Data.Items[Index].ArticleData.HTMLBodyAttachmentID,
                     iframe_html   : '<iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox"' +
                                     ' data-url="' + Core.Config.Get("Baselink") +
-                                    'Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=' + ArticleID +
-                                    ';FileID=' + TimelineView.Data.Items[Index].ArticleData.AttachmentIDOfHTMLBody + ';' +
+                                    'Action=AgentTicketAttachment;Subaction=HTMLView;TicketID=' + TimelineView.Data.TicketID + ';ArticleID=' + ArticleID +
+                                    ';FileID=' + TimelineView.Data.Items[Index].ArticleData.HTMLBodyAttachmentID + ';' +
                                     Core.Config.Get("SessionName") + '=' + Core.Config.Get("SessionID") +
                                     '" width="100%" frameborder="0" id="Iframe' + ArticleID +
                                     '" class="TimelineArticleiFrame" src=""></iframe>'
@@ -492,7 +492,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                     ListObject.article_data.text      = TimelineView.Data.Items[Index].ArticleData.Body.substring(0, 650);
                     ListObject.article_data.text_long = "";
 
-                    if (typeof TimelineView.Data.Items[Index].ArticleData.AttachmentIDOfHTMLBody === 'undefined') {
+                    if (typeof TimelineView.Data.Items[Index].ArticleData.HTMLBodyAttachmentID === 'undefined') {
                         ListObject.article_data.text_long = TimelineView.Data.Items[Index].ArticleData.Body;
                     }
                 }

@@ -14,6 +14,7 @@
 /ARCHIVE
 doc/manual/en
 doc/en/otrs_business_solution_book.pdf
+Kernel/Config/Backups/
 Kernel/Config/Files/ZZZ*.pm
 Kernel/Config/Files/User/*
 Kernel/Config/GenericAgent.pm

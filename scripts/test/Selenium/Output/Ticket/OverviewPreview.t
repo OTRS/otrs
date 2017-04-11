@@ -122,8 +122,10 @@ $Selenium->RunTest(
             "Auto response added for created queue.",
         );
 
-        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+            ChannelName => 'Email',
+        );
 
         $TicketObject->{SendNoNotification} = 0;
 
@@ -160,20 +162,20 @@ $Selenium->RunTest(
         for my $Index (qw(0 1 2)) {
 
             # Add articles to the tickets
-            my $ArticleID1 = $ArticleObject->ArticleCreate(
-                TicketID         => $TicketIDs[$Index],
-                ArticleType      => 'webrequest',
-                SenderType       => 'customer',
-                ContentType      => 'text/plain',
-                From             => "Some Customer A <customer-a$RandomNumber\@example.com>",
-                To               => "Some otrs system <email$RandomNumber\@example.com>",
-                Subject          => "First article of the ticket # $Index",
-                Body             => 'the message text',
-                HistoryComment   => 'Some free text!',
-                HistoryType      => 'NewTicket',
-                UserID           => 1,
-                AutoResponseType => 'auto reply',
-                OrigHeader       => {
+            my $ArticleID1 = $ArticleBackendObject->ArticleCreate(
+                TicketID             => $TicketIDs[$Index],
+                SenderType           => 'customer',
+                IsVisibleForCustomer => 1,
+                ContentType          => 'text/plain',
+                From                 => "Some Customer A <customer-a$RandomNumber\@example.com>",
+                To                   => "Some otrs system <email$RandomNumber\@example.com>",
+                Subject              => "First article of the ticket # $Index",
+                Body                 => 'the message text',
+                HistoryComment       => 'Some free text!',
+                HistoryType          => 'NewTicket',
+                UserID               => 1,
+                AutoResponseType     => 'auto reply',
+                OrigHeader           => {
                     'Subject' => "First article of the ticket # $Index",
                     'Body'    => 'the message text',
                     'To'      => "Some otrs system <email$RandomNumber\@example.com>",
@@ -188,18 +190,18 @@ $Selenium->RunTest(
 
             # only for third ticket add agent article
             if ( $Index > 1 ) {
-                my $ArticleID2 = $ArticleObject->ArticleCreate(
-                    TicketID       => $TicketIDs[$Index],
-                    ArticleType    => 'email-external',
-                    SenderType     => 'agent',
-                    ContentType    => 'text/plain',
-                    From           => "Some otrs system <email$RandomNumber\@example.com>",
-                    To             => "Some Customer A <customer-a$RandomNumber\@example.com>",
-                    Subject        => "Second article of the ticket # $Index",
-                    Body           => 'agent reply',
-                    HistoryComment => 'Some free text!',
-                    HistoryType    => 'SendAnswer',
-                    UserID         => 1,
+                my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
+                    TicketID             => $TicketIDs[$Index],
+                    SenderType           => 'agent',
+                    IsVisibleForCustomer => 1,
+                    ContentType          => 'text/plain',
+                    From                 => "Some otrs system <email$RandomNumber\@example.com>",
+                    To                   => "Some Customer A <customer-a$RandomNumber\@example.com>",
+                    Subject              => "Second article of the ticket # $Index",
+                    Body                 => 'agent reply',
+                    HistoryComment       => 'Some free text!',
+                    HistoryType          => 'SendAnswer',
+                    UserID               => 1,
                 );
                 $Self->True(
                     $ArticleID2,
@@ -396,7 +398,6 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-
     }
 );
 

@@ -12,10 +12,10 @@ use utf8;
 
 use vars (qw($Self));
 
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -234,14 +234,14 @@ $Self->True(
 # create article
 my @ArticleIDs;
 for ( 1 .. 2 ) {
-    my $ArticleID = $ArticleObject->ArticleCreate(
-        TicketID    => $TicketID,
-        ArticleType => 'note-internal',
-        SenderType  => 'agent',
-        From        => 'Some Agent <email@example.com>',
-        To          => 'Some Customer <customer@example.com>',
-        Subject     => 'Fax Agreement laalala',
-        Body        => 'the message text
+    my $ArticleID = $ArticleBackendObject->ArticleCreate(
+        TicketID             => $TicketID,
+        SenderType           => 'agent',
+        IsVisibleForCustomer => 0,
+        From                 => 'Some Agent <email@example.com>',
+        To                   => 'Some Customer <customer@example.com>',
+        Subject              => 'Fax Agreement laalala',
+        Body                 => 'the message text
 Perl modules provide a range of features to help you avoid reinventing the wheel, and can be downloaded from CPAN ( http://www.cpan.org/ ). A number of popular modules are included with the Perl distribution itself.',
         ContentType    => 'text/plain; charset=ISO-8859-15',
         HistoryType    => 'OwnerUpdate',
@@ -277,6 +277,7 @@ for my $UserID (@UserIDs) {
 # update one article
 for my $UserID (@UserIDs) {
     my $Success = $ArticleObject->ArticleFlagSet(
+        TicketID  => $TicketID,
         ArticleID => $ArticleIDs[0],
         Key       => 'Seen',
         Value     => 1,
@@ -315,6 +316,7 @@ for my $UserID (@UserIDs) {
 # update second article
 for my $UserID (@UserIDs) {
     my $Success = $ArticleObject->ArticleFlagSet(
+        TicketID  => $TicketID,
         ArticleID => $ArticleIDs[1],
         Key       => 'Seen',
         Value     => 1,

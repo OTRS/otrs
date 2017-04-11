@@ -229,4 +229,26 @@
         </IndexCreate>
     </TableAlter>
 
+    <Table Name="communication_channel">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+        <Unique Name="communication_channel_name">
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <Column Name="module" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="package_name" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="channel_data" Required="true" Type="LONGBLOB"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <ForeignKey ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="valid">
+            <Reference Local="valid_id" Foreign="id"/>
+        </ForeignKey>
+    </Table>
 </database>

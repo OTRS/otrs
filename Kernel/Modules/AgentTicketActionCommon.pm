@@ -26,12 +26,19 @@ sub new {
 
     # get article for whom this should be a reply, if available
     my $ReplyToArticle = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ReplyToArticle' ) || "";
+    my $TicketID       = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'TicketID' )       || "";
 
     # check if ReplyToArticle really belongs to the ticket
     my %ReplyToArticleContent;
     my @ReplyToAdresses;
     if ($ReplyToArticle) {
-        %ReplyToArticleContent = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleGet(
+
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
+            TicketID  => $TicketID,
+            ArticleID => $ReplyToArticle,
+        );
+        %ReplyToArticleContent = $ArticleBackendObject->ArticleGet(
+            TicketID      => $TicketID,
             ArticleID     => $ReplyToArticle,
             DynamicFields => 0,
             UserID        => $Self->{UserID},
@@ -41,8 +48,8 @@ sub new {
         $Self->{ReplyToArticleContent} = \%ReplyToArticleContent;
 
         # get sender of original note (to inform sender about answer)
-        if ( $ReplyToArticleContent{CreatedBy} ) {
-            my @ReplyToSenderID = ( $ReplyToArticleContent{CreatedBy} );
+        if ( $ReplyToArticleContent{CreateBy} ) {
+            my @ReplyToSenderID = ( $ReplyToArticleContent{CreateBy} );
             $Self->{ReplyToSenderUserID} = \@ReplyToSenderID;
         }
 
@@ -52,7 +59,14 @@ sub new {
         }
 
         # if article is not of type note-internal, don't use it as reply
-        if ( $ReplyToArticleContent{ArticleType} !~ /^note-(internal|external)$/i ) {
+        if (
+            $ArticleBackendObject->ChannelNameGet() ne 'Internal'
+            || (
+                $ArticleBackendObject->ChannelNameGet() eq 'Internal'
+                && $ReplyToArticleContent{SenderType} ne 'agent'
+            )
+            )
+        {
             $Self->{ReplyToArticle} = "";
         }
     }
@@ -72,11 +86,10 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
@@ -221,7 +234,7 @@ sub Run {
     my %GetParam;
     for my $Key (
         qw(
-        NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject NewQueueID
+        NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
         Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
         Expand ReplyToArticle StandardTemplateID CreateArticle
         )
@@ -314,6 +327,8 @@ sub Run {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
+
+        $GetParam{IsVisibleForCustomer} //= 0;
 
         # store action
         my %Error;
@@ -820,11 +835,6 @@ sub Run {
                     || $LayoutObject->{LanguageObject}->Translate('No subject');
             }
 
-            # if there is no ArticleTypeID, use the default value
-            if ( !defined $GetParam{ArticleTypeID} ) {
-                $GetParam{ArticleType} = $Config->{ArticleTypeDefault};
-            }
-
             # get pre loaded attachment
             my @Attachments = $UploadCacheObject->FormIDGetAllFilesData(
                 FormID => $Self->{FormID},
@@ -902,21 +912,41 @@ sub Run {
                 push @NotifyUserIDs, @UserListWithoutSelection;
             }
 
-            $ArticleID = $ArticleObject->ArticleCreate(
-                TicketID                        => $Self->{TicketID},
-                SenderType                      => 'agent',
-                From                            => $From,
-                MimeType                        => $MimeType,
-                Charset                         => $LayoutObject->{UserCharset},
-                UserID                          => $Self->{UserID},
-                HistoryType                     => $Config->{HistoryType},
-                HistoryComment                  => $Config->{HistoryComment},
-                ForceNotificationToUserID       => \@NotifyUserIDs,
-                ExcludeMuteNotificationToUserID => \@NotifyDone,
-                UnlockOnAway                    => $UnlockOnAway,
-                Attachment                      => \@Attachments,
-                %GetParam,
-            );
+            if ( $Self->{Action} eq 'AgentTicketEmailOutbound' ) {
+                $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email')->ArticleSend(
+                    TicketID                        => $Self->{TicketID},
+                    SenderType                      => 'agent',
+                    From                            => $From,
+                    MimeType                        => $MimeType,
+                    Charset                         => $LayoutObject->{UserCharset},
+                    UserID                          => $Self->{UserID},
+                    HistoryType                     => $Config->{HistoryType},
+                    HistoryComment                  => $Config->{HistoryComment},
+                    ForceNotificationToUserID       => \@NotifyUserIDs,
+                    ExcludeMuteNotificationToUserID => \@NotifyDone,
+                    UnlockOnAway                    => $UnlockOnAway,
+                    Attachment                      => \@Attachments,
+                    %GetParam,
+                );
+            }
+            else {
+                $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
+                    TicketID                        => $Self->{TicketID},
+                    SenderType                      => 'agent',
+                    From                            => $From,
+                    MimeType                        => $MimeType,
+                    Charset                         => $LayoutObject->{UserCharset},
+                    UserID                          => $Self->{UserID},
+                    HistoryType                     => $Config->{HistoryType},
+                    HistoryComment                  => $Config->{HistoryComment},
+                    ForceNotificationToUserID       => \@NotifyUserIDs,
+                    ExcludeMuteNotificationToUserID => \@NotifyDone,
+                    UnlockOnAway                    => $UnlockOnAway,
+                    Attachment                      => \@Attachments,
+                    %GetParam,
+                );
+            }
+
             if ( !$ArticleID ) {
                 return $LayoutObject->ErrorScreen();
             }
@@ -1462,8 +1492,7 @@ sub _Mask {
     }
 
     # get needed objects
-    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
 
@@ -1736,7 +1765,7 @@ sub _Mask {
             Data => {
                 OwnerMandatory => $Config->{OwnerMandatory} || 0,
                 %Param,
-                }
+            },
         );
     }
 
@@ -1828,7 +1857,7 @@ sub _Mask {
             Data => {
                 StateMandatory => $Config->{StateMandatory} || 0,
                 %Param,
-                }
+            },
         );
 
         if ( IsArrayRefWithData( $Config->{StateType} ) ) {
@@ -1986,6 +2015,14 @@ sub _Mask {
         else {
             $Param{SubjectRequired} = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
             $Param{BodyRequired}    = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
+        }
+
+        # set customer visibility of this note to the same value as the article for whom this is the reply
+        if ( $Self->{ReplyToArticle} && !defined $Param{IsVisibleForCustomer} ) {
+            $Param{IsVisibleForCustomer} = $Self->{ReplyToArticleContent}->{IsVisibleForCustomer};
+        }
+        elsif ( !defined $Param{IsVisibleForCustomer} ) {
+            $Param{IsVisibleForCustomer} = $Config->{IsVisibleForCustomerDefault};
         }
 
         $LayoutObject->Block(
@@ -2291,42 +2328,6 @@ sub _Mask {
             $LayoutObject->Block(
                 Name => 'Attachment',
                 Data => $Attachment,
-            );
-        }
-
-        # build ArticleTypeID string
-        my %ArticleType;
-
-        # set article type of this note to the same type as the article for whom this is the reply
-        if ( $Self->{ReplyToArticle} && !$Param{ArticleTypeID} ) {
-            $ArticleType{SelectedID} = $Self->{ReplyToArticleContent}{ArticleTypeID};
-        }
-        elsif ( !$Param{ArticleTypeID} ) {
-            $ArticleType{SelectedValue} = $Config->{ArticleTypeDefault};
-        }
-        else {
-            $ArticleType{SelectedID} = $Param{ArticleTypeID};
-        }
-
-        # get possible notes
-        if ( $Config->{ArticleTypes} ) {
-            my %DefaultNoteTypes = %{ $Config->{ArticleTypes} };
-            my %NoteTypes = $ArticleObject->ArticleTypeList( Result => 'HASH' );
-            for my $KeyNoteType ( sort keys %NoteTypes ) {
-                if ( !$DefaultNoteTypes{ $NoteTypes{$KeyNoteType} } ) {
-                    delete $NoteTypes{$KeyNoteType};
-                }
-            }
-
-            $Param{ArticleTypeStrg} = $LayoutObject->BuildSelection(
-                Data  => \%NoteTypes,
-                Name  => 'ArticleTypeID',
-                Class => 'Modernize',
-                %ArticleType,
-            );
-            $LayoutObject->Block(
-                Name => 'ArticleType',
-                Data => \%Param,
             );
         }
 

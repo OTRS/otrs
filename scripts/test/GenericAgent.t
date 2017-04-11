@@ -119,16 +119,16 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-    TicketID    => $TicketID,
-    ArticleType => 'note-internal',
-    SenderType  => 'agent',
-    From        => 'Agent Some Agent Some Agent <email@example.com>',
-    To          => 'Customer A <customer-a@example.com>',
-    Cc          => 'Customer B <customer-b@example.com>',
-    ReplyTo     => 'Customer B <customer-b@example.com>',
-    Subject     => 'some short description',
-    Body        => 'the message text Perl modules provide a range of
+my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
+    TicketID             => $TicketID,
+    IsVisibleForCustomer => 0,
+    SenderType           => 'agent',
+    From                 => 'Agent Some Agent Some Agent <email@example.com>',
+    To                   => 'Customer A <customer-a@example.com>',
+    Cc                   => 'Customer B <customer-b@example.com>',
+    ReplyTo              => 'Customer B <customer-b@example.com>',
+    Subject              => 'some short description',
+    Body                 => 'the message text Perl modules provide a range of
 ',
 
     #    MessageID => '<asdasdasd.123@example.com>',
@@ -179,7 +179,6 @@ my %NewJob = (
         NewTitle                     => 'some new title',
         NewStateID                   => 2,
         NewPriorityID                => 3,
-        NewNoteBody                  => '',
         NewCustomerUserLogin         => '',
         NewOwnerID                   => 1,
         NewModule                    => '',
@@ -188,9 +187,11 @@ my %NewJob = (
         NewSendNoNotification        => 0,
         NewDelete                    => 0,
         NewCustomerID                => '',
-        NewNoteSubject               => '',
+        NewNoteFrom                  => 'From',
+        NewNoteBody                  => 'Body',
+        NewNoteSubject               => 'Subject',
+        NewNoteIsVisibleForCustomer  => '1',
         NewLockID                    => 2,
-        NewNoteFrom                  => '',
         DynamicField_TicketFreeKey2  => 'Test',
         DynamicField_TicketFreeText2 => 'Value 2',
         NewCMD                       => '',
@@ -377,6 +378,41 @@ $Self->Is(
     $Ticket{DynamicField_TicketFreeText2} || '',
     'Value 2',
     "TicketGet() - DynamicField_TicketFreeText2",
+);
+
+my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my @MetaArticles  = $ArticleObject->ArticleList(
+    TicketID => $TicketID,
+    OnlyLast => 1,
+    UserID   => 1,
+);
+
+my %NoteArticle = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
+    %{ $MetaArticles[0] },
+    UserID => 1,
+);
+
+$Self->Is(
+    $NoteArticle{From},
+    'From',
+    'Notification article From found',
+);
+
+$Self->True(
+    scalar $NoteArticle{Subject} =~ m{Subject},
+    'Notification article Subject found',
+);
+
+$Self->Is(
+    $NoteArticle{Body},
+    'Body',
+    'Notification article Body found',
+);
+
+$Self->Is(
+    $NoteArticle{IsVisibleForCustomer},
+    1,
+    'Notification article IsVisibleForCustomer found',
 );
 
 $Self->True(

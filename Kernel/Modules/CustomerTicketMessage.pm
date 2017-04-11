@@ -248,6 +248,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
 
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
         my $NextScreen = $Config->{NextScreenAfterNewTicket};
         my %Error;
@@ -607,20 +608,20 @@ sub Run {
             UserLogin => $Self->{UserLogin},
         );
         my $From      = "\"$FullName\" <$Self->{UserEmail}>";
-        my $ArticleID = $ArticleObject->ArticleCreate(
-            TicketID         => $TicketID,
-            ArticleType      => $Config->{ArticleType},
-            SenderType       => $Config->{SenderType},
-            From             => $From,
-            To               => $To,
-            Subject          => $GetParam{Subject},
-            Body             => $GetParam{Body},
-            MimeType         => $MimeType,
-            Charset          => $LayoutObject->{UserCharset},
-            UserID           => $ConfigObject->Get('CustomerPanelUserID'),
-            HistoryType      => $Config->{HistoryType},
-            HistoryComment   => $Config->{HistoryComment} || '%%',
-            AutoResponseType => ( $ConfigObject->Get('AutoResponseForWebTickets') )
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 1,
+            SenderType           => $Config->{SenderType},
+            From                 => $From,
+            To                   => $To,
+            Subject              => $GetParam{Subject},
+            Body                 => $GetParam{Body},
+            MimeType             => $MimeType,
+            Charset              => $LayoutObject->{UserCharset},
+            UserID               => $ConfigObject->Get('CustomerPanelUserID'),
+            HistoryType          => $Config->{HistoryType},
+            HistoryComment       => $Config->{HistoryComment} || '%%',
+            AutoResponseType     => ( $ConfigObject->Get('AutoResponseForWebTickets') )
             ? 'auto reply'
             : '',
             OrigHeader => {
@@ -673,25 +674,25 @@ sub Run {
 
                 my $ChatArticleType = 'chat-external';
 
-                $ChatArticleID = $ArticleObject->ArticleCreate(
-
-                    #NoAgentNotify => $NoAgentNotify,
-                    TicketID    => $TicketID,
-                    ArticleType => $ChatArticleType,
-                    SenderType  => $Config->{SenderType},
-
-                    From => $From,
-
-                    # To               => $To,
-                    Subject        => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
-                    Body           => $JSONBody,
-                    MimeType       => 'application/json',
-                    Charset        => $LayoutObject->{UserCharset},
-                    UserID         => $ConfigObject->Get('CustomerPanelUserID'),
-                    HistoryType    => $Config->{HistoryType},
-                    HistoryComment => $Config->{HistoryComment} || '%%',
-                    Queue          => $QueueObject->QueueLookup( QueueID => $NewQueueID ),
-                );
+                # TODO: Fix chat article creation
+                # $ChatArticleID = $ArticleBackendObject->ArticleCreate(
+                #
+                #     #NoAgentNotify => $NoAgentNotify,
+                #     TicketID             => $TicketID,
+                #     IsVisibleForCustomer => 1,
+                #     SenderType           => $Config->{SenderType},
+                #     From                 => $From,
+                #
+                #     # To                   => $To,
+                #     Subject        => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
+                #     Body           => $JSONBody,
+                #     MimeType       => 'application/json',
+                #     Charset        => $LayoutObject->{UserCharset},
+                #     UserID         => $ConfigObject->Get('CustomerPanelUserID'),
+                #     HistoryType    => $Config->{HistoryType},
+                #     HistoryComment => $Config->{HistoryComment} || '%%',
+                #     Queue          => $QueueObject->QueueLookup( QueueID => $NewQueueID ),
+                # );
             }
             if ($ChatArticleID) {
                 $ChatObject->ChatDelete(
@@ -738,7 +739,7 @@ sub Run {
             }
 
             # write existing file to backend
-            $ArticleObject->ArticleWriteAttachment(
+            $ArticleBackendObject->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
                 UserID    => $ConfigObject->Get('CustomerPanelUserID'),

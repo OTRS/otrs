@@ -366,20 +366,20 @@ for my $Hours ( sort keys %WorkingHours ) {
         );
 
         # first response
-        my $ArticleID = $ArticleObject->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'phone',
-            SenderType     => 'agent',
-            From           => 'Agent Some Agent Some Agent <email@example.com>',
-            To             => 'Customer A <customer-a@example.com>',
-            Cc             => 'Customer B <customer-b@example.com>',
-            ReplyTo        => 'Customer B <customer-b@example.com>',
-            Subject        => 'first response',
-            Body           => 'irgendwie und sowieso',
-            ContentType    => 'text/plain; charset=ISO-8859-15',
-            HistoryType    => 'OwnerUpdate',
-            HistoryComment => 'first response',
-            UserID         => 1,
+        my $ArticleID = $ArticleObject->BackendForChannel( ChannelName => 'Phone' )->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 1,
+            SenderType           => 'agent',
+            From                 => 'Agent Some Agent Some Agent <email@example.com>',
+            To                   => 'Customer A <customer-a@example.com>',
+            Cc                   => 'Customer B <customer-b@example.com>',
+            ReplyTo              => 'Customer B <customer-b@example.com>',
+            Subject              => 'first response',
+            Body                 => 'irgendwie und sowieso',
+            ContentType          => 'text/plain; charset=ISO-8859-15',
+            HistoryType          => 'OwnerUpdate',
+            HistoryComment       => 'first response',
+            UserID               => 1,
             NoAgentNotify => 1,    # if you don't want to send agent notifications
         );
 
@@ -396,6 +396,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             Objects => [
                 'Kernel::System::Ticket',
                 'Kernel::System::Ticket::Article',
+                'Kernel::System::Ticket::Article::Backend::Phone',
             ],
         );
         $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -439,20 +440,20 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         # trigger an update
         # a note internal does not make the update time escalation go away
-        my $ArticleID = $ArticleObject->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'note-internal',
-            SenderType     => 'agent',
-            From           => 'Agent Some Agent Some Agent <email@example.com>',
-            To             => 'Customer A <customer-a@example.com>',
-            Cc             => 'Customert B <customer-b@example.com>',
-            ReplyTo        => 'Customer B <customer-b@example.com>',
-            Subject        => 'some short description',
-            Body           => 'irgendwie und sowieso',
-            ContentType    => 'text/plain; charset=ISO-8859-15',
-            HistoryType    => 'OwnerUpdate',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+        my $ArticleID = $ArticleObject->BackendForChannel( ChannelName => 'Internal' )->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 0,
+            SenderType           => 'agent',
+            From                 => 'Agent Some Agent Some Agent <email@example.com>',
+            To                   => 'Customer A <customer-a@example.com>',
+            Cc                   => 'Customert B <customer-b@example.com>',
+            ReplyTo              => 'Customer B <customer-b@example.com>',
+            Subject              => 'some short description',
+            Body                 => 'irgendwie und sowieso',
+            ContentType          => 'text/plain; charset=ISO-8859-15',
+            HistoryType          => 'OwnerUpdate',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
             NoAgentNotify => 1,    # if you don't want to send agent notifications
         );
 
@@ -461,6 +462,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             Objects => [
                 'Kernel::System::Ticket',
                 'Kernel::System::Ticket::Article',
+                'Kernel::System::Ticket::Article::Backend::Internal',
             ],
         );
         $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');

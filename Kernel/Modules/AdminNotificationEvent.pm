@@ -98,7 +98,7 @@ sub Run {
 
         my %GetParam;
         for my $Parameter (
-            qw(ID Name Comment ValidID Events ArticleSubjectMatch ArticleBodyMatch ArticleTypeID ArticleSenderTypeID Transports)
+            qw(ID Name Comment ValidID Events ArticleSubjectMatch ArticleBodyMatch IsVisibleForCustomer ArticleSenderTypeID Transports)
             )
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -108,7 +108,7 @@ sub Run {
             qw(Recipients RecipientAgents RecipientGroups RecipientRoles
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
             CustomerID CustomerUserID
-            ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
+            IsVisibleForCustomer ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
             ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
             VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
@@ -205,8 +205,7 @@ sub Run {
             )
         {
             if (
-                !$GetParam{ArticleTypeID}
-                && !$GetParam{ArticleSenderTypeID}
+                !$GetParam{ArticleSenderTypeID}
                 && $GetParam{ArticleSubjectMatch} eq ''
                 && $GetParam{ArticleBodyMatch} eq ''
                 )
@@ -253,13 +252,12 @@ sub Run {
             }
 
             # define ServerError Class attribute if necessary
-            $GetParam{ArticleTypeIDServerError}       = "";
             $GetParam{ArticleSenderTypeIDServerError} = "";
             $GetParam{ArticleSubjectMatchServerError} = "";
             $GetParam{ArticleBodyMatchServerError}    = "";
 
             if ($ArticleFilterMissing) {
-                $GetParam{ArticleTypeIDServerError}       = "ServerError";
+
                 $GetParam{ArticleSenderTypeIDServerError} = "ServerError";
                 $GetParam{ArticleSubjectMatchServerError} = "ServerError";
                 $GetParam{ArticleBodyMatchServerError}    = "ServerError";
@@ -314,7 +312,7 @@ sub Run {
 
         my %GetParam;
         for my $Parameter (
-            qw(Name Comment ValidID Events ArticleSubjectMatch ArticleBodyMatch ArticleTypeID ArticleSenderTypeID Transports)
+            qw(Name Comment ValidID Events ArticleSubjectMatch ArticleBodyMatch IsVisibleForCustomer ArticleSenderTypeID Transports)
             )
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -323,7 +321,7 @@ sub Run {
         for my $Parameter (
             qw(Recipients RecipientAgents RecipientRoles RecipientGroups Events StateID QueueID
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
-            ArticleTypeID ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
+            IsVisibleForCustomer ArticleSubjectMatch ArticleBodyMatch ArticleAttachmentInclude
             ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
             VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
             )
@@ -420,8 +418,7 @@ sub Run {
             )
         {
             if (
-                !$GetParam{ArticleTypeID}
-                && !$GetParam{ArticleSenderTypeID}
+                !$GetParam{ArticleSenderTypeID}
                 && $GetParam{ArticleSubjectMatch} eq ''
                 && $GetParam{ArticleBodyMatch} eq ''
                 )
@@ -465,13 +462,12 @@ sub Run {
             }
 
             # checking if article filter exist if necessary
-            $GetParam{ArticleTypeIDServerError}       = "";
             $GetParam{ArticleSenderTypeIDServerError} = "";
             $GetParam{ArticleSubjectMatchServerError} = "";
             $GetParam{ArticleBodyMatchServerError}    = "";
 
             if ($ArticleFilterMissing) {
-                $GetParam{ArticleTypeIDServerError}       = "ServerError";
+
                 $GetParam{ArticleSenderTypeIDServerError} = "ServerError";
                 $GetParam{ArticleSubjectMatchServerError} = "ServerError";
                 $GetParam{ArticleBodyMatchServerError}    = "ServerError";
@@ -798,12 +794,6 @@ sub _Edit {
     my $EventClass = 'Validate_Required';
     if ( $Param{EventsServerError} ) {
         $EventClass .= ' ' . $Param{EventsServerError};
-    }
-
-    # Set class name for article type...
-    my $ArticleTypeIDClass = '';
-    if ( $Param{ArticleTypeIDServerError} ) {
-        $ArticleTypeIDClass .= ' ' . $Param{ArticleTypeIDServerError};
     }
 
     # Set class name for article sender type...
@@ -1164,19 +1154,8 @@ sub _Edit {
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    $Param{ArticleTypesStrg} = $LayoutObject->BuildSelection(
-        Data        => { $ArticleObject->ArticleTypeList( Result => 'HASH' ), },
-        Name        => 'ArticleTypeID',
-        SelectedID  => $Param{Data}->{ArticleTypeID},
-        Class       => $ArticleTypeIDClass . ' Modernize W75pc',
-        Size        => 5,
-        Multiple    => 1,
-        Translation => 1,
-        Max         => 200,
-    );
-
     $Param{ArticleSenderTypesStrg} = $LayoutObject->BuildSelection(
-        Data        => { $ArticleObject->ArticleSenderTypeList( Result => 'HASH' ), },
+        Data        => { $ArticleObject->ArticleSenderTypeList(), },
         Name        => 'ArticleSenderTypeID',
         SelectedID  => $Param{Data}->{ArticleSenderTypeID},
         Class       => $ArticleSenderTypeIDClass . ' Modernize W75pc',

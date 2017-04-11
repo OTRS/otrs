@@ -190,6 +190,7 @@ sub Run {
                 GetParam  => $GetParam,
                 JobConfig => $Jobs{$Job},
                 TicketID  => $TicketID,
+                UserID    => $Self->{PostmasterUserID},
             );
             if ( !$Run ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -249,6 +250,7 @@ sub Run {
                 GetParam  => $GetParam,
                 JobConfig => $Jobs{$Job},
                 TicketID  => $TicketID,
+                UserID    => $Self->{PostmasterUserID},
             );
             if ( !$Run ) {
                 $LogObject->Log(
@@ -453,6 +455,7 @@ sub Run {
                 GetParam  => $GetParam,
                 JobConfig => $Jobs{$Job},
                 Return    => $Return[0],
+                UserID    => $Self->{PostmasterUserID},
             );
 
             if ( !$Run ) {
@@ -509,7 +512,10 @@ sub CheckFollowUp {
                 );
                 next JOB;
             }
-            my $TicketID = $CheckObject->Run(%Param);
+            my $TicketID = $CheckObject->Run(
+                %Param,
+                UserID => $Self->{PostmasterUserID},
+            );
             if ($TicketID) {
                 my %Ticket = $TicketObject->TicketGet(
                     TicketID      => $TicketID,
@@ -606,19 +612,10 @@ sub GetEmailParams {
         }
     }
 
-    # set article type if not given
-    for my $Key (qw(X-OTRS-ArticleType X-OTRS-FollowUp-ArticleType)) {
-        if ( !$GetParam{$Key} ) {
-            $GetParam{$Key} = 'email-external';
-        }
-
-        # check if X-OTRS-ArticleType exists, if not, set 'email'
-        if ( !$ArticleObject->ArticleTypeLookup( ArticleType => $GetParam{$Key} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
-            );
-            $GetParam{$Key} = 'email-external';
+    # Set article customer visibility if not given.
+    for my $Key (qw(X-OTRS-IsVisibleForCustomer X-OTRS-FollowUp-IsVisibleForCustomer)) {
+        if ( !defined $GetParam{$Key} ) {
+            $GetParam{$Key} = 1;
         }
     }
 

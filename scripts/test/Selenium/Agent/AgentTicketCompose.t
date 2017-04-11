@@ -58,8 +58,8 @@ $Selenium->RunTest(
 
         $Helper->ConfigSettingChange(
             Valid => 1,
-            Key   => 'Ticket::Frontend::AgentTicketCompose###DefaultArticleType',
-            Value => 'email-internal'
+            Key   => 'Ticket::Frontend::AgentTicketCompose###MessageIsVisibleForCustomer',
+            Value => '1'
         );
 
         # use test email backend
@@ -311,18 +311,21 @@ $Selenium->RunTest(
             );
         }
 
+        my $ArticleBackendObject
+            = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Email' );
+
         # create test email article
-        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleCreate(
-            TicketID       => $TicketID,
-            ArticleType    => 'email-external',
-            SenderType     => 'customer',
-            Subject        => 'some short description',
-            Body           => 'the message text',
-            Charset        => 'ISO-8859-15',
-            MimeType       => 'text/plain',
-            HistoryType    => 'EmailCustomer',
-            HistoryComment => 'Some free text!',
-            UserID         => 1,
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            IsVisibleForCustomer => 1,
+            SenderType           => 'customer',
+            Subject              => 'some short description',
+            Body                 => 'the message text',
+            Charset              => 'ISO-8859-15',
+            MimeType             => 'text/plain',
+            HistoryType          => 'EmailCustomer',
+            HistoryComment       => 'Some free text!',
+            UserID               => 1,
         );
         $Self->True(
             $ArticleID,
@@ -362,7 +365,7 @@ $Selenium->RunTest(
         # check AgentTicketCompose page
         for my $ID (
             qw(ToCustomer CcCustomer BccCustomer Subject RichText
-            FileUpload StateID ArticleTypeID submitRichText)
+            FileUpload StateID IsVisibleForCustomer submitRichText)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -370,9 +373,9 @@ $Selenium->RunTest(
         }
 
         $Self->Is(
-            $Selenium->execute_script('return $("#ArticleTypeID option:selected").val()'),
-            2,
-            "Default article type is honored",
+            $Selenium->execute_script('return $("#IsVisibleForCustomer").val()'),
+            1,
+            "Default customer visibility is honored",
         );
 
         # test bug #11810 - http://bugs.otrs.org/show_bug.cgi?id=11810
