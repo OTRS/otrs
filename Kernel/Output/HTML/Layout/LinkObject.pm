@@ -358,35 +358,12 @@ sub LinkObjectTableCreateComplex {
             );
 
             # Add translations for the allocation lists for regular columns.
-            for my $Column ( @{ $Preferences{AllColumns} } ) {
-                my $TranslatedWord = $Column;
-                if ( $Column eq 'EscalationTime' ) {
-                    $TranslatedWord = Translatable('Service Time');
-                }
-                elsif ( $Column eq 'EscalationResponseTime' ) {
-                    $TranslatedWord = Translatable('First Response Time');
-                }
-                elsif ( $Column eq 'EscalationSolutionTime' ) {
-                    $TranslatedWord = Translatable('Solution Time');
-                }
-                elsif ( $Column eq 'EscalationUpdateTime' ) {
-                    $TranslatedWord = Translatable('Update Time');
-                }
-                elsif ( $Column eq 'PendingTime' ) {
-                    $TranslatedWord = Translatable('Pending till');
-                }
-                elsif ( $Column eq 'CustomerCompanyName' ) {
-                    $TranslatedWord = Translatable('Customer Company Name');
-                }
-                elsif ( $Column eq 'CustomerUserID' ) {
-                    $TranslatedWord = Translatable('Customer User ID');
-                }
-
+            for my $Column ( @{ $Block->{AllColumns} } ) {
                 $LayoutObject->Block(
                     Name => 'ColumnTranslation',
                     Data => {
-                        ColumnName      => $Column,
-                        TranslateString => $TranslatedWord,
+                        ColumnName      => $Column->{ColumnName},
+                        ColumnTranslate => $Column->{ColumnTranslate},
                     },
                 );
                 $LayoutObject->Block(
