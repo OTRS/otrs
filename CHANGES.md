@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-04-12 Fixed bug#[12744](https://bugs.otrs.org/show_bug.cgi?id=12744)(PR#1704) - Responsible Filter in Queue View does not work. Thanks to S7!
  - 2017-04-10 Fixed bug#[12764](https://bugs.otrs.org/show_bug.cgi?id=12764) - Database function SQLProcessor() modifies given parameter data.
  - 2017-04-07 Fixed bug#[12761](https://bugs.otrs.org/show_bug.cgi?id=12761) - Cache values can be modified from the outside in function XMLParse().
  - 2017-04-07 Fixed bug#[9723](https://bugs.otrs.org/show_bug.cgi?id=9723) - TicketAccountedTime stat does not run on Oracle with many tickets.
