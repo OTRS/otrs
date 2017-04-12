@@ -361,6 +361,14 @@ sub LinkObjectTableCreateComplex {
                 PrefKey => "LinkObject::ComplexTable-" . $Block->{Blockname},
             );
 
+            # Add translations for the allocation lists for regular columns.
+            for my $Column ( @{ $Block->{AllColumns} } ) {
+                $LayoutObject->AddJSData(
+                    Key   => 'Column' . $Column->{ColumnName},
+                    Value => $LayoutObject->{LanguageObject}->Translate( $Column->{ColumnTranslate} ),
+                );
+            }
+
             # send data to JS
             $LayoutObject->AddJSData(
                 Key   => 'LinkObjectPreferences',
@@ -816,42 +824,6 @@ sub ComplexTablePreferencesGet {
             @ColumnsEnabled
                 = sort { $Param{Config}->{Priority}->{$a} <=> $Param{Config}->{Priority}->{$b} } @ColumnsEnabled;
         }
-    }
-
-    # Translate all columns and send it to JS.
-    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
-
-    my @AllColumns = ( @ColumnsAvailable, @ColumnsEnabled );
-    for my $Column (@AllColumns) {
-        my $TranslatedWord = $Column;
-        if ( $Column eq 'EscalationTime' ) {
-            $TranslatedWord = Translatable('Service Time');
-        }
-        elsif ( $Column eq 'EscalationResponseTime' ) {
-            $TranslatedWord = Translatable('First Response Time');
-        }
-        elsif ( $Column eq 'EscalationSolutionTime' ) {
-            $TranslatedWord = Translatable('Solution Time');
-        }
-        elsif ( $Column eq 'EscalationUpdateTime' ) {
-            $TranslatedWord = Translatable('Update Time');
-        }
-        elsif ( $Column eq 'PendingTime' ) {
-            $TranslatedWord = Translatable('Pending till');
-        }
-        elsif ( $Column eq 'CustomerCompanyName' ) {
-            $TranslatedWord = Translatable('Customer Company Name');
-        }
-        elsif ( $Column eq 'CustomerUserID' ) {
-            $TranslatedWord = Translatable('Customer User ID');
-        }
-
-        # Send data to JS.
-        $LayoutObject->AddJSData(
-            Key   => 'Column' . $Column,
-            Value => $LanguageObject->Translate($TranslatedWord),
-        );
     }
 
     # check if the user has filter preferences for this widget

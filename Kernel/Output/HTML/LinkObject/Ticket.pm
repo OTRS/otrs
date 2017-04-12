@@ -300,8 +300,37 @@ sub TableCreateComplex {
     # Define Headline columns
 
     # Sort
+    my @AllColumns;
     COLUMN:
     for my $Column ( sort { $SortOrder{$a} <=> $SortOrder{$b} } keys %UserColumns ) {
+
+        my $ColumnTranslate = $Column;
+        if ( $Column eq 'EscalationTime' ) {
+            $ColumnTranslate = Translatable('Service Time');
+        }
+        elsif ( $Column eq 'EscalationResponseTime' ) {
+            $ColumnTranslate = Translatable('First Response Time');
+        }
+        elsif ( $Column eq 'EscalationSolutionTime' ) {
+            $ColumnTranslate = Translatable('Solution Time');
+        }
+        elsif ( $Column eq 'EscalationUpdateTime' ) {
+            $ColumnTranslate = Translatable('Update Time');
+        }
+        elsif ( $Column eq 'PendingTime' ) {
+            $ColumnTranslate = Translatable('Pending till');
+        }
+        elsif ( $Column eq 'CustomerCompanyName' ) {
+            $ColumnTranslate = Translatable('Customer Company Name');
+        }
+        elsif ( $Column eq 'CustomerUserID' ) {
+            $ColumnTranslate = Translatable('Customer User ID');
+        }
+
+        push @AllColumns, {
+            ColumnName      => $Column,
+            ColumnTranslate => $ColumnTranslate,
+        };
 
         # if enabled by default
         if ( $UserColumns{$Column} == 2 ) {
@@ -309,7 +338,7 @@ sub TableCreateComplex {
 
             # Ticket fields
             if ( $Column !~ m{\A DynamicField_}xms ) {
-                $ColumnName = $Column eq 'TicketNumber' ? $TicketHook : $Column;
+                $ColumnName = $Column eq 'TicketNumber' ? $TicketHook : $ColumnTranslate;
             }
 
             # Dynamic fields
@@ -514,6 +543,7 @@ sub TableCreateComplex {
         ObjectID   => $Param{ObjectID},
         Headline   => \@Headline,
         ItemList   => \@ItemList,
+        AllColumns => \@AllColumns,
     );
 
     return ( \%Block );
