@@ -2783,6 +2783,11 @@ sub _GenerateDynamicStats {
             # Do not translate the values, please see bug#12384 for more information.
             push @HeaderLine, $Xvalue->{Values}{$Valuename};
         }
+
+        # Prevent randomization of x-axis in preview, sort it alphabetically see bug#12714.
+        if ($Preview) {
+            @HeaderLine = sort { lc($a) cmp lc($b) } @HeaderLine;
+        }
     }
 
     # get the value series
