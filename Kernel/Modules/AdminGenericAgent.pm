@@ -1261,23 +1261,27 @@ sub _MaskRun {
     # perform ticket search
     my $GenericAgentTicketSearch = $ConfigObject->Get("Ticket::GenericAgentTicketSearch") || {};
     my $Counter = $TicketObject->TicketSearch(
-        Result          => 'COUNT',
-        SortBy          => 'Age',
-        OrderBy         => 'Down',
-        UserID          => 1,
-        Limit           => 60_000,
-        ConditionInline => $GenericAgentTicketSearch->{ExtendedSearchCondition},
+        Result              => 'COUNT',
+        SortBy              => 'Age',
+        OrderBy             => 'Down',
+        UserID              => 1,
+        Limit               => 60_000,
+        ContentSearchPrefix => '*',
+        ContentSearchSuffix => '*',
+        ConditionInline     => $GenericAgentTicketSearch->{ExtendedSearchCondition},
         %JobData,
         %DynamicFieldSearchParameters,
     ) || 0;
 
     my @TicketIDs = $TicketObject->TicketSearch(
-        Result          => 'ARRAY',
-        SortBy          => 'Age',
-        OrderBy         => 'Down',
-        UserID          => 1,
-        Limit           => 30,
-        ConditionInline => $GenericAgentTicketSearch->{ExtendedSearchCondition},
+        Result              => 'ARRAY',
+        SortBy              => 'Age',
+        OrderBy             => 'Down',
+        UserID              => 1,
+        Limit               => 30,
+        ContentSearchPrefix => '*',
+        ContentSearchSuffix => '*',
+        ConditionInline     => $GenericAgentTicketSearch->{ExtendedSearchCondition},
         %JobData,
         %DynamicFieldSearchParameters,
     );
