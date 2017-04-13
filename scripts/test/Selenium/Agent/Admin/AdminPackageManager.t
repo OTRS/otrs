@@ -33,6 +33,7 @@ $Selenium->RunTest(
                 <otrs_package version="1.0">
                   <Name>Test</Name>
                   <Version>0.0.1</Version>
+                  <Framework>x.x.x</Framework>
                   <Vendor>OTRS AG</Vendor>
                   <URL>http://otrs.org/</URL>
                   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 199</License>
