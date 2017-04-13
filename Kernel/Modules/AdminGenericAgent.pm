@@ -1205,23 +1205,27 @@ sub _MaskRun {
 
     # perform ticket search
     my $Counter = $Self->{TicketObject}->TicketSearch(
-        Result          => 'COUNT',
-        SortBy          => 'Age',
-        OrderBy         => 'Down',
-        UserID          => 1,
-        Limit           => 60_000,
-        ConditionInline => 1,
+        Result              => 'COUNT',
+        SortBy              => 'Age',
+        OrderBy             => 'Down',
+        UserID              => 1,
+        Limit               => 60_000,
+        ContentSearchPrefix => '*',
+        ContentSearchSuffix => '*',
+        ConditionInline     => 1,
         %JobData,
         %DynamicFieldSearchParameters,
     ) || 0;
 
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
-        Result          => 'ARRAY',
-        SortBy          => 'Age',
-        OrderBy         => 'Down',
-        UserID          => 1,
-        Limit           => 30,
-        ConditionInline => 1,
+        Result              => 'ARRAY',
+        SortBy              => 'Age',
+        OrderBy             => 'Down',
+        UserID              => 1,
+        Limit               => 30,
+        ContentSearchPrefix => '*',
+        ContentSearchSuffix => '*',
+        ConditionInline     => 1,
         %JobData,
         %DynamicFieldSearchParameters,
     );
