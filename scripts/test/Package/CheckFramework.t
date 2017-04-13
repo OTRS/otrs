@@ -774,13 +774,108 @@ my @Tests = (
         Result => 0,
     },
 
+    # tests for RestultType 'HASH'
+    {
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.2',
+                'Maximum' => '4.0.3',
+            },
+        ],
+        ResultType     => 'HASH',
+        ExpectedResult => {
+            Success                  => 0,
+            RequiredFramework        => '4.0.x',
+            RequiredFrameworkMaximum => '4.0.3',
+        },
+    },
+    {
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.5',
+            },
+        ],
+        ResultType     => 'HASH',
+        ExpectedResult => {
+            Success                  => 0,
+            RequiredFramework        => '4.0.x',
+            RequiredFrameworkMinimum => '4.0.5',
+        },
+    },
+    {
+        Framework => [
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.5',
+                'Maximum' => '4.0.3',
+            },
+        ],
+        ResultType     => 'HASH',
+        ExpectedResult => {
+            Success                  => 0,
+            RequiredFramework        => '4.0.x',
+            RequiredFrameworkMinimum => '4.0.5',
+        },
+    },
+    {
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '4.0.5',
+            },
+            {
+                'Content' => '5.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        ResultType     => 'HASH',
+        ExpectedResult => {
+            Success           => 0,
+            RequiredFramework => '5.0.x',
+        },
+    },
+    {
+        Framework => [
+            {
+                'Content' => '3.0.x',
+            },
+            {
+                'Content' => '5.0.x',
+            },
+            {
+                'Content' => '4.0.x',
+                'Minimum' => '4.0.3',
+                'Maximum' => '4.0.4'
+            }
+        ],
+        ResultType     => 'HASH',
+        ExpectedResult => {
+            Success           => 1,
+            RequiredFramework => '4.0.x',
+        },
+    },
 );
 
 for my $Test (@Tests) {
 
-    my $VersionCheck = $PackageObject->_CheckFramework(
-        Framework => $Test->{Framework},
-    );
+    my $VersionCheck;
+    my %VersionCheckHash;
+    if ( $Test->{ResultType} && $Test->{ResultType} eq 'HASH' ) {
+        %VersionCheckHash = $PackageObject->_CheckFramework(
+            Framework  => $Test->{Framework},
+            ResultType => $Test->{ResultType} || '',
+        );
+    }
+    else {
+        $VersionCheck = $PackageObject->_CheckFramework(
+            Framework => $Test->{Framework},
+        );
+    }
 
     my $FrameworkVersion = $Test->{Framework}[0]->{Content};
     my $FrameworkMinimum = $Test->{Framework}[0]->{Minimum} || '';
@@ -788,17 +883,26 @@ for my $Test (@Tests) {
 
     my $Name = "_CheckFramework() - $FrameworkVersion - Minimum: $FrameworkMinimum - Maximum: $FrameworkMaximum";
 
-    if ( $Test->{Result} ) {
-        $Self->True(
-            $VersionCheck,
+    if ( $Test->{ResultType} && $Test->{ResultType} eq 'HASH' ) {
+        $Self->IsDeeply(
+            \%VersionCheckHash,
+            $Test->{ExpectedResult},
             $Name,
         );
     }
     else {
-        $Self->True(
-            !$VersionCheck,
-            $Name,
-        );
+        if ( $Test->{Result} ) {
+            $Self->True(
+                $VersionCheck,
+                $Name,
+            );
+        }
+        else {
+            $Self->False(
+                $VersionCheck,
+                $Name,
+            );
+        }
     }
 }
 
