@@ -157,6 +157,13 @@
     width: 98%;
 }
 
+.Dialog .Field .FocusField {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    z-index: -1;
+}
+
 .Dialog .Buttons {
     background: #ddd;
     border-top: 1px solid #ccc;

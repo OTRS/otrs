@@ -88,10 +88,27 @@ Core.UI.Dialog = (function (TargetNS) {
      *      Focuses the first element within the dialog.
      */
     function FocusFirstElement() {
-        $('div.Dialog:visible .Content')
-            .find("a:visible, input:visible, textarea:visible, select:visible, button:visible")
-            .filter(":first")
-            .focus();
+        var $FirstElement = $('div.Dialog:visible .Content')
+                .find('a:visible, input:visible, textarea:visible, select:visible, button:visible')
+                .filter(':first'),
+            $FocusField;
+
+        if (!$FirstElement) {
+            return;
+        }
+
+        // If first element is modernized input field, prepend a semi-hidden text field and set focus on it instead.
+        //   This will prevent automatic expansion of the input field, but still move tab index to the dialog and allow
+        //   for keyboard navigation in it. See bug#12681 for more information.
+        if ($FirstElement.hasClass('InputField_Search')) {
+            $FocusField = $('<input/>')
+                .addClass('FocusField')
+                .insertBefore($FirstElement);
+            $FocusField.focus();
+        }
+        else {
+            $FirstElement.focus();
+        }
     }
 
     /**

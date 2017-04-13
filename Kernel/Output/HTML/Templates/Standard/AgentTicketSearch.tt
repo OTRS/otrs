@@ -15,7 +15,7 @@
         <input type="hidden" name="ShownAttributes" value="" id="ShownAttributes">
         <fieldset class="TableLike">
             <legend><span>[% Translate("Templates") | html %]</span></legend>
-            <label>[% Translate("Search template") | html %]:</label>
+            <label for="SearchProfile">[% Translate("Search template") | html %]:</label>
             <div class="Field">
                 [% Data.ProfilesStrg %]
                 <div id="SearchProfileAddBlock">
