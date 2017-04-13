@@ -1788,21 +1788,13 @@ sub Run {
             Base      => 'TicketSearch',
             UserLogin => $Self->{UserLogin},
         );
-        delete $Profiles{''};
-        delete $Profiles{'last-search'};
-        if ($EmptySearch) {
-            $Profiles{''} = '-';
-        }
-        else {
-            $Profiles{'last-search'} = '-';
-        }
         $Param{ProfilesStrg} = $LayoutObject->BuildSelection(
-            Data       => \%Profiles,
-            Name       => 'Profile',
-            ID         => 'SearchProfile',
-            SelectedID => $Profile,
-
-            # Do not modernize this field as this causes problems with the automatic focusing of the first element.
+            Data         => \%Profiles,
+            Name         => 'Profile',
+            ID           => 'SearchProfile',
+            SelectedID   => $Profile,
+            Class        => 'Modernize',
+            PossibleNone => 1,
         );
 
         $Param{StatesStrg} = $LayoutObject->BuildSelection(

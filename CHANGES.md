@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-04-13 Fixed bug#[12681](https://bugs.otrs.org/show_bug.cgi?id=12681)(PR#1647) - In agent ticket search, profile field is not modernise. Thanks to S7!
  - 2017-04-13 Improved error message in PackageManager, when trying to install an incompatible package.
  - 2017-04-12 Fixed bug#[12714](https://bugs.otrs.org/show_bug.cgi?id=12714)(PR#1674) - In dynamic matrix statistics preview x-axis is not sorted. Thanks to S7!
  - 2017-04-12 Fixed bug#[12744](https://bugs.otrs.org/show_bug.cgi?id=12744)(PR#1704) - Responsible Filter in Queue View does not work. Thanks to S7!
