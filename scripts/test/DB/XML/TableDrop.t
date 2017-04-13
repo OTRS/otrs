@@ -85,10 +85,9 @@ while ( my @Row = $DBObject->FetchrowArray() ) {
     $LastID = $Row[0];
 }
 
-$Self->Is(
+$Self->True(
     $LastID,
-    2,
-    "Check the value of the id of last added entry",
+    "Check that the last entry could be added (ID: $LastID)",
 );
 
 # drop table
@@ -165,10 +164,9 @@ while ( my @Row = $DBObject->FetchrowArray() ) {
     $LastID = $Row[0];
 }
 
-$Self->Is(
+$Self->True(
     $LastID,
-    2,
-    "Check the value of the id of last added entry",
+    "Check that the last entry could be added (ID: $LastID)",
 );
 
 # drop table
