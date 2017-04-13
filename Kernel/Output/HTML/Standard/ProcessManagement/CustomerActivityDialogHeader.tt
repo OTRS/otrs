@@ -28,7 +28,7 @@
 [% RenderBlockEnd("DescriptionShort") %]
                     </h1>
 [% RenderBlockStart("DescriptionLong") %]
-                    [% Data.DescriptionLong | html %] -
+                    [% Data.DescriptionLong | html %]
 [% RenderBlockEnd("DescriptionLong") %]
 [% RenderBlockStart("CancelLink") %]
                     <p>
