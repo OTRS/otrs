@@ -230,16 +230,12 @@ sub TableCreate {
         }
 
         # add primary key
-        my $Constraint = 'PK_' . $TableName;
-        if ( length $Constraint > 30 ) {
-            my $MD5 = $MainObject->MD5sum(
-                String => $Constraint,
-            );
-            $Constraint = substr $Constraint, 0, 28;
-            $Constraint .= substr $MD5, 0,  1;
-            $Constraint .= substr $MD5, 31, 1;
-        }
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
+
+            my $Constraint = $Self->_ConstraintName(
+                TableName => $TableName,
+            );
+
             push(
                 @Return2,
                 "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"
@@ -258,14 +254,16 @@ sub TableCreate {
                 $Shell = "/\n--";
             }
 
-            push @Return2, "BEGIN
-                EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
-                EXCEPTION
-                  WHEN OTHERS THEN NULL;
+            push @Return2, "
+                BEGIN
+                    EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
+                    EXCEPTION
+                        WHEN OTHERS THEN NULL;
                 END;
                 $Shell";
 
-            push @Return2, "CREATE SEQUENCE $Sequence
+            push @Return2, "
+                CREATE SEQUENCE $Sequence
                 INCREMENT BY 1
                 START WITH 1
                 NOMAXVALUE
@@ -273,15 +271,16 @@ sub TableCreate {
                 CACHE 20
                 ORDER";
 
-            push @Return2, "CREATE OR REPLACE TRIGGER $Sequence" . "_t
+            push @Return2, "
+                CREATE OR REPLACE TRIGGER $Sequence" . "_t
                 BEFORE INSERT ON $TableName
                 FOR EACH ROW
                 BEGIN
-                  IF :new.$Tag->{Name} IS NULL THEN
-                    SELECT $Sequence.nextval
-                    INTO :new.$Tag->{Name}
-                    FROM DUAL;
-                  END IF;
+                    IF :new.$Tag->{Name} IS NULL THEN
+                        SELECT $Sequence.nextval
+                        INTO :new.$Tag->{Name}
+                        FROM DUAL;
+                    END IF;
                 END;
                 $Shell";
         }
@@ -289,15 +288,11 @@ sub TableCreate {
 
     # add unique
     for my $Name ( sort keys %Uniq ) {
-        my $Unique = $Name;
-        if ( length $Unique > 30 ) {
-            my $MD5 = $MainObject->MD5sum(
-                String => $Unique,
-            );
-            $Unique = substr $Unique, 0, 28;
-            $Unique .= substr $MD5, 0,  1;
-            $Unique .= substr $MD5, 31, 1;
-        }
+
+        my $Unique = $Self->_UniqueName(
+            Name => $Name,
+        );
+
         if ($SQL) {
             $SQL .= ",\n";
         }
@@ -370,6 +365,8 @@ sub TableDrop {
             }
         }
 
+        $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
+
         # get sequence name
         my $Sequence = $Self->_SequenceName(
             TableName => $Tag->{Name},
@@ -386,8 +383,6 @@ sub TableDrop {
               WHEN OTHERS THEN NULL;
             END;
             $Shell";
-
-        $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
 
         return ($SQL, $DropSequenceSQL);
     }
@@ -423,6 +418,106 @@ sub TableAlter {
             # rename table
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
                 push @SQL, $SQLStart . "ALTER TABLE $Tag->{NameOld} RENAME TO $Tag->{NameNew}";
+
+                my $Shell = '';
+                if ( $ConfigObject->Get('Database::ShellOutput') ) {
+                    $Shell = "/\n--";
+                }
+
+                # get old primary key name constraint
+                my $OldConstraint = $Self->_ConstraintName(
+                    TableName => $Tag->{NameOld},
+                );
+
+                # get new primary key name constraint
+                my $NewConstraint = $Self->_ConstraintName(
+                    TableName => $Tag->{NameNew},
+                );
+
+                # build SQL to rename primary key constraint
+                my $RenameConstraintSQL = "
+                    BEGIN
+                        EXECUTE IMMEDIATE 'ALTER TABLE $Tag->{NameNew} RENAME CONSTRAINT $OldConstraint TO $NewConstraint';
+                        EXCEPTION
+                            WHEN OTHERS THEN NULL;
+                    END;
+                    $Shell";
+
+                push @SQL, $SQLStart . $RenameConstraintSQL;
+
+                # build SQL to rename index of primary key
+                my $RenameIndexSQL = "
+                    BEGIN
+                        EXECUTE IMMEDIATE 'ALTER INDEX $OldConstraint RENAME TO $NewConstraint';
+                        EXCEPTION
+                            WHEN OTHERS THEN NULL;
+                    END;
+                    $Shell";
+
+                push @SQL, $SQLStart . $RenameIndexSQL;
+
+                # renaming the sequence and trigger used for autoincrement
+                # this is only possible if we know the name of the autoincrement column
+                # example XML structure:
+                #   <TableAlter NameOld="test_a" NameNew="test_b" AutoIncrementColumn="id" />
+                if ( $Tag->{AutoIncrementColumn} ) {
+
+                    # get old sequence name
+                    my $OldSequence = $Self->_SequenceName(
+                        TableName => $Tag->{NameOld},
+                    );
+
+                    # get new sequence name
+                    my $NewSequence = $Self->_SequenceName(
+                        TableName => $Tag->{NameNew},
+                    );
+
+                    # define old and new trigger names
+                    my $OldTrigger = $OldSequence . '_t';
+                    my $NewTrigger = $NewSequence . '_t';
+
+                    # build SQL to drop old trigger
+                    my $DropOldTriggerSQL = "
+                        BEGIN
+                            EXECUTE IMMEDIATE 'DROP TRIGGER $OldTrigger';
+                            EXCEPTION
+                                WHEN OTHERS THEN NULL;
+                        END;
+                        $Shell";
+
+                    push @SQL, $SQLStart . $DropOldTriggerSQL;
+
+                    # build SQL to rename sequence
+                    my $RenameSequenceSQL = "
+                        BEGIN
+                            EXECUTE IMMEDIATE 'RENAME $OldSequence TO $NewSequence';
+                            EXCEPTION
+                                WHEN OTHERS THEN NULL;
+                        END;
+                        $Shell";
+
+                    push @SQL, $SQLStart . $RenameSequenceSQL;
+
+                    # build SQL to create new trigger using new sequence name
+                    my $CreateNewTriggerSQL = "
+                        BEGIN
+                            EXECUTE IMMEDIATE 'CREATE OR REPLACE TRIGGER $NewTrigger
+                                BEFORE INSERT ON $Tag->{NameNew}
+                                FOR EACH ROW
+                                BEGIN
+                                    IF :new.$Tag->{AutoIncrementColumn} IS NULL THEN
+                                        SELECT $NewSequence.nextval
+                                        INTO :new.$Tag->{AutoIncrementColumn}
+                                        FROM DUAL;
+                                    END IF;
+                                END;';
+                            EXCEPTION
+                                WHEN OTHERS THEN NULL;
+                        END;
+                        $Shell";
+
+                    push @SQL, $SQLStart . $CreateNewTriggerSQL;
+                }
             }
             $SQLStart .= "ALTER TABLE $Table";
         }
@@ -590,6 +685,7 @@ sub TableAlter {
             push @Reference, $Tag;
         }
     }
+
     return @SQL;
 }
 
@@ -734,15 +830,9 @@ sub UniqueCreate {
         }
     }
 
-    my $Unique = $Param{Name};
-    if ( length $Unique > 30 ) {
-        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-            String => $Unique,
-        );
-        $Unique = substr $Unique, 0, 28;
-        $Unique .= substr $MD5, 0,  1;
-        $Unique .= substr $MD5, 31, 1;
-    }
+    my $Unique = $Self->_UniqueName(
+        Name => $Param{Name},
+    );
 
     my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Unique UNIQUE (";
     my @Array = @{ $Param{Data} };
@@ -774,15 +864,9 @@ sub UniqueDrop {
         }
     }
 
-    my $Unique = $Param{Name};
-    if ( length $Unique > 30 ) {
-        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-            String => $Unique,
-        );
-        $Unique = substr $Unique, 0, 28;
-        $Unique .= substr $MD5, 0,  1;
-        $Unique .= substr $MD5, 31, 1;
-    }
+    my $Unique = $Self->_UniqueName(
+        Name => $Param{Name},
+    );
 
     my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Unique";
     return ($SQL);
@@ -925,6 +1009,56 @@ sub _SequenceName {
     }
 
     return $Sequence;
+}
+
+sub _ConstraintName {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TableName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TableName!",
+        );
+        return;
+    }
+
+    my $Constraint = 'PK_' . $Param{TableName};
+    if ( length $Constraint > 30 ) {
+        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+            String => $Constraint,
+        );
+        $Constraint = substr $Constraint, 0, 28;
+        $Constraint .= substr $MD5, 0,  1;
+        $Constraint .= substr $MD5, 31, 1;
+    }
+
+    return $Constraint;
+}
+
+sub _UniqueName {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Name} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Name!",
+        );
+        return;
+    }
+
+    my $Unique = $Param{Name};
+    if ( length $Unique > 30 ) {
+        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+            String => $Unique,
+        );
+        $Unique = substr $Unique, 0, 28;
+        $Unique .= substr $MD5, 0,  1;
+        $Unique .= substr $MD5, 31, 1;
+    }
+
+    return $Unique;
 }
 
 1;
