@@ -1506,6 +1506,20 @@ sub _OutputActivityDialog {
                 },
             );
         }
+
+        # output long description information if exists
+        if (
+            defined $ActivityDialog->{DescriptionLong}
+            && length $ActivityDialog->{DescriptionLong}
+            )
+        {
+            $LayoutObject->Block(
+                Name => 'LongDescriptionSidebar',
+                Data => {
+                    Description => $ActivityDialog->{DescriptionLong},
+                },
+            );
+        }
     }
 
     # show descriptions
