@@ -1333,7 +1333,7 @@ sub _MaskRun {
             Data => {
                 Counter  => $Counter,
                 RunLimit => $RunLimit,
-                }
+            },
         );
     }
 
@@ -1343,26 +1343,29 @@ sub _MaskRun {
         );
         for my $TicketID (@TicketIDs) {
 
+            # Get ticket data.
+            my %Ticket = $TicketObject->TicketGet(
+                TicketID      => $TicketID,
+                DynamicFields => 0,
+            );
+
+            # Get article data.
             my @Articles = $ArticleObject->ArticleList(
                 TicketID  => $TicketID,
                 OnlyFirst => 1,
             );
-
-            my %Data;
-            if ( scalar @Articles ) {
-                %Data = %{ $Articles[0] };
+            my %Article;
+            for my $Article (@Articles) {
+                %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
+                    %{$Article},
+                    UserID => $Self->{UserID},
+                );
             }
 
-            # Fall-back for tickets without articles
-            if ( !%Data ) {
+            my %Data = ( %Ticket, %Article );
 
-                # get ticket data instead
-                %Data = $TicketObject->TicketGet(
-                    TicketID      => $TicketID,
-                    DynamicFields => 0,
-                );
-
-                # set missing information
+            # Set missing information for tickets without articles.
+            if ( !%Article ) {
                 $Data{Subject} = $Data{Title};
             }
 
