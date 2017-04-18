@@ -21,6 +21,12 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 $Helper->FixedTimeSet();
 
+# Use test email backend.
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::Test',
+);
+
 my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
