@@ -317,9 +317,14 @@ $Selenium->RunTest(
                         );
                     }
 
-                    $Selenium->find_element( ".Dialog #SelectionCustomerIDAll", 'css' )->clear();
                     $Selenium->find_element( ".Dialog #SelectionCustomerIDAll", 'css' )
                         ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
+
+                    $Self->Is(
+                        $Selenium->find_element( ".Dialog #SelectionCustomerIDAll", 'css' )->get_value(),
+                        $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID},
+                        "AutoComplete value correctly insert.",
+                    );
 
                     # Wait for autocomplete to load.
                     $Selenium->WaitFor(
