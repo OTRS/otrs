@@ -122,7 +122,7 @@ sub ArticleIndexDeleteTicket {
 
     # delete articles
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_search WHERE ticket_id = ?',
+        SQL  => 'DELETE FROM article_search_index WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
 

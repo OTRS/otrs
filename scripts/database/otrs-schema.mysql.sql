@@ -651,6 +651,19 @@ CREATE TABLE article_search (
     INDEX article_search_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
+#  create table article_search_index
+# ----------------------------------------------------------
+CREATE TABLE article_search_index (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    ticket_id BIGINT NOT NULL,
+    article_id BIGINT NOT NULL,
+    article_key VARCHAR (200) NOT NULL,
+    article_value LONGTEXT NULL,
+    PRIMARY KEY(id),
+    INDEX article_search_index_ticket_id (ticket_id),
+    INDEX article_search_index_article_id (article_id)
+);
+# ----------------------------------------------------------
 #  create table article_data_mime_plain
 # ----------------------------------------------------------
 CREATE TABLE article_data_mime_plain (

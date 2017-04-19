@@ -77,7 +77,7 @@ sub new {
     # TODO: check if this can be removed after the new search is implemented.
     $Self->{ArticleSearchIndexModule} = $Param{ArticleSearchIndexModule}
         || $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndexModule')
-        || 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB';
+        || 'Kernel::System::Ticket::ArticleSearchIndex::DB';
 
     return $Self;
 }

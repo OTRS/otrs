@@ -1334,6 +1334,19 @@ ALTER TABLE article_search ADD CONSTRAINT PK_article_search PRIMARY KEY (id);
 CREATE INDEX article_search_article_sendec7 ON article_search (article_sender_type_id);
 CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 -- ----------------------------------------------------------
+--  create table article_search_index
+-- ----------------------------------------------------------
+CREATE TABLE article_search_index (
+    id NUMBER (20, 0) NOT NULL,
+    ticket_id NUMBER (20, 0) NOT NULL,
+    article_id NUMBER (20, 0) NOT NULL,
+    article_key VARCHAR2 (200) NOT NULL,
+    article_value CLOB NULL
+);
+ALTER TABLE article_search_index ADD CONSTRAINT PK_article_search_index PRIMARY KEY (id);
+CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id);
+CREATE INDEX article_search_index_article_id ON article_search_index (article_id);
+-- ----------------------------------------------------------
 --  create table article_data_mime_plain
 -- ----------------------------------------------------------
 CREATE TABLE article_data_mime_plain (
