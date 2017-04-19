@@ -204,6 +204,13 @@ fieldset h2 + div {
     overflow: hidden;
 }
 
+fieldset h2 + p.Description {
+    font-size: 11px;
+    margin-left: 0px;
+    padding: 10px 10px;
+    color: #555;
+}
+
 fieldset p {
     margin: 1px 0 0 140px;
     font-size: 11px;

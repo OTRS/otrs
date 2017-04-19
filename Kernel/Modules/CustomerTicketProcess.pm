@@ -1169,8 +1169,32 @@ sub _OutputActivityDialog {
                 Name =>
                     $Self->{LayoutObject}->{LanguageObject}->Translate( $ActivityDialog->{Name} )
                     || '',
-                }
+            },
         );
+
+        # show descriptions
+        if ( $ActivityDialog->{DescriptionShort} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'DescriptionShort',
+                Data => {
+                    DescriptionShort
+                        => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionShort},
+                        ),
+                },
+            );
+        }
+        if ( $ActivityDialog->{DescriptionLong} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'DescriptionLong',
+                Data => {
+                    DescriptionLong
+                        => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionLong},
+                        ),
+                },
+            );
+        }
     }
     elsif ( $Self->{IsMainWindow} && IsHashRefWithData( \%Error ) ) {
 
@@ -1201,61 +1225,30 @@ sub _OutputActivityDialog {
         $MainBoxClass = 'MainBox';
     }
 
-    # display process information
+    # Show descriptions if activity is a first screen. See bug#12649 for more information.
     if ( $Self->{IsMainWindow} ) {
-
-        # get process data
-        my $Process = $Self->{ProcessObject}->ProcessGet(
-            ProcessEntityID => $Param{ProcessEntityID},
-        );
-
-        # output main process information
-        $Self->{LayoutObject}->Block(
-            Name => 'ProcessInfoSidebar',
-            Data => {
-                Process        => $Process->{Name}        || '',
-                Activity       => $Activity->{Name}       || '',
-                ActivityDialog => $ActivityDialog->{Name} || '',
-            },
-        );
-
-        # output activity dialog short description (if any)
-        if (
-            defined $ActivityDialog->{DescriptionShort}
-            && $ActivityDialog->{DescriptionShort} ne ''
-            )
-        {
+        if ( $ActivityDialog->{DescriptionShort} ) {
             $Self->{LayoutObject}->Block(
-                Name => 'ProcessInfoSidebarActivityDialogDesc',
+                Name => 'DescriptionShortAlt',
                 Data => {
-                    ActivityDialogDescription => $ActivityDialog->{DescriptionShort} || '',
+                    DescriptionShort
+                        => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionShort},
+                        ),
                 },
             );
         }
-    }
-
-    # show descriptions
-    if ( $ActivityDialog->{DescriptionShort} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'DescriptionShort',
-            Data => {
-                DescriptionShort
-                    => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                    $ActivityDialog->{DescriptionShort},
-                    ),
-            },
-        );
-    }
-    if ( $ActivityDialog->{DescriptionLong} ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'DescriptionLong',
-            Data => {
-                DescriptionLong
-                    => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                    $ActivityDialog->{DescriptionLong},
-                    ),
-            },
-        );
+        if ( $ActivityDialog->{DescriptionLong} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'DescriptionLongAlt',
+                Data => {
+                    DescriptionLong
+                        => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionLong},
+                        ),
+                },
+            );
+        }
     }
 
     # show close & cancel link if necessary
