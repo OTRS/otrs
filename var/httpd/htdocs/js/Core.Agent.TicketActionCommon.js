@@ -72,6 +72,31 @@ Core.Agent.TicketActionCommon = (function (TargetNS) {
             $Form.find('#AttachmentUpload').val('1').end().submit();
         });
 
+        // Bind click event to CreateArticle checkbox and toggle widget.
+        $('#CreateArticle, #WidgetArticle .WidgetAction.Toggle').on('click', function () {
+            $('#WidgetArticle .Validate_DependingRequiredAND.Validate_Depending_CreateArticle').each(function (Index, Element) {
+                var $Element = $(Element);
+                var ClosestClass = 'Field';
+                if ($Element.attr('id') === 'RichText') {
+                    ClosestClass = 'RichTextField';
+                }
+                if ($('#CreateArticle').prop('checked') && $('#WidgetArticle').hasClass('Expanded')) {
+                    $Element.closest('.' + ClosestClass)
+                        .prev('label')
+                        .addClass('Mandatory')
+                        .prepend('<span class="Marker">*</span>');
+                }
+                else {
+                    $Element.closest('.' + ClosestClass)
+                        .prev('label')
+                        .removeClass('Mandatory')
+                        .find('span')
+                        .remove();
+                    Core.Form.Validate.UnHighlightError(Element);
+                }
+            });
+        });
+
         // Initialize the ticket action popup.
         Core.Agent.TicketAction.Init();
     };
