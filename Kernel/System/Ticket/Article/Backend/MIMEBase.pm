@@ -14,6 +14,7 @@ use warnings;
 use base 'Kernel::System::Ticket::Article::Backend::Base';
 
 use Kernel::System::EmailParser;
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -1429,6 +1430,118 @@ Returns:
 sub ArticleAttachmentIndex {
     my $Self = shift;
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleAttachmentIndex(@_);
+}
+
+=head2 BackendSearchableFieldsGet()
+
+Get article attachment index as hash.
+
+    my %Index = $BackendObject->BackendSearchableFieldsGet();
+
+Returns:
+
+    my %BackendSearchableFieldsGet = {
+        From    => 'from',
+        To      => 'to',
+        Cc      => 'cc',
+        Subject => 'subject',
+        Body    => 'body',
+    };
+
+=cut
+
+sub BackendSearchableFieldsGet {
+    my ( $Self, %Param ) = @_;
+
+    my %SearchableFields = (
+        From    => 'from',
+        To      => 'to',
+        Cc      => 'cc',
+        Subject => 'subject',
+        Body    => 'body',
+    );
+
+    return %SearchableFields;
+}
+
+=head2 ArticleSearchDataGet()
+
+Get article attachment index as hash.
+
+    my %Index = $BackendObject->ArticleSearchDataGet(
+        TicketID       => 123,   # (required)
+        ArticleID      => 123,   # (required)
+        DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.
+        RealNames      => 1,     # (optional) To include the From/To/Cc fields with real names.
+        UserID         => 123,   # (required)
+    );
+
+Returns:
+
+    my %ArticleSearchData = [
+        {
+        'From'    => 'Test User1 <testuser1@example.com>',
+        'To'      => 'Test User2 <testuser2@example.com>',
+        'Cc'      => 'Test User3 <testuser3@example.com>',
+        'Subject' => 'This is a test subject!',
+        'Body'    => 'This is a body text!',
+        ...
+        },
+    ];
+
+=cut
+
+sub ArticleSearchDataGet {
+    my ( $Self, %Param ) = @_;
+
+    for (qw(TicketID ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+            return;
+        }
+    }
+
+    my %ArticleData = $Self->ArticleGet(
+        TicketID      => $Param{TicketID},
+        ArticleID     => $Param{ArticleID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
+    );
+
+    my %SearchableFields      = $Self->BackendSearchableFieldsGet();
+    my $SearchIndexAttributes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
+
+    my %ArticleSearchData;
+
+    FIELD:
+    for my $Field ( sort keys %SearchableFields ) {
+
+        next FIELD if !$Field;
+        next FIELD if !IsStringWithData( $ArticleData{$Field} );
+
+        my %Field = (
+            String => $ArticleData{$Field},
+            Key    => $SearchableFields{$Field},
+        );
+
+        if (
+            $Field eq 'From'
+            || $Field eq 'To'
+            || $Field eq 'Cc'
+            || $Field eq 'Subject'
+            )
+        {
+            $Field{WordLengthMin} = $SearchIndexAttributes->{WordLengthMin} || 3;
+            $Field{WordLengthMax} = $SearchIndexAttributes->{WordLengthMax} || 30;
+        }
+
+        $ArticleSearchData{$Field} = \%Field;
+    }
+
+    return %ArticleSearchData;
 }
 
 1;
