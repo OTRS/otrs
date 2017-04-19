@@ -349,6 +349,8 @@ sub Check {
             $ContentType
             && $ContentType =~ /multipart\/signed/i
             && $ContentType =~ /application\/pgp/i
+            && $Entity->parts(0)
+            && $Entity->parts(1)
             )
         {
             my $SignedText    = $Entity->parts(0)->as_string();
