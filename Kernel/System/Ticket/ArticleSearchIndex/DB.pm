@@ -71,10 +71,11 @@ sub ArticleIndexBuild {
 
         $DBObject->Do(
             SQL => '
-                INSERT INTO article_search_index (article_id, article_key, article_value)
-                VALUES (?, ?, ?)',
+                INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value)
+                VALUES (?, ?, ?, ?)',
             Bind => [
-                \$Param{ArticleID}, \$ArticleSearchData{$Field}->{Key}, \$ArticleSearchData{$Field}->{String},
+                \$Param{TicketID}, \$Param{ArticleID}, \$ArticleSearchData{$Field}->{Key},
+                \$ArticleSearchData{$Field}->{String},
             ],
         );
     }
@@ -98,7 +99,7 @@ sub ArticleIndexDelete {
 
     # delete articles
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_search WHERE id = ?',
+        SQL  => 'DELETE FROM article_search_index WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 
@@ -148,8 +149,8 @@ sub _ArticleIndexQuerySQL {
         )
         )
     {
-        if ( $Param{Data}->{$_} ) {
-            return ' INNER JOIN article_search art ON st.id = art.ticket_id ';
+        if ( IsStringWithData( $Param{Data}->{$_} ) ) {
+            return ' INNER JOIN article_search_index art ON st.id = art.ticket_id ';
         }
     }
 
@@ -167,12 +168,12 @@ sub _ArticleIndexQuerySQLExt {
         return;
     }
 
-    my %FieldSQLMapFullText = (
-        From    => 'art.a_from',
-        To      => 'art.a_to',
-        Cc      => 'art.a_cc',
-        Subject => 'art.a_subject',
-        Body    => 'art.a_body',
+    my @FieldSQLMapFullText = (
+        'From',
+        'To',
+        'Cc',
+        'Subject',
+        'Body',
     );
 
     # get database object
@@ -180,8 +181,9 @@ sub _ArticleIndexQuerySQLExt {
 
     my $SQLExt      = '';
     my $FullTextSQL = '';
+
     KEY:
-    for my $Key ( sort keys %FieldSQLMapFullText ) {
+    for my $Key (@FieldSQLMapFullText) {
 
         next KEY if !$Param{Data}->{$Key};
 
@@ -198,17 +200,16 @@ sub _ArticleIndexQuerySQLExt {
         # check if search condition extension is used
         if ( $Param{Data}->{ConditionInline} ) {
             $FullTextSQL .= $DBObject->QueryCondition(
-                Key          => $FieldSQLMapFullText{$Key},
-                Value        => lc $Param{Data}->{$Key},
-                SearchPrefix => $Param{Data}->{ContentSearchPrefix},
-                SearchSuffix => $Param{Data}->{ContentSearchSuffix},
-                Extended     => 1,
-                CaseSensitive => 1,    # data in article_search are already stored in lower cases
+                Key           => 'art.article_value',
+                Value         => lc $Param{Data}->{$Key},
+                SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
+                SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
+                Extended      => 1,
+                CaseSensitive => 1,                                     # data is already stored in lower cases
             );
         }
         else {
 
-            my $Field = $FieldSQLMapFullText{$Key};
             my $Value = $Param{Data}->{$Key};
 
             if ( $Param{Data}->{ContentSearchPrefix} ) {
@@ -228,7 +229,7 @@ sub _ArticleIndexQuerySQLExt {
             $Value = lc $DBObject->Quote( $Value, 'Like' );
 
             # Lower conversion is already done, don't use LOWER()/LCASE()
-            $FullTextSQL .= " $Field LIKE '$Value'";
+            $FullTextSQL .= " art.article_value LIKE '$Value'";
         }
     }
 

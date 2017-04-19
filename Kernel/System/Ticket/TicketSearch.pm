@@ -497,7 +497,6 @@ sub TicketSearch {
         )
         )
     {
-
         # joins to article and article_data_mime_attachment are needed, it can not use existing article joins
         # otherwise the search will be limited to already matching articles
         my $AttachmentJoinSQL = '
