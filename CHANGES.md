@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-04-19 Fixed bug#[10873](https://bugs.otrs.org/show_bug.cgi?id=10873)(PR#1706) - Agent names sorted incorrectly in AgentTicketSearch. Thanks to S7!
  - 2017-04-11 Added the Customer User Information Center frontend.
  - 2017-04-11 Added support for multi-tiered customer and customer user relationships.
  - 2017-04-04 Added new db function 'QueryInCondition' (bug#9723).
