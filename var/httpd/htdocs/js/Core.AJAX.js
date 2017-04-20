@@ -220,7 +220,7 @@ Core.AJAX = (function (TargetNS) {
         // 2nd: add all files based on the metadata from Value
         $(Value).each(function() {
             FileID = this.FileID;
-            ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="SpacingLeft">' + DeleteText + '</button>';
+            ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="CallForAction SpacingLeft"><span>' + DeleteText + '</span></button>';
             InputStrg = '<input type="hidden" id="AttachmentDelete' + this.FileID + '" name="AttachmentDelete' + this.FileID + '" />';
             $('#FileUpload').parent().before(
                 '<li>' + this.Filename + ' (' + this.Filesize + ')' + ButtonStrg + InputStrg + '</li>'
