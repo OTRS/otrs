@@ -241,6 +241,7 @@ fieldset select {
 
 .TicketCompose fieldset #Subject {
     width: 50%;
+    max-width: 614px;
 }
 
 fieldset.Columns .Column {
