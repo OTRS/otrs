@@ -46,5 +46,12 @@ Core.UI.AdvancedChart.Init(
         Duration: 250
     }
 );
+
+// Add translations for statistic previews.
+Core.Config.Set('Grouped', [% Translate("Grouped") | JSON %]);
+Core.Config.Set('Stacked', [% Translate("Stacked") | JSON %]);
+Core.Config.Set('Expanded', [% Translate("Expanded") | JSON %]);
+Core.Config.Set('Stream', [% Translate("Stream") | JSON %]);
+Core.Config.Set('NoDataAvailable', [% Translate("No Data Available.") | JSON %]);
 </script>
 [% END %]

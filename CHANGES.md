@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-04-20 Fixed bug#[12756](https://bugs.otrs.org/show_bug.cgi?id=12756) - The format buttons are displayed on the dashboard translated, but during the running of stats they are not translated.
  - 2017-04-19 Fixed bug#[12736](https://bugs.otrs.org/show_bug.cgi?id=12736)(PR#1709) - Malformed pgp-signed multipart mail can cause error in PGP.pm. Thanks to Michael and S7!
  - 2017-04-13 Fixed bug#[7811](https://bugs.otrs.org/show_bug.cgi?id=7811)(PR#1710) - GenericAgent Search produces inconsistent results. Thanks to S7!
  - 2017-04-13 Fixed bug#[12649](https://bugs.otrs.org/show_bug.cgi?id=12649)(PR#1669) - The long and short description of the process ticket are not displayed at the first activity. Thanks to S7!
