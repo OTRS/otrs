@@ -1548,6 +1548,7 @@ sub ArticleSearchableContentGet {
         my %Field = (
             String     => $ArticleData{ $Field->{Name} },
             Key        => $Field->{Name},
+            Type       => $Field->{Type} // 'Text',
             Filterable => $Field->{Filterable} // 0,
         );
 
