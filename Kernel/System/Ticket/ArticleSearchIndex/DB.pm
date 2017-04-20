@@ -172,49 +172,74 @@ sub _ArticleIndexQuerySQLExt {
         return;
     }
 
-    my @FieldSQLMapFullText = (
-        'From',
-        'To',
-        'Cc',
-        'Subject',
-        'Body',
-    );
-
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $SQLExt      = '';
-    my $FullTextSQL = '';
+    my $SQLExt   = '';
+    my $SQLQuery = '';
 
-    KEY:
-    for my $Key (@FieldSQLMapFullText) {
+    my @Fields = ('Fulltext');
 
-        next KEY if !$Param{Data}->{$Key};
+    if ( !IsStringWithData( $Param{Data}->{Fulltext} ) ) {
+        @Fields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendSearchableFieldsList();
+    }
+
+    FIELD:
+    for my $Field (@Fields) {
+
+        next FIELD if !$Field;
+        next FIELD if !$Param{Data}->{$Field};
 
         # replace * by % for SQL like
-        $Param{Data}->{$Key} =~ s/\*/%/gi;
+        $Param{Data}->{$Field} =~ s/\*/%/gi;
 
         # check search attribute, we do not need to search for *
-        next KEY if $Param{Data}->{$Key} =~ /^\%{1,3}$/;
+        next FIELD if $Param{Data}->{$Field} =~ /^\%{1,3}$/;
 
-        if ($FullTextSQL) {
-            $FullTextSQL .= ' ' . $Param{Data}->{ContentSearch} . ' ';
+        if ($SQLQuery) {
+            $SQLQuery .= ' ' . $Param{Data}->{ContentSearch} . ' ';
         }
 
         # check if search condition extension is used
         if ( $Param{Data}->{ConditionInline} ) {
-            $FullTextSQL .= $DBObject->QueryCondition(
+
+            my $SQLFieldCondition;
+
+            if ( $Field ne 'Fulltext' ) {
+                $SQLFieldCondition = $DBObject->QueryCondition(
+                    Key   => 'art.article_key',
+                    Value => $Field,
+                );
+            }
+
+            my $SQLQueryCondition = $DBObject->QueryCondition(
                 Key           => 'art.article_value',
-                Value         => lc $Param{Data}->{$Key},
+                Value         => lc $Param{Data}->{$Field},
                 SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
                 SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
                 Extended      => 1,
                 CaseSensitive => 1,                                     # data is already stored in lower cases
             );
+
+            if ( IsStringWithData($SQLFieldCondition) ) {
+                $SQLQuery .= "($SQLFieldCondition AND $SQLQueryCondition)";
+                next FIELD;
+            }
+
+            $SQLQuery .= $SQLQueryCondition;
         }
         else {
 
-            my $Value = $Param{Data}->{$Key};
+            my $SQLFieldCondition;
+
+            if ( $Field ne 'Fulltext' ) {
+
+                $Field = $DBObject->Quote($Field);
+
+                $SQLFieldCondition = "art.article_key = $Field";
+            }
+
+            my $Value = $Param{Data}->{$Field};
 
             if ( $Param{Data}->{ContentSearchPrefix} ) {
                 $Value = $Param{Data}->{ContentSearchPrefix} . $Value;
@@ -224,21 +249,24 @@ sub _ArticleIndexQuerySQLExt {
             }
 
             # replace %% by % for SQL
-            $Param{Data}->{$Key} =~ s/%%/%/gi;
+            $Param{Data}->{$Field} =~ s/%%/%/gi;
 
             # replace * with % (for SQL)
             $Value =~ s/\*/%/g;
 
-            # db quote
             $Value = lc $DBObject->Quote( $Value, 'Like' );
 
-            # Lower conversion is already done, don't use LOWER()/LCASE()
-            $FullTextSQL .= " art.article_value LIKE '$Value'";
+            if ( IsStringWithData($SQLFieldCondition) ) {
+                $SQLQuery .= "($SQLFieldCondition AND art.article_value LIKE '$Value')";
+                next FIELD;
+            }
+
+            $SQLQuery .= " art.article_value LIKE '$Value'";
         }
     }
 
-    if ($FullTextSQL) {
-        $SQLExt = ' AND (' . $FullTextSQL . ')';
+    if ($SQLQuery) {
+        $SQLExt = ' AND (' . $SQLQuery . ')';
     }
 
     return $SQLExt;

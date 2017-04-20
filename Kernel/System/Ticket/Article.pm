@@ -77,7 +77,7 @@ sub new {
     # TODO: check if this can be removed after the new search is implemented.
     $Self->{ArticleSearchIndexModule} = $Param{ArticleSearchIndexModule}
         || $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndexModule')
-        || 'Kernel::System::Ticket::ArticleSearchIndex::DB';
+        || 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB';
 
     return $Self;
 }
@@ -726,6 +726,49 @@ sub _ArticleIndexQuerySQLExt {
     my ( $Self, %Param ) = @_;
 
     return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->_ArticleIndexQuerySQLExt(%Param);
+}
+
+sub BackendSearchableFieldsList {
+    my ( $Self, %Param ) = @_;
+
+    my @CommunicationChannels = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList(
+        ValidID => 1,
+    );
+
+    my %SearchableFields;
+
+    CHANNEL:
+    for my $Channel (@CommunicationChannels) {
+
+        next CHANNEL if !$Channel;
+        next CHANNEL if !IsHashRefWithData($Channel);
+        next CHANNEL if !$Channel->{ChannelName};
+
+        my $CurrentArticleBackendObject = $Self->BackendForChannel(
+            ChannelName => $Channel->{ChannelName},
+        );
+
+        next CHANNEL if !$CurrentArticleBackendObject;
+
+        my @BackendSearchableFields = $CurrentArticleBackendObject->BackendSearchableFieldsGet();
+
+        next CHANNEL if !IsArrayRefWithData( \@BackendSearchableFields );
+
+        SEARCHABLEFIELD:
+        for my $SearchableField (@BackendSearchableFields) {
+
+            next SEARCHABLEFIELD if !$SearchableField;
+            next SEARCHABLEFIELD if !IsHashRefWithData($SearchableField);
+            next SEARCHABLEFIELD if !IsStringWithData( $SearchableField->{Name} );
+            next SEARCHABLEFIELD if $SearchableFields{ $SearchableField->{Name} };
+
+            $SearchableFields{ $SearchableField->{Name} } = 1;
+        }
+    }
+
+    my @SearchableFieldNames = sort keys %SearchableFields;
+
+    return @SearchableFieldNames;
 }
 
 =head1 PRIVATE FUNCTIONS

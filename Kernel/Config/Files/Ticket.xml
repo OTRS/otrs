@@ -503,7 +503,7 @@
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
         <Setting>
-            <Option Location="Kernel/System/Ticket/ArticleSearchIndex/*.pm" SelectedID="Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB">
+            <Option Location="Kernel/System/Ticket/ArticleSearchIndex/*.pm" SelectedID="Kernel::System::Ticket::ArticleSearchIndex::DB">
             </Option>
         </Setting>
     </ConfigItem>
