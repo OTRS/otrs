@@ -1524,6 +1524,50 @@ CREATE INDEX FK_article_data_mime_attachm82 ON article_data_mime_attachment (cha
 CREATE INDEX FK_article_data_mime_attachmb3 ON article_data_mime_attachment (create_by);
 CREATE INDEX article_data_mime_attachmentcb ON article_data_mime_attachment (article_id);
 -- ----------------------------------------------------------
+--  create table article_data_otrs_chat
+-- ----------------------------------------------------------
+CREATE TABLE article_data_otrs_chat (
+    id NUMBER (20, 0) NOT NULL,
+    article_id NUMBER (20, 0) NOT NULL,
+    chat_participant_id VARCHAR2 (255) NOT NULL,
+    chat_participant_name VARCHAR2 (255) NOT NULL,
+    chat_participant_type VARCHAR2 (255) NOT NULL,
+    message_text VARCHAR2 (3800) NOT NULL,
+    system_generated NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL
+);
+ALTER TABLE article_data_otrs_chat ADD CONSTRAINT PK_article_data_otrs_chat PRIMARY KEY (id);
+
+                BEGIN
+                    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_article_data_otrs_chat';
+                    EXCEPTION
+                        WHEN OTHERS THEN NULL;
+                END;
+                /
+--;
+
+                CREATE SEQUENCE SE_article_data_otrs_chat
+                INCREMENT BY 1
+                START WITH 1
+                NOMAXVALUE
+                NOCYCLE
+                CACHE 20
+                ORDER;
+
+                CREATE OR REPLACE TRIGGER SE_article_data_otrs_chat_t
+                BEFORE INSERT ON article_data_otrs_chat
+                FOR EACH ROW
+                BEGIN
+                    IF :new.id IS NULL THEN
+                        SELECT SE_article_data_otrs_chat.nextval
+                        INTO :new.id
+                        FROM DUAL;
+                    END IF;
+                END;
+                /
+--;
+CREATE INDEX article_data_otrs_chat_artic16 ON article_data_otrs_chat (article_id);
+-- ----------------------------------------------------------
 --  create table time_accounting
 -- ----------------------------------------------------------
 CREATE TABLE time_accounting (

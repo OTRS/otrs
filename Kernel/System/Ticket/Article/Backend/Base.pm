@@ -381,11 +381,11 @@ Update an article.
 Note: Keys C<SenderType>, C<SenderTypeID> and C<IsVisibleForCustomer> are implemented.
 
     my $Success = $Self->_MetaArticleUpdate(
-        TicketID  => 123,
-        ArticleID => 123,
-        Key       => 'IsVisibleForCustomer',
-        Value     => 1,
-        UserID    => 123,
+        TicketID  => 123,                    # (required)
+        ArticleID => 123,                    # (required)
+        Key       => 'IsVisibleForCustomer', # (optional) If not provided, only ChangeBy and ChangeTime will be updated.
+        Value     => 1,                      # (optional)
+        UserID    => 123,                    # (required)
     );
 
     my $Success = $Self->_MetaArticleUpdate(
@@ -404,9 +404,7 @@ Events:
 sub _MetaArticleUpdate {
     my ( $Self, %Param ) = @_;
 
-    #TODO: improve interface
-
-    for my $Needed (qw(ArticleID UserID Key TicketID)) {
+    for my $Needed (qw(ArticleID UserID TicketID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -414,15 +412,6 @@ sub _MetaArticleUpdate {
             );
             return;
         }
-    }
-
-    # check needed stuff
-    if ( !defined $Param{Value} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Value!'
-        );
-        return;
     }
 
     if ( $Param{Key} eq 'SenderType' ) {
@@ -438,29 +427,42 @@ sub _MetaArticleUpdate {
         IsVisibleForCustomer => 'is_visible_for_customer',
     );
 
+    my @Bind;
+    my $SQL = '
+        UPDATE article
+        SET
+    ';
+
+    if ( $Param{Key} && $Map{ $Param{Key} } ) {
+
+        if ( !defined $Param{Value} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Need Value!',
+            );
+            return;
+        }
+
+        $SQL .= "$Map{$Param{Key}} = ?, ";
+        push @Bind, \$Param{Value};
+    }
+
+    $SQL .= '
+            change_time = current_timestamp, change_by = ?
+        WHERE id = ?
+    ';
+
+    push @Bind, ( \$Param{UserID}, \$Param{ArticleID} );
+
     # db update
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "
-            UPDATE article
-            SET $Map{$Param{Key}} = ?, change_time = current_timestamp, change_by = ?
-            WHERE id = ?
-        ",
-        Bind => [ \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
+        SQL  => $SQL,
+        Bind => \@Bind,
     );
 
     $Kernel::OM->Get('Kernel::System::Ticket::Article')->_ArticleCacheClear(
         TicketID => $Param{TicketID},
     );
-
-    # TODO: clarify
-    # $Self->EventHandler(
-    #     Event => 'ArticleUpdate',
-    #     Data  => {
-    #         TicketID  => $Param{TicketID},
-    #         ArticleID => $Param{ArticleID},
-    #     },
-    #     UserID => $Param{UserID},
-    # );
 
     return 1;
 }

@@ -1139,6 +1139,24 @@
     </ForeignKey>
 </Table>
 
+<!-- article data for chat based backend -->
+<Table Name="article_data_otrs_chat">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="article_id" Required="true" Type="BIGINT"/>
+    <Column Name="chat_participant_id" Required="true" Size="255" Type="VARCHAR" />
+    <Column Name="chat_participant_name" Required="true" Size="255" Type="VARCHAR"/>
+    <Column Name="chat_participant_type" Required="true" Size="255" Type="VARCHAR"/>
+    <Column Name="message_text" Required="true" Size="3800" Type="VARCHAR" />
+    <Column Name="system_generated" Required="true" Type="SMALLINT" />
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Index Name="article_data_otrs_chat_article_id">
+        <IndexColumn Name="article_id"/>
+    </Index>
+    <ForeignKey ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 <!-- time_accounting - accounted time for tickets -->
 <Table Name="time_accounting">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>

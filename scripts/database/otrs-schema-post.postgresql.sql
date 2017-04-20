@@ -134,6 +134,7 @@ ALTER TABLE article_data_mime_plain ADD CONSTRAINT FK_article_data_mime_plain_ch
 ALTER TABLE article_data_mime_attachment ADD CONSTRAINT FK_article_data_mime_attachment_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
 ALTER TABLE article_data_mime_attachment ADD CONSTRAINT FK_article_data_mime_attachment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE article_data_mime_attachment ADD CONSTRAINT FK_article_data_mime_attachment_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE article_data_otrs_chat ADD CONSTRAINT FK_article_data_otrs_chat_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
 ALTER TABLE time_accounting ADD CONSTRAINT FK_time_accounting_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
 ALTER TABLE time_accounting ADD CONSTRAINT FK_time_accounting_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE time_accounting ADD CONSTRAINT FK_time_accounting_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);

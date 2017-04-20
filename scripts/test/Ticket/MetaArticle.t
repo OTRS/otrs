@@ -277,6 +277,39 @@ $Self->IsDeeply(
     'MetaArticleIndex()'
 );
 
+$Helper->FixedTimeAddSeconds(60);
+
+$SuccessUpdate = $ArticleBackendObject->_MetaArticleUpdate(
+    ArticleID => $ArticleID,
+    TicketID  => $TicketID,
+    UserID    => 1,
+);
+
+$Self->True(
+    $SuccessUpdate,
+    '_MetaArticleUpdate() - Update ChangeTime only'
+);
+
+$ArticleHash{ChangeTime} = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
+$MetaArticleIndex[0]->{ChangeTime} = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
+
+%ResultHash = $ArticleBackendObject->_MetaArticleGet(
+    ArticleID => $ArticleID,
+    TicketID  => $TicketID,
+);
+
+$Self->IsDeeply(
+    \%ResultHash,
+    \%ArticleHash,
+    '_MetaArticleGet() - after update of ChangeTime'
+);
+
+$Self->IsDeeply(
+    [ $ArticleObject->_MetaArticleList( TicketID => $TicketID ) ],
+    \@MetaArticleIndex,
+    'MetaArticleIndex()'
+);
+
 my $SuccessDelete = $ArticleBackendObject->_MetaArticleDelete(
     ArticleID => $ArticleID,
     TicketID  => $TicketID,

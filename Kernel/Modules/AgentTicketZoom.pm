@@ -3025,15 +3025,21 @@ sub _ArticleItem {
         }
     }
 
+    # TODO: Review the way articles are displayed from different channels. At the moment it's not generic.
+
     # Special treatment for chat articles
     if ( $ArticleBackendObject->ChannelNameGet() eq 'Chat' ) {
+
+        my %ArticleData = $ArticleBackendObject->ArticleGet(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Article{ArticleID},
+            UserID    => $Self->{UserID},
+        );
 
         $LayoutObject->Block(
             Name => 'BodyChat',
             Data => {
-                ChatMessages => $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-                    Data => $Article{Body},
-                ),
+                ChatMessages => $ArticleData{ChatMessageList},
             },
         );
 

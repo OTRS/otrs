@@ -682,6 +682,21 @@ CREATE TABLE article_data_mime_attachment (
 );
 CREATE INDEX article_data_mime_attachment_article_id ON article_data_mime_attachment (article_id);
 -- ----------------------------------------------------------
+--  create table article_data_otrs_chat
+-- ----------------------------------------------------------
+CREATE TABLE article_data_otrs_chat (
+    id bigserial NOT NULL,
+    article_id BIGINT NOT NULL,
+    chat_participant_id VARCHAR (255) NOT NULL,
+    chat_participant_name VARCHAR (255) NOT NULL,
+    chat_participant_type VARCHAR (255) NOT NULL,
+    message_text VARCHAR (3800) NOT NULL,
+    system_generated SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    PRIMARY KEY(id)
+);
+CREATE INDEX article_data_otrs_chat_article_id ON article_data_otrs_chat (article_id);
+-- ----------------------------------------------------------
 --  create table time_accounting
 -- ----------------------------------------------------------
 CREATE TABLE time_accounting (
