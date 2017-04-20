@@ -1455,32 +1455,24 @@ sub BackendSearchableFieldsGet {
 
     my @SearchableFields = (
         {
-            Name          => 'From',
-            Type          => 'Text',
-            Filterable    => 1,
-            WordLengthMin => 3,
-            WordLengthMax => 60,
+            Name       => 'From',
+            Type       => 'Text',
+            Filterable => 0,
         },
         {
-            Name          => 'To',
-            Type          => 'Text',
-            Filterable    => 1,
-            WordLengthMin => 3,
-            WordLengthMax => 60,
+            Name       => 'To',
+            Type       => 'Text',
+            Filterable => 0,
         },
         {
-            Name          => 'Cc',
-            Type          => 'Text',
-            Filterable    => 1,
-            WordLengthMin => 3,
-            WordLengthMax => 60,
+            Name       => 'Cc',
+            Type       => 'Text',
+            Filterable => 0,
         },
         {
-            Name          => 'Subject',
-            Type          => 'Text',
-            Filterable    => 1,
-            WordLengthMin => 3,
-            WordLengthMax => 60,
+            Name       => 'Subject',
+            Type       => 'Text',
+            Filterable => 1,
         },
         {
             Name       => 'Body',
@@ -1554,12 +1546,9 @@ sub ArticleSearchableContentGet {
         next FIELD if !IsStringWithData( $ArticleData{ $Field->{Name} } );
 
         my %Field = (
-            String        => $ArticleData{ $Field->{Name} },
-            Key           => $Field->{Name},
-            Filterable    => $Field->{Filterable} // 0,
-            WordLengthMin => $Field->{WordLengthMin},
-            WordLengthMax => $Field->{WordLengthMax},
-            WordCountMax  => $Field->{WordCountMax},
+            String     => $ArticleData{ $Field->{Name} },
+            Key        => $Field->{Name},
+            Filterable => $Field->{Filterable} // 0,
         );
 
         $ArticleSearchData{$Field} = \%Field;
