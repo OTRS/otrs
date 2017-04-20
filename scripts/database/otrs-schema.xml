@@ -1066,28 +1066,24 @@
     </ForeignKey>
 </Table>
 
-<!-- article_search - article search index -->
-<Table Name="article_search">
-    <Column Name="id" Required="true" PrimaryKey="true" Type="BIGINT"/>
+<!-- article_search_index - article search index -->
+<Table Name="article_search_index">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
-    <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>
-    <Column Name="a_from" Required="false" Size="3800" Type="VARCHAR"/>
-    <Column Name="a_to" Required="false" Size="3800" Type="VARCHAR"/>
-    <Column Name="a_cc" Required="false" Size="3800" Type="VARCHAR"/>
-    <Column Name="a_subject" Required="false" Size="3800" Type="VARCHAR"/>
-    <Column Name="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
-    <Column Name="incoming_time" Required="true" Type="INTEGER"/>
-    <Index Name="article_search_ticket_id">
+    <Column Name="article_id" Required="true" Type="BIGINT"/>
+    <Column Name="article_key" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="article_value" Required="false" Size="1800000" Type="VARCHAR"/>
+    <Index Name="article_search_index_ticket_id">
         <IndexColumn Name="ticket_id"/>
     </Index>
-    <Index Name="article_search_article_sender_type_id">
-        <IndexColumn Name="article_sender_type_id"/>
+    <Index Name="article_search_index_article_id">
+        <IndexColumn Name="article_id"/>
     </Index>
     <ForeignKey ForeignTable="ticket">
         <Reference Local="ticket_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="article_sender_type">
-        <Reference Local="article_sender_type_id" Foreign="id"/>
+    <ForeignKey ForeignTable="article">
+        <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>
 </Table>
 

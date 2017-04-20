@@ -635,23 +635,6 @@ CREATE TABLE article_data_mime (
 CREATE INDEX article_data_mime_article_id ON article_data_mime (article_id);
 CREATE INDEX article_data_mime_message_id_md5 ON article_data_mime (a_message_id_md5);
 -- ----------------------------------------------------------
---  create table article_search
--- ----------------------------------------------------------
-CREATE TABLE article_search (
-    id BIGINT NOT NULL,
-    ticket_id BIGINT NOT NULL,
-    article_sender_type_id SMALLINT NOT NULL,
-    a_from VARCHAR (3800) NULL,
-    a_to VARCHAR (3800) NULL,
-    a_cc VARCHAR (3800) NULL,
-    a_subject VARCHAR (3800) NULL,
-    a_body VARCHAR NOT NULL,
-    incoming_time INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
-CREATE INDEX article_search_article_sender_type_id ON article_search (article_sender_type_id);
-CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
--- ----------------------------------------------------------
 --  create table article_search_index
 -- ----------------------------------------------------------
 CREATE TABLE article_search_index (
@@ -659,11 +642,11 @@ CREATE TABLE article_search_index (
     ticket_id BIGINT NOT NULL,
     article_id BIGINT NOT NULL,
     article_key VARCHAR (200) NOT NULL,
-    article_value TEXT NULL,
+    article_value VARCHAR NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id);
 CREATE INDEX article_search_index_article_id ON article_search_index (article_id);
+CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id);
 -- ----------------------------------------------------------
 --  create table article_data_mime_plain
 -- ----------------------------------------------------------

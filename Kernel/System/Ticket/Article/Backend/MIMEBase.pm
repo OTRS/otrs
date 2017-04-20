@@ -1464,11 +1464,11 @@ sub BackendSearchableFieldsGet {
     return %SearchableFields;
 }
 
-=head2 ArticleSearchDataGet()
+=head2 ArticleSearchableContentGet()
 
 Get article attachment index as hash.
 
-    my %Index = $BackendObject->ArticleSearchDataGet(
+    my %Index = $BackendObject->ArticleSearchableContentGet(
         TicketID       => 123,   # (required)
         ArticleID      => 123,   # (required)
         DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.
@@ -1491,7 +1491,7 @@ Returns:
 
 =cut
 
-sub ArticleSearchDataGet {
+sub ArticleSearchableContentGet {
     my ( $Self, %Param ) = @_;
 
     for (qw(TicketID ArticleID UserID)) {

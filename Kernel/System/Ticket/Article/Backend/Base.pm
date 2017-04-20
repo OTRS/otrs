@@ -203,39 +203,56 @@ sub ArticleDelete {
     ...;    # yada-yada (unimplemented) operator
 }
 
-=head2 ArticleSearchableContentGet()
-
-Returns a structure with searchable field data per article, with content and attributes.
-This will be called to populate the article_search database/index. Override this method in your
-class.
-
-    my $SearchableContent = $ArticleBackendObject->ArticleSearchableContentGet(
-        TicketID  => 123,
-        ArticleID => 123,
-        UserID    => 123,
-    );
-
-=cut
-
-sub ArticleSearchableContentGet {
-    ...;    # yada-yada (unimplemented) operator
-}
-
 =head2 BackendSearchableFieldsGet()
 
-Returns a structure with searchable field definitions per backend. Fields have a type and possibly
-data for front-end display, such as values that can be selected (if needed). Override this method in
-your class.
+Get article attachment index as hash.
 
-    my $SearchableFields = $ArticleBackendObject->BackendSearchableFieldsGet(
-        TicketID  => 123,
-        ArticleID => 123,
-        UserID    => 123,
-    );
+    my %Index = $BackendObject->BackendSearchableFieldsGet();
+
+Returns:
+
+    my %BackendSearchableFieldsGet = {
+        From    => 'from',
+        To      => 'to',
+        Cc      => 'cc',
+        Subject => 'subject',
+        Body    => 'body',
+    };
 
 =cut
 
 sub BackendSearchableFieldsGet {
+    ...;    # yada-yada (unimplemented) operator
+}
+
+=head2 ArticleSearchableContentGet()
+
+Get article attachment index as hash.
+
+    my %Index = $BackendObject->ArticleSearchableContentGet(
+        TicketID       => 123,   # (required)
+        ArticleID      => 123,   # (required)
+        DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.
+        RealNames      => 1,     # (optional) To include the From/To/Cc fields with real names.
+        UserID         => 123,   # (required)
+    );
+
+Returns:
+
+    my %ArticleSearchData = [
+        {
+        'From'    => 'Test User1 <testuser1@example.com>',
+        'To'      => 'Test User2 <testuser2@example.com>',
+        'Cc'      => 'Test User3 <testuser3@example.com>',
+        'Subject' => 'This is a test subject!',
+        'Body'    => 'This is a body text!',
+        ...
+        },
+    ];
+
+=cut
+
+sub ArticleSearchableContentGet {
     ...;    # yada-yada (unimplemented) operator
 }
 

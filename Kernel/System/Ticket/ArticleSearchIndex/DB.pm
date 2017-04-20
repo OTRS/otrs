@@ -47,7 +47,7 @@ sub ArticleIndexBuild {
         ArticleID => $Param{ArticleID},
     );
 
-    my %ArticleSearchData = $ArticleBackendObject->ArticleSearchDataGet(
+    my %ArticleSearchableContent = $ArticleBackendObject->ArticleSearchableContentGet(
         TicketID  => $Param{TicketID},
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
@@ -62,20 +62,21 @@ sub ArticleIndexBuild {
     );
 
     FIELD:
-    for my $Field ( sort keys %ArticleSearchData ) {
+    for my $Field ( sort keys %ArticleSearchableContent ) {
 
         next FIELD if !$Field;
-        next FIELD if !IsHashRefWithData( $ArticleSearchData{$Field} );
+        next FIELD if !IsHashRefWithData( $ArticleSearchableContent{$Field} );
 
-        $ArticleSearchData{$Field}->{String} = $Self->_ArticleIndexString( %{ $ArticleSearchData{$Field} } );
+        $ArticleSearchableContent{$Field}->{String}
+            = $Self->_ArticleIndexString( %{ $ArticleSearchableContent{$Field} } );
 
         $DBObject->Do(
             SQL => '
                 INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value)
                 VALUES (?, ?, ?, ?)',
             Bind => [
-                \$Param{TicketID}, \$Param{ArticleID}, \$ArticleSearchData{$Field}->{Key},
-                \$ArticleSearchData{$Field}->{String},
+                \$Param{TicketID}, \$Param{ArticleID}, \$ArticleSearchableContent{$Field}->{Key},
+                \$ArticleSearchableContent{$Field}->{String},
             ],
         );
     }
