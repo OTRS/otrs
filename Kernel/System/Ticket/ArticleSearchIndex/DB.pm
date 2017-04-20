@@ -67,8 +67,11 @@ sub ArticleIndexBuild {
         next FIELD if !$Field;
         next FIELD if !IsHashRefWithData( $ArticleSearchableContent{$Field} );
 
-        $ArticleSearchableContent{$Field}->{String}
-            = $Self->_ArticleIndexString( %{ $ArticleSearchableContent{$Field} } );
+        if ( $ArticleSearchableContent{$Field}->{Filterable} ) {
+            $ArticleSearchableContent{$Field}->{String} = $Self->_ArticleIndexString(
+                %{ $ArticleSearchableContent{$Field} }
+            );
+        }
 
         $DBObject->Do(
             SQL => '

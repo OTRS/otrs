@@ -1453,15 +1453,43 @@ Returns:
 sub BackendSearchableFieldsGet {
     my ( $Self, %Param ) = @_;
 
-    my %SearchableFields = (
-        From    => 'from',
-        To      => 'to',
-        Cc      => 'cc',
-        Subject => 'subject',
-        Body    => 'body',
+    my @SearchableFields = (
+        {
+            Name          => 'From',
+            Type          => 'Text',
+            Filterable    => 1,
+            WordLengthMin => 3,
+            WordLengthMax => 60,
+        },
+        {
+            Name          => 'To',
+            Type          => 'Text',
+            Filterable    => 1,
+            WordLengthMin => 3,
+            WordLengthMax => 60,
+        },
+        {
+            Name          => 'Cc',
+            Type          => 'Text',
+            Filterable    => 1,
+            WordLengthMin => 3,
+            WordLengthMax => 60,
+        },
+        {
+            Name          => 'Subject',
+            Type          => 'Text',
+            Filterable    => 1,
+            WordLengthMin => 3,
+            WordLengthMax => 60,
+        },
+        {
+            Name       => 'Body',
+            Type       => 'Text',
+            Filterable => 1,
+        },
     );
 
-    return %SearchableFields;
+    return @SearchableFields;
 }
 
 =head2 ArticleSearchableContentGet()
@@ -1511,32 +1539,28 @@ sub ArticleSearchableContentGet {
         DynamicFields => 0,
     );
 
-    my %SearchableFields      = $Self->BackendSearchableFieldsGet();
-    my $SearchIndexAttributes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
+    my @BackendSearchableFields = $Self->BackendSearchableFieldsGet();
+    my $SearchIndexAttributes   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
 
     my %ArticleSearchData;
 
     FIELD:
-    for my $Field ( sort keys %SearchableFields ) {
+    for my $Field (@BackendSearchableFields) {
 
         next FIELD if !$Field;
-        next FIELD if !IsStringWithData( $ArticleData{$Field} );
+        next FIELD if !IsHashRefWithData($Field);
+        next FIELD if !IsStringWithData( $Field->{Name} );
+        next FIELD if !IsStringWithData( $Field->{Type} );
+        next FIELD if !IsStringWithData( $ArticleData{ $Field->{Name} } );
 
         my %Field = (
-            String => $ArticleData{$Field},
-            Key    => $SearchableFields{$Field},
+            String        => $ArticleData{ $Field->{Name} },
+            Key           => $Field->{Name},
+            Filterable    => $Field->{Filterable} // 0,
+            WordLengthMin => $Field->{WordLengthMin},
+            WordLengthMax => $Field->{WordLengthMax},
+            WordCountMax  => $Field->{WordCountMax},
         );
-
-        if (
-            $Field eq 'From'
-            || $Field eq 'To'
-            || $Field eq 'Cc'
-            || $Field eq 'Subject'
-            )
-        {
-            $Field{WordLengthMin} = $SearchIndexAttributes->{WordLengthMin} || 3;
-            $Field{WordLengthMax} = $SearchIndexAttributes->{WordLengthMax} || 30;
-        }
 
         $ArticleSearchData{$Field} = \%Field;
     }
