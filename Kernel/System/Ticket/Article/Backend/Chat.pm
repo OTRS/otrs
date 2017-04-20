@@ -13,7 +13,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 
-use base 'Kernel::System::Ticket::Article::Backend::Base';
+use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -581,6 +581,171 @@ sub ArticleDelete {    ## no critic;
     return $Self->_MetaArticleDelete(
         %Param,
     );
+}
+
+=head2 BackendSearchableFieldsGet()
+
+Get article attachment index as hash.
+
+    my %Index = $BackendObject->BackendSearchableFieldsGet();
+
+Returns:
+
+    my %BackendSearchableFieldsGet = [
+        {
+            Name       => 'ChatterName',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        {
+            Name       => 'ChatterType',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        {
+            Name       => 'MessageText',
+            Type       => 'Text',
+            Filterable => 1,
+        },
+    ];
+
+=cut
+
+sub BackendSearchableFieldsGet {
+    my ( $Self, %Param ) = @_;
+
+    my @SearchableFields = (
+        {
+            Name       => 'ChatterName',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        {
+            Name       => 'ChatterType',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        {
+            Name       => 'MessageText',
+            Type       => 'Text',
+            Filterable => 1,
+        },
+    );
+
+    return @SearchableFields;
+}
+
+=head2 ArticleSearchableContentGet()
+
+Get article attachment index as hash.
+
+    my %Index = $BackendObject->ArticleSearchableContentGet(
+        TicketID       => 123,   # (required)
+        ArticleID      => 123,   # (required)
+        DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.
+        RealNames      => 1,     # (optional) To include the From/To/Cc fields with real names.
+        UserID         => 123,   # (required)
+    );
+
+Returns:
+
+my %ArticleSearchData = {
+    'ChatterName'    => {
+        String     => 'John Doe Jane Doe Joe Doe',
+        Key        => 'ChatterName',
+        Type       => 'Text',
+        Filterable => 0,
+    },
+    'ChatterType'    => {
+        String     => 'User User1 User2 User3',
+        Key        => 'ChatterType',
+        Type       => 'Text',
+        Filterable => 0,
+    },
+    'MessageText'    => {
+        String     => 'Chat message Second chat message Third chat message',
+        Key        => 'Body',
+        Type       => 'Text',
+        Filterable => 1,
+    }
+};
+
+=cut
+
+sub ArticleSearchableContentGet {
+    my ( $Self, %Param ) = @_;
+
+    for (qw(TicketID ArticleID UserID)) {
+        if ( !$Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+            return;
+        }
+    }
+
+    my %ArticleData = $Self->ArticleGet(
+        TicketID      => $Param{TicketID},
+        ArticleID     => $Param{ArticleID},
+        UserID        => $Param{UserID},
+        DynamicFields => 0,
+    );
+
+    my @BackendSearchableFields = $Self->BackendSearchableFieldsGet();
+    my $SearchIndexAttributes   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
+
+    my %ArticleSearchData;
+
+    my %ChatMessageListData = (
+        ChatterName => {},
+        ChatterType => {},
+        MessageText => '',
+    );
+
+    FIELD:
+    for my $Field (@BackendSearchableFields) {
+
+        next FIELD if !$Field;
+        next FIELD if !IsHashRefWithData($Field);
+        next FIELD if !IsStringWithData( $Field->{Name} );
+        next FIELD if !IsStringWithData( $Field->{Type} );
+        next FIELD if !IsStringWithData( $ArticleData{ $Field->{Name} } );
+
+        CHATMESSAGELIST:
+        for my $ChatMessageList ( @{ $ArticleData{ChatMessageList} } ) {
+
+            next CHATMESSAGELIST if !$ChatMessageList;
+            next CHATMESSAGELIST if !IsHashRefWithData($ChatMessageList);
+
+            if ( $Field eq 'ChatterName' || $Field eq 'ChatterType' ) {
+                $ChatMessageListData{$Field}->{ $ArticleData{ChatMessageList}->{$Field} } = 1;
+            }
+            elsif ( $Field eq 'MessageText' ) {
+                $ChatMessageListData{$Field} .= ' ' . $ArticleData{ChatMessageList}->{$Field};
+            }
+        }
+
+        my $String = '';
+
+        if ( $Field eq 'ChatterName' || $Field eq 'ChatterType' ) {
+            $String = join ' ', keys %{ $ChatMessageListData{$Field} };
+        }
+        else {
+            $String = $ChatMessageListData{$Field};
+        }
+
+        my %Field = (
+            String     => $String,
+            Key        => $Field->{Name},
+            Type       => $Field->{Type} // 'Text',
+            Filterable => $Field->{Filterable} // 0,
+        );
+
+        $ArticleSearchData{ $Field->{Name} } = \%Field;
+    }
+
+    return %ArticleSearchData;
 }
 
 1;

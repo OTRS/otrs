@@ -1440,13 +1440,33 @@ Get article attachment index as hash.
 
 Returns:
 
-    my %BackendSearchableFieldsGet = {
-        From    => 'from',
-        To      => 'to',
-        Cc      => 'cc',
-        Subject => 'subject',
-        Body    => 'body',
-    };
+    my %BackendSearchableFieldsGet = [
+        {
+            Name       => 'From',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        {
+            Name       => 'To',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        {
+            Name       => 'Cc',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        {
+            Name       => 'Subject',
+            Type       => 'Text',
+            Filterable => 1,
+        },
+        {
+            Name       => 'Body',
+            Type       => 'Text',
+            Filterable => 1,
+        },
+    ];
 
 =cut
 
@@ -1498,16 +1518,38 @@ Get article attachment index as hash.
 
 Returns:
 
-    my %ArticleSearchData = [
-        {
-        'From'    => 'Test User1 <testuser1@example.com>',
-        'To'      => 'Test User2 <testuser2@example.com>',
-        'Cc'      => 'Test User3 <testuser3@example.com>',
-        'Subject' => 'This is a test subject!',
-        'Body'    => 'This is a body text!',
-        ...
+    my %ArticleSearchData = {
+        'From'    => {
+            String     => 'Test User1 <testuser1@example.com>',
+            Key        => 'From',
+            Type       => 'Text',
+            Filterable => 0,
         },
-    ];
+        'To'    => {
+            String     => 'Test User2 <testuser2@example.com>',
+            Key        => 'To',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        'Cc'    => {
+            String     => 'Test User3 <testuser3@example.com>',
+            Key        => 'Cc',
+            Type       => 'Text',
+            Filterable => 0,
+        },
+        'Subject'    => {
+            String     => 'This is a test subject!',
+            Key        => 'Subject',
+            Type       => 'Text',
+            Filterable => 1,
+        },
+        'Body'    => {
+            String     => 'This is a body text!',
+            Key        => 'Body',
+            Type       => 'Text',
+            Filterable => 1,
+        }
+    };
 
 =cut
 
@@ -1545,14 +1587,14 @@ sub ArticleSearchableContentGet {
         next FIELD if !IsStringWithData( $Field->{Type} );
         next FIELD if !IsStringWithData( $ArticleData{ $Field->{Name} } );
 
-        my %Field = (
+        my %FieldData = (
             String     => $ArticleData{ $Field->{Name} },
             Key        => $Field->{Name},
             Type       => $Field->{Type} // 'Text',
             Filterable => $Field->{Filterable} // 0,
         );
 
-        $ArticleSearchData{$Field} = \%Field;
+        $ArticleSearchData{ $Field->{Name} } = \%FieldData;
     }
 
     return %ArticleSearchData;
