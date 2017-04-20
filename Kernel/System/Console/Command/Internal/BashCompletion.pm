@@ -13,7 +13,7 @@ use warnings;
 
 use Kernel::System::Console::InterfaceConsole;
 
-use base qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::List);
+use parent qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::List);
 
 our @ObjectDependencies = (
     'Kernel::Config',

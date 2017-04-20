@@ -8,7 +8,7 @@
 
 package Kernel::Output::HTML::TicketZoom::LinkTable;
 
-use base 'Kernel::Output::HTML::Base';
+use parent 'Kernel::Output::HTML::Base';
 
 use strict;
 use warnings;

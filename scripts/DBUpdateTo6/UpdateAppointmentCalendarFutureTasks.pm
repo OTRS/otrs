@@ -11,7 +11,7 @@ package scripts::DBUpdateTo6::UpdateAppointmentCalendarFutureTasks;    ## no cri
 use strict;
 use warnings;
 
-use base qw(scripts::DBUpdateTo6::Base);
+use parent qw(scripts::DBUpdateTo6::Base);
 
 our @ObjectDependencies = (
     'Kernel::System::Calendar::Appointment',

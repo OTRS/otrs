@@ -22,7 +22,7 @@ Kernel::System::CommunicationChannel::Base - base class for communication channe
 This is a base class for communication channels and should not be instantiated directly.
 
     package Kernel::CommunicationChannel::MyChannel;
-    use base 'Kernel::CommunicationChannel::Base';
+    use parent 'Kernel::CommunicationChannel::Base';
 
     # methods go here
 

@@ -12,7 +12,7 @@ package Kernel::System::Console::Command::Dev::Tools::RPMSpecGenerate;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::Console::BaseCommand);
+use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',

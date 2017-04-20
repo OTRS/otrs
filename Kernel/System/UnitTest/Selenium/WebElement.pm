@@ -11,7 +11,7 @@ package Kernel::System::UnitTest::Selenium::WebElement;
 use strict;
 use warnings;
 
-use base qw(Selenium::Remote::WebElement);
+use parent qw(Selenium::Remote::WebElement);
 
 =head1 NAME
 

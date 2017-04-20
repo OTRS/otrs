@@ -13,7 +13,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use base qw(Kernel::System::DynamicField::Driver::BaseSelect);
+use parent qw(Kernel::System::DynamicField::Driver::BaseSelect);
 
 our @ObjectDependencies = (
     'Kernel::Config',

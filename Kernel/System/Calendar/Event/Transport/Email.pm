@@ -15,7 +15,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use base qw(Kernel::System::Calendar::Event::Transport::Base);
+use parent qw(Kernel::System::Calendar::Event::Transport::Base);
 
 our @ObjectDependencies = (
     'Kernel::Config',

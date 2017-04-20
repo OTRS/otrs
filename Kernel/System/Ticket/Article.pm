@@ -11,7 +11,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::EventHandler);
+use parent qw(Kernel::System::EventHandler);
 
 use Kernel::System::VariableCheck qw(:all);
 

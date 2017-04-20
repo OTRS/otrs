@@ -13,7 +13,7 @@ use warnings;
 
 use POSIX;
 
-use base qw(Kernel::System::SupportDataCollector::PluginBase);
+use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
 use Kernel::Language qw(Translatable);
 use Kernel::System::DateTime;

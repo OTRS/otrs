@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw( :all );
-use base qw(Kernel::System::SysConfig::Base::Framework);
+use parent qw(Kernel::System::SysConfig::Base::Framework);
 
 our @ObjectDependencies = (
     'Kernel::Language',

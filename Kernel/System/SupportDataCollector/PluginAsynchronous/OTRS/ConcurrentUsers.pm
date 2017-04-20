@@ -11,7 +11,7 @@ package Kernel::System::SupportDataCollector::PluginAsynchronous::OTRS::Concurre
 use strict;
 use warnings;
 
-use base qw(Kernel::System::SupportDataCollector::PluginAsynchronous);
+use parent qw(Kernel::System::SupportDataCollector::PluginAsynchronous);
 
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);

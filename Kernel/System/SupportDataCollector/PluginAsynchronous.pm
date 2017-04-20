@@ -16,7 +16,7 @@ our @ObjectDependencies = (
     'Kernel::System::SystemData',
 );
 
-use base qw(Kernel::System::SupportDataCollector::PluginBase);
+use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
 sub _GetAsynchronousData {
     my ( $Self, %Param ) = @_;

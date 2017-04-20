@@ -13,7 +13,7 @@ use warnings;
 
 use vars qw(%Jobs);
 
-use base qw(Kernel::System::Console::BaseCommand);
+use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',

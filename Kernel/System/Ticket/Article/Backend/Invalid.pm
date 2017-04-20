@@ -11,7 +11,7 @@ package Kernel::System::Ticket::Article::Backend::Invalid;
 use strict;
 use warnings;
 
-use base qw(
+use parent qw(
     Kernel::System::EventHandler
     Kernel::System::Ticket::Article::Backend::Base
 );

@@ -11,7 +11,7 @@ package Kernel::Output::Template::Plugin::OTRS;
 use strict;
 use warnings;
 
-use base qw(Template::Plugin);
+use parent qw(Template::Plugin);
 
 use Scalar::Util;
 

@@ -14,7 +14,7 @@ use warnings;
 use MIME::Base64;
 use MIME::Words qw(:all);
 
-use base qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
+use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 use Kernel::System::VariableCheck qw(:all);
 

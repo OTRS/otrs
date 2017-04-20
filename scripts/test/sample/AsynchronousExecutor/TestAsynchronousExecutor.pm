@@ -11,7 +11,7 @@ package scripts::test::sample::AsynchronousExecutor::TestAsynchronousExecutor;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::AsynchronousExecutor);
+use  base qw(Kernel::System::AsynchronousExecutor);
 
 our @ObjectDependencies = ( );
 

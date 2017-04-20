@@ -13,7 +13,7 @@ package Kernel::Output::Template::Provider;
 use strict;
 use warnings;
 
-use base qw (Template::Provider);
+use parent qw (Template::Provider);
 
 use Scalar::Util qw();
 use Template::Constants;

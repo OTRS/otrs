@@ -11,7 +11,7 @@ package Kernel::System::Ticket::Article::Backend::Base;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::EventHandler);
+use parent qw(Kernel::System::EventHandler);
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -39,7 +39,7 @@ This is a base class for article backends and should not be instantiated directl
     use strict;
     use warnings;
 
-    use base qw(Kernel::System::Ticket::Article::Backend::Base);
+    use parent qw(Kernel::System::Ticket::Article::Backend::Base);
 
     # methods go here
 

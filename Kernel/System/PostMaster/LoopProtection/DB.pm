@@ -11,7 +11,7 @@ package Kernel::System::PostMaster::LoopProtection::DB;
 use strict;
 use warnings;
 
-use base 'Kernel::System::PostMaster::LoopProtection::Common';
+use parent 'Kernel::System::PostMaster::LoopProtection::Common';
 
 our @ObjectDependencies = (
     'Kernel::Config',

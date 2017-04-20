@@ -11,7 +11,7 @@ package Kernel::System::Console::Command::Dev::Tools::ConsoleStats;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::List);
+use parent qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::List);
 
 our @ObjectDependencies = (
 );

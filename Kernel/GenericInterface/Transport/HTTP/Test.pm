@@ -233,7 +233,7 @@ sending them out to the network.
 
 package Kernel::GenericInterface::Transport::HTTP::Test::CustomHTTPProtocol;
 
-use base qw(LWP::Protocol);
+use parent qw(LWP::Protocol);
 
 sub new {
     my $Class = shift;

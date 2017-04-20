@@ -11,7 +11,7 @@ package Kernel::System::Ticket::Article::Backend::MIMEBase;
 use strict;
 use warnings;
 
-use base 'Kernel::System::Ticket::Article::Backend::Base';
+use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
 use Kernel::System::EmailParser;
 

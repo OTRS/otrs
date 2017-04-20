@@ -26,6 +26,6 @@ sub Load {
     $Self->{TestHTTPHostname} = 'localhost:5000';
 }
 
-use base qw(Kernel::Config::Defaults);
+use  base qw(Kernel::Config::Defaults);
 
 1;

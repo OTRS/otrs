@@ -11,6 +11,6 @@ package Kernel::Modules::AgentTicketFreeText;
 use strict;
 use warnings;
 
-use base qw( Kernel::Modules::AgentTicketActionCommon );
+use parent qw( Kernel::Modules::AgentTicketActionCommon );
 
 1;

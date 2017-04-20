@@ -11,7 +11,7 @@ package Kernel::System::Calendar::Event::TicketAppointments;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::AsynchronousExecutor);
+use parent qw(Kernel::System::AsynchronousExecutor);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
