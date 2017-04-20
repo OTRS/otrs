@@ -12,7 +12,7 @@ package var::processes::examples::Application_for_leave_pre;
 use strict;
 use warnings;
 
-use base qw(var::processes::examples::Base);
+use parent qw(var::processes::examples::Base);
 
 our @ObjectDependencies = ();
 

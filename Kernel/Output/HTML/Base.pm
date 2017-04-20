@@ -33,7 +33,7 @@ Kernel::Output::HTML::Base - Base class for Output classes
 =head1 DESCRIPTION
 
     package Kernel::Output::HTML::ToolBar::MyToolBar;
-    use base 'Kernel::Output::HTML::Base';
+    use parent 'Kernel::Output::HTML::Base';
 
     # methods go here
 

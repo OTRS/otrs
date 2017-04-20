@@ -16,7 +16,7 @@ use MIME::Base64 qw();
 use Time::HiRes qw();
 use Unicode::Normalize qw();
 
-use base qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
+use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 use Kernel::System::VariableCheck qw(:all);
 

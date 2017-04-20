@@ -11,7 +11,7 @@ package Kernel::System::SupportDataCollector::Plugin::OTRS::ErrorLog;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::SupportDataCollector::PluginBase);
+use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
 use Kernel::Language qw(Translatable);
 

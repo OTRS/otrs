@@ -11,7 +11,7 @@ package Kernel::System::Ticket::Article::Backend::Email;
 use strict;
 use warnings;
 
-use base 'Kernel::System::Ticket::Article::Backend::MIMEBase';
+use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
 
 our @ObjectDependencies = (
     'Kernel::Config',

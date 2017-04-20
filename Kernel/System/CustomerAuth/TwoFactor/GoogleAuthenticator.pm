@@ -14,7 +14,7 @@ use warnings;
 use Digest::SHA qw(sha1);
 use Digest::HMAC qw(hmac_hex);
 
-use base qw(Kernel::System::Auth::TwoFactor::GoogleAuthenticator);
+use parent qw(Kernel::System::Auth::TwoFactor::GoogleAuthenticator);
 
 our @ObjectDependencies = (
     'Kernel::Config',

@@ -13,7 +13,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use base qw(Kernel::System::SysConfig::ValueType::Entity);
+use parent qw(Kernel::System::SysConfig::ValueType::Entity);
 
 our @ObjectDependencies = (
     'Kernel::System::Queue',

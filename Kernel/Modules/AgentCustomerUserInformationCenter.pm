@@ -11,6 +11,6 @@ package Kernel::Modules::AgentCustomerUserInformationCenter;
 use strict;
 use warnings;
 
-use base qw( Kernel::Modules::AgentDashboardCommon );
+use parent qw( Kernel::Modules::AgentDashboardCommon );
 
 1;

@@ -8,7 +8,7 @@
 
 package Kernel::Output::HTML::ToolBar::TicketSearchProfile;
 
-use base 'Kernel::Output::HTML::Base';
+use parent 'Kernel::Output::HTML::Base';
 
 use strict;
 use warnings;

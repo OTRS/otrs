@@ -11,7 +11,7 @@ package Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::Asynchronous
 use strict;
 use warnings;
 
-use base qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
+use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

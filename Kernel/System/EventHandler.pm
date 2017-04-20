@@ -24,7 +24,7 @@ Kernel::System::EventHandler - event handler interface
 
 Inherit from this class if you want to use events there.
 
-    use base qw(Kernel::System::EventHandler);
+    use parent qw(Kernel::System::EventHandler);
 
 In your class, have to call L</EventHandlerInit()> first.
 

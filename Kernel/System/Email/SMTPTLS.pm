@@ -13,7 +13,7 @@ use warnings;
 
 use Net::SMTP;
 
-use base qw(Kernel::System::Email::SMTP);
+use parent qw(Kernel::System::Email::SMTP);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 use File::Basename;
-use base qw(Kernel::System::Console::BaseCommand);
+use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::System::Main',

@@ -13,7 +13,7 @@ use warnings;
 
 use IO::Interactive qw(is_interactive);
 
-use base qw(scripts::DBUpdateTo6::Base);
+use parent qw(scripts::DBUpdateTo6::Base);
 
 our @ObjectDependencies = (
     'Kernel::Config',

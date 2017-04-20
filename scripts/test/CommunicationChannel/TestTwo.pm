@@ -8,7 +8,7 @@
 
 package scripts::test::CommunicationChannel::TestTwo;    ## no critic
 
-use base 'Kernel::System::CommunicationChannel::Base';
+use parent 'Kernel::System::CommunicationChannel::Base';
 
 use strict;
 use warnings;

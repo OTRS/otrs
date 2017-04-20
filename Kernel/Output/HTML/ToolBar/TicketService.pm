@@ -9,7 +9,7 @@
 package Kernel::Output::HTML::ToolBar::TicketService;
 
 use Kernel::Language qw(Translatable);
-use base 'Kernel::Output::HTML::Base';
+use parent 'Kernel::Output::HTML::Base';
 
 use strict;
 use warnings;

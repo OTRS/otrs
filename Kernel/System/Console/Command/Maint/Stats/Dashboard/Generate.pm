@@ -11,7 +11,7 @@ package Kernel::System::Console::Command::Maint::Stats::Dashboard::Generate;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::Console::BaseCommand);
+use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',

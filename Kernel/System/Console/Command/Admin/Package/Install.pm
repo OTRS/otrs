@@ -11,7 +11,7 @@ package Kernel::System::Console::Command::Admin::Package::Install;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::Admin::Package::List);
+use parent qw(Kernel::System::Console::BaseCommand Kernel::System::Console::Command::Admin::Package::List);
 
 our @ObjectDependencies = (
     'Kernel::System::Package',

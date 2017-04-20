@@ -13,7 +13,7 @@ use warnings;
 
 use Net::POP3;
 
-use base qw(Kernel::System::MailAccount::POP3);
+use parent qw(Kernel::System::MailAccount::POP3);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',

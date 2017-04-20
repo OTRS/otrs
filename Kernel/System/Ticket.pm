@@ -15,7 +15,7 @@ use File::Path;
 use utf8;
 use Encode ();
 
-use base qw(
+use parent qw(
     Kernel::System::EventHandler
     Kernel::System::Ticket::TicketSearch
     Kernel::System::Ticket::TicketACL

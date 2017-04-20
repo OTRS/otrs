@@ -11,7 +11,7 @@ package Kernel::System::Queue;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::EventHandler);
+use parent qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
     'Kernel::Config',

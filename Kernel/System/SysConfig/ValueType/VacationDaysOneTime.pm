@@ -14,7 +14,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
-use base qw(Kernel::System::SysConfig::BaseValueType);
+use parent qw(Kernel::System::SysConfig::BaseValueType);
 
 our @ObjectDependencies = (
     'Kernel::Language',

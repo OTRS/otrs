@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
-use base qw(Kernel::System::Ticket::Event::NotificationEvent::Transport::Base);
+use parent qw(Kernel::System::Ticket::Event::NotificationEvent::Transport::Base);
 
 our @ObjectDependencies = (
     'Kernel::Config',

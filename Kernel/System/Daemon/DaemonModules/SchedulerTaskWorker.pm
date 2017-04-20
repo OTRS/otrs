@@ -15,7 +15,7 @@ use utf8;
 use File::Path qw();
 use Time::HiRes qw(sleep);
 
-use base qw(Kernel::System::Daemon::BaseDaemon);
+use parent qw(Kernel::System::Daemon::BaseDaemon);
 
 our @ObjectDependencies = (
     'Kernel::Config',

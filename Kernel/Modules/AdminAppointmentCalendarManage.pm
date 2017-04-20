@@ -14,7 +14,7 @@ use warnings;
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
-use base qw(Kernel::System::AsynchronousExecutor);
+use parent qw(Kernel::System::AsynchronousExecutor);
 
 our $ObjectManagerDisabled = 1;
 

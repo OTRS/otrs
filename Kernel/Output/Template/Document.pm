@@ -12,7 +12,7 @@ package Kernel::Output::Template::Document;
 use strict;
 use warnings;
 
-use base qw (Template::Document);
+use parent qw (Template::Document);
 
 our $ObjectManagerDisabled = 1;
 

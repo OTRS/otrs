@@ -11,7 +11,7 @@ package Kernel::System::CommunicationChannel::Internal;
 use strict;
 use warnings;
 
-use base 'Kernel::System::CommunicationChannel::Base';
+use parent 'Kernel::System::CommunicationChannel::Base';
 
 our @ObjectDependencies = (
     'Kernel::System::Ticket::Article::Backend::Internal',

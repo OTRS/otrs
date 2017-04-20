@@ -11,6 +11,6 @@ package Kernel::Modules::AgentTicketPhoneInbound;
 use strict;
 use warnings;
 
-use base qw( Kernel::Modules::AgentTicketPhoneCommon );
+use parent qw( Kernel::Modules::AgentTicketPhoneCommon );
 
 1;

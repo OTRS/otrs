@@ -11,7 +11,7 @@ package Kernel::System::Console::Command::Dev::Tools::Database::XML2SQL;
 use strict;
 use warnings;
 
-use base qw(Kernel::System::Console::BaseCommand);
+use parent qw(Kernel::System::Console::BaseCommand);
 
 ## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectManagerCreation)
 
