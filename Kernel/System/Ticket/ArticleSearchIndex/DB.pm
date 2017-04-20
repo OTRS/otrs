@@ -144,10 +144,11 @@ sub _ArticleIndexQuerySQL {
         return;
     }
 
-    # use also article table if required
+    my @BackendSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendSearchableFieldsList();
+
     for (
+        @BackendSearchableFields,
         qw(
-        From To Cc Subject Body
         ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
         ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate
         )
