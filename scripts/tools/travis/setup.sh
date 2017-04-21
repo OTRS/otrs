@@ -2,7 +2,7 @@
 
 
 if [ $DB = 'mysql' ]; then
-    cp -i $TRAVIS_BUILD_DIR/scripts/tools/travis/Config.pm.travis.mysql $TRAVIS_BUILD_DIR/Kernel/Config.pm
+    cp -i $TRAVIS_BUILD_DIR/scripts/tools/travis/Config.mysql.pm $TRAVIS_BUILD_DIR/Kernel/Config.pm
 
     mysql -uroot -e "CREATE DATABASE otrs";
     mysql -uroot -e "GRANT ALL PRIVILEGES ON otrs.* TO 'otrs'@'localhost' IDENTIFIED BY 'otrs'";
@@ -13,7 +13,7 @@ if [ $DB = 'mysql' ]; then
 fi
 
 if [ $DB = 'postgresql' ]; then
-    cp -i $TRAVIS_BUILD_DIR/scripts/tools/travis/Config.pm.travis.postgresql $TRAVIS_BUILD_DIR/Kernel/Config.pm
+    cp -i $TRAVIS_BUILD_DIR/scripts/tools/travis/Config.postgresql.pm $TRAVIS_BUILD_DIR/Kernel/Config.pm
 
     psql -U postgres -c "CREATE ROLE otrs LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE"
     psql -U postgres -c "CREATE DATABASE otrs OWNER otrs ENCODING 'UTF8'"
