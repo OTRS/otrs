@@ -728,7 +728,7 @@ sub _ArticleIndexQuerySQLExt {
     return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->_ArticleIndexQuerySQLExt(%Param);
 }
 
-sub BackendSearchableFieldsList {
+sub SearchableFieldsList {
     my ( $Self, %Param ) = @_;
 
     my @CommunicationChannels = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList(
@@ -737,38 +737,18 @@ sub BackendSearchableFieldsList {
 
     my %SearchableFields;
 
-    CHANNEL:
     for my $Channel (@CommunicationChannels) {
-
-        next CHANNEL if !$Channel;
-        next CHANNEL if !IsHashRefWithData($Channel);
-        next CHANNEL if !$Channel->{ChannelName};
 
         my $CurrentArticleBackendObject = $Self->BackendForChannel(
             ChannelName => $Channel->{ChannelName},
         );
 
-        next CHANNEL if !$CurrentArticleBackendObject;
+        my %BackendSearchableFields = $CurrentArticleBackendObject->BackendSearchableFieldsGet();
 
-        my @BackendSearchableFields = $CurrentArticleBackendObject->BackendSearchableFieldsGet();
-
-        next CHANNEL if !IsArrayRefWithData( \@BackendSearchableFields );
-
-        SEARCHABLEFIELD:
-        for my $SearchableField (@BackendSearchableFields) {
-
-            next SEARCHABLEFIELD if !$SearchableField;
-            next SEARCHABLEFIELD if !IsHashRefWithData($SearchableField);
-            next SEARCHABLEFIELD if !IsStringWithData( $SearchableField->{Name} );
-            next SEARCHABLEFIELD if $SearchableFields{ $SearchableField->{Name} };
-
-            $SearchableFields{ $SearchableField->{Name} } = 1;
-        }
+        %SearchableFields = ( %SearchableFields, %BackendSearchableFields );
     }
 
-    my @SearchableFieldNames = sort keys %SearchableFields;
-
-    return @SearchableFieldNames;
+    return %SearchableFields;
 }
 
 =head1 PRIVATE FUNCTIONS

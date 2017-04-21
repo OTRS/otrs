@@ -1434,74 +1434,84 @@ sub ArticleAttachmentIndex {
 
 =head2 BackendSearchableFieldsGet()
 
-Get article attachment index as hash.
+Get the definition of the searchable fields as a hash.
 
-    my %Index = $BackendObject->BackendSearchableFieldsGet();
+    my %SearchableFields = $BackendObject->BackendSearchableFieldsGet();
 
 Returns:
 
-    my %BackendSearchableFieldsGet = [
-        {
-            Name       => 'From',
+    my %SearchableFields = (
+        'MIMEBase::From' => {
+            Label      => 'From',
+            Key        => 'MIMEBase::From',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'To',
+        'MIMEBase::To' => {
+            Label      => 'To',
+            Key        => 'MIMEBase::To',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'Cc',
+        'MIMEBase::Cc' => {
+            Label      => 'Cc',
+            Key        => 'MIMEBase::Cc',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'Subject',
+        'MIMEBase::Subject' => {
+            Label      => 'Subject',
+            Key        => 'MIMEBase::Subject',
             Type       => 'Text',
             Filterable => 1,
         },
-        {
-            Name       => 'Body',
+        'MIMEBase::Body' => {
+            Label      => 'Body',
+            Key        => 'MIMEBase::Body',
             Type       => 'Text',
             Filterable => 1,
         },
-    ];
+    );
 
 =cut
 
 sub BackendSearchableFieldsGet {
     my ( $Self, %Param ) = @_;
 
-    my @SearchableFields = (
-        {
-            Name       => 'From',
+    my %SearchableFields = (
+        'MIMEBase::From' => {
+            Label      => 'From',
+            Key        => 'MIMEBase::From',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'To',
+        'MIMEBase::To' => {
+            Label      => 'To',
+            Key        => 'MIMEBase::To',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'Cc',
+        'MIMEBase::Cc' => {
+            Label      => 'Cc',
+            Key        => 'MIMEBase::Cc',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'Subject',
+        'MIMEBase::Subject' => {
+            Label      => 'Subject',
+            Key        => 'MIMEBase::Subject',
             Type       => 'Text',
             Filterable => 1,
         },
-        {
-            Name       => 'Body',
+        'MIMEBase::Body' => {
+            Label      => 'Body',
+            Key        => 'MIMEBase::Body',
             Type       => 'Text',
             Filterable => 1,
         },
     );
 
-    return @SearchableFields;
+    return %SearchableFields;
 }
 
 =head2 ArticleSearchableContentGet()
@@ -1566,6 +1576,14 @@ sub ArticleSearchableContentGet {
         }
     }
 
+    my %DataKeyMap = (
+        'MIMEBase::From'    => 'From',
+        'MIMEBase::To'      => 'To',
+        'MIMEBase::Cc'      => 'Cc',
+        'MIMEBase::Subject' => 'Subject',
+        'MIMEBase::Body'    => 'Body',
+    );
+
     my %ArticleData = $Self->ArticleGet(
         TicketID      => $Param{TicketID},
         ArticleID     => $Param{ArticleID},
@@ -1573,28 +1591,20 @@ sub ArticleSearchableContentGet {
         DynamicFields => 0,
     );
 
-    my @BackendSearchableFields = $Self->BackendSearchableFieldsGet();
-    my $SearchIndexAttributes   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
+    my %BackendSearchableFields = $Self->BackendSearchableFieldsGet();
 
     my %ArticleSearchData;
 
-    FIELD:
-    for my $Field (@BackendSearchableFields) {
-
-        next FIELD if !$Field;
-        next FIELD if !IsHashRefWithData($Field);
-        next FIELD if !IsStringWithData( $Field->{Name} );
-        next FIELD if !IsStringWithData( $Field->{Type} );
-        next FIELD if !IsStringWithData( $ArticleData{ $Field->{Name} } );
+    for my $FieldKey ( sort keys %BackendSearchableFields ) {
 
         my %FieldData = (
-            String     => $ArticleData{ $Field->{Name} },
-            Key        => $Field->{Name},
-            Type       => $Field->{Type} // 'Text',
-            Filterable => $Field->{Filterable} // 0,
+            String     => $ArticleData{ $DataKeyMap{$FieldKey} },
+            Key        => $BackendSearchableFields{$FieldKey}->{Key},
+            Type       => $BackendSearchableFields{$FieldKey}->{Type} // 'Text',
+            Filterable => $BackendSearchableFields{$FieldKey}->{Filterable} // 0,
         );
 
-        $ArticleSearchData{ $Field->{Name} } = \%FieldData;
+        $ArticleSearchData{$FieldKey} = \%FieldData;
     }
 
     return %ArticleSearchData;

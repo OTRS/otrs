@@ -585,54 +585,48 @@ sub ArticleDelete {    ## no critic;
 
 =head2 BackendSearchableFieldsGet()
 
-Get article attachment index as hash.
+Get the definition of the searchable fields as a hash.
 
-    my %Index = $BackendObject->BackendSearchableFieldsGet();
+    my %SearchableFields = $BackendObject->BackendSearchableFieldsGet();
 
 Returns:
 
-    my %BackendSearchableFieldsGet = [
-        {
-            Name       => 'ChatterName',
+    my %SearchableFields = (
+        'Chat::ChatterName' => {
+            Label      => 'Chat Participant',
+            Key        => 'Chat::ChatterName',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'ChatterType',
-            Type       => 'Text',
-            Filterable => 0,
-        },
-        {
-            Name       => 'MessageText',
+        'Chat::MessageText' => {
+            Label      => 'Message Text',
+            Key        => 'Chat::MessageText',
             Type       => 'Text',
             Filterable => 1,
         },
-    ];
+    );
 
 =cut
 
 sub BackendSearchableFieldsGet {
     my ( $Self, %Param ) = @_;
 
-    my @SearchableFields = (
-        {
-            Name       => 'ChatterName',
+    my %SearchableFields = (
+        'Chat::ChatterName' => {
+            Label      => 'Chat Participant',
+            Key        => 'Chat::ChatterName',
             Type       => 'Text',
             Filterable => 0,
         },
-        {
-            Name       => 'ChatterType',
-            Type       => 'Text',
-            Filterable => 0,
-        },
-        {
-            Name       => 'MessageText',
+        'Chat::MessageText' => {
+            Label      => 'Message Text',
+            Key        => 'Chat::MessageText',
             Type       => 'Text',
             Filterable => 1,
         },
     );
 
-    return @SearchableFields;
+    return %SearchableFields;
 }
 
 =head2 ArticleSearchableContentGet()
@@ -685,6 +679,11 @@ sub ArticleSearchableContentGet {
         }
     }
 
+    my %DataKeyMap = (
+        'Chat::ChatterName' => 'ChatterName',
+        'Chat::MessageText' => 'MessageText',
+    );
+
     my %ArticleData = $Self->ArticleGet(
         TicketID      => $Param{TicketID},
         ArticleID     => $Param{ArticleID},
@@ -693,56 +692,25 @@ sub ArticleSearchableContentGet {
     );
 
     my @BackendSearchableFields = $Self->BackendSearchableFieldsGet();
-    my $SearchIndexAttributes   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
 
     my %ArticleSearchData;
 
-    my %ChatMessageListData = (
-        ChatterName => {},
-        ChatterType => {},
-        MessageText => '',
-    );
-
-    FIELD:
     for my $Field (@BackendSearchableFields) {
 
-        next FIELD if !$Field;
-        next FIELD if !IsHashRefWithData($Field);
-        next FIELD if !IsStringWithData( $Field->{Name} );
-        next FIELD if !IsStringWithData( $Field->{Type} );
-        next FIELD if !IsStringWithData( $ArticleData{ $Field->{Name} } );
+        my $FieldString = '';
 
-        CHATMESSAGELIST:
         for my $ChatMessageList ( @{ $ArticleData{ChatMessageList} } ) {
-
-            next CHATMESSAGELIST if !$ChatMessageList;
-            next CHATMESSAGELIST if !IsHashRefWithData($ChatMessageList);
-
-            if ( $Field eq 'ChatterName' || $Field eq 'ChatterType' ) {
-                $ChatMessageListData{$Field}->{ $ArticleData{ChatMessageList}->{$Field} } = 1;
-            }
-            elsif ( $Field eq 'MessageText' ) {
-                $ChatMessageListData{$Field} .= ' ' . $ArticleData{ChatMessageList}->{$Field};
-            }
-        }
-
-        my $String = '';
-
-        if ( $Field eq 'ChatterName' || $Field eq 'ChatterType' ) {
-            $String = join ' ', keys %{ $ChatMessageListData{$Field} };
-        }
-        else {
-            $String = $ChatMessageListData{$Field};
+            $FieldString .= ' ' . $ChatMessageList->{ $DataKeyMap{ $Field->{Key} } };
         }
 
         my %Field = (
-            String     => $String,
-            Key        => $Field->{Name},
+            String     => $FieldString,
+            Key        => $Field->{Key},
             Type       => $Field->{Type} // 'Text',
             Filterable => $Field->{Filterable} // 0,
         );
 
-        $ArticleSearchData{ $Field->{Name} } = \%Field;
+        $ArticleSearchData{ $Field->{Key} } = \%Field;
     }
 
     return %ArticleSearchData;

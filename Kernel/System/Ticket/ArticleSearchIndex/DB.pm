@@ -61,15 +61,11 @@ sub ArticleIndexBuild {
         Bind => [ \$Param{ArticleID}, ],
     );
 
-    FIELD:
-    for my $Field ( sort keys %ArticleSearchableContent ) {
+    for my $FieldKey ( sort keys %ArticleSearchableContent ) {
 
-        next FIELD if !$Field;
-        next FIELD if !IsHashRefWithData( $ArticleSearchableContent{$Field} );
-
-        if ( $ArticleSearchableContent{$Field}->{Filterable} ) {
-            $ArticleSearchableContent{$Field}->{String} = $Self->_ArticleIndexString(
-                %{ $ArticleSearchableContent{$Field} }
+        if ( $ArticleSearchableContent{$FieldKey}->{Filterable} ) {
+            $ArticleSearchableContent{$FieldKey}->{String} = $Self->_ArticleIndexString(
+                %{ $ArticleSearchableContent{$FieldKey} }
             );
         }
 
@@ -78,8 +74,8 @@ sub ArticleIndexBuild {
                 INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value)
                 VALUES (?, ?, ?, ?)',
             Bind => [
-                \$Param{TicketID}, \$Param{ArticleID}, \$ArticleSearchableContent{$Field}->{Key},
-                \$ArticleSearchableContent{$Field}->{String},
+                \$Param{TicketID}, \$Param{ArticleID}, \$ArticleSearchableContent{$FieldKey}->{Key},
+                \$ArticleSearchableContent{$FieldKey}->{String},
             ],
         );
     }
@@ -144,17 +140,17 @@ sub _ArticleIndexQuerySQL {
         return;
     }
 
-    my @BackendSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendSearchableFieldsList();
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
 
     for (
-        @BackendSearchableFields,
+        sort keys %SearchableFields,
         qw(
         ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
         ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate
         )
         )
     {
-        if ( IsStringWithData( $Param{Data}->{$_} ) ) {
+        if ( $Param{Data}->{$_} ) {
             return ' INNER JOIN article_search_index art ON st.id = art.ticket_id ';
         }
     }
@@ -182,7 +178,8 @@ sub _ArticleIndexQuerySQLExt {
     my @Fields = ('Fulltext');
 
     if ( !IsStringWithData( $Param{Data}->{Fulltext} ) ) {
-        @Fields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendSearchableFieldsList();
+        my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+        @Fields = keys %SearchableFields;
     }
 
     FIELD:
