@@ -12,22 +12,19 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
-
-        # get needed objects
         my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 
-        # for test stability check if package is already installed
+        # For test stability check if package is already installed.
         my $PackageCheck = $PackageObject->PackageIsInstalled(
             Name => 'Test',
         );
 
-        # if package is installed, remove it so we can install it again in the test
+        # If package is installed, remove it so we can install it again in the test.
         if ($PackageCheck) {
             my $FileString = '<?xml version="1.0" encoding="utf-8" ?>
                 <otrs_package version="1.0">
@@ -76,14 +73,14 @@ $Selenium->RunTest(
             my $PackageUninstall = $PackageObject->PackageUninstall( String => $FileString );
             $Self->True(
                 $PackageUninstall,
-                'Test package is uninstalled',
+                'Test package is uninstalled'
             );
         }
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
-        ) || die "Did not get test user";
+        ) || die 'Did not get test user';
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -91,24 +88,24 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get config object
+        # Get config object.
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # get script alias
+        # Get script alias.
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # navigate to AdminPackageManager screen
+        # Navigate to AdminPackageManager screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager");
 
-        # check overview AdminPackageManager
-        my $Element = $Selenium->find_element( "#FileUpload", 'css' );
+        # Check overview AdminPackageManager.
+        my $Element = $Selenium->find_element( '#FileUpload', 'css' );
         $Element->is_enabled();
         $Element->is_displayed();
 
-        # install test package
+        # Install test package.
         my $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/PackageManager/TestPackage.opm";
 
-        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+        $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 
         $Selenium->find_element("//button[\@value='Install'][\@type='submit']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->VerifiedClick();
@@ -117,10 +114,10 @@ $Selenium->RunTest(
             $Selenium->find_element(
                 "//a[contains(\@href, \'Subaction=View;Name=Test' )]"
                 )->is_displayed(),
-            'Test package is installed',
+            'Test package is installed'
         );
 
-        # load page with metadata of installed package
+        # Load page with metadata of installed package.
         $Selenium->find_element(
             "//a[contains(\@href, \'Subaction=View;Name=Test' )]"
         )->VerifiedClick();
@@ -129,28 +126,46 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=RebuildPackage' )]");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Reinstall' )]");
 
-        # go back to overview
+        # Go back to overview.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminPackageManager' )]")->VerifiedClick();
 
-        # uninstall package
+        # Uninstall package.
         $Selenium->find_element(
             "//a[contains(\@href, \'Subaction=Uninstall;Name=Test' )]"
         )->VerifiedClick();
 
         $Selenium->find_element("//button[\@value='Uninstall package'][\@type='submit']")->VerifiedClick();
 
-        # check if test package is uninstalled
+        # Check if test package is uninstalled.
         $Self->True(
             index( $Selenium->get_page_source(), 'Subaction=View;Name=Test' ) == -1,
-            "Test package is uninstalled",
+            'Test package is uninstalled'
         );
 
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AdminPackageManager;Subaction=View;Name=NonexistingPackage;Version=0.0.1"
         );
 
-        $Selenium->find_element( "div.ErrorScreen", 'css' );
+        $Selenium->find_element( 'div.ErrorScreen', 'css' );
 
+        # Navigate to AdminPackageManager screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager");
+
+        # Try to install incompatible test package.
+        $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/PackageManager/TestPackageIncompatible.opm";
+
+        $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
+
+        $Selenium->find_element("//button[\@value='Install'][\@type='submit']")->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Continue'][\@type='submit']")->VerifiedClick();
+
+        # Check if info for incompatible package is shown.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.WidgetSimple .Content h2:contains(\"Package installation requires patch level update of OTRS\")').length;"
+            ),
+            'Info for incompatible package is shown'
+        );
     }
 );
 
