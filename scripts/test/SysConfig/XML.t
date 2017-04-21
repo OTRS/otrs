@@ -9,7 +9,6 @@
 ## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
-use utf8;
 
 # prevent used once warning
 use Kernel::System::ObjectManager;
@@ -23,339 +22,34 @@ $Self->True(
 );
 
 #
-# SettingParse tests
+# SettingListParse tests
 #
 my @Tests = (
     {
         Description    => 'No Config',
         Config         => {},
-        ExpectedResult => undef,
-    },
-    {
-        Description => 'Wrong XMLInput format',
-        Config      => {
-            SettingXML => { Test => 'Test' }
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Description => 'Empty XMLInput',
-        Config      => {
-            SettingXML => '',
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Description => 'Non XML XMLInput',
-        Config      => {
-            SettingXML => 'Test',
-        },
-        ExpectedResult => undef,
-    },
-
-    {
-        Description => 'Valid Setting XML',
-        Config      => {
-            SettingXML => '
-                <Setting Name="Test" Required="1" Valid="1">
-                    <Description Translatable="1">Test.</Description>
-                    <Navigation>Core::Ticket</Navigation>
-                    <Value>
-                        <Item ValueType="String" ValueRegex=".*">123</Item>
-                    </Value>
-                </Setting>
-            ',
-        },
-        ExpectedResult => {
-            Description => [
-                {
-                    Content      => 'Test.',
-                    Translatable => '1',
-                },
-            ],
-            Name     => 'Test',
-            Required => '1',
-            Value    => [
-                {
-                    Item => [
-                        {
-                            ValueRegex => '.*',
-                            ValueType  => 'String',
-                            Content    => '123',
-                        },
-                    ],
-                },
-            ],
-            Navigation => [
-                {
-                    Content => 'Core::Ticket',
-                },
-            ],
-            Valid => '1',
-        },
-    },
-    {
-        Description => 'Valid Setting XML UTF8',
-        Config      => {
-            SettingXML => '
-                <Setting Name="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" Required="1" Valid="1">
-                    <Description Translatable="1">Test.</Description>
-                    <Navigation>Core::Ticket</Navigation>
-                    <Value>
-                        <Item ValueType="String" ValueRegex=".*">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</Item>
-                    </Value>
-                </Setting>
-            ',
-        },
-        ExpectedResult => {
-            Description => [
-                {
-                    Content      => 'Test.',
-                    Translatable => '1',
-                },
-            ],
-            Name     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
-            Required => '1',
-            Value    => [
-                {
-                    Item => [
-                        {
-                            ValueRegex => '.*',
-                            ValueType  => 'String',
-                            Content    => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
-                        },
-                    ],
-                },
-            ],
-            Navigation => [
-                {
-                    Content => 'Core::Ticket',
-                },
-            ],
-            Valid => '1',
-        },
-    },
-    {
-        Description => 'Valid Setting XML 0',
-        Config      => {
-            SettingXML => '
-                <Setting Name="0" Required="1" Valid="1">
-                    <Description Translatable="1">Test.</Description>
-                    <Navigation>Core::Ticket</Navigation>
-                    <Value>
-                        <Item ValueType="String" ValueRegex=".*">0</Item>
-                    </Value>
-                </Setting>
-            ',
-        },
-        ExpectedResult => {
-            Description => [
-                {
-                    Content      => 'Test.',
-                    Translatable => '1',
-                },
-            ],
-            Name     => '0',
-            Required => '1',
-            Value    => [
-                {
-                    Item => [
-                        {
-                            ValueRegex => '.*',
-                            ValueType  => 'String',
-                            Content    => '0',
-                        },
-                    ],
-                },
-            ],
-            Navigation => [
-                {
-                    Content => 'Core::Ticket',
-                },
-            ],
-            Valid => '1',
-        },
-    },
-
-    {
-        Description => 'Valid Setting XML CustomerCompany::EventModulePost###100-UpdateDynamicFieldObjectName',
-        Config      => {
-            SettingXML => '
-                <Setting Name="CustomerCompany::EventModulePost###100-UpdateDynamicFieldObjectName" Required="0" Valid="1">
-                    <Description Translatable="1">Event module that updates customer company object name for dynamic fields.</Description>
-                    <Navigation>Core::CustomerCompany</Navigation>
-                    <Value>
-                        <Hash>
-                            <Item Key="Module">Kernel::System::CustomerCompany::Event::DynamicFieldObjectNameUpdate</Item>
-                            <Item Key="Event">CustomerCompanyUpdate</Item>
-                            <Item Key="Transaction">0</Item>
-                        </Hash>
-                    </Value>
-                </Setting>',
-        },
-        ExpectedResult => {
-            Description => [
-                {
-                    Content      => 'Event module that updates customer company object name for dynamic fields.',
-                    Translatable => '1',
-                },
-            ],
-            Name     => 'CustomerCompany::EventModulePost###100-UpdateDynamicFieldObjectName',
-            Required => '0',
-            Value    => [
-                {
-                    Hash => [
-                        {
-                            Item => [
-                                {
-                                    Key     => 'Module',
-                                    Content => 'Kernel::System::CustomerCompany::Event::DynamicFieldObjectNameUpdate',
-                                },
-                                {
-                                    Key     => 'Event',
-                                    Content => 'CustomerCompanyUpdate',
-                                },
-                                {
-                                    Key     => 'Transaction',
-                                    Content => '0',
-                                },
-                            ],
-                        }
-                    ],
-                },
-            ],
-            Navigation => [
-                {
-                    Content => 'Core::CustomerCompany',
-                },
-            ],
-            Valid => '1',
-        },
-    },
-
-    {
-        Description => 'Invalid Setting XML: Two Setting elements',
-        Config      => {
-            SettingXML => '
-                <Setting Name="Test" Required="1" Valid="1">
-                    <Description Translatable="1">Test.</Description>
-                    <Navigation>Core::Ticket</Navigation>
-                    <Value>
-                        <Item ValueType="String" ValueRegex=".*">123</Item>
-                    </Value>
-                </Setting>
-                <Setting Name="Test2" Required="1" Valid="1">
-                    <Description Translatable="1">Test 2.</Description>
-                    <Navigation>Core::Ticket</Navigation>
-                    <Value>
-                        <Item ValueType="String" ValueRegex=".*">123</Item>
-                    </Value>
-                </Setting>
-            ',
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Description => 'Invalid Setting XML: Surrounding element',
-        Config      => {
-            SettingXML => '
-                <otrs_config>
-                    <Setting Name="Test" Required="1" Valid="1">
-                        <Description Translatable="1">Test.</Description>
-                        <Navigation>Core::Ticket</Navigation>
-                        <Value>
-                            <Item ValueType="String" ValueRegex=".*">123</Item>
-                        </Value>
-                    </Setting>
-                </otrs_config>
-            ',
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Description => 'Invalid XML',
-        Config      => {
-            SettingXML => 'This is no XML',
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Description => 'Invalid Setting XML: Misspelled Setting element',
-        Config      => {
-            SettingXML => '
-                <NoSetting Name="Test" Required="1" Valid="1">
-                    <Description Translatable="1">Test.</Description>
-                    <Navigation>Core::Ticket</Navigation>
-                    <Value>
-                        <Item ValueType="String" ValueRegex=".*">123</Item>
-                    </Value>
-                </NoSetting>
-            ',
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Description => 'Invalid Setting XML: No surrounding Setting element',
-        Config      => {
-            SettingXML => '
-                <Description Translatable="1">Test.</Description>
-                <Navigation>Core::Ticket</Navigation>
-                <Value>
-                    <Item ValueType="String" ValueRegex=".*">123</Item>
-                </Value>
-            ',
-        },
-        ExpectedResult => undef,
-    },
-);
-
-for my $Test (@Tests) {
-    my $Result = $SysConfigXMLObject->SettingParse( %{ $Test->{Config} } );
-    if ( defined $Result && ref $Result ) {
-        $Self->IsDeeply(
-            $Result,
-            $Test->{ExpectedResult},
-            $Test->{Description} . ': SettingParse(): Resulting Perl structure must match expected one.',
-        );
-    }
-    else {
-        $Self->Is(
-            $Result,
-            $Test->{ExpectedResult},
-            $Test->{Description} . ': SettingParse(): Result must match expected one.',
-        );
-    }
-}
-
-#
-# SettingListGet tests
-#
-@Tests = (
-    {
-        Description    => 'No Config',
-        Config         => {},
-        ExpectedResult => undef,
+        ExpectedResult => [],
     },
     {
         Description => 'Wrong XMLInput format',
         Config      => {
             XMLInput => { Test => 'Test' }
         },
-        ExpectedResult => undef,
+        ExpectedResult => [],
     },
     {
         Description => 'Empty XMLInput',
         Config      => {
             XMLInput => '',
         },
-        ExpectedResult => undef,
+        ExpectedResult => [],
     },
     {
         Description => 'Non XML XMLInput',
         Config      => {
             XMLInput => 'Test',
         },
-        ExpectedResult => undef,
+        ExpectedResult => [],
     },
     {
         Description => 'Valid XML',
@@ -379,22 +73,81 @@ for my $Test (@Tests) {
 </otrs_config>
             ',
         },
-        ExpectedResult => {
-            'Test1' => '<Setting Name="Test1" Required="1" Valid="1">
+        ExpectedResult => [
+            {
+                'XMLContentParsed' => {
+                    'Valid'      => '1',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                    ],
+                    'Description' => [
+                        {
+                            'Content'      => 'Test 1.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Name'     => 'Test1',
+                    'Required' => '1',
+                    'Value'    => [
+                        {
+                            'Item' => [
+                                {
+                                    'ValueRegex' => '.*',
+                                    'Content'    => '123',
+                                    'ValueType'  => 'String'
+                                }
+                                ]
+                        }
+                        ]
+                },
+                'XMLContentRaw' => '<Setting Name="Test1" Required="1" Valid="1">
         <Description Translatable="1">Test 1.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=".*">123</Item>
         </Value>
     </Setting>',
-            'Test2' => '<Setting Name="Test2" Required="1" Valid="1">
+                'XMLFilename' => undef
+            },
+            {
+                'XMLFilename'      => undef,
+                'XMLContentParsed' => {
+                    'Description' => [
+                        {
+                            'Content'      => 'Test 2.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Name'       => 'Test2',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                    ],
+                    'Required' => '1',
+                    'Value'    => [
+                        {
+                            'Item' => [
+                                {
+                                    'ValueType' => 'File',
+                                    'Content'   => '/usr/bin/gpg'
+                                }
+                                ]
+                        }
+                    ],
+                    'Valid' => '1'
+                },
+                'XMLContentRaw' => '<Setting Name="Test2" Required="1" Valid="1">
         <Description Translatable="1">Test 2.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="File">/usr/bin/gpg</Item>
         </Value>
-    </Setting>',
-        },
+    </Setting>'
+            }
+        ],
     },
     {
         Description => 'Valid XML UTF8',
@@ -418,23 +171,84 @@ for my $Test (@Tests) {
 </otrs_config>
             ',
         },
-        ExpectedResult => {
-            'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß' =>
-                '<Setting Name="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" Required="1" Valid="1">
+        ExpectedResult => [
+            {
+                'XMLContentRaw' =>
+                    '<Setting Name="äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß" Required="1" Valid="1">
         <Description Translatable="1">Test 1.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=".*">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</Item>
         </Value>
     </Setting>',
-            'Test2' => '<Setting Name="Test2" Required="1" Valid="1">
+                'XMLFilename'      => undef,
+                'XMLContentParsed' => {
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                    ],
+                    'Description' => [
+                        {
+                            'Translatable' => '1',
+                            'Content'      => 'Test 1.'
+                        }
+                    ],
+                    'Required' => '1',
+                    'Value'    => [
+                        {
+                            'Item' => [
+                                {
+                                    'Content' =>
+                                        "\x{e4}\x{eb}\x{ef}\x{f6}\x{fc}\x{c4}\x{cb}\x{cf}\x{d6}\x{dc}\x{e1}\x{e9}\x{ed}\x{f3}\x{fa}\x{c1}\x{c9}\x{cd}\x{d3}\x{da}\x{f1}\x{d1}\x{20ac}\x{438}\x{441}\x{df}",
+                                    'ValueRegex' => '.*',
+                                    'ValueType'  => 'String'
+                                }
+                                ]
+                        }
+                    ],
+                    'Name' =>
+                        "\x{e4}\x{eb}\x{ef}\x{f6}\x{fc}\x{c4}\x{cb}\x{cf}\x{d6}\x{dc}\x{e1}\x{e9}\x{ed}\x{f3}\x{fa}\x{c1}\x{c9}\x{cd}\x{d3}\x{da}\x{f1}\x{d1}\x{20ac}\x{438}\x{441}\x{df}",
+                    'Valid' => '1'
+                    }
+            },
+            {
+                'XMLFilename'   => undef,
+                'XMLContentRaw' => '<Setting Name="Test2" Required="1" Valid="1">
         <Description Translatable="1">Test 2.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="File">/usr/bin/gpg</Item>
         </Value>
     </Setting>',
-        },
+                'XMLContentParsed' => {
+                    'Value' => [
+                        {
+                            'Item' => [
+                                {
+                                    'ValueType' => 'File',
+                                    'Content'   => '/usr/bin/gpg'
+                                }
+                                ]
+                        }
+                    ],
+                    'Valid'       => '1',
+                    'Name'        => 'Test2',
+                    'Description' => [
+                        {
+                            'Content'      => 'Test 2.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                    ],
+                    'Required' => '1'
+                    }
+            }
+        ],
     },
     {
         Description => 'Invalid XML',
@@ -458,7 +272,81 @@ for my $Test (@Tests) {
 </otrs_config>
             ',
         },
-        ExpectedResult => undef,
+        ExpectedResult => [
+            {
+                'XMLFilename'      => undef,
+                'XMLContentParsed' => {
+                    'Name'        => 'Test1',
+                    'Required'    => '1',
+                    'Description' => [
+                        {
+                            'Translatable' => '1',
+                            'Content'      => 'Test 1.'
+                        }
+                    ],
+                    'Valid' => '1',
+                    'Value' => [
+                        {
+                            'Item' => [
+                                {
+                                    'Content'    => '123',
+                                    'ValueType'  => 'String',
+                                    'ValueRegex' => '.*'
+                                }
+                                ]
+                        }
+                    ],
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                        ]
+                },
+                'XMLContentRaw' => '<Setting Name="Test1" Required="1" Valid="1">
+        <Description Translatable="1">Test 1.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex=".*">123</Item>
+        </Value>
+    </Setting>'
+            },
+            {
+                'XMLContentParsed' => {
+                    'Description' => [
+                        {
+                            'Content'      => 'Test 2.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Name'       => 'Test2',
+                    'Required'   => '1',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                    ],
+                    'Value' => [
+                        {
+                            'Item' => [
+                                {
+                                    'ValueType' => 'File',
+                                    'Content'   => '/usr/bin/gpg'
+                                }
+                                ]
+                        }
+                    ],
+                    'Valid' => '1'
+                },
+                'XMLContentRaw' => '<Setting Name="Test2" Required="1" Valid="1">
+        <Description Translatable="1">Test 2.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="File">/usr/bin/gpg</Item>
+        </Value>
+    </Setting>',
+                'XMLFilename' => undef
+            }
+        ],
     },
     {
         Description => 'Missing surrounding otrs_config element',
@@ -480,7 +368,81 @@ for my $Test (@Tests) {
 </Setting>
             ',
         },
-        ExpectedResult => undef,
+        ExpectedResult => [
+            {
+                'XMLContentRaw' => '<Setting Name="Test1" Required="1" Valid="1">
+    <Description Translatable="1">Test 1.</Description>
+    <Navigation>Core::Ticket</Navigation>
+    <Value>
+        <Item ValueType="String" ValueRegex=".*">123</Item>
+    </Value>
+</Setting>',
+                'XMLFilename'      => undef,
+                'XMLContentParsed' => {
+                    'Value' => [
+                        {
+                            'Item' => [
+                                {
+                                    'ValueRegex' => '.*',
+                                    'ValueType'  => 'String',
+                                    'Content'    => '123'
+                                }
+                                ]
+                        }
+                    ],
+                    'Required'    => '1',
+                    'Description' => [
+                        {
+                            'Content'      => 'Test 1.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Valid'      => '1',
+                    'Name'       => 'Test1',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                        ]
+                    }
+            },
+            {
+                'XMLContentParsed' => {
+                    'Value' => [
+                        {
+                            'Item' => [
+                                {
+                                    'ValueType' => 'File',
+                                    'Content'   => '/usr/bin/gpg'
+                                }
+                                ]
+                        }
+                    ],
+                    'Description' => [
+                        {
+                            'Content'      => 'Test 2.',
+                            'Translatable' => '1'
+                        }
+                    ],
+                    'Required'   => '1',
+                    'Valid'      => '1',
+                    'Name'       => 'Test2',
+                    'Navigation' => [
+                        {
+                            'Content' => 'Core::Ticket'
+                        }
+                        ]
+                },
+                'XMLFilename'   => undef,
+                'XMLContentRaw' => '<Setting Name="Test2" Required="1" Valid="1">
+    <Description Translatable="1">Test 2.</Description>
+    <Navigation>Core::Ticket</Navigation>
+    <Value>
+        <Item ValueType="File">/usr/bin/gpg</Item>
+    </Value>
+</Setting>'
+            }
+        ],
     },
     {
         Description => 'No Setting elements',
@@ -504,7 +466,7 @@ for my $Test (@Tests) {
 </otrs_config>
             ',
         },
-        ExpectedResult => undef,
+        ExpectedResult => [],
     },
     {
         Description => 'Setting without Name attribute',
@@ -528,27 +490,19 @@ for my $Test (@Tests) {
 </otrs_config>
             ',
         },
-        ExpectedResult => undef,
+        ExpectedResult => [],
     },
 );
 
 for my $Test (@Tests) {
-    my $Result = $SysConfigXMLObject->SettingListGet( %{ $Test->{Config} } );
-    if ( defined $Result && ref $Result ) {
 
-        $Self->IsDeeply(
-            $Result,
-            $Test->{ExpectedResult},
-            $Test->{Description} . ': SettingListGet(): Result must match expected one.',
-        );
-    }
-    else {
-        $Self->Is(
-            $Result,
-            $Test->{ExpectedResult},
-            $Test->{Description} . ': SettingListGet(): Result must match expected one.',
-        );
-    }
+    my @Result = $SysConfigXMLObject->SettingListParse( %{ $Test->{Config} } );
+
+    $Self->IsDeeply(
+        \@Result,
+        $Test->{ExpectedResult},
+        $Test->{Description} . ': SettingLisParse(): Result must match expected one.',
+    );
 }
 
 1;

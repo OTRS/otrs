@@ -55,37 +55,28 @@ my $Cleanup = sub {
     #
     # Prepare valid config XML and Perl
     #
-    my @ValidSettingXML = (
-        <<'EOF',
-    <Setting Name="Test1" Required="1" Valid="1">
-        <Description Translatable="1">Test 1.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Item ValueType="String" ValueRegex=".*">Test setting 1</Item>
-        </Setting>
-    </Setting>
+    my $ValidSettingXML = <<'EOF',
+<Setting Name="Test1" Required="1" Valid="1">
+    <Description Translatable="1">Test 1.</Description>
+    <Navigation>Core::Ticket</Navigation>
+    <Value>
+        <Item ValueType="String" ValueRegex=".*">Test setting 1</Item>
+    </Value>
+</Setting>
+<Setting Name="Test2" Required="1" Valid="1">
+    <Description Translatable="1">Test 2.</Description>
+    <Navigation>Core::Ticket</Navigation>
+    <Value>
+        <Item ValueType="File">/usr/bin/gpg</Item>
+    </Value>
+</Setting>
 EOF
-        <<'EOF',
-    <Setting Name="Test2" Required="1" Valid="1">
-        <Description Translatable="1">Test 2.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Item ValueType="File">/usr/bin/gpg</Item>
-        </Setting>
-    </Setting>
-EOF
-    );
 
-    my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
-    my @ValidSettingXMLAndPerl;
-    for my $ValidSettingXML (@ValidSettingXML) {
-        push @ValidSettingXMLAndPerl, {
-            XML  => $ValidSettingXML,
-            Perl => $SysConfigXMLObject->SettingParse( SettingXML => $ValidSettingXML ),
-        };
-    }
+        my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+
+    my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
+        XMLInput => $ValidSettingXML,
+    );
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -101,8 +92,8 @@ EOF
         HasConfigLevel           => 200,
         UserModificationPossible => 1,
         UserModificationActive   => 1,
-        XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-        XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+        XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+        XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
         XMLFilename              => 'UnitTest.xml',
         EffectiveValue           => 'Test setting 1',
         UserID                   => 1,
@@ -119,8 +110,8 @@ EOF
         HasConfigLevel           => 200,
         UserModificationPossible => 1,
         UserModificationActive   => 1,
-        XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-        XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+        XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+        XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
         XMLFilename              => 'UnitTest.xml',
         EffectiveValue           => 'Test setting 2',
         UserID                   => 1,
@@ -137,8 +128,8 @@ EOF
         HasConfigLevel           => 200,
         UserModificationPossible => 1,
         UserModificationActive   => 1,
-        XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-        XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+        XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+        XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
         XMLFilename              => 'UnitTest.xml',
         EffectiveValue           => 'Test setting 3',
         UserID                   => 1,
@@ -155,8 +146,8 @@ EOF
         HasConfigLevel           => 200,
         UserModificationPossible => 1,
         UserModificationActive   => 1,
-        XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-        XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+        XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+        XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
         XMLFilename              => 'UnitTest.xml',
         EffectiveValue           => 'Test setting 4',
         UserID                   => 1,
@@ -173,8 +164,8 @@ EOF
         HasConfigLevel           => 200,
         UserModificationPossible => 1,
         UserModificationActive   => 1,
-        XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-        XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+        XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+        XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
         XMLFilename              => 'UnitTest.xml',
         EffectiveValue           => 'Test setting 5',
         UserID                   => 1,

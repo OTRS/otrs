@@ -31,8 +31,7 @@ my %DefaultSettingAddTemplate = (
     XMLFilename    => 'UnitTest.xml',
 );
 
-my @SetingsXML = (
-    << 'EOF',
+my $SettingsXML = << 'EOF',
 <Setting Name="Test0" Required="1" Valid="1">
     <Description Translatable="1">Test.</Description>
     <Navigation>Core::Test</Navigation>
@@ -40,8 +39,6 @@ my @SetingsXML = (
         <Item ValueType="String" ValueRegex=".*">Test</Item>
     </Value>
 </Setting>
-EOF
-    << 'EOF',
 <Setting Name="Test1" Required="1" Valid="1">
     <Description Translatable="1">Test.</Description>
     <Navigation>Core::Test</Navigation>
@@ -50,31 +47,25 @@ EOF
     </Value>
 </Setting>
 EOF
+
+    # Get SysConfig XML object.
+    my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+my $SysConfigObject        = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
+    XMLInput    => $SettingsXML,
+    XMLFilename => 'UnitTest.xml',
 );
 
-# Get SysConfig XML object.
-my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
-my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-my @DefaultSettingAddParams;
-for my $Setting (@SetingsXML) {
-
-    my $XMLContentParsed = $SysConfigXMLObject->SettingParse(
-        SettingXML => $Setting,
-    );
+for my $Setting (@DefaultSettingAddParams) {
 
     my $Value = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
-        Data => $XMLContentParsed->{Value},
+        Data => $Setting->{XMLContentParsed}->{Value},
     );
 
-    my $EffectiveValue = $SysConfigObject->SettingEffectiveValueGet(
+    $Setting->{EffectiveValue} = $SysConfigObject->SettingEffectiveValueGet(
         Value => $Value,
     );
-    push @DefaultSettingAddParams, {
-        XMLContentRaw    => $Setting,
-        XMLContentParsed => $XMLContentParsed,
-        EffectiveValue   => $EffectiveValue,
-    };
 }
 
 my $RandomID = $HelperObject->GetRandomID();

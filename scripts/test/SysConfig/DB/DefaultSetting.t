@@ -25,8 +25,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 #
 # Prepare valid config XML and Perl
 #
-my @ValidSettingXML = (
-    <<'EOF',
+my $ValidSettingXML = <<'EOF',
 <Setting Name="Test1" Required="1" Valid="1">
     <Description Translatable="1">Test 1.</Description>
     <Navigation>Core::Ticket</Navigation>
@@ -34,8 +33,6 @@ my @ValidSettingXML = (
         <Item ValueType="String" ValueRegex=".*">Test setting 1</Item>
     </Value>
 </Setting>
-EOF
-    <<'EOF',
 <Setting Name="Test2" Required="1" Valid="1">
     <Description Translatable="1">Test 2.</Description>
     <Navigation>Core::Ticket</Navigation>
@@ -43,8 +40,6 @@ EOF
         <Item ValueType="File">/usr/bin/gpg</Item>
     </Value>
 </Setting>
-EOF
-    <<'EOF',
 <Setting Name="Test3" Required="1" Valid="1">
     <Description Translatable="1">Test 3.</Description>
     <Navigation>Core::Ticket</Navigation>
@@ -52,8 +47,6 @@ EOF
         <Item ValueType="Directory">/etc/ssl/certs</Item>
     </Value>
 </Setting>
-EOF
-    <<'EOF',
 <Setting Name="Test4" Required="1" Valid="1">
     <Description Translatable="1">Test 4.</Description>
     <Navigation>Core::Ticket</Navigation>
@@ -61,8 +54,6 @@ EOF
         <Item ValueType="Textarea">123\n456</Item>
     </Value>
 </Setting>
-EOF
-    <<'EOF',
 <Setting Name="Test5" Required="1" Valid="1">
     <Description Translatable="1">Test 5.</Description>
     <Navigation>Core::Ticket</Navigation>
@@ -71,16 +62,12 @@ EOF
     </Value>
 </Setting>
 EOF
-);
 
-my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
-my @ValidSettingXMLAndPerl;
-for my $ValidSettingXML (@ValidSettingXML) {
-    push @ValidSettingXMLAndPerl, {
-        XML  => $ValidSettingXML,
-        Perl => $SysConfigXMLObject->SettingParse( SettingXML => $ValidSettingXML ),
-    };
-}
+    my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+
+my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
+    XMLInput => $ValidSettingXML,
+);
 
 my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 $DateTimeObject->Add( Minutes => 30 );
@@ -108,8 +95,8 @@ my @Tests = (
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
                     UserPreferencesGroup     => 'Test',
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'Test setting 1',
                     UserModificationActive   => 0,
@@ -130,8 +117,8 @@ my @Tests = (
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
                     UserPreferencesGroup     => 'TestUpdte',
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[1]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => '/usr/bin/gpg',
                     ExclusiveLockGUID        => 0,
@@ -154,8 +141,8 @@ my @Tests = (
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
                     UserPreferencesGroup     => 'Test',
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[1]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'usr/sbin/gpg',
                     UserID                   => 1,
@@ -208,8 +195,8 @@ my @Tests = (
                     HasConfigLevel => 'test',                                              # invalid, must be integer
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'Test setting 1',
                     UserID                   => 1,
@@ -244,8 +231,8 @@ my @Tests = (
                     HasConfigLevel           => 200,
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'Test setting 1',
                     UserID                   => 1,
@@ -263,17 +250,17 @@ my @Tests = (
                     IsReadonly  => 1,
                     IsRequired  => 0,
                     IsValid     => 1,
-                    HasConfigLevel           => 'test',                               # invalid, must be integer
+                    HasConfigLevel           => 'test',                                       # invalid, must be integer
                     UserModificationPossible => 1,
                     UserModificationActive   => 1,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[1]->{Perl},
-                    XMLFilename              => 'UnitTest.xml',
-                    EffectiveValue           => '/usr/bin/gpg',
-                    ExclusiveLockGUID        => 0,
-                    ExclusiveLockUserID      => 1,
-                    ExclusiveLockExpiryTime  => $DateTimeObject->ToString(),
-                    UserID                   => 1,
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed        => $DefaultSettingAddParams[0]->{XMLContentParsed},
+                    XMLFilename             => 'UnitTest.xml',
+                    EffectiveValue          => '/usr/bin/gpg',
+                    ExclusiveLockGUID       => 0,
+                    ExclusiveLockUserID     => 1,
+                    ExclusiveLockExpiryTime => $DateTimeObject->ToString(),
+                    UserID                  => 1,
                 },
                 ExpectedResult => 0,
             },
@@ -305,8 +292,8 @@ my @Tests = (
                     HasConfigLevel           => 200,
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'Test setting 1',
                     UserID                   => 1,
@@ -324,14 +311,14 @@ my @Tests = (
                     IsReadonly  => 0,
                     IsRequired  => 1,
                     IsValid     => 1,
-                    HasConfigLevel           => 'test',                               # invalid, must be integer
+                    HasConfigLevel           => 'test',                                       # invalid, must be integer
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[1]->{Perl},
-                    XMLFilename              => 'UnitTest.xml',
-                    EffectiveValue           => 'usr/sbin/gpg',
-                    UserID                   => 1,
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed => $DefaultSettingAddParams[0]->{XMLContentParsed},
+                    XMLFilename      => 'UnitTest.xml',
+                    EffectiveValue   => 'usr/sbin/gpg',
+                    UserID           => 1,
                 },
                 ExpectedResult => 0,
             },
@@ -374,8 +361,8 @@ my @Tests = (
                     # HasConfigLevel        => 0, # should not be a problem have not a config level
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'Test setting 1',
                     UserID                   => 1,
@@ -396,8 +383,8 @@ my @Tests = (
                     HasConfigLevel           => 0,    # it should be 0 since was not defined in beginning
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw    => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed => $ValidSettingXMLAndPerl[1]->{Perl},
+                    XMLContentRaw    => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename      => 'UnitTest.xml',
                     EffectiveValue   => 'usr/sbin/gpg',
                     UserID           => 1,
@@ -423,8 +410,8 @@ my @Tests = (
                     HasConfigLevel           => 0,    # should not be a problem have not a config level
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw    => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw    => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename      => 'UnitTest.xml',
                     EffectiveValue   => 'Test setting 1',
                     UserID           => 1,
@@ -445,8 +432,8 @@ my @Tests = (
                     HasConfigLevel           => 0,    # it should be 0 since was not defined in beginning
                     UserModificationPossible => 0,
                     UserModificationActive   => 0,
-                    XMLContentRaw    => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed => $ValidSettingXMLAndPerl[1]->{Perl},
+                    XMLContentRaw    => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename      => 'UnitTest.xml',
                     EffectiveValue   => 'usr/sbin/gpg',
                     UserID           => 1,
@@ -467,8 +454,8 @@ my @Tests = (
                     # HasConfigLevel          => 0, # should not be a problem have not a config level
                     UserModificationPossible => 1,
                     UserModificationActive   => 1,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[1]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => '/usr/bin/gpg/mod',
                     ExclusiveLockGUID        => 0,
@@ -497,8 +484,8 @@ my @Tests = (
                     HasConfigLevel           => 0,
                     UserModificationPossible => 1,
                     UserModificationActive   => 1,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
 
                     # XMLFilename           => 'UnitTest.xml',       # XMLFilename is mandatory
                     EffectiveValue => 'Test setting 1',
@@ -525,8 +512,8 @@ my @Tests = (
                     HasConfigLevel           => 0,
                     UserModificationPossible => 1,
                     UserModificationActive   => 1,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'Test setting 1',
                     UserID                   => 1,
@@ -547,8 +534,8 @@ my @Tests = (
                     HasConfigLevel => 0,
                     UserModificationPossible => 1,
                     UserModificationActive   => 1,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[1]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
 
                     # XMLFilename           => 'UnitTest.xml',      # XMLFilename is mandatory
                     EffectiveValue => 'usr/sbin/gpg',
@@ -575,8 +562,8 @@ my @Tests = (
                     HasConfigLevel           => 0,
                     UserModificationPossible => 1,
                     UserModificationActive   => 1,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[0]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[0]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
                     XMLFilename              => 'UnitTest.xml',
                     EffectiveValue           => 'Test setting 1',
                     UserID                   => 1,
@@ -595,8 +582,8 @@ my @Tests = (
                     HasConfigLevel           => 0,
                     UserModificationPossible => 1,
                     UserModificationActive   => 1,
-                    XMLContentRaw            => $ValidSettingXMLAndPerl[1]->{XML},
-                    XMLContentParsed         => $ValidSettingXMLAndPerl[1]->{Perl},
+                    XMLContentRaw            => $DefaultSettingAddParams[0]->{XMLContentRaw},
+                    XMLContentParsed         => $DefaultSettingAddParams[0]->{XMLContentParsed},
 
                     # XMLFilename           => 'UnitTest.xml',      # XMLFilename is mandatory
                     EffectiveValue          => '/usr/bin/gpg/mod',
@@ -1650,20 +1637,20 @@ for my $Test (@Tests) {
     );
 }
 
-my %List2 = $SysConfigDBObject->DefaultSettingList();
+my @List2 = $SysConfigDBObject->DefaultSettingList();
 $Self->True(
-    %List2,
+    @List2,
     'DefaultSettingList() returned some value.'
 );
-for my $ID ( sort keys %List2 ) {
+for my $Item (@List2) {
     my %DefaultSetting = $SysConfigDBObject->DefaultSettingGet(
-        DefaultID => $ID,
+        DefaultID => $Item->{DefaultID},
     );
-    if ( $DefaultSetting{Name} ne $List2{$ID} ) {
+    if ( $DefaultSetting{Name} ne $Item->{Name} ) {
         $Self->Is(
-            $List2{$ID},
+            $Item->{Name},
             $DefaultSetting{Name},
-            "DefaultSettingList() is DIFFERENT from DefaultSettingGet() for ID $ID .",
+            "DefaultSettingList() is DIFFERENT from DefaultSettingGet() for ID $Item->{DefaultID} .",
         );
     }
 

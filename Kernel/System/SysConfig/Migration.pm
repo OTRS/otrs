@@ -1355,7 +1355,14 @@ Migrate the configs effective values to the new format for OTRS 6.
 
 Returns:
 
-    True on success or false on error.
+    $Result = 1;    # True on success or false on error.
+                    # or
+                    # if ReturnMigratedSettingsCounts parameter is set
+    $Result =  {
+        AllSettingsCount      => 1,
+        MissingSettings       => [],
+        UnsuccessfullSettings => [],
+    };
 
 =cut
 
@@ -1380,16 +1387,17 @@ sub MigrateConfigEffectiveValues {
     $Param{FileClass}->Load( \%OTRS5Config );
 
     # get all OTRS 6 default settings
-    my %DefaultSettings = $SysConfigObject->ConfigurationList();
+    my @DefaultSettings = $SysConfigObject->ConfigurationList();
 
     # search for settings with ### in the name
-    my @SearchResult = grep /###/, sort values %DefaultSettings;
+    # my @SearchResult = grep /###/, sort values %DefaultSettings;
+    my @SearchResult = grep { $_->{Name} =~ m{###} } @DefaultSettings;
 
     # find all the setting which have sublevels and store them in a hash
     my %SettingsWithSubLevels;
     for my $Setting (@SearchResult) {
 
-        my @SettingNameParts = split /###/, $Setting;
+        my @SettingNameParts = split /###/, $Setting->{Name};
 
         my $FirstLevelKey = shift @SettingNameParts;
         my $LastLevelKey  = pop @SettingNameParts;
@@ -2221,7 +2229,7 @@ sub _MigrateFrontendModuleSetting {
     if ( $Param{OTRS5EffectiveValue}->{NavBar} ) {
 
         # get all OTRS 6 default settings
-        my %DefaultSettings = $SysConfigObject->ConfigurationList();
+        my @DefaultSettings = $SysConfigObject->ConfigurationList();
 
         # search for OTRS 6 NavBar settings
         #
@@ -2231,13 +2239,14 @@ sub _MigrateFrontendModuleSetting {
         #      PublicFrontend::Navigation###
         #
         my $Search = 'Frontend::Navigation###' . $Param{FrontendModuleName} . '###';
-        my @SearchResult = grep /$Search/, sort values %DefaultSettings;
+        my @SearchResult = grep { $_->{Name} =~ m{$Search} } @DefaultSettings;
 
         # check that the number of navbar settings is the same in OTRS 5 and 6 for this frontend module
         if ( @SearchResult && scalar @SearchResult == scalar @{ $Param{OTRS5EffectiveValue}->{NavBar} } ) {
 
             my $Counter = 0;
-            for my $NavBarSettingName (@SearchResult) {
+            for my $NavBarSetting (@SearchResult) {
+                my $NavBarSettingName = $NavBarSetting->{Name};
 
                 # try to get the (default) setting from OTRS 6 for the NavBar setting
                 my %OTRS6NavBarSetting = $SysConfigObject->SettingGet(

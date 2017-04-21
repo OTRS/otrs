@@ -14,6 +14,14 @@ use utf8;
 use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
+# Get needed objects
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 # Get system home directory.
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
@@ -28,46 +36,31 @@ $Self->IsNot(
     "FileRead() for Sample.xml",
 );
 
-# Get SysConfig XML object.
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
+my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-# Split XML content in different settings
-my $SettingList = $SysConfigXMLObject->SettingListGet(
-    XMLInput => ${$XMLImputRef},
-);
-$Self->Is(
-    ref $SettingList,
-    'HASH',
-    "SettingListGet() structure",
-);
-$Self->IsNot(
-    scalar keys %{$SettingList},
-    0,
-    "SettingListGet() cardinality",
+my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
+    XMLInput    => ${$XMLImputRef},
+    XMLFilename => 'Sample.xml',
 );
 
-# Get SysConfig object.
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+for my $Setting ( sort @DefaultSettingAddParams ) {
 
-for my $SettingName ( sort keys %{$SettingList} ) {
+    my $SettingName = $Setting->{XMLContentParsed}->{Name};
 
-    # Convert XML for each setting into a Perl structure
-    my $ParsedSetting = $SysConfigXMLObject->SettingParse(
-        SettingXML => $SettingList->{$SettingName},
-    );
     $Self->Is(
-        ref $ParsedSetting,
+        ref $Setting,
         'HASH',
-        "SettingParse() for $SettingName structure"
+        "SettingListParse() for $SettingName structure"
     );
     $Self->IsNot(
-        scalar keys %{$ParsedSetting},
+        scalar keys %{$Setting},
         0,
-        "SettingParse() for $SettingName cardinality"
+        "SettingListParse() for $SettingName cardinality"
     );
 
     # Extract translations for each parsed setting (results are saved in SysConfig object $Self)
-    $SysConfigObject->_ConfigurationTranslatableStrings( Data => $ParsedSetting );
+    $SysConfigObject->_ConfigurationTranslatableStrings( Data => $Setting );
 }
 
 my %ExpectedResults = (
