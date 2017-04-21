@@ -23,7 +23,6 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::YAML',
 );
 
@@ -77,6 +76,8 @@ Add a new SysConfig default entry.
         EffectiveValue           => $SettingEffectiveValue,        # (required) the value as will be stored in the Perl configuration file
         ExclusiveLockExpiryTime  => '2017-02-01 12:23:13',         # (optional) If not provided, method will calculate it.
         UserID                   => 123,
+        NoCleanup                => 0,                             # (optional) Default 0. If enabled, system WILL NOT DELETE CACHE. In this case, it must be done manually.
+                                                                   #    USE IT CAREFULLY.
     );
 
 Returns:
@@ -106,11 +107,10 @@ sub DefaultSettingAdd {
     }
 
     # Check duplicate name
-    my %DefaultSetting = $Self->DefaultSettingGet(
-        Name      => $Param{Name},
-        Translate => 0,
+    my %SettingData = $Self->DefaultSettingLookup(
+        Name => $Param{Name},
     );
-    return if IsHashRefWithData( \%DefaultSetting );
+    return if %SettingData;
 
     # Check config level.
     $Param{HasConfigLevel} //= 0;
@@ -182,8 +182,9 @@ sub DefaultSettingAdd {
         Limit => 1,
     );
 
-    # Fetch the default setting ID.
     my $DefaultID;
+
+    # Fetch the default setting ID.
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $DefaultID = $Row[0];
     }
@@ -207,22 +208,29 @@ sub DefaultSettingAdd {
         ],
     );
 
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    $CacheObject->CleanUp(
-        Type => 'SysConfigDefault',
-    );
-    $CacheObject->CleanUp(
-        Type => 'DefaultSettingListGet',
-    );
-    $CacheObject->CleanUp(
-        Type => 'SysConfigNavigation',
-    );
-    $CacheObject->CleanUp(
-        Type => 'SysConfigEntities',
-    );
-    $CacheObject->CleanUp(
-        Type => 'SysConfigIsDirty',
-    );
+    if ( !$Param{NoCleanup} ) {
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        $CacheObject->Delete(
+            Type => 'SysConfigDefault',
+            Key  => 'DefaultSettingGet::' . $SettingData{Name},
+        );
+        $CacheObject->CleanUp(
+            Type => 'DefaultSettingListGet',
+        );
+        $CacheObject->Delete(
+            Type => 'DefaultSettingList',
+            Key  => 'DefaultSettingList',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigNavigation',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigEntities',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigIsDirty',
+        );
+    }
 
     # Return if not version inserted.
     return if !$DefaultVersionID;
@@ -235,9 +243,10 @@ sub DefaultSettingAdd {
 Get SysConfig default entry.
 
     my %DefaultSetting = $SysConfigDBObject->DefaultSettingGet(
-        DefaultID   => 123,     # (optional)
-                                # or
-        Name => "TheName",      # (optional)
+        Name        => "TheName", # (required) Setting name - prefered parameter.
+                                  # or
+        DefaultID   => 4,         # (required) DefaultID. Slightly slower execution.
+        NoCache     => 0,         # (optional) Default 0. If 1, cache will not be created.
     );
 
 Returns:
@@ -282,24 +291,27 @@ sub DefaultSettingGet {
         return;
     }
 
-    my $FieldName;
-    my $FieldValue;
+    my $SettingName = $Param{Name};
 
-    if ( $Param{DefaultID} ) {
+    if ( !$SettingName ) {
+        my %SettingData = $Self->DefaultSettingLookup(
+            DefaultID => $Param{DefaultID},
+        );
 
-        # Set DefaultID as filter.
-        $FieldName  = 'id';
-        $FieldValue = $Param{DefaultID};
-    }
-    elsif ( $Param{Name} ) {
+        if ( !%SettingData || !$SettingData{Name} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Setting with DefaultID = $Param{DefaultID} not found!",
+            );
 
-        # Set Name as filter.
-        $FieldName  = 'name';
-        $FieldValue = $Param{Name};
+            return;
+        }
+
+        $SettingName = $SettingData{Name};
     }
 
     my $CacheType = "SysConfigDefault";
-    my $CacheKey  = 'DefaultSettingGet::' . $FieldName . '::' . $FieldValue;
+    my $CacheKey  = "DefaultSettingGet::$SettingName";
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -313,8 +325,6 @@ sub DefaultSettingGet {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my @Bind = ( \$FieldValue );
-
     # Get default from database.
     return if !$DBObject->Prepare(
         SQL => '
@@ -324,8 +334,8 @@ sub DefaultSettingGet {
                 exclusive_lock_expiry_time, create_time, create_by, change_time, change_by
 
             FROM sysconfig_default
-            WHERE ' . $FieldName . ' = ?',
-        Bind => \@Bind,
+            WHERE name = ?',
+        Bind => [ \$SettingName ],
     );
 
     my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
@@ -365,14 +375,86 @@ sub DefaultSettingGet {
         );
     }
 
-    $CacheObject->Set(
-        Type  => $CacheType,
-        Key   => $CacheKey,
-        Value => \%DefaultSetting,
-        TTL   => $Self->{CacheTTL},
-    );
+    if ( !$Param{NoCache} ) {
+        $CacheObject->Set(
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            Value => \%DefaultSetting,
+            TTL   => $Self->{CacheTTL},
+        );
+    }
 
     return %DefaultSetting;
+}
+
+=head2 DefaultSettingLookup()
+
+Default setting lookup.
+
+    my %Result = $SysConfigDBObject->DefaultSettingLookup(
+        Name        => "TheName", # (required)
+                                  # or
+        DefaultID   => 4,         # (required)
+    );
+
+Returns:
+
+    %Result = (
+        DefaultID      => 1,
+        Name           => 'TheName',
+        XMLContentRaw  => '',           # XML Data
+    );
+
+=cut
+
+sub DefaultSettingLookup {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{Name} && !$Param{DefaultID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Name or DefaultID!",
+        );
+        return;
+    }
+
+    my @Bind;
+
+    my $SQL = '
+        SELECT id, name, xml_content_raw
+        FROM sysconfig_default
+        WHERE
+    ';
+
+    if ( $Param{Name} ) {
+        $SQL .= 'name = ? ';
+        push @Bind, \$Param{Name};
+    }
+    else {
+        $SQL .= "id = ? ";
+        push @Bind, \$Param{DefaultID};
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # db query
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+
+    my %Result;
+
+    ROW:
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Result{DefaultID}     = $Row[0];
+        $Result{Name}          = $Row[1];
+        $Result{XMLContentRaw} = $Row[2];
+        last ROW;
+    }
+
+    return %Result;
 }
 
 =head2 DefaultSettingDelete()
@@ -430,14 +512,14 @@ sub DefaultSettingDelete {
 
     $CacheObject->Delete(
         Type => 'SysConfigDefault',
-        Key  => 'DefaultSettingGet::id::' . $DefaultSetting{DefaultID},
-    );
-    $CacheObject->Delete(
-        Type => 'SysConfigDefault',
-        Key  => 'DefaultSettingGet::name::' . $DefaultSetting{Name},
+        Key  => 'DefaultSettingGet::' . $DefaultSetting{Name},
     );
     $CacheObject->CleanUp(
         Type => 'DefaultSettingListGet',
+    );
+    $CacheObject->Delete(
+        Type => 'DefaultSettingList',
+        Key  => 'DefaultSettingList',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigNavigation',
@@ -608,14 +690,14 @@ sub DefaultSettingUpdate {
 
     $CacheObject->Delete(
         Type => 'SysConfigDefault',
-        Key  => 'DefaultSettingGet::id::' . $DefaultSetting{DefaultID},
-    );
-    $CacheObject->Delete(
-        Type => 'SysConfigDefault',
-        Key  => 'DefaultSettingGet::name::' . $DefaultSetting{Name},
+        Key  => 'DefaultSettingGet::' . $DefaultSetting{Name},
     );
     $CacheObject->CleanUp(
         Type => 'DefaultSettingListGet',
+    );
+    $CacheObject->Delete(
+        Type => 'DefaultSettingList',
+        Key  => 'DefaultSettingList',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigNavigation',
@@ -817,6 +899,7 @@ Get default setting list with complete data.
         Locked                   => 1, # check for locked settings
         Category                 => 'OTRSFree',                         # optional (requires CategoryFiles)
         CategoryFiles            => ['Framework.xml', 'Ticket.xml', ],  # optional (requires Category)
+        NoCache                  => 0,                                  # (optional) Default 0. If set, system will not generate cache.
     );
 
 Returns:
@@ -974,26 +1057,29 @@ sub DefaultSettingListGet {
         Bind => \@Bind,
     );
 
-    my @DefaultIDs;
+    my @DefaultNames;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @DefaultIDs, $Row[0];
+        push @DefaultNames, $Row[1];
     }
 
     # Get default settings.
-    for my $ItemID (@DefaultIDs) {
+    for my $Name (@DefaultNames) {
 
         my %DefaultSetting = $Self->DefaultSettingGet(
-            DefaultID => $ItemID,
+            Name    => $Name,
+            NoCache => $Param{NoCache},
         );
         push @Data, \%DefaultSetting;
     }
 
-    $CacheObject->Set(
-        Type  => $CacheType,
-        Key   => $CacheKey,
-        Value => \@Data,
-        TTL   => $Self->{CacheTTL},
-    );
+    if ( !$Param{NoCache} ) {
+        $CacheObject->Set(
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            Value => \@Data,
+            TTL   => $Self->{CacheTTL},
+        );
+    }
 
     return @Data;
 }
@@ -1002,13 +1088,26 @@ sub DefaultSettingListGet {
 
 Get list of all settings.
 
-    my %DefaultSettings = $SysConfigDBObject->DefaultSettingList();
+    my @DefaultSettings = $SysConfigDBObject->DefaultSettingList(
+        IsDirty => 0,       # (optional) Filter settings by IsDirty. If not provided, returns all settings.
+        Locked  => 0,       # (optional) Filter locked settings.
+    );
 
 Returns:
 
-    %DefaultSettings = (
-        '123' => 'SettingName1',
-        '124' => 'SettingName2',
+    @DefaultSettings = (
+        {
+            DefaultID         => '123',
+            Name              => 'SettingName1',
+            IsDirty           => 1,
+            ExclusiveLockGUID => 0,
+        },
+        {
+            DefaultID         => '124',
+            Name              => 'SettingName2',
+            IsDirty           => 0,
+            ExclusiveLockGUID => 'fjewifjowj...',
+        },
         ...
     );
 
@@ -1029,32 +1128,55 @@ sub DefaultSettingList {
         Key  => $CacheKey,
     );
 
-    return %{$Cache} if ref $Cache eq 'HASH';
+    my @Data;
+    @Data = @{$Cache} if ref $Cache eq 'ARRAY';
 
-    # Start SQL statement.
-    my $SQL = '
-        SELECT id, name
-        FROM sysconfig_default
-        ORDER BY id';
+    if ( !@Data ) {
 
-    my %Data;
+        # Start SQL statement.
+        my $SQL = '
+            SELECT id, name, is_dirty, exclusive_lock_guid
+            FROM sysconfig_default
+            ORDER BY id';
 
-    return if !$DBObject->Prepare(
-        SQL => $SQL,
-    );
+        return if !$DBObject->Prepare(
+            SQL => $SQL,
+        );
 
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Data{ $Row[0] } = $Row[1];
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            push @Data, {
+                DefaultID         => $Row[0],
+                Name              => $Row[1],
+                IsDirty           => $Row[2],
+                ExclusiveLockGUID => $Row[3],
+            };
+        }
+
+        $CacheObject->Set(
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            Value => \@Data,
+            TTL   => $Self->{CacheTTL},
+        );
     }
 
-    $CacheObject->Set(
-        Type  => $CacheType,
-        Key   => $CacheKey,
-        Value => \%Data,
-        TTL   => $Self->{CacheTTL},
-    );
+    # filter
+    if ( defined $Param{IsDirty} ) {
+        @Data = grep { $_->{IsDirty} == $Param{IsDirty} } @Data;
+    }
+    if ( defined $Param{Locked} ) {
+        if ( $Param{Locked} ) {
 
-    return %Data;
+            # Filter only locked settings
+            @Data = grep { $_->{ExclusiveLockGUID} } @Data;
+        }
+        else {
+            # Filter only unlocked settings
+            @Data = grep { !$_->{ExclusiveLockGUID} } @Data;
+        }
+    }
+
+    return @Data;
 }
 
 =head2 DefaultSettingLock()
@@ -1120,17 +1242,22 @@ sub DefaultSettingLock {
             Name      => $Param{Name},
         );
     }
+
     return if ( !$Param{Force} && $Locked );
 
     # Check if setting can be locked(IsReadonly).
-    my %DefaultSetting = $Self->DefaultSettingGet(%Param);
-    if ( $DefaultSetting{IsReadonly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "It's not possible to lock readonly setting $DefaultSetting{Name}"
-                . " (UserID=$Param{UserID}!",
-        );
-        return;
+    my %DefaultSetting;
+    if ( !$Param{LockAll} ) {
+
+        %DefaultSetting = $Self->DefaultSettingGet(%Param);
+        if ( $DefaultSetting{IsReadonly} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "It's not possible to lock readonly setting $DefaultSetting{Name}"
+                    . " (UserID=$Param{UserID}!",
+            );
+            return;
+        }
     }
 
     # Check correct length for ExclusiveLockGUID if defined.
@@ -1160,7 +1287,8 @@ sub DefaultSettingLock {
         SET
             exclusive_lock_guid = ?,
             exclusive_lock_user_id = ?,
-            exclusive_lock_expiry_time = ?';
+            exclusive_lock_expiry_time = ?
+        ';
     my $ExpiryTime = $DateTimeObject->ToString();
     my @Bind       = (
         \$ExclusiveLockGUID, \$Param{UserID},
@@ -1184,10 +1312,20 @@ sub DefaultSettingLock {
         Bind => \@Bind,
     );
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'SysConfigDefault',
-    );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    if ( $Param{LockAll} ) {
+        $CacheObject->CleanUp(
+            Type => 'SysConfigDefault',
+        );
+    }
+    else {
+        $CacheObject->Delete(
+            Type => 'SysConfigDefault',
+            Key  => 'DefaultSettingGet::' . $DefaultSetting{Name},
+        );
+    }
+    $CacheObject->CleanUp(
         Type => 'DefaultSettingListGet',
     );
 
@@ -1375,33 +1513,76 @@ sub DefaultSettingUnlock {
         return;
     }
 
+    my @SettingsLocked;
+
+    my %DefaultSetting;
+    if ( $Param{UnlockAll} ) {
+
+        # Get locked settings only.
+        @SettingsLocked = $Self->DefaultSettingList(
+            Locked => 1,
+        );
+
+        # all settings are unlocked already
+        return 1 if !@SettingsLocked;
+    }
+    else {
+        %DefaultSetting = $Self->DefaultSettingGet(
+            %Param,
+            NoCache => 1,
+        );
+        return if !%DefaultSetting;
+
+        push @SettingsLocked, \%DefaultSetting;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     my $SQL = '
         UPDATE sysconfig_default
         SET
             exclusive_lock_guid = ?,
             exclusive_lock_user_id = ?,
-            exclusive_lock_expiry_time = ?';
+            exclusive_lock_expiry_time = ?
+        WHERE
+        ';
 
     my @Bind = ( \0, \undef, \undef );
     if ( $Param{DefaultID} ) {
         $SQL .= '
-            WHERE id = ?';
+            id = ?';
         push @Bind, \$Param{DefaultID};
     }
     elsif ( $Param{Name} ) {
         $SQL .= '
-            WHERE name = ?';
+            name = ?';
         push @Bind, \$Param{Name};
+    }
+    else {
+        # UnlockAll
+
+        $SQL .= '
+            exclusive_lock_guid != ? ';
+        push @Bind, \0;
     }
 
     # Remove locking from setting record.
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return if !$DBObject->Do(
         SQL  => $SQL,
         Bind => \@Bind,
     );
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'SysConfigDefault',
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    for my $Setting (@SettingsLocked) {
+        $CacheObject->Delete(
+            Type => 'SysConfigDefault',
+            Key  => 'DefaultSettingGet::' . $Setting->{Name},
+        );
+    }
+
+    $CacheObject->CleanUp(
+        Type => 'DefaultSettingListGet',
     );
 
     return 1;
@@ -1422,6 +1603,10 @@ Returns:
 sub DefaultSettingDirtyCleanUp {
     my ( $Self, %Param ) = @_;
 
+    my @DirtySettings = $Self->DefaultSettingList(
+        IsDirty => 1,
+    );
+
     # Remove is dirty flag for default settings.
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
@@ -1432,11 +1617,17 @@ sub DefaultSettingDirtyCleanUp {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    $CacheObject->CleanUp(
-        Type => 'SysConfigDefault',
-    );
+    for my $Setting (@DirtySettings) {
+        $CacheObject->Delete(
+            Type => 'SysConfigDefault',
+            Key  => 'DefaultSettingGet::' . $Setting->{Name},
+        );
+    }
     $CacheObject->CleanUp(
         Type => 'DefaultSettingListGet',
+    );
+    $CacheObject->CleanUp(
+        Type => 'DefaultSettingList',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
@@ -1467,6 +1658,8 @@ Add a new SysConfig default version entry.
         XMLFilename              => 'Framework.xml'                # the name of the XML file
         EffectiveValue           => $SettingEffectiveValue,        # the value as will be stored in the Perl configuration file
         UserID                   => 1,
+        NoCleanup                => 0,                             # (optional) Default 0. If enabled, system WILL NOT DELETE CACHE. In this case, it must be done manually.
+                                                                   #    USE IT CAREFULLY.
     );
 
 Returns:
@@ -1555,13 +1748,17 @@ sub DefaultSettingVersionAdd {
         $DefaultVersionID = $Row[0];
     }
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'SysConfigDefaultVersion',
-    );
+    if ( !$Param{NoCleanup} ) {
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'SysConfigDefaultVersionList',
-    );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigDefaultVersion',
+        );
+
+        $CacheObject->CleanUp(
+            Type => 'SysConfigDefaultVersionList',
+        );
+    }
 
     return $DefaultVersionID;
 }

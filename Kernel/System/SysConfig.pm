@@ -101,12 +101,13 @@ sub new {
 Get SysConfig setting attributes.
 
     my %Setting = $SysConfigObject->SettingGet(
-        Name            => 'Setting::Name',  # Setting name
-        Default         => 1,                # Returns the default setting attributes only
+        Name            => 'Setting::Name',  # (required) Setting name
+        Default         => 1,                # (optional) Returns the default setting attributes only
         ModifiedID      => '123',            # (optional) Get setting value for given ModifiedID.
         Deployed        => 1,                # (optional) Get deployed setting value. Default 0.
         Translate       => 1,                # (optional) Translate translatable strings in EffectiveValue. Default 0.
         NoLog           => 1,                # (optional) Do not log error if a setting does not exist.
+        NoCache         => 1,                # (optional) Do not create cache.
     );
 
 Returns:
@@ -161,7 +162,8 @@ sub SettingGet {
 
     # Get default setting.
     my %Setting = $SysConfigDBObject->DefaultSettingGet(
-        Name => $Param{Name},
+        Name    => $Param{Name},
+        NoCache => $Param{NoCache},
     );
 
     # setting was not found
@@ -193,6 +195,7 @@ sub SettingGet {
         %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
             ModifiedID => $Param{ModifiedID},
             IsGlobal   => 1,
+            NoCache    => $Param{NoCache},
         );
 
         # prevent using both parameters.
@@ -203,6 +206,7 @@ sub SettingGet {
         %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
             Name     => $Param{Name},
             IsGlobal => 1,
+            NoCache  => $Param{NoCache},
         );
     }
 
@@ -220,6 +224,7 @@ sub SettingGet {
             # Get default version.
             %SettingDeployed = $SysConfigDBObject->DefaultSettingGet(
                 DefaultID => $Setting{DefaultID},
+                NoCache   => $Param{NoCache},
             );
         }
 
@@ -1831,18 +1836,19 @@ sub ConfigurationTranslatedGet {
 
     return %{$Cache} if ref $Cache eq 'HASH';
 
-    my %Settings = $Self->ConfigurationList();
+    my @SettingList = $Self->ConfigurationList();
+
     my %Result;
 
-    for my $DefaultID ( sort keys %Settings ) {
+    for my $Setting (@SettingList) {
 
         my %SettingTranslated = $Self->_ConfigurationTranslatedGet(
             Language => $LanguageObject->{UserLanguage},
-            Name     => $Settings{$DefaultID},
+            Name     => $Setting->{Name},
         );
 
         # Append to the result.
-        $Result{ $Settings{$DefaultID} } = $SettingTranslated{ $Settings{$DefaultID} };
+        $Result{ $Setting->{Name} } = $SettingTranslated{ $Setting->{Name} };
     }
 
     $CacheObject->Set(
@@ -1988,6 +1994,7 @@ sub ConfigurationEntitiesGet {
 
     SETTING:
     for my $SettingName (@EntitySettings) {
+
         my %Setting = $SysConfigDBObject->DefaultSettingGet(
             Name => $SettingName,
         );
@@ -2167,9 +2174,10 @@ sub ConfigurationXML2DB {
         my $Filename = $File;
         $Filename =~ s{\/\/}{\/}g;
         $Filename =~ s{\A .+ Kernel/Config/Files/XML/ (.+)\.xml\z}{$1}msx;
+        $Filename =~ s{\A .+ scripts/test/sample/SysConfig/XML/ (.+)\.xml\z}{$1}msx;
 
         my $CacheKey  = "ConfigurationXML2DB::${Filename}::${MD5Sum}";
-        my $CacheType = "SysConfig_ConfigurationXML2DB_$Filename";
+        my $CacheType = "SysConfig_ConfigurationXML2DB";
 
         my $Cache = $CacheObject->Get(
             Type => $CacheType,
@@ -2186,11 +2194,6 @@ sub ConfigurationXML2DB {
                 = ( @{ $SettingsByInit{ $Cache->{Init} } }, @{ $Cache->{Settings} } );
             next FILE;
         }
-
-        # Delete any cache with different MD5Sum
-        $CacheObject->CleanUp(
-            Type => $CacheType,
-        );
 
         # Read XML file.
         my $ConfigFile = $MainObject->FileRead(
@@ -2220,30 +2223,14 @@ sub ConfigurationXML2DB {
             next FILE;
         }
 
-        # Extract all Settings from XML file.
-        my $SettingList = $SysConfigXMLObject->SettingListGet(
-            XMLInput => $$ConfigFile,
-        );
-
         my $XMLFilename = $File;
         $XMLFilename =~ s{$Directory(.*\.xml)\z}{$1}gmsx;
         $XMLFilename =~ s{\A/}{}gmsx;
 
-        my @ParsedSettings;
-
-        for my $SettingName ( sort keys %{$SettingList} ) {
-
-            # Convert XML to perl structure.
-            my $Setting = $SysConfigXMLObject->SettingParse(
-                SettingXML => $SettingList->{$SettingName},
-            );
-
-            push @ParsedSettings, {
-                XMLContentParsed => $Setting,
-                XMLContentRaw    => $SettingList->{$SettingName},
-                XMLFilename      => $XMLFilename,
-            };
-        }
+        my @ParsedSettings = $SysConfigXMLObject->SettingListParse(
+            XMLInput    => ${$ConfigFile},
+            XMLFilename => $XMLFilename,
+        );
 
         @{ $SettingsByInit{$InitValue} } = ( @{ $SettingsByInit{$InitValue} }, @ParsedSettings );
 
@@ -2285,12 +2272,14 @@ sub ConfigurationXML2DB {
 
     my $ExclusiveLockExpiryTime = $DateTimeObject->ToString();
 
+    my $CleanUpNeeded;
+
     # Create/Update settings in DB.
     SETTING:
     for my $SettingName ( sort keys %Settings ) {
 
-        # Check if exists in Default.
-        my %DefaultSetting = $SysConfigDBObject->DefaultSettingGet(
+        # Check if exists.
+        my %SettingData = $SysConfigDBObject->DefaultSettingLookup(
             Name => $SettingName,
         );
 
@@ -2303,16 +2292,16 @@ sub ConfigurationXML2DB {
             Value => $Value,
         );
 
-        if (%DefaultSetting) {
+        if (%SettingData) {
 
             # Compare new Setting XML with the old one (skip if there is no difference).
-            my $Updated = $Settings{$SettingName}->{XMLContentRaw} eq $DefaultSetting{XMLContentRaw} ? 0 : 1;
+            my $Updated = $Settings{$SettingName}->{XMLContentRaw} eq $SettingData{XMLContentRaw} ? 0 : 1;
             next SETTING if !$Updated;
 
             # Lock setting to be able to update it.
             my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
                 UserID    => $Param{UserID},
-                DefaultID => $DefaultSetting{DefaultID},
+                DefaultID => $SettingData{DefaultID},
                 Force     => $Param{Force},
             );
             if ( !$ExclusiveLockGUID ) {
@@ -2320,14 +2309,14 @@ sub ConfigurationXML2DB {
                     Priority => 'error',
                     Message =>
                         "System was unable to lock Default Setting "
-                        . "(DefaultID=$DefaultSetting{DefaultID} UserID=$Param{UserID})!",
+                        . "(DefaultID=$SettingData{DefaultID} UserID=$Param{UserID})!",
                 );
                 next SETTING;
             }
 
             # Update default setting.
             my $Success = $SysConfigDBObject->DefaultSettingUpdate(
-                DefaultID      => $DefaultSetting{DefaultID},
+                DefaultID      => $SettingData{DefaultID},
                 Name           => $Settings{$SettingName}->{XMLContentParsed}->{Name},
                 Description    => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
                 Navigation     => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
@@ -2357,7 +2346,7 @@ sub ConfigurationXML2DB {
 
             # Unlock the setting so it can be locked again afterwards.
             $SysConfigDBObject->DefaultSettingUnlock(
-                DefaultID => $DefaultSetting{DefaultID},
+                DefaultID => $SettingData{DefaultID},
             );
 
             my @ModifiedList = $SysConfigDBObject->ModifiedSettingListGet(
@@ -2386,7 +2375,6 @@ sub ConfigurationXML2DB {
                     );
                 }
             }
-
         }
         else {
 
@@ -2409,6 +2397,7 @@ sub ConfigurationXML2DB {
                 XMLFilename            => $Settings{$SettingName}->{XMLFilename},
                 EffectiveValue         => $EffectiveValue,
                 ExclusiveLockExpiryTime => $ExclusiveLockExpiryTime,
+                NoCleanup               => 1,
                 UserID                  => $Param{UserID},
             );
             if ( !$DefaultID ) {
@@ -2418,7 +2407,42 @@ sub ConfigurationXML2DB {
                         "DefaultSettingAdd failed for Config Item: $Settings{$SettingName}->{XMLContentParsed}->{Name}!",
                 );
             }
+
+            # Delete individual cache.
+            $CacheObject->Delete(
+                Type => 'SysConfigDefault',
+                Key  => 'DefaultSettingGet::' . $Settings{$SettingName}->{XMLContentParsed}->{Name},
+            );
+            $CleanUpNeeded = 1;
         }
+    }
+
+    if ($CleanUpNeeded) {
+
+        # IMPORTANT - Since NoCleanup parameter is used, cache is not cleared,
+        # so we need to do it here (we do it here once and not 1800+ times).
+        $CacheObject->CleanUp(
+            Type => 'DefaultSettingListGet',
+        );
+        $CacheObject->Delete(
+            Type => 'DefaultSettingList',
+            Key  => 'DefaultSettingList',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigNavigation',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigEntities',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigIsDirty',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigDefaultVersion',
+        );
+        $CacheObject->CleanUp(
+            Type => 'SysConfigDefaultVersionList',
+        );
     }
 
     return 1;
@@ -2648,7 +2672,6 @@ sub ConfigurationListGet {
         UserModificationPossible => $Param{TargetUserID} ? 1 : undef,
         UserPreferencesGroup => $Param{UserPreferencesGroup} || undef,
         IsInvisible => $Param{Invisible} ? undef : 0,
-        IsValid => $Param{IsValid} // undef,
         %CategoryOptions,
     );
 
@@ -2698,6 +2721,10 @@ sub ConfigurationListGet {
         }
     }
 
+    if ( defined $Param{IsValid} ) {
+        @ConfigurationList = grep { $_->{IsValid} == $Param{IsValid} } @ConfigurationList;
+    }
+
     return @ConfigurationList;
 }
 
@@ -2705,13 +2732,21 @@ sub ConfigurationListGet {
 
 Wrapper of Kernel::System::SysConfig::DB::DefaultSettingList() - Get list of all settings.
 
-    my %Settings = $SysConfigObject->ConfigurationList();
+    my @SettingList = $SysConfigObject->ConfigurationList();
 
 Returns:
 
-    %Settings = (
-        '123' => 'SettingName1',
-        '124' => 'SettingName2',
+    @SettingList = (
+        {
+            DefaultID => '123',
+            Name      => 'SettingName1',
+            IsDirty   => 1,
+        },
+        {
+            DefaultID => '124',
+            Name      => 'SettingName2',
+            IsDirty   => 0
+        },
         ...
     );
 
@@ -2866,7 +2901,7 @@ sub ConfigurationDeploy {
         $Param{DirtySettings} = \@DirtySettings;
     }
 
-    my @DirtyDefaultList = $SysConfigDBObject->DefaultSettingListGet(
+    my @DirtyDefaultList = $SysConfigDBObject->DefaultSettingList(
         IsDirty => 1,
     );
 
@@ -2882,13 +2917,20 @@ sub ConfigurationDeploy {
     }
     elsif ( $Param{AllSettings} ) {
 
-        my @DirtyModifiedSettings = $SysConfigDBObject->ModifiedSettingListGet(
-            IsDirty => 1,
-        );
-
-        # Check if default settings or modified are to be deployed
-        if ( @DirtyDefaultList || @DirtyModifiedSettings ) {
+        # Check if default settings are to be deployed
+        if (@DirtyDefaultList) {
             $AddNewDeployment = 1;
+        }
+        else {
+
+            my @DirtyModifiedSettings = $SysConfigDBObject->ModifiedSettingListGet(
+                IsDirty => 1,
+            );
+
+            # Check if modified settings are to be deployed
+            if (@DirtyModifiedSettings) {
+                $AddNewDeployment = 1;
+            }
         }
     }
     elsif ( $Param{DirtySettings} ) {
@@ -2908,7 +2950,10 @@ sub ConfigurationDeploy {
 
     my $EffectiveValueStrg = '';
 
-    my @Settings = $Self->_GetSettingsToDeploy(%Param);
+    my @Settings = $Self->_GetSettingsToDeploy(
+        %Param,
+        NoCache => %LastDeployment ? 0 : 1,    # do not cache only during initial rebuild config
+    );
 
     SETTING:
     for my $CurrentSetting (@Settings) {
@@ -2916,9 +2961,12 @@ sub ConfigurationDeploy {
         my %Setting = $Self->SettingGet(
             Name    => $CurrentSetting->{Name},
             Default => 1,
+            NoCache => 1,                         # do not cache result, it will be deleted soon
         );
 
         %Setting = ( %Setting, %{$CurrentSetting} );
+
+        # my %Setting = %{$CurrentSetting};
 
         next SETTING if !$Setting{IsValid};
 
@@ -4233,7 +4281,7 @@ sub _DBCleanUp {
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-    my @SettingsDB = $SysConfigDBObject->DefaultSettingListGet();
+    my @SettingsDB = $SysConfigDBObject->DefaultSettingList();
 
     my ( $DefaultUpdated, $ModifiedUpdated );
 
@@ -4432,8 +4480,9 @@ sub _ConfigurationEntitiesGet {
             }
 
             # Extract value (without white space).
-            $Param{Value}->{Content} =~ m{^\s*(.*?)\s*$}gsmx;
-            my $Value = $1 // '';
+            my $Value = $Param{Value}->{Content};
+            $Value =~ s{^\s*(.*?)\s*$}{$1}gsmx;
+            $Value //= '';
 
             # If there is no array, create
             if ( !IsArrayRefWithData( $Result{$ValueEntityType}->{$Value} ) ) {
@@ -4695,7 +4744,9 @@ sub _GetSettingsToDeploy {
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
-    my @DefaultSettingsList = $SysConfigDBObject->DefaultSettingListGet();
+    my @DefaultSettingsList = $SysConfigDBObject->DefaultSettingListGet(
+        NoCache => $Param{NoCache},
+    );
 
     # Create a lookup table for the default settings (for easy adding modified).
     my %SettingsLookup = map { $_->{Name} => $_ } @DefaultSettingsList;

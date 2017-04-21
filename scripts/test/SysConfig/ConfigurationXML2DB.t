@@ -50,6 +50,11 @@ return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => $SQLDeleteDefaultSettings,
 );
 
+# cleanup cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    Type => 'SysConfigDefault',
+);
+
 my @Tests = (
     {
         Description    => 'Without UserID',

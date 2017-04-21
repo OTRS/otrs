@@ -44,109 +44,11 @@ sub new {
     return $Self;
 }
 
-=head2 SettingParse()
+=head2 SettingListParse()
 
-Parses XML Setting into Perl structure.
+Parses XML files into a list of perl structures and meta data.
 
-    my $PerlStructure = $SysConfigXMLObject->SettingParse(
-        SettingXML => '
-            <Setting Name="Test" Required="1" Valid="1">
-                <Description Translatable="1">Test.</Description>
-                <Navigation>Core::Ticket</Navigation>
-                <Value>
-                    <Item ValueType="String" ValueRegex=".*">123</Item>
-                </Value>
-            </Setting>
-        ',
-    );
-
-Returns:
-
-    my $PerlStructure = {
-        Description => [
-            {
-                Content      => 'Test.',
-                Translatable => '1',
-            },
-        ],
-        Name  => 'Test',
-        Required => '1',
-        Value => [
-            {
-                Item => [
-                    {
-                        ValueRegex => '.*',
-                        ValueType  => 'String',
-                        Content    => '123',
-                    },
-                ],
-            },
-        ],
-        Navigation => [
-            {
-                Content => 'Core::Ticket',
-            },
-        ],
-        Valid => '1',
-    };
-
-=cut
-
-sub SettingParse {
-    my ( $Type, %Param ) = @_;
-
-    if ( !defined $Param{SettingXML} || !length $Param{SettingXML} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need parameter SettingXML!",
-        );
-        return;
-    }
-
-    if ( !IsString( $Param{SettingXML} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Parameter SettingXML needs to be a string!",
-        );
-        return;
-    }
-
-    my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
-    my $PerlStructure   = $XMLSimpleObject->XMLIn(
-        XMLInput => $Param{SettingXML},
-        Options  => {
-            KeepRoot     => 1,
-            ForceArray   => 1,
-            ForceContent => 1,
-            ContentKey   => 'Content',
-        },
-    );
-
-    if (
-        !IsHashRefWithData($PerlStructure)
-        || keys %{$PerlStructure} != 1
-        || !exists $PerlStructure->{Setting}
-        || !IsArrayRefWithData( $PerlStructure->{Setting} )
-        || @{ $PerlStructure->{Setting} } != 1
-        )
-    {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Invalid SettingXML: must contain exactly one Setting element!",
-        );
-        return;
-    }
-
-    $PerlStructure = shift @{ $PerlStructure->{Setting} };
-
-    return $PerlStructure;
-}
-
-=head2 SettingListGet()
-
-Fetches Setting list from XML.
-
-    my $SettingList = $SysConfigXMLObject->SettingListGet(
+    my $PerlStructure = $SysConfigXMLObject->SettingListParse(
         XMLInput => '
             <?xml version="1.0" encoding="utf-8"?>
             <otrs_config version="2.0" init="Application">
@@ -166,29 +68,64 @@ Fetches Setting list from XML.
                 </Setting>
             </otrs_config>
         ',
+        XMLFilename => 'Test.xml'
     );
+
+    push @ParsedSettings, {
+        SettingName      => $SettingName,
+        XMLContentParsed => $PerlStructure->{Setting}->[0],
+        XMLContentRaw    => $RawSetting,
+        XMLFilename      => $Param{XMLFilename},
+    };
 
 Returns:
 
-    my $SettingList = {
-        Test1 => '<Setting...>...</Setting>',
-        Test2 => '<Setting...>...</Setting>',
-    };
+    [
+        {
+            XMLContentParsed => {
+                Description => [
+                    {
+                        Content      => 'Test.',
+                        Translatable => '1',
+                    },
+                ],
+                Name  => 'Test',
+                Required => '1',
+                Value => [
+                    {
+                        Item => [
+                            {
+                                ValueRegex => '.*',
+                                ValueType  => 'String',
+                                Content    => '123',
+                            },
+                        ],
+                    },
+                ],
+                Navigation => [
+                    {
+                        Content => 'Core::Ticket',
+                    },
+                ],
+                Valid => '1',
+            },
+            XMLContentRaw => '<Setting Name="Test1" Required="1" Valid="1">
+                <Description Translatable="1">Test 1.</Description>
+                <Navigation>Core::Ticket</Navigation>
+                <Value>
+                    <Item ValueType="String" ValueRegex=".*">123</Item>
+                </Value>
+            </Setting>',
+            XMLFilename => 'Test.xml'
+        },
+    ]
 
 =cut
 
-sub SettingListGet {
+sub SettingListParse {
     my ( $Type, %Param ) = @_;
 
-    if ( !defined $Param{XMLInput} || !length $Param{XMLInput} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need parameter XMLInput!",
-        );
-        return;
-    }
-
-    if ( !IsString( $Param{XMLInput} ) ) {
+    if ( !IsStringWithData( $Param{XMLInput} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Parameter XMLInput needs to be a string!",
@@ -196,61 +133,57 @@ sub SettingListGet {
         return;
     }
 
-    # Check if XML is valid.
     my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
-    my $PerlStructure   = $XMLSimpleObject->XMLIn(
-        XMLInput => $Param{XMLInput},
-        Options  => {
-            ForceArray   => 1,
-            ForceContent => 1,
-            ContentKey   => 'Content',
-        },
-    );
 
-    if ( !IsHashRefWithData($PerlStructure) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Resulting Perl structure must be a hash reference with data!",
-        );
-        return;
-    }
+    # Fetch XML of Setting elements.
+    my @ParsedSettings;
 
-    if ( !IsArrayRefWithData( $PerlStructure->{Setting} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Resulting Perl structure must have Setting elements!",
-        );
-        return;
-    }
-
-    my %SettingNamesLookup;
-
-    # Check that all Setting elements have a Name attribute.
     SETTING:
-    for my $Setting ( @{ $PerlStructure->{Setting} } ) {
-        if ( defined $Setting->{Name} && length $Setting->{Name} ) {
+    while (
+        $Param{XMLInput} =~ m{(?<RawSetting> <Setting[ ]+ .*? Name="(?<SettingName> .*? )" .*? > .*? </Setting> )}smxg
+        )
+    {
 
-            # Remember the setting name (commented settings should not be returned later)
-            $SettingNamesLookup{ $Setting->{Name} } = 1;
+        my $RawSetting  = $+{RawSetting};
+        my $SettingName = $+{SettingName};
+
+        next SETTING if !IsStringWithData($RawSetting);
+        next SETTING if !IsStringWithData($SettingName);
+
+        my $PerlStructure = $XMLSimpleObject->XMLIn(
+            XMLInput => $RawSetting,
+            Options  => {
+                KeepRoot     => 1,
+                ForceArray   => 1,
+                ForceContent => 1,
+                ContentKey   => 'Content',
+            },
+        );
+
+        if ( !IsHashRefWithData($PerlStructure) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Resulting Perl structure must be a hash reference with data!",
+            );
             next SETTING;
         }
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "At least one Setting element has no Name attribute!",
-        );
-        return;
+        if ( !IsArrayRefWithData( $PerlStructure->{Setting} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Resulting Perl structure must have Setting elements!",
+            );
+            next SETTING;
+        }
+
+        push @ParsedSettings, {
+            XMLContentParsed => $PerlStructure->{Setting}->[0],
+            XMLContentRaw    => $RawSetting,
+            XMLFilename      => $Param{XMLFilename},
+        };
     }
 
-    # Fetch XML of Setting elements.
-    my %List;
-    SETTING:
-    while ( $Param{XMLInput} =~ m{(<Setting\s.*?Name="(.*?)".*?>.*?</Setting>)}smg ) {
-        next SETTING if !$SettingNamesLookup{$2};
-        $List{$2} = $1;
-    }
-
-    return \%List;
+    return @ParsedSettings;
 }
 
 1;

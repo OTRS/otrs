@@ -23,7 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 our $UseSlaveDB = 0;
@@ -432,7 +432,11 @@ sub Do {
     # - This avoids time inconsistencies of app and db server
     # - This avoids timestamp problems in Postgresql servers where
     #   the timestamp is sometimes 1 second off the perl timestamp.
-    my $Timestamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+    );
+    my $Timestamp = $DateTimeObject->ToString();
+
     $Param{SQL} =~ s{
         (?<= \s | \( | , )  # lookahead
         current_timestamp   # replace current_timestamp by 'yyyy-mm-dd hh:mm:ss'
@@ -942,7 +946,7 @@ sub SQLProcessor {
         my @Database = @{ Storable::dclone( $Param{Database} ) };
 
         my @Table;
-        for my $Tag ( @Database ) {
+        for my $Tag (@Database) {
 
             # create table
             if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
@@ -958,7 +962,7 @@ sub SQLProcessor {
 
             # unique
             elsif (
-                $Tag->{Tag} eq 'Unique'
+                $Tag->{Tag}    eq 'Unique'
                 || $Tag->{Tag} eq 'UniqueCreate'
                 || $Tag->{Tag} eq 'UniqueDrop'
                 )
@@ -972,7 +976,7 @@ sub SQLProcessor {
 
             # index
             elsif (
-                $Tag->{Tag} eq 'Index'
+                $Tag->{Tag}    eq 'Index'
                 || $Tag->{Tag} eq 'IndexCreate'
                 || $Tag->{Tag} eq 'IndexDrop'
                 )
@@ -986,7 +990,7 @@ sub SQLProcessor {
 
             # foreign keys
             elsif (
-                $Tag->{Tag} eq 'ForeignKey'
+                $Tag->{Tag}    eq 'ForeignKey'
                 || $Tag->{Tag} eq 'ForeignKeyCreate'
                 || $Tag->{Tag} eq 'ForeignKeyDrop'
                 )

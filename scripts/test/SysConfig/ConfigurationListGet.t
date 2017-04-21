@@ -45,7 +45,7 @@ my $SettingsAdd = sub {
             IsInvisible    => 0,
             IsReadonly     => 0,
             IsRequired     => 1,
-            IsValid        => 1,
+            IsValid        => $Param{IsValid} // 1,
             HasConfigLevel => 0,
             XMLFilename    => 'UnitTest.xml',
         );
@@ -62,12 +62,13 @@ my $SettingsAdd = sub {
     </Setting>
 EOF
 
-        my $XMLContentParsed = $SysConfigXMLObject->SettingParse(
-            SettingXML => $XMLContentRaw,
+        my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
+            %DefaultSettingAddTemplate,
+            XMLInput => $XMLContentRaw,
         );
 
         my $Value = $StorableObject->Clone(
-            Data => $XMLContentParsed->{Value},
+            Data => $DefaultSettingAddParams[0]->{XMLContentParsed}->{Value},
         );
 
         my $EffectiveValue = $SysConfigObject->SettingEffectiveValueGet(
@@ -76,8 +77,8 @@ EOF
 
         my $DefaultID = $SysConfigDBObject->DefaultSettingAdd(
             %DefaultSettingAddTemplate,
-            XMLContentRaw            => $XMLContentRaw,
-            XMLContentParsed         => $XMLContentParsed,
+            %{ $DefaultSettingAddParams[0] },
+            Name                     => "Test0$RandomID",
             EffectiveValue           => $EffectiveValue,
             Name                     => $SettingName,
             UserModificationPossible => 0,
@@ -143,6 +144,17 @@ my @Tests = (
         Success          => 1,
     },
     {
+        Name   => '1 default disabled',
+        Config => {
+            Navigation => 'Core::Test',
+            IsValid    => 1,
+        },
+        NumberOfSettings => 1,
+        IsValid          => 0,
+        ModifySettings   => [1],
+        Success          => 1,
+    },
+    {
         Name   => '3 default',
         Config => {
             Navigation => 'Core::Test',
@@ -159,7 +171,6 @@ my @Tests = (
         NumberOfSettings => 3,
         Success          => 1,
     },
-
 );
 
 TEST:

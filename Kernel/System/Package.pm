@@ -602,7 +602,13 @@ sub PackageInstall {
     }
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        KeepTypes => ['XMLParse'],
+        KeepTypes => [
+            'XMLParse',
+            'DefaultSettingListGet',
+            'DefaultSettingList',
+            'SysConfigDefault',
+            'SysConfig_ConfigurationXML2DB',
+        ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
 
@@ -694,7 +700,13 @@ sub PackageReinstall {
     }
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        KeepTypes => ['XMLParse'],
+        KeepTypes => [
+            'XMLParse',
+            'DefaultSettingListGet',
+            'DefaultSettingList',
+            'SysConfigDefault',
+            'SysConfig_ConfigurationXML2DB',
+        ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
 
@@ -907,7 +919,7 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
+                    && ( defined $NotUseTag      && $Part->{Tag}      eq $NotUseTag )
                     && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
@@ -1007,7 +1019,7 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
+                    && ( defined $NotUseTag      && $Part->{Tag}      eq $NotUseTag )
                     && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
@@ -1107,7 +1119,13 @@ sub PackageUpgrade {
     }
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        KeepTypes => ['XMLParse'],
+        KeepTypes => [
+            'XMLParse',
+            'DefaultSettingListGet',
+            'DefaultSettingList',
+            'SysConfigDefault',
+            'SysConfig_ConfigurationXML2DB',
+        ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
 
@@ -1208,7 +1226,13 @@ sub PackageUninstall {
     $Self->{ConfigObject} = Kernel::Config->new( %{$Self} );
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        KeepTypes => ['XMLParse'],
+        KeepTypes => [
+            'XMLParse',
+            'DefaultSettingListGet',
+            'DefaultSettingList',
+            'SysConfigDefault',
+            'SysConfig_ConfigurationXML2DB',
+        ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
 
@@ -2276,7 +2300,7 @@ sub PackageBuild {
                         for my $Key ( sort keys %{$Tag} ) {
 
                             if (
-                                $Key ne 'Tag'
+                                $Key    ne 'Tag'
                                 && $Key ne 'Content'
                                 && $Key ne 'TagType'
                                 && $Key ne 'TagLevel'
@@ -3870,7 +3894,13 @@ sub _PackageUninstallMerged {
     );
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        KeepTypes => ['XMLParse'],
+        KeepTypes => [
+            'XMLParse',
+            'DefaultSettingListGet',
+            'DefaultSettingList',
+            'SysConfigDefault',
+            'SysConfig_ConfigurationXML2DB',
+        ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
 
@@ -4077,7 +4107,7 @@ sub _CheckDBMerged {
 
             if (
                 $Part->{TagType} eq 'End'
-                && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
+                && ( defined $NotUseTag      && $Part->{Tag}      eq $NotUseTag )
                 && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                 )
             {
@@ -4329,12 +4359,15 @@ sub _ConfigurationDeploy {
             }
 
             # get all settings from this package
-            my $SettingList = $Kernel::OM->Get('Kernel::System::SysConfig::XML')->SettingListGet(
-                XMLInput => ${$ContentRef},
+            my @SettingList = $Kernel::OM->Get('Kernel::System::SysConfig::XML')->SettingListParse(
+                XMLInput    => ${$ContentRef},
+                XMLFilename => $ConfigXMLFile,
             );
 
             # get all the setting names from this file
-            push @PackageSettings, sort keys %{$SettingList};
+            for my $Setting (@SettingList) {
+                push @PackageSettings, $Setting->{XMLContentParsed}->{Name};
+            }
         }
 
         # sort the settings
