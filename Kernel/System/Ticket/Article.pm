@@ -155,7 +155,7 @@ sub BackendForChannel {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
-            return;
+            return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Invalid');
         }
     }
 
