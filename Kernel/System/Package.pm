@@ -1427,14 +1427,23 @@ sub PackageOnlineList {
 
         if ( $Package->{Framework} ) {
 
-            my %Response = $Self->_CheckFramework(
+            my $Response = $Self->_CheckFramework(
                 Framework            => $Package->{Framework},
                 NoLog                => 1,
                 IgnoreMinimumMaximum => 1,
                 ResultType           => 'HASH'
             );
 
-            if ( $Response{Success} )
+            # Check result type of _CheckFramework() for compatibility reasons.
+            if (
+                (
+                    ref $Response eq 'SCALAR'
+                    && $Response
+                ) || (
+                    ref $Response eq 'HASH'
+                    && $Response->{Success}
+                )
+                )
             {
                 $FWCheckOk                    = 1;
                 $PackageForRequestedFramework = 1;
@@ -2932,19 +2941,22 @@ Compare a framework array with the current framework.
 
     my $CheckOk = $PackageObject->_CheckFramework(
         Framework       => $Structure{Framework}, # [ { 'Content' => '4.0.x', 'Minimum' => '4.0.4'} ]
-        NoLog           => 1,           # optional
-        ResultType      => 'HASH'       # optional
-    )
+        NoLog           => 1,                     # optional
+        ResultType      => 'HASH',                # optional
+    );
 
 ResultType 'HASH' returns:
 
-    %CheckOK = (
+    $CheckOK = {
         Success                     => 1,           # 1 || 0
 
         RequiredFramework           => '5.0.x',
         RequiredFrameworkMinimum    => '5.0.10',
         RequiredFrameworkMaximum    => '5.0.16',
-    );
+    };
+
+DEPRECATED: For compatibility reasons, if this method is called without ResultType 'HASH' parameter, it will return 1
+if current framework is supported. This parameter will be required in next major version.
 
 =cut
 
@@ -3124,7 +3136,7 @@ sub _CheckFramework {
     }
 
     if ( $ResultType eq 'HASH' ) {
-        return %Response;
+        return \%Response;
     }
     else {
         return 1 if $FWCheck;

@@ -1897,14 +1897,18 @@ sub _InstallHandling {
         $FromCloud = 1;
     }
 
-    my %Response = $PackageObject->_CheckFramework(
+    my $Response = $PackageObject->_CheckFramework(
         Framework  => $Structure{Framework},
-        NoLog      => 1,                       # optional
+        NoLog      => 1,
         ResultType => 'HASH',
     );
 
-    if ( !$Response{Success} ) {
-
+    # Check result type of _CheckFramework() for compatibility reasons.
+    if (
+        ref $Response eq 'HASH'
+        && !$Response->{Success}
+        )
+    {
         $LayoutObject->Block(
             Name => 'IncompatibleInfo',
             Data => {
@@ -1914,9 +1918,9 @@ sub _InstallHandling {
                 Type                   => 'InstallIncompatible',
                 Name                   => $Structure{Name}->{Content},
                 Version                => $Structure{Version}->{Content},
-                RequiredMinimumVersion => $Response{RequiredFrameworkMinimum},
-                RequiredMaximumVersion => $Response{RequiredFrameworkMaximum},
-                RequiredFramework      => $Response{RequiredFramework},
+                RequiredMinimumVersion => $Response->{RequiredFrameworkMinimum},
+                RequiredMaximumVersion => $Response->{RequiredFrameworkMaximum},
+                RequiredFramework      => $Response->{RequiredFramework},
             },
         );
 
@@ -1931,7 +1935,7 @@ sub _InstallHandling {
     }
 
     # intro before installation
-    elsif ( %Data && !$IntroInstallPre ) {
+    if ( %Data && !$IntroInstallPre ) {
 
         $LayoutObject->Block(
             Name => 'Intro',
@@ -2052,14 +2056,19 @@ sub _UpgradeHandling {
             Type => 'pre'
         );
     }
-    my %Response = $PackageObject->_CheckFramework(
+
+    my $Response = $PackageObject->_CheckFramework(
         Framework  => $Structure{Framework},
-        NoLog      => 1,                       # optional
+        NoLog      => 1,
         ResultType => 'HASH',
     );
 
-    if ( !$Response{Success} ) {
-
+    # Check result type of _CheckFramework() for compatibility reasons.
+    if (
+        ref $Response eq 'HASH'
+        && !$Response->{Success}
+        )
+    {
         $LayoutObject->Block(
             Name => 'IncompatibleInfo',
             Data => {
@@ -2069,9 +2078,9 @@ sub _UpgradeHandling {
                 Type                   => 'UpgradeIncompatible',
                 Name                   => $Structure{Name}->{Content},
                 Version                => $Structure{Version}->{Content},
-                RequiredMinimumVersion => $Response{RequiredFrameworkMinimum},
-                RequiredMaximumVersion => $Response{RequiredFrameworkMaximum},
-                RequiredFramework      => $Response{RequiredFramework},
+                RequiredMinimumVersion => $Response->{RequiredFrameworkMinimum},
+                RequiredMaximumVersion => $Response->{RequiredFrameworkMaximum},
+                RequiredFramework      => $Response->{RequiredFramework},
             },
         );
 
@@ -2083,7 +2092,8 @@ sub _UpgradeHandling {
         $Output .= $LayoutObject->Footer();
         return $Output;
     }
-    elsif ( %Data && !$IntroUpgradePre ) {
+
+    if ( %Data && !$IntroUpgradePre ) {
         $LayoutObject->Block(
             Name => 'Intro',
             Data => {
