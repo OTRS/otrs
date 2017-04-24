@@ -1,5 +1,5 @@
 #5.0.19 2017-??-??
- - 2017-ß4-24 Follow-up fix for bug#[12118](https://bugs.otrs.org/show_bug.cgi?id=12118) - Unified the search from text and textarea dynamic fields.
+ - 2017-04-24 Follow-up fix for bug#[12118](https://bugs.otrs.org/show_bug.cgi?id=12118) - Unified the search from text and textarea dynamic fields.
  - 2017-04-20 Fixed bug#[12756](https://bugs.otrs.org/show_bug.cgi?id=12756) - The format buttons are displayed on the dashboard translated, but during the running of stats they are not translated.
  - 2017-04-20 Fixed bug#[12773](https://bugs.otrs.org/show_bug.cgi?id=12773) - In case of big screen resolution the Subject field is too long.
  - 2017-04-19 Fixed bug#[12736](https://bugs.otrs.org/show_bug.cgi?id=12736)(PR#1709) - Malformed pgp-signed multipart mail can cause error in PGP.pm. Thanks to Michael and S7!
