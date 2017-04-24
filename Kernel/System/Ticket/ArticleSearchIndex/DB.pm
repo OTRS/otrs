@@ -145,7 +145,7 @@ sub _ArticleIndexQuerySQL {
     for (
         sort keys %SearchableFields,
         qw(
-        ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
+        Fulltext ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
         ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate
         )
         )
