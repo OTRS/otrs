@@ -11,7 +11,7 @@ package Kernel::System::Ticket::Article::Backend::Chat;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
@@ -581,6 +581,17 @@ sub ArticleDelete {    ## no critic;
     return $Self->_MetaArticleDelete(
         %Param,
     );
+}
+
+=head2 ArticleAttachmentIndex()
+
+Compatibility method, returns nothing. Will be removed after all places invoking C<ArticleAttachmentIndex()> on article
+backends are improved.
+
+=cut
+
+sub ArticleAttachmentIndex {
+    return;
 }
 
 =head2 BackendSearchableFieldsGet()
