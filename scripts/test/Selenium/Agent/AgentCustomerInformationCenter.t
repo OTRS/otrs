@@ -106,11 +106,13 @@ $Selenium->RunTest(
         # navigate to AdminCustomerInformationCenter screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter");
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length',
+            JavaScript =>
+                'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length',
         );
 
         # input search parameters
-        $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )->send_keys($TestCustomerUserLogin);
+        $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )
+            ->send_keys($TestCustomerUserLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$TestCustomerUserLogin']")->VerifiedClick();
 

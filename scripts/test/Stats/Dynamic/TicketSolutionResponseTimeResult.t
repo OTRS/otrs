@@ -179,7 +179,7 @@ for my $Ticket (@Tickets) {
 
     if ( $Ticket->{TicketData}->{AddSecondsBeforeClose} ) {
 
-        $Helper->FixedTimeAddSeconds($Ticket->{TicketData}->{AddSecondsBeforeClose});
+        $Helper->FixedTimeAddSeconds( $Ticket->{TicketData}->{AddSecondsBeforeClose} );
 
         # Now close the ticket, because the statistic select only closed tickets.
         $TicketObject->TicketStateSet(
@@ -244,7 +244,8 @@ $Self->True(
     'StatsUpdate() TicketSolutionResponseTime successful - StatID $TicketSolutionResponseTimeStatID',
 );
 
-my $KindsOfReporting = $Kernel::OM->Get('Kernel::System::Stats::Dynamic::TicketSolutionResponseTime')->_KindsOfReporting();
+my $KindsOfReporting
+    = $Kernel::OM->Get('Kernel::System::Stats::Dynamic::TicketSolutionResponseTime')->_KindsOfReporting();
 
 my @Tests = (
 

@@ -384,7 +384,7 @@ sub TableDrop {
             END;
             $Shell";
 
-        return ($SQL, $DropSequenceSQL);
+        return ( $SQL, $DropSequenceSQL );
     }
     return ();
 }
