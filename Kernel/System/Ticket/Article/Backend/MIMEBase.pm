@@ -1479,44 +1479,45 @@ sub BackendSearchableFieldsGet {
     my ( $Self, %Param ) = @_;
 
     my %SearchableFields = (
-        'MIMEBase::From' => {
+        'MIMEBase_From' => {
             Label      => 'From',
-            Key        => 'MIMEBase::From',
+            Key        => 'MIMEBase_From',
             Type       => 'Text',
             Filterable => 0,
         },
-        'MIMEBase::To' => {
+        'MIMEBase_To' => {
             Label      => 'To',
-            Key        => 'MIMEBase::To',
+            Key        => 'MIMEBase_To',
             Type       => 'Text',
             Filterable => 0,
         },
-        'MIMEBase::Cc' => {
+        'MIMEBase_Cc' => {
             Label      => 'Cc',
-            Key        => 'MIMEBase::Cc',
+            Key        => 'MIMEBase_Cc',
             Type       => 'Text',
             Filterable => 0,
         },
-        'MIMEBase::Subject' => {
+        'MIMEBase_Subject' => {
             Label      => 'Subject',
-            Key        => 'MIMEBase::Subject',
+            Key        => 'MIMEBase_Subject',
             Type       => 'Text',
             Filterable => 1,
         },
-        'MIMEBase::Body' => {
+        'MIMEBase_Body' => {
             Label      => 'Body',
-            Key        => 'MIMEBase::Body',
+            Key        => 'MIMEBase_Body',
             Type       => 'Text',
             Filterable => 1,
         },
     );
 
-    my $MimeBaseConfig = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase');
-
-    if ( $MimeBaseConfig->{IndexAttachmentNames} ) {
-        $SearchableFields{'MIMEBase::AttachmentName'} = {
+    if (
+        $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{IndexAttachmentNames}
+        )
+    {
+        $SearchableFields{'MIMEBase_AttachmentName'} = {
             Label      => 'Attachment Name',
-            Key        => 'MIMEBase::AttachmentName',
+            Key        => 'MIMEBase_AttachmentName',
             Type       => 'Text',
             Filterable => 0,
         };
@@ -1588,11 +1589,11 @@ sub ArticleSearchableContentGet {
     }
 
     my %DataKeyMap = (
-        'MIMEBase::From'    => 'From',
-        'MIMEBase::To'      => 'To',
-        'MIMEBase::Cc'      => 'Cc',
-        'MIMEBase::Subject' => 'Subject',
-        'MIMEBase::Body'    => 'Body',
+        'MIMEBase_From'    => 'From',
+        'MIMEBase_To'      => 'To',
+        'MIMEBase_Cc'      => 'Cc',
+        'MIMEBase_Subject' => 'Subject',
+        'MIMEBase_Body'    => 'Body',
     );
 
     my %ArticleData = $Self->ArticleGet(
@@ -1610,7 +1611,7 @@ sub ArticleSearchableContentGet {
     for my $FieldKey ( sort keys %BackendSearchableFields ) {
 
         # scan available attachment names and append the information
-        if ( $FieldKey eq 'MIMEBase::AttachmentName' ) {
+        if ( $FieldKey eq 'MIMEBase_AttachmentName' ) {
 
             my %AttachmentIndex = $Self->ArticleAttachmentIndex(
                 ArticleID       => $Param{ArticleID},

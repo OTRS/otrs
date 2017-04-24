@@ -112,39 +112,39 @@
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="From" id="LabelFrom">[% Translate("From") | html %]:</label>
+        <label for="From" id="LabelMIMEBase_From">[% Translate("From") | html %]:</label>
         <div class="Field">
-            <input type="text" name="From" value="[% Data.From | html %]" class="W50pc"/>
+            <input type="text" name="MIMEBase_From" value="[% Data.From | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="To" id="LabelTo">[% Translate("To") | html %]:</label>
+        <label for="To" id="LabelMIMEBase_To">[% Translate("To") | html %]:</label>
         <div class="Field">
-            <input type="text" name="To" value="[% Data.To | html %]" class="W50pc"/>
+            <input type="text" name="MIMEBase_To" value="[% Data.To | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="Cc" id="LabelCc">[% Translate("Cc") | html %]:</label>
+        <label for="Cc" id="LabelMIMEBase_Cc">[% Translate("Cc") | html %]:</label>
         <div class="Field">
-            <input type="text" name="Cc" value="[% Data.Cc | html %]" class="W50pc"/>
+            <input type="text" name="MIMEBase_Cc" value="[% Data.Cc | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="Subject" id="LabelSubject">[% Translate("Subject") | html %]:</label>
+        <label for="Subject" id="LabelMIMEBase_Subject">[% Translate("Subject") | html %]:</label>
         <div class="Field">
-            <input type="text" name="Subject" value="[% Data.Subject | html %]" class="W50pc"/>
+            <input type="text" name="MIMEBase_Subject" value="[% Data.Subject | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="Body" id="LabelBody">[% Translate("Text") | html %]:</label>
+        <label for="Body" id="LabelMIMEBase_Body">[% Translate("Text") | html %]:</label>
         <div class="Field">
-            <input type="text" name="Body" value="[% Data.Body | html %]" class="W50pc"/>
+            <input type="text" name="MIMEBase_Body" value="[% Data.Body | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="AttachmentName" id="LabelAttachmentName">[% Translate("Attachment Name") | html %]:</label>
+        <label for="AttachmentName" id="LabelMIMEBase_AttachmentName">[% Translate("Attachment Name") | html %]:</label>
         <div class="Field">
-            <input type="text" name="AttachmentName" placeholder="[% Translate("(e. g. m*file or myfi*)") | html %]" value="[% Data.AttachmentName | html %]" class="W50pc"/>
+            <input type="text" name="MIMEBase_AttachmentName" placeholder="[% Translate("(e. g. m*file or myfi*)") | html %]" value="[% Data.AttachmentName | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>

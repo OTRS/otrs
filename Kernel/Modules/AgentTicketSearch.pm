@@ -131,11 +131,12 @@ sub Run {
     # get search string params (get submitted params)
     else {
         for my $Key (
-            qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerIDRaw
+            qw(TicketNumber Title MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Subject
+            MIMEBase_Body CustomerID CustomerIDRaw
             CustomerUserLogin CustomerUserLoginRaw CustomerUserID StateType Agent ResultForm
             TimeSearchType ChangeTimeSearchType CloseTimeSearchType LastChangeTimeSearchType
             EscalationTimeSearchType PendingTimeSearchType
-            UseSubQueues AttachmentName
+            UseSubQueues MIMEBase_AttachmentName
             ArticleTimeSearchType SearchInArchive
             Fulltext ShownAttributes
             ArticleCreateTimePointFormat ArticleCreateTimePoint
@@ -184,7 +185,6 @@ sub Run {
             )
             )
         {
-
             # get search string params (get submitted params)
             $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
 
@@ -1325,35 +1325,31 @@ sub Run {
 
             # Article fields
             {
-                Key   => 'From',
+                Key   => 'MIMEBase_From',
                 Value => Translatable('From'),
             },
             {
-                Key   => 'To',
+                Key   => 'MIMEBase_To',
                 Value => Translatable('To'),
             },
             {
-                Key   => 'Cc',
+                Key   => 'MIMEBase_Cc',
                 Value => Translatable('Cc'),
             },
             {
-                Key   => 'Subject',
+                Key   => 'MIMEBase_Subject',
                 Value => Translatable('Subject'),
             },
             {
-                Key   => 'Body',
+                Key   => 'MIMEBase_Body',
                 Value => Translatable('Body'),
             },
         );
 
-        if (
-            $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{ArticleStorage} eq
-            'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB'
-            )
-        {
+        if ( $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{IndexAttachmentNames} ) {
             push @Attributes, (
                 {
-                    Key   => 'AttachmentName',
+                    Key   => 'MIMEBase_AttachmentName',
                     Value => Translatable('Attachment Name'),
                 },
             );

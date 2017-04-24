@@ -680,8 +680,8 @@ sub ArticleSearchableContentGet {
     }
 
     my %DataKeyMap = (
-        'Chat::ChatterName' => 'ChatterName',
-        'Chat::MessageText' => 'MessageText',
+        'Chat_ChatterName' => 'ChatterName',
+        'Chat_MessageText' => 'MessageText',
     );
 
     my %ArticleData = $Self->ArticleGet(
