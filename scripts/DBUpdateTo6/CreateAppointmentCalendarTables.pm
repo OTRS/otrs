@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo6::CreateAppointmentCalendarTables - Create AppointmentCalendar tables.
+scripts::DBUpdateTo6::CreateAppointmentCalendarTables - Create appointment calendar tables.
 
 =cut
 
@@ -36,9 +36,8 @@ sub Run {
     # Get list of all installed packages.
     my @RepositoryList = $PackageObject->RepositoryList();
 
-    # Check if the appointment calendar tables already exist, by checking if OTRSAppointmentCalendar
-    #   package is installed. Also check if version is lower than 5.0.2, in order to execute some
-    #   database upgrade statements too.
+    # Check if the appointment calendar tables already exist, by testing if OTRSAppointmentCalendar package is
+    #   installed. Also check if version is lower than 5.0.2, in order to execute some database upgrade statements.
     my $PackageVersion;
     my $DBUpdateNeeded;
 
@@ -108,12 +107,16 @@ sub Run {
             return 1;
         }
 
-        # Appointment calendar tables exist and are up to date, so we do not have to create or
-        #   upgrade them here.
+        # Appointment calendar tables exist and are up to date, so we do not have to create or upgrade them here.
         print ", skipping database upgrade...\n";
 
         return 1;
     }
+
+    # Get list of existing OTRS tables, in order to check if calendar tables already exist. This is needed because
+    #   update script might be executed multiple times, and by then OTRSAppointmentCalendar package has already been
+    #   merged so we cannot rely on its existence. Please see bug#12788 for more information.
+    my @OTRSTables = $DBObject->ListTables();
 
     # Define the XML data for the appointment calendar tables.
     my @XMLStrings = (
@@ -228,7 +231,18 @@ sub Run {
     # Create database specific SQL and PostSQL commands out of XML.
     my @SQL;
     my @SQLPost;
+    XML_STRING:
     for my $XMLString (@XMLStrings) {
+
+        # Skip existing tables.
+        if ( $XMLString =~ /<TableCreate Name="([a-z_]+)">/ ) {
+            my $TableName = $1;
+            if ( grep { $_ eq $TableName } @OTRSTables ) {
+                print "\nTable '$TableName' already exists, skipping... ";
+                next XML_STRING;
+            }
+        }
+
         my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
 
         # Create database specific SQL.

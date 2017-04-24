@@ -85,15 +85,15 @@ sub RebuildConfig {
     return 1;
 }
 
-=head2 CacheCleanUp()
+=head2 CacheCleanup()
 
 Clean up the cache.
 
-    $DBUpdateTo6Object->CacheCleanUp();
+    $DBUpdateTo6Object->CacheCleanup();
 
 =cut
 
-sub CacheCleanUp {
+sub CacheCleanup {
     my ( $Self, %Param ) = @_;
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
