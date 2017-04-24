@@ -2966,8 +2966,6 @@ sub ConfigurationDeploy {
 
         %Setting = ( %Setting, %{$CurrentSetting} );
 
-        # my %Setting = %{$CurrentSetting};
-
         next SETTING if !$Setting{IsValid};
 
         my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
