@@ -27,20 +27,9 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$ConfigObject->Set(
-    Key   => 'Ticket::SearchIndexModule',
-    Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
-);
-
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
-
-$Self->True(
-    $ArticleObject->{ArticleSearchIndexModule},
-    'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
-    'ArticleObject loaded the correct backend',
-);
 
 # create some content
 my $TicketID = $TicketObject->TicketCreate(
@@ -91,11 +80,6 @@ $Self->True(
 
 # Discard existing ticket object.
 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-
-$ConfigObject->Set(
-    Key   => 'Ticket::SearchIndexModule',
-    Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
-);
 
 $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 

@@ -114,6 +114,9 @@ sub Run {
         FieldFilter => $DynamicFieldFilter || {},
     );
 
+    # collect all searchable article field definitions and add the fields to the attributes array
+    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+
     # load profiles string params (press load profile)
     if ( ( $Self->{Subaction} eq 'LoadProfile' && $Self->{Profile} ) || $Self->{TakeLastSearch} ) {
         %GetParam = $SearchProfileObject->SearchProfileGet(
@@ -131,20 +134,16 @@ sub Run {
     # get search string params (get submitted params)
     else {
         for my $Key (
-            qw(TicketNumber Title MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Subject
-            MIMEBase_Body Chat_ChatterName Chat_MessageText CustomerID CustomerIDRaw
-            CustomerUserLogin CustomerUserLoginRaw CustomerUserID StateType Agent ResultForm
-            TimeSearchType ChangeTimeSearchType CloseTimeSearchType LastChangeTimeSearchType
-            EscalationTimeSearchType PendingTimeSearchType
-            UseSubQueues MIMEBase_AttachmentName
-            ArticleTimeSearchType SearchInArchive
-            Fulltext ShownAttributes
-            ArticleCreateTimePointFormat ArticleCreateTimePoint
-            ArticleCreateTimePointStart
+            sort keys %ArticleSearchableFields,
+            qw(
+            TicketNumber Title CustomerID CustomerIDRaw CustomerUserLogin CustomerUserLoginRaw
+            CustomerUserID StateType Agent ResultForm TimeSearchType ChangeTimeSearchType
+            CloseTimeSearchType LastChangeTimeSearchType EscalationTimeSearchType PendingTimeSearchType
+            UseSubQueues ArticleTimeSearchType SearchInArchive Fulltext ShownAttributes
+            ArticleCreateTimePointFormat ArticleCreateTimePoint ArticleCreateTimePointStart
             ArticleCreateTimeStart ArticleCreateTimeStartDay ArticleCreateTimeStartMonth
-            ArticleCreateTimeStartYear
-            ArticleCreateTimeStop ArticleCreateTimeStopDay ArticleCreateTimeStopMonth
-            ArticleCreateTimeStopYear
+            ArticleCreateTimeStartYear ArticleCreateTimeStop ArticleCreateTimeStopDay
+            ArticleCreateTimeStopMonth ArticleCreateTimeStopYear
             TicketCreateTimePointFormat TicketCreateTimePoint
             TicketCreateTimePointStart
             TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
@@ -1322,50 +1321,13 @@ sub Run {
                 Value    => '-',
                 Disabled => 1,
             },
-
-            # Article fields
-            {
-                Key   => 'MIMEBase_From',
-                Value => Translatable('From'),
-            },
-            {
-                Key   => 'MIMEBase_To',
-                Value => Translatable('To'),
-            },
-            {
-                Key   => 'MIMEBase_Cc',
-                Value => Translatable('Cc'),
-            },
-            {
-                Key   => 'MIMEBase_Subject',
-                Value => Translatable('Subject'),
-            },
-            {
-                Key   => 'MIMEBase_Body',
-                Value => Translatable('Body'),
-            },
         );
 
-        # check for active attachment index
-        if ( $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{IndexAttachmentNames} ) {
+        for my $ArticleFieldKey ( sort keys %ArticleSearchableFields ) {
             push @Attributes, (
                 {
-                    Key   => 'MIMEBase_AttachmentName',
-                    Value => Translatable('Attachment Name'),
-                },
-            );
-        }
-
-        # check for active chat engine
-        if ( $ConfigObject->Get('ChatEngine::Active') ) {
-            push @Attributes, (
-                {
-                    Key   => 'Chat_ChatterName',
-                    Value => Translatable('Chat Participant'),
-                },
-                {
-                    Key   => 'Chat_MessageText',
-                    Value => Translatable('Chat message text'),
+                    Key   => $ArticleSearchableFields{$ArticleFieldKey}->{Key},
+                    Value => Translatable( $ArticleSearchableFields{$ArticleFieldKey}->{Label} ),
                 },
             );
         }
@@ -2241,6 +2203,18 @@ sub Run {
                 EmptySearch => $EmptySearch,
             },
         );
+
+        # create the field entries to be displayed in the modal dialog
+        for my $ArticleFieldKey ( sort keys %ArticleSearchableFields ) {
+            $LayoutObject->Block(
+                Name => 'SearchableArticleField',
+                Data => {
+                    ArticleFieldLabel => $ArticleSearchableFields{$ArticleFieldKey}->{Label},
+                    ArticleFieldKey   => $ArticleSearchableFields{$ArticleFieldKey}->{Key},
+                    ArticleFieldValue => $GetParam{$ArticleFieldKey} // '',
+                },
+            );
+        }
 
         # output Dynamic fields blocks
         # cycle trough the activated Dynamic Fields for this screen

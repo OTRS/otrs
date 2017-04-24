@@ -622,7 +622,11 @@ Returns:
 sub BackendSearchableFieldsGet {
     my ( $Self, %Param ) = @_;
 
-    my %SearchableFields = (
+    my %SearchableFields;
+
+    return %SearchableFields if !$Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active');
+
+    %SearchableFields = (
         'Chat_ChatterName' => {
             Label      => 'Chat Participant',
             Key        => 'Chat_ChatterName',

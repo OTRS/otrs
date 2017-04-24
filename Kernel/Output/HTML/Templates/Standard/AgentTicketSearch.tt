@@ -112,54 +112,15 @@
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="MIMEBase_From" id="LabelMIMEBase_From">[% Translate("From") | html %]:</label>
+
+[% RenderBlockStart("SearchableArticleField") %]
+        <label for="[% Data.ArticleFieldKey | html %]" id="Label[% Data.ArticleFieldKey | html %]">[% Data.ArticleFieldLabel | html %]:</label>
         <div class="Field">
-            <input type="text" name="MIMEBase_From" value="[% Data.MIMEBase_From | html %]" class="W50pc"/>
+            <input type="text" name="[% Data.ArticleFieldKey | html %]" value="[% Data.ArticleFieldValue | html %]" class="W50pc"/>
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
         </div>
         <div class="Clear"></div>
-        <label for="MIMEBase_To" id="LabelMIMEBase_To">[% Translate("To") | html %]:</label>
-        <div class="Field">
-            <input type="text" name="MIMEBase_To" value="[% Data.MIMEBase_To | html %]" class="W50pc"/>
-            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
-        </div>
-        <div class="Clear"></div>
-        <label for="MIMEBase_Cc" id="LabelMIMEBase_Cc">[% Translate("Cc") | html %]:</label>
-        <div class="Field">
-            <input type="text" name="MIMEBase_Cc" value="[% Data.MIMEBase_Cc | html %]" class="W50pc"/>
-            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
-        </div>
-        <div class="Clear"></div>
-        <label for="MIMEBase_Subject" id="LabelMIMEBase_Subject">[% Translate("Subject") | html %]:</label>
-        <div class="Field">
-            <input type="text" name="MIMEBase_Subject" value="[% Data.MIMEBase_Subject | html %]" class="W50pc"/>
-            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
-        </div>
-        <div class="Clear"></div>
-        <label for="MIMEBase_Body" id="LabelMIMEBase_Body">[% Translate("Text") | html %]:</label>
-        <div class="Field">
-            <input type="text" name="MIMEBase_Body" value="[% Data.MIMEBase_Body | html %]" class="W50pc"/>
-            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
-        </div>
-        <div class="Clear"></div>
-        <label for="MIMEBase_AttachmentName" id="LabelMIMEBase_AttachmentName">[% Translate("Attachment Name") | html %]:</label>
-        <div class="Field">
-            <input type="text" name="MIMEBase_AttachmentName" placeholder="[% Translate("(e. g. m*file or myfi*)") | html %]" value="[% Data.MIMEBase_AttachmentName | html %]" class="W50pc"/>
-            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
-        </div>
-        <div class="Clear"></div>
-        <label for="Chat_ChatterName" id="LabelChat_ChatterName">[% Translate("Chat Participant") | html %]:</label>
-        <div class="Field">
-            <input type="text" name="Chat_ChatterName" value="[% Data.Chat_ChatterName | html %]" class="W50pc"/>
-            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
-        </div>
-        <div class="Clear"></div>
-        <label for="Chat_MessageText" id="LabelChat_MessageText">[% Translate("Chat message text") | html %]:</label>
-        <div class="Field">
-            <input type="text" name="Chat_MessageText" value="[% Data.Chat_MessageText | html %]" class="W50pc"/>
-            <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
-        </div>
-        <div class="Clear"></div>
+[% RenderBlockEnd("SearchableArticleField") %]
 
 [% RenderBlockStart("DynamicField") %]
         [% Data.Label %]
