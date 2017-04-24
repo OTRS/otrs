@@ -249,7 +249,7 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name   => 'Text UTF8 Wildcard DF',
+        Name   => 'Text UTF8 Wildcard (*) DF',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Text},
             Profile            => {
@@ -266,6 +266,28 @@ my @Tests = (
             Display   => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
             Parameter => {
                 Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Text UTF8 Wildcard (%) DF',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Text},
+            Profile            => {
+                Search_DynamicField_TextField =>
+                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+            },
+            CGIParam => {
+                Search_DynamicField_TextField =>
+                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+            },
+
+        },
+        ExpectedResults => {
+            Display   => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+            Parameter => {
+                Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
             },
         },
         Success => 1,
@@ -328,7 +350,7 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name   => 'TextArea UTF8 Wildcard DF',
+        Name   => 'TextArea UTF8 Wildcard (*) DF',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Profile            => {
@@ -344,6 +366,27 @@ my @Tests = (
             Display   => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
             Parameter => {
                 Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'TextArea UTF8 Wildcard (%) DF',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
+            Profile            => {
+                Search_DynamicField_TextAreaField =>
+                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+            },
+            CGIParam => {
+                Search_DynamicField_TextAreaField =>
+                    'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+            },
+        },
+        ExpectedResults => {
+            Display   => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+            Parameter => {
+                Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
             },
         },
         Success => 1,

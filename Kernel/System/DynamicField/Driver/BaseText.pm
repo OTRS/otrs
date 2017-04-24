@@ -478,8 +478,10 @@ sub SearchFieldParameterBuild {
     # set operator
     my $Operator = 'Equals';
 
-    # search for a wild card in the value
-    if ( $Value && $Value =~ m{\*} ) {
+    # Search for a wild card in the value (also for '%').
+    # The '%' is needed for the compatibility with the old removed textarea function (bug#12783) and
+    #   can be removed with OTRS 6.
+    if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\%} ) ) {
 
         # change oprator
         $Operator = 'Like';
@@ -512,8 +514,10 @@ sub StatsSearchFieldParameterBuild {
     # set operator
     my $Operator = 'Equals';
 
-    # search for a wild card in the value
-    if ( $Value && $Value =~ m{\*} ) {
+    # Search for a wild card in the value (also for '%').
+    # The '%' is needed for the compatibility with the old removed textarea function (bug#12783) and
+    #   can be removed with OTRS 6.
+    if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\%} ) ) {
 
         # change oprator
         $Operator = 'Like';

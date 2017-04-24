@@ -168,7 +168,7 @@ my @Tests = (
         },
     },
     {
-        Name   => 'Text UTF8 Wildcard DF',
+        Name   => 'Text UTF8 Wildcard (*) DF',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Text},
             Value              => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
@@ -176,6 +176,17 @@ my @Tests = (
         },
         ExpectedResults => {
             Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
+        },
+    },
+    {
+        Name   => 'Text UTF8 Wildcard (%) DF',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Text},
+            Value              => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+
+        },
+        ExpectedResults => {
+            Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
         },
     },
 
@@ -191,13 +202,23 @@ my @Tests = (
         },
     },
     {
-        Name   => 'TextArea UTF8 Wildcard DF',
+        Name   => 'TextArea UTF8 Wildcard (*) DF',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
             Value              => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
         },
         ExpectedResults => {
             Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß*',
+        },
+    },
+    {
+        Name   => 'TextArea UTF8 Wildcard (%) DF',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{TextArea},
+            Value              => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
+        },
+        ExpectedResults => {
+            Like => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß%',
         },
     },
 
