@@ -34,11 +34,8 @@ sub Run {
 
     # check error
     if ( !$FilePath ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Could not find Kernel/Config/Files/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm!",
-        );
-        return;
+        print "\nCould not find Kernel/Config/Files/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
+        return 1;
     }
 
     # Rebuild config to read the xml config files from otrs 6 to write them

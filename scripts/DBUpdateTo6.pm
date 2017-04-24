@@ -67,7 +67,7 @@ sub Run {
         }
 
         # Show initial task message.
-        print "Step $Step of $Steps: $Task->{Message}...";
+        print "Step $Step of $Steps: $Task->{Message}... ";
 
         # Run module.
         $Kernel::OM->ObjectParamAdd(
@@ -113,7 +113,7 @@ sub _TasksGet {
             Module  => 'MigrateConfigEffectiveValues',
         },
         {
-            Message => 'Refresh configuration cache after migration of OTRS 5 settings.',
+            Message => 'Refresh configuration cache after migration of OTRS 5 settings',
             Module  => 'RebuildConfig',
         },
         {
@@ -153,7 +153,7 @@ sub _TasksGet {
         },
         {
             Message => 'Clean up the cache',
-            Module  => 'CacheCleanUp',
+            Module  => 'CacheCleanup',
         },
         {
             Message => 'Refresh configuration cache another time',
