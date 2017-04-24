@@ -1624,7 +1624,9 @@ sub ArticleSearchableContentGet {
             my %AttachmentIndex = $Self->ArticleAttachmentIndex(
                 ArticleID       => $Param{ArticleID},
                 UserID          => $Param{UserID},
-                ExcludeHTMLBody => 1,
+                ExcludePlainText => 1,
+                ExcludeHTMLBody  => 1,
+                ExcludeInline    => 1,
             );
 
             next FIELDKEY if !%AttachmentIndex;
