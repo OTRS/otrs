@@ -91,7 +91,7 @@ $Self->True(
 );
 
 # drop table
-$XML = '<TableDrop Name="test_a"/>';
+$XML      = '<TableDrop Name="test_a"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQLARRAY = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
@@ -170,9 +170,9 @@ $Self->True(
 );
 
 # drop table
-$XML = '<TableDrop Name="test_a"/>';
+$XML      = '<TableDrop Name="test_a"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-@SQLARRAY  = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+@SQLARRAY = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQLARRAY[0],
     'SQLProcessor() DROP TABLE',

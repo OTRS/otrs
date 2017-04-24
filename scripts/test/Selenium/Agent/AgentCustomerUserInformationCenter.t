@@ -148,24 +148,24 @@ $Selenium->RunTest(
             for my $TicketData ( @{ $CustomerTickets{$PermissionType} } ) {
                 my $TicketNumber = $TicketObject->TicketCreateNumber();
                 my $TicketID     = $TicketObject->TicketCreate(
-                    TN           => $TicketNumber,
-                    Title        => 'Selenium Test Ticket',
-                    Queue        => 'Raw',
-                    Lock         => 'unlock',
-                    Priority     => '3 normal',
-                    State        => 'open',
-                    %{ $TicketData },
-                    OwnerID      => $TestUserID,
-                    UserID       => $TestUserID,
+                    TN       => $TicketNumber,
+                    Title    => 'Selenium Test Ticket',
+                    Queue    => 'Raw',
+                    Lock     => 'unlock',
+                    Priority => '3 normal',
+                    State    => 'open',
+                    %{$TicketData},
+                    OwnerID => $TestUserID,
+                    UserID  => $TestUserID,
                 );
                 $Self->True(
                     $TicketID,
                     "Ticket with TicketID $TicketID - created - TN $TicketNumber",
                 );
-                push @TicketIDs, $TicketID;
+                push @TicketIDs,               $TicketID;
                 push @AccessibleTicketNumbers, $TicketNumber;
 
-                if ( $PermissionType eq 'Assigend') {
+                if ( $PermissionType eq 'Assigend' ) {
                     push @AssigendTicketNumbers, $TicketNumber;
                 }
             }
@@ -180,7 +180,8 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#AgentCustomerUserInformationCenterSearchCustomerUser").length'
         );
 
-        $Selenium->find_element( "#AgentCustomerUserInformationCenterSearchCustomerUser", 'css' )->send_keys($CustomerUsers[0]->{UserLogin});
+        $Selenium->find_element( "#AgentCustomerUserInformationCenterSearchCustomerUser", 'css' )
+            ->send_keys( $CustomerUsers[0]->{UserLogin} );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$CustomerUsers[0]->{UserMailString}']")->VerifiedClick();
 
@@ -224,8 +225,8 @@ $Selenium->RunTest(
             );
         }
 
-
-        $Selenium->find_element( "#DashboardAdditionalFilter0130-CUIC-TicketOpenAccessibleForCustomerUser", 'css' )->click();
+        $Selenium->find_element( "#DashboardAdditionalFilter0130-CUIC-TicketOpenAccessibleForCustomerUser", 'css' )
+            ->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && !$("#Dashboard0120-CUIC-TicketNew-box.Loading").length'
