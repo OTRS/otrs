@@ -1441,35 +1441,41 @@ Get the definition of the searchable fields as a hash.
 Returns:
 
     my %SearchableFields = (
-        'MIMEBase::From' => {
+        'MIMEBase_From' => {
             Label      => 'From',
-            Key        => 'MIMEBase::From',
+            Key        => 'MIMEBase_From',
             Type       => 'Text',
             Filterable => 0,
         },
-        'MIMEBase::To' => {
+        'MIMEBase_To' => {
             Label      => 'To',
-            Key        => 'MIMEBase::To',
+            Key        => 'MIMEBase_To',
             Type       => 'Text',
             Filterable => 0,
         },
-        'MIMEBase::Cc' => {
+        'MIMEBase_Cc' => {
             Label      => 'Cc',
-            Key        => 'MIMEBase::Cc',
+            Key        => 'MIMEBase_Cc',
             Type       => 'Text',
             Filterable => 0,
         },
-        'MIMEBase::Subject' => {
+        'MIMEBase_Subject' => {
             Label      => 'Subject',
-            Key        => 'MIMEBase::Subject',
+            Key        => 'MIMEBase_Subject',
             Type       => 'Text',
             Filterable => 1,
         },
-        'MIMEBase::Body' => {
+        'MIMEBase_Body' => {
             Label      => 'Body',
-            Key        => 'MIMEBase::Body',
+            Key        => 'MIMEBase_Body',
             Type       => 'Text',
             Filterable => 1,
+        },
+        'MIMEBase_AttachmentName' => {
+            Label      => 'Attachment Name',
+            Key        => 'MIMEBase_AttachmentName',
+            Type       => 'Text',
+            Filterable => 0,
         },
     );
 

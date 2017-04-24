@@ -592,15 +592,15 @@ Get the definition of the searchable fields as a hash.
 Returns:
 
     my %SearchableFields = (
-        'Chat::ChatterName' => {
+        'Chat_ChatterName' => {
             Label      => 'Chat Participant',
-            Key        => 'Chat::ChatterName',
+            Key        => 'Chat_ChatterName',
             Type       => 'Text',
             Filterable => 0,
         },
-        'Chat::MessageText' => {
+        'Chat_MessageText' => {
             Label      => 'Message Text',
-            Key        => 'Chat::MessageText',
+            Key        => 'Chat_MessageText',
             Type       => 'Text',
             Filterable => 1,
         },
@@ -612,15 +612,15 @@ sub BackendSearchableFieldsGet {
     my ( $Self, %Param ) = @_;
 
     my %SearchableFields = (
-        'Chat::ChatterName' => {
+        'Chat_ChatterName' => {
             Label      => 'Chat Participant',
-            Key        => 'Chat::ChatterName',
+            Key        => 'Chat_ChatterName',
             Type       => 'Text',
             Filterable => 0,
         },
-        'Chat::MessageText' => {
+        'Chat_MessageText' => {
             Label      => 'Message Text',
-            Key        => 'Chat::MessageText',
+            Key        => 'Chat_MessageText',
             Type       => 'Text',
             Filterable => 1,
         },

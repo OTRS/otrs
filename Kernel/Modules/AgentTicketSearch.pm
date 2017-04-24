@@ -132,7 +132,7 @@ sub Run {
     else {
         for my $Key (
             qw(TicketNumber Title MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Subject
-            MIMEBase_Body CustomerID CustomerIDRaw
+            MIMEBase_Body Chat_ChatterName Chat_MessageText CustomerID CustomerIDRaw
             CustomerUserLogin CustomerUserLoginRaw CustomerUserID StateType Agent ResultForm
             TimeSearchType ChangeTimeSearchType CloseTimeSearchType LastChangeTimeSearchType
             EscalationTimeSearchType PendingTimeSearchType
@@ -1346,11 +1346,26 @@ sub Run {
             },
         );
 
+        # check for active attachment index
         if ( $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{IndexAttachmentNames} ) {
             push @Attributes, (
                 {
                     Key   => 'MIMEBase_AttachmentName',
                     Value => Translatable('Attachment Name'),
+                },
+            );
+        }
+
+        # check for active chat engine
+        if ( $ConfigObject->Get('ChatEngine::Active') ) {
+            push @Attributes, (
+                {
+                    Key   => 'Chat_ChatterName',
+                    Value => Translatable('Chat Participant'),
+                },
+                {
+                    Key   => 'Chat_MessageText',
+                    Value => Translatable('Chat message text'),
                 },
             );
         }
