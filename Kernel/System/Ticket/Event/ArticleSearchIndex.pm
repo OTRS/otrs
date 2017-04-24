@@ -11,6 +11,8 @@ package Kernel::System::Ticket::Event::ArticleSearchIndex;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::AsynchronousExecutor);
+
 our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket::Article',
@@ -51,10 +53,14 @@ sub Run {
 
     return 1 if !$Param{Data}->{ArticleID};
 
-    $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndexBuild(
-        TicketID  => $Param{Data}->{TicketID},
-        ArticleID => $Param{Data}->{ArticleID},
-        UserID    => 1,
+    $Self->AsyncCall(
+        ObjectName     => 'Kernel::System::Ticket::Article',
+        FunctionName   => 'ArticleIndexBuild',
+        FunctionParams => {
+            TicketID  => $Param{Data}->{TicketID},
+            ArticleID => $Param{Data}->{ArticleID},
+            UserID    => 1,
+        },
     );
 
     return 1;

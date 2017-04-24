@@ -1622,8 +1622,8 @@ sub ArticleSearchableContentGet {
         if ( $FieldKey eq 'MIMEBase_AttachmentName' ) {
 
             my %AttachmentIndex = $Self->ArticleAttachmentIndex(
-                ArticleID       => $Param{ArticleID},
-                UserID          => $Param{UserID},
+                ArticleID        => $Param{ArticleID},
+                UserID           => $Param{UserID},
                 ExcludePlainText => 1,
                 ExcludeHTMLBody  => 1,
                 ExcludeInline    => 1,
