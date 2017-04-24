@@ -1616,6 +1616,8 @@ sub ArticleSearchableContentGet {
     FIELDKEY:
     for my $FieldKey ( sort keys %BackendSearchableFields ) {
 
+        my $IndexString;
+
         # scan available attachment names and append the information
         if ( $FieldKey eq 'MIMEBase_AttachmentName' ) {
 
@@ -1633,20 +1635,15 @@ sub ArticleSearchableContentGet {
                 push @AttachmentNames, $AttachmentIndex{$AttachmentKey}->{Filename};
             }
 
-            my $AttachmentNameString = join ' ', @AttachmentNames;
-
-            $ArticleSearchData{$FieldKey} = {
-                String     => $AttachmentNameString,
-                Key        => $BackendSearchableFields{$FieldKey}->{Key},
-                Type       => $BackendSearchableFields{$FieldKey}->{Type} // 'Text',
-                Filterable => $BackendSearchableFields{$FieldKey}->{Filterable} // 0,
-            };
-
-            next FIELDKEY;
+            $IndexString = join ' ', @AttachmentNames;
         }
 
+        $IndexString //= $ArticleData{ $DataKeyMap{$FieldKey} };
+
+        next FIELDKEY if !IsStringWithData($IndexString);
+
         $ArticleSearchData{$FieldKey} = {
-            String     => $ArticleData{ $DataKeyMap{$FieldKey} },
+            String     => $IndexString,
             Key        => $BackendSearchableFields{$FieldKey}->{Key},
             Type       => $BackendSearchableFields{$FieldKey}->{Type} // 'Text',
             Filterable => $BackendSearchableFields{$FieldKey}->{Filterable} // 0,

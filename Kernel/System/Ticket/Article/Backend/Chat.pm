@@ -691,26 +691,27 @@ sub ArticleSearchableContentGet {
         DynamicFields => 0,
     );
 
-    my @BackendSearchableFields = $Self->BackendSearchableFieldsGet();
+    my %BackendSearchableFields = $Self->BackendSearchableFieldsGet();
 
     my %ArticleSearchData;
 
-    for my $Field (@BackendSearchableFields) {
+    FIELDKEY:
+    for my $FieldKey ( sort keys %BackendSearchableFields ) {
 
-        my $FieldString = '';
+        my $IndexString = '';
 
         for my $ChatMessageList ( @{ $ArticleData{ChatMessageList} } ) {
-            $FieldString .= ' ' . $ChatMessageList->{ $DataKeyMap{ $Field->{Key} } };
+            $IndexString .= ' ' . $ChatMessageList->{ $DataKeyMap{ $BackendSearchableFields{$FieldKey}->{Key} } };
         }
 
-        my %Field = (
-            String     => $FieldString,
-            Key        => $Field->{Key},
-            Type       => $Field->{Type} // 'Text',
-            Filterable => $Field->{Filterable} // 0,
-        );
+        next FIELDKEY if !IsStringWithData($IndexString);
 
-        $ArticleSearchData{ $Field->{Key} } = \%Field;
+        $ArticleSearchData{$FieldKey} = {
+            String     => $IndexString,
+            Key        => $BackendSearchableFields{$FieldKey}->{Key},
+            Type       => $BackendSearchableFields{$FieldKey}->{Type} // 'Text',
+            Filterable => $BackendSearchableFields{$FieldKey}->{Filterable} // 0,
+        };
     }
 
     return %ArticleSearchData;
