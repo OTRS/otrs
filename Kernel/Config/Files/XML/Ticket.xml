@@ -236,6 +236,13 @@
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Home&gt;/var/article</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Article::Backend::MIMEBase###IndexAttachmentNames" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Specifies whether the (MIMEBase) article attachments will be indexed and searchable.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
     <Setting Name="OTRSEscalationEvents::DecayTime" Required="0" Valid="1">
         <Description Translatable="1">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
         <Navigation>Core::Ticket</Navigation>

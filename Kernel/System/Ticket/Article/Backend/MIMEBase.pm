@@ -1511,6 +1511,17 @@ sub BackendSearchableFieldsGet {
         },
     );
 
+    my $MimeBaseConfig = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase');
+
+    if ( $MimeBaseConfig->{IndexAttachmentNames} ) {
+        $SearchableFields{'MIMEBase::AttachmentName'} = {
+            Label      => 'Attachment Name',
+            Key        => 'MIMEBase::AttachmentName',
+            Type       => 'Text',
+            Filterable => 0,
+        };
+    }
+
     return %SearchableFields;
 }
 
@@ -1595,16 +1606,44 @@ sub ArticleSearchableContentGet {
 
     my %ArticleSearchData;
 
+    FIELDKEY:
     for my $FieldKey ( sort keys %BackendSearchableFields ) {
 
-        my %FieldData = (
+        # scan available attachment names and append the information
+        if ( $FieldKey eq 'MIMEBase::AttachmentName' ) {
+
+            my %AttachmentIndex = $Self->ArticleAttachmentIndex(
+                ArticleID       => $Param{ArticleID},
+                UserID          => $Param{UserID},
+                ExcludeHTMLBody => 1,
+            );
+
+            next FIELDKEY if !%AttachmentIndex;
+
+            my @AttachmentNames;
+
+            for my $AttachmentKey ( sort keys %AttachmentIndex ) {
+                push @AttachmentNames, $AttachmentIndex{$AttachmentKey}->{Filename};
+            }
+
+            my $AttachmentNameString = join ' ', @AttachmentNames;
+
+            $ArticleSearchData{$FieldKey} = {
+                String     => $AttachmentNameString,
+                Key        => $BackendSearchableFields{$FieldKey}->{Key},
+                Type       => $BackendSearchableFields{$FieldKey}->{Type} // 'Text',
+                Filterable => $BackendSearchableFields{$FieldKey}->{Filterable} // 0,
+            };
+
+            next FIELDKEY;
+        }
+
+        $ArticleSearchData{$FieldKey} = {
             String     => $ArticleData{ $DataKeyMap{$FieldKey} },
             Key        => $BackendSearchableFields{$FieldKey}->{Key},
             Type       => $BackendSearchableFields{$FieldKey}->{Type} // 'Text',
             Filterable => $BackendSearchableFields{$FieldKey}->{Filterable} // 0,
-        );
-
-        $ArticleSearchData{$FieldKey} = \%FieldData;
+        };
     }
 
     return %ArticleSearchData;
