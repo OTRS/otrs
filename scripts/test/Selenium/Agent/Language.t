@@ -58,19 +58,18 @@ $Selenium->RunTest(
             # wait for the ajax call to finish
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return \$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
-            );
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return \$('#UserLanguage').closest('.WidgetSimple').find('.fa-check').length"
-            );
-            $Selenium->WaitFor(
-                JavaScript =>
                     "return !\$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
             );
 
+            # Verify right value for user language is selected.
+            $Self->Is(
+                $Selenium->find_element( "#UserLanguage", 'css' )->get_value(),
+                $Language,
+                "Selected value for UserLanguage field is correct"
+            );
+
             # reload the screen
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+            $Selenium->VerifiedRefresh();
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(
