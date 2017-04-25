@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
@@ -22,8 +21,8 @@ my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuild');
 
-# tests for article search index modules
-for my $Module (qw(StaticDB RuntimeDB)) {
+# Tests for article search index modules.
+for my $Module (qw(DB)) {
 
     # Make sure that the ticket and article objects get recreated for each loop.
     $Kernel::OM->ObjectsDiscard(
@@ -40,7 +39,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
 
     my $ExitCode = $CommandObject->Execute();
 
-    # just check exit code
+    # Check the exit code.
     $Self->Is(
         $ExitCode,
         0,
@@ -48,6 +47,6 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     );
 }
 
-# cleanup cache is done by RestoreDatabase
+# Cleanup cache is done by RestoreDatabase
 
 1;

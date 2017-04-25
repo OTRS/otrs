@@ -24,8 +24,8 @@ $Kernel::OM->ObjectParamAdd(
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# tests for article search index modules
-for my $Module (qw(StaticDB RuntimeDB)) {
+# Tests for article search index modules.
+for my $Module (qw(DB)) {
 
     # Make sure that the ticket and article objects get recreated for each loop.
     $Kernel::OM->ObjectsDiscard(
@@ -47,7 +47,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
     $Self->Is(
         $ArticleObject->{ArticleSearchIndexModule},
         'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
-        'ArticleObject loaded the correct backend',
+        'ArticleObject loaded the correct backend'
     );
 
     # create some content
@@ -87,17 +87,24 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'ArticleCreate()'
     );
 
+    # Since article search indexing is now run as an async call, make sure to call the index build method directly.
+    $ArticleObject->ArticleIndexBuild(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+
     # search
     my %TicketIDs = $TicketObject->TicketSearch(
-        Subject    => '%short%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
+        MIMEBase_Subject => '%short%',
+        Result           => 'HASH',
+        Limit            => 100,
+        UserID           => 1,
+        Permission       => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Subject)',
+        'TicketSearch() (HASH:MIMEBase_Subject)'
     );
 
     $ArticleID = $ArticleBackendObject->ArticleCreate(
@@ -120,43 +127,50 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'ArticleCreate()'
     );
 
-    # search
-    %TicketIDs = $TicketObject->TicketSearch(
-        Subject    => '%fax agreement%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
-    );
-    $Self->True(
-        $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Subject)',
+    # Since article search indexing is now run as an async call, make sure to call the index build method directly.
+    $ArticleObject->ArticleIndexBuild(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+        UserID    => 1,
     );
 
     # search
     %TicketIDs = $TicketObject->TicketSearch(
-        Body       => '%HELP%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
+        MIMEBase_Subject => '%fax agreement%',
+        Result           => 'HASH',
+        Limit            => 100,
+        UserID           => 1,
+        Permission       => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Body)',
+        'TicketSearch() (HASH:MIMEBase_Subject)'
     );
 
     # search
     %TicketIDs = $TicketObject->TicketSearch(
-        Body       => '%HELP_NOT_FOUND%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
+        MIMEBase_Body => '%HELP%',
+        Result        => 'HASH',
+        Limit         => 100,
+        UserID        => 1,
+        Permission    => 'rw',
+    );
+    $Self->True(
+        $TicketIDs{$TicketID},
+        'TicketSearch() (HASH:MIMEBase_Body)'
+    );
+
+    # search
+    %TicketIDs = $TicketObject->TicketSearch(
+        MIMEBase_Body => '%HELP_NOT_FOUND%',
+        Result        => 'HASH',
+        Limit         => 100,
+        UserID        => 1,
+        Permission    => 'rw',
     );
     $Self->True(
         !$TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Body)',
+        'TicketSearch() (HASH:MIMEBase_Body)'
     );
 
     # use full text search on ticket with Cyrillic characters
@@ -180,30 +194,37 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'ArticleCreate()'
     );
 
-    # search
-    %TicketIDs = $TicketObject->TicketSearch(
-        Subject    => '%испытуемый%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
-    );
-    $Self->True(
-        $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Subject)',
+    # Since article search indexing is now run as an async call, make sure to call the index build method directly.
+    $ArticleObject->ArticleIndexBuild(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+        UserID    => 1,
     );
 
     # search
     %TicketIDs = $TicketObject->TicketSearch(
-        Body       => '%полный%',
-        Result     => 'HASH',
-        Limit      => 100,
-        UserID     => 1,
-        Permission => 'rw',
+        MIMEBase_Subject => '%испытуемый%',
+        Result           => 'HASH',
+        Limit            => 100,
+        UserID           => 1,
+        Permission       => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID},
-        'TicketSearch() (HASH:Body)',
+        'TicketSearch() (HASH:MIMEBase_Subject)'
+    );
+
+    # search
+    %TicketIDs = $TicketObject->TicketSearch(
+        MIMEBase_Body => '%полный%',
+        Result        => 'HASH',
+        Limit         => 100,
+        UserID        => 1,
+        Permission    => 'rw',
+    );
+    $Self->True(
+        $TicketIDs{$TicketID},
+        'TicketSearch() (HASH:MIMEBase_Body)'
     );
 
     my $Delete = $TicketObject->TicketDelete(
@@ -212,89 +233,89 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
     $Self->True(
         $Delete,
-        'TicketDelete()',
+        'TicketDelete()'
     );
 }
 
 my @Tests = (
     {
-        Name   => "Regular string",
+        Name   => 'Regular string',
         String => 'Regular subject string',
         Result => [
-            "regular",
-            "subject",
-            "string",
+            'regular',
+            'subject',
+            'string',
         ],
     },
     {
-        Name   => "Filtered characters",
+        Name   => 'Filtered characters',
         String => 'Test characters ,&<>?"!*|;[]()+$^=',
         Result => [
-            "test",
-            "characters",
+            'test',
+            'characters',
         ],
     },
     {
-        Name   => "String with quotes",
+        Name   => 'String with quotes',
         String => '"String with quotes"',
         Result => [
-            "string",
-            "quotes",
+            'string',
+            'quotes',
         ],
     },
     {
-        Name   => "Sentence",
+        Name   => 'Sentence',
         String => 'This is a full sentence',
         Result => [
-            "full",
-            "sentence",
+            'full',
+            'sentence',
         ],
     },
     {
-        Name   => "English - Stop words",
+        Name   => 'English - Stop words',
         String => 'is a the of for and',
         Result => [
         ],
     },
     {
-        Name   => "German - Stop words",
+        Name   => 'German - Stop words',
         String => 'ist eine der von für und',
         Result => [
         ],
     },
     {
-        Name   => "Dutch - Stop words",
+        Name   => 'Dutch - Stop words',
         String => 'goed tijd hebben voor gaan',
         Result => [
         ],
     },
     {
-        Name   => "Spanish - Stop words",
+        Name   => 'Spanish - Stop words',
         String => 'también algún siendo arriba',
         Result => [
         ],
     },
     {
-        Name   => "French - Stop words",
+        Name   => 'French - Stop words',
         String => 'là pièce étaient où',
         Result => [
         ],
     },
     {
-        Name   => "Italian - Stop words",
+        Name   => 'Italian - Stop words',
         String => 'avevano consecutivo meglio nuovo',
         Result => [
         ],
     },
     {
-        Name   => "Word too short",
+        Name   => 'Word too short',
         String => 'Word x',
         Result => [
             'word',
         ],
     },
     {
-        Name   => "Word too long",
+        Name   => 'Word too long',
         String => 'Word ' . 'x' x 50,
         Result => [
             'word',
@@ -302,7 +323,7 @@ my @Tests = (
     },
     {
         Name   => '# @ Characters alone',
-        String => "# Word @ Something",
+        String => '# Word @ Something',
         Result => [
             'word',
             'something',
@@ -317,54 +338,54 @@ my @Tests = (
         ],
     },
     {
-        Name   => "Cyrillic Serbian string",
-        String => "Чудесна жута шума",
+        Name   => 'Cyrillic Serbian string',
+        String => 'Чудесна жута шума',
         Result => [
-            "чудесна",
-            "жута",
-            "шума"
+            'чудесна',
+            'жута',
+            'шума',
         ],
     },
     {
-        Name   => "Latin Croatian string",
-        String => "Čudesna žuta šuma",
+        Name   => 'Latin Croatian string',
+        String => 'Čudesna žuta šuma',
         Result => [
-            "čudesna",
-            "žuta",
-            "šuma"
+            'čudesna',
+            'žuta',
+            'šuma',
         ],
     },
     {
-        Name   => "Cyrillic Russian string",
-        String => "Это полный приговор",
+        Name   => 'Cyrillic Russian string',
+        String => 'Это полный приговор',
         Result => [
-            "это",
-            "полный",
-            "приговор",
+            'это',
+            'полный',
+            'приговор',
         ],
     },
     {
-        Name   => "Chinese string",
-        String => "这是一个完整的句子",
+        Name   => 'Chinese string',
+        String => '这是一个完整的句子',
         Result => [
-            "这是一个完整的句子",
+            '这是一个完整的句子',
         ],
     },
 );
 
-for my $Module (qw(StaticDB)) {
+for my $Module (qw(DB)) {
     for my $Test (@Tests) {
 
-        my $IndexObject = $Kernel::OM->Get('Kernel::System::Ticket::ArticleSearchIndex::StaticDB');
+        my $IndexObject = $Kernel::OM->Get( 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module );
 
         my $ListOfWords = $IndexObject->_ArticleIndexStringToWord(
-            String => \$Test->{String}
+            String => \$Test->{String},
         );
 
         $Self->IsDeeply(
             $ListOfWords,
             $Test->{Result},
-            "$Test->{Name} - _ArticleIndexStringToWord result",
+            "$Test->{Name} - _ArticleIndexStringToWord result"
         );
     }
 }

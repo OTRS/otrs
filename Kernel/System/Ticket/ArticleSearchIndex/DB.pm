@@ -234,7 +234,7 @@ sub _ArticleIndexQuerySQLExt {
 
                 $Field = $DBObject->Quote($Field);
 
-                $SQLFieldCondition = "art.article_key = $Field";
+                $SQLFieldCondition = "art.article_key = '$Field'";
             }
 
             my $Value = $Param{Data}->{$Field};
