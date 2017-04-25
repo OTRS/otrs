@@ -1539,7 +1539,7 @@ sub TicketSearch {
 
     # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
-        ArticleCreateTime => 'art.incoming_time',
+        ArticleCreateTime => "art.article_key = 'MIMEBase_IncomingTime' AND art.article_value",
     );
     for my $Key ( sort keys %ArticleTime ) {
 
@@ -1551,7 +1551,7 @@ sub TicketSearch {
             my $Time = $TimeObject->SystemTime()
                 - ( $Param{ $Key . 'OlderMinutes' } * 60 );
 
-            $SQLExt .= " AND $ArticleTime{$Key} <= '$Time'";
+            $SQLExt .= " AND ($ArticleTime{$Key} <= '$Time')";
         }
 
         # get articles created newer than x minutes
@@ -1562,7 +1562,7 @@ sub TicketSearch {
             my $Time = $TimeObject->SystemTime()
                 - ( $Param{ $Key . 'NewerMinutes' } * 60 );
 
-            $SQLExt .= " AND $ArticleTime{$Key} >= '$Time'";
+            $SQLExt .= " AND ($ArticleTime{$Key} >= '$Time')";
         }
 
         # get articles created older than xxxx-xx-xx xx:xx date
@@ -1600,7 +1600,7 @@ sub TicketSearch {
             }
             $CompareOlderNewerDate = $SystemTime;
 
-            $SQLExt .= " AND $ArticleTime{$Key} <= '" . $SystemTime . "'";
+            $SQLExt .= " AND ($ArticleTime{$Key} <= '" . $SystemTime . "')";
 
         }
 
@@ -1643,7 +1643,7 @@ sub TicketSearch {
             # don't execute queries if older/newer date restriction show now valid timeframe
             return if $CompareOlderNewerDate && $SystemTime > $CompareOlderNewerDate;
 
-            $SQLExt .= " AND $ArticleTime{$Key} >= '" . $SystemTime . "'";
+            $SQLExt .= " AND ($ArticleTime{$Key} >= '" . $SystemTime . "')";
         }
     }
 
