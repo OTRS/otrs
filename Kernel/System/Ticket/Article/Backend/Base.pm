@@ -67,6 +67,11 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    # init of event handler
+    $Self->EventHandlerInit(
+        Config => 'Ticket::EventModulePost',
+    );
+
     return $Self;
 }
 

@@ -72,11 +72,6 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # init of event handler
-    $Self->EventHandlerInit(
-        Config => 'Ticket::EventModulePost',
-    );
-
     # Persistent for this object's lifetime so that we can have article objects with different storage modules.
     $Self->{ArticleStorageModule} = $Param{ArticleStorageModule}
         || $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{'ArticleStorage'}
