@@ -87,7 +87,7 @@ sub new {
 =item ProviderProcessRequest()
 
 process an incoming web service request. This function has to read the request data
-from from the web server process.
+from the web server process.
 
     my $Result = $TransportObject->ProviderProcessRequest();
 
