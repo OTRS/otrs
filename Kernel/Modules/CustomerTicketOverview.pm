@@ -618,7 +618,6 @@ sub ShowTicketStatus {
         TicketID => $Param{TicketID},
     );
 
-    # TODO: chat backend not yet created, maybe this pattern needs an update afterwards!
     my $CommunicationChannelPattern = qr{Internal|Chat}xms;
 
     ARTICLEMETADATA:

@@ -1433,7 +1433,8 @@ sub Run {
                     );
                 }
 
-                $ChatArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Chat')->ArticleCreate(
+                my $ArticleChatBackend = $ArticleObject->BackendForChannel( ChannelName => 'Chat' );
+                $ChatArticleID = $ArticleChatBackend->ArticleCreate(
                     TicketID             => $TicketID,
                     SenderType           => $Config->{SenderType},
                     ChatMessageList      => \@ChatMessageList,

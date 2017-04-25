@@ -100,12 +100,12 @@ sub Run {
     );
 
     my @ArticleBox;
-    my %ArticleData;
+
     ARTICLE:
     for my $Article (@Articles) {
         my $ArticleBackendObject = $ArticleObject->BackendForArticle( %{$Article} );
 
-        %ArticleData = $ArticleBackendObject->ArticleGet(
+        my %ArticleData = $ArticleBackendObject->ArticleGet(
             TicketID      => $Self->{TicketID},
             ArticleID     => $Article->{ArticleID},
             DynamicFields => 0,
@@ -121,28 +121,28 @@ sub Run {
             ExcludeInline    => 1,
         );
 
-        next ARTICLE if !IsHashRefWithData( \%AtmIndex );
+        if ( IsHashRefWithData( \%AtmIndex ) ) {
 
-        my @Attachments;
-        ATTACHMENT:
-        for my $FileID ( sort keys %AtmIndex ) {
-            next ATTACHMENT if !$FileID;
-            my %Attachment = $ArticleBackendObject->ArticleAttachment(
-                ArticleID => $Article->{ArticleID},
-                FileID    => $FileID,
-                UserID    => $Self->{UserID},
-            );
+            my @Attachments;
+            ATTACHMENT:
+            for my $FileID ( sort keys %AtmIndex ) {
+                next ATTACHMENT if !$FileID;
+                my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                    ArticleID => $Article->{ArticleID},
+                    FileID    => $FileID,
+                    UserID    => $Self->{UserID},
+                );
 
-            next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+                next ATTACHMENT if !IsHashRefWithData( \%Attachment );
 
-            $Attachment{FileID} = $FileID;
+                $Attachment{FileID} = $FileID;
 
-            push @Attachments, {%Attachment};
+                push @Attachments, {%Attachment};
+            }
+
+            $ArticleData{Attachment} = \@Attachments;
         }
 
-        $ArticleData{Attachment} = \@Attachments;
-    }
-    continue {
         push @ArticleBox, \%ArticleData;
     }
 
@@ -884,31 +884,31 @@ sub _PDFOutputArticles {
             }
         }
 
-        # TODO: Handle articles coming from chat channel.
-        # if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
-        # {
-        #     $Article{Body} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-        #         Data => $Article{Body}
-        #     );
-        #     my $Lines;
-        #     if ( IsArrayRefWithData( $Article{Body} ) ) {
-        #         for my $Line ( @{ $Article{Body} } ) {
-        #             my $CreateTime
-        #                 = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
-        #             if ( $Line->{SystemGenerated} ) {
-        #                 $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
-        #             }
-        #             else {
-        #                 $Lines
-        #                     .= '['
-        #                     . $CreateTime . '] '
-        #                     . $Line->{ChatterName} . ' '
-        #                     . $Line->{MessageText} . "\n";
-        #             }
-        #         }
-        #     }
-        #     $Article{Body} = $Lines;
-        # }
+        my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
+            ChannelID => $Article{CommunicationChannelID},
+        );
+
+        if ( $CommunicationChannel{ChannelName} eq 'Chat' ) {
+
+            my $Lines = '';
+            if ( IsArrayRefWithData( $Article{ChatMessageList} ) ) {
+                for my $Line ( @{ $Article{ChatMessageList} } ) {
+                    my $CreateTime
+                        = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
+                    if ( $Line->{SystemGenerated} ) {
+                        $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
+                    }
+                    else {
+                        $Lines
+                            .= '['
+                            . $CreateTime . '] '
+                            . $Line->{ChatterName} . ' '
+                            . $Line->{MessageText} . "\n";
+                    }
+                }
+            }
+            $Article{Body} = $Lines;
+        }
 
         # table params (article body)
         my %TableParam2;

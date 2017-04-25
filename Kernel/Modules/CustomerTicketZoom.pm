@@ -791,26 +791,17 @@ sub Run {
                     );
                 }
 
-                my $JSONBody = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                    Data => \@ChatMessageList,
+                my $ArticleChatBackend = $ArticleObject->BackendForChannel( ChannelName => 'Chat' );
+
+                $ChatArticleID = $ArticleChatBackend->ArticleCreate(
+                    TicketID             => $Self->{TicketID},
+                    SenderType           => $Config->{SenderType},
+                    ChatMessageList      => \@ChatMessageList,
+                    IsVisibleForCustomer => 1,
+                    UserID               => $ConfigObject->Get('CustomerPanelUserID'),
+                    HistoryType          => $Config->{HistoryType},
+                    HistoryComment       => $Config->{HistoryComment} || '%%',
                 );
-
-                my $ChatArticleType = 'chat-external';
-
-                # TODO: Handle articles coming from chat channel.
-                # $ChatArticleID = $ArticleBackendObject->ArticleCreate(
-                #     TicketID             => $Self->{TicketID},
-                #     IsVisibleForCustomer => 1,
-                #     SenderType           => $Config->{SenderType},
-                #     From                 => $From,
-                #     Subject              => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
-                #     Body                 => $JSONBody,
-                #     MimeType             => 'application/json',
-                #     Charset              => $LayoutObject->{UserCharset},
-                #     UserID               => $ConfigObject->Get('CustomerPanelUserID'),
-                #     HistoryType          => $Config->{HistoryType},
-                #     HistoryComment       => $Config->{HistoryComment} || '%%',
-                # );
             }
             if ($ChatArticleID) {
                 $ChatObject->ChatDelete(
@@ -1662,19 +1653,13 @@ sub _Mask {
             ChannelID => $Article{CommunicationChannelID},
         );
 
-        # TODO: chat backend not yet created, maybe this condition needs an update afterwards!
-        if (
-            $CommunicationChannelData{ChannelName} eq 'ChatExternal'
-            || $CommunicationChannelData{ChannelName} eq 'ChatInternal'
-            )
-        {
+        if ( $CommunicationChannelData{ChannelName} eq 'Chat' ) {
+
             $LayoutObject->Block(
                 Name => 'BodyChat',
                 Data => {
-                    ChatMessages => $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-                        Data => $Article{Body},
-                    ),
-                    }
+                    ChatMessages => $Article{ChatMessageList},
+                },
             );
         }
         else {

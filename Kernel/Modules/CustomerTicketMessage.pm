@@ -668,31 +668,24 @@ sub Run {
             my $ChatArticleID;
 
             if (@ChatMessageList) {
-                my $JSONBody = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                    Data => \@ChatMessageList,
+                for my $Message (@ChatMessageList) {
+                    $Message->{MessageText} = $LayoutObject->Ascii2Html(
+                        Text        => $Message->{MessageText},
+                        LinkFeature => 1,
+                    );
+                }
+
+                my $ArticleChatBackend = $ArticleObject->BackendForChannel( ChannelName => 'Chat' );
+
+                $ChatArticleID = $ArticleChatBackend->ArticleCreate(
+                    TicketID             => $TicketID,
+                    SenderType           => $Config->{SenderType},
+                    ChatMessageList      => \@ChatMessageList,
+                    IsVisibleForCustomer => 1,
+                    UserID               => $ConfigObject->Get('CustomerPanelUserID'),
+                    HistoryType          => $Config->{HistoryType},
+                    HistoryComment       => $Config->{HistoryComment} || '%%',
                 );
-
-                my $ChatArticleType = 'chat-external';
-
-                # TODO: Fix chat article creation
-                # $ChatArticleID = $ArticleBackendObject->ArticleCreate(
-                #
-                #     #NoAgentNotify => $NoAgentNotify,
-                #     TicketID             => $TicketID,
-                #     IsVisibleForCustomer => 1,
-                #     SenderType           => $Config->{SenderType},
-                #     From                 => $From,
-                #
-                #     # To                   => $To,
-                #     Subject        => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
-                #     Body           => $JSONBody,
-                #     MimeType       => 'application/json',
-                #     Charset        => $LayoutObject->{UserCharset},
-                #     UserID         => $ConfigObject->Get('CustomerPanelUserID'),
-                #     HistoryType    => $Config->{HistoryType},
-                #     HistoryComment => $Config->{HistoryComment} || '%%',
-                #     Queue          => $QueueObject->QueueLookup( QueueID => $NewQueueID ),
-                # );
             }
             if ($ChatArticleID) {
                 $ChatObject->ChatDelete(
