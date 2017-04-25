@@ -24,7 +24,7 @@ scripts::DBUpdateTo6::RebuildConfig - Rebuilds the system configuration.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    return $Self->RebuildConfig();
+    return $Self->RebuildConfig(%Param);
 }
 
 1;
