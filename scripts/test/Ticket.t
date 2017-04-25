@@ -237,6 +237,13 @@ $Self->True(
     'ArticleCreate()'
 );
 
+# manually built article index that will be triggered by the daemon in normal cases
+$ArticleObject->ArticleIndexBuild(
+    TicketID  => $TicketID,
+    ArticleID => $ArticleID,
+    UserID    => 1,
+);
+
 $Self->Is(
     scalar $ArticleObject->ArticleList( TicketID => $TicketID ),
     1,
@@ -671,13 +678,14 @@ for my $Condition (
 
         # result limit
         Limit               => 1000,
-        From                => $Condition,
+        MIMEBase_From       => $Condition,
         ConditionInline     => 1,
         ContentSearchPrefix => '*',
         ContentSearchSuffix => '*',
         UserID              => 1,
         Permission          => 'rw',
     );
+
     $Self->True(
         ( !$TicketIDs{$TicketID} ),
         "TicketSearch() (HASH:From,ConditionInline,From='$Condition')",

@@ -1595,11 +1595,12 @@ sub ArticleSearchableContentGet {
     }
 
     my %DataKeyMap = (
-        'MIMEBase_From'    => 'From',
-        'MIMEBase_To'      => 'To',
-        'MIMEBase_Cc'      => 'Cc',
-        'MIMEBase_Subject' => 'Subject',
-        'MIMEBase_Body'    => 'Body',
+        'MIMEBase_From'         => 'From',
+        'MIMEBase_To'           => 'To',
+        'MIMEBase_Cc'           => 'Cc',
+        'MIMEBase_Subject'      => 'Subject',
+        'MIMEBase_Body'         => 'Body',
+        'MIMEBase_IncomingTime' => 'IncomingTime',
     );
 
     my %ArticleData = $Self->ArticleGet(
@@ -1610,6 +1611,16 @@ sub ArticleSearchableContentGet {
     );
 
     my %BackendSearchableFields = $Self->BackendSearchableFieldsGet();
+
+    # Append the article incoming time without let it appear in AgentTicketSearch,
+    # to be able to perform search actions i.e. ArticleCreateTimeOlderMinutes,
+    # ArticleCreateTimeNewerDate.
+    $BackendSearchableFields{'MIMEBase_IncomingTime'} = {
+        Label      => 'Incoming Time',
+        Key        => 'MIMEBase_IncomingTime',
+        Type       => 'Text',
+        Filterable => 0,
+    };
 
     my %ArticleSearchData;
 

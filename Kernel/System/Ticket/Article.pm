@@ -696,8 +696,6 @@ sub ArticleSenderTypeLookup {
     return { reverse %SenderTypes }->{ $Param{SenderType} };
 }
 
-# TODO: check / fix
-# article search index methods
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
 
