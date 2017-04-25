@@ -237,7 +237,6 @@ $Self->True(
     'ArticleCreate()'
 );
 
-# manually built article index that will be triggered by the daemon in normal cases
 $ArticleObject->ArticleIndexBuild(
     TicketID  => $TicketID,
     ArticleID => $ArticleID,

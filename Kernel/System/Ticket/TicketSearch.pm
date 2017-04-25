@@ -488,6 +488,26 @@ sub TicketSearch {
     # sql, use also article table if needed
     $SQLFrom .= $ArticleJoinSQL;
 
+    # only search for attachment name if Article Storage is set to DB
+    if (
+        $Param{AttachmentName}
+        && (
+            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{'ArticleStorage'} eq
+            'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB'
+        )
+        )
+    {
+
+        # joins to article and article_data_mime_attachment are needed, it can not use existing article joins
+        # otherwise the search will be limited to already matching articles
+        my $AttachmentJoinSQL = '
+        INNER JOIN article art_for_att ON st.id = art_for_att.ticket_id
+        INNER JOIN article_data_mime_attachment att ON att.article_id = art_for_att.id ';
+
+        # SQL, use also article_data_mime_attachment table if needed
+        $SQLFrom .= $AttachmentJoinSQL;
+    }
+
     # use also history table if required
     ARGUMENT:
     for my $Key ( sort keys %Param ) {
@@ -1519,7 +1539,7 @@ sub TicketSearch {
 
     # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
-        ArticleCreateTime => "art.article_key = 'MIMEBase_IncomingTime' AND art.article_value",
+        ArticleCreateTime => 'art.incoming_time',
     );
     for my $Key ( sort keys %ArticleTime ) {
 
@@ -1531,7 +1551,7 @@ sub TicketSearch {
             my $Time = $TimeObject->SystemTime()
                 - ( $Param{ $Key . 'OlderMinutes' } * 60 );
 
-            $SQLExt .= " AND ($ArticleTime{$Key} <= '$Time')";
+            $SQLExt .= " AND $ArticleTime{$Key} <= '$Time'";
         }
 
         # get articles created newer than x minutes
@@ -1542,7 +1562,7 @@ sub TicketSearch {
             my $Time = $TimeObject->SystemTime()
                 - ( $Param{ $Key . 'NewerMinutes' } * 60 );
 
-            $SQLExt .= " AND ($ArticleTime{$Key} >= '$Time')";
+            $SQLExt .= " AND $ArticleTime{$Key} >= '$Time'";
         }
 
         # get articles created older than xxxx-xx-xx xx:xx date
@@ -1580,7 +1600,7 @@ sub TicketSearch {
             }
             $CompareOlderNewerDate = $SystemTime;
 
-            $SQLExt .= " AND ($ArticleTime{$Key} <= '" . $SystemTime . "')";
+            $SQLExt .= " AND $ArticleTime{$Key} <= '" . $SystemTime . "'";
 
         }
 
@@ -1623,7 +1643,7 @@ sub TicketSearch {
             # don't execute queries if older/newer date restriction show now valid timeframe
             return if $CompareOlderNewerDate && $SystemTime > $CompareOlderNewerDate;
 
-            $SQLExt .= " AND ($ArticleTime{$Key} >= '" . $SystemTime . "')";
+            $SQLExt .= " AND $ArticleTime{$Key} >= '" . $SystemTime . "'";
         }
     }
 
