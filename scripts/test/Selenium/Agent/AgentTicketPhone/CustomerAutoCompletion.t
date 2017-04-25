@@ -296,12 +296,12 @@ $Selenium->RunTest(
                 );
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return typeof($) === "function" && $(".Dialog #SelectionCustomerIDAll:visible").length'
+                        'return typeof($) === "function" && $("#SelectionCustomerIDAll:visible").length'
                 );
 
                 if ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID} ) {
                     $Selenium->execute_script(
-                        "\$('.Dialog #SelectionCustomerIDAssigned').val('$AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID}').trigger('redraw.InputField').trigger('change');"
+                        "\$('#SelectionCustomerIDAssigned').val('$AutoCompleteExpected{$AutocompleteInput}->{SelectAssigendCustomerID}').trigger('redraw.InputField').trigger('change');"
                     );
                 }
                 elsif ( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} ) {
@@ -310,45 +310,29 @@ $Selenium->RunTest(
                     if ( !$AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
                         $Self->Is(
                             $Selenium->execute_script(
-                                "return \$('.Dialog #SelectionCustomerIDAssigned:visible').length"
+                                "return \$('#SelectionCustomerIDAssigned:visible').length"
                             ),
                             0,
                             "SelectionCustomerIDAssigned is not visible",
                         );
                     }
 
-                    $Selenium->find_element( ".Dialog #SelectionCustomerIDAll", 'css' )
+                    $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )
                         ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
-
-                    $Self->Is(
-                        $Selenium->find_element( ".Dialog #SelectionCustomerIDAll", 'css' )->get_value(),
-                        $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID},
-                        "AutoComplete value correctly insert.",
-                    );
 
                     # Wait for autocomplete to load.
                     $Selenium->WaitFor(
                         JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                     );
 
-                    my $AutoCompleteEntries = $Selenium->execute_script(
-                        "return \$('ul.ui-autocomplete li.ui-menu-item:visible').length",
-                    );
-
-                    $Self->Is(
-                        $AutoCompleteEntries,
-                        1,
-                        "Found entries in the customer id autocomplete dropdown for input string $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID}",
-                    );
-
                     # select customer id
                     $Selenium->find_element(
                         "//*[text()='$AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID}']"
-                    )->VerifiedClick();
+                    )->click();
                 }
 
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && !$(".Dialog:visible").length;'
+                    JavaScript => 'return typeof($) === "function" && !$("#SelectionCustomerIDAll:visible").length;'
                 );
             }
 
