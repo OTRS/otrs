@@ -47,10 +47,6 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
                 "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
         );
         $Self->Is(
@@ -71,15 +67,18 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor(
             JavaScript =>
-                "return \$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#NewPw1').closest('.WidgetSimple').find('.fa-check').length"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
                 "return !\$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+
+        # Verify password change is successful.
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $NewPw,
+        );
+        $Self->True(
+            $Selenium->find_element( 'a#LogoutButton', 'css' ),
+            "Password change is successful"
         );
     }
 );
