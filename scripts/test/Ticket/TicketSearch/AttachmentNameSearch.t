@@ -14,19 +14,11 @@ use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-# Initially set article storage to DB, so that subsequent FS tests succeed.
-$ConfigObject->Set(
-    Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
-    Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB',
-);
-
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-    ChannelName => 'Internal',
-);
+my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -140,6 +132,12 @@ for my $TicketID (@TicketIDs) {
             $ArticleWriteAttachment,
             'Attachment created',
         );
+
+        $ArticleObject->ArticleIndexBuild(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+            UserID    => 1,
+        );
     }
     $TicketCounter++;
 }
@@ -189,13 +187,19 @@ $Self->True(
     'Attachment created',
 );
 
+$ArticleObject->ArticleIndexBuild(
+    TicketID  => $TicketIDs[1],
+    ArticleID => $ArticleID,
+    UserID    => 1,
+);
+
 # actual tests
 my @Tests = (
     {
         Name   => 'AttachmentName',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
         ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -203,68 +207,68 @@ my @Tests = (
     {
         Name   => 'AttachmentName nonexisting',
         Config => {
-            AttachmentName => 'nonexisting-attachment-name-search.txt',
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'nonexisting-attachment-name-search.txt',
+            UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],    # does not consider attachment name
+        ExpectedResultsArticleStorageFS => [],    # does not consider attachment name
     },
     {
         Name   => 'AttachmentName Ticket1 Article1',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject        => 'Ticket1Article1' . $RandomID,
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Subject                 => 'Ticket1Article1' . $RandomID,
+            UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Ticket1 Article2',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject        => 'Ticket1Article2' . $RandomID,
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Subject                 => 'Ticket1Article2' . $RandomID,
+            UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article1',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject        => 'Ticket2Article1' . $RandomID,
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Subject                 => 'Ticket2Article1' . $RandomID,
+            UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article2',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject        => 'Ticket2Article2' . $RandomID,
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Subject                 => 'Ticket2Article2' . $RandomID,
+            UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article3',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject        => 'Ticket2Article3' . $RandomID,
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Subject                 => 'Ticket2Article3' . $RandomID,
+            UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Title Ticket 1',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Title          => $RandomID . 'Ticket One Title',
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Title                   => $RandomID . 'Ticket One Title',
+            UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
         ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
@@ -272,9 +276,9 @@ my @Tests = (
     {
         Name   => 'AttachmentName Title (Like) Ticket 1',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Title          => $RandomID . '*Title',
-            UserID         => 1,
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Title                   => $RandomID . '*Title',
+            UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
         ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
@@ -282,8 +286,8 @@ my @Tests = (
     {
         Name   => 'AttachmentName (AsCustomer)',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            CustomerUserID => 'customerOne@example.com',
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            CustomerUserID          => 'customerOne@example.com',
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
         ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -291,28 +295,28 @@ my @Tests = (
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article2',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject        => 'Ticket2Article2' . $RandomID,
-            CustomerUserID => 'customerOne@example.com',
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Subject                 => 'Ticket2Article2' . $RandomID,
+            CustomerUserID          => 'customerOne@example.com',
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article3',
         Config => {
-            AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject        => 'Ticket2Article3' . $RandomID,
-            CustomerUserID => 'customerOne@example.com',
+            MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
+            Subject                 => 'Ticket2Article3' . $RandomID,
+            CustomerUserID          => 'customerOne@example.com',
         },
-        ExpectedResultsArticleStorageDB => [],
-        ExpectedResultsArticleStorageFS => [],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
     },
 );
 
 for my $Test (@Tests) {
 
-    # attachment name is not considering for searches using ArticleSotrageFS
+    # attachment name search must work for ArticleStorageDB and ArticleSotrageFS.
     for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
         # For the search it is enough to change the config, the TicketObject does not

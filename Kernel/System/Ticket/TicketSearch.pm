@@ -488,26 +488,6 @@ sub TicketSearch {
     # sql, use also article table if needed
     $SQLFrom .= $ArticleJoinSQL;
 
-    # only search for attachment name if Article Storage is set to DB
-    if (
-        $Param{AttachmentName}
-        && (
-            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{'ArticleStorage'} eq
-            'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB'
-        )
-        )
-    {
-
-        # joins to article and article_data_mime_attachment are needed, it can not use existing article joins
-        # otherwise the search will be limited to already matching articles
-        my $AttachmentJoinSQL = '
-        INNER JOIN article art_for_att ON st.id = art_for_att.ticket_id
-        INNER JOIN article_data_mime_attachment att ON att.article_id = art_for_att.id ';
-
-        # SQL, use also article_data_mime_attachment table if needed
-        $SQLFrom .= $AttachmentJoinSQL;
-    }
-
     # use also history table if required
     ARGUMENT:
     for my $Key ( sort keys %Param ) {

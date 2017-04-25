@@ -86,7 +86,6 @@ sub ArticleIndexBuild {
 sub ArticleIndexDelete {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
     for my $Needed (qw(ArticleID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -109,7 +108,6 @@ sub ArticleIndexDelete {
 sub ArticleIndexDeleteTicket {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -151,7 +149,8 @@ sub _ArticleIndexQuerySQL {
         )
     {
         if ( $Param{Data}->{$_} ) {
-            return ' INNER JOIN article_search_index art ON st.id = art.ticket_id ';
+            return " INNER JOIN article sa ON st.id = sa.ticket_id
+                     INNER JOIN article_search_index art ON st.id = art.ticket_id ";
         }
     }
 
@@ -332,7 +331,6 @@ sub _ArticleIndexString {
 sub _ArticleIndexStringToWord {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
     if ( !defined $Param{String} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
