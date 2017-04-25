@@ -2537,7 +2537,7 @@ sub SearchStringStopWordsUsageWarningActive {
     my $SearchIndexModule   = $ConfigObject->Get('Ticket::SearchIndexModule');
     my $WarnOnStopWordUsage = $ConfigObject->Get('Ticket::SearchIndex::WarnOnStopWordUsage') || 0;
 
-    if ( $SearchIndexModule eq 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB' && $WarnOnStopWordUsage ) {
+    if ( $SearchIndexModule eq 'Kernel::System::Ticket::ArticleSearchIndex::DB' && $WarnOnStopWordUsage ) {
         return 1;
     }
 

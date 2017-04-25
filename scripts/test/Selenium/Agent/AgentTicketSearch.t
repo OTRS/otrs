@@ -19,13 +19,6 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # Make sure we start with RuntimeDB search.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'Ticket::SearchIndexModule',
-            Value => 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB',
-        );
-
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -123,9 +116,8 @@ $Selenium->RunTest(
         my $MinCharString        = 'ct';
         my $MaxCharString        = $RandomID . ( 't' x 50 );
         my $Subject              = 'Subject' . $RandomID;
-        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-            ChannelName => 'Internal',
-        );
+        my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
         my $ArticleID = $ArticleBackendObject->ArticleCreate(
             TicketID             => $TicketID,
@@ -143,6 +135,12 @@ $Selenium->RunTest(
         $Self->True(
             $ArticleID,
             "Article is created - ID $ArticleID",
+        );
+
+        $ArticleObject->ArticleIndexBuild(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+            UserID    => 1,
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -194,20 +192,13 @@ $Selenium->RunTest(
         # Wait until form and overlay has loaded, if neccessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
-        # Search for $MaxCharString with RuntimeDB - ticket must be found.
+        # Search for $MaxCharString - ticket will not be found.
         $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
         $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
 
         $Self->True(
-            index( $Selenium->get_page_source(), $TitleRandom ) > -1,
-            "Ticket $TitleRandom found on page with RuntimeDB search with string longer then 30 characters",
-        );
-
-        # Change search index module.
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'Ticket::SearchIndexModule',
-            Value => 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB',
+            index( $Selenium->get_page_source(), $TitleRandom ) == -1,
+            "Ticket $TitleRandom not found on search page with string longer then 30 characters",
         );
 
         # Enable warn on stop word usage.
@@ -300,7 +291,7 @@ $Selenium->RunTest(
         # Check for expected result.
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
-            "Ticket $TitleRandom found on page with correct StaticDB search",
+            "Ticket $TitleRandom found on page with correct search",
         );
 
         # Navigate to AgentTicketSearch screen again.
