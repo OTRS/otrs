@@ -760,6 +760,9 @@ sub XMLParse {
 
     # check cache
     if ($Checksum) {
+
+        # set CacheInMemory to 0 to prevent modification of the cache from outside
+        # See bug#[12761](https://bugs.otrs.org/show_bug.cgi?id=12761) for further details
         my $Cache = $CacheObject->Get(
             Type          => 'XMLParse',
             Key           => $Checksum,
@@ -848,6 +851,9 @@ sub XMLParse {
 
     # set cache
     if ($Checksum) {
+
+        # set CacheInMemory to 0 to prevent modification of the cache from outside
+        # See bug#[12761](https://bugs.otrs.org/show_bug.cgi?id=12761) for further details
         $CacheObject->Set(
             Type          => 'XMLParse',
             Key           => $Checksum,
