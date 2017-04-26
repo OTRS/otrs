@@ -804,6 +804,17 @@ ArticleDataTables:
 - article_data_mime_attachment
 ', 1, 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
+#  insert into table communication_channel
+# ----------------------------------------------------------
+INSERT INTO communication_channel (id, name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    (4, 'Chat', 'Kernel::System::CommunicationChannel::Chat', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_otrs_chat
+', 1, 1, current_timestamp, 1, current_timestamp);
+# ----------------------------------------------------------
 #  insert into table article
 # ----------------------------------------------------------
 INSERT INTO article (id, ticket_id, communication_channel_id, article_sender_type_id, is_visible_for_customer, create_by, create_time, change_by, change_time)
