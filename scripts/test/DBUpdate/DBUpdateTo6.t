@@ -42,10 +42,6 @@ $Success = $DBUpdateTo6Object->Run(
     CommandlineOptions => {
         NonInteractive => 1,
     },
-
-    # Prevent discarding all objects including config object, when config is rebuilt from DB update module. Otherwise,
-    #   overridden test database settings will be lost and changes might be executed on system database instead.
-    UnitTestMode => 1,
 );
 
 $Self->Is(
