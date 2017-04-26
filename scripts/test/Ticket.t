@@ -511,7 +511,7 @@ $Self->False(
 %TicketIDs = $TicketObject->TicketSearch(
     Result              => 'HASH',
     Limit               => 100,
-    Body                => 'write perl modules',
+    MIMEBase_Body       => 'write perl modules',
     ConditionInline     => 1,
     ContentSearchPrefix => '*',
     ContentSearchSuffix => '*',
@@ -521,13 +521,13 @@ $Self->False(
 );
 $Self->True(
     $TicketIDs{$TicketID},
-    'TicketSearch() (HASH:Body,StateType:Closed)',
+    'TicketSearch() (HASH:MIMEBase_Body,StateType:Closed)',
 );
 
 %TicketIDs = $TicketObject->TicketSearch(
     Result              => 'HASH',
     Limit               => 100,
-    Body                => 'write perl modules',
+    MIMEBase_Body       => 'write perl modules',
     ConditionInline     => 1,
     ContentSearchPrefix => '*',
     ContentSearchSuffix => '*',
@@ -537,7 +537,7 @@ $Self->True(
 );
 $Self->True(
     !$TicketIDs{$TicketID},
-    'TicketSearch() (HASH:Body,StateType:Open)',
+    'TicketSearch() (HASH:MIMEBase_,StateType:Open)',
 );
 
 $TicketObject->MoveTicket(
@@ -641,7 +641,7 @@ for my $Condition (
 
         # result limit
         Limit               => 1000,
-        From                => $Condition,
+        MIMEBase_From       => $Condition,
         ConditionInline     => 1,
         ContentSearchPrefix => '*',
         ContentSearchSuffix => '*',
@@ -650,7 +650,7 @@ for my $Condition (
     );
     $Self->True(
         $TicketIDs{$TicketID},
-        "TicketSearch() (HASH:From,ConditionInline,From='$Condition')",
+        "TicketSearch() (HASH:MIMEBase_From,ConditionInline,MIMEBase_From='$Condition')",
     );
 }
 
@@ -687,7 +687,7 @@ for my $Condition (
 
     $Self->True(
         ( !$TicketIDs{$TicketID} ),
-        "TicketSearch() (HASH:From,ConditionInline,From='$Condition')",
+        "TicketSearch() (HASH:MIMEBase_From,ConditionInline,MIMEBase_From='$Condition')",
     );
 }
 
