@@ -38,17 +38,21 @@ $Self->True(
 );
 
 my $DBUpdateTo6Object = $Kernel::OM->Get('scripts::DBUpdateTo6');
-$Success = $DBUpdateTo6Object->Run(
-    CommandlineOptions => {
-        NonInteractive => 1,
-    },
-);
 
-$Self->Is(
-    $Success,
-    1,
-    'DBUpdateTo6 ran without problems'
-);
+# Run DB update script consecutively.
+for my $Count ( 1 .. 2 ) {
+    $Success = $DBUpdateTo6Object->Run(
+        CommandlineOptions => {
+            NonInteractive => 1,
+        },
+    );
+
+    $Self->Is(
+        $Success,
+        1,
+        "DBUpdateTo6 ran without problems (Run $Count)"
+    );
+}
 
 # Cleanup is done by TmpDatabaseCleanup().
 
