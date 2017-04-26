@@ -190,6 +190,7 @@ $Selenium->RunTest(
                              Ticket state: <OTRS_TICKET_State>.\n
                              Ticket lock: <OTRS_TICKET_Lock>.\n
                              Ticket priority: <OTRS_TICKET_Priority>.\n
+                             Ticket created: <OTRS_TICKET_Created>.\n
                              DynamicField Text: <OTRS_TICKET_DynamicField_" . $DynamicFields{Text}->{Name} . "_Value>
                              DynamicField Dropdown: <OTRS_TICKET_DynamicField_"
                 . $DynamicFields{Dropdown}->{Name}
@@ -329,6 +330,10 @@ $Selenium->RunTest(
             "Article is created - ID $ArticleID",
         );
 
+        my %CreatedTicketData = $TicketObject->TicketGet(
+            TicketID => $TicketID,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -390,9 +395,21 @@ $Selenium->RunTest(
             # check translated value
             $Self->True(
                 index( $Selenium->get_page_source(), $TransletedTicketValue ) > -1,
-                "Translated \'$Item\' value is found - $TicketData{$Item} .",
+                "Translated \'$Item\' value is found - $TransletedTicketValue .",
             );
         }
+
+        # Check if the transformed date value exists.
+        my $TranslatedTicketCreated = $LanguageObject->FormatTimeString(
+            $CreatedTicketData{Created},
+            'DateFormat',
+            'NoSeconds',
+        );
+
+        $Self->True(
+            index( $Selenium->get_page_source(), $TranslatedTicketCreated ) > -1,
+            "Translated \'Created\' value is found - $TranslatedTicketCreated.",
+        );
 
         for my $DynamicFieldType ( sort keys %DynamicFieldValues ) {
 
