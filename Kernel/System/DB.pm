@@ -14,7 +14,6 @@ use warnings;
 
 use DBI;
 use List::Util();
-use Storable;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -23,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storable',
     'Kernel::System::Time',
 );
 
@@ -897,7 +897,11 @@ sub SQLProcessor {
         # make a deep copy in order to prevent modyfing the input data
         # see also Bug#12764 - Database function SQLProcessor() modifies given parameter data
         # https://bugs.otrs.org/show_bug.cgi?id=12764
-        my @Database = @{ Storable::dclone( $Param{Database} ) };
+        my @Database = @{
+            $Kernel::OM->Get('Kernel::System::Storable')->Clone(
+                Data => $Param{Database},
+            )
+        };
 
         my @Table;
         for my $Tag ( @Database ) {
