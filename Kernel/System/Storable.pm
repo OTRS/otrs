@@ -137,7 +137,7 @@ sub Deserialize {
 
 Creates a deep copy a Perl data structure.
 
-    my $StoableData = $StorableObject->Clone(
+    my $StorableData = $StorableObject->Clone(
         Data => $Data,          # must be a reference
     );
 
