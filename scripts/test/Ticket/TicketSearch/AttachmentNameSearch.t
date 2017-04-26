@@ -20,11 +20,9 @@ my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 
-# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
-        UseTmpArticleDir => 1,
         UseTmpArticleDir => 1,
     },
 );
@@ -217,7 +215,7 @@ my @Tests = (
         Name   => 'AttachmentName Ticket1 Article1',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject                 => 'Ticket1Article1' . $RandomID,
+            MIMEBase_Subject        => 'Ticket1Article1' . $RandomID,
             UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -227,7 +225,7 @@ my @Tests = (
         Name   => 'AttachmentName Ticket1 Article2',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject                 => 'Ticket1Article2' . $RandomID,
+            MIMEBase_Subject        => 'Ticket1Article2' . $RandomID,
             UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -237,7 +235,7 @@ my @Tests = (
         Name   => 'AttachmentName Ticket2 Article1',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject                 => 'Ticket2Article1' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2Article1' . $RandomID,
             UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -247,7 +245,7 @@ my @Tests = (
         Name   => 'AttachmentName Ticket2 Article2',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject                 => 'Ticket2Article2' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2Article2' . $RandomID,
             UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -257,7 +255,7 @@ my @Tests = (
         Name   => 'AttachmentName Ticket2 Article3',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject                 => 'Ticket2Article3' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2Article3' . $RandomID,
             UserID                  => 1,
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -296,7 +294,7 @@ my @Tests = (
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article2',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject                 => 'Ticket2Article2' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2Article2' . $RandomID,
             CustomerUserID          => 'customerOne@example.com',
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
@@ -306,7 +304,7 @@ my @Tests = (
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article3',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            Subject                 => 'Ticket2Article3' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2Article3' . $RandomID,
             CustomerUserID          => 'customerOne@example.com',
         },
         ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
