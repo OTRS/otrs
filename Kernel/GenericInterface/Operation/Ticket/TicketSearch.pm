@@ -381,11 +381,14 @@ sub _GetParams {
     # get single params
     my %GetParam;
 
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+
     for my $Item (
-        qw(From To Cc Subject Body
+        sort keys %SearchableFields,
+        qw(
         Agent ResultForm TimeSearchType ChangeTimeSearchType LastChangeTimeSearchType CloseTimeSearchType UseSubQueues
         ArticleTimeSearchType SearchInArchive
-        Fulltext ContentSearch ShownAttributes AttachmentName
+        Fulltext ContentSearch ShownAttributes
         )
         )
     {

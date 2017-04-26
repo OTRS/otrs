@@ -550,6 +550,12 @@ my $ArticleID41 = $ArticleBackendObject->ArticleCreate(
     NoAgentNotify        => 1,
 );
 
+$ArticleObject->ArticleIndexBuild(
+    TicketID  => $TicketID4,
+    ArticleID => $ArticleID41,
+    UserID    => 1,
+);
+
 # second article
 my $ArticleID42 = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID4,
@@ -566,6 +572,12 @@ my $ArticleID42 = $ArticleBackendObject->ArticleCreate(
     HistoryComment       => 'second article',
     UserID               => 1,
     NoAgentNotify        => 1,
+);
+
+$ArticleObject->ArticleIndexBuild(
+    TicketID  => $TicketID4,
+    ArticleID => $ArticleID42,
+    UserID    => 1,
 );
 
 # Helper method to retrieve article content for supplied list of articles.
@@ -1498,20 +1510,19 @@ my @Tests = (
         },
         Operation => 'TicketSearch',
     },
-
     {
         Name           => "Test ContentSearch Parameter" . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            Body          => 'not too long',
-            Subject       => 'not too long',
-            ContentSearch => 'OR',
+            MIMEBase_Body    => 'text body long',
+            MIMEBase_Subject => 'text body long',
+            ContentSearch    => 'OR',
         },
         ExpectedReturnLocalData => {
             Data => {
                 TicketID => [$TicketID4],
             },
-            Success => 1
+            Success => 1,
         },
         ExpectedReturnRemoteData => {
             Data => {
@@ -1804,8 +1815,9 @@ my @Tests = (
 # Add a wrong value test for each possible parameter on direct search
 
 for my $Item (
-    qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
-    Fulltext
+    qw(
+    TicketNumber Title MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Subject
+    MIMEBase_Body CustomerID CustomerUserLogin StateType Fulltext
     )
     )
 {
