@@ -634,7 +634,7 @@ sub BackendSearchableFieldsGet {
             Filterable => 0,
         },
         'Chat_MessageText' => {
-            Label      => 'Message Text',
+            Label      => 'Chat Message Text',
             Key        => 'Chat_MessageText',
             Type       => 'Text',
             Filterable => 1,

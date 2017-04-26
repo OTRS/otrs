@@ -140,6 +140,12 @@ sub _ArticleIndexQuerySQL {
 
     my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
 
+    my $JoinStatements = ' ';
+
+    if ( $Param{Data}->{CustomerUserID} ) {
+        $JoinStatements .= 'INNER JOIN article sa ON st.id = sa.ticket_id '
+    }
+
     for (
         sort keys %SearchableFields,
         qw(
@@ -149,8 +155,7 @@ sub _ArticleIndexQuerySQL {
         )
     {
         if ( $Param{Data}->{$_} ) {
-            return " INNER JOIN article sa ON st.id = sa.ticket_id
-                     INNER JOIN article_search_index art ON st.id = art.ticket_id ";
+            return $JoinStatements . 'INNER JOIN article_search_index art ON st.id = art.ticket_id ';
         }
     }
 

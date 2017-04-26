@@ -189,6 +189,9 @@ for my $Hours ( sort keys %WorkingHours ) {
             Objects => [
                 'Kernel::System::Ticket',
                 'Kernel::System::Ticket::Article',
+                'Kernel::System::Ticket::Article::Backend::Phone',
+                'Kernel::System::Ticket::Article::Backend::Email',
+                'Kernel::System::Ticket::Article::Backend::Internal',
             ],
         );
         $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -380,7 +383,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             HistoryType          => 'OwnerUpdate',
             HistoryComment       => 'first response',
             UserID               => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify        => 1,    # if you don't want to send agent notifications
         );
 
         if ( $WorkingHours{$Hours} ) {
@@ -397,6 +400,8 @@ for my $Hours ( sort keys %WorkingHours ) {
                 'Kernel::System::Ticket',
                 'Kernel::System::Ticket::Article',
                 'Kernel::System::Ticket::Article::Backend::Phone',
+                'Kernel::System::Ticket::Article::Backend::Email',
+                'Kernel::System::Ticket::Article::Backend::Internal',
             ],
         );
         $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -462,6 +467,8 @@ for my $Hours ( sort keys %WorkingHours ) {
             Objects => [
                 'Kernel::System::Ticket',
                 'Kernel::System::Ticket::Article',
+                'Kernel::System::Ticket::Article::Backend::Phone',
+                'Kernel::System::Ticket::Article::Backend::Email',
                 'Kernel::System::Ticket::Article::Backend::Internal',
             ],
         );
