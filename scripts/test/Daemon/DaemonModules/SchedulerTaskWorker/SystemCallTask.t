@@ -235,11 +235,9 @@ $Self->False(
 );
 
 my @TicketIDs = $TicketObject->TicketSearch(
-    Result  => 'ARRAY',
-    From    => '%skywalker@otrs.org%',
-    To      => '%darthvader@otrs.org%',
-    Subject => '%test 1%',
-    UserID  => 1,
+    Result         => 'ARRAY',
+    CustomerUserID => 'skywalker@otrs.org',
+    UserID         => 1,
 );
 
 for my $TicketID ( @TicketIDs, $GATicketID ) {
