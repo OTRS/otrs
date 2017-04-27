@@ -127,7 +127,7 @@ sub ArticleIndexDeleteTicket {
     return 1;
 }
 
-sub _ArticleIndexQuerySQL {
+sub ArticleSearchIndexNeeded {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Data} ) {
@@ -140,29 +140,62 @@ sub _ArticleIndexQuerySQL {
 
     my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
 
-    my $JoinStatements = ' ';
-
-    if ( $Param{Data}->{CustomerUserID} ) {
-        $JoinStatements .= 'INNER JOIN article sa ON st.id = sa.ticket_id '
-    }
-
-    for (
+    for my $Field (
         sort keys %SearchableFields,
         qw(
-        Fulltext ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
-        ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate
+        ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
+        ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate Fulltext
         )
         )
     {
-        if ( $Param{Data}->{$_} ) {
-            return $JoinStatements . 'INNER JOIN article_search_index art ON st.id = art.ticket_id ';
+        if ( IsStringWithData( $Param{Data}->{$Field} ) ) {
+            return 1;
         }
     }
 
-    return '';
+    return;
 }
 
-sub _ArticleIndexQuerySQLExt {
+sub ArticleSearchIndexJoin {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{Data} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Data!"
+        );
+        return;
+    }
+
+    my $ArticleSearchIndexJoin = ' INNER JOIN article_search_index asi ON st.id = asi.ticket_id ';
+
+    return $ArticleSearchIndexJoin if $Param{Data}->{Fulltext};
+
+    # flush the previous join as it is just useful if 'Fulltext' is given
+    $ArticleSearchIndexJoin = ' ';
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Run through all article fields, that have assigned values and add additional LEFT JOINS
+    # to the string, to access them later for the conditions.
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+
+    ARTICLEFIELD:
+    for my $ArticleField ( sort keys %SearchableFields ) {
+
+        next ARTICLEFIELD if !IsStringWithData( $Param{Data}->{$ArticleField} );
+
+        my $Label = $ArticleField;
+        $ArticleField = $DBObject->Quote($ArticleField);
+
+        $ArticleSearchIndexJoin
+            .= "LEFT JOIN article_search_index $Label ON art.id = $Label.article_id AND $Label.article_key = '$ArticleField' ";
+    }
+
+    return $ArticleSearchIndexJoin;
+}
+
+sub ArticleSearchIndexCondition {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Data} ) {
@@ -176,8 +209,8 @@ sub _ArticleIndexQuerySQLExt {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $SQLExt   = '';
-    my $SQLQuery = '';
+    my $SQLCondition = '';
+    my $SQLQuery     = '';
 
     my @Fields = ('Fulltext');
 
@@ -189,8 +222,7 @@ sub _ArticleIndexQuerySQLExt {
     FIELD:
     for my $Field (@Fields) {
 
-        next FIELD if !$Field;
-        next FIELD if !$Param{Data}->{$Field};
+        next FIELD if !IsStringWithData( $Param{Data}->{$Field} );
 
         # replace * by % for SQL like
         $Param{Data}->{$Field} =~ s/\*/%/gi;
@@ -205,42 +237,18 @@ sub _ArticleIndexQuerySQLExt {
         # check if search condition extension is used
         if ( $Param{Data}->{ConditionInline} ) {
 
-            my $SQLFieldCondition;
-
-            if ( $Field ne 'Fulltext' ) {
-                $SQLFieldCondition = $DBObject->QueryCondition(
-                    Key   => 'art.article_key',
-                    Value => $Field,
-                );
-            }
-
-            my $SQLQueryCondition = $DBObject->QueryCondition(
-                Key           => 'art.article_value',
+            $SQLQuery .= $DBObject->QueryCondition(
+                Key => $Param{Data}->{Fulltext} ? 'asi.article_value' : "$Field.article_value",
                 Value         => lc $Param{Data}->{$Field},
                 SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
                 SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
                 Extended      => 1,
                 CaseSensitive => 1,                                     # data is already stored in lower cases
             );
-
-            if ( IsStringWithData($SQLFieldCondition) ) {
-                $SQLQuery .= "($SQLFieldCondition AND $SQLQueryCondition)";
-                next FIELD;
-            }
-
-            $SQLQuery .= $SQLQueryCondition;
         }
         else {
 
-            my $SQLFieldCondition;
-
-            if ( $Field ne 'Fulltext' ) {
-
-                $Field = $DBObject->Quote($Field);
-
-                $SQLFieldCondition = "art.article_key = '$Field'";
-            }
-
+            my $Label = $Param{Data}->{Fulltext} ? 'asi' : $Field;
             my $Value = $Param{Data}->{$Field};
 
             if ( $Param{Data}->{ContentSearchPrefix} ) {
@@ -258,20 +266,15 @@ sub _ArticleIndexQuerySQLExt {
 
             $Value = lc $DBObject->Quote( $Value, 'Like' );
 
-            if ( IsStringWithData($SQLFieldCondition) ) {
-                $SQLQuery .= "($SQLFieldCondition AND art.article_value LIKE '$Value')";
-                next FIELD;
-            }
-
-            $SQLQuery .= " art.article_value LIKE '$Value'";
+            $SQLQuery .= " $Label.article_value LIKE '$Value'";
         }
     }
 
     if ($SQLQuery) {
-        $SQLExt = ' AND (' . $SQLQuery . ')';
+        $SQLCondition = ' AND (' . $SQLQuery . ') ';
     }
 
-    return $SQLExt;
+    return $SQLCondition;
 }
 
 sub _ArticleIndexString {

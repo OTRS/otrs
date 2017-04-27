@@ -482,11 +482,17 @@ sub TicketSearch {
 
     my $SQLFrom = ' FROM ticket st ';
 
-    my $ArticleJoinSQL
-        = $Kernel::OM->Get('Kernel::System::Ticket::Article')->_ArticleIndexQuerySQL( Data => \%Param ) || '';
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    # sql, use also article table if needed
-    $SQLFrom .= $ArticleJoinSQL;
+    # check for needed article table join
+    my $ArticleTableJoin = $Param{CustomerUserID} ? 1 : 0;
+
+    # check for needed article search index table join
+    if ( $ArticleObject->ArticleSearchIndexNeeded( Data => \%Param ) ) {
+        $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
+        $SQLFrom .= $ArticleObject->ArticleSearchIndexJoin( Data => \%Param );
+        $ArticleTableJoin = 1;
+    }
 
     # use also history table if required
     ARGUMENT:
@@ -1347,15 +1353,13 @@ sub TicketSearch {
         }
     }
 
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
     # search article attributes
-    my $ArticleIndexSQLExt = $ArticleObject->_ArticleIndexQuerySQLExt( Data => \%Param );
+    my $ArticleIndexSQLExt = $ArticleObject->ArticleSearchIndexCondition( Data => \%Param );
     $SQLExt .= $ArticleIndexSQLExt;
 
     # restrict search from customers to only customer articles
     if ( $Param{CustomerUserID} && $ArticleIndexSQLExt ) {
-        $SQLExt .= ' AND sa.is_visible_for_customer = 1 ';
+        $SQLExt .= ' AND art.is_visible_for_customer = 1 ';
     }
 
     # Remember already joined tables for sorting.
@@ -1468,9 +1472,9 @@ sub TicketSearch {
                 }
             }
             elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
-                if ( !$ArticleJoinSQL ) {
-                    $ArticleJoinSQL = ' INNER JOIN article art ON st.id = art.ticket_id ';
-                    $SQLFrom .= $ArticleJoinSQL;
+
+                if ( !$ArticleTableJoin ) {
+                    $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
                 }
 
                 if ($QueryForEmptyValues) {
@@ -1519,7 +1523,7 @@ sub TicketSearch {
 
     # get articles created older/newer than x minutes or older/newer than a date
     my %ArticleTime = (
-        ArticleCreateTime => "art.article_key = 'MIMEBase_IncomingTime' AND art.article_value",
+        ArticleCreateTime => "art.create_time",
     );
     for my $Key ( sort keys %ArticleTime ) {
 
@@ -2238,9 +2242,8 @@ sub TicketSearch {
                             $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                     }
                     elsif ( $ArticleDynamicFieldName2Config{$DynamicFieldName} ) {
-                        if ( !$ArticleJoinSQL ) {
-                            $ArticleJoinSQL = ' INNER JOIN article art ON st.id = art.ticket_id ';
-                            $SQLFrom .= $ArticleJoinSQL;
+                        if ( !$ArticleTableJoin ) {
+                            $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
                         }
 
                         $SQLFrom

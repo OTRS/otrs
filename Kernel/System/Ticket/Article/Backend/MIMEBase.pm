@@ -1607,16 +1607,6 @@ sub ArticleSearchableContentGet {
 
     my %BackendSearchableFields = $Self->BackendSearchableFieldsGet();
 
-    # Append the article incoming time without let it appear in AgentTicketSearch,
-    # to be able to perform search actions i.e. ArticleCreateTimeOlderMinutes,
-    # ArticleCreateTimeNewerDate.
-    $BackendSearchableFields{'MIMEBase_IncomingTime'} = {
-        Label      => 'Incoming Time',
-        Key        => 'MIMEBase_IncomingTime',
-        Type       => 'Text',
-        Filterable => 0,
-    };
-
     my %ArticleSearchData;
 
     FIELDKEY:

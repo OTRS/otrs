@@ -92,7 +92,7 @@ for my $TicketID (@TicketIDs) {
             To                   => 'Customer A <customer-a@example.com>',
             Cc                   => 'Customer B <customer-b@example.com>',
             ReplyTo              => 'Customer B <customer-b@example.com>',
-            Subject              => 'Ticket' . $TicketCounter . 'Article' . $ArticleCounter . $RandomID,
+            Subject              => 'Ticket' . $TicketCounter . ' Article' . $ArticleCounter . ' ' . $RandomID,
             Body                 => 'A text for the body, Title äöüßÄÖÜ€ис',
             ContentType          => 'text/plain; charset=ISO-8859-15',
             HistoryType          => 'OwnerUpdate',
@@ -149,7 +149,7 @@ my $ArticleID = $ArticleBackendObject->ArticleCreate(
     To                   => 'Customer A <customer-a@example.com>',
     Cc                   => 'Customer B <customer-b@example.com>',
     ReplyTo              => 'Customer B <customer-b@example.com>',
-    Subject              => 'Ticket2Article3' . $RandomID,
+    Subject              => 'Ticket2 Article3 ' . $RandomID,
     Body                 => 'A text for the body, Title äöüßÄÖÜ€ис',
     ContentType          => 'text/plain; charset=ISO-8859-15',
     HistoryType          => 'OwnerUpdate',
@@ -215,51 +215,51 @@ my @Tests = (
         Name   => 'AttachmentName Ticket1 Article1',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            MIMEBase_Subject        => 'Ticket1Article1' . $RandomID,
+            MIMEBase_Subject        => 'Ticket1 Article1 ' . $RandomID,
             UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [],
+        ExpectedResultsArticleStorageFS => [],
     },
     {
         Name   => 'AttachmentName Ticket1 Article2',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            MIMEBase_Subject        => 'Ticket1Article2' . $RandomID,
+            MIMEBase_Subject        => 'Ticket1 Article2 ' . $RandomID,
             UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[0] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[0] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article1',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            MIMEBase_Subject        => 'Ticket2Article1' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2 Article1 ' . $RandomID,
             UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [],
+        ExpectedResultsArticleStorageFS => [],
     },
     {
         Name   => 'AttachmentName Ticket2 Article2',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            MIMEBase_Subject        => 'Ticket2Article2' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2 Article2 ' . $RandomID,
             UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Ticket2 Article3',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            MIMEBase_Subject        => 'Ticket2Article3' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2 Article3 ' . $RandomID,
             UserID                  => 1,
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName Title Ticket 1',
@@ -294,27 +294,27 @@ my @Tests = (
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article2',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            MIMEBase_Subject        => 'Ticket2Article2' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2 Article2 ' . $RandomID,
             CustomerUserID          => 'customerOne@example.com',
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [ $TicketIDs[1] ],
+        ExpectedResultsArticleStorageFS => [ $TicketIDs[1] ],
     },
     {
         Name   => 'AttachmentName (AsCustomer) Ticket2 Article3',
         Config => {
             MIMEBase_AttachmentName => 'StdAttachment-Test1' . $RandomID . '.txt',
-            MIMEBase_Subject        => 'Ticket2Article3' . $RandomID,
+            MIMEBase_Subject        => 'Ticket2 Article3 ' . $RandomID,
             CustomerUserID          => 'customerOne@example.com',
         },
-        ExpectedResultsArticleStorageDB => [ $TicketIDs[0], $TicketIDs[1] ],
-        ExpectedResultsArticleStorageFS => [ $TicketIDs[0], $TicketIDs[1] ],
+        ExpectedResultsArticleStorageDB => [],
+        ExpectedResultsArticleStorageFS => [],
     },
 );
 
 for my $Test (@Tests) {
 
-    # attachment name search must work for ArticleStorageDB and ArticleSotrageFS.
+    # attachment name search must work for ArticleStorageDB and ArticleStorageFS.
     for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
         # For the search it is enough to change the config, the TicketObject does not
@@ -333,7 +333,7 @@ for my $Test (@Tests) {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             FullTextIndex       => 1,
-            TicketID            => [@TicketIDs],
+            TicketID            => \@TicketIDs,
             %{ $Test->{Config} },
             Limit => 2,
         );

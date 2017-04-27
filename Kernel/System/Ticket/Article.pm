@@ -714,16 +714,22 @@ sub ArticleIndexDeleteTicket {
     return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->ArticleIndexDeleteTicket(%Param);
 }
 
-sub _ArticleIndexQuerySQL {
+sub ArticleSearchIndexNeeded {
     my ( $Self, %Param ) = @_;
 
-    return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->_ArticleIndexQuerySQL(%Param);
+    return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->ArticleSearchIndexNeeded(%Param);
 }
 
-sub _ArticleIndexQuerySQLExt {
+sub ArticleSearchIndexJoin {
     my ( $Self, %Param ) = @_;
 
-    return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->_ArticleIndexQuerySQLExt(%Param);
+    return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->ArticleSearchIndexJoin(%Param);
+}
+
+sub ArticleSearchIndexCondition {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->ArticleSearchIndexCondition(%Param);
 }
 
 sub SearchableFieldsList {
