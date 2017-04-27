@@ -993,25 +993,6 @@ sub TicketAppointmentProcessTicket {
                 }
             }
 
-            # Rename old-style article fields in search parameters.
-            my %SearchParamMap = (
-                AttachmentName => 'MIMEBase_AttachmentName',
-                Body           => 'MIMEBase_Body',
-                Cc             => 'MIMEBase_Cc',
-                From           => 'MIMEBase_From',
-                Subject        => 'MIMEBase_Subject',
-                To             => 'MIMEBase_To',
-            );
-            SEARCH_PARAM:
-            for my $SearchParam ( sort keys %{ $TicketAppointments->{SearchParam} // {} } ) {
-                next SEARCH_PARAM if !$SearchParamMap{$SearchParam};
-
-                $TicketAppointments->{SearchParam}->{ $SearchParamMap{$SearchParam} }
-                    = $TicketAppointments->{SearchParam}->{$SearchParam};
-
-                delete $TicketAppointments->{SearchParam}->{$SearchParam};
-            }
-
             # check if ticket satisfies the search filter from the ticket appointment rule
             # pass all configured parameters to ticket search, including ticket id
             my $Filtered = $TicketObject->TicketSearch(
@@ -1150,25 +1131,6 @@ sub TicketAppointmentProcessCalendar {
                 CalendarID => $Param{CalendarID},
                 RuleID     => $TicketAppointments->{RuleID},
             );
-
-            # Rename old-style article fields in search parameters.
-            my %SearchParamMap = (
-                AttachmentName => 'MIMEBase_AttachmentName',
-                Body           => 'MIMEBase_Body',
-                Cc             => 'MIMEBase_Cc',
-                From           => 'MIMEBase_From',
-                Subject        => 'MIMEBase_Subject',
-                To             => 'MIMEBase_To',
-            );
-            SEARCH_PARAM:
-            for my $SearchParam ( sort keys %{ $TicketAppointments->{SearchParam} // {} } ) {
-                next SEARCH_PARAM if !$SearchParamMap{$SearchParam};
-
-                $TicketAppointments->{SearchParam}->{ $SearchParamMap{$SearchParam} }
-                    = $TicketAppointments->{SearchParam}->{$SearchParam};
-
-                delete $TicketAppointments->{SearchParam}->{$SearchParam};
-            }
 
             # Find tickets that match search filter
             my @TicketIDs = $TicketObject->TicketSearch(

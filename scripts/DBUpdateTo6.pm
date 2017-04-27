@@ -148,6 +148,10 @@ sub _TasksGet {
             Message => 'Migrate GenericAgent jobs configuration',
             Module  => 'MigrateGenericAgentJobs',
         },
+        {
+            Message => 'Migrate TicketAppointment rules configuration',
+            Module  => 'MigrateTicketAppointments',
+        },
 
         # ...
 

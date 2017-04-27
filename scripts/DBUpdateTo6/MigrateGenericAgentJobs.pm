@@ -31,8 +31,6 @@ sub Run {
 
     my %Jobs = $GenericAgentObject->JobList();
 
-    my $JobsUpdated;
-
     JOB:
     for my $JobName ( sort keys %Jobs ) {
         my %Job = $GenericAgentObject->JobGet( Name => $JobName );
@@ -79,12 +77,7 @@ sub Run {
             print "\nCould not update generic agent job '$JobName'.\n";
             return;
         }
-
-        $JobsUpdated = 1;
     }
-
-    # Delete generic agent cache if at least one job was updated.
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'GenericAgent' ) if $JobsUpdated;
 
     return 1;
 }

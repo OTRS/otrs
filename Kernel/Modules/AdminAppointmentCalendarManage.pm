@@ -970,25 +970,6 @@ sub _TicketAppointments {
         );
     }
 
-    # Rename old-style article fields in search parameters.
-    my %SearchParamMap = (
-        AttachmentName => 'MIMEBase_AttachmentName',
-        Body           => 'MIMEBase_Body',
-        Cc             => 'MIMEBase_Cc',
-        From           => 'MIMEBase_From',
-        Subject        => 'MIMEBase_Subject',
-        To             => 'MIMEBase_To',
-    );
-
-    SEARCH_PARAM:
-    for my $SearchParam ( sort keys %{ $Param{SearchParam} // {} } ) {
-        next SEARCH_PARAM if !$SearchParamMap{$SearchParam};
-
-        $Param{SearchParam}->{ $SearchParamMap{$SearchParam} } = $Param{SearchParam}->{$SearchParam};
-
-        delete $Param{SearchParam}->{$SearchParam};
-    }
-
     # Sort search parameter list by translated labels.
     my @SearchParams;
     for my $ParamName ( sort { $SearchParamsConfig->{$a} cmp $SearchParamsConfig->{$b} } keys %{$SearchParamsConfig} ) {
