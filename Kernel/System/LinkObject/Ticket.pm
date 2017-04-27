@@ -270,14 +270,7 @@ sub ObjectSearch {
     # set focus
     my %Search;
     if ( $Param{SearchParams}->{TicketFulltext} ) {
-        %Search = (
-            From          => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
-            To            => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
-            Cc            => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
-            Subject       => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
-            Body          => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
-            ContentSearch => 'OR',
-        );
+        $Search{Fulltext} = '*' . $Param{SearchParams}->{TicketFulltext} . '*';
     }
     if ( $Param{SearchParams}->{TicketTitle} ) {
         $Search{Title} = '*' . $Param{SearchParams}->{TicketTitle} . '*';
