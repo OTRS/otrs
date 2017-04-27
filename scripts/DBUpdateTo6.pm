@@ -152,6 +152,10 @@ sub _TasksGet {
             Message => 'Migrate TicketAppointment rules configuration',
             Module  => 'MigrateTicketAppointments',
         },
+        {
+            Message => 'Migrate ticket statistics',
+            Module  => 'MigrateTicketStats',
+        },
 
         # ...
 

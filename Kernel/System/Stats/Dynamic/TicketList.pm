@@ -313,7 +313,7 @@ sub GetObjectAttributes {
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
-            Element          => 'From',
+            Element          => 'MIMEBase_From',
             Block            => 'InputField',
         },
         {
@@ -321,7 +321,7 @@ sub GetObjectAttributes {
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
-            Element          => 'To',
+            Element          => 'MIMEBase_To',
             Block            => 'InputField',
         },
         {
@@ -329,7 +329,7 @@ sub GetObjectAttributes {
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
-            Element          => 'Cc',
+            Element          => 'MIMEBase_Cc',
             Block            => 'InputField',
         },
         {
@@ -337,7 +337,7 @@ sub GetObjectAttributes {
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
-            Element          => 'Subject',
+            Element          => 'MIMEBase_Subject',
             Block            => 'InputField',
         },
         {
@@ -345,7 +345,7 @@ sub GetObjectAttributes {
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
-            Element          => 'Body',
+            Element          => 'MIMEBase_Body',
             Block            => 'InputField',
         },
         {
