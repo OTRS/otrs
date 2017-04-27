@@ -1475,6 +1475,7 @@ sub TicketSearch {
 
                 if ( !$ArticleTableJoin ) {
                     $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
+                    $ArticleTableJoin = 1;
                 }
 
                 if ($QueryForEmptyValues) {
@@ -2252,6 +2253,7 @@ sub TicketSearch {
                     elsif ( $ArticleDynamicFieldName2Config{$DynamicFieldName} ) {
                         if ( !$ArticleTableJoin ) {
                             $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
+                            $ArticleTableJoin = 1;
                         }
 
                         $SQLFrom
