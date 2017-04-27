@@ -1854,31 +1854,31 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     type="tns:OTRS_TicketSearch_TicketFlag" minOccurs="0">
                 </xsd:element>
                 <xsd:element
-                    name="From"
+                    name="MIMEBase_From"
                     type="xsd:string"
                     minOccurs="0"
                     maxOccurs="1">
                 </xsd:element>
                 <xsd:element
-                    name="To"
+                    name="MIMEBase_To"
                     type="xsd:string"
                     minOccurs="0"
                     maxOccurs="1">
                 </xsd:element>
                 <xsd:element
-                    name="Cc"
+                    name="MIMEBase_Cc"
                     type="xsd:string"
                     minOccurs="0"
                     maxOccurs="1">
                 </xsd:element>
                 <xsd:element
-                    name="Subject"
+                    name="MIMEBase_Subject"
                     type="xsd:string"
                     minOccurs="0"
                     maxOccurs="1">
                 </xsd:element>
                 <xsd:element
-                    name="Body"
+                    name="MIMEBase_Body"
                     type="xsd:string"
                     minOccurs="0"
                     maxOccurs="1">

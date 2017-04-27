@@ -469,11 +469,11 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                         <xsd:element maxOccurs="unbounded" minOccurs="0" name="CreatedQueueIDs" type="xsd:positiveInteger"/>
                         <xsd:element maxOccurs="unbounded" minOccurs="0" name="DynamicField" type="tns:OTRS_TicketSearch_DynamicField"/>
                         <xsd:element minOccurs="0" name="Ticketflag" type="tns:OTRS_TicketSearch_TicketFlag"/>
-                        <xsd:element maxOccurs="1" minOccurs="0" name="From" type="xsd:string"/>
-                        <xsd:element maxOccurs="1" minOccurs="0" name="To" type="xsd:string"/>
-                        <xsd:element maxOccurs="1" minOccurs="0" name="Cc" type="xsd:string"/>
-                        <xsd:element maxOccurs="1" minOccurs="0" name="Subject" type="xsd:string"/>
-                        <xsd:element maxOccurs="1" minOccurs="0" name="Body" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_From" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_To" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_Cc" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_Subject" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="MIMEBase_Body" type="xsd:string"/>
                         <xsd:element maxOccurs="1" minOccurs="0" name="FullTextIndex" type="xsd:positiveInteger"/>
                         <xsd:element maxOccurs="1" minOccurs="0" name="ContentSearch" type="xsd:string"/>
                         <xsd:element maxOccurs="1" minOccurs="0" name="ConditionInline" type="xsd:positiveInteger"/>
