@@ -26,7 +26,14 @@ sub new {
     bless( $Self, $Type );
 
     # Certain search parameters for ticket appointments should be stored as scalars, not array refs.
-    $Self->{SearchParamScalar} = [ 'From', 'To', 'Cc', 'Subject', 'Body', 'AttachmentName' ];
+    $Self->{SearchParamScalar} = [
+        'MIMEBase_From',
+        'MIMEBase_To',
+        'MIMEBase_Cc',
+        'MIMEBase_Subject',
+        'MIMEBase_Body',
+        'MIMEBase_AttachmentName',
+    ];
 
     return $Self;
 }
@@ -963,6 +970,25 @@ sub _TicketAppointments {
         );
     }
 
+    # Rename old-style article fields in search parameters.
+    my %SearchParamMap = (
+        AttachmentName => 'MIMEBase_AttachmentName',
+        Body           => 'MIMEBase_Body',
+        Cc             => 'MIMEBase_Cc',
+        From           => 'MIMEBase_From',
+        Subject        => 'MIMEBase_Subject',
+        To             => 'MIMEBase_To',
+    );
+
+    SEARCH_PARAM:
+    for my $SearchParam ( sort keys %{ $Param{SearchParam} // {} } ) {
+        next SEARCH_PARAM if !$SearchParamMap{$SearchParam};
+
+        $Param{SearchParam}->{ $SearchParamMap{$SearchParam} } = $Param{SearchParam}->{$SearchParam};
+
+        delete $Param{SearchParam}->{$SearchParam};
+    }
+
     # Sort search parameter list by translated labels.
     my @SearchParams;
     for my $ParamName ( sort { $SearchParamsConfig->{$a} cmp $SearchParamsConfig->{$b} } keys %{$SearchParamsConfig} ) {
@@ -1019,7 +1045,7 @@ sub _GetTicketAppointmentParams {
                     $TicketAppointmentParams{$RuleID}->{RuleID} = $RuleID;
                 }
                 if ( $Field eq 'SearchParam' ) {
-                    if ( $Key =~ /^SearchParam_${RuleID}_([A-Za-z]+)$/ ) {
+                    if ( $Key =~ /^SearchParam_${RuleID}_([A-Za-z_]+)$/ ) {
                         my $SearchParam = $1;
 
                         # Store search params:

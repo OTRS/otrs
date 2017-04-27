@@ -560,12 +560,12 @@
                 <Item Key="ResponsibleIDs" Translatable="1">Responsible</Item>
                 <Item Key="CustomerID" Translatable="1">CustomerID</Item>
                 <Item Key="CustomerUserLogin" Translatable="1">Customer user</Item>
-                <Item Key="From" Translatable="1">From</Item>
-                <Item Key="To" Translatable="1">To</Item>
-                <Item Key="Cc" Translatable="1">Cc</Item>
-                <Item Key="Subject" Translatable="1">Subject</Item>
-                <Item Key="Body" Translatable="1">Body</Item>
-                <Item Key="AttachmentName" Translatable="1">Attachment Name</Item>
+                <Item Key="MIMEBase_From" Translatable="1">From</Item>
+                <Item Key="MIMEBase_To" Translatable="1">To</Item>
+                <Item Key="MIMEBase_Cc" Translatable="1">Cc</Item>
+                <Item Key="MIMEBase_Subject" Translatable="1">Subject</Item>
+                <Item Key="MIMEBase_Body" Translatable="1">Body</Item>
+                <Item Key="MIMEBase_AttachmentName" Translatable="1">Attachment Name</Item>
             </Hash>
         </Value>
     </Setting>
