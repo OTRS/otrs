@@ -272,6 +272,7 @@ for my $Key (qw( Body Subject From To ReplyTo )) {
         $Success,
         'ArticleUpdate()'
     );
+
     my %Article2 = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
@@ -292,6 +293,12 @@ for my $Key (qw( Body Subject From To ReplyTo )) {
         UserID    => 1,
     );
 }
+
+$ArticleObject->ArticleIndexBuild(
+    TicketID  => $TicketID,
+    ArticleID => $ArticleID,
+    UserID    => 1,
+);
 
 my $TicketSearchTicketNumber = substr $Ticket{TicketNumber}, 0, 10;
 my %TicketIDs = $TicketObject->TicketSearch(

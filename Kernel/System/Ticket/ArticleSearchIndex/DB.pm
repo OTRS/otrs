@@ -53,13 +53,21 @@ sub ArticleIndexBuild {
         UserID    => $Param{UserID},
     );
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
     # clear old data from search index table
-    $DBObject->Do(
-        SQL  => 'DELETE FROM article_search_index WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID}, ],
+    my $Success = $Self->ArticleIndexDelete(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
     );
+
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not delete ArticleID '$Param{ArticleID}' from article search index!"
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     for my $FieldKey ( sort keys %ArticleSearchableContent ) {
 
