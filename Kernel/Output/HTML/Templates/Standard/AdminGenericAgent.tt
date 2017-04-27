@@ -342,62 +342,62 @@
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("TicketType") %]
-                        <label for="From">[% Translate("From") | html %]:</label>
+                        <label for="MIMEBase_From">[% Translate("From") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="From" id="From" class="W30pc [% Data.FromInvalid | html %]" value="[% Data.From | html %]"/>
+                            <input type="text" name="MIMEBase_From" id="MIMEBase_From" class="W30pc [% Data.MIMEBase_FromInvalid | html %]" value="[% Data.MIMEBase_From | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
-                            <div id="FromServerError" class="TooltipErrorMessage">
-                                <p>[% Data.FromInvalidTooltip | html %]</p>
+                            <div id="MIMEBase_FromServerError" class="TooltipErrorMessage">
+                                <p>[% Data.MIMEBase_FromInvalidTooltip | html %]</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="To">[% Translate("To") | html %]:</label>
+                        <label for="MIMEBase_To">[% Translate("To") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="To" id="To" class="W33pc [% Data.ToInvalid | html %]" value="[% Data.To | html %]"/>
+                            <input type="text" name="MIMEBase_To" id="MIMEBase_To" class="W33pc [% Data.MIMEBase_ToInvalid | html %]" value="[% Data.MIMEBase_To | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
-                            <div id="ToServerError" class="TooltipErrorMessage">
-                                <p>[% Data.ToInvalidTooltip | html %]</p>
+                            <div id="MIMEBase_ToServerError" class="TooltipErrorMessage">
+                                <p>[% Data.MIMEBase_ToInvalidTooltip | html %]</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Cc">[% Translate("Cc") | html %]:</label>
+                        <label for="MIMEBase_Cc">[% Translate("Cc") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Cc" id="Cc" class="W33pc [% Data.CcInvalid | html %]" value="[% Data.Cc | html %]"/>
+                            <input type="text" name="MIMEBase_Cc" id="MIMEBase_Cc" class="W33pc [% Data.MIMEBase_CcInvalid | html %]" value="[% Data.MIMEBase_Cc | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
-                            <div id="CcServerError" class="TooltipErrorMessage">
-                                <p>[% Data.CcInvalidTooltip | html %]</p>
+                            <div id="MIMEBase_CcServerError" class="TooltipErrorMessage">
+                                <p>[% Data.MIMEBase_CcInvalidTooltip | html %]</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Subject">[% Translate("Subject") | html %]:</label>
+                        <label for="MIMEBase_Subject">[% Translate("Subject") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" class="W33pc [% Data.SubjectInvalid | html %]" value="[% Data.Subject | html %]"/>
+                            <input type="text" name="MIMEBase_Subject" id="MIMEBase_Subject" class="W33pc [% Data.MIMEBase_SubjectInvalid | html %]" value="[% Data.MIMEBase_Subject | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
-                            <div id="SubjectServerError" class="TooltipErrorMessage">
-                                <p>[% Data.SubjectInvalidTooltip | html %]</p>
+                            <div id="MIMEBase_SubjectServerError" class="TooltipErrorMessage">
+                                <p>[% Data.MIMEBase_SubjectInvalidTooltip | html %]</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="Body">[% Translate("Text") | html %]:</label>
+                        <label for="MIMEBase_Body">[% Translate("Text") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Body" id="Body" class="W33pc [% Data.BodyInvalid | html %]" value="[% Data.Body | html %]"/>
+                            <input type="text" name="MIMEBase_Body" id="MIMEBase_Body" class="W33pc [% Data.MIMEBase_BodyInvalid | html %]" value="[% Data.MIMEBase_Body | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
-                            <div id="BodyServerError" class="TooltipErrorMessage">
-                                <p>[% Data.BodyInvalidTooltip | html %]</p>
+                            <div id="MIMEBase_BodyServerError" class="TooltipErrorMessage">
+                                <p>[% Data.MIMEBase_BodyInvalidTooltip | html %]</p>
                             </div>
                         </div>
                         <div class="Clear"></div>

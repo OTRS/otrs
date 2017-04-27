@@ -159,11 +159,11 @@ my %NewJob = (
     Name => $Name,
     Data => {
         TicketNumber                 => $Ticket{TicketNumber},
-        From                         => '',
-        Body                         => '',
-        To                           => '',
-        Cc                           => '',
-        Subject                      => '',
+        MIMEBase_From                => '',
+        MIMEBase_Body                => '',
+        MIMEBase_To                  => '',
+        MIMEBase_Cc                  => '',
+        MIMEBase_Subject             => '',
         CustomerID                   => '',
         CustomerUserLogin            => 'customerUnitTest@example.com',
         TimeSearchType               => 'TimePoint',
@@ -275,12 +275,12 @@ $Self->Is(
     "JobGet() - DynamicField_TicketFreeText2",
 );
 $Self->True(
-    !$GetParam{From},
-    "JobGet() - From",
+    !$GetParam{MIMEBase_From},
+    "JobGet() - MIMEBase_From",
 );
 $Self->True(
-    !$GetParam{Body} || '',
-    "JobGet() - Body",
+    !$GetParam{MIMEBase_Body} || '',
+    "JobGet() - MIMEBase_Body",
 );
 $Self->True(
     !$GetParam{ScheduleLastRun} || '',
@@ -461,12 +461,12 @@ $Self->Is(
     "JobGet() - DynamicField_TicketFreeText2",
 );
 $Self->True(
-    !$GetParam{From},
-    "JobGet() - From",
+    !$GetParam{MIMEBase_From},
+    "JobGet() - MIMEBase_From",
 );
 $Self->True(
-    !$GetParam{Body} || '',
-    "JobGet() - Body",
+    !$GetParam{MIMEBase_Body} || '',
+    "JobGet() - MIMEBase_Body",
 );
 $Self->True(
     $GetParam{ScheduleLastRun} || '',
@@ -488,10 +488,10 @@ $Self->True(
 );
 
 # add
-$GetParam{From}  = 'Some From';
-$GetParam{Body}  = 'Some Body';
-$GetParam{Title} = 'some new new title';
-$JobAdd          = $GenericAgentObject->JobAdd(
+$GetParam{MIMEBase_From} = 'Some From';
+$GetParam{MIMEBase_Body} = 'Some Body';
+$GetParam{Title}         = 'some new new title';
+$JobAdd                  = $GenericAgentObject->JobAdd(
     Name   => $Name,
     Data   => \%GetParam,
     UserID => 1,
@@ -539,14 +539,14 @@ $Self->Is(
     "JobGet() - DynamicField_TicketFreeText2",
 );
 $Self->Is(
-    $GetParam{From} || '',
+    $GetParam{MIMEBase_From} || '',
     'Some From',
-    "JobGet() - From",
+    "JobGet() - MIMEBase_From",
 );
 $Self->Is(
-    $GetParam{Body} || '',
+    $GetParam{MIMEBase_Body} || '',
     'Some Body',
-    "JobGet() - Body",
+    "JobGet() - MIMEBase_Body",
 );
 $Self->True(
     $GetParam{ScheduleLastRun} || '',

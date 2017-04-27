@@ -100,7 +100,7 @@ sub Run {
 
         # get single params
         for my $Parameter (
-            qw(TicketNumber Title From To Cc Subject Body CustomerID
+            qw(TicketNumber Title MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Subject MIMEBase_Body CustomerID
             CustomerUserLogin Agent SearchInArchive
             NewTitle
             NewCustomerID NewPendingTime NewPendingTimeType NewCustomerUserLogin
@@ -250,11 +250,11 @@ sub Run {
 
         # Check if ticket selection contains stop words
         my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
-            From    => $GetParam{From},
-            To      => $GetParam{To},
-            Cc      => $GetParam{Cc},
-            Subject => $GetParam{Subject},
-            Body    => $GetParam{Body},
+            MIMEBase_From    => $GetParam{MIMEBase_From},
+            MIMEBase_To      => $GetParam{MIMEBase_To},
+            MIMEBase_Cc      => $GetParam{MIMEBase_Cc},
+            MIMEBase_Subject => $GetParam{MIMEBase_Subject},
+            MIMEBase_Body    => $GetParam{MIMEBase_Body},
         );
         %Errors = ( %Errors, %StopWordsServerErrors );
 
@@ -752,11 +752,11 @@ sub _MaskUpdate {
     my %StopWordsServerErrors;
     if ( !$Param{StopWordsAlreadyChecked} ) {
         %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
-            From    => $JobData{From},
-            To      => $JobData{To},
-            Cc      => $JobData{Cc},
-            Subject => $JobData{Subject},
-            Body    => $JobData{Body},
+            MIMEBase_From    => $JobData{MIMEBase_From},
+            MIMEBase_To      => $JobData{MIMEBase_To},
+            MIMEBase_Cc      => $JobData{MIMEBase_Cc},
+            MIMEBase_Subject => $JobData{MIMEBase_Subject},
+            MIMEBase_Body    => $JobData{MIMEBase_Body},
         );
     }
 

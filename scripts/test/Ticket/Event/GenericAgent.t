@@ -59,11 +59,11 @@ my %NewJob  = (
 
     Data => {
         TicketNumber                => '',
-        From                        => '',
-        Body                        => '',
-        To                          => '',
-        Cc                          => '',
-        Subject                     => '',
+        MIMEBase_From               => '',
+        MIMEBase_Body               => '',
+        MIMEBase_To                 => '',
+        MIMEBase_Cc                 => '',
+        MIMEBase_Subject            => '',
         CustomerID                  => '',
         TimeSearchType              => 'TimePoint',
         TicketCreateTimePoint       => 1,
