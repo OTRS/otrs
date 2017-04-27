@@ -102,6 +102,9 @@ sub Run {
     my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
     my $TakeLastSearch = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
 
+    # collect all searchable article field definitions and add the fields to the attributes array
+    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+
     # load profiles string params (press load profile)
     if ( ( $Self->{Subaction} eq 'LoadProfile' && $Profile ) || $TakeLastSearch ) {
         %GetParam = $SearchProfileObject->SearchProfileGet(
@@ -114,11 +117,12 @@ sub Run {
     # get search string params (get submitted params)
     else {
         for my $Key (
-            qw(TicketNumber From To Cc Subject Body ResultForm TimeSearchType StateType
-            SearchInArchive AttachmentName TicketCreateTimePointFormat TicketCreateTimePoint
-            TicketCreateTimePointStart TicketCreateTimeStart TicketCreateTimeStartDay
-            TicketCreateTimeStartMonth TicketCreateTimeStartYear TicketCreateTimeStop
-            TicketCreateTimeStopDay TicketCreateTimeStopMonth TicketCreateTimeStopYear
+            sort keys %ArticleSearchableFields,
+            qw(TicketNumber ResultForm TimeSearchType StateType SearchInArchive
+            TicketCreateTimePointFormat TicketCreateTimePoint TicketCreateTimePointStart
+            TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
+            TicketCreateTimeStartYear TicketCreateTimeStop TicketCreateTimeStopDay
+            TicketCreateTimeStopMonth TicketCreateTimeStopYear
             )
             )
         {
@@ -1840,6 +1844,24 @@ sub MaskForm {
         Data => { %Param, },
     );
 
+    # create the fulltext field entries to be displayed
+    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+
+    for my $ArticleFieldKey (
+        sort { $ArticleSearchableFields{$a}->{Label} cmp $ArticleSearchableFields{$b}->{Label} }
+        keys %ArticleSearchableFields
+        )
+    {
+        $LayoutObject->Block(
+            Name => 'SearchableArticleField',
+            Data => {
+                ArticleFieldLabel => $ArticleSearchableFields{$ArticleFieldKey}->{Label},
+                ArticleFieldKey   => $ArticleSearchableFields{$ArticleFieldKey}->{Key},
+                ArticleFieldValue => $Param{$ArticleFieldKey} // '',
+            },
+        );
+    }
+
     # enable archive search
     if (
         $ConfigObject->Get('Ticket::ArchiveSystem')
@@ -1929,17 +1951,6 @@ sub MaskForm {
                 },
             );
         }
-    }
-
-    if (
-        $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{ArticleStorage} eq
-        'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB'
-        )
-    {
-        $LayoutObject->Block(
-            Name => 'Attachment',
-            Data => \%Param,
-        );
     }
 
     # html search mask output
