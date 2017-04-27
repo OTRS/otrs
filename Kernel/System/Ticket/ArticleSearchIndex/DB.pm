@@ -167,12 +167,13 @@ sub ArticleSearchIndexJoin {
         return;
     }
 
-    my $ArticleSearchIndexJoin = ' INNER JOIN article_search_index asi ON st.id = asi.ticket_id ';
+    my $ArticleSearchIndexJoin = ' ';
 
-    return $ArticleSearchIndexJoin if $Param{Data}->{Fulltext};
-
-    # flush the previous join as it is just useful if 'Fulltext' is given
-    $ArticleSearchIndexJoin = ' ';
+    # join article search table for fulltext searches
+    if ( IsStringWithData( $Param{Data}->{Fulltext} ) ) {
+        $ArticleSearchIndexJoin
+            .= 'LEFT JOIN article_search_index ArticleFulltext ON art.id = ArticleFulltext.article_id ';
+    }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -212,12 +213,10 @@ sub ArticleSearchIndexCondition {
     my $SQLCondition = '';
     my $SQLQuery     = '';
 
-    my @Fields = ('Fulltext');
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my @Fields           = keys %SearchableFields;
 
-    if ( !IsStringWithData( $Param{Data}->{Fulltext} ) ) {
-        my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
-        @Fields = keys %SearchableFields;
-    }
+    push @Fields, 'Fulltext' if IsStringWithData( $Param{Data}->{Fulltext} );
 
     FIELD:
     for my $Field (@Fields) {
@@ -238,7 +237,7 @@ sub ArticleSearchIndexCondition {
         if ( $Param{Data}->{ConditionInline} ) {
 
             $SQLQuery .= $DBObject->QueryCondition(
-                Key => $Param{Data}->{Fulltext} ? 'asi.article_value' : "$Field.article_value",
+                Key => $Field eq 'Fulltext' ? 'ArticleFulltext.article_value' : "$Field.article_value",
                 Value         => lc $Param{Data}->{$Field},
                 SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
                 SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
@@ -248,7 +247,7 @@ sub ArticleSearchIndexCondition {
         }
         else {
 
-            my $Label = $Param{Data}->{Fulltext} ? 'asi' : $Field;
+            my $Label = $Field eq 'Fulltext' ? 'ArticleFulltext' : $Field;
             my $Value = $Param{Data}->{$Field};
 
             if ( $Param{Data}->{ContentSearchPrefix} ) {

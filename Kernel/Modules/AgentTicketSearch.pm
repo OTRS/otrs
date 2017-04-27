@@ -539,14 +539,6 @@ sub Run {
             }
         }
 
-        # prepare full text search
-        if ( $GetParam{Fulltext} ) {
-            $GetParam{ContentSearch} = 'OR';
-            for my $Key (qw(From To Cc Subject Body)) {
-                $GetParam{$Key} = $GetParam{Fulltext};
-            }
-        }
-
         # prepare archive flag
         if ( $ConfigObject->Get('Ticket::ArchiveSystem') ) {
 
