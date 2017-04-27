@@ -144,6 +144,10 @@ sub _TasksGet {
             Message => 'Add basic appointment notification for reminders',
             Module  => 'AddAppointmentCalendarNotification',
         },
+        {
+            Message => 'Migrate GenericAgent jobs configuration',
+            Module  => 'MigrateGenericAgentJobs',
+        },
 
         # ...
 
