@@ -451,6 +451,14 @@ sub Run {
         );
         $Article{Count} = $Count;
 
+        # TODO: Make handling article fields more generic and agnostic to different article backends.
+
+        # Add generic subject field to chat articles.
+        if ( $ArticleBackendObject->ChannelNameGet() eq 'Chat' ) {
+            $Article{Subject}      = $LayoutObject->{LanguageObject}->Translate('Chat');
+            $Article{FromRealname} = $LayoutObject->{LanguageObject}->Translate('OTRS');
+        }
+
         # Get attachment index (excluding body attachments).
         my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $Self->{ArticleID},
@@ -2645,14 +2653,11 @@ sub _ArticleItem {
     my %Article   = %{ $Param{Article} };
     my %AclAction = %{ $Param{AclAction} };
 
-    # get ticket object
     my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # cleanup subject
     $Article{Subject} = $TicketObject->TicketSubjectClean(
-
-        # TicketNumber => $Article{TicketNumber},
         TicketNumber => $Ticket{TicketNumber},
         Subject      => $Article{Subject} || '',
         Size         => 0,
@@ -2663,7 +2668,6 @@ sub _ArticleItem {
         %Param,
     );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # collect article meta
@@ -2671,7 +2675,7 @@ sub _ArticleItem {
         Article => \%Article
     );
 
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
+    my $ArticleBackendObject = $ArticleObject->BackendForArticle(
         TicketID  => $Ticket{TicketID},
         ArticleID => $Article{ArticleID},
     );
@@ -3709,6 +3713,16 @@ sub _ArticleBoxGet {
         );
 
         $Article{Channel} = $ArticleBackendObject->ChannelNameGet();
+
+        # TODO: Make handling article fields more generic and agnostic to different article backends.
+
+        # Add generic subject field to chat articles.
+        if ( $Article{Channel} eq 'Chat' ) {
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+            $Article{Subject}      = $LayoutObject->{LanguageObject}->Translate('Chat');
+            $Article{FromRealname} = $LayoutObject->{LanguageObject}->Translate('OTRS');
+        }
 
         push @ArticleBox, \%Article;
     }

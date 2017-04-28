@@ -153,6 +153,14 @@ sub Run {
             RealNames => 1,
         );
 
+        # TODO: Make handling article fields more generic and agnostic to different article backends.
+
+        # Add generic subject field to chat articles.
+        if ( $ArticleBackendObject->ChannelNameGet() eq 'Chat' ) {
+            $ArticleData{Subject}      = $LayoutObject->{LanguageObject}->Translate('Chat');
+            $ArticleData{FromRealname} = $LayoutObject->{LanguageObject}->Translate('OTRS');
+        }
+
         # Get attachment index.
         my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID        => $ArticleMetaData->{ArticleID},
