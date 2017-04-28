@@ -2987,8 +2987,6 @@ sub ArticleAccountedTimeDelete {
     return 1;
 }
 
-1;
-
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
 
 =item ArticleDelete()
