@@ -374,6 +374,26 @@ my @NeededModules = (
                     zypper => 'perl-IO-Socket-SSL',
                 },
             },
+            {
+                Module    => 'Authen::SASL',
+                Required  => 0,
+                Comment   => 'Required for MD5 authentication mechanisms in IMAP connections.',
+                InstTypes => {
+                    aptget => 'libauthen-sasl-perl',
+                    emerge => 'dev-perl/Authen-SASL',
+                    zypper => 'perl-Authen-SASL',
+                },
+            },
+            {
+                Module    => 'Authen::NTLM',
+                Required  => 0,
+                Comment   => 'Required for NTLM authentication mechanism in IMAP connections.',
+                InstTypes => {
+                    aptget => 'libauthen-ntlm-perl',
+                    emerge => 'dev-perl/Authen-NTLM',
+                    zypper => 'perl-Authen-NTLM',
+                },
+            },
         ],
     },
     {
