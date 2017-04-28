@@ -70,6 +70,13 @@ sub Configure {
         Required    => 0,
         HasValue    => 0,
     );
+    $Self->AddOption(
+        Name        => 'limit',
+        Description => "Specify result entries limit, default is 100.",
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/^\d+$/smx,
+    );
 
     return;
 }
@@ -85,6 +92,7 @@ sub Run {
     my $RemoteIP          = $Self->GetOption('remote-ip');
     my $WebserviceID      = $Self->GetOption('webservice-id');
     my $WithData          = $Self->GetOption('with-data');
+    my $Limit             = $Self->GetOption('limit');
 
     # create needed objects
     my $DebugLogObject = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
@@ -99,6 +107,7 @@ sub Run {
         RemoteIP          => $RemoteIP,
         WebserviceID      => $WebserviceID,
         WithData          => $WithData,
+        Limit             => $Limit,
     );
 
     if ( ref $LogData eq 'ARRAY' ) {
