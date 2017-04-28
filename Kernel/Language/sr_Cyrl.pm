@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.994917666192315;
+    $Self->{Completeness}        = 0.990285367334548;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1723,6 +1723,32 @@ sub Data {
         'Reinstall package' => 'Инсталирај пакет поново',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Да ли стварно желите да поново инсталирате овај пакет? Све ручне промене ће бити изгубљене.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'У случају да имате додтана питања, биће нам задовољство да одговоримо на њих.',
+        'Please visit our customer' => '',
+        'portal' => 'portal',
+        'and file a request.' => 'и поднесите захтев',
         'Continue' => 'Настави',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Молимо вас да будете сигурни да ваша база података прихвата пакете величине преко %s MB (тренутно прихвата само пакете до %s MB).Молимо прилагодите подешавања „max_allowed_packet” на вашој бази података, да би сте избегли грешке.',
@@ -2102,11 +2128,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             'Ваш систем ће у редовним временским интервалима слати ажурирања регистрационом серверу.',
         'Typically this would be around once every three days.' => 'Обично је то једном у свака три дана.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'У случају да имате додтана питања, биће нам задовољство да одговоримо на њих.',
         'Please visit our' => 'Молимо посетите наш',
-        'portal' => 'portal',
-        'and file a request.' => 'и поднесите захтев',
         'If you deregister your system, you will lose these benefits:' =>
             'Ако дерегиструјете ваш систем, изгубићете следеће олакшице:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -3803,9 +3825,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Не могу снимити дијалог активности, неважећи ИД тикета: %s!',
         'Invalid TicketID: %s!' => 'Неважећи ИД тикета: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Недостаје ИД ентитета активности на тикету %s!',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'Недостаје ИД ентитета процеса на тикету %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -4043,6 +4063,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Сортирај по',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             'Прекорачили сте број истовремено пријављених оператера - контактирајте sales@otrs.com.',
@@ -4057,17 +4081,32 @@ sub Data {
         'This setting is not active by default.' => 'Ово подешавање није подразумевано активно.',
         'This setting can not be deactivated.' => 'Ово подешавање се не може деактивирати.',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'није инсталирано',
         'File is not installed!' => 'Датотека није инсталирана!',
         'File is different!' => 'Датотека је различита!',
         'Can\'t read file!' => 'Немогуће читање датотеке!',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Неактивно',
@@ -6372,8 +6411,6 @@ Thanks for your help!
         'ServiceView' => 'ServiceView',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            'Одредите најнижи ниво логовања. Уколико изаберете \'error\', биће логоване само грешке. Са \'debug\' добићете све поруке у логовима.',
         'Set sender email addresses for this system.' => 'Подеси системску адресу пошиљаоца.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Подеси подразумевану висину (у пикселима) инлине HTML чланака у AgentTicketZoom.',
@@ -6381,6 +6418,8 @@ Thanks for your help!
             'Поставља ограничење колико ће тикета бити извршено у једном извршавању посла општег оператера.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Подеси максималну висину (у пикселима) инлине HTML чланака у AgentTicketZoom.',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
+            '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Постави ово на да ако верујете у све ваше јавне и приватне пгп кључеве, чак и ако нису потврђени поузданим потписом.',
         'Sets if SLA must be selected by the agent.' => 'Подешава ако SLA мора бити изабран од стране оператера.',

@@ -1,6 +1,7 @@
 # 
 # Translators:
 # Ana Rita Dias Martins <anarita_dm@live.com.pt>, 2015
+# André Brás <andregoncalo.bras@gmail.com>, 2017
 # Helder Araújo <helderpos@gmail.com>, 2015
 # Joao Ferro <fmthard@gmail.com>, 2016-2017
 # Jorge Lima <jlima101@gmail>, 2017
@@ -11,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-24 20:43+0000\n"
-"PO-Revision-Date: 2017-03-25 02:45+0000\n"
+"POT-Creation-Date: 2017-04-27 21:54+0000\n"
+"PO-Revision-Date: 2017-04-28 03:00+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -906,38 +907,38 @@ msgstr "Insira a palavra-passe para a base de dados de administrador"
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr "Insira a palavra chave para a o utilizador da base de dados"
+msgstr "Insira a palavra-passe para o utilizador da base de dados."
 
 #. Template: AAABase
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Se criou uma palavra passe para a raiz de Base de Dados tem que a colocar aqui. Se não deixo o campo em branco."
+msgstr "Se criou uma palavra-passe para a raiz de base de dados tem que a colocar aqui. Se não deixe o campo em branco."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr "A base de dado já contém dados - deveria estar vazia!"
+msgstr "A base de dados já contém dados - deveria estar vazia!"
 
 #. Template: AAABase
 msgid "Login is needed!"
-msgstr "Entrada necessária"
+msgstr "Nome de utilizador necessário!"
 
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr "Não é possível efectuar login devido a uma manutenção agendada do sistema"
+msgstr "Não é possível efectuar autenticação devido a uma manutenção agendada do sistema."
 
 #. Template: AAABase
 msgid "Password is needed!"
-msgstr "Palavra-passe indispensável!"
+msgstr "Palavra-passe é necessária!"
 
 #. Template: AAABase
 msgid "Take this Customer"
-msgstr "Fique com este Cliente"
+msgstr "Alterar para este Cliente"
 
 #. Template: AAABase
 msgid "Take this User"
-msgstr "Fique com este Utilizador"
+msgstr "Alterar para este Utilizador"
 
 #. Template: AAABase
 msgid "possible"
@@ -967,23 +968,23 @@ msgstr "Pendente até"
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr "Não utilizar a conta de Super utilizador para trabalhar com o OTRS! Em vez disso, crie novos Agentes e trabalhe com essas contas."
+msgstr "Não utilize a conta de Administrador para trabalhar com o OTRS! Em vez disso, crie novos Agentes e trabalhe com essas contas."
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
-msgstr "Despachado através do campo Para:"
+msgstr "Enviado através do campo de email Para:"
 
 #. Template: AAABase
 msgid "Dispatching by selected Queue."
-msgstr "Despachado pela Fila escolhida"
+msgstr "Enviado para a Fila selecionada."
 
 #. Template: AAABase
 msgid "No entry found!"
-msgstr "Não se encontrou nada!"
+msgstr "Entrada não encontrada!"
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr "Sessão inválida. Por favor, faça o login novamente."
+msgstr "Sessão inválida. Por favor, autentique-se novamente."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
@@ -1003,11 +1004,11 @@ msgstr "(Clique aqui para adicionar)"
 
 #. Template: AAABase
 msgid "Preview"
-msgstr "Prever"
+msgstr "Pré-visualizar"
 
 #. Template: AAABase
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr "O pacote não foi corretamente instalado! Por favor reinstal o pacote."
+msgstr "O pacote não foi corretamente instalado! Por favor reinstale o pacote."
 
 #. Template: AAABase
 msgid "%s is not writable!"
@@ -5993,6 +5994,93 @@ msgid ""
 msgstr "Confirma a re-instalação do pacote ? As alterações manuais serão perdidas."
 
 #. Template: AdminPackageManager
+msgid "Go to upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "package information"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package installation requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package upgrade requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"If you are a OTRS Business Solution™ customer, please visit our customer "
+"portal and file a request."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please note that your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "How can I do a patch level update if I don’t have a contract?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please find all relevant information within"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "the upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"In case you would have further questions we would be glad to answer them."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please visit our customer"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "portal"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "and file a request."
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "Continue"
 msgstr "Continuar"
 
@@ -7260,20 +7348,7 @@ msgid "Typically this would be around once every three days."
 msgstr ""
 
 #. Template: AdminRegistration
-msgid ""
-"In case you would have further questions we would be glad to answer them."
-msgstr ""
-
-#. Template: AdminRegistration
 msgid "Please visit our"
-msgstr ""
-
-#. Template: AdminRegistration
-msgid "portal"
-msgstr ""
-
-#. Template: AdminRegistration
-msgid "and file a request."
 msgstr ""
 
 #. Template: AdminRegistration
@@ -12223,14 +12298,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for Ticket"
-" %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Another user changed this ticket in the meantime. Please close this window "
-"and reload the ticket."
+"This step does not belong anymore the current activity in process for ticket"
+" '%s%s%s'! Another user changed this ticket in the meantime."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12894,6 +12963,11 @@ msgstr ""
 msgid "Order by"
 msgstr "Ordenado por"
 
+#. Perl Module: Kernel/System/ACL/DB/ACL.pm
+msgid ""
+"Couldn't read ACL configuration file. Please make sure the file is valid."
+msgstr ""
+
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
@@ -12929,12 +13003,26 @@ msgstr ""
 msgid "This setting can not be deactivated."
 msgstr ""
 
+#. Perl Module: Kernel/System/CustomerUser.pm
+msgid "Customer user \"%s\" already exists."
+msgstr ""
+
+#. Perl Module: Kernel/System/CustomerUser/DB.pm
+msgid "This email address is already in use for another customer user."
+msgstr ""
+
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid ""
+"Couldn't read Notification configuration file. Please make sure the file is "
+"valid."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -12951,6 +13039,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+msgid "The process \"%s\" and all of its data has been imported successfully."
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
@@ -19982,7 +20074,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue."
-msgstr ""
+msgstr "Fornece uma visão geral em matriz dos tickets por estado e fila"
 
 #. SysConfig
 msgid "Queue view"
@@ -20369,12 +20461,6 @@ msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Set minimum loglevel. If you select 'error', just errors are logged. With "
-"'debug' you get all logging messages."
-msgstr ""
-
-#. SysConfig
 msgid "Set sender email addresses for this system."
 msgstr ""
 
@@ -20394,6 +20480,13 @@ msgstr ""
 msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Set the minimum log level. If you select 'error', just errors are logged. "
+"With 'debug' you get all logging messages. The order of log levels is: "
+"'debug', 'info', 'notice' and 'error'."
 msgstr ""
 
 #. SysConfig
@@ -22238,7 +22331,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Visão geral das filas de tickets"
 
 #. SysConfig
 msgid "Ticket Responsible."

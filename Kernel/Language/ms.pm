@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.87273836145558;
+    $Self->{Completeness}        = 0.868650070835863;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1722,6 +1722,32 @@ sub Data {
         'Reinstall package' => 'Pasang semula pakej',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Adakah anda benar-benar mahu memasang semula pakej ini? Sebarang perubahan manual akan hilang.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'Sekiranya anda mempunya sebarang pertanyaan kami sedia menjawabnya.',
+        'Please visit our customer' => '',
+        'portal' => 'portal',
+        'and file a request.' => 'dan failkan permintaan',
         'Continue' => 'Sambung',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Sila pastikan pangkalan data anda menerima pakej melebihi saiz %s MB (buat masa ini ia hanya menerima pakej sehingga %s MB). Sila sesuaikan tetapan max_paket_dibenarkan pada pangkalan data anda agar tidak terdapat ralat.',
@@ -2101,11 +2127,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             'Sistem anda akan menghantar berita terkini kepada pelayan pendaftaran pada sela masa sekata.',
         'Typically this would be around once every three days.' => 'Biasanya ini akan mengambil masa sekitar sekali setiap tiga hari.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'Sekiranya anda mempunya sebarang pertanyaan kami sedia menjawabnya.',
         'Please visit our' => 'Sila lawati kami',
-        'portal' => 'portal',
-        'and file a request.' => 'dan failkan permintaan',
         'If you deregister your system, you will lose these benefits:' =>
             'Jika anda membatalkan pendaftaran sistem anda, anda akan kehilangan faedah-faedah berikut:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -3801,9 +3823,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -4041,6 +4061,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Disusun mengikut',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             '',
@@ -4055,17 +4079,32 @@ sub Data {
         'This setting is not active by default.' => 'Tetapan ini tidak aktif secara default.',
         'This setting can not be deactivated.' => 'Tetapan ini tidak boleh dinyahaktifkan.',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Tidak Aktif',
@@ -6373,8 +6412,6 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            'Set peringkatlog minimum. Jika anda memilih \'ralat\', hanya ralat yang dilog. Dengan \'menyahpepijat\' anda mendapat kesemua mesej log.',
         'Set sender email addresses for this system.' => 'Tetapkan alamat emel penghantar untuk sistem ini..',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Tetapkan ketinggian default (dalam piksel) artikel inline HTML dalam AgentTicketZoom.',
@@ -6382,6 +6419,8 @@ Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDa
             'Set had tiket yang akan dijalankan ke atas pelaksanaan tugas genericagent tunggal.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Tetapkan ketinggian maksimum (dalam piksel) artikel inline HTML dalam AgentTicketZoom.',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
+            '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Tetapkan ini kepada yes jika anda percaya dalam kesemua kunci pgp public dan private anda, walaupun jika mereka tidak diakui dengan tanda tangan yang dipercayai.',
         'Sets if SLA must be selected by the agent.' => 'Set jika SLA mesti dipilih oleh agen.',

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-24 20:43+0000\n"
-"PO-Revision-Date: 2017-03-25 02:45+0000\n"
+"POT-Creation-Date: 2017-04-27 21:54+0000\n"
+"PO-Revision-Date: 2017-04-28 03:00+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Persian (http://www.transifex.com/otrs/OTRS/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -5989,6 +5989,93 @@ msgid ""
 msgstr "آیا واقعا می‌خواهید این بسته را مجددا نصب نمایید؟ تمام تغییرات دستی از بین خواهد رفت."
 
 #. Template: AdminPackageManager
+msgid "Go to upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "package information"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package installation requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package upgrade requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"If you are a OTRS Business Solution™ customer, please visit our customer "
+"portal and file a request."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please note that your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "How can I do a patch level update if I don’t have a contract?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please find all relevant information within"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "the upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"In case you would have further questions we would be glad to answer them."
+msgstr "در مورد شما می سوال بیشتر دارند ما خوشحال خواهد بود به آنها پاسخ دهد."
+
+#. Template: AdminPackageManager
+msgid "Please visit our customer"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "portal"
+msgstr "پورتال"
+
+#. Template: AdminPackageManager
+msgid "and file a request."
+msgstr "و فایل درخواست."
+
+#. Template: AdminPackageManager
 msgid "Continue"
 msgstr "ادامه"
 
@@ -7256,21 +7343,8 @@ msgid "Typically this would be around once every three days."
 msgstr "به طور معمول این امر می تواند حدودا هر سه روز یکبار رخ دهد ."
 
 #. Template: AdminRegistration
-msgid ""
-"In case you would have further questions we would be glad to answer them."
-msgstr "در مورد شما می سوال بیشتر دارند ما خوشحال خواهد بود به آنها پاسخ دهد."
-
-#. Template: AdminRegistration
 msgid "Please visit our"
 msgstr "لطفا به ما مراجعه کنید"
-
-#. Template: AdminRegistration
-msgid "portal"
-msgstr "پورتال"
-
-#. Template: AdminRegistration
-msgid "and file a request."
-msgstr "و فایل درخواست."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
@@ -12219,14 +12293,8 @@ msgstr "ازدست رفته ActivityEntityID در درخواست %s !"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for Ticket"
-" %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Another user changed this ticket in the meantime. Please close this window "
-"and reload the ticket."
+"This step does not belong anymore the current activity in process for ticket"
+" '%s%s%s'! Another user changed this ticket in the meantime."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12890,6 +12958,11 @@ msgstr "لطفا کلمات زیر حذف زیرا آنها می توانند ب
 msgid "Order by"
 msgstr "مرتب‌سازی بر اساس"
 
+#. Perl Module: Kernel/System/ACL/DB/ACL.pm
+msgid ""
+"Couldn't read ACL configuration file. Please make sure the file is valid."
+msgstr ""
+
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
@@ -12925,12 +12998,26 @@ msgstr "این تنظیم به طور پیش فرض فعال است."
 msgid "This setting can not be deactivated."
 msgstr "این تنظیمات نمی تواند غیر فعال  شود."
 
+#. Perl Module: Kernel/System/CustomerUser.pm
+msgid "Customer user \"%s\" already exists."
+msgstr ""
+
+#. Perl Module: Kernel/System/CustomerUser/DB.pm
+msgid "This email address is already in use for another customer user."
+msgstr ""
+
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid ""
+"Couldn't read Notification configuration file. Please make sure the file is "
+"valid."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -12948,6 +13035,10 @@ msgstr "فایل متفاوت است!"
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
 msgstr "نمی توانید فایل خوانده شده!"
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+msgid "The process \"%s\" and all of its data has been imported successfully."
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -20365,12 +20456,6 @@ msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Set minimum loglevel. If you select 'error', just errors are logged. With "
-"'debug' you get all logging messages."
-msgstr "تنظیم حداقل loglevel. اگر شما 'خطا' را انتخاب کنید، فقط خطاها وارد سایت شوید. با 'اشکال زدایی \"شما همه پیام ورود به سیستم را دریافت کنید."
-
-#. SysConfig
 msgid "Set sender email addresses for this system."
 msgstr "تنظیم آدرس ایمیل‌های ارسال‌کننده برای این سیستم"
 
@@ -20391,6 +20476,13 @@ msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "تنظیم حداکثر ارتفاع (به پیکسل) مقالات HTML درون خطی در AgentTicketZoom."
+
+#. SysConfig
+msgid ""
+"Set the minimum log level. If you select 'error', just errors are logged. "
+"With 'debug' you get all logging messages. The order of log levels is: "
+"'debug', 'info', 'notice' and 'error'."
+msgstr ""
 
 #. SysConfig
 msgid ""

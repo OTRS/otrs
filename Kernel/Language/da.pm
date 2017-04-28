@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.545842650945314;
+    $Self->{Completeness}        = 0.54341226472374;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1725,6 +1725,32 @@ Opdater venligst dit framework først!',
         'Reinstall package' => 'Geninstaller pakke',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Vil du virkelig geninstallere denne pakke? Alle manuelle ændringer vil gå tabt.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'Hvis du har yderligere spørgsmål, vil vi glædeligt besvare dem.',
+        'Please visit our customer' => '',
+        'portal' => 'portal',
+        'and file a request.' => 'og opret en sag.',
         'Continue' => 'Fortsæt',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Sørg for at din database accepterer pakker over %s MB i størrelse. I øjeblikket accepterer den kun pakker op til %s MB. Tilpas max_allowed_packet-indstillingen i din database for at undgå fejl.',
@@ -2104,11 +2130,7 @@ Opdater venligst dit framework først!',
         'Your system will send updates to the registration server at regular intervals.' =>
             'Dit system vil sende opdateringer til registrerings-serveren med jævne mellemrum',
         'Typically this would be around once every three days.' => 'Normalt er det omkring én gang hver tredie dag.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'Hvis du har yderligere spørgsmål, vil vi glædeligt besvare dem.',
         'Please visit our' => 'Besøg vores',
-        'portal' => 'portal',
-        'and file a request.' => 'og opret en sag.',
         'If you deregister your system, you will lose these benefits:' =>
             'Hvis du afregistrerer dit system mister du disse fordele:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -3804,9 +3826,7 @@ Opdater venligst dit framework først!',
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -4044,6 +4064,10 @@ Opdater venligst dit framework først!',
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sorter efter',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             '',
@@ -4058,17 +4082,32 @@ Opdater venligst dit framework først!',
         'This setting is not active by default.' => '',
         'This setting can not be deactivated.' => '',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Inaktiv',
@@ -6362,14 +6401,14 @@ Thanks for your help!
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            '',
         'Set sender email addresses for this system.' => 'Administrer afsenderadresser for dette system.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
+            '',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
             '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',

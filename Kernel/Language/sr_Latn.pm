@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.994917666192315;
+    $Self->{Completeness}        = 0.990285367334548;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1729,6 +1729,32 @@ sub Data {
         'Reinstall package' => 'Instaliraj paket ponovo',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Da li stvarno želite da ponovo instalirate ovaj paket? Sve ručne promene će biti izgubljene.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'U slučaju da imate dodtana pitanja, biće nam zadovoljstvo da odgovorimo na njih.',
+        'Please visit our customer' => '',
+        'portal' => 'portal',
+        'and file a request.' => 'i podnesite zahtev',
         'Continue' => 'Nastavi',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Molimo vas da budete sigurni da vaša baza podataka prihvata pakete veličine preko %s MB (trenutno prihvata samo pakete do %s MB).Molimo prilagodite podešavanja „max_allowed_packet” na vašoj bazi podataka, da bi ste izbegli greške.',
@@ -2108,11 +2134,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             'Vaš sistem će u redovnim vremenskim intervalima slati ažuriranja registracionom serveru.',
         'Typically this would be around once every three days.' => 'Obično je to jednom u svaka tri dana.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'U slučaju da imate dodtana pitanja, biće nam zadovoljstvo da odgovorimo na njih.',
         'Please visit our' => 'Molimo posetite naš',
-        'portal' => 'portal',
-        'and file a request.' => 'i podnesite zahtev',
         'If you deregister your system, you will lose these benefits:' =>
             'Ako deregistrujete vaš sistem, izgubićete sledeće olakšice:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -3809,9 +3831,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Ne mogu snimiti dijalog aktivnosti, nevažeći ID tiketa: %s!',
         'Invalid TicketID: %s!' => 'Nevažeći ID tiketa: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Nedostaje ID entiteta aktivnosti na tiketu %s!',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'Nedostaje ID entiteta procesa na tiketu %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -4049,6 +4069,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortiraj po',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             'Prekoračili ste broj istovremeno prijavljenih operatera - kontaktirajte sales@otrs.com.',
@@ -4063,17 +4087,32 @@ sub Data {
         'This setting is not active by default.' => 'Ovo podešavanje nije podrazumevano aktivno.',
         'This setting can not be deactivated.' => 'Ovo podešavanje se ne može deaktivirati.',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nije instalirano',
         'File is not installed!' => 'Datoteka nije instalirana!',
         'File is different!' => 'Datoteka je različita!',
         'Can\'t read file!' => 'Nemoguće čitanje datoteke!',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Neaktivno',
@@ -6378,8 +6417,6 @@ Vaša tehnička podrška
         'ServiceView' => 'ServiceView',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            'Odredite najniži nivo logovanja. Ukoliko izaberete \'error\', biće logovane samo greške. Sa \'debug\' dobićete sve poruke u logovima.',
         'Set sender email addresses for this system.' => 'Podesi sistemsku adresu pošiljaoca.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Podesi podrazumevanu visinu (u pikselima) inline HTML članaka u AgentTicketZoom.',
@@ -6387,6 +6424,8 @@ Vaša tehnička podrška
             'Postavlja ograničenje koliko će tiketa biti izvršeno u jednom izvršavanju posla opšteg operatera.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Podesi maksimalnu visinu (u pikselima) inline HTML članaka u AgentTicketZoom.',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
+            '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Postavi ovo na da ako verujete u sve vaše javne i privatne pgp ključeve, čak i ako nisu potvrđeni pouzdanim potpisom.',
         'Sets if SLA must be selected by the agent.' => 'Podešava ako SLA mora biti izabran od strane operatera.',

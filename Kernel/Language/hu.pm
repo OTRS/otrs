@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999796706647693;
+    $Self->{Completeness}        = 0.994940295486744;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1728,6 +1728,32 @@ sub Data {
         'Reinstall package' => 'Csomag újratelepítése',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Valóban újra szeretné telepíteni ezt a csomagot? Minden kézi változtatás el fog veszni.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'Abban az esetben, ha további kérdései vannak, szívesen megválaszoljuk azokat.',
+        'Please visit our customer' => '',
+        'portal' => 'portálunkat',
+        'and file a request.' => 'és küldje el a kérését.',
         'Continue' => 'Folytatás',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Győződjön meg arról, hogy az adatbázisa elfogad-e %s MB méretűnél nagyobb csomagot (jelenleg csak legfeljebb %s MB méretű csomagot fogad el). A hibák elkerülése érdekében alkalmazkodjon az adatbázisa max_allowed_packet beállításához.',
@@ -1797,7 +1823,7 @@ sub Data {
         'Do you really want to delete this filter?' => 'Valóban törölni szeretné ezt a szűrőt?',
         'Add PostMaster Filter' => 'Levelezési szűrő hozzáadása',
         'Edit PostMaster Filter' => 'Levelezési szűrő szerkesztése',
-        'A postmaster filter with this name already exists!' => '',
+        'A postmaster filter with this name already exists!' => 'Már létezik ilyen nevű levelezési szűrő!',
         'Filter Condition' => 'Szűrőfeltétel',
         'AND Condition' => 'ÉS feltétel',
         'Check email header' => 'E-mail fejléc ellenőrzése',
@@ -2107,11 +2133,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             'A rendszer szabályos időközönként fog frissítéseket küldeni a regisztrációs kiszolgálónak.',
         'Typically this would be around once every three days.' => 'Ez tipikusan nagyjából három naponta történik.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'Abban az esetben, ha további kérdései vannak, szívesen megválaszoljuk azokat.',
         'Please visit our' => 'Látogassa meg a',
-        'portal' => 'portálunkat',
-        'and file a request.' => 'és küldje el a kérését.',
         'If you deregister your system, you will lose these benefits:' =>
             'Ha megszünteti a rendszer regisztrációját, a következő előnyöket fogja elveszíteni:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -3807,10 +3829,8 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Nem sikerült eltárolni a tevékenység párbeszédet, érvénytelen jegyazonosító: %s!',
         'Invalid TicketID: %s!' => 'Érvénytelen jegyazonosító: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Hiányzó tevékenységegyed-azonosító a következő jegyben: %s!',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            'Ez a lépés többé nem tartozik a jelenlegi tevékenységhez a folyamatban a következő jegynél: %s!',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
-            'Egy másik felhasználó időközben megváltoztatta ezt a jegyet. Zárja be az ablakot, és töltse újra a jegyet.',
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
+            '',
         'Missing ProcessEntityID in Ticket %s!' => 'Hiányzó folyamategyed-azonosító a következő jegyben: %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Nem sikerült beállítani a(z) %s dinamikus mező értékét, amely a(z) „%s” azonosítójú jegyhez tartozik a(z) „%s” tevékenység párbeszédben!',
@@ -4047,6 +4067,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Rendezés',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             'Túllépte az egyidejű ügyintézők számát - vegye fel a kapcsolatot velünk a sales@otrs.com e-mail címen.',
@@ -4061,17 +4085,32 @@ sub Data {
         'This setting is not active by default.' => 'Ez a beállítás alapértelmezetten nincs bekapcsolva.',
         'This setting can not be deactivated.' => 'Ez a beállítás nem kapcsolható ki.',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => 'például Szöveg vagy Sz*eg',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => 'A mező mellőzése.',
 
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nincs telepítve',
         'File is not installed!' => 'A fájl nincs telepítve!',
         'File is different!' => 'A fájl eltérő!',
         'Can\'t read file!' => 'Nem olvasható a fájl!',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Inaktív',
@@ -6376,8 +6415,6 @@ Az Ön segélyszolgálat csapata
         'ServiceView' => 'Szolgáltatás nézet',
         'Set a new password by filling in your current password and a new one.' =>
             'Új jelszó beállítása a jelenlegi jelszó és egy új kitöltésével.',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            'Legkisebb naplózási szint beállítása. Ha a „hibát” választja, akkor csak a hibák lesznek naplózva. A „hibakeresés” lehetőséggel minden naplózási üzenetet megkap.',
         'Set sender email addresses for this system.' => 'A küldő e-mail címeinek beállítása a rendszerhez.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'A beágyazott HTML bejegyzések alapértelmezett magasságának beállítása (képpontban) az ügyintézői jegynagyítás képernyőn.',
@@ -6385,6 +6422,8 @@ Az Ön segélyszolgálat csapata
             'Azon jegyek korlátjának beállítása, amelyek egy egyedüli genericagent feladat végrehajtásakor lesznek végrehajtva.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'A beágyazott HTML bejegyzések legnagyobb magasságának beállítása (képpontban) az ügyintézői jegynagyítás képernyőn.',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
+            '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Állítsa ezt igenre, ha megbízik minden nyilvános és személyes PGP kulcsban még akkor is, ha azok nincsenek egy megbízható aláírással tanúsítva.',
         'Sets if SLA must be selected by the agent.' => 'Beállítja, hogy az ügyintézőnek ki kell választania az SLA-t.',

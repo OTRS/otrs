@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.686724944094328;
+    $Self->{Completeness}        = 0.686703096539162;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -863,7 +863,7 @@ sub Data {
         'You can use the following tags' => 'Você pode usar os seguintes rótulos',
         'To get the first 20 character of the subject.' => 'Para obter os primeiros 20 caracteres do assunto.',
         'To get the first 5 lines of the email.' => 'Para obter as primeiras 5 linhas do e-mail.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Para obter o nome do usuário cliente do chamado (se fornecido).',
         'To get the article attribute' => 'Para obter o atributo do artigo',
         ' e. g.' => 'ex.',
         'Options of the current customer user data' => 'Opções para os dados do atual usuário cliente',
@@ -1095,7 +1095,7 @@ sub Data {
         'Run Now!' => 'Executar Agora',
         'Delete this task' => 'Excluir esta Tarefa',
         'Run this task' => 'Executar esta Tarefa',
-        'Do you really want to delete this task?' => '',
+        'Do you really want to delete this task?' => 'Você realmente deseja excluir essa tarefa?',
         'Job Settings' => 'Configurações de Tarefa',
         'Job name' => 'Tarefa',
         'The name you entered already exists.' => 'O nome digitado já existe.',
@@ -1442,7 +1442,7 @@ sub Data {
         'Configuration history' => 'Histórico de configuração',
         'Delete web service' => 'Apagar Web Service',
         'Do you really want to delete this web service?' => 'Você realmente deseja apagar este web service?',
-        'Ready-to-run Web Services' => '',
+        'Ready-to-run Web Services' => 'Web Services prontos para executar',
         'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
             '',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
@@ -1728,6 +1728,32 @@ sub Data {
         'Reinstall package' => 'Reinstalar Pacote',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Você realmente quer reinstalar este pacote? Quaisquer alterações manuais serão perdidas.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'No caso de você ter mais perguntas, teremos prazer em respondê-las.',
+        'Please visit our customer' => '',
+        'portal' => 'portal',
+        'and file a request.' => 'e encaminhe uma requisição.',
         'Continue' => 'Continuar',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Por favor, certifique-se de que seu banco de dados aceita pacotes com mais de %s MB de tamanho (tamanho máximo suportado é de %s MB). Altere o parâmetro max_allowed_packet do seu banco de dados para evitar erros.',
@@ -1757,8 +1783,8 @@ sub Data {
         'Download' => 'Baixar',
         'Download file from package!' => 'Baixar arquivo do pacote!',
         'Required' => 'Obrigatório',
-        'Primary Key' => '',
-        'Auto Increment' => '',
+        'Primary Key' => 'Chave Primária',
+        'Auto Increment' => 'Auto Incremento',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Diferenças de arquivo para o arquivo %s',
 
@@ -1797,7 +1823,7 @@ sub Data {
         'Do you really want to delete this filter?' => '',
         'Add PostMaster Filter' => 'Adicionar Filtro PostMaster',
         'Edit PostMaster Filter' => 'Alterar Filtro PostMaster',
-        'A postmaster filter with this name already exists!' => '',
+        'A postmaster filter with this name already exists!' => 'Um filtro postmaster com este nome já existe!',
         'Filter Condition' => 'Condição do Filtro',
         'AND Condition' => 'Condição E',
         'Check email header' => 'Checar cabeçalho do Email',
@@ -2107,11 +2133,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             'Seu sistema enviará atualizações para o registro do servidor em intervalos regulares.',
         'Typically this would be around once every three days.' => 'Normalmente, isso seria em torno de uma vez a cada três dias.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'No caso de você ter mais perguntas, teremos prazer em respondê-las.',
         'Please visit our' => 'Por favor, visite nosso',
-        'portal' => 'portal',
-        'and file a request.' => 'e encaminhe uma requisição.',
         'If you deregister your system, you will lose these benefits:' =>
             'Se você cancelar o registro de seu sistema, você vai perder estes benefícios:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -2495,7 +2517,7 @@ sub Data {
         'Note: Customer is invalid!' => 'Nota: Cliente inválido!',
         'Start chat' => 'Iniciar chat',
         'Video call' => 'Vídeo chamada',
-        'Audio call' => '',
+        'Audio call' => 'Chamada por áudio',
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
@@ -3588,7 +3610,7 @@ sub Data {
         'Need TransitionID!' => 'Necessário TransitionID!',
         'Could not get data for TransitionID %s' => '',
         'There was an error updating the Transition' => '',
-        'Edit Transition "%s"' => '',
+        'Edit Transition "%s"' => 'Editar Transição "%s"',
         'xor' => '',
         'String' => '',
         'Transition validation module' => 'Módulo de validação de transição',
@@ -3620,9 +3642,9 @@ sub Data {
         'Need param Filename to download!' => 'Necessário o parâmetro Filename  para download!',
         'Needed CertFingerprint and CAFingerprint!' => '',
         'CAFingerprint must be different than CertFingerprint' => '',
-        'Relation exists!' => '',
+        'Relation exists!' => 'Relação já existe!',
         'Relation added!' => '',
-        'Impossible to add relation!' => '',
+        'Impossible to add relation!' => 'Impossível adicionar relação!',
         'Relation doesn\'t exists' => '',
         'Relation deleted!' => '',
         'Impossible to delete relation!' => '',
@@ -3653,11 +3675,11 @@ sub Data {
         'Was not possible to delete the SystemMaintenance entry: %s!' => '',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => '',
+        'Template updated!' => 'Modelo Atualizado!',
         'Template added!' => '',
 
         # Perl Module: Kernel/Modules/AdminType.pm
-        'Need Type!' => '',
+        'Need Type!' => 'Tipo é necessário!',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
         'No such config for %s' => '',
@@ -3687,8 +3709,8 @@ sub Data {
         'Please upload a valid statistic file.' => '',
         'Export: Need StatID!' => '',
         'Delete: Get no StatID!' => '',
-        'Need StatID!' => '',
-        'Could not load stat.' => '',
+        'Need StatID!' => 'StatID é necessário!',
+        'Could not load stat.' => 'Não é possível carregar a estatística.',
         'Could not create statistic.' => '',
         'Run: Get no %s!' => '',
 
@@ -3704,7 +3726,7 @@ sub Data {
         'Plain article not found for article %s!' => '',
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => '',
-        'Can\'t send email!' => '',
+        'Can\'t send email!' => 'Não é possível enviar o email!',
         'Wrong Subaction!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
@@ -3807,9 +3829,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -4047,6 +4067,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Ordenar por',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             '',
@@ -4061,17 +4085,32 @@ sub Data {
         'This setting is not active by default.' => '',
         'This setting can not be deactivated.' => '',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Inativo',
@@ -6365,14 +6404,14 @@ Thanks for your help!
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            '',
         'Set sender email addresses for this system.' => 'Configurar endereços de e-mail de remetente para o sistema.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
+            '',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
             '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',

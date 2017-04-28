@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.959747916243139;
+    $Self->{Completeness}        = 0.961748633879781;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1377,7 +1377,7 @@ sub Data {
             '\'FunctionName\' wird als Beispiel für den tatsächlichen Namen eines Invokers / einer Operation verwendet.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'FreeText\' wird als Beispiel für einen tatsächlich konfigurierten Wert verwendet.',
-        'Request name free text' => '',
+        'Request name free text' => 'Freitext für Anfragenamen',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Text, der als Anhang oder Ersatz für den Funktionsnamen verwendet werden soll.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1723,6 +1723,32 @@ sub Data {
         'Reinstall package' => 'Paket erneut installieren',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Möchten Sie dieses Paket wirklich erneut installieren? Alle manuellen Änderungen gehen verloren.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'Sollten Sie weitere Fragen haben, freuen wir uns, diese zu beantworten.',
+        'Please visit our customer' => '',
+        'portal' => 'Portal,',
+        'and file a request.' => 'um eine Anfrage zu stellen.',
         'Continue' => 'Weiter',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Stellen Sie sicher, dass Ihre Datenbank Pakete über %s MB akzeptiert (Derzeit werden nur Pakete bis %s MB akzeptiert). Bitte passen Sie die Einstellung max_allowed_packet Ihrer Datenbank-Konfiguration an, um Fehler zu vermeiden.',
@@ -1792,7 +1818,7 @@ sub Data {
         'Do you really want to delete this filter?' => 'Möchten Sie diesen Filter wirklich löschen?',
         'Add PostMaster Filter' => 'PostMaster-Filter hinzufügen',
         'Edit PostMaster Filter' => 'PostMaster-Filter bearbeiten',
-        'A postmaster filter with this name already exists!' => '',
+        'A postmaster filter with this name already exists!' => 'Es existiert bereits ein Postmaster Filter mit diesem Namen!',
         'Filter Condition' => 'Filterbedingung',
         'AND Condition' => 'UND-Bedingung',
         'Check email header' => 'Zu überprüfender E-Mail Header',
@@ -1920,7 +1946,7 @@ sub Data {
         'To assign an Activity Dialog to an Activity drop the Activity Dialog element from this sidebar over the Activity placed in the canvas area.' =>
             'Aktivitäts-Dialoge können Sie einer Aktivität zuweisen, indem Sie diese aus der Seitenleiste über die Aktivität im Zeichenbereich ziehen.',
         'You can start a connection between two Activities by dropping the Transition element over the Start Activity of the connection. After that you can move the loose end of the arrow to the End Activity.' =>
-            '',
+            'Eine Verbindung zwischen Aktivitäten können Sie erstellen, indem Sie das Übergangselement auf die Start-Aktivität der Verbindung ziehen. Anschließend können Sie das freie Ende des Pfeils zur Ziel-Aktivität ziehen.',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             'Aktionen können einem Übergang zugeweisen werden, indem Sie das Aktionselement auf den Namen des Übergangs ziehen.',
         'Edit Process Information' => 'Prozess-Informationen bearbeiten',
@@ -2102,11 +2128,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             'Ihr System sendet in regelmäßigen Abständen Updates an den Registrierungsserver.',
         'Typically this would be around once every three days.' => 'In der Regel findet eine Übertragung an jedem dritten Tag statt.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'Sollten Sie weitere Fragen haben, freuen wir uns, diese zu beantworten.',
         'Please visit our' => 'Besuchen Sie einfach unser',
-        'portal' => 'Portal,',
-        'and file a request.' => 'um eine Anfrage zu stellen.',
         'If you deregister your system, you will lose these benefits:' =>
             'Wenn Sie ihre Systemregistrierung löschen, verlieren Sie folgende Vorteile:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -2405,7 +2427,7 @@ sub Data {
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => 'Systemwartung %s bearbeiten',
-        'Edit System Maintenance Information' => '',
+        'Edit System Maintenance Information' => 'Systemwartungs-Information bearbeiten',
         'Date invalid!' => 'Ungültiges Datum',
         'Login message' => 'Anmeldungs-Nachricht',
         'Show login message' => 'Anmeldungs-Nachricht anzeigen',
@@ -2550,7 +2572,7 @@ sub Data {
         'Stacked' => 'Gestapelt',
         'Expanded' => 'Ausgedehnt',
         'Stream' => 'Fließend',
-        'No Data Available.' => '',
+        'No Data Available.' => 'Keine Daten verfügbar',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Bitte wählen Sie eine gültiges Ausgabeformat in der Konfiguration dieses Widgets aus.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3452,7 +3474,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'Die importierte Datei enthält ungültigen YAML-Inhalt. Bitte prüfen Sie das OTRS-Log für mehr Informationen.',
         'Web service "%s" deleted!' => 'Web Service "%s" gelöscht!',
-        'New Web service' => '',
+        'New Web service' => 'Neuer Web Service',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Keine WebserviceHistoryID empfangen!',
@@ -3660,7 +3682,7 @@ sub Data {
         'No preferences for %s!' => 'Keine Einstellungen für %s!',
         'Can\'t get element data of %s!' => 'Konnte Daten zu Element %s nicht ermitteln!',
         'Can\'t get filter content data of %s!' => 'Kann Filter-Daten von %s nicht ermitteln!',
-        'Customer Company Name' => '',
+        'Customer Company Name' => 'Kundenfirmenname',
         'Customer User ID' => 'Kundenbenutzerkennung',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
@@ -3711,8 +3733,8 @@ sub Data {
             'Sie haben entweder kein Ticket ausgewählt, oder nur Tickets, die von anderen Agenten gesperrt sind.',
         'You need to select at least one ticket.' => 'Sie müssen mindestens ein Ticket auswählen.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
-            '',
-        'The following tickets were locked: %s.' => '',
+            'Die folgenden Tickets wurde ignoriert weil sie für einen anderen Agenten gesperrt sind oder keine Schreibberechtigung für diese Tickets vorliegt: %s.',
+        'The following tickets were locked: %s.' => 'Die folgenden Tickets wurden gesperrt: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => 'Konnte Artikel-Typ nicht bestimmen!',
@@ -3802,9 +3824,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Konnte Aktivitätsdialog nicht speichern, ungültige TicketID: %s!',
         'Invalid TicketID: %s!' => 'Ungültige TicketID: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'ActivityEntityID fehlt für Ticket %s!',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'ProcessEntityID fehlt für Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -3839,7 +3859,7 @@ sub Data {
         'Outgoing Email (internal)' => 'Ausgehende E-Mail (intern)',
         'Ticket Created' => 'Ticket erstellt',
         'Type Updated' => 'Typ aktualisiert',
-        'Escalation Update Time In Effect' => '',
+        'Escalation Update Time In Effect' => 'Eskalation "Aktualisierungszeit" aktiv',
         'Escalation Update Time Stopped' => 'Aktualisierungszeit-Eskalation angehalten',
         'Escalation First Response Time Stopped' => 'Erstreaktionszeit-Eskalation angehalten',
         'Customer Updated' => 'Kunde aktualisiert',
@@ -3867,9 +3887,9 @@ sub Data {
         'Incoming Follow-Up' => 'Eingehende Rückfrage',
         'Automatic Reply Sent' => 'Automatische Antwort gesendet',
         'Automatic Reject Sent' => 'Automatische Ablehnung gesendet',
-        'Escalation Solution Time In Effect' => '',
+        'Escalation Solution Time In Effect' => 'Eskalation "Lösungszeit" aktiv',
         'Escalation Solution Time Stopped' => 'Lösungszeit-Eskalation angehalten',
-        'Escalation Response Time In Effect' => '',
+        'Escalation Response Time In Effect' => 'Eskalation "Antwortzeit" aktiv',
         'Escalation Response Time Stopped' => 'Antwortzeit-Eskalation angehalten',
         'SLA Updated' => 'SLA aktualisiert',
         'Queue Updated' => 'Queue aktualisiert',
@@ -3927,15 +3947,15 @@ sub Data {
         'Unknown Check!' => 'Unbekannte Prüfung!',
         'The check "%s" doesn\'t exist!' => 'Die Prüfung "%s" existiert nicht!',
         'Database %s' => 'Datenbank %s',
-        'Configure MySQL' => '',
-        'Configure PostgreSQL' => '',
-        'Configure Oracle' => '',
+        'Configure MySQL' => 'MySQL konfigurieren',
+        'Configure PostgreSQL' => 'PostgreSQL konfigurieren',
+        'Configure Oracle' => 'Oracle konfigurieren',
         'Unknown database type "%s".' => 'Unbekannter Datenbank-Typ "%s".',
         'Please go back.' => 'Bitte gehen Sie zurück.',
         'Install OTRS - Error' => 'OTRS-Installation - Fehler',
         'File "%s/%s.xml" not found!' => 'Datei "%s/%s.xml" nicht gefunden!',
         'Contact your Admin!' => 'Kontaktieren Sie Ihren Administrator!',
-        'Syslog' => '',
+        'Syslog' => 'Syslog',
         'Can\'t write Config file!' => 'Kann Konfigurationsdatei nicht schreiben!',
         'Unknown Subaction %s!' => 'Unbekannte Subaktion %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4042,6 +4062,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Sortieren nach',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             'Sie haben die Anzahl der concurrent agents überschritten - kontaktieren Sie umgehend sales@otrs.com',
@@ -4056,17 +4080,32 @@ sub Data {
         'This setting is not active by default.' => 'Diese Einstellung ist standardmäßig nicht aktiv.',
         'This setting can not be deactivated.' => 'Diese Einstellung kann nicht deaktiviert werden.',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
-        'e.g. Text or Te*t' => '',
+        'e.g. Text or Te*t' => 'z.B. Text oder Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
-        'Ignore this field.' => '',
+        'Ignore this field.' => 'Dieses Feld ignorieren',
+
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nicht installiert',
         'File is not installed!' => 'Datei ist nicht installiert!',
         'File is different!' => 'Datei unterschiedlich!',
         'Can\'t read file!' => 'Datei kann nicht gelesen werden!',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Inaktiv',
@@ -4127,24 +4166,24 @@ sub Data {
         'Solution Min Time (affected by escalation configuration)' => 'Minimale Lösungszeit (wird durch Eskalations-Konfiguration beeinflusst)',
         'Solution Max Time (affected by escalation configuration)' => 'Maximale Lösungszeit (wird durch Eskalations-Konfiguration beeinflusst)',
         'Solution Working Time Average (affected by escalation configuration)' =>
-            '',
+            'Durchschnittliche Lösungs-Arbeitszeit (wird durch Eskalations-Konfiguration beeinflusst)',
         'Solution Min Working Time (affected by escalation configuration)' =>
-            '',
+            'Minimale Lösungs-Arbeitszeit (wird durch Eskalations-Konfiguration beeinflusst)',
         'Solution Max Working Time (affected by escalation configuration)' =>
-            '',
+            'Maximale Lösungs-Arbeitszeit (wird durch Eskalations-Konfiguration beeinflusst)',
         'First Response Average (affected by escalation configuration)' =>
-            '',
+            'Initiale Reaktion Durchschnitt (betroffen durch die Eskalationskonfigurierung)',
         'First Response Min Time (affected by escalation configuration)' =>
-            '',
+            'Initiale Reaktion Min Zeit (betroffen durch die Eskalationskonfigurierung)',
         'First Response Max Time (affected by escalation configuration)' =>
-            '',
+            'Initiale Reaktion Max Zeit (betroffen durch die Eskalationskonfigurierung)',
         'First Response Working Time Average (affected by escalation configuration)' =>
-            '',
+            'Initiale Reaktion Durchschnitt Arbeitszeit (betroffen durch die Eskalationskonfigurierung)',
         'First Response Min Working Time (affected by escalation configuration)' =>
-            '',
+            'Initiale Reaktion Min Arbeitszeit (betroffen durch die Eskalationskonfigurierung)',
         'First Response Max Working Time (affected by escalation configuration)' =>
-            '',
-        'Number of Tickets (affected by escalation configuration)' => '',
+            'Initiale Reaktion Max Arbeitszeit (betroffen durch die Eskalationskonfigurierung)',
+        'Number of Tickets (affected by escalation configuration)' => 'Ticketanzahl (betroffen durch die Eskalationskonfigurierung)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
         'Days' => 'Tage',
@@ -4396,8 +4435,8 @@ sub Data {
         'Environment Variables' => 'Umgebungsvariablen',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
-        'Support Data Collection' => '',
-        'Support data could not be collected from the web server.' => '',
+        'Support Data Collection' => 'Supportdate-Sammlung',
+        'Support data could not be collected from the web server.' => 'Supportdaten vom Web-Server konnten nicht ermittelt werden.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
         'Webserver Version' => 'Webserver-Version',
@@ -4437,7 +4476,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
-            '',
+            'Authentifizierung erfolgreich, aber im Kunden Backend wurde kein Kunden Eintrag gefunden. Bitte kontaktieren Sie Ihren Administrator.',
         'Reset password unsuccessful. Please contact the administrator.' =>
             'Zurücksetzen des Kennwort war nicht erfolgreich. Bitte kontaktieren Sie den Administrator!',
         'Added via Customer Panel (%s)' => 'Mittels Kundenbereich hinzugefügt (%s)',
@@ -4447,7 +4486,7 @@ sub Data {
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'SecureMode active!' => 'SecureMode ist aktiv!',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
-            '',
+            'Wenn Sie den Installer erneut ausführen wollen, schalten Sie "SecureMode" in der SysConfig ab.',
         'Action "%s" not found!' => 'Aktion "%s" nicht gefunden!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -6370,8 +6409,6 @@ Ihr Helpdesk-Team
         'ServiceView' => 'DienstAnsicht',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            'Minimales Log-Level setzen. Wenn Sie "error" wählen, werden nur Fehler mitgeloggt. Mit "debug" erhalten Sie alle Log-Nachrichten.',
         'Set sender email addresses for this system.' => 'Absendeadressen für dieses System verwalten.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Definiert Standardhöhe (in Pixel) für Inline_HTML-Feldern in AgentTicketZoom.',
@@ -6379,6 +6416,8 @@ Ihr Helpdesk-Team
             'Legt die maximale Anzahl an Tickets fest, die pro GenericAgent-Job-Ausführung bearbeitet werden.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Definiert maximale Höhe (in Pixel) für Inline_HTML-Feldern in AgentTicketZoom.',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
+            '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Setzen Sie diese Einstellung auf "Ja", wenn Sie allen öffentlichen und privaten PGP-Schlüsseln auch dann vertrauen möchten, wenn diese nicht mit einer vertrauenswürdigen Signatur zertifiziert sind.',
         'Sets if SLA must be selected by the agent.' => 'Gibt an, ob ein SLA durch einen Agenten ausgewählt sein muss.',

@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-04-27 Updated translations, thanks to all translators.
  - 2017-04-26 Fixed bug#[12783](https://bugs.otrs.org/show_bug.cgi?id=12783) - Display of Dynamic Field Date/Time values changed.
  - 2017-04-24 Follow-up fix for bug#[12118](https://bugs.otrs.org/show_bug.cgi?id=12118) - Unified the search from text and textarea dynamic fields.
  - 2017-04-20 Fixed bug#[12756](https://bugs.otrs.org/show_bug.cgi?id=12756) - The format buttons are displayed on the dashboard translated, but during the running of stats they are not translated.

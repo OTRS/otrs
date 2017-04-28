@@ -26,13 +26,13 @@
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2016
 # Rangel Perez Sardinha <rangel@hsg.com.br>, 2016
-# Ronaldo Richieri <ronaldo@complemento.net.br>, 2015
+# Ronaldo Richieri <ronaldo@complemento.net.br>, 2015,2017
 # Samuel Diniz Casimiro <nedmaj@yahoo.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-24 20:43+0000\n"
-"PO-Revision-Date: 2017-03-25 02:45+0000\n"
+"POT-Creation-Date: 2017-04-27 21:54+0000\n"
+"PO-Revision-Date: 2017-04-28 03:00+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -3140,7 +3140,7 @@ msgstr "Para obter as primeiras 5 linhas do e-mail."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Para obter o nome do usuário cliente do chamado (se fornecido)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3882,7 +3882,7 @@ msgstr "Executar esta Tarefa"
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this task?"
-msgstr ""
+msgstr "Você realmente deseja excluir essa tarefa?"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -5092,7 +5092,7 @@ msgstr "Você realmente deseja apagar este web service?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready-to-run Web Services"
-msgstr ""
+msgstr "Web Services prontos para executar"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -6013,6 +6013,93 @@ msgid ""
 msgstr "Você realmente quer reinstalar este pacote? Quaisquer alterações manuais serão perdidas."
 
 #. Template: AdminPackageManager
+msgid "Go to upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "package information"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package installation requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package upgrade requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"If you are a OTRS Business Solution™ customer, please visit our customer "
+"portal and file a request."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please note that your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "How can I do a patch level update if I don’t have a contract?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please find all relevant information within"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "the upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"In case you would have further questions we would be glad to answer them."
+msgstr "No caso de você ter mais perguntas, teremos prazer em respondê-las."
+
+#. Template: AdminPackageManager
+msgid "Please visit our customer"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "portal"
+msgstr "portal"
+
+#. Template: AdminPackageManager
+msgid "and file a request."
+msgstr "e encaminhe uma requisição."
+
+#. Template: AdminPackageManager
 msgid "Continue"
 msgstr "Continuar"
 
@@ -6127,11 +6214,11 @@ msgstr "Obrigatório"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "Chave Primária"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "Auto Incremento"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6261,7 +6348,7 @@ msgstr "Alterar Filtro PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
-msgstr ""
+msgstr "Um filtro postmaster com este nome já existe!"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -7280,21 +7367,8 @@ msgid "Typically this would be around once every three days."
 msgstr "Normalmente, isso seria em torno de uma vez a cada três dias."
 
 #. Template: AdminRegistration
-msgid ""
-"In case you would have further questions we would be glad to answer them."
-msgstr "No caso de você ter mais perguntas, teremos prazer em respondê-las."
-
-#. Template: AdminRegistration
 msgid "Please visit our"
 msgstr "Por favor, visite nosso"
-
-#. Template: AdminRegistration
-msgid "portal"
-msgstr "portal"
-
-#. Template: AdminRegistration
-msgid "and file a request."
-msgstr "e encaminhe uma requisição."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
@@ -8498,7 +8572,7 @@ msgstr "Vídeo chamada"
 
 #. Template: AgentCustomerTableView
 msgid "Audio call"
-msgstr ""
+msgstr "Chamada por áudio"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -11650,7 +11724,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
-msgstr ""
+msgstr "Editar Transição \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "xor"
@@ -11736,7 +11810,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
-msgstr ""
+msgstr "Relação já existe!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation added!"
@@ -11744,7 +11818,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to add relation!"
-msgstr ""
+msgstr "Impossível adicionar relação!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation doesn't exists"
@@ -11828,7 +11902,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template updated!"
-msgstr ""
+msgstr "Modelo Atualizado!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template added!"
@@ -11836,7 +11910,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Need Type!"
-msgstr ""
+msgstr "Tipo é necessário!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No such config for %s"
@@ -11924,11 +11998,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Need StatID!"
-msgstr ""
+msgstr "StatID é necessário!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not load stat."
-msgstr ""
+msgstr "Não é possível carregar a estatística."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not create statistic."
@@ -11976,7 +12050,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't send email!"
-msgstr ""
+msgstr "Não é possível enviar o email!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
@@ -12243,14 +12317,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for Ticket"
-" %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Another user changed this ticket in the meantime. Please close this window "
-"and reload the ticket."
+"This step does not belong anymore the current activity in process for ticket"
+" '%s%s%s'! Another user changed this ticket in the meantime."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12914,6 +12982,11 @@ msgstr ""
 msgid "Order by"
 msgstr "Ordenar por"
 
+#. Perl Module: Kernel/System/ACL/DB/ACL.pm
+msgid ""
+"Couldn't read ACL configuration file. Please make sure the file is valid."
+msgstr ""
+
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
@@ -12949,12 +13022,26 @@ msgstr ""
 msgid "This setting can not be deactivated."
 msgstr ""
 
+#. Perl Module: Kernel/System/CustomerUser.pm
+msgid "Customer user \"%s\" already exists."
+msgstr ""
+
+#. Perl Module: Kernel/System/CustomerUser/DB.pm
+msgid "This email address is already in use for another customer user."
+msgstr ""
+
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid ""
+"Couldn't read Notification configuration file. Please make sure the file is "
+"valid."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -12971,6 +13058,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+msgid "The process \"%s\" and all of its data has been imported successfully."
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
@@ -20389,12 +20480,6 @@ msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Set minimum loglevel. If you select 'error', just errors are logged. With "
-"'debug' you get all logging messages."
-msgstr ""
-
-#. SysConfig
 msgid "Set sender email addresses for this system."
 msgstr "Configurar endereços de e-mail de remetente para o sistema."
 
@@ -20414,6 +20499,13 @@ msgstr ""
 msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Set the minimum log level. If you select 'error', just errors are logged. "
+"With 'debug' you get all logging messages. The order of log levels is: "
+"'debug', 'info', 'notice' and 'error'."
 msgstr ""
 
 #. SysConfig

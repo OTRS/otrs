@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-24 20:43+0000\n"
-"PO-Revision-Date: 2017-03-25 02:45+0000\n"
+"POT-Creation-Date: 2017-04-27 21:54+0000\n"
+"PO-Revision-Date: 2017-04-28 03:00+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -4876,7 +4876,7 @@ msgstr "“FreeText”可用作实际配置值的样例。"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "请求名称自定义字段"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
@@ -6000,6 +6000,93 @@ msgid ""
 msgstr "您真的想要重新安装该软包吗? 所有该模块的手工设置将丢失."
 
 #. Template: AdminPackageManager
+msgid "Go to upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "package information"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package installation requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package upgrade requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"If you are a OTRS Business Solution™ customer, please visit our customer "
+"portal and file a request."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please note that your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "How can I do a patch level update if I don’t have a contract?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please find all relevant information within"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "the upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"In case you would have further questions we would be glad to answer them."
+msgstr "如果您还有其它问题，我们非常愿意答复您。"
+
+#. Template: AdminPackageManager
+msgid "Please visit our customer"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "portal"
+msgstr "门户"
+
+#. Template: AdminPackageManager
+msgid "and file a request."
+msgstr "并提出请求。"
+
+#. Template: AdminPackageManager
 msgid "Continue"
 msgstr "继续"
 
@@ -6248,7 +6335,7 @@ msgstr "编辑邮件过滤器"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
-msgstr ""
+msgstr "该邮箱管理员过滤器名称已被使用！"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -7267,21 +7354,8 @@ msgid "Typically this would be around once every three days."
 msgstr "通常这将是大约每3天1次。"
 
 #. Template: AdminRegistration
-msgid ""
-"In case you would have further questions we would be glad to answer them."
-msgstr "如果您还有其它问题，我们非常愿意答复您。"
-
-#. Template: AdminRegistration
 msgid "Please visit our"
 msgstr "请访问我们的"
-
-#. Template: AdminRegistration
-msgid "portal"
-msgstr "门户"
-
-#. Template: AdminRegistration
-msgid "and file a request."
-msgstr "并提出请求。"
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
@@ -8639,7 +8713,7 @@ msgstr "流"
 
 #. Template: AgentDashboardStats
 msgid "No Data Available."
-msgstr ""
+msgstr "没有可用数据。"
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -11258,7 +11332,7 @@ msgstr "Web服务“%s”已经删除！"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "New Web service"
-msgstr ""
+msgstr "新的WEB服务"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -12230,14 +12304,8 @@ msgstr "在工单 “%s”中缺少活动实体ID！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for Ticket"
-" %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Another user changed this ticket in the meantime. Please close this window "
-"and reload the ticket."
+"This step does not belong anymore the current activity in process for ticket"
+" '%s%s%s'! Another user changed this ticket in the meantime."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12629,15 +12697,15 @@ msgstr "数据库%s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
-msgstr ""
+msgstr "配置MySQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure PostgreSQL"
-msgstr ""
+msgstr "配置PostgreSQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Oracle"
-msgstr ""
+msgstr "配置ORACLE"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -12661,7 +12729,7 @@ msgstr "联系你的系统管理员！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Syslog"
-msgstr ""
+msgstr "Syslog"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't write Config file!"
@@ -12901,6 +12969,11 @@ msgstr "请移除以下不能用于工单限制的词语："
 msgid "Order by"
 msgstr "排序"
 
+#. Perl Module: Kernel/System/ACL/DB/ACL.pm
+msgid ""
+"Couldn't read ACL configuration file. Please make sure the file is valid."
+msgstr ""
+
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
@@ -12936,12 +13009,26 @@ msgstr "这个设置默认没有激活。"
 msgid "This setting can not be deactivated."
 msgstr "不能使这个设置失效。"
 
+#. Perl Module: Kernel/System/CustomerUser.pm
+msgid "Customer user \"%s\" already exists."
+msgstr ""
+
+#. Perl Module: Kernel/System/CustomerUser/DB.pm
+msgid "This email address is already in use for another customer user."
+msgstr ""
+
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
-msgstr ""
+msgstr "如：Text或Te*t"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
+msgstr "忽略该字段。"
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid ""
+"Couldn't read Notification configuration file. Please make sure the file is "
+"valid."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -12959,6 +13046,10 @@ msgstr "文件被修改！"
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
 msgstr "不能读取文件！"
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+msgid "The process \"%s\" and all of its data has been imported successfully."
+msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -13154,28 +13245,28 @@ msgstr "最大解决工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均首次响应时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小首次响应时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最大首次响应时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid ""
 "First Response Working Time Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均首次响应工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小首次响应工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最大首次响应工作时间（受升级配置影响）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
@@ -18943,14 +19034,14 @@ msgstr "如果激活这个设置，本地修改内容不会在软件包管理器
 msgid ""
 "If you're going to be out of office, you may wish to let other users know by"
 " setting the exact dates of your absence."
-msgstr ""
+msgstr "如果你要外出，通过设置你不在办公室的确切日期，你可能希望让其他用户知道。"
 
 #. SysConfig
 msgid ""
 "Ignore system sender article types (e. g. auto responses or email "
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
-msgstr ""
+msgstr "忽略系统发件人信件类型 （如：自动响应或电子邮件通知），在 工单详情窗口或在大视图窗口自动扩展时将其标记为 '未读信件' 。"
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
@@ -20268,15 +20359,15 @@ msgstr "第二队列"
 #. SysConfig
 msgid ""
 "Select after which period ticket overviews should refresh automatically."
-msgstr ""
+msgstr "选择工单概览视图自动刷新的时间间隔。"
 
 #. SysConfig
 msgid "Select how many tickets should be shown in overviews by default."
-msgstr ""
+msgstr "选择概览视图中默认显示的工单数。"
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "选择主界面语言。"
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -20284,7 +20375,7 @@ msgstr "选择您的界面主题。"
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
-msgstr ""
+msgstr "选择你喜欢的OTRS布局。"
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -20373,13 +20464,7 @@ msgstr "服务视图"
 
 #. SysConfig
 msgid "Set a new password by filling in your current password and a new one."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Set minimum loglevel. If you select 'error', just errors are logged. With "
-"'debug' you get all logging messages."
-msgstr "设置最小日志级别。如果您选择'error'，只记录错误信息。选择'debug'，您将获得所有的记录信息。"
+msgstr "填写当前密码和一个新的密码来设置新密码。"
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -20402,6 +20487,13 @@ msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "设置服务人员工单详情窗口内嵌HTML信件的最大高度（单位：像素）。"
+
+#. SysConfig
+msgid ""
+"Set the minimum log level. If you select 'error', just errors are logged. "
+"With 'debug' you get all logging messages. The order of log levels is: "
+"'debug', 'info', 'notice' and 'error'."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21484,7 +21576,7 @@ msgstr "在多选框字段中显示所有的客户ID（如果客户ID过多则�
 msgid ""
 "Shows all the customer user identifiers in a multi-select field (not useful "
 "if you have a lot of customer user identifiers)."
-msgstr ""
+msgstr "在一个多选框字段中显示所有的客户联系人（如果客户联系人过多则不好用）。"
 
 #. SysConfig
 msgid ""

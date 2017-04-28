@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.966456596869282;
+    $Self->{Completeness}        = 0.969844161100992;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -833,7 +833,7 @@ sub Data {
         'Stop after match' => 'Прекратить проверку после совпадения',
         'Edit ACL structure' => 'Редактировать ACL',
         'Save settings' => 'Сохранить настройки',
-        'Save ACL' => '',
+        'Save ACL' => 'Сохранить ACL',
         'Save' => 'Сохранить',
         'or' => 'или',
         'Save and finish' => 'Сохранить и закончить',
@@ -1101,7 +1101,7 @@ sub Data {
         'Run Now!' => 'Выполнить сейчас!',
         'Delete this task' => 'Удалить задачу',
         'Run this task' => 'Запустить задачу',
-        'Do you really want to delete this task?' => '',
+        'Do you really want to delete this task?' => 'Вы действительно хотите удалить эту задачу?',
         'Job Settings' => 'Настройки задания',
         'Job name' => 'Имя задания',
         'The name you entered already exists.' => 'Введенное вами имя уже существует.',
@@ -1734,6 +1734,32 @@ sub Data {
         'Reinstall package' => 'Переустановить пакет',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Вы действительно хотите переустановить этот пакет? Все ручные изменения будут потеряны.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            'В случае, если у Вас возникли вопросы, мы будем рады ответить на них.',
+        'Please visit our customer' => '',
+        'portal' => 'портал',
+        'and file a request.' => 'и задайте вопрос.',
         'Continue' => 'Продолжить',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Убедитесь что ваша СУБД принимает пакеты размером больше %s MB (текущее значение размера пакета - до %s MB). Измените значение параметра max_allowed_packet для вашей СУБД во избежание ошибок.',
@@ -1763,8 +1789,8 @@ sub Data {
         'Download' => 'Загрузить',
         'Download file from package!' => 'Загрузить файл из пакета!',
         'Required' => 'Требуется',
-        'Primary Key' => '',
-        'Auto Increment' => '',
+        'Primary Key' => 'Главный ключ',
+        'Auto Increment' => 'Авто инкремент',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Файл различий для файла %s',
 
@@ -1800,10 +1826,10 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Если вы используете регулярные выражения, вы также можете использовать совпавшее в () значение как [***] в действии "Выставить"',
         'Delete this filter' => 'Удалить этот фильтр',
-        'Do you really want to delete this filter?' => '',
+        'Do you really want to delete this filter?' => 'Вы действительно желаете удалить этот фильтр?',
         'Add PostMaster Filter' => 'Добавить фильтр PostMaster-а',
         'Edit PostMaster Filter' => 'Редактировать фильтр PostMaster-а',
-        'A postmaster filter with this name already exists!' => '',
+        'A postmaster filter with this name already exists!' => 'Фильтр postmaster с этим имением уже существует!',
         'Filter Condition' => 'Условие фильтра',
         'AND Condition' => 'Условие "И"(AND)',
         'Check email header' => 'Проверить заголовок письма',
@@ -1832,12 +1858,12 @@ sub Data {
         'Overwrite existing entities' => 'Переписывать существующие объекты',
         'Upload process configuration' => 'Загрузить конфигурацию Процесса',
         'Import process configuration' => 'Импортировать конфигурацию Процесса',
-        'Ready-to-run Processes' => '',
+        'Ready-to-run Processes' => 'Готовый к запуску процесс',
         'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
             '',
         'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
             '',
-        'Import ready-to-run process' => '',
+        'Import ready-to-run process' => 'Импортировать готовый к запуску процесс',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Для создания нового Процесса вы можете импортировать Процесс экспортированный из другой системы или создать полностью новый.',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
@@ -2113,11 +2139,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             'Ваша система отправит обновления (отчет) на сервер OTRS Group периодически.',
         'Typically this would be around once every three days.' => 'Обычно это происходит один раз в три дня.',
-        'In case you would have further questions we would be glad to answer them.' =>
-            'В случае, если у Вас возникли вопросы, мы будем рады ответить на них.',
         'Please visit our' => 'Посетите наш',
-        'portal' => 'портал',
-        'and file a request.' => 'и задайте вопрос.',
         'If you deregister your system, you will lose these benefits:' =>
             'Если вы откажетесь от регистрации вашей системы, вы потеряете следующие выгоды:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -2561,7 +2583,7 @@ sub Data {
         'Stacked' => 'С накоплением',
         'Expanded' => 'Развернутая',
         'Stream' => 'Поток',
-        'No Data Available.' => '',
+        'No Data Available.' => 'Данные недоступны.',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Пожалуйста, выберите правильный формат графического файла для вывода в настройках этого виджета.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -2826,10 +2848,10 @@ sub Data {
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Искать в свойствах От, Для, Копия, Тема и тело сообщения, перекрывая другие атрибуты с тем же именем.',
         'CustomerID (complex search)' => 'CustomerID (complex search)',
-        '(e. g. 234*)' => '',
+        '(e. g. 234*)' => '(Например, 234 *)',
         'CustomerID (exact match)' => 'CustomerID (exact match)',
         'Customer User Login (complex search)' => 'Customer User Login (complex search)',
-        '(e. g. U51*)' => '',
+        '(e. g. U51*)' => '(Например, U51*)',
         'Customer User Login (exact match)' => 'Customer User Login (exact match)',
         'Attachment Name' => 'Имя вложения',
         '(e. g. m*file or myfi*)' => '(например, m*file or myfi*)',
@@ -2953,8 +2975,8 @@ sub Data {
         'Accept' => 'Подтвердить',
         'Decline' => 'Отказать',
         'An internal error occurred.' => 'Возникла внутренняя ошибка.',
-        'Connection error' => '',
-        'Reload page' => '',
+        'Connection error' => 'Ошибка соединения',
+        'Reload page' => 'Перезагрузить страницу',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
@@ -3463,7 +3485,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'импортированный файл имеет недопустимое для YAML содержимое! Пожалуйста, проверьте логи OTRS для подробностей',
         'Web service "%s" deleted!' => 'Web-сервис "%s" удален!',
-        'New Web service' => '',
+        'New Web service' => 'Новый Веб-сервис',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Не получен WebserviceHistoryID!',
@@ -3509,7 +3531,7 @@ sub Data {
         'No such file %s in package!' => 'Отсутствует файл %s в пакете!',
         'No such file %s in local file system!' => 'Отсутствует файл %s в локальной системе!',
         'Can\'t read %s!' => 'Не возможно прочитать %s!',
-        'File is OK' => '',
+        'File is OK' => 'Файлы ОК',
         'Package has locally modified files.' => 'Пакет содержит локально изменённые файлы.',
         'No packages or no new packages found in selected repository.' =>
             'Нет пакетов или новых пакетов в выбранном репозитории.',
@@ -3720,10 +3742,10 @@ sub Data {
         'No selectable TicketID is given!' => 'Не задан доступный TicketID!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             '',
-        'You need to select at least one ticket.' => '',
+        'You need to select at least one ticket.' => 'Вам нужно выбрать как минимум одну заявку.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
             '',
-        'The following tickets were locked: %s.' => '',
+        'The following tickets were locked: %s.' => 'Текущие заявки были заблокированы: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Can not determine the ArticleType!' => 'Не удалось определить ArticleType!',
@@ -3813,9 +3835,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Не удалось сохранить ActivityDialog, не верный TicketID: %s!',
         'Invalid TicketID: %s!' => 'Неверный TicketID: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Отсутствует ActivityEntityID в Ticket %s!',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'Отсутствует ProcessEntityID в Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -3831,7 +3851,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'Untitled' => 'Без названия',
-        'Customer Name' => '',
+        'Customer Name' => 'Имя клиента',
         'Invalid Users' => 'Недействительные пользователи',
         'CSV' => 'CSV',
         'Excel' => 'Excel',
@@ -3870,14 +3890,14 @@ sub Data {
         'Title Updated' => 'Заголовок обновлен',
         'Ticket Merged' => 'Заявка объединена',
         'Outgoing Phone Call' => 'Исходящий телефонный звонок',
-        'Forwarded Message' => '',
+        'Forwarded Message' => 'Пересланное сообщение',
         'Removed User Subscription' => '',
         'Time Accounted' => 'Затраченное время',
         'Incoming Phone Call' => 'Входящий телефонный звонок',
-        'System Request.' => '',
+        'System Request.' => 'Системный запрос',
         'Incoming Follow-Up' => 'Входящее дополнение к заявке',
         'Automatic Reply Sent' => 'Автоответ отправлен',
-        'Automatic Reject Sent' => '',
+        'Automatic Reject Sent' => 'Автоматическое отклонение отправлено',
         'Escalation Solution Time In Effect' => '',
         'Escalation Solution Time Stopped' => 'Escalation Solution Time остановлено',
         'Escalation Response Time In Effect' => '',
@@ -3885,8 +3905,8 @@ sub Data {
         'SLA Updated' => 'SLA обновлено',
         'Queue Updated' => 'Очередь обновлена',
         'External Chat' => 'Внешний чат',
-        'Queue Changed' => '',
-        'Notification Was Sent' => '',
+        'Queue Changed' => 'Очередь изменена',
+        'Notification Was Sent' => 'Уведомление было отправлено',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
             'Извините, но у вас больше нет прав на доступ к этой заявке в её текущем состоянии.',
         'Can\'t get for ArticleID %s!' => 'Невозможно получить %s для ArticleID!',
@@ -3895,8 +3915,8 @@ sub Data {
         'Need ArticleID!' => 'Требуется ArticleID!',
         'Invalid ArticleID!' => 'Неверный ArticleID!',
         'Offline' => 'Вне сети',
-        'User is currently offline.' => '',
-        'User is currently active.' => '',
+        'User is currently offline.' => 'Пользователь сейчас отключен.',
+        'User is currently active.' => 'Пользователь сейчас активен.',
         'Away' => 'Отсутствует',
         'User was inactive for a while.' => '',
         'Unavailable' => 'Недоступен',
@@ -3938,15 +3958,15 @@ sub Data {
         'Unknown Check!' => 'Неизвестная проверка!',
         'The check "%s" doesn\'t exist!' => 'Проверка "%s" не существует!',
         'Database %s' => 'База данных %s',
-        'Configure MySQL' => '',
-        'Configure PostgreSQL' => '',
-        'Configure Oracle' => '',
+        'Configure MySQL' => 'Конфигурировать MySQL',
+        'Configure PostgreSQL' => 'Конфигурировать PostgreSQL',
+        'Configure Oracle' => 'Конфигурировать Oracle',
         'Unknown database type "%s".' => 'Неизвестный тип баз данных "%s".',
         'Please go back.' => 'Пожалуйста, вернитесь назад.',
         'Install OTRS - Error' => 'Установка OTRS - Ошибка',
         'File "%s/%s.xml" not found!' => 'Файл "%s/%s.xml" не найден!',
         'Contact your Admin!' => 'Обратитесь к Вашему администратору!',
-        'Syslog' => '',
+        'Syslog' => 'Системный журнал',
         'Can\'t write Config file!' => 'Не удается записать файл Config!',
         'Unknown Subaction %s!' => 'Неизвестное Последействие %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -3975,15 +3995,15 @@ sub Data {
         'The start time of a ticket has been set after the end time!' => 'Время начала для заявки установлено после времени окончания!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-        'Can\'t connect to OTRS News server!' => '',
+        'Can\'t connect to OTRS News server!' => 'Невозможно подключиться к серверу новостей OTRS!',
         'Can\'t get OTRS News from server!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
-        'Can\'t connect to Product News server!' => '',
+        'Can\'t connect to Product News server!' => 'Невозможно подключиться к серверу продукта!',
         'Can\'t get Product News from server!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
-        'Can\'t connect to %s!' => '',
+        'Can\'t connect to %s!' => 'Не удается подключиться к %s!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
         'sorted ascending' => 'отсортировано в порядке возрастания',
@@ -4053,6 +4073,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Сортировка по',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             'Превышено количество одновременных агентов - свяжитесь с sales@otrs.com',
@@ -4067,17 +4091,32 @@ sub Data {
         'This setting is not active by default.' => 'Этот параметр по-умолчанию не активен.',
         'This setting can not be deactivated.' => 'Этот параметр не может быть отключен.',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
-        'Ignore this field.' => '',
+        'Ignore this field.' => 'Игнорировать это поле.',
+
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'не установлено',
-        'File is not installed!' => '',
-        'File is different!' => '',
-        'Can\'t read file!' => '',
+        'File is not installed!' => 'Файл не установлен!',
+        'File is different!' => 'Файл отличается!',
+        'Can\'t read file!' => 'Невозможно прочитать файл!',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Неактивно',
@@ -6114,7 +6153,7 @@ Thanks for your help!
             'Модуль фильтрации и управления входящими сообщениями. Блокировать/Игнорировать весь спам от отправителей: noreply@ address.',
         'Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => \'(.+?)@.+?\', and use () as [***] in Set =>.' =>
             'Модуль для фильтрации и управления входящими сообщениями. Получите 4-х значный номер в свободное поле заявки, используйте регулярное выражение в Match т.е. From => \'(.+?)@.+?\', и используйте () как [***] в Set =>.',
-        'Module to filter encrypted bodies of incoming messages.' => '',
+        'Module to filter encrypted bodies of incoming messages.' => 'Модуль для фильтрации зашифрованных тел во входящих сообщениях.',
         'Module to generate accounted time ticket statistics.' => 'Модуль для формирования статистки о затраченном времени по заявкам.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
             'Модуль для генерации HTML OpenSearch шаблонов для быстрого поиска заявок в интерфейсе агента.',
@@ -6354,8 +6393,8 @@ Thanks for your help!
         'Select after which period ticket overviews should refresh automatically.' =>
             '',
         'Select how many tickets should be shown in overviews by default.' =>
-            '',
-        'Select the main interface language.' => '',
+            'Выберете как много заявок будет показываться в обзоре по умолчанию.',
+        'Select the main interface language.' => 'Выберете главный язык интерфейса.',
         'Select your frontend Theme.' => 'Тема интерфейса (имя папки с кастомными модулями).',
         'Select your preferred layout for OTRS.' => '',
         'Selects the cache backend to use.' => 'Выберите бэкэнд под кэш.',
@@ -6382,8 +6421,6 @@ Thanks for your help!
         'ServiceView' => 'ServiceView',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            'Установить минимальный уровень записи в системный журнал. Если выберете \'error\', только сообщения об ошибках будут записываться. \'Debug\' - приведет к регистрации всех сообщений.',
         'Set sender email addresses for this system.' => 'Задать адрес отправителя для этой системы.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Задает высоту (в пикселах) по умолчанию для inline HTML сообщений в AgentTicketZoom.',
@@ -6391,6 +6428,8 @@ Thanks for your help!
             'Задает предельное количество заявок, обрабатываемых за один запуск задания Планировщика.',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Задает максимальную высоту (в пикселах) для inline HTML сообщений в AgentTicketZoom.',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
+            '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Установить в "Да" если вам доверены общие или личные pgp ключи, даже если они не сертифицированы заверенной подписью.',
         'Sets if SLA must be selected by the agent.' => 'Задает, что SLA должен быть выбран агентом.',

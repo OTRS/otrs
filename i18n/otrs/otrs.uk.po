@@ -5,11 +5,12 @@
 # Oleg Sydorenko <oleg.sidorenko@gmail.com>, 2015
 # Vira Motorko <ato4ka@i.ua>, 2015
 # Vladimir Shlimovich <vladimir@shlimovich.info>, 2016
+# Олексій Ворошило <john.silver.heart@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-24 20:43+0000\n"
-"PO-Revision-Date: 2017-03-25 02:45+0000\n"
+"POT-Creation-Date: 2017-04-27 21:54+0000\n"
+"PO-Revision-Date: 2017-04-28 03:00+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -2997,11 +2998,11 @@ msgstr "Редагувати структуру ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
-msgstr ""
+msgstr "Зберегти налаштування"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Зберегти ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -3065,7 +3066,7 @@ msgstr "Вилучити це вкладення"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "Ви насправді хочете вилучити це долучення?"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
@@ -3117,7 +3118,7 @@ msgstr "Щоб бачити перші 5 рядків email"
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Для того, щоб отримати ім'я користувача клієнтського квитка (якщо воно є)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3500,7 +3501,7 @@ msgid ""
 "To add a new field, select the field type from one of the object's list, the"
 " object defines the boundary of the field and it can't be changed after the "
 "field creation."
-msgstr ""
+msgstr "Для того, щоб додати нове поле, виберіть тип поля з наступного переліку об'єктів, об'єкт визначає зв'язки поля та не може бути змінений після його створення."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -3530,7 +3531,7 @@ msgstr "Видалити це поле"
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr ""
+msgstr "Ви насправді хочете видалити це динамічне поле? ВСІ асоційовані з ним дані буде ВТРАЧЕНО!"
 
 #. Template: AdminDynamicField
 msgid "Delete field"
@@ -3538,7 +3539,7 @@ msgstr "Видалити поле"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
-msgstr ""
+msgstr "Вилучення поля та його даних. Це може зайняти деякий час..."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -3602,7 +3603,7 @@ msgstr "Внутрішнє поле"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is protected and can't be deleted."
-msgstr ""
+msgstr "Це поле захищене та не може бути вилучене."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -4263,17 +4264,17 @@ msgstr "Результат"
 
 #. Template: AdminGenericAgent
 msgid "%s Tickets affected! What do you want to do?"
-msgstr ""
+msgstr "Квитки %s ушкоджені. Що ви хочете робити далі?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr ""
+msgstr "Увага: Ви використали опцію ВИЛУЧИТИ. Всі вилучені квитки буде втрачено!"
 
 #. Template: AdminGenericAgent
 msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
-msgstr ""
+msgstr "Увага: є ушкоджені квитки %s але тільки %s можна змінити впродовж виконання одного завдання."
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
@@ -4289,7 +4290,7 @@ msgstr "Обрані завдання"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Debugger for Web Service %s"
-msgstr ""
+msgstr "ЗагальноІнтерфейсний зневадник для веб-служб %s"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "You are here"
@@ -4377,54 +4378,54 @@ msgstr "Очистити лог відладки"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
-msgstr ""
+msgstr "Додати нового активатора до веб-служби %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change Invoker %s of Web Service %s"
-msgstr ""
+msgstr "Змінити активатор %s веб-служби %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new invoker"
-msgstr ""
+msgstr "Додати новий активатор"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change invoker %s"
-msgstr ""
+msgstr "Змінити активатор %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
-msgstr ""
+msgstr "Ви справді бажаєте вилучити цей активатор?"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "All configuration data will be lost."
-msgstr ""
+msgstr "Всі конфігураційні дані будуть втрачені."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker Details"
-msgstr ""
+msgstr "Деталі активатора"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
-msgstr ""
+msgstr "Ім'я, що типово використовується для виклику операцій віддаленої веб-служби."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Please provide a unique name for this web service invoker."
-msgstr ""
+msgstr "Будь ласка, задайте унікальне ім'я для цього активатора веб-служби"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
-msgstr ""
+msgstr "Нутрощі активатора"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "This OTRS invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
-msgstr ""
+msgstr "Цей внутрішній модуль OTRS активатора буде викликаний щоб підготувати дані для відправки до віддаленої системи та обробляти дані її відповіді."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
-msgstr ""
+msgstr "Відображення для даних вихідного запиту"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
@@ -4434,17 +4435,17 @@ msgstr "Налаштувати"
 msgid ""
 "The data from the invoker of OTRS will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
-msgstr ""
+msgstr "Дані з активатора OTRS будуть оброблені цим відображенням, щоб перетворити їх до того вигляду даних, який очікує віддалена система."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
-msgstr ""
+msgstr "Відображення для вхідних даних відгуку"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the invoker of OTRS expects."
-msgstr ""
+msgstr "Дані відповіді будуть оброблені цим відображенням так, щоб перетворити їх до того виду, що очікує активатор OTRS."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
@@ -4452,31 +4453,31 @@ msgstr "Асинхронний"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
-msgstr ""
+msgstr "Цей активатор буде викликаний сконфігурованою подією."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Asynchronous event triggers are handled by the OTRS Scheduler Daemon in "
 "background (recommended)."
-msgstr ""
+msgstr "Асинхронні тригери подій будуть оброблятись Службою Планувальника OTRS у фоновому режимі (рекомендовано)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
-msgstr ""
+msgstr "Синхронні тригери подій будуть обробляться безпосередньо під час веб-запиту."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
-msgstr ""
+msgstr "Зберегти та продовжити"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Delete this Invoker"
-msgstr ""
+msgstr "Вилучити цей активатор."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
-msgstr ""
+msgstr "Загальноінтерфейсне Просте Відображення для веб-служби %s"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Go back to"
@@ -4484,95 +4485,95 @@ msgstr "Повернутися до"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr ""
+msgstr "Просте відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
-msgstr ""
+msgstr "Типове правило для ключів без відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all keys with no mapping rule."
-msgstr ""
+msgstr "Це правило буде застосовуватися для всіх ключів, що не мають правил відображення."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
-msgstr ""
+msgstr "Типове правило для значень без відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all values with no mapping rule."
-msgstr ""
+msgstr "Це правило буде застосовуватись для всіх значень, що не мають правил відображення."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "Новий ключ відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "Додати ключ відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "Відображення для Ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "Вилучити ключ відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "Ключ відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "Ключ відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "відповідність"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "для нового ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "Перетворення значень"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "Значення відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "на нове значення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "Вилучити відображення значення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "Нове значення відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "Додати значення відображення"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "Ви дійсно бажаєте вилучити цей ключ відображення?"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "Видалити цей Ключ Відображення"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "GenericInterface Mapping XSLT for Web Service %s"
-msgstr ""
+msgstr "ЗагальноІнтерфейсне XSLT Відображення для веб-служби %s"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Mapping XML"
-msgstr ""
+msgstr "XML відображення"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Template"
@@ -4580,136 +4581,136 @@ msgstr "Зразок"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT stylesheet."
-msgstr ""
+msgstr "Введені дані не є допустимою таблицею стилів XSLT."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Insert XSLT stylesheet."
-msgstr ""
+msgstr "Додати таблицю стилів XSLT."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
-msgstr ""
+msgstr "Додати нову Операцію до Веб-служби %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change Operation %s of Web Service %s"
-msgstr ""
+msgstr "Змінити Операцію %s Веб-служби %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
-msgstr ""
+msgstr "Додати нову операцію"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change operation %s"
-msgstr ""
+msgstr "Змінити операцію %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
-msgstr ""
+msgstr "Ви дійсно бажаєте видалити цю операцію?"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Деталі операції."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The name is typically used to call up this web service operation from a "
 "remote system."
-msgstr ""
+msgstr "Ім'я, що типово використовується для виклику операції цієї веб-служби віддаленої системи."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Please provide a unique name for this web service."
-msgstr ""
+msgstr "Вкажіть будь ласка унікальне ім'я для цієї веб-служби."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
-msgstr ""
+msgstr "Відображенні вхідних даних запиту"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The request data will be processed by this mapping, to transform it to the "
 "kind of data OTRS expects."
-msgstr ""
+msgstr "Дані запиту будуть оброблені цим відображенням, щоб перетворити його до виду даних, що очікує OTRS."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
-msgstr ""
+msgstr "Внутрішня операція"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "This OTRS operation backend module will be called internally to process the "
 "request, generating data for the response."
-msgstr ""
+msgstr "Цей внутрішній операційний модуль OTRS буде викликаний внутрішньо щоб обробити запит та згенерувати дані для відповіді."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
-msgstr ""
+msgstr "Відображення для вихідних даних відповіді"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the remote system expects."
-msgstr ""
+msgstr "Дані відповіді будуть оброблені цим відображенням, щоб перетворити їх до того виду, який очікує віддалена система."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Delete this Operation"
-msgstr ""
+msgstr "Вилучити цю операцію"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
-msgstr ""
+msgstr "ЗагальноІнтерфейсний Транспорт HTTP::REST для веб-служби %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
-msgstr ""
+msgstr "Мережевий транспорт"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
-msgstr ""
+msgstr "Властивості"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
-msgstr ""
+msgstr "Відображення маршруту для Операції"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Define the route that should get mapped to this operation. Variables marked "
 "by a ':' will get mapped to the entered name and passed along with the "
 "others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr ""
+msgstr "Визначення маршруту що дасть відображення для цієї операції. Змінні, що помічаються ':' будуть відображені з вказаним ім'ям та передається з іншими до відображення. (Наприклад /Ticket/:TicketID)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
-msgstr ""
+msgstr "Правильні методи запиту для Операції"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Limit this Operation to specific request methods. If no method is selected "
 "all requests will be accepted."
-msgstr ""
+msgstr "Обмежити цю Операцію до певних методів запиту. Якщо ви не вкажете жодного методу, всі запити будуть прийняті."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
-msgstr ""
+msgstr "Максимальна довжина повідомлення"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
-msgstr ""
+msgstr "Це поле має містити ціле число."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Here you can specify the maximum size (in bytes) of REST messages that OTRS "
 "will process."
-msgstr ""
+msgstr "Тут ви можете визначити максимальний розмір (в байтах) REST повідомлення, що буде оброблено OTRS."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "Надіслати Keep-аlive"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "This configuration defines if incoming connections should get closed or kept"
 " alive."
-msgstr ""
+msgstr "Ця конфігурація визначає які вхідні з'єднання мають бути зачинені або збережені."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Host"
@@ -4717,339 +4718,339 @@ msgstr "Сервер"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "Віддалений вузол URL для REST запитів."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "наприклад https://www.otrs.com:10745/api/v1.0 (без оберненої косої межі)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
-msgstr ""
+msgstr "Відображення контролера для активатора."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The controller that the invoker should send requests to. Variables marked by"
 " a ':' will get replaced by the data value and passed along with the "
 "request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
-msgstr ""
+msgstr "Контролер, якому активатор має посилати запити. Змінні, позначені як ':' будуть замінені на значення даних та передаватись разом із запитом. (наприклад /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
-msgstr ""
+msgstr "Чинна команда запиту для активатора"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "A specific HTTP command to use for the requests with this Invoker "
 "(optional)."
-msgstr ""
+msgstr "Конкретна HTTP команда  що буде використовуватись для запитів з цим активатором (необов'язково)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "Типова команда"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
-msgstr ""
+msgstr "Типова HTTP команда для використання у запитах."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "Автентифікація"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The authentication mechanism to access the remote system."
-msgstr ""
+msgstr "Механізм автентифікації для доступу до віддаленої системи."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "A \"-\" value means no authentication."
-msgstr ""
+msgstr "Значення \"-\" значить немає автентифікації."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
-msgstr ""
+msgstr "Ім'я користувача для доступу до віддаленої системи."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
-msgstr ""
+msgstr "Пароль для привілейованого користувача."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use SSL Options"
-msgstr ""
+msgstr "Використовувати SSL опції"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide SSL options to connect to the remote system."
-msgstr ""
+msgstr "Показати або приховати SSL опції для під'єднання до віддаленої системи."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate File"
-msgstr ""
+msgstr "Файл сертифікату"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
-msgstr ""
+msgstr "Повний шлях та ім'я файлу SSL сертифікату."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
-msgstr ""
+msgstr "наприклад: /opt/otrs/var/certificates/REST/ssl.crt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate Password File"
-msgstr ""
+msgstr "Файл сертифікату паролю"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL key file."
-msgstr ""
+msgstr "Повний шлях та ім'я ключового SSL файлу."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
-msgstr ""
+msgstr "наприклад /opt/otrs/var/certificates/REST/ssl.key"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) File"
-msgstr ""
+msgstr "Файл сертифікованої автентифікації (СА)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates the SSL certificate."
-msgstr ""
+msgstr "Повний шлях та ім'я файлу-сертифікату сертифіційної автентифікації, що підтверджує SSL сертифікат."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/CA/ca.file"
-msgstr ""
+msgstr "наприклад /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "GenericInterface Transport HTTP::SOAP for Web Service %s"
-msgstr ""
+msgstr "ЗагальноІнтерфейсний Транспорт HTTP::SOAP для веб-служби %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Endpoint"
-msgstr ""
+msgstr "Кінцева точка"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to indicate a specific location for accessing a service."
-msgstr ""
+msgstr "URI, щоб вказати конкретне місце для доступу до служби."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "наприклад http://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
-msgstr ""
+msgstr "Простір Імен"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI to give SOAP methods a context, reducing ambiguities."
-msgstr ""
+msgstr "URI, щоб дати контекст методів SOAP, зменшуючи двозначність."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "e.g urn:otrs-com:soap:functions or "
 "http://www.otrs.com/GenericInterface/actions"
-msgstr ""
+msgstr "наприклад urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr ""
+msgstr "Схема імені запиту"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
-msgstr ""
+msgstr "Виберіть як має бути побудована функція обгортка SOAP запиту."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FunctionName' is used as example for actual invoker/operation name."
-msgstr ""
+msgstr "'FunctionName' використовується в якості прикладу для фактичного імені активатора/операції."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FreeText' is used as example for actual configured value."
-msgstr ""
+msgstr "'FreeText' використовується у якості прикладу для фактичного налаштованого значення."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "ім'я запиту вільним текстом"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
-msgstr ""
+msgstr "Текст що буде використовуватись як суфікс імені функції обгортки або заміна імені."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Please consider XML element naming restrictions (e.g. don't use '<' and "
 "'&')."
-msgstr ""
+msgstr "Будь ласка зверніть увагу на обмеження іменування XML-елементу (наприклад - не використовувати '<' та '&')"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr ""
+msgstr "Схема імені відгуку"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
-msgstr ""
+msgstr "Виберіть як має бути побудована функція-обгортка SOAP відповіді."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
-msgstr ""
+msgstr "Ім'я відповіді вільним текстом."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Here you can specify the maximum size (in bytes) of SOAP messages that OTRS "
 "will process."
-msgstr ""
+msgstr "Тут ви можете визначити максимальний обсяг (в байтах) SOAP повідомлення, що буде обробляти OTRS."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
-msgstr ""
+msgstr "Кодування"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr ""
+msgstr "Кодування символів для вмісту SOAP повідомлень."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "наприклад utf-8, latin1, iso-8859-1, cp1250 тощо."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction"
-msgstr ""
+msgstr "SOAPДія"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" to send a filled SOAPAction header."
-msgstr ""
+msgstr "Вкажіть \"Yes\" щоб надіслати заповнений заголовок SOAPДії"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" to send an empty SOAPAction header."
-msgstr ""
+msgstr "Встановіть \"No\" щоб надіслати порожній заголовок SOAPДії."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
-msgstr ""
+msgstr "Відокремлювач SOAPДії"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP method."
-msgstr ""
+msgstr "Символ що буде використаний як відокремлювач між ділянкою імені та SOAР методом."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services uses a \"/\" as separator."
-msgstr ""
+msgstr "Зазвичай .Net веб-служба використовує \"/\" у якості відокремлювача."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Server"
-msgstr ""
+msgstr "Проксі-сервер"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI of a proxy server to be used (if needed)."
-msgstr ""
+msgstr "URI проксі-сервера, що використовується (якщо треба)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://proxy_hostname:8080"
-msgstr ""
+msgstr "наприклад http://proxy_hostname:8080"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy User"
-msgstr ""
+msgstr "Користувач проксі-сервера"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The user name to be used to access the proxy server."
-msgstr ""
+msgstr "Ім'я користувача для доступу до проксі-сервера."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Password"
-msgstr ""
+msgstr "Пароль проксі-сервера"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password for the proxy user."
-msgstr ""
+msgstr "Пароль користувача проксі-сервера."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path and name of the SSL certificate file (must be in .p12 format)."
-msgstr ""
+msgstr "Повний шлях та ім'я SSL файлу-сертифіката (має бути .p12 формату)"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.p12"
-msgstr ""
+msgstr "наприклад /opt/otrs/var/certificates/SOAP/certificate.p12"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password to open the SSL certificate."
-msgstr ""
+msgstr "Пароль для відімкнення SSL сертифікату."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates SSL certificate."
-msgstr ""
+msgstr "Повний шлях та ім'я файлу сертифікату сертифікаційної автентифікації що підтверджує SSL сертифікат"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
-msgstr ""
+msgstr "наприклад /opt/otrs/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Certification Authority (CA) Directory"
-msgstr ""
+msgstr "Директорія сертифікаційної авторизації (СА)"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "The full path of the certification authority directory where the CA "
 "certificates are stored in the file system."
-msgstr ""
+msgstr "Повний шлях у файловій системі до директорії сертифікаційної авторизації де зберігаються СА сертифікати."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr ""
+msgstr "наприклад /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "Параметри сортування"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr ""
+msgstr "Додати новий елемент першого рівня"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Element"
-msgstr ""
+msgstr "Елемент"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
-msgstr ""
+msgstr "Вихідний порядок сортування для xml полів (структура що починається нижче імені функції обгортки) - дивись документацію на транспорт SOAP"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
-msgstr ""
+msgstr "ЗагальноІнтерфейсне Керування веб-службою"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add web service"
-msgstr ""
+msgstr "Додати веб-службу"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone web service"
-msgstr ""
+msgstr "Клонувати веб-службу"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
-msgstr ""
+msgstr "ім'я повинно бути унікальним."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
-msgstr ""
+msgstr "Клонувати"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export web service"
-msgstr ""
+msgstr "Експортувати веб-службу"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr ""
+msgstr "Імпортувати веб-службу"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
-msgstr ""
+msgstr "Файл конфігурації"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
-msgstr ""
+msgstr "Файл повинен бути чинним YAML конфігураційним файлом веб-служби."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -5057,154 +5058,154 @@ msgstr "Імпорт"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration history"
-msgstr ""
+msgstr "Історія конфігурації"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
-msgstr ""
+msgstr "Вилучити веб-службу"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
-msgstr ""
+msgstr "Ви насправді хочете вилучити цю веб-службу?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready-to-run Web Services"
-msgstr ""
+msgstr "Готова-до-запуску Веб-служба"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate ready-to-run web services showcasing our best "
 "practices that are a part of %s."
-msgstr ""
+msgstr "Тут ви можете активувати готові-до-запуску веб-служби що демонструють наші кращі практики, які є частиною %s."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Please note that these web services may depend on other modules only "
 "available with certain %s contract levels (there will be a notification with"
 " further details when importing)."
-msgstr ""
+msgstr "Зверніть увагу, що ці веб-служби можуть залежати від інших модулів, доступних тільки з певним %s рівнем контракту (буде повідомлення з більш докладними поясненнями при імпорті)."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import ready-to-run web service"
-msgstr ""
+msgstr "Імпортування готової-до-запуску веб-служби."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
 "%s to import some sophisticated ready-to-run web services."
-msgstr ""
+msgstr "Ви хочете отримати переваги веб-служб, створених фахівцями? Оновіться  до %s щоб імпортувати деякі готові-до-запуску веб-служби."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "After you save the configuration you will be redirected again to the edit "
 "screen."
-msgstr ""
+msgstr "Після збереження конфігурації вас буде перенаправлено знову до екрану редагування."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "If you want to return to overview please click the \"Go to overview\" "
 "button."
-msgstr ""
+msgstr "Якщо ви хочете повернутись до огляду, будь ласка, натисніть кнопку \"Перейти до огляду\"."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Web Service List"
-msgstr ""
+msgstr "Перелік веб-служб"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
-msgstr ""
+msgstr "Віддалена система"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
-msgstr ""
+msgstr "Транспорт провайдера"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Requester transport"
-msgstr ""
+msgstr "Транспорт замовника"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Debug threshold"
-msgstr ""
+msgstr "Поріг зневадження"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "In provider mode, OTRS offers web services which are used by remote systems."
-msgstr ""
+msgstr "В режимі постачальника, OTRS пропонує веб-служби, які використовуються віддаленими системами."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTRS uses web services of remote systems."
-msgstr ""
+msgstr "В режимі запитувача, OTRS використовую веб-служби віддалених систем."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Operations are individual system functions which remote systems can request."
-msgstr ""
+msgstr "Операції - це окремі системні функції, які можуть запросити віддалені системи."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Invokers prepare data for a request to a remote web service, and process its"
 " response data."
-msgstr ""
+msgstr "Активатори готують дані для запиту до віддаленої веб-служби та обробляють дані їх відповіді."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
-msgstr ""
+msgstr "Контролер"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Inbound mapping"
-msgstr ""
+msgstr "Вхідне відображення"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Outbound mapping"
-msgstr ""
+msgstr "Вихідне відображення"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
-msgstr ""
+msgstr "Вилучити цю дію"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
-msgstr ""
+msgstr "Принаймні один %s має контролер, який або не активний або не присутній, будь ласка перевірте реєстрацію контролера або вилучіть %s"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete webservice"
-msgstr ""
+msgstr "Вилучити веб-службу"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete operation"
-msgstr ""
+msgstr "Вилучити операцію"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
-msgstr ""
+msgstr "Вилучити активатор"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone webservice"
-msgstr ""
+msgstr "Клонувати веб-службу"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import webservice"
-msgstr ""
+msgstr "Імпортувати веб-службу"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
-msgstr ""
+msgstr "ЗагальноІнтерфейсна Конфігурація історії для веб-служби "
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr ""
+msgstr "Повернутись до веб-служби"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Here you can view older versions of the current web service's configuration,"
 " export or even restore them."
-msgstr ""
+msgstr "Тут ви можете переглянути старі версії поточної конфігурації веб-служб, експортувати або навіть відновити їх."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
-msgstr ""
+msgstr "Перелік історії конфігурації."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
@@ -5212,32 +5213,32 @@ msgstr "Версія"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
-msgstr ""
+msgstr "Створити час"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
-msgstr ""
+msgstr "Вибрати один варіант конфігурації щоб переглянути  його деталі."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr ""
+msgstr "Експорт конфігурації веб-служби"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr ""
+msgstr "Відновлення конфігурації веб-служби"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Do you really want to restore this version of the web service configuration?"
-msgstr ""
+msgstr "Ви дійсно бажаєте відновити цю версію конфігурації веб-служби?"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr ""
+msgstr "Ваша поточна конфігурація веб-служби буде перезаписана."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore"
-msgstr ""
+msgstr "Відновлення"
 
 #. Template: AdminGroup
 msgid ""
@@ -5245,7 +5246,7 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr ""
+msgstr "УВАГА: При зміні назви групи 'admin', перш ніж зробити відповідні зміни в  SysConfig, ви будете відключені від адміністративної панелі! Якщо це станеться, будь ласка, змініть ім'я групи назад до admin за допомогою SQL ствердження."
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -5265,7 +5266,7 @@ msgstr "Група admin може здійснювати адмініструв�
 msgid ""
 "Create new groups to handle access permissions for different groups of agent"
 " (e. g. purchasing department, support department, sales department, ...). "
-msgstr ""
+msgstr "Створення нових груп для обробки прав доступу до різних груп агентів (наприклад відділ закупівель, відділ підтримки, відділ продаж,...)."
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
@@ -5273,7 +5274,7 @@ msgstr "Корисно для сервісів-провайдерів."
 
 #. Template: AdminGroup
 msgid "total"
-msgstr ""
+msgstr "загально"
 
 #. Template: AdminGroup
 msgid "Add Group"
@@ -5289,15 +5290,15 @@ msgstr "Системний журнал"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
-msgstr ""
+msgstr "Тут ви знайдете журнальну інформацію вашої системи."
 
 #. Template: AdminLog
 msgid "Hide this message"
-msgstr ""
+msgstr "Приховати це повідомлення"
 
 #. Template: AdminLog
 msgid "Recent Log Entries"
-msgstr ""
+msgstr "Останні Записи Журналу"
 
 #. Template: AdminMailAccount
 msgid "Mail Account Management"
@@ -5318,7 +5319,7 @@ msgid ""
 "If your account is trusted, the already existing X-OTRS header at arrival "
 "time (for priority, ...) will be used! PostMaster filter will be used "
 "anyway."
-msgstr ""
+msgstr "Якщо ваш обліковий запис є довіреним, буде використаний X-OTRS заголовок, що вже їснує, під час прибуття (для пріоритету, ...)! Фільтр PostMaster буде використовуватися у будь-якому випадку."
 
 #. Template: AdminMailAccount
 msgid "Delete account"
@@ -5334,17 +5335,17 @@ msgstr "Додати поштовий обліковий запис"
 
 #. Template: AdminMailAccount
 msgid "Example: mail.example.com"
-msgstr ""
+msgstr "Приклад: mail.example.com"
 
 #. Template: AdminMailAccount
 msgid "IMAP Folder"
-msgstr ""
+msgstr "Тека IMAP"
 
 #. Template: AdminMailAccount
 msgid ""
 "Only modify this if you need to fetch mail from a different folder than "
 "INBOX."
-msgstr ""
+msgstr "Змініть це, якщо вам потрібно отримати пошту з іншої теки, ніж INBOX. "
 
 #. Template: AdminMailAccount
 msgid "Trusted"
@@ -5380,50 +5381,50 @@ msgstr "Настроювання системи"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "Тільки Керівництво Адміністратора"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "Керування Сповіщеннями про Квитки"
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
-msgstr ""
+msgstr "Додати сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "Експортувати Сповіщень"
 
 #. Template: AdminNotificationEvent
 msgid "Configuration Import"
-msgstr ""
+msgstr "Імпорт Конфігурації"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Here you can upload a configuration file to import Ticket Notifications to "
 "your system. The file needs to be in .yml format as exported by the Ticket "
 "Notification module."
-msgstr ""
+msgstr "Тут ви можете вивантажити файл конфігурації для імпорту Сповіщень о Квитках до вашої системи. Файл повинен бути у .yml форматі такий як експортується модулем Сповіщення о Квитках."
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Перезаписати наявні сповіщення?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Вивантажити конфігурацію Сповіщень"
 
 #. Template: AdminNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Імпортувати конфігурацію Сповіщень"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"
-msgstr ""
+msgstr "Видалити це сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "Ви дійсно хочете вилучити це сповіщення?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5435,24 +5436,24 @@ msgstr "Редагувати повідомлення"
 
 #. Template: AdminNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Показати в налаштуваннях агента"
 
 #. Template: AdminNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "Підказка налаштувань агента"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
-msgstr ""
+msgstr "Це повідомлення буде відображатись на екрані налаштувань агента у вигляді підказок для цього сповіщення."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Here you can choose which events will trigger this notification. An "
 "additional ticket filter can be applied below to only send for ticket with "
 "certain criteria."
-msgstr ""
+msgstr "Тут ви можете вибрати події, що будуть вмикати це сповіщення. Додатковий фільтр квитків може бути доданий нижче, щоб відправити сповіщення для квитка з певними критеріями."
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Filter"
@@ -5460,11 +5461,11 @@ msgstr "Фільтр заявок"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
-msgstr ""
+msgstr "Фільтр Статей"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "Тільки для подій ArticleCreate та ArticleSend "
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
@@ -5475,11 +5476,11 @@ msgid ""
 "If ArticleCreate or ArticleSend is used as a trigger event, you need to "
 "specify an article filter as well. Please select at least one of the article"
 " filter fields."
-msgstr ""
+msgstr "Якщо ArticleCreate або ArticleSend використовуються як ініціюючи події, вам необхідно також вказати фільтр статті. Будь ласка виберіть принаймні одне поле фільтру статті."
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr ""
+msgstr "Тип статті відправника"
 
 #. Template: AdminNotificationEvent
 msgid "Subject match"
@@ -5495,23 +5496,23 @@ msgstr "Додати вкладення в повідомлення"
 
 #. Template: AdminNotificationEvent
 msgid "Recipients"
-msgstr ""
+msgstr "Одержувачі"
 
 #. Template: AdminNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "Відправити"
 
 #. Template: AdminNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Надіслати цим агентам"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "Надіслати всім членам групи"
 
 #. Template: AdminNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "Надіслати всім членам ролі"
 
 #. Template: AdminNotificationEvent
 msgid "Send on out of office"
@@ -5523,88 +5524,88 @@ msgstr "Також надіслати, якщо користувач зараз 
 
 #. Template: AdminNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "Один раз на день"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Notify user just once per day about a single ticket using a selected "
 "transport."
-msgstr ""
+msgstr "Повідомляти користувача тільки один раз на день про один квиток використовуючи вибраний транспорт."
 
 #. Template: AdminNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Методи Сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "These are the possible methods that can be used to send this notification to"
 " each of the recipients. Please select at least one method below."
-msgstr ""
+msgstr "Це можливі методи, що можуть бути використані для відправлення цього сповіщення кожному з одержувачів. Будь ласка, виберіть нижче принаймні один метод."
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Дозволити цей метод сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Транспорт"
 
 #. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "Принаймні один метод необхідний для кожного сповіщення."
 
 #. Template: AdminNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Типово активний в налаштуваннях агента."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "This is the default value for assigned recipient agents who didn't make a "
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
-msgstr ""
+msgstr "Це типове значення для призначених агентів-одержувачів, які ще не зробили вибір для цього сповіщення в їх налаштуваннях. Якщо прапорець увімкнений, сповіщення буде відправлено для таких агентів."
 
 #. Template: AdminNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Ця функція наразі недоступна."
 
 #. Template: AdminNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Даних не знайдено"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "Жодного метода сповіщення не знайдено."
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Текст сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
-msgstr ""
+msgstr "Цієї мови немає або вона не доступна в системі. Цей текст сповіщення може бути вилучений якщо він більше не потрібний."
 
 #. Template: AdminNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Видалити мову сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Тіло повідомлення"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Додати нову мову сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
+msgstr "Ви дійсно хочете вилучити цю мову сповіщення?"
 
 #. Template: AdminNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Тег посилання"
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
@@ -5631,216 +5632,216 @@ msgstr "Перші 5 рядків останнього повідомлення 
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
-msgstr ""
+msgstr "Атрибути поточних даних клієнта користувача."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "Атрибути поточних даних користувача власника квитка."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "Атрибути поточних даних користувача відповідального за квиток"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
-msgstr ""
+msgstr "Атрибути поточного користувача-агента, який запросив цю дію"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Атрибути користувача-одержувача для сповіщення"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the ticket data"
-msgstr ""
+msgstr "Атрибути даних квитка."
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Значення внутрішніх ключів динамічних полів квитка."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
-msgstr ""
+msgstr "Динамічні поля квитка відображають значення, корисні для полів що Розкриваються та з Множинним вибором"
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Приклад сповіщення"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Додаткові адреси електронної пошти одержувача"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
-msgstr ""
+msgstr "Ви можете використовувати OTRS-теги, такі як  <OTRS_TICKET_DynamicField_...>  щоб вставити значення з поточного квитка."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
-msgstr ""
+msgstr "Тип сповіщень статті"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
-msgstr ""
+msgstr "Статтю буде створено, якщо сповіщення буде відправлено замовнику або на альтернативну електронну адресу."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Шаблон повідомлення електронної пошти"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
+msgstr "Використовуйте цей шаблон для створення повного повідомлення електронної пошти (тільки для HTML-листів)"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Включити захист електронної пошти"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Рівень безпеки електронної пошти"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Якщо ключ підпису або сертифікат відсутні"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Якщо ключ шифрування або сертифікат відсутні"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "Керування %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
-msgstr ""
+msgstr "Знизити версію до безкоштовного OTRS"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Read documentation"
-msgstr ""
+msgstr "Читайте документацію"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "%s makes contact regularly with cloud.otrs.com to check on available updates"
 " and the validity of the underlying contract."
-msgstr ""
+msgstr "%s регулярно контактує з  cloud.otrs.com, щоб перевірити наявність оновлень і терміну дії основної угоди."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
-msgstr ""
+msgstr "Виявлено несанкційоване використання"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "This system uses the %s without a proper license! Please make contact with "
 "%s to renew or activate your contract!"
-msgstr ""
+msgstr "Ця система використовує %s без належної ліцензії! Будь ласка зв'яжіться з %s для поновлення або активації своєї угоди!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s not Correctly Installed"
-msgstr ""
+msgstr "%s встановлений неправильно"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
-msgstr ""
+msgstr "Ваш %s встановлений неправильно. Будь ласка, перевстановіть його за допомогою кнопки нижче."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "Перевстановлення %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr ""
+msgstr "Ваш %s встановлений неправильно, і є також оновлення."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "You can either reinstall your current version or perform an update with the "
 "buttons below (update recommended)."
-msgstr ""
+msgstr "Ви можете або перевстановити поточну версію або оновити за допомогою кнопок нижче (оновлення рекомендується)"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "Оновлення $s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
-msgstr ""
+msgstr "$s ще не доступний"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s will be available soon."
-msgstr ""
+msgstr "%s буде доступний найближчим часом."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "Доступні оновлення %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
-msgstr ""
+msgstr "Оновлення для вашого %s доступне! Будь ласка, поновіть найближчим часом!"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
-msgstr ""
+msgstr "%s розгорнуто правильно"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Congratulations, your %s is correctly installed and up to date!"
-msgstr ""
+msgstr "Вітаємо, ваш %s встановлено правильно та має актуальну версію!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
-msgstr ""
+msgstr "%s незабаром буде доступний. Будь ласка, перевірте ще раз через кілька днів."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Please have a look at %s for more information."
-msgstr ""
+msgstr "Будь ласка, зверніть увагу на %s для отримання додаткової інформації."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Your OTRS Free is the base for all future actions. Please register first "
 "before you continue with the upgrade process of %s!"
-msgstr ""
+msgstr "Ваш безоплатний  OTRS є основою для всіх подальших дій. Будь ласка, зареєструйтесь, перше ніж ви продовжите процес оновлення %s!"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
-msgstr ""
+msgstr "Перш ніж скористатися %s, зв'яжіться із %s щоб отримати вашу %s угоду."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
-msgstr ""
+msgstr "Неможливо встановити з'єднання із cloud.otrs.com за допомогою HTTPS. Будь ласка, переконайтеся в тому, що ваш OTRS може під'єднатися до cloud.otrs.com використовуючи порт 443."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
-msgstr ""
+msgstr "З вашою чинною угодою ви можете використовувати лише невелику частку %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "If you would like to take full advantage of the %s get your contract "
 "upgraded now! Contact %s."
-msgstr ""
+msgstr "Якщо ви маєте бажання скористатися всіма перевагами %s, покращить вашу угоду зараз! Зв'яжіться з %s."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
-msgstr ""
+msgstr "Скасувати погіршення та повернутися"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr ""
+msgstr "Перейти до менеджера пакунків OTRS"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
 "Sorry, but currently you can't downgrade due to the following packages which"
 " depend on %s:"
-msgstr ""
+msgstr "Вибачте, але зараз ви не можете погіршити угоду за рахунок наступних пакунків, що залежать від %s:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Vendor"
@@ -5849,45 +5850,45 @@ msgstr "Виготовлювач"
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
 "Please uninstall the packages first using the package manager and try again."
-msgstr ""
+msgstr "Будь ласка, спершу вилучіть  пакунки з використанням менеджера пакунків та спробуйте ще раз."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
 "You are about to downgrade to OTRS Free and will lose the following features"
 " and all data related to these:"
-msgstr ""
+msgstr "Ви збираєтесь спростити угоду до безоплатного OTRS та втратите наступні функції та дані, що пов'язані із ними:"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "Чат"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Report Generator"
-msgstr ""
+msgstr "Генератор звітів"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
-msgstr ""
+msgstr "Вигляд лінії часу в збільшенні квитка"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
-msgstr ""
+msgstr "ДинамічнеПоле Зв'язокЗДаними"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField Database"
-msgstr ""
+msgstr "Динамічне поле БазаДаних"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "SLA Selection Dialog"
-msgstr ""
+msgstr "Діалог вибору SLA"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Ticket Attachment View"
-msgstr ""
+msgstr "Перегляд долучення квитка"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
-msgstr ""
+msgstr "Зовнішній вигляд %s"
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -5895,33 +5896,33 @@ msgstr "Керування підписами PGP"
 
 #. Template: AdminPGP
 msgid "PGP support is disabled"
-msgstr ""
+msgstr "Підтримку PGP скасовано."
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Щоб мати змогу використовувати PGP в OTRS ви повинні спочатку увімкнути його."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
-msgstr ""
+msgstr "Дозволити підтримку PGP"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
-msgstr ""
+msgstr "Невірні налаштування PGP"
 
 #. Template: AdminPGP
 msgid ""
 "PGP support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
-msgstr ""
+msgstr "Підтримка PGP увімкнена, але відповідна конфігурація містить помилки. Будь ласка перевірте конфігурацію за допомогою кнопки нижче."
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Налаштуйте це тут!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
-msgstr ""
+msgstr "Перевірте конфігурацію PGP"
 
 #. Template: AdminPGP
 msgid "Add PGP key"
@@ -5929,11 +5930,11 @@ msgstr "Додати PGP ключ"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
-msgstr ""
+msgstr "Таким чином, Ви можете безпосередньо редагувати кільце налаштоване в SysConfig."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
-msgstr ""
+msgstr "Введення до PGP"
 
 #. Template: AdminPGP
 msgid "Result"
@@ -5965,7 +5966,7 @@ msgstr "Додати PGP ключ"
 
 #. Template: AdminPGP
 msgid "PGP key"
-msgstr ""
+msgstr "PGP ключ"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
@@ -5987,7 +5988,94 @@ msgstr "Переустановити пакет"
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
+msgstr "Ви дійсно хочете перевстановити цей пакунок? Аби-які ручні зміни буде втрачено!"
+
+#. Template: AdminPackageManager
+msgid "Go to upgrading instructions"
 msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "package information"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package installation requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package upgrade requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"If you are a OTRS Business Solution™ customer, please visit our customer "
+"portal and file a request."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please note that your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "How can I do a patch level update if I don’t have a contract?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please find all relevant information within"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "the upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"In case you would have further questions we would be glad to answer them."
+msgstr "У разі, якщо ви маєте додаткові запитання, ми будемо раді відповісти на них."
+
+#. Template: AdminPackageManager
+msgid "Please visit our customer"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "portal"
+msgstr "портал"
+
+#. Template: AdminPackageManager
+msgid "and file a request."
+msgstr "та подайте заявку."
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -5998,7 +6086,7 @@ msgid ""
 "Please make sure your database accepts packages over %s MB in size (it "
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr ""
+msgstr "Будь ласка, переконайтеся в тому, що ваша база даних приймає пакунки за розміром більше ніж %s МБ (в даний час приймаються пакунки за розміром до %s МБ). Будь ласка адаптуйте установку max_allowed_packet  вашої бази даних, щоб уникнути помилок."
 
 #. Template: AdminPackageManager
 msgid "Install"
@@ -6014,15 +6102,15 @@ msgstr "Обновити інформацію репозитарія"
 
 #. Template: AdminPackageManager
 msgid "Cloud services are currently disabled."
-msgstr ""
+msgstr "Хмарні служби наразі вимкнуті."
 
 #. Template: AdminPackageManager
 msgid "OTRS Verify™ can not continue!"
-msgstr ""
+msgstr "OTRS Verify™ не може тривати!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
-msgstr ""
+msgstr "Дозволити хмарні служби"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -6042,7 +6130,7 @@ msgstr "Локальний репозитарій"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTRSverify (tm)"
-msgstr ""
+msgstr "Цей пакунок перевірений OTRSverify (tm)"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
@@ -6054,13 +6142,13 @@ msgstr "Переустановити"
 
 #. Template: AdminPackageManager
 msgid "Features for %s customers only"
-msgstr ""
+msgstr "Функція тільки для клієнтів %s"
 
 #. Template: AdminPackageManager
 msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
-msgstr ""
+msgstr "З %s ви можете скористатися наступними додатковими функціями. Будь ласка зв'яжіться із %s, якщо вам потрібна додаткова інформація."
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -6076,7 +6164,7 @@ msgstr "Метадані"
 
 #. Template: AdminPackageManager
 msgid "Change Log"
-msgstr ""
+msgstr "Журнал змін"
 
 #. Template: AdminPackageManager
 msgid "Date"
@@ -6104,11 +6192,11 @@ msgstr " Потрібно"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "Первинний ключ"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "Автоматичний приріст"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6196,7 +6284,7 @@ msgstr "Середнє"
 
 #. Template: AdminPostMasterFilter
 msgid "PostMaster Filter Management"
-msgstr ""
+msgstr "Керування фільтром PostMaster "
 
 #. Template: AdminPostMasterFilter
 msgid "Add filter"
@@ -6206,7 +6294,7 @@ msgstr "Додати фільтр"
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using"
 " Regular Expressions is also possible."
-msgstr ""
+msgstr "Для відправки або фільтрації вхідних повідомлень електронної пошти на основі заголовків повідомлень. Також можливе зіставлення з використанням регулярних висловів."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -6218,7 +6306,7 @@ msgstr "Якщо ви прагнете отфильтровать тільки �
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
-msgstr ""
+msgstr "При використанні регулярних висловів, ви також можете використовувати значення зіставлення в () як [***] в дії 'Set'."
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
@@ -6226,59 +6314,59 @@ msgstr "Вилучити цей фільтр"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this filter?"
-msgstr ""
+msgstr "Ви дійсно хочете видалити цей фільтр?"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
-msgstr ""
+msgstr "Додати PostMaster фільтр"
 
 #. Template: AdminPostMasterFilter
 msgid "Edit PostMaster Filter"
-msgstr ""
+msgstr "Редагувати PostMaster фільтр"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
-msgstr ""
+msgstr "Postmaster фільтр з таким ім'ям вже існує!"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
-msgstr ""
+msgstr "Умова фільтру"
 
 #. Template: AdminPostMasterFilter
 msgid "AND Condition"
-msgstr ""
+msgstr "Умова ТА"
 
 #. Template: AdminPostMasterFilter
 msgid "Check email header"
-msgstr ""
+msgstr "Перевірити заголовок поштового повідомлення."
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
-msgstr ""
+msgstr "Заперечення (НІ)"
 
 #. Template: AdminPostMasterFilter
 msgid "Look for value"
-msgstr ""
+msgstr "Пошук значення"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
-msgstr ""
+msgstr "Поле має бути регулярним висловом або літеральним словом."
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
-msgstr ""
+msgstr "Встановити Заголовки електронної пошти"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr ""
+msgstr "Встановити заголовок електронної пошти"
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
-msgstr ""
+msgstr "Задати значення"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
-msgstr ""
+msgstr "Поле має бути літеральним словом."
 
 #. Template: AdminPriority
 msgid "Priority Management"
@@ -6298,79 +6386,79 @@ msgstr "Змінити пріоритет"
 
 #. Template: AdminProcessManagement
 msgid "Process Management"
-msgstr ""
+msgstr "Керування процессом"
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
-msgstr ""
+msgstr "Фільтр для процесів"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
-msgstr ""
+msgstr "Створити новий процес"
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr ""
+msgstr "Розгорнути всі процеси"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can upload a configuration file to import a process to your system."
 " The file needs to be in .yml format as exported by process management "
 "module."
-msgstr ""
+msgstr "Тут ви можете вивантажити файл конфігурації для імпорту процесу до вашої системи. Файл має бути в форматі .yml, таким як експортується модулем керування процесом."
 
 #. Template: AdminProcessManagement
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Перезапис об'єктів що існують"
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
-msgstr ""
+msgstr "Вивантажити конфігурацію процесу"
 
 #. Template: AdminProcessManagement
 msgid "Import process configuration"
-msgstr ""
+msgstr "Імпортувати конфігурацію процесу"
 
 #. Template: AdminProcessManagement
 msgid "Ready-to-run Processes"
-msgstr ""
+msgstr "Готові-до-запуску процеси"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can activate ready-to-run processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Тут ви можете активувати готові-до-запуску процеси, демонструючи наші кращі практики. Будь ласка, зверніть увагу, що можуть знадобитись деякі додаткові налаштування."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
 "to import some sophisticated ready-to-run processes."
-msgstr ""
+msgstr "Ви хочете отримати переваги від процесів, що створені експертами? Покращить до %s щоб імпортувати деякі складні готові-до-запуску процеси."
 
 #. Template: AdminProcessManagement
 msgid "Import ready-to-run process"
-msgstr ""
+msgstr "Імпортування готового-до-запуску процесу."
 
 #. Template: AdminProcessManagement
 msgid ""
 "To create a new Process you can either import a Process that was exported "
 "from another system or create a complete new one."
-msgstr ""
+msgstr "Щоб створити новий процес Ви можете або імпортувати Процес, що був експортований з іншої системи, або створити цілком новий."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Changes to the Processes here only affect the behavior of the system, if you"
 " synchronize the Process data. By synchronizing the Processes, the newly "
 "made changes will be written to the Configuration."
-msgstr ""
+msgstr "Зміни в процесах тут вплинуть на поведінку системи тільки після синхронізації даних процесу. При синхронізації процесів, нещодавно зроблені зміни будуть записані до конфігурації."
 
 #. Template: AdminProcessManagement
 msgid "Processes"
-msgstr ""
+msgstr "Процеси"
 
 #. Template: AdminProcessManagement
 msgid "Process name"
-msgstr ""
+msgstr "Ім'я процесу"
 
 #. Template: AdminProcessManagement
 msgid "Print"
@@ -6378,11 +6466,11 @@ msgstr "Друк"
 
 #. Template: AdminProcessManagement
 msgid "Export Process Configuration"
-msgstr ""
+msgstr "Експорт конфігурації процесу"
 
 #. Template: AdminProcessManagement
 msgid "Copy Process"
-msgstr ""
+msgstr "Копіювання процесу"
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
@@ -6390,410 +6478,410 @@ msgstr "Скасувати & закрити"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
-msgstr ""
+msgstr "Повернутись"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "Please note, that changing this activity will affect the following processes"
-msgstr ""
+msgstr "Зверніть увагу. що зміна цієї активності буде впливати на наступні процеси"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
-msgstr ""
+msgstr "Активність"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
-msgstr ""
+msgstr "Ім'я активності"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
-msgstr ""
+msgstr "Діалоги активності"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "You can assign Activity Dialogs to this Activity by dragging the elements "
 "with the mouse from the left list to the right list."
-msgstr ""
+msgstr "Ви можете призначити Діалоги Активності на цю Активність шляхом перетягування елементів за допомогою миші зі списку ліворуч у список праворуч."
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "Ordering the elements within the list is also possible by drag 'n' drop."
-msgstr ""
+msgstr "Впорядковування елементів в списку також можна робити за допомогою \"тягни-й-пусти\" (drag 'n' drop)."
 
 #. Template: AdminProcessManagementActivity
 msgid "Filter available Activity Dialogs"
-msgstr ""
+msgstr "Фільтр доступних Діалогів Активності."
 
 #. Template: AdminProcessManagementActivity
 msgid "Available Activity Dialogs"
-msgstr ""
+msgstr "Доступні Діалоги Активності"
 
 #. Template: AdminProcessManagementActivity
 msgid "Name: %s, EntityID: %s"
-msgstr ""
+msgstr "Ім'я: %s, EntityID: %s"
 
 #. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
-msgstr ""
+msgstr "Створити новий Діалог Активності"
 
 #. Template: AdminProcessManagementActivity
 msgid "Assigned Activity Dialogs"
-msgstr ""
+msgstr "Призначені Діалоги Активності"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "As soon as you use this button or link, you will leave this screen and its "
 "current state will be saved automatically. Do you want to continue?"
-msgstr ""
+msgstr "Як тільки ви використаєте цю кнопку або посилання, ви залишите цей екран та його поточний стан буде збережений автоматично. Ви хочете продовжити?"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
-msgstr ""
+msgstr "Зверніть увагу, будь ласка, що змінення цього діалогу активності змінить наступні активності"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that customer users will not be able to see or use the following"
 " fields: Owner, Responsible, Lock, PendingTime and CustomerID."
-msgstr ""
+msgstr "Зверніть увагу, будь ласка, що клієнт-користувач не буде мати змогу бачити або використовувати наступні поля: Owner (Власник), Responsible (Відповідач), Lock (Блокування), PendingTime (ЧасЗатримки) та CustomerID (ІдентифікаторКлієнта)."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "The Queue field can only be used by customers when creating a new ticket."
-msgstr ""
+msgstr "Поле Queue (Черга) може бути використана клієнтом тільки під час створення нового квитка."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity Dialog"
-msgstr ""
+msgstr "Діалог активності"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity dialog Name"
-msgstr ""
+msgstr "Ім'я діалогу активності"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available in"
-msgstr ""
+msgstr "Доступне в"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
-msgstr ""
+msgstr "Опис (стисло)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (long)"
-msgstr ""
+msgstr "Опис (докладно)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected permission does not exist."
-msgstr ""
+msgstr "Вибрані дозволи не існують."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Required Lock"
-msgstr ""
+msgstr "Обов'язкове блокування"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected required lock does not exist."
-msgstr ""
+msgstr "Вибране обов'язкове блокування не існує."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
-msgstr ""
+msgstr "Надіслати текст поради"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Button Text"
-msgstr ""
+msgstr "Надіслати текст кнопки"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Fields"
-msgstr ""
+msgstr "Поля"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "You can assign Fields to this Activity Dialog by dragging the elements with "
 "the mouse from the left list to the right list."
-msgstr ""
+msgstr "Ви можете призначити Поля для цього Діалогу активності шляхом перетягування елементів за допомогою миші з лівого списку до правого. "
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Filter available fields"
-msgstr ""
+msgstr "Фільтрувати доступні поля"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available Fields"
-msgstr ""
+msgstr "Доступні поля"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Name: %s"
-msgstr ""
+msgstr "Ім'я: %s"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
-msgstr ""
+msgstr "Призначені поля"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
-msgstr ""
+msgstr "ТипСтатті"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
-msgstr ""
+msgstr "Відображення"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Field Details"
-msgstr ""
+msgstr "Редагувати деталі полів"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Customer interface does not support internal article types."
-msgstr ""
+msgstr "Інтерфейс клієнта не підтримує внутрішні типи статей."
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
-msgstr ""
+msgstr "Шлях"
 
 #. Template: AdminProcessManagementPath
 msgid "Edit this transition"
-msgstr ""
+msgstr "Редагувати цей перехід"
 
 #. Template: AdminProcessManagementPath
 msgid "Transition Actions"
-msgstr ""
+msgstr "Дії переходу"
 
 #. Template: AdminProcessManagementPath
 msgid ""
 "You can assign Transition Actions to this Transition by dragging the "
 "elements with the mouse from the left list to the right list."
-msgstr ""
+msgstr "Ви можете призначити Дії Переходу до цього Переходу шляхом перетягування елементів за допомогою миші зі списку ліворуч до списку праворуч."
 
 #. Template: AdminProcessManagementPath
 msgid "Filter available Transition Actions"
-msgstr ""
+msgstr "Фільтрувати доступні Дії Переходу"
 
 #. Template: AdminProcessManagementPath
 msgid "Available Transition Actions"
-msgstr ""
+msgstr "Доступні Дії Переходу"
 
 #. Template: AdminProcessManagementPath
 msgid "Create New Transition Action"
-msgstr ""
+msgstr "Створити Нову Дію Переходу"
 
 #. Template: AdminProcessManagementPath
 msgid "Assigned Transition Actions"
-msgstr ""
+msgstr "Призначити Перехідні Дії"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Activities"
-msgstr ""
+msgstr "Активності"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activities..."
-msgstr ""
+msgstr "Фільтрувати Активності..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Activity"
-msgstr ""
+msgstr "Створити Нову Активність"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activity Dialogs..."
-msgstr ""
+msgstr "Фільтрувати Діалоги Активності..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
-msgstr ""
+msgstr "Переходи"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transitions..."
-msgstr ""
+msgstr "Фільтрувати Переходи..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Transition"
-msgstr ""
+msgstr "Створити Новий Перехід"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transition Actions..."
-msgstr ""
+msgstr "Фільтрувати Дії Переходу..."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process"
-msgstr ""
+msgstr "Редагувати Процес"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Print process information"
-msgstr ""
+msgstr "Друкувати інформацію про процес"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Process"
-msgstr ""
+msgstr "Вилучити Процес"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Inactive Process"
-msgstr ""
+msgstr "Вилучити неактивний процес"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Available Process Elements"
-msgstr ""
+msgstr "Доступні Елементи Процесу"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "The Elements listed above in this sidebar can be moved to the canvas area on"
 " the right by using drag'n'drop."
-msgstr ""
+msgstr "Елементи, що перераховані вище в цій бічній панелі, можуть бути переміщені в область полотна праворуч використовуючи \"тягни-й-пусти\"."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "You can place Activities on the canvas area to assign this Activity to the "
 "Process."
-msgstr ""
+msgstr "Ви можете розмістити Активності на площі полотна, щоб призначити Активність Процесу."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element"
 " from this sidebar over the Activity placed in the canvas area."
-msgstr ""
+msgstr "Щоб призначити Діалог Активності до Активності, перетягніть елемент Діалогу Активності з цієї бічної панелі на Активність, що розташована в області полотна."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "You can start a connection between two Activities by dropping the Transition"
 " element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr ""
+msgstr "Ви можете створити зв'язок між двома Активностями перетягуючи елемент Перетворення на Початкову  Активність з'єднання. Після цього ви можете переміщати вільний кінець стрілки до Кінцевої Активності."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Actions can be assigned to a Transition by dropping the Action Element onto "
 "the label of a Transition."
-msgstr ""
+msgstr "Дії можуть бути віднесені до Переходу перетягуючи Елемент Дії на позначку Переходу."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
-msgstr ""
+msgstr "Редагувати Інформацію про Процес"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Process Name"
-msgstr ""
+msgstr "Ім'я Процесу"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The selected state does not exist."
-msgstr ""
+msgstr "Вибраного стану не існує."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Add and Edit Activities, Activity Dialogs and Transitions"
-msgstr ""
+msgstr "Додати та Редагувати Активності, Діалоги Активності та Переходи"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Show EntityIDs"
-msgstr ""
+msgstr "Показати EntityIDs"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the width of the Canvas"
-msgstr ""
+msgstr "Розсунути довжину Полотна"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the height of the Canvas"
-msgstr ""
+msgstr "Розсунути висоту Полотна"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove the Activity from this Process"
-msgstr ""
+msgstr "Вилучити Активність з цього Процесу"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
-msgstr ""
+msgstr "Редагувати Активність"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
-msgstr ""
+msgstr "Переглянути Активності, Діалоги Активності та Переходи"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Process?"
-msgstr ""
+msgstr "Ви насправді хочете вилучити цей Процес?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity?"
-msgstr ""
+msgstr "Ви насправді хочете вилучити цю Активність?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity Dialog?"
-msgstr ""
+msgstr "Ви насправді хочете вилучити цей Діалог Активності?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition?"
-msgstr ""
+msgstr "Ви насправді хочете вилучити цей Перехід?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition Action?"
-msgstr ""
+msgstr "Ви насправді хочете вилучити цю Дію Переходу?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this activity from the canvas? This can only be"
 " undone by leaving this screen without saving."
-msgstr ""
+msgstr "Ви дійсно хочете вилучити цю активність з цього полотна? Це може бути скасовано лише шляхом виходу з цього екрану без збереження. "
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this transition from the canvas? This can only "
 "be undone by leaving this screen without saving."
-msgstr ""
+msgstr "Ви дійсно хочете вилучити цей перехід з полотна? Це може бути скасовано лише шляхом виходу з цього екрану без збереження."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Hide EntityIDs"
-msgstr ""
+msgstr "Приховати EntityIDs"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Entity"
-msgstr ""
+msgstr "Вилучити Об'єкт"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove Entity from canvas"
-msgstr ""
+msgstr "Вилучити Об'єкт з полотна"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "This Activity is already used in the Process. You cannot add it twice!"
-msgstr ""
+msgstr "Ця Активність вже використовується в Процесі. Ви не можете додати її двічі!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr ""
+msgstr "Ця Активність не може бути вилучена тому що вона є Початковою Активністю"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "This Transition is already used for this Activity. You cannot use it twice!"
-msgstr ""
+msgstr "Цей Перехід вже використовується для цієї Активності. Ви не можете використати його двічі!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "This TransitionAction is already used in this Path. You cannot use it twice!"
-msgstr ""
+msgstr "Ця Дія Переходу вже використовується в цьому Шляху. Ви не можете використовувати її двічі!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove the Transition from this Process"
-msgstr ""
+msgstr "Вилучити Перехід з цього Процесу"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "No TransitionActions assigned."
-msgstr ""
+msgstr "Не призначено Переходових Дій (TransitionActions)"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The Start Event cannot loose the Start Transition!"
-msgstr ""
+msgstr "Початкова Подія не може втратити Початковий Перехід!"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "No dialogs assigned yet. Just pick an activity dialog from the list on the "
 "left and drag it here."
-msgstr ""
+msgstr "Жодного Діалогу ще не призначено. Просто виберіть діалог активності зі списку ліворуч та перетягніть його сюди."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "An unconnected transition is already placed on the canvas. Please connect "
 "this transition first before placing another transition."
-msgstr ""
+msgstr "Непов'язаний перехід вже розміщений на полотні. Будь ласка, спочатку з'єднайте цей перехід перед встановленням іншого."
 
 #. Template: AdminProcessManagementProcessNew
 msgid ""
 "In this screen, you can create a new process. In order to make the new "
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
-msgstr ""
+msgstr "На цьому екрані ви маєте змогу створити новий процес. Для того щоб створити новий процес доступним для користувачів, будь ласка, переконайтеся що його встановлено в стан \"Активний\" та проведено синхронізацію після завершення вашої роботи."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
@@ -6801,127 +6889,127 @@ msgstr "скасувати & закрити"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
-msgstr ""
+msgstr "Початкова Активність"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Contains %s dialog(s)"
-msgstr ""
+msgstr "Містить %s діалог(и)"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Assigned dialogs"
-msgstr ""
+msgstr "Призначені діалоги"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Activities are not being used in this process."
-msgstr ""
+msgstr "Активності не використовуються у цьому процесі."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Assigned fields"
-msgstr ""
+msgstr "Призначені поля"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Activity dialogs are not being used in this process."
-msgstr ""
+msgstr "Діалоги активності не використовуються у цьому процесі."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition linking"
-msgstr ""
+msgstr "Умова з'єднання"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Conditions"
-msgstr ""
+msgstr "Умови"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition"
-msgstr ""
+msgstr "Умова"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
-msgstr ""
+msgstr "Переходи не використовуються у цьому процесі."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Module name"
-msgstr ""
+msgstr "Ім'я модуля"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
-msgstr ""
+msgstr "Переходові дії не використовуються у цьому процесі."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Please note that changing this transition will affect the following "
 "processes"
-msgstr ""
+msgstr "Зверніть увагу, що зміна цього переходу буде впливати на наступні процеси."
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
-msgstr ""
+msgstr "Перехід"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
-msgstr ""
+msgstr "Ім'я Переходу"
 
 #. Template: AdminProcessManagementTransition
 msgid "Conditions can only operate on non-empty fields."
-msgstr ""
+msgstr "Умови можуть діяти тільки з непорожніми полями."
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking between Conditions"
-msgstr ""
+msgstr "Тип Зв'язку між Умовами"
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Condition"
-msgstr ""
+msgstr "Видалити цю Умову"
 
 #. Template: AdminProcessManagementTransition
 msgid "Type of Linking"
-msgstr ""
+msgstr "Тип Зв'язку"
 
 #. Template: AdminProcessManagementTransition
 msgid "Add a new Field"
-msgstr ""
+msgstr "Додати нове Поле"
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
-msgstr ""
+msgstr "Вилучити це Поле"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "Та не може бути повторений при тих самих умовах."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
-msgstr ""
+msgstr "Додати Нову Умову"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
 "Please note that changing this transition action will affect the following "
 "processes"
-msgstr ""
+msgstr "Зверніть увагу, що зміна цієї переходової дії вплине на наступні процеси"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action"
-msgstr ""
+msgstr "Переходова Дія"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Name"
-msgstr ""
+msgstr "Ім'я Переходової Дії"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Module"
-msgstr ""
+msgstr "Модуль Переходової Дії"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Config Parameters"
-msgstr ""
+msgstr "Параметри Конфігурації"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
-msgstr ""
+msgstr "Додати новий Параметр"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Remove this Parameter"
-msgstr ""
+msgstr "Вилучити цей Параметр"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -6941,7 +7029,7 @@ msgstr "Змінити черга"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr ""
+msgstr "Черга з таким ім'ям вже існує!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
@@ -6964,7 +7052,7 @@ msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
 "agents."
-msgstr ""
+msgstr "Якщо агент блокує квиток та не закриває його до того, як  буде вичерпаний період розблокування, квиток буде розблокований та доступний для інших агентів."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -6978,7 +7066,7 @@ msgstr "0 — без ескалації"
 msgid ""
 "If there is not added a customer contact, either email-external or phone, to"
 " a new ticket before the time defined here expires, the ticket is escalated."
-msgstr ""
+msgstr "Якщо не буде додано контакт клієнта, або зовнішня електронна адреса чи телефон до нового квитка перед тим як зазначений тут час буде вичерпано, квиток буде підвищено."
 
 #. Template: AdminQueue
 msgid ""
@@ -6986,7 +7074,7 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr ""
+msgstr "Якщо додається стаття, наприклад, спостерігання за допомогою електронної скриньки або порталу клієнта, час поновлення підвищення (ескалації) буде скинуто. Якщо немає контакту клієнта або адреси зовнішньої скриньки чи номеру телефону, доданих до квитка до вичерпання зазначеного тут часу, квиток буде підвищено (ескаловано)."
 
 #. Template: AdminQueue
 msgid ""
@@ -7002,7 +7090,7 @@ msgstr "Параметри автовідповіді"
 msgid ""
 "Specifies if follow up to closed tickets would re-open the ticket, be "
 "rejected or lead to a new ticket."
-msgstr ""
+msgstr "Вказує, якщо слідувати до закритих квитків то це може призвести до їх повторного відкриття, тому буде відхилено або направлено до створення нового квитка."
 
 #. Template: AdminQueue
 msgid "Ticket lock after a follow up"
@@ -7012,7 +7100,7 @@ msgstr "Блокувати заявку після одержання відпо
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr ""
+msgstr "Якщо квиток закритий та клієнт намагається встановити стеження, квиток буде заблокований для старого власника."
 
 #. Template: AdminQueue
 msgid "System address"
@@ -7024,7 +7112,7 @@ msgstr "Установка адреси відправника для відпо
 
 #. Template: AdminQueue
 msgid "Default sign key"
-msgstr ""
+msgstr "Типовий ключ підпису"
 
 #. Template: AdminQueue
 msgid "The salutation for email answers."
@@ -7036,31 +7124,31 @@ msgstr "Підпис для листів"
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
-msgstr ""
+msgstr "Керування Залежностями Авто-Відповідей Черги"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr ""
+msgstr "Цей фільтр дозволяє вам побачити черги без авто-відповідей"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without auto responses"
-msgstr ""
+msgstr "Черги без авто-відповідей"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "Цей фільтр дозволяє вам побачити всі черги"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show all queues"
-msgstr ""
+msgstr "Показати всі черги"
 
 #. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
-msgstr ""
+msgstr "Фільтр для Черг"
 
 #. Template: AdminQueueAutoResponse
 msgid "Filter for Auto Responses"
-msgstr ""
+msgstr "Фільтр для Авто-Відповідей"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -7068,11 +7156,11 @@ msgstr "Автовідповіді"
 
 #. Template: AdminQueueAutoResponse
 msgid "Change Auto Response Relations for Queue"
-msgstr ""
+msgstr "Змінити Залежності Авто-Відповідей для Черги"
 
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
-msgstr ""
+msgstr "Керувати Залежностями Черг-Шаблонів"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
@@ -7084,210 +7172,197 @@ msgstr "Шаблони"
 
 #. Template: AdminQueueTemplates
 msgid "Change Queue Relations for Template"
-msgstr ""
+msgstr "Змінити Залежності Черг для Шаблона"
 
 #. Template: AdminQueueTemplates
 msgid "Change Template Relations for Queue"
-msgstr ""
+msgstr "Змінити Залежності Шаблонів для Черги"
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
-msgstr ""
+msgstr "Керування Регистрацією Системи"
 
 #. Template: AdminRegistration
 msgid "Edit details"
-msgstr ""
+msgstr "Редагувати деталі"
 
 #. Template: AdminRegistration
 msgid "Show transmitted data"
-msgstr ""
+msgstr "Показати передані дані"
 
 #. Template: AdminRegistration
 msgid "Deregister system"
-msgstr ""
+msgstr "Скасувати реєстрацію системи"
 
 #. Template: AdminRegistration
 msgid "Overview of registered systems"
-msgstr ""
+msgstr "Огляд зареєстрованих систем"
 
 #. Template: AdminRegistration
 msgid "This system is registered with OTRS Group."
-msgstr ""
+msgstr "Ця система реєстрована OTRS Group."
 
 #. Template: AdminRegistration
 msgid "System type"
-msgstr ""
+msgstr "Тип системи"
 
 #. Template: AdminRegistration
 msgid "Unique ID"
-msgstr ""
+msgstr "Унікальний ID"
 
 #. Template: AdminRegistration
 msgid "Last communication with registration server"
-msgstr ""
+msgstr "Останній зв'язок із сервером реєстрації"
 
 #. Template: AdminRegistration
 msgid "System registration not possible"
-msgstr ""
+msgstr "Реєстрація системи неможлива"
 
 #. Template: AdminRegistration
 msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
-msgstr ""
+msgstr "Будь ласка зверніть увагу, що ви не можете зареєструвати вашу систему якщо фонова програма OTRS не працює правильно!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
-msgstr ""
+msgstr "Інструкції"
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
-msgstr ""
+msgstr "Неможливо скасувати реєстрацію системи"
 
 #. Template: AdminRegistration
 msgid ""
 "Please note that you can't deregister your system if you're using the %s or "
 "having a valid service contract."
-msgstr ""
+msgstr "Зверніть увагу, що ви не можете скасувати реєстрацію вашої системи якщо ви використовуєте %s або маєте чинну угоду на обслуговування."
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
-msgstr ""
+msgstr "OTRS-ID Ім'я"
 
 #. Template: AdminRegistration
 msgid "Read more"
-msgstr ""
+msgstr "Докладніше"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTRS-ID to register your system."
-msgstr ""
+msgstr "Ви маєте увійти з вашим ім'ям OTRS-ID, щоб зареєструвати вашу систему."
 
 #. Template: AdminRegistration
 msgid ""
 "Your OTRS-ID is the email address you used to sign up on the OTRS.com "
 "webpage."
-msgstr ""
+msgstr "Ваш OTRS-ID це адреса поштової скриньки, якою ви скористалися для реєстрації на сайті OTRS.com"
 
 #. Template: AdminRegistration
 msgid "Data Protection"
-msgstr ""
+msgstr "Захист Даних"
 
 #. Template: AdminRegistration
 msgid "What are the advantages of system registration?"
-msgstr ""
+msgstr "Які переваги реєстрації системи?"
 
 #. Template: AdminRegistration
 msgid "You will receive updates about relevant security releases."
-msgstr ""
+msgstr "Ви будете отримувати нову інформацію про відповідні оновлення безпеки."
 
 #. Template: AdminRegistration
 msgid ""
 "With your system registration we can improve our services for you, because "
 "we have all relevant information available."
-msgstr ""
+msgstr "З вашою реєстрацією ви можемо поліпшити наші послуги для вас, тому що в нас є вся необхідна інформація."
 
 #. Template: AdminRegistration
 msgid "This is only the beginning!"
-msgstr ""
+msgstr "Це тільки початок!"
 
 #. Template: AdminRegistration
 msgid "We will inform you about our new services and offerings soon."
-msgstr ""
+msgstr "Ми будемо інформувати вас про наші нові послуги та найновіші пропозиції."
 
 #. Template: AdminRegistration
 msgid "Can I use OTRS without being registered?"
-msgstr ""
+msgstr "Чи можу я використовувати OTRS без реєстрації?"
 
 #. Template: AdminRegistration
 msgid "System registration is optional."
-msgstr ""
+msgstr "Реєстрація системи не є обов'язковою."
 
 #. Template: AdminRegistration
 msgid "You can download and use OTRS without being registered."
-msgstr ""
+msgstr "Ви можете завантажити та використовувати OTRS без реєстрації."
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
-msgstr ""
+msgstr "Чи можна скасувати реєстрацію?"
 
 #. Template: AdminRegistration
 msgid "You can deregister at any time."
-msgstr ""
+msgstr "Ви можете скасувати реєстрацію у будь-який час."
 
 #. Template: AdminRegistration
 msgid "Which data is transfered when registering?"
-msgstr ""
+msgstr "Які дані передаються під час реєстрації?"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTRS Group:"
-msgstr ""
+msgstr "Зареєстрована система надсилає наступні дані до OTRS Group:"
 
 #. Template: AdminRegistration
 msgid ""
 "Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System"
 " and Perl version."
-msgstr ""
+msgstr "Повне доменне ім'я (FQDN), версія OTRS, База даних, Операційна система та версія Perl."
 
 #. Template: AdminRegistration
 msgid "Why do I have to provide a description for my system?"
-msgstr ""
+msgstr "Чому я маю надати опис для моєї системи?"
 
 #. Template: AdminRegistration
 msgid "The description of the system is optional."
-msgstr ""
+msgstr "Опис системи не є обов'язковим."
 
 #. Template: AdminRegistration
 msgid ""
 "The description and system type you specify help you to identify and manage "
 "the details of your registered systems."
-msgstr ""
+msgstr "Надані вами опис та тип системи допоможе нам визначати та керувати подробицями ваших зареєстрованих систем."
 
 #. Template: AdminRegistration
 msgid "How often does my OTRS system send updates?"
-msgstr ""
+msgstr "Як часто моя OTRS система відправляє оновлення?"
 
 #. Template: AdminRegistration
 msgid ""
 "Your system will send updates to the registration server at regular "
 "intervals."
-msgstr ""
+msgstr "Ваша система буде відправляти оновлення на реєстраційний сервер через регулярні проміжки часу."
 
 #. Template: AdminRegistration
 msgid "Typically this would be around once every three days."
-msgstr ""
-
-#. Template: AdminRegistration
-msgid ""
-"In case you would have further questions we would be glad to answer them."
-msgstr ""
+msgstr "Типово, це буде приблизно один раз в три дні."
 
 #. Template: AdminRegistration
 msgid "Please visit our"
-msgstr ""
-
-#. Template: AdminRegistration
-msgid "portal"
-msgstr ""
-
-#. Template: AdminRegistration
-msgid "and file a request."
-msgstr ""
+msgstr "Будь ласка, відвідайте наш"
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
-msgstr ""
+msgstr "Якщо скасувати реєстрацію вашої системи, ви втратите ці переваги:"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTRS-ID to deregister your system."
-msgstr ""
+msgstr "Ви маєте увійти під своїм OTRS-ID щоб скасувати реєстрацію вашої системи."
 
 #. Template: AdminRegistration
 msgid "OTRS-ID"
-msgstr ""
+msgstr "OTRS-ID"
 
 #. Template: AdminRegistration
 msgid "You don't have an OTRS-ID yet?"
-msgstr ""
+msgstr "У вас ще немає OTRS-ID?"
 
 #. Template: AdminRegistration
 msgid "Sign up now"
@@ -7295,87 +7370,87 @@ msgstr "Увійти"
 
 #. Template: AdminRegistration
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Забули свій пароль?"
 
 #. Template: AdminRegistration
 msgid "Retrieve a new one"
-msgstr ""
+msgstr "Отримати новий"
 
 #. Template: AdminRegistration
 msgid ""
 "This data will be frequently transferred to OTRS Group when you register "
 "this system."
-msgstr ""
+msgstr "Ці дані найчастіше передаються до OTRS Group під час реєстрації системи."
 
 #. Template: AdminRegistration
 msgid "Attribute"
-msgstr ""
+msgstr "Атрибут"
 
 #. Template: AdminRegistration
 msgid "FQDN"
-msgstr ""
+msgstr "FQDN"
 
 #. Template: AdminRegistration
 msgid "OTRS Version"
-msgstr ""
+msgstr "Версій OTRS"
 
 #. Template: AdminRegistration
 msgid "Operating System"
-msgstr ""
+msgstr "Операційна Система"
 
 #. Template: AdminRegistration
 msgid "Perl Version"
-msgstr ""
+msgstr "Версія Perl"
 
 #. Template: AdminRegistration
 msgid "Optional description of this system."
-msgstr ""
+msgstr "Додатковий опис цієї системи."
 
 #. Template: AdminRegistration
 msgid "Register"
-msgstr ""
+msgstr "Реєстрація"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
-msgstr ""
+msgstr "Скасувати реєстрацію Системи"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTRS Group."
-msgstr ""
+msgstr "Продовжуючи далі, ви скасуєте реєстрацію системи від OTRS Group. "
 
 #. Template: AdminRegistration
 msgid "Deregister"
-msgstr ""
+msgstr "Скасувати реєстрацію"
 
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
-msgstr ""
+msgstr "Тут ви можете змінити налаштування реєстрації."
 
 #. Template: AdminRegistration
 msgid "Overview of transmitted data"
-msgstr ""
+msgstr "Огляд переданих даних"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
-msgstr ""
+msgstr "Немає даних, що регулярно відправляються з вашої системи до %s."
 
 #. Template: AdminRegistration
 msgid ""
 "The following data is sent at minimum every 3 days from your system to %s."
-msgstr ""
+msgstr "Наступні дані надсилаються мінімум раз на 3 дні з вашої системи до %s."
 
 #. Template: AdminRegistration
 msgid ""
 "The data will be transferred in JSON format via a secure https connection."
-msgstr ""
+msgstr "Дані будуть надіслані в формати JSON крізь захищене з'єднання https."
 
 #. Template: AdminRegistration
 msgid "System Registration Data"
-msgstr ""
+msgstr "Система реєстрації даних"
 
 #. Template: AdminRegistration
 msgid "Support Data"
-msgstr ""
+msgstr "Дані підтримки"
 
 #. Template: AdminRole
 msgid "Role Management"
@@ -7405,11 +7480,11 @@ msgstr "Змінити роль"
 
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
-msgstr ""
+msgstr "Керувати Role-Group відносинами"
 
 #. Template: AdminRoleGroup
 msgid "Filter for Roles"
-msgstr ""
+msgstr "Фільтр для ролей"
 
 #. Template: AdminRoleGroup
 msgid "Roles"
@@ -7417,25 +7492,25 @@ msgstr "Ролі"
 
 #. Template: AdminRoleGroup
 msgid "Select the role:group permissions."
-msgstr ""
+msgstr "Виберіть дозволи role:group"
 
 #. Template: AdminRoleGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the role)."
-msgstr ""
+msgstr "Якщо нічого не вибрано, для цієї групи немає жодного дозволу (квитки не будуть доступні для цієї ролі)."
 
 #. Template: AdminRoleGroup
 msgid "Change Role Relations for Group"
-msgstr ""
+msgstr "Змінити Залежності Ролі для Групи"
 
 #. Template: AdminRoleGroup
 msgid "Change Group Relations for Role"
-msgstr ""
+msgstr "Змінити Залежності Групи для Ролі"
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
-msgstr ""
+msgstr "Перемикнути %s дозвіл для всіх"
 
 #. Template: AdminRoleGroup
 msgid "move_into"
@@ -7459,7 +7534,7 @@ msgstr "Замітка"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr ""
+msgstr "Дозвіл додавати замітки до квитків в цій групі/черзі."
 
 #. Template: AdminRoleGroup
 msgid "owner"
@@ -7467,7 +7542,7 @@ msgstr "власник"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
-msgstr ""
+msgstr "Дозволи змінювати власника квитків в цій групі/черзі."
 
 #. Template: AdminRoleGroup
 msgid "priority"
@@ -7479,15 +7554,15 @@ msgstr "Права на зміну пріоритету заявок у цій �
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
-msgstr ""
+msgstr "Керування Залежностями Агент-Роль"
 
 #. Template: AdminRoleUser
 msgid "Add agent"
-msgstr ""
+msgstr "Додати агента"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
-msgstr ""
+msgstr "Фільтри для Агентів"
 
 #. Template: AdminRoleUser
 msgid "Agents"
@@ -7495,15 +7570,15 @@ msgstr "Агенти"
 
 #. Template: AdminRoleUser
 msgid "Manage Role-Agent Relations"
-msgstr ""
+msgstr "Керування Залежностями Роль-Агент"
 
 #. Template: AdminRoleUser
 msgid "Change Role Relations for Agent"
-msgstr ""
+msgstr "Змінити Залежності Ролі для Агента"
 
 #. Template: AdminRoleUser
 msgid "Change Agent Relations for Role"
-msgstr ""
+msgstr "Змінити Залежності Агента для Ролі"
 
 #. Template: AdminSLA
 msgid "SLA Management"
@@ -7519,7 +7594,7 @@ msgstr "Змінити SLA"
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
-msgstr ""
+msgstr "Будь ласка, пишіть тільки цифри!"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
@@ -7527,29 +7602,29 @@ msgstr "Керування S/MIME"
 
 #. Template: AdminSMIME
 msgid "SMIME support is disabled"
-msgstr ""
+msgstr "Підтримка SMIME відключена"
 
 #. Template: AdminSMIME
 msgid "To be able to use SMIME in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Для того, щоб мати можливість використовувати SMIME в OTRS, ви повинні спочатку його дозволити."
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
-msgstr ""
+msgstr "Дозволити підтримку "
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
-msgstr ""
+msgstr "Неправильне налаштування SMIME "
 
 #. Template: AdminSMIME
 msgid ""
 "SMIME support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
-msgstr ""
+msgstr "Підтримку SMIME увімкнено, але відповідні налаштування містять помилки. Будь ласка, перевірте налаштування за допомогою кнопки, що розташована нижче."
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
-msgstr ""
+msgstr "Перевірка налаштувань SMIME"
 
 #. Template: AdminSMIME
 msgid "Add certificate"
@@ -7561,26 +7636,26 @@ msgstr "Додати закритий ключ"
 
 #. Template: AdminSMIME
 msgid "Filter for certificates"
-msgstr ""
+msgstr "Фільтр сертифікатів"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
-msgstr ""
+msgstr "Фільтр S/MIME сертифікатів"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
-msgstr ""
+msgstr "Щоб показати деталі сертифікату, натисніть на його значок."
 
 #. Template: AdminSMIME
 msgid "To manage private certificate relations click on a private key icon."
-msgstr ""
+msgstr "За для керування залежностями приватного сертифікату натисніть на значок приватного ключа."
 
 #. Template: AdminSMIME
 msgid ""
 "Here you can add relations to your private certificate, these will be "
 "embedded to the S/MIME signature every time you use this certificate to sign"
 " an email."
-msgstr ""
+msgstr "Тут ви можете додати залежності до вашого приватного сертифікату, вони будуть вбудовані в підпис S/MIME щоразу, коли ви використовуєте цей сертифікат, щоб підписати лист."
 
 #. Template: AdminSMIME
 msgid "See also"
@@ -7598,11 +7673,11 @@ msgstr "Хеш"
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
-msgstr ""
+msgstr "Обробляти залежні сертифікати"
 
 #. Template: AdminSMIME
 msgid "Read certificate"
-msgstr ""
+msgstr "Прочитати сертифікат"
 
 #. Template: AdminSMIME
 msgid "Delete this certificate"
@@ -7622,19 +7697,19 @@ msgstr "Пароль"
 
 #. Template: AdminSMIME
 msgid "Related Certificates for"
-msgstr ""
+msgstr "Пов'язаний сертифікат із"
 
 #. Template: AdminSMIME
 msgid "Delete this relation"
-msgstr ""
+msgstr "Вилучити цю залежність"
 
 #. Template: AdminSMIME
 msgid "Available Certificates"
-msgstr ""
+msgstr "Доступні Сертифікати"
 
 #. Template: AdminSMIME
 msgid "Relate this certificate"
-msgstr ""
+msgstr "Зіставити цей сертифікат"
 
 #. Template: AdminSMIMECertRead
 msgid "Close dialog"
@@ -7642,7 +7717,7 @@ msgstr "Закрити діалог"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
-msgstr ""
+msgstr "Деталі сертифікату"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
@@ -7650,7 +7725,7 @@ msgstr "Керування вітаннями"
 
 #. Template: AdminSalutation
 msgid "Add salutation"
-msgstr ""
+msgstr "Додати привітання"
 
 #. Template: AdminSalutation
 msgid "Add Salutation"
@@ -7682,7 +7757,7 @@ msgstr "Після установки системи звичайно відра
 msgid ""
 "If secure mode is not activated, activate it via SysConfig because your "
 "application is already running."
-msgstr ""
+msgstr "Якщо безпечний режим не активований, активуйте його за допомогою SysConfig, тому що ваш додаток вже запущений."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
@@ -7693,25 +7768,25 @@ msgid ""
 "Here you can enter SQL to send it directly to the application database. It "
 "is not possible to change the content of the tables, only select queries are"
 " allowed."
-msgstr ""
+msgstr "Тут ви можете ввести SQL, щоб надіслати його безпосередньо до бази даних програми. Цим неможливо змінити вміст таблиць - дозволені тільки select запити."
 
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Тут ви можете ввести SQL щоб надіслати його безпосередньо до бази даних програми."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
-msgstr ""
+msgstr "Дозволені тільки select запити."
 
 #. Template: AdminSelectBox
 msgid "The syntax of your SQL query has a mistake. Please check it."
-msgstr ""
+msgstr "Синтаксис вашого SQL запиту містить помилку. Будь ласка, перевірте його."
 
 #. Template: AdminSelectBox
 msgid ""
 "There is at least one parameter missing for the binding. Please check it."
-msgstr ""
+msgstr "Існує принаймні, один пропущений параметр за прив'язки. Будь ласка, перевірте його."
 
 #. Template: AdminSelectBox
 msgid "Result format"
@@ -7723,7 +7798,7 @@ msgstr "Запустити чергу"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
-msgstr ""
+msgstr "Запит виконується."
 
 #. Template: AdminService
 msgid "Service Management"
@@ -7783,11 +7858,11 @@ msgstr "Сеанс"
 
 #. Template: AdminSession
 msgid "Kill"
-msgstr ""
+msgstr "Завершити"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID"
-msgstr ""
+msgstr "Детальний Вид для SessionID"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -7819,7 +7894,7 @@ msgstr "Додати стан"
 
 #. Template: AdminState
 msgid "Please also update the states in SysConfig where needed."
-msgstr ""
+msgstr "Прохання також оновити стан в SysConfig де це необхідно."
 
 #. Template: AdminState
 msgid "Add State"
@@ -7835,100 +7910,100 @@ msgstr "Тип стану"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
-msgstr ""
+msgstr "Передача даних по підтримці до OTRS Group не представляється можливим!"
 
 #. Template: AdminSupportDataCollector
 msgid "Enable Cloud Services"
-msgstr ""
+msgstr "Дозволити Хмарні Служби"
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "This data is sent to OTRS Group on a regular basis. To stop sending this "
 "data please update your system registration."
-msgstr ""
+msgstr "Ці дані надсилаються до OTRS Group на регулярній основі. Щоб припинити передачу цієї інформації, будь ласка, поновіть реєстрацію системи."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "You can manually trigger the Support Data sending by pressing this button:"
-msgstr ""
+msgstr "Ви можете вручну викликати передачу Даних Підтримки натиснувши на цю кнопку:"
 
 #. Template: AdminSupportDataCollector
 msgid "Send Update"
-msgstr ""
+msgstr "Надіслати Оновлення"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending Update..."
-msgstr ""
+msgstr "Надсилання оновлення..."
 
 #. Template: AdminSupportDataCollector
 msgid "Support Data information was successfully sent."
-msgstr ""
+msgstr "Інформація Даних Підтримки була успішно відправлена."
 
 #. Template: AdminSupportDataCollector
 msgid "Was not possible to send Support Data information."
-msgstr ""
+msgstr "Не було можливості передати Інформацію Даних Підтримки."
 
 #. Template: AdminSupportDataCollector
 msgid "Update Result"
-msgstr ""
+msgstr "Оновити Результат"
 
 #. Template: AdminSupportDataCollector
 msgid "Currently this data is only shown in this system."
-msgstr ""
+msgstr "Наразі ці дані показані тільки в цій системі."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "A support bundle (including: system registration information, support data, "
 "a list of installed packages and all locally modified source code files) can"
 " be generated by pressing this button:"
-msgstr ""
+msgstr "В'язка підтримки (що містить: відомості про реєстрацію системи, дані підтримки, перелік встановлених пакунків та всі локально змінені файли вихідного коду) може бути згенерована шляхом натискання на цю кнопку:"
 
 #. Template: AdminSupportDataCollector
 msgid "Generate Support Bundle"
-msgstr ""
+msgstr "Створити В'язку Підтримки"
 
 #. Template: AdminSupportDataCollector
 msgid "Generating..."
-msgstr ""
+msgstr "Створення..."
 
 #. Template: AdminSupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
-msgstr ""
+msgstr "Не було можливості для створення В'язки Підтримки."
 
 #. Template: AdminSupportDataCollector
 msgid "Generate Result"
-msgstr ""
+msgstr "Сформувати Результат"
 
 #. Template: AdminSupportDataCollector
 msgid "Support Bundle"
-msgstr ""
+msgstr "В'язка підтримки"
 
 #. Template: AdminSupportDataCollector
 msgid "The mail could not be sent"
-msgstr ""
+msgstr "Пошта не може бути відправлена"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle has been generated."
-msgstr ""
+msgstr "В'язку підтримки було створено."
 
 #. Template: AdminSupportDataCollector
 msgid "Please choose one of the following options."
-msgstr ""
+msgstr "Будь ласка, виберіть один з наступних варіантів."
 
 #. Template: AdminSupportDataCollector
 msgid "Send by Email"
-msgstr ""
+msgstr "Надіслати електронною поштою"
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "The support bundle is too large to send it by email, this option has been "
 "disabled."
-msgstr ""
+msgstr "В'язка підтримки занадто велика, щоб відправити її електронною поштою, ця опція буде вимкнена."
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "The email address for this user is invalid, this option has been disabled."
-msgstr ""
+msgstr "Адреса електронної пошти для цього користувача не є чинною, цю опцію буде скасовано."
 
 #. Template: AdminSupportDataCollector
 msgid "Sending"
@@ -7936,42 +8011,42 @@ msgstr "Відправник"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
-msgstr ""
+msgstr "В'язку підтримки буде надіслано до OTRS Group електронною поштою автоматично."
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
-msgstr ""
+msgstr "Завантаження файлу"
 
 #. Template: AdminSupportDataCollector
 msgid ""
 "A file containing the support bundle will be downloaded to the local system."
 " Please save the file and send it to the OTRS Group, using an alternate "
 "method."
-msgstr ""
+msgstr "Файл, що містить в'язку підтримки, буде завантажено до локальної системи. Будь ласка, збережіть файл та надішліть його до OTRS Group іншим шляхом."
 
 #. Template: AdminSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
-msgstr ""
+msgstr "Помилка: дані підтримки не можуть бути зібрані (%s)."
 
 #. Template: AdminSupportDataCollector
 msgid "Details"
-msgstr ""
+msgstr "Подробиці"
 
 #. Template: AdminSysConfig
 msgid "SysConfig"
-msgstr ""
+msgstr "SysConfig"
 
 #. Template: AdminSysConfig
 msgid "Navigate by searching in %s settings"
-msgstr ""
+msgstr "Переміщатися пошуком в налаштуваннях %s"
 
 #. Template: AdminSysConfig
 msgid "Navigate by selecting config groups"
-msgstr ""
+msgstr "Переміщатися шляхом вибору конфігурації груп"
 
 #. Template: AdminSysConfig
 msgid "Download all system config changes"
-msgstr ""
+msgstr "Завантажити всі зміни конфігурації системи"
 
 #. Template: AdminSysConfig
 msgid "Export settings"
@@ -7979,7 +8054,7 @@ msgstr "Експортувати настроювання"
 
 #. Template: AdminSysConfig
 msgid "Load SysConfig settings from file"
-msgstr ""
+msgstr "Завантаження налаштувань SysConfig з файлу"
 
 #. Template: AdminSysConfig
 msgid "Import settings"
@@ -8003,31 +8078,31 @@ msgstr "Елементи"
 
 #. Template: AdminSysConfigEdit
 msgid "Edit Config Settings in %s → %s"
-msgstr ""
+msgstr "Редагування налаштувань конфігурації в %s → %s"
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
-msgstr ""
+msgstr "Ці налаштування тільки для читання."
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
-msgstr ""
+msgstr "Цей елемент конфігурації доступний тільки на більш високому рівні конфігурації!"
 
 #. Template: AdminSysConfigEdit
 msgid "Reset this setting"
-msgstr ""
+msgstr "Скидання цього параметра"
 
 #. Template: AdminSysConfigEdit
 msgid "Error: this file could not be found."
-msgstr ""
+msgstr "Помилка: цей файл не може бути знайдений."
 
 #. Template: AdminSysConfigEdit
 msgid "Error: this directory could not be found."
-msgstr ""
+msgstr "Помилка: ця директорія не може бути знайдена."
 
 #. Template: AdminSysConfigEdit
 msgid "Error: an invalid value was entered."
-msgstr ""
+msgstr "Помилка: було введене неприпустиме значення."
 
 #. Template: AdminSysConfigEdit
 msgid "Content"
@@ -8035,63 +8110,63 @@ msgstr "Зміст"
 
 #. Template: AdminSysConfigEdit
 msgid "Remove this entry"
-msgstr ""
+msgstr "Вилучити цей запис"
 
 #. Template: AdminSysConfigEdit
 msgid "Add entry"
-msgstr ""
+msgstr "Додати запис"
 
 #. Template: AdminSysConfigEdit
 msgid "Remove entry"
-msgstr ""
+msgstr "Вилучити запис"
 
 #. Template: AdminSysConfigEdit
 msgid "Add new entry"
-msgstr ""
+msgstr "Додати новий запис"
 
 #. Template: AdminSysConfigEdit
 msgid "Delete this entry"
-msgstr ""
+msgstr "Вилучити цей запис"
 
 #. Template: AdminSysConfigEdit
 msgid "Create new entry"
-msgstr ""
+msgstr "Додати новий запис"
 
 #. Template: AdminSysConfigEdit
 msgid "New group"
-msgstr ""
+msgstr "Нова група"
 
 #. Template: AdminSysConfigEdit
 msgid "Group ro"
-msgstr ""
+msgstr "Групувати до"
 
 #. Template: AdminSysConfigEdit
 msgid "Readonly group"
-msgstr ""
+msgstr "Група тільки для читання"
 
 #. Template: AdminSysConfigEdit
 msgid "New group ro"
-msgstr ""
+msgstr "Нова група"
 
 #. Template: AdminSysConfigEdit
 msgid "Loader"
-msgstr ""
+msgstr "Завантажувач"
 
 #. Template: AdminSysConfigEdit
 msgid "File to load for this frontend module"
-msgstr ""
+msgstr "Файл для завантаження для цього зовнішньо-інтерфейсного модуля"
 
 #. Template: AdminSysConfigEdit
 msgid "New Loader File"
-msgstr ""
+msgstr "Новий Завантажувач файлу"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBarName"
-msgstr ""
+msgstr "NavBarName"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar"
-msgstr ""
+msgstr "NavBar"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
@@ -8103,43 +8178,43 @@ msgstr "Розділ"
 
 #. Template: AdminSysConfigEdit
 msgid "AccessKey"
-msgstr ""
+msgstr "AccessKey"
 
 #. Template: AdminSysConfigEdit
 msgid "Add NavBar entry"
-msgstr ""
+msgstr "Додати запис NavBar"
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar module"
-msgstr ""
+msgstr "NavBar модуль"
 
 #. Template: AdminSysConfigEdit
 msgid "Year"
-msgstr ""
+msgstr "Рік"
 
 #. Template: AdminSysConfigEdit
 msgid "Month"
-msgstr ""
+msgstr "Місяць"
 
 #. Template: AdminSysConfigEdit
 msgid "Day"
-msgstr ""
+msgstr "День"
 
 #. Template: AdminSysConfigEdit
 msgid "Invalid year"
-msgstr ""
+msgstr "Неприпустимий рік"
 
 #. Template: AdminSysConfigEdit
 msgid "Invalid month"
-msgstr ""
+msgstr "Неприпустимий місяць"
 
 #. Template: AdminSysConfigEdit
 msgid "Invalid day"
-msgstr ""
+msgstr "Неприпустимий день"
 
 #. Template: AdminSysConfigEdit
 msgid "Show more"
-msgstr ""
+msgstr "Показати більше"
 
 #. Template: AdminSystemAddress
 msgid "System Email Addresses Management"
@@ -8147,13 +8222,13 @@ msgstr "Керування системними адресами електро�
 
 #. Template: AdminSystemAddress
 msgid "Add system address"
-msgstr ""
+msgstr "Додати адресу системи"
 
 #. Template: AdminSystemAddress
 msgid ""
 "All incoming email with this address in To or Cc will be dispatched to the "
 "selected queue."
-msgstr ""
+msgstr "Усі вхідні повідомлення з цією адресою в полі Кому або Копія буде перенаправлена до вибраної черги."
 
 #. Template: AdminSystemAddress
 msgid "Email address"
@@ -8177,83 +8252,83 @@ msgstr "Це ім'я та email адреса будуть показані у в
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
-msgstr ""
+msgstr "Керування Обслуговуванням Системи"
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
-msgstr ""
+msgstr "Запланувати Нове Обслуговування Системи"
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Schedule a system maintenance period for announcing the Agents and Customers"
 " the system is down for a time period."
-msgstr ""
+msgstr "Запланувати період обслуговування системи для оголошення попередження Агентам та Клієнтам, що система не буде працювати впродовж визначеного часу."
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
-msgstr ""
+msgstr "За деякий час до цього обслуговування системи, користувачі будуть отримувати сповіщення на кожному екрані, оголошуючи про цей факт."
 
 #. Template: AdminSystemMaintenance
 msgid "Start date"
-msgstr ""
+msgstr "Дата початку"
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
-msgstr ""
+msgstr "Дата закінчення"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
-msgstr ""
+msgstr "Вилучити Обслуговування Системи"
 
 #. Template: AdminSystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
+msgstr "Ви дійсно хочете вилучити це заплановане обслуговування системи?"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance %s"
-msgstr ""
+msgstr "Редагувати Обслуговування Системи %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance Information"
-msgstr ""
+msgstr "Редагувати Інформацію Обслуговування Системи"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
-msgstr ""
+msgstr "Неприпустима дата!"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
-msgstr ""
+msgstr "Повідомлення входу"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
-msgstr ""
+msgstr "Показати повідомлення входу"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Notify message"
-msgstr ""
+msgstr "Повідомлення сповіщення"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Manage Sessions"
-msgstr ""
+msgstr "Керування сесіями"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "All Sessions"
-msgstr ""
+msgstr "Всі сесії"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Agent Sessions"
-msgstr ""
+msgstr "Сесії Агента"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Customer Sessions"
-msgstr ""
+msgstr "Сесії Клієнта"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "Припинити всі Сесії за винятком вашої"
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
@@ -8261,41 +8336,41 @@ msgstr "Керування шаблонами"
 
 #. Template: AdminTemplate
 msgid "Add template"
-msgstr ""
+msgstr "Додати шаблон"
 
 #. Template: AdminTemplate
 msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
-msgstr ""
+msgstr "Шаблон являє собою типовий текст, який допомагає вашим агентам швидше писати квитки, відповідати на них або пересилати."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr ""
+msgstr "Не забувайте додавати нові шаблони до черг."
 
 #. Template: AdminTemplate
 msgid "Do you really want to delete this template?"
-msgstr ""
+msgstr "Ви дійсно бажаєте вилучити цей шаблон?"
 
 #. Template: AdminTemplate
 msgid "Add Template"
-msgstr ""
+msgstr "Додати шаблон"
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
+msgstr "Редагувати шаблон"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "Стандартний шаблон з таким ім'ям вже існує!"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
-msgstr ""
+msgstr "Створення типу шаблонів підтримує тільки ці смарт-теги"
 
 #. Template: AdminTemplate
 msgid "Example template"
-msgstr ""
+msgstr "Приклад шаблону"
 
 #. Template: AdminTemplate
 msgid "The current ticket state is"
@@ -8307,27 +8382,27 @@ msgstr "Ваш email адреса "
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Templates <-> Attachments Relations"
-msgstr ""
+msgstr "Керування шаблонами <-> Залежності прикріплень"
 
 #. Template: AdminTemplateAttachment
 msgid "Filter for Attachments"
-msgstr ""
+msgstr "Фільтр для Прикріплень"
 
 #. Template: AdminTemplateAttachment
 msgid "Change Template Relations for Attachment"
-msgstr ""
+msgstr "Змінити залежності шаблону для прикріплення"
 
 #. Template: AdminTemplateAttachment
 msgid "Change Attachment Relations for Template"
-msgstr ""
+msgstr "Змінити залежності прикріплення для шаблону"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
-msgstr ""
+msgstr "Увімкнути активність для всіх"
 
 #. Template: AdminTemplateAttachment
 msgid "Link %s to selected %s"
-msgstr ""
+msgstr "Поєднати %s до вибраного %s"
 
 #. Template: AdminType
 msgid "Type Management"
@@ -8347,39 +8422,39 @@ msgstr "Редагувати тип"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "Тип з таким ім'ям вже існує!"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
-msgstr ""
+msgstr "Для обробки квитків будуть необхідні агенти."
 
 #. Template: AdminUser
 msgid "Don't forget to add a new agent to groups and/or roles!"
-msgstr ""
+msgstr "Не забудьте додати нового агента до груп та/або ролей!"
 
 #. Template: AdminUser
 msgid "Please enter a search term to look for agents."
-msgstr ""
+msgstr "Будь ласка, введіть слово для пошуку, щоб знайти агентів."
 
 #. Template: AdminUser
 msgid "Last login"
-msgstr ""
+msgstr "Останній вхід"
 
 #. Template: AdminUser
 msgid "Switch to agent"
-msgstr ""
+msgstr "Переключитись до агента"
 
 #. Template: AdminUser
 msgid "Add Agent"
-msgstr ""
+msgstr "Додати Агента"
 
 #. Template: AdminUser
 msgid "Edit Agent"
-msgstr ""
+msgstr "Редагувати Агента"
 
 #. Template: AdminUser
 msgid "Title or salutation"
-msgstr ""
+msgstr "Назва або привітання"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -8391,11 +8466,11 @@ msgstr "Прізвище"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "Користувач з таким ім'ям вже існує!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
-msgstr ""
+msgstr "Буде автоматично створено, якщо залишити порожнім."
 
 #. Template: AdminUser
 msgid "Start"
@@ -8407,15 +8482,15 @@ msgstr "Закінчення"
 
 #. Template: AdminUserGroup
 msgid "Manage Agent-Group Relations"
-msgstr ""
+msgstr "Керувати залежностями Агент-Група"
 
 #. Template: AdminUserGroup
 msgid "Change Group Relations for Agent"
-msgstr ""
+msgstr "Змінити залежності Групи для Агента"
 
 #. Template: AdminUserGroup
 msgid "Change Agent Relations for Group"
-msgstr ""
+msgstr "Змінити залежності Агента для Групи"
 
 #. Template: AgentBook
 msgid "Address Book"
@@ -8423,27 +8498,27 @@ msgstr "Адресна книга"
 
 #. Template: AgentBook
 msgid "Search for a customer"
-msgstr ""
+msgstr "Пошук клієнта"
 
 #. Template: AgentBook
 msgid "Add email address %s to the To field"
-msgstr ""
+msgstr "Додати адресу електронної пошти %s до поля Кому"
 
 #. Template: AgentBook
 msgid "Add email address %s to the Cc field"
-msgstr ""
+msgstr "Додати адресу електронної пошти до поля Копія"
 
 #. Template: AgentBook
 msgid "Add email address %s to the Bcc field"
-msgstr ""
+msgstr "Додати адресу електронної пошти до поля Прихована копія"
 
 #. Template: AgentBook
 msgid "Apply"
-msgstr ""
+msgstr "Застосувати"
 
 #. Template: AgentCustomerInformationCenter
 msgid "Customer Information Center"
-msgstr ""
+msgstr "Інформаційний центр Клієнта"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
@@ -8451,63 +8526,63 @@ msgstr "Користувач клієнта"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
-msgstr ""
+msgstr "Дублювати запис"
 
 #. Template: AgentCustomerSearch
 msgid "This address already exists on the address list."
-msgstr ""
+msgstr "Ця адреса вже є в списку адрес"
 
 #. Template: AgentCustomerSearch
 msgid "It is going to be deleted from the field, please try again."
-msgstr ""
+msgstr "Він буде вилучений з поля, будь ласка, спробуйте ще раз."
 
 #. Template: AgentCustomerTableView
 msgid "Note: Customer is invalid!"
-msgstr ""
+msgstr "Примітка: Клієнт не є чинним!"
 
 #. Template: AgentCustomerTableView
 msgid "Start chat"
-msgstr ""
+msgstr "Почати спілкування"
 
 #. Template: AgentCustomerTableView
 msgid "Video call"
-msgstr ""
+msgstr "Відео виклик"
 
 #. Template: AgentCustomerTableView
 msgid "Audio call"
-msgstr ""
+msgstr "Аудіо виклик"
 
 #. Template: AgentDaemonInfo
 msgid ""
 "The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
-msgstr ""
+msgstr "OTRS демон це фоновий процес, що виконує асинхронні завдання, на кшталт ввімкнення підвищення квитка, надсилання пошти тощо."
 
 #. Template: AgentDaemonInfo
 msgid "A running OTRS Daemon is mandatory for correct system operation."
-msgstr ""
+msgstr "Демон OTRS, що працює, є обов'язковою умовою для коректної роботи системи."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTRS Daemon"
-msgstr ""
+msgstr "Запуск OTRS демона."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Make sure that the file '%s' exists (without .dist extension). This cron job"
 " will check every 5 minutes if the OTRS Daemon is running and start it if "
 "needed."
-msgstr ""
+msgstr "Переконайтесь в тому, що файл '%s' існує (без розширення .dist). Це заплановане завдання буде перевіряти кожні 5 хвилин чи запущений демон OTRS та запустить його за потреби."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Execute '%s start' to make sure the cron jobs of the 'otrs' user are active."
-msgstr ""
+msgstr "Виконайте '%s start' щоб впевнитись в тому, заплановані завдання користувача 'otrs' активні."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "After 5 minutes, check that the OTRS Daemon is running in the system "
 "('bin/otrs.Daemon.pl status')."
-msgstr ""
+msgstr "Після 5 хвилин, переконайтеся, що OTRS демон працює в системі ('bin/otrs.Daemon.pl status')."
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -8519,19 +8594,19 @@ msgstr "в"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "Закрити цей віджет"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
-msgstr ""
+msgstr "Доступні колонки"
 
 #. Template: AgentDashboardCommon
 msgid "Visible Columns (order by drag & drop)"
-msgstr ""
+msgstr "Видимі стовпці (упорядковуйте шляхом тягни-й-пусти)"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
-msgstr ""
+msgstr "Підвищені квитки"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer login"
@@ -8539,31 +8614,31 @@ msgstr "Логін клієнта"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer information"
-msgstr ""
+msgstr "Інформація споживача"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
-msgstr ""
+msgstr "Телефонний квиток"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Email ticket"
-msgstr ""
+msgstr "Поштовий квиток"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
-msgstr ""
+msgstr "%s відкритий квиток(-ки) %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s closed ticket(s) of %s"
-msgstr ""
+msgstr "%s закритий квиток(-ки) %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New phone ticket from %s"
-msgstr ""
+msgstr "Новий телефонний квиток від %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
-msgstr ""
+msgstr "Новий поштовий квиток від %s"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8589,64 +8664,64 @@ msgstr "Опубліковане %s"
 msgid ""
 "The configuration for this statistic widget contains errors, please review "
 "your settings."
-msgstr ""
+msgstr "Конфігурація цього статистичного віджета містить помилки, будь ласка, перевірте параметри."
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
-msgstr ""
+msgstr "Завантажити як SVG-файл"
 
 #. Template: AgentDashboardStats
 msgid "Download as PNG file"
-msgstr ""
+msgstr "Завантажити як PNG-файл"
 
 #. Template: AgentDashboardStats
 msgid "Download as CSV file"
-msgstr ""
+msgstr "Завантажити як CSV-файл"
 
 #. Template: AgentDashboardStats
 msgid "Download as Excel file"
-msgstr ""
+msgstr "Завантажити як файл Екселю"
 
 #. Template: AgentDashboardStats
 msgid "Download as PDF file"
-msgstr ""
+msgstr "Завантажити як PDF-файл"
 
 #. Template: AgentDashboardStats
 msgid "Grouped"
-msgstr ""
+msgstr "Згруповані"
 
 #. Template: AgentDashboardStats
 msgid "Stacked"
-msgstr ""
+msgstr "У стеку"
 
 #. Template: AgentDashboardStats
 msgid "Expanded"
-msgstr ""
+msgstr "Розгорнуто"
 
 #. Template: AgentDashboardStats
 msgid "Stream"
-msgstr ""
+msgstr "Потік"
 
 #. Template: AgentDashboardStats
 msgid "No Data Available."
-msgstr ""
+msgstr "Немає доступних даних."
 
 #. Template: AgentDashboardStats
 msgid ""
 "Please select a valid graph output format in the configuration of this "
 "widget."
-msgstr ""
+msgstr "Будь ласка, виберіть правильний графічний вихідний формат в конфігурації цього віджета."
 
 #. Template: AgentDashboardStats
 msgid ""
 "The content of this statistic is being prepared for you, please be patient."
-msgstr ""
+msgstr "Зміст цієї статистики буде приготовлена для вас, будь ласка, зачекайте."
 
 #. Template: AgentDashboardStats
 msgid ""
 "This statistic can currently not be used because its configuration needs to "
 "be corrected by the statistics administrator."
-msgstr ""
+msgstr "Ця статистика наразі не може бути використана тому що її конфігурація має бути виправлена адміністратором статистики."
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -8654,11 +8729,11 @@ msgstr "Мої заблоковані заявки"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
-msgstr ""
+msgstr "Квитки за якими я спостерігаю"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My responsibilities"
-msgstr ""
+msgstr "Мої обов'язки"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
@@ -8674,11 +8749,11 @@ msgstr "Час обслуговування"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Remove active filters for this widget."
-msgstr ""
+msgstr "Скасувати активні фільтри для цього віджету."
 
 #. Template: AgentDashboardTicketQueueOverview
 msgid "Totals"
-msgstr ""
+msgstr "Загалом"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
@@ -8686,7 +8761,7 @@ msgstr "не при справах"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
-msgstr ""
+msgstr "до"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "The ticket has been locked"
@@ -8694,7 +8769,7 @@ msgstr "Заявка заблокована"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close"
-msgstr ""
+msgstr "Скасувати та закрити"
 
 #. Template: AgentInfo
 msgid "Info"
@@ -8702,7 +8777,7 @@ msgstr "Інформація"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
-msgstr ""
+msgstr "Для того, щоб прийняти якісь новини, ліцензії або деякі зміни."
 
 #. Template: AgentLinkObject
 msgid "Link Object: %s"
@@ -8710,15 +8785,15 @@ msgstr "Зв'язати об'єкт: %s"
 
 #. Template: AgentLinkObject
 msgid "go to link delete screen"
-msgstr ""
+msgstr "перейдіть за посиланням видалення екрану"
 
 #. Template: AgentLinkObject
 msgid "Select Target Object"
-msgstr ""
+msgstr "Виберіть Цільовий Об'єкт"
 
 #. Template: AgentLinkObject
 msgid "Link object %s with"
-msgstr ""
+msgstr "Поєднання об'єкту %s з"
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -8726,21 +8801,21 @@ msgstr "Скасувати прив'язку об'єкта: %s"
 
 #. Template: AgentLinkObject
 msgid "go to link add screen"
-msgstr ""
+msgstr "перейдіть за посиланням додавання екрану"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid "Unauthorized usage of %s detected"
-msgstr ""
+msgstr "Виявлено несанкційоване використання %s "
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
 "If you decide to downgrade to OTRS Free, you will lose all database tables "
 "and data related to %s."
-msgstr ""
+msgstr "Якщо ви вирішили повернутися до використання OTRS Free, ви втратите всі таблиці бази даних і дані, що пов'язані із %s."
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
-msgstr ""
+msgstr "Змінити налаштування"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
@@ -8760,77 +8835,77 @@ msgstr "Застосувати зміни"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics » Add"
-msgstr ""
+msgstr "Статистика » Додати"
 
 #. Template: AgentStatisticsAdd
 msgid "Add New Statistic"
-msgstr ""
+msgstr "Додати Нову Статистику"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
-msgstr ""
+msgstr "Динамічна Матриця"
 
 #. Template: AgentStatisticsAdd
 msgid ""
 "Tabular reporting data where each cell contains a singular data point (e. g."
 " the number of tickets)."
-msgstr ""
+msgstr "Табличне представлення даних де кожна комірка містить особливу точку даних (наприклад кількість квитків)"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic List"
-msgstr ""
+msgstr "Динамічний список"
 
 #. Template: AgentStatisticsAdd
 msgid ""
 "Tabular reporting data where each row contains data of one entity (e. g. a "
 "ticket)."
-msgstr ""
+msgstr "Табличне представлення даних, де кожний рядок містить дані  одного запису (наприклад, квитка)."
 
 #. Template: AgentStatisticsAdd
 msgid "Static"
-msgstr ""
+msgstr "Статика"
 
 #. Template: AgentStatisticsAdd
 msgid ""
 "Complex statistics that cannot be configured and may return non-tabular "
 "data."
-msgstr ""
+msgstr "Складні статистичні дані не можуть бути налаштовані та можуть повернути нетабличні дані"
 
 #. Template: AgentStatisticsAdd
 msgid "General Specification"
-msgstr ""
+msgstr "Загальні Характеристики"
 
 #. Template: AgentStatisticsAdd
 msgid "Create Statistic"
-msgstr ""
+msgstr "Створити Статистику"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics » Edit %s%s — %s"
-msgstr ""
+msgstr "Статистика » Редагувати %s%s — %s"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
-msgstr ""
+msgstr "Запустити зараз"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
-msgstr ""
+msgstr "Перегляд статистики"
 
 #. Template: AgentStatisticsEdit
 msgid "Save statistic"
-msgstr ""
+msgstr "Зберегти статистики"
 
 #. Template: AgentStatisticsImport
 msgid "Statistics » Import"
-msgstr ""
+msgstr "Статистика » Імпорт"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistic Configuration"
-msgstr ""
+msgstr "Імпорт Налаштування Статистики"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics » Overview"
-msgstr ""
+msgstr "Статистика » Перегляд"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics"
@@ -8838,39 +8913,39 @@ msgstr "Статистика"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
-msgstr ""
+msgstr "Запустити"
 
 #. Template: AgentStatisticsOverview
 msgid "Edit statistic \"%s\"."
-msgstr ""
+msgstr "Редагувати статистику \"%s\"."
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic \"%s\""
-msgstr ""
+msgstr "Експортувати статистику \"%s\""
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic %s"
-msgstr ""
+msgstr "Експортувати статистику %s"
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic \"%s\""
-msgstr ""
+msgstr "Вилучити статистику \"%s\""
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
-msgstr ""
+msgstr "Вилучити статистику %s"
 
 #. Template: AgentStatisticsOverview
 msgid "Do you really want to delete this statistic?"
-msgstr ""
+msgstr "Ви справді бажаєте вилучити цю статистику?"
 
 #. Template: AgentStatisticsView
 msgid "Statistics » View %s%s — %s"
-msgstr ""
+msgstr "Статистика » Вигляд %s%s — %s"
 
 #. Template: AgentStatisticsView
 msgid "Statistic Information"
-msgstr ""
+msgstr "Статистична Інформація"
 
 #. Template: AgentStatisticsView
 msgid "Sum rows"
@@ -8882,7 +8957,7 @@ msgstr "Сума стовпців"
 
 #. Template: AgentStatisticsView
 msgid "Show as dashboard widget"
-msgstr ""
+msgstr "Відобразити як віджет панелі"
 
 #. Template: AgentStatisticsView
 msgid "Cache"
@@ -8891,11 +8966,11 @@ msgstr "Кеш"
 #. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
-msgstr ""
+msgstr "Ця статистика містить помилки налаштування та наразі не може використовуватись."
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s%s"
-msgstr ""
+msgstr "Змінити Вільний Текст "
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
@@ -8911,15 +8986,15 @@ msgstr "Додати замітку до %s%s%s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
-msgstr ""
+msgstr "Встановити Відкладений Час для "
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
-msgstr ""
+msgstr "Змінити Пріоритет "
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s%s"
-msgstr ""
+msgstr "Змінити Відповідального"
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
@@ -8927,7 +9002,7 @@ msgstr "Всі поля, позначені (*) є обов'язковими."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
-msgstr ""
+msgstr "Служба недійсна."
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -8935,11 +9010,11 @@ msgstr "Новий власник"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr ""
+msgstr "Будь ласка вкажіть нового власника!"
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr ""
+msgstr "Новий Відповідальний"
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -12220,14 +12295,8 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for Ticket"
-" %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Another user changed this ticket in the meantime. Please close this window "
-"and reload the ticket."
+"This step does not belong anymore the current activity in process for ticket"
+" '%s%s%s'! Another user changed this ticket in the meantime."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12891,6 +12960,11 @@ msgstr ""
 msgid "Order by"
 msgstr "Сортування"
 
+#. Perl Module: Kernel/System/ACL/DB/ACL.pm
+msgid ""
+"Couldn't read ACL configuration file. Please make sure the file is valid."
+msgstr ""
+
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
@@ -12926,12 +13000,26 @@ msgstr ""
 msgid "This setting can not be deactivated."
 msgstr ""
 
+#. Perl Module: Kernel/System/CustomerUser.pm
+msgid "Customer user \"%s\" already exists."
+msgstr ""
+
+#. Perl Module: Kernel/System/CustomerUser/DB.pm
+msgid "This email address is already in use for another customer user."
+msgstr ""
+
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid ""
+"Couldn't read Notification configuration file. Please make sure the file is "
+"valid."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -12948,6 +13036,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
+msgstr ""
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+msgid "The process \"%s\" and all of its data has been imported successfully."
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
@@ -20366,12 +20458,6 @@ msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Set minimum loglevel. If you select 'error', just errors are logged. With "
-"'debug' you get all logging messages."
-msgstr ""
-
-#. SysConfig
 msgid "Set sender email addresses for this system."
 msgstr "Задати адреса відправника для цієї системи."
 
@@ -20391,6 +20477,13 @@ msgstr ""
 msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Set the minimum log level. If you select 'error', just errors are logged. "
+"With 'debug' you get all logging messages. The order of log levels is: "
+"'debug', 'info', 'notice' and 'error'."
 msgstr ""
 
 #. SysConfig

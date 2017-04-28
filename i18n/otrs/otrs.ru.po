@@ -1,6 +1,7 @@
 # 
 # Translators:
 # Alexey Yusov <yusovas@gmail.com>, 2015-2016
+# Anatoly A <aaksinenko@gmail.com>, 2017
 # Anton <anton.astashkin@gmail.com>, 2015
 # Antonio Kless, 2015
 # Antonio Kless, 2015
@@ -26,8 +27,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-03-24 20:43+0000\n"
-"PO-Revision-Date: 2017-03-25 02:45+0000\n"
+"POT-Creation-Date: 2017-04-27 21:54+0000\n"
+"PO-Revision-Date: 2017-04-28 03:00+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -3019,7 +3020,7 @@ msgstr "Сохранить настройки"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Сохранить ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -3877,7 +3878,7 @@ msgstr "Запустить задачу"
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this task?"
-msgstr ""
+msgstr "Вы действительно хотите удалить эту задачу?"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -6008,6 +6009,93 @@ msgid ""
 msgstr "Вы действительно хотите переустановить этот пакет? Все ручные изменения будут потеряны."
 
 #. Template: AdminPackageManager
+msgid "Go to upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "package information"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package installation requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package upgrade requires patch level update of OTRS"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"If you are a OTRS Business Solution™ customer, please visit our customer "
+"portal and file a request."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please note that your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "How can I do a patch level update if I don’t have a contract?"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Please find all relevant information within"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "the upgrading instructions"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"In case you would have further questions we would be glad to answer them."
+msgstr "В случае, если у Вас возникли вопросы, мы будем рады ответить на них."
+
+#. Template: AdminPackageManager
+msgid "Please visit our customer"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "portal"
+msgstr "портал"
+
+#. Template: AdminPackageManager
+msgid "and file a request."
+msgstr "и задайте вопрос."
+
+#. Template: AdminPackageManager
 msgid "Continue"
 msgstr "Продолжить"
 
@@ -6122,11 +6210,11 @@ msgstr "Требуется"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "Главный ключ"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "Авто инкремент"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6244,7 +6332,7 @@ msgstr "Удалить этот фильтр"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this filter?"
-msgstr ""
+msgstr "Вы действительно желаете удалить этот фильтр?"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
@@ -6256,7 +6344,7 @@ msgstr "Редактировать фильтр PostMaster-а"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
-msgstr ""
+msgstr "Фильтр postmaster с этим имением уже существует!"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -6351,7 +6439,7 @@ msgstr "Импортировать конфигурацию Процесса"
 
 #. Template: AdminProcessManagement
 msgid "Ready-to-run Processes"
-msgstr ""
+msgstr "Готовый к запуску процесс"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6367,7 +6455,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Import ready-to-run process"
-msgstr ""
+msgstr "Импортировать готовый к запуску процесс"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -7275,21 +7363,8 @@ msgid "Typically this would be around once every three days."
 msgstr "Обычно это происходит один раз в три дня."
 
 #. Template: AdminRegistration
-msgid ""
-"In case you would have further questions we would be glad to answer them."
-msgstr "В случае, если у Вас возникли вопросы, мы будем рады ответить на них."
-
-#. Template: AdminRegistration
 msgid "Please visit our"
 msgstr "Посетите наш"
-
-#. Template: AdminRegistration
-msgid "portal"
-msgstr "портал"
-
-#. Template: AdminRegistration
-msgid "and file a request."
-msgstr "и задайте вопрос."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
@@ -8647,7 +8722,7 @@ msgstr "Поток"
 
 #. Template: AgentDashboardStats
 msgid "No Data Available."
-msgstr ""
+msgstr "Данные недоступны."
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -9385,7 +9460,7 @@ msgstr "CustomerID (complex search)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. 234*)"
-msgstr ""
+msgstr "(Например, 234 *)"
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
@@ -9397,7 +9472,7 @@ msgstr "Customer User Login (complex search)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. U51*)"
-msgstr ""
+msgstr "(Например, U51*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (exact match)"
@@ -9808,11 +9883,11 @@ msgstr "Возникла внутренняя ошибка."
 
 #. Template: CustomerFooterJS
 msgid "Connection error"
-msgstr ""
+msgstr "Ошибка соединения"
 
 #. Template: CustomerFooterJS
 msgid "Reload page"
-msgstr ""
+msgstr "Перезагрузить страницу"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -11266,7 +11341,7 @@ msgstr "Web-сервис \"%s\" удален!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "New Web service"
-msgstr ""
+msgstr "Новый Веб-сервис"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -11393,7 +11468,7 @@ msgstr "Не возможно прочитать %s!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "File is OK"
-msgstr ""
+msgstr "Файлы ОК"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -12001,7 +12076,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr ""
+msgstr "Вам нужно выбрать как минимум одну заявку."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
@@ -12011,7 +12086,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
-msgstr ""
+msgstr "Текущие заявки были заблокированы: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Can not determine the ArticleType!"
@@ -12238,14 +12313,8 @@ msgstr "Отсутствует ActivityEntityID в Ticket %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for Ticket"
-" %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketProcess.pm
-msgid ""
-"Another user changed this ticket in the meantime. Please close this window "
-"and reload the ticket."
+"This step does not belong anymore the current activity in process for ticket"
+" '%s%s%s'! Another user changed this ticket in the meantime."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12287,7 +12356,7 @@ msgstr "Без названия"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Customer Name"
-msgstr ""
+msgstr "Имя клиента"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -12419,7 +12488,7 @@ msgstr "Исходящий телефонный звонок"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forwarded Message"
-msgstr ""
+msgstr "Пересланное сообщение"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Removed User Subscription"
@@ -12435,7 +12504,7 @@ msgstr "Входящий телефонный звонок"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "System Request."
-msgstr ""
+msgstr "Системный запрос"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Follow-Up"
@@ -12447,7 +12516,7 @@ msgstr "Автоответ отправлен"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reject Sent"
-msgstr ""
+msgstr "Автоматическое отклонение отправлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time In Effect"
@@ -12479,11 +12548,11 @@ msgstr "Внешний чат"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Queue Changed"
-msgstr ""
+msgstr "Очередь изменена"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Notification Was Sent"
-msgstr ""
+msgstr "Уведомление было отправлено"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
@@ -12517,11 +12586,11 @@ msgstr "Вне сети"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "User is currently offline."
-msgstr ""
+msgstr "Пользователь сейчас отключен."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "User is currently active."
-msgstr ""
+msgstr "Пользователь сейчас активен."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Away"
@@ -12637,15 +12706,15 @@ msgstr "База данных %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
-msgstr ""
+msgstr "Конфигурировать MySQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure PostgreSQL"
-msgstr ""
+msgstr "Конфигурировать PostgreSQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Oracle"
-msgstr ""
+msgstr "Конфигурировать Oracle"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
@@ -12669,7 +12738,7 @@ msgstr "Обратитесь к Вашему администратору!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Syslog"
-msgstr ""
+msgstr "Системный журнал"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't write Config file!"
@@ -12739,7 +12808,7 @@ msgstr "Время начала для заявки установлено по�
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't connect to OTRS News server!"
-msgstr ""
+msgstr "Невозможно подключиться к серверу новостей OTRS!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't get OTRS News from server!"
@@ -12747,7 +12816,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
-msgstr ""
+msgstr "Невозможно подключиться к серверу продукта!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't get Product News from server!"
@@ -12755,7 +12824,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
 msgid "Can't connect to %s!"
-msgstr ""
+msgstr "Не удается подключиться к %s!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
@@ -12909,6 +12978,11 @@ msgstr "Удалите, пожалуйста, следующие слова, т�
 msgid "Order by"
 msgstr "Сортировка по"
 
+#. Perl Module: Kernel/System/ACL/DB/ACL.pm
+msgid ""
+"Couldn't read ACL configuration file. Please make sure the file is valid."
+msgstr ""
+
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
@@ -12944,12 +13018,26 @@ msgstr "Этот параметр по-умолчанию не активен."
 msgid "This setting can not be deactivated."
 msgstr "Этот параметр не может быть отключен."
 
+#. Perl Module: Kernel/System/CustomerUser.pm
+msgid "Customer user \"%s\" already exists."
+msgstr ""
+
+#. Perl Module: Kernel/System/CustomerUser/DB.pm
+msgid "This email address is already in use for another customer user."
+msgstr ""
+
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
 msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
+msgstr "Игнорировать это поле."
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid ""
+"Couldn't read Notification configuration file. Please make sure the file is "
+"valid."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -12958,14 +13046,18 @@ msgstr "не установлено"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
-msgstr ""
+msgstr "Файл не установлен!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is different!"
-msgstr ""
+msgstr "Файл отличается!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
+msgstr "Невозможно прочитать файл!"
+
+#. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+msgid "The process \"%s\" and all of its data has been imported successfully."
 msgstr ""
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
@@ -19426,7 +19518,7 @@ msgstr "Модуль для фильтрации и управления вхо�
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
-msgstr ""
+msgstr "Модуль для фильтрации зашифрованных тел во входящих сообщениях."
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
@@ -20280,11 +20372,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Select how many tickets should be shown in overviews by default."
-msgstr ""
+msgstr "Выберете как много заявок будет показываться в обзоре по умолчанию."
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Выберете главный язык интерфейса."
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -20384,12 +20476,6 @@ msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
 
 #. SysConfig
-msgid ""
-"Set minimum loglevel. If you select 'error', just errors are logged. With "
-"'debug' you get all logging messages."
-msgstr "Установить минимальный уровень записи в системный журнал. Если выберете 'error', только сообщения об ошибках будут записываться. 'Debug' - приведет к регистрации всех сообщений."
-
-#. SysConfig
 msgid "Set sender email addresses for this system."
 msgstr "Задать адрес отправителя для этой системы."
 
@@ -20410,6 +20496,13 @@ msgid ""
 "Set the maximum height (in pixels) of inline HTML articles in "
 "AgentTicketZoom."
 msgstr "Задает максимальную высоту (в пикселах) для inline HTML сообщений в AgentTicketZoom."
+
+#. SysConfig
+msgid ""
+"Set the minimum log level. If you select 'error', just errors are logged. "
+"With 'debug' you get all logging messages. The order of log levels is: "
+"'debug', 'info', 'notice' and 'error'."
+msgstr ""
 
 #. SysConfig
 msgid ""

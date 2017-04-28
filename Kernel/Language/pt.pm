@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.409839398251677;
+    $Self->{Completeness}        = 0.408419348310059;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -257,16 +257,16 @@ sub Data {
         'Configure Mail' => 'Configurar Mail',
         'Database deleted.' => 'Base de dados apagada.',
         'Enter the password for the administrative database user.' => 'Insira a palavra-passe para a base de dados de administrador',
-        'Enter the password for the database user.' => 'Insira a palavra chave para a o utilizador da base de dados',
+        'Enter the password for the database user.' => 'Insira a palavra-passe para o utilizador da base de dados.',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            'Se criou uma palavra passe para a raiz de Base de Dados tem que a colocar aqui. Se não deixo o campo em branco.',
-        'Database already contains data - it should be empty!' => 'A base de dado já contém dados - deveria estar vazia!',
-        'Login is needed!' => 'Entrada necessária',
+            'Se criou uma palavra-passe para a raiz de base de dados tem que a colocar aqui. Se não deixe o campo em branco.',
+        'Database already contains data - it should be empty!' => 'A base de dados já contém dados - deveria estar vazia!',
+        'Login is needed!' => 'Nome de utilizador necessário!',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            'Não é possível efectuar login devido a uma manutenção agendada do sistema',
-        'Password is needed!' => 'Palavra-passe indispensável!',
-        'Take this Customer' => 'Fique com este Cliente',
-        'Take this User' => 'Fique com este Utilizador',
+            'Não é possível efectuar autenticação devido a uma manutenção agendada do sistema.',
+        'Password is needed!' => 'Palavra-passe é necessária!',
+        'Take this Customer' => 'Alterar para este Cliente',
+        'Take this User' => 'Alterar para este Utilizador',
         'possible' => 'possível',
         'reject' => 'rejeitar',
         'reverse' => 'reverter',
@@ -274,18 +274,18 @@ sub Data {
         'Time Zone' => 'Fuso horário',
         'Pending till' => 'Pendente até',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
-            'Não utilizar a conta de Super utilizador para trabalhar com o OTRS! Em vez disso, crie novos Agentes e trabalhe com essas contas.',
-        'Dispatching by email To: field.' => 'Despachado através do campo Para:',
-        'Dispatching by selected Queue.' => 'Despachado pela Fila escolhida',
-        'No entry found!' => 'Não se encontrou nada!',
-        'Session invalid. Please log in again.' => 'Sessão inválida. Por favor, faça o login novamente.',
+            'Não utilize a conta de Administrador para trabalhar com o OTRS! Em vez disso, crie novos Agentes e trabalhe com essas contas.',
+        'Dispatching by email To: field.' => 'Enviado através do campo de email Para:',
+        'Dispatching by selected Queue.' => 'Enviado para a Fila selecionada.',
+        'No entry found!' => 'Entrada não encontrada!',
+        'Session invalid. Please log in again.' => 'Sessão inválida. Por favor, autentique-se novamente.',
         'Session has timed out. Please log in again.' => 'A sessão expirou. Por favor autentique-se novamente',
         'Session limit reached! Please try again later.' => 'Terminou o tempo limite de sessão! Por favor tente novamente mais tarde.',
         'No Permission!' => 'Sem Permissão!',
         '(Click here to add)' => '(Clique aqui para adicionar)',
-        'Preview' => 'Prever',
+        'Preview' => 'Pré-visualizar',
         'Package not correctly deployed! Please reinstall the package.' =>
-            'O pacote não foi corretamente instalado! Por favor reinstal o pacote.',
+            'O pacote não foi corretamente instalado! Por favor reinstale o pacote.',
         '%s is not writable!' => '%s não modificável',
         'Cannot create %s!' => 'Não é possível criar %s',
         'Check to activate this date' => 'Confirma para ativar esta data',
@@ -1724,6 +1724,32 @@ sub Data {
         'Reinstall package' => 'Re-instalar pacote',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Confirma a re-instalação do pacote ? As alterações manuais serão perdidas.',
+        'Go to upgrading instructions' => '',
+        'Go to the OTRS customer portal' => '',
+        'package information' => '',
+        'Package installation requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS' => '',
+        'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
+            '',
+        'Everything else will be done as part of your contract.' => '',
+        'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
+        'How can I do a patch level update if I don’t have a contract?' =>
+            '',
+        'Please find all relevant information within' => '',
+        'the upgrading instructions' => '',
+        'In case you would have further questions we would be glad to answer them.' =>
+            '',
+        'Please visit our customer' => '',
+        'portal' => '',
+        'and file a request.' => '',
         'Continue' => 'Continuar',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
@@ -2103,11 +2129,7 @@ sub Data {
         'Your system will send updates to the registration server at regular intervals.' =>
             '',
         'Typically this would be around once every three days.' => '',
-        'In case you would have further questions we would be glad to answer them.' =>
-            '',
         'Please visit our' => '',
-        'portal' => '',
-        'and file a request.' => '',
         'If you deregister your system, you will lose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -3803,9 +3825,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => '',
         'Invalid TicketID: %s!' => '',
         'Missing ActivityEntityID in Ticket %s!' => '',
-        'This step does not belong anymore the current activity in process for Ticket %s!' =>
-            '',
-        'Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
+        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => '',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -4043,6 +4063,10 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Ordenado por',
 
+        # Perl Module: Kernel/System/ACL/DB/ACL.pm
+        'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             '',
@@ -4057,17 +4081,32 @@ sub Data {
         'This setting is not active by default.' => '',
         'This setting can not be deactivated.' => '',
 
+        # Perl Module: Kernel/System/CustomerUser.pm
+        'Customer user "%s" already exists.' => '',
+
+        # Perl Module: Kernel/System/CustomerUser/DB.pm
+        'This email address is already in use for another customer user.' =>
+            '',
+
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
         'Ignore this field.' => '',
 
+        # Perl Module: Kernel/System/NotificationEvent.pm
+        'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
         'File is not installed!' => '',
         'File is different!' => '',
         'Can\'t read file!' => '',
+
+        # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
+        'The process "%s" and all of its data has been imported successfully.' =>
+            '',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Inativo',
@@ -6247,7 +6286,7 @@ Thanks for your help!
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
-            '',
+            'Fornece uma visão geral em matriz dos tickets por estado e fila',
         'Queue view' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.' =>
@@ -6361,14 +6400,14 @@ Thanks for your help!
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set minimum loglevel. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages.' =>
-            '',
         'Set sender email addresses for this system.' => '',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
+            '',
+        'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
             '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
@@ -6937,7 +6976,7 @@ Thanks for your help!
         'Ticket Pending.' => '',
         'Ticket Print.' => '',
         'Ticket Priority.' => '',
-        'Ticket Queue Overview' => '',
+        'Ticket Queue Overview' => 'Visão geral das filas de tickets',
         'Ticket Responsible.' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom.' => '',
