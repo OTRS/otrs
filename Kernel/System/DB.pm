@@ -951,7 +951,7 @@ sub SQLProcessor {
         my @Database = @{
             $Kernel::OM->Get('Kernel::System::Storable')->Clone(
                 Data => $Param{Database},
-            )
+                )
         };
 
         my @Table;
