@@ -198,9 +198,9 @@ $Self->True(
 my $SystemDataGroupRand = 'systemdata' . $Helper->GetRandomID();
 
 my %Storage = (
-    Foo  => 'bar',
-    Bar  => 'baz',
-    Beef => 'spam',
+    Foo   => 'bar',
+    Bar   => 'baz',
+    Beef  => 'spam',
     Empty => '',
 );
 

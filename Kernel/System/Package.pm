@@ -1439,7 +1439,8 @@ sub PackageOnlineList {
                 (
                     ref $Response eq 'SCALAR'
                     && $Response
-                ) || (
+                )
+                || (
                     ref $Response eq 'HASH'
                     && $Response->{Success}
                 )

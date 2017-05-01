@@ -900,11 +900,11 @@ sub SQLProcessor {
         my @Database = @{
             $Kernel::OM->Get('Kernel::System::Storable')->Clone(
                 Data => $Param{Database},
-            )
+                )
         };
 
         my @Table;
-        for my $Tag ( @Database ) {
+        for my $Tag (@Database) {
 
             # create table
             if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {

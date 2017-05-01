@@ -872,7 +872,8 @@ for my $Test (@Tests) {
     my $FrameworkMinimum = $Test->{Framework}[0]->{Minimum} || '-';
     my $FrameworkMaximum = $Test->{Framework}[0]->{Maximum} || '-';
 
-    my $Name = "_CheckFramework(): Version => $FrameworkVersion, Minimum => $FrameworkMinimum, Maximum => $FrameworkMaximum";
+    my $Name
+        = "_CheckFramework(): Version => $FrameworkVersion, Minimum => $FrameworkMinimum, Maximum => $FrameworkMaximum";
 
     if ( $Test->{ResultType} && $Test->{ResultType} eq 'HASH' ) {
         $Self->IsDeeply(

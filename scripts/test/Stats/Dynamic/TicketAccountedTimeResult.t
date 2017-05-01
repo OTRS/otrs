@@ -26,10 +26,10 @@ $ConfigObject->Set(
     Value => 1,
 );
 
-my $StatsObject   = $Kernel::OM->Get('Kernel::System::Stats');
-my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
+my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
+my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(

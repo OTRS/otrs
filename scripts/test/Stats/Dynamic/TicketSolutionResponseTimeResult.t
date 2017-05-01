@@ -26,10 +26,10 @@ $ConfigObject->Set(
     Value => 1,
 );
 
-my $StatsObject   = $Kernel::OM->Get('Kernel::System::Stats');
-my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
+my $StatsObject  = $Kernel::OM->Get('Kernel::System::Stats');
+my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -185,7 +185,7 @@ for my $Ticket (@Tickets) {
 
     if ( $Ticket->{TicketData}->{AddSecondsBeforeClose} ) {
 
-        $Helper->FixedTimeAddSeconds($Ticket->{TicketData}->{AddSecondsBeforeClose});
+        $Helper->FixedTimeAddSeconds( $Ticket->{TicketData}->{AddSecondsBeforeClose} );
 
         # Now close the ticket, because the statistic select only closed tickets.
         $TicketObject->TicketStateSet(
@@ -250,7 +250,8 @@ $Self->True(
     'StatsUpdate() TicketSolutionResponseTime successful - StatID $TicketSolutionResponseTimeStatID',
 );
 
-my $KindsOfReporting = $Kernel::OM->Get('Kernel::System::Stats::Dynamic::TicketSolutionResponseTime')->_KindsOfReporting();
+my $KindsOfReporting
+    = $Kernel::OM->Get('Kernel::System::Stats::Dynamic::TicketSolutionResponseTime')->_KindsOfReporting();
 
 my @Tests = (
 

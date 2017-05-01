@@ -776,7 +776,8 @@ sub NotificationImport {
     if ( ref $NotificationData ne 'ARRAY' ) {
         return {
             Success => 0,
-            Message => Translatable("Couldn't read Notification configuration file. Please make sure the file is valid."),
+            Message =>
+                Translatable("Couldn't read Notification configuration file. Please make sure the file is valid."),
         };
     }
 
