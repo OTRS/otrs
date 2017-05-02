@@ -2259,7 +2259,7 @@ sub _GenerateDynamicStats {
             next ELEMENT if !$Element->{Selected};
 
             # Clone the element as we are going to modify it - avoid modifying the original data
-            $Element = ${ $Kernel::OM->Get('Kernel::System::Storable')->Clone( \$Element ) };
+            $Element = ${ $Kernel::OM->Get('Kernel::System::Storable')->Clone( Data => \$Element ) };
 
             delete $Element->{Selected};
             delete $Element->{Fixed};

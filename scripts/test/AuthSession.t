@@ -61,7 +61,7 @@ for my $SessionFile (@SampleSessionFiles) {
     next SESSIONFILE if ref $Content ne 'SCALAR';
 
     # read data structure back from file dump, use block eval for safety reasons
-    my $Session = eval { $StorableObject->Deserialize( ${$Content}) };
+    my $Session = eval { $StorableObject->Deserialize( Data => ${$Content}) };
     delete $Session->{UserLastRequest};
 
     push @SampleSessionData, $Session;

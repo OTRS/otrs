@@ -37,7 +37,7 @@ my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 # make a copy of the XMLArray (deep clone it),
 # it will be needed for a later comparison
-my @XMLARRAYCopy = @{ $StorableObject->Clone( \@XMLARRAY ) };
+my @XMLARRAYCopy = @{ $StorableObject->Clone( Data => \@XMLARRAY ) };
 
 # check that the copy is the same as the original
 $Self->IsDeeply(
