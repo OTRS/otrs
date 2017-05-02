@@ -11,14 +11,13 @@ package Kernel::System::AuthSession::FS;
 use strict;
 use warnings;
 
-use Storable qw();
-
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storable',
     'Kernel::System::Time',
 );
 
@@ -175,7 +174,9 @@ sub GetSessionIDData {
     return if ref $Content ne 'SCALAR';
 
     # read data structure back from file dump, use block eval for safety reasons
-    my $Session = eval { Storable::thaw( ${$Content} ) };
+    my $Session = eval {
+        $Kernel::OM->Get('Kernel::System::Storable')->Deserialize( Data => ${$Content} )
+    };
 
     if ( !$Session || ref $Session ne 'HASH' ) {
         delete $Self->{Cache}->{ $Param{SessionID} };
@@ -225,7 +226,7 @@ sub CreateSessionID {
     $Data{UserChallengeToken}  = $ChallengeToken;
 
     # dump the data
-    my $DataContent = Storable::nfreeze( \%Data );
+    my $DataContent = $Kernel::OM->Get('Kernel::System::Storable')->Serialize( Data => \%Data );
 
     # write data file
     my $FileLocation = $MainObject->FileWrite(
@@ -523,7 +524,9 @@ sub DESTROY {
         }
 
         # dump the data
-        my $DataContent = Storable::nfreeze( \%SessionData );
+        my $DataContent = $Kernel::OM->Get('Kernel::System::Storable')->Serialize(
+            Data => \%SessionData,
+        );
 
         # write data file
         $MainObject->FileWrite(
