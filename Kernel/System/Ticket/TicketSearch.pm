@@ -485,13 +485,13 @@ sub TicketSearch {
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # check for needed article table join
-    my $ArticleTableJoin = $Param{CustomerUserID} ? 1 : 0;
+    my $ArticleTableJoined = 0;
 
     # check for needed article search index table join
     if ( $ArticleObject->ArticleSearchIndexNeeded( Data => \%Param ) ) {
         $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
         $SQLFrom .= $ArticleObject->ArticleSearchIndexJoin( Data => \%Param );
-        $ArticleTableJoin = 1;
+        $ArticleTableJoined = 1;
     }
 
     # use also history table if required
@@ -1473,9 +1473,9 @@ sub TicketSearch {
             }
             elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
 
-                if ( !$ArticleTableJoin ) {
+                if ( !$ArticleTableJoined ) {
                     $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
-                    $ArticleTableJoin = 1;
+                    $ArticleTableJoined = 1;
                 }
 
                 if ($QueryForEmptyValues) {
@@ -2251,9 +2251,9 @@ sub TicketSearch {
                             $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                     }
                     elsif ( $ArticleDynamicFieldName2Config{$DynamicFieldName} ) {
-                        if ( !$ArticleTableJoin ) {
+                        if ( !$ArticleTableJoined ) {
                             $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
-                            $ArticleTableJoin = 1;
+                            $ArticleTableJoined = 1;
                         }
 
                         $SQLFrom

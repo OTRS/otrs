@@ -237,12 +237,6 @@ $Self->True(
     'ArticleCreate()'
 );
 
-$ArticleObject->ArticleIndexBuild(
-    TicketID  => $TicketID,
-    ArticleID => $ArticleID,
-    UserID    => 1,
-);
-
 $Self->Is(
     scalar $ArticleObject->ArticleList( TicketID => $TicketID ),
     1,

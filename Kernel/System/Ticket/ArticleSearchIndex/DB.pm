@@ -77,7 +77,14 @@ sub ArticleIndexBuild {
             );
         }
 
-        $DBObject->Do(
+        # Indexed content will be saved lowercase, even if it is not filterable to avoid
+        # LOWER() statements on search time, which increases the search performance.
+        # (this will be done automatically on filterable fields)
+        else {
+            $ArticleSearchableContent{$FieldKey}->{String} = lc $ArticleSearchableContent{$FieldKey}->{String};
+        }
+
+        my $Success = $DBObject->Do(
             SQL => '
                 INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value)
                 VALUES (?, ?, ?, ?)',
@@ -250,7 +257,7 @@ sub ArticleSearchIndexCondition {
                 SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
                 SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
                 Extended      => 1,
-                CaseSensitive => 1,                                     # data is already stored in lower cases
+                CaseSensitive => 1,
             );
         }
         else {
