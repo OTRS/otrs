@@ -10,13 +10,12 @@ use strict;
 use warnings;
 use utf8;
 
-use Storable;
-
 use vars (qw($Self));
 
 # get needed objects
-my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
+my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+my $XMLObject      = $Kernel::OM->Get('Kernel::System::XML');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -38,7 +37,7 @@ my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 # make a copy of the XMLArray (deep clone it),
 # it will be needed for a later comparison
-my @XMLARRAYCopy = @{ Storable::dclone( \@XMLARRAY ) };
+my @XMLARRAYCopy = @{ $StorableObject->Clone( \@XMLARRAY ) };
 
 # check that the copy is the same as the original
 $Self->IsDeeply(

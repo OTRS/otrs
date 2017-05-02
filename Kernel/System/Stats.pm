@@ -14,7 +14,6 @@ use warnings;
 use MIME::Base64;
 
 use POSIX qw(ceil);
-use Storable qw();
 
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
@@ -30,6 +29,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storable',
     'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::XML',
@@ -2259,7 +2259,7 @@ sub _GenerateDynamicStats {
             next ELEMENT if !$Element->{Selected};
 
             # Clone the element as we are going to modify it - avoid modifying the original data
-            $Element = ${ Storable::dclone( \$Element ) };
+            $Element = ${ $Kernel::OM->Get('Kernel::System::Storable')->Clone( \$Element ) };
 
             delete $Element->{Selected};
             delete $Element->{Fixed};
