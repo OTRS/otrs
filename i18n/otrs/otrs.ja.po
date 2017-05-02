@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-04-27 21:54+0000\n"
-"PO-Revision-Date: 2017-04-28 03:00+0000\n"
+"POT-Creation-Date: 2017-05-02 12:16+0000\n"
+"PO-Revision-Date: 2017-05-02 17:25+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -5722,6 +5722,10 @@ msgid "Manage %s"
 msgstr "%s を管理"
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
 msgstr "フリー版OTRSへのダウングレード"
 
@@ -5787,6 +5791,50 @@ msgid "%s Update Available"
 msgstr "%s 利用できるアップデーターがあります"
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Package installation requires patch level update of OTRS."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Please visit our customer portal and file a request."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, you need to "
+"update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, the Maximum OTRS "
+"Version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr ""
 
@@ -5822,6 +5870,14 @@ msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
 msgstr "cloud.otrs.comへのHTTPSでの接続の確立ができませんでした。\nOTRSが443ポートを用いてcloud.otrs.comに接続できることを確認して下さい。"
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -5999,19 +6055,11 @@ msgid "Go to upgrading instructions"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Go to the OTRS customer portal"
-msgstr ""
-
-#. Template: AdminPackageManager
 msgid "package information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package installation requires patch level update of OTRS"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS"
+msgid "Package upgrade requires patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6021,35 +6069,7 @@ msgid ""
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Everything else will be done as part of your contract."
-msgstr ""
-
-#. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the required Framework version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Why should I keep OTRS up to date?"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates about relevant security issues."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates for all other relevant OTRS issues"
 msgstr ""
 
 #. Template: AdminPackageManager

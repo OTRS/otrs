@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.54341226472374;
+    $Self->{Completeness}        = 0.542972699696663;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1636,6 +1636,7 @@ Opdater venligst dit framework først!',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Administrer %s',
+        'Go to the OTRS customer portal' => '',
         'Downgrade to OTRS Free' => 'Nedgrader til OTRS Free',
         'Read documentation' => 'Læs dokumentation',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1655,6 +1656,19 @@ Opdater venligst dit framework først!',
         '%s Not Yet Available' => '%s er endnu ikke tilgængelig.',
         '%s will be available soon.' => '%s vil snart være tilgængelig.',
         '%s Update Available' => '%s opdatering tilgængelig.',
+        'Package installation requires patch level update of OTRS.' => '',
+        'Please visit our customer portal and file a request.' => '',
+        'Everything else will be done as part of your contract.' => '',
+        'Your installed OTRS version is %s.' => '',
+        'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
+            '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
         'An update for your %s is available! Please update at your earliest!' =>
             'En opdatering til din %s er tilgængelig. Opdater venligst hurtigst muligt.',
         '%s Correctly Deployed' => '%s korrekt installeret.',
@@ -1671,6 +1685,9 @@ Opdater venligst dit framework først!',
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Forbindelse til cloud.otrs.com via HTTPS kunne ikke etableres. Sørg venligst for, at din OTRS kan forbinde sig til cloud.otrs.com via port 443.',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
         'With your existing contract you can only use a small part of the %s.' =>
             '',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
@@ -1726,22 +1743,11 @@ Opdater venligst dit framework først!',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Vil du virkelig geninstallere denne pakke? Alle manuelle ændringer vil gå tabt.',
         'Go to upgrading instructions' => '',
-        'Go to the OTRS customer portal' => '',
         'package information' => '',
-        'Package installation requires patch level update of OTRS' => '',
-        'Package upgrade requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             '',
-        'Everything else will be done as part of your contract.' => '',
         'Please note that your installed OTRS version is %s.' => '',
-        'To install this package, you need to update to OTRS %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTRS Version is %s.' => '',
-        'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTRS up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTRS issues' => '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
         'Please find all relevant information within' => '',

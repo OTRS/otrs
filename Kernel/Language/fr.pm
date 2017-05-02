@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.472981177899211;
+    $Self->{Completeness}        = 0.473407482305359;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -911,7 +911,7 @@ sub Data {
         'Upgrade to %s' => 'Mettre à jour vers %s',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Gestion des clients',
+        'Customer Management' => 'Gestion des Clients',
         'Wildcards like \'*\' are allowed.' => 'Les caractères génériques tels que \'*\ sont autorisés',
         'Add customer' => 'Ajouter un client',
         'Select' => 'Sélectionner',
@@ -1133,7 +1133,7 @@ sub Data {
         'Select Tickets' => 'Sélectionner des tickets',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',
-        'Customer user' => 'Client utilisateur',
+        'Customer user' => 'Utilisateur client',
         '(e. g. U5150)' => '(ex: U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Recherche plein texte dans article (p. ex. "Valérie*m" ou "Eco*").',
         'Agent' => 'Opérateur',
@@ -1183,7 +1183,7 @@ sub Data {
         'new owner' => 'nouveau propriétaire',
         'new responsible' => 'nouveau responsable',
         'Set new ticket lock' => 'Placer un nouveau verrou sur le ticket',
-        'New customer user' => 'Nouveau client utilisateur',
+        'New customer user' => 'Nouvel utilisateur client',
         'New customer ID' => 'Nouvel ID client',
         'New title' => 'Nouveau titre',
         'New type' => 'Nouveau type',
@@ -1642,6 +1642,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Gérer %s',
+        'Go to the OTRS customer portal' => '',
         'Downgrade to OTRS Free' => 'Retour à OTRS libre',
         'Read documentation' => 'Lire la documentation',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1661,6 +1662,19 @@ sub Data {
         '%s Not Yet Available' => '%s n\'est pas encore disponible',
         '%s will be available soon.' => '%s sera bientôt disponible.',
         '%s Update Available' => '%S Mise à jour disponible',
+        'Package installation requires patch level update of OTRS.' => '',
+        'Please visit our customer portal and file a request.' => '',
+        'Everything else will be done as part of your contract.' => '',
+        'Your installed OTRS version is %s.' => '',
+        'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
+            '',
+        'To install this package, the required Framework version is %s.' =>
+            '',
+        'Why should I keep OTRS up to date?' => '',
+        'You will receive updates about relevant security issues.' => '',
+        'You will receive updates for all other relevant OTRS issues' => '',
         'An update for your %s is available! Please update at your earliest!' =>
             'Une mise à jour est disponible pour votre %s! Merci de l\'effectuer le plus rapidement possible!',
         '%s Correctly Deployed' => '%S Installé Correctement',
@@ -1677,6 +1691,9 @@ sub Data {
             'Avant de pouvoir bénéficier de %s, merci de contacter %s pour obtenir votre contrat.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'La connexion à cloud.otrs.com via HTTPS aboutit pas. Merci de vérifier que OTRS peut se connecter à cloud.otrs.com via le port 443.',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install this package, the Maximum OTRS Version is %s.' => '',
         'With your existing contract you can only use a small part of the %s.' =>
             'Avec votre contrat actuel vous pouvez seulement utiliser une petite partie de %s.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
@@ -1684,12 +1701,12 @@ sub Data {
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => 'Annuler la rétrogradation et retour.',
-        'Go to OTRS Package Manager' => 'Aller au gestionnaire de paquet d\'OTRS',
+        'Go to OTRS Package Manager' => 'Aller au gestionnaire de paquets d\'OTRS',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             'Désolé, mais vous ne pouvez pas rétrograder en raison des paquets suivants qui dépendent de %s:',
         'Vendor' => 'Vendeur',
         'Please uninstall the packages first using the package manager and try again.' =>
-            'Merci de désinstaller les paquets en utilisant le gestionnaire de paquet et ressayer.',
+            'Veuillez désinstaller les paquets en utilisant le gestionnaire de paquets, puis ré-essayer.',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Vous êtes sur le point de rétrograder vers OTRS libre et vous allez perdre les fonctionnalités suivantes avec leurs données relatives:',
         'Chat' => 'Chat',
@@ -1725,29 +1742,18 @@ sub Data {
         'PGP key' => 'Clé PGP',
 
         # Template: AdminPackageManager
-        'Package Manager' => 'Gestionnaire de paquet',
+        'Package Manager' => 'Gestionnaire de paquets',
         'Uninstall package' => 'Désinstaller package',
         'Do you really want to uninstall this package?' => 'Voulez-vous vraiment déinstaller ce paquet ?',
         'Reinstall package' => 'Réinstaller package',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Voulez-vous vraiment réinstaller ce package? Un quelconque changement manuel sera perdu. ',
         'Go to upgrading instructions' => '',
-        'Go to the OTRS customer portal' => '',
         'package information' => '',
-        'Package installation requires patch level update of OTRS' => '',
-        'Package upgrade requires patch level update of OTRS' => '',
+        'Package upgrade requires patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             '',
-        'Everything else will be done as part of your contract.' => '',
         'Please note that your installed OTRS version is %s.' => '',
-        'To install this package, you need to update to OTRS %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTRS Version is %s.' => '',
-        'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTRS up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTRS issues' => '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
         'Please find all relevant information within' => '',
@@ -2362,10 +2368,10 @@ sub Data {
         'Navigate by searching in %s settings' => 'Naviguer en cherchant parmi %s réglages',
         'Navigate by selecting config groups' => 'Naviguer en sélectionnant les groupes de configuration',
         'Download all system config changes' => 'Télécharger toutes les modifications de configuration système',
-        'Export settings' => 'Configuration d\'export',
+        'Export settings' => 'Exporter configuration',
         'Load SysConfig settings from file' => 'Charger la configuration SysConfig à partir du fichier',
-        'Import settings' => 'configuration d\'import',
-        'Import Settings' => 'Configuration d\'Import',
+        'Import settings' => 'Importer configuration',
+        'Import Settings' => 'Importer Configuration',
         'Please enter a search term to look for settings.' => 'Merci d\'entrer un motif de recherche pour chercher dans la configuration',
         'Subgroup' => 'Sous-groupe',
         'Elements' => 'Éléments',
@@ -2509,7 +2515,7 @@ sub Data {
         'Customer Information Center' => 'Tableau de Bord Client',
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer User' => 'Client Utilisateur',
+        'Customer User' => 'Utilisateur Client',
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Doublon',
@@ -4801,7 +4807,7 @@ Thanks for your help!
             '',
         'Closed tickets (customer user)' => 'Tickets fermés (utilisateur client)',
         'Closed tickets (customer)' => 'Tickets fermés (client)',
-        'Cloud Services' => '',
+        'Cloud Services' => 'Services Cloud',
         'Cloud service admin module registration for the transport layer.' =>
             '',
         'Collect support data for asynchronous plug-in modules.' => '',
@@ -4873,7 +4879,7 @@ Thanks for your help!
         'Create and manage services.' => 'Créer et gérer les services.',
         'Create and manage signatures.' => 'Créer et gérer les signatures.',
         'Create and manage templates.' => 'Créer et gérer les modèles.',
-        'Create and manage ticket notifications.' => '',
+        'Create and manage ticket notifications.' => 'Créer et gérer les notifications des tickets.',
         'Create and manage ticket priorities.' => 'Créer et gérer les priorités de ticket.',
         'Create and manage ticket states.' => 'Créer et gérer les états de ticket.',
         'Create and manage ticket types.' => 'Créer et gérer les types de ticket.',
@@ -5724,7 +5730,7 @@ Thanks for your help!
         'Edit Customer Companies.' => '',
         'Edit Customer Users.' => '',
         'Edit customer company' => '',
-        'Email Addresses' => 'Adresses E-mail',
+        'Email Addresses' => 'Adresses e-mail',
         'Email Outbound' => '',
         'Email sent to "%s".' => 'E-mail envoyé à "%s".',
         'Email sent to customer.' => 'E-mail envoyé au client.',
@@ -6279,7 +6285,7 @@ Thanks for your help!
         'Polish' => '',
         'Portuguese' => '',
         'Portuguese (Brasil)' => '',
-        'PostMaster Filters' => 'Filtres Postmasters',
+        'PostMaster Filters' => 'Filtres Postmaster',
         'PostMaster Mail Accounts' => 'Comptes Mail PostMaster',
         'Process Management Activity Dialog GUI' => '',
         'Process Management Activity GUI' => '',
@@ -6407,7 +6413,7 @@ Thanks for your help!
         'ServiceView' => '',
         'Set a new password by filling in your current password and a new one.' =>
             '',
-        'Set sender email addresses for this system.' => 'Mettre en place les adresses d\'envoi de messages électroniques pour ce système.',
+        'Set sender email addresses for this system.' => 'Mettre en place les adresses d\'envoi d\'e-mails pour ce système.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the limit of tickets that will be executed on a single genericagent job execution.' =>
@@ -6977,7 +6983,7 @@ Thanks for your help!
         'Ticket Merge.' => '',
         'Ticket Move.' => '',
         'Ticket Note.' => '',
-        'Ticket Notifications' => '',
+        'Ticket Notifications' => 'Notifications des tickets',
         'Ticket Outbound Email.' => '',
         'Ticket Owner.' => '',
         'Ticket Pending.' => '',
@@ -6991,7 +6997,7 @@ Thanks for your help!
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
-        'Ticket notifications' => '',
+        'Ticket notifications' => 'Notifications des tickets',
         'Ticket overview' => 'Vue d\'ensemble du Ticket',
         'Ticket plain view of an email.' => '',
         'Ticket title' => '',
@@ -7004,7 +7010,7 @@ Thanks for your help!
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => '',
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
-            'Déclenche l\'affichage de la liste des fonctions Add-ons dans les gestionnaire de paquet',
+            'Déclenche l\'affichage de la liste des modules complémentaires d\'OTRS dans le gestionnaire de paquets.',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Transport selection for ticket notifications.' => '',

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.990285367334548;
+    $Self->{Completeness}        = 0.998786653185035;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1383,7 +1383,7 @@ sub Data {
             '„NazivFunkcije” se koristi kao primer za stvarno ime pozivaoca/operacije.',
         '\'FreeText\' is used as example for actual configured value.' =>
             '„Slobodan tekst” se koristi kao primer za stvarnu podešenu vrednost.',
-        'Request name free text' => '',
+        'Request name free text' => 'Slobodan tekst imena zahteva',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Tekst koji će biti korišten kao nastavak imena ili zamena omotača funkcije.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1640,6 +1640,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Upravljaj sa %s',
+        'Go to the OTRS customer portal' => 'Idi na OTRS korisnički portal',
         'Downgrade to OTRS Free' => 'Povratak na besplatnu verziju „OTRS”',
         'Read documentation' => 'Pročitaj dokumentaciju',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1659,6 +1660,19 @@ sub Data {
         '%s Not Yet Available' => '%s nije još dostupno',
         '%s will be available soon.' => '%s će biti uskoro dostupno',
         '%s Update Available' => '%s dostupno ažuriranje',
+        'Package installation requires patch level update of OTRS.' => '',
+        'Please visit our customer portal and file a request.' => '',
+        'Everything else will be done as part of your contract.' => 'Sve ostalo će biti urađeno pod vašim postojećim ugovorom.',
+        'Your installed OTRS version is %s.' => '',
+        'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
+            '',
+        'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
+            '',
+        'To install this package, the required Framework version is %s.' =>
+            'Za instalaciju ovog paketa, neophodna verzija OTRS je %s.',
+        'Why should I keep OTRS up to date?' => 'Zašto bi trebalo da OTRS uvek bude ažuriran?',
+        'You will receive updates about relevant security issues.' => 'Dobićete ažuriranja odgovarajućih bezbednosnih izdanja.',
+        'You will receive updates for all other relevant OTRS issues' => 'Dobićete ažuriranja svih relevantnih OTRS izdanja.',
         'An update for your %s is available! Please update at your earliest!' =>
             'Ažuriranje za vaš %s je dostupno! Molimo vas da ažurirate što pre!',
         '%s Correctly Deployed' => '%s korektno raspoređeno',
@@ -1675,6 +1689,9 @@ sub Data {
             'Pre nego vam %s bude koristan, molimo da kontaktirate %s da biste dobili %s ugovor.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Konekcija prema cloud.otrs.com preko HTTPS nije mogla biti uspostavljena. Molimo osigurajte da vaš „OTRS” može da se poveže sa cloud.otrs.com preko porta 443.',
+        'To install this package, you need to update to OTRS %s or higher.' =>
+            'Da biste instalirali ovaj paket, neophodno je da ažurirate vaš OTRS na verziju %s ili više.',
+        'To install this package, the Maximum OTRS Version is %s.' => 'Za instalaciju ovog paketa, najviša podržana verzija OTRS je %s.',
         'With your existing contract you can only use a small part of the %s.' =>
             'Sa vašim sadašnjim ugovorom možete koristiti samo mali deo od %s.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
@@ -1729,30 +1746,19 @@ sub Data {
         'Reinstall package' => 'Instaliraj paket ponovo',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Da li stvarno želite da ponovo instalirate ovaj paket? Sve ručne promene će biti izgubljene.',
-        'Go to upgrading instructions' => '',
-        'Go to the OTRS customer portal' => '',
-        'package information' => '',
-        'Package installation requires patch level update of OTRS' => '',
-        'Package upgrade requires patch level update of OTRS' => '',
+        'Go to upgrading instructions' => 'Idi na uputstvo za ažuriranje',
+        'package information' => 'Informacije o paketu',
+        'Package upgrade requires patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
-            '',
-        'Everything else will be done as part of your contract.' => '',
-        'Please note that your installed OTRS version is %s.' => '',
-        'To install this package, you need to update to OTRS %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTRS Version is %s.' => '',
-        'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTRS up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTRS issues' => '',
+            'Ukoliko ste korisnik OTRS Business Solution™, molimo posetite naš korisnički portal i podnesite zahtev.',
+        'Please note that your installed OTRS version is %s.' => 'Trenutno instalirana OTRS verzija je %s.',
         'How can I do a patch level update if I don’t have a contract?' =>
-            '',
-        'Please find all relevant information within' => '',
-        'the upgrading instructions' => '',
+            'Kako mogu da ažuriram verziju OTRS ukoliko nemam ugovor?',
+        'Please find all relevant information within' => 'Molimo pronađite sve relevantne informacije u okviru',
+        'the upgrading instructions' => 'uputstva za ažuriranje',
         'In case you would have further questions we would be glad to answer them.' =>
             'U slučaju da imate dodtana pitanja, biće nam zadovoljstvo da odgovorimo na njih.',
-        'Please visit our customer' => '',
+        'Please visit our customer' => 'Molimo posetite naš korisnički',
         'portal' => 'portal',
         'and file a request.' => 'i podnesite zahtev',
         'Continue' => 'Nastavi',
@@ -1824,7 +1830,7 @@ sub Data {
         'Do you really want to delete this filter?' => 'Da li stvarno želite da obrišete ovaj filter?',
         'Add PostMaster Filter' => 'Dodaj PostMaster filter',
         'Edit PostMaster Filter' => 'Uredi PostMaster filter',
-        'A postmaster filter with this name already exists!' => '',
+        'A postmaster filter with this name already exists!' => 'PostMaster filter sa ovim nazivom već postoji!',
         'Filter Condition' => 'Uslov filtriranja',
         'AND Condition' => 'AND uslov',
         'Check email header' => 'Proveri zaglavlje imejla',
@@ -2578,7 +2584,7 @@ sub Data {
         'Stacked' => 'Naslagano',
         'Expanded' => 'Prošireno',
         'Stream' => 'Protok',
-        'No Data Available.' => '',
+        'No Data Available.' => 'Nema informacija.',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Molimo da u konfiguraciji ovog dodatka izaberete važeći izlazni format grafikona.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -3481,7 +3487,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'Uvezena datoteka nema ispravan „YAML” sadržaj! Molimo proverite „OTRS” dnevnik za detalje',
         'Web service "%s" deleted!' => 'Veb servis „%s” je obrisan!',
-        'New Web service' => '',
+        'New Web service' => 'Novi veb servis',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Nema WebserviceHistoryID!',
@@ -3832,7 +3838,7 @@ sub Data {
         'Invalid TicketID: %s!' => 'Nevažeći ID tiketa: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Nedostaje ID entiteta aktivnosti na tiketu %s!',
         'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
-            '',
+            'Ovaj korak ne pripada više trenutnoj aktivnosti procesa za tiket \'%s%s%s\'! Drugi korisnik je u međuvremenu promenio ovaj tiket.',
         'Missing ProcessEntityID in Ticket %s!' => 'Nedostaje ID entiteta procesa na tiketu %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Ne mogu postaviti vrednost dinamičkog polja za %s za ID tiketa „%s” u dijalogu aktivnosti „%s”!',
@@ -3954,15 +3960,15 @@ sub Data {
         'Unknown Check!' => 'Nepoznata provera!',
         'The check "%s" doesn\'t exist!' => 'Provera „%s” ne postoji!',
         'Database %s' => 'Baza podataka %s',
-        'Configure MySQL' => '',
-        'Configure PostgreSQL' => '',
-        'Configure Oracle' => '',
+        'Configure MySQL' => 'Podesi MySQL',
+        'Configure PostgreSQL' => 'Podesi PostgreSQL',
+        'Configure Oracle' => 'Podesi Oracle',
         'Unknown database type "%s".' => 'Nepoznat tip baze podataka „%s”.',
         'Please go back.' => 'Molimo idite nazad.',
         'Install OTRS - Error' => 'Instaliranje „OTRS” - greška',
         'File "%s/%s.xml" not found!' => 'Datoteka „%s/%s.xml” nije pronađena!',
         'Contact your Admin!' => 'Kontaktirajte vašeg administratora!',
-        'Syslog' => '',
+        'Syslog' => 'Sistemski log',
         'Can\'t write Config file!' => 'Ne mogu da upišem konfiguracionu datoteku!',
         'Unknown Subaction %s!' => 'Nepoznata subakcija %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
@@ -4071,7 +4077,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ACL/DB/ACL.pm
         'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
-            '',
+            'Učitavanje ACL konfiguracije nije bilo moguće. Molimo proverite da li je fajl ispravan.',
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
@@ -4088,21 +4094,21 @@ sub Data {
         'This setting can not be deactivated.' => 'Ovo podešavanje se ne može deaktivirati.',
 
         # Perl Module: Kernel/System/CustomerUser.pm
-        'Customer user "%s" already exists.' => '',
+        'Customer user "%s" already exists.' => 'Klijent korisnik "%s" već postoji.',
 
         # Perl Module: Kernel/System/CustomerUser/DB.pm
         'This email address is already in use for another customer user.' =>
-            '',
+            'Ova adresa elektronske pošte je već iskorišćena za drugog klijent korisnika.',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
-        'e.g. Text or Te*t' => '',
+        'e.g. Text or Te*t' => 'npr. Text ili Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
-        'Ignore this field.' => '',
+        'Ignore this field.' => 'Ignoriši ovo polje.',
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
-            '',
+            'Učitavanje konfiguracije obaveštenja nije bilo moguće. Molimo proverite da li je fajl ispravan.',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nije instalirano',
@@ -4112,7 +4118,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
-            '',
+            'Proces "%s" i sve informacije vezane za njega su uspešno uvezeni.',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => 'Neaktivno',
@@ -4135,9 +4141,9 @@ sub Data {
         'Escalation - Solution Time' => 'Eskalacija - vreme rešavanja',
         'Agent/Owner' => 'Operater/Vlasnik',
         'Created by Agent/Owner' => 'Kreirao Operater/Vlasnik',
-        'CustomerUserLogin' => 'Prijava klijenta korisnika',
-        'CustomerUserLogin (complex search)' => 'Prijava klijenta korisnika (složena pretraga)',
-        'CustomerUserLogin (exact match)' => 'Prijava klijenta korisnika (tačno poklapanje)',
+        'CustomerUserLogin' => 'Korisničko ime klijenta',
+        'CustomerUserLogin (complex search)' => 'Korisničko ime klijenta (složena pretraga)',
+        'CustomerUserLogin (exact match)' => 'Korisničko ime klijenta (tačno poklapanje)',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Procenio',
@@ -4179,17 +4185,17 @@ sub Data {
         'Solution Max Working Time (affected by escalation configuration)' =>
             'Maksimalno radno vreme rešenja (pod uticajem postavki eskalacije)',
         'First Response Average (affected by escalation configuration)' =>
-            '',
+            'Prosečno vreme prvog odgovora (pod uticajem postavki eskalacije)',
         'First Response Min Time (affected by escalation configuration)' =>
-            '',
+            'Minimalno vreme prvog odgovora (pod uticajem postavki eskalacije)',
         'First Response Max Time (affected by escalation configuration)' =>
-            '',
+            'Maksimalno vreme prvog odgovora (pod uticajem postavki eskalacije)',
         'First Response Working Time Average (affected by escalation configuration)' =>
-            '',
+            'Prosečno radno vreme prvog odgovora (pod uticajem postavki eskalacije)',
         'First Response Min Working Time (affected by escalation configuration)' =>
-            '',
+            'Minimalno radno vreme prvog odgovora (pod uticajem postavki eskalacije)',
         'First Response Max Working Time (affected by escalation configuration)' =>
-            '',
+            'Maksimalno radno vreme prvog odgovora (pod uticajem postavki eskalacije)',
         'Number of Tickets (affected by escalation configuration)' => 'Broj tiketa (pod uticajem postavki eskalacije)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
@@ -4909,9 +4915,9 @@ Vaša tehnička podrška
         'Customer Users' => 'Klijenti korisnici',
         'Customer called us.' => 'Klijent nas je pozvao.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
-            'Klijentska stavka (ikona) koja pokazuje zatvorene tikete ovog klijenta kao info blok. Podešavanje Prijave klijenta korisnika “CustomerUserLogin“ na 1 pretragu tiketa zasniva više na prijavi imena nego na ID klijenta.',
+            'Klijent ikonica koja pokazuje zatvorene tikete ovog klijenta kao info blok. Podešavanje CustomerUserLogin na 1 pretražuje tikete na osnovu korisničkog naziva umesto CustomerID.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
-            'Klijentska stavka (ikona) koja pokazuje otvorene tikete ovog klijenta kao info blok. Podešavanje Prijave klijenta korisnika “CustomerUserLogin“ na 1 pretragu tiketa zasniva više na prijavi imena nego na ID klijenta.',
+            'Klijent ikonica koja pokazuje otvorene tikete ovog klijenta kao info blok. Podešavanje CustomerUserLogin na 1 pretražuje tikete na osnovu korisničkog naziva umesto CustomerID.',
         'Customer preferences.' => 'Klijentske postavke.',
         'Customer request via web.' => 'Klijentski veb zahtev.',
         'Customer ticket overview' => 'Klijentski pregled tiketa',
@@ -6010,7 +6016,7 @@ Vaša tehnička podrška
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             'Ako je ova postavka aktivna, lokalne izmene neće biti naglašene kao greške u upravljaču paketima i sakupljaču podataka podrške.',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Ukoliko ćete biti van kancelarije, možda ćete želeti da obavestite druge korisnike postavljanjem tačnih datuma vašeg izostanka.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             'Ignoriše vrstu pošiljaoca članaka (npr. automatski odgovori ili imejl obaveštenja) prilikom prikaza nepročitanih članaka u detaljnom pregledu tiketa ili automatskog proširivanja u velikom ekranu pregleda.',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6387,12 +6393,12 @@ Vaša tehnička podrška
         'Search.' => 'Pretraga.',
         'Second Queue' => 'Drugi Red',
         'Select after which period ticket overviews should refresh automatically.' =>
-            '',
+            'Izaberite posle kog perioda će pregledi tiketa biti automatski osveženi.',
         'Select how many tickets should be shown in overviews by default.' =>
-            '',
-        'Select the main interface language.' => '',
+            'Izaberite koji broj tiketa će biti podrazumevano prikazan u pregledima.',
+        'Select the main interface language.' => 'Izaberite glavni jezik interfejsa.',
         'Select your frontend Theme.' => 'Izaberite temu interfejsa.',
-        'Select your preferred layout for OTRS.' => '',
+        'Select your preferred layout for OTRS.' => 'Izaberite vaš podrazumevani izgled OTRS.',
         'Selects the cache backend to use.' => 'Izbor keša koji će koristiti sistem u pozadini.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Bira modul za rukovanje prenešenim datotekama preko veb interfejsa. „DB” skladišti sve prenešene datoteke u bazu podataka, „FS” koristi sistem datoteka.',
@@ -6416,7 +6422,7 @@ Vaša tehnička podrška
         'Service view' => 'Pregled usluge',
         'ServiceView' => 'ServiceView',
         'Set a new password by filling in your current password and a new one.' =>
-            '',
+            'Podesite novu lozinku ukucavanjem vaše trenutne i nove.',
         'Set sender email addresses for this system.' => 'Podesi sistemsku adresu pošiljaoca.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Podesi podrazumevanu visinu (u pikselima) inline HTML članaka u AgentTicketZoom.',
@@ -6425,7 +6431,7 @@ Vaša tehnička podrška
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Podesi maksimalnu visinu (u pikselima) inline HTML članaka u AgentTicketZoom.',
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
-            '',
+            'Odredite najniži nivo logovanja. Ukoliko izaberete \'error\', biće logovane samo greške. Sa \'debug\' dobićete sve poruke u logovima. Redosled nivoa logovanja je: \'debug\', \'info\', \'notice\' i \'error\'.',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             'Postavi ovo na da ako verujete u sve vaše javne i privatne pgp ključeve, čak i ako nisu potvrđeni pouzdanim potpisom.',
         'Sets if SLA must be selected by the agent.' => 'Podešava ako SLA mora biti izabran od strane operatera.',
@@ -6755,7 +6761,7 @@ Vaša tehnička podrška
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
             'Prikazuje sve klijentske identifikatore u polju višestrukog izbora (nije korisno ako imate mnogo klijentskih identifikatora).',
         'Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).' =>
-            '',
+            'Prikazuje sve klijentske identifikatore u polju višestrukog izbora (nije korisno ako imate mnogo klijentskih identifikatora).',
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             'Prikazuje izbor vlasnika za telefonske i imejl tikete u interfejsu operatera.',
         'Shows colors for different article types in the article table.' =>

@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-04-27 21:54+0000\n"
-"PO-Revision-Date: 2017-04-28 03:00+0000\n"
+"POT-Creation-Date: 2017-05-02 12:16+0000\n"
+"PO-Revision-Date: 2017-05-02 17:25+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -5718,6 +5718,10 @@ msgid "Manage %s"
 msgstr "Керування %s"
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Go to the OTRS customer portal"
+msgstr "Перейти до порталу клієнтів OTRS"
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
 msgstr "Знизити версію до безкоштовного OTRS"
 
@@ -5783,6 +5787,50 @@ msgid "%s Update Available"
 msgstr "Доступні оновлення %s"
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Package installation requires patch level update of OTRS."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Please visit our customer portal and file a request."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Everything else will be done as part of your contract."
+msgstr "Все інше буде зроблено в рамках угоди."
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, you need to "
+"update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, the Maximum OTRS "
+"Version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "To install this package, the required Framework version is %s."
+msgstr "Щоб встановити цей пакунок, необхідний Фреймворк версії %s."
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Why should I keep OTRS up to date?"
+msgstr "Чому я маю тримати OTRS в актуальному стані?"
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates about relevant security issues."
+msgstr "Ви будете отримувати нову інформацію з відповідних питань безпеки."
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr "Ви будете отримувати оновлення для всіх інших відповідних питань OTRS"
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr "Оновлення для вашого %s доступне! Будь ласка, поновіть найближчим часом!"
 
@@ -5818,6 +5866,14 @@ msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
 msgstr "Неможливо встановити з'єднання із cloud.otrs.com за допомогою HTTPS. Будь ласка, переконайтеся в тому, що ваш OTRS може під'єднатися до cloud.otrs.com використовуючи порт 443."
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr "Щоб встановити цей пакунок, вам необхідно оновитись до OTRS %s або вище."
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr "Максимальна версія OTRS для встановлення цього пакунку, це %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -5992,73 +6048,37 @@ msgstr "Ви дійсно хочете перевстановити цей па�
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Go to the OTRS customer portal"
-msgstr ""
+msgstr "Перейти до інструкцій з модернізації"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "інформація про пакет"
 
 #. Template: AdminPackageManager
-msgid "Package installation requires patch level update of OTRS"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS"
+msgid "Package upgrade requires patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
 "If you are a OTRS Business Solution™ customer, please visit our customer "
 "portal and file a request."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Everything else will be done as part of your contract."
-msgstr ""
+msgstr "Якщо ви є клієнтом OTRS Business Solution™, будь ласка, відвідайте наш портал клієнтів та подайте заявку."
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the required Framework version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Why should I keep OTRS up to date?"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates about relevant security issues."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates for all other relevant OTRS issues"
-msgstr ""
+msgstr "Зверніть увагу, що версія встановленого OTRS %s."
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
-msgstr ""
+msgstr "Як я можу оновити рівень виправлень якщо у мене немає угоди?"
 
 #. Template: AdminPackageManager
 msgid "Please find all relevant information within"
-msgstr ""
+msgstr "Ви можете знайти всю необхідну інформацію в"
 
 #. Template: AdminPackageManager
 msgid "the upgrading instructions"
-msgstr ""
+msgstr "інструкцію по оновленню"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6067,7 +6087,7 @@ msgstr "У разі, якщо ви маєте додаткові запитан�
 
 #. Template: AdminPackageManager
 msgid "Please visit our customer"
-msgstr ""
+msgstr "Будь ласка, відвідайте наш користувацький"
 
 #. Template: AdminPackageManager
 msgid "portal"
@@ -9022,7 +9042,7 @@ msgstr "Наступний стан"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr ""
+msgstr "Для всіх станів, що очкують*."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
@@ -9030,37 +9050,37 @@ msgstr "Додати замітку"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
-msgstr ""
+msgstr "Створити Статтю"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform agents"
-msgstr ""
+msgstr "Інформувати агентів"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved agents"
-msgstr ""
+msgstr "Інформувати залучених агентів"
 
 #. Template: AgentTicketActionCommon
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr ""
+msgstr "Тут ви можете вибрати додаткових агентів, що мають отримувати повідомлення стосовно нової статті."
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
-msgstr ""
+msgstr "Текст буде також отриманий"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
-msgstr ""
+msgstr "Перевірка орфографії"
 
 #. Template: AgentTicketActionCommon
 msgid "Text Template"
-msgstr ""
+msgstr "Шаблон тексту"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr ""
+msgstr "Налаштування шаблону перепише будь-який текст або вкладення."
 
 #. Template: AgentTicketActionCommon
 msgid "Note type"
@@ -9068,7 +9088,7 @@ msgstr "Тип замітки"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
-msgstr ""
+msgstr "Стрибнути %s%s%s"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -9076,11 +9096,11 @@ msgstr "Переслати для"
 
 #. Template: AgentTicketBounce
 msgid "You need a email address."
-msgstr ""
+msgstr "Вам потрібна адреса електронної пошти."
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
-msgstr ""
+msgstr "Потрібна дійсна адреса електронної пошти або не використовуйте локальну адресу електронної пошти."
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
@@ -9108,7 +9128,7 @@ msgstr "Об'єднати с"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
-msgstr ""
+msgstr "Недійсний ідентифікатор квитка!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to oldest"
@@ -9120,43 +9140,43 @@ msgstr "Зв'язати"
 
 #. Template: AgentTicketBulk
 msgid "Link to parent"
-msgstr ""
+msgstr "Зв'язати з батьком"
 
 #. Template: AgentTicketBulk
 msgid "Unlock tickets"
-msgstr ""
+msgstr "Розблокувати квитки"
 
 #. Template: AgentTicketBulk
 msgid "Execute Bulk Action"
-msgstr ""
+msgstr "Виконати Масову Дію"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
-msgstr ""
+msgstr "Написати відповідь для %s%s%s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr ""
+msgstr "Ця адреса зареєстрована як системна та не може бути використана: %s"
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
-msgstr ""
+msgstr "Будь ласка, додайте хоч одного одержувача"
 
 #. Template: AgentTicketCompose
 msgid "Remove Ticket Customer"
-msgstr ""
+msgstr "Вилучити Квиток Клієнта"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
-msgstr ""
+msgstr "Будь ласка, вилучіть цей запис та додайте новий з правильним значенням."
 
 #. Template: AgentTicketCompose
 msgid "Remove Cc"
-msgstr ""
+msgstr "Вилучити Копія"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
-msgstr ""
+msgstr "Вилучити Прихована Копія"
 
 #. Template: AgentTicketCompose
 msgid "Address book"
@@ -9176,7 +9196,7 @@ msgstr "Заявка по e-mail"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
-msgstr ""
+msgstr "Приклад шаблону"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
@@ -9188,51 +9208,51 @@ msgstr "Для користувача"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
-msgstr ""
+msgstr "Будь ласка, додайте хоча б одного користувача-клієнта для квитка."
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
-msgstr ""
+msgstr "Виберіть клієнта у якості основного."
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
-msgstr ""
+msgstr "Вилучити Користувача-Клієнта"
 
 #. Template: AgentTicketEmail
 msgid "Get all"
-msgstr ""
+msgstr "Отримати всі"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s%s"
-msgstr ""
+msgstr "Вихідна адреса електронної пошти для %s%s%s"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
-msgstr ""
+msgstr "Квиток %s: час першого відгуку складає більше (%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
-msgstr ""
+msgstr "Квиток %s: час першої відповіді буде більшою на %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time is over (%s/%s)!"
-msgstr ""
+msgstr "Квиток %s: час оновлення складає більше ("
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
-msgstr ""
+msgstr "Квиток %s: час оновлення буде більше ніж %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time is over (%s/%s)!"
-msgstr ""
+msgstr "Квиток %s: час розв'язання більше ніж (%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time will be over in %s/%s!"
-msgstr ""
+msgstr "Квиток %s: час розв'язання буде більше ніж %s/%s!"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s%s"
-msgstr ""
+msgstr "Перенаправити %s%s%s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s%s"
@@ -9244,15 +9264,15 @@ msgstr "Історія"
 
 #. Template: AgentTicketHistory
 msgid "Zoom view"
-msgstr ""
+msgstr "Збільшений вид"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
-msgstr ""
+msgstr "Об'єднати %s%s%s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
-msgstr ""
+msgstr "Об'єднати Налаштування"
 
 #. Template: AgentTicketMerge
 msgid "You need to use a ticket number!"
@@ -9260,7 +9280,7 @@ msgstr "Вам необхідно використовувати номер за
 
 #. Template: AgentTicketMerge
 msgid "A valid ticket number is required."
-msgstr ""
+msgstr "Треба вказати чинний номер квитка."
 
 #. Template: AgentTicketMerge
 msgid "Need a valid email address."
@@ -9268,7 +9288,7 @@ msgstr " Потрібно вірну поштову адресу."
 
 #. Template: AgentTicketMove
 msgid "Move %s%s%s"
-msgstr ""
+msgstr "Перемістити %s%s%s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
@@ -9276,19 +9296,19 @@ msgstr "Нова черга"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select all"
-msgstr ""
+msgstr "Вибрати всі"
 
 #. Template: AgentTicketOverviewMedium
 msgid "No ticket data found."
-msgstr ""
+msgstr "Не знайдено даних про квитки"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Open / Close ticket action menu"
-msgstr ""
+msgstr "Відкрити/Закрити меню дій з квитком"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "Вибрати цей квиток"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
@@ -9316,27 +9336,27 @@ msgstr "Змінити параметри пошуку"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
-msgstr ""
+msgstr "Скасувати чинні фільтри на цьому екрані."
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Tickets per page"
-msgstr ""
+msgstr "Квитків на сторінку."
 
 #. Template: AgentTicketOverviewSmall
 msgid "Reset overview"
-msgstr ""
+msgstr "Скинути огляд"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Column Filters Form"
-msgstr ""
+msgstr "Фільтри Стовпчиків Форми"
 
 #. Template: AgentTicketPhone
 msgid "Split Into New Phone Ticket"
-msgstr ""
+msgstr "Розділити на Нові Телефонні Квитки"
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "Зберегти Чат у Новому Телефонному Квитку"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
@@ -9344,7 +9364,7 @@ msgstr "Заявка по телефону"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
-msgstr ""
+msgstr "Будь ласка, вкажіть хоча б одного клієнта для квитка."
 
 #. Template: AgentTicketPhone
 msgid "To queue"
@@ -9352,19 +9372,19 @@ msgstr "У чергу"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "Протокол чату"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "Чат буде додано у якості окремої статті."
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
-msgstr ""
+msgstr "Телефонний виклик для %s%s%s"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s%s"
-msgstr ""
+msgstr "Переглянути простий текст електронного повідомлення для %s%s%s"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
@@ -9372,19 +9392,19 @@ msgstr "Звичайний"
 
 #. Template: AgentTicketPlain
 msgid "Download this email"
-msgstr ""
+msgstr "Завантажити це повідомлення"
 
 #. Template: AgentTicketProcess
 msgid "Create New Process Ticket"
-msgstr ""
+msgstr "Створити Новий  Квиток Процесу"
 
 #. Template: AgentTicketProcess
 msgid "Process"
-msgstr ""
+msgstr "Процес"
 
 #. Template: AgentTicketProcessSmall
 msgid "Enroll Ticket into a Process"
-msgstr ""
+msgstr "Залучити Квиток в Процес"
 
 #. Template: AgentTicketSearch
 msgid "Search template"
@@ -9400,19 +9420,19 @@ msgstr "Створити новий"
 
 #. Template: AgentTicketSearch
 msgid "Profile link"
-msgstr ""
+msgstr "Посилання на профіль"
 
 #. Template: AgentTicketSearch
 msgid "Save changes in template"
-msgstr ""
+msgstr "Зберегти зміни в шаблоні"
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
-msgstr ""
+msgstr "Фільтри що використовуються"
 
 #. Template: AgentTicketSearch
 msgid "Additional filters"
-msgstr ""
+msgstr "Додаткові фільтри"
 
 #. Template: AgentTicketSearch
 msgid "Add another attribute"
@@ -9434,39 +9454,39 @@ msgstr "Вилучити"
 msgid ""
 "Searches in the attributes From, To, Cc, Subject and the article body, "
 "overriding other attributes with the same name."
-msgstr ""
+msgstr "Пошуки в атрибутах Від, Кому, Копія, Тема та тілі статті, перекриваючи інші атрибути з таким же ім'ям."
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (complex search)"
-msgstr ""
+msgstr "CustomerID (комплексний пошук)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. 234*)"
-msgstr ""
+msgstr "(наприклад 234*)"
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
-msgstr ""
+msgstr "CustomerID (точний збіг)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (complex search)"
-msgstr ""
+msgstr "Ім'я користувача-клієнта (комплексний пошук)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. U51*)"
-msgstr ""
+msgstr "(наприклад U51*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (exact match)"
-msgstr ""
+msgstr "Ім'я користувача-клієнта (точний збіг)"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "Назва Додатка"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
-msgstr ""
+msgstr "(наприклад m*file або myfi*)"
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
@@ -9474,59 +9494,59 @@ msgstr "Створена в черзі"
 
 #. Template: AgentTicketSearch
 msgid "Lock state"
-msgstr ""
+msgstr "Заблокувати стан"
 
 #. Template: AgentTicketSearch
 msgid "Watcher"
-msgstr ""
+msgstr "Спостерігач"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (before/after)"
-msgstr ""
+msgstr "Час Створення Статті (до/після)"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (between)"
-msgstr ""
+msgstr "Час Створення Статті (поміж)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
-msgstr ""
+msgstr "Час Створення Квитка (до/після)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (between)"
-msgstr ""
+msgstr "Час Створення Квитка (поміж)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (before/after)"
-msgstr ""
+msgstr "Час Змінення Квитка (до/після)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (between)"
-msgstr ""
+msgstr "Час Змінення Квитка (поміж)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "Час Останнього Змінення Квитка (до/після)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "Час Останнього Змінення Квитка (поміж)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
-msgstr ""
+msgstr "Час Закриття Квитка (до/після)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (between)"
-msgstr ""
+msgstr "Час Закриття Квитка (поміж)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
-msgstr ""
+msgstr "Час Підвищення Квитка (до/після)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (between)"
-msgstr ""
+msgstr "Час Підвищення Квитка (поміж)"
 
 #. Template: AgentTicketSearch
 msgid "Archive Search"
@@ -9534,11 +9554,11 @@ msgstr "Пошук в архіві"
 
 #. Template: AgentTicketSearch
 msgid "Run search"
-msgstr ""
+msgstr "Запустити пошук"
 
 #. Template: AgentTicketZoom
 msgid "Article filter"
-msgstr ""
+msgstr "Фільтр статті"
 
 #. Template: AgentTicketZoom
 msgid "Article Type"
@@ -9546,7 +9566,7 @@ msgstr "Тип повідомлення"
 
 #. Template: AgentTicketZoom
 msgid "Sender Type"
-msgstr ""
+msgstr "Тип відправника"
 
 #. Template: AgentTicketZoom
 msgid "Save filter settings as default"
@@ -9554,27 +9574,27 @@ msgstr "Зберегти умови фільтра для показу за за
 
 #. Template: AgentTicketZoom
 msgid "Event Type Filter"
-msgstr ""
+msgstr "Фільтр Типу Події"
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "Тип Події"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "Зберегти як типовий"
 
 #. Template: AgentTicketZoom
 msgid "Archive"
-msgstr ""
+msgstr "Архів"
 
 #. Template: AgentTicketZoom
 msgid "This ticket is archived."
-msgstr ""
+msgstr "Цей квиток архивований"
 
 #. Template: AgentTicketZoom
 msgid "Note: Type is invalid!"
-msgstr ""
+msgstr "Примітка: Тип недійсний!"
 
 #. Template: AgentTicketZoom
 msgid "Locked"
@@ -9594,19 +9614,19 @@ msgstr "Перемінити черга"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
-msgstr ""
+msgstr "На даний момент в цьому процесі немає ніяких діалогових вікон."
 
 #. Template: AgentTicketZoom
 msgid "This item has no articles yet."
-msgstr ""
+msgstr "У цього елемента ще немає статей."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "Вигляд Лінії часу Квитка"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
-msgstr ""
+msgstr "Огляд Статті"
 
 #. Template: AgentTicketZoom
 msgid "Article(s)"
@@ -9638,7 +9658,7 @@ msgstr "Відобразити всі заявки"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "Показати Вид Лінії Часу Квитка"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9650,7 +9670,7 @@ msgstr "Номер"
 
 #. Template: AgentTicketZoom
 msgid "Important"
-msgstr ""
+msgstr "Важливо"
 
 #. Template: AgentTicketZoom
 msgid "Unread Article!"
@@ -9662,31 +9682,31 @@ msgstr "Вхідне повідомлення"
 
 #. Template: AgentTicketZoom
 msgid "Outgoing message"
-msgstr ""
+msgstr "Вихідні повідомлення"
 
 #. Template: AgentTicketZoom
 msgid "Internal message"
-msgstr ""
+msgstr "Внутрішні повідомлення"
 
 #. Template: AgentTicketZoom
 msgid "Resize"
-msgstr ""
+msgstr "Змінити розмір"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
-msgstr ""
+msgstr "Позначити цю статтю як прочитану"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "Показати увесь текст"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Весь Текст Статті"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
+msgstr "Не знайдено більше подій. Будь ласка, спробуйте змінити налаштування фільтрів."
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -9696,7 +9716,7 @@ msgstr "ні"
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr ""
+msgstr "Для відкриття посилання в наступній статті, ви маєте натиснути кнопки Ctrl, Cmd або Shift при натисканні на посилання (залежить від вашого браузера та операційної системи)."
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
@@ -9704,15 +9724,15 @@ msgstr "Закрити це повідомлення"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "Статтю не можливо відкрити! Може вона на іншій сторінці статті?"
 
 #. Template: AgentTicketZoom
 msgid "Scale preview content"
-msgstr ""
+msgstr "Масштабувати перегляд вмісту"
 
 #. Template: AgentTicketZoom
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "Відкрити посилання в новій вкладинці"
 
 #. Template: AgentTicketZoom
 msgid "Close preview"
@@ -9722,35 +9742,35 @@ msgstr "Закрити попередній перегляд"
 msgid ""
 "A preview of this website can't be provided because it didn't allow to be "
 "embedded."
-msgstr ""
+msgstr "Попередній перегляд цього сайту неможливий, тому що він не дозволяє бути вбудованим."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
-msgstr ""
+msgstr "Щоб захистити вашу приватність, видалений вміст буде заблоковано."
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
-msgstr ""
+msgstr "Завантажити заблокований вміст."
 
 #. Template: ChatStartForm
 msgid "First message"
-msgstr ""
+msgstr "Перше повідомлення"
 
 #. Template: CloudServicesDisabled
 msgid "This feature requires cloud services."
-msgstr ""
+msgstr "Ця функція потребує хмарні служби."
 
 #. Template: CloudServicesDisabled
 msgid "You can"
-msgstr ""
+msgstr "Ви можете"
 
 #. Template: CloudServicesDisabled
 msgid "go back to the previous page"
-msgstr ""
+msgstr "повернутися до попередньої сторінки"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "Виникла Помилка"
 
 #. Template: CustomerError
 msgid "Error Details"
@@ -9766,7 +9786,7 @@ msgstr "Використовується"
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
-msgstr ""
+msgstr "Виникла одна чи більше помилок!"
 
 #. Template: CustomerFooterJS
 msgid "Close this dialog"
@@ -9776,100 +9796,100 @@ msgstr "Закрити цей діалог"
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
-msgstr ""
+msgstr "Не вдалося відкрити спливаюче вікно. Будь ласка, вимкніть всі блокувальники спливаючих вікон для цього додатка."
 
 #. Template: CustomerFooterJS
 msgid ""
 "If you now leave this page, all open popup windows will be closed, too!"
-msgstr ""
+msgstr "Якщо ви залишите цю сторінку, всі спливні вікна будуть також зачинені!"
 
 #. Template: CustomerFooterJS
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
-msgstr ""
+msgstr "Спливні цього екрану вже відкриті. Ви бажаєте закрити їх та натомість завантажити тільки його?"
 
 #. Template: CustomerFooterJS
 msgid "There are currently no elements available to select from."
-msgstr ""
+msgstr "Наразі немає доступних для вибору елементів на формі."
 
 #. Template: CustomerFooterJS
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Будь ласка вимкніть Режим Сумісності в Internet Explorer!"
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
-msgstr ""
+msgstr "Ви використовуєте застарий браузер!"
 
 #. Template: CustomerFooterJS
 msgid ""
 "OTRS runs with a huge lists of browsers, please upgrade to one of these."
-msgstr ""
+msgstr "OTRS працює з величезною кількістю браузерів, будь ласка, поновіться до одного з них."
 
 #. Template: CustomerFooterJS
 msgid ""
 "Please see the documentation or ask your admin for further information."
-msgstr ""
+msgstr "Будь ласка, зверніться до документації або до адміністратора для отримання додаткової інформації."
 
 #. Template: CustomerFooterJS
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "Перемкнути до мобільного режиму"
 
 #. Template: CustomerFooterJS
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "Перемкнути до режиму робочого столу"
 
 #. Template: CustomerFooterJS
 msgid "Not available"
-msgstr ""
+msgstr "Не доступно"
 
 #. Template: CustomerFooterJS
 msgid "Clear all"
-msgstr ""
+msgstr "Очистити всі"
 
 #. Template: CustomerFooterJS
 msgid "Clear search"
-msgstr ""
+msgstr "Очистити пошук"
 
 #. Template: CustomerFooterJS
 msgid "%s selection(s)..."
-msgstr ""
+msgstr "%s вибір(-ори)..."
 
 #. Template: CustomerFooterJS
 msgid "and %s more..."
-msgstr ""
+msgstr "та %s більше..."
 
 #. Template: CustomerFooterJS
 msgid "Filters"
-msgstr ""
+msgstr "Фільтри"
 
 #. Template: CustomerFooterJS
 msgid "Confirm"
-msgstr ""
+msgstr "Підтвердити"
 
 #. Template: CustomerFooterJS
 msgid "You have unanswered chat requests"
-msgstr ""
+msgstr "У вас є запити з чату без відповіді"
 
 #. Template: CustomerFooterJS
 msgid "Accept"
-msgstr ""
+msgstr "Погодитись"
 
 #. Template: CustomerFooterJS
 msgid "Decline"
-msgstr ""
+msgstr "Відмовитись"
 
 #. Template: CustomerFooterJS
 msgid "An internal error occurred."
-msgstr ""
+msgstr "Виникла внутрішня помилка"
 
 #. Template: CustomerFooterJS
 msgid "Connection error"
-msgstr ""
+msgstr "Помилка з'єднання"
 
 #. Template: CustomerFooterJS
 msgid "Reload page"
-msgstr ""
+msgstr "Перезавантажити сторінку"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9877,7 +9897,7 @@ msgid ""
 "be something wrong with your network connection. You could either try "
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
-msgstr ""
+msgstr "Ваш браузер не може правильно спілкуватись з OTRS, схоже щось не так з мережевим підключенням. Ви можете або вручну перезавантажити цю сторінку, або почекати, поки браузер відновить зв'язок самостійно."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9885,25 +9905,25 @@ msgid ""
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
 "recommended to reload this page."
-msgstr ""
+msgstr "Зв'язок був відновлений після тимчасової втрати. Через це, деякі елементи на цій сторінці можуть бути зупинені, щоб працювати правильно. Для того, щоб мати змогу використовувати всі елементи правильно знову, настійно рекомендується перезавантажити цю сторінку."
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
-msgstr ""
+msgstr "JavaScript не доступне"
 
 #. Template: CustomerLogin
 msgid ""
 "In order to experience OTRS, you'll need to enable JavaScript in your "
 "browser."
-msgstr ""
+msgstr "Для того, щоб випробувати OTRS, вам необхідно включити JavaScript у вашому браузері."
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
-msgstr ""
+msgstr "Попередження Браузера"
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
-msgstr ""
+msgstr "Хвилинку, будь ласка, вас буде перенаправлено..."
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -9911,15 +9931,15 @@ msgstr "Вхід"
 
 #. Template: CustomerLogin
 msgid "User name"
-msgstr ""
+msgstr "Ім'я користувача"
 
 #. Template: CustomerLogin
 msgid "Your user name"
-msgstr ""
+msgstr "Ваше ім'я користувача"
 
 #. Template: CustomerLogin
 msgid "Your password"
-msgstr ""
+msgstr "Ваш пароль"
 
 #. Template: CustomerLogin
 msgid "Forgot password?"
@@ -9927,11 +9947,11 @@ msgstr "Забули пароль?"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
-msgstr ""
+msgstr "2-факторний Токен"
 
 #. Template: CustomerLogin
 msgid "Your 2 Factor Token"
-msgstr ""
+msgstr "Ваш 2-факторний Токен"
 
 #. Template: CustomerLogin
 msgid "Log In"
@@ -9951,7 +9971,7 @@ msgstr "Логін"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr ""
+msgstr "Новий пароль буде надісланий до вашої електронної скриньки."
 
 #. Template: CustomerLogin
 msgid "Create Account"
@@ -9959,11 +9979,11 @@ msgstr "Створити обліковий запис"
 
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
-msgstr ""
+msgstr "Будь ласка, заповніть поля цієї форми щоб отримати реєстраційні дані."
 
 #. Template: CustomerLogin
 msgid "How we should address you"
-msgstr ""
+msgstr "Як ми можемо звертатися до Вас"
 
 #. Template: CustomerLogin
 msgid "Your First Name"
@@ -9975,23 +9995,23 @@ msgstr "Ваше Прізвище"
 
 #. Template: CustomerLogin
 msgid "Your email address (this will become your username)"
-msgstr ""
+msgstr "Адреса вашої поштової скриньки (це стане вашим ім'ям користувача)"
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
+msgstr "Вхідні Запити Чату"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
-msgstr ""
+msgstr "Редагувати особисті налаштування"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "Вийти %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
-msgstr ""
+msgstr "Разділити Цитату"
 
 #. Template: CustomerRichTextEditor
 msgid "Open link"

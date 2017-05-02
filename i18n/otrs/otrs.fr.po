@@ -16,6 +16,7 @@
 # Matthieu HUTIN, 2015
 # osallou <olivier.sallou@irisa.fr>, 2014
 # osallou <olivier.sallou@irisa.fr>, 2014
+# Patrick Lentz, 2017
 # Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2014-2015
 # remidoc <Remi.seguy@gmail.com>, 2015
 # remidoc <Remi.seguy@gmail.com>, 2015
@@ -25,8 +26,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-04-27 21:54+0000\n"
-"PO-Revision-Date: 2017-04-28 03:00+0000\n"
+"POT-Creation-Date: 2017-05-02 12:16+0000\n"
+"PO-Revision-Date: 2017-05-02 17:25+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3275,7 +3276,7 @@ msgstr "Mettre à jour vers %s"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
-msgstr "Gestion des clients"
+msgstr "Gestion des Clients"
 
 #. Template: AdminCustomerCompany
 msgid "Wildcards like '*' are allowed."
@@ -4000,7 +4001,7 @@ msgstr "(ex: 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user"
-msgstr "Client utilisateur"
+msgstr "Utilisateur client"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -4200,7 +4201,7 @@ msgstr "Placer un nouveau verrou sur le ticket"
 
 #. Template: AdminGenericAgent
 msgid "New customer user"
-msgstr "Nouveau client utilisateur"
+msgstr "Nouvel utilisateur client"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -5734,6 +5735,10 @@ msgid "Manage %s"
 msgstr "Gérer %s"
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Go to the OTRS customer portal"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
 msgstr "Retour à OTRS libre"
 
@@ -5799,6 +5804,50 @@ msgid "%s Update Available"
 msgstr "%S Mise à jour disponible"
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Package installation requires patch level update of OTRS."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Please visit our customer portal and file a request."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Everything else will be done as part of your contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, you need to "
+"update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, the Maximum OTRS "
+"Version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "To install this package, the required Framework version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Why should I keep OTRS up to date?"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates about relevant security issues."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr "Une mise à jour est disponible pour votre %s! Merci de l'effectuer le plus rapidement possible!"
 
@@ -5836,6 +5885,14 @@ msgid ""
 msgstr "La connexion à cloud.otrs.com via HTTPS aboutit pas. Merci de vérifier que OTRS peut se connecter à cloud.otrs.com via le port 443."
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
 msgstr "Avec votre contrat actuel vous pouvez seulement utiliser une petite partie de %s."
 
@@ -5851,7 +5908,7 @@ msgstr "Annuler la rétrogradation et retour."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr "Aller au gestionnaire de paquet d'OTRS"
+msgstr "Aller au gestionnaire de paquets d'OTRS"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -5866,7 +5923,7 @@ msgstr "Vendeur"
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
 "Please uninstall the packages first using the package manager and try again."
-msgstr "Merci de désinstaller les paquets en utilisant le gestionnaire de paquet et ressayer."
+msgstr "Veuillez désinstaller les paquets en utilisant le gestionnaire de paquets, puis ré-essayer."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -5986,7 +6043,7 @@ msgstr "Clé PGP"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
-msgstr "Gestionnaire de paquet"
+msgstr "Gestionnaire de paquets"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -6011,19 +6068,11 @@ msgid "Go to upgrading instructions"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Go to the OTRS customer portal"
-msgstr ""
-
-#. Template: AdminPackageManager
 msgid "package information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package installation requires patch level update of OTRS"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS"
+msgid "Package upgrade requires patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6033,35 +6082,7 @@ msgid ""
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Everything else will be done as part of your contract."
-msgstr ""
-
-#. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the required Framework version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Why should I keep OTRS up to date?"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates about relevant security issues."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates for all other relevant OTRS issues"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -8066,7 +8087,7 @@ msgstr "Télécharger toutes les modifications de configuration système"
 
 #. Template: AdminSysConfig
 msgid "Export settings"
-msgstr "Configuration d'export"
+msgstr "Exporter configuration"
 
 #. Template: AdminSysConfig
 msgid "Load SysConfig settings from file"
@@ -8074,11 +8095,11 @@ msgstr "Charger la configuration SysConfig à partir du fichier"
 
 #. Template: AdminSysConfig
 msgid "Import settings"
-msgstr "configuration d'import"
+msgstr "Importer configuration"
 
 #. Template: AdminSysConfig
 msgid "Import Settings"
-msgstr "Configuration d'Import"
+msgstr "Importer Configuration"
 
 #. Template: AdminSysConfig
 msgid "Please enter a search term to look for settings."
@@ -8538,7 +8559,7 @@ msgstr "Tableau de Bord Client"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Client Utilisateur"
+msgstr "Utilisateur Client"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
@@ -15086,7 +15107,7 @@ msgstr "Tickets fermés (client)"
 
 #. SysConfig
 msgid "Cloud Services"
-msgstr ""
+msgstr "Services Cloud"
 
 #. SysConfig
 msgid "Cloud service admin module registration for the transport layer."
@@ -15346,7 +15367,7 @@ msgstr "Créer et gérer les modèles."
 
 #. SysConfig
 msgid "Create and manage ticket notifications."
-msgstr ""
+msgstr "Créer et gérer les notifications des tickets."
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
@@ -18127,7 +18148,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Email Addresses"
-msgstr "Adresses E-mail"
+msgstr "Adresses e-mail"
 
 #. SysConfig
 msgid "Email Outbound"
@@ -20037,7 +20058,7 @@ msgstr ""
 
 #. SysConfig
 msgid "PostMaster Filters"
-msgstr "Filtres Postmasters"
+msgstr "Filtres Postmaster"
 
 #. SysConfig
 msgid "PostMaster Mail Accounts"
@@ -20475,7 +20496,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
-msgstr "Mettre en place les adresses d'envoi de messages électroniques pour ce système."
+msgstr "Mettre en place les adresses d'envoi d'e-mails pour ce système."
 
 #. SysConfig
 msgid ""
@@ -22320,7 +22341,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr ""
+msgstr "Notifications des tickets"
 
 #. SysConfig
 msgid "Ticket Outbound Email."
@@ -22372,7 +22393,7 @@ msgstr "Le ticket a été déplacé dans la file \"%s\" (%s) - Ancienne file: \"
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "Notifications des tickets"
 
 #. SysConfig
 msgid "Ticket overview"
@@ -22418,7 +22439,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
-msgstr "Déclenche l'affichage de la liste des fonctions Add-ons dans les gestionnaire de paquet"
+msgstr "Déclenche l'affichage de la liste des modules complémentaires d'OTRS dans le gestionnaire de paquets."
 
 #. SysConfig
 msgid ""

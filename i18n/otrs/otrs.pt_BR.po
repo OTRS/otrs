@@ -27,12 +27,12 @@
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2016
 # Rangel Perez Sardinha <rangel@hsg.com.br>, 2016
 # Ronaldo Richieri <ronaldo@complemento.net.br>, 2015,2017
-# Samuel Diniz Casimiro <nedmaj@yahoo.com>, 2015-2016
+# Samuel Diniz Casimiro <nedmaj@yahoo.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-04-27 21:54+0000\n"
-"PO-Revision-Date: 2017-04-28 03:00+0000\n"
+"POT-Creation-Date: 2017-05-02 12:16+0000\n"
+"PO-Revision-Date: 2017-05-02 17:25+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -4889,7 +4889,7 @@ msgstr "'FreeText' é usado como exemplo para o real valor configurado."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "Texto livre do nome da requisição"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
@@ -5098,24 +5098,24 @@ msgstr "Web Services prontos para executar"
 msgid ""
 "Here you can activate ready-to-run web services showcasing our best "
 "practices that are a part of %s."
-msgstr ""
+msgstr "Aqui você pode ativar web services prontos para execução demonstrando nossas boas práticas que são parte de %s."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Please note that these web services may depend on other modules only "
 "available with certain %s contract levels (there will be a notification with"
 " further details when importing)."
-msgstr ""
+msgstr "Por favor note que estes web services podem depender de outros módulos disponíveis apenas com certos %s níveis de contrato (haverá uma notificação com maiores detalhes quando da importação)."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import ready-to-run web service"
-msgstr ""
+msgstr "Importar web service pronto para execução"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Would you like to benefit from web services created by experts? Upgrade to "
 "%s to import some sophisticated ready-to-run web services."
-msgstr ""
+msgstr "Você gostaria de se beneficiar de web services criados por especialistas? Faça o upgrade para %s para importar alguns web services sofisticados prontos para execução."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5698,7 +5698,7 @@ msgstr "Caixa de endereço de e-mail adicional"
 msgid ""
 "You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
-msgstr ""
+msgstr "Você pode utilizar OTRS-tags como <OTRS_TICKET_DynamicField_...> para inserir valores do chamado atual."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
@@ -5733,11 +5733,15 @@ msgstr "Se a assinatura de chave/certificado está faltando"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Se a chave/certificado de encriptação está faltando"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
 msgstr "Gerenciar %s"
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Go to the OTRS customer portal"
+msgstr "Vá para o portal de clientes do OTRS"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
@@ -5805,6 +5809,50 @@ msgid "%s Update Available"
 msgstr "%s Atualização Disponível"
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Package installation requires patch level update of OTRS."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Please visit our customer portal and file a request."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Everything else will be done as part of your contract."
+msgstr "Tudo mais será feito como parte do seu contrato."
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Your installed OTRS version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, you need to "
+"update to OTRS %s or higher."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"To install the current version of OTRS Business Solution™, the Maximum OTRS "
+"Version is %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "To install this package, the required Framework version is %s."
+msgstr "Para instalar este pacote, a versão do framework requerida é %s."
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Why should I keep OTRS up to date?"
+msgstr "Por que eu deveria manter o OTRS atualizado?"
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates about relevant security issues."
+msgstr "Você receberá atualizações sobre questões de segurança relevantes."
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You will receive updates for all other relevant OTRS issues"
+msgstr "Você receberá atualizações para todas as outras questões relevantes do OTRS"
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
 msgstr "Uma atualização para seu %s está disponível! Por favor, atualize o mais breve possível!"
 
@@ -5840,6 +5888,14 @@ msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
 msgstr "Conexão com cloud.otrs.com via HTTPS não pôde ser estabelecida. Por favor, certifique-se de que seu OTRS pode se conectar a cloud.otrs.com através da porta 443."
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, you need to update to OTRS %s or higher."
+msgstr "Para instalar este pacote, você precisa atualizar para OTRS %s ou superior."
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "To install this package, the Maximum OTRS Version is %s."
+msgstr "Para instalar este pacote, a versão máxima do OTRS é %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -6014,73 +6070,37 @@ msgstr "Você realmente quer reinstalar este pacote? Quaisquer alterações manu
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Go to the OTRS customer portal"
-msgstr ""
+msgstr "Vá para orientações de upgrade"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "informação do pacote"
 
 #. Template: AdminPackageManager
-msgid "Package installation requires patch level update of OTRS"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS"
+msgid "Package upgrade requires patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
 "If you are a OTRS Business Solution™ customer, please visit our customer "
 "portal and file a request."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Everything else will be done as part of your contract."
-msgstr ""
+msgstr "Se você é um cliente OTRS Business Solution™, por favor visite nosso portal de clientes e registre um pedido."
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "To install this package, the required Framework version is %s."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Why should I keep OTRS up to date?"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates about relevant security issues."
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "You will receive updates for all other relevant OTRS issues"
-msgstr ""
+msgstr "Por favor note que a sua versão do OTRS instalada é %s."
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
-msgstr ""
+msgstr "Como eu posso fazer uma atualização de nível de patch se eu não tenho um contrato?"
 
 #. Template: AdminPackageManager
 msgid "Please find all relevant information within"
-msgstr ""
+msgstr "Por favor encontre toda informação relevante aqui dentro"
 
 #. Template: AdminPackageManager
 msgid "the upgrading instructions"
-msgstr ""
+msgstr "as instruções para fazer upgrade"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6089,7 +6109,7 @@ msgstr "No caso de você ter mais perguntas, teremos prazer em respondê-las."
 
 #. Template: AdminPackageManager
 msgid "Please visit our customer"
-msgstr ""
+msgstr "Por favor visite nosso cliente"
 
 #. Template: AdminPackageManager
 msgid "portal"
@@ -6336,7 +6356,7 @@ msgstr "Excluir este filtro"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this filter?"
-msgstr ""
+msgstr "Você realmente quer excluir este filtro?"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
@@ -6443,23 +6463,23 @@ msgstr "Importar Configuração de Processo"
 
 #. Template: AdminProcessManagement
 msgid "Ready-to-run Processes"
-msgstr ""
+msgstr "Processos prontos para execução"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can activate ready-to-run processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Aqui você pode ativar processos prontos para execução demonstrando nossas boas práticas. Por favor note que alguma configuração adicional pode ser requerida."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
 "to import some sophisticated ready-to-run processes."
-msgstr ""
+msgstr "Você gostaria de se beneficiar de processos criados por especialistas? Faça o upgrade para %s para importa alguns processos prontos para execução sofisticados."
 
 #. Template: AdminProcessManagement
 msgid "Import ready-to-run process"
-msgstr ""
+msgstr "Importar processos prontos para execução"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -6764,7 +6784,7 @@ msgid ""
 "You can start a connection between two Activities by dropping the Transition"
 " element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
-msgstr ""
+msgstr "Você pode iniciar uma conexão entre duas atividades arrastando e soltando a transição sobre a atividade inicial da conexão. Depois disso você pode mover a ponta final livre para a atividade final."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -8314,7 +8334,7 @@ msgstr "Editar Manutenção do Sistema  %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance Information"
-msgstr ""
+msgstr "Editar informação da manutenção de sistema"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -8726,7 +8746,7 @@ msgstr "Fluxo"
 
 #. Template: AgentDashboardStats
 msgid "No Data Available."
-msgstr ""
+msgstr "Nenhum dado disponível."
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -8827,13 +8847,13 @@ msgstr "ir para a tela de inclusão de associação"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid "Unauthorized usage of %s detected"
-msgstr ""
+msgstr "Uso não autorizado de %s detectado"
 
 #. Template: AgentOTRSBusinessBlockScreen
 msgid ""
 "If you decide to downgrade to OTRS Free, you will lose all database tables "
 "and data related to %s."
-msgstr ""
+msgstr "Se você decidir fazer o downgrade para OTRS Free, você perderá todas as tabelas de banco e dados relacionados ao %s."
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
@@ -9090,7 +9110,7 @@ msgstr "Tipo de nota"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
-msgstr ""
+msgstr "Repassar %s%s%s"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
@@ -9464,7 +9484,7 @@ msgstr "CustomerID (procura complexa)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. 234*)"
-msgstr ""
+msgstr "(ex.: 234*)"
 
 #. Template: AgentTicketSearch
 msgid "CustomerID (exact match)"
@@ -9476,7 +9496,7 @@ msgstr "Login de Usuário Cliente (busca complexa)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. U51*)"
-msgstr ""
+msgstr "(ex.: U51*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login (exact match)"
@@ -9899,7 +9919,7 @@ msgid ""
 "be something wrong with your network connection. You could either try "
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
-msgstr ""
+msgstr "Seu navegador não foi capaz de se comunicar corretamente com o OTRS. Parece que há algo errado com a sua conexão de rede. Você pode ou tentar recarregar esta página manualmente ou esperar até que seu navegador tenha restabelecido ele mesmo a conexão."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9907,7 +9927,7 @@ msgid ""
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
 "recommended to reload this page."
-msgstr ""
+msgstr "A conexão foi restabelecida após uma perda temporária de conexão. Por causa disso, elementos nesta página podem ter parado de funcionar corretamente. Para ser capaz de novamente usar todos elementos corretamente, é altamente recomendado recarregar esta página."
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
@@ -10257,7 +10277,7 @@ msgstr "Realmente um  erro? 5 de 10 informes de erro resultam de uma errada ou i
 msgid ""
 "With %s, our experts take care of correct installation and cover your back "
 "with support and periodic security updates."
-msgstr ""
+msgstr "Com %s, nossos especialistas vão cuidar de uma instalação correta e da sua retaguarda com suporte e atualizações de segurança periódicas."
 
 #. Template: Error
 msgid "Contact our service team now."
@@ -10319,7 +10339,7 @@ msgstr "Nova solicitação publica de bate-papo"
 
 #. Template: FooterJS
 msgid "Selected user is not available for chat."
-msgstr ""
+msgstr "Usuário selecionado não está disponível para bate-papo."
 
 #. Template: FooterJS
 msgid "New activity"
@@ -10331,15 +10351,15 @@ msgstr "Nova atividade em um dos seus bate-papos monitorados."
 
 #. Template: FooterJS
 msgid "Your browser does not support video and audio calling."
-msgstr ""
+msgstr "Seu navegador não suporta chamada de áudio e vídeo."
 
 #. Template: FooterJS
 msgid "Selected user is not available for video and audio call."
-msgstr ""
+msgstr "Usuário selecionado não está disponível para chamada de áudio e vídeo."
 
 #. Template: FooterJS
 msgid "Target user's browser does not support video and audio calling."
-msgstr ""
+msgstr "Navegador alvo do usuário não suporta chamada de áudio e vídeo."
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
@@ -10800,7 +10820,7 @@ msgstr "Esta é a interface pública padrão do OTRS! Não foi dado nenhum parâ
 msgid ""
 "You could install a custom public module (via the package manager), for "
 "example the FAQ module, which has a public interface."
-msgstr ""
+msgstr "Você pode instalar um módulo público customizado (por meio do gerenciador de pacotes), por exemplo o módulo de FAQ, o qual possui uma interface pública."
 
 #. Template: RichTextEditor
 msgid "Remove Quote"
@@ -10847,7 +10867,7 @@ msgstr "Resultado em cache"
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration (requires at least one selected time field)."
-msgstr ""
+msgstr "Armazena em cache dados resultantes de estatísticas para serem usados em visualizações subsequentes com a mesma configuração (requer pelo menos um campo de tempo selecionado)."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -11215,7 +11235,7 @@ msgstr "WebserviceID Necessário!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Could not get data for WebserviceID %s"
-msgstr ""
+msgstr "Não foi possível obter dados para WebserviceID %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need InvokerType"
@@ -11235,7 +11255,7 @@ msgstr "Necessário Invoker"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
-msgstr ""
+msgstr "Não foi possível determinar a configuração para o invoker %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
@@ -12319,7 +12339,7 @@ msgstr ""
 msgid ""
 "This step does not belong anymore the current activity in process for ticket"
 " '%s%s%s'! Another user changed this ticket in the meantime."
-msgstr ""
+msgstr "Este passo não pertence mais à atividade atual para o chamado '%s%s%s'! Outro usuário alterou este chamado durante a execução."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
