@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Storable;
-
 use Kernel::System::AuthSession;
 
 # get needed objects
