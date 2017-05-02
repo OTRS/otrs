@@ -147,10 +147,10 @@
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                         </li>
                         <li>
-                            <a href="http://otrs.github.io/doc/manual/admin/5.0/en/html/upgrading.html" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-right"></i>[% Translate("Go to upgrading instructions") | html %]</span></a>
+                            <a href="http://otrs.github.io/doc/manual/admin/5.0/en/html/upgrading.html" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to upgrading instructions") | html %]</span></a>
                         </li>
                         <li>
-                            <a href="https://portal.otrs.com/" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-right"></i>[% Translate("Go to the OTRS customer portal") | html %]</span></a>
+                            <a href="https://portal.otrs.com/" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to the OTRS customer portal") | html %]</span></a>
                         </li>
                     </ul>
                 </div>
@@ -164,9 +164,9 @@
                 </div>
                 <div class="Content">
                     [% IF Data.Type == 'InstallIncompatible' %]
-                    <h2>[% Translate("Package installation requires patch level update of OTRS") | html %]</h2>
+                    <h2>[% Translate("Package installation requires patch level update of OTRS.") | html %]</h2>
                     [% ELSIF Data.Type =='UpgradeIncompatible' %]
-                    <h2>[% Translate("Package upgrade requires patch level update of OTRS") | html %]</h2>
+                    <h2>[% Translate("Package upgrade requires patch level update of OTRS.") | html %]</h2>
                     [% END %]
                     <p>[% Translate("If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.") | html %]</p>
                     <p><strong>[% Translate("Everything else will be done as part of your contract.") | html %]</strong></p>
@@ -192,7 +192,6 @@
                     <h2 class="SpacingTop">[% Translate("How can I do a patch level update if I don’t have a contract?") | html %]</h2>
                     <p>[% Translate("Please find all relevant information within") | html %] <a href="http://otrs.github.io/doc/manual/admin/5.0/en/html/upgrading.html" target="_blank">[% Translate("the upgrading instructions") | html %].</a></p>
                     <p>[% Translate("In case you would have further questions we would be glad to answer them.") | html %] <br />[% Translate("Please visit our customer") | html %] <a href="https://portal.otrs.com/" target="_blank">[% Translate("portal") | html %]</a> [% Translate("and file a request.") | html %]</p>
-
                 </div>
             </div>
         </div>

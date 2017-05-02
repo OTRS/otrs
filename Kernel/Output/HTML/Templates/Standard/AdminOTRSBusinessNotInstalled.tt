@@ -12,6 +12,23 @@
     <h1>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h1>
 
     <div class="SidebarColumn">
+[% RenderBlockStart("Actions") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="https://portal.otrs.com/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to the OTRS customer portal") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("Actions") %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Hint") | html %]</h2>
@@ -99,14 +116,39 @@
                 <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
-                <p class="Center">
-                    [% Translate("With your existing contract you can only use a small part of the %s.", OTRSBusinessLabel ) %]
-                    <br/>
-                    [% Translate("If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.", OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
-                </p>
-                <div class="Center SpacingTop">
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</span></a>
-                </div>
+                [% IF Data.ShowBlock == "IncompatibleInfo" %]
+                    <h2>[% Translate("Package installation requires patch level update of OTRS.") | html %]</h2>
+                    <p>[% Translate("Please visit our customer portal and file a request.") | html %]</p>
+                    <p><strong>[% Translate("Everything else will be done as part of your contract.") | html %]</strong></p>
+                    <p class="SpacingTop">[% Translate("Your installed OTRS version is %s.", Config("Version")) | html %]</p>
+                    [% IF Data.RequiredMinimumVersion %]
+                    <p><span class="MinimumRequired">[% Translate("To install this package, you need to update to OTRS %s or higher.", Data.RequiredMinimumVersion) | html %]</span></p>
+                    [% END %]
+                    [% IF Data.RequiredMaximumVersion %]
+                    <p><span class="MaximumRequired">[% Translate("To install this package, the Maximum OTRS Version is %s.", Data.RequiredMaximumVersion) | html %] </span></p>
+                    [% END %]
+                    [% IF !Data.RequiredMinimumVersion && Data.RequiredFramework %]
+                    <p><span class="MaximumRequired">[% Translate("To install this package, the required Framework version is %s.", Data.RequiredFramework) | html %] </span></p>
+                    [% END %]
+                    <h2 class="SpacingTop">[% Translate("Why should I keep OTRS up to date?") | html %]</h2>
+                    <ul class="Default">
+                        <li>
+                            [% Translate("You will receive updates about relevant security issues.") | html %]
+                        </li>
+                        <li>
+                            [% Translate("You will receive updates for all other relevant OTRS issues") | html %]
+                        </li>
+                    </ul>
+                [% ELSE %]
+                    <p class="Center">
+                        [% Translate("With your existing contract you can only use a small part of the %s.", OTRSBusinessLabel ) %]
+                        <br/>
+                        [% Translate("If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.", OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
+                    </p>
+                    <div class="Center SpacingTop">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</span></a>
+                    </div>
+                [% END %]
             </div>
             <div class="Clear"></div>
         </div>

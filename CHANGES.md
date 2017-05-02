@@ -1,4 +1,5 @@
 #5.0.19 2017-??-??
+ - 2017-05-02 Improved error message, when trying to install an incompatible version of OTRS Business Solution™.
  - 2017-04-28 Fixed bug#[10556](https://bugs.otrs.org/show_bug.cgi?id=10556)(PR#1737) - Missing library used in IMAP authentication mechanism. Thanks to S7!
  - 2017-04-28 Fixed bug#[12784](https://bugs.otrs.org/show_bug.cgi?id=12784)(PR#1738) - Webservice Debugger shows no Entry. Thanks to S7!
  - 2017-04-27 Updated translations, thanks to all translators.
