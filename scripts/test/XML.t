@@ -10,11 +10,10 @@ use strict;
 use warnings;
 use utf8;
 
-use Storable;
-
 use vars (qw($Self));
 
-my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+my $XMLObject      = $Kernel::OM->Get('Kernel::System::XML');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -678,7 +677,7 @@ my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
 # make a copy of the XMLArray (deep clone it),
 # it will be needed for a later comparison
-my @XMLARRAYCopy = @{ Storable::dclone( \@XMLARRAY ) };
+my @XMLARRAYCopy = @{ $StorableObject->Clone( Data => \@XMLARRAY ) };
 
 # check that the copy is the same as the original
 $Self->IsDeeply(

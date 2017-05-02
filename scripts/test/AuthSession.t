@@ -12,13 +12,12 @@ use utf8;
 
 use vars (qw($Self));
 
-use Storable;
-
 use Kernel::System::AuthSession;
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+my $MainObject     = $Kernel::OM->Get('Kernel::System::Main');
+my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -60,7 +59,7 @@ for my $SessionFile (@SampleSessionFiles) {
     next SESSIONFILE if ref $Content ne 'SCALAR';
 
     # read data structure back from file dump, use block eval for safety reasons
-    my $Session = eval { Storable::thaw( ${$Content} ) };
+    my $Session = eval { $StorableObject->Deserialize( Data => ${$Content} ) };
     delete $Session->{UserLastRequest};
 
     push @SampleSessionData, $Session;

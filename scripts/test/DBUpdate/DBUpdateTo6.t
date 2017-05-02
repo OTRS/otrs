@@ -38,21 +38,21 @@ $Self->True(
 );
 
 my $DBUpdateTo6Object = $Kernel::OM->Get('scripts::DBUpdateTo6');
-$Success = $DBUpdateTo6Object->Run(
-    CommandlineOptions => {
-        NonInteractive => 1,
-    },
 
-    # Prevent discarding all objects including config object, when config is rebuilt from DB update module. Otherwise,
-    #   overridden test database settings will be lost and changes might be executed on system database instead.
-    UnitTestMode => 1,
-);
+# Run DB update script consecutively.
+for my $Count ( 1 .. 2 ) {
+    $Success = $DBUpdateTo6Object->Run(
+        CommandlineOptions => {
+            NonInteractive => 1,
+        },
+    );
 
-$Self->Is(
-    $Success,
-    1,
-    'DBUpdateTo6 ran without problems'
-);
+    $Self->Is(
+        $Success,
+        1,
+        "DBUpdateTo6 ran without problems (Run $Count)"
+    );
+}
 
 # Cleanup is done by TmpDatabaseCleanup().
 

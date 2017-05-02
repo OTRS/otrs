@@ -760,8 +760,7 @@ sub UseTmpArticleDir {
 
 =head2 ProvideTestDatabase()
 
-Provide temporary database for the test. Please first define test database settings in C<Config.pm>,
-i.e:
+Provide temporary database for the test. Please first define test database settings in C<Config.pm>, i.e:
 
     $Self->{TestDatabase} = {
         DatabaseDSN  => 'DBI:mysql:database=otrs_test;host=127.0.0.1;',
@@ -769,8 +768,8 @@ i.e:
         DatabasePw   => 'otrs_test',
     };
 
-The method call will override global database configuration for duration of the test, i.e. temporary
-database will receive all calls sent over system C<DBObject>.
+The method call will override global database configuration for duration of the test, i.e. temporary database will
+receive all calls sent over system C<DBObject>.
 
 All database contents will be automatically dropped when the Helper object is destroyed.
 
@@ -808,7 +807,7 @@ sub ProvideTestDatabase {
 
         # Override database connection settings in memory.
         $ConfigObject->Set(
-            Key   => $Key,
+            Key   => "Test$Key",
             Value => $TestDatabase->{$Key},
         );
 
@@ -831,9 +830,9 @@ no warnings 'redefine';
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
-    \$Self->{DatabaseDSN}  = '$EscapedSettings{DatabaseDSN}';
-    \$Self->{DatabaseUser} = '$EscapedSettings{DatabaseUser}';
-    \$Self->{DatabasePw}   = '$EscapedSettings{DatabasePw}';
+    \$Self->{TestDatabaseDSN}  = '$EscapedSettings{DatabaseDSN}';
+    \$Self->{TestDatabaseUser} = '$EscapedSettings{DatabaseUser}';
+    \$Self->{TestDatabasePw}   = '$EscapedSettings{DatabasePw}';
 }
 1;^,
         Identifier => $Identifier,

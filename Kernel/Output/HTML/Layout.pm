@@ -11,7 +11,6 @@ package Kernel::Output::HTML::Layout;
 use strict;
 use warnings;
 
-use Storable;
 use URI::Escape qw();
 
 use Kernel::System::Time;
@@ -31,6 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::OTRSBusiness',
+    'Kernel::System::Storable',
     'Kernel::System::SystemMaintenance',
     'Kernel::System::Time',
     'Kernel::System::User',
@@ -4939,7 +4939,7 @@ sub _BuildSelectionDataRefCreate {
 
     # dclone $Param{Data} because the subroutine unfortunately modifies
     # the original data ref
-    my $DataLocal = Storable::dclone( $Param{Data} );
+    my $DataLocal = $Kernel::OM->Get('Kernel::System::Storable')->Clone( Data => $Param{Data} );
 
     # if HashRef was given
     if ( ref $DataLocal eq 'HASH' ) {

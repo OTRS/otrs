@@ -11,7 +11,6 @@ package Kernel::System::SysConfig;
 use strict;
 use warnings;
 
-use Storable qw();
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 

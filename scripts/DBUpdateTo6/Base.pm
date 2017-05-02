@@ -81,10 +81,6 @@ sub RebuildConfig {
 
     print "\nIf you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
 
-    # Prevent discarding all objects including config object, if running from unit test. Otherwise, some overridden
-    #   config options like test database settings might be lost.
-    return 1 if $Param{UnitTestMode};
-
     # create common objects with new default config
     $Kernel::OM->ObjectsDiscard();
 

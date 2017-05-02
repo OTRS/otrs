@@ -12,7 +12,6 @@ use strict;
 use warnings;
 
 use POSIX;
-use Storable qw();
 use Digest::MD5 qw();
 use File::Path qw();
 use File::Find qw();
@@ -22,6 +21,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storable',
 );
 
 sub new {
@@ -71,11 +71,11 @@ sub Set {
         }
     }
 
-    my $Dump = Storable::nfreeze(
-        {
+    my $Dump = $Kernel::OM->Get('Kernel::System::Storable')->Serialize(
+        Data => {
             TTL   => time() + $Param{TTL},
             Value => $Param{Value},
-        }
+        },
     );
 
     my ( $Filename, $CacheDirectory ) = $Self->_GetFilenameAndCacheDirectory(%Param);
@@ -135,7 +135,11 @@ sub Get {
     return if !$Content;
 
     # read data structure back from file dump, use block eval for safety reasons
-    my $Storage = eval { Storable::thaw( ${$Content} ) };
+    my $Storage = eval {
+        $Kernel::OM->Get('Kernel::System::Storable')->Deserialize(
+            Data => ${$Content}
+        );
+    };
     if ( ref $Storage ne 'HASH' || $Storage->{TTL} < time() ) {
         $Self->Delete(%Param);
         return;
@@ -205,7 +209,9 @@ sub CleanUp {
             );
 
             if ( ref $Content eq 'SCALAR' ) {
-                my $Storage = eval { Storable::thaw( ${$Content} ); };
+                my $Storage = eval {
+                    $Kernel::OM->Get('Kernel::System::Storable')->Deserialize( Data => ${$Content} );
+                };
                 return if ( ref $Storage eq 'HASH' && $Storage->{TTL} > time() );
             }
         }

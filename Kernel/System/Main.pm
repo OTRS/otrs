@@ -18,12 +18,12 @@ use Data::Dumper;
 use File::stat;
 use Unicode::Normalize;
 use List::Util qw();
-use Storable;
 use Fcntl qw(:flock);
 
 our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
+    'Kernel::System::Storable',
 );
 
 =head1 NAME
@@ -742,7 +742,7 @@ sub Dump {
         # Clone the data because we need to disable the utf8 flag in all
         # reference variables and do not to want to do this in the orig.
         # variables because they will still used in the system.
-        my $DataNew = Storable::dclone( \$Data );
+        my $DataNew = $Kernel::OM->Get('Kernel::System::Storable')->Clone( Data => \$Data );
 
         # Disable utf8 flag.
         $Self->_Dump($DataNew);

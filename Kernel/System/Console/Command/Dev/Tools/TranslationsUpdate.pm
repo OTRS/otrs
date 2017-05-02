@@ -17,7 +17,6 @@ use File::Basename;
 use File::Copy;
 use Lingua::Translit;
 use Pod::Strip;
-use Storable ();
 
 use Kernel::Language;
 
@@ -25,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
     'Kernel::System::Main',
+    'Kernel::System::Storable',
     'Kernel::System::SysConfig',
     'Kernel::System::Time',
 );
