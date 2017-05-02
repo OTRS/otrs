@@ -80,7 +80,8 @@ $Selenium->RunTest(
 
         # check overview screen
         for my $ID (
-            qw(Profile TicketNumber CustomerID From To Cc Subject Body ServiceIDs TypeIDs PriorityIDs StateIDs
+            qw(Profile TicketNumber CustomerID MIMEBase_From MIMEBase_To MIMEBase_Cc MIMEBase_Subject MIMEBase_Body
+            ServiceIDs TypeIDs PriorityIDs StateIDs
             NoTimeSet Date DateRange TicketCreateTimePointStart TicketCreateTimePoint TicketCreateTimePointFormat
             TicketCreateTimeStartMonth TicketCreateTimeStartDay TicketCreateTimeStartYear TicketCreateTimeStartDayDatepickerIcon
             TicketCreateTimeStopMonth TicketCreateTimeStopDay TicketCreateTimeStopYear TicketCreateTimeStopDayDatepickerIcon
@@ -210,7 +211,7 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-    }
+        }
 );
 
 1;
