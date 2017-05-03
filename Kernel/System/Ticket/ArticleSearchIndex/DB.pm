@@ -29,6 +29,22 @@ sub new {
     return $Self;
 }
 
+=head2 ArticleIndexBuild()
+
+Rebuilds the current article search index table content. Existing article entries will be replaced.
+
+    my $Success = $ArticleSearchIndexObject->ArticleIndexBuild(
+        TicketID  => 123,
+        ArticleID => 123,
+        UserID    => 1,
+    );
+
+Returns:
+
+    True if indexing process was successfuly finished, False if not.
+
+=cut
+
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
 
@@ -98,6 +114,21 @@ sub ArticleIndexBuild {
     return 1;
 }
 
+=head2 ArticleIndexDelete()
+
+Deletes an entry from the article search index table.
+
+    my $Success = $ArticleSearchIndexObject->ArticleIndexDelete(
+        ArticleID => 123,
+        UserID    => 1,
+    );
+
+Returns:
+
+    True if delete process was successfuly finished, False if not.
+
+=cut
+
 sub ArticleIndexDelete {
     my ( $Self, %Param ) = @_;
 
@@ -120,6 +151,21 @@ sub ArticleIndexDelete {
     return 1;
 }
 
+=head2 ArticleIndexDeleteTicket()
+
+Deletes all entry from the article search index table, that are related to the given TicketID.
+
+    my $Success = $ArticleSearchIndexObject->ArticleIndexDeleteTicket(
+        TicketID => 123,
+        UserID   => 1,
+    );
+
+Returns:
+
+    True if delete process was successfuly finished, False if not.
+
+=cut
+
 sub ArticleIndexDeleteTicket {
     my ( $Self, %Param ) = @_;
 
@@ -141,6 +187,34 @@ sub ArticleIndexDeleteTicket {
 
     return 1;
 }
+
+=head2 ArticleSearchIndexNeeded()
+
+Checks the given search parameters for used article backend fields.
+
+    my $Needed = $ArticleSearchIndexObject->ArticleSearchIndexNeeded(
+        Data => {
+            ...
+            ConditionInline         => 1,
+            ContentSearchPrefix     => '*',
+            ContentSearchSuffix     => '*',
+            MIMEBase_From           => '%spam@example.com%',
+            MIMEBase_To             => '%service@example.com%',
+            MIMEBase_Cc             => '%client@example.com%',
+            MIMEBase_Subject        => '%VIRUS 32%',
+            MIMEBase_Body           => '%VIRUS 32%',
+            MIMEBase_AttachmentName => '%anyfile.txt%',
+            Chat_ChatterName        => '%Some Chatter Name%',
+            Chat_MessageText        => '%Some Message Text%'
+            ...
+        },
+    );
+
+Returns:
+
+    True if article search index usage is needed, False if not.
+
+=cut
 
 sub ArticleSearchIndexNeeded {
     my ( $Self, %Param ) = @_;
@@ -170,6 +244,34 @@ sub ArticleSearchIndexNeeded {
 
     return;
 }
+
+=head2 ArticleSearchIndexJoin()
+
+Generates sql string extensions, including the needed table joins for the article index search.
+
+    my $SQLExtenion = $ArticleSearchIndexObject->ArticleSearchIndexJoin(
+        Data => {
+            ...
+            ConditionInline         => 1,
+            ContentSearchPrefix     => '*',
+            ContentSearchSuffix     => '*',
+            MIMEBase_From           => '%spam@example.com%',
+            MIMEBase_To             => '%service@example.com%',
+            MIMEBase_Cc             => '%client@example.com%',
+            MIMEBase_Subject        => '%VIRUS 32%',
+            MIMEBase_Body           => '%VIRUS 32%',
+            MIMEBase_AttachmentName => '%anyfile.txt%',
+            Chat_ChatterName        => '%Some Chatter Name%',
+            Chat_MessageText        => '%Some Message Text%'
+            ...
+        },
+    );
+
+Returns:
+
+    $SQLExtension = 'LEFT JOIN article_search_index ArticleFulltext ON art.id = ArticleFulltext.article_id ';
+
+=cut
 
 sub ArticleSearchIndexJoin {
     my ( $Self, %Param ) = @_;
@@ -210,6 +312,35 @@ sub ArticleSearchIndexJoin {
 
     return $ArticleSearchIndexJoin;
 }
+
+=head2 ArticleSearchIndexCondition()
+
+Generates sql query conditions for the used article fields, that may be used in the WHERE clauses of main
+sql queries to the database.
+
+    my $SQLExtenion = $ArticleSearchIndexObject->ArticleSearchIndexCondition(
+        Data => {
+            ...
+            ConditionInline         => 1,
+            ContentSearchPrefix     => '*',
+            ContentSearchSuffix     => '*',
+            MIMEBase_From           => '%spam@example.com%',
+            MIMEBase_To             => '%service@example.com%',
+            MIMEBase_Cc             => '%client@example.com%',
+            MIMEBase_Subject        => '%VIRUS 32%',
+            MIMEBase_Body           => '%VIRUS 32%',
+            MIMEBase_AttachmentName => '%anyfile.txt%',
+            Chat_ChatterName        => '%Some Chatter Name%',
+            Chat_MessageText        => '%Some Message Text%'
+            ...
+        },
+    );
+
+Returns:
+
+    $SQLConditions = " AND (MIMEBase_From.article_value LIKE '%spam@example.com%') ";
+
+=cut
 
 sub ArticleSearchIndexCondition {
     my ( $Self, %Param ) = @_;
@@ -272,11 +403,11 @@ sub ArticleSearchIndexCondition {
                 $Value .= $Param{Data}->{ContentSearchSuffix};
             }
 
-            # replace %% by % for SQL
-            $Param{Data}->{$Field} =~ s/%%/%/gi;
-
             # replace * with % (for SQL)
             $Value =~ s/\*/%/g;
+
+            # replace %% by % for SQL
+            $Value =~ s/%%/%/gi;
 
             $Value = lc $DBObject->Quote( $Value, 'Like' );
 
