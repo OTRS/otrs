@@ -146,28 +146,16 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_Body.article_value LIKE '\%virus 32\%') ",
     },
     {
-        Name => 'article search index Chat_MessageText',
+        Name => 'article search index MIMEBase_Body with doubled percentages',
         Data => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
-            Chat_MessageText    => 'Some Message Text',
+            MIMEBase_Body       => '%Some Message Text%',
         },
         Needed => 1,
         Joins =>
-            " LEFT JOIN article_search_index Chat_MessageText ON art.id = Chat_MessageText.article_id AND Chat_MessageText.article_key = 'Chat_MessageText' ",
-        Conditions => " AND ( Chat_MessageText.article_value LIKE '\%some message text\%') ",
-    },
-    {
-        Name => 'article search index Chat_MessageText with doubled percentages',
-        Data => {
-            ContentSearchPrefix => '*',
-            ContentSearchSuffix => '*',
-            Chat_MessageText    => '%Some Message Text%',
-        },
-        Needed => 1,
-        Joins =>
-            " LEFT JOIN article_search_index Chat_MessageText ON art.id = Chat_MessageText.article_id AND Chat_MessageText.article_key = 'Chat_MessageText' ",
-        Conditions => " AND ( Chat_MessageText.article_value LIKE '\%some message text\%') ",
+            " LEFT JOIN article_search_index MIMEBase_Body ON art.id = MIMEBase_Body.article_id AND MIMEBase_Body.article_key = 'MIMEBase_Body' ",
+        Conditions => " AND ( MIMEBase_Body.article_value LIKE '\%some message text\%') ",
     },
     {
         Name => 'article search index not needed',
