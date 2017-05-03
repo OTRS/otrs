@@ -74,6 +74,13 @@
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
+    <Setting Name="SupportDataCollector::WebUserAgent::Timeout" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon).</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[2-9][0-9]{1,}|[1-9][0-9]{2,}$">20</Item>
+        </Value>
+    </Setting>
     <Setting Name="NodeID" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.</Description>
         <Navigation>Core</Navigation>
