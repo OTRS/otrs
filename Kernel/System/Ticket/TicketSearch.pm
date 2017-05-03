@@ -2435,84 +2435,7 @@ Find stop words within given search string.
 sub SearchStringStopWordsFind {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for my $Key (qw(SearchStrings)) {
-        if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Key!",
-            );
-            return;
-        }
-    }
-
-    my $StopWordRaw = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {};
-    if ( !$StopWordRaw || ref $StopWordRaw ne 'HASH' ) {
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Invalid config option Ticket::SearchIndex::StopWords! "
-                . "Please reset the search index options to reactivate the factory defaults.",
-        );
-
-        return;
-    }
-
-    my %StopWord;
-    LANGUAGE:
-    for my $Language ( sort keys %{$StopWordRaw} ) {
-
-        if ( !$Language || !$StopWordRaw->{$Language} || ref $StopWordRaw->{$Language} ne 'ARRAY' ) {
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Invalid config option Ticket::SearchIndex::StopWords###$Language! "
-                    . "Please reset this option to reactivate the factory defaults.",
-            );
-
-            next LANGUAGE;
-        }
-
-        WORD:
-        for my $Word ( @{ $StopWordRaw->{$Language} } ) {
-
-            next WORD if !defined $Word || !length $Word;
-
-            $Word = lc $Word;
-
-            $StopWord{$Word} = 1;
-        }
-    }
-
-    my $SearchIndexAttributes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::Attribute');
-    my $WordLengthMin         = $SearchIndexAttributes->{WordLengthMin} || 3;
-    my $WordLengthMax         = $SearchIndexAttributes->{WordLengthMax} || 30;
-
-    my %StopWordsFound;
-    SEARCHSTRING:
-    for my $Key ( sort keys %{ $Param{SearchStrings} } ) {
-        my $SearchString = $Param{SearchStrings}->{$Key};
-        my %Result       = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
-            'Key'      => '.',             # resulting SQL is irrelevant
-            'Value'    => $SearchString,
-            'BindMode' => 1,
-        );
-
-        next SEARCHSTRING if !%Result || ref $Result{Values} ne 'ARRAY' || !@{ $Result{Values} };
-
-        my %Words;
-        for my $Value ( @{ $Result{Values} } ) {
-            my @Words = split '\s+', $$Value;
-            for my $Word (@Words) {
-                $Words{ lc $Word } = 1;
-            }
-        }
-
-        @{ $StopWordsFound{$Key} }
-            = grep { $StopWord{$_} || length $_ < $WordLengthMin || length $_ > $WordLengthMax } sort keys %Words;
-    }
-
-    return \%StopWordsFound;
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsFind(%Param);
 }
 
 =head2 SearchStringStopWordsUsageWarningActive()
@@ -2526,15 +2449,7 @@ Checks if warnings for stop words in search strings are active or not.
 sub SearchStringStopWordsUsageWarningActive {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
-    my $SearchIndexModule   = $ConfigObject->Get('Ticket::SearchIndexModule');
-    my $WarnOnStopWordUsage = $ConfigObject->Get('Ticket::SearchIndex::WarnOnStopWordUsage') || 0;
-
-    if ( $SearchIndexModule eq 'Kernel::System::Ticket::ArticleSearchIndex::DB' && $WarnOnStopWordUsage ) {
-        return 1;
-    }
-
-    return 0;
+    return $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsUsageWarningActive(%Param);
 }
 
 1;

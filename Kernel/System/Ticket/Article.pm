@@ -732,6 +732,18 @@ sub ArticleSearchIndexCondition {
     return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->ArticleSearchIndexCondition(%Param);
 }
 
+sub SearchStringStopWordsFind {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->SearchStringStopWordsFind(%Param);
+}
+
+sub SearchStringStopWordsUsageWarningActive {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get( $Self->{ArticleSearchIndexModule} )->SearchStringStopWordsUsageWarningActive(%Param);
+}
+
 sub SearchableFieldsList {
     my ( $Self, %Param ) = @_;
 
