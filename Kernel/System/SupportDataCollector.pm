@@ -242,11 +242,13 @@ sub CollectByWebRequest {
         );
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     my $Host = $Param{Hostname};
-    $Host ||= $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::HTTPHostname');
+    $Host ||= $ConfigObject->Get('SupportDataCollector::HTTPHostname');
 
     if ( !$Host ) {
-        my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
+        my $FQDN = $ConfigObject->Get('FQDN');
 
         if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
             $Host = $FQDN;
@@ -263,20 +265,20 @@ sub CollectByWebRequest {
     #   we can specify the htaccess login data here,
     #   this is neccessary for the support data collector.
     my $AuthString   = '';
-    my $AuthUser     = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthUser');
-    my $AuthPassword = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::AuthPassword');
+    my $AuthUser     = $ConfigObject->Get('PublicFrontend::AuthUser');
+    my $AuthPassword = $ConfigObject->Get('PublicFrontend::AuthPassword');
     if ( $AuthUser && $AuthPassword ) {
         $AuthString = $AuthUser . ':' . $AuthPassword . '@';
     }
 
     # Prepare web service config for the internal web request.
     my $URL =
-        $Kernel::OM->Get('Kernel::Config')->Get('HttpType')
+        $ConfigObject->Get('HttpType')
         . '://'
         . $AuthString
         . $Host
         . '/'
-        . $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias')
+        . $ConfigObject->Get('ScriptAlias')
         . 'public.pl';
 
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
@@ -299,6 +301,7 @@ sub CollectByWebRequest {
             ChallengeToken => $ChallengeToken,
         },
         SkipSSLVerification => 1,
+        NoLog               => $Self->{Debug} ? 0 : 1,
     );
 
     if ( $Response{Status} ne '200 OK' ) {
