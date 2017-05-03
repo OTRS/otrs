@@ -630,8 +630,12 @@ sub RegistrationUpdateSend {
     # send SupportData if sending is activated
     if ( $SupportDataSending eq 'Yes' ) {
 
+        my $SupportDataCollectorWebTimeout = $ConfigObject->Get('SupportDataCollector::WebUserAgent::Timeout');
+
         my %CollectResult = eval {
-            $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
+            $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect(
+                WebTimeout => $SupportDataCollectorWebTimeout,
+            );
         };
         if ( !$CollectResult{Success} ) {
             my $ErrorMessage = $CollectResult{ErrorMessage} || $@ || 'unknown error';

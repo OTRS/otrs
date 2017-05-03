@@ -507,7 +507,11 @@ Returns:
 sub GenerateSupportData {
     my ( $Self, %Param ) = @_;
 
-    my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
+    my $SupportDataCollectorWebTimeout = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::WebUserAgent::Timeout');
+
+    my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect(
+        WebTimeout => $SupportDataCollectorWebTimeout,
+    );
 
     my $JSONContent = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => \%SupportData,

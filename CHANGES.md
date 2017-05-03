@@ -1,4 +1,5 @@
 #5.0.20 2017-??-??
+ - 2017-05-03 Added a web timeout config option for the support data collection and suppress the log message, if the internal web request for the support data collection doesn't work.
 
 #5.0.19 2017-05-09
  - 2017-05-02 Updated translations, thanks to all translators.
