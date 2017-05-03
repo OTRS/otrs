@@ -74,6 +74,13 @@
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
+    <Setting Name="SupportDataCollector::WebUserAgent::Timeout" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon).</Description>
+        <Navigation>Core</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[2-9][0-9]{1,}|[1-9][0-9]{2,}$">20</Item>
+        </Value>
+    </Setting>
     <Setting Name="NodeID" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.</Description>
         <Navigation>Core</Navigation>
@@ -7721,14 +7728,14 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="CustomerGroupSupport" Required="1" Valid="1">
-        <Description Translatable="1">Activates support for customer groups.</Description>
+        <Description Translatable="1">Activates support for customer and customer user groups.</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerGroupAlwaysGroups" Required="1" Valid="1">
-        <Description Translatable="1">Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don't want to manage every user for these groups).</Description>
+        <Description Translatable="1">Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don't want to manage every customer user for these groups).</Description>
         <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Array>
