@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-02 12:16+0000\n"
-"PO-Revision-Date: 2017-05-02 17:25+0000\n"
+"POT-Creation-Date: 2017-05-04 12:03+0000\n"
+"PO-Revision-Date: 2017-05-04 17:04+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/otrs/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
@@ -3951,19 +3951,19 @@ msgstr "Ongeza tukio"
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr "Kuongeza tukio jipya jagua kipengele cha tukio na jina la tukio na bofya kwenye kitufye \"+\""
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Duplicate event."
-msgstr "Nakili tukio"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "This event is already attached to the job, Please use a different one."
-msgstr "Tukio hili tayari limeweambatanishwa na kazi, tafadhali tumia lingine."
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
-msgstr "Futa kichochezi cha tukio hili"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
@@ -4083,23 +4083,23 @@ msgstr "Muda wa kusubiri wa tiketi umefika kati ya"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr "Eneza Muda"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "Hakuna mipangilio ya kueneza muda"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
-msgstr "Muda wa kueneza muda wa tiketi umefika"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached between"
-msgstr "Muda wa kueneza tiketi umefika kati ya "
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
-msgstr "Kupanda- muda wa majibu ya kwanza"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached"
@@ -4111,11 +4111,11 @@ msgstr "Muda wa mwitiko wa kwanza wa tiketi ulifika kati ya"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr "Kupanda-muda wa kusasisha"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
-msgstr "Muda wa kusasisha tiketi umefika"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached between"
@@ -4123,7 +4123,7 @@ msgstr "Muda wa kusasisha tiketi ulifika kati ya"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr "Kupanda-Muda wa suluhu"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
@@ -4199,7 +4199,7 @@ msgstr "Aina mpya"
 
 #. Template: AdminGenericAgent
 msgid "New Dynamic Field Values"
-msgstr "Thamani mpya za uga wenye nguvu"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -4215,7 +4215,7 @@ msgstr "Kizio cha muda"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr "Tekeleza amri ya tiketi"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -4229,7 +4229,7 @@ msgstr "CMD"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Amri hii itatekelezwa. Namba ya tiketi itakuwa ARG[0].ARG[1] ni kitambulisho cha tiketi"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -4243,7 +4243,7 @@ msgstr "Onyo: Tiketi zote zilizoathiriwa zitaondolewa kwenye hifadhi data and ha
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
-msgstr "Tekeleza moduli maalum"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
@@ -4754,7 +4754,7 @@ msgstr "Sharti chaguo-msingi la HTTP kutumia kwa ajili ya maombi."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr "uthibitisho"
+msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The authentication mechanism to access the remote system."
@@ -5053,7 +5053,7 @@ msgstr "Faili lazima liwe faili halali la huduma ya tovuti la usanidi wa YAML."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
-msgstr "kuingiza"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration history"
@@ -5148,7 +5148,7 @@ msgstr "Vichochezi vinaanda data kwa ajili ya kuomba huduma ya tovuti ya mbali, 
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
-msgstr "mtawala"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Inbound mapping"
@@ -5160,7 +5160,7 @@ msgstr "Kuunganishwa kulikofungwa nje"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
-msgstr "kufuta hatua hii"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5174,7 +5174,7 @@ msgstr "Futa huduma ya tovuti"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete operation"
-msgstr "kufuta operesheni"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
@@ -5208,7 +5208,7 @@ msgstr "Orodha ya historia ya usanidi"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
-msgstr "toleo"
+msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
@@ -5237,7 +5237,7 @@ msgstr "Usanidi wako wa sasa wa huduma za wavuti utaandikiwa kwa juu."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore"
-msgstr "kurejesha"
+msgstr ""
 
 #. Template: AdminGroup
 msgid ""
@@ -5253,7 +5253,7 @@ msgstr "Usimamizi wa kundi"
 
 #. Template: AdminGroup
 msgid "Add group"
-msgstr "kuongeza kundi"
+msgstr ""
 
 #. Template: AdminGroup
 msgid ""
@@ -5277,11 +5277,11 @@ msgstr ""
 
 #. Template: AdminGroup
 msgid "Add Group"
-msgstr "Kuongeza kundi"
+msgstr ""
 
 #. Template: AdminGroup
 msgid "Edit Group"
-msgstr "hariri kundi"
+msgstr ""
 
 #. Template: AdminLog
 msgid "System Log"
@@ -5293,7 +5293,7 @@ msgstr "Hapa utakuta taarifa batli kuhusu mfumo wako."
 
 #. Template: AdminLog
 msgid "Hide this message"
-msgstr "kuficha ujumbe huu"
+msgstr ""
 
 #. Template: AdminLog
 msgid "Recent Log Entries"
@@ -5305,7 +5305,7 @@ msgstr "Usimamizi wa akaunti za barua"
 
 #. Template: AdminMailAccount
 msgid "Add mail account"
-msgstr "kuongeza akaunti ya barua pepe"
+msgstr ""
 
 #. Template: AdminMailAccount
 msgid ""
@@ -5322,7 +5322,7 @@ msgstr "Kama akounti ya inaaminika, tayari ipo katika kichwa cha X-OTRS kwa muda
 
 #. Template: AdminMailAccount
 msgid "Delete account"
-msgstr "kufuta akaunti"
+msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Fetch mail"
@@ -5330,7 +5330,7 @@ msgstr "Pakua barua pepe"
 
 #. Template: AdminMailAccount
 msgid "Add Mail Account"
-msgstr "Kuongeza akaunti ya barua pepe"
+msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Example: mail.example.com"
@@ -5348,7 +5348,7 @@ msgstr "Rekebisha hii tu kama unahitaji kupakua barua pepe kutoka kwenye kabrash
 
 #. Template: AdminMailAccount
 msgid "Trusted"
-msgstr "kuaminiwa"
+msgstr ""
 
 #. Template: AdminMailAccount
 msgid "Dispatching"
@@ -5376,7 +5376,7 @@ msgstr "Mipangilio ya tiketi"
 
 #. Template: AdminNavigationBar
 msgid "System Administration"
-msgstr "Msimamizi wa mfumo"
+msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
@@ -5464,34 +5464,34 @@ msgstr "Kichuja makala"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr "Kwaajili ya tukio la TengenezaMakala na TumaMakala tu"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
-msgstr "aina ya makala"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid ""
 "If ArticleCreate or ArticleSend is used as a trigger event, you need to "
 "specify an article filter as well. Please select at least one of the article"
 " filter fields."
-msgstr "Kama TengenezaMakala au TumaMAkala inatumika kama kichocheo, unahitaji kubainisha kichuja makala pia. Tafadhali chagua japo uga wa kuchja makala mmoja"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr "Aina ya mtumaji wa makala"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Subject match"
-msgstr "Kufafana kwa somo"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Body match"
-msgstr "kufanana kwa kiini"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
-msgstr "Weka viambatanisho katika taarifa"
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Recipients"
@@ -5679,7 +5679,7 @@ msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Notification article type"
-msgstr "Aina ya taarifa ya makala"
+msgstr ""
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
@@ -9661,35 +9661,35 @@ msgstr "Onyesha mandhari ya kalenda ya matukio ya tiketi"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
-msgstr "Makala ambazo hazijasomwa"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr "Hapana."
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Important"
-msgstr "Muhimu"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Unread Article!"
-msgstr "Makala ambayo haijasomwa!"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Incoming message"
-msgstr "Ujumbe unaoingia"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Outgoing message"
-msgstr "Ujumbe unaotoka"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Internal message"
-msgstr "Ujumbe wa ndani"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Resize"
-msgstr "Badilisha ukubwa"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
@@ -9697,15 +9697,15 @@ msgstr "Weka alama kwa makala hii kama imeshasomwa."
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr "Onyesha nakala yote"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr "Nakala ya makala yote"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr "Hakuna matukio yaliyopatikana.Tafadhali jaribu kubadilisha mipangilio ya kuchuja."
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -9745,11 +9745,11 @@ msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
-msgstr "Kulinda faragha yako,  yaliyomo ya mbali yamezuiliwa."
+msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
-msgstr "Pakia yaliyomo yaliyozuiliwa."
+msgstr ""
 
 #. Template: ChatStartForm
 msgid "First message"
@@ -9781,21 +9781,21 @@ msgstr "Tafuta Nyuma"
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr "Imewezeshwa na"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
-msgstr "Kosa moja au zaidi yametokea"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Close this dialog"
-msgstr "Funga mazungumzo haya"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
-msgstr "Haikuweza kufungua dirisha ibukizi.Tafadhali kataza vizuizi vya kiibukizi kwa programu-tumizi hii."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9810,20 +9810,20 @@ msgstr "Kiibukizi katika skrini hii tayari imefunguliwa. Je unataka kufunga na k
 
 #. Template: CustomerFooterJS
 msgid "There are currently no elements available to select from."
-msgstr "Kwasasa hakuna elementi inayopatika kuchagua fomu."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr "Tafadhali zima hali timizi tangamanifu ya kitafuta wavuti! "
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
-msgstr "Kivinjari unachotumia ni cha zamani sana."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
 "OTRS runs with a huge lists of browsers, please upgrade to one of these."
-msgstr "OTRS inafanya kazi na orodha kubwa ya vijivinjari, tafadhali boresha kwenda kwenye moja wapo."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10050,7 +10050,7 @@ msgstr "Tafuta nakala kamili katika tiketi (mfano \"John\" au \"Will\")"
 
 #. Template: CustomerTicketSearch
 msgid "Recipient"
-msgstr "Mopokeaji"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
@@ -17568,6 +17568,13 @@ msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later"
 " to a specific queue."
 msgstr "Inafafanua majira ya masaa yaliyoonyeshwa katika kalenda, ambayo yatapewa baadae kwa foleni maalum."
+
+#. SysConfig
+msgid ""
+"Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
+" collection with the public module 'PublicSupportDataCollector' (e.g. used "
+"from the OTRS Daemon)."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."

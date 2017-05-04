@@ -21,13 +21,14 @@
 # remidoc <Remi.seguy@gmail.com>, 2015
 # remidoc <Remi.seguy@gmail.com>, 2015
 # Thierry Larmier <tlarmier@free.fr>, 2015
+# Thomas Imbreckx <zinks@member.fsf.org>, 2017
 # v cw <vincentcw@yahoo.fr>, 2017
 # Vincent SAOUT <v.saout@atool-dev.fr>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-02 12:16+0000\n"
-"PO-Revision-Date: 2017-05-02 17:25+0000\n"
+"POT-Creation-Date: 2017-05-04 12:03+0000\n"
+"PO-Revision-Date: 2017-05-04 17:04+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +95,7 @@ msgstr "il y a plus de ..."
 
 #. Template: AAABase
 msgid "in more than ..."
-msgstr "en plus de ..."
+msgstr "dans plus de ..."
 
 #. Template: AAABase
 msgid "within the last ..."
@@ -202,11 +203,11 @@ msgstr "semaine(s)"
 
 #. Template: AAABase
 msgid "quarter"
-msgstr "ex. /opt/otrs/var/certificates/REST/CA/ca.file"
+msgstr "trimestre"
 
 #. Template: AAABase
 msgid "quarter(s)"
-msgstr "quart d'heure"
+msgstr "trimestre(s)"
 
 #. Template: AAABase
 msgid "half-year"
@@ -314,19 +315,19 @@ msgstr "Valide"
 
 #. Template: AAABase
 msgid "invalid"
-msgstr "invalide"
+msgstr "non valide"
 
 #. Template: AAABase
 msgid "Invalid"
-msgstr "Invalide"
+msgstr "Non valide"
 
 #. Template: AAABase
 msgid "* invalid"
-msgstr "* invalide"
+msgstr "* non valide"
 
 #. Template: AAABase
 msgid "invalid-temporarily"
-msgstr "temporairement invalide"
+msgstr "temporairement invalidé"
 
 #. Template: AAABase
 msgid " 2 minutes"
@@ -390,7 +391,7 @@ msgstr "aucun - réponse faite"
 
 #. Template: AAABase
 msgid "please do not edit!"
-msgstr "Ne pas modifier !"
+msgstr "ne pas modifier !"
 
 #. Template: AAABase
 msgid "Need Action"
@@ -606,15 +607,15 @@ msgstr "Commentaire"
 
 #. Template: AAABase
 msgid "Invalid Option!"
-msgstr "Option invalide !"
+msgstr "Option non valide !"
 
 #. Template: AAABase
 msgid "Invalid time!"
-msgstr "Heure/Durée invalide !"
+msgstr "Heure/Durée non valide !"
 
 #. Template: AAABase
 msgid "Invalid date!"
-msgstr "Date invalide !"
+msgstr "Date non valide !"
 
 #. Template: AAABase
 msgid "Name"
@@ -814,7 +815,7 @@ msgstr "Merci d'activer %s en premier lieu"
 
 #. Template: AAABase
 msgid "No suggestions"
-msgstr "Pas de suggestions"
+msgstr "Pas de suggestion"
 
 #. Template: AAABase
 msgid "Word"
@@ -842,13 +843,13 @@ msgstr "Il n'y a aucun compte avec ce nom d'utilisateur"
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr "Veuillez contacter votre administrateur SVP"
+msgstr "Veuillez contacter votre administrateur"
 
 #. Template: AAABase
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr "L'authentification est réussie mais aucun enregistrement client n'a été trouvé dans la base OTRS. Veuillez en informer votre administrateur."
+msgstr "L'authentification a réussi mais aucun enregistrement client correspondant n'a été trouvé. Veuillez en informer votre administrateur."
 
 #. Template: AAABase
 msgid ""
@@ -905,7 +906,7 @@ msgstr "Licence"
 
 #. Template: AAABase
 msgid "Database"
-msgstr "Base de donnée"
+msgstr "Base de données"
 
 #. Template: AAABase
 msgid "Configure Mail"
@@ -927,7 +928,7 @@ msgstr "Entrer le mot de passe pour l'utilisateur base de données"
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Si vous avez défini un mot de passe root pour votre base de donnée, il doit être rempli ici. Sinon, laisser ce champ vide"
+msgstr "Si vous avez défini un mot de passe root pour votre base de données, il doit être indiqué ici. Sinon, laissez ce champ vide."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
@@ -976,7 +977,7 @@ msgstr "Fuseau horaire"
 
 #. Template: AAABase
 msgid "Pending till"
-msgstr "En attendant jusqu'à"
+msgstr "En attente jusque"
 
 #. Template: AAABase
 msgid ""
@@ -1350,7 +1351,7 @@ msgstr "Évènements"
 
 #. Template: AAABase
 msgid "Invalid Token!"
-msgstr "Jeton invalide !"
+msgstr "Jeton non valide !"
 
 #. Template: AAABase
 msgid "more"
@@ -1523,7 +1524,7 @@ msgstr "Le nom et mot de passe ne correspondent pas. Merci d'essayer à nouveau.
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr "The processus sélectionné est invalide."
+msgstr "Le processus sélectionné n'est pas valide !"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
@@ -1776,7 +1777,7 @@ msgstr "Impossible de mettre à jour le mot de passe, votre nouveau mot de passe
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
-msgstr "Impossible de mettre à jour le mot de passe, il contienti des caractères invalides!"
+msgstr "Impossible de mettre à jour le mot de passe car il contient des caractères non valables !"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
@@ -2966,7 +2967,7 @@ msgstr "Effacer ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr "Supprimer ACL invalide"
+msgstr "Supprimer les ACL non valides"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
@@ -4229,7 +4230,7 @@ msgstr "Ajouter une note"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
-msgstr "Unité de temps"
+msgstr "Unités de temps"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
@@ -8333,7 +8334,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
-msgstr "Date invalide"
+msgstr "Date non valide !"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
@@ -9039,7 +9040,7 @@ msgstr "Tous les champs marqués avec un astérisque (*) sont obligatoires."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
-msgstr "Service invalide"
+msgstr "Service non valide !"
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -9145,7 +9146,7 @@ msgstr "Fusionner avec"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
-msgstr "Identifiant de ticket invalide !"
+msgstr "Identifiant de ticket non valide !"
 
 #. Template: AgentTicketBulk
 msgid "Merge to oldest"
@@ -9201,7 +9202,7 @@ msgstr "Carnet d'adresse"
 
 #. Template: AgentTicketCompose
 msgid "Date Invalid!"
-msgstr "Date invalide"
+msgstr "Date non valide !"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
@@ -10244,11 +10245,11 @@ msgstr "Champs dynamiques"
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr "Date invalide (une date future est nécessaire) !"
+msgstr "Date non valide (elle doit être future) !"
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr "Date invalide (une date passée est nécessaire) ! "
+msgstr "Date non valide (elle doit être passée) !"
 
 #. Template: Datepicker
 msgid "Previous"
@@ -10878,7 +10879,7 @@ msgstr ""
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
-msgstr "Si mis à invalide, les utilisateurs finaux ne pourront pas générer la statistique."
+msgstr "Si mis à \"non valide\", les utilisateurs finaux ne pourront pas générer la statistique."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
@@ -17588,6 +17589,13 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
+" collection with the public module 'PublicSupportDataCollector' (e.g. used "
+"from the OTRS Daemon)."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
 msgstr ""
 
@@ -22365,7 +22373,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr "Aperçu de la file de ticket"
+msgstr "Vue d'ensemble des files de tickets"
 
 #. SysConfig
 msgid "Ticket Responsible."

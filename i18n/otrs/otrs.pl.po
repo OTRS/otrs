@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-02 12:16+0000\n"
-"PO-Revision-Date: 2017-05-02 17:25+0000\n"
+"POT-Creation-Date: 2017-05-04 12:03+0000\n"
+"PO-Revision-Date: 2017-05-04 17:04+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -5728,7 +5728,7 @@ msgstr "Zarządzaj %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Go to the OTRS customer portal"
-msgstr ""
+msgstr "Przejdź do portalu klienta OTRS"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
@@ -17578,6 +17578,13 @@ msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later"
 " to a specific queue."
 msgstr "Definiuje strefe czasową wskazanego kalendarza, który będzie dodany w później do wybranej kolejki."
+
+#. SysConfig
+msgid ""
+"Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
+" collection with the public module 'PublicSupportDataCollector' (e.g. used "
+"from the OTRS Daemon)."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.514054600606673;
+    $Self->{Completeness}        = 0.545086938940558;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1654,14 +1654,14 @@ sub Data {
         '%s Not Yet Available' => '$s ще не доступний',
         '%s will be available soon.' => '%s буде доступний найближчим часом.',
         '%s Update Available' => 'Доступні оновлення %s',
-        'Package installation requires patch level update of OTRS.' => '',
-        'Please visit our customer portal and file a request.' => '',
+        'Package installation requires patch level update of OTRS.' => 'Встановлення пакунка потребує оновлення рівня виправлень OTRS.',
+        'Please visit our customer portal and file a request.' => 'Будь ласка, відвідайте наш портал клієнта та подайте заявку.',
         'Everything else will be done as part of your contract.' => 'Все інше буде зроблено в рамках угоди.',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'Версія вашого встановленого OTRS %s.',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
-            '',
+            'Для того, щоб встановити поточну версію OTRS Business Solution ™, ви маєте оновитись до OTRS %s або вище.',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
-            '',
+            'Для того, щоб встановити поточну версію OTRS Business Solution™, максимальна версія OTRS це %s.',
         'To install this package, the required Framework version is %s.' =>
             'Щоб встановити цей пакунок, необхідний Фреймворк версії %s.',
         'Why should I keep OTRS up to date?' => 'Чому я маю тримати OTRS в актуальному стані?',
@@ -1742,7 +1742,7 @@ sub Data {
             'Ви дійсно хочете перевстановити цей пакунок? Аби-які ручні зміни буде втрачено!',
         'Go to upgrading instructions' => 'Перейти до інструкцій з модернізації',
         'package information' => 'інформація про пакет',
-        'Package upgrade requires patch level update of OTRS.' => '',
+        'Package upgrade requires patch level update of OTRS.' => 'Оновлення пакунка потребує оновлення рівня виправлень в OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             'Якщо ви є клієнтом OTRS Business Solution™, будь ласка, відвідайте наш портал клієнтів та подайте заявку.',
         'Please note that your installed OTRS version is %s.' => 'Зверніть увагу, що версія встановленого OTRS %s.',
@@ -3009,15 +3009,15 @@ sub Data {
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Разділити Цитату',
-        'Open link' => '',
+        'Open link' => 'Відкрити посилання',
 
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Рівень обслуговування',
 
         # Template: CustomerTicketOverview
-        'Welcome!' => '',
-        'Please click the button below to create your first ticket.' => '',
-        'Create your first ticket' => '',
+        'Welcome!' => 'Ласкаво просимо!',
+        'Please click the button below to create your first ticket.' => 'Будь ласка, натисніть на кнопку нижче, щоб створити ваш перший квиток.',
+        'Create your first ticket' => 'Створення вашого першого квитка',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Параметри',
@@ -3026,131 +3026,131 @@ sub Data {
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Повнотекстовий пошук у заявці (наприклад, "Іван*в" або "Петро*")',
         'Recipient' => 'Одержувач',
         'Carbon Copy' => 'Копія',
-        'e. g. m*file or myfi*' => '',
+        'e. g. m*file or myfi*' => 'наприклад m*file або myfi*',
         'Types' => 'Типи',
         'Time restrictions' => 'Тимчасові рамки',
-        'No time settings' => '',
-        'Specific date' => '',
+        'No time settings' => 'Немає налаштувань часу',
+        'Specific date' => 'Вкажіть дату',
         'Only tickets created' => 'Заявки створені',
-        'Date range' => '',
+        'Date range' => 'Проміжок часу',
         'Only tickets created between' => 'Заявки створені проміжку',
-        'Ticket archive system' => '',
-        'Save search as template?' => '',
+        'Ticket archive system' => 'Система архивації квитків',
+        'Save search as template?' => 'Зберегти пошук у якості шаблону?',
         'Save as Template?' => 'Зберегти як шаблон',
-        'Save as Template' => '',
+        'Save as Template' => 'Зберегти у якості шаблону',
         'Template Name' => 'Ім\'я шаблону',
-        'Pick a profile name' => '',
+        'Pick a profile name' => 'Виберіть ім\'я профілю',
         'Output to' => 'Вивести як',
 
         # Template: CustomerTicketSearchResultShort
         'of' => ' з',
-        'Search Results for' => '',
-        'Remove this Search Term.' => '',
+        'Search Results for' => 'Результати пошуку для',
+        'Remove this Search Term.' => 'Вилучити цей елемент пошуку',
 
         # Template: CustomerTicketZoom
-        'Start a chat from this ticket' => '',
-        'Expand article' => '',
-        'Information' => '',
-        'Next Steps' => '',
+        'Start a chat from this ticket' => 'Почати чат з цього квитка',
+        'Expand article' => 'Розгорнути статтю',
+        'Information' => 'Інформація',
+        'Next Steps' => 'Наступний крок',
         'Reply' => 'Відповісти',
-        'Chat Protocol' => '',
+        'Chat Protocol' => 'Протокол Чату',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => '',
-        'Sunday' => '',
-        'Monday' => '',
-        'Tuesday' => '',
-        'Wednesday' => '',
-        'Thursday' => '',
-        'Friday' => '',
-        'Saturday' => '',
-        'Su' => '',
-        'Mo' => '',
+        'All-day' => 'Всі дні',
+        'Sunday' => 'Неділя',
+        'Monday' => 'Понеділок',
+        'Tuesday' => 'Вівторок',
+        'Wednesday' => 'Середа',
+        'Thursday' => 'Четвер',
+        'Friday' => 'П\'ятниця',
+        'Saturday' => 'Субота',
+        'Su' => 'Нд',
+        'Mo' => 'Пн',
         'Tu' => 'Бер.',
         'We' => 'ввімкнено',
         'Th' => 'по',
-        'Fr' => '',
-        'Sa' => '',
-        'Event Information' => '',
-        'Ticket fields' => '',
-        'Dynamic fields' => '',
+        'Fr' => 'Вт',
+        'Sa' => 'Ср',
+        'Event Information' => 'Інформація про подію',
+        'Ticket fields' => 'Поля квитка',
+        'Dynamic fields' => 'Динамічні поля',
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => '',
-        'Invalid date (need a past date)!' => '',
-        'Previous' => '',
-        'Open date selection' => '',
+        'Invalid date (need a future date)!' => 'Неправильна дата (треба вказати дату у майбутньому)!',
+        'Invalid date (need a past date)!' => 'Неправильна дата (треба вказати дату у минулому)!',
+        'Previous' => 'Попередній',
+        'Open date selection' => 'Відкрити вибір дати',
 
         # Template: Error
-        'An error occurred.' => '',
+        'An error occurred.' => 'Виникла помилка.',
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
-            '',
+            'Справді помилка? 5 з 10 повідомлень про помилку пов\'язани з неправильним або неповним встановленням OTRS.',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
-            '',
-        'Contact our service team now.' => '',
+            'З %s, наші фахівці дбають про правильне встановлення та прикривають вас підтримкою та періодичними оновленнями безпеки.',
+        'Contact our service team now.' => 'Негайно зверніться до нашої сервісної служби.',
         'Send a bugreport' => 'Відправити повідомлення про помилку',
 
         # Template: FooterJS
         'Please enter at least one search value or * to find anything.' =>
-            '',
+            'Будь ласка введіть будь-яке пошукове значення або * щоб знайти все.',
         'Please remove the following words from your search as they cannot be searched for:' =>
-            '',
-        'Please check the fields marked as red for valid inputs.' => '',
-        'Please perform a spell check on the the text first.' => '',
-        'Slide the navigation bar' => '',
-        'Unavailable for chat' => '',
-        'Available for internal chats only' => '',
-        'Available for chats' => '',
-        'Please visit the chat manager' => '',
-        'New personal chat request' => '',
-        'New customer chat request' => '',
-        'New public chat request' => '',
-        'Selected user is not available for chat.' => '',
-        'New activity' => '',
-        'New activity on one of your monitored chats.' => '',
-        'Your browser does not support video and audio calling.' => '',
-        'Selected user is not available for video and audio call.' => '',
+            'Будь ласка вилучіть наступні слова з вашого пошуку оскільки їх не можна знайти:',
+        'Please check the fields marked as red for valid inputs.' => 'Будь ласка, перевірте поля, що відмічені червоним, щодо коректного введення.',
+        'Please perform a spell check on the the text first.' => 'Будь ласка, спочатку виконайте перевірку правопису тексту.',
+        'Slide the navigation bar' => 'Посунути панель навігації',
+        'Unavailable for chat' => 'Недоступно для чату',
+        'Available for internal chats only' => 'Доступно тільки для внутрішніх чатів',
+        'Available for chats' => 'Доступно для чатів',
+        'Please visit the chat manager' => 'Будь ласка, завітайте до керування чатами',
+        'New personal chat request' => 'Новий запит особистого чату',
+        'New customer chat request' => 'Новий запит клієнтського чату',
+        'New public chat request' => 'Новий запит публічного чату',
+        'Selected user is not available for chat.' => 'Вибраний користувач не доступний для чату.',
+        'New activity' => 'Нова активність',
+        'New activity on one of your monitored chats.' => 'Нова активність в одному з чатів за якими ви спостерігаєте.',
+        'Your browser does not support video and audio calling.' => 'Ваш браузер не підтримує відео та аудіо виклики.',
+        'Selected user is not available for video and audio call.' => 'Вибраний користувач не доступний для відео та аудіо викликів.',
         'Target user\'s browser does not support video and audio calling.' =>
-            '',
-        'Do you really want to continue?' => '',
-        'Information about the OTRS Daemon' => '',
+            'Браузер вибраного користувача не підтримує відео та аудіо виклики.',
+        'Do you really want to continue?' => 'Ви справді маєте намір продовжити?',
+        'Information about the OTRS Daemon' => 'Інформація про демон OTRS',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
-            '',
-        'Find out more about the %s' => '',
+            'Ця функція є частиною %s. Будь ласка, зв\'яжіться з нами за адресою %s для покращення.',
+        'Find out more about the %s' => 'Дізнайтесь більше за %s',
 
         # Template: Header
         'You are logged in as' => 'Ви ввійшли як',
 
         # Template: Installer
-        'JavaScript not available' => '',
-        'Step %s' => '',
-        'Database Settings' => '',
-        'General Specifications and Mail Settings' => '',
+        'JavaScript not available' => 'JavaScript не доступний',
+        'Step %s' => 'Крок %s',
+        'Database Settings' => 'Налаштування бази даних',
+        'General Specifications and Mail Settings' => 'Загальні характеристики та налаштування пошти',
         'Finish' => 'Закінчити',
-        'Welcome to %s' => '',
-        'Web site' => '',
-        'Mail check successful.' => '',
-        'Error in the mail settings. Please correct and try again.' => '',
+        'Welcome to %s' => 'Ласкаво просимо до %s',
+        'Web site' => 'Веб-сторінка',
+        'Mail check successful.' => 'Пошту успішно перевірено.',
+        'Error in the mail settings. Please correct and try again.' => 'Помилка в налаштування пошти. Будь ласка виправте та спробуйте знову.',
 
         # Template: InstallerConfigureMail
-        'Configure Outbound Mail' => '',
+        'Configure Outbound Mail' => 'Налаштування Вихідної пошти',
         'Outbound mail type' => 'Тип',
-        'Select outbound mail type.' => '',
-        'Outbound mail port' => '',
-        'Select outbound mail port.' => '',
+        'Select outbound mail type.' => 'Вибір типу вихідної пошти.',
+        'Outbound mail port' => 'Порт вихідної пошти',
+        'Select outbound mail port.' => 'Виберіть порт вихідної пошти.',
         'SMTP host' => 'SMTP сервер',
         'SMTP host.' => 'SMTP сервер.',
         'SMTP authentication' => 'SMTP аутентифікація',
         'Does your SMTP host need authentication?' => 'SMTP сервер вимагає аутентифікацію?',
-        'SMTP auth user' => '',
-        'Username for SMTP auth.' => '',
-        'SMTP auth password' => '',
-        'Password for SMTP auth.' => '',
-        'Configure Inbound Mail' => '',
+        'SMTP auth user' => 'Користувач SMTP автентифікації',
+        'Username for SMTP auth.' => 'Ім\'я користувача для автентифікації в SMTP.',
+        'SMTP auth password' => 'Пароль SMTP автентифікації',
+        'Password for SMTP auth.' => 'Пароль для SMTP автентифікації',
+        'Configure Inbound Mail' => 'Налаштування вхідної пошти',
         'Inbound mail type' => 'Тип',
-        'Select inbound mail type.' => '',
+        'Select inbound mail type.' => 'Виберіть тип вхідної пошти.',
         'Inbound mail host' => 'Поштовий сервер для вхідної пошти',
-        'Inbound mail host.' => '',
+        'Inbound mail host.' => 'Хост вхідної пошти.',
         'Inbound mail user' => 'Ім\'я користувача для вхідної пошти',
         'User for inbound mail.' => 'Ім\'я користувача для вхідної пошти.',
         'Inbound mail password' => 'Пароль для вхідної пошти',
@@ -3160,31 +3160,31 @@ sub Data {
         'Skip this step' => 'Пропустити цей крок',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'Database setup successful!' => 'Базу даних успішно налаштовано!',
 
         # Template: InstallerDBStart
-        'Install Type' => '',
-        'Create a new database for OTRS' => '',
-        'Use an existing database for OTRS' => '',
+        'Install Type' => 'Тип установки',
+        'Create a new database for OTRS' => 'Створити нову базу даних OTRS',
+        'Use an existing database for OTRS' => 'Використати наявну базу даних OTRS',
 
         # Template: InstallerDBmssql
-        'Database name' => '',
-        'Check database settings' => '',
-        'Result of database check' => '',
-        'Database check successful.' => '',
-        'Database User' => '',
+        'Database name' => 'Ім\'я бази даних',
+        'Check database settings' => 'Перевірити налаштування бази даних',
+        'Result of database check' => 'Результат перевірки бази даних',
+        'Database check successful.' => 'Базу даних перевірено успішно.',
+        'Database User' => 'Користувач бази даних',
         'New' => 'Новий',
         'A new database user with limited permissions will be created for this OTRS system.' =>
-            '',
-        'Repeat Password' => '',
-        'Generated password' => '',
+            'Для цієї системи OTRS буде створено нового користувача бази даних з обмеженими правами.',
+        'Repeat Password' => 'Повторити Пароль',
+        'Generated password' => 'Створений пароль',
 
         # Template: InstallerDBmysql
-        'Passwords do not match' => '',
+        'Passwords do not match' => 'Паролі не збігаються',
 
         # Template: InstallerDBoracle
-        'SID' => '',
-        'Port' => '',
+        'SID' => 'SID',
+        'Port' => 'Порт',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3196,32 +3196,32 @@ sub Data {
 
         # Template: InstallerLicense
         'Don\'t accept license' => 'Не ухвалюю умови ліцензії',
-        'Accept license and continue' => '',
+        'Accept license and continue' => 'Погодитися з ліцензією та продовжити далі',
 
         # Template: InstallerSystem
-        'SystemID' => '',
+        'SystemID' => 'SystemID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
-            '',
+            'Ідентифікатор системи. Кожний номер квитка та кожна ID HTTP-сесії містять цей номер.',
         'System FQDN' => 'Системне FQDN',
-        'Fully qualified domain name of your system.' => '',
-        'AdminEmail' => '',
-        'Email address of the system administrator.' => '',
+        'Fully qualified domain name of your system.' => 'Повне доменне ім\'я вашої системи.',
+        'AdminEmail' => 'Поштова скринька Адміністратора',
+        'Email address of the system administrator.' => 'Адреса поштової скриньки системного адміністратора.',
         'Organization' => 'Організація',
         'Log' => 'Журнал',
-        'LogModule' => '',
-        'Log backend to use.' => '',
-        'LogFile' => '',
+        'LogModule' => 'Модуль Журналювання',
+        'Log backend to use.' => 'Механізм журналювання що буде використовуватись',
+        'LogFile' => 'Файл журналу',
         'Webfrontend' => 'Веб-інтерфейс',
-        'Default language' => '',
-        'Default language.' => '',
-        'CheckMXRecord' => '',
+        'Default language' => 'Типова мова',
+        'Default language.' => 'Типова мова.',
+        'CheckMXRecord' => 'Перевірити МХ запис',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
-            '',
+            'Адреси електронної пошти, що введено вручну, перевіряються з МХ записами, що знайдено в DNS. Не використовуйте цю опцію якщо у вас повільний DNS або він не дозволяє розв\'язувати публічні адреси.',
 
         # Template: LinkObject
-        'Object#' => '',
-        'Add links' => '',
-        'Delete links' => '',
+        'Object#' => 'Об\'єкт#',
+        'Add links' => 'Додати посилання',
+        'Delete links' => 'Вилучити посилання',
 
         # Template: Login
         'Lost your password?' => 'Забули свій пароль',
@@ -3229,75 +3229,75 @@ sub Data {
         'Back to login' => 'Повернутися',
 
         # Template: MobileNotAvailableWidget
-        'Feature not available' => '',
+        'Feature not available' => 'Функція недоступна',
         'Sorry, but this feature of OTRS is currently not available for mobile devices. If you\'d like to use it, you can either switch to desktop mode or use your regular desktop device.' =>
-            '',
+            'Вибачте, але ця функція OTRS наразі не доступна для мобільних пристроїв. Якщо ви бажаєте скористатися нею, ви можете увімкнути стільничний режим або використати стаціонарний комп\'ютер.',
 
         # Template: Motd
-        'Message of the Day' => '',
-        'This is the message of the day. You can edit this in %s.' => '',
+        'Message of the Day' => 'Повідомлення Дня',
+        'This is the message of the day. You can edit this in %s.' => 'Це повідомлення дня. Ви можете змінити його в %s.',
 
         # Template: NoPermission
-        'Insufficient Rights' => '',
-        'Back to the previous page' => '',
+        'Insufficient Rights' => 'Недостатньо прав.',
+        'Back to the previous page' => 'Повернутися до попередньої сторінки',
 
         # Template: Pagination
-        'Show first page' => '',
-        'Show previous pages' => '',
-        'Show page %s' => '',
-        'Show next pages' => '',
-        'Show last page' => '',
+        'Show first page' => 'Показати першу сторінку',
+        'Show previous pages' => 'Показати попередню сторінку',
+        'Show page %s' => 'Показати сторінку %s',
+        'Show next pages' => 'Показати наступну сторінку',
+        'Show last page' => 'Показати останню сторінку',
 
         # Template: PictureUpload
-        'Need FormID!' => '',
-        'No file found!' => '',
-        'The file is not an image that can be shown inline!' => '',
+        'Need FormID!' => 'Треба FormID!',
+        'No file found!' => 'Файла не знайдено!',
+        'The file is not an image that can be shown inline!' => 'Це не файл зображення що можна вбудувати!',
 
         # Template: PreferencesNotificationEvent
         'Notification' => 'Повідомлення',
-        'No user configurable notifications found.' => '',
+        'No user configurable notifications found.' => 'Немає налаштованих користувачами сповіщень.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            '',
+            'Прийом повідомлень для сповіщення \'%s\' за допомогою транспортного метода \'%s\'.',
         'Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
+            'Будь ласка, зверніть увагу, що ви не можете повністю вимкнути сповіщення, позначені як обов\'язкові.',
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            '',
+            'Вибачте, але ви не можете вимкнути всі методи для сповіщень, що позначені як обов\'язкові.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
-            '',
+            'Вибачте, але ви не можете вимкнути всі методи для цих сповіщень.',
 
         # Template: ActivityDialogHeader
-        'Process Information' => '',
-        'Dialog' => '',
+        'Process Information' => 'Інформація про процес',
+        'Dialog' => 'Діалог',
 
         # Template: Article
         'Inform Agent' => 'Повідомити агента',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'Ласкаво просимо',
         'This is the default public interface of OTRS! There was no action parameter given.' =>
-            '',
+            'Це типовий публічний інтерфейс OTRS! Не задано жодного дійового параметра.',
         'You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface.' =>
-            '',
+            'Ви можете встановити спеціальний загальнодоступний модуль (через менеджер пакунків), наприклад модуль ЧАП-ів, який має відкритий інтерфейс.',
 
         # Template: RichTextEditor
-        'Remove Quote' => '',
+        'Remove Quote' => 'Вилучити лапки',
 
         # Template: GeneralSpecificationsWidget
         'Permissions' => 'Права',
         'You can select one or more groups to define access for different agents.' =>
-            '',
-        'Result formats' => '',
+            'Ви можете вибрати одну чи більше груп для визначення доступу для різних агентів.',
+        'Result formats' => 'Формати результату',
         'The selected time periods in the statistic are time zone neutral.' =>
-            '',
-        'Create summation row' => '',
+            'Вибрані періоди часу в статистиці є нейтральним часовим поясом.',
+        'Create summation row' => 'Створення підсумкового рядка',
         'Generate an additional row containing sums for all data rows.' =>
-            '',
-        'Create summation column' => '',
+            'Створити додатковий рядок, що містить суми для всіх рядків з даними.',
+        'Create summation column' => 'Створення підсумкового стовпчика',
         'Generate an additional column containing sums for all data columns.' =>
-            '',
-        'Cache results' => '',
+            'Створення додаткового стовпчика, що містить підсумки всіх стовпчиків з даними.',
+        'Cache results' => 'Кешувати результати',
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
-            '',
+            'Зберігання даних результатів статистики в кеші для використання в наступних переглядах з тією ж самою конфігурацією (потрібно вибрати принаймні одне поле з часом).',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
@@ -5551,6 +5551,8 @@ Thanks for your help!
         'Defines the ticket fields that are going to be displayed calendar events. The "Key" defines the field or ticket attribute and the "Content" defines the display name.' =>
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
+            '',
+        'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
             '',
         'Defines the two-factor module to authenticate agents.' => '',
         'Defines the two-factor module to authenticate customers.' => '',

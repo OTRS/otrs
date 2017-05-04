@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-02 12:16+0000\n"
-"PO-Revision-Date: 2017-05-02 17:25+0000\n"
+"POT-Creation-Date: 2017-05-04 12:03+0000\n"
+"PO-Revision-Date: 2017-05-04 17:04+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -5788,11 +5788,11 @@ msgstr "Доступні оновлення %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "Встановлення пакунка потребує оновлення рівня виправлень OTRS."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "Будь ласка, відвідайте наш портал клієнта та подайте заявку."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Everything else will be done as part of your contract."
@@ -5800,19 +5800,19 @@ msgstr "Все інше буде зроблено в рамках угоди."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "Версія вашого встановленого OTRS %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, you need to "
 "update to OTRS %s or higher."
-msgstr ""
+msgstr "Для того, щоб встановити поточну версію OTRS Business Solution ™, ви маєте оновитись до OTRS %s або вище."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, the Maximum OTRS "
 "Version is %s."
-msgstr ""
+msgstr "Для того, щоб встановити поточну версію OTRS Business Solution™, максимальна версія OTRS це %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
@@ -6056,7 +6056,7 @@ msgstr "інформація про пакет"
 
 #. Template: AdminPackageManager
 msgid "Package upgrade requires patch level update of OTRS."
-msgstr ""
+msgstr "Оновлення пакунка потребує оновлення рівня виправлень в OTRS."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -10015,7 +10015,7 @@ msgstr "Разділити Цитату"
 
 #. Template: CustomerRichTextEditor
 msgid "Open link"
-msgstr ""
+msgstr "Відкрити посилання"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10023,15 +10023,15 @@ msgstr "Рівень обслуговування"
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
-msgstr ""
+msgstr "Ласкаво просимо!"
 
 #. Template: CustomerTicketOverview
 msgid "Please click the button below to create your first ticket."
-msgstr ""
+msgstr "Будь ласка, натисніть на кнопку нижче, щоб створити ваш перший квиток."
 
 #. Template: CustomerTicketOverview
 msgid "Create your first ticket"
-msgstr ""
+msgstr "Створення вашого першого квитка"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -10059,7 +10059,7 @@ msgstr "Копія"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
-msgstr ""
+msgstr "наприклад m*file або myfi*"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10071,11 +10071,11 @@ msgstr "Тимчасові рамки"
 
 #. Template: CustomerTicketSearch
 msgid "No time settings"
-msgstr ""
+msgstr "Немає налаштувань часу"
 
 #. Template: CustomerTicketSearch
 msgid "Specific date"
-msgstr ""
+msgstr "Вкажіть дату"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created"
@@ -10083,7 +10083,7 @@ msgstr "Заявки створені"
 
 #. Template: CustomerTicketSearch
 msgid "Date range"
-msgstr ""
+msgstr "Проміжок часу"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created between"
@@ -10091,11 +10091,11 @@ msgstr "Заявки створені проміжку"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket archive system"
-msgstr ""
+msgstr "Система архивації квитків"
 
 #. Template: CustomerTicketSearch
 msgid "Save search as template?"
-msgstr ""
+msgstr "Зберегти пошук у якості шаблону?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
@@ -10103,7 +10103,7 @@ msgstr "Зберегти як шаблон"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template"
-msgstr ""
+msgstr "Зберегти у якості шаблону"
 
 #. Template: CustomerTicketSearch
 msgid "Template Name"
@@ -10111,7 +10111,7 @@ msgstr "Ім'я шаблону"
 
 #. Template: CustomerTicketSearch
 msgid "Pick a profile name"
-msgstr ""
+msgstr "Виберіть ім'я профілю"
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
@@ -10123,27 +10123,27 @@ msgstr " з"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
-msgstr ""
+msgstr "Результати пошуку для"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr ""
+msgstr "Вилучити цей елемент пошуку"
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
-msgstr ""
+msgstr "Почати чат з цього квитка"
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
-msgstr ""
+msgstr "Розгорнути статтю"
 
 #. Template: CustomerTicketZoom
 msgid "Information"
-msgstr ""
+msgstr "Інформація"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
-msgstr ""
+msgstr "Наступний крок"
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
@@ -10151,47 +10151,47 @@ msgstr "Відповісти"
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
-msgstr ""
+msgstr "Протокол Чату"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr ""
+msgstr "Всі дні"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
-msgstr ""
+msgstr "Неділя"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Monday"
-msgstr ""
+msgstr "Понеділок"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tuesday"
-msgstr ""
+msgstr "Вівторок"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Wednesday"
-msgstr ""
+msgstr "Середа"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Thursday"
-msgstr ""
+msgstr "Четвер"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Friday"
-msgstr ""
+msgstr "П'ятниця"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Saturday"
-msgstr ""
+msgstr "Субота"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Su"
-msgstr ""
+msgstr "Нд"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Mo"
-msgstr ""
+msgstr "Пн"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
@@ -10207,59 +10207,59 @@ msgstr "по"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
-msgstr ""
+msgstr "Вт"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sa"
-msgstr ""
+msgstr "Ср"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
-msgstr ""
+msgstr "Інформація про подію"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr ""
+msgstr "Поля квитка"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr ""
+msgstr "Динамічні поля"
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr ""
+msgstr "Неправильна дата (треба вказати дату у майбутньому)!"
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr ""
+msgstr "Неправильна дата (треба вказати дату у минулому)!"
 
 #. Template: Datepicker
 msgid "Previous"
-msgstr ""
+msgstr "Попередній"
 
 #. Template: Datepicker
 msgid "Open date selection"
-msgstr ""
+msgstr "Відкрити вибір дати"
 
 #. Template: Error
 msgid "An error occurred."
-msgstr ""
+msgstr "Виникла помилка."
 
 #. Template: Error
 msgid ""
 "Really a bug? 5 out of 10 bug reports result from a wrong or incomplete "
 "installation of OTRS."
-msgstr ""
+msgstr "Справді помилка? 5 з 10 повідомлень про помилку пов'язани з неправильним або неповним встановленням OTRS."
 
 #. Template: Error
 msgid ""
 "With %s, our experts take care of correct installation and cover your back "
 "with support and periodic security updates."
-msgstr ""
+msgstr "З %s, наші фахівці дбають про правильне встановлення та прикривають вас підтримкою та періодичними оновленнями безпеки."
 
 #. Template: Error
 msgid "Contact our service team now."
-msgstr ""
+msgstr "Негайно зверніться до нашої сервісної служби."
 
 #. Template: Error
 msgid "Send a bugreport"
@@ -10267,94 +10267,94 @@ msgstr "Відправити повідомлення про помилку"
 
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
-msgstr ""
+msgstr "Будь ласка введіть будь-яке пошукове значення або * щоб знайти все."
 
 #. Template: FooterJS
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "Будь ласка вилучіть наступні слова з вашого пошуку оскільки їх не можна знайти:"
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
-msgstr ""
+msgstr "Будь ласка, перевірте поля, що відмічені червоним, щодо коректного введення."
 
 #. Template: FooterJS
 msgid "Please perform a spell check on the the text first."
-msgstr ""
+msgstr "Будь ласка, спочатку виконайте перевірку правопису тексту."
 
 #. Template: FooterJS
 msgid "Slide the navigation bar"
-msgstr ""
+msgstr "Посунути панель навігації"
 
 #. Template: FooterJS
 msgid "Unavailable for chat"
-msgstr ""
+msgstr "Недоступно для чату"
 
 #. Template: FooterJS
 msgid "Available for internal chats only"
-msgstr ""
+msgstr "Доступно тільки для внутрішніх чатів"
 
 #. Template: FooterJS
 msgid "Available for chats"
-msgstr ""
+msgstr "Доступно для чатів"
 
 #. Template: FooterJS
 msgid "Please visit the chat manager"
-msgstr ""
+msgstr "Будь ласка, завітайте до керування чатами"
 
 #. Template: FooterJS
 msgid "New personal chat request"
-msgstr ""
+msgstr "Новий запит особистого чату"
 
 #. Template: FooterJS
 msgid "New customer chat request"
-msgstr ""
+msgstr "Новий запит клієнтського чату"
 
 #. Template: FooterJS
 msgid "New public chat request"
-msgstr ""
+msgstr "Новий запит публічного чату"
 
 #. Template: FooterJS
 msgid "Selected user is not available for chat."
-msgstr ""
+msgstr "Вибраний користувач не доступний для чату."
 
 #. Template: FooterJS
 msgid "New activity"
-msgstr ""
+msgstr "Нова активність"
 
 #. Template: FooterJS
 msgid "New activity on one of your monitored chats."
-msgstr ""
+msgstr "Нова активність в одному з чатів за якими ви спостерігаєте."
 
 #. Template: FooterJS
 msgid "Your browser does not support video and audio calling."
-msgstr ""
+msgstr "Ваш браузер не підтримує відео та аудіо виклики."
 
 #. Template: FooterJS
 msgid "Selected user is not available for video and audio call."
-msgstr ""
+msgstr "Вибраний користувач не доступний для відео та аудіо викликів."
 
 #. Template: FooterJS
 msgid "Target user's browser does not support video and audio calling."
-msgstr ""
+msgstr "Браузер вибраного користувача не підтримує відео та аудіо виклики."
 
 #. Template: FooterJS
 msgid "Do you really want to continue?"
-msgstr ""
+msgstr "Ви справді маєте намір продовжити?"
 
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
-msgstr ""
+msgstr "Інформація про демон OTRS"
 
 #. Template: FooterJS
 msgid ""
 "This feature is part of the %s.  Please contact us at %s for an upgrade."
-msgstr ""
+msgstr "Ця функція є частиною %s. Будь ласка, зв'яжіться з нами за адресою %s для покращення."
 
 #. Template: FooterJS
 msgid "Find out more about the %s"
-msgstr ""
+msgstr "Дізнайтесь більше за %s"
 
 #. Template: Header
 msgid "You are logged in as"
@@ -10362,19 +10362,19 @@ msgstr "Ви ввійшли як"
 
 #. Template: Installer
 msgid "JavaScript not available"
-msgstr ""
+msgstr "JavaScript не доступний"
 
 #. Template: Installer
 msgid "Step %s"
-msgstr ""
+msgstr "Крок %s"
 
 #. Template: Installer
 msgid "Database Settings"
-msgstr ""
+msgstr "Налаштування бази даних"
 
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
-msgstr ""
+msgstr "Загальні характеристики та налаштування пошти"
 
 #. Template: Installer
 msgid "Finish"
@@ -10382,23 +10382,23 @@ msgstr "Закінчити"
 
 #. Template: Installer
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Ласкаво просимо до %s"
 
 #. Template: Installer
 msgid "Web site"
-msgstr ""
+msgstr "Веб-сторінка"
 
 #. Template: Installer
 msgid "Mail check successful."
-msgstr ""
+msgstr "Пошту успішно перевірено."
 
 #. Template: Installer
 msgid "Error in the mail settings. Please correct and try again."
-msgstr ""
+msgstr "Помилка в налаштування пошти. Будь ласка виправте та спробуйте знову."
 
 #. Template: InstallerConfigureMail
 msgid "Configure Outbound Mail"
-msgstr ""
+msgstr "Налаштування Вихідної пошти"
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
@@ -10406,15 +10406,15 @@ msgstr "Тип"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
-msgstr ""
+msgstr "Вибір типу вихідної пошти."
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail port"
-msgstr ""
+msgstr "Порт вихідної пошти"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail port."
-msgstr ""
+msgstr "Виберіть порт вихідної пошти."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host"
@@ -10434,23 +10434,23 @@ msgstr "SMTP сервер вимагає аутентифікацію?"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth user"
-msgstr ""
+msgstr "Користувач SMTP автентифікації"
 
 #. Template: InstallerConfigureMail
 msgid "Username for SMTP auth."
-msgstr ""
+msgstr "Ім'я користувача для автентифікації в SMTP."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth password"
-msgstr ""
+msgstr "Пароль SMTP автентифікації"
 
 #. Template: InstallerConfigureMail
 msgid "Password for SMTP auth."
-msgstr ""
+msgstr "Пароль для SMTP автентифікації"
 
 #. Template: InstallerConfigureMail
 msgid "Configure Inbound Mail"
-msgstr ""
+msgstr "Налаштування вхідної пошти"
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
@@ -10458,7 +10458,7 @@ msgstr "Тип"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
-msgstr ""
+msgstr "Виберіть тип вхідної пошти."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host"
@@ -10466,7 +10466,7 @@ msgstr "Поштовий сервер для вхідної пошти"
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host."
-msgstr ""
+msgstr "Хост вхідної пошти."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
@@ -10498,39 +10498,39 @@ msgstr "Пропустити цей крок"
 
 #. Template: InstallerDBResult
 msgid "Database setup successful!"
-msgstr ""
+msgstr "Базу даних успішно налаштовано!"
 
 #. Template: InstallerDBStart
 msgid "Install Type"
-msgstr ""
+msgstr "Тип установки"
 
 #. Template: InstallerDBStart
 msgid "Create a new database for OTRS"
-msgstr ""
+msgstr "Створити нову базу даних OTRS"
 
 #. Template: InstallerDBStart
 msgid "Use an existing database for OTRS"
-msgstr ""
+msgstr "Використати наявну базу даних OTRS"
 
 #. Template: InstallerDBmssql
 msgid "Database name"
-msgstr ""
+msgstr "Ім'я бази даних"
 
 #. Template: InstallerDBmssql
 msgid "Check database settings"
-msgstr ""
+msgstr "Перевірити налаштування бази даних"
 
 #. Template: InstallerDBmssql
 msgid "Result of database check"
-msgstr ""
+msgstr "Результат перевірки бази даних"
 
 #. Template: InstallerDBmssql
 msgid "Database check successful."
-msgstr ""
+msgstr "Базу даних перевірено успішно."
 
 #. Template: InstallerDBmssql
 msgid "Database User"
-msgstr ""
+msgstr "Користувач бази даних"
 
 #. Template: InstallerDBmssql
 msgid "New"
@@ -10540,27 +10540,27 @@ msgstr "Новий"
 msgid ""
 "A new database user with limited permissions will be created for this OTRS "
 "system."
-msgstr ""
+msgstr "Для цієї системи OTRS буде створено нового користувача бази даних з обмеженими правами."
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
-msgstr ""
+msgstr "Повторити Пароль"
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
-msgstr ""
+msgstr "Створений пароль"
 
 #. Template: InstallerDBmysql
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Паролі не збігаються"
 
 #. Template: InstallerDBoracle
 msgid "SID"
-msgstr ""
+msgstr "SID"
 
 #. Template: InstallerDBoracle
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #. Template: InstallerFinish
 msgid ""
@@ -10590,17 +10590,17 @@ msgstr "Не ухвалюю умови ліцензії"
 
 #. Template: InstallerLicense
 msgid "Accept license and continue"
-msgstr ""
+msgstr "Погодитися з ліцензією та продовжити далі"
 
 #. Template: InstallerSystem
 msgid "SystemID"
-msgstr ""
+msgstr "SystemID"
 
 #. Template: InstallerSystem
 msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
-msgstr ""
+msgstr "Ідентифікатор системи. Кожний номер квитка та кожна ID HTTP-сесії містять цей номер."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -10608,15 +10608,15 @@ msgstr "Системне FQDN"
 
 #. Template: InstallerSystem
 msgid "Fully qualified domain name of your system."
-msgstr ""
+msgstr "Повне доменне ім'я вашої системи."
 
 #. Template: InstallerSystem
 msgid "AdminEmail"
-msgstr ""
+msgstr "Поштова скринька Адміністратора"
 
 #. Template: InstallerSystem
 msgid "Email address of the system administrator."
-msgstr ""
+msgstr "Адреса поштової скриньки системного адміністратора."
 
 #. Template: InstallerSystem
 msgid "Organization"
@@ -10628,15 +10628,15 @@ msgstr "Журнал"
 
 #. Template: InstallerSystem
 msgid "LogModule"
-msgstr ""
+msgstr "Модуль Журналювання"
 
 #. Template: InstallerSystem
 msgid "Log backend to use."
-msgstr ""
+msgstr "Механізм журналювання що буде використовуватись"
 
 #. Template: InstallerSystem
 msgid "LogFile"
-msgstr ""
+msgstr "Файл журналу"
 
 #. Template: InstallerSystem
 msgid "Webfrontend"
@@ -10644,34 +10644,34 @@ msgstr "Веб-інтерфейс"
 
 #. Template: InstallerSystem
 msgid "Default language"
-msgstr ""
+msgstr "Типова мова"
 
 #. Template: InstallerSystem
 msgid "Default language."
-msgstr ""
+msgstr "Типова мова."
 
 #. Template: InstallerSystem
 msgid "CheckMXRecord"
-msgstr ""
+msgstr "Перевірити МХ запис"
 
 #. Template: InstallerSystem
 msgid ""
 "Email addresses that are manually entered are checked against the MX records"
 " found in DNS. Don't use this option if your DNS is slow or does not resolve"
 " public addresses."
-msgstr ""
+msgstr "Адреси електронної пошти, що введено вручну, перевіряються з МХ записами, що знайдено в DNS. Не використовуйте цю опцію якщо у вас повільний DNS або він не дозволяє розв'язувати публічні адреси."
 
 #. Template: LinkObject
 msgid "Object#"
-msgstr ""
+msgstr "Об'єкт#"
 
 #. Template: LinkObject
 msgid "Add links"
-msgstr ""
+msgstr "Додати посилання"
 
 #. Template: LinkObject
 msgid "Delete links"
-msgstr ""
+msgstr "Вилучити посилання"
 
 #. Template: Login
 msgid "Lost your password?"
@@ -10687,62 +10687,62 @@ msgstr "Повернутися"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
-msgstr ""
+msgstr "Функція недоступна"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
 "Sorry, but this feature of OTRS is currently not available for mobile "
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
-msgstr ""
+msgstr "Вибачте, але ця функція OTRS наразі не доступна для мобільних пристроїв. Якщо ви бажаєте скористатися нею, ви можете увімкнути стільничний режим або використати стаціонарний комп'ютер."
 
 #. Template: Motd
 msgid "Message of the Day"
-msgstr ""
+msgstr "Повідомлення Дня"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "Це повідомлення дня. Ви можете змінити його в %s."
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
-msgstr ""
+msgstr "Недостатньо прав."
 
 #. Template: NoPermission
 msgid "Back to the previous page"
-msgstr ""
+msgstr "Повернутися до попередньої сторінки"
 
 #. Template: Pagination
 msgid "Show first page"
-msgstr ""
+msgstr "Показати першу сторінку"
 
 #. Template: Pagination
 msgid "Show previous pages"
-msgstr ""
+msgstr "Показати попередню сторінку"
 
 #. Template: Pagination
 msgid "Show page %s"
-msgstr ""
+msgstr "Показати сторінку %s"
 
 #. Template: Pagination
 msgid "Show next pages"
-msgstr ""
+msgstr "Показати наступну сторінку"
 
 #. Template: Pagination
 msgid "Show last page"
-msgstr ""
+msgstr "Показати останню сторінку"
 
 #. Template: PictureUpload
 msgid "Need FormID!"
-msgstr ""
+msgstr "Треба FormID!"
 
 #. Template: PictureUpload
 msgid "No file found!"
-msgstr ""
+msgstr "Файла не знайдено!"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
-msgstr ""
+msgstr "Це не файл зображення що можна вбудувати!"
 
 #. Template: PreferencesNotificationEvent
 msgid "Notification"
@@ -10750,35 +10750,35 @@ msgstr "Повідомлення"
 
 #. Template: PreferencesNotificationEvent
 msgid "No user configurable notifications found."
-msgstr ""
+msgstr "Немає налаштованих користувачами сповіщень."
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
-msgstr ""
+msgstr "Прийом повідомлень для сповіщення '%s' за допомогою транспортного метода '%s'."
 
 #. Template: PreferencesNotificationEvent
 msgid ""
 "Please note that you can't completely disable notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Будь ласка, зверніть увагу, що ви не можете повністю вимкнути сповіщення, позначені як обов'язкові."
 
 #. Template: PreferencesNotificationEvent
 msgid ""
 "Sorry, but you can't disable all methods for notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Вибачте, але ви не можете вимкнути всі методи для сповіщень, що позначені як обов'язкові."
 
 #. Template: PreferencesNotificationEvent
 msgid "Sorry, but you can't disable all methods for this notification."
-msgstr ""
+msgstr "Вибачте, але ви не можете вимкнути всі методи для цих сповіщень."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
-msgstr ""
+msgstr "Інформація про процес"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "Діалог"
 
 #. Template: Article
 msgid "Inform Agent"
@@ -10786,23 +10786,23 @@ msgstr "Повідомити агента"
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "Ласкаво просимо"
 
 #. Template: PublicDefault
 msgid ""
 "This is the default public interface of OTRS! There was no action parameter "
 "given."
-msgstr ""
+msgstr "Це типовий публічний інтерфейс OTRS! Не задано жодного дійового параметра."
 
 #. Template: PublicDefault
 msgid ""
 "You could install a custom public module (via the package manager), for "
 "example the FAQ module, which has a public interface."
-msgstr ""
+msgstr "Ви можете встановити спеціальний загальнодоступний модуль (через менеджер пакунків), наприклад модуль ЧАП-ів, який має відкритий інтерфейс."
 
 #. Template: RichTextEditor
 msgid "Remove Quote"
-msgstr ""
+msgstr "Вилучити лапки"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -10811,41 +10811,41 @@ msgstr "Права"
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "Ви можете вибрати одну чи більше груп для визначення доступу для різних агентів."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "Формати результату"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "Вибрані періоди часу в статистиці є нейтральним часовим поясом."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "Створення підсумкового рядка"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr ""
+msgstr "Створити додатковий рядок, що містить суми для всіх рядків з даними."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "Створення підсумкового стовпчика"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr ""
+msgstr "Створення додаткового стовпчика, що містить підсумки всіх стовпчиків з даними."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "Кешувати результати"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration (requires at least one selected time field)."
-msgstr ""
+msgstr "Зберігання даних результатів статистики в кеші для використання в наступних переглядах з тією ж самою конфігурацією (потрібно вибрати принаймні одне поле з часом)."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -17568,6 +17568,13 @@ msgstr ""
 msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later"
 " to a specific queue."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
+" collection with the public module 'PublicSupportDataCollector' (e.g. used "
+"from the OTRS Daemon)."
 msgstr ""
 
 #. SysConfig

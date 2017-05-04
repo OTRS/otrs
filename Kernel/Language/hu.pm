@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.998786653185035;
+    $Self->{Completeness}        = 0.999797816417307;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1659,14 +1659,14 @@ sub Data {
         '%s Not Yet Available' => '%s még nem érhető el',
         '%s will be available soon.' => '%s hamarosan elérhető lesz.',
         '%s Update Available' => '%s frissítés érhető el',
-        'Package installation requires patch level update of OTRS.' => '',
-        'Please visit our customer portal and file a request.' => '',
+        'Package installation requires patch level update of OTRS.' => 'A csomagtelepítés az OTRS hibajavító szintű frissítését igényli.',
+        'Please visit our customer portal and file a request.' => 'Látogassa meg az ügyfélportálunkat, és küldjön egy kérést.',
         'Everything else will be done as part of your contract.' => 'Minden más a szerződése részeként fog történni.',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'A telepített OTRS verziója %s.',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
-            '',
+            'Az OTRS Business Solution™ aktuális verziójának telepítéséhez frissítenie kell az OTRS %s vagy magasabb verziójára.',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
-            '',
+            'Az OTRS Business Solution™ aktuális verziójának telepítéséhez a legmagasabb OTRS verzió %s.',
         'To install this package, the required Framework version is %s.' =>
             'A csomag telepítéséhez a szükséges keretrendszer-verzió %s.',
         'Why should I keep OTRS up to date?' => 'Miért kell naprakészen tartanom az OTRS-t?',
@@ -1747,7 +1747,7 @@ sub Data {
             'Valóban újra szeretné telepíteni ezt a csomagot? Minden kézi változtatás el fog veszni.',
         'Go to upgrading instructions' => 'Ugrás a frissítési utasításokhoz',
         'package information' => 'csomaginformációk',
-        'Package upgrade requires patch level update of OTRS.' => '',
+        'Package upgrade requires patch level update of OTRS.' => 'A csomagfrissítés az OTRS hibajavító szintű frissítését igényli.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             'Ha Ön OTRS Business Solution™ ügyfél, akkor látogassa meg az ügyfélportálunkat, és küldjön egy kérést.',
         'Please note that your installed OTRS version is %s.' => 'Ne feledje, hogy a telepített OTRS verziója %s.',
@@ -5568,6 +5568,8 @@ Az Ön segélyszolgálat csapata
             'Meghatározza azokat a jegymezőket, amelyek a naptárban lévő eseményeknél meg lesznek jelenítve. A „Kulcs” a mezőt vagy a jegy jellemzőjét határozza meg, a „Tartalom” pedig a megjelenített nevet.',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Meghatározza a jelzett naptár időzónáját, amely később hozzárendelhető egy megadott várólistához.',
+        'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the two-factor module to authenticate agents.' => 'Meghatározza azt a kétlépcsős modult, amely hitelesíti az ügyintézőket.',
         'Defines the two-factor module to authenticate customers.' => 'Meghatározza azt a kétlépcsős modult, amely hitelesíti az ügyfeleket.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>

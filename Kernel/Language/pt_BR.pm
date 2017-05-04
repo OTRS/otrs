@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.695854398382204;
+    $Self->{Completeness}        = 0.701577031945006;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1659,14 +1659,14 @@ sub Data {
         '%s Not Yet Available' => '%s Não Disponível Ainda',
         '%s will be available soon.' => '%s estará disponível em breve.',
         '%s Update Available' => '%s Atualização Disponível',
-        'Package installation requires patch level update of OTRS.' => '',
-        'Please visit our customer portal and file a request.' => '',
+        'Package installation requires patch level update of OTRS.' => 'Instalação do pacote requer atualização de nível de patch do OTRS.',
+        'Please visit our customer portal and file a request.' => 'Por favor visite nosso portal de clientes e registre um pedido.',
         'Everything else will be done as part of your contract.' => 'Tudo mais será feito como parte do seu contrato.',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'Sua versão do OTRS instalada é %s.',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
-            '',
+            'Para instalar a versão atual do OTRS Business Solution™, você precisa atualizar para OTRS %s ou superior.',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
-            '',
+            'Para instalar a versão atual do OTRS Business Solution™, a versão máxima do OTRS é %s.',
         'To install this package, the required Framework version is %s.' =>
             'Para instalar este pacote, a versão do framework requerida é %s.',
         'Why should I keep OTRS up to date?' => 'Por que eu deveria manter o OTRS atualizado?',
@@ -1747,7 +1747,7 @@ sub Data {
             'Você realmente quer reinstalar este pacote? Quaisquer alterações manuais serão perdidas.',
         'Go to upgrading instructions' => 'Vá para orientações de upgrade',
         'package information' => 'informação do pacote',
-        'Package upgrade requires patch level update of OTRS.' => '',
+        'Package upgrade requires patch level update of OTRS.' => 'Upgrade do pacote requer atualização de nível de patch do OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             'Se você é um cliente OTRS Business Solution™, por favor visite nosso portal de clientes e registre um pedido.',
         'Please note that your installed OTRS version is %s.' => 'Por favor note que a sua versão do OTRS instalada é %s.',
@@ -3450,14 +3450,14 @@ sub Data {
         'Could not determine config for invoker %s' => 'Não foi possível determinar a configuração para o invoker %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-        'Could not get registered configuration for action type %s' => '',
-        'Could not get backend for %s %s' => '',
+        'Could not get registered configuration for action type %s' => 'Não foi possível obter a configuração registrada para o tipo de ação %s',
+        'Could not get backend for %s %s' => 'Não foi possível obter o backend para %s %s',
         'Could not update configuration data for WebserviceID %s' => 'Não foi possível atualizar dados de configuração para WebserviceID %s',
         'Keep (leave unchanged)' => 'Ignorar (deixar inalterado)',
         'Ignore (drop key/value pair)' => 'Ignorar (apagar par chave/valor)',
-        'Map to (use provided value as default)' => '',
+        'Map to (use provided value as default)' => 'Mapear para (use o valor fornecido como padrão)',
         'Exact value(s)' => 'Valor(es) exato(s)',
-        'Ignore (drop Value/value pair)' => '',
+        'Ignore (drop Value/value pair)' => 'Ignorar (descartar valor/par de valor)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
         'Could not find required library %s' => 'Não foi possível encontrar a biblioteca necessária %s',
@@ -3485,7 +3485,7 @@ sub Data {
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
             'O arquivo importado tem conteúdo YAML inválido! Por favor, verifique o log do OTRS para obter mais detalhes',
         'Web service "%s" deleted!' => 'Web service "%s" excluído!',
-        'New Web service' => '',
+        'New Web service' => 'Novo web service',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Não há WebserviceHistoryID!',
@@ -3499,7 +3499,7 @@ sub Data {
         'Unknown Notification %s!' => 'Notificação Desconhecida %s!',
         'There was an error creating the Notification' => 'Houve algum erro ao criar a Notificação',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
+            'Notificações não puderam ser importadas devido a um erro desconhecido. Por favor verifique os logs do OTRS para mais informações',
         'The following Notifications have been added successfully: %s' =>
             'As seguintes Notificações foram adicionados com êxito: %s',
         'The following Notifications have been updated successfully: %s' =>
@@ -3526,52 +3526,52 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otrs.Console.pl to install packages!' =>
-            '',
+            'Desculpe, Apache::Reload é necessário como PerlModule e PerlInitHandler no arquivo de configuração do Apache. Veja também scripts/apache2-httpd.include.conf. Alternativamente, você pode usar a ferramenta de linha de comando bin/otrs.Console.pl para instalar pacotes!',
         'No such package!' => 'Não existe este pacote!',
         'No such file %s in package!' => 'Arquivo inexistente %s no pacote!',
         'No such file %s in local file system!' => 'Arquivo inexistente %s no sistema de arquivos local!',
         'Can\'t read %s!' => 'Não pôde ser lido %s!',
-        'File is OK' => '',
+        'File is OK' => 'Arquivo está ok',
         'Package has locally modified files.' => 'Pacote possui arquivos locais modificados.',
         'No packages or no new packages found in selected repository.' =>
             'Nenhum pacote ou nenhum novo pacote encontrado no repositório selecionado.',
         'Package not verified due a communication issue with verification server!' =>
-            '',
-        'Can\'t connect to OTRS Feature Add-on list server!' => '',
-        'Can\'t get OTRS Feature Add-on list from server!' => '',
-        'Can\'t get OTRS Feature Add-on from server!' => '',
+            'Pacote não verificado devido a um problema de comunicação com o servidor de verificação!',
+        'Can\'t connect to OTRS Feature Add-on list server!' => 'Não foi possível conectar com o servidor da lista de recursos adicionais (add-ons) da OTRS!',
+        'Can\'t get OTRS Feature Add-on list from server!' => 'Não foi possível obter do servidor a lista de recursos adicionais (add-ons) da OTRS!',
+        'Can\'t get OTRS Feature Add-on from server!' => 'Não foi possível obter do servidor o recurso adicional (add-on) da OTRS!',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
         'No such filter: %s' => 'Filtro inexistente: %s',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
-        'Need ExampleProcesses!' => '',
+        'Need ExampleProcesses!' => 'Requer ExampleProcesses!',
         'Need ProcessID!' => 'Necessário ProcessID!',
         'Yes (mandatory)' => 'Sim (mandatório)',
         'Unknown Process %s!' => 'Processo Desconhecido %s!',
         'There was an error generating a new EntityID for this Process' =>
-            '',
-        'The StateEntityID for state Inactive does not exists' => '',
+            'Ocorreu um erro durante a geração de um novo EntityID para este processo',
+        'The StateEntityID for state Inactive does not exists' => 'O StateEntityID para o estado Inativo não existe',
         'There was an error creating the Process' => 'Houve um erro ao criar o Processo',
         'There was an error setting the entity sync status for Process entity: %s' =>
-            '',
+            'Ocorreu um erro durante a configuração do estado de sincronização para a entidade de processo: %s',
         'Could not get data for ProcessID %s' => 'Não foi possível obter dados para ProcessID %s',
-        'There was an error updating the Process' => '',
+        'There was an error updating the Process' => 'Ocorreu um erro durante a atualização do processo',
         'Process: %s could not be deleted' => 'Processo: %s não pode ser excluído',
         'There was an error synchronizing the processes.' => 'Houve um erro na sincronização dos processos.',
-        'The %s:%s is still in use' => '',
-        'The %s:%s has a different EntityID' => '',
+        'The %s:%s is still in use' => 'O %s:%s ainda está em uso',
+        'The %s:%s has a different EntityID' => 'O s%:%s tem um EntityID diferente',
         'Could not delete %s:%s' => 'Não foi possível deletar %s:%s',
         'There was an error setting the entity sync status for %s entity: %s' =>
-            '',
-        'Could not get %s' => '',
+            'Ocorreu um erro durante a configuração do estado de sincronização para a entidade de %s: %s',
+        'Could not get %s' => 'Não foi possível obter %s',
         'Need %s!' => 'Necessário %s!',
         'Process: %s is not Inactive' => 'Processo: %s não é Inativo',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
         'There was an error generating a new EntityID for this Activity' =>
-            '',
-        'There was an error creating the Activity' => '',
+            'Ocorreu um erro durante a geração de um novo EntityID para esta atividade',
+        'There was an error creating the Activity' => 'Ocorreu um erro durante a criação da atividade',
         'There was an error setting the entity sync status for Activity entity: %s' =>
             '',
         'Need ActivityID!' => 'Necessário ActivityID!',
@@ -5556,6 +5556,8 @@ Thanks for your help!
         'Defines the ticket fields that are going to be displayed calendar events. The "Key" defines the field or ticket attribute and the "Content" defines the display name.' =>
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
+            '',
+        'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
             '',
         'Defines the two-factor module to authenticate agents.' => '',
         'Defines the two-factor module to authenticate customers.' => '',

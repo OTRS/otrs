@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-02 12:16+0000\n"
-"PO-Revision-Date: 2017-05-02 17:25+0000\n"
+"POT-Creation-Date: 2017-05-04 12:03+0000\n"
+"PO-Revision-Date: 2017-05-04 17:04+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -5792,11 +5792,11 @@ msgstr "%s frissítés érhető el"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "A csomagtelepítés az OTRS hibajavító szintű frissítését igényli."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "Látogassa meg az ügyfélportálunkat, és küldjön egy kérést."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Everything else will be done as part of your contract."
@@ -5804,19 +5804,19 @@ msgstr "Minden más a szerződése részeként fog történni."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "A telepített OTRS verziója %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, you need to "
 "update to OTRS %s or higher."
-msgstr ""
+msgstr "Az OTRS Business Solution™ aktuális verziójának telepítéséhez frissítenie kell az OTRS %s vagy magasabb verziójára."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, the Maximum OTRS "
 "Version is %s."
-msgstr ""
+msgstr "Az OTRS Business Solution™ aktuális verziójának telepítéséhez a legmagasabb OTRS verzió %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
@@ -6060,7 +6060,7 @@ msgstr "csomaginformációk"
 
 #. Template: AdminPackageManager
 msgid "Package upgrade requires patch level update of OTRS."
-msgstr ""
+msgstr "A csomagfrissítés az OTRS hibajavító szintű frissítését igényli."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -17573,6 +17573,13 @@ msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later"
 " to a specific queue."
 msgstr "Meghatározza a jelzett naptár időzónáját, amely később hozzárendelhető egy megadott várólistához."
+
+#. SysConfig
+msgid ""
+"Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
+" collection with the public module 'PublicSupportDataCollector' (e.g. used "
+"from the OTRS Daemon)."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."

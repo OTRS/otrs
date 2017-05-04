@@ -31,8 +31,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-02 12:16+0000\n"
-"PO-Revision-Date: 2017-05-02 17:25+0000\n"
+"POT-Creation-Date: 2017-05-04 12:03+0000\n"
+"PO-Revision-Date: 2017-05-04 17:04+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -5810,11 +5810,11 @@ msgstr "%s Atualização Disponível"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "Instalação do pacote requer atualização de nível de patch do OTRS."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "Por favor visite nosso portal de clientes e registre um pedido."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Everything else will be done as part of your contract."
@@ -5822,19 +5822,19 @@ msgstr "Tudo mais será feito como parte do seu contrato."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "Sua versão do OTRS instalada é %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, you need to "
 "update to OTRS %s or higher."
-msgstr ""
+msgstr "Para instalar a versão atual do OTRS Business Solution™, você precisa atualizar para OTRS %s ou superior."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, the Maximum OTRS "
 "Version is %s."
-msgstr ""
+msgstr "Para instalar a versão atual do OTRS Business Solution™, a versão máxima do OTRS é %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
@@ -6078,7 +6078,7 @@ msgstr "informação do pacote"
 
 #. Template: AdminPackageManager
 msgid "Package upgrade requires patch level update of OTRS."
-msgstr ""
+msgstr "Upgrade do pacote requer atualização de nível de patch do OTRS."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -11259,11 +11259,11 @@ msgstr "Não foi possível determinar a configuração para o invoker %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
-msgstr ""
+msgstr "Não foi possível obter a configuração registrada para o tipo de ação %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
-msgstr ""
+msgstr "Não foi possível obter o backend para %s %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not update configuration data for WebserviceID %s"
@@ -11279,7 +11279,7 @@ msgstr "Ignorar (apagar par chave/valor)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
-msgstr ""
+msgstr "Mapear para (use o valor fornecido como padrão)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
@@ -11287,7 +11287,7 @@ msgstr "Valor(es) exato(s)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
-msgstr ""
+msgstr "Ignorar (descartar valor/par de valor)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
@@ -11365,7 +11365,7 @@ msgstr "Web service \"%s\" excluído!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "New Web service"
-msgstr ""
+msgstr "Novo web service"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -11399,7 +11399,7 @@ msgstr "Houve algum erro ao criar a Notificação"
 msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
 "OTRS logs for more information"
-msgstr ""
+msgstr "Notificações não puderam ser importadas devido a um erro desconhecido. Por favor verifique os logs do OTRS para mais informações"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
@@ -11472,7 +11472,7 @@ msgid ""
 "Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache "
 "config file. See also scripts/apache2-httpd.include.conf. Alternatively, you"
 " can use the command line tool bin/otrs.Console.pl to install packages!"
-msgstr ""
+msgstr "Desculpe, Apache::Reload é necessário como PerlModule e PerlInitHandler no arquivo de configuração do Apache. Veja também scripts/apache2-httpd.include.conf. Alternativamente, você pode usar a ferramenta de linha de comando bin/otrs.Console.pl para instalar pacotes!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
@@ -11492,7 +11492,7 @@ msgstr "Não pôde ser lido %s!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "File is OK"
-msgstr ""
+msgstr "Arquivo está ok"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
@@ -11505,19 +11505,19 @@ msgstr "Nenhum pacote ou nenhum novo pacote encontrado no repositório seleciona
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
-msgstr ""
+msgstr "Pacote não verificado devido a um problema de comunicação com o servidor de verificação!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTRS Feature Add-on list server!"
-msgstr ""
+msgstr "Não foi possível conectar com o servidor da lista de recursos adicionais (add-ons) da OTRS!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on list from server!"
-msgstr ""
+msgstr "Não foi possível obter do servidor a lista de recursos adicionais (add-ons) da OTRS!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTRS Feature Add-on from server!"
-msgstr ""
+msgstr "Não foi possível obter do servidor o recurso adicional (add-on) da OTRS!"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
@@ -11525,7 +11525,7 @@ msgstr "Filtro inexistente: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
+msgstr "Requer ExampleProcesses!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
@@ -11541,11 +11541,11 @@ msgstr "Processo Desconhecido %s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error generating a new EntityID for this Process"
-msgstr ""
+msgstr "Ocorreu um erro durante a geração de um novo EntityID para este processo"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The StateEntityID for state Inactive does not exists"
-msgstr ""
+msgstr "O StateEntityID para o estado Inativo não existe"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
@@ -11554,7 +11554,7 @@ msgstr "Houve um erro ao criar o Processo"
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "There was an error setting the entity sync status for Process entity: %s"
-msgstr ""
+msgstr "Ocorreu um erro durante a configuração do estado de sincronização para a entidade de processo: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
@@ -11562,7 +11562,7 @@ msgstr "Não foi possível obter dados para ProcessID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
-msgstr ""
+msgstr "Ocorreu um erro durante a atualização do processo"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
@@ -11574,11 +11574,11 @@ msgstr "Houve um erro na sincronização dos processos."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
-msgstr ""
+msgstr "O %s:%s ainda está em uso"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s has a different EntityID"
-msgstr ""
+msgstr "O s%:%s tem um EntityID diferente"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
@@ -11586,11 +11586,11 @@ msgstr "Não foi possível deletar %s:%s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
-msgstr ""
+msgstr "Ocorreu um erro durante a configuração do estado de sincronização para a entidade de %s: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
-msgstr ""
+msgstr "Não foi possível obter %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
@@ -11602,11 +11602,11 @@ msgstr "Processo: %s não é Inativo"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
-msgstr ""
+msgstr "Ocorreu um erro durante a geração de um novo EntityID para esta atividade"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error creating the Activity"
-msgstr ""
+msgstr "Ocorreu um erro durante a criação da atividade"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
@@ -17590,6 +17590,13 @@ msgstr ""
 msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later"
 " to a specific queue."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
+" collection with the public module 'PublicSupportDataCollector' (e.g. used "
+"from the OTRS Daemon)."
 msgstr ""
 
 #. SysConfig

@@ -39,8 +39,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-02 12:16+0000\n"
-"PO-Revision-Date: 2017-05-02 17:25+0000\n"
+"POT-Creation-Date: 2017-05-04 12:03+0000\n"
+"PO-Revision-Date: 2017-05-04 17:04+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -5818,11 +5818,11 @@ msgstr "%s-Aktualisierung verfügbar"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "Paketinstallation benötigt ein Patchlevel-Update von OTRS."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "Bitte besuchen Sie unser Kundenportal und eröffnen Sie eine Anfrage."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Everything else will be done as part of your contract."
@@ -5830,19 +5830,19 @@ msgstr "Alles Weitere wird als Teil Ihres Vertrages durchgeführt."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "Die Version Ihres installierten OTRS ist %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, you need to "
 "update to OTRS %s or higher."
-msgstr ""
+msgstr "Um die aktuelle Version von OTRS Business Solution™ zu installieren, müssen Sie OTRS auf Version %s oder höher aktualisieren."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, the Maximum OTRS "
 "Version is %s."
-msgstr ""
+msgstr "Um die aktuelle Version von OTRS Business Solution™ zu installieren, können Sie OTRS bis maximal zur Version %s verwenden."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
@@ -6086,7 +6086,7 @@ msgstr "Paketinformation"
 
 #. Template: AdminPackageManager
 msgid "Package upgrade requires patch level update of OTRS."
-msgstr ""
+msgstr "Paketupdate benötigt ein Patchlevel-Update von OTRS."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -10875,7 +10875,7 @@ msgstr "Ergebnisse cachen"
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with"
 " the same configuration (requires at least one selected time field)."
-msgstr ""
+msgstr "Speichert Statistikergebnisse in einem Cache, der bei späterenAufrufen mit derselben Konfiguration verwendet wird. (Benötigt mindestens ein ausgewähltes Zeitfeld)"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
@@ -12347,7 +12347,7 @@ msgstr "ActivityEntityID fehlt für Ticket %s!"
 msgid ""
 "This step does not belong anymore the current activity in process for ticket"
 " '%s%s%s'! Another user changed this ticket in the meantime."
-msgstr ""
+msgstr "Dieser Schritte gehört nicht mehr der aktuellen Prozess-Aktivität von Ticket '%s%s%s'! Ein anderer Anwender hat das Ticket inzwischen verändert."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -13013,7 +13013,7 @@ msgstr "Sortieren nach"
 #. Perl Module: Kernel/System/ACL/DB/ACL.pm
 msgid ""
 "Couldn't read ACL configuration file. Please make sure the file is valid."
-msgstr ""
+msgstr "Die ACL-Konfigurationsdatei konnte nicht gelesen werden. Bitte prüfen Sie, dass es sich um eine gültige Datei handelt."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -13052,11 +13052,11 @@ msgstr "Diese Einstellung kann nicht deaktiviert werden."
 
 #. Perl Module: Kernel/System/CustomerUser.pm
 msgid "Customer user \"%s\" already exists."
-msgstr ""
+msgstr "Kundenbenutzer \"%s\" existiert bereits."
 
 #. Perl Module: Kernel/System/CustomerUser/DB.pm
 msgid "This email address is already in use for another customer user."
-msgstr ""
+msgstr "Diese E-Mail-Adresse wird bereits für einen anderen Kundenbenutzer verwendet."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
@@ -13070,7 +13070,7 @@ msgstr "Dieses Feld ignorieren"
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
-msgstr ""
+msgstr "Die Benachrichtigungs-Konfigurationsdatei konnte nicht gelesen werden. Bitte prüfen Sie, dass es sich um eine gültige Datei handelt."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -13090,7 +13090,7 @@ msgstr "Datei kann nicht gelesen werden!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
-msgstr ""
+msgstr "Der Prozess \"%s\" und alle zugehörigen Daten wurden erfolgreich importiert."
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -14846,14 +14846,14 @@ msgid ""
 "Allows extended search conditions in ticket search of the agent interface. "
 "With this feature you can search e. g. ticket title with this kind of "
 "conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "Erlaubt erweiterte Suchbedingungen in der Ticket-Suche des Agentenbereichs. Mit dieser Funktion können Sie z.B. Ticket-Titel mit Bedingungen wie \"(key1&&key2)\" oder \"(key1||key2)\" suchen."
 
 #. SysConfig
 msgid ""
 "Allows extended search conditions in ticket search of the customer "
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
-msgstr ""
+msgstr "Erlaubt erweiterte Suchbedingungen in der Ticketsuche im Kundenbereich. Mit dieser Funktion können Sie z.B. Ticket-Titel mit Bedingungen wie \"(key1&&key2)\" oder \"(key1||key2)\" suchen."
 
 #. SysConfig
 msgid ""
@@ -15280,11 +15280,11 @@ msgstr "Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird
 msgid ""
 "Controls if CustomerID is automatically copied from the sender address for "
 "unknown customers."
-msgstr ""
+msgstr "Legt fest, ob die Absenderadresse bei unbekannten Kunden automatisch als Kundennummer gesetzt wird."
 
 #. SysConfig
 msgid "Controls if CustomerID is read-only in the agent interface."
-msgstr ""
+msgstr "Legt fest, ob die Kundennummer im Agentenbereich als nur lesend angezeigt wird."
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
@@ -16205,7 +16205,7 @@ msgid ""
 "1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1"
 " to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-"
 "temporarily if max failed logins reached."
-msgstr ""
+msgstr "Legt die Konfigurationsparameter für diesen Eintrag fest, die in der Einstellungsansicht angezeigt werden. \n'PasswordRegExp' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck. \nLegen Sie die Mindestlänge für Passwörter mit 'PasswordMinSize' fest. Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf '1' setzen. \n'PasswordMin2Characters' legt fest, dass mindestens zwei Buchstaben-Zeichen erforderlich sind (mögliche Werte sind '0' oder '1'). 'PasswordNeedDigit' legt fest, ob das Passwort mindestens eine Zahl enthalten muss (mögliche Werte sind '0' oder '1'). \n'PasswordMaxLoginFailed' erlaubt es einen Agenten auf temporär ungültig wenn die maximale Anzahl fehlerhafter Logins erreicht ist."
 
 #. SysConfig
 msgid ""
@@ -17131,19 +17131,19 @@ msgstr "Definiert das Modul das alle zur Zeit angemeldeten Agenten im Agenten-In
 msgid ""
 "Defines the module that shows all the currently logged in customers in the "
 "agent interface."
-msgstr ""
+msgstr "Definiert das Modul, das alle zur Zeit angemeldeten Kunden im Agentenbereich anzeigt."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows the currently logged in agents in the customer"
 " interface."
-msgstr ""
+msgstr "Definiert das Modul, das alle zur Zeit angemeldeten Agenten im Kundenbereich anzeigt."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows the currently logged in customers in the "
 "customer interface."
-msgstr ""
+msgstr "Definiert das Modul, das alle zur Zeit angemeldeten Kunden im Kundenbereich anzeigt."
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
@@ -17537,7 +17537,7 @@ msgstr "Definiert den Betreff für Benachrichtigungs-Emails, die wegen eines neu
 msgid ""
 "Defines the subject for notification mails sent to agents, with token about "
 "new requested password."
-msgstr ""
+msgstr "Legt den Betreff der Benachrichtigungs-E-Mail fest, die bei einer Passwortanfrage an Agenten verschickt wird."
 
 #. SysConfig
 msgid ""
@@ -17555,7 +17555,7 @@ msgstr "Definiert den Betreff für Benachrichtigungs-Emails, die wegen eines neu
 msgid ""
 "Defines the subject for notification mails sent to customers, with token "
 "about new requested password."
-msgstr ""
+msgstr "Legt den Betreff der Benachrichtigungs-E-Mail fest, die bei einer Passwortanfrage an Kunden verschickt wird."
 
 #. SysConfig
 msgid "Defines the subject for rejected emails."
@@ -17579,13 +17579,13 @@ msgstr "Definiert die System ID. Jede Ticketnummer und HTTP Sitzung enthält die
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g."
 " 'AsPopup PopupType_TicketAction'."
-msgstr ""
+msgstr "Definiert das 'target'-Attribut eines Links zu einer externen Kunden-Datenbank. Z.B. 'AsPopup PopupType_TicketAction'."
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g."
 " 'target=\"cdb\"'."
-msgstr ""
+msgstr "Definiert das 'target'-Attribut eines Links zu einer externen Kunden-Datenbank. Z.B. 'target=\"cdb\"'."
 
 #. SysConfig
 msgid ""
@@ -17598,6 +17598,13 @@ msgstr ""
 msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later"
 " to a specific queue."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
+" collection with the public module 'PublicSupportDataCollector' (e.g. used "
+"from the OTRS Daemon)."
 msgstr ""
 
 #. SysConfig
@@ -17733,7 +17740,7 @@ msgstr "Löscht die angefragte Session, wenn ein Timeout vorliegt."
 msgid ""
 "Delivers extended debugging information in the frontend in case any AJAX "
 "errors occur, if enabled."
-msgstr ""
+msgstr "Liefert erweiterte Debugging-Informationen im Frontend im Fall, dass AJAX-Fehler auftreten, wenn aktiviert."
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
@@ -17744,7 +17751,7 @@ msgid ""
 "Determines if the list of possible queues to move to ticket into should be "
 "displayed in a dropdown list or in a new window in the agent interface. If "
 "\"New Window\" is set you can add a move note to the ticket."
-msgstr ""
+msgstr "Bestimmt ob die Liste möglicher Queues in die ein Ticket verschoben werden kann als eine DropDown-Liste angezeigt wird oder in einem neuen Fenster. Wenn \"Neues Fenster\" eingestellt ist, können Sie ein Verschiebe-Notiz zum Ticket hinzufügen."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
@@ -17772,7 +17779,7 @@ msgstr "Definiert den Nächstmöglichen Ticketstatus für Prozesstickets im Agen
 msgid ""
 "Determines the next possible ticket states, for process tickets in the "
 "customer interface."
-msgstr ""
+msgstr "Bestimmt die die möglichen Folge-Ticket-Status für Prozesstickets im Kundenbereich."
 
 #. SysConfig
 msgid ""
@@ -17797,7 +17804,7 @@ msgstr "Bestimmt das nächste Fenster nach dem das Ticket verschoben ist. LastSc
 msgid ""
 "Determines the possible states for pending tickets that changed state after "
 "reaching time limit."
-msgstr ""
+msgstr "Bestimmt die möglichen Status eines unerledigten Tickets, das den Status verändert hat nachdem die Zeitbegrenzung erreicht wurde."
 
 #. SysConfig
 msgid ""

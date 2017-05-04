@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.473407482305359;
+    $Self->{Completeness}        = 0.473311767084513;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -54,7 +54,7 @@ sub Data {
         'Cancel' => 'Annuler',
         'Reset' => 'Remise à zéro',
         'more than ... ago' => 'il y a plus de ...',
-        'in more than ...' => 'en plus de ...',
+        'in more than ...' => 'dans plus de ...',
         'within the last ...' => 'dans les dernier(e)s',
         'within the next ...' => 'dans les prochain(e)s',
         'Created within the last' => 'Créé dans les dernier(e)s',
@@ -81,8 +81,8 @@ sub Data {
         'month(s)' => 'mois',
         'week' => 'semaine',
         'week(s)' => 'semaine(s)',
-        'quarter' => 'ex. /opt/otrs/var/certificates/REST/CA/ca.file',
-        'quarter(s)' => 'quart d\'heure',
+        'quarter' => 'trimestre',
+        'quarter(s)' => 'trimestre(s)',
         'half-year' => 'semestre',
         'half-year(s)' => 'semestre(s)',
         'year' => 'année',
@@ -109,10 +109,10 @@ sub Data {
         'Examples' => 'Exemples',
         'valid' => 'valide',
         'Valid' => 'Valide',
-        'invalid' => 'invalide',
-        'Invalid' => 'Invalide',
-        '* invalid' => '* invalide',
-        'invalid-temporarily' => 'temporairement invalide',
+        'invalid' => 'non valide',
+        'Invalid' => 'Non valide',
+        '* invalid' => '* non valide',
+        'invalid-temporarily' => 'temporairement invalidé',
         ' 2 minutes' => ' 2 minutes',
         ' 5 minutes' => ' 5 minutes',
         ' 7 minutes' => ' 7 minutes',
@@ -128,7 +128,7 @@ sub Data {
         'none' => 'aucun',
         'none!' => 'aucun !',
         'none - answered' => 'aucun - réponse faite',
-        'please do not edit!' => 'Ne pas modifier !',
+        'please do not edit!' => 'ne pas modifier !',
         'Need Action' => 'Requiert une action',
         'AddLink' => 'Ajouter un lien',
         'Link' => 'Lier',
@@ -182,9 +182,9 @@ sub Data {
         'change' => 'modifier',
         'click here' => 'Cliquer ici',
         'Comment' => 'Commentaire',
-        'Invalid Option!' => 'Option invalide !',
-        'Invalid time!' => 'Heure/Durée invalide !',
-        'Invalid date!' => 'Date invalide !',
+        'Invalid Option!' => 'Option non valide !',
+        'Invalid time!' => 'Heure/Durée non valide !',
+        'Invalid date!' => 'Date non valide !',
         'Name' => 'Nom',
         'Group' => 'Groupe',
         'Description' => 'Description',
@@ -235,7 +235,7 @@ sub Data {
         'The recommended charset for your language is %s!' => 'Le jeu de caractère correspondant à votre langue est %s !',
         'Change your password.' => 'Modifier votre mot de passe',
         'Please activate %s first!' => 'Merci d\'activer %s en premier lieu',
-        'No suggestions' => 'Pas de suggestions',
+        'No suggestions' => 'Pas de suggestion',
         'Word' => 'Mot',
         'Ignore' => 'Ignorer',
         'replace with' => 'remplacer par',
@@ -243,9 +243,9 @@ sub Data {
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Mauvaise authentification! Votre nom de compte ou mot de passe étaient erronés',
         'There is no acount with that user name.' => 'Il n\'y a aucun compte avec ce nom d\'utilisateur',
-        'Please contact your administrator' => 'Veuillez contacter votre administrateur SVP',
+        'Please contact your administrator' => 'Veuillez contacter votre administrateur',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            'L\'authentification est réussie mais aucun enregistrement client n\'a été trouvé dans la base OTRS. Veuillez en informer votre administrateur.',
+            'L\'authentification a réussi mais aucun enregistrement client correspondant n\'a été trouvé. Veuillez en informer votre administrateur.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Cet e-mail existe déjà. Merci de vous connecter ou de réinitailiser votre mot de passe.',
         'Logout' => 'Déconnexion',
@@ -260,13 +260,13 @@ sub Data {
         'Install OTRS' => 'Installer OTRS',
         'Intro' => 'Introduction',
         'License' => 'Licence',
-        'Database' => 'Base de donnée',
+        'Database' => 'Base de données',
         'Configure Mail' => 'Configurer Mail',
         'Database deleted.' => 'Base de données effacée.',
         'Enter the password for the administrative database user.' => 'Entrer le mot de passe de l\'administrateur de la base de données',
         'Enter the password for the database user.' => 'Entrer le mot de passe pour l\'utilisateur base de données',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
-            'Si vous avez défini un mot de passe root pour votre base de donnée, il doit être rempli ici. Sinon, laisser ce champ vide',
+            'Si vous avez défini un mot de passe root pour votre base de données, il doit être indiqué ici. Sinon, laissez ce champ vide.',
         'Database already contains data - it should be empty!' => 'La base de données contient déjà des données - elle doit être vide',
         'Login is needed!' => 'Authentification requise !',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
@@ -279,7 +279,7 @@ sub Data {
         'reverse' => 'inverse',
         'Facility' => 'Service',
         'Time Zone' => 'Fuseau horaire',
-        'Pending till' => 'En attendant jusqu\'à',
+        'Pending till' => 'En attente jusque',
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
             'N\'utilisez pas le compte Superuser pour travailler avec OTRS! Créez de nouveaux agents et travaillez plutôt avec ces agents.',
         'Dispatching by email To: field.' => 'Répartition par le champ \'À:\' de l\'e-mail',
@@ -379,7 +379,7 @@ sub Data {
         'Upcoming Events' => 'Évènements à venir',
         'Event' => 'Évènement',
         'Events' => 'Évènements',
-        'Invalid Token!' => 'Jeton invalide !',
+        'Invalid Token!' => 'Jeton non valide !',
         'more' => 'plus',
         'Collapse' => 'Réduire',
         'Shown' => 'Affiché(s)',
@@ -424,7 +424,7 @@ sub Data {
             'Aucune donnée reçue depuis le serveur d\'enregistrement. Veuillez réessayer ultérieurement. ',
         'Problems processing server result. Please try again later.' => 'Problèmes sur le serveur de processus. Veuillez réessayer ultérieurement.',
         'Username and password do not match. Please try again.' => 'Le nom et mot de passe ne correspondent pas. Merci d\'essayer à nouveau.',
-        'The selected process is invalid!' => 'The processus sélectionné est invalide.',
+        'The selected process is invalid!' => 'Le processus sélectionné n\'est pas valide !',
         'Upgrade to %s now!' => 'Mettre à jour vers %s maintenant ! ',
         '%s Go to the upgrade center %s' => '%s Se rendre sur le serveur de mise à jour %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
@@ -497,7 +497,7 @@ sub Data {
         'The current password is not correct. Please try again!' => 'Le mot de passe actuel n\'est pas correct. Merci d\'essayer à nouveau!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
             'Impossible de mettre à jour le mot de passe, votre nouveau mot de passe ne correspond pas. Merci d\'essayer à nouveau!',
-        'Can\'t update password, it contains invalid characters!' => 'Impossible de mettre à jour le mot de passe, il contienti des caractères invalides!',
+        'Can\'t update password, it contains invalid characters!' => 'Impossible de mettre à jour le mot de passe car il contient des caractères non valables !',
         'Can\'t update password, it must be at least %s characters long!' =>
             'Impossible de mettre à jour le mot de passe,, il doit contenir au moins %s caractères!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
@@ -816,7 +816,7 @@ sub Data {
         'Edit ACL %s' => 'Editer %s de ACL',
         'Go to overview' => 'Aller à la vue d\'ensemble',
         'Delete ACL' => 'Effacer ACL',
-        'Delete Invalid ACL' => 'Supprimer ACL invalide',
+        'Delete Invalid ACL' => 'Supprimer les ACL non valides',
         'Match settings' => 'Paramètres correspondants',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Etablir les critères correspondants pour ce ACL. Utiliser "Properties" pour faire un correspondance entre cet écran ou "PropertiesDatabase" avec les attribues de ce ticket qui est dans la base des données.',
@@ -1190,7 +1190,7 @@ sub Data {
         'New Dynamic Field Values' => 'Nouvelles Valeurs de Champ Dynamique',
         'Archive selected tickets' => 'Archiver tickets sélectionnés',
         'Add Note' => 'Ajouter une note',
-        'Time units' => 'Unité de temps',
+        'Time units' => 'Unités de temps',
         'Execute Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Envoyer des notifications à l\'opérateur/au client sur les changements',
         'CMD' => 'CMD',
@@ -2442,7 +2442,7 @@ sub Data {
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => '',
         'Edit System Maintenance Information' => '',
-        'Date invalid!' => 'Date invalide',
+        'Date invalid!' => 'Date non valide !',
         'Login message' => '',
         'Show login message' => '',
         'Notify message' => '',
@@ -2697,7 +2697,7 @@ sub Data {
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
         'All fields marked with an asterisk (*) are mandatory.' => 'Tous les champs marqués avec un astérisque (*) sont obligatoires.',
-        'Service invalid.' => 'Service invalide',
+        'Service invalid.' => 'Service non valide !',
         'New Owner' => 'Nouveau Propriétaire',
         'Please set a new owner!' => 'Merci de renseigner un propriétaire',
         'New Responsible' => '',
@@ -2729,7 +2729,7 @@ sub Data {
         'Ticket Bulk Action' => 'Ticket en action groupée',
         'Send Email' => 'Envoyer E-mail',
         'Merge to' => 'Fusionner avec',
-        'Invalid ticket identifier!' => 'Identifiant de ticket invalide !',
+        'Invalid ticket identifier!' => 'Identifiant de ticket non valide !',
         'Merge to oldest' => 'Fusionner avec le plus ancien',
         'Link together' => 'Lier ensemble',
         'Link to parent' => 'Lier au parent',
@@ -2747,7 +2747,7 @@ sub Data {
         'Remove Cc' => 'Retirer le Cc',
         'Remove Bcc' => 'Retirer le Bcc',
         'Address book' => 'Carnet d\'adresse',
-        'Date Invalid!' => 'Date invalide',
+        'Date Invalid!' => 'Date non valide !',
 
         # Template: AgentTicketCustomer
         'Change Customer of %s%s%s' => '',
@@ -3084,8 +3084,8 @@ sub Data {
         'Dynamic fields' => 'Champs dynamiques',
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => 'Date invalide (une date future est nécessaire) !',
-        'Invalid date (need a past date)!' => 'Date invalide (une date passée est nécessaire) ! ',
+        'Invalid date (need a future date)!' => 'Date non valide (elle doit être future) !',
+        'Invalid date (need a past date)!' => 'Date non valide (elle doit être passée) !',
         'Previous' => 'Précédent',
         'Open date selection' => 'Sélection date d\'ouverture',
 
@@ -3310,7 +3310,7 @@ sub Data {
             '',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
             '',
-        'If set to invalid end users can not generate the stat.' => 'Si mis à invalide, les utilisateurs finaux ne pourront pas générer la statistique.',
+        'If set to invalid end users can not generate the stat.' => 'Si mis à "non valide", les utilisateurs finaux ne pourront pas générer la statistique.',
 
         # Template: PreviewWidget
         'There are problems in the configuration of this statistic:' => '',
@@ -5560,6 +5560,8 @@ Thanks for your help!
             '',
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '',
+        'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
+            '',
         'Defines the two-factor module to authenticate agents.' => '',
         'Defines the two-factor module to authenticate customers.' => '',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
@@ -6989,7 +6991,7 @@ Thanks for your help!
         'Ticket Pending.' => '',
         'Ticket Print.' => '',
         'Ticket Priority.' => '',
-        'Ticket Queue Overview' => 'Aperçu de la file de ticket',
+        'Ticket Queue Overview' => 'Vue d\'ensemble des files de tickets',
         'Ticket Responsible.' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom.' => '',
