@@ -509,11 +509,10 @@ sub _NotificationFilter {
             ArticleID => $Param{Data}->{ArticleID},
         );
 
-        my %Article = $BackendObject->ArticleGet(
-            TicketID      => $Param{Data}->{TicketID},
-            ArticleID     => $Param{Data}->{ArticleID},
-            UserID        => $Param{UserID},
-            DynamicFields => 0,
+        my %ArticleData = $BackendObject->ArticleSearchableContentGet(
+            TicketID  => $Param{Data}->{TicketID},
+            ArticleID => $Param{Data}->{ArticleID},
+            UserID    => $Param{UserID},
         );
 
         # check article sender type
@@ -525,7 +524,7 @@ sub _NotificationFilter {
 
                 next VALUE if !$Value;
 
-                if ( $Value == $Article{SenderTypeID} ) {
+                if ( $Value == $ArticleData{SenderTypeID} ) {
                     $Match = 1;
                     last VALUE;
                 }
@@ -536,7 +535,7 @@ sub _NotificationFilter {
 
         # check subject & body
         KEY:
-        for my $Key (qw(MIMEBase_Subject MIMEBase_Body)) {
+        for my $Key ( sort keys %ArticleSearchableFields ) {
 
             next KEY if !$Notification{Data}->{$Key};
 
@@ -546,7 +545,7 @@ sub _NotificationFilter {
 
                 next VALUE if !$Value;
 
-                if ( $Article{$Key} =~ /\Q$Value\E/i ) {
+                if ( $ArticleData{$Key} =~ /\Q$Value\E/i ) {
                     $Match = 1;
                     last VALUE;
                 }
