@@ -1590,12 +1590,11 @@ sub ArticleSearchableContentGet {
     }
 
     my %DataKeyMap = (
-        'MIMEBase_From'         => 'From',
-        'MIMEBase_To'           => 'To',
-        'MIMEBase_Cc'           => 'Cc',
-        'MIMEBase_Subject'      => 'Subject',
-        'MIMEBase_Body'         => 'Body',
-        'MIMEBase_IncomingTime' => 'IncomingTime',
+        'MIMEBase_From'    => 'From',
+        'MIMEBase_To'      => 'To',
+        'MIMEBase_Cc'      => 'Cc',
+        'MIMEBase_Subject' => 'Subject',
+        'MIMEBase_Body'    => 'Body',
     );
 
     my %ArticleData = $Self->ArticleGet(
