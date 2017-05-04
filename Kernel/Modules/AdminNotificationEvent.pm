@@ -54,7 +54,8 @@ sub Run {
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
 
     # get the search article fields to retrieve values for
-    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my %ArticleSearchableFields     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my @ArticleSearchableFieldsKeys = sort keys %ArticleSearchableFields;
 
     # get registered transport layers
     my %RegisteredTransports = %{ $Kernel::OM->Get('Kernel::Config')->Get('Notification::Transport') || {} };
@@ -101,6 +102,7 @@ sub Run {
 
         my %GetParam;
         for my $Parameter (
+            @ArticleSearchableFieldsKeys,
             qw(ID Name Comment ValidID Events IsVisibleForCustomer ArticleSenderTypeID Transports)
             )
         {
@@ -108,7 +110,7 @@ sub Run {
         }
         PARAMETER:
         for my $Parameter (
-            sort keys %ArticleSearchableFields,
+            @ArticleSearchableFieldsKeys,
             qw(Recipients RecipientAgents RecipientGroups RecipientRoles
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
             CustomerID CustomerUserID IsVisibleForCustomer ArticleAttachmentInclude
@@ -210,9 +212,10 @@ sub Run {
             my $ArticleFilterValueSet = $GetParam{ArticleSenderTypeID} ? 1 : 0;
 
             ARTICLEFIELDKEY:
-            for my $ArticleFieldKey ( sort keys %ArticleSearchableFields ) {
+            for my $ArticleFieldKey (@ArticleSearchableFieldsKeys) {
 
-                next ARTICLEFIELDKEY if !IsStringWithData( $GetParam{$ArticleFieldKey} );
+                last ARTICLEFIELDKEY if $ArticleFilterValueSet;
+                next ARTICLEFIELDKEY if !$GetParam{$ArticleFieldKey};
 
                 $ArticleFilterValueSet = 1;
 
@@ -266,7 +269,7 @@ sub Run {
 
                 $GetParam{ArticleSenderTypeIDServerError} = "ServerError";
 
-                for my $ArticleTypeKey ( sort keys %ArticleSearchableFields ) {
+                for my $ArticleTypeKey (@ArticleSearchableFieldsKeys) {
                     $GetParam{ $ArticleTypeKey . 'ServerError' } = "ServerError";
                 }
             }
@@ -320,6 +323,7 @@ sub Run {
 
         my %GetParam;
         for my $Parameter (
+            @ArticleSearchableFieldsKeys,
             qw(Name Comment ValidID Events IsVisibleForCustomer ArticleSenderTypeID Transports)
             )
         {
@@ -327,7 +331,7 @@ sub Run {
         }
         PARAMETER:
         for my $Parameter (
-            sort keys %ArticleSearchableFields,
+            @ArticleSearchableFieldsKeys,
             qw(Recipients RecipientAgents RecipientRoles RecipientGroups Events StateID QueueID
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
             IsVisibleForCustomer ArticleAttachmentInclude
@@ -429,10 +433,10 @@ sub Run {
             my $ArticleFilterValueSet = $GetParam{ArticleSenderTypeID} ? 1 : 0;
 
             ARTICLEFIELDKEY:
-            for my $ArticleFieldKey ( sort keys %ArticleSearchableFields ) {
+            for my $ArticleFieldKey (@ArticleSearchableFieldsKeys) {
 
                 last ARTICLEFIELDKEY if $ArticleFilterValueSet;
-                next ARTICLEFIELDKEY if !IsStringWithData( $GetParam{$ArticleFieldKey} );
+                next ARTICLEFIELDKEY if !$GetParam{$ArticleFieldKey};
 
                 $ArticleFilterValueSet = 1;
 
@@ -483,7 +487,7 @@ sub Run {
 
                 $GetParam{ArticleSenderTypeIDServerError} = "ServerError";
 
-                for my $ArticleTypeKey ( sort keys %ArticleSearchableFields ) {
+                for my $ArticleTypeKey (@ArticleSearchableFieldsKeys) {
                     $GetParam{ $ArticleTypeKey . 'ServerError' } = "ServerError";
                 }
             }
