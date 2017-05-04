@@ -540,7 +540,7 @@ sub _NotificationFilter {
             UserID    => $Param{UserID},
         );
 
-        # check subject & body
+        # check article backend fields
         KEY:
         for my $Key ( sort keys %ArticleSearchableFields ) {
 
