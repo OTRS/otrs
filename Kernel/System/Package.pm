@@ -3127,8 +3127,7 @@ sub _CheckFramework {
     if ($FWCheck) {
         $Response{Success} = 1;
     }
-
-    if ( !$Param{NoLog} ) {
+    elsif ( !$Param{NoLog} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Sorry, can't install/upgrade package, because the framework version required"
