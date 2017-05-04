@@ -160,7 +160,7 @@ Core.UI = (function (TargetNS) {
      */
     TargetNS.RegisterToggleTwoContainer = function ($ClickedElement, $Element1, $Element2) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
-            $ClickedElement.click(function () {
+            $ClickedElement.off('click.UI').on('click.UI', function () {
                 if ($Element1.is(':visible')) {
                     TargetNS.ToggleTwoContainer($Element1, $Element2);
                 }

@@ -252,10 +252,11 @@ Core.Agent.TableFilters = (function (TargetNS) {
      * @name SetAllocationList
      * @memberof Core.Agent.TableFilters
      * @function
+     * @param {String} ElementID - The ID of the element whose content should be updated with the server answer.
      * @description
      *      Initialize allocation list.
      */
-    TargetNS.SetAllocationList = function () {
+    TargetNS.SetAllocationList = function (ElementID) {
         $('.AllocationListContainer').each(function() {
 
             var $ContainerObj = $(this),
@@ -265,7 +266,17 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 DataAvailable,
                 Translation,
                 $FieldObj,
-                IDString = '#' + $ContainerObj.find('.AssignedFields').attr('id') + ', #' + $ContainerObj.find('.AvailableFields').attr('id');
+                IDString = '#' + $ContainerObj.find('.AssignedFields').attr('id') + ', #' + $ContainerObj.find('.AvailableFields').attr('id'),
+                RegEx;
+
+            // Skip to the next container if content shouldn't be updated.
+            if (typeof ElementID !== 'undefined') {
+                RegEx = new RegExp(ElementID.replace('Widget','') + '$');
+
+                if (!IDString.match(RegEx)) {
+                    return true;
+                }
+            }
 
             if (DataEnabledJSON) {
                 DataEnabled = Core.JSON.Parse(DataEnabledJSON);

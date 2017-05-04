@@ -38,7 +38,7 @@ Core.Agent.LinkObject = (function (TargetNS) {
                 Core.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
                     Core.UI.ToggleTwoContainer($('#linkobject' + ElementID + '-setting'), $('#' + ElementID));
                     Core.UI.InitWidgetActionToggle();
-                    Core.Agent.TableFilters.SetAllocationList();
+                    Core.Agent.TableFilters.SetAllocationList(ElementID);
                 });
             });
         }
