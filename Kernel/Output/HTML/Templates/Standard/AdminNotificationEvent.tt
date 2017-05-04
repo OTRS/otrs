@@ -350,43 +350,10 @@
                 <div class="Content">
                     <fieldset class="TableLike">
 
-                        <label for="ArticleTypeID">[% Translate("Article type") | html %]: </label>
-                        <div class="Field">
-                            [% Data.ArticleTypesStrg %]
-                            <p class="FieldExplanation">[% Translate("Only for ArticleCreate and ArticleSend event") | html %]</p>
-                            <div id="ArticleTypeIDServerError" class="TooltipErrorMessage">
-                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
-                            </div>
-                        </div>
-                        <div class="Clear"></div>
-
                         <label for="ArticleSenderTypeID">[% Translate("Article sender type") | html %]: </label>
                         <div class="Field">
                             [% Data.ArticleSenderTypesStrg %]
-                            <p class="FieldExplanation">[% Translate("Only for ArticleCreate and ArticleSend event") | html %]</p>
                             <div id="ArticleSenderTypeIDServerError" class="TooltipErrorMessage">
-                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
-                            </div>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="ArticleSubjectMatch">[% Translate("Subject match") | html %]: </label>
-                        <div class="Field">
-                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W75pc [% Data.ArticleSubjectMatchServerError %]" value="[% Data.ArticleSubjectMatch | html %]"/>
-                            <p class="FieldExplanation">[% Translate("Only for ArticleCreate and ArticleSend event") | html %]</p>
-                            <div id="ArticleSubjectMatchServerError" class="TooltipErrorMessage">
-                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
-                            </div>
-                        </div>
-                        <div class="Clear"></div>
-
-                        <label for="ArticleBodyMatch">
-                            [% Translate("Body match") | html %]:
-                        </label>
-                        <div class="Field">
-                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W75pc [% Data.ArticleBodyMatchServerError %]" value="[% Data.ArticleBodyMatch | html %]"/>
-                            <p class="FieldExplanation">[% Translate("Only for ArticleCreate and ArticleSend event") | html %]</p>
-                            <div id="ArticleBodyMatchServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
                             </div>
                         </div>
@@ -395,9 +362,19 @@
                         <label for="ArticleAttachmentInclude">[% Translate("Include attachments to notification") | html %]: </label>
                         <div class="Field">
                             [% Data.ArticleAttachmentIncludeStrg %]
-                            <p class="FieldExplanation">[% Translate("Only for ArticleCreate and ArticleSend event") | html %]</p>
                         </div>
                         <div class="Clear"></div>
+
+[% RenderBlockStart("BackendArticleField") %]
+                        <label for="[% Data.Key %]">[% Data.Label %]:</label>
+                        <div class="Field">
+                            <input type="text" name="[% Data.Key %]" id="[% Data.Key %]" class="W75pc [% Data.Key %]ServerError" value="[% Data.Value | html %]"/>
+                            <div id="[% Data.Key %]ServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.") | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("BackendArticleField") %]
 
                     </fieldset>
                 </div>
