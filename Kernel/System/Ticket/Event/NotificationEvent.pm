@@ -391,6 +391,11 @@ sub _NotificationFilter {
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    # get the search article fields to retrieve values for
+    my %ArticleSearchableFields = $ArticleObject->SearchableFieldsList();
+
     KEY:
     for my $Key ( sort keys %{ $Notification{Data} } ) {
 
@@ -402,10 +407,7 @@ sub _NotificationFilter {
         next KEY if $Key eq 'RecipientRoles';
         next KEY if $Key eq 'TransportEmailTemplate';
         next KEY if $Key eq 'Events';
-        next KEY if $Key eq 'ArticleTypeID';
         next KEY if $Key eq 'ArticleSenderTypeID';
-        next KEY if $Key eq 'ArticleSubjectMatch';
-        next KEY if $Key eq 'ArticleBodyMatch';
         next KEY if $Key eq 'ArticleAttachmentInclude';
         next KEY if $Key eq 'NotificationArticleTypeID';
         next KEY if $Key eq 'Transports';
@@ -421,6 +423,9 @@ sub _NotificationFilter {
         next KEY if $Key eq 'EmailMissingSigningKeys';
         next KEY if $Key eq 'EmailDefaultSigningKeys';
         next KEY if $Key eq 'NotificationType';
+
+        # ignore article searchable fields
+        next KEY if $ArticleSearchableFields{$Key};
 
         # check recipient fields from transport methods
         if ( $Key =~ m{\A Recipient}xms ) {
@@ -499,7 +504,7 @@ sub _NotificationFilter {
         && $Param{Data}->{ArticleID}
         )
     {
-        my $BackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
+        my $BackendObject = $ArticleObject->BackendForArticle(
             TicketID  => $Param{Data}->{TicketID},
             ArticleID => $Param{Data}->{ArticleID},
         );
@@ -510,24 +515,6 @@ sub _NotificationFilter {
             UserID        => $Param{UserID},
             DynamicFields => 0,
         );
-
-        # check article type
-        if ( $Notification{Data}->{ArticleTypeID} ) {
-
-            my $Match = 0;
-            VALUE:
-            for my $Value ( @{ $Notification{Data}->{ArticleTypeID} } ) {
-
-                next VALUE if !$Value;
-
-                if ( $Value == $Article{ArticleTypeID} ) {
-                    $Match = 1;
-                    last VALUE;
-                }
-            }
-
-            return if !$Match;
-        }
 
         # check article sender type
         if ( $Notification{Data}->{ArticleSenderTypeID} ) {
@@ -549,13 +536,13 @@ sub _NotificationFilter {
 
         # check subject & body
         KEY:
-        for my $Key (qw(Subject Body)) {
+        for my $Key (qw(MIMEBase_Subject MIMEBase_Body)) {
 
-            next KEY if !$Notification{Data}->{ 'Article' . $Key . 'Match' };
+            next KEY if !$Notification{Data}->{$Key};
 
             my $Match = 0;
             VALUE:
-            for my $Value ( @{ $Notification{Data}->{ 'Article' . $Key . 'Match' } } ) {
+            for my $Value ( @{ $Notification{Data}->{$Key} } ) {
 
                 next VALUE if !$Value;
 
