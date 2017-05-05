@@ -162,7 +162,7 @@ $Selenium->RunTest(
         # Check if info for incompatible package is shown.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('.WidgetSimple .Content h2:contains(\"Package installation requires patch level update of OTRS\")').length;"
+                "return \$('.WidgetSimple .Content h2:contains(\"Package installation requires a patch level update of OTRS.\")').length;"
             ),
             'Info for incompatible package is shown'
         );
