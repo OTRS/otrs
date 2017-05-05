@@ -164,21 +164,21 @@
                 </div>
                 <div class="Content">
                     [% IF Data.Type == 'InstallIncompatible' %]
-                    <h2>[% Translate("Package installation requires patch level update of OTRS.") | html %]</h2>
+                    <h2>[% Translate("Package installation requires a patch level update of OTRS.") | html %]</h2>
                     [% ELSIF Data.Type =='UpgradeIncompatible' %]
-                    <h2>[% Translate("Package upgrade requires patch level update of OTRS.") | html %]</h2>
+                    <h2>[% Translate("Package update requires a patch level update of OTRS.") | html %]</h2>
                     [% END %]
                     <p>[% Translate("If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.") | html %]</p>
                     <p><strong>[% Translate("Everything else will be done as part of your contract.") | html %]</strong></p>
                     <p class="SpacingTop">[% Translate("Please note that your installed OTRS version is %s.", Config("Version")) | html %]</p>
                     [% IF Data.RequiredMinimumVersion %]
-                    <p><span class="MinimumRequired">[% Translate("To install this package, you need to update to OTRS %s or higher.", Data.RequiredMinimumVersion) | html %]</span></p>
+                    <p><span class="MinimumRequired">[% Translate("To install this package, you need to update OTRS to version %s or newer.", Data.RequiredMinimumVersion) | html %]</span></p>
                     [% END %]
                     [% IF Data.RequiredMaximumVersion %]
-                    <p><span class="MaximumRequired">[% Translate("To install this package, the Maximum OTRS Version is %s.", Data.RequiredMaximumVersion) | html %] </span></p>
+                    <p><span class="MaximumRequired">[% Translate("This package can only be installed on OTRS version %s or older.", Data.RequiredMaximumVersion) | html %] </span></p>
                     [% END %]
                     [% IF !Data.RequiredMinimumVersion && Data.RequiredFramework %]
-                    <p><span class="MaximumRequired">[% Translate("To install this package, the required Framework version is %s.", Data.RequiredFramework) | html %] </span></p>
+                    <p><span class="MaximumRequired">[% Translate("This package can only be installed on OTRS version %s or newer.", Data.RequiredFramework) | html %] </span></p>
                     [% END %]
                     <h2 class="SpacingTop">[% Translate("Why should I keep OTRS up to date?") | html %]</h2>
                     <ul class="Default">
@@ -186,12 +186,15 @@
                             [% Translate("You will receive updates about relevant security issues.") | html %]
                         </li>
                         <li>
-                            [% Translate("You will receive updates for all other relevant OTRS issues") | html %]
+                            [% Translate("You will receive updates for all other relevant OTRS issues.") | html %]
                         </li>
                     </ul>
                     <h2 class="SpacingTop">[% Translate("How can I do a patch level update if I don’t have a contract?") | html %]</h2>
-                    <p>[% Translate("Please find all relevant information within") | html %] <a href="http://otrs.github.io/doc/manual/admin/5.0/en/html/upgrading.html" target="_blank">[% Translate("the upgrading instructions") | html %].</a></p>
-                    <p>[% Translate("In case you would have further questions we would be glad to answer them.") | html %] <br />[% Translate("Please visit our customer") | html %] <a href="https://portal.otrs.com/" target="_blank">[% Translate("portal") | html %]</a> [% Translate("and file a request.") | html %]</p>
+                    <p>[% Translate("Please find all relevant information within the upgrading instructions at %s.",
+                        '<a href="http://otrs.github.io/doc/manual/admin/stable/en/html/upgrading.html" target="_blank">otrs.github.io</<a>'
+                        ) | html %]
+                    </p>
+                    <p>[% Translate("In case you would have further questions we would be glad to answer them.") | html %] <br />[% Translate("Please visit our customer portal and file a request.") | html %]</p>
                 </div>
             </div>
         </div>
