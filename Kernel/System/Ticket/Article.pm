@@ -2146,9 +2146,10 @@ send article via email and create article with attachments
         TicketID    => 123,
         ArticleType => 'note-internal',                                        # email-external|email-internal|phone|fax|...
         SenderType  => 'agent',                                                # agent|system|customer
-        From        => 'Some Agent <email@example.com>',                       # not required but useful
-        To          => 'Some Customer A <customer-a@example.com>',             # not required but useful
-        Cc          => 'Some Customer B <customer-b@example.com>',             # not required but useful
+        From        => 'Some Agent <email@example.com>',                       # required
+        To          => 'Some Customer A <customer-a@example.com>',             # required if both Cc and Bcc are not present
+        Cc          => 'Some Customer B <customer-b@example.com>',             # required if both To and Bcc are not present
+        Bcc         => 'Some Customer C <customer-c@example.com>',             # required if both To and Cc are not present
         ReplyTo     => 'Some Customer B <customer-b@example.com>',             # not required, is possible to use 'Reply-To' instead
         Subject     => 'some short description',                               # required
         Body        => 'the message text',                                     # required

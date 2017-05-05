@@ -79,8 +79,9 @@ To send an email without already created header:
 
     my $Sent = $SendObject->Send(
         From          => 'me@example.com',
-        To            => 'friend@example.com',
-        Cc            => 'Some Customer B <customer-b@example.com>',   # not required
+        To            => 'friend@example.com',                         # required if both Cc and Bcc are not present
+        Cc            => 'Some Customer B <customer-b@example.com>',   # required if both To and Bcc are not present
+        Bcc           => 'Some Customer C <customer-c@example.com>',   # required if both To and Cc are not present
         ReplyTo       => 'Some Customer B <customer-b@example.com>',   # not required, is possible to use 'Reply-To' instead
         Subject       => 'Some words!',
         Charset       => 'iso-8859-15',
