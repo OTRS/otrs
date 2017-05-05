@@ -63,7 +63,7 @@ sub new {
     $Self->{ObjectData} = {
         Object     => 'Appointment',
         Realname   => 'Appointment',
-        ObjectName => 'TicketID',
+        ObjectName => 'SourceObjectID',
     };
 
     return $Self;
@@ -77,9 +77,11 @@ Return
 
     %BlockData = (
         {
-            Object    => 'Appointment',
-            Blockname => 'Appointment',
-            Headline  => [
+            ObjectName => 'SourceObjectID',
+            ObjectID   => 1,
+            Object     => 'Appointment',
+            Blockname  => 'Appointment',
+            Headline   => [
                 {
                     Content => 'Title',
                 },
