@@ -442,10 +442,22 @@ sub Run {
                     && $GetParam{ $TimeType . 'TimeStartYear' }
                     )
                 {
-                    $GetParam{ $TimeType . 'TimeNewerDate' } = $GetParam{ $TimeType . 'TimeStartYear' } . '-'
-                        . $GetParam{ $TimeType . 'TimeStartMonth' } . '-'
-                        . $GetParam{ $TimeType . 'TimeStartDay' }
-                        . ' 00:00:00';
+                    my $DateTimeObject = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            Year   => $GetParam{ $TimeType . 'TimeStartYear' },
+                            Month  => $GetParam{ $TimeType . 'TimeStartMonth' },
+                            Day    => $GetParam{ $TimeType . 'TimeStartDay' },
+                            Hour   => 0,                                           # midnight
+                            Minute => 0,
+                            Second => 0,
+                            TimeZone => $Self->{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet(),
+                        },
+                    );
+
+                    # Convert start time to local system time zone.
+                    $DateTimeObject->ToOTRSTimeZone();
+                    $GetParam{ $TimeType . 'TimeNewerDate' } = $DateTimeObject->ToString();
                 }
                 if (
                     $GetParam{ $TimeType . 'TimeStopDay' }
@@ -453,10 +465,22 @@ sub Run {
                     && $GetParam{ $TimeType . 'TimeStopYear' }
                     )
                 {
-                    $GetParam{ $TimeType . 'TimeOlderDate' } = $GetParam{ $TimeType . 'TimeStopYear' } . '-'
-                        . $GetParam{ $TimeType . 'TimeStopMonth' } . '-'
-                        . $GetParam{ $TimeType . 'TimeStopDay' }
-                        . ' 23:59:59';
+                    my $DateTimeObject = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            Year   => $GetParam{ $TimeType . 'TimeStopYear' },
+                            Month  => $GetParam{ $TimeType . 'TimeStopMonth' },
+                            Day    => $GetParam{ $TimeType . 'TimeStopDay' },
+                            Hour   => 23,                                         # just before midnight
+                            Minute => 59,
+                            Second => 59,
+                            TimeZone => $Self->{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet(),
+                        },
+                    );
+
+                    # Convert stop time to local system time zone.
+                    $DateTimeObject->ToOTRSTimeZone();
+                    $GetParam{ $TimeType . 'TimeOlderDate' } = $DateTimeObject->ToString();
                 }
             }
             elsif ( $GetParam{ $TimeMap{$TimeType} . 'SearchType' } eq 'TimePoint' ) {

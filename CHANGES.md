@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-05-08 Fixed bug#[9397](https://bugs.otrs.org/show_bug.cgi?id=9397) - User time zone isn't considered in the ticket search.
  - 2017-05-02 Require at least PostgreSQL 9.2.
  - 2017-04-24 Fixed bug#[12788](https://bugs.otrs.org/show_bug.cgi?id=12788) - Error during DB Update Script when Appointment tables already exist.
  - 2017-04-19 Fixed bug#[10873](https://bugs.otrs.org/show_bug.cgi?id=10873)(PR#1706) - Agent names sorted incorrectly in AgentTicketSearch. Thanks to S7!

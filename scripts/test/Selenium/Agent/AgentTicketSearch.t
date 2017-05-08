@@ -95,6 +95,17 @@ $Selenium->RunTest(
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+        # Make sure test ticket create time is influenced by daylight savings time in Europe/Berlin:
+        #   - System time: May 4th 2017 23:00:00
+        #   - User time: May 5th 2017 01:00:00
+        my $SystemTime = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => '2017-05-04 23:00:00',
+            },
+        );
+        $Helper->FixedTimeSet($SystemTime);
+
         my $TitleRandom  = "Title" . $RandomID;
         my $TicketNumber = $TicketObject->TicketCreateNumber();
         my $TicketID     = $TicketObject->TicketCreate(
@@ -145,9 +156,33 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
+        # Go to agent preferences screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+
+        # Change test user time zone preference to Europe/Berlin.
+        $Selenium->execute_script(
+            "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->execute_script(
+            "\$('#UserTimeZone').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserTimeZone').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserTimeZone').closest('.WidgetSimple').find('.fa-check').length"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#UserTimeZone').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+
+        # Go to ticket search screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form and overlay has loaded, if neccessary.
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Check the general fields for ticket search page.
@@ -173,7 +208,7 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form and overlay has loaded, if neccessary.
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Input wrong search parameters, result should be 'No ticket data found'.
@@ -189,7 +224,7 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form and overlay has loaded, if neccessary.
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Search for $MaxCharString - ticket will not be found.
@@ -219,7 +254,7 @@ $Selenium->RunTest(
         # Navigate to AgentTicketSearch screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form and overlay has loaded, if neccessary.
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Try to search fulltext with string less then 3 characters.
@@ -297,7 +332,54 @@ $Selenium->RunTest(
         # Navigate to AgentTicketSearch screen again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
-        # Wait until form and overlay has loaded, if neccessary.
+        # Wait until form and overlay has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # Add search filter by ticket create time and run it (May 4th).
+        $Selenium->execute_script(
+            "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
+        );
+        $Selenium->find_element( '.AddButton', 'css' )->click();
+        for my $Field (qw(Start Stop)) {
+            $Selenium->find_element( "#TicketCreateTime${Field}Day",   'css' )->send_keys('04');
+            $Selenium->find_element( "#TicketCreateTime${Field}Month", 'css' )->send_keys('05');
+            $Selenium->find_element( "#TicketCreateTime${Field}Year",  'css' )->send_keys('2017');
+        }
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+
+        $Self->True(
+            index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
+            'Ticket is not found on page'
+        );
+
+        # Navigate to AgentTicketSearch screen again.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # Wait until form and overlay has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # Add search filter by ticket create time and run it (May 5th).
+        $Selenium->execute_script(
+            "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
+        );
+        $Selenium->find_element( '.AddButton', 'css' )->click();
+        for my $Field (qw(Start Stop)) {
+            $Selenium->find_element( "#TicketCreateTime${Field}Day",   'css' )->send_keys('05');
+            $Selenium->find_element( "#TicketCreateTime${Field}Month", 'css' )->send_keys('05');
+            $Selenium->find_element( "#TicketCreateTime${Field}Year",  'css' )->send_keys('2017');
+        }
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+
+        # Check for expected result.
+        $Self->True(
+            index( $Selenium->get_page_source(), $TitleRandom ) > -1,
+            "Ticket $TitleRandom found on page"
+        );
+
+        # Navigate to AgentTicketSearch screen again.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Add search filter by priority and run it.
