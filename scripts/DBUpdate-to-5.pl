@@ -1989,7 +1989,7 @@ sub _FixModuleRegistration {
         return;
     }
 
-    $ModuleConfig->{NavBar}->[0]{NavBar} = 'Customers';
+    $ModuleConfig->{NavBar}->[0]->{NavBar} = 'Customers';
 
     # save setting
     my $Success = $SysConfigObject->ConfigItemUpdate(
