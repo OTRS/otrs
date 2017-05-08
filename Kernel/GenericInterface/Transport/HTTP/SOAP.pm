@@ -1164,9 +1164,13 @@ sub _SOAPOutputProcessString {
 
     return '' if !defined $Param{Data};
 
-    # escape characters that are invalid in XML
+    # Escape characters that are invalid in XML (or might cause problems).
     $Param{Data} =~ s{ & }{&amp;}xmsg;
     $Param{Data} =~ s{ < }{&lt;}xmsg;
+    $Param{Data} =~ s{ > }{&gt;}xmsg;
+
+    # Remove restricted characters #x1-#x8, #xB-#xC, #xE-#x1F, #x7F-#x84 and #x86-#x9F.
+    $Param{Data} =~ s{ [\x01-\x08|\x0B-\x0C|\x0E-\x1F|\x7F-\x84|\x86-\x9F] }{}msxg;
 
     return $Param{Data};
 }
