@@ -1,4 +1,5 @@
 #5.0.20 2017-??-??
+ - 2017-05-08 Fixed bug#[11508](https://bugs.otrs.org/show_bug.cgi?id=11508) - Change Date has a confussing label in the ticket list statistic result.
  - 2017-05-05 Fixed bug#[12791](https://bugs.otrs.org/show_bug.cgi?id=12791) - ArticleSend Documentation is incorrect.
 
 #5.0.19 2017-05-09

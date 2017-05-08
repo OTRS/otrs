@@ -1593,7 +1593,7 @@ sub _TicketAttributes {
 
         #PriorityID     => 'PriorityID',
         CustomerID => 'CustomerID',
-        Changed    => 'Changed',
+        Changed    => 'Last Changed',
         Created    => 'Created',
 
         #CreateTimeUnix => 'CreateTimeUnix',
