@@ -166,7 +166,7 @@ sub Run {
                 %Param,
                 %CustomerCompany,
                 CustomerID               => $CustomerID,
-                EditCustomerIDPermission => $EditCustomerIDPermission,
+                EditCustomerIDPermission => %CustomerCompany ? $EditCustomerIDPermission : 0,
             },
         );
 
