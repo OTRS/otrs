@@ -27,6 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
     'Kernel::System::User',
+    'Kernel::System::CheckItem',
 );
 
 sub new {
@@ -446,8 +447,21 @@ sub _SendNotificationToRecipients {
                     my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
                         User => $Article{CustomerUserID},
                     );
-                    if ( $CustomerUser{UserEmail} ) {
-                        $Recipient{Email} = $CustomerUser{UserEmail};
+
+                    # Check if customer user is email address, in case it is not stored in system
+                    if (
+                        !IsHashRefWithData( \%CustomerUser )
+                        && !$ConfigObject->Get('CustomerNotifyJustToRealCustomer')
+                        && $Kernel::OM->Get('Kernel::System::CheckItem')
+                        ->CheckEmail( Address => $Article{CustomerUserID} )
+                        )
+                    {
+                        $Recipient{Email} = $Article{CustomerUserID};
+                    }
+                    else {
+
+                        # join Recipient data with CustomerUser data
+                        %Recipient = ( %Recipient, %CustomerUser );
                     }
 
                     # get user language
