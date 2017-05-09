@@ -102,11 +102,16 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.20 2017-??-??
- - 2017-05-09 Fixed bug#[12086](https://bugs.otrs.org/show_bug.cgi?id=12086) - Labels overflows for some languages.
+ - 2017-05-09 Fixed bug#[4424](http://bugs.otrs.org/show_bug.cgi?id=4424) - Package Manager rebuild() creates invalid XML packages.
+ - 2017-05-09 Fixed bug#[8249](http://bugs.otrs.org/show_bug.cgi?id=8249) - System addresses should be unique.
  - 2017-05-09 Fixed bug#[9972](https://bugs.otrs.org/show_bug.cgi?id=9972) - Spelling check unit test is not working correctly.
+ - 2017-05-09 Fixed bug#[12086](https://bugs.otrs.org/show_bug.cgi?id=12086) - Labels overflows for some languages.
  - 2017-05-09 Fixed bug#[12697](https://bugs.otrs.org/show_bug.cgi?id=12697) - Ticket menu in customer interface doesn't expand on touchscreen devices.
  - 2017-05-09 Fixed bug#[12389](https://bugs.otrs.org/show_bug.cgi?id=12389) - Attachments with alias charsets are not properly processed in GenericInterface.
  - 2017-05-08 Fixed bug#[12286](https://bugs.otrs.org/show_bug.cgi?id=12286) - Article body with non-allowed characters breaks SOAP response.
+ - 2017-05-08 Fixed bug#[12193](https://bugs.otrs.org/show_bug.cgi?id=12193) - Article never decrypted when StoreDecryptedData set to no.
+ - 2017-05-08 Fixed bug#[12347](https://bugs.otrs.org/show_bug.cgi?id=12347) - Error message "No such TicketID" on ticket delete.
+ - 2017-05-08 Fixed bug#[11508](https://bugs.otrs.org/show_bug.cgi?id=11508) - Change Date has a confussing label in the ticket list statistic result.
  - 2017-05-05 Fixed bug#[12791](https://bugs.otrs.org/show_bug.cgi?id=12791) - ArticleSend Documentation is incorrect.
 
 #5.0.19 2017-05-09

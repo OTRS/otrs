@@ -2297,24 +2297,24 @@ sub PackageBuild {
                             $XML .= " Type=\"$Type\"";
                         }
 
+                        KEY:
                         for my $Key ( sort keys %{$Tag} ) {
 
-                            if (
-                                $Key ne 'Tag'
-                                && $Key ne 'Content'
-                                && $Key ne 'TagType'
-                                && $Key ne 'TagLevel'
-                                && $Key ne 'TagCount'
-                                && $Key ne 'TagKey'
-                                && $Key ne 'TagLastLevel'
-                                )
-                            {
-                                if ( defined( $Tag->{$Key} ) ) {
-                                    $XML .= ' '
-                                        . $Self->_Encode($Key) . '="'
-                                        . $Self->_Encode( $Tag->{$Key} ) . '"';
-                                }
-                            }
+                            next KEY if $Key eq 'Tag';
+                            next KEY if $Key eq 'Content';
+                            next KEY if $Key eq 'TagType';
+                            next KEY if $Key eq 'TagLevel';
+                            next KEY if $Key eq 'TagCount';
+                            next KEY if $Key eq 'TagKey';
+                            next KEY if $Key eq 'TagLastLevel';
+
+                            next KEY if !defined $Tag->{$Key};
+
+                            next KEY if $Tag->{TagLevel} == 3 && lc $Key eq 'type';
+
+                            $XML .= ' '
+                                . $Self->_Encode($Key) . '="'
+                                . $Self->_Encode( $Tag->{$Key} ) . '"';
                         }
 
                         $XML .= ">";
