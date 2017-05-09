@@ -88,6 +88,16 @@ sub Run {
             $Errors{ErrorType}   = $CheckItemObject->CheckErrorType();
         }
 
+        # check if a system address exist with this name
+        my $NameExists = $SystemAddressObject->NameExistsCheck(
+            Name => $GetParam{Name},
+            ID   => $GetParam{ID}
+        );
+        if ($NameExists) {
+            $Errors{NameInvalid} = 'ServerError';
+            $Errors{ErrorType}   = 'AlreadyUsed';
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -180,6 +190,15 @@ sub Run {
         {
             $Errors{NameInvalid} = 'ServerError';
             $Errors{ErrorType}   = $CheckItemObject->CheckErrorType();
+        }
+
+        # check if a system address exist with this name
+        my $NameExists = $SystemAddressObject->NameExistsCheck(
+            Name => $GetParam{Name},
+        );
+        if ($NameExists) {
+            $Errors{NameInvalid} = 'ServerError';
+            $Errors{ErrorType}   = 'AlreadyUsed';
         }
 
         # if no errors occurred

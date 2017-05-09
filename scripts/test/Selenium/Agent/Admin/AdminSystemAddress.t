@@ -112,6 +112,32 @@ $Selenium->RunTest(
             "$SysAddRandom found on page",
         );
 
+        # click 'Add system address'
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemAddress;Subaction=Add')]")->VerifiedClick();
+
+        $Selenium->find_element( "#Name",     'css' )->send_keys($SysAddRandom);
+        $Selenium->find_element( "#Realname", 'css' )->send_keys($SysAddRandom);
+        $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
+        $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
+        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+
+        # wait until page has finished loading
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length' );
+
+        # Confirm JS error.
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#Name').hasClass('ServerError')"
+            ),
+            '1',
+            'Client side validation correctly detected existing name error',
+        );
+
+        # click 'Go to overview'
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemAddress')]")->VerifiedClick();
+
         # go to the new test SystemAddress and check values
         $Selenium->find_element( $SysAddRandom, 'link_text' )->VerifiedClick();
         $Self->Is(
