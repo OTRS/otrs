@@ -3428,7 +3428,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::StoreDecryptedData" Required="1" Valid="1">
-        <Description Translatable="1">If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.</Description>
+        <Description Translatable="1">If this option is disabled, articles will not automatically be decrypted and stored in the database. Please note that this also means no decryption will take place and the articles will be shown in ticket zoom in their original (encrypted) form.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
@@ -3482,7 +3482,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SMIME::StoreDecryptedData" Required="1" Valid="1">
-        <Description Translatable="1">If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.</Description>
+        <Description Translatable="1">If this option is disabled, articles will not automatically be decrypted and stored in the database. Please note that this also means no decryption will take place and the articles will be shown in ticket zoom in their original (encrypted) form.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
