@@ -17,31 +17,23 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-my $SpellCheckerBin = $ConfigObject->Get('SpellCheckerBin');
-
-# check if spelling bin is located there
-if ( !-e $SpellCheckerBin ) {
-
-    # maybe in another location
-    if ( -e '/usr/bin/aspell' ) {
-        $ConfigObject->Set(
-            Key   => 'SpellCheckerBin',
-            Value => '/usr/bin/aspell',
-        );
-        $SpellCheckerBin = '/usr/bin/aspell';
-    }
-    else {
-        $Self->True(
-            1,
-            "No such $SpellCheckerBin!",
-        );
-        return 1;
-    }
+# Check to see if 'hunspell' binary is present (it should be supported by all our test platforms).
+my $HunspellPath = `which hunspell`;
+chomp $HunspellPath;
+if ( !$HunspellPath ) {
+    $Self->True(
+        1,
+        'Could not find Hunspell binary, skipping spell checker tests'
+    );
+    return 1;
 }
 
-# test for check spelling
-my $LongText =
-    '
+# Hunspell uses ISO-rated locale tags for dictionary names. Make sure to override it in this test.
+#   Please see bug#9972 for more information.
+my $EnglishLanguage = 'en_US';
+
+# Long text for spelling check test.
+my $LongText = '
 In deeling with students on the hih-school level - that is, the second, third, and
 forth year of high school - we must bare in mind that to some degree they are at a
 dificult sychological stage, generaly called adolesence. Students at this level are
@@ -65,26 +57,26 @@ my $TestNumber = 1;
 my @Tests = (
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => "/wrong/path/ispell",
-        SpellLanguage => "english",
-        Text          => "Something for check",
+        SpellChecker  => '/wrong/path/ispell',
+        SpellLanguage => $EnglishLanguage,
+        Text          => 'Something for check',
         Replace       => 0,
         Error         => 1,
     },
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => $SpellCheckerBin,
-        SpellLanguage => "english",
-        Text          => "Thes is a textu with errors",
+        SpellChecker  => $HunspellPath,
+        SpellLanguage => $EnglishLanguage,
+        Text          => 'Thes is a textu with errors',
         Replace       => 1,
         Error         => 0,
     },
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => $SpellCheckerBin,
-        SpellLanguage => "english",
+        SpellChecker  => $HunspellPath,
+        SpellLanguage => $EnglishLanguage,
         Text          => "A small text without errors,\n should be showed as OK",
         Replace       => 0,
         Error         => 0,
@@ -92,8 +84,8 @@ my @Tests = (
 
     {
         Name          => 'Test ' . $TestNumber++,
-        SpellChecker  => $SpellCheckerBin,
-        SpellLanguage => "english",
+        SpellChecker  => $HunspellPath,
+        SpellLanguage => $EnglishLanguage,
         Text          => $LongText,
         Replace       => 1,
         Error         => 0,
@@ -113,7 +105,7 @@ for my $Test (@Tests) {
     $Self->Is(
         $ConfigObject->Get('SpellCheckerBin'),
         $Test->{SpellChecker},
-        "Setting new value for SpellCheckerBin config item",
+        'Setting new value for SpellCheckerBin config item'
     );
 
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Spelling'] );
@@ -122,12 +114,12 @@ for my $Test (@Tests) {
     $Self->Is(
         ref $SpellingObject,
         'Kernel::System::Spelling',
-        "$Test->{Name} - Spelling object creation",
+        "$Test->{Name} - Spelling object creation"
     );
 
     $Self->True(
         1,
-        "$Test->{Name} - Performing spelling check",
+        "$Test->{Name} - Performing spelling check"
     );
 
     my %SpellCheck = $SpellingObject->Check(
@@ -140,7 +132,7 @@ for my $Test (@Tests) {
         $Self->False(
             0,
             "$Test->{Name} - Spelling -Seems like language file was not found," .
-                " you must install the English dictionary for the spell checker!",
+                ' you must install the English dictionary for the spell checker!',
         );
         next TEST;
     }
@@ -149,7 +141,7 @@ for my $Test (@Tests) {
         $Self->Is(
             1,
             IsHashRefWithData( \%SpellCheck ),
-            "$Test->{Name} - Spelling - Check result structure",
+            "$Test->{Name} - Spelling - Check result structure"
         );
 
         for my $Key ( sort keys %SpellCheck ) {
@@ -157,30 +149,30 @@ for my $Test (@Tests) {
             if ( defined $SpellCheck{$Key}->{Replace} && $SpellCheck{$Key}->{Replace} ) {
                 $Self->True(
                     $SpellCheck{$Key}->{Replace},
-                    "$Test->{Name} - Spelling - Check structure - 'Replace' entry",
+                    "$Test->{Name} - Spelling - Check structure - 'Replace' entry"
                 );
                 $Self->True(
                     IsArrayRefWithData( $SpellCheck{$Key}->{Replace} ),
-                    "$Test->{Name} - Spelling - Check replace structure",
+                    "$Test->{Name} - Spelling - Check replace structure"
                 );
             }
             else {
                 $Self->True(
                     1,
-                    "$Test->{Name} - Spelling -Not replace suggestions for - $SpellCheck{$Key}->{Word}",
+                    "$Test->{Name} - Spelling -Not replace suggestions for - $SpellCheck{$Key}->{Word}"
                 );
             }
             $Self->True(
                 $SpellCheck{$Key}->{Line},
-                "$Test->{Name} - Spelling -Check structure - 'Line' entry - $SpellCheck{$Key}->{Line}",
+                "$Test->{Name} - Spelling -Check structure - 'Line' entry - $SpellCheck{$Key}->{Line}"
             );
             $Self->True(
                 $SpellCheck{$Key}->{Word},
-                "$Test->{Name} - Spelling - Check structure - 'Word' entry - $SpellCheck{$Key}->{Word}",
+                "$Test->{Name} - Spelling - Check structure - 'Word' entry - $SpellCheck{$Key}->{Word}"
             );
             $Self->False(
                 $SpellingObject->Error(),
-                "$Test->{Name} - Spelling Not error",
+                "$Test->{Name} - Spelling Not error"
             );
         }
 
@@ -189,18 +181,18 @@ for my $Test (@Tests) {
 
         $Self->True(
             $SpellingObject->Error(),
-            "$Test->{Name} - Spelling - Fail test for Text: $Test->{Text}",
+            "$Test->{Name} - Spelling - Fail test for Text: $Test->{Text}"
         );
         $Self->False(
             $SpellCheck{Content},
-            "$Test->{Name} - Spelling - check content empty",
+            "$Test->{Name} - Spelling - check content empty"
         );
     }
     else {
 
         $Self->True(
             1,
-            "$Test->{Name} - Spell check OK for: $Test->{Text}",
+            "$Test->{Name} - Spell check OK for: $Test->{Text}"
         );
 
     }
