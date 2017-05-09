@@ -1,4 +1,8 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-05-08 Fixed bug#[12193](https://bugs.otrs.org/show_bug.cgi?id=12193) - Article never decrypted when StoreDecryptedData set to no.
+     Disabling permanent storage of decrypted articles caused encrypted articles to be virtually unusable on any OTRS system that didn't use specific customized code for decryption.
+     OTRS currently isn't equipped to decrypt and display mails and their attachments on the fly in ticket zoom.
+     Therefore the SysConfig options to disable permanent decryption (PGP::StoreDecryptedData and SMIME::StoreDecryptedData) have been removed.
  - 2017-05-08 Fixed bug#[9397](https://bugs.otrs.org/show_bug.cgi?id=9397) - User time zone isn't considered in the ticket search.
  - 2017-05-02 Require at least PostgreSQL 9.2.
  - 2017-04-24 Fixed bug#[12788](https://bugs.otrs.org/show_bug.cgi?id=12788) - Error during DB Update Script when Appointment tables already exist.

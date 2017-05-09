@@ -7283,13 +7283,6 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="PGP::StoreDecryptedData" Required="1" Valid="1">
-        <Description Translatable="1">If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.</Description>
-        <Navigation>Core::Crypt::PGP</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
     <Setting Name="PGP::Method" Required="1" Valid="1">
         <Description Translatable="1">Sets the method PGP will use to sing and encrypt emails. Note Inline method is not compatible with RichText messages.</Description>
         <Navigation>Core::Crypt::PGP</Navigation>
@@ -7333,13 +7326,6 @@
         <Navigation>Core::Crypt::SMIME</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">86400</Item><!-- default 1 day -->
-        </Value>
-    </Setting>
-    <Setting Name="SMIME::StoreDecryptedData" Required="1" Valid="1">
-        <Description Translatable="1">If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.</Description>
-        <Navigation>Core::Crypt::SMIME</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="SMIME::FetchFromCustomer" Required="1" Valid="1">

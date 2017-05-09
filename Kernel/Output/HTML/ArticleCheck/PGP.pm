@@ -67,8 +67,6 @@ sub Check {
     # check if article is an email
     return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
 
-    my $StoreDecryptedData = $ConfigObject->Get('PGP::StoreDecryptedData');
-
     # get needed objects
     my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
@@ -93,70 +91,67 @@ sub Check {
             $Self->{Result} = \%Decrypt;
             $Param{Article}->{Body} = $Decrypt{Data};
 
-            if ($StoreDecryptedData) {
+            # updated article body
+            $ArticleBackendObject->ArticleUpdate(
+                TicketID  => $Param{Article}->{TicketID},
+                ArticleID => $Self->{ArticleID},
+                Key       => 'Body',
+                Value     => $Decrypt{Data},
+                UserID    => $Self->{UserID},
+            );
 
-                # updated article body
-                $ArticleBackendObject->ArticleUpdate(
-                    TicketID  => $Param{Article}->{TicketID},
-                    ArticleID => $Self->{ArticleID},
-                    Key       => 'Body',
-                    Value     => $Decrypt{Data},
-                    UserID    => $Self->{UserID},
-                );
+            # get a list of all article attachments
+            my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $Self->{ArticleID},
+                UserID    => $Self->{UserID},
+            );
 
-                # get a list of all article attachments
-                my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
-                    ArticleID => $Self->{ArticleID},
-                    UserID    => $Self->{UserID},
-                );
+            my @Attachments;
+            if ( IsHashRefWithData( \%Index ) ) {
+                for my $FileID ( sort keys %Index ) {
 
-                my @Attachments;
-                if ( IsHashRefWithData( \%Index ) ) {
-                    for my $FileID ( sort keys %Index ) {
-
-                        # get attachment details
-                        my %Attachment = $ArticleBackendObject->ArticleAttachment(
-                            ArticleID => $Self->{ArticleID},
-                            FileID    => $FileID,
-                            UserID    => $Self->{UserID},
-                        );
-
-                        # store attachemnts attributes that might change after decryption
-                        my $AttachmentContent  = $Attachment{Content};
-                        my $AttachmentFilename = $Attachment{Filename};
-
-                        # try to decrypt the attachment, non ecrypted attachments will succeed too.
-                        %Decrypt = $PGPObject->Decrypt( Message => $Attachment{Content} );
-
-                        if ( $Decrypt{Successful} ) {
-
-                            # set decrypted content
-                            $AttachmentContent = $Decrypt{Data};
-
-                            # remove .pgp .gpg or asc extensions (if any)
-                            $AttachmentFilename =~ s{ (\. [^\.]+) \. (?: pgp|gpg|asc) \z}{$1}msx;
-                        }
-
-                        # remember decrypted attachement, to add it later
-                        push @Attachments, {
-                            %Attachment,
-                            Content   => $AttachmentContent,
-                            Filename  => $AttachmentFilename,
-                            ArticleID => $Self->{ArticleID},
-                            UserID    => $Self->{UserID},
-                        };
-                    }
-
-                    # delete crypted attachments
-                    $ArticleBackendObject->ArticleDeleteAttachment(
+                    # get attachment details
+                    my %Attachment = $ArticleBackendObject->ArticleAttachment(
                         ArticleID => $Self->{ArticleID},
+                        FileID    => $FileID,
                         UserID    => $Self->{UserID},
                     );
 
-                    # write decrypted attachments to the storage
-                    for my $Attachment (@Attachments) {
-                        $ArticleBackendObject->ArticleWriteAttachment( %{$Attachment} );
+                    # store attachemnts attributes that might change after decryption
+                    my $AttachmentContent  = $Attachment{Content};
+                    my $AttachmentFilename = $Attachment{Filename};
+
+                    # try to decrypt the attachment, non ecrypted attachments will succeed too.
+                    %Decrypt = $PGPObject->Decrypt( Message => $Attachment{Content} );
+
+                    if ( $Decrypt{Successful} ) {
+
+                        # set decrypted content
+                        $AttachmentContent = $Decrypt{Data};
+
+                        # remove .pgp .gpg or asc extensions (if any)
+                        $AttachmentFilename =~ s{ (\. [^\.]+) \. (?: pgp|gpg|asc) \z}{$1}msx;
                     }
+
+                    # remember decrypted attachement, to add it later
+                    push @Attachments, {
+                        %Attachment,
+                        Content   => $AttachmentContent,
+                        Filename  => $AttachmentFilename,
+                        ArticleID => $Self->{ArticleID},
+                        UserID    => $Self->{UserID},
+                    };
+                }
+
+                # delete crypted attachments
+                $ArticleBackendObject->ArticleDeleteAttachment(
+                    ArticleID => $Self->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+
+                # write decrypted attachments to the storage
+                for my $Attachment (@Attachments) {
+                    $ArticleBackendObject->ArticleWriteAttachment( %{$Attachment} );
                 }
             }
 
@@ -294,31 +289,28 @@ sub Check {
 
                 my $Body = $ParserObject->GetMessageBody();
 
-                if ($StoreDecryptedData) {
+                # updated article body
+                $ArticleBackendObject->ArticleUpdate(
+                    TicketID  => $Param{Article}->{TicketID},
+                    ArticleID => $Self->{ArticleID},
+                    Key       => 'Body',
+                    Value     => $Body,
+                    UserID    => $Self->{UserID},
+                );
 
-                    # updated article body
-                    $ArticleBackendObject->ArticleUpdate(
-                        TicketID  => $Param{Article}->{TicketID},
+                # delete crypted attachments
+                $ArticleBackendObject->ArticleDeleteAttachment(
+                    ArticleID => $Self->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+
+                # write attachments to the storage
+                for my $Attachment ( $ParserObject->GetAttachments() ) {
+                    $ArticleBackendObject->ArticleWriteAttachment(
+                        %{$Attachment},
                         ArticleID => $Self->{ArticleID},
-                        Key       => 'Body',
-                        Value     => $Body,
                         UserID    => $Self->{UserID},
                     );
-
-                    # delete crypted attachments
-                    $ArticleBackendObject->ArticleDeleteAttachment(
-                        ArticleID => $Self->{ArticleID},
-                        UserID    => $Self->{UserID},
-                    );
-
-                    # write attachments to the storage
-                    for my $Attachment ( $ParserObject->GetAttachments() ) {
-                        $ArticleBackendObject->ArticleWriteAttachment(
-                            %{$Attachment},
-                            ArticleID => $Self->{ArticleID},
-                            UserID    => $Self->{UserID},
-                        );
-                    }
                 }
 
                 push(
