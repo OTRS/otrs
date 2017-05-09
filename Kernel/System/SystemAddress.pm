@@ -78,6 +78,15 @@ sub SystemAddressAdd {
         }
     }
 
+    # check if a system address with this name already exists
+    if ( $Self->NameExistsCheck( Name => $Param{Name} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A system address with name '$Param{Name}' already exists!"
+        );
+        return;
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -220,6 +229,21 @@ sub SystemAddressUpdate {
             );
             return;
         }
+    }
+
+    # check if a system address with this name already exists
+    if (
+        $Self->NameExistsCheck(
+            ID   => $Param{ID},
+            Name => $Param{Name}
+        )
+        )
+    {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A system address with name '$Param{Name}' already exists!"
+        );
+        return;
     }
 
     # update system address
@@ -461,6 +485,42 @@ sub SystemAddressQueueList {
 
     return %SystemAddressQueueList;
 
+}
+
+=head2 NameExistsCheck()
+
+return 1 if another system address with this name already exists
+
+    $Exist = $SystemAddressObject->NameExistsCheck(
+        Name => 'Some Address',
+        ID => 1, # optional
+    );
+
+=cut
+
+sub NameExistsCheck {
+    my ( $Self, %Param ) = @_;
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Prepare(
+        SQL  => 'SELECT id FROM system_address WHERE value0 = ?',
+        Bind => [ \$Param{Name} ],
+    );
+
+    # fetch the result
+    my $Flag;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        if ( !$Param{ID} || $Param{ID} ne $Row[0] ) {
+            $Flag = 1;
+        }
+    }
+
+    if ($Flag) {
+        return 1;
+    }
+
+    return 0;
 }
 
 1;
