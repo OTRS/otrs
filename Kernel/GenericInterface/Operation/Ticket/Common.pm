@@ -955,9 +955,8 @@ sub ValidateCharset {
     # check needed stuff
     return if !$Param{Charset};
 
-    my $CharsetList = $Self->_CharsetList();
-
-    return if !$CharsetList->{ $Param{Charset} };
+    use Encode;
+    return if !Encode::resolve_alias( $Param{Charset} );
 
     return 1;
 }
@@ -1438,43 +1437,6 @@ sub _ValidateUser {
     return if !IsHashRefWithData( \%UserData );
 
     return 1;
-}
-
-=head2 _CharsetList()
-
-returns a list of all available charsets.
-
-    my $CharsetList = $CommonObject->_CharsetList(
-        UserID => 123,
-    );
-
-    returns
-    $Success = {
-        #...
-        iso-8859-1  => 1,
-        iso-8859-15 => 1,
-        MacRoman    => 1,
-        utf8        => 1,
-        #...
-    }
-
-=cut
-
-sub _CharsetList {
-    my ( $Self, %Param ) = @_;
-
-    # get charset array
-    use Encode;
-    my @CharsetList = Encode->encodings(":all");
-
-    my %CharsetHash;
-
-    # create a charset lookup table
-    for my $Charset (@CharsetList) {
-        $CharsetHash{$Charset} = 1;
-    }
-
-    return \%CharsetHash;
 }
 
 1;
