@@ -78,6 +78,16 @@ Core.Customer = (function (TargetNS) {
             );
         }
 
+        // check if we're on a touch device and on the regular resolution (non-mobile). If that's the case,
+        // don't allow triggering the link on "parent" elements directly, they should only expand the sub menu
+        Core.App.Responsive.CheckIfTouchDevice();
+        $('#Navigation > ul > li > a').on('click', function(Event) {
+            if (Core.App.Responsive.IsTouchDevice() && $(this).next('ul:visible').length && Core.App.Responsive.GetScreenSize() === 'ScreenXL') {
+                Event.preventDefault();
+                Event.stopPropagation();
+            }
+        });
+
         // unveil full error details only on click
         $('.TriggerFullErrorDetails').on('click', function() {
             $('.Content.ErrorDetails').toggle();
