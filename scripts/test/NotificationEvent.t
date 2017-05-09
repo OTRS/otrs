@@ -954,6 +954,228 @@ for my $NotificationType ( sort keys %NotificationIDs ) {
     }
 }
 
+my $NotificationYAML = <<'YAML';
+---
+- ChangeBy: '1'
+  ChangeTime: 2017-05-08 11:28:35
+  Comment: ''
+  CreateBy: '1'
+  CreateTime: 2017-05-08 11:28:35
+  Data:
+    AgentEnabledByDefault:
+    - Email
+    Events:
+    - NotificationNewTicket
+    Recipients:
+    - AgentMyQueues
+    - AgentMyServices
+    SendOnOutOfOffice:
+    - '1'
+    Transports:
+    - Email
+    VisibleForAgent:
+    - '1'
+    VisibleForAgentTooltip:
+    - You will receive a notification each time a new ticket is created in one of
+      your "My Queues" or "My Services".
+  ID: '1'
+  Message:
+    de:
+      Body: 'Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+
+        das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>]
+        wurde in der Queue <OTRS_TICKET_Queue> erstellt.
+
+
+        <OTRS_CUSTOMER_REALNAME> schrieb:
+
+        <OTRS_CUSTOMER_BODY[30]>
+
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+        -- <OTRS_CONFIG_NotificationSenderName>'
+      ContentType: text/plain
+      Subject: 'Ticket erstellt: <OTRS_TICKET_Title>'
+    en:
+      Body: 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+
+        ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>]
+        has been created in queue <OTRS_TICKET_Queue>.
+
+
+        <OTRS_CUSTOMER_REALNAME> wrote:
+
+        <OTRS_CUSTOMER_BODY[30]>
+
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+        -- <OTRS_CONFIG_NotificationSenderName>'
+      ContentType: text/plain
+      Subject: 'Ticket Created: <OTRS_TICKET_Title>'
+    es_MX:
+      Body: 'Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+
+        el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>]
+        se ha creado en la fila <OTRS_TICKET_Queue>.
+
+
+        <OTRS_CUSTOMER_REALNAME> escribió:
+
+        <OTRS_CUSTOMER_BODY[30]>
+
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+        -- <OTRS_CONFIG_NotificationSenderName>'
+      ContentType: text/plain
+      Subject: 'Se ha creado un ticket: <OTRS_TICKET_Title>'
+    hu:
+      Body: 'Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+
+        A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>]
+        jegy létrejött a következő várólistában: <OTRS_TICKET_Queue>.
+
+
+        <OTRS_CUSTOMER_REALNAME> ezt írta:
+
+        <OTRS_CUSTOMER_BODY[30]>
+
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+        -- <OTRS_CONFIG_NotificationSenderName>'
+      ContentType: text/plain
+      Subject: 'Jegy létrehozva: <OTRS_TICKET_Title>'
+    pt_BR:
+      Body: 'Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+
+        o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>]
+        foi criado na fila <OTRS_TICKET_Queue>.
+
+
+        <OTRS_CUSTOMER_REALNAME> escreveu:
+
+        <OTRS_CUSTOMER_BODY[30]>
+
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+        -- <OTRS_CONFIG_NotificationSenderName>'
+      ContentType: text/plain
+      Subject: 'Ticket criado: <OTRS_TICKET_Title>'
+    zh_CN:
+      Body: '您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+
+        票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>]
+        已在等待队列 已在队列<OTRS_TICKET_Queue> 中被编制完成。中被创建完成
+
+
+        <OTRS_CUSTOMER_REALNAME> 写道：
+
+        <OTRS_CUSTOMER_BODY[30]>
+
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+
+        -- <OTRS_CONFIG_NotificationSenderName>'
+      ContentType: text/plain
+      Subject: 票据编制 工单已创建：<OTRS_TICKET_Title>
+  Name: Ticket create notification
+  ValidID: '1'
+YAML
+
+for my $Count ( 1 .. 5 ) {
+
+    # at first find the notification id and delete the notification entry
+    my %Notification = $NotificationEventObject->NotificationGet(
+        Name => 'Ticket create notification',
+    );
+
+    my $Success = $NotificationEventObject->NotificationDelete(
+        ID     => $Notification{ID},
+        UserID => 1,
+    );
+
+    $Self->True(
+        $Success,
+        "ImportTest - Count $Count: Delete",
+    );
+
+    # import the notification for the first time
+    my $NotificationImport = $NotificationEventObject->NotificationImport(
+        Content                        => $NotificationYAML,
+        OverwriteExistingNotifications => 1,
+        UserID                         => 1,
+    );
+
+    $Self->True(
+        $NotificationImport->{Success},
+        "ImportTest - Count $Count: Import",
+    );
+
+    $Self->Is(
+        $NotificationImport->{AddedNotifications},
+        'Ticket create notification',
+        "ImportTest - Count $Count: AddedNotifications",
+    );
+
+    $Self->Is(
+        $NotificationImport->{NotificationErrors},
+        '',
+        "ImportTest - Count $Count: NotificationErrors",
+    );
+
+    $Self->Is(
+        $NotificationImport->{UpdatedNotifications},
+        '',
+        "ImportTest - Count $Count: UpdatedNotifications",
+    );
+
+    # import the notification for the second time
+    $NotificationImport = $NotificationEventObject->NotificationImport(
+        Content                        => $NotificationYAML,
+        OverwriteExistingNotifications => 1,
+        UserID                         => 1,
+    );
+
+    $Self->True(
+        $NotificationImport->{Success},
+        "ImportTest - Count $Count: Import",
+    );
+
+    $Self->Is(
+        $NotificationImport->{AddedNotifications},
+        '',
+        "ImportTest - Count $Count: AddedNotifications",
+    );
+
+    $Self->Is(
+        $NotificationImport->{NotificationErrors},
+        '',
+        "ImportTest - Count $Count: NotificationErrors",
+    );
+
+    $Self->Is(
+        $NotificationImport->{UpdatedNotifications},
+        'Ticket create notification',
+        "ImportTest - Count $Count: UpdatedNotifications",
+    );
+}
+
 # cleanup cache is done by RestoreDatabase
 
 1;
