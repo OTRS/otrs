@@ -35,6 +35,52 @@ $Self->True(
     'SystemAddressAdd()',
 );
 
+my $SystemAddressIDWrong = $SystemAddressObject->SystemAddressAdd(
+    Name     => $SystemAddressEmail,
+    Realname => $SystemAddressRealname,
+    Comment  => 'some comment',
+    QueueID  => 2,
+    ValidID  => 1,
+    UserID   => 1,
+);
+
+$Self->False(
+    $SystemAddressIDWrong,
+    'SystemAddressAdd() - Try to add new system address with existing system address name',
+);
+
+# add SystemAddress
+my $SystemAddressEmail2    = 'example-SystemAddress' . int( rand(1000000) ) . '@example.com';
+my $SystemAddressRealname2 = "OTRS-Team2";
+my $SystemAddressID2       = $SystemAddressObject->SystemAddressAdd(
+    Name     => $SystemAddressEmail2,
+    Realname => $SystemAddressRealname2,
+    Comment  => 'some comment',
+    QueueID  => 2,
+    ValidID  => 1,
+    UserID   => 1,
+);
+
+$Self->True(
+    $SystemAddressID2,
+    'SystemAddressAdd()',
+);
+
+# try to update SystemAddress with existing name
+my $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
+    ID       => $SystemAddressID2,
+    Name     => $SystemAddressEmail,
+    Realname => $SystemAddressRealname2,
+    Comment  => 'some comment',
+    QueueID  => 1,
+    ValidID  => 2,
+    UserID   => 1,
+);
+$Self->False(
+    $SystemAddressUpdate,
+    'SystemAddressUpdate() - Try to update new system address with existing system address name',
+);
+
 my %SystemAddress = $SystemAddressObject->SystemAddressGet( ID => $SystemAddressID );
 
 $Self->Is(
@@ -160,7 +206,7 @@ for my $Test (@Tests) {
     );
 }
 
-my $SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
+$SystemAddressUpdate = $SystemAddressObject->SystemAddressUpdate(
     ID       => $SystemAddressID,
     Name     => '2' . $SystemAddressEmail,
     Realname => '2' . $SystemAddressRealname,
