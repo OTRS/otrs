@@ -74,6 +74,23 @@ sub Run {
             $Error{'NameInvalid'} = 'ServerError';
         }
 
+        my $ServiceName = '';
+        if ( $GetParam{ParentID} ) {
+            my $Prefix = $Self->{ServiceObject}->ServiceLookup(
+                ServiceID => $GetParam{ParentID},
+            );
+
+            if ($Prefix) {
+                $ServiceName = $Prefix . "::";
+            }
+        }
+        $ServiceName .= $GetParam{Name};
+
+        if ( length $ServiceName > 200 ) {
+            $Error{'NameInvalid'} = 'ServerError';
+            $Error{LongName} = 1;
+        }
+
         if ( !%Error ) {
 
             # save to database
