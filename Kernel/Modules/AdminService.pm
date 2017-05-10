@@ -70,6 +70,23 @@ sub Run {
             $Error{'NameInvalid'} = 'ServerError';
         }
 
+        my $ServiceName = '';
+        if ( $GetParam{ParentID} ) {
+            my $Prefix = $ServiceObject->ServiceLookup(
+                ServiceID => $GetParam{ParentID},
+            );
+
+            if ($Prefix) {
+                $ServiceName = $Prefix . "::";
+            }
+        }
+        $ServiceName .= $GetParam{Name};
+
+        if ( length $ServiceName > 200 ) {
+            $Error{'NameInvalid'} = 'ServerError';
+            $Error{LongName} = 1;
+        }
+
         if ( !%Error ) {
 
             my $LogObject = $Kernel::OM->Get('Kernel::System::Log');

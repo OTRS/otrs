@@ -169,8 +169,42 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ParentID').val('').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
-        # since there are no tickets that rely on our test Services we can remove
-        # them from DB
+        # create third test Service
+        $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
+
+        my $ServiceRandomID3 = "Long service" . $Helper->GetRandomID();
+        $ServiceRandomID3
+            .= $ServiceRandomID3
+            . $ServiceRandomID3
+            . $ServiceRandomID3
+            . $ServiceRandomID3
+            . $ServiceRandomID3
+            . $ServiceRandomID3;
+
+        $Selenium->find_element( "#Name", 'css' )->send_keys($ServiceRandomID3);
+        $Selenium->execute_script("\$('#ParentID').val('$ServiceID2').trigger('redraw.InputField').trigger('change');");
+
+        $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
+        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+
+        # Check for created test Services on AdminService screen.
+        $Self->False(
+            index( $Selenium->get_page_source(), $ServiceRandomID3 ) > -1,
+            "$ServiceRandomID3 Service found on page",
+        );
+        $Selenium->WaitFor(
+            JavaScript => 'return $(".Dialog:visible button.Close").length',
+        );
+
+        $Selenium->find_element( ".Dialog button.Close", "css" )->VerifiedClick();
+
+        # Check if tooltip error message is there.
+        $Self->True(
+            index( $Selenium->get_page_source(), "Service name maximum length is 200 characters" ) > -1,
+            "Check tooltip error message",
+        );
+
+        # Since there are no tickets that rely on our test Services we can remove them from DB.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         for my $ServiceID (@ServiceIDs) {
             my $Success = $DBObject->Do(

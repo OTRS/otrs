@@ -96,7 +96,11 @@
                         <div class="Field">
                             <input type="text" name="Name" id="Name" value="[% Data.NameShort | html %]" class="W50pc Validate_Required [% Data.NameInvalid | html %]" maxlength="200"/>
                             <div id="NameError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                            [% IF Data.LongName %]
+                            <div id="NameServerError" class="TooltipErrorMessage" ><p>[% Translate("Service name maximum length is 200 characters (with Sub-service).") | html %]</p></div>
+                            [% ELSE %]
                             <div id="NameServerError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                            [% END %]
                         </div>
                         <div class="Clear"></div>
 
