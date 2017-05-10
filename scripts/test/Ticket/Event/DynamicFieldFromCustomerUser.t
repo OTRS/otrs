@@ -12,13 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+# Get needed objects.
+my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DynamicFieldObject    = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
-# get helper object
+# Get helper object.
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -29,7 +30,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
 
-# don't check email address validity
+# Don't check email address validity.
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
@@ -37,9 +38,11 @@ $ConfigObject->Set(
 $ConfigObject->Set(
     Key   => 'DynamicFieldFromCustomerUser::Mapping',
     Value => {
-        UserLogin     => 'CustomerLogin' . $RandomID,
-        UserFirstname => 'CustomerFirstname' . $RandomID,
-        UserLastname  => 'CustomerLastname' . $RandomID,
+        UserLogin           => 'CustomerLogin' . $RandomID,
+        UserFirstname       => 'CustomerFirstname' . $RandomID,
+        UserLastname        => 'CustomerLastname' . $RandomID,
+        CustomerCompanyName => 'CustomerCompanyName' . $RandomID,
+        CustomerID          => 'CustomerID' . $RandomID,
     },
 );
 $ConfigObject->Set(
@@ -50,7 +53,7 @@ $ConfigObject->Set(
     },
 );
 
-# create the required dynamic fields
+# Create the required dynamic fields.
 my @DynamicFields = (
     {
         Name       => 'CustomerLogin' . $RandomID,
@@ -66,6 +69,16 @@ my @DynamicFields = (
         Name       => 'CustomerLastname' . $RandomID,
         Label      => 'CustomerLastname',
         FieldOrder => 9993,
+    },
+    {
+        Name       => 'CustomerCompanyName' . $RandomID,
+        Label      => 'CustomerCompanyName',
+        FieldOrder => 9994,
+    },
+    {
+        Name       => 'CustomerID' . $RandomID,
+        Label      => 'CustomerID',
+        FieldOrder => 9995,
     },
 );
 
@@ -85,39 +98,54 @@ for my $DynamicFieldConfig (@DynamicFields) {
         UserID        => 1,
     );
 
-    # sanity test
+    # Sanity test.
     $Self->IsNot(
         $ID,
         undef,
         "DynamicFieldAdd() for '$DynamicFieldConfig->{Label}' Field ID should be defined",
     );
 
-    # remember the DynamicFieldName
+    # Remember the DynamicFieldName.
     push @AddedDynamicFieldNames, $DynamicFieldConfig->{Name};
 }
 
-# create a customer user
-my $TestUserLogin = $Helper->TestCustomerUserCreate();
+# Create a customer company.
+my $TestCustomerID = $CustomerCompanyObject->CustomerCompanyAdd(
+    CustomerID             => 'CustomerID' . $RandomID,
+    CustomerCompanyName    => 'CustomerCompanyName' . $RandomID,
+    CustomerCompanyStreet  => 'Some Street',
+    CustomerCompanyZIP     => '12345',
+    CustomerCompanyCity    => 'Some city',
+    CustomerCompanyCountry => 'USA',
+    CustomerCompanyURL     => 'http://example.com',
+    CustomerCompanyComment => 'some comment',
+    ValidID                => 1,
+    UserID                 => 1,
+);
 
-# get customer user data
+# Get customer company data.
+my %TestCustomerCompany = $CustomerCompanyObject->CustomerCompanyGet(
+    CustomerID => $TestCustomerID,
+);
+
+# Create a customer user.
+my $TestUserLogin = $CustomerUserObject->CustomerUserAdd(
+    Source         => 'CustomerUser',
+    UserFirstname  => 'UserFirstName' . $RandomID,
+    UserLastname   => 'UserLastName' . $RandomID,
+    UserCustomerID => $TestCustomerID,
+    UserLogin      => 'UserLogin' . $RandomID,
+    UserEmail      => 'email' . $RandomID . '@example.com',
+    ValidID        => 1,
+    UserID         => 1,
+);
+
+# Get customer user data.
 my %TestUserData = $CustomerUserObject->CustomerUserDataGet(
     User => $TestUserLogin,
 );
 
-# set customer Firstname and Lastname
-$TestUserData{UserFirstname} = 'UserFirstName' . $RandomID;
-$TestUserData{UserLastname}  = 'UserLastName' . $RandomID;
-
-# update the user manually because First and LastNames are important
-$CustomerUserObject->CustomerUserUpdate(
-    %TestUserData,
-    Source  => 'CustomerUser',
-    ID      => $TestUserLogin,
-    ValidID => 1,
-    UserID  => 1,
-);
-
-# create a new ticket with the test user information
+# Create a new ticket with the test user information.
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket Title',
     Queue        => 'Raw',
@@ -130,8 +158,8 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-# at this point the information should be already stored in the dynamic fields
-# get ticket data (with DynamicFields)
+# At this point the information should be already stored in the dynamic fields
+# get ticket data (with DynamicFields).
 my %Ticket = $TicketObject->TicketGet(
     TicketID      => $TicketID,
     DynamicFields => 1,
@@ -139,7 +167,7 @@ my %Ticket = $TicketObject->TicketGet(
     Silent        => 0,
 );
 
-# test actual results with expected ones
+# Test actual results with expected ones.
 for my $DynamicFieldName (@AddedDynamicFieldNames) {
     $Self->IsNot(
         $Ticket{ 'DynamicField_' . $DynamicFieldName },
@@ -163,7 +191,17 @@ $Self->Is(
     $TestUserData{UserLastname},
     "DynamicField 'CustomerLastname$RandomID' for Ticket ID:'$TicketID' match TestUser Lastname",
 );
+$Self->Is(
+    $Ticket{ 'DynamicField_CustomerID' . $RandomID },
+    $TestCustomerCompany{CustomerID},
+    "DynamicField 'CustomerID$RandomID' for Ticket ID:'$TicketID' match TestCompany ID",
+);
+$Self->Is(
+    $Ticket{ 'DynamicField_CustomerCompanyName' . $RandomID },
+    $TestCustomerCompany{CustomerCompanyName},
+    "DynamicField 'CustomerCompanyName$RandomID' for Ticket ID:'$TicketID' match TestCompany Name",
+);
 
-# cleanup is done by RestoreDatabase.
+# Cleanup is done by RestoreDatabase.
 
 1;
