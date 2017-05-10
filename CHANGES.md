@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-05-10 Fixed bug#[12572](https://bugs.otrs.org/show_bug.cgi?id=12572) - Non-process tickets generate error messages in the syslog if process data are allowed to be displayed.
  - 2017-05-10 Fixed bug#[10569](https://bugs.otrs.org/show_bug.cgi?id=10569) - DynamicField of type date resets after ticket split.
  - 2017-05-08 Fixed bug#[6751](http://bugs.otrs.org/show_bug.cgi?id=6751) - Problem if service name gets to long, or if service has too many subservices.
  - 2017-05-08 Fixed bug#[11508](https://bugs.otrs.org/show_bug.cgi?id=11508) - Change Date has a confussing label in the ticket list statistic result.

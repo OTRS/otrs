@@ -110,13 +110,15 @@ sub DisplayValueRender {
     }
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
-
     # convert the ProcessEntityID to the Process name
-    my $Process = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
-        ProcessEntityID => $Value,
-    );
-    $Value = $Process->{Name} // $Value;
+    my $Process;
+    if ( $Param{Value} ) {
+        $Process = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessGet(
+            ProcessEntityID => $Param{Value},
+        );
+    }
+
+    my $Value = $Process->{Name} // '';
 
     my $Title = $Value;
 
