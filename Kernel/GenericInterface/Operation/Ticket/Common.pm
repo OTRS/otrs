@@ -982,9 +982,8 @@ sub ValidateCharset {
     # check needed stuff
     return if !$Param{Charset};
 
-    my $CharsetList = $Self->_CharsetList();
-
-    return if !$CharsetList->{ $Param{Charset} };
+    use Encode;
+    return if !Encode::resolve_alias( $Param{Charset} );
 
     return 1;
 }
@@ -1465,6 +1464,8 @@ sub _ValidateUser {
 }
 
 =item _CharsetList()
+
+DEPRECATED: This function will be removed in further versions of OTRS.
 
 returns a list of all available charsets.
 

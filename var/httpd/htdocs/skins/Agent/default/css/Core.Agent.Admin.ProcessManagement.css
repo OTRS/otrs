@@ -427,6 +427,7 @@ em.EntityID:after {
     margin: 32px 5px 5px 5px;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-top: 3px;
 }
 
 #Canvas .Activity .Icon,
