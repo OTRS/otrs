@@ -108,15 +108,15 @@ sub DisplayValueRender {
     }
 
     # get raw Title and Value strings from field value
-    my $Value = defined $Param{Value} ? $Param{Value} : '';
-
     # convert the ActivityEntityID to the Activity name
-    my $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
-        ActivityEntityID => $Value,
-        Interface        => 'all',
-    );
-    $Value = $Activity->{Name} // $Value;
-
+    my $Activity;
+    if ( $Param{Value} ) {
+        $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
+            ActivityEntityID => $Param{Value},
+            Interface        => 'all',
+        );
+    }
+    my $Value = $Activity->{Name} // '';
     my $Title = $Value;
 
     # HTMLOutput transformations

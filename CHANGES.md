@@ -123,6 +123,7 @@
  - 2017-05-05 Fixed bug#[12791](https://bugs.otrs.org/show_bug.cgi?id=12791) - ArticleSend Documentation is incorrect.
 
 #5.0.19 2017-05-09
+ - 2017-05-10 Fixed bug#[12572](https://bugs.otrs.org/show_bug.cgi?id=12572) - Non-process tickets generate error messages in the syslog if process data are allowed to be displayed.
  - 2017-05-04 Updated translations, thanks to all translators.
  - 2017-05-03 Fixed bug#[12803](https://bugs.otrs.org/show_bug.cgi?id=12803) - TranslationsUpdate console command does not consider strings from var/packagesetup folder.
  - 2017-05-03 Added a web timeout config option for the support data collection and suppress the log message, if the internal web request for the support data collection doesn't work.

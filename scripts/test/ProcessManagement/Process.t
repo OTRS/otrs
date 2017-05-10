@@ -184,9 +184,45 @@ my @Tests = (
                     },
                 },
             },
-            ProcessEntityID => 'unknown123',
-            Message         => 'ProcessGet() (No ProcessEntityID)',
+            ProcessEntityID => 'unknown' . $RandomID,
+            Message         => 'ProcessGet() (unknown ProcessEntityID)',
             TestType        => 'False',
+            }
+    },
+
+    {
+        ProcessGet => {
+            Config => {
+                'Process' => {
+                    'P1' => {
+                        Name                => 'Book Orders',
+                        CreateTime          => '16-02-2012 13:37:00',
+                        CreateBy            => '1',
+                        ChangeTime          => '17-02-2012 13:37:00',
+                        ChangeBy            => '1',
+                        State               => 'Active',
+                        StartActivity       => 'A1',
+                        StartActivityDialog => 'AD1',
+                        Path                => {
+                            'A1' => {
+                                'T1' => {
+                                    ActivityEntityID => 'A2',
+                                },
+                                'T2' => {
+                                    ActivityEntityID => 'A3',
+                                },
+                            },
+                            'A2' => {
+                                'T3' => {
+                                    ActivityEntityID => 'A4',
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            Message  => 'ProcessGet() (No ProcessEntityID)',
+            TestType => 'False',
             }
     },
 
