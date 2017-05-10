@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-05-10 Fixed bug#[8089](https://bugs.otrs.org/show_bug.cgi?id=8089) - Escalated Tickets widget does not show time as in other dashboard widgets.
  - 2017-05-08 Fixed bug#[8249](http://bugs.otrs.org/show_bug.cgi?id=8249) - System addresses should be unique.
  - 2017-05-08 Fixed bug#[12193](https://bugs.otrs.org/show_bug.cgi?id=12193) - Article never decrypted when StoreDecryptedData set to no.
      Disabling permanent storage of decrypted articles caused encrypted articles to be virtually unusable on any OTRS system that didn't use specific customized code for decryption.

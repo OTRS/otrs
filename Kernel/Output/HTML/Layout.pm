@@ -2097,7 +2097,7 @@ sub CustomerAge {
     }
 
     # get minutes (just if age < 1 day)
-    if ( $ConfigObject->Get('TimeShowAlwaysLong') || $Age < 86400 ) {
+    if ( $Param{TimeShowAlwaysLong} || $ConfigObject->Get('TimeShowAlwaysLong') || $Age < 86400 ) {
         $AgeStrg .= int( ( $Age / 60 ) % 60 ) . ' ';
         $AgeStrg .= $Self->{LanguageObject}->Translate($MinuteDsc);
     }

@@ -1521,9 +1521,10 @@ sub Run {
 
         # create human age
         if ( $Self->{Config}->{Time} ne 'Age' ) {
-            $Ticket{Time} = $LayoutObject->CustomerAgeInHours(
-                Age   => $Ticket{ $Self->{Config}->{Time} },
-                Space => ' ',
+            $Ticket{Time} = $LayoutObject->CustomerAge(
+                Age                => $Ticket{ $Self->{Config}->{Time} },
+                TimeShowAlwaysLong => 1,
+                Space              => ' ',
             );
         }
         else {
@@ -1604,13 +1605,15 @@ sub Run {
                     $EscalationData{EscalationTime}            = $Ticket{EscalationTime};
                     $EscalationData{EscalationDestinationDate} = $Ticket{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman} = $LayoutObject->CustomerAgeInHours(
-                        Age   => $EscalationData{EscalationTime},
-                        Space => ' ',
+                    $EscalationData{EscalationTimeHuman} = $LayoutObject->CustomerAge(
+                        Age                => $EscalationData{EscalationTime},
+                        TimeShowAlwaysLong => 1,
+                        Space              => ' ',
                     );
-                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-                        Age   => $EscalationData{EscalationTimeWorkingTime},
-                        Space => ' ',
+                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->CustomerAge(
+                        Age                => $EscalationData{EscalationTimeWorkingTime},
+                        TimeShowAlwaysLong => 1,
+                        Space              => ' ',
                     );
                     if ( defined $Ticket{EscalationTime} && $Ticket{EscalationTime} < 60 * 60 * 1 ) {
                         $EscalationData{EscalationClass} = 'Warning';
@@ -1634,9 +1637,10 @@ sub Run {
                 }
                 elsif ( $Column eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAgeInHours(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age => $Ticket{SolutionTime} || 0,
-                        Space => ' ',
+                        TimeShowAlwaysLong => 1,
+                        Space              => ' ',
                     );
                     if ( defined $Ticket{SolutionTime} && $Ticket{SolutionTime} < 60 * 60 * 1 ) {
                         $CSSClass = 'Warning';
@@ -1644,9 +1648,10 @@ sub Run {
                 }
                 elsif ( $Column eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAgeInHours(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age => $Ticket{FirstResponseTime} || 0,
-                        Space => ' ',
+                        TimeShowAlwaysLong => 1,
+                        Space              => ' ',
                     );
                     if (
                         defined $Ticket{FirstResponseTime}
@@ -1658,9 +1663,10 @@ sub Run {
                 }
                 elsif ( $Column eq 'EscalationUpdateTime' ) {
                     $BlockType = 'Escalation';
-                    $DataValue = $LayoutObject->CustomerAgeInHours(
+                    $DataValue = $LayoutObject->CustomerAge(
                         Age => $Ticket{UpdateTime} || 0,
-                        Space => ' ',
+                        TimeShowAlwaysLong => 1,
+                        Space              => ' ',
                     );
                     if ( defined $Ticket{UpdateTime} && $Ticket{UpdateTime} < 60 * 60 * 1 ) {
                         $CSSClass = 'Warning';
@@ -1670,7 +1676,7 @@ sub Run {
                     $BlockType = 'Escalation';
                     $DataValue = $LayoutObject->CustomerAge(
                         Age   => $Ticket{'UntilTime'},
-                        Space => ' '
+                        Space => ' ',
                     );
                     if ( defined $Ticket{UntilTime} && $Ticket{UntilTime} < -1 ) {
                         $CSSClass = 'Warning';

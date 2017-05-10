@@ -795,13 +795,15 @@ sub _Show {
 
     # show first response time if needed
     if ( defined $Article{FirstResponseTime} ) {
-        $Article{FirstResponseTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Article{FirstResponseTime},
-            Space => ' ',
+        $Article{FirstResponseTimeHuman} = $LayoutObject->CustomerAge(
+            Age                => $Article{FirstResponseTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
-        $Article{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Article{FirstResponseTimeWorkingTime},
-            Space => ' ',
+        $Article{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAge(
+            Age                => $Article{FirstResponseTimeWorkingTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
         if ( 60 * 60 * 1 > $Article{FirstResponseTime} ) {
             $Article{FirstResponseTimeClass} = 'Warning'
@@ -814,13 +816,15 @@ sub _Show {
 
     # show update time if needed
     if ( defined $Article{UpdateTime} ) {
-        $Article{UpdateTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Article{UpdateTime},
-            Space => ' ',
+        $Article{UpdateTimeHuman} = $LayoutObject->CustomerAge(
+            Age                => $Article{UpdateTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
-        $Article{UpdateTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Article{UpdateTimeWorkingTime},
-            Space => ' ',
+        $Article{UpdateTimeWorkingTime} = $LayoutObject->CustomerAge(
+            Age                => $Article{UpdateTimeWorkingTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
         if ( 60 * 60 * 1 > $Article{UpdateTime} ) {
             $Article{UpdateTimeClass} = 'Warning'
@@ -833,13 +837,15 @@ sub _Show {
 
     # show solution time if needed
     if ( defined $Article{SolutionTime} ) {
-        $Article{SolutionTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Article{SolutionTime},
-            Space => ' ',
+        $Article{SolutionTimeHuman} = $LayoutObject->CustomerAge(
+            Age                => $Article{SolutionTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
-        $Article{SolutionTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Article{SolutionTimeWorkingTime},
-            Space => ' ',
+        $Article{SolutionTimeWorkingTime} = $LayoutObject->CustomerAge(
+            Age                => $Article{SolutionTimeWorkingTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
         if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
             $Article{SolutionTimeClass} = 'Warning'

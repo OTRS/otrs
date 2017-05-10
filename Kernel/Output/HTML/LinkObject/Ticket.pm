@@ -436,22 +436,25 @@ sub TableCreateComplex {
                     }
                     elsif ( $Column eq 'EscalationSolutionTime' ) {
 
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAgeInHours(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age => $Ticket->{SolutionTime} || 0,
-                            Space => ' ',
+                            TimeShowAlwaysLong => 1,
+                            Space              => ' ',
                         );
                     }
                     elsif ( $Column eq 'EscalationResponseTime' ) {
 
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAgeInHours(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age => $Ticket->{FirstResponseTime} || 0,
-                            Space => ' ',
+                            TimeShowAlwaysLong => 1,
+                            Space              => ' ',
                         );
                     }
                     elsif ( $Column eq 'EscalationUpdateTime' ) {
-                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAgeInHours(
+                        $Hash{'Content'} = $Self->{LayoutObject}->CustomerAge(
                             Age => $Ticket->{UpdateTime} || 0,
-                            Space => ' ',
+                            TimeShowAlwaysLong => 1,
+                            Space              => ' ',
                         );
                     }
                     elsif ( $Column eq 'PendingTime' ) {

@@ -68,13 +68,15 @@ sub Run {
 
     # show first response time if needed
     if ( defined $Ticket{FirstResponseTime} ) {
-        $Ticket{FirstResponseTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{FirstResponseTime},
-            Space => ' ',
+        $Ticket{FirstResponseTimeHuman} = $LayoutObject->CustomerAge(
+            Age                => $Ticket{FirstResponseTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
-        $Ticket{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{FirstResponseTimeWorkingTime},
-            Space => ' ',
+        $Ticket{FirstResponseTimeWorkingTime} = $LayoutObject->CustomerAge(
+            Age                => $Ticket{FirstResponseTimeWorkingTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
         if ( 60 * 60 * 1 > $Ticket{FirstResponseTime} ) {
             $Ticket{FirstResponseTimeClass} = 'Warning';
@@ -87,13 +89,15 @@ sub Run {
 
     # show update time if needed
     if ( defined $Ticket{UpdateTime} ) {
-        $Ticket{UpdateTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{UpdateTime},
-            Space => ' ',
+        $Ticket{UpdateTimeHuman} = $LayoutObject->CustomerAge(
+            Age                => $Ticket{UpdateTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
-        $Ticket{UpdateTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{UpdateTimeWorkingTime},
-            Space => ' ',
+        $Ticket{UpdateTimeWorkingTime} = $LayoutObject->CustomerAge(
+            Age                => $Ticket{UpdateTimeWorkingTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
         if ( 60 * 60 * 1 > $Ticket{UpdateTime} ) {
             $Ticket{UpdateTimeClass} = 'Warning';
@@ -106,13 +110,15 @@ sub Run {
 
     # show solution time if needed
     if ( defined $Ticket{SolutionTime} ) {
-        $Ticket{SolutionTimeHuman} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{SolutionTime},
-            Space => ' ',
+        $Ticket{SolutionTimeHuman} = $LayoutObject->CustomerAge(
+            Age                => $Ticket{SolutionTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
-        $Ticket{SolutionTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
-            Age   => $Ticket{SolutionTimeWorkingTime},
-            Space => ' ',
+        $Ticket{SolutionTimeWorkingTime} = $LayoutObject->CustomerAge(
+            Age                => $Ticket{SolutionTimeWorkingTime},
+            TimeShowAlwaysLong => 1,
+            Space              => ' ',
         );
         if ( 60 * 60 * 1 > $Ticket{SolutionTime} ) {
             $Ticket{SolutionTimeClass} = 'Warning';
