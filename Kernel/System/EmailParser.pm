@@ -651,6 +651,9 @@ sub PartsAttachments {
     $PartData{ContentType} = $Part->head()->get('Content-Type') || 'text/plain;';
     chomp $PartData{ContentType};
 
+    # Fix for broken content type headers, see bug#7913 or DuplicatedContentTypeHeader.t.
+    $PartData{ContentType} =~ s{\r?\n}{}smxg;
+
     # get mime type
     $PartData{MimeType} = $Part->head()->mime_type();
 
