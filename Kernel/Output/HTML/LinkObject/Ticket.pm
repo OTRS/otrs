@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerUser',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
@@ -486,6 +487,12 @@ sub TableCreateComplex {
                             );
                         }
                         $Hash{'Content'} = $CustomerName;
+                    }
+                    elsif ( $Column eq 'CustomerCompanyName' ) {
+                        my %CustomerCompany = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
+                            CustomerID => $Ticket->{CustomerID},
+                        );
+                        $Hash{'Content'} = $CustomerCompany{CustomerCompanyName};
                     }
                     elsif ( $Column eq 'State' || $Column eq 'Priority' || $Column eq 'Lock' ) {
                         $Hash{'Content'} = $LanguageObject->Translate( $Ticket->{$Column} );

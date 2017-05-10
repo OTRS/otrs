@@ -11867,6 +11867,7 @@ Thanks for your help!
                         <Item Key="CustomerID">1</Item>
                         <Item Key="CustomerName">1</Item>
                         <Item Key="CustomerUserID">1</Item>
+                        <Item Key="CustomerCompanyName">1</Item>
                         <Item Key="EscalationResponseTime">1</Item>
                         <Item Key="EscalationSolutionTime">1</Item>
                         <Item Key="EscalationTime">1</Item>
@@ -11893,6 +11894,7 @@ Thanks for your help!
                         <Item Key="CustomerID">240</Item>
                         <Item Key="CustomerName">250</Item>
                         <Item Key="CustomerUserID">260</Item>
+                        <Item Key="CustomerCompanyName">320</Item>
                         <Item Key="EscalationResponseTime">160</Item>
                         <Item Key="EscalationSolutionTime">150</Item>
                         <Item Key="EscalationTime">140</Item>
