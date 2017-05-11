@@ -22,6 +22,14 @@
                 <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
             </p>
 [% RenderBlockEnd("TicketBack") %]
+[% RenderBlockStart("PropertiesLock") %]
+            <p>
+                [% Translate("The ticket has been locked") | html %].
+                <a class="UndoClosePopup" href="[% Env("Baselink") %]Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID %];[% Env("ChallengeTokenParam") | html %]">
+                    [% Translate("Undo & close") | html %]
+                </a>
+            </p>
+[% RenderBlockEnd("PropertiesLock") %]
 
         </div>
 

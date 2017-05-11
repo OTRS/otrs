@@ -142,19 +142,20 @@ sub Run {
                 Lock     => 'lock',
                 UserID   => $Self->{UserID},
             );
-            if (
-                $Self->{TicketObject}->TicketOwnerSet(
-                    TicketID  => $Self->{TicketID},
-                    UserID    => $Self->{UserID},
-                    NewUserID => $Self->{UserID},
-                )
-                )
-            {
+            my $Success = $Self->{TicketObject}->TicketOwnerSet(
+                TicketID  => $Self->{TicketID},
+                UserID    => $Self->{UserID},
+                NewUserID => $Self->{UserID},
+            );
 
-                # show lock state
-                $OutputNotify = $Self->{LayoutObject}->Notify(
-                    Data => "$Ticket{TicketNumber}: "
-                        . $Self->{LayoutObject}->{LanguageObject}->Translate("Ticket locked."),
+            # show lock state
+            if ($Success) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'PropertiesLock',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
