@@ -505,7 +505,8 @@ Returns:
 sub GenerateSupportData {
     my ( $Self, %Param ) = @_;
 
-    my $SupportDataCollectorWebTimeout = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::WebUserAgent::Timeout');
+    my $SupportDataCollectorWebTimeout
+        = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::WebUserAgent::Timeout');
 
     my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect(
         WebTimeout => $SupportDataCollectorWebTimeout,

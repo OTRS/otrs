@@ -15,10 +15,10 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Helper;
 
 # Get needed objects.
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DynamicFieldObject    = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
 # Don't check email address validity.
@@ -38,9 +38,9 @@ my $RandomID = $HelperObject->GetRandomID();
 $ConfigObject->Set(
     Key   => 'DynamicFieldFromCustomerUser::Mapping',
     Value => {
-        UserLogin     => 'CustomerLogin' . $RandomID,
-        UserFirstname => 'CustomerFirstname' . $RandomID,
-        UserLastname  => 'CustomerLastname' . $RandomID,
+        UserLogin           => 'CustomerLogin' . $RandomID,
+        UserFirstname       => 'CustomerFirstname' . $RandomID,
+        UserLastname        => 'CustomerLastname' . $RandomID,
         CustomerCompanyName => 'CustomerCompanyName' . $RandomID,
         CustomerID          => 'CustomerID' . $RandomID,
     },
