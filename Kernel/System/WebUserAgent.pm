@@ -217,7 +217,7 @@ sub Request {
 
     if ( !$Response->is_success() ) {
 
-        if (!$Param{NoLog}) {
+        if ( !$Param{NoLog} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't perform $Param{Type} on $Param{URL}: " . $Response->status_line(),

@@ -1007,7 +1007,7 @@ sub DatabaseXMLExecute {
 
     my $XML = $Param{XML};
 
-    if (!$XML) {
+    if ( !$XML ) {
 
         $XML = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Param{XMLFile},

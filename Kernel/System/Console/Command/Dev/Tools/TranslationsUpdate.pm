@@ -285,7 +285,7 @@ sub HandleLanguage {
         }
 
         # include var/packagesetup folder for modules
-        if ( $IsSubTranslation ) {
+        if ($IsSubTranslation) {
             my @PackageSetupModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => "$ModuleDirectory/var/packagesetup",
                 Filter    => '*.pm',

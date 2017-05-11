@@ -384,7 +384,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             HistoryType          => 'OwnerUpdate',
             HistoryComment       => 'first response',
             UserID               => 1,
-            NoAgentNotify        => 1,    # if you don't want to send agent notifications
+            NoAgentNotify => 1,    # if you don't want to send agent notifications
         );
 
         if ( $WorkingHours{$Hours} ) {
