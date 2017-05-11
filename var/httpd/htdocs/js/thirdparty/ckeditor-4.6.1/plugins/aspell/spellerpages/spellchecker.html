@@ -45,6 +45,7 @@ function postWords() {
 		var speller = opener.speller,
 // ---
 // OTRS
+// ---
 		SessionName = opener.Core.Config.Get('SessionName'),
 		SessionID = opener.Core.Config.Get('SessionID');
 // ---
@@ -53,6 +54,7 @@ function postWords() {
 		bodyDoc.write('<form action="'+speller.spellCheckScript+'" method="post">');
 // ---
 // OTRS
+// ---
 		bodyDoc.write('<input type="hidden" name="Action" value="SpellingInline">');
 		bodyDoc.write('<input type="hidden" name="Subaction" value="Inline">');
 		bodyDoc.write('<input type="hidden" name="' + SessionName + '" value="' + SessionID + '">');

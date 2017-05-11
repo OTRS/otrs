@@ -7,6 +7,11 @@ CKEDITOR.dialog.add('aspell', function( editor )
 	var number = CKEDITOR.tools.getNextNumber(),
 		iframeId = 'cke_frame_' + number,
 		textareaId = 'cke_data_' + number,
+// ---
+// OTRS
+// ---
+		oSpeller,
+// ---
 		interval,
 		errorMsg = editor.lang.aspell.notAvailable;
 
@@ -31,7 +36,12 @@ CKEDITOR.dialog.add('aspell', function( editor )
 					window.clearInterval(interval);
 
 				// Create spellcheck object, set options/attributes
-				var oSpeller = new spellChecker(document.getElementById(textareaId));
+// ---
+// OTRS
+// ---
+//				var oSpeller = new spellChecker(document.getElementById(textareaId));
+				oSpeller = new spellChecker(document.getElementById(textareaId));
+// ---
 				oSpeller.spellCheckScript = CKEDITOR.config.spellerPagesServerScript;
 				//oSpeller.spellCheckScript = editor.plugins.aspell.path+'spellerpages/server-scripts/spellchecker.php';
 				oSpeller.OnFinished = function (numChanges) { oSpeller_OnFinished(dialog, numChanges) };
@@ -98,7 +108,12 @@ CKEDITOR.dialog.add('aspell', function( editor )
 		title: editor.lang.aspell.title,
 		minWidth: minW,
 		minHeight: minH,
-		buttons: [ CKEDITOR.dialog.cancelButton ],
+// ---
+// OTRS
+// ---
+//		buttons: [ CKEDITOR.dialog.cancelButton ],
+		buttons: [ CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton ],
+// ---
 		onShow: function()
 		{
 			// Put spellcheck input and iframe in the dialog content
@@ -152,6 +167,14 @@ CKEDITOR.dialog.add('aspell', function( editor )
 			OnSpellerControlsLoad = null;
 			FCKLang = null;
 		},
+// ---
+// OTRS
+// ---
+		onOk: function()
+		{
+			oSpeller.terminateSpell();
+		},
+// ---
 		contents: [
 			{
 				id: 'general',
