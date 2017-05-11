@@ -44,6 +44,7 @@
                     <div class="Content">
 
                         <fieldset class="TableLike FixedLabel">
+
                             <label class="Mandatory" for="Subject"><span class="Marker">*</span> [% Translate("Subject") | html %]:</label>
                             <div class="Field">
                                 <input type="text" class="Validate_DependingRequiredAND Validate_Depending_Body [% Data.SubjectInvalid %] W75pc" id="Subject" name="Subject" value="[% Data.Subject | html %]" />
@@ -101,6 +102,13 @@
                     <div class="Content">
 
                         <fieldset class="TableLike FixedLabel">
+
+                            <label for="Recipients">[% Translate("Recipients") | html %]:</label>
+                            <div class="Field">
+                                <span id="EmailRecipientsList"><i class="fa fa-spinner fa-spin"></i></span>
+                            </div>
+                            <div class="Clear"></div>
+
                             <label class="Mandatory" for="EmailSubject"><span class="Marker">*</span> [% Translate("Subject") | html %]:</label>
                             <div class="Field">
                                 <input type="text" class="Validate_DependingRequiredAND Validate_Depending_EmailBody [% Data.SubjectInvalid %] W75pc" id="EmailSubject" name="EmailSubject" value="[% Data.EmailSubject | html %]" />

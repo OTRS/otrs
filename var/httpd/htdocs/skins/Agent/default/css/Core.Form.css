@@ -491,6 +491,16 @@ form label.LabelError {
     color: #555;
 }
 
+#EmailRecipientsList span,
+#EmailRecipientsList a.Collapse {
+    display: none;
+}
+
+#EmailRecipientsList.Expanded span,
+#EmailRecipientsList.Expanded a.Expand {
+    display: inline;
+}
+
 /**
  * @note        Give the user a hint about linked label elements (they are clickable and
  *                  give focus to the linked element.
