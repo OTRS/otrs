@@ -110,7 +110,7 @@ for my $SQL (@SQL) {
 }
 
 # rename table
-$XML      = '<TableAlter NameOld="test_a" NameNew="test_b" AutoIncrementColumn="id" />';
+$XML      = '<TableAlter NameOld="test_a" NameNew="test_b"/>';
 @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 @SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(

@@ -236,11 +236,8 @@ sub TableCreate {
                 TableName => $TableName,
             );
 
-            push(
-                @Return2,
-                "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"
-                    . " PRIMARY KEY ($Tag->{Name})"
-            );
+            push @Return2,
+                "ALTER TABLE $TableName ADD CONSTRAINT $Constraint PRIMARY KEY ($Tag->{Name})";
         }
 
         # auto increment
@@ -249,40 +246,56 @@ sub TableCreate {
             my $Sequence = $Self->_SequenceName(
                 TableName => $TableName,
             );
+
+            my $Trigger = $Sequence . '_t';
+
             my $Shell = '';
             if ( $ConfigObject->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
 
-            push @Return2, "
-                BEGIN
-                    EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
-                    EXCEPTION
-                        WHEN OTHERS THEN NULL;
-                END;
-                $Shell";
+            push @Return2, <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
 
-            push @Return2, "
-                CREATE SEQUENCE $Sequence
-                INCREMENT BY 1
-                START WITH 1
-                NOMAXVALUE
-                NOCYCLE
-                CACHE 20
-                ORDER";
+            push @Return2, <<"EOF";
+CREATE SEQUENCE $Sequence
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER
+EOF
 
-            push @Return2, "
-                CREATE OR REPLACE TRIGGER $Sequence" . "_t
-                BEFORE INSERT ON $TableName
-                FOR EACH ROW
-                BEGIN
-                    IF :new.$Tag->{Name} IS NULL THEN
-                        SELECT $Sequence.nextval
-                        INTO :new.$Tag->{Name}
-                        FROM DUAL;
-                    END IF;
-                END;
-                $Shell";
+            push @Return2, <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TRIGGER $Trigger';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
+
+            push @Return2, <<"EOF";
+CREATE OR REPLACE TRIGGER $Trigger
+BEFORE INSERT ON $TableName
+FOR EACH ROW
+BEGIN
+    IF :new.$Tag->{Name} IS NULL THEN
+        SELECT $Sequence.nextval
+        INTO :new.$Tag->{Name}
+        FROM DUAL;
+    END IF;
+END;
+$Shell
+EOF
+
         }
     }
 
@@ -314,34 +327,24 @@ sub TableCreate {
     for my $ForeignKey ( sort keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
         for ( 0 .. $#Array ) {
-            push(
-                @{ $Self->{Post} },
+            push @{ $Self->{Post} },
                 $Self->ForeignKeyCreate(
-                    LocalTableName   => $TableName,
-                    Local            => $Array[$_]->{Local},
-                    ForeignTableName => $ForeignKey,
-                    Foreign          => $Array[$_]->{Foreign},
-                ),
-            );
-
-            # generate forced index for every FK to do row locking (not table locking)
-            my $IndexName = $TableName . '_' . $Array[$_]->{Local};
-            if ( !$Index{$IndexName} ) {
-                $Index{ 'FK_' . $IndexName } = [ { Name => $Array[$_]->{Local} } ];
-            }
+                LocalTableName   => $TableName,
+                Local            => $Array[$_]->{Local},
+                ForeignTableName => $ForeignKey,
+                Foreign          => $Array[$_]->{Foreign},
+                );
         }
     }
 
-    # add indexs
+    # add indexes
     for my $Name ( sort keys %Index ) {
-        push(
-            @Return,
+        push @Return,
             $Self->IndexCreate(
-                TableName => $TableName,
-                Name      => $Name,
-                Data      => $Index{$Name},
-            ),
-        );
+            TableName => $TableName,
+            Name      => $Name,
+            Data      => $Index{$Name},
+            );
     }
 
     return @Return;
@@ -377,12 +380,14 @@ sub TableDrop {
         }
 
         # build sql to drop sequence
-        my $DropSequenceSQL = "BEGIN
-            EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
-            EXCEPTION
-              WHEN OTHERS THEN NULL;
-            END;
-            $Shell";
+        my $DropSequenceSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE $Sequence';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
 
         return ( $SQL, $DropSequenceSQL );
     }
@@ -435,89 +440,106 @@ sub TableAlter {
                 );
 
                 # build SQL to rename primary key constraint
-                my $RenameConstraintSQL = "
-                    BEGIN
-                        EXECUTE IMMEDIATE 'ALTER TABLE $Tag->{NameNew} RENAME CONSTRAINT $OldConstraint TO $NewConstraint';
-                        EXCEPTION
-                            WHEN OTHERS THEN NULL;
-                    END;
-                    $Shell";
+                my $RenameConstraintSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE $Tag->{NameNew} RENAME CONSTRAINT $OldConstraint TO $NewConstraint';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
 
                 push @SQL, $SQLStart . $RenameConstraintSQL;
 
                 # build SQL to rename index of primary key
-                my $RenameIndexSQL = "
-                    BEGIN
-                        EXECUTE IMMEDIATE 'ALTER INDEX $OldConstraint RENAME TO $NewConstraint';
-                        EXCEPTION
-                            WHEN OTHERS THEN NULL;
-                    END;
-                    $Shell";
+                my $RenameIndexSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER INDEX $OldConstraint RENAME TO $NewConstraint';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
 
                 push @SQL, $SQLStart . $RenameIndexSQL;
 
-                # renaming the sequence and trigger used for autoincrement
-                # this is only possible if we know the name of the autoincrement column
-                # example XML structure:
-                #   <TableAlter NameOld="test_a" NameNew="test_b" AutoIncrementColumn="id" />
-                if ( $Tag->{AutoIncrementColumn} ) {
+                # get old sequence name
+                my $OldSequence = $Self->_SequenceName(
+                    TableName => $Tag->{NameOld},
+                );
 
-                    # get old sequence name
-                    my $OldSequence = $Self->_SequenceName(
-                        TableName => $Tag->{NameOld},
-                    );
+                # get new sequence name
+                my $NewSequence = $Self->_SequenceName(
+                    TableName => $Tag->{NameNew},
+                );
 
-                    # get new sequence name
-                    my $NewSequence = $Self->_SequenceName(
-                        TableName => $Tag->{NameNew},
-                    );
+                # define old and new trigger names
+                my $OldTrigger = $OldSequence . '_t';
+                my $NewTrigger = $NewSequence . '_t';
 
-                    # define old and new trigger names
-                    my $OldTrigger = $OldSequence . '_t';
-                    my $NewTrigger = $NewSequence . '_t';
+                # build SQL to rename sequence (only if a sequence exists)
+                my $RenameSequenceSQL = <<"EOF";
+DECLARE
+    sequence_count NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO sequence_count
+    FROM user_sequences
+    WHERE UPPER(sequence_name) = UPPER('$OldSequence');
 
-                    # build SQL to drop old trigger
-                    my $DropOldTriggerSQL = "
-                        BEGIN
-                            EXECUTE IMMEDIATE 'DROP TRIGGER $OldTrigger';
-                            EXCEPTION
-                                WHEN OTHERS THEN NULL;
-                        END;
-                        $Shell";
+    IF sequence_count > 0 THEN
+        EXECUTE IMMEDIATE 'RENAME $OldSequence TO $NewSequence';
+    END IF;
 
-                    push @SQL, $SQLStart . $DropOldTriggerSQL;
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
 
-                    # build SQL to rename sequence
-                    my $RenameSequenceSQL = "
-                        BEGIN
-                            EXECUTE IMMEDIATE 'RENAME $OldSequence TO $NewSequence';
-                            EXCEPTION
-                                WHEN OTHERS THEN NULL;
-                        END;
-                        $Shell";
+                push @SQL, $SQLStart . $RenameSequenceSQL;
 
-                    push @SQL, $SQLStart . $RenameSequenceSQL;
+                # build SQL to drop old trigger (only if a trigger exists)
+                # and to create a new trigger
+                # (the name of the autoincrement column needed for the trigger is investigated automatically)
+                my $DropOldAndCreateNewTriggerSQL = <<"EOF";
+DECLARE
+    trigger_count NUMBER;
+    pk_column_name VARCHAR(50);
+BEGIN
+    SELECT COUNT(*)
+    INTO trigger_count
+    FROM user_triggers
+    WHERE UPPER(trigger_name) = UPPER('$OldTrigger');
 
-                    # build SQL to create new trigger using new sequence name
-                    my $CreateNewTriggerSQL = "
-                        BEGIN
-                            EXECUTE IMMEDIATE 'CREATE OR REPLACE TRIGGER $NewTrigger
-                                BEFORE INSERT ON $Tag->{NameNew}
-                                FOR EACH ROW
-                                BEGIN
-                                    IF :new.$Tag->{AutoIncrementColumn} IS NULL THEN
-                                        SELECT $NewSequence.nextval
-                                        INTO :new.$Tag->{AutoIncrementColumn}
-                                        FROM DUAL;
-                                    END IF;
-                                END;';
-                            EXCEPTION
-                                WHEN OTHERS THEN NULL;
-                        END;
-                        $Shell";
+    SELECT column_name
+    INTO pk_column_name
+    FROM user_ind_columns
+    WHERE UPPER(table_name) = UPPER('$Tag->{NameNew}')
+    AND UPPER(index_name) = UPPER('$NewConstraint');
 
-                    push @SQL, $SQLStart . $CreateNewTriggerSQL;
-                }
+    IF trigger_count > 0 THEN
+        EXECUTE IMMEDIATE 'DROP TRIGGER $OldTrigger';
+
+        EXECUTE IMMEDIATE 'CREATE OR REPLACE TRIGGER $NewTrigger
+            BEFORE INSERT ON $Tag->{NameNew}
+            FOR EACH ROW
+            BEGIN
+                IF :new.' || pk_column_name || ' IS NULL THEN
+                    SELECT $NewSequence.nextval
+                    INTO :new.' || pk_column_name || '
+                    FROM DUAL;
+                END IF;
+            END;';
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
+
+                push @SQL, $SQLStart . $DropOldAndCreateNewTriggerSQL;
             }
             $SQLStart .= "ALTER TABLE $Table";
         }
@@ -702,27 +724,36 @@ sub IndexCreate {
             return;
         }
     }
-    my $Index = $Param{Name};
-    if ( length $Index > 30 ) {
-        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-            String => $Index,
-        );
-        $Index = substr $Index, 0, 28;
-        $Index .= substr $MD5, 0,  1;
-        $Index .= substr $MD5, 31, 1;
-    }
-    my $SQL   = "CREATE INDEX $Index ON $Param{TableName} (";
-    my @Array = @{ $Param{Data} };
+    my $Index = $Self->_IndexName(
+        Name => $Param{Name},
+    );
+    my $CreateIndexSQL = "CREATE INDEX $Index ON $Param{TableName} (";
+    my @Array          = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ', ';
+            $CreateIndexSQL .= ', ';
         }
-        $SQL .= $Array[$_]->{Name};
+        $CreateIndexSQL .= $Array[$_]->{Name};
     }
-    $SQL .= ')';
+    $CreateIndexSQL .= ')';
 
-    return ($SQL);
+    my $Shell = '';
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
+        $Shell = "/\n--";
+    }
 
+    # build sql to create index within a "try/catch block"
+    # to prevent errors if index exists already
+    $CreateIndexSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE '$CreateIndexSQL';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
+
+    return ($CreateIndexSQL);
 }
 
 sub IndexDrop {
@@ -739,15 +770,9 @@ sub IndexDrop {
         }
     }
 
-    my $Index = $Param{Name};
-    if ( length $Index > 30 ) {
-        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-            String => $Index,
-        );
-        $Index = substr $Index, 0, 28;
-        $Index .= substr $MD5, 0,  1;
-        $Index .= substr $MD5, 31, 1;
-    }
+    my $Index = $Self->_IndexName(
+        Name => $Param{Name},
+    );
 
     my $SQL = 'DROP INDEX ' . $Index;
     return ($SQL);
@@ -768,21 +793,27 @@ sub ForeignKeyCreate {
     }
 
     # create foreign key name
-    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
-    if ( length($ForeignKey) > 30 ) {
-        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-            String => $ForeignKey,
-        );
-        $ForeignKey = substr $ForeignKey, 0, 28;
-        $ForeignKey .= substr $MD5, 0,  1;
-        $ForeignKey .= substr $MD5, 31, 1;
-    }
+    my $ForeignKey = $Self->_ForeignKeyName(
+        Name => "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}",
+    );
 
     # add foreign key
-    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
+    my $CreateForeignKeySQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
         . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
 
-    return ($SQL);
+    # build index name
+    my $IndexName = $Self->_IndexName(
+        Name => 'FK_' . $Param{LocalTableName} . '_' . $Param{Local},
+    );
+
+    # generate forced index for every FK to do row locking (not table locking)
+    my @CreateIndexSQL = $Self->IndexCreate(
+        TableName => $Param{LocalTableName},
+        Name      => $IndexName,
+        Data      => [ { Name => $Param{Local} } ],
+    );
+
+    return ( $CreateForeignKeySQL, @CreateIndexSQL );
 }
 
 sub ForeignKeyDrop {
@@ -800,20 +831,34 @@ sub ForeignKeyDrop {
     }
 
     # create foreign key name
-    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
-    if ( length($ForeignKey) > 30 ) {
-        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-            String => $ForeignKey,
-        );
-        $ForeignKey = substr $ForeignKey, 0, 28;
-        $ForeignKey .= substr $MD5, 0,  1;
-        $ForeignKey .= substr $MD5, 31, 1;
-    }
+    my $ForeignKey = $Self->_ForeignKeyName(
+        Name => "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}",
+    );
 
     # drop foreign key
     my $SQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
 
-    return ($SQL);
+    my $Shell = '';
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
+        $Shell = "/\n--";
+    }
+
+    # build index name
+    my $IndexName = $Self->_IndexName(
+        Name => 'FK_' . $Param{LocalTableName} . '_' . $Param{Local},
+    );
+
+    # build sql to drop index
+    my $DropIndexSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE 'DROP INDEX $IndexName';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
+
+    return ( $SQL, $DropIndexSQL );
 }
 
 sub UniqueCreate {
@@ -1059,6 +1104,56 @@ sub _UniqueName {
     }
 
     return $Unique;
+}
+
+sub _IndexName {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Name} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Name!",
+        );
+        return;
+    }
+
+    my $Index = $Param{Name};
+    if ( length $Index > 30 ) {
+        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+            String => $Index,
+        );
+        $Index = substr $Index, 0, 28;
+        $Index .= substr $MD5, 0,  1;
+        $Index .= substr $MD5, 31, 1;
+    }
+
+    return $Index;
+}
+
+sub _ForeignKeyName {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Name} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Name!",
+        );
+        return;
+    }
+
+    my $ForeignKey = $Param{Name};
+    if ( length($ForeignKey) > 30 ) {
+        my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+            String => $ForeignKey,
+        );
+        $ForeignKey = substr $ForeignKey, 0, 28;
+        $ForeignKey .= substr $MD5, 0,  1;
+        $ForeignKey .= substr $MD5, 31, 1;
+    }
+
+    return $ForeignKey;
 }
 
 1;

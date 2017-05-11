@@ -39,6 +39,9 @@ my $XML = '
     <Column Name="name_d" Required="false" Size="20" Type="VARCHAR" />
     <Column Name="name_e" Required="false" Default="" Size="20" Type="VARCHAR" />
     <Column Name="name_f" Required="false" Default="Test1" Size="20" Type="VARCHAR" />
+    <Index Name="test_f_name_a">
+        <IndexColumn Name="name_a"/>
+    </Index>
 </TableCreate>
 ';
 my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
@@ -53,6 +56,56 @@ for my $SQL (@SQL) {
     $Self->True(
         $DBObject->Do( SQL => $SQL ) || 0,
         "Do() CREATE TABLE ($SQL)",
+    );
+}
+
+# try to add the same index again
+# this should not cause an error as the database driver
+# should take care to not create it again if it already exists
+$XML = '
+<TableAlter Name="test_f">
+    <IndexCreate Name="test_f_name_a">
+        <IndexColumn Name="name_a"/>
+    </IndexCreate>
+</TableAlter>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    'SQLProcessor() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() ALTER TABLE ($SQL)",
+    );
+}
+
+# try to add another index with another name
+# but using the same index column
+# this should work fine
+$XML = '
+<TableAlter Name="test_f">
+    <IndexCreate Name="test_f_name_a2">
+        <IndexColumn Name="name_a"/>
+    </IndexCreate>
+</TableAlter>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    'SQLProcessor() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() ALTER TABLE ($SQL)",
     );
 }
 
