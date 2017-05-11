@@ -228,7 +228,7 @@ sub Run {
         Message => Translatable(
             "We are sorry, you do not have permissions anymore to access this ticket in its current state."
         ),
-        WithHeader => 'yes',
+        WithHeader => $Self->{Subaction} && $Self->{Subaction} eq 'ArticleUpdate' ? 'no' : 'yes',
     ) if !$Access;
 
     # get ticket attributes
