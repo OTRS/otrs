@@ -18,14 +18,14 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+my $Helper              = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
+my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 
 my $QueueRand1 = $Helper->GetRandomID();
 my $QueueRand2 = $Helper->GetRandomID();
 
-my $QueueID1 = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+my $QueueID1 = $QueueObject->QueueAdd(
     Name                => $QueueRand1,
     ValidID             => 1,
     GroupID             => 1,
@@ -42,7 +42,7 @@ my $QueueID1 = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Comment             => 'Some Comment',
 );
 
-my $QueueID2 = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+my $QueueID2 = $QueueObject->QueueAdd(
     Name                => $QueueRand2,
     ValidID             => 1,
     GroupID             => 1,
@@ -264,6 +264,23 @@ $Self->False(
 $Self->True(
     exists $SystemQueues{$QueueID1} && $SystemQueues{$QueueID1} == $SystemAddressID1,
     "SystemAddressQueueList() contains the valid QueueID1",
+);
+
+# Test SystemAddressIsUsed() function.
+my $SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
+    SystemAddressID => 1,
+);
+$Self->True(
+    $SystemAddressIsUsed,
+    "SystemAddressIsUsed() - Correctly detected system address in use"
+);
+
+$SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
+    SystemAddressID => $SystemAddressID2,
+);
+$Self->False(
+    $SystemAddressIsUsed,
+    "SystemAddressIsUsed() - Correctly detected system address not in use"
 );
 
 # cleanup is done by RestoreDatabase

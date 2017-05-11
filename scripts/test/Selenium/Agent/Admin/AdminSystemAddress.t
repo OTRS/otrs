@@ -63,8 +63,9 @@ $Selenium->RunTest(
         );
 
         # add test Queue
+        my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
         my $QueueRandomID = "queue" . $Helper->GetRandomID();
-        my $QueueID       = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
+        my $QueueID       = $QueueObject->QueueAdd(
             Name            => $QueueRandomID,
             ValidID         => 1,
             GroupID         => 1,
@@ -162,6 +163,31 @@ $Selenium->RunTest(
             'Client side validation correctly detected existing name error',
         );
 
+        # Get created system address ID.
+        my %SysAddList = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList(
+            Valid => 1,
+        );
+        %SysAddList = reverse %SysAddList;
+
+        # Update queue with created system address.
+        my $QueueUpdate = $QueueObject->QueueUpdate(
+            QueueID         => $QueueID,
+            Name            => $QueueRandomID,
+            ValidID         => 1,
+            GroupID         => 1,
+            SystemAddressID => $SysAddList{$SysAddRandom},
+            SalutationID    => 1,
+            SignatureID     => 1,
+            UserID          => 1,
+            FollowUpID      => 1,
+            Comment         => 'Some Comment2',
+            FollowUpLock    => 1,
+        );
+        $Self->True(
+            $QueueUpdate,
+            "QueueID $QueueID is updated with system address ID $SysAddList{$SysAddRandom}"
+        );
+
         # click 'Go to overview'
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemAddress')]")->VerifiedClick();
 
@@ -193,8 +219,47 @@ $Selenium->RunTest(
             "#Comment stored value",
         );
 
-        # check breadcrumb on Edit screen
+        # Verify field explanation for valid field when system address is used in one or more queues.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#ValidID').parent().find('.FieldExplanation').text().trim()",
+            ),
+            "This system address cannot be set to invalid, because it is used in one or more queue(s).",
+            "Valid field explanation correct"
+        );
+
+        # Verify invalid options are not available as selection.
+        $Self->False(
+            $Selenium->execute_script(
+                "return \$('#ValidID option[Value=2]').length"
+            ),
+            "Invalid options are disabled for system address which is used in queue."
+        );
+
+        # Update queue to the default system address.
+        $QueueUpdate = $QueueObject->QueueUpdate(
+            QueueID         => $QueueID,
+            Name            => $QueueRandomID,
+            ValidID         => 1,
+            GroupID         => 1,
+            SystemAddressID => 1,
+            SalutationID    => 1,
+            SignatureID     => 1,
+            UserID          => 1,
+            FollowUpID      => 1,
+            Comment         => 'Some Comment2',
+            FollowUpLock    => 1,
+        );
+        $Self->True(
+            $QueueUpdate,
+            "QueueID $QueueID is updated with system address ID $SysAddList{$SysAddRandom}"
+        );
+
+        # Check breadcrumb on Edit screen.
         $CheckBreadcrumb->( BreadcrumbText => 'Edit System Email Address: ' . $SysAddRandom );
+
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
 
         # edit test SystemAddress and set it to invalid
         $Selenium->find_element( "#Realname", 'css' )->send_keys(" Edited");
