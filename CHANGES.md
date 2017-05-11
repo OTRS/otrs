@@ -1,18 +1,18 @@
-
 #4.0.24 2017-??-??
  - 2017-05-11 Fixed bug#[10685](https://bugs.otrs.org/show_bug.cgi?id=10685) - Removing an agent's access to a ticket while he is viewing the ticket leads to interface issues on the agent's side.
  - 2017-05-10 Fixed bug#[12572](https://bugs.otrs.org/show_bug.cgi?id=12572) - Non-process tickets generate error messages in the syslog if process data are allowed to be displayed.
  - 2017-05-10 Fixed bug#[10569](https://bugs.otrs.org/show_bug.cgi?id=10569) - DynamicField of type date resets after ticket split.
- - 2017-05-08 Fixed bug#[6751](http://bugs.otrs.org/show_bug.cgi?id=6751) - Problem if service name gets to long, or if service has too many subservices.
- - 2017-05-08 Fixed bug#[11508](https://bugs.otrs.org/show_bug.cgi?id=11508) - Change Date has a confussing label in the ticket list statistic result.
- - 2017-05-09 Fixed bug#[12613](https://bugs.otrs.org/show_bug.cgi?id=12613) - Accents are missing from accented letters.
- - 2017-05-08 Fixed bug#[8249](http://bugs.otrs.org/show_bug.cgi?id=8249) - system addresses should be unique.
  - 2017-05-10 Fixed bug#[7913](https://bugs.otrs.org/show_bug.cgi?id=7913) - Incorrect parsing of Content-Type with additional attributes.
+ - 2017-05-09 Fixed bug#[12613](https://bugs.otrs.org/show_bug.cgi?id=12613) - Accents are missing from accented letters.
+ - 2017-05-09 Fixed bug#[12498](https://bugs.otrs.org/show_bug.cgi?id=12498) - An invalid date used in a search attribute returns a wrong result.
  - 2017-05-09 Fixed bug#[4424](http://bugs.otrs.org/show_bug.cgi?id=4424) - Package Manager rebuild() creates invalid XML packages.
- - 2017-05-09 Fixed bug#[8249](http://bugs.otrs.org/show_bug.cgi?id=8249) - system addresses should be unique.
+ - 2017-05-09 Fixed bug#[8249](http://bugs.otrs.org/show_bug.cgi?id=8249) - System addresses should be unique.
  - 2017-05-09 Fixed bug#[9972](https://bugs.otrs.org/show_bug.cgi?id=9972) - Spelling check unit test is not working correctly.
  - 2017-05-09 Updated UnitTest DynamicFieldFromCustomerUser with new scenarios (bug#12587).
  - 2017-05-09 Fixed bug#[12389](https://bugs.otrs.org/show_bug.cgi?id=12389) - Attachments with alias charsets are not properly processed in GenericInterface.
+ - 2017-05-08 Fixed bug#[8249](http://bugs.otrs.org/show_bug.cgi?id=8249) - system addresses should be unique.
+ - 2017-05-08 Fixed bug#[6751](http://bugs.otrs.org/show_bug.cgi?id=6751) - Problem if service name gets to long, or if service has too many subservices.
+ - 2017-05-08 Fixed bug#[11508](https://bugs.otrs.org/show_bug.cgi?id=11508) - Change Date has a confussing label in the ticket list statistic result.
  - 2017-05-08 Fixed bug#[12286](https://bugs.otrs.org/show_bug.cgi?id=12286) - Article body with non-allowed characters breaks SOAP response.
  - 2017-05-08 Fixed bug#[12193](https://bugs.otrs.org/show_bug.cgi?id=12193) - Article     never decrypted when StoreDecryptedData set to no.
  - 2017-05-08 Fixed bug#[12347](https://bugs.otrs.org/show_bug.cgi?id=12347) - Error message "No such TicketID" on ticket delete.

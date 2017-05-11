@@ -8,7 +8,7 @@
 
 [% RenderBlockStart("SearchAJAX") %]
 <div class="InnerContent">
-    <form action="[% Env("CGIHandle") %]" method="post" id="SearchForm">
+    <form action="[% Env("CGIHandle") %]" method="post" id="SearchForm" class="Validate">
         <input type="hidden" name="Action" value="[% Env("Action") %]" id="SearchAction"/>
         <input type="hidden" name="Subaction" value="Search"/>
         <input type="hidden" name="EmptySearch" value="[% Data.EmptySearch | html %]" id="EmptySearch"/>
@@ -218,6 +218,8 @@
             <input type="hidden" name="ArticleTimeSearchType" value="TimeSlot" [% Data.item("ArticleTimeSearchType::TimeSlot") %]/>
             [% Data.ArticleCreateTimeStart %] [% Translate("and") | html %] [% Data.ArticleCreateTimeStop %]
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            <div id="ArticleCreateTimeStartDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
+            <div id="ArticleCreateTimeStopDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
         </div>
         <div class="Clear"></div>
         <label for="TicketCreateTimePoint" id="LabelTicketCreateTimePoint">[% Translate("Ticket Create Time (before/after)") | html %]:</label>
@@ -232,6 +234,8 @@
             <input type="hidden" name="TimeSearchType" value="TimeSlot" [% Data.item("TimeSearchType::TimeSlot") %]/>
             [% Data.TicketCreateTimeStart %] [% Translate("and") | html %] [% Data.TicketCreateTimeStop %]
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            <div id="TicketCreateTimeStartDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
+            <div id="TicketCreateTimeStopDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
         </div>
         <div class="Clear"></div>
         <label for="TicketChangeTimePoint" id="LabelTicketChangeTimePoint">[% Translate("Ticket Change Time (before/after)") | html %]:</label>
@@ -246,6 +250,8 @@
             <input type="hidden" name="ChangeTimeSearchType" value="TimeSlot" [% Data.item("ChangeTimeSearchType::TimeSlot") %]/>
             [% Data.TicketChangeTimeStart %] [% Translate("and") | html %] [% Data.TicketChangeTimeStop %]
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            <div id="TicketChangeTimeStartDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
+            <div id="TicketChangeTimeStopDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
         </div>
         <div class="Clear"></div>
         <label for="TicketLastChangeTimePoint" id="LabelTicketLastChangeTimePoint">[% Translate("Ticket Last Change Time (before/after)") | html %]:</label>
@@ -260,6 +266,8 @@
             <input type="hidden" name="LastChangeTimeSearchType" value="TimeSlot" [% Data.item("LastChangeTimeSearchType::TimeSlot") %]/>
             [% Data.TicketLastChangeTimeStart %] [% Translate("and") | html %] [% Data.TicketLastChangeTimeStop %]
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            <div id="TicketLastChangeTimeStartDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
+            <div id="TicketLastChangeTimeStopDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
         </div>
         <div class="Clear"></div>
         <label for="TicketCloseTimePoint" id="LabelTicketCloseTimePoint">[% Translate("Ticket Close Time (before/after)") | html %]:</label>
@@ -274,6 +282,8 @@
             <input type="hidden" name="CloseTimeSearchType" value="TimeSlot" [% Data.item("CloseTimeSearchType::TimeSlot") %]/>
             [% Data.TicketCloseTimeStart %] [% Translate("and") | html %] [% Data.TicketCloseTimeStop %]
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            <div id="TicketCloseTimeStartDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
+            <div id="TicketCloseTimeStopDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
         </div>
 
         <div class="Clear"></div>
@@ -289,6 +299,8 @@
             <input type="hidden" name="EscalationTimeSearchType" value="TimeSlot" [% Data.item("EscalationTimeSearchType::TimeSlot") %]/>
             [% Data.TicketEscalationTimeStart %] [% Translate("and") | html %] [% Data.TicketEscalationTimeStop %]
             <a class="RemoveButton" href="#" title="[% Translate("Remove this entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>
+            <div id="TicketEscalationTimeStartDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
+            <div id="TicketEscalationTimeStopDayError" class="TooltipErrorMessage"><p>[% Translate("Invalid date") | html %]</p></div>
         </div>
 
         <div class="Clear"></div>
@@ -313,6 +325,7 @@
 [% RenderBlockEnd("SearchAJAXShow") %]
         Core.Agent.Search.AdditionalAttributeSelectionRebuild();
     }, 0);
+    Core.Form.Validate.Init();
 //]]></script>
 
 [% RenderBlockEnd("SearchAJAX") %]
