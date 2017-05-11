@@ -248,4 +248,23 @@ $Self->Is(
     'SystemAddressGet() - ValidID',
 );
 
+# Test SystemAddressIsUsed() function.
+if ( $SystemAddressObject->can('SystemAddressIsUsed') ) {
+    my $SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
+        SystemAddressID => 1,
+    );
+    $Self->True(
+        $SystemAddressIsUsed,
+        "SystemAddressIsUsed() - Correctly detected system address in use"
+    );
+
+    $SystemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
+        SystemAddressID => $SystemAddressID2,
+    );
+    $Self->False(
+        $SystemAddressIsUsed,
+        "SystemAddressIsUsed() - Correctly detected system address not in use"
+    );
+}
+
 1;

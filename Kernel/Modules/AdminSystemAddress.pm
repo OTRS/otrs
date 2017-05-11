@@ -275,8 +275,20 @@ sub _Edit {
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
 
-    # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    # Get valid list.
+    my %ValidList = $Self->{ValidObject}->ValidList();
+
+    # If there is queue using this system address, disable invalid selection on edit screen.
+    if ( $Param{Action} eq 'Change' && $Self->{SystemAddressObject}->can('SystemAddressIsUsed') ) {
+        $Param{SystemAddressIsUsed} = $Self->{SystemAddressObject}->SystemAddressIsUsed(
+            SystemAddressID => $Param{ID},
+        );
+        if ( $Param{SystemAddressIsUsed} ) {
+            my @ValidIDsList = $Self->{ValidObject}->ValidIDsGet();
+            %ValidList = map { $_ => $ValidList{$_} } @ValidIDsList;
+        }
+    }
+
     my %ValidListReverse = reverse %ValidList;
 
     $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
