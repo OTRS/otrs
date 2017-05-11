@@ -259,7 +259,7 @@ sub Run {
 
         return $Self->{LayoutObject}->NoPermission(
             Message    => $TranslatableMessage,
-            WithHeader => 'yes',
+            WithHeader => $Self->{Subaction} && $Self->{Subaction} eq 'ArticleUpdate' ? 'no' : 'yes',
         );
     }
 
