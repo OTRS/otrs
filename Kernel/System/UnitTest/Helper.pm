@@ -782,6 +782,8 @@ All database contents will be automatically dropped when the Helper object is de
         ],
     );
 
+This method returns 'undef' in case the test database is not configured. If it is configured, but the supplied XML cannot be read or executed, this method will C<die()> to interrupt the test with an error.
+
 =cut
 
 sub ProvideTestDatabase {
@@ -853,7 +855,7 @@ sub Load {
             Priority => 'error',
             Message  => 'Error clearing temporary database!',
         );
-        return;
+        die 'Error clearing temporary database!';
     }
 
     # Load supplied XML files.
@@ -876,7 +878,7 @@ sub Load {
                     Priority => 'error',
                     Message  => "Could not load '$XMLFile'!",
                 );
-                return;
+                die "Could not load '$XMLFile'!";
             }
 
             # Concatenate the file contents, but make sure to remove duplicated XML tags first.
@@ -905,7 +907,7 @@ sub Load {
                 Priority => 'error',
                 Message  => 'Error executing supplied XML!',
             );
-            return;
+            die 'Error executing supplied XML!';
         }
     }
 
@@ -977,11 +979,17 @@ sub TestDatabaseCleanup {
 
 =head2 DatabaseXMLExecute()
 
-Execute supplied XML against current database. Content of supplied XML parameter must be valid OTRS
+Execute supplied XML against current database. Content of supplied XML or XMLFilename parameter must be valid OTRS
 database XML schema.
 
     $Helper->DatabaseXMLExecute(
-        XML => $XML,     # (required) OTRS database XML schema to execute
+        XML => $XML,     # OTRS database XML schema to execute
+    );
+
+Alternatively, it can also load an XML file to execute:
+
+    $Helper->DatabaseXMLExecute(
+        XMLFile => '/path/to/file',  # OTRS database XML file to execute
     );
 
 =cut
@@ -989,21 +997,38 @@ database XML schema.
 sub DatabaseXMLExecute {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{XML} ) {
+    if ( !$Param{XML} && !$Param{XMLFile} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need XML!',
+            Message  => 'Need XML or XMLFile!',
         );
         return;
     }
 
-    my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $Param{XML} );
+    my $XML = $Param{XML};
+
+    if (!$XML) {
+
+        $XML = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $Param{XMLFile},
+        );
+        if ( !$XML ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not load '$Param{XMLFile}'!",
+            );
+            die "Could not load '$Param{XMLFile}'!";
+        }
+        $XML = ${$XML};
+    }
+
+    my @XMLArray = $Kernel::OM->Get('Kernel::System::XML')->XMLParse( String => $XML );
     if ( !@XMLArray ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Could not parse XML!',
         );
-        return;
+        die 'Could not parse XML!';
     }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -1016,7 +1041,7 @@ sub DatabaseXMLExecute {
             Priority => 'error',
             Message  => 'Could not generate SQL!',
         );
-        return;
+        die 'Could not generate SQL!';
     }
 
     my @SQLPost = $DBObject->SQLProcessorPost();
@@ -1028,7 +1053,7 @@ sub DatabaseXMLExecute {
                 Priority => 'error',
                 Message  => 'Database action failed: ' . $DBObject->Error(),
             );
-            return;
+            die 'Database action failed: ' . $DBObject->Error();
         }
     }
 

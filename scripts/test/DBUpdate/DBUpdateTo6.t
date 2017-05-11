@@ -19,7 +19,6 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my @DatabaseXMLFiles = (
     "$Home/scripts/test/sample/DBUpdate/otrs5-schema.xml",
     "$Home/scripts/test/sample/DBUpdate/otrs5-initial_insert.xml",
-    "$Home/scripts/database/update/otrs-upgrade-to-6.xml",
 );
 
 my $Success = $Helper->ProvideTestDatabase(
@@ -35,6 +34,14 @@ if ( !$Success ) {
 $Self->True(
     $Success,
     'ProvideTestDatabase - Load and execute XML files'
+);
+
+$Success = $Helper->DatabaseXMLExecute(
+    XMLFile => "$Home/scripts/database/update/otrs-upgrade-to-6.xml",
+);
+$Self->True(
+    $Success,
+    'Executed database upgrade XML',
 );
 
 my $DBUpdateTo6Object = $Kernel::OM->Get('scripts::DBUpdateTo6');
