@@ -267,12 +267,12 @@ sub EditFieldRender {
         # If a value is sent this value must be active, then the Used part needs to be set to 1
         #   otherwise user can easily forget to mark the checkbox and this could lead into data
         #   lost (Bug#8258).
-        $FieldConfig->{$FieldName . 'Used'}   = 1;
-        $FieldConfig->{$FieldName . 'Year'}   = $Year;
-        $FieldConfig->{$FieldName . 'Month'}  = $Month;
-        $FieldConfig->{$FieldName . 'Day'}    = $Day;
-        $FieldConfig->{$FieldName . 'Hour'}   = $Hour;
-        $FieldConfig->{$FieldName . 'Minute'} = $Minute;
+        $FieldConfig->{ $FieldName . 'Used' }   = 1;
+        $FieldConfig->{ $FieldName . 'Year' }   = $Year;
+        $FieldConfig->{ $FieldName . 'Month' }  = $Month;
+        $FieldConfig->{ $FieldName . 'Day' }    = $Day;
+        $FieldConfig->{ $FieldName . 'Hour' }   = $Hour;
+        $FieldConfig->{ $FieldName . 'Minute' } = $Minute;
     }
 
     # extract the dynamic field value form the web request
