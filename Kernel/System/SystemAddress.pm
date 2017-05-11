@@ -471,6 +471,46 @@ sub NameExistsCheck {
     return 0;
 }
 
+=item SystemAddressIsUsed()
+
+Return 1 if system address is used in one of the queue's.
+
+    $SytemAddressIsUsed = $SystemAddressObject->SystemAddressIsUsed(
+        SystemAddressID => 1,
+    );
+
+=cut
+
+sub SystemAddressIsUsed {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed param.
+    if ( !$Param{SystemAddressID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need SystemAddressID!"
+        );
+        return;
+    }
+
+    # Get database object.
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL   => 'SELECT id FROM queue WHERE system_address_id = ?',
+        Bind  => [ \$Param{SystemAddressID} ],
+        Limit => 1,
+    );
+
+    # Fetch the result.
+    my $SystemAddressIsUsed;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $SystemAddressIsUsed = $Row[0] ? 1 : 0;
+    }
+
+    return $SystemAddressIsUsed;
+}
+
 1;
 
 =back
