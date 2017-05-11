@@ -290,31 +290,27 @@ sub TableCreate {
     $SQL .= "\n";
     push @Return, $SQLStart . $SQL . $SQLEnd;
 
-    # add indexs
+    # add indexes
     for my $Name ( sort keys %Index ) {
-        push(
-            @Return,
+        push @Return,
             $Self->IndexCreate(
-                TableName => $TableName,
-                Name      => $Name,
-                Data      => $Index{$Name},
-            ),
-        );
+            TableName => $TableName,
+            Name      => $Name,
+            Data      => $Index{$Name},
+            );
     }
 
     # add foreign keys
     for my $ForeignKey ( sort keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
         for ( 0 .. $#Array ) {
-            push(
-                @{ $Self->{Post} },
+            push @{ $Self->{Post} },
                 $Self->ForeignKeyCreate(
-                    LocalTableName   => $TableName,
-                    Local            => $Array[$_]->{Local},
-                    ForeignTableName => $ForeignKey,
-                    Foreign          => $Array[$_]->{Foreign},
-                ),
-            );
+                LocalTableName   => $TableName,
+                Local            => $Array[$_]->{Local},
+                ForeignTableName => $ForeignKey,
+                Foreign          => $Array[$_]->{Foreign},
+                );
         }
     }
     return @Return;
@@ -532,23 +528,37 @@ sub IndexCreate {
             return;
         }
     }
-    my $SQL   = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
-    my @Array = @{ $Param{Data} };
+    my $CreateIndexSQL = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
+    my @Array          = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ', ';
+            $CreateIndexSQL .= ', ';
         }
-        $SQL .= $Array[$_]->{Name};
-        if ( $Array[$_]->{Size} ) {
-
-            #           $SQL .= "($Array[$_]->{Size})";
-        }
+        $CreateIndexSQL .= $Array[$_]->{Name};
     }
-    $SQL .= ')';
+    $CreateIndexSQL .= ')';
+
+    # put two literal dollar characters in a string
+    # this is needed for the postgres 'do' statement
+    my $DollarDollar = '$$';
+
+    # build SQL to create index within a "try/catch block"
+    # to prevent errors if index exists already
+    $CreateIndexSQL = <<"EOF";
+DO $DollarDollar
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = '$Param{Name}'
+    ) THEN
+    $CreateIndexSQL;
+END IF;
+END$DollarDollar;
+EOF
 
     # return SQL
-    return ($SQL);
-
+    return ($CreateIndexSQL);
 }
 
 sub IndexDrop {
