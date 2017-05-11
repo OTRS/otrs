@@ -442,7 +442,7 @@ Core.Agent.Search = (function (TargetNS) {
                         else {
                             CheckSearchStringsForStopWords(function () {
                                 $('#SearchForm').submit();
-                                ShowWaitingDialog();
+                                return false;
                            });
                         }
                     }
@@ -459,6 +459,12 @@ Core.Agent.Search = (function (TargetNS) {
                         }
                     }
                     return false;
+                });
+
+                Core.Form.Validate.Init();
+                Core.Form.Validate.SetSubmitFunction($('#SearchForm'), function (Form) {
+                    Form.submit();
+                    ShowWaitingDialog();
                 });
 
                 // load profile

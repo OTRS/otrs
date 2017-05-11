@@ -1948,14 +1948,18 @@ sub Run {
         );
         $Param{ArticleCreateTimeStart} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix   => 'ArticleCreateTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                   => 'ArticleCreateTimeStart',
+            Format                   => 'DateInputFormat',
+            DiffTime                 => -( ( 60 * 60 * 24 ) * 30 ),
+            Validate                 => 1,
+            ValidateDateBeforePrefix => 'ArticleCreateTimeStop',
         );
         $Param{ArticleCreateTimeStop} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix => 'ArticleCreateTimeStop',
-            Format => 'DateInputFormat',
+            Prefix                  => 'ArticleCreateTimeStop',
+            Format                  => 'DateInputFormat',
+            Validate                => 1,
+            ValidateDateAfterPrefix => 'ArticleCreateTimeStart',
         );
         $Param{TicketCreateTimePoint} = $LayoutObject->BuildSelection(
             Data       => [ 1 .. 59 ],
@@ -1984,14 +1988,18 @@ sub Run {
         );
         $Param{TicketCreateTimeStart} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix   => 'TicketCreateTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                   => 'TicketCreateTimeStart',
+            Format                   => 'DateInputFormat',
+            DiffTime                 => -( ( 60 * 60 * 24 ) * 30 ),
+            Validate                 => 1,
+            ValidateDateBeforePrefix => 'TicketCreateTimeStop',
         );
         $Param{TicketCreateTimeStop} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix => 'TicketCreateTimeStop',
-            Format => 'DateInputFormat',
+            Prefix                  => 'TicketCreateTimeStop',
+            Format                  => 'DateInputFormat',
+            Validate                => 1,
+            ValidateDateAfterPrefix => 'TicketCreateTimeStart',
         );
 
         $Param{TicketPendingTimePoint} = $LayoutObject->BuildSelection(
@@ -2023,14 +2031,18 @@ sub Run {
         );
         $Param{TicketPendingTimeStart} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix   => 'TicketPendingTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                   => 'TicketPendingTimeStart',
+            Format                   => 'DateInputFormat',
+            DiffTime                 => -( ( 60 * 60 * 24 ) * 30 ),
+            Validate                 => 1,
+            ValidateDateBeforePrefix => 'TicketPendingTimeStop',
         );
         $Param{TicketPendingTimeStop} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix => 'TicketPendingTimeStop',
-            Format => 'DateInputFormat',
+            Prefix                  => 'TicketPendingTimeStop',
+            Format                  => 'DateInputFormat',
+            Validate                => 1,
+            ValidateDateAfterPrefix => 'TicketPendingTimeStart',
         );
 
         $Param{TicketChangeTimePoint} = $LayoutObject->BuildSelection(
@@ -2060,14 +2072,18 @@ sub Run {
         );
         $Param{TicketChangeTimeStart} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix   => 'TicketChangeTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                   => 'TicketChangeTimeStart',
+            Format                   => 'DateInputFormat',
+            DiffTime                 => -( ( 60 * 60 * 24 ) * 30 ),
+            Validate                 => 1,
+            ValidateDateBeforePrefix => 'TicketChangeTimeStop',
         );
         $Param{TicketChangeTimeStop} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix => 'TicketChangeTimeStop',
-            Format => 'DateInputFormat',
+            Prefix                  => 'TicketChangeTimeStop',
+            Format                  => 'DateInputFormat',
+            Validate                => 1,
+            ValidateDateAfterPrefix => 'TicketChangeTimeStart',
         );
 
         $Param{TicketCloseTimePoint} = $LayoutObject->BuildSelection(
@@ -2097,14 +2113,18 @@ sub Run {
         );
         $Param{TicketCloseTimeStart} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix   => 'TicketCloseTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                   => 'TicketCloseTimeStart',
+            Format                   => 'DateInputFormat',
+            DiffTime                 => -( ( 60 * 60 * 24 ) * 30 ),
+            Validate                 => 1,
+            ValidateDateBeforePrefix => 'TicketCloseTimeStop',
         );
         $Param{TicketCloseTimeStop} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix => 'TicketCloseTimeStop',
-            Format => 'DateInputFormat',
+            Prefix                  => 'TicketCloseTimeStop',
+            Format                  => 'DateInputFormat',
+            Validate                => 1,
+            ValidateDateAfterPrefix => 'TicketCloseTimeStart',
         );
 
         $Param{TicketLastChangeTimePoint} = $LayoutObject->BuildSelection(
@@ -2134,14 +2154,18 @@ sub Run {
         );
         $Param{TicketLastChangeTimeStart} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix   => 'TicketLastChangeTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                   => 'TicketLastChangeTimeStart',
+            Format                   => 'DateInputFormat',
+            DiffTime                 => -( ( 60 * 60 * 24 ) * 30 ),
+            Validate                 => 1,
+            ValidateDateBeforePrefix => 'TicketLastChangeTimeStop',
         );
         $Param{TicketLastChangeTimeStop} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix => 'TicketLastChangeTimeStop',
-            Format => 'DateInputFormat',
+            Prefix                  => 'TicketLastChangeTimeStop',
+            Format                  => 'DateInputFormat',
+            Validate                => 1,
+            ValidateDateAfterPrefix => 'TicketLastChangeTimeStart',
         );
 
         $Param{TicketEscalationTimePoint} = $LayoutObject->BuildSelection(
@@ -2172,14 +2196,18 @@ sub Run {
         );
         $Param{TicketEscalationTimeStart} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix   => 'TicketEscalationTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            Prefix                   => 'TicketEscalationTimeStart',
+            Format                   => 'DateInputFormat',
+            DiffTime                 => -( ( 60 * 60 * 24 ) * 30 ),
+            Validate                 => 1,
+            ValidateDateBeforePrefix => 'TicketEscalationTimeStop',
         );
         $Param{TicketEscalationTimeStop} = $LayoutObject->BuildDateSelection(
             %GetParam,
-            Prefix => 'TicketEscalationTimeStop',
-            Format => 'DateInputFormat',
+            Prefix                  => 'TicketEscalationTimeStop',
+            Format                  => 'DateInputFormat',
+            Validate                => 1,
+            ValidateDateAfterPrefix => 'TicketEscalationTimeStart',
         );
 
         my %GetParamBackup = %GetParam;

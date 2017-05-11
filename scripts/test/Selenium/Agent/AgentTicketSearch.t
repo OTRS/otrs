@@ -85,12 +85,12 @@ $Selenium->RunTest(
             push @DynamicFieldIDs, $DynamicFieldID;
         }
 
-        my %LoockupDynamicFieldNames = map { $DynamicFields{$_}->{Name} => 1 } sort keys %DynamicFields;
+        my %LookupDynamicFieldNames = map { $DynamicFields{$_}->{Name} => 1 } sort keys %DynamicFields;
 
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketSearch###DynamicField',
-            Value => \%LoockupDynamicFieldNames,
+            Value => \%LookupDynamicFieldNames,
         );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -196,9 +196,9 @@ $Selenium->RunTest(
         }
 
         # Add search filter by ticket number and run it.
-        $Selenium->find_element( ".AddButton",   'css' )->click();
-        $Selenium->find_element( "TicketNumber", 'name' )->send_keys($TicketNumber);
-        $Selenium->find_element( "TicketNumber", 'name' )->VerifiedSubmit();
+        $Selenium->find_element( '.AddButton',        'css' )->click();
+        $Selenium->find_element( 'TicketNumber',      'name' )->send_keys($TicketNumber);
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         # Check for expected result.
         $Self->True(
@@ -212,10 +212,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Input wrong search parameters, result should be 'No ticket data found'.
-        $Selenium->execute_script(
-            "\$('input[name=\"Fulltext\"]').val('abcdfgh_nonexisting_ticket_text');",
-        );
-        $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
+        $Selenium->find_element( "Fulltext",          'name' )->send_keys('abcdfgh_nonexisting_ticket_text');
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), "No ticket data found." ) > -1,
@@ -261,7 +259,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('$MinCharString');",
         );
-        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
 
@@ -280,7 +278,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('$MaxCharString');",
         );
-        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
@@ -299,7 +297,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('because');",
         );
-        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->click();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
@@ -319,7 +317,7 @@ $Selenium->RunTest(
             "\$('input[name=\"Fulltext\"]').val('$Subject');",
         );
 
-        $Selenium->find_element("//button[\@id='SearchFormSubmit']")->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('div.TicketZoom').length" );
 
@@ -369,6 +367,58 @@ $Selenium->RunTest(
             $Selenium->find_element( "#TicketCreateTime${Field}Year",  'css' )->send_keys('2017');
         }
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+
+        # Check for expected result.
+        $Self->True(
+            index( $Selenium->get_page_source(), $TitleRandom ) > -1,
+            "Ticket $TitleRandom found on page"
+        );
+
+        # Navigate to AgentTicketSearch screen again.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # Wait until form and overlay has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # Add search filter by ticket create time and set it to invalid date (April 31st).
+        $Selenium->execute_script(
+            "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
+        );
+        $Selenium->find_element( '.AddButton',                  'css' )->click();
+        $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('31');
+        $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('04');
+        $Selenium->find_element( '#TicketCreateTimeStartYear',  'css' )->send_keys('2017');
+        $Selenium->find_element( '#SearchFormSubmit',           'css' )->VerifiedClick();
+
+        sleep 1;
+
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#TicketCreateTimeStartDay.Error').length;"
+            ),
+            'Invalid date highlighted as an error'
+        );
+
+        # Fix the start date and set the end date to one before the start date.
+        $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('05');
+        $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('05');
+        $Selenium->find_element( '#TicketCreateTimeStopDay',    'css' )->send_keys('04');
+        $Selenium->find_element( '#TicketCreateTimeStopMonth',  'css' )->send_keys('05');
+        $Selenium->find_element( '#TicketCreateTimeStopYear',   'css' )->send_keys('2017');
+        $Selenium->find_element( '#SearchFormSubmit',           'css' )->VerifiedClick();
+
+        sleep 1;
+
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('#TicketCreateTimeStopDay.Error').length;"
+            ),
+            'End date in the past highlighted as an error'
+        );
+
+        # Fix the end date, and submit the search again.
+        $Selenium->find_element( '#TicketCreateTimeStopDay', 'css' )->send_keys('05');
+        $Selenium->find_element( '#SearchFormSubmit',        'css' )->VerifiedClick();
 
         # Check for expected result.
         $Self->True(
