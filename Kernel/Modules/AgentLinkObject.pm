@@ -42,9 +42,10 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $SourceObject      = $ParamObject->GetParam( Param => 'SourceObject' )      || '';
-        my $SourceObjectID    = $ParamObject->GetParam( Param => 'SourceObjectID' )    || '';
-        my $DestinationObject = $ParamObject->GetParam( Param => 'DestinationObject' ) || '';
+        my $SourceObject                   = $ParamObject->GetParam( Param => 'SourceObject' )                   || '';
+        my $SourceObjectID                 = $ParamObject->GetParam( Param => 'SourceObjectID' )                 || '';
+        my $DestinationObject              = $ParamObject->GetParam( Param => 'DestinationObject' )              || '';
+        my $AdditionalLinkListWithDataJSON = $ParamObject->GetParam( Param => 'AdditionalLinkListWithDataJSON' ) || '';
 
         my $Success = $LayoutObject->ComplexTablePreferencesSet(
             DestinationObject => $DestinationObject,
@@ -72,13 +73,27 @@ sub Run {
             },
         );
 
+        if ($AdditionalLinkListWithDataJSON) {
+
+            # decode JSON string
+            my $AdditionalLinkListWithData = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+                Data => $AdditionalLinkListWithDataJSON,
+            );
+
+            $LinkListWithData = {
+                %{$LinkListWithData},
+                %{$AdditionalLinkListWithData},
+            };
+        }
+
         # create the link table
         my $LinkTableStrg = $LayoutObject->LinkObjectTableCreate(
-            LinkListWithData => $LinkListWithData,
-            ViewMode         => 'Complex',           # only make sense for complex
-            Object           => $SourceObject,
-            Key              => $SourceObjectID,
-            AJAX             => 1,
+            LinkListWithData               => $LinkListWithData,
+            ViewMode                       => 'Complex',                         # only make sense for complex
+            Object                         => $SourceObject,
+            Key                            => $SourceObjectID,
+            AJAX                           => 1,
+            AdditionalLinkListWithDataJSON => $AdditionalLinkListWithDataJSON,
         );
 
         return $LayoutObject->Attachment(

@@ -129,6 +129,7 @@ Core.UI.RegisterToggleTwoContainer($('#linkobject-' + Core.App.EscapeSelector('[
                     [% Data.SourceObjectData %]
                     <input type="hidden" name="SourceObject" value="[% Data.SourceObject | html %]"/>
                     <input type="hidden" name="DestinationObject" value="[% Data.DestinationObject | html %]"/>
+                    <input type="hidden" name="AdditionalLinkListWithDataJSON" value="[% Data.AdditionalLinkListWithDataJSON | html %]"/>
                     <input type="hidden" name="[% Data.NamePref | html %]" class="ColumnsJSON" value="[% Data.Columns | html %]" />
                     <input type="hidden" class="ColumnsEnabledJSON" value="[% Data.ColumnsEnabled | html %]" />
                     <input type="hidden" class="ColumnsAvailableJSON" value="[% Data.ColumnsAvailable | html %]" />

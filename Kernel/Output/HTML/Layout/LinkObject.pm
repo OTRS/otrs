@@ -57,18 +57,20 @@ sub LinkObjectTableCreate {
     if ( $Param{ViewMode} =~ m{ \A Simple }xms ) {
 
         return $Self->LinkObjectTableCreateSimple(
-            LinkListWithData => $Param{LinkListWithData},
-            ViewMode         => $Param{ViewMode},
+            LinkListWithData               => $Param{LinkListWithData},
+            ViewMode                       => $Param{ViewMode},
+            AdditionalLinkListWithDataJSON => $Param{AdditionalLinkListWithDataJSON},
         );
     }
     else {
 
         return $Self->LinkObjectTableCreateComplex(
-            LinkListWithData => $Param{LinkListWithData},
-            ViewMode         => $Param{ViewMode},
-            AJAX             => $Param{AJAX},
-            SourceObject     => $Param{Object},
-            ObjectID         => $Param{Key},
+            LinkListWithData               => $Param{LinkListWithData},
+            ViewMode                       => $Param{ViewMode},
+            AJAX                           => $Param{AJAX},
+            SourceObject                   => $Param{Object},
+            ObjectID                       => $Param{Key},
+            AdditionalLinkListWithDataJSON => $Param{AdditionalLinkListWithDataJSON},
         );
     }
 }
@@ -383,13 +385,14 @@ sub LinkObjectTableCreateComplex {
                 Name => $Preferences{Name} . 'PreferencesItem' . $Preferences{Block},
                 Data => {
                     %Preferences,
-                    NameForm          => $Block->{Blockname},
-                    NamePref          => $Preferences{Name},
-                    Name              => $Block->{Blockname},
-                    SourceObject      => $Param{SourceObject},
-                    DestinationObject => $Block->{Blockname},
-                    OriginalAction    => $OriginalAction,
-                    SourceObjectData  => $SourceObjectData,
+                    NameForm                       => $Block->{Blockname},
+                    NamePref                       => $Preferences{Name},
+                    Name                           => $Block->{Blockname},
+                    SourceObject                   => $Param{SourceObject},
+                    DestinationObject              => $Block->{Blockname},
+                    OriginalAction                 => $OriginalAction,
+                    SourceObjectData               => $SourceObjectData,
+                    AdditionalLinkListWithDataJSON => $Param{AdditionalLinkListWithDataJSON},
                 },
             );
         }
