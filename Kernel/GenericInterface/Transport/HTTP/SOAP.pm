@@ -188,6 +188,16 @@ sub ProviderProcessRequest {
     # if no chunked transfer encoding was used, read request directly
     if ( !$Chunked ) {
         read STDIN, $Content, $Length;
+
+        # If there is no STDIN data it might be caused by fastcgi already having read the request.
+        # In this case we need to get the data from CGI.
+        my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
+        if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
+            my $ParamName = $RequestMethod . 'DATA';
+            $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+                Param => $ParamName,
+            );
+        }
     }
 
     # check if we have content
