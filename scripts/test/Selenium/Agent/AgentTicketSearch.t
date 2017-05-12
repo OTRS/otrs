@@ -195,7 +195,7 @@ $Selenium->RunTest(
 
         # Search for $MaxCharString with RuntimeDB - ticket must be found.
         $Selenium->find_element( "Fulltext",          'name' )->send_keys($MaxCharString);
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
@@ -232,7 +232,7 @@ $Selenium->RunTest(
 
         # Try to search fulltext with string less then 3 characters.
         $Selenium->find_element( "Fulltext",          'name' )->send_keys($MinCharString);
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
 
@@ -249,7 +249,7 @@ $Selenium->RunTest(
         # Try to search fulltext with string more than 30 characters.
         $Selenium->find_element( "Fulltext",          'name' )->clear();
         $Selenium->find_element( "Fulltext",          'name' )->send_keys($MaxCharString);
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
@@ -266,7 +266,7 @@ $Selenium->RunTest(
         # Try to search fulltext with 'stop word' search.
         $Selenium->find_element( "Fulltext",          'name' )->clear();
         $Selenium->find_element( "Fulltext",          'name' )->send_keys('because');
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
@@ -307,7 +307,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('31');
         $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('04');
         $Selenium->find_element( '#TicketCreateTimeStartYear',  'css' )->send_keys('2017');
-        $Selenium->find_element( '#SearchFormSubmit',           'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit',           'css' )->click();
 
         sleep 1;
 
