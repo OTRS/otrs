@@ -242,7 +242,7 @@ sub Run {
                 $LayoutObject->Block(
                     Name => 'Reset',
                     Data => {
-                        Size => sprintf "%.1f MBytes",
+                        Size => sprintf "%.1f MB",
                         ( $Self->_DatabaseCheck() / ( 1024 * 1024 ) ),
                     },
                 );

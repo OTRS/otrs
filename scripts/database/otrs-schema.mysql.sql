@@ -622,7 +622,7 @@ CREATE TABLE article_data_mime (
     a_in_reply_to MEDIUMTEXT NULL,
     a_references MEDIUMTEXT NULL,
     a_content_type VARCHAR (250) NULL,
-    a_body MEDIUMTEXT NOT NULL,
+    a_body MEDIUMTEXT NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
@@ -672,7 +672,7 @@ CREATE TABLE article_data_mime_attachment (
     content_id VARCHAR (250) NULL,
     content_alternative VARCHAR (50) NULL,
     disposition VARCHAR (15) NULL,
-    content LONGBLOB NOT NULL,
+    content LONGBLOB NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
@@ -1197,7 +1197,7 @@ CREATE TABLE virtual_fs_preferences (
 CREATE TABLE virtual_fs_db (
     id BIGINT NOT NULL AUTO_INCREMENT,
     filename TEXT NOT NULL,
-    content LONGBLOB NOT NULL,
+    content LONGBLOB NULL,
     create_time DATETIME NOT NULL,
     PRIMARY KEY(id),
     INDEX virtual_fs_db_filename (filename(255))

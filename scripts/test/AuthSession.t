@@ -104,13 +104,13 @@ for my $ModuleFile (@BackendModuleFiles) {
         my $Length = length($LongString);
         my $Size   = $Length;
         if ( $Size > ( 1024 * 1024 ) ) {
-            $Size = sprintf "%.1f MBytes", ( $Size / ( 1024 * 1024 ) );
+            $Size = sprintf "%.1f MB", ( $Size / ( 1024 * 1024 ) );
         }
         elsif ( $Size > 1024 ) {
-            $Size = sprintf "%.1f KBytes", ( ( $Size / 1024 ) );
+            $Size = sprintf "%.1f KB", ( ( $Size / 1024 ) );
         }
         else {
-            $Size = $Size . ' Bytes';
+            $Size = $Size . ' B';
         }
 
         my %NewSessionData = (

@@ -609,8 +609,8 @@
 [% RenderBlockStart("ArticleAttachmentRowNoLink") %]
                         [% Data.Filename | html %]
 [% RenderBlockEnd("ArticleAttachmentRowNoLink") %]
-                        [% IF Data.Filesize %]
-                            ([% Data.Filesize | html %])
+                        [% IF Data.FilesizeRaw %]
+                            ([% Data.FilesizeRaw | Localize('Filesize') | html %])
                         [% END %]
                         <br />
 [% RenderBlockEnd("ArticleAttachmentRow") %]

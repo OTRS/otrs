@@ -38,7 +38,7 @@ for my $Backend (qw(DB FS)) {
     );
 
     my $Location = $ConfigObject->Get('Home')
-        . "/scripts/test/sample/PostMaster/UTF8Filename.box";
+        . "/scripts/test/sample/EmailParser/EmptyEmail.eml";
 
     my $ContentRef = $MainObject->FileRead(
         Location => $Location,
@@ -68,20 +68,32 @@ for my $Backend (qw(DB FS)) {
         "$Backend - Article created",
     );
 
+    my %Article = $ArticleBackendObject->ArticleGet(
+        ArticleID => $ArticleIDs[0],
+        TicketID  => $TicketID,
+        UserID    => 1,
+    );
+
+    $Self->Is(
+        scalar $Article{Body},
+        '',
+        "Empty article body found"
+    );
+
     my %Attachments = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $ArticleIDs[0],
         UserID    => 1,
     );
 
     $Self->IsDeeply(
-        $Attachments{1},
+        $Attachments{2},
         {
-            ContentAlternative => '',
-            ContentID          => '',
-            ContentType        => 'application/pdf; name="=?UTF-8?Q?Documentacio=CC=81n=2Epdf?="',
-            Filename           => 'Documentación.pdf',
-            FilesizeRaw        => '132',
-            Disposition        => 'attachment'
+            'ContentAlternative' => '',
+            'ContentID' => '',
+            'ContentType' => 'application/x-download; name="=?UTF-8?Q?=C5=81atwa_sprawa.txt?="',
+            'Disposition' => 'attachment',
+            'Filename' => 'Łatwa sprawa.txt',
+            'FilesizeRaw' => 0
         },
         "$Backend - Attachment filename",
     );

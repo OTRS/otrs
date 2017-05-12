@@ -118,13 +118,13 @@ for my $Count ( 1 .. 6 ) {
     my $Size   = $Length;
     my $Key    = 'Some116' . $Count;
     if ( $Size > ( 1024 * 1024 ) ) {
-        $Size = sprintf "%.1f MBytes", ( $Size / ( 1024 * 1024 ) );
+        $Size = sprintf "%.1f MB", ( $Size / ( 1024 * 1024 ) );
     }
     elsif ( $Size > 1024 ) {
-        $Size = sprintf "%.1f KBytes", ( ( $Size / 1024 ) );
+        $Size = sprintf "%.1f KB", ( ( $Size / 1024 ) );
     }
     else {
-        $Size = $Size . ' Bytes';
+        $Size = $Size . ' B';
     }
     $XML = '
         <Insert Table="test_a">
@@ -186,13 +186,13 @@ for my $Count ( 1 .. 6 ) {
     my $Size   = $Length;
     my $Key    = 'Some216' . $Count;
     if ( $Size > ( 1024 * 1024 ) ) {
-        $Size = sprintf "%.1f MBytes", ( $Size / ( 1024 * 1024 ) );
+        $Size = sprintf "%.1f MB", ( $Size / ( 1024 * 1024 ) );
     }
     elsif ( $Size > 1024 ) {
-        $Size = sprintf "%.1f KBytes", ( ( $Size / 1024 ) );
+        $Size = sprintf "%.1f KB", ( ( $Size / 1024 ) );
     }
     else {
-        $Size = $Size . ' Bytes';
+        $Size = $Size . ' B';
     }
 
     # insert
@@ -227,13 +227,13 @@ for my $Count ( 1 .. 19 ) {
     my $Size   = $Length;
     my $Key    = 'Some119' . $Count;
     if ( $Size > ( 1024 * 1024 ) ) {
-        $Size = sprintf "%.1f MBytes", ( $Size / ( 1024 * 1024 ) );
+        $Size = sprintf "%.1f MB", ( $Size / ( 1024 * 1024 ) );
     }
     elsif ( $Size > 1024 ) {
-        $Size = sprintf "%.1f KBytes", ( ( $Size / 1024 ) );
+        $Size = sprintf "%.1f KB", ( ( $Size / 1024 ) );
     }
     else {
-        $Size = $Size . ' Bytes';
+        $Size = $Size . ' B';
     }
 
     # insert

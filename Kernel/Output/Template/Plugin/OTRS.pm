@@ -94,6 +94,9 @@ sub new {
         elsif ( $Format eq 'Date' ) {
             return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormatShort' );
         }
+        elsif ( $Format eq 'Filesize' ) {
+            return $LayoutObject->HumanReadableDataSize( Size => $_[0] );
+        }
         return;
     };
 
@@ -110,6 +113,9 @@ sub new {
             }
             elsif ( $Format eq 'Date' ) {
                 return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormatShort' );
+            }
+            elsif ( $Format eq 'Filesize' ) {
+                return $LayoutObject->HumanReadableDataSize( Size => $_[0] );
             }
             return;
         };

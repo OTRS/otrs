@@ -623,7 +623,7 @@ CREATE TABLE article_data_mime (
     a_in_reply_to VARCHAR NULL,
     a_references VARCHAR NULL,
     a_content_type VARCHAR (250) NULL,
-    a_body VARCHAR NOT NULL,
+    a_body VARCHAR NULL,
     incoming_time INTEGER NOT NULL,
     content_path VARCHAR (250) NULL,
     create_time timestamp(0) NOT NULL,
@@ -673,7 +673,7 @@ CREATE TABLE article_data_mime_attachment (
     content_id VARCHAR (250) NULL,
     content_alternative VARCHAR (50) NULL,
     disposition VARCHAR (15) NULL,
-    content TEXT NOT NULL,
+    content TEXT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -1198,7 +1198,7 @@ CREATE INDEX virtual_fs_preferences_virtual_fs_id ON virtual_fs_preferences (vir
 CREATE TABLE virtual_fs_db (
     id bigserial NOT NULL,
     filename VARCHAR (350) NOT NULL,
-    content TEXT NOT NULL,
+    content TEXT NULL,
     create_time timestamp(0) NOT NULL,
     PRIMARY KEY(id)
 );

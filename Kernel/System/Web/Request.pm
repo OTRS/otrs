@@ -265,14 +265,11 @@ sub GetUploadAll {
     $NewFileName =~ s/.*\\(.+?)/$1/g;
 
     # return a string
-    my $Content;
+    my $Content = '';
     while (<$Upload>) {
         $Content .= $_;
     }
     close $Upload;
-
-    # Check if content is there, IE is always sending file uploads without content.
-    return if !$Content;
 
     my $ContentType = $Self->_GetUploadInfo(
         Filename => $UploadFilenameOrig,

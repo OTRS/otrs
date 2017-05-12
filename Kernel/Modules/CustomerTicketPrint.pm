@@ -738,7 +738,8 @@ sub _PDFOutputArticles {
         }
         my $AttachmentString;
         for my $Attachment (@Attachments) {
-            $AttachmentString .= $Attachment->{Filename} . ' (' . $Attachment->{Filesize} . ")\n";
+            my $Filesize = $LayoutObject->HumanReadableDataSize( Size => $Attachment->{Filesize} );
+            $AttachmentString .= $Attachment->{Filename} . ' (' . $Filesize . ")\n";
         }
 
         # generate article info table

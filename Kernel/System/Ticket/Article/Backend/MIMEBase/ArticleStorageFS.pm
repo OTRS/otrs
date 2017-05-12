@@ -291,7 +291,7 @@ sub ArticleWriteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Content Filename ContentType ArticleID UserID)) {
+    for (qw(Filename ContentType ArticleID UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -570,8 +570,7 @@ sub ArticleAttachmentIndexRaw {
 
     FILENAME:
     for my $Filename ( sort @List ) {
-        my $FileSize    = -s $Filename;
-        my $FileSizeRaw = $FileSize;
+        my $FileSizeRaw = -s $Filename;
 
         # do not use control file
         next FILENAME if $Filename =~ /\.content_alternative$/;
@@ -579,19 +578,6 @@ sub ArticleAttachmentIndexRaw {
         next FILENAME if $Filename =~ /\.content_type$/;
         next FILENAME if $Filename =~ /\.disposition$/;
         next FILENAME if $Filename =~ /\/plain.txt$/;
-
-        # human readable file size
-        if ($FileSize) {
-            if ( $FileSize > ( 1024 * 1024 ) ) {
-                $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
-            }
-            elsif ( $FileSize > 1024 ) {
-                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
-            }
-            else {
-                $FileSize = $FileSize . ' Bytes';
-            }
-        }
 
         # read content type
         my $ContentType = '';
@@ -671,7 +657,6 @@ sub ArticleAttachmentIndexRaw {
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Filename,
-            Filesize           => $FileSize,
             FilesizeRaw        => $FileSizeRaw,
             ContentType        => $ContentType,
             ContentID          => $ContentID,

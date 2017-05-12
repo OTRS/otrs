@@ -30,7 +30,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # Create test ticket.
 my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
     Title        => 'Some Ticket_Title',
-    Queue        => 'Raw',
+    QueueID      => 1,
     Lock         => 'unlock',
     Priority     => '3 normal',
     State        => 'closed successful',
@@ -85,7 +85,7 @@ for my $Backend (qw(DB FS)) {
 
     for my $File (
         qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
-        Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)
+        Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin Ticket-Article-Test-empty.txt)
         )
     {
         my $Location   = $ConfigObject->Get('Home') . "/scripts/test/sample/Ticket/$File";
@@ -137,10 +137,6 @@ for my $Backend (qw(DB FS)) {
                 ArticleID => $ArticleID,
                 FileID    => 1,
                 UserID    => 1,
-            );
-            $Self->True(
-                $Data{Content},
-                "$Backend ArticleAttachment() Content - $FileNew",
             );
             $Self->True(
                 $Data{ContentType},
@@ -264,7 +260,6 @@ for my $Backend (qw(DB FS)) {
             'ContentID'          => '',
             'ContentType'        => 'image/png',
             'Filename'           => "$TargetFilename.pdf",
-            'Filesize'           => '3 Bytes',
             'FilesizeRaw'        => '3',
             'Disposition'        => 'attachment',
         },
@@ -278,7 +273,6 @@ for my $Backend (qw(DB FS)) {
             'ContentID'          => '',
             'ContentType'        => 'image/png',
             'Filename'           => "$TargetFilename-1.pdf",
-            'Filesize'           => '3 Bytes',
             'FilesizeRaw'        => '3',
             'Disposition'        => 'attachment',
         },

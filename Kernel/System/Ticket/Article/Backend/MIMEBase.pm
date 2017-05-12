@@ -243,8 +243,8 @@ sub ArticleCreate {
 
     # add 'no body' if there is no body there!
     my @AttachmentConvert;
-    if ( !length $Param{Body} ) {    # allow '0' as body
-        $Param{Body} = 'No body';
+    if ( !defined $Param{Body} ) {    # allow '0' as body
+        $Param{Body} = '';
     }
 
     # process html article
@@ -1356,7 +1356,6 @@ Returns:
         ContentID          => '',
         ContentType        => 'application/pdf',
         Filename           => 'StdAttachment-Test1.pdf',
-        Filesize           => '4.6 KBytes',
         FilesizeRaw        => 4722,
         Disposition        => 'attachment',
     );
@@ -1402,18 +1401,16 @@ Returns:
         '1' => {                                                # Attachment ID
             ContentAlternative => '',                           # (optional)
             ContentID          => '',                           # (optional)
-            Filesize           => '4.6 KBytes',
+            Filesize           => '4.6 KB',
             ContentType        => 'application/pdf',
-            Filename           => 'StdAttachment-Test1.pdf',
             FilesizeRaw        => 4722,
             Disposition        => 'attachment',
         },
         '2' => {
             ContentAlternative => '',
             ContentID          => '',
-            Filesize           => '183 Bytes',
+            Filesize           => '183 B',
             ContentType        => 'text/html; charset="utf-8"',
-            Filename           => 'file-2',
             FilesizeRaw        => 183,
             Disposition        => 'attachment',
         },

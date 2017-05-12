@@ -222,6 +222,17 @@
         <ColumnChange NameOld="a_in_reply_to" NameNew="a_in_reply_to" Required="false" Size="1800000" Type="VARCHAR"/>
     </TableAlter>
 
+    <!-- Make article body and attachment content optional, see bug#10509. -->
+    <TableAlter Name="article">
+        <ColumnChange NameOld="a_body" NameNew="a_body" Required="false" Size="1800000" Type="VARCHAR"/>
+    </TableAlter>
+    <TableAlter Name="article_attachment">
+        <ColumnChange NameOld="content" NameNew="content" Required="false" Type="LONGBLOB"/>
+    </TableAlter>
+    <TableAlter Name="virtual_fs_db">
+        <ColumnChange NameOld="content" NameNew="content" Required="false" Type="LONGBLOB"/>
+    </TableAlter>
+
     <!-- Speed up deleting of ticket_history entries for articles, see bug#12374 -->
     <TableAlter Name="ticket_history">
         <IndexCreate Name="ticket_history_article_id">

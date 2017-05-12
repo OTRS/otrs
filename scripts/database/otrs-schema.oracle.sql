@@ -1343,7 +1343,7 @@ CREATE TABLE article_data_mime (
     a_in_reply_to CLOB NULL,
     a_references CLOB NULL,
     a_content_type VARCHAR2 (250) NULL,
-    a_body CLOB NOT NULL,
+    a_body CLOB NULL,
     incoming_time NUMBER (12, 0) NOT NULL,
     content_path VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
@@ -1484,7 +1484,7 @@ CREATE TABLE article_data_mime_attachment (
     content_id VARCHAR2 (250) NULL,
     content_alternative VARCHAR2 (50) NULL,
     disposition VARCHAR2 (15) NULL,
-    content CLOB NOT NULL,
+    content CLOB NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -2651,7 +2651,7 @@ CREATE INDEX virtual_fs_preferences_virtuf6 ON virtual_fs_preferences (virtual_f
 CREATE TABLE virtual_fs_db (
     id NUMBER (20, 0) NOT NULL,
     filename VARCHAR2 (350) NOT NULL,
-    content CLOB NOT NULL,
+    content CLOB NULL,
     create_time DATE NOT NULL
 );
 ALTER TABLE virtual_fs_db ADD CONSTRAINT PK_virtual_fs_db PRIMARY KEY (id);

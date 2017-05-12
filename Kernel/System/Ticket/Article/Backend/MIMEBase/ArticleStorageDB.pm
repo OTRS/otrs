@@ -24,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Encode',
     'Kernel::System::Log',
+    'Kernel::System::Main',
     'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS',
 );
 
@@ -182,7 +183,7 @@ sub ArticleWriteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Content Filename ContentType ArticleID UserID)) {
+    for (qw(Filename ContentType ArticleID UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -340,20 +341,6 @@ sub ArticleAttachmentIndexRaw {
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
-        # human readable file size
-        my $FileSizeRaw = $Row[2];
-        if ( $Row[2] ) {
-            if ( $Row[2] > ( 1024 * 1024 ) ) {
-                $Row[2] = sprintf "%.1f MBytes", ( $Row[2] / ( 1024 * 1024 ) );
-            }
-            elsif ( $Row[2] > 1024 ) {
-                $Row[2] = sprintf "%.1f KBytes", ( ( $Row[2] / 1024 ) );
-            }
-            else {
-                $Row[2] = $Row[2] . ' Bytes';
-            }
-        }
-
         my $Disposition = $Row[5];
         if ( !$Disposition ) {
 
@@ -378,8 +365,7 @@ sub ArticleAttachmentIndexRaw {
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Row[0],
-            Filesize           => $Row[2] || '',
-            FilesizeRaw        => $FileSizeRaw || 0,
+            FilesizeRaw        => $Row[2] || 0,
             ContentType        => $Row[1],
             ContentID          => $Row[3] || '',
             ContentAlternative => $Row[4] || '',

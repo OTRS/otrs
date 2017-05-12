@@ -974,7 +974,8 @@ sub _PDFOutputArticles {
         my $Attachments;
         for my $FileID ( sort keys %AtmIndex ) {
             my %File = %{ $AtmIndex{$FileID} };
-            $Attachments .= $File{Filename} . ' (' . $File{Filesize} . ")\n";
+            my $Filesize = $LayoutObject->HumanReadableDataSize( Size => $File{Filesize} );
+            $Attachments .= $File{Filename} . ' (' . $Filesize . ")\n";
         }
 
         # get config object

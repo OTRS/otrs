@@ -94,7 +94,6 @@ Returns:
         '1' => {                                                # Attachment ID
             ContentAlternative => '',                           # (optional)
             ContentID          => '',                           # (optional)
-            Filesize           => '4.6 KBytes',
             ContentType        => 'application/pdf',
             Filename           => 'StdAttachment-Test1.pdf',
             FilesizeRaw        => 4722,
@@ -103,7 +102,6 @@ Returns:
         '2' => {
             ContentAlternative => '',
             ContentID          => '',
-            Filesize           => '183 Bytes',
             ContentType        => 'text/html; charset="utf-8"',
             Filename           => 'file-2',
             FilesizeRaw        => 183,

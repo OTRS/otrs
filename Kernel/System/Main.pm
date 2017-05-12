@@ -619,7 +619,7 @@ get an C<MD5> sum of a file or a string
 sub MD5sum {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{Filename} && !$Param{String} ) {
+    if ( !$Param{Filename} && !defined( $Param{String} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Filename or String!',
@@ -925,28 +925,28 @@ defaults to a length of 16 and alphanumerics ( 0..9, A-Z and a-z).
 
     my $String = $MainObject->GenerateRandomString();
 
-    returns
+returns
 
     $String = 'mHLOx7psWjMe5Pj7';
 
-    with specific length:
+with specific length:
 
     my $String = $MainObject->GenerateRandomString(
         Length => 32,
     );
 
-    returns
+returns
 
     $String = 'azzHab72wIlAXDrxHexsI5aENsESxAO7';
 
-    with specific length and alphabet:
+with specific length and alphabet:
 
     my $String = $MainObject->GenerateRandomString(
         Length     => 32,
         Dictionary => [ 0..9, 'a'..'f' ], # hexadecimal
         );
 
-    returns
+returns
 
     $String = '9fec63d37078fe72f5798d2084fea8ad';
 

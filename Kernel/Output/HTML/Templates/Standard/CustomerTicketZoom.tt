@@ -132,15 +132,15 @@
                                 <div>
 [% RenderBlockStart("ArticleAttachmentRow") %]
                                     <i class="fa fa-paperclip"></i>
-                                    <span class="DownloadAttachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
+                                    <span class="DownloadAttachment" title="[% Data.Filename | html %] - [% Data.FilesizeRaw | Localize('Filesize') | html %]">
 [% RenderBlockStart("ArticleAttachmentRowLink") %]
                                         <a href="[% Data.Link %]" [% Data.Target %] title="[% Translate(Data.Action) | html %]">[% Data.Filename | html %]</a>
 [% RenderBlockEnd("ArticleAttachmentRowLink") %]
 [% RenderBlockStart("ArticleAttachmentRowNoLink") %]
                                         [% Data.Filename | html %]
 [% RenderBlockEnd("ArticleAttachmentRowNoLink") %]
-                                        [% IF Data.Filesize %]
-                                            ([% Data.Filesize | html %])
+                                        [% IF Data.FilesizeRaw %]
+                                            ([% Data.FilesizeRaw | Localize('Filesize') | html %])
                                         [% END %]
                                     </span>
 [% RenderBlockEnd("ArticleAttachmentRow") %]
@@ -313,8 +313,8 @@
                             <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
 
 [% RenderBlockStart("FollowUpAttachment") %]
-                            <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
-                                [% Data.Filename | html %] ([% Data.Filesize | html %])
+                            <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | Localize('Filesize') | html %]">
+                                [% Data.Filename | html %] ([% Data.Filesize | Localize('Filesize') | html %])
                                 <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
                                 <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
                             </div>

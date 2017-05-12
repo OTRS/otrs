@@ -213,7 +213,6 @@ one or more ticket entries in one call.
                                     ContentType        => "application/pdf",
                                     FileID             => 34,
                                     Filename           => "StdAttachment-Test1.pdf",
-                                    Filesize           => "4.6 KBytes",
                                     FilesizeRaw        => 4722,
                                 },
                                 {

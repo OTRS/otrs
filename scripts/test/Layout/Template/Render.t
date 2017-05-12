@@ -457,6 +457,15 @@ EOF
             HTML => '<h1 class="test">Test</h1><p>mytext</p><p>mytext2</p>'
         },
     },
+    {
+        Name     => 'HumanReadableDataSize',
+        Template => <<'EOF',
+[% 123 | Localize( 'Filesize' ) %] [% Localize( 456 * 1024, 'Filesize' ) %]
+EOF
+        Result => '123 B 456 KB
+',
+        Data => {},
+    },
 );
 
 for my $Test (@Tests) {

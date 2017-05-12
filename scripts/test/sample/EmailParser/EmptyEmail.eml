@@ -1,0 +1,25 @@
+Return-Path: <test@test.loc>
+X-Original-To: test@test.loc
+Delivered-To: test@test.loc
+Subject: test
+From: =?UTF-8?Q?test?= <test@test.loc>
+To: <test@test.loc>
+MIME-Version: 1.0
+Message-ID: <100001@test.loc>
+Date: Mon, 14 Apr 2014 11:44:20 +0200
+Content-Type: multipart/mixed; boundary="------------030804070600060600030701"
+
+--------------030804070600060600030701
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+--------------030804070600060600030701
+Content-Type: application/x-download;
+	name="=?UTF-8?Q?=C5=81atwa_sprawa.txt?="
+Content-Disposition: attachment;
+	filename="=?UTF-8?Q?=C5=81atwa_sprawa.txt?="
+Content-Transfer-Encoding: quoted-printable
+
+
+--------------030804070600060600030701--

@@ -77,7 +77,6 @@ returns
         Preferences => {
 
             # generated automatically
-            Filesize           => '12.4 KBytes',
             FilesizeRaw        => 12345,
 
             # optional
@@ -220,17 +219,6 @@ sub Write {
 
     # size calculation
     $Param{Preferences}->{FilesizeRaw} = bytes::length( ${ $Param{Content} } );
-    my $Filesize = $Param{Preferences}->{FilesizeRaw};
-    if ( $Filesize > ( 1024 * 1024 ) ) {
-        $Filesize = sprintf "%.1f MBytes", ( $Filesize / ( 1024 * 1024 ) );
-    }
-    elsif ( $Filesize > 1024 ) {
-        $Filesize = sprintf "%.1f KBytes", ( $Filesize / 1024 );
-    }
-    else {
-        $Filesize = $Filesize . ' Bytes';
-    }
-    $Param{Preferences}->{Filesize} = $Filesize;
 
     # insert preferences
     for my $Key ( sort keys %{ $Param{Preferences} } ) {

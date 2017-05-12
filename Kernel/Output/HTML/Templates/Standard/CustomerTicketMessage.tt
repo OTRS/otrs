@@ -99,8 +99,8 @@
                     <input name="file_upload" id="Attachment" title="[% Translate("Attachment") | html %]" type="file" size="40" />
                     <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
 [% RenderBlockStart("Attachment") %]
-                    <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | html %]">
-                        [% Data.Filename | html %] ([% Data.Filesize | html %])
+                    <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | Localize('Filesize') | html %]">
+                        [% Data.Filename | html %] ([% Data.Filesize | Localize('Filesize') | html %])
                         <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
                         <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
                     </div>
