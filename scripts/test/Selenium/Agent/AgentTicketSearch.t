@@ -259,7 +259,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('$MinCharString');",
         );
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
 
@@ -278,7 +278,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('$MaxCharString');",
         );
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
@@ -297,7 +297,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('because');",
         );
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
@@ -388,7 +388,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('31');
         $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('04');
         $Selenium->find_element( '#TicketCreateTimeStartYear',  'css' )->send_keys('2017');
-        $Selenium->find_element( '#SearchFormSubmit',           'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit',           'css' )->click();
 
         sleep 1;
 
