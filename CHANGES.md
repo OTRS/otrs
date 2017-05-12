@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-05-12 Fixed bug#[12796](https://bugs.otrs.org/show_bug.cgi?id=12796) -             GenericInterface only works with FastCGI for GET requests.
  - 2017-05-08 Fixed bug#[12216](https://bugs.otrs.org/show_bug.cgi?id=12216) - Inconsistent behaviour in pop-ups which lock tickets.
  - 2017-05-11 Fixed bug#[12809](https://bugs.otrs.org/show_bug.cgi?id=12809) - Unable to select queue if queue comment is empty (with modified Ticket::Frontend::NewQueueSelectionString).
  - 2017-05-11 Fixed bug#[10685](https://bugs.otrs.org/show_bug.cgi?id=10685) - Removing an agent's access to a ticket while he is viewing the ticket leads to interface issues on the agent's side.

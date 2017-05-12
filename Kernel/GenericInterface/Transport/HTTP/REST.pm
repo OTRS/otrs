@@ -132,7 +132,7 @@ sub ProviderProcessRequest {
         #       UserLogin => 'user',
         #       Password  => 'secret',
         #    );
-        %QueryParams = split /[&=]/, $QueryParamsStr;
+        %QueryParams = split /[;&=]/, $QueryParamsStr;
 
         # unscape URI strings in query parameters
         for my $Param ( sort keys %QueryParams ) {
@@ -231,6 +231,15 @@ sub ProviderProcessRequest {
     # read request
     my $Content;
     read STDIN, $Content, $Length;
+
+    # If there is no STDIN data it might be caused by fastcgi already having read the request.
+    # In this case we need to get the data from CGI.
+    if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
+        my $ParamName = $RequestMethod . 'DATA';
+        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+            Param => $ParamName,
+        );
+    }
 
     # check if we have content
     if ( !IsStringWithData($Content) ) {
