@@ -72,6 +72,7 @@ cdn.www.seleniumtest.com
 my.ftp.de
 myftp.de
 sub-domain.www.seleniumtest.com
+somestringbeforeactuallink<www.some-long-url-for-test-purpose-with-many-characters-to-check-for-integrity-of-link-triggered-by-bug-11901.com>
             ',
             ContentType    => 'text/plain; charset=ISO-8859-15',
             HistoryType    => 'OwnerUpdate',
@@ -94,13 +95,32 @@ sub-domain.www.seleniumtest.com
             'http://my.ftp.de',
             'http://myftp.de',
             'http://sub-domain.www.seleniumtest.com',
+            'http://www.some-long-url-for-test-purpose-with-many-characters-to-check-for-integrity-of-link-triggered-by-bug-11901.com',
         );
 
         # check for links in article body
         for my $ExpectedLink (@ExpectedLinks) {
             $Self->True(
                 index( $Selenium->get_page_source(), 'href="' . $ExpectedLink . '"' ) > -1,
-                "TextURL link $ExpectedLink on zoom view - found",
+                "TextURL link $ExpectedLink on zoom view - found with RichText ON",
+            );
+        }
+
+        # Disable RichText.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => 0,
+        );
+
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
+
+        # Check for links in article body with RichText turned off
+        for my $ExpectedLink (@ExpectedLinks) {
+            $Self->True(
+                index( $Selenium->get_page_source(), 'href="' . $ExpectedLink . '"' ) > -1,
+                "TextURL link $ExpectedLink on zoom view - found with RichText OFF",
             );
         }
 
@@ -113,6 +133,13 @@ sub-domain.www.seleniumtest.com
             Valid => 0,
             Key   => 'Frontend::Output::FilterText###AAAURL',
             Value => $TextURL{EffectiveValue},
+        );
+
+        # Enable RichText.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => 1,
         );
 
         # refresh screen
