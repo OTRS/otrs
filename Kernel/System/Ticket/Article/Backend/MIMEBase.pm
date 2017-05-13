@@ -330,18 +330,6 @@ sub ArticleCreate {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # If the original article body contains just one pasted picture and no text, at this point of the code the body
-    #   is an empty string, Oracle databases will transform the empty string value to NULL and will try to insert a
-    #   NULL value in a field that should not be NULL (see bug#7533).
-    if (
-        $DBObject->GetDatabaseFunction('Type') eq 'oracle'
-        && defined $Param{Body}
-        && !$Param{Body}
-        )
-    {
-        $Param{Body} = ' ';
-    }
-
     # Create meta article.
     my $ArticleID = $Self->_MetaArticleCreate(
         TicketID               => $Param{TicketID},
