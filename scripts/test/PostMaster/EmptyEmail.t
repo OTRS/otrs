@@ -75,7 +75,7 @@ for my $Backend (qw(DB FS)) {
     );
 
     $Self->Is(
-        scalar $Article{Body},
+        $Article{Body} // '',   # Oracle stores '' as undef.
         '',
         "Empty article body found"
     );
