@@ -148,16 +148,6 @@ sub ArticleCreate {
     for my $ChatMessage ( @{ $Param{ChatMessageList} } ) {
         next CHAT_MESSAGE if !IsHashRefWithData($ChatMessage);
 
-        if (
-            $DBType eq 'oracle'
-            && defined $ChatMessage->{MessageText}
-            && !$ChatMessage->{MessageText}
-            )
-        {
-            $ChatMessage->{MessageText} = ' ';
-        }
-
-        # create db record
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => '
                 INSERT INTO article_data_otrs_chat
@@ -488,15 +478,6 @@ sub ArticleUpdate {
         CHAT_MESSAGE:
         for my $ChatMessage ( @{ $Param{Value} } ) {
             next CHAT_MESSAGE if !IsHashRefWithData($ChatMessage);
-
-            if (
-                $DBType eq 'oracle'
-                && defined $ChatMessage->{MessageText}
-                && !$ChatMessage->{MessageText}
-                )
-            {
-                $ChatMessage->{MessageText} = ' ';
-            }
 
             my $Success = $DBObject->Do(
                 SQL => '

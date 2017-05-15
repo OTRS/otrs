@@ -1146,7 +1146,7 @@
     <Column Name="chat_participant_id" Required="true" Size="255" Type="VARCHAR" />
     <Column Name="chat_participant_name" Required="true" Size="255" Type="VARCHAR"/>
     <Column Name="chat_participant_type" Required="true" Size="255" Type="VARCHAR"/>
-    <Column Name="message_text" Required="true" Size="3800" Type="VARCHAR" />
+    <Column Name="message_text" Required="false" Size="3800" Type="VARCHAR" />
     <Column Name="system_generated" Required="true" Type="SMALLINT" />
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Index Name="article_data_otrs_chat_article_id">
