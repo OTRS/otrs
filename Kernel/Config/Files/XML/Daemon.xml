@@ -740,5 +740,21 @@
             </Hash>
         </Value>
     </Setting>
-
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###TicketNumberCounterCleanup" Required="1" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Removes old ticket number counters (Sunday mornings).</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">TicketNumberCounterCleanup</Item>
+                <Item Key="Schedule">*/10 * * * *</Item> <!-- each 10 mins -->
+                <Item Key="Module">Kernel::System::Ticket::Number::AutoIncrement</Item> <!-- use AutoIncrement to have access to the base function. -->
+                <Item Key="Function">TicketNumberCounterCleanup</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otrs_config>

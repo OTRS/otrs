@@ -1697,6 +1697,15 @@ sub MigrateConfigEffectiveValues {
 
             my $OTRS5EffectiveValue = $OTRS5Config{$NewSettingName};
 
+            # the ticket number generator random is dropped from OTRS 6, enforce that DateChecksum is set instead
+            if (
+                $NewSettingName eq 'Ticket::NumberGenerator'
+                && $OTRS5EffectiveValue eq 'Kernel::System::Ticket::Number::Random'
+                )
+            {
+                $OTRS5EffectiveValue = 'Kernel::System::Ticket::Number::DateChecksum';
+            }
+
             # check if the setting value structure from OTRS 5 is still valid on OTRS6
             my %Result = $SysConfigObject->SettingEffectiveValueCheck(
                 EffectiveValue   => $OTRS5EffectiveValue,

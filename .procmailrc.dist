@@ -68,12 +68,12 @@ COMSAT=no
 
 # Pipe all email into the PostMaster process.
 
-:0 w:
+:0 w
 | $SYS_HOME/bin/otrs.Console.pl Maint::PostMaster::Read
 
 
-# spool all the rest (which the otrs.PostMaster.pl can't process!)
-# If the database is down or the otrs.PostMaster.pl exit was not '0'!
+# Spool all the rest (which the console command 'Maint::PostMaster::Read' can't process!)
+# If the database is down or the console command 'Maint::PostMaster::Read' does not return success!
 
 :0 :
 $SYS_HOME/var/spool/.

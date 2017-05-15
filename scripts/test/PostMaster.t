@@ -164,7 +164,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
     );
 
     # use different ticket number generators
-    for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
+    for my $NumberModule (qw(AutoIncrement DateChecksum Date)) {
 
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster::Filter'] );
         my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');

@@ -1689,3 +1689,27 @@ CREATE INDEX calendar_appointment_ticket_appointment_id ON calendar_appointment_
 CREATE INDEX calendar_appointment_ticket_calendar_id ON calendar_appointment_ticket (calendar_id);
 CREATE INDEX calendar_appointment_ticket_rule_id ON calendar_appointment_ticket (rule_id);
 CREATE INDEX calendar_appointment_ticket_ticket_id ON calendar_appointment_ticket (ticket_id);
+-- ----------------------------------------------------------
+--  create table exclusive_lock
+-- ----------------------------------------------------------
+CREATE TABLE exclusive_lock (
+    id bigserial NOT NULL,
+    lock_key VARCHAR (255) NOT NULL,
+    lock_uid VARCHAR (32) NOT NULL,
+    create_time timestamp(0) NULL,
+    expiry_time timestamp(0) NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT exclusive_lock_lock_uid UNIQUE (lock_uid)
+);
+CREATE INDEX exclusive_lock_expiry_time ON exclusive_lock (expiry_time);
+-- ----------------------------------------------------------
+--  create table ticket_number_counter
+-- ----------------------------------------------------------
+CREATE TABLE ticket_number_counter (
+    id bigserial NOT NULL,
+    counter BIGINT NOT NULL,
+    counter_uid VARCHAR (32) NOT NULL,
+    create_time timestamp(0) NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT ticket_number_counter_uid UNIQUE (counter_uid)
+);

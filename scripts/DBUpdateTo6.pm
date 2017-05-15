@@ -137,6 +137,10 @@ sub _TasksGet {
             Module  => 'CreateAppointmentCalendarTables',
         },
         {
+            Message => 'Create ticket number counter tables',
+            Module  => 'CreateTicketNumberCounterTables',
+        },
+        {
             Message => 'Update calendar appointment future tasks',
             Module  => 'UpdateAppointmentCalendarFutureTasks',
         },

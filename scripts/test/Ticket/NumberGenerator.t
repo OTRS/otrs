@@ -16,7 +16,7 @@ use vars (qw($Self));
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # check all number generators
-for my $Backend (qw(AutoIncrement Date DateChecksum Random)) {
+for my $Backend (qw(AutoIncrement Date DateChecksum)) {
 
     # check subject formats
     for my $TicketSubjectFormat (qw(Left Right)) {

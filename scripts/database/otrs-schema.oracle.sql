@@ -3979,3 +3979,85 @@ CREATE INDEX calendar_appointment_ticket_8c ON calendar_appointment_ticket (appo
 CREATE INDEX calendar_appointment_ticket_19 ON calendar_appointment_ticket (calendar_id);
 CREATE INDEX calendar_appointment_ticket_50 ON calendar_appointment_ticket (rule_id);
 CREATE INDEX calendar_appointment_ticket_e9 ON calendar_appointment_ticket (ticket_id);
+-- ----------------------------------------------------------
+--  create table exclusive_lock
+-- ----------------------------------------------------------
+CREATE TABLE exclusive_lock (
+    id NUMBER (20, 0) NOT NULL,
+    lock_key VARCHAR2 (255) NOT NULL,
+    lock_uid VARCHAR2 (32) NOT NULL,
+    create_time DATE NULL,
+    expiry_time DATE NULL,
+    CONSTRAINT exclusive_lock_lock_uid UNIQUE (lock_uid)
+);
+ALTER TABLE exclusive_lock ADD CONSTRAINT PK_exclusive_lock PRIMARY KEY (id);
+
+                BEGIN
+                    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_exclusive_lock';
+                    EXCEPTION
+                        WHEN OTHERS THEN NULL;
+                END;
+                /
+--;
+
+                CREATE SEQUENCE SE_exclusive_lock
+                INCREMENT BY 1
+                START WITH 1
+                NOMAXVALUE
+                NOCYCLE
+                CACHE 20
+                ORDER;
+
+                CREATE OR REPLACE TRIGGER SE_exclusive_lock_t
+                BEFORE INSERT ON exclusive_lock
+                FOR EACH ROW
+                BEGIN
+                    IF :new.id IS NULL THEN
+                        SELECT SE_exclusive_lock.nextval
+                        INTO :new.id
+                        FROM DUAL;
+                    END IF;
+                END;
+                /
+--;
+CREATE INDEX exclusive_lock_expiry_time ON exclusive_lock (expiry_time);
+-- ----------------------------------------------------------
+--  create table ticket_number_counter
+-- ----------------------------------------------------------
+CREATE TABLE ticket_number_counter (
+    id NUMBER (20, 0) NOT NULL,
+    counter NUMBER (20, 0) NOT NULL,
+    counter_uid VARCHAR2 (32) NOT NULL,
+    create_time DATE NULL,
+    CONSTRAINT ticket_number_counter_uid UNIQUE (counter_uid)
+);
+ALTER TABLE ticket_number_counter ADD CONSTRAINT PK_ticket_number_counter PRIMARY KEY (id);
+
+                BEGIN
+                    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_ticket_number_counter';
+                    EXCEPTION
+                        WHEN OTHERS THEN NULL;
+                END;
+                /
+--;
+
+                CREATE SEQUENCE SE_ticket_number_counter
+                INCREMENT BY 1
+                START WITH 1
+                NOMAXVALUE
+                NOCYCLE
+                CACHE 20
+                ORDER;
+
+                CREATE OR REPLACE TRIGGER SE_ticket_number_counter_t
+                BEFORE INSERT ON ticket_number_counter
+                FOR EACH ROW
+                BEGIN
+                    IF :new.id IS NULL THEN
+                        SELECT SE_ticket_number_counter.nextval
+                        INTO :new.id
+                        FROM DUAL;
+                    END IF;
+                END;
+                /
+--;

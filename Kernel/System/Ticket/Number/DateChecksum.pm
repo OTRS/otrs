@@ -23,129 +23,70 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::Ticket::Number::Base);
+
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::Ticket',
-    'Kernel::System::Time',
 );
 
-sub new {
-    my ($Type) = @_;
-
-    my $Self = {};
-    bless( $Self, $Type );
+sub IsDateBased {
+    return 1;
 }
 
-sub TicketCreateNumber {
-    my ( $Self, $JumpCounter ) = @_;
+sub TicketNumberBuild {
+    my ( $Self, $Offset ) = @_;
 
-    if ( !$JumpCounter ) {
-        $JumpCounter = 0;
-    }
+    $Offset ||= 0;
 
-    # get needed objects
+    my $Counter = $Self->TicketNumberCounterAdd(
+        Offset => 1 + $Offset,
+    );
+
+    return if !$Counter;
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
-    # get needed config options
-    my $CounterLog = $ConfigObject->Get('Ticket::CounterLog');
-    my $SystemID   = $ConfigObject->Get('SystemID');
+    my $SystemID = $ConfigObject->Get('SystemID');
 
-    # get current time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
+    # Pad ticket number with leading '0' to length 5.
+    $Counter = sprintf "%.5u", $Counter;
+
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime'
     );
+    my $DateTimeSettings = $DateTimeObject->Get();
 
-    # read count
-    my $Count      = 0;
-    my $LastModify = '';
-    if ( -f $CounterLog ) {
+    # Create new ticket number.
+    my $TicketNumber = $DateTimeSettings->{Year}
+        . sprintf( "%.2u", $DateTimeSettings->{Month} )
+        . sprintf( "%.2u", $DateTimeSettings->{Day} )
+        . $SystemID . $Counter;
 
-        my $ContentSCALARRef = $MainObject->FileRead(
-            Location => $CounterLog,
-        );
+    # Calculate a checksum.
+    my $CheckSum = 0;
+    my $Multiply = 1;
+    for ( my $i = 0; $i < length($TicketNumber); ++$i ) {
 
-        if ( $ContentSCALARRef && ${$ContentSCALARRef} ) {
-            ( $Count, $LastModify ) = split( /;/, ${$ContentSCALARRef} );
+        my $Digit = substr( $TicketNumber, $i, 1 );
+
+        $CheckSum = $CheckSum + ( $Multiply * $Digit );
+        $Multiply += 1;
+
+        if ( $Multiply == 3 ) {
+            $Multiply = 1;
         }
     }
 
-    # check if we need to reset the counter
-    if ( !$LastModify || $LastModify ne "$Year-$Month-$Day" ) {
-        $Count = 0;
+    $CheckSum %= 10;
+    $CheckSum = 10 - $CheckSum;
+
+    if ( $CheckSum == 10 ) {
+        $CheckSum = 1;
     }
 
-    # count auto increment ($Count++)
-    $Count++;
-    $Count = $Count + $JumpCounter;
-    my $Content = $Count . ";$Year-$Month-$Day;";
+    $TicketNumber .= $CheckSum;
 
-    # write new count
-    my $Write = $MainObject->FileWrite(
-        Location => $CounterLog,
-        Content  => \$Content,
-    );
-
-    # pad ticket number with leading '0' to length 5
-    $Count = sprintf "%.5u", $Count;
-
-    # create new ticket number
-    my $Tn = $Year . $Month . $Day . $SystemID . $Count;
-
-    # calculate a checksum
-    my $ChkSum = 0;
-    my $Mult   = 1;
-    for ( my $i = 0; $i < length($Tn); ++$i ) {
-
-        my $Digit = substr( $Tn, $i, 1 );
-
-        $ChkSum = $ChkSum + ( $Mult * $Digit );
-        $Mult += 1;
-
-        if ( $Mult == 3 ) {
-            $Mult = 1;
-        }
-    }
-
-    $ChkSum %= 10;
-    $ChkSum = 10 - $ChkSum;
-
-    if ( $ChkSum == 10 ) {
-        $ChkSum = 1;
-    }
-
-    # add checksum to ticket number
-    $Tn = $Tn . $ChkSum;
-
-    # Check ticket number. If exists generate new one!
-    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketIDLookup( TicketNumber => $Tn ) ) {
-
-        $Self->{LoopProtectionCounter}++;
-
-        if ( $Self->{LoopProtectionCounter} >= 16000 ) {
-
-            # loop protection
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!"
-                    . " Stopped TicketCreateNumber()!",
-            );
-            return;
-        }
-
-        # create new ticket number again
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "Tn ($Tn) exists! Creating a new one.",
-        );
-
-        $Tn = $Self->TicketCreateNumber( $Self->{LoopProtectionCounter} );
-    }
-
-    return $Tn;
+    return $TicketNumber;
 }
 
 sub GetTNByString {
@@ -155,10 +96,8 @@ sub GetTNByString {
         return;
     }
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # get needed config options
     my $CheckSystemID = $ConfigObject->Get('Ticket::NumberGenerator::CheckSystemID');
     my $SystemID      = '';
 
@@ -169,12 +108,11 @@ sub GetTNByString {
     my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
     my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
-    # check current setting
+    # Check ticket number.
     if ( $String =~ /\Q$TicketHook$TicketHookDivider\E(\d{8}$SystemID\d{4,40})/i ) {
         return $1;
     }
 
-    # check default setting
     if ( $String =~ /\Q$TicketHook\E:\s{0,2}(\d{8}$SystemID\d{4,40})/i ) {
         return $1;
     }

@@ -15,100 +15,51 @@ package Kernel::System::Ticket::Number::Date;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::Ticket::Number::Base);
+
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::Ticket',
-    'Kernel::System::Time',
 );
 
-sub new {
-    my ($Type) = @_;
-
-    my $Self = {};
-    bless( $Self, $Type );
+sub IsDateBased {
+    return 1;
 }
 
-sub TicketCreateNumber {
-    my ( $Self, $JumpCounter ) = @_;
+sub TicketNumberBuild {
+    my ( $Self, $Offset ) = @_;
 
-    if ( !$JumpCounter ) {
-        $JumpCounter = 0;
-    }
+    $Offset ||= 0;
 
-    # get needed objects
+    my $Counter = $Self->TicketNumberCounterAdd(
+        Offset => 1 + $Offset,
+    );
+
+    return if !$Counter;
+
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
-    # get needed config options
-    my $CounterLog = $ConfigObject->Get('Ticket::CounterLog');
-    my $SystemID   = $ConfigObject->Get('SystemID');
-
-    # get current time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-
-    # read count
-    my $Count = 0;
-    if ( -f $CounterLog ) {
-
-        my $ContentSCALARRef = $MainObject->FileRead(
-            Location => $CounterLog,
-        );
-
-        if ( $ContentSCALARRef && ${$ContentSCALARRef} ) {
-            ($Count) = split( /;/, ${$ContentSCALARRef} );
-        }
-    }
-
-    # count auto increment ($Count++)
-    $Count++;
-    $Count = $Count + $JumpCounter;
-
-    # write new count
-    my $Write = $MainObject->FileWrite(
-        Location => $CounterLog,
-        Content  => \$Count,
-    );
+    my $SystemID = $ConfigObject->Get('SystemID');
 
     if ( $ConfigObject->Get('Ticket::NumberGenerator::Date::UseFormattedCounter') ) {
         my $MinSize = $ConfigObject->Get('Ticket::NumberGenerator::MinCounterSize')
             || 5;
-        $Count = sprintf "%.*u", $MinSize, $Count;
+
+        # Pad ticket number with leading '0' to length $MinSize (config option).
+        $Counter = sprintf "%.*u", $MinSize, $Counter;
     }
 
-    # create new ticket number
-    my $Tn = $Year . $Month . $Day . $SystemID . $Count;
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime'
+    );
+    my $DateTimeSettings = $DateTimeObject->Get();
 
-    # Check ticket number. If exists generate new one!
-    if ( $Kernel::OM->Get('Kernel::System::Ticket')->TicketIDLookup( TicketNumber => $Tn ) ) {
+    # Create new ticket number.
+    my $TicketNumber = $DateTimeSettings->{Year}
+        . sprintf( "%.2u", $DateTimeSettings->{Month} )
+        . sprintf( "%.2u", $DateTimeSettings->{Day} )
+        . $SystemID . $Counter;
 
-        $Self->{LoopProtectionCounter}++;
-
-        if ( $Self->{LoopProtectionCounter} >= 16000 ) {
-
-            # loop protection
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!"
-                    . " Stopped TicketCreateNumber()!",
-            );
-            return;
-        }
-
-        # create new ticket number again
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "Tn ($Tn) exists! Creating a new one.",
-        );
-
-        $Tn = $Self->TicketCreateNumber( $Self->{LoopProtectionCounter} );
-    }
-
-    return $Tn;
+    return $TicketNumber;
 }
 
 sub GetTNByString {
@@ -118,10 +69,8 @@ sub GetTNByString {
         return;
     }
 
-    # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # get needed config options
     my $CheckSystemID = $ConfigObject->Get('Ticket::NumberGenerator::CheckSystemID');
     my $SystemID      = '';
 
@@ -132,12 +81,11 @@ sub GetTNByString {
     my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
     my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
-    # check current setting
+    # Check ticket number.
     if ( $String =~ /\Q$TicketHook$TicketHookDivider\E(\d{8}$SystemID\d{1,40})/i ) {
         return $1;
     }
 
-    # check default setting
     if ( $String =~ /\Q$TicketHook\E:\s{0,2}(\d{8}$SystemID\d{1,40})/i ) {
         return $1;
     }
