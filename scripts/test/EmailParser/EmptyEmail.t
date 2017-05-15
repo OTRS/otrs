@@ -60,5 +60,4 @@ $Self->Is(
     "Empty attachment size",
 );
 
-
 1;

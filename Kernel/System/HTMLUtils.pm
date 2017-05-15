@@ -926,7 +926,7 @@ sub LinkQuote {
     ${$String} =~ s{${Marker}TagHash-(\d+)${Marker}}{$TagHash{$1}}egsxim;
 
     # check ref && return result like called
-    if (defined $StringScalar) {
+    if ( defined $StringScalar ) {
         return ${$String};
     }
     return $String;

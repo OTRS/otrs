@@ -184,10 +184,11 @@ sub RepositoryList {
 
         my $Content = $Row[3];
 
-        if ( $Content && !$DBObject->GetDatabaseFunction('DirectBlob')) {
+        if ( $Content && !$DBObject->GetDatabaseFunction('DirectBlob') ) {
+
             # Backwards compatibility: don't decode existing values that were not yet properly Base64 encoded.
-            if ( $Content =~ m{ \A [a-zA-Z0-9+/\n]+ ={0,2} [\n]? \z }smx ) { # Does it look like Base64?
-                $Content = decode_base64( $Content );
+            if ( $Content =~ m{ \A [a-zA-Z0-9+/\n]+ ={0,2} [\n]? \z }smx ) {    # Does it look like Base64?
+                $Content = decode_base64($Content);
                 $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
             }
         }
@@ -202,7 +203,7 @@ sub RepositoryList {
 
             push @Data, {%Package};
         }
-        elsif ( $Content ) {
+        elsif ($Content) {
 
             my %Structure = $Self->PackageParse( String => \$Content );
             push @Data, { %Package, %Structure };
@@ -283,8 +284,8 @@ sub RepositoryGet {
         next ROW if $DBObject->GetDatabaseFunction('DirectBlob');
 
         # Backwards compatibility: don't decode existing values that were not yet properly Base64 encoded.
-        next ROW if $Package !~ m{ \A [a-zA-Z0-9+/\n]+ ={0,2} [\n]? \z }smx; # looks like Base64?
-        $Package = decode_base64( $Package );
+        next ROW if $Package !~ m{ \A [a-zA-Z0-9+/\n]+ ={0,2} [\n]? \z }smx;    # looks like Base64?
+        $Package = decode_base64($Package);
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Package );
     }
 
@@ -387,7 +388,7 @@ sub RepositoryAdd {
     my $Content = $Param{String};
     if ( !$DBObject->GetDatabaseFunction('DirectBlob') ) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
-        $Content = encode_base64( $Content );
+        $Content = encode_base64($Content);
     }
 
     return if !$DBObject->Do(

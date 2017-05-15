@@ -75,7 +75,7 @@ for my $Backend (qw(DB FS)) {
     );
 
     $Self->Is(
-        $Article{Body} // '',   # Oracle stores '' as undef.
+        $Article{Body} // '',    # Oracle stores '' as undef.
         '',
         "Empty article body found"
     );
@@ -89,11 +89,11 @@ for my $Backend (qw(DB FS)) {
         $Attachments{2},
         {
             'ContentAlternative' => '',
-            'ContentID' => '',
-            'ContentType' => 'application/x-download; name="=?UTF-8?Q?=C5=81atwa_sprawa.txt?="',
-            'Disposition' => 'attachment',
-            'Filename' => 'Łatwa sprawa.txt',
-            'FilesizeRaw' => 0
+            'ContentID'          => '',
+            'ContentType'        => 'application/x-download; name="=?UTF-8?Q?=C5=81atwa_sprawa.txt?="',
+            'Disposition'        => 'attachment',
+            'Filename'           => 'Łatwa sprawa.txt',
+            'FilesizeRaw'        => 0
         },
         "$Backend - Attachment filename",
     );

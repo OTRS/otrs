@@ -3553,7 +3553,7 @@ sub HumanReadableDataSize {
         return;
     }
 
-    if ( $Param{Size} !~ /^\d+$/ )  {
+    if ( $Param{Size} !~ /^\d+$/ ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Size must be integer!',
@@ -3561,29 +3561,29 @@ sub HumanReadableDataSize {
         return;
     }
 
-    my $SizeStr = '';
+    my $SizeStr        = '';
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     # Use convention described on https://en.wikipedia.org/wiki/File_size
     #   We cannot use floating point output as OTRS has no locale informatin for the decimal mark.
-    if ( $Param{Size} > ( 1024 ** 4 ) ) {
-        my $ReadableSize = int $Param{Size} / ( 1024 ** 4 );
-        $SizeStr = $LanguageObject->Translate('%s TB', $ReadableSize);
+    if ( $Param{Size} > ( 1024**4 ) ) {
+        my $ReadableSize = int $Param{Size} / ( 1024**4 );
+        $SizeStr = $LanguageObject->Translate( '%s TB', $ReadableSize );
     }
-    elsif ( $Param{Size} > ( 1024 ** 3 ) ) {
-        my $ReadableSize = int $Param{Size} / ( 1024 ** 3 );
-        $SizeStr = $LanguageObject->Translate('%s GB', $ReadableSize);
+    elsif ( $Param{Size} > ( 1024**3 ) ) {
+        my $ReadableSize = int $Param{Size} / ( 1024**3 );
+        $SizeStr = $LanguageObject->Translate( '%s GB', $ReadableSize );
     }
-    elsif ( $Param{Size} > ( 1024 ** 2 ) ) {
-        my $ReadableSize = int $Param{Size} / ( 1024 ** 2 );
-        $SizeStr = $LanguageObject->Translate('%s MB', $ReadableSize);
+    elsif ( $Param{Size} > ( 1024**2 ) ) {
+        my $ReadableSize = int $Param{Size} / ( 1024**2 );
+        $SizeStr = $LanguageObject->Translate( '%s MB', $ReadableSize );
     }
     elsif ( $Param{Size} > 1024 ) {
-        my $ReadableSize = int $Param{Size} / ( 1024 );
-        $SizeStr = $LanguageObject->Translate('%s KB', $ReadableSize);
+        my $ReadableSize = int $Param{Size} / (1024);
+        $SizeStr = $LanguageObject->Translate( '%s KB', $ReadableSize );
     }
     else {
-        $SizeStr = $LanguageObject->Translate('%s B', $Param{Size});
+        $SizeStr = $LanguageObject->Translate( '%s B', $Param{Size} );
     }
 
     return $SizeStr;
