@@ -1032,7 +1032,7 @@ sub _PDFOutputArticles {
         $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Created') . ':';
         $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content} = $LayoutObject->{LanguageObject}->FormatTimeString(
-            $Article{Created},
+            $Article{CreateTime},
             'DateFormat',
         );
         $TableParam1{CellData}[$Row][1]{Content}

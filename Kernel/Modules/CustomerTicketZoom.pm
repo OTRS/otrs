@@ -1527,9 +1527,20 @@ sub _Mask {
             $ShownArticles++;
         }
 
+        # Calculate difference between article create time and now in seconds.
+        my $ArticleCreateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Article{CreateTime},
+            },
+        );
+        my $Delta = $ArticleCreateTimeObject->Delta(
+            DateTimeObject => $Kernel::OM->Create('Kernel::System::DateTime'),
+        );
+
         # do some html quoting
         $Article{Age} = $LayoutObject->CustomerAge(
-            Age   => $Article{AgeTimeUnix},
+            Age   => $Delta->{AbsoluteSeconds},
             Space => ' ',
         );
 

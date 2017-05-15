@@ -855,7 +855,7 @@ sub Run {
 
                 my %Info = ( %Data, %UserInfo );
                 my $Created = $LayoutObject->{LanguageObject}->FormatTimeString(
-                    $Data{Created},
+                    $Data{CreateTime} // $Data{Created},
                     'DateFormat',
                 );
 

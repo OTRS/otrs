@@ -2712,7 +2712,7 @@ sub _ArticleItem {
     # show created by if different from User ID 1
     if ( $Article{CreateBy} > 1 ) {
         $Article{CreateByUser} = $Kernel::OM->Get('Kernel::System::User')->UserName(
-            UserID => $Article{CreateBy}
+            UserID => $Article{CreateBy},
         );
         $LayoutObject->Block(
             Name => 'ArticleCreatedBy',

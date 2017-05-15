@@ -2727,8 +2727,8 @@ sub _GetQuotedReplyBody {
                     String => $Param{Body},
                 );
 
-                my $ResponseFormat
-                    = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{Created}, 'DateFormat', 'NoSeconds' );
+                my $ResponseFormat = $LayoutObject->{LanguageObject}
+                    ->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
                 $ResponseFormat .= ' - ' . $Param{From} . ' ';
                 $ResponseFormat
                     .= $LayoutObject->{LanguageObject}->Translate('wrote') . ':';
@@ -2739,9 +2739,9 @@ sub _GetQuotedReplyBody {
             else {
                 $Param{Body} = "<br/>" . $Param{Body};
 
-                if ( $Param{Created} ) {
+                if ( $Param{CreateTime} ) {
                     $Param{Body} = $LayoutObject->{LanguageObject}->Translate('Date') .
-                        ": $Param{Created}<br/>" . $Param{Body};
+                        ": $Param{CreateTime}<br/>" . $Param{Body};
                 }
 
                 for (qw(Subject ReplyTo Reply-To Cc To From)) {
@@ -2774,8 +2774,8 @@ sub _GetQuotedReplyBody {
                 $Param{Body} =~ s/\n/\n$Quote /g;
                 $Param{Body} = "\n$Quote " . $Param{Body};
 
-                my $ResponseFormat
-                    = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{Created}, 'DateFormat', 'NoSeconds' );
+                my $ResponseFormat = $LayoutObject->{LanguageObject}
+                    ->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
                 $ResponseFormat .= ' - ' . $Param{From} . ' ';
                 $ResponseFormat
                     .= $LayoutObject->{LanguageObject}->Translate('wrote') . ":\n";
@@ -2784,9 +2784,9 @@ sub _GetQuotedReplyBody {
             }
             else {
                 $Param{Body} = "\n" . $Param{Body};
-                if ( $Param{Created} ) {
+                if ( $Param{CreateTime} ) {
                     $Param{Body} = $LayoutObject->{LanguageObject}->Translate('Date') .
-                        ": $Param{Created}\n" . $Param{Body};
+                        ": $Param{CreateTime}\n" . $Param{Body};
                 }
 
                 for (qw(Subject ReplyTo Reply-To Cc To From)) {

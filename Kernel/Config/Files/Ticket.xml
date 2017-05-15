@@ -5613,7 +5613,7 @@
 [% Data.StdResponse | html %]
 [% Data.Signature | html %]
 
-[% Data.Created | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
+[% Data.CreateTime | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
 [% Data.Body | html %]
 </TextArea>
         </Setting>

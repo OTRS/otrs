@@ -1284,9 +1284,9 @@ sub Run {
                 else {
                     $Data{Body} = "<br/>" . $Data{Body};
 
-                    if ( $Data{Created} ) {
+                    if ( $Data{CreateTime} ) {
                         $Data{Body} = $LayoutObject->{LanguageObject}->Translate('Date') .
-                            ": $Data{Created}<br/>" . $Data{Body};
+                            ": $Data{CreateTime}<br/>" . $Data{Body};
                     }
 
                     for (qw(Subject ReplyTo Reply-To Cc To From)) {
@@ -1321,9 +1321,9 @@ sub Run {
                 }
                 else {
                     $Data{Body} = "\n" . $Data{Body};
-                    if ( $Data{Created} ) {
+                    if ( $Data{CreateTime} ) {
                         $Data{Body} = $LayoutObject->{LanguageObject}->Translate('Date') .
-                            ": $Data{Created}\n" . $Data{Body};
+                            ": $Data{CreateTime}\n" . $Data{Body};
                     }
 
                     for (qw(Subject ReplyTo Reply-To Cc To From)) {
@@ -1495,7 +1495,7 @@ sub Run {
 [% Data.StdResponse | html %]
 [% Data.Signature | html %]
 
-[% Data.Created | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
+[% Data.CreateTime | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
 [% Data.Body | html %]
 ';
 

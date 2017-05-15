@@ -4464,7 +4464,7 @@
 [% Data.StdResponse | html %]
 [% Data.Signature | html %]
 
-[% Data.Created | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
+[% Data.CreateTime | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
 [% Data.Body | html %]
 </Item>
         </Value>
@@ -12718,6 +12718,7 @@ Thanks for your help!
                         <Item Key="CustomerID" SelectedID="1"></Item>
                         <Item Key="CustomerName" SelectedID="1"></Item>
                         <Item Key="CustomerUserID" SelectedID="1"></Item>
+                        <Item Key="CustomerCompanyName" SelectedID="1"></Item>
                         <Item Key="EscalationResponseTime" SelectedID="1"></Item>
                         <Item Key="EscalationSolutionTime" SelectedID="1"></Item>
                         <Item Key="EscalationTime" SelectedID="1"></Item>
@@ -12744,6 +12745,7 @@ Thanks for your help!
                         <Item Key="CustomerID">240</Item>
                         <Item Key="CustomerName">250</Item>
                         <Item Key="CustomerUserID">260</Item>
+                        <Item Key="CustomerCompanyName">320</Item>
                         <Item Key="EscalationResponseTime">160</Item>
                         <Item Key="EscalationSolutionTime">150</Item>
                         <Item Key="EscalationTime">140</Item>

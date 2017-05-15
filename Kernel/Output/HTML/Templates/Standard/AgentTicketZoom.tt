@@ -519,7 +519,7 @@
             <div class="AdditionalInformation SpacingLoader">
                 [% Translate("Created") | html %]: [% Data.CreateTime | Localize("TimeShort") %]
 [% RenderBlockStart("ArticleCreatedBy") %]
-                [% Translate("by") | html %] [% Data.CreateBy | html %]
+                [% Translate("by") | html %] [% Data.CreateByUser | html %]
 [% RenderBlockEnd("ArticleCreatedBy") %]
             </div>
         </div>
