@@ -251,7 +251,7 @@
         [% IF Data.ZoomTimeline %]
             [% Translate("Ticket Timeline View") | html %]
         [% ELSE %]
-            [% Translate("Article Overview") | html %] - [% Data.ArticleCount | html %] [% Translate("Article(s)") | html %]
+            [% Translate("Article Overview - %s Article(s)", Data.ArticleCount) | html %]
         [% END %]
         </h2>
         <div class="AdditionalInformation ControlRow">
@@ -259,7 +259,7 @@
 [% RenderBlockStart("ArticlePages") %]
             <div class="ArticlePages Icons">
         [% FOREACH page IN [1 .. Data.Pages]; %]
-                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticlePage=[% page %]" title="[% Translate('Page') %] [% page %]" data-page="[% page %]" [% IF page == Data.CurrentPage %]class="Active"[% END %]>[% page %]</a>
+                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticlePage=[% page %]" title="[% Translate('Page %s', page) %]" data-page="[% page %]" [% IF page == Data.CurrentPage %]class="Active"[% END %]>[% page %]</a>
         [% END; %]
             </div>
 [% RenderBlockEnd("ArticlePages") %]
@@ -276,7 +276,7 @@
             </div>
 [% RenderBlockEnd("ArticleFilterDialogLink") %]
             <div class="ArticleView Icons">
-                <span class="InvisibleText">[% Translate("Article") | html %] [% Translate("View") | html %]:</span>
+                <span class="InvisibleText">[% Translate("Article View") | html %]:</span>
 [% RenderBlockStart("Expand") %]
                 <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
                 <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
@@ -322,7 +322,7 @@
                                 <th class="No Sortable"><a href="#">[% Translate("No.") | html %]</a></th>
                                 <th class="Type Sortable"><a href="#">[% Translate("Type") | html %]</a></th>
                                 <th class="Channel Sortable"><a href="#">[% Translate("Channel") | html %]</a></th>
-                                <th class="IsVisibleForCustomer Sortable"><a href="#">[% Translate("Customer visible") | html %]</a></th>
+                                <th class="IsVisibleForCustomer Sortable"><a href="#">[% Translate("Visible for Customer") | html %]</a></th>
                                 <th class="Direction Sortable"><a href="#" title="[% Translate("Direction") | html %]"><i class="fa fa-exchange"></i></a></th>
                                 <th class="From Sortable"><a href="#">[% Translate("From") | html %]</a></th>
                                 <th class="Subject Sortable"><a href="#">[% Translate("Subject") | html %]</a></th>
@@ -515,7 +515,7 @@
             <div class="WidgetAction Toggle">
                 <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
             </div>
-            <h2>[% Translate("Article") | html %] #[% Data.ArticleNumber | html %] &ndash; [% Data.Subject | html %]</h2>
+            <h2>[% Translate("Article #%s", Data.ArticleNumber) | html %] &ndash; [% Data.Subject | html %]</h2>
             <div class="AdditionalInformation SpacingLoader">
                 [% Translate("Created") | html %]: [% Data.CreateTime | Localize("TimeShort") %]
 [% RenderBlockStart("ArticleCreatedBy") %]
