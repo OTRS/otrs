@@ -12,7 +12,6 @@ CREATE TABLE dynamic_field_obj_id_name (
     PRIMARY KEY(object_id),
     CONSTRAINT dynamic_field_object_name UNIQUE (object_name, object_type)
 );
-CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text);
 -- ----------------------------------------------------------
 --  create table sysconfig_default
 -- ----------------------------------------------------------
@@ -131,7 +130,17 @@ CREATE TABLE sysconfig_deployment (
     create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'dynamic_field_value_search_text'
+    ) THEN
+    CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text);
+END IF;
+END$$;
+;
 ALTER TABLE gi_webservice_config DROP CONSTRAINT gi_webservice_config_config_md5;
 -- ----------------------------------------------------------
 --  alter table gi_webservice_config
@@ -172,7 +181,49 @@ ALTER TABLE article ALTER a_references DROP DEFAULT;
 -- ----------------------------------------------------------
 ALTER TABLE article ALTER a_in_reply_to TYPE VARCHAR;
 ALTER TABLE article ALTER a_in_reply_to DROP DEFAULT;
-CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
+-- ----------------------------------------------------------
+--  alter table article
+-- ----------------------------------------------------------
+ALTER TABLE article ALTER a_body TYPE VARCHAR;
+ALTER TABLE article ALTER a_body DROP DEFAULT;
+-- ----------------------------------------------------------
+--  alter table article_attachment
+-- ----------------------------------------------------------
+ALTER TABLE article_attachment ALTER content TYPE TEXT;
+ALTER TABLE article_attachment ALTER content DROP DEFAULT;
+-- ----------------------------------------------------------
+--  alter table virtual_fs_db
+-- ----------------------------------------------------------
+ALTER TABLE virtual_fs_db ALTER content TYPE TEXT;
+ALTER TABLE virtual_fs_db ALTER content DROP DEFAULT;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'ticket_history_article_id'
+    ) THEN
+    CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table communication_channel
+-- ----------------------------------------------------------
+CREATE TABLE communication_channel (
+    id bigserial NOT NULL,
+    name VARCHAR (200) NOT NULL,
+    module VARCHAR (200) NOT NULL,
+    package_name VARCHAR (200) NOT NULL,
+    channel_data TEXT NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT communication_channel_name UNIQUE (name)
+);
 -- ----------------------------------------------------------
 --  create table group_customer
 -- ----------------------------------------------------------
@@ -187,8 +238,28 @@ CREATE TABLE group_customer (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL
 );
-CREATE INDEX group_customer_customer_id ON group_customer (customer_id);
-CREATE INDEX group_customer_group_id ON group_customer (group_id);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'group_customer_customer_id'
+    ) THEN
+    CREATE INDEX group_customer_customer_id ON group_customer (customer_id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'group_customer_group_id'
+    ) THEN
+    CREATE INDEX group_customer_group_id ON group_customer (group_id);
+END IF;
+END$$;
+;
 -- ----------------------------------------------------------
 --  create table customer_user_customer
 -- ----------------------------------------------------------
@@ -200,8 +271,62 @@ CREATE TABLE customer_user_customer (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL
 );
-CREATE INDEX customer_user_customer_customer_id ON customer_user_customer (customer_id);
-CREATE INDEX customer_user_customer_user_id ON customer_user_customer (user_id);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'customer_user_customer_customer_id'
+    ) THEN
+    CREATE INDEX customer_user_customer_customer_id ON customer_user_customer (customer_id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'customer_user_customer_user_id'
+    ) THEN
+    CREATE INDEX customer_user_customer_user_id ON customer_user_customer (user_id);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table article_search_index
+-- ----------------------------------------------------------
+CREATE TABLE article_search_index (
+    id bigserial NOT NULL,
+    ticket_id BIGINT NOT NULL,
+    article_id BIGINT NOT NULL,
+    article_key VARCHAR (200) NOT NULL,
+    article_value VARCHAR NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'article_search_index_article_id'
+    ) THEN
+    CREATE INDEX article_search_index_article_id ON article_search_index (article_id, article_key);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'article_search_index_ticket_id'
+    ) THEN
+    CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id, article_key);
+END IF;
+END$$;
+;
+DROP TABLE article_search;
 SET standard_conforming_strings TO ON;
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -220,8 +345,13 @@ ALTER TABLE sysconfig_modified_version ADD CONSTRAINT FK_sysconfig_modified_vers
 ALTER TABLE sysconfig_deployment_lock ADD CONSTRAINT FK_sysconfig_deployment_lock_exclusive_lock_user_id_id FOREIGN KEY (exclusive_lock_user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE article_search_index ADD CONSTRAINT FK_article_search_index_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
+ALTER TABLE article_search_index ADD CONSTRAINT FK_article_search_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);

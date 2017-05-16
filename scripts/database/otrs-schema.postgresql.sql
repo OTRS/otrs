@@ -1292,7 +1292,7 @@ IF NOT EXISTS (
     FROM pg_indexes
     WHERE indexname = 'article_search_index_article_id'
     ) THEN
-    CREATE INDEX article_search_index_article_id ON article_search_index (article_id);
+    CREATE INDEX article_search_index_article_id ON article_search_index (article_id, article_key);
 END IF;
 END$$;
 ;
@@ -1303,7 +1303,7 @@ IF NOT EXISTS (
     FROM pg_indexes
     WHERE indexname = 'article_search_index_ticket_id'
     ) THEN
-    CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id);
+    CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id, article_key);
 END IF;
 END$$;
 ;

@@ -320,9 +320,11 @@
         <Column Name="article_value" Required="false" Size="1800000" Type="VARCHAR"/>
         <Index Name="article_search_index_ticket_id">
             <IndexColumn Name="ticket_id"/>
+            <IndexColumn Name="article_key"/>
         </Index>
         <Index Name="article_search_index_article_id">
             <IndexColumn Name="article_id"/>
+            <IndexColumn Name="article_key"/>
         </Index>
         <ForeignKey ForeignTable="ticket">
             <Reference Local="ticket_id" Foreign="id"/>

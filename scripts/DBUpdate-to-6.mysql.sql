@@ -11,7 +11,6 @@ CREATE TABLE dynamic_field_obj_id_name (
     PRIMARY KEY(object_id),
     UNIQUE INDEX dynamic_field_object_name (object_name, object_type)
 );
-CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text(150));
 # ----------------------------------------------------------
 #  create table sysconfig_default
 # ----------------------------------------------------------
@@ -130,7 +129,10 @@ CREATE TABLE sysconfig_deployment (
     create_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text(150));
+SET @IndexExists := (SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = 'dynamic_field_value' AND index_name = 'dynamic_field_value_search_text');
+SET @IndexSQLStatement := IF( @IndexExists = 0, 'CREATE INDEX dynamic_field_value_search_text ON dynamic_field_value (field_id, value_text(150))', 'SELECT ''INFO: Index dynamic_field_value_search_text already exists, skipping.''' );
+PREPARE IndexStatement FROM @IndexSQLStatement;
+EXECUTE IndexStatement;
 ALTER TABLE gi_webservice_config DROP INDEX gi_webservice_config_config_md5;
 # ----------------------------------------------------------
 #  alter table gi_webservice_config
@@ -165,7 +167,39 @@ ALTER TABLE article CHANGE a_references a_references MEDIUMTEXT NULL;
 #  alter table article
 # ----------------------------------------------------------
 ALTER TABLE article CHANGE a_in_reply_to a_in_reply_to MEDIUMTEXT NULL;
-CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
+# ----------------------------------------------------------
+#  alter table article
+# ----------------------------------------------------------
+ALTER TABLE article CHANGE a_body a_body MEDIUMTEXT NULL;
+# ----------------------------------------------------------
+#  alter table article_attachment
+# ----------------------------------------------------------
+ALTER TABLE article_attachment CHANGE content content LONGBLOB NULL;
+# ----------------------------------------------------------
+#  alter table virtual_fs_db
+# ----------------------------------------------------------
+ALTER TABLE virtual_fs_db CHANGE content content LONGBLOB NULL;
+SET @IndexExists := (SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = 'ticket_history' AND index_name = 'ticket_history_article_id');
+SET @IndexSQLStatement := IF( @IndexExists = 0, 'CREATE INDEX ticket_history_article_id ON ticket_history (article_id)', 'SELECT ''INFO: Index ticket_history_article_id already exists, skipping.''' );
+PREPARE IndexStatement FROM @IndexSQLStatement;
+EXECUTE IndexStatement;
+# ----------------------------------------------------------
+#  create table communication_channel
+# ----------------------------------------------------------
+CREATE TABLE communication_channel (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    module VARCHAR (200) NOT NULL,
+    package_name VARCHAR (200) NOT NULL,
+    channel_data LONGBLOB NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX communication_channel_name (name)
+);
 # ----------------------------------------------------------
 #  create table group_customer
 # ----------------------------------------------------------
@@ -195,6 +229,20 @@ CREATE TABLE customer_user_customer (
     INDEX customer_user_customer_customer_id (customer_id),
     INDEX customer_user_customer_user_id (user_id)
 );
+# ----------------------------------------------------------
+#  create table article_search_index
+# ----------------------------------------------------------
+CREATE TABLE article_search_index (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    ticket_id BIGINT NOT NULL,
+    article_id BIGINT NOT NULL,
+    article_key VARCHAR (200) NOT NULL,
+    article_value MEDIUMTEXT NULL,
+    PRIMARY KEY(id),
+    INDEX article_search_index_article_id (article_id, article_key),
+    INDEX article_search_index_ticket_id (ticket_id, article_key)
+);
+DROP TABLE IF EXISTS article_search;
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_exclusive_lock_user_id_id FOREIGN KEY (exclusive_lock_user_id) REFERENCES users (id);
@@ -212,8 +260,13 @@ ALTER TABLE sysconfig_modified_version ADD CONSTRAINT FK_sysconfig_modified_vers
 ALTER TABLE sysconfig_deployment_lock ADD CONSTRAINT FK_sysconfig_deployment_lock_exclusive_lock_user_id_id FOREIGN KEY (exclusive_lock_user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
 ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE article_search_index ADD CONSTRAINT FK_article_search_index_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
+ALTER TABLE article_search_index ADD CONSTRAINT FK_article_search_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);

@@ -1983,7 +1983,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX article_search_index_article43 ON article_search_index (article_id)';
+    EXECUTE IMMEDIATE 'CREATE INDEX article_search_index_article43 ON article_search_index (article_id, article_key)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -1991,7 +1991,7 @@ END;
 --
 ;
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id)';
+    EXECUTE IMMEDIATE 'CREATE INDEX article_search_index_ticket_id ON article_search_index (ticket_id, article_key)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;

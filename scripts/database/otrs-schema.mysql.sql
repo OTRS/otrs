@@ -643,8 +643,8 @@ CREATE TABLE article_search_index (
     article_key VARCHAR (200) NOT NULL,
     article_value MEDIUMTEXT NULL,
     PRIMARY KEY(id),
-    INDEX article_search_index_article_id (article_id),
-    INDEX article_search_index_ticket_id (ticket_id)
+    INDEX article_search_index_article_id (article_id, article_key),
+    INDEX article_search_index_ticket_id (ticket_id, article_key)
 );
 # ----------------------------------------------------------
 #  create table article_data_mime_plain
