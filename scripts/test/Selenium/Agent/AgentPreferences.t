@@ -152,6 +152,41 @@ $Selenium->RunTest(
             }
         }
 
+        # Inject malicious code in user language variable.
+        my $MaliciousCode = 'en\\\'});window.iShouldNotExist=true;Core.Config.AddConfig({a:\\\'';
+        $Selenium->execute_script(
+            "\$('#UserLanguage').append(
+                \$('<option/>', {
+                    value: '$MaliciousCode',
+                    text: 'Malevolent'
+                })
+            ).val('$MaliciousCode').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->execute_script(
+            "\$('#UserLanguage').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+
+        # Wait for the AJAX call to finish.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+
+        # Reload the screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+
+        # Check if malicious code was sanitized.
+        $Self->True(
+            $Selenium->execute_script(
+                "return typeof window.iShouldNotExist === 'undefined';"
+            ),
+            'Malicious variable is undefined'
+        );
+
         # head over to the notification settings group
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=NotificationSettings"
