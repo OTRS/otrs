@@ -6455,7 +6455,7 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
                 <Item Key="Name" Translatable="1">Merge</Item>
-                <Item Key="Description" Translatable="1">Merge this ticket and all articles into a another ticket</Item>
+                <Item Key="Description" Translatable="1">Merge this ticket and all articles into another ticket</Item>
                 <Item Key="Action">AgentTicketMerge</Item>
                 <Item Key="Link">Action=AgentTicketMerge;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
