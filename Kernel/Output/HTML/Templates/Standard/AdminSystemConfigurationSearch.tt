@@ -95,9 +95,9 @@
         <div class="WidgetSimple">
             <div class="Content">
             [% IF Data.Results == 0 %]
-                <p class="Center">[% Translate("Your're currently not editing any settings.") | html %]</p>
+                <p class="Center">[% Translate("You're currently not editing any settings.") | html %]</p>
             [% ELSE %]
-                <p class="Center">[% Translate("Your're currently editing %s setting(s).", Data.Results) | html %]</p>
+                <p class="Center">[% Translate("You're currently editing %s setting(s).", Data.Results) | html %]</p>
             [% END %]
             </div>
         </div>

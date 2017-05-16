@@ -377,7 +377,7 @@ Your Ticket-Team
     <Insert Table="follow_up_possible">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote" Translatable="1">new ticket</Data>
-        <Data Key="comments" Type="Quote" Translatable="1">Follow-ups for closed tickets are not possible. A new ticket will be created..</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Follow-ups for closed tickets are not possible. A new ticket will be created.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

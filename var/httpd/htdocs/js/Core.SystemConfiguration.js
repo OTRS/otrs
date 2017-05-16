@@ -858,7 +858,7 @@ var Core = Core || {};
                 return $(this).val() === Key;
             }).length > 1) {
 
-            alert(Core.Language.Translate("A key with this name ('%s') does already exist.", Key));
+            alert(Core.Language.Translate("A key with this name ('%s') already exists.", Key));
             return;
         }
 

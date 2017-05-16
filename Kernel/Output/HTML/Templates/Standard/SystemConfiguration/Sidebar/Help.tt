@@ -19,7 +19,7 @@
             <li><span class="IsLockedByMe"></span> [% Translate("Currently edited by me.") | html %]</li>
             <li><span class="IsDirty"></span> [% Translate("Modified but not yet deployed.") | html %]</li>
             <li><span class="IsLockedByAnotherUser"></span> [% Translate("Currently edited by another user.") | html %]</li>
-            <li><span class="IsModified"></span> [% Translate("Different from it's default value.") | html %]</li>
+            <li><span class="IsModified"></span> [% Translate("Different from its default value.") | html %]</li>
         </ul>
         <ul class="ShortCuts">
             <li><em><span>Enter</span></em><em>[% Translate("Save current setting.") | html %]</em></li>

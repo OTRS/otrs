@@ -139,7 +139,7 @@ Core.Agent.Admin.SysConfig = Core.Agent.Admin.SysConfig || {};
 
             Core.UI.Dialog.ShowAlert(
                 Core.Language.Translate('Warning'),
-                Core.Language.Translate("The item you're currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in it's current state. Please wait until the setting has been deployed. If you're unsure what to do next, please contact your system administrator."),
+                Core.Language.Translate("The item you're currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you're unsure what to do next, please contact your system administrator."),
                 function () {
                     Core.UI.Dialog.CloseDialog($('.Alert'));
                     return false;

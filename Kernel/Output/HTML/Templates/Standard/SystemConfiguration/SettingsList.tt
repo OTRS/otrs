@@ -42,7 +42,7 @@
 
             <div class="WidgetMenu">
                 [% IF !Setting.IsRequired %]
-                <a href="#" class="Button SettingEnabled [% IF Setting.IsValid == 0 %]Hidden[% END %]" title="[% Translate("Disable this settings, so it is no longer effective") %]"><i class="fa fa-times"></i> [% Translate("Disable") %]</a>
+                <a href="#" class="Button SettingEnabled [% IF Setting.IsValid == 0 %]Hidden[% END %]" title="[% Translate("Disable this setting, so it is no longer effective") %]"><i class="fa fa-times"></i> [% Translate("Disable") %]</a>
                 <a href="#" class="Button SettingDisabled [% IF Setting.IsValid == 1 %]Hidden[% END %]" title="[% Translate("Enable this setting, so it becomes effective") %]"><i class="fa fa-check"></i> [% Translate("Enable") %]</a>
                 [% END %]
 
@@ -51,10 +51,10 @@
                     <i class="fa fa-undo"></i>
                     [% Translate("Reset setting") %]
                 </a>
-                <span href="#" class="Button CopyToClipboard" data-clipboard-text="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.Name | uri %]" title="[% Translate("Copy a direct link to this setting to your clip board") %]"><i class="fa fa-link"></i> [% Translate("Copy direct link") %]</span>
+                <span href="#" class="Button CopyToClipboard" data-clipboard-text="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.Name | uri %]" title="[% Translate("Copy a direct link to this setting to your clipboard") %]"><i class="fa fa-link"></i> [% Translate("Copy direct link") %]</span>
 
             [% IF Setting.IsFavourite %]
-                <a href="#" class="Button RemoveFromFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Remove this from your favorites setting") %]"><i class="fa fa-star"></i> <span>[% Translate("Remove from favourites") %]</span></a>
+                <a href="#" class="Button RemoveFromFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Remove this setting from your favorites setting") %]"><i class="fa fa-star"></i> <span>[% Translate("Remove from favourites") %]</span></a>
             [% ELSE %]
                 <a href="#" class="Button AddToFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Add this setting to your favorites") %]"><i class="fa fa-star-o"></i> <span>[% Translate("Add to favourites") %]</span></a>
             [% END %]
