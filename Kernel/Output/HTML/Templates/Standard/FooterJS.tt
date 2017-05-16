@@ -9,11 +9,11 @@
 [% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
 
 [% RenderBlockStart("CommonJS") %]
-<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory %][% Data.Filename %]"></script>
+<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
 [% RenderBlockEnd("CommonJS") %]
 
 [% RenderBlockStart("ModuleJS") %]
-<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory %][% Data.Filename %]"></script>
+<script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
 [% RenderBlockEnd("ModuleJS") %]
 
 <script type="text/javascript">//<![CDATA[
@@ -22,28 +22,28 @@ Core.App.Ready(function () {
 
     Core.Config.AddConfig({
         // config
-        Baselink: '[% Env("Baselink") %]',
-        AjaxDebug: '[% Config("Frontend::AjaxDebug") %]',
-        CGIHandle: '[% Env("CGIHandle") %]',
-        WebPath: '[% Config("Frontend::WebPath") %]',
-        Action: '[% Env("Action") | html %]',
-        SessionIDCookie: '[% Env("SessionIDCookie") | html %]',
-        SessionName: '[% Config("SessionName") %]',
-        SessionID: '[% Env("SessionID") | html %]',
-        ChallengeToken: '[% Env("UserChallengeToken") | html %]',
-        CustomerPanelSessionName: '[% Config("CustomerPanelSessionName") %]',
-        Images: '[% Config("Frontend::ImagePath") %]',
-        UserLanguage: '[% Env("UserLanguage") | html %]',
-        UserID: '[% Env("UserID") | html %]',
-        SpellChecker: '[% Config("SpellChecker") | html %]',
-        NeedSpellCheck: '[% Config("Ticket::Frontend::NeedSpellCheck") | html %]',
-        RichTextSet: '[% Config("Frontend::RichText") | html %]',
-        CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
-        AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
-        MenuDragDropEnabled: parseInt('[% Config("Frontend::MenuDragDropEnabled") %]', 10),
-        OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),
-        CustomerInfoSet: parseInt('[% Config("Ticket::Frontend::CustomerInfoCompose") %]', 10),
-        IncludeUnknownTicketCustomers: parseInt('[% Config("Ticket::IncludeUnknownTicketCustomers") %]', 10),
+        Baselink: [% Env("Baselink") | JSON %],
+        AjaxDebug: [% Config("Frontend::AjaxDebug") | JSON %],
+        CGIHandle: [% Env("CGIHandle") | JSON %],
+        WebPath: [% Config("Frontend::WebPath") | JSON %],
+        Action: [% Env("Action") | JSON %],
+        SessionIDCookie: [% Env("SessionIDCookie") | JSON %],
+        SessionName: [% Config("SessionName") | JSON %],
+        SessionID: [% Env("SessionID") | JSON %],
+        ChallengeToken: [% Env("UserChallengeToken") | JSON %],
+        CustomerPanelSessionName: [% Config("CustomerPanelSessionName") | JSON %],
+        Images: [% Config("Frontend::ImagePath") | JSON %],
+        UserLanguage: [% Env("UserLanguage") | JSON %],
+        UserID: [% Env("UserID") | JSON %],
+        SpellChecker: [% Config("SpellChecker") | JSON %],
+        NeedSpellCheck: [% Config("Ticket::Frontend::NeedSpellCheck") | JSON %],
+        RichTextSet: [% Config("Frontend::RichText") | JSON %],
+        CheckEmailAddresses: parseInt([% Config("CheckEmailAddresses") | JSON %], 10),
+        AnimationEnabled: parseInt([% Config("Frontend::AnimationEnabled") | JSON %], 10),
+        MenuDragDropEnabled: parseInt([% Config("Frontend::MenuDragDropEnabled") | JSON %], 10),
+        OpenMainMenuOnHover: parseInt([% Config("OpenMainMenuOnHover") | JSON %], 10),
+        CustomerInfoSet: parseInt([% Config("Ticket::Frontend::CustomerInfoCompose") | JSON %], 10),
+        IncludeUnknownTicketCustomers: parseInt([% Config("Ticket::IncludeUnknownTicketCustomers") | JSON %], 10),
 [% RenderBlockStart("AutoCompleteConfig") %]
         Autocomplete: [% Data.AutocompleteConfig %],
 [% RenderBlockEnd("AutoCompleteConfig") %]
@@ -80,7 +80,7 @@ Core.App.Ready(function () {
         BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %],
         ViewModeSwitchMobile:  [% Translate("Switch to mobile mode") | JSON %],
         ViewModeSwitchDesktop: [% Translate("Switch to desktop mode") | JSON %],
-        InputFieldsActivated: parseInt('[% Config("ModernizeFormFields") %]', 10),
+        InputFieldsActivated: parseInt([% Config("ModernizeFormFields") | JSON %], 10),
         InputFieldsNotAvailable: [% Translate("Not available") | JSON %],
         InputFieldsNoMatchMsg: [% Translate("No matches found.") | JSON %],
         InputFieldsSelectAll: [% Translate("Select all") | JSON %],
@@ -101,7 +101,7 @@ Core.App.Ready(function () {
         NewChatStart: [% Translate("Start chat") | JSON %],
         NewChatActivity: [% Translate("New activity") | JSON %],
         NewChatActivityMonitored: [% Translate("New activity on one of your monitored chats.") | JSON %],
-        VideoChatEnabled: parseInt([% ( Data.VideoChatEnabled || 0 )| JSON %], 10),
+        VideoChatEnabled: parseInt([% ( Data.VideoChatEnabled || 0 ) | JSON %], 10),
         VideoChatVideoCall: [% Translate("Video call") | JSON %],
         VideoChatAudioCall: [% Translate("Audio call") | JSON %],
         VideoChatBrowserUnsupported: [% Translate("Your browser does not support video and audio calling.") | JSON %],
@@ -113,7 +113,7 @@ Core.App.Ready(function () {
         VideoChatInternalError: [% Translate("An internal error occurred.") | JSON %],
         TicketActionTemplateOverwrite: [% Translate("Setting a template will overwrite any text or attachment.") | JSON %],
         TicketActionTemplateOverwriteConfirm: [% Translate("Do you really want to continue?") | JSON %],
-        AgentLogoURL: '[% Config("AgentLogo").URL %]',
+        AgentLogoURL: [% Config("AgentLogo").URL | JSON %],
         OTRSBusinessIsInstalled: parseInt([% Data.OTRSBusinessIsInstalled | JSON %], 10),
         OTRSDaemonDialogTitleMsg: [% Translate('Information about the OTRS Daemon') | JSON %],
         TextNone: [% Translate('none') | JSON %],

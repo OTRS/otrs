@@ -7,11 +7,11 @@
 # --
 
 [% RenderBlockStart("CommonJS") %]
-    <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+    <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
 [% RenderBlockEnd("CommonJS") %]
 
 [% RenderBlockStart("ModuleJS") %]
-    <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
+    <script type="text/javascript" src="[% Config("Frontend::JavaScriptPath") | html %][% Data.JSDirectory | html %][% Data.Filename | html %]"></script>
 [% RenderBlockEnd("ModuleJS") %]
 
 <script type="text/javascript">//<![CDATA[
@@ -23,21 +23,21 @@ Core.App.Ready(function() {
 
     Core.Config.AddConfig({
         // config
-        Baselink: '[% Env("Baselink") %]',
-        CGIHandle: '[% Env("CGIHandle") %]',
-        WebPath: '[% Config("Frontend::WebPath") %]',
-        Action: '[% Env("Action") | html %]',
-        SessionIDCookie: '[% Env("SessionIDCookie") | html %]',
-        SessionName: '[% Config("SessionName") %]',
-        SessionID: '[% Env("SessionID") | html %]',
-        ChallengeToken: '[% Env("UserChallengeToken") | html %]',
-        CustomerPanelSessionName: '[% Config("CustomerPanelSessionName") %]',
-        Images: '[% Config("Frontend::ImagePath") %]',
-        UserLanguage: '[% Env("UserLanguage") | html %]',
-        CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
-        AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
+        Baselink: [% Env("Baselink") | JSON %],
+        CGIHandle: [% Env("CGIHandle") | JSON %],
+        WebPath: [% Config("Frontend::WebPath") | JSON %],
+        Action: [% Env("Action") | JSON %],
+        SessionIDCookie: [% Env("SessionIDCookie") | JSON %],
+        SessionName: [% Config("SessionName") | JSON %],
+        SessionID: [% Env("SessionID") | JSON %],
+        ChallengeToken: [% Env("UserChallengeToken") | JSON %],
+        CustomerPanelSessionName: [% Config("CustomerPanelSessionName") | JSON %],
+        Images: [% Config("Frontend::ImagePath") | JSON %],
+        UserLanguage: [% Env("UserLanguage") | JSON %],
+        CheckEmailAddresses: parseInt([% Config("CheckEmailAddresses") | JSON %], 10),
+        AnimationEnabled: parseInt([% Config("Frontend::AnimationEnabled") | JSON %], 10),
 [% RenderBlockStart("AutoCompleteConfig") %]
-        Autocomplete: Core.JSON.Parse('[% Data.AutocompleteConfig %]'),
+        Autocomplete: [% Data.AutocompleteConfig %],
 [% RenderBlockEnd("AutoCompleteConfig") %]
         // translation
         ValidateServerErrorTitle: [% Translate("Error") | JSON %],
@@ -55,7 +55,7 @@ Core.App.Ready(function() {
         BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %],
         ViewModeSwitchMobile:  [% Translate("Switch to mobile mode") | JSON %],
         ViewModeSwitchDesktop: [% Translate("Switch to desktop mode") | JSON %],
-        InputFieldsActivated: parseInt('[% Config("ModernizeCustomerFormFields") %]', 10),
+        InputFieldsActivated: parseInt([% Config("ModernizeCustomerFormFields") | JSON %], 10),
         InputFieldsNotAvailable: [% Translate("Not available") | JSON %],
         InputFieldsNoMatchMsg: [% Translate("No matches found.") | JSON %],
         InputFieldsSelectAll: [% Translate("Select all") | JSON %],
@@ -66,7 +66,7 @@ Core.App.Ready(function() {
         InputFieldsMore: [% Translate("and %s more...") | JSON %],
         InputFieldsFilters: [% Translate("Filters") | JSON %],
         InputFieldsConfirm: [% Translate("Confirm") | JSON %],
-        VideoChatEnabled: parseInt([% ( Data.VideoChatEnabled || 0 )| JSON %], 10),
+        VideoChatEnabled: parseInt([% ( Data.VideoChatEnabled || 0 ) | JSON %], 10),
         VideoChatUnansweredRequests: [% Translate("You have unanswered chat requests") | JSON %],
         VideoChatClose: [% Translate("Close") | JSON %],
         VideoChatVideoCall: [% Translate("Video call") | JSON %],
