@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-05-16 Removed spell check feature from OTRS. Please use the according functionality of your browser or available plug-ins for it.
  - 2017-05-15 Moved ticket number counter from the TicketCounter.log file to the database. Added ExclusiveLock API for cooperative, application-level locking via database. This allows OTRS to process incoming e-mails much faster and in parallel.
  - 2017-05-11 Fixed bug#[10509](https://bugs.otrs.org/show_bug.cgi?id=10509) - Incorrect handling of empty mime parts.
  - 2017-05-11 Fixed bug#[11910](https://bugs.otrs.org/show_bug.cgi?id=11910) - URLs sometimes get replaced with [#####] characters.

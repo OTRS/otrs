@@ -53,14 +53,6 @@
                             </div>
                             <div class="Clear"></div>
 
-[% RenderBlockStart("SpellCheck") %]
-                            <label>[% Translate("Options") | html %]:</label>
-                            <div class="Field">
-                                <a href="#" id="OptionSpellCheck">[ [% Translate("Spell check") | html %] ]</a>
-                            </div>
-                            <div class="Clear"></div>
-[% RenderBlockEnd("SpellCheck") %]
-
                             <label class="Mandatory" for="Body"><span class="Marker">*</span> [% Translate("Text") | html %]:</label>
                             <div class="RichTextField">
                                 <textarea id="Body" class="RichText Validate_DependingRequiredAND Validate_Depending_Subject [% Data.BodyInvalid %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
@@ -116,14 +108,6 @@
                                 <div id="EmailSubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             </div>
                             <div class="Clear"></div>
-
-[% RenderBlockStart("SpellCheckEmail") %]
-                            <label>[% Translate("Options") | html %]:</label>
-                            <div class="Field">
-                                <a href="#" id="EmailOptionSpellCheck">[ [% Translate("Spell check") | html %] ]</a>
-                            </div>
-                            <div class="Clear"></div>
-[% RenderBlockEnd("SpellCheckEmail") %]
 
                             <label class="Mandatory" for="EmailBody"><span class="Marker">*</span> [% Translate("Text") | html %]:</label>
                             <div class="RichTextField">

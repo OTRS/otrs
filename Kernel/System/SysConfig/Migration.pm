@@ -1831,7 +1831,6 @@ sub NavigationLookupGet {
         'Core::Sendmail'                                      => 'Core::Sendmail',
         'Core::Session'                                       => 'Core::Session',
         'Core::SOAP'                                          => 'Core::SOAP',
-        'Core::SpellChecker'                                  => 'Core::SpellChecker',
         'Core::Stats'                                         => 'Core::Stats',
         'Core::Ticket'                                        => 'Core::Ticket',
         'Core::TicketACL'                                     => 'Core::Ticket::ACL',

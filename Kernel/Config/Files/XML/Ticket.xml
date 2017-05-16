@@ -2010,13 +2010,6 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::NeedSpellCheck" Required="1" Valid="1">
-        <Description Translatable="1">Defines if composed messages have to be spell checked in the agent interface.</Description>
-        <Navigation>Frontend::Agent</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketStatusView###ViewableTicketsPage" Required="1" Valid="1">
         <Description Translatable="1">Shows all open tickets (even if they are locked) in the status view of the agent interface.</Description>
         <Navigation>Frontend::Agent::Ticket::ViewStatus</Navigation>

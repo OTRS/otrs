@@ -2331,16 +2331,6 @@ sub _Mask {
             );
         }
 
-        # show spell check
-        if ( $LayoutObject->{BrowserSpellChecker} ) {
-            $LayoutObject->Block(
-                Name => 'TicketOptions',
-            );
-            $LayoutObject->Block(
-                Name => 'SpellCheck',
-            );
-        }
-
         # build text template string
         my %StandardTemplates = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateList(
             Valid => 1,

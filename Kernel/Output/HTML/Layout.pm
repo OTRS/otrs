@@ -378,16 +378,6 @@ EOF
         $Self->{BrowserRichText} = 0;
     }
 
-    # check if spell check should be active
-    if ( $Self->{BrowserJavaScriptSupport} && $ConfigObject->Get('SpellChecker') ) {
-        if ( $ConfigObject->Get('Frontend::RichText') ) {
-            $Self->{BrowserSpellCheckerInline} = 1;
-        }
-        else {
-            $Self->{BrowserSpellChecker} = 1;
-        }
-    }
-
     # load theme
     my $Theme = $Self->{UserTheme} || $ConfigObject->Get('DefaultTheme') || Translatable('Standard');
 
@@ -1579,8 +1569,6 @@ sub Footer {
         ChallengeToken                 => $Self->{UserChallengeToken},
         CustomerPanelSessionName       => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage                   => $Self->{UserLanguage},
-        SpellChecker                   => $ConfigObject->Get('SpellChecker'),
-        NeedSpellCheck                 => $ConfigObject->Get('Ticket::Frontend::NeedSpellCheck'),
         RichTextSet                    => $ConfigObject->Get('Frontend::RichText'),
         CheckEmailAddresses            => $ConfigObject->Get('CheckEmailAddresses'),
         MenuDragDropEnabled            => $ConfigObject->Get('Frontend::MenuDragDropEnabled'),
@@ -5685,7 +5673,6 @@ sub SetRichTextParameters {
     my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}  || $ConfigObject->Get("Frontend::RichTextWidth");
     my $PictureUploadAction = $Param{Data}->{RichTextPictureUploadAction} || '';
     my $TextDir             = $Self->{TextDirection}                      || '';
-    my $SpellChecker        = $Self->{BrowserSpellCheckerInline}          || '';
     my $EditingAreaCSS = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
     # decide if we need to use the enhanced mode (with tables)
@@ -5703,7 +5690,7 @@ sub SetRichTextParameters {
             '/',
             [
                 'Image',   'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote',
-                '-',       '-',              'Find',      'Replace',       'SpellCheck', 'TextColor',
+                '-',       '-',              'Find',      'Replace',       'TextColor',
                 'BGColor', 'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar',
                 '-',       'Maximize'
             ],
@@ -5719,7 +5706,7 @@ sub SetRichTextParameters {
             '/',
             [
                 'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote', '-',
-                '-',              'Find',      'Replace',       'SpellCheck', 'TextColor',   'BGColor',
+                '-',              'Find',      'Replace',       'TextColor',   'BGColor',
                 'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar', '-',
                 'Maximize'
             ],
@@ -5733,7 +5720,7 @@ sub SetRichTextParameters {
                 'BulletedList',  '-',            'Outdent',        'Indent', '-',    'JustifyLeft',
                 'JustifyCenter', 'JustifyRight', 'JustifyBlock',   '-',      'Link', 'Unlink',
                 '-',             'Image',        'HorizontalRule', '-',      'Undo', 'Redo',
-                '-',             'Find',         'SpellCheck'
+                '-',             'Find'
             ],
             '/',
             [
@@ -5750,7 +5737,7 @@ sub SetRichTextParameters {
                 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
                 'Link',          'Unlink',       '-',            'HorizontalRule',
                 '-',             'Undo',         'Redo',         '-',
-                'Find',          'SpellCheck'
+                'Find'
             ],
             '/',
             [
@@ -5768,7 +5755,6 @@ sub SetRichTextParameters {
             Height         => $ScreenRichTextHeight,
             Width          => $ScreenRichTextWidth,
             TextDir        => $TextDir,
-            SpellChecker   => $SpellChecker,
             EditingAreaCSS => $EditingAreaCSS,
             Lang           => {
                 SplitQuote  => $LanguageObject->Translate('Split Quote'),
@@ -5812,7 +5798,6 @@ sub CustomerSetRichTextParameters {
     my $ScreenRichTextHeight = $ConfigObject->Get("Frontend::RichTextHeight");
     my $ScreenRichTextWidth  = $ConfigObject->Get("Frontend::RichTextWidth");
     my $TextDir              = $Self->{TextDirection} || '';
-    my $SpellChecker         = $Self->{BrowserSpellCheckerInline} || '';
     my $PictureUploadAction  = $Param{Data}->{RichTextPictureUploadAction} || '';
     my $EditingAreaCSS       = 'body { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
@@ -5831,7 +5816,7 @@ sub CustomerSetRichTextParameters {
             '/',
             [
                 'Image',   'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote',
-                '-',       '-',              'Find',      'Replace',       'SpellCheck', 'TextColor',
+                '-',       '-',              'Find',      'Replace',       'TextColor',
                 'BGColor', 'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar',
                 '-',       'Maximize'
             ],
@@ -5847,7 +5832,7 @@ sub CustomerSetRichTextParameters {
             '/',
             [
                 'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote', '-',
-                '-',              'Find',      'Replace',       'SpellCheck', 'TextColor',   'BGColor',
+                '-',              'Find',      'Replace',       'TextColor',   'BGColor',
                 'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar', '-',
                 'Maximize'
             ],
@@ -5861,7 +5846,7 @@ sub CustomerSetRichTextParameters {
                 'BulletedList',  '-',            'Outdent',        'Indent', '-',    'JustifyLeft',
                 'JustifyCenter', 'JustifyRight', 'JustifyBlock',   '-',      'Link', 'Unlink',
                 '-',             'Image',        'HorizontalRule', '-',      'Undo', 'Redo',
-                '-',             'Find',         'SpellCheck'
+                '-',             'Find'
             ],
             '/',
             [
@@ -5878,7 +5863,7 @@ sub CustomerSetRichTextParameters {
                 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
                 'Link',          'Unlink',       '-',            'HorizontalRule',
                 '-',             'Undo',         'Redo',         '-',
-                'Find',          'SpellCheck'
+                'Find'
             ],
             '/',
             [
@@ -5896,7 +5881,6 @@ sub CustomerSetRichTextParameters {
             Height         => $ScreenRichTextHeight,
             Width          => $ScreenRichTextWidth,
             TextDir        => $TextDir,
-            SpellChecker   => $SpellChecker,
             EditingAreaCSS => $EditingAreaCSS,
             Lang           => {
                 SplitQuote => $LanguageObject->Translate('Split Quote'),

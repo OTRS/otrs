@@ -6904,41 +6904,6 @@
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Home&gt;/scripts/tools/xml2html.pl</Item>
         </Value>
     </Setting>
-    <Setting Name="SpellChecker" Required="1" Valid="1">
-        <Description Translatable="1">Enables spell checker support.</Description>
-        <Navigation>Core::SpellChecker</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">0</Item>
-        </Value>
-    </Setting>
-    <Setting Name="SpellCheckerBin" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.</Description>
-        <Navigation>Core::SpellChecker</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="">/usr/bin/ispell</Item>
-        </Value>
-    </Setting>
-    <Setting Name="SpellCheckerDictDefault" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default spell checker dictionary.</Description>
-        <Navigation>Core::SpellChecker</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="">english</Item>
-        </Value>
-    </Setting>
-    <Setting Name="SpellCheckerIgnore" Required="1" Valid="1">
-        <Description Translatable="1">Defines a default list of words, that are ignored by the spell checker.</Description>
-        <Navigation>Core::SpellChecker</Navigation>
-        <Value>
-            <Array>
-                <Item>www</Item>
-                <Item>webmail</Item>
-                <Item>https</Item>
-                <Item>http</Item>
-                <Item>html</Item>
-                <Item>rfc</Item>
-            </Array>
-        </Value>
-    </Setting>
     <Setting Name="WebUserAgent::Timeout" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sets the timeout (in seconds) for http/ftp downloads.</Description>
         <Navigation>Core::WebUserAgent</Navigation>
@@ -7541,28 +7506,6 @@ You can log in via the following URL:
                 <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
                 <Item Key="Prio">0600</Item>
                 <Item Key="Active">0</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="PreferencesGroups###SpellDict" Required="0" Valid="0">
-        <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="PreferenceGroup">UserProfile</Item>
-                <Item Key="Label" Translatable="1">Spelling Dictionary</Item>
-                <Item Key="Key" Translatable="1">Default spelling dictionary</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="english">English</Item>
-                        <Item Key="deutsch">Deutsch</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">english</Item>
-                <Item Key="PrefKey">UserSpellDict</Item>
-                <Item Key="Prio">2000</Item>
-                <Item Key="Active">1</Item>
             </Hash>
         </Value>
     </Setting>
@@ -8828,61 +8771,6 @@ via the Preferences button after logging in.
                     <Item Key="Description" Translatable="1">Picture upload module.</Item>
                     <Item Key="Title" Translatable="1">Picture Upload</Item>
                     <Item Key="NavBarName">Ticket</Item>
-                </Hash>
-            </Item>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::Module###AgentSpelling" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
-        <Value>
-            <Item ValueType="FrontendRegistration">
-                <Hash>
-                    <Item Key="Group">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="GroupRo">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="Description" Translatable="1">Spell checker.</Item>
-                    <Item Key="Title" Translatable="1">Spell Checker</Item>
-                    <Item Key="NavBarName"></Item>
-                </Hash>
-            </Item>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Module::AgentSpelling###001-Framework" Required="0" Valid="1">
-        <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="JavaScript">
-                    <Array>
-                        <Item>Core.Agent.TicketAction.js</Item>
-                    </Array>
-                </Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="Frontend::Module###SpellingInline" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
-        <Value>
-            <Item ValueType="FrontendRegistration">
-                <Hash>
-                    <Item Key="Group">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="GroupRo">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="Description" Translatable="1">Spell checker.</Item>
-                    <Item Key="Title" Translatable="1">Spell Checker</Item>
-                    <Item Key="NavBarName"></Item>
                 </Hash>
             </Item>
         </Value>
@@ -10888,27 +10776,6 @@ via the Preferences button after logging in.
                     <Item Key="Description" Translatable="1">Picture upload module.</Item>
                     <Item Key="Title" Translatable="1">Picture-Upload</Item>
                     <Item Key="NavBarName">Ticket</Item>
-                </Hash>
-            </Item>
-        </Value>
-    </Setting>
-    <Setting Name="CustomerFrontend::Module###SpellingInline" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
-        <Value>
-            <Item ValueType="FrontendRegistration">
-                <Hash>
-                    <Item Key="Group">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="GroupRo">
-                        <Array>
-                        </Array>
-                    </Item>
-                    <Item Key="Description" Translatable="1">Spell checker.</Item>
-                    <Item Key="Title" Translatable="1">Spell Checker</Item>
-                    <Item Key="NavBarName"></Item>
                 </Hash>
             </Item>
         </Value>

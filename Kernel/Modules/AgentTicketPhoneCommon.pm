@@ -1255,18 +1255,6 @@ sub _MaskPhone {
         );
     }
 
-    # show spell check
-    if ( $LayoutObject->{BrowserSpellChecker} ) {
-        $LayoutObject->Block(
-            Name => 'TicketOptions',
-            Data => {},
-        );
-        $LayoutObject->Block(
-            Name => 'SpellCheck',
-            Data => {},
-        );
-    }
-
     # show attachments
     ATTACHMENT:
     for my $Attachment ( @{ $Param{Attachments} } ) {

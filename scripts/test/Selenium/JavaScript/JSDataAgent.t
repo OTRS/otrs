@@ -49,17 +49,8 @@ $Selenium->RunTest(
                 ExpectedValue => 'OTRSUTValue',
             },
             {
-                Key           => 'SpellChecker',
-                ExpectedValue => '3',
-            },
-            {
                 Key           => 'CheckEmailAddresses',
                 ExpectedValue => '3',
-            },
-            {
-                Key           => 'Ticket::Frontend::NeedSpellCheck',
-                JSKey         => 'NeedSpellCheck',
-                ExpectedValue => '4',
             },
             {
                 Key           => 'Frontend::RichText',
