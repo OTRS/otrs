@@ -1009,10 +1009,6 @@ iframe.TextOption {
     height: 400px;
 }
 
-iframe.TextOption.SpellCheck {
-    width: 800px;
-}
-
 iframe.TextOption.Customer {
     width: 800px;
 }

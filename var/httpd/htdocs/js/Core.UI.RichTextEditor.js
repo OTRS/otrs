@@ -150,8 +150,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         });
         /*eslint-enable camelcase */
 
-        CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');
-
         // check if creating CKEditor was successful
         // might be a problem on mobile devices e.g.
         if (typeof Editor !== 'undefined') {
