@@ -1353,13 +1353,15 @@ sub TicketSearch {
         }
     }
 
-    # search article attributes
-    my $ArticleIndexSQLExt = $ArticleObject->ArticleSearchIndexCondition( Data => \%Param );
-    $SQLExt .= $ArticleIndexSQLExt;
+    # Search article attributes.
+    if ($ArticleTableJoined) {
 
-    # restrict search from customers to only customer articles
-    if ( $Param{CustomerUserID} && $ArticleIndexSQLExt ) {
-        $SQLExt .= ' AND art.is_visible_for_customer = 1 ';
+        $SQLExt .= $ArticleObject->ArticleSearchIndexCondition( Data => \%Param );
+
+        # Restrict search from customers to only customer articles.
+        if ( $Param{CustomerUserID} ) {
+            $SQLExt .= ' AND art.is_visible_for_customer = 1 ';
+        }
     }
 
     # Remember already joined tables for sorting.
@@ -2337,7 +2339,7 @@ sub TicketSearch {
 
     # check cache
     my $CacheObject;
-    if ( ( $ArticleIndexSQLExt && $Param{FullTextIndex} ) || $Param{CacheTTL} ) {
+    if ( ( $ArticleTableJoined && $Param{FullTextIndex} ) || $Param{CacheTTL} ) {
         $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
         my $CacheData = $CacheObject->Get(
             Type => 'TicketSearch',
