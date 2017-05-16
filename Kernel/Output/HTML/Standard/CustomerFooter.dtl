@@ -14,11 +14,11 @@
 </div>
 
 <!-- dtl:block:CommonJS -->
-    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
+    <script type="text/javascript" src="$Quote{"$Config{"Frontend::JavaScriptPath"}"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
 <!-- dtl:block:CommonJS -->
 
 <!-- dtl:block:ModuleJS -->
-    <script type="text/javascript" src="$Config{"Frontend::JavaScriptPath"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
+    <script type="text/javascript" src="$Quote{"$Config{"Frontend::JavaScriptPath"}"}$QData{"JSDirectory"}$QData{"Filename"}"></script>
 <!-- dtl:block:ModuleJS -->
 
 <script type="text/javascript">//<![CDATA[
@@ -30,21 +30,21 @@ Core.App.Ready(function() {
 
     Core.Config.AddConfig({
         // config
-        Baselink: '$Env{"Baselink"}',
-        CGIHandle: '$Env{"CGIHandle"}',
-        WebPath: '$Config{"Frontend::WebPath"}',
-        Action: '$QEnv{"Action"}',
-        SessionIDCookie: '$QEnv{"SessionIDCookie"}',
-        SessionName: '$Config{"SessionName"}',
-        SessionID: '$QEnv{"SessionID"}',
-        ChallengeToken: '$QEnv{"UserChallengeToken"}',
-        CustomerPanelSessionName: '$Config{"CustomerPanelSessionName"}',
-        Images: '$Config{"Frontend::ImagePath"}',
-        UserLanguage: '$QEnv{"UserLanguage"}',
-        CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
-        AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
+        Baselink: "$QEnv{"Baselink"}",
+        CGIHandle: "$QEnv{"CGIHandle"}",
+        WebPath: "$Quote{"$Config{"Frontend::WebPath"}"}",
+        Action: "$QEnv{"Action"}",
+        SessionIDCookie: "$QEnv{"SessionIDCookie"}",
+        SessionName: "$Quote{"$Config{"SessionName"}"}",
+        SessionID: "$QEnv{"SessionID"}",
+        ChallengeToken: "$QEnv{"UserChallengeToken"}",
+        CustomerPanelSessionName: "$Quote{"$Config{"CustomerPanelSessionName"}"}",
+        Images: "$Quote{"$Config{"Frontend::ImagePath"}"}",
+        UserLanguage: "$QEnv{"UserLanguage"}",
+        CheckEmailAddresses: parseInt("$Quote{"$Config{"CheckEmailAddresses"}"}", 10),
+        AnimationEnabled: parseInt("$Quote{"$Config{"Frontend::AnimationEnabled"}"}", 10),
 <!-- dtl:block:AutoCompleteConfig -->
-        Autocomplete: Core.JSON.Parse('$Data{"AutocompleteConfig"}'),
+        Autocomplete: $Data{"AutocompleteConfig"},
 <!-- dtl:block:AutoCompleteConfig -->
         // translation
         ValidateServerErrorTitle: '$JSText{"Error"}',
