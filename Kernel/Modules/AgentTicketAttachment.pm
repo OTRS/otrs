@@ -207,6 +207,7 @@ sub Run {
             .+                                                  # PGP parts may be nested in html
             ^ .* -----END [ ] PGP [ ] MESSAGE-----  .* $        # grep PGP end tag
         }xms
+            || $ConfigObject->Get('Frontend::Output::FilterText')
             )
         {
 
