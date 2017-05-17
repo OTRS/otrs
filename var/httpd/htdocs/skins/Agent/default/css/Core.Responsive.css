@@ -107,7 +107,7 @@
 
     #Header #Logo {
         width: 208px !important;
-        background-size: 100%;
+        background-size: contain;
         position: static;
         margin: -2px auto 0px auto;
         background-position: center;
