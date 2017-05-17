@@ -73,7 +73,7 @@ for my $Count ( 1 .. 3 ) {
         'ArticleCreate()'
     );
 
-    my $IndexBuiltSuccess = $ArticleObject->ArticleIndexBuild(
+    my $IndexBuiltSuccess = $ArticleObject->ArticleSearchIndexBuild(
         TicketID  => $TicketID,
         ArticleID => $ArticleIDs{$Count},
         UserID    => 1,
@@ -86,8 +86,8 @@ for my $Count ( 1 .. 3 ) {
 
 my @ArticleIndexTests = (
     {
-        Name => 'article search index MIMEBase_From',
-        Data => {
+        Name         => 'article search index MIMEBase_From',
+        SearchParams => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             MIMEBase_From       => 'spam@example.com',
@@ -98,8 +98,8 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_From.article_value LIKE '\%spam\@example.com\%') ",
     },
     {
-        Name => 'article search index MIMEBase_To',
-        Data => {
+        Name         => 'article search index MIMEBase_To',
+        SearchParams => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             MIMEBase_To         => 'spam@example.com',
@@ -110,8 +110,8 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_To.article_value LIKE '\%spam\@example.com\%') ",
     },
     {
-        Name => 'article search index MIMEBase_Cc',
-        Data => {
+        Name         => 'article search index MIMEBase_Cc',
+        SearchParams => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             MIMEBase_Cc         => 'spam@example.com',
@@ -122,8 +122,8 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_Cc.article_value LIKE '\%spam\@example.com\%') ",
     },
     {
-        Name => 'article search index MIMEBase_Subject',
-        Data => {
+        Name         => 'article search index MIMEBase_Subject',
+        SearchParams => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             MIMEBase_Subject    => 'VIRUS 32',
@@ -134,8 +134,8 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_Subject.article_value LIKE '\%virus 32\%') ",
     },
     {
-        Name => 'article search index MIMEBase_Body',
-        Data => {
+        Name         => 'article search index MIMEBase_Body',
+        SearchParams => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             MIMEBase_Body       => 'VIRUS 32',
@@ -146,8 +146,8 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_Body.article_value LIKE '\%virus 32\%') ",
     },
     {
-        Name => 'article search index MIMEBase_Body with doubled percentages',
-        Data => {
+        Name         => 'article search index MIMEBase_Body with doubled percentages',
+        SearchParams => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
             MIMEBase_Body       => '%Some Message Text%',
@@ -158,8 +158,8 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_Body.article_value LIKE '\%some message text\%') ",
     },
     {
-        Name => 'article search index not needed',
-        Data => {
+        Name         => 'article search index not needed',
+        SearchParams => {
             ContentSearchPrefix => '*',
             ContentSearchSuffix => '*',
         },
@@ -171,37 +171,30 @@ my @ArticleIndexTests = (
 
 for my $Test (@ArticleIndexTests) {
 
-    my $Needed = $ArticleObject->ArticleSearchIndexNeeded(
-        Data => $Test->{Data},
-    );
+    my $Needed = $ArticleObject->ArticleSearchIndexSQLJoinNeeded( %{$Test} );
     $Self->Is(
         $Needed,
         $Test->{Needed},
-        'ArticleSearchIndexNeeded - ' . $Test->{Name},
+        'ArticleSearchIndexSQLJoinNeeded - ' . $Test->{Name},
     );
 
-    my $SQLJoins = $ArticleObject->ArticleSearchIndexJoin(
-        Data => $Test->{Data},
-    );
+    my $SQLJoins = $ArticleObject->ArticleSearchIndexSQLJoin( %{$Test} );
     $Self->Is(
         $SQLJoins,
         $Test->{Joins},
-        'ArticleSearchIndexJoin - ' . $Test->{Name},
+        'ArticleSearchIndexSQLJoin - ' . $Test->{Name},
     );
 
-    my $SQLConditions = $ArticleObject->ArticleSearchIndexCondition(
-        Data => $Test->{Data},
-    );
+    my $SQLConditions = $ArticleObject->ArticleSearchIndexWhereCondition( %{$Test} );
     $Self->Is(
         $SQLConditions,
         $Test->{Conditions},
-        'ArticleSearchIndexCondition - ' . $Test->{Name},
+        'ArticleSearchIndexWhereCondition - ' . $Test->{Name},
     );
 }
 
-# remove the first article from search index
-my $IndexDeleteSuccess = $ArticleObject->ArticleIndexDelete(
-    TicketID  => $TicketID,
+# Remove the first article from search index.
+my $IndexDeleteSuccess = $ArticleObject->ArticleSearchIndexDelete(
     ArticleID => $ArticleIDs{1},
     UserID    => 1,
 );
@@ -210,8 +203,8 @@ $Self->True(
     "Article was removed from the index."
 );
 
-# remove the first article from search index
-my $IndexDeleteTicketSuccess = $ArticleObject->ArticleIndexDeleteTicket(
+# Remove all articles from search index.
+my $IndexDeleteTicketSuccess = $ArticleObject->ArticleSearchIndexDelete(
     TicketID => $TicketID,
     UserID   => 1,
 );

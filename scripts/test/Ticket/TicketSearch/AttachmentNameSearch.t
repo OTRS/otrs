@@ -128,7 +128,7 @@ for my $TicketID (@TicketIDs) {
             'Attachment created'
         );
 
-        $ArticleObject->ArticleIndexBuild(
+        $ArticleObject->ArticleSearchIndexBuild(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
             UserID    => 1,
@@ -182,7 +182,7 @@ $Self->True(
     'Attachment created'
 );
 
-$ArticleObject->ArticleIndexBuild(
+$ArticleObject->ArticleSearchIndexBuild(
     TicketID  => $TicketIDs[1],
     ArticleID => $ArticleID,
     UserID    => 1,

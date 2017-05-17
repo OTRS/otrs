@@ -73,7 +73,7 @@ sub Run {
         );
 
         for my $MetaArticle (@MetaArticles) {
-            $ArticleObject->ArticleIndexBuild(
+            $ArticleObject->ArticleSearchIndexBuild(
                 %{$MetaArticle},
                 UserID => 1,
             );

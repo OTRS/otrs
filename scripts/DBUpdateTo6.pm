@@ -121,6 +121,10 @@ sub _TasksGet {
             Module  => 'MigrateTicketStorageModule',
         },
         {
+            Message => 'Migrating article search index configuration',
+            Module  => 'MigrateArticleSearchIndex',
+        },
+        {
             Message => 'Drop deprecated table gi_object_lock_state',
             Module  => 'DropObjectLockState',
         },

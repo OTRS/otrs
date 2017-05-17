@@ -115,7 +115,7 @@ sub Run {
     );
 
     # collect all searchable article field definitions and add the fields to the attributes array
-    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 
     # load profiles string params (press load profile)
     if ( ( $Self->{Subaction} eq 'LoadProfile' && $Self->{Profile} ) || $Self->{TakeLastSearch} ) {
@@ -1253,7 +1253,7 @@ sub Run {
             FoundStopWords => [],
         };
 
-        if ( $Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsUsageWarningActive() ) {
+        if ( $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsUsageWarningActive() ) {
             my @ParamNames = $ParamObject->GetParamNames();
             my %SearchStrings;
             SEARCHSTRINGPARAMNAME:
@@ -1263,7 +1263,7 @@ sub Run {
             }
 
             $StopWordCheckResult->{FoundStopWords}
-                = $Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsFind(
+                = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsFind(
                 SearchStrings => \%SearchStrings,
                 );
         }

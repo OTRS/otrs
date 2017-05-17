@@ -55,7 +55,7 @@ sub Run {
 
     $Self->AsyncCall(
         ObjectName     => 'Kernel::System::Ticket::Article',
-        FunctionName   => 'ArticleIndexBuild',
+        FunctionName   => 'ArticleSearchIndexBuild',
         FunctionParams => {
             TicketID  => $Param{Data}->{TicketID},
             ArticleID => $Param{Data}->{ArticleID},

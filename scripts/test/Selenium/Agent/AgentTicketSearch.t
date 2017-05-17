@@ -148,7 +148,7 @@ $Selenium->RunTest(
             "Article is created - ID $ArticleID",
         );
 
-        $ArticleObject->ArticleIndexBuild(
+        $ArticleObject->ArticleSearchIndexBuild(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
             UserID    => 1,
@@ -243,7 +243,7 @@ $Selenium->RunTest(
 
         # Recreate article object and update article index for static DB.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket::Article'] );
-        $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleIndexBuild(
+        $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexBuild(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
             UserID    => 1,

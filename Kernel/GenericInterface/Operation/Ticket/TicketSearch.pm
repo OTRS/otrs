@@ -381,7 +381,7 @@ sub _GetParams {
     # get single params
     my %GetParam;
 
-    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 
     for my $Item (
         sort keys %SearchableFields,

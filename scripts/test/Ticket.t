@@ -288,7 +288,7 @@ for my $Key (qw( Body Subject From To ReplyTo )) {
     );
 }
 
-$ArticleObject->ArticleIndexBuild(
+$ArticleObject->ArticleSearchIndexBuild(
     TicketID  => $TicketID,
     ArticleID => $ArticleID,
     UserID    => 1,

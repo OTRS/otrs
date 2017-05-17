@@ -730,8 +730,11 @@ sub TicketDelete {
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    # update full text index
-    return if !$ArticleObject->ArticleIndexDeleteTicket(%Param);
+    # Delete article search index.
+    return if !$ArticleObject->ArticleSearchIndexDelete(
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

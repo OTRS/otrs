@@ -20,6 +20,17 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
 );
 
+=head1 NAME
+
+Kernel::System::Ticket::ArticleSearchIndex::DB - DB based ticket article search index module
+
+=head1 DESCRIPTION
+
+This class provides functions to index articles for searching in the database.
+The methods are currently documented in L<Kernel::System::Ticket::Article>.
+
+=cut
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -29,23 +40,7 @@ sub new {
     return $Self;
 }
 
-=head2 ArticleIndexBuild()
-
-Rebuilds the current article search index table content. Existing article entries will be replaced.
-
-    my $Success = $ArticleSearchIndexObject->ArticleIndexBuild(
-        TicketID  => 123,
-        ArticleID => 123,
-        UserID    => 1,
-    );
-
-Returns:
-
-    True if indexing process was successfuly finished, False if not.
-
-=cut
-
-sub ArticleIndexBuild {
+sub ArticleSearchIndexBuild {
     my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(TicketID ArticleID UserID)) {
@@ -70,7 +65,7 @@ sub ArticleIndexBuild {
     );
 
     # clear old data from search index table
-    my $Success = $Self->ArticleIndexDelete(
+    my $Success = $Self->ArticleSearchIndexDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
@@ -83,12 +78,18 @@ sub ArticleIndexBuild {
         return;
     }
 
+    my $FilterStopWords = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::FilterStopWords') // 1;
+
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     for my $FieldKey ( sort keys %ArticleSearchableContent ) {
 
-        if ( $ArticleSearchableContent{$FieldKey}->{Filterable} ) {
-            $ArticleSearchableContent{$FieldKey}->{String} = $Self->_ArticleIndexString(
+        if (
+            $FilterStopWords
+            && $ArticleSearchableContent{$FieldKey}->{Filterable}
+            )
+        {
+            $ArticleSearchableContent{$FieldKey}->{String} = $Self->_ArticleSearchIndexString(
                 %{ $ArticleSearchableContent{$FieldKey} }
             );
         }
@@ -114,120 +115,54 @@ sub ArticleIndexBuild {
     return 1;
 }
 
-=head2 ArticleIndexDelete()
-
-Deletes an entry from the article search index table.
-
-    my $Success = $ArticleSearchIndexObject->ArticleIndexDelete(
-        ArticleID => 123,
-        UserID    => 1,
-    );
-
-Returns:
-
-    True if delete process was successfuly finished, False if not.
-
-=cut
-
-sub ArticleIndexDelete {
+sub ArticleSearchIndexDelete {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(ArticleID UserID)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!"
-            );
-            return;
-        }
-    }
-
-    # delete articles
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_search_index WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
-
-    return 1;
-}
-
-=head2 ArticleIndexDeleteTicket()
-
-Deletes all entry from the article search index table, that are related to the given TicketID.
-
-    my $Success = $ArticleSearchIndexObject->ArticleIndexDeleteTicket(
-        TicketID => 123,
-        UserID   => 1,
-    );
-
-Returns:
-
-    True if delete process was successfuly finished, False if not.
-
-=cut
-
-sub ArticleIndexDeleteTicket {
-    my ( $Self, %Param ) = @_;
-
-    for my $Needed (qw(TicketID UserID)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!"
-            );
-            return;
-        }
-    }
-
-    # delete articles
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL  => 'DELETE FROM article_search_index WHERE ticket_id = ?',
-        Bind => [ \$Param{TicketID} ],
-    );
-
-    return 1;
-}
-
-=head2 ArticleSearchIndexNeeded()
-
-Checks the given search parameters for used article backend fields.
-
-    my $Needed = $ArticleSearchIndexObject->ArticleSearchIndexNeeded(
-        Data => {
-            ...
-            ConditionInline         => 1,
-            ContentSearchPrefix     => '*',
-            ContentSearchSuffix     => '*',
-            MIMEBase_From           => '%spam@example.com%',
-            MIMEBase_To             => '%service@example.com%',
-            MIMEBase_Cc             => '%client@example.com%',
-            MIMEBase_Subject        => '%VIRUS 32%',
-            MIMEBase_Body           => '%VIRUS 32%',
-            MIMEBase_AttachmentName => '%anyfile.txt%',
-            Chat_ChatterName        => '%Some Chatter Name%',
-            Chat_MessageText        => '%Some Message Text%'
-            ...
-        },
-    );
-
-Returns:
-
-    True if article search index usage is needed, False if not.
-
-=cut
-
-sub ArticleSearchIndexNeeded {
-    my ( $Self, %Param ) = @_;
-
-    if ( !$Param{Data} ) {
+    if ( !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need Data!"
+            Message  => 'Need UserID!',
         );
         return;
     }
 
-    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    if ( !$Param{ArticleID} && !$Param{TicketID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need either ArticleID or TicketID!',
+        );
+        return;
+    }
+
+    # Delete articles.
+    if ( $Param{ArticleID} ) {
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL  => 'DELETE FROM article_search_index WHERE article_id = ?',
+            Bind => [ \$Param{ArticleID} ],
+        );
+    }
+    elsif ( $Param{TicketID} ) {
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL  => 'DELETE FROM article_search_index WHERE ticket_id = ?',
+            Bind => [ \$Param{TicketID} ],
+        );
+    }
+
+    return 1;
+}
+
+sub ArticleSearchIndexSQLJoinNeeded {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{SearchParams} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need SearchParams!',
+        );
+        return;
+    }
+
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 
     for my $Field (
         sort keys %SearchableFields,
@@ -237,7 +172,7 @@ sub ArticleSearchIndexNeeded {
         )
         )
     {
-        if ( IsStringWithData( $Param{Data}->{$Field} ) ) {
+        if ( IsStringWithData( $Param{SearchParams}->{$Field} ) ) {
             return 1;
         }
     }
@@ -245,50 +180,22 @@ sub ArticleSearchIndexNeeded {
     return;
 }
 
-=head2 ArticleSearchIndexJoin()
-
-Generates sql string extensions, including the needed table joins for the article index search.
-
-    my $SQLExtenion = $ArticleSearchIndexObject->ArticleSearchIndexJoin(
-        Data => {
-            ...
-            ConditionInline         => 1,
-            ContentSearchPrefix     => '*',
-            ContentSearchSuffix     => '*',
-            MIMEBase_From           => '%spam@example.com%',
-            MIMEBase_To             => '%service@example.com%',
-            MIMEBase_Cc             => '%client@example.com%',
-            MIMEBase_Subject        => '%VIRUS 32%',
-            MIMEBase_Body           => '%VIRUS 32%',
-            MIMEBase_AttachmentName => '%anyfile.txt%',
-            Chat_ChatterName        => '%Some Chatter Name%',
-            Chat_MessageText        => '%Some Message Text%'
-            ...
-        },
-    );
-
-Returns:
-
-    $SQLExtension = 'LEFT JOIN article_search_index ArticleFulltext ON art.id = ArticleFulltext.article_id ';
-
-=cut
-
-sub ArticleSearchIndexJoin {
+sub ArticleSearchIndexSQLJoin {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{Data} ) {
+    if ( !$Param{SearchParams} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need Data!"
+            Message  => 'Need SearchParams!',
         );
         return;
     }
 
-    my $ArticleSearchIndexJoin = ' ';
+    my $ArticleSearchIndexSQLJoin = ' ';
 
     # join article search table for fulltext searches
-    if ( IsStringWithData( $Param{Data}->{Fulltext} ) ) {
-        $ArticleSearchIndexJoin
+    if ( IsStringWithData( $Param{SearchParams}->{Fulltext} ) ) {
+        $ArticleSearchIndexSQLJoin
             .= 'LEFT JOIN article_search_index ArticleFulltext ON art.id = ArticleFulltext.article_id ';
     }
 
@@ -296,59 +203,30 @@ sub ArticleSearchIndexJoin {
 
     # Run through all article fields, that have assigned values and add additional LEFT JOINS
     # to the string, to access them later for the conditions.
-    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 
     ARTICLEFIELD:
     for my $ArticleField ( sort keys %SearchableFields ) {
 
-        next ARTICLEFIELD if !IsStringWithData( $Param{Data}->{$ArticleField} );
+        next ARTICLEFIELD if !IsStringWithData( $Param{SearchParams}->{$ArticleField} );
 
         my $Label = $ArticleField;
         $ArticleField = $DBObject->Quote($ArticleField);
 
-        $ArticleSearchIndexJoin
+        $ArticleSearchIndexSQLJoin
             .= "LEFT JOIN article_search_index $Label ON art.id = $Label.article_id AND $Label.article_key = '$ArticleField' ";
     }
 
-    return $ArticleSearchIndexJoin;
+    return $ArticleSearchIndexSQLJoin;
 }
 
-=head2 ArticleSearchIndexCondition()
-
-Generates sql query conditions for the used article fields, that may be used in the WHERE clauses of main
-sql queries to the database.
-
-    my $SQLExtenion = $ArticleSearchIndexObject->ArticleSearchIndexCondition(
-        Data => {
-            ...
-            ConditionInline         => 1,
-            ContentSearchPrefix     => '*',
-            ContentSearchSuffix     => '*',
-            MIMEBase_From           => '%spam@example.com%',
-            MIMEBase_To             => '%service@example.com%',
-            MIMEBase_Cc             => '%client@example.com%',
-            MIMEBase_Subject        => '%VIRUS 32%',
-            MIMEBase_Body           => '%VIRUS 32%',
-            MIMEBase_AttachmentName => '%anyfile.txt%',
-            Chat_ChatterName        => '%Some Chatter Name%',
-            Chat_MessageText        => '%Some Message Text%'
-            ...
-        },
-    );
-
-Returns:
-
-    $SQLConditions = " AND (MIMEBase_From.article_value LIKE '%spam@example.com%') ";
-
-=cut
-
-sub ArticleSearchIndexCondition {
+sub ArticleSearchIndexWhereCondition {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{Data} ) {
+    if ( !$Param{SearchParams} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need Data!"
+            Message  => 'Need SearchParams!',
         );
         return;
     }
@@ -359,34 +237,34 @@ sub ArticleSearchIndexCondition {
     my $SQLCondition = '';
     my $SQLQuery     = '';
 
-    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my %SearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
     my @Fields           = keys %SearchableFields;
 
-    push @Fields, 'Fulltext' if IsStringWithData( $Param{Data}->{Fulltext} );
+    push @Fields, 'Fulltext' if IsStringWithData( $Param{SearchParams}->{Fulltext} );
 
     FIELD:
     for my $Field (@Fields) {
 
-        next FIELD if !IsStringWithData( $Param{Data}->{$Field} );
+        next FIELD if !IsStringWithData( $Param{SearchParams}->{$Field} );
 
         # replace * by % for SQL like
-        $Param{Data}->{$Field} =~ s/\*/%/gi;
+        $Param{SearchParams}->{$Field} =~ s/\*/%/gi;
 
         # check search attribute, we do not need to search for *
-        next FIELD if $Param{Data}->{$Field} =~ /^\%{1,3}$/;
+        next FIELD if $Param{SearchParams}->{$Field} =~ /^\%{1,3}$/;
 
         if ($SQLQuery) {
-            $SQLQuery .= ' ' . $Param{Data}->{ContentSearch} . ' ';
+            $SQLQuery .= ' ' . $Param{SearchParams}->{ContentSearch} . ' ';
         }
 
         # check if search condition extension is used
-        if ( $Param{Data}->{ConditionInline} ) {
+        if ( $Param{SearchParams}->{ConditionInline} ) {
 
             $SQLQuery .= $DBObject->QueryCondition(
                 Key => $Field eq 'Fulltext' ? 'ArticleFulltext.article_value' : "$Field.article_value",
-                Value         => lc $Param{Data}->{$Field},
-                SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
-                SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
+                Value         => lc $Param{SearchParams}->{$Field},
+                SearchPrefix  => $Param{SearchParams}->{ContentSearchPrefix},
+                SearchSuffix  => $Param{SearchParams}->{ContentSearchSuffix},
                 Extended      => 1,
                 CaseSensitive => 1,
             );
@@ -394,13 +272,13 @@ sub ArticleSearchIndexCondition {
         else {
 
             my $Label = $Field eq 'Fulltext' ? 'ArticleFulltext' : $Field;
-            my $Value = $Param{Data}->{$Field};
+            my $Value = $Param{SearchParams}->{$Field};
 
-            if ( $Param{Data}->{ContentSearchPrefix} ) {
-                $Value = $Param{Data}->{ContentSearchPrefix} . $Value;
+            if ( $Param{SearchParams}->{ContentSearchPrefix} ) {
+                $Value = $Param{SearchParams}->{ContentSearchPrefix} . $Value;
             }
-            if ( $Param{Data}->{ContentSearchSuffix} ) {
-                $Value .= $Param{Data}->{ContentSearchSuffix};
+            if ( $Param{SearchParams}->{ContentSearchSuffix} ) {
+                $Value .= $Param{SearchParams}->{ContentSearchSuffix};
             }
 
             # replace * with % (for SQL)
@@ -421,21 +299,6 @@ sub ArticleSearchIndexCondition {
 
     return $SQLCondition;
 }
-
-=head2 SearchStringStopWordsFind()
-
-Find stop words within given search string.
-
-    my $StopWords = $TicketObject->SearchStringStopWordsFind(
-        SearchStrings => {
-            'Fulltext'      => '(this AND is) OR test',
-            'MIMEBase_From' => 'myself',
-        },
-    );
-
-    Returns Hashref with found stop words.
-
-=cut
 
 sub SearchStringStopWordsFind {
     my ( $Self, %Param ) = @_;
@@ -520,14 +383,6 @@ sub SearchStringStopWordsFind {
     return \%StopWordsFound;
 }
 
-=head2 SearchStringStopWordsUsageWarningActive()
-
-Checks if warnings for stop words in search strings are active or not.
-
-    my $WarningActive = $TicketObject->SearchStringStopWordsUsageWarningActive();
-
-=cut
-
 sub SearchStringStopWordsUsageWarningActive {
     my ( $Self, %Param ) = @_;
 
@@ -538,7 +393,7 @@ sub SearchStringStopWordsUsageWarningActive {
     return 0;
 }
 
-sub _ArticleIndexString {
+sub _ArticleSearchIndexString {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Param{String} ) {
@@ -555,7 +410,7 @@ sub _ArticleIndexString {
 
     # get words (use eval to prevend exits on damaged utf8 signs)
     my $ListOfWords = eval {
-        $Self->_ArticleIndexStringToWord(
+        $Self->_ArticleSearchIndexStringToWord(
             String        => \$Param{String},
             WordLengthMin => $Param{WordLengthMin} || $SearchIndexAttributes->{WordLengthMin} || 3,
             WordLengthMax => $Param{WordLengthMax} || $SearchIndexAttributes->{WordLengthMax} || 30,
@@ -597,7 +452,7 @@ sub _ArticleIndexString {
     return $IndexString;
 }
 
-sub _ArticleIndexStringToWord {
+sub _ArticleSearchIndexStringToWord {
     my ( $Self, %Param ) = @_;
 
     if ( !defined $Param{String} ) {

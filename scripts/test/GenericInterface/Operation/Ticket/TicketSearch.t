@@ -550,7 +550,7 @@ my $ArticleID41 = $ArticleBackendObject->ArticleCreate(
     NoAgentNotify        => 1,
 );
 
-$ArticleObject->ArticleIndexBuild(
+$ArticleObject->ArticleSearchIndexBuild(
     TicketID  => $TicketID4,
     ArticleID => $ArticleID41,
     UserID    => 1,
@@ -574,7 +574,7 @@ my $ArticleID42 = $ArticleBackendObject->ArticleCreate(
     NoAgentNotify        => 1,
 );
 
-$ArticleObject->ArticleIndexBuild(
+$ArticleObject->ArticleSearchIndexBuild(
     TicketID  => $TicketID4,
     ArticleID => $ArticleID42,
     UserID    => 1,

@@ -394,7 +394,7 @@ sub _NotificationFilter {
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     # get the search article fields to retrieve values for
-    my %ArticleSearchableFields = $ArticleObject->SearchableFieldsList();
+    my %ArticleSearchableFields = $ArticleObject->ArticleSearchableFieldsList();
 
     KEY:
     for my $Key ( sort keys %{ $Notification{Data} } ) {

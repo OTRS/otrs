@@ -40,6 +40,12 @@ for my $Module (qw(DB)) {
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
 
+    # Make sure stop words are filtered on start.
+    $ConfigObject->Set(
+        Key   => 'Ticket::SearchIndex::FilterStopWords',
+        Value => 1,
+    );
+
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
@@ -88,7 +94,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
 
     # Since article search indexing is now run as an async call, make sure to call the index build method directly.
-    $ArticleObject->ArticleIndexBuild(
+    $ArticleObject->ArticleSearchIndexBuild(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
         UserID    => 1,
@@ -128,7 +134,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
 
     # Since article search indexing is now run as an async call, make sure to call the index build method directly.
-    $ArticleObject->ArticleIndexBuild(
+    $ArticleObject->ArticleSearchIndexBuild(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
         UserID    => 1,
@@ -173,6 +179,51 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'TicketSearch() (HASH:MIMEBase_Body)'
     );
 
+    # Try to find ticket by including obvious stop words in search query.
+    %TicketIDs = $TicketObject->TicketSearch(
+        MIMEBase_Body => '%a range of features%',
+        Result        => 'HASH',
+        Limit         => 100,
+        UserID        => 1,
+        Permission    => 'rw',
+    );
+    $Self->True(
+        !$TicketIDs{$TicketID},
+        'TicketSearch() (HASH:MIMEBase_Body)'
+    );
+
+    # Turn off filtering of stop words during article search index creation.
+    $ConfigObject->Set(
+        Key   => 'Ticket::SearchIndex::FilterStopWords',
+        Value => 0,
+    );
+
+    # Since article search indexing is now run as an async call, make sure to call the index build method directly.
+    $ArticleObject->ArticleSearchIndexBuild(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+
+    # Try again to find ticket by searching for same query.
+    %TicketIDs = $TicketObject->TicketSearch(
+        MIMEBase_Body => '%a range of features%',
+        Result        => 'HASH',
+        Limit         => 100,
+        UserID        => 1,
+        Permission    => 'rw',
+    );
+    $Self->True(
+        $TicketIDs{$TicketID},
+        'TicketSearch() (HASH:MIMEBase_Body)'
+    );
+
+    # Turn back on filtering of stop words.
+    $ConfigObject->Set(
+        Key   => 'Ticket::SearchIndex::FilterStopWords',
+        Value => 1,
+    );
+
     # use full text search on ticket with Cyrillic characters
     # see bug #11791 ( http://bugs.otrs.org/show_bug.cgi?id=11791 )
     $ArticleID = $ArticleBackendObject->ArticleCreate(
@@ -195,7 +246,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
     );
 
     # Since article search indexing is now run as an async call, make sure to call the index build method directly.
-    $ArticleObject->ArticleIndexBuild(
+    $ArticleObject->ArticleSearchIndexBuild(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
         UserID    => 1,
@@ -378,14 +429,14 @@ for my $Module (qw(DB)) {
 
         my $IndexObject = $Kernel::OM->Get( 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module );
 
-        my $ListOfWords = $IndexObject->_ArticleIndexStringToWord(
+        my $ListOfWords = $IndexObject->_ArticleSearchIndexStringToWord(
             String => \$Test->{String},
         );
 
         $Self->IsDeeply(
             $ListOfWords,
             $Test->{Result},
-            "$Test->{Name} - _ArticleIndexStringToWord result"
+            "$Test->{Name} - _ArticleSearchIndexStringToWord result"
         );
     }
 }

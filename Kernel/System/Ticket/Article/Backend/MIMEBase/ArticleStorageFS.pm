@@ -38,8 +38,8 @@ Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS - FS based 
 
 =head1 DESCRIPTION
 
-This class provides functions to work manipulate ticket articles on the file system.
-The methods are currently documented in L<Kernel::System::Ticket::Article>.
+This class provides functions to manipulate ticket articles on the file system.
+The methods are currently documented in L<Kernel::System::Ticket::Article::Backend::MIMEBase>.
 
 Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
 

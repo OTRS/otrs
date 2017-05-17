@@ -116,7 +116,7 @@ for my $Item ( 0 .. 1 ) {
             "Article is created - $ArticleID "
         );
 
-        $ArticleObject->ArticleIndexBuild(
+        $ArticleObject->ArticleSearchIndexBuild(
             TicketID  => $TicketIDs[$Item],
             ArticleID => $ArticleID,
             UserID    => 1,

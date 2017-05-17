@@ -488,9 +488,9 @@ sub TicketSearch {
     my $ArticleTableJoined = 0;
 
     # check for needed article search index table join
-    if ( $ArticleObject->ArticleSearchIndexNeeded( Data => \%Param ) ) {
+    if ( $ArticleObject->ArticleSearchIndexSQLJoinNeeded( SearchParams => \%Param ) ) {
         $SQLFrom .= ' INNER JOIN article art ON st.id = art.ticket_id ';
-        $SQLFrom .= $ArticleObject->ArticleSearchIndexJoin( Data => \%Param );
+        $SQLFrom .= $ArticleObject->ArticleSearchIndexSQLJoin( SearchParams => \%Param );
         $ArticleTableJoined = 1;
     }
 
@@ -1356,7 +1356,7 @@ sub TicketSearch {
     # Search article attributes.
     if ($ArticleTableJoined) {
 
-        $SQLExt .= $ArticleObject->ArticleSearchIndexCondition( Data => \%Param );
+        $SQLExt .= $ArticleObject->ArticleSearchIndexWhereCondition( SearchParams => \%Param );
 
         # Restrict search from customers to only customer articles.
         if ( $Param{CustomerUserID} ) {
@@ -2417,41 +2417,6 @@ sub TicketSearch {
         }
         return @TicketIDs;
     }
-}
-
-=head2 SearchStringStopWordsFind()
-
-Find stop words within given search string.
-
-    my $StopWords = $TicketObject->SearchStringStopWordsFind(
-        SearchStrings => {
-            'Fulltext' => '(this AND is) OR test',
-            'From'     => 'myself',
-        },
-    );
-
-    Returns Hashref with found stop words.
-
-=cut
-
-sub SearchStringStopWordsFind {
-    my ( $Self, %Param ) = @_;
-
-    return $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsFind(%Param);
-}
-
-=head2 SearchStringStopWordsUsageWarningActive()
-
-Checks if warnings for stop words in search strings are active or not.
-
-    my $WarningActive = $TicketObject->SearchStringStopWordsUsageWarningActive();
-
-=cut
-
-sub SearchStringStopWordsUsageWarningActive {
-    my ( $Self, %Param ) = @_;
-
-    return $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsUsageWarningActive(%Param);
 }
 
 1;

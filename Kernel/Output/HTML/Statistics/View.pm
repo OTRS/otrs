@@ -29,7 +29,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::PDF',
     'Kernel::System::Stats',
-    'Kernel::System::Ticket',
+    'Kernel::System::Ticket::Article',
     'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
@@ -2344,9 +2344,8 @@ sub _GetSelectedXAxisTimeScaleValue {
 sub _StopWordErrorCheck {
     my ( $Self, %Param ) = @_;
 
-    # get needed objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
     if ( !%Param ) {
         $LayoutObject->FatalError(
@@ -2355,7 +2354,7 @@ sub _StopWordErrorCheck {
     }
 
     my %StopWordsServerErrors;
-    if ( !$TicketObject->SearchStringStopWordsUsageWarningActive() ) {
+    if ( !$ArticleObject->SearchStringStopWordsUsageWarningActive() ) {
         return %StopWordsServerErrors;
     }
 
@@ -2373,8 +2372,8 @@ sub _StopWordErrorCheck {
 
     if (%SearchStrings) {
 
-        my $StopWords = $TicketObject->SearchStringStopWordsFind(
-            SearchStrings => \%SearchStrings
+        my $StopWords = $ArticleObject->SearchStringStopWordsFind(
+            SearchStrings => \%SearchStrings,
         );
 
         FIELD:
@@ -2396,16 +2395,16 @@ sub _StopWordErrorCheck {
 sub _StopWordFieldsGet {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsUsageWarningActive() ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchStringStopWordsUsageWarningActive() ) {
         return ();
     }
 
     my %StopWordFields = (
-        'From'    => 1,
-        'To'      => 1,
-        'Cc'      => 1,
-        'Subject' => 1,
-        'Body'    => 1,
+        'MIME_From'    => 1,
+        'MIME_To'      => 1,
+        'MIME_Cc'      => 1,
+        'MIME_Subject' => 1,
+        'MIME_Body'    => 1,
     );
 
     return %StopWordFields;

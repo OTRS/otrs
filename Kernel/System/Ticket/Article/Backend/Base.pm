@@ -553,7 +553,7 @@ sub _MetaArticleDelete {
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    $ArticleObject->ArticleIndexDelete(
+    $ArticleObject->ArticleSearchIndexDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );

@@ -54,7 +54,7 @@ sub Run {
     my $Notification            = $ParamObject->GetParam( Param => 'Notification' );
 
     # get the search article fields to retrieve values for
-    my %ArticleSearchableFields     = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
     my @ArticleSearchableFieldsKeys = sort keys %ArticleSearchableFields;
 
     # get registered transport layers
@@ -1197,7 +1197,7 @@ sub _Edit {
     );
 
     # get all searchable article field definitions
-    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->SearchableFieldsList();
+    my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 
     for my $ArticleFieldKey ( sort keys %ArticleSearchableFields ) {
 
