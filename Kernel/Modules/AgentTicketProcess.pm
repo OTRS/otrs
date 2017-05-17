@@ -313,6 +313,7 @@ sub Run {
         Data          => \%ProcessListACL,
         Action        => $Self->{Action},
         UserID        => $Self->{UserID},
+        TicketID      => $TicketID,
     );
 
     if ( IsHashRefWithData($ProcessList) && $ACL ) {
