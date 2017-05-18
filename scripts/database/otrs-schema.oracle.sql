@@ -124,7 +124,7 @@ END;
 CREATE TABLE users (
     id NUMBER (12, 0) NOT NULL,
     login VARCHAR2 (200) NOT NULL,
-    pw VARCHAR2 (64) NOT NULL,
+    pw VARCHAR2 (128) NOT NULL,
     title VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
     last_name VARCHAR2 (100) NOT NULL,
@@ -2816,7 +2816,7 @@ CREATE TABLE customer_user (
     login VARCHAR2 (200) NOT NULL,
     email VARCHAR2 (150) NOT NULL,
     customer_id VARCHAR2 (150) NOT NULL,
-    pw VARCHAR2 (64) NULL,
+    pw VARCHAR2 (128) NULL,
     title VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
     last_name VARCHAR2 (100) NOT NULL,

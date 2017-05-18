@@ -8402,6 +8402,7 @@ via the Preferences button after logging in.
                 <Item Key="plain">Plain</Item>
                 <Item Key="sha1">SHA-1</Item>
                 <Item Key="sha2">SHA-2</Item>
+                <Item Key="sha512">SHA-512</Item>
                 <Item Key="bcrypt">bcrypt</Item>
             </Option>
         </Setting>

@@ -337,4 +337,14 @@
     <!-- article_search - drop old article search index -->
     <TableDrop Name="article_search"/>
 
+    <TableAlter Name="users">
+        <ColumnChange NameOld="pw" NameNew="pw" Required="true" Size="128" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="customer_user">
+        <ColumnChange NameOld="pw" NameNew="pw" Required="false" Size="128" Type="VARCHAR"/>
+    </TableAlter>
+
+
+
 </database>
