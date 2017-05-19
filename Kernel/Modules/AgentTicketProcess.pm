@@ -5396,13 +5396,17 @@ sub _GetResponsibles {
         Valid => 1,
     );
 
+    # Get available permissions and set permission group type accordingly.
+    my $ConfigPermissions = $Self->{ConfigObject}->Get('System::Permission');
+    my $PermissionGroupType = ( grep { $_ eq 'responsible' } @{$ConfigPermissions} ) ? 'responsible' : 'rw';
+
     # if we are updating a ticket show the full list of possible responsibles
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'owner',
+                Type    => $PermissionGroupType,
                 Result  => 'HASH',
                 Cached  => 1,
             );
@@ -5444,12 +5448,12 @@ sub _GetResponsibles {
             %ShownUsers = %AllGroupsMembers;
         }
 
-        # show all subscribed users who have at least Owner permission in the queue group
+        # show all subscribed users who have the appropriate permission in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'owner',
+                Type    => $PermissionGroupType,
                 Result  => 'HASH',
             );
             for my $KeyMember ( sort keys %MemberList ) {
@@ -5485,13 +5489,17 @@ sub _GetOwners {
         Valid => 1,
     );
 
+    # Get available permissions and set permission group type accordingly.
+    my $ConfigPermissions = $Self->{ConfigObject}->Get('System::Permission');
+    my $PermissionGroupType = ( grep { $_ eq 'owner' } @{$ConfigPermissions} ) ? 'owner' : 'rw';
+
     # if we are updating a ticket show the full list of possible owners
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'owner',
+                Type    => $PermissionGroupType,
                 Result  => 'HASH',
                 Cached  => 1,
             );
@@ -5533,12 +5541,12 @@ sub _GetOwners {
             %ShownUsers = %AllGroupsMembers;
         }
 
-        # show all subscribed users who have at least Owner permission in the queue group
+        # show all subscribed users who have the appropriate permission in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'owner',
+                Type    => $PermissionGroupType,
                 Result  => 'HASH',
             );
             for my $KeyMember ( sort keys %MemberList ) {
