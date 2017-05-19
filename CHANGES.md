@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-05-19 Fixed bug#[12834](https://bugs.otrs.org/show_bug.cgi?id=12834) - NotificationTag of a Date field displays a time-stamp "00:00".
  - 2017-05-17 Fixed bug#[12726](https://bugs.otrs.org/show_bug.cgi?id=12726) - Automatic links to CVE numbers don't work in TicketViewZoom.
  - 2017-05-15 Fixed bug#[12743](https://bugs.otrs.org/show_bug.cgi?id=12743) - ACLs with ticket conditions are not matching on process list in AgentTicketProcess.
  - 2017-05-12 Fixed bug#[12796](https://bugs.otrs.org/show_bug.cgi?id=12796) - GenericInterface only works with FastCGI for GET requests.
