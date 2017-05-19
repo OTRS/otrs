@@ -549,6 +549,21 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TimeInputMinutesStep" Required="1" Valid="1">
+        <Description Translatable="1">Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="1" Translatable="1">Minute</Item>
+                <Item Key="2" Translatable="1">2 Minutes</Item>
+                <Item Key="5" Translatable="1">5 Minutes</Item>
+                <Item Key="10" Translatable="1">10 Minutes</Item>
+                <Item Key="15" Translatable="1">15 Minutes</Item>
+                <Item Key="30" Translatable="1">30 Minutes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeShowAlwaysLong" Required="1" Valid="1">
         <Description Translatable="1">Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".</Description>
         <Group>Framework</Group>

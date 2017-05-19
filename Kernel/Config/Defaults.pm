@@ -313,6 +313,10 @@ sub LoadDefaults {
     # (default date input format) [Option|Input]
     $Self->{TimeInputFormat} = 'Option';
 
+    # TimeInputMinutesStep
+    # (default minute step in minutes dropdown) [1,2,5,10,15,30]
+    $Self->{TimeInputMinutesStep} = 1;
+
     # AttachmentDownloadType
     # (if the tickets attachments will be opened in browser or just to
     # force the download) [attachment|inline]

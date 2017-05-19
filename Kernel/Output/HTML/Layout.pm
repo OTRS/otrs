@@ -3189,6 +3189,7 @@ sub BuildDateSelection {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $DateInputStyle = $ConfigObject->Get('TimeInputFormat');
+    my $MinuteStep     = $ConfigObject->Get('TimeInputMinutesStep');
     my $Prefix         = $Param{Prefix} || '';
     my $DiffTime       = $Param{DiffTime} || 0;
     my $Format         = defined( $Param{Format} ) ? $Param{Format} : 'DateInputFormatLong';
@@ -3411,13 +3412,14 @@ sub BuildDateSelection {
 
         # minute
         if ( $DateInputStyle eq 'Option' ) {
-            my %Minute = map { $_ => sprintf( "%02d", $_ ); } ( 0 .. 59 );
+            my %Minute
+                = map { $_ => sprintf( "%02d", $_ ); } map { $_ * $MinuteStep } ( 0 .. ( 60 / $MinuteStep - 1 ) );
             $Param{Minute} = $Self->BuildSelection(
                 Name       => $Prefix . 'Minute',
                 Data       => \%Minute,
                 SelectedID => defined( $Param{ $Prefix . 'Minute' } )
                 ? int( $Param{ $Prefix . 'Minute' } )
-                : int($m),
+                : int( $m - $m % $MinuteStep ),
                 Translation => 0,
                 Class       => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
                 Title       => $Self->{LanguageObject}->Translate('Minutes'),
@@ -5672,7 +5674,7 @@ sub SetRichTextParameters {
     my $ScreenRichTextHeight = $Param{Data}->{RichTextHeight} || $ConfigObject->Get("Frontend::RichTextHeight");
     my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}  || $ConfigObject->Get("Frontend::RichTextWidth");
     my $PictureUploadAction = $Param{Data}->{RichTextPictureUploadAction} || '';
-    my $TextDir             = $Self->{TextDirection}                      || '';
+    my $TextDir = $Self->{TextDirection} || '';
     my $EditingAreaCSS = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
 
     # decide if we need to use the enhanced mode (with tables)
@@ -5706,7 +5708,7 @@ sub SetRichTextParameters {
             '/',
             [
                 'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote', '-',
-                '-',              'Find',      'Replace',       'TextColor',   'BGColor',
+                '-',              'Find',      'Replace',       'TextColor',  'BGColor',
                 'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar', '-',
                 'Maximize'
             ],
@@ -5832,7 +5834,7 @@ sub CustomerSetRichTextParameters {
             '/',
             [
                 'HorizontalRule', 'PasteText', 'PasteFromWord', 'SplitQuote', 'RemoveQuote', '-',
-                '-',              'Find',      'Replace',       'TextColor',   'BGColor',
+                '-',              'Find',      'Replace',       'TextColor',  'BGColor',
                 'RemoveFormat',   '-',         'ShowBlocks',    'Source',     'SpecialChar', '-',
                 'Maximize'
             ],

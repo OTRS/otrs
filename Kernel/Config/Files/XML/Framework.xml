@@ -470,6 +470,20 @@
             </Item>
         </Value>
     </Setting>
+    <Setting Name="TimeInputMinutesStep" Required="1" Valid="1">
+        <Description Translatable="1">Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.</Description>
+        <Navigation>Core::Time</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="1">
+                <Item ValueType="Option" Value="1" Translatable="1">Minute</Item>
+                <Item ValueType="Option" Value="2" Translatable="1">2 Minutes</Item>
+                <Item ValueType="Option" Value="5" Translatable="1">5 Minutes</Item>
+                <Item ValueType="Option" Value="10" Translatable="1">10 Minutes</Item>
+                <Item ValueType="Option" Value="15" Translatable="1">15 Minutes</Item>
+                <Item ValueType="Option" Value="30" Translatable="1">30 Minutes</Item>
+            </Item>
+        </Value>
+    </Setting>
     <Setting Name="TimeShowAlwaysLong" Required="1" Valid="1">
         <Description Translatable="1">Shows time in long format (days, hours, minutes), if set to "Yes"; or in short format (days, hours), if set to "No".</Description>
         <Navigation>Core::Time</Navigation>
@@ -7975,6 +7989,7 @@ via the Preferences button after logging in.
                 <Item ValueType="Option" Value="plain">Plain</Item>
                 <Item ValueType="Option" Value="sha1">SHA-1</Item>
                 <Item ValueType="Option" Value="sha2">SHA-2</Item>
+                <Item ValueType="Option" Value="sha512">SHA-512</Item>
                 <Item ValueType="Option" Value="bcrypt">bcrypt</Item>
             </Item>
         </Value>

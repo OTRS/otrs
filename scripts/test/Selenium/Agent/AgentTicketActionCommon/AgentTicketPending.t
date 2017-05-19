@@ -28,6 +28,13 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # set the time input dropdown to another value
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'TimeInputMinutesStep',
+            Value => 30
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -93,6 +100,23 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        # check whether the time input dropdown only shows two values
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Minute option').length;"),
+            2,
+            "Time input dropdown has only two values",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Minute option').first().text();"),
+            '00',
+            "Time input dropdown first available value is 00",
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#Minute option').last().text();"),
+            '30',
+            "Time input dropdown last available value is 30",
+        );
 
         # change ticket to pending state
         $Selenium->execute_script("\$('#NewStateID').val('6').trigger('redraw.InputField').trigger('change');");
