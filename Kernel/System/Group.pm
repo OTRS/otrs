@@ -1628,7 +1628,7 @@ sub PermissionGroupRoleGet {
     }
 
     # get valid role list
-    my %RoleList = $Self->RoleList();
+    my %RoleList = $Self->RoleList( Valid => 1 );
 
     # calculate roles
     my %Roles;
@@ -1683,7 +1683,7 @@ sub PermissionRoleGroupGet {
     return if !%PermissionTypeList;
 
     # get valid role list
-    my %RoleList = $Self->RoleList();
+    my %RoleList = $Self->RoleList( Valid => 1 );
 
     return if !$RoleList{ $Param{RoleID} };
 
@@ -1825,7 +1825,7 @@ sub PermissionRoleUserGet {
     }
 
     # get valid role list
-    my %RoleList = $Self->RoleList();
+    my %RoleList = $Self->RoleList( Valid => 1 );
 
     return if !$RoleList{ $Param{RoleID} };
 
@@ -1906,7 +1906,7 @@ sub PermissionUserRoleGet {
     my $RolesRaw = $Permissions{ $Param{UserID} } || [];
 
     # get valid role list
-    my %RoleList = $Self->RoleList();
+    my %RoleList = $Self->RoleList( Valid => 1 );
 
     # calculate roles
     my %Roles;
