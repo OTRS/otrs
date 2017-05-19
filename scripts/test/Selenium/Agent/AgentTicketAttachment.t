@@ -201,18 +201,6 @@ $Selenium->RunTest(
                     $Selenium->find_element("//img[contains(\@src, \'$CVEConfig->{Image}' )]"),
                     "Image for $CVEConfig->{Description} link is found - $CVEConfig->{Image}",
                 );
-
-                my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
-                    Type => 'GET',
-                    URL  => $CVEConfig->{Image},
-                );
-
-                # check result
-                $Self->Is(
-                    $Response{Status},
-                    '200 OK',
-                    "$CVEConfig->{Image} - there is correct image for the link",
-                );
             }
 
             # set download type to inline
