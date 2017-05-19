@@ -1039,9 +1039,10 @@ sub _Replace {
             $Ticket{$Field} = $LanguageObject->Translate( $Ticket{$Field} );
         }
 
-        # Transform the date values from the ticket data.
+        # Transform the date values from the ticket data (but not the dynamic field values).
         ATTRIBUTE:
         for my $Attribute ( sort keys %Ticket ) {
+            next ATTRIBUTE if $Attribute =~ m{ \A DynamicField_ }xms;
             next ATTRIBUTE if !$Ticket{$Attribute};
 
             if ( $Ticket{$Attribute} =~ m{\A(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)\z}xi ) {
