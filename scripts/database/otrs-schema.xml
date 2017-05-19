@@ -762,6 +762,9 @@
     <Column Name="owner_id" Required="true" Type="INTEGER"/>
     <Column Name="priority_id" Required="true" Type="SMALLINT"/>
     <Column Name="state_id" Required="true" Type="SMALLINT"/>
+    <Column Name="a_communication_channel_id" Required="false" Type="BIGINT"/>
+    <Column Name="a_sender_type_id" Required="false" Type="SMALLINT"/>
+    <Column Name="a_is_visible_for_customer" Required="false" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -790,6 +793,12 @@
     <Index Name="ticket_history_state_id">
         <IndexColumn Name="state_id"/>
     </Index>
+    <ForeignKey ForeignTable="communication_channel">
+        <Reference Local="a_communication_channel_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="article_sender_type">
+        <Reference Local="a_sender_type_id" Foreign="id"/>
+    </ForeignKey>
     <Index Name="ticket_history_create_time">
         <IndexColumn Name="create_time"/>
     </Index>
@@ -1049,14 +1058,12 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-
     <Index Name="article_data_mime_message_id_md5">
         <IndexColumn Name="a_message_id_md5"/>
     </Index>
     <Index Name="article_data_mime_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
-
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>

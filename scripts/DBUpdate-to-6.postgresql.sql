@@ -225,6 +225,166 @@ CREATE TABLE communication_channel (
     CONSTRAINT communication_channel_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
+--  insert into table communication_channel
+-- ----------------------------------------------------------
+INSERT INTO communication_channel (name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Email', 'Kernel::System::CommunicationChannel::Email', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table communication_channel
+-- ----------------------------------------------------------
+INSERT INTO communication_channel (name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Phone', 'Kernel::System::CommunicationChannel::Phone', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table communication_channel
+-- ----------------------------------------------------------
+INSERT INTO communication_channel (name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Internal', 'Kernel::System::CommunicationChannel::Internal', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table communication_channel
+-- ----------------------------------------------------------
+INSERT INTO communication_channel (name, module, package_name, channel_data, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Chat', 'Kernel::System::CommunicationChannel::Chat', 'Framework', '---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_otrs_chat
+', 1, 1, current_timestamp, 1, current_timestamp);
+ALTER TABLE article DROP CONSTRAINT FK_article_valid_id_id;
+ALTER TABLE article DROP CONSTRAINT FK_article_ticket_id_id;
+ALTER TABLE article DROP CONSTRAINT FK_article_article_type_id_id;
+ALTER TABLE article DROP CONSTRAINT FK_article_article_sender_type_id_id;
+ALTER TABLE article DROP CONSTRAINT FK_article_create_by_id;
+ALTER TABLE article DROP CONSTRAINT FK_article_change_by_id;
+DROP INDEX article_ticket_id;
+DROP INDEX article_article_type_id;
+DROP INDEX article_article_sender_type_id;
+DROP INDEX article_message_id_md5;
+ALTER TABLE article_plain DROP CONSTRAINT FK_article_plain_article_id_id;
+ALTER TABLE article_plain DROP CONSTRAINT FK_article_plain_create_by_id;
+ALTER TABLE article_plain DROP CONSTRAINT FK_article_plain_change_by_id;
+DROP INDEX article_plain_article_id;
+ALTER TABLE article_attachment DROP CONSTRAINT FK_article_attachment_article_id_id;
+ALTER TABLE article_attachment DROP CONSTRAINT FK_article_attachment_create_by_id;
+ALTER TABLE article_attachment DROP CONSTRAINT FK_article_attachment_change_by_id;
+DROP INDEX article_attachment_article_id;
+-- ----------------------------------------------------------
+--  alter table article_data_mime
+-- ----------------------------------------------------------
+ALTER TABLE article RENAME TO article_data_mime;
+-- ----------------------------------------------------------
+--  alter table article_data_mime_plain
+-- ----------------------------------------------------------
+ALTER TABLE article_plain RENAME TO article_data_mime_plain;
+-- ----------------------------------------------------------
+--  alter table article_data_mime_attachment
+-- ----------------------------------------------------------
+ALTER TABLE article_attachment RENAME TO article_data_mime_attachment;
+-- ----------------------------------------------------------
+--  create table article
+-- ----------------------------------------------------------
+CREATE TABLE article (
+    id bigserial NOT NULL,
+    ticket_id BIGINT NOT NULL,
+    article_sender_type_id SMALLINT NOT NULL,
+    communication_channel_id BIGINT NOT NULL,
+    is_visible_for_customer SMALLINT NOT NULL,
+    insert_fingerprint VARCHAR (64) NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'article_article_sender_type_id'
+    ) THEN
+    CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'article_communication_channel_id'
+    ) THEN
+    CREATE INDEX article_communication_channel_id ON article (communication_channel_id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'article_ticket_id'
+    ) THEN
+    CREATE INDEX article_ticket_id ON article (ticket_id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'ticket_history_article_id'
+    ) THEN
+    CREATE INDEX ticket_history_article_id ON ticket_history (article_id);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  alter table ticket_history
+-- ----------------------------------------------------------
+ALTER TABLE ticket_history ADD a_communication_channel_id BIGINT NULL;
+-- ----------------------------------------------------------
+--  alter table ticket_history
+-- ----------------------------------------------------------
+ALTER TABLE ticket_history ADD a_sender_type_id SMALLINT NULL;
+-- ----------------------------------------------------------
+--  alter table ticket_history
+-- ----------------------------------------------------------
+ALTER TABLE ticket_history ADD a_is_visible_for_customer SMALLINT NULL;
+ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_a_communication_channel_id_id FOREIGN KEY (a_communication_channel_id) REFERENCES communication_channel (id);
+ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_a_sender_type_id_id FOREIGN KEY (a_sender_type_id) REFERENCES article_sender_type (id);
+-- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('ArticleCreate', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
 --  create table group_customer
 -- ----------------------------------------------------------
 CREATE TABLE group_customer (
@@ -294,6 +454,31 @@ END IF;
 END$$;
 ;
 -- ----------------------------------------------------------
+--  create table article_data_otrs_chat
+-- ----------------------------------------------------------
+CREATE TABLE article_data_otrs_chat (
+    id bigserial NOT NULL,
+    article_id BIGINT NOT NULL,
+    chat_participant_id VARCHAR (255) NOT NULL,
+    chat_participant_name VARCHAR (255) NOT NULL,
+    chat_participant_type VARCHAR (255) NOT NULL,
+    message_text VARCHAR (3800) NOT NULL,
+    system_generated SMALLINT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'article_data_otrs_chat_article_id'
+    ) THEN
+    CREATE INDEX article_data_otrs_chat_article_id ON article_data_otrs_chat (article_id);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
 --  create table article_search_index
 -- ----------------------------------------------------------
 CREATE TABLE article_search_index (
@@ -327,6 +512,18 @@ END IF;
 END$$;
 ;
 DROP TABLE article_search;
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+ALTER TABLE users ALTER pw TYPE VARCHAR (128);
+ALTER TABLE users ALTER pw DROP DEFAULT;
+UPDATE users SET pw = '' WHERE pw IS NULL;
+ALTER TABLE users ALTER pw SET NOT NULL;
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ALTER pw TYPE VARCHAR (128);
+ALTER TABLE customer_user ALTER pw DROP DEFAULT;
 SET standard_conforming_strings TO ON;
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE sysconfig_default ADD CONSTRAINT FK_sysconfig_default_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
@@ -348,10 +545,16 @@ ALTER TABLE sysconfig_deployment ADD CONSTRAINT FK_sysconfig_deployment_create_b
 ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE communication_channel ADD CONSTRAINT FK_communication_channel_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE article ADD CONSTRAINT FK_article_article_sender_type_id_id FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type (id);
+ALTER TABLE article ADD CONSTRAINT FK_article_communication_channel_id_id FOREIGN KEY (communication_channel_id) REFERENCES communication_channel (id);
+ALTER TABLE article ADD CONSTRAINT FK_article_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE article ADD CONSTRAINT FK_article_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE article ADD CONSTRAINT FK_article_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE group_customer ADD CONSTRAINT FK_group_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE customer_user_customer ADD CONSTRAINT FK_customer_user_customer_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE article_data_otrs_chat ADD CONSTRAINT FK_article_data_otrs_chat_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
 ALTER TABLE article_search_index ADD CONSTRAINT FK_article_search_index_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
 ALTER TABLE article_search_index ADD CONSTRAINT FK_article_search_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);

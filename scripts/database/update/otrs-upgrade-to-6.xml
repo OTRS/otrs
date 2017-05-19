@@ -243,9 +243,6 @@
     <Table Name="communication_channel">
         <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
         <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-        <Unique Name="communication_channel_name">
-            <UniqueColumn Name="name"/>
-        </Unique>
         <Column Name="module" Required="true" Size="200" Type="VARCHAR"/>
         <Column Name="package_name" Required="true" Size="200" Type="VARCHAR"/>
         <Column Name="channel_data" Required="true" Type="LONGBLOB"/>
@@ -254,6 +251,11 @@
         <Column Name="create_by" Required="true" Type="INTEGER"/>
         <Column Name="change_time" Required="true" Type="DATE"/>
         <Column Name="change_by" Required="true" Type="INTEGER"/>
+
+        <Unique Name="communication_channel_name">
+            <UniqueColumn Name="name"/>
+        </Unique>
+
         <ForeignKey ForeignTable="users">
             <Reference Local="create_by" Foreign="id"/>
             <Reference Local="change_by" Foreign="id"/>
@@ -262,6 +264,207 @@
             <Reference Local="valid_id" Foreign="id"/>
         </ForeignKey>
     </Table>
+
+    <Insert Table="communication_channel">
+        <Data Key="id" Type="AutoIncrement">1</Data>
+        <Data Key="name" Type="Quote">Email</Data>
+        <Data Key="module" Type="Quote">Kernel::System::CommunicationChannel::Email</Data>
+        <Data Key="package_name" Type="Quote">Framework</Data>
+        <Data Key="channel_data" Type="Quote">---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="communication_channel">
+        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="name" Type="Quote">Phone</Data>
+        <Data Key="module" Type="Quote">Kernel::System::CommunicationChannel::Phone</Data>
+        <Data Key="package_name" Type="Quote">Framework</Data>
+        <Data Key="channel_data" Type="Quote">---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="communication_channel">
+        <Data Key="id" Type="AutoIncrement">3</Data>
+        <Data Key="name" Type="Quote">Internal</Data>
+        <Data Key="module" Type="Quote">Kernel::System::CommunicationChannel::Internal</Data>
+        <Data Key="package_name" Type="Quote">Framework</Data>
+        <Data Key="channel_data" Type="Quote">---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_mime
+- article_data_mime_plain
+- article_data_mime_attachment
+</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="communication_channel">
+        <Data Key="id" Type="AutoIncrement">4</Data>
+        <Data Key="name" Type="Quote">Chat</Data>
+        <Data Key="module" Type="Quote">Kernel::System::CommunicationChannel::Chat</Data>
+        <Data Key="package_name" Type="Quote">Framework</Data>
+        <Data Key="channel_data" Type="Quote">---
+ArticleDataArticleIDField: article_id
+ArticleDataIsDroppable: 0
+ArticleDataTables:
+- article_data_otrs_chat
+</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+<!-- Rename article tables-->
+
+    <!-- Before renaming, drop foreign keys and indexes of the article table -->
+    <TableAlter Name="article">
+        <ForeignKeyDrop ForeignTable="valid">
+            <Reference Local="valid_id" Foreign="id"/>
+        </ForeignKeyDrop>
+        <ForeignKeyDrop ForeignTable="ticket">
+            <Reference Local="ticket_id" Foreign="id"/>
+        </ForeignKeyDrop>
+        <ForeignKeyDrop ForeignTable="article_type">
+            <Reference Local="article_type_id" Foreign="id"/>
+        </ForeignKeyDrop>
+        <ForeignKeyDrop ForeignTable="article_sender_type">
+            <Reference Local="article_sender_type_id" Foreign="id"/>
+        </ForeignKeyDrop>
+        <ForeignKeyDrop ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKeyDrop>
+        <IndexDrop Name="article_ticket_id"/>
+        <IndexDrop Name="article_article_type_id"/>
+        <IndexDrop Name="article_article_sender_type_id"/>
+        <IndexDrop Name="article_message_id_md5"/>
+    </TableAlter>
+
+    <!-- Before renaming, drop foreign keys and indexes of the article_plain table -->
+    <TableAlter Name="article_plain">
+        <ForeignKeyDrop ForeignTable="article">
+            <Reference Local="article_id" Foreign="id"/>
+        </ForeignKeyDrop>
+        <ForeignKeyDrop ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKeyDrop>
+        <IndexDrop Name="article_plain_article_id"/>
+    </TableAlter>
+
+    <!-- Before renaming, drop foreign keys and indexes of the article_attachment table -->
+    <TableAlter Name="article_attachment">
+        <ForeignKeyDrop ForeignTable="article">
+            <Reference Local="article_id" Foreign="id"/>
+        </ForeignKeyDrop>
+        <ForeignKeyDrop ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKeyDrop>
+        <IndexDrop Name="article_attachment_article_id"/>
+    </TableAlter>
+
+    <!-- Renaming of the tables article, article_plain and article_attachment  -->
+    <TableAlter NameOld="article" NameNew="article_data_mime"/>
+    <TableAlter NameOld="article_plain" NameNew="article_data_mime_plain"/>
+    <TableAlter NameOld="article_attachment" NameNew="article_data_mime_attachment"/>
+
+    <!-- create new article table -->
+    <Table Name="article">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+        <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>
+        <Column Name="communication_channel_id" Required="true" Type="BIGINT"/>
+        <Column Name="is_visible_for_customer" Required="true" Type="SMALLINT"/>
+        <Column Name="insert_fingerprint" Required="false" Size="64" Type="VARCHAR"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+
+        <Index Name="article_ticket_id">
+            <IndexColumn Name="ticket_id"/>
+        </Index>
+        <Index Name="article_article_sender_type_id">
+            <IndexColumn Name="article_sender_type_id"/>
+        </Index>
+        <Index Name="article_communication_channel_id">
+            <IndexColumn Name="communication_channel_id"/>
+        </Index>
+
+        <ForeignKey ForeignTable="ticket">
+            <Reference Local="ticket_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="communication_channel">
+            <Reference Local="communication_channel_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="article_sender_type">
+            <Reference Local="article_sender_type_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+    </Table>
+
+    <!-- recreation of needed foreign keys and indexes for the tables article_data_mime, article_data_mime_plain
+    and article_data_mime_attachment is done in a later step in scripts::DBUpdateTo6::MigrateArticleData -->
+
+    <TableAlter Name="ticket_history">
+        <!-- Speed up deleting of ticket_history entries for articles, see bug#12374 -->
+        <IndexCreate Name="ticket_history_article_id">
+            <IndexColumn Name="article_id"/>
+        </IndexCreate>
+
+        <!-- add new columns -->
+        <ColumnAdd Name="a_communication_channel_id" Required="false" Type="BIGINT"/>
+        <ColumnAdd Name="a_sender_type_id" Required="false" Type="SMALLINT"/>
+        <ColumnAdd Name="a_is_visible_for_customer" Required="false" Type="SMALLINT"/>
+
+        <!-- add new foreign keys -->
+        <ForeignKeyCreate ForeignTable="communication_channel">
+            <Reference Local="a_communication_channel_id" Foreign="id"/>
+        </ForeignKeyCreate>
+        <ForeignKeyCreate ForeignTable="article_sender_type">
+            <Reference Local="a_sender_type_id" Foreign="id"/>
+        </ForeignKeyCreate>
+    </TableAlter>
+
+    <!-- Add new ticket history type -->
+    <Insert Table="ticket_history_type">
+        <Data Key="name" Type="Quote">ArticleCreate</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
 
     <!-- group_customer - relation group<->customer -->
     <TableCreate Name="group_customer">
@@ -311,6 +514,24 @@
         </ForeignKey>
     </Table>
 
+    <!-- article data for Chat based backend -->
+    <Table Name="article_data_otrs_chat">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="article_id" Required="true" Type="BIGINT"/>
+        <Column Name="chat_participant_id" Required="true" Size="255" Type="VARCHAR" />
+        <Column Name="chat_participant_name" Required="true" Size="255" Type="VARCHAR"/>
+        <Column Name="chat_participant_type" Required="true" Size="255" Type="VARCHAR"/>
+        <Column Name="message_text" Required="true" Size="3800" Type="VARCHAR" />
+        <Column Name="system_generated" Required="true" Type="SMALLINT" />
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Index Name="article_data_otrs_chat_article_id">
+            <IndexColumn Name="article_id"/>
+        </Index>
+        <ForeignKey ForeignTable="article">
+            <Reference Local="article_id" Foreign="id"/>
+        </ForeignKey>
+    </Table>
+
     <!-- article_search_index - article search index -->
     <Table Name="article_search_index">
         <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
@@ -344,7 +565,5 @@
     <TableAlter Name="customer_user">
         <ColumnChange NameOld="pw" NameNew="pw" Required="false" Size="128" Type="VARCHAR"/>
     </TableAlter>
-
-
 
 </database>

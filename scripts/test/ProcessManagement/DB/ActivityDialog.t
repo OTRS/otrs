@@ -361,7 +361,7 @@ for my $Test (@Tests) {
 # ActivityDialogGet()
 #
 
-my @AddedActivityDialogsList = map {$_} sort keys %AddedActivityDialogs;
+my @AddedActivityDialogsList = map {$_} sort { $a <=> $b } keys %AddedActivityDialogs;
 @Tests = (
     {
         Name    => 'ActivityDialogGet Test 1: No params',

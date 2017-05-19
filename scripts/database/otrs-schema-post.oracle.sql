@@ -795,6 +795,24 @@ END;
 /
 --
 ;
+ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_a_sender_t5d FOREIGN KEY (a_sender_type_id) REFERENCES article_sender_type (id);
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_ticket_history_a_sender_tbd ON ticket_history (a_sender_type_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_a_communicf7 FOREIGN KEY (a_communication_channel_id) REFERENCES communication_channel (id);
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_ticket_history_a_communic6e ON ticket_history (a_communication_channel_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
 BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX FK_ticket_history_queue_id ON ticket_history (queue_id)';

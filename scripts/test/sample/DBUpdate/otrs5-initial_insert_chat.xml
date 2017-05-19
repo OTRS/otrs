@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+    <Insert Table="ticket">
+        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="tn" Type="Quote">2017050210123456</Data>
+        <Data Key="queue_id">2</Data>
+        <Data Key="ticket_lock_id">1</Data>
+        <Data Key="user_id">1</Data>
+        <Data Key="responsible_user_id">1</Data>
+        <Data Key="ticket_priority_id">3</Data>
+        <Data Key="ticket_state_id">1</Data>
+        <Data Key="title" Type="Quote">Chat Test</Data>
+        <Data Key="create_time_unix">1436949031</Data>
+        <Data Key="timeout">0</Data>
+        <Data Key="until_time">0</Data>
+        <Data Key="escalation_time">0</Data>
+        <Data Key="escalation_response_time">0</Data>
+        <Data Key="escalation_update_time">0</Data>
+        <Data Key="escalation_solution_time">0</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="article">
+        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="ticket_id">2</Data>
+        <Data Key="article_type_id">12</Data>
+        <Data Key="article_sender_type_id">3</Data>
+        <Data Key="a_from" Type="Quote">Test From &lt;marketing@otrs.com&gt;</Data>
+        <Data Key="a_to" Type="Quote">Unit Test &lt;otrs@localhost&gt;</Data>
+        <Data Key="a_subject" Type="Quote">Chat Test</Data>
+        <Data Key="a_body" Type="Quote">[{"ChatterType":"User","ChatterID":"1","ID":15,"SystemGenerated":0,"CreateTime":"2017-05-02 21:56:07","MessageText":"Message One","ChatterName":"Agent One"},{"MessageText":"Message Two","ChatterName":"Agent One","SystemGenerated":0,"CreateTime":"2017-05-02 21:56:20","ChatterType":"User","ID":16,"ChatterID":"1"},{"ID":17,"ChatterID":"2","ChatterType":"User","SystemGenerated":1,"CreateTime":"2017-05-02 21:56:46","ChatterName":"Agent Two","MessageText":"Agent Two has joined this chat."},{"ChatterType":"User","ChatterID":"2","ID":18,"SystemGenerated":0,"CreateTime":"2017-05-02 21:56:58","MessageText":"Message Three","ChatterName":"Agent Two"},{"ChatterType":"User","ID":19,"ChatterID":"2","CreateTime":"2017-05-02 21:57:07","SystemGenerated":0,"MessageText":"Message Four","ChatterName":"Agent Two"},{"MessageText":"Message Five","ChatterName":"Agent One","ChatterType":"User","ChatterID":"1","ID":20,"SystemGenerated":0,"CreateTime":"2017-05-02 21:57:22"}]</Data>
+        <Data Key="a_message_id" Type="Quote">&lt;008@localhost&gt;</Data>
+        <Data Key="a_content_type" Type="Quote">application/json; charset=utf-8</Data>
+        <Data Key="incoming_time">1436949031</Data>
+        <Data Key="content_path" Type="Quote">2017/05/02</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+    <Insert Table="ticket">
+        <Data Key="id" Type="AutoIncrement">3</Data>
+        <Data Key="tn" Type="Quote">2017050210123457</Data>
+        <Data Key="queue_id">2</Data>
+        <Data Key="ticket_lock_id">1</Data>
+        <Data Key="user_id">1</Data>
+        <Data Key="responsible_user_id">1</Data>
+        <Data Key="ticket_priority_id">3</Data>
+        <Data Key="ticket_state_id">1</Data>
+        <Data Key="title" Type="Quote">Chat Test</Data>
+        <Data Key="create_time_unix">1436949032</Data>
+        <Data Key="timeout">0</Data>
+        <Data Key="until_time">0</Data>
+        <Data Key="escalation_time">0</Data>
+        <Data Key="escalation_response_time">0</Data>
+        <Data Key="escalation_update_time">0</Data>
+        <Data Key="escalation_solution_time">0</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="article">
+        <Data Key="id" Type="AutoIncrement">3</Data>
+        <Data Key="ticket_id">3</Data>
+        <Data Key="article_type_id">12</Data>
+        <Data Key="article_sender_type_id">3</Data>
+        <Data Key="a_from" Type="Quote">Test From &lt;marketing@otrs.com&gt;</Data>
+        <Data Key="a_to" Type="Quote">Unit Test &lt;otrs@localhost&gt;</Data>
+        <Data Key="a_subject" Type="Quote">Chat Test</Data>
+        <Data Key="a_body" Type="Quote">[{"ChatterType":"User","ChatterID":"1","ID":15,"SystemGenerated":0,"CreateTime":"2017-05-02 21:56:07","MessageText":"Message One","ChatterName":"Agent Seven"},{"MessageText":"Message Two","ChatterName":"Agent Seven","SystemGenerated":0,"CreateTime":"2017-05-02 21:56:20","ChatterType":"User","ID":16,"ChatterID":"1"},{"ID":17,"ChatterID":"2","ChatterType":"User","SystemGenerated":1,"CreateTime":"2017-05-02 21:56:46","ChatterName":"Agent Six","MessageText":"Agent Six has joined this chat."},{"ChatterType":"User","ChatterID":"2","ID":18,"SystemGenerated":0,"CreateTime":"2017-05-02 21:56:58","MessageText":"Message Three","ChatterName":"Agent Six"},{"ChatterType":"User","ID":19,"ChatterID":"2","CreateTime":"2017-05-02 21:57:07","SystemGenerated":0,"MessageText":"Message Four","ChatterName":"Agent Six"},{"MessageText":"Message Five","ChatterName":"Agent Seven","ChatterType":"User","ChatterID":"1","ID":20,"SystemGenerated":0,"CreateTime":"2017-05-02 21:57:22"}]</Data>
+        <Data Key="a_message_id" Type="Quote">&lt;008@localhost&gt;</Data>
+        <Data Key="a_content_type" Type="Quote">application/json; charset=utf-8</Data>
+        <Data Key="incoming_time">1436949031</Data>
+        <Data Key="content_path" Type="Quote">2017/05/02</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+</database>

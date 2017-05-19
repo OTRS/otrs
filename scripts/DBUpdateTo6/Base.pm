@@ -102,6 +102,60 @@ sub CacheCleanup {
 
     return 1;
 }
+
+=head2 ExecuteXMLDBString()
+
+Parse and execute an XML string.
+
+    $DBUpdateTo6Object->ExecuteXMLDBString();
+
+=cut
+
+sub ExecuteXMLDBString {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{XMLString} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need XMLString!",
+        );
+        return;
+    }
+
+    my $XMLString = $Param{XMLString};
+
+    # Create database specific SQL and PostSQL commands out of XML.
+    my @SQL;
+    my @SQLPost;
+    my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
+
+    # Create database specific SQL.
+    push @SQL, $DBObject->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    # Create database specific PostSQL.
+    push @SQLPost, $DBObject->SQLProcessorPost();
+
+    # Execute SQL.
+    for my $SQL ( @SQL, @SQLPost ) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS

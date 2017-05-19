@@ -18,13 +18,13 @@ my $Success = $Helper->ProvideTestDatabase();
 if ( !$Success ) {
     $Self->False(
         0,
-        'Test database could not be provided, skipping test'
+        'Test database could not be provided, skipping test',
     );
     return 1;
 }
 $Self->True(
     $Success,
-    'ProvideTestDatabase - Database cleared'
+    'ProvideTestDatabase - Database cleared',
 );
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -33,7 +33,7 @@ my @Tables   = $DBObject->ListTables();
 $Self->Is(
     scalar @Tables,
     0,
-    'No tables found'
+    'No tables found',
 );
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -49,7 +49,7 @@ $Success = $Helper->ProvideTestDatabase(
 
 $Self->True(
     $Success,
-    'ProvideTestDatabase - Load and execute XML files'
+    'ProvideTestDatabase - Load and execute XML files',
 );
 
 @Tables = $DBObject->ListTables();
@@ -63,7 +63,7 @@ my $TableCount = () = ( ${$XMLString} =~ /<Table/g );
 $Self->Is(
     scalar @Tables,
     $TableCount,
-    'OTRS tables found'
+    'OTRS tables found',
 );
 
 # Cleanup is done by TmpDatabaseCleanup().
