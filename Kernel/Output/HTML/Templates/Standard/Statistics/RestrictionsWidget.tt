@@ -46,7 +46,7 @@
             [% Translate("Absolute period") | html %]:
         </label>
         <div class="Field">
-            [% Translate("Between") | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]
+            [% Translate("Between %s and %s", Data.TimeStart, Data.TimeStop) %]
         </div>
         <div class="Clear"></div>
 

@@ -71,7 +71,7 @@
     <label>[% Translate(Data.Name) | html %]:</label>
     <div class="Value">
 [% RenderBlockStart("TimePeriodFixed") %]
-        [% Translate("Between") | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]<br/>
+        [% Translate("Between %s and %s", Data.TimeStart, Data.TimeStop) %]<br/>
 [% RenderBlockEnd("TimePeriodFixed") %]
 [% RenderBlockStart("TimeRelativeFixed") %]
         [% Translate("The past complete %s and the current+upcoming complete %s %s", Data.TimeRelativeCount, Data.TimeRelativeUpcomingCount, Data.TimeRelativeUnit) %]<br/>
@@ -107,7 +107,7 @@
     <label><em>[% Translate("Absolute period") | html %]</em>:</label>
     <div class="Value">
         <p>
-            [% Translate('Between') | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]<br/>
+            [% Translate("Between %s and %s", Data.TimeStart, Data.TimeStop) %]<br/>
         </p>
     </div>
     <div class="Clear"></div>

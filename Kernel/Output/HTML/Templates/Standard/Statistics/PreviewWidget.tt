@@ -36,7 +36,7 @@
             [% PROCESS ErrorText %]
             [% FOR Error IN Data.StatsConfigurationErrors.GeneralSpecificationFieldErrors.pairs %]
                 <p class="Error">
-                    [% Error.key | html %]: [% Error.value %]
+                    [% Error.key | html %]: [% Translate(Error.value) | html %]
                 </p>
             [% END %]
 
@@ -50,7 +50,7 @@
                 [% PROCESS ErrorText %]
                 [% FOR Error IN Data.StatsConfigurationErrors.XAxisGeneralErrors %]
                     <p class="Error">
-                        [% Error | html %]
+                        [% Translate(Error) | html %]
                     </p>
                 [% END %]
             [% ELSE %]
@@ -69,7 +69,7 @@
             [% FOR Error IN Data.StatsConfigurationErrors.XAxisFieldErrors.pairs %]
                 <p class="Error">
                     <i class="fa fa-times"></i>
-                    [% Error.key | html%]: [% Error.value %]
+                    [% Error.key | html%]: [% Translate(Error.value) | html %]
                 </p>
             [% END %]
 
@@ -81,7 +81,7 @@
             [% PROCESS ErrorText %]
             [% FOR Error IN Data.StatsConfigurationErrors.YAxisGeneralErrors %]
                 <p class="Error">
-                    [% Error | html %]
+                    [% Translate(Error) | html %]
                 </p>
             [% END %]
 
@@ -94,7 +94,7 @@
             [% PROCESS ErrorText %]
             [% FOR Error IN Data.StatsConfigurationErrors.YAxisFieldErrors.pairs %]
                 <p class="Error">
-                    [% Error.key | html%]: [% Error.value %]
+                    [% Error.key | html%]: [% Translate(Error.value) | html %]
                 </p>
             [% END %]
 
@@ -105,7 +105,7 @@
             [% PROCESS ErrorText %]
             [% FOR Error IN Data.StatsConfigurationErrors.RestrictionsFieldErrors.pairs %]
                 <p class="Error">
-                    [% Error.key | html%]: [% Error.value %]
+                    [% Error.key | html%]: [% Translate(Error.value) | html %]
                 </p>
             [% END %]
 
@@ -130,7 +130,7 @@
     [% IF Data.PreviewResult && PreviewFormats.size %]
 
         <div class="PreviewSettings">
-            [% Translate('Preview format:') | html %]
+            [% Translate('Preview format') | html %]:
             [% FOREACH Format IN PreviewFormats.sort %]
             <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% Translate(FormatConfig.item(Format)) | html %]</span></button>
             [% END %]
