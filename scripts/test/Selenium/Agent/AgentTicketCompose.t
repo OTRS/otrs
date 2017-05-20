@@ -425,7 +425,8 @@ $Selenium->RunTest(
 
             # check dynamic field date format
             $Self->True(
-                index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $TransletedDynamicFieldValue . "\n" ) > -1,
+                index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $TransletedDynamicFieldValue . "\n" )
+                    > -1,
                 "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $TransletedDynamicFieldValue.",
             );
         }
