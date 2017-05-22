@@ -28,6 +28,13 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # set enable auto complete
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'AdminCustomerUser::UseAutoComplete',
+            Value => 1
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
@@ -111,6 +118,11 @@ $Selenium->RunTest(
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        # check add customer screen if auto complete is activated
+        my $AutoCompleteElement = $Selenium->find_element( '.CustomerAutoCompleteSimple', 'css' );
+        $AutoCompleteElement->is_enabled();
+        $AutoCompleteElement->is_displayed();
 
         # check breadcrumb on Add screen
         my $Count = 1;

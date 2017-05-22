@@ -33,6 +33,10 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         var Customer = Core.Config.Get('Customer');
         var Nav      = Core.Config.Get('Nav');
 
+        $('.CustomerAutoCompleteSimple').each(function() {
+            Core.Agent.CustomerSearch.InitSimple($(this));
+        });
+
         // update customer only when parameter Nav is 'None'
         // which only happens when the AdminCustomerUser is called
         // from within the customer search iframe in AgentTicketPhone/Email etc.

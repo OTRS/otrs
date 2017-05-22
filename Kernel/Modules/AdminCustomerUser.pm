@@ -1181,14 +1181,24 @@ sub _Edit {
                 $Param{RequiredClass} = 'Validate_Required';
             }
 
-            $Param{Option} = $LayoutObject->BuildSelection(
-                Data       => \%CompanyList,
-                Name       => $Entry->[0],
-                Max        => 80,
-                SelectedID => $Param{ $Entry->[0] } || $Param{CustomerID},
-                Class      => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
-                Disabled   => $UpdateOnlyPreferences ? 1 : 0,
-            );
+            my $UseAutoComplete = $Kernel::OM->Get('Kernel::Config')->Get('AdminCustomerUser::UseAutoComplete');
+
+            if ($UseAutoComplete) {
+
+                my $Value = $Param{ $Entry->[0] } || $Param{CustomerID};
+                $Param{Option} = '<input type="text" id="UserCustomerID" name="UserCustomerID" value="' . $Value . '"
+                    class="W50pc CustomerAutoCompleteSimple" data-customer-search-type="CustomerID" />';
+            }
+            else {
+                $Param{Option} = $LayoutObject->BuildSelection(
+                    Data       => \%CompanyList,
+                    Name       => $Entry->[0],
+                    Max        => 80,
+                    SelectedID => $Param{ $Entry->[0] } || $Param{CustomerID},
+                    Class      => "$Param{RequiredClass} Modernize " . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
+                    Disabled   => $UpdateOnlyPreferences ? 1 : 0,
+                );
+            }
         }
         elsif ( $Param{Action} eq 'Add' && $Entry->[0] =~ /^UserCustomerID$/i ) {
 
