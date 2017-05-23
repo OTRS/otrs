@@ -319,6 +319,19 @@ $Self->True(
     'TicketSearch() (HASH:TicketNumber)',
 );
 
+# Test TicketNumber search condition '0', expecting no results, see bug#11461.
+%TicketIDs = $TicketObject->TicketSearch(
+    Result       => 'HASH',
+    Limit        => 100,
+    TicketNumber => 0,
+    UserID       => 1,
+    Permission   => 'rw',
+);
+$Self->True(
+    !$TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber eq 0)',
+);
+
 %TicketIDs = $TicketObject->TicketSearch(
     Result     => 'HASH',
     Limit      => 100,

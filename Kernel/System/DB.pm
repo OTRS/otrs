@@ -1152,7 +1152,7 @@ sub QueryCondition {
 
     # check needed stuff
     for (qw(Key Value)) {
-        if ( !$Param{$_} ) {
+        if ( !defined $Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"

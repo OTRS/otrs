@@ -1301,7 +1301,7 @@ sub TicketSearch {
         VALUE:
         for my $Value ( @{ $Param{$Key} } ) {
 
-            next VALUE if !$Value;
+            next VALUE if !defined $Value || !length $Value;
 
             # replace wild card search
             if (
