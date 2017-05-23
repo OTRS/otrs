@@ -190,7 +190,6 @@ sub _TasksGet {
             Message => 'Migrate ticket statistics',
             Module  => 'MigrateTicketStats',
         },
-
         {
             Message => 'Create entries in new article table',
             Module  => 'OCBIMigrateArticleData',
@@ -207,18 +206,9 @@ sub _TasksGet {
             Message => 'Migrates ArticleType in GenericAgent jobs',
             Module  => 'OCBIMigrateGenericAgentData',
         },
-
         {
-            Message => 'Migrate existing chat articles',
-            Module  => 'MigrateExistingChatArticles',
-        },
-        {
-            Message => 'Drop existing fields MIME',
-            Module  => 'DropExistingFieldsMIME',
-        },
-        {
-            Message => 'Drop recreate article search table',
-            Module  => 'DropRecreateArticleSearchTable',
+            Message => 'Migrate chat articles',
+            Module  => 'OCBIMigrateChatData',
         },
         {
             Message => 'Migrate ticket history',
