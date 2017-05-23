@@ -459,6 +459,84 @@ for my $Hours ( sort keys %WorkingHours ) {
 
 }
 
+# Add case when escalation time is greater than rest of working day time.
+# Escalation destination times must be moved to the next working day (see bug#11243).
+my @TimeWorkingHours = ( '9', '10', '11', '12', '13', '14', '15', '16', '17' );
+my @Days = qw(Mon Tue Wed Thu Fri);
+my %Week;
+
+for my $Day (@Days) {
+    $Week{$Day} = \@TimeWorkingHours;
+}
+
+# Set working hours.
+$ConfigObject->Set(
+    Key   => 'TimeWorkingHours',
+    Value => \%Week,
+);
+
+# Set fixed time for testing.
+$HelperObject->FixedTimeSet(
+    $TimeObject->TimeStamp2SystemTime( String => '2017-04-26 17:50:00' ),
+);
+
+# Renew object because of transaction.
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+$TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+my $RandomNumber = $HelperObject->GetRandomNumber();
+
+# Create test queue.
+my $QueueName = "Queue-$RandomNumber";
+my $QueueID   = $QueueObject->QueueAdd(
+    Name                => $QueueName,
+    ValidID             => 1,
+    GroupID             => 1,
+    FirstResponseTime   => 30,
+    FirstResponseNotify => 80,
+    UpdateTime          => 40,
+    UpdateNotify        => 80,
+    SolutionTime        => 50,
+    SolutionNotify      => 80,
+    SystemAddressID     => 1,
+    SalutationID        => 1,
+    SignatureID         => 1,
+    UserID              => 1,
+    Comment             => "Test Queue",
+);
+$Self->True( $QueueID, "$QueueName is created" );
+
+# Create test ticket.
+my $TicketID = $TicketObject->TicketCreate(
+    Title      => "Ticket-$RandomNumber",
+    QueueID    => $QueueID,
+    Lock       => 'unlock',
+    PriorityID => 1,
+    StateID    => 1,
+    OwnerID    => 1,
+    UserID     => 1,
+);
+$Self->True( $TicketID, "TicketID $TicketID is created" );
+
+# Get created ticket and check created and escalation destination times.
+my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
+
+$Self->Is(
+    $Ticket{Created},
+    '2017-04-26 17:50:00',
+    "Created time '$Ticket{Created}' is correct"
+);
+$Self->Is(
+    $Ticket{EscalationDestinationDate},
+    '2017-04-27 09:20:00',
+    "Escalation time '$Ticket{EscalationDestinationDate}' is correct"
+);
+$Self->Is(
+    $Ticket{SolutionTimeDestinationDate},
+    '2017-04-27 09:40:00',
+    "Solution time '$Ticket{SolutionTimeDestinationDate}' is correct"
+);
+
 # cleanup is done by RestoreDatabase.
 
 1;

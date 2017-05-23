@@ -731,8 +731,8 @@ sub DestinationTime {
 
                 # Check if we have a working hour
                 if ( grep { $H == $_ } @{ $TimeWorkingHours->{ $LDay{$WDay} } } ) {
-                    if ( $Param{Time} > 60 * 60 ) {
-                        my $RestOfHour = 3600 - ( $Minute * 60 + $Second );
+                    my $RestOfHour = 3600 - ( $Minute * 60 + $Second );
+                    if ( $Param{Time} > $RestOfHour ) {
                         $DestinationTime += $RestOfHour;
                         $Param{Time} -= $RestOfHour;
                     }
