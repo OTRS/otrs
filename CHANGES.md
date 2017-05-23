@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-05-23 Fixed bug#[12797](https://bugs.otrs.org/show_bug.cgi?id=11243) - Wrong escalation time if response time set to 60 or less minutes.
  - 2017-05-23 Fixed bug#[12797](https://bugs.otrs.org/show_bug.cgi?id=12797) - Unknown Customer is not displayed in a Process Dialog.
  - 2017-05-19 Follow-up fix for bug#[12701](https://bugs.otrs.org/show_bug.cgi?id=12701) - Default values of "Owner" and "Responsible" fields placed in the activity dialogs in the process tickets cannot be settled.
  - 2017-05-19 Fixed bug#[12834](https://bugs.otrs.org/show_bug.cgi?id=12834) - NotificationTag of a Date field displays a time-stamp "00:00".
