@@ -128,8 +128,15 @@ $Selenium->RunTest(
             "Ticket $TitleRandom found on page",
         );
 
+        # Check for search profile name.
+        my $SearchText = '← Change search options (last-search)';
+        $Self->True(
+            index( $Selenium->get_page_source(), $SearchText ) > -1,
+            "Search profile name 'last-search' found on page",
+        );
+
         # click on '← Change search options'
-        $Selenium->find_element( "← Change search options", 'link_text' )->VerifiedClick();
+        $Selenium->find_element( $SearchText, 'link_text' )->VerifiedClick();
 
         # input more search filters, result should be 'No data found'
         $Selenium->find_element( "#TicketNumber", 'css' )->clear();

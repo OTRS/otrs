@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-05-23 Show the name of the used search template on the search result screen.
  - 2017-05-22 Added the possibility to use the auto complete search for the customer ID selection in the AdminCustomerUser frontend.
  - 2017-05-19 Added setting TimeInputMinutesStep to allow for reducing the available options in time selection drop downs by given steps (e.g. only every 10 minutes).
  - 2017-05-16 Removed spell check feature from OTRS. Please use the according functionality of your browser or available plug-ins for it.

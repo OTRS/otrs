@@ -129,6 +129,13 @@ $Selenium->RunTest(
             "Found on screen using search profile, Ticket Number - $TicketNumber",
         );
 
+        # Check for search profile name.
+        my $SearchText = "Change search options ($SearchProfileName)";
+        $Self->True(
+            index( $Selenium->get_page_source(), $SearchText ) > -1,
+            "Found search profile name on screen - $SearchProfileName",
+        );
+
         # delete search profile from DB
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL  => "DELETE FROM search_profile WHERE profile_name = ?",

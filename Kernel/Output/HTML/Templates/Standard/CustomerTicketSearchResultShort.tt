@@ -11,7 +11,7 @@
         <ul class="Tabs">
             <li>
                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=LoadProfile;[% Data.Link %]">
-                    &larr; [% Translate("Change search options") | html %]
+                    &larr; [% Translate("Change search options") | html %] [% Data.ProfileName | html %]
                 </a>
             </li>
         </ul>

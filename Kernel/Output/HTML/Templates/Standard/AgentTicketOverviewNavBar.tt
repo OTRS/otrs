@@ -37,7 +37,7 @@
 [% RenderBlockStart("OverviewNavBarPageBack") %]
                 <ul class="Tabs">
                     <li>
-                        <a name="OverviewControl" id="TicketSearch" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkBack %]">[% Translate("Change search options") | html %]</a>
+                        <a name="OverviewControl" id="TicketSearch" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkBack %]">[% Translate("Change search options") | html %] [% Data.ProfileName | html %]</a>
                     </li>
                 </ul>
 [% RenderBlockEnd("OverviewNavBarPageBack") %]

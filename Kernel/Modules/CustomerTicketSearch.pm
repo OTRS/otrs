@@ -257,9 +257,18 @@ sub Run {
     # show result page
     if ( !%ServerErrors && $Self->{Subaction} eq 'Search' && !$EraseTemplate ) {
 
+        my $ProfileName = '';
+        if ($Profile) {
+            $ProfileName = "($Profile)";
+        }
+
         # fill up profile name (e.g. with last-search)
         if ( !$Profile || !$SaveProfile ) {
             $Profile = 'last-search';
+        }
+
+        if ( !$ProfileName ) {
+            $ProfileName = "($Profile)";
         }
 
         # store search URL in LastScreenOverview to make sure the
@@ -1501,11 +1510,12 @@ sub Run {
             Data         => {
                 %Param,
                 %PageNav,
-                Order      => $Order,
-                StateSort  => $StateSort,
-                TicketSort => $TicketSort,
-                AgeSort    => $AgeSort,
-                Profile    => $Profile,
+                Order       => $Order,
+                StateSort   => $StateSort,
+                TicketSort  => $TicketSort,
+                AgeSort     => $AgeSort,
+                Profile     => $Profile,
+                ProfileName => $ProfileName,
             },
         );
 

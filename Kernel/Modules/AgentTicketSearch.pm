@@ -331,9 +331,18 @@ sub Run {
     # show result site
     if ( $Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate} ) {
 
+        $Self->{ProfileName} = '';
+        if ( $Self->{Profile} ) {
+            $Self->{ProfileName} = "($Self->{Profile})";
+        }
+
         # fill up profile name (e.g. with last-search)
         if ( !$Self->{Profile} || !$Self->{SaveProfile} ) {
             $Self->{Profile} = Translatable('last-search');
+        }
+
+        if ( !$Self->{ProfileName} ) {
+            $Self->{ProfileName} = "($Self->{Profile})";
         }
 
         # save search profile (under last-search or real profile name)
@@ -1201,12 +1210,13 @@ sub Run {
 
                 View => $Self->{View},
 
-                Env        => $Self,
-                LinkPage   => $LinkPage,
-                LinkSort   => $LinkSort,
-                LinkFilter => $LinkFilter,
-                LinkBack   => $LinkBack,
-                Profile    => $Self->{Profile},
+                Env         => $Self,
+                LinkPage    => $LinkPage,
+                LinkSort    => $LinkSort,
+                LinkFilter  => $LinkFilter,
+                LinkBack    => $LinkBack,
+                Profile     => $Self->{Profile},
+                ProfileName => $Self->{ProfileName},
 
                 TitleName => Translatable('Search Results'),
                 Bulk      => 1,
