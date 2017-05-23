@@ -2830,6 +2830,13 @@ sub _RenderCustomer {
         $Data{SelectedCustomerUser} = $CustomerUserData{UserID}         || '';
     }
 
+    # When there is no Customer in the DB, it could be unknown Customer, set it from the ticket.
+    # See bug#12797 ( https://bugs.otrs.org/show_bug.cgi?id=12797 ).
+    else {
+        $Data{CustomerUserID} = $Param{Ticket}{CustomerUserID} || '';
+        $Data{CustomerID}     = $Param{Ticket}{CustomerID}     || '';
+    }
+
     # set fields that will get an AJAX loader icon when this field changes
     my $JSON = $LayoutObject->JSONEncode(
         Data     => $Param{AJAXUpdatableFields},
