@@ -21,80 +21,11 @@ $Selenium->RunTest(
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # disable rich text editor
-        my $Success = $ConfigObject->Set(
-            Key   => 'Frontend::RichText',
-            Value => 0,
-        );
-
-        $Self->True(
-            $Success,
-            "Disable RichText with true",
-        );
-
-        my %OutputFilterTextAutoLinkSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
-            Name    => 'Frontend::Output::FilterText###OutputFilterTextAutoLink',
-            Default => 1,
-        );
-
-        my %OutputFilterTextAutoLink;
-
-        ITEMCONF:
-        for my $Item ( @{ $OutputFilterTextAutoLinkSysConfig{Setting}->[1]->{Hash}->[1]->{Item} } ) {
-            next ITEMCONF if !defined $Item->{Key};
-
-            my $Key     = $Item->{Key};
-            my $Content = $Item->{Content};
-
-            if ( $Content =~ m/^\s+$/ ) {
-                $Content = {
-                    map { $_->{Key} => $_->{Content} } grep { defined $_->{Key} } @{ $Item->{Hash}->[1]->{Item} }
-                };
-            }
-            $OutputFilterTextAutoLink{$Key} = $Content;
-        }
-
+        # set download type to inline
         $Helper->ConfigSettingChange(
             Valid => 1,
-            Key   => 'Frontend::Output::FilterText###OutputFilterTextAutoLink',
-            Value => {
-                %OutputFilterTextAutoLink,
-            },
-        );
-
-        my %OutputFilterTextAutoLinkCVESysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemGet(
-            Name    => 'Frontend::Output::OutputFilterTextAutoLink###CVE',
-            Default => 1,
-        );
-
-        my %OutputFilterTextAutoLinkCVE;
-
-        ITEMCONF:
-        for my $Item ( @{ $OutputFilterTextAutoLinkCVESysConfig{Setting}->[1]->{Hash}->[1]->{Item} } ) {
-            next ITEMCONF if !defined $Item->{Key};
-
-            my $Key     = $Item->{Key};
-            my $Content = $Item->{Content};
-
-            if ( $Content =~ m/^\s+$/ ) {
-                if ( $Item->{Array} ) {
-                    $Content = [ $Item->{Array}->[1]->{Item}->[1]->{Content} ];
-                }
-                elsif ( $Item->{Hash} ) {
-                    $Content = {
-                        map { $_->{Key} => $_->{Content} } grep { defined $_->{Key} } @{ $Item->{Hash}->[1]->{Item} }
-                    };
-                }
-            }
-            $OutputFilterTextAutoLinkCVE{$Key} = $Content;
-        }
-
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'Frontend::Output::OutputFilterTextAutoLink###CVE',
-            Value => {
-                %OutputFilterTextAutoLinkCVE,
-            },
+            Key   => 'AttachmentDownloadType',
+            Value => 'inline'
         );
 
         # create test user and login
@@ -150,13 +81,12 @@ $Selenium->RunTest(
             );
             my $Content = ${$ContentRef};
 
-            my $CVENumber = 'CVE-2016-8655';
             my $ArticleID = $TicketObject->ArticleCreate(
                 TicketID       => $TicketID,
                 ArticleType    => 'note-internal',
                 SenderType     => 'agent',
                 Subject        => 'Selenium subject test',
-                Body           => "Selenium body test $CVENumber",
+                Body           => 'Selenium body test',
                 ContentType    => 'text/plain; charset=ISO-8859-15',
                 HistoryType    => 'OwnerUpdate',
                 HistoryComment => 'Some free text!',
@@ -184,30 +114,6 @@ $Selenium->RunTest(
                     "return \$('.ArticleMailHeader a[href*=\"Action=AgentTicketAttachment;ArticleID=$ArticleID\"]:contains($TestAttachment->{Name})').length;"
                 ),
                 "'$TestAttachment->{Name}' is found on page",
-            );
-
-            # check if there is replaced links for CVE number
-            my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-            my $CVE          = $ConfigObject->Get('Frontend::Output::OutputFilterTextAutoLink')->{CVE};
-            for my $Item ( 1 .. 3 ) {
-                my $CVEConfig = $CVE->{"URL$Item"};
-                my $CVEURL = substr( $CVEConfig->{URL}, 0, index( $CVEConfig->{URL}, '=' ) );
-                $Self->True(
-                    $Selenium->find_element("//a[contains(\@href, \'$CVEURL=$CVENumber' )]"),
-                    "$CVEConfig->{Description} link is found - $CVEURL",
-                );
-
-                $Self->True(
-                    $Selenium->find_element("//img[contains(\@src, \'$CVEConfig->{Image}' )]"),
-                    "Image for $CVEConfig->{Description} link is found - $CVEConfig->{Image}",
-                );
-            }
-
-            # set download type to inline
-            $Helper->ConfigSettingChange(
-                Valid => 1,
-                Key   => 'AttachmentDownloadType',
-                Value => 'inline'
             );
 
             # check ticket attachment
