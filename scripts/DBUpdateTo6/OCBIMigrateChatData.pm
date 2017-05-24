@@ -103,6 +103,7 @@ sub Run {
 
     my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
+    ENTRIES:
     while ( $StartInEntry < $ArticleChatMax ) {
 
         # Get the complete set of Article entries.
@@ -144,13 +145,8 @@ sub Run {
             }
         }
 
-        if ( !@Data ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "No entries found in for chat!",
-            );
-            return;
-        }
+        # Finish silently in case no data
+        last ENTRIES if !@Data;
 
         my $DataSize = @Data;
 
