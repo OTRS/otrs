@@ -174,11 +174,9 @@ sub Run {
             return;
         }
 
-        my $DataSize = @Data;
-
         my $MigrationResult = $Self->_MigrateData(
             Data              => \@Data,
-            LastArticleDataID => $Data[ $DataSize - 1 ]->{ID},
+            LastArticleDataID => $Data[-1]->{ID},
         );
 
         if ( !$MigrationResult ) {
@@ -335,7 +333,7 @@ sub _MigrateData {
             # Add the end line to sql string.
             $SQL .= $DatabaseSQL{End};
 
-            # Insert multiple history entries.
+            # Insert multiple entries.
             return if !$DBObject->Do(
                 SQL  => $SQL,
                 Bind => \@Bind,
