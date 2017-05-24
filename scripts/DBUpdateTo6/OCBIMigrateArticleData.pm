@@ -107,9 +107,9 @@ sub Run {
     # TODO:OCBI: This number might be changed or even configurable
     my $RowsPerLoop = 1000;
 
-    my $StartInEntry = $TablesData{article}->{Count};
+    my $StartInEntry = $TablesData{article}->{MaxID};
 
-    while ( $StartInEntry < $TablesData{article_data_mime}->{Count} ) {
+    while ( $StartInEntry < $TablesData{article_data_mime}->{MaxID} ) {
 
         # Get the complete set of Article entries.
         my $EndInEntry = $StartInEntry + 1 + $RowsPerLoop;
@@ -189,7 +189,7 @@ sub Run {
             return;
         }
 
-        $StartInEntry += $DataSize;
+        $StartInEntry += $RowsPerLoop;
     }
 
     $Self->_ResetAutoIncrementField();
