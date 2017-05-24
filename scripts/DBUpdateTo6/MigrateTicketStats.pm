@@ -14,7 +14,7 @@ use warnings;
 use parent qw(scripts::DBUpdateTo6::Base);
 
 our @ObjectDependencies = (
-    'Kernel::System::Stats',
+    'Kernel::System::DB',
 );
 
 =head1 NAME
@@ -26,54 +26,52 @@ scripts::DBUpdateTo6::MigrateTicketStats - Migrate ticket stats to new ticket se
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $Stats = $StatsObject->GetStatsList(
-        UserID => 1,
+    # Process all affected article fields in stat restriction parameters.
+    my %SearchParamMap = (
+        Body    => 'MIMEBase_Body',
+        Cc      => 'MIMEBase_Cc',
+        From    => 'MIMEBase_From',
+        Subject => 'MIMEBase_Subject',
+        To      => 'MIMEBase_To',
     );
 
-    STAT:
-    for my $StatID ( @{ $Stats // [] } ) {
-        my $Stat = $StatsObject->StatsGet(
-            StatID => $StatID,
+    # Change parameters directly in the database, since at this point in migration not all used ticket statistic
+    #   modules might be available.
+    for my $SearchParam ( sort keys %SearchParamMap ) {
+        return if !$DBObject->Prepare(
+            SQL => '
+                SELECT xml_key, xml_content_key
+                FROM xml_storage
+                WHERE xml_type = ? AND xml_content_key LIKE ? AND xml_content_value = ?
+            ',
+            Bind => [
+                \'Stats',
+                \"[0]{'otrs_stats'}[1]{'UseAsRestriction'}[%]{'Element'}",
+                \$SearchParam,
+            ],
         );
 
-        next STAT if !defined $Stat->{UseAsRestriction};
-
-        # Rename old-style article fields in search parameters.
-        my %SearchParamMap = (
-            Body    => 'MIMEBase_Body',
-            Cc      => 'MIMEBase_Cc',
-            From    => 'MIMEBase_From',
-            Subject => 'MIMEBase_Subject',
-            To      => 'MIMEBase_To',
-        );
-
-        # Determine which restrictions need to be updated.
-        my @NewUseAsRestriction;
-
-        RESTRICTION:
-        for my $Restriction ( @{ $Stat->{UseAsRestriction} // [] } ) {
-            next RESTRICTION if !$Restriction->{Selected};
-            next RESTRICTION if !$SearchParamMap{ $Restriction->{Element} };
-
-            $Restriction->{Element} = $SearchParamMap{ $Restriction->{Element} };
-            push @NewUseAsRestriction, $Restriction;
+        my %Update;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $Update{ $Row[0] } = $Row[1];
         }
 
-        next STAT if !@NewUseAsRestriction;
-
-        # Update only changed restrictions, StatsUpdate() will preserve the rest of configuration.
-        my $Success = $StatsObject->StatsUpdate(
-            StatID => $StatID,
-            Hash   => {
-                UseAsRestriction => \@NewUseAsRestriction,
-            },
-            UserID => 1,
-        );
-        if ( !$Success ) {
-            print "\nCould not update stat '$Stat->{Title}'.\n";
-            return;
+        for my $XMLKey ( sort keys %Update ) {
+            return if !$DBObject->Prepare(
+                SQL => '
+                    UPDATE xml_storage
+                    SET xml_content_value = ?
+                    WHERE xml_type = ? AND xml_key = ? AND xml_content_key = ?
+                ',
+                Bind => [
+                    \$SearchParamMap{$SearchParam},
+                    \'Stats',
+                    \$XMLKey,
+                    \$Update{$XMLKey},
+                ],
+            );
         }
     }
 
