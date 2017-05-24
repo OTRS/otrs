@@ -22,6 +22,11 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set possible values handling strings
+    $Self->{EmptyString}     = '_AdditionalHeaders_EmptyString_Dont_Use_It_String_Please';
+    $Self->{DuplicateString} = '_AdditionalHeaders_DuplicatedString_Dont_Use_It_String_Please';
+    $Self->{DeletedString}   = '_AdditionalHeaders_DeletedString_Dont_Use_It_String_Please';
+
     return $Self;
 }
 
@@ -266,6 +271,9 @@ sub Run {
                 $Error{MaxLengthServerError}        = 'ServerError';
                 $Error{MaxLengthServerErrorMessage} = Translatable('This field should be an integer number.');
             }
+
+            # get additional headers
+            $TransportConfig->{AdditionalHeaders} = $Self->_GetAdditionalHeaders();
         }
 
         # set new configuration
@@ -327,17 +335,18 @@ sub _ShowEdit {
     my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
 
     # extract display parameters from transport config
-    $Param{Host}           = $TransportConfig->{Host};
-    $Param{DefaultCommand} = $TransportConfig->{DefaultCommand};
-    $Param{Authentication} = $TransportConfig->{Authentication}->{Type};
-    $Param{User}           = $TransportConfig->{Authentication}->{User};
-    $Param{Password}       = $TransportConfig->{Authentication}->{Password};
-    $Param{UseX509}        = $TransportConfig->{X509}->{UseX509};
-    $Param{X509CertFile}   = $TransportConfig->{X509}->{X509CertFile};
-    $Param{X509KeyFile}    = $TransportConfig->{X509}->{X509KeyFile};
-    $Param{X509CAFile}     = $TransportConfig->{X509}->{X509CAFile};
-    $Param{KeepAlive}      = $TransportConfig->{KeepAlive};
-    $Param{MaxLength}      = $TransportConfig->{MaxLength};
+    $Param{Host}              = $TransportConfig->{Host};
+    $Param{DefaultCommand}    = $TransportConfig->{DefaultCommand};
+    $Param{Authentication}    = $TransportConfig->{Authentication}->{Type};
+    $Param{User}              = $TransportConfig->{Authentication}->{User};
+    $Param{Password}          = $TransportConfig->{Authentication}->{Password};
+    $Param{UseX509}           = $TransportConfig->{X509}->{UseX509};
+    $Param{X509CertFile}      = $TransportConfig->{X509}->{X509CertFile};
+    $Param{X509KeyFile}       = $TransportConfig->{X509}->{X509KeyFile};
+    $Param{X509CAFile}        = $TransportConfig->{X509}->{X509CAFile};
+    $Param{KeepAlive}         = $TransportConfig->{KeepAlive};
+    $Param{MaxLength}         = $TransportConfig->{MaxLength};
+    $Param{AdditionalHeaders} = $TransportConfig->{AdditionalHeaders};
 
     my @PossibleRequestMethods = qw(GET POST PUT PATCH DELETE HEAD OPTIONS CONNECT TRACE);
 
@@ -498,6 +507,39 @@ sub _ShowEdit {
         if ( $Param{MaxLength} && defined $Param{KeepAlive} ) {
             $SaveAndFinishOK = 1;
         }
+
+        $LayoutObject->Block(
+            Name => 'AdditionalHeaders',
+            Data => {
+                %Param,
+            },
+        );
+
+        # output the possible values and errors within (if any)
+        my $ValueCounter = 1;
+        for my $Key ( sort keys %{ $Param{AdditionalHeaders} || {} } ) {
+            $LayoutObject->Block(
+                Name => 'ValueRow',
+                Data => {
+                    Key          => $Key,
+                    ValueCounter => $ValueCounter,
+                    Value        => $Param{AdditionalHeaders}->{$Key},
+                },
+            );
+
+            $ValueCounter++;
+        }
+
+        # create the possible values template
+        $LayoutObject->Block(
+            Name => 'ValueTemplate',
+            Data => {
+                %Param,
+            },
+        );
+
+        # set value counter
+        $Param{ValueCounter} = $ValueCounter;
     }
 
     # call save and finish block
@@ -515,6 +557,33 @@ sub _ShowEdit {
 
     $Output .= $LayoutObject->Footer();
     return $Output;
+}
+
+sub _GetAdditionalHeaders {
+    my ( $Self, %Param ) = @_;
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # get ValueCounters
+    my $ValueCounter = $ParamObject->GetParam( Param => 'ValueCounter' ) || 0;
+
+    # get possible values
+    my $AdditionalHeaderConfig;
+    VALUEINDEX:
+    for my $ValueIndex ( 1 .. $ValueCounter ) {
+        my $Key = $ParamObject->GetParam( Param => 'Key' . '_' . $ValueIndex ) // '';
+
+        # check if key was deleted by the user and skip it
+        next VALUEINDEX if $Key eq $Self->{DeletedString};
+
+        # skip empty key
+        next VALUEINDEX if $Key eq '';
+
+        my $Value = $ParamObject->GetParam( Param => 'Value' . '_' . $ValueIndex ) // '';
+        $AdditionalHeaderConfig->{$Key} = $Value;
+    }
+
+    return $AdditionalHeaderConfig;
 }
 
 1;

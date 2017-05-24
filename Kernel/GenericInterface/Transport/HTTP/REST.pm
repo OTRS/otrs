@@ -885,6 +885,16 @@ sub _Output {
     # set keep-alive
     my $Connection = $Self->{KeepAlive} ? 'Keep-Alive' : 'close';
 
+    # prepare additional headers
+    my $AdditionalHeaderStrg = '';
+    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
+        for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
+            $AdditionalHeaderStrg
+                .= $AdditionalHeader . ': ' . ( $AdditionalHeaders{$AdditionalHeader} || '' ) . "\r\n";
+        }
+    }
+
     # in the constructor of this module STDIN and STDOUT are set to binmode without any additional
     # layer (according to the documentation this is the same as set :raw). Previous solutions for
     # binary responses requires the set of :raw or :utf8 according to IO layers.
@@ -903,6 +913,7 @@ sub _Output {
     print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
     print STDOUT "Content-Length: $ContentLength\r\n";
     print STDOUT "Connection: $Connection\r\n";
+    print STDOUT $AdditionalHeaderStrg;
     print STDOUT "\r\n";
     print STDOUT $Param{Content};
 

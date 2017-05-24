@@ -22,6 +22,11 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # set possible values handling strings
+    $Self->{EmptyString}     = '_AdditionalHeaders_EmptyString_Dont_Use_It_String_Please';
+    $Self->{DuplicateString} = '_AdditionalHeaders_DuplicatedString_Dont_Use_It_String_Please';
+    $Self->{DeletedString}   = '_AdditionalHeaders_DeletedString_Dont_Use_It_String_Please';
+
     return $Self;
 }
 
@@ -199,6 +204,9 @@ sub Run {
                 $Error{MaxLengthServerError}        = 'ServerError';
                 $Error{MaxLengthServerErrorMessage} = Translatable('This field should be an integer number.');
             }
+
+            # get additional headers
+            $TransportConfig->{AdditionalHeaders} = $Self->_GetAdditionalHeaders();
         }
 
         # add scheme options
@@ -290,6 +298,7 @@ sub _ShowEdit {
     $Param{SSLProxy}             = $TransportConfig->{SSL}->{SSLProxy};
     $Param{SSLProxyUser}         = $TransportConfig->{SSL}->{SSLProxyUser};
     $Param{SSLProxyPassword}     = $TransportConfig->{SSL}->{SSLProxyPassword};
+    $Param{AdditionalHeaders}    = $TransportConfig->{AdditionalHeaders};
 
     # get sorting structure
     if ( $TransportConfig->{Sort} ) {
@@ -409,6 +418,42 @@ sub _ShowEdit {
         );
     }
 
+    if ( $Param{CommunicationType} eq 'Provider' ) {
+
+        $LayoutObject->Block(
+            Name => 'AdditionalHeaders',
+            Data => {
+                %Param,
+            },
+        );
+
+        # output the possible values and errors within (if any)
+        my $ValueCounter = 1;
+        for my $Key ( sort keys %{ $Param{AdditionalHeaders} || {} } ) {
+            $LayoutObject->Block(
+                Name => 'ValueRow',
+                Data => {
+                    Key          => $Key,
+                    ValueCounter => $ValueCounter,
+                    Value        => $Param{AdditionalHeaders}->{$Key},
+                },
+            );
+
+            $ValueCounter++;
+        }
+
+        # create the possible values template
+        $LayoutObject->Block(
+            Name => 'ValueTemplate',
+            Data => {
+                %Param,
+            },
+        );
+
+        # set value counter
+        $Param{ValueCounter} = $ValueCounter;
+    }
+
     # call provider or requester specific bocks
     $LayoutObject->Block(
         Name => 'Transport' . $Param{CommunicationType},
@@ -506,6 +551,33 @@ sub _PackStructure {
     }
 
     return \@Structure;
+}
+
+sub _GetAdditionalHeaders {
+    my ( $Self, %Param ) = @_;
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # get ValueCounters
+    my $ValueCounter = $ParamObject->GetParam( Param => 'ValueCounter' ) || 0;
+
+    # get possible values
+    my $AdditionalHeaderConfig;
+    VALUEINDEX:
+    for my $ValueIndex ( 1 .. $ValueCounter ) {
+        my $Key = $ParamObject->GetParam( Param => 'Key' . '_' . $ValueIndex ) // '';
+
+        # check if key was deleted by the user and skip it
+        next VALUEINDEX if $Key eq $Self->{DeletedString};
+
+        # skip empty key
+        next VALUEINDEX if $Key eq '';
+
+        my $Value = $ParamObject->GetParam( Param => 'Value' . '_' . $ValueIndex ) // '';
+        $AdditionalHeaderConfig->{$Key} = $Value;
+    }
+
+    return $AdditionalHeaderConfig;
 }
 
 1;

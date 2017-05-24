@@ -148,6 +148,30 @@ $Selenium->RunTest(
             $Selenium->find_element( "#$InputField", 'css' )->send_keys( $ProviderInputData{$InputField} );
         }
 
+        # Add one additional response header line.
+        $Selenium->find_element( "#AddValue", 'css' )->click();
+
+        # Click on 'Save' without entering anything to trigger client-side validation.
+        $Selenium->find_element("//button[\@value='Save and continue']")->click();
+
+        # Check if errors are shown.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.DefaultValueKeyItem.Error').length;"
+            ),
+            'Default key field highlighted as an error'
+        );
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('.DefaultValueItem.Error').length;"
+            ),
+            'Default key field highlighted as an error'
+        );
+
+        # Input key and value for additional response headers.
+        $Selenium->find_element( '.DefaultValueKeyItem', 'css' )->send_keys('Key1');
+        $Selenium->find_element( '.DefaultValueItem',    'css' )->send_keys('Value1');
+
         # add two sort level options
         $Selenium->find_element("//input[\@name='Element']")->send_keys('SortLevel1');
         $Selenium->find_element("//button[\@class='CallForAction']")->VerifiedClick();
@@ -177,6 +201,16 @@ $Selenium->RunTest(
                 "Inputed value for $VerifyField field is correct"
             );
         }
+        $Self->Is(
+            $Selenium->find_element( '.DefaultValueKeyItem', 'css' )->get_value(),
+            'Key1',
+            'Inputed value for DefaultValueKeyItem field is correct'
+        );
+        $Self->Is(
+            $Selenium->find_element( '.DefaultValueItem', 'css' )->get_value(),
+            'Value1',
+            'Inputed value for DefaultValueItem field is correct'
+        );
 
         # verify saved sort options
         my $Count = 1;

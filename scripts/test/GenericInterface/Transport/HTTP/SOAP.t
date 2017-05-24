@@ -2104,6 +2104,88 @@ for my $Test (@Tests) {
 
 }
 
+# Check headers.
+@Tests = (
+    {
+        Name   => 'Standard response header',
+        Config => {},
+        Header => {
+            'Content-Type' => 'text/xml; charset=UTF-8',
+        },
+    },
+    {
+        Name   => 'Additional response headers',
+        Config => {
+            AdditionalHeaders => {
+                Key1 => 'Value1',
+                Key2 => 'Value2',
+            },
+        },
+        Header => {
+            'Content-Type' => 'text/xml; charset=UTF-8',
+            Key1           => 'Value1',
+            Key2           => 'Value2',
+        },
+    },
+);
+
+# Create debugger object.
+my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+    DebuggerConfig => {
+        DebugThreshold => 'debug',
+        TestMode       => 1,
+    },
+    CommunicationType => 'Provider',
+    WebserviceID      => $WebserviceID,
+);
+
+for my $Test (@Tests) {
+
+    # Create SOAP transport object with test configuration.
+    my $TransportObject = Kernel::GenericInterface::Transport->new(
+        DebuggerObject  => $DebuggerObject,
+        TransportConfig => {
+            Type   => 'HTTP::SOAP',
+            Config => $Test->{Config},
+        },
+    );
+    $Self->Is(
+        ref $TransportObject,
+        'Kernel::GenericInterface::Transport',
+        "$Test->{Name} - TransportObject instantiated with SOAP backend"
+    );
+
+    my $Response = '';
+    my $Result;
+    {
+
+        # Redirect STDOUT from string so that the transport layer will write there.
+        local *STDOUT;
+        open STDOUT, '>:utf8', \$Response;    ## no critic
+
+        # Discard request object to prevent errors.
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+
+        # Create response.
+        $Result = $TransportObject->ProviderGenerateResponse(
+            Success => 1,
+            Data    => {},
+        );
+    }
+    $Self->True(
+        $Result,
+        "$Test->{Name} - Response created"
+    );
+
+    # Analyze headers.
+    for my $Key ( sort keys %{ $Test->{Header} } ) {
+        $Self->True(
+            index( $Response, "$Key: $Test->{Header}->{$Key}\r\n" ) != -1,
+            "$Test->{Name} - Found header '$Key' with value '$Test->{Header}->{$Key}'"
+        );
+    }
+}
+
 # cleanup webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
