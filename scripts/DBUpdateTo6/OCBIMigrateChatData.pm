@@ -147,7 +147,6 @@ sub Run {
         # Finish silently in case no data
         last ENTRIES if !@Data;
 
-
         my $MigrationResult = $Self->_MigrateData(
             Data              => \@Data,
             LastArticleDataID => $Data[-1]->{ID},
