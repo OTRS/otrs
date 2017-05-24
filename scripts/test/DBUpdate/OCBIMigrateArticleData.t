@@ -64,8 +64,74 @@ for my $TableName (@NewTablesName) {
     );
 }
 
+my $XMLString = <<"EOF";
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+    <Insert Table="ticket">
+        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="tn" Type="Quote">2017050210100001</Data>
+        <Data Key="queue_id">2</Data>
+        <Data Key="ticket_lock_id">1</Data>
+        <Data Key="user_id">1</Data>
+        <Data Key="responsible_user_id">1</Data>
+        <Data Key="ticket_priority_id">3</Data>
+        <Data Key="ticket_state_id">1</Data>
+        <Data Key="title" Type="Quote">Article data migration test</Data>
+        <Data Key="create_time_unix">1436949031</Data>
+        <Data Key="timeout">0</Data>
+        <Data Key="until_time">0</Data>
+        <Data Key="escalation_time">0</Data>
+        <Data Key="escalation_response_time">0</Data>
+        <Data Key="escalation_update_time">0</Data>
+        <Data Key="escalation_solution_time">0</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+EOF
+
+for my $Index ( 1 .. 40 ) {
+
+    my $ArticleID = $Index + 3;
+    $XMLString .= <<"EOF";
+    <Insert Table="article">
+        <Data Key="id" Type="AutoIncrement">$ArticleID</Data>
+        <Data Key="ticket_id">2</Data>
+        <Data Key="article_type_id">1</Data>
+        <Data Key="article_sender_type_id">1</Data>
+        <Data Key="a_body" Type="Quote">Test.</Data>
+        <Data Key="incoming_time">1436949031</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+EOF
+}
+
+$XMLString .= <<"EOF";
+</database>
+EOF
+
+# Execute the the article insert XML string.
+$Helper->DatabaseXMLExecute(
+    XML => $XMLString,
+);
+
+# Delete some article entries in order to test what happend
+# if not all the autoincremental values are present
+$Success = $DBObject->Do(
+    SQL => "DELETE FROM article WHERE id in (13, 17, 29, 35)",
+);
+$Self->True(
+    $Success,
+    'Delete some article entries for creating empty records in tha table!'
+);
+
 # Load the upgrade XML file.
-my $XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+$XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
     Location => "$Home/scripts/database/update/otrs-upgrade-to-6.xml",
 );
 
@@ -196,7 +262,9 @@ $Self->True(
     'Database update object successfully created!'
 );
 
-my $RunSuccess = $DBUpdateObject->Run();
+my $RunSuccess = $DBUpdateObject->Run(
+    RowsPerLoop => 10,
+);
 
 $Self->Is(
     1,

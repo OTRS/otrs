@@ -105,7 +105,7 @@ sub Run {
     }
 
     # TODO:OCBI: This number might be changed or even configurable
-    my $RowsPerLoop = 1000;
+    my $RowsPerLoop = $Param{RowsPerLoop} || 1000;
 
     my $StartInEntry = $TablesData{article}->{MaxID};
 
