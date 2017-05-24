@@ -17,12 +17,12 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::JSON',
-    'Kernel::System::YAML'
+    'Kernel::System::YAML',
 );
 
 =head1 NAME
 
-scripts::DBUpdateTo6::OCBIMigrateChatData -  Migrate PostMaster data.
+scripts::DBUpdateTo6::OCBIMigrateChatData -  Migrate Chat data.
 
 =cut
 
@@ -97,7 +97,7 @@ sub Run {
     }
 
     # TODO:OCBI: This number might be changed or even configurable
-    my $RowsPerLoop = 10000;
+    my $RowsPerLoop = 1000;
 
     my $StartInEntry = $ArticleChatMin - 1 || 0;
 
@@ -119,8 +119,7 @@ sub Run {
                     AND art.communication_channel_id = ?
                     AND adm.id > ' . $StartInEntry . ' AND adm.id < ' . $EndInEntry . '
                 ORDER BY id ASC',
-            Bind => [ \$ChatChannelID ]
-
+            Bind => [ \$ChatChannelID ],
         );
 
         my @Data;
@@ -148,11 +147,10 @@ sub Run {
         # Finish silently in case no data
         last ENTRIES if !@Data;
 
-        my $DataSize = @Data;
 
         my $MigrationResult = $Self->_MigrateData(
             Data              => \@Data,
-            LastArticleDataID => $Data[ $DataSize - 1 ]->{ID},
+            LastArticleDataID => $Data[-1]->{ID},
         );
 
         if ( !$MigrationResult ) {
@@ -162,6 +160,8 @@ sub Run {
             );
             return;
         }
+
+        my $DataSize = scalar @Data;
 
         $StartInEntry += $DataSize;
     }
