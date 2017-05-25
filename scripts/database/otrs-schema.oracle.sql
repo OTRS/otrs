@@ -5156,63 +5156,6 @@ END;
 --
 ;
 -- ----------------------------------------------------------
---  create table exclusive_lock
--- ----------------------------------------------------------
-CREATE TABLE exclusive_lock (
-    id NUMBER (20, 0) NOT NULL,
-    lock_key VARCHAR2 (255) NOT NULL,
-    lock_uid VARCHAR2 (32) NOT NULL,
-    create_time DATE NULL,
-    expiry_time DATE NULL,
-    CONSTRAINT exclusive_lock_lock_uid UNIQUE (lock_uid)
-);
-ALTER TABLE exclusive_lock ADD CONSTRAINT PK_exclusive_lock PRIMARY KEY (id);
-BEGIN
-    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_exclusive_lock';
-EXCEPTION
-    WHEN OTHERS THEN NULL;
-END;
-/
---
-;
-CREATE SEQUENCE SE_exclusive_lock
-INCREMENT BY 1
-START WITH 1
-NOMAXVALUE
-NOCYCLE
-CACHE 20
-ORDER
-;
-BEGIN
-    EXECUTE IMMEDIATE 'DROP TRIGGER SE_exclusive_lock_t';
-EXCEPTION
-    WHEN OTHERS THEN NULL;
-END;
-/
---
-;
-CREATE OR REPLACE TRIGGER SE_exclusive_lock_t
-BEFORE INSERT ON exclusive_lock
-FOR EACH ROW
-BEGIN
-    IF :new.id IS NULL THEN
-        SELECT SE_exclusive_lock.nextval
-        INTO :new.id
-        FROM DUAL;
-    END IF;
-END;
-/
---
-;
-BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX exclusive_lock_expiry_time ON exclusive_lock (expiry_time)';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-/
---
-;
--- ----------------------------------------------------------
 --  create table ticket_number_counter
 -- ----------------------------------------------------------
 CREATE TABLE ticket_number_counter (
@@ -5256,6 +5199,14 @@ BEGIN
         INTO :new.id
         FROM DUAL;
     END IF;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX ticket_number_counter_create71 ON ticket_number_counter (create_time)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
 END;
 /
 --

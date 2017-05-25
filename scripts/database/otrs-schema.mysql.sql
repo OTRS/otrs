@@ -1692,19 +1692,6 @@ CREATE TABLE calendar_appointment_ticket (
     INDEX calendar_appointment_ticket_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
-#  create table exclusive_lock
-# ----------------------------------------------------------
-CREATE TABLE exclusive_lock (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    lock_key VARCHAR (255) NOT NULL,
-    lock_uid VARCHAR (32) NOT NULL,
-    create_time DATETIME NULL,
-    expiry_time DATETIME NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX exclusive_lock_lock_uid (lock_uid),
-    INDEX exclusive_lock_expiry_time (expiry_time)
-);
-# ----------------------------------------------------------
 #  create table ticket_number_counter
 # ----------------------------------------------------------
 CREATE TABLE ticket_number_counter (
@@ -1713,5 +1700,6 @@ CREATE TABLE ticket_number_counter (
     counter_uid VARCHAR (32) NOT NULL,
     create_time DATETIME NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX ticket_number_counter_uid (counter_uid)
+    UNIQUE INDEX ticket_number_counter_uid (counter_uid),
+    INDEX ticket_number_counter_create_time (create_time)
 );

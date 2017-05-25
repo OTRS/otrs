@@ -16,12 +16,13 @@ use vars (qw($Self));
 # Prevent used once warning.
 use Kernel::System::ObjectManager;
 
-my $ExclusiveLockObject = $Kernel::OM->Get("Kernel::System::ExclusiveLock");
+# Use AutoIncrement backend to have access to the base class functions.
+my $TicketNumberBaseObject = $Kernel::OM->Get('Kernel::System::Ticket::Number::AutoIncrement');
 
 # _GetUID tests
 my %UIDs;
 for my $Count ( 1 .. 10_000 ) {
-    my $UID = $ExclusiveLockObject->_GetUID();
+    my $UID = $TicketNumberBaseObject->_GetUID();
 
     if ( $UIDs{$UID} ) {
         $Self->Is(

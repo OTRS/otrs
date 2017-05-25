@@ -63,20 +63,6 @@ sub Run {
     # Define the XML data for the ticket number counter tables.
     my @XMLStrings = (
         '
-            <TableCreate Name="exclusive_lock">
-                <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
-                <Column Name="lock_key" Required="true" Size="255" Type="VARCHAR" />
-                <Column Name="lock_uid" Required="true" Size="32" Type="VARCHAR" />
-                <Column Name="create_time" Type="DATE" />
-                <Column Name="expiry_time" Type="DATE" />
-                <Unique Name="exclusive_lock_lock_uid">
-                    <UniqueColumn Name="lock_uid" />
-                </Unique>
-                <Index Name="exclusive_lock_expiry_time">
-                    <IndexColumn Name="expiry_time" />
-                </Index>
-            </TableCreate>
-        ', '
             <TableCreate Name="ticket_number_counter">
                 <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT" />
                 <Column Name="counter" Required="true" Type="BIGINT" />
@@ -85,6 +71,9 @@ sub Run {
                 <Unique Name="ticket_number_counter_uid">
                     <UniqueColumn Name="counter_uid" />
                 </Unique>
+                <Index Name="ticket_number_counter_create_time">
+                    <IndexColumn Name="create_time" />
+                </Index>
             </TableCreate>
         ',
     );

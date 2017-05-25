@@ -2833,29 +2833,6 @@ END IF;
 END$$;
 ;
 -- ----------------------------------------------------------
---  create table exclusive_lock
--- ----------------------------------------------------------
-CREATE TABLE exclusive_lock (
-    id bigserial NOT NULL,
-    lock_key VARCHAR (255) NOT NULL,
-    lock_uid VARCHAR (32) NOT NULL,
-    create_time timestamp(0) NULL,
-    expiry_time timestamp(0) NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT exclusive_lock_lock_uid UNIQUE (lock_uid)
-);
-DO $$
-BEGIN
-IF NOT EXISTS (
-    SELECT 1
-    FROM pg_indexes
-    WHERE indexname = 'exclusive_lock_expiry_time'
-    ) THEN
-    CREATE INDEX exclusive_lock_expiry_time ON exclusive_lock (expiry_time);
-END IF;
-END$$;
-;
--- ----------------------------------------------------------
 --  create table ticket_number_counter
 -- ----------------------------------------------------------
 CREATE TABLE ticket_number_counter (
@@ -2866,3 +2843,14 @@ CREATE TABLE ticket_number_counter (
     PRIMARY KEY(id),
     CONSTRAINT ticket_number_counter_uid UNIQUE (counter_uid)
 );
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'ticket_number_counter_create_time'
+    ) THEN
+    CREATE INDEX ticket_number_counter_create_time ON ticket_number_counter (create_time);
+END IF;
+END$$;
+;

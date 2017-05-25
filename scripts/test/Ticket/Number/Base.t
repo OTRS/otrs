@@ -303,8 +303,8 @@ $Helper->FixedTimeSet();
         Iterations     => 11,
         ExpectedResult => [ 2 .. 11 ],
     },
-
 );
+
 for my $Test (@Tests) {
     for ( 1 .. $Test->{Iterations} ) {
         my $Counter = $TicketNumberBaseObject->TicketNumberCounterAdd( Offset => 1 );

@@ -15,6 +15,15 @@ use vars (qw($Self));
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+# Get the last ticket counter id.
+my $Success = $DBObject->Prepare(
+    SQL => 'SELECT MAX(id) from ticket_number_counter',
+);
+my $InitialCounterID;
+while ( my @Row = $DBObject->FetchrowArray() ) {
+    $InitialCounterID = $Row[0];
+}
+
 my $CacheType = 'UnitTestTicketCounter';
 
 my $ChildCount = 5;
@@ -59,7 +68,7 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
                 Key   => "${TicketNumberBackend}::${ChildIndex}",
                 Value => {
                     TicketNumber => $TicketNumber,
-                    TicketID     => $TicketID
+                    TicketID     => $TicketID,
                 },
                 TTL => 60 * 10,
             );
@@ -134,6 +143,17 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
     }
     $CacheObject->CleanUp(
         Type => $CacheType,
+    );
+}
+
+# Cleanup counters.
+if ($InitialCounterID) {
+    $Success = $DBObject->Do(
+        SQL => "DELETE from ticket_number_counter WHERE id > $InitialCounterID",
+    );
+    $Self->True(
+        $Success,
+        "Removed added ticket number counters",
     );
 }
 

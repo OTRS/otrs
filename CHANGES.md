@@ -8,7 +8,7 @@
  - 2017-05-22 Added the possibility to use the auto complete search for the customer ID selection in the AdminCustomerUser frontend.
  - 2017-05-19 Added setting TimeInputMinutesStep to allow for reducing the available options in time selection drop downs by given steps (e.g. only every 10 minutes).
  - 2017-05-16 Removed spell check feature from OTRS. Please use the according functionality of your browser or available plug-ins for it.
- - 2017-05-15 Moved ticket number counter from the TicketCounter.log file to the database. Added ExclusiveLock API for cooperative, application-level locking via database. This allows OTRS to process incoming e-mails much faster and in parallel.
+ - 2017-05-15 Moved ticket number counter from the TicketCounter.log file to the database. This allows OTRS to process incoming e-mails much faster and in parallel.
  - 2017-05-11 Fixed bug#[10509](https://bugs.otrs.org/show_bug.cgi?id=10509) - Incorrect handling of empty mime parts.
  - 2017-05-11 Fixed bug#[11910](https://bugs.otrs.org/show_bug.cgi?id=11910) - URLs sometimes get replaced with [#####] characters.
  - 2017-05-11 Fixed bug#[12442](https://bugs.otrs.org/show_bug.cgi?id=12442) - Add-ons verification fails in some Oracle configurations because they are stored as CHAR instead of BLOB.
