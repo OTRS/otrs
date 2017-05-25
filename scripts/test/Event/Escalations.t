@@ -466,10 +466,6 @@ $HelperObject->FixedTimeSet(
     $TimeObject->TimeStamp2SystemTime( String => '2017-04-26 17:50:00' ),
 );
 
-# Renew object because of transaction.
-$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-$TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
 my $RandomNumber = $HelperObject->GetRandomNumber();
 
 # Create test queue.
@@ -503,6 +499,10 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID     => 1,
 );
 $Self->True( $TicketID, "TicketID $TicketID is created" );
+
+# Renew object because of transaction.
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+$TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # Get created ticket and check created and escalation destination times.
 my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID );
