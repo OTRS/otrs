@@ -1,5 +1,4 @@
 #6.0.0.beta1 2017-??-??
- - 2017-05-25 Added the possibility to include the ticket data in web service response data.
  - 2017-05-24 Added support for additional response headers in REST and SOAP provider configuration.
  - 2017-05-23 Extended Unit test Escalations.t for test case described at https://bugs.otrs.org/show_bug.cgi?id=11243.
  - 2017-05-23 Fixed bug#[11461](https://bugs.otrs.org/show_bug.cgi?id=11461) - Ticket search ignores the Condition TicketNumber => 0.

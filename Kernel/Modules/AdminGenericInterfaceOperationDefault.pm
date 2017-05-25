@@ -184,8 +184,7 @@ sub _AddAction {
 
         # get the description from the web request to send it back again to the screen
         my $OperationConfig;
-        $OperationConfig->{Description}       = $ParamObject->GetParam( Param => 'Description' )       || '';
-        $OperationConfig->{IncludeTicketData} = $ParamObject->GetParam( Param => 'IncludeTicketData' ) || '';
+        $OperationConfig->{Description} = $ParamObject->GetParam( Param => 'Description' ) || '';
 
         return $Self->_ShowScreen(
             %Param,
@@ -201,9 +200,8 @@ sub _AddAction {
     }
 
     my $Config = {
-        Type              => $GetParam{OperationType},
-        Description       => $ParamObject->GetParam( Param => 'Description' ) || '',
-        IncludeTicketData => $ParamObject->GetParam( Param => 'IncludeTicketData' ) || '',
+        Type        => $GetParam{OperationType},
+        Description => $ParamObject->GetParam( Param => 'Description' ) || '',
     };
 
     my $MappingInbound = $ParamObject->GetParam( Param => 'MappingInbound' );
@@ -392,8 +390,7 @@ sub _ChangeAction {
         };
     }
 
-    $OperationConfig->{Description}       = $ParamObject->GetParam( Param => 'Description' )       || '';
-    $OperationConfig->{IncludeTicketData} = $ParamObject->GetParam( Param => 'IncludeTicketData' ) || '';
+    $OperationConfig->{Description} = $ParamObject->GetParam( Param => 'Description' ) || '';
 
     # Update operation config.
     $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } = $OperationConfig;
@@ -561,19 +558,6 @@ sub _ShowScreen {
             },
         );
     }
-
-    $TemplateData{IncludeTicketDataStrg} = $LayoutObject->BuildSelection(
-        Data => {
-            0 => 'No',
-            1 => 'Yes',
-        },
-        Name       => 'IncludeTicketData',
-        SelectedID => $Param{OperationConfig}->{IncludeTicketData},
-        Sort       => 'NumericKey',
-        Class      => 'Modernize W50pc',
-        Disabled   => $TemplateData{OperationType} eq 'Ticket::TicketCreate'
-            || $TemplateData{OperationType} eq 'Ticket::TicketUpdate' ? 0 : 1,
-    );
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminGenericInterfaceOperationDefault',

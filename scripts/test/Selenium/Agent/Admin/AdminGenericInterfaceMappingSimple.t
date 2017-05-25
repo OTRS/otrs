@@ -108,20 +108,8 @@ $Selenium->RunTest(
             "\$('#MappingOutbound').val('Simple').trigger('redraw.InputField').trigger('change');"
         );
 
-        # Set include ticket data to Yes.
-        $Selenium->execute_script(
-            "\$('#IncludeTicketData').val('1').trigger('redraw.InputField').trigger('change');"
-        );
-
         # submit operation
         $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
-
-        # Verify ticket data option.
-        $Self->Is(
-            $Selenium->find_element( '#IncludeTicketData', 'css' )->get_value(),
-            '1',
-            'Include ticket data set to Yes'
-        );
 
         # click to configure inbound mapping simple
         $Selenium->find_element("//button[\@id='MappingInboundConfigureButton']")->VerifiedClick();
