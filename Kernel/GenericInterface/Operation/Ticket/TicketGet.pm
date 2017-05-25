@@ -283,7 +283,7 @@ sub Run {
         );
     }
 
-    # Get the list of dynamic fields for object article.
+    # Get the list of article dynamic fields
     my $ArticleDynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
         ObjectType => 'Article',
         ResultType => 'HASH',
@@ -364,7 +364,7 @@ sub Run {
         my %TicketEntry;
         my @DynamicFields;
 
-        # remove all dynamic fields form main ticket hash and set them into an array.
+        # remove all dynamic fields from main ticket hash and set them into an array.
         ATTRIBUTE:
         for my $Attribute ( sort keys %TicketEntryRaw ) {
 
@@ -486,13 +486,14 @@ sub Run {
                 my %Article;
                 my @ArticleDynamicFields;
 
-                # remove all dynamic fields form main article hash and set them into an array.
+                # remove all dynamic fields from main article hash and set them into an array.
                 ATTRIBUTE:
                 for my $Attribute ( sort keys %{$ArticleRaw} ) {
 
                     if ( $Attribute =~ m{\A DynamicField_(.*) \z}msx ) {
 
-                        # Skip dynamic fields that are not for article object
+                        # skip dynamic fields that are not article related
+                        # this is needed because ArticleGet() also returns ticket dynamic fields
                         next ATTRIBUTE if ( !$ArticleDynamicFieldLookup{$1} );
 
                         push @ArticleDynamicFields, {

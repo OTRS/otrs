@@ -40,7 +40,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Needed (qw( DebuggerObject WebserviceID )) {
+    for my $Needed (qw( DebuggerObject WebserviceID Operation )) {
         if ( !$Param{$Needed} ) {
             return {
                 Success      => 0,
@@ -173,6 +173,126 @@ if applicable the created ArticleID.
                     ErrorCode    => 'TicketUpdate.ErrorCode'
                     ErrorMessage => 'Error Description'
             },
+
+            # If IncludeTicketData is enabled
+            Ticket => [
+                {
+                    TicketNumber       => '20101027000001',
+                    Title              => 'some title',
+                    TicketID           => 123,
+                    State              => 'some state',
+                    StateID            => 123,
+                    StateType          => 'some state type',
+                    Priority           => 'some priority',
+                    PriorityID         => 123,
+                    Lock               => 'lock',
+                    LockID             => 123,
+                    Queue              => 'some queue',
+                    QueueID            => 123,
+                    CustomerID         => 'customer_id_123',
+                    CustomerUserID     => 'customer_user_id_123',
+                    Owner              => 'some_owner_login',
+                    OwnerID            => 123,
+                    Type               => 'some ticket type',
+                    TypeID             => 123,
+                    SLA                => 'some sla',
+                    SLAID              => 123,
+                    Service            => 'some service',
+                    ServiceID          => 123,
+                    Responsible        => 'some_responsible_login',
+                    ResponsibleID      => 123,
+                    Age                => 3456,
+                    Created            => '2010-10-27 20:15:00'
+                    CreateTimeUnix     => '1231414141',
+                    CreateBy           => 123,
+                    Changed            => '2010-10-27 20:15:15',
+                    ChangeBy           => 123,
+                    ArchiveFlag        => 'y',
+
+                    DynamicField => [
+                        {
+                            Name  => 'some name',
+                            Value => 'some value',
+                        },
+                    ],
+
+                    # (time stamps of expected escalations)
+                    EscalationResponseTime           (unix time stamp of response time escalation)
+                    EscalationUpdateTime             (unix time stamp of update time escalation)
+                    EscalationSolutionTime           (unix time stamp of solution time escalation)
+
+                    # (general escalation info of nearest escalation type)
+                    EscalationDestinationIn          (escalation in e. g. 1h 4m)
+                    EscalationDestinationTime        (date of escalation in unix time, e. g. 72193292)
+                    EscalationDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+                    EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
+                    EscalationTime                   (seconds total till escalation of nearest escalation time type - response, update or solution time, e. g. "3600")
+
+                    # (detailed escalation info about first response, update and solution time)
+                    FirstResponseTimeEscalation      (if true, ticket is escalated)
+                    FirstResponseTimeNotification    (if true, notify - x% of escalation has reached)
+                    FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
+                    FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
+                    FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
+                    FirstResponseTime                (seconds total till escalation, e. g. "3600")
+
+                    UpdateTimeEscalation             (if true, ticket is escalated)
+                    UpdateTimeNotification           (if true, notify - x% of escalation has reached)
+                    UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
+                    UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+                    UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
+                    UpdateTime                       (seconds total till escalation, e. g. "3600")
+
+                    SolutionTimeEscalation           (if true, ticket is escalated)
+                    SolutionTimeNotification         (if true, notify - x% of escalation has reached)
+                    SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
+                    SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
+                    SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
+                    SolutionTime                     (seconds total till escalation, e. g. "3600")
+
+                    Article => [
+                        {
+                            ArticleID
+                            From
+                            To
+                            Cc
+                            Subject
+                            Body
+                            ReplyTo
+                            MessageID
+                            InReplyTo
+                            References
+                            SenderType
+                            SenderTypeID
+                            ArticleType
+                            ArticleTypeID
+                            ContentType
+                            Charset
+                            MimeType
+                            IncomingTime
+
+                            DynamicField => [
+                                {
+                                    Name  => 'some name',
+                                    Value => 'some value',
+                                },
+                            ],
+
+                            Attachment => [
+                                {
+                                    Content            => "xxxx",     # actual attachment contents, base64 enconded
+                                    ContentAlternative => "",
+                                    ContentID          => "",
+                                    ContentType        => "application/pdf",
+                                    Filename           => "StdAttachment-Test1.pdf",
+                                    Filesize           => "4.6 KBytes",
+                                    FilesizeRaw        => 4722,
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         },
     };
 
@@ -2033,21 +2153,159 @@ sub _TicketUpdate {
         }
     }
 
-    if ($ArticleID) {
+    # get webservice configuration
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+        ID => $Self->{WebserviceID},
+    );
+
+    # get operation config
+    my $OperationConfig   = $Webservice->{Config}->{Provider}->{Operation}->{ $Self->{Operation} };
+    my $IncludeTicketData = $OperationConfig->{IncludeTicketData};
+    $IncludeTicketData = 1;
+    if ( !$IncludeTicketData ) {
+        if ($ArticleID) {
+            return {
+                Success => 1,
+                Data    => {
+                    TicketID     => $TicketID,
+                    TicketNumber => $TicketData{TicketNumber},
+                    ArticleID    => $ArticleID,
+                },
+            };
+        }
         return {
             Success => 1,
             Data    => {
                 TicketID     => $TicketID,
                 TicketNumber => $TicketData{TicketNumber},
-                ArticleID    => $ArticleID,
             },
         };
     }
+
+    # get updated TicketData
+    %TicketData = ();
+    %TicketData = $TicketObject->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 1,
+        UserID        => $Param{UserID},
+    );
+
+    # extract all dynamic fields from main ticket hash.
+    my %TicketDynamicFields;
+    TICKETATTRIBUTE:
+    for my $TicketAttribute ( sort keys %TicketData ) {
+        if ( $TicketAttribute =~ m{\A DynamicField_(.*) \z}msx ) {
+            $TicketDynamicFields{$1} = {
+                Name  => $1,
+                Value => $TicketData{$TicketAttribute},
+            };
+            delete $TicketData{$TicketAttribute};
+        }
+    }
+
+    # add dynamic fields as array into 'DynamicField' hash key if any
+    if (%TicketDynamicFields) {
+        $TicketData{DynamicField} = [ sort { $a->{Name} cmp $b->{Name} } values %TicketDynamicFields ];
+    }
+
+    # get last ArticleID
+    my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+        ArticleID => $ArticleID,
+        TicketID  => $TicketID
+    );
+
+    my @Articles = $ArticleObject->ArticleList(
+        TicketID => $TicketID,
+        OnlyLast => 1,
+    );
+
+    my $LastArticleID = $Articles[0]->{ArticleID};
+
+    # return ticket data if we have no article data
+    if ( !$ArticleID && !$LastArticleID ) {
+        return {
+            Success => 1,
+            Data    => {
+                TicketID     => $TicketID,
+                TicketNumber => $TicketData{TicketNumber},
+                Ticket       => \%TicketData,
+            },
+        };
+    }
+
+    # get Article and ArticleAttachement
+    my %ArticleData = $ArticleBackendObject->ArticleGet(
+        ArticleID => $ArticleID || $LastArticleID,
+        DynamicFields => 1,
+        TicketID      => $TicketID,
+        UserID        => $Param{UserID},
+    );
+
+    # prepare Article DynamicFields
+    my @ArticleDynamicFields;
+
+    # remove all dynamic fields from main ticket hash and set them into an array.
+    ARTICLEATTRIBUTE:
+    for my $ArticleAttribute ( sort keys %ArticleData ) {
+        if ( $ArticleAttribute =~ m{\A DynamicField_(.*) \z}msx ) {
+            if ( !exists $TicketDynamicFields{$1} ) {
+                push @ArticleDynamicFields, {
+                    Name  => $1,
+                    Value => $ArticleData{$ArticleAttribute},
+                };
+            }
+
+            delete $ArticleData{$ArticleAttribute};
+        }
+    }
+
+    # add dynamic fields array into 'DynamicField' hash key if any
+    if (@ArticleDynamicFields) {
+        $ArticleData{DynamicField} = \@ArticleDynamicFields;
+    }
+
+    # add attachment if the request includes attachments
+    if ( IsArrayRefWithData($AttachmentList) ) {
+        my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
+            ArticleID => $ArticleData{ArticleID},
+            UserID    => $Param{UserID},
+        );
+
+        my @Attachments;
+        $Kernel::OM->Get('Kernel::System::Main')->Require('MIME::Base64');
+        ATTACHMENT:
+        for my $FileID ( sort keys %AttachmentIndex ) {
+            next ATTACHMENT if !$FileID;
+            my %Attachment = $TicketObject->ArticleAttachment(
+                ArticleID => $ArticleData{ArticleID},
+                FileID    => $FileID,
+                UserID    => $Param{UserID},
+            );
+
+            next ATTACHMENT if !IsHashRefWithData( \%Attachment );
+
+            # convert content to base64
+            $Attachment{Content} = MIME::Base64::encode_base64( $Attachment{Content} );
+            push @Attachments, {%Attachment};
+        }
+
+        # set Attachments data
+        if (@Attachments) {
+            $ArticleData{Attachment} = \@Attachments;
+        }
+    }
+
+    $TicketData{Article} = \%ArticleData;
+
+    # return ticket data and article data
     return {
         Success => 1,
         Data    => {
             TicketID     => $TicketID,
             TicketNumber => $TicketData{TicketNumber},
+            ArticleID    => $ArticleData{ArticleID},
+            Ticket       => \%TicketData,
         },
     };
 }
