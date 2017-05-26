@@ -197,7 +197,7 @@ Core.UI.Floater = (function (TargetNS) {
                 FloaterWidth = parseInt($FloaterObj.outerWidth(), 10);
 
                 // set left position
-                if (TriggerOffset.left < FloaterWidth / 2) {
+                if (TriggerOffset.left - ViewportWidth / 50 < FloaterWidth / 2) {
 
                     // case 1: trigger element on far left side without enough space to show the floater
                     $FloaterObj.addClass('Left').css({
@@ -205,7 +205,7 @@ Core.UI.Floater = (function (TargetNS) {
                         left: TriggerOffset.left
                     });
                 }
-                else if (ViewportWidth - TriggerOffset.left + ($TriggerObj.outerWidth() / 2) < FloaterWidth / 2) {
+                else if (ViewportWidth - TriggerOffset.left + ($TriggerObj.outerWidth() / 2) - ViewportWidth / 50 < FloaterWidth / 2) {
 
                     // case 2: trigger element on far right side
                     $FloaterObj.addClass('Right').css({

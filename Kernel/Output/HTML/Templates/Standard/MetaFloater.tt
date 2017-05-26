@@ -1,0 +1,27 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MetaFloater Hidden Template">
+    <a href="#" class="Scale" title="[% Translate('Scale preview content') | html %]" style="display: none;">
+        <i class="fa fa-search-plus"></i>
+    </a>
+    <a href="#" class="Open" target="_blank" title="[% Translate('Open URL in new tab') | html %]" style="display: none;">
+        <i class="fa fa-external-link"></i>
+    </a>
+    <a href="#" class="Close" title="[% Translate('Close preview') | html %]">
+        <i class="fa fa-times"></i>
+    </a>
+    <i class="fa fa-spinner fa-spin"></i>
+    <div class="NoPreview">
+        <i class="fa fa-warning"></i>
+        [% Translate("A preview of this website can't be provided because it didn't allow to be embedded.") | html %]
+    </div>
+    <div class="Content" style="display: none;">
+        <iframe sandbox="allow-scripts allow-forms"></iframe>
+    </div>
+</div>
