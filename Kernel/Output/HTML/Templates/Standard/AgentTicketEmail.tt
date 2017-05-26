@@ -73,8 +73,9 @@ $('#TypeID').bind('change', function (Event) {
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 $('#Dest').bind('change', function (Event) {
-    var Dest = $(this).val() || '';
-    var SignatureURL = '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Signature;Dest=' + Dest;
+    var Dest = $(this).val() || '',
+        CustomerUser = $('#SelectedCustomerUser').val() || '';
+    var SignatureURL = '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Signature;Dest=' + Dest + ';SelectedCustomerUser=' + CustomerUser;
     Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'Dest', ['TypeID', 'Signature', 'NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
     if (!Core.Config.Get('SessionIDCookie')) {
         SignatureURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
@@ -411,7 +412,7 @@ $('#OwnerSelectionGetAll').bind('click', function (Event) {
 });
 
 $('#NewUserID').bind('change', function (Event) {
-    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'NewUserID', [ 'TypeID', 'Dest', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
+    Core.AJAX.FormUpdate($('#NewEmailTicket'), 'AJAXUpdate', 'NewUserID', [ 'TypeID', 'Dest', 'Signature', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'SignKeyID', 'CryptKeyID', 'To', 'Cc', 'Bcc', 'StandardTemplateID' [% Data.DynamicFieldNamesStrg %]]);
 });
 //]]></script>
 [% END %]
