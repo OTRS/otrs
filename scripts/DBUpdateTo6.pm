@@ -215,40 +215,6 @@ sub _TasksGet {
             Module  => 'OCBIMigrateTicketHistory',
         },
 
-        {
-            Message => 'Create entries in new article table',
-            Module  => 'OCBIMigrateArticleData',
-        },
-        {
-            Message => 'Migrates ArticleType in ProcessManagement Data',
-            Module  => 'OCBIMigrateProcessManagementData',
-        },
-        {
-            Message => 'Migrates ArticleType in PostMaster filters',
-            Module  => 'OCBIMigratePostMasterData',
-        },
-        {
-            Message => 'Migrates ArticleType in GenericAgent jobs',
-            Module  => 'OCBIMigrateGenericAgentData',
-        },
-
-        {
-            Message => 'Migrate existing chat articles',
-            Module  => 'MigrateExistingChatArticles',
-        },
-        {
-            Message => 'Drop existing fields MIME',
-            Module  => 'DropExistingFieldsMIME',
-        },
-        {
-            Message => 'Drop recreate article search table',
-            Module  => 'DropRecreateArticleSearchTable',
-        },
-        {
-            Message => 'Migrate ticket history',
-            Module  => 'OCBIMigrateTicketHistory',
-        },
-
         # ...
 
         {
