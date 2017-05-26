@@ -10628,6 +10628,13 @@
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
+    <Setting Name="KeepStateHeader" Required="0" Valid="1">
+        <Description Translatable="1">Defines the PostMaster header to be used on the filter for keeping the current state of the ticket.</Description>
+        <Navigation>Core::PostMaster</Navigation>
+        <Value>
+            <Item ValueType="String">X-OTRS-FollowUp-State-Keep</Item>
+        </Value>
+    </Setting>
     <Setting Name="PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner" Required="1" Valid="1">
         <Description Translatable="1">Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).</Description>
         <Navigation>Core::PostMaster</Navigation>
@@ -10715,6 +10722,7 @@
                 <Item>X-OTRS-FollowUp-SenderType</Item>
                 <Item>X-OTRS-FollowUp-IsVisibleForCustomer</Item>
                 <Item>X-OTRS-FollowUp-Title</Item>
+                <Item>X-OTRS-FollowUp-State-Keep</Item>
                 <Item>X-OTRS-BodyDecrypted</Item>
             </Array>
         </Value>

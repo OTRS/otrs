@@ -168,7 +168,12 @@ sub Run {
         $State = $GetParam{'X-OTRS-FollowUp-State'};
     }
 
-    if ( $Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-FollowUp-State'} ) {
+    my $KeepStateHeader = $ConfigObject->Get('KeepStateHeader') || 'X-OTRS-FollowUp-State-Keep';
+    if (
+        ( $Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-FollowUp-State'} )
+        && !$GetParam{$KeepStateHeader}
+        )
+    {
         $TicketObject->TicketStateSet(
             State => $GetParam{'X-OTRS-FollowUp-State'} || $State,
             TicketID => $Param{TicketID},

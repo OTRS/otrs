@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-05-26 Added PostMaster state keep feature via additional xheaders.
  - 2017-05-26 Added information about the ticket responsible to medium and preview view in ticket lists, thanks to frennkie.
  - 2017-05-26 Added the possibility to include the ticket data in web service response data.
  - 2017-05-26 Added support for smart tags in the TicketCreate TransitionAction.
