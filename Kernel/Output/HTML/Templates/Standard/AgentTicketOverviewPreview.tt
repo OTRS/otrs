@@ -105,9 +105,17 @@
                         </tr>
 [% RenderBlockEnd("Service") %]
                         <tr>
+[% RenderBlockStart("OwnerResponsible") %]
+[% IF Config('Ticket::Responsible') %]
                             <td>
-                                <label>[% Translate("Owner") | html %]</label><div title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.Owner | html %])">[% Data.UserFullname | truncate(30) | html %]</div>
+                                <label>[% Translate("Owner") | html %] / [% Translate("Responsible") | html %]</label><div title="[% Data.OwnerFullname | html %] ([% Data.Owner | html %]) / [% Data.ResponsibleFullname | html %] ([% Data.Responsible | html %])">[% Data.OwnerFullname | truncate(30) | html %] / [% Data.ResponsibleFullname | truncate(30) | html %]</div>
                             </td>
+[% ELSE %]
+                            <td>
+                                <label>[% Translate("Owner") | html %]</label><div title="[% Data.OwnerFullname | html %] ([% Data.Owner | html %])">[% Data.OwnerFullname | truncate(30) | html %]</div>
+                            </td>
+[% END %]
+[% RenderBlockEnd("OwnerResponsible") %]
                             <td>
                                 <label>[% Translate("Lock") | html %]</label><div title="[% Translate(Data.Lock) | html %]">[% Translate(Data.Lock) | html %]</div>
                             </td>

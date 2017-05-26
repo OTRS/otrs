@@ -395,6 +395,11 @@ sub _Show {
     );
     %Article = ( %UserInfo, %Article );
 
+    # get responsible info from ticket
+    my %TicketResponsible = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+        UserID => $Ticket{ResponsibleID},
+    );
+
     # create human age
     $Article{Age} = $LayoutObject->CustomerAge(
         Age   => $Article{Age},
@@ -545,6 +550,16 @@ sub _Show {
             Class             => 'ArticleCount' . $ArticleCount,
             AdditionalClasses => $AdditionalClasses,
             Created           => $Ticket{Created},                 # use value from ticket, not article
+        },
+    );
+
+    $LayoutObject->Block(
+        Name => 'OwnerResponsible',
+        Data => {
+            Owner               => $UserInfo{'UserLogin'},
+            OwnerFullname       => $UserInfo{'UserFullname'},
+            Responsible         => $TicketResponsible{'UserLogin'},
+            ResponsibleFullname => $TicketResponsible{'UserFullname'},
         },
     );
 

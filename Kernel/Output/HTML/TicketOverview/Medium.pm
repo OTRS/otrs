@@ -389,6 +389,11 @@ sub _Show {
     );
     %Article = ( %UserInfo, %Article );
 
+    # get responsible info from Ticket
+    my %TicketResponsible = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+        UserID => $Ticket{ResponsibleID},
+    );
+
     # create human age
     $Article{Age} = $LayoutObject->CustomerAge(
         Age   => $Article{Age},
@@ -535,6 +540,16 @@ sub _Show {
     $LayoutObject->Block(
         Name => 'DocumentContent',
         Data => { %Param, %Article },
+    );
+
+    $LayoutObject->Block(
+        Name => 'OwnerResponsible',
+        Data => {
+            Owner               => $UserInfo{'UserLogin'},
+            OwnerFullname       => $UserInfo{'UserFullname'},
+            Responsible         => $TicketResponsible{'UserLogin'},
+            ResponsibleFullname => $TicketResponsible{'UserFullname'},
+        },
     );
 
     # if "Actions per Ticket" (Inline Action Row) is active
