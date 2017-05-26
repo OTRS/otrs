@@ -1,4 +1,5 @@
 #5.0.20 2017-??-??
+ - 2017-05-26 Fixed bug#[12849](https://bugs.otrs.org/show_bug.cgi?id=12849) - Default entry sorting broken for e.g. AgentTicketPhone if 'Ticket::Frontend::ListType' set to 'list'.
  - 2017-05-23 Fixed bug#[11243](https://bugs.otrs.org/show_bug.cgi?id=11243) - Wrong escalation time if response time set to 60 or less minutes.
  - 2017-05-23 Fixed bug#[12797](https://bugs.otrs.org/show_bug.cgi?id=12797) - Unknown Customer is not displayed in a Process Dialog.
  - 2017-05-19 Fixed bug#[12801](https://bugs.otrs.org/show_bug.cgi?id=12801) - Set Role validity state to invalid, doesn't effect permissions.

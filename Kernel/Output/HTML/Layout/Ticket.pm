@@ -373,24 +373,28 @@ sub AgentQueueListOption {
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ListType') eq 'list' ) {
 
         # transform data from Hash in Array because of ordering in frontend by Queue name
-        # it was a problem wit name like '(some_queue)'
+        # it was a problem with name like '(some_queue)'
         # see bug#10621 http://bugs.otrs.org/show_bug.cgi?id=10621
         my %QueueDataHash = %{ $Param{Data} || {} };
-
-        # get StandardResponsesStrg
-        my %ReverseQueueDataHash = reverse %QueueDataHash;
-        my @QueueDataArray       = map {
+        my @QueueDataArray = map {
             {
-                Key   => $ReverseQueueDataHash{$_},
-                Value => $_
+                Key   => $_,
+                Value => $QueueDataHash{$_},
             }
-        } sort values %QueueDataHash;
+        } sort { $QueueDataHash{$a} cmp $QueueDataHash{$b} } keys %QueueDataHash;
 
         # find index of first element in array @QueueDataArray for displaying in frontend
         # at the top should be element with ' $QueueDataArray[$_]->{Key} = 0' like "- Move -"
-        # when such element is found, it is moved at the top
-        my ($FirstElementIndex) = grep $QueueDataArray[$_]->{Key} == 0, 0 .. $#QueueDataArray || 0;
-        splice( @QueueDataArray, 0, 0, splice( @QueueDataArray, $FirstElementIndex, 1 ) );
+        # if such an element is found, it is moved to the top
+        my $MoveStr = $Self->{LanguageObject}->Translate('Move');
+        my $ValueOfQueueNoKey .= '- ' . $MoveStr . ' -';
+        my ($FirstElementIndex) = grep {
+            $QueueDataArray[$_]->{Value} eq '-'
+                || $QueueDataArray[$_]->{Value} eq $ValueOfQueueNoKey
+        } 0 .. scalar(@QueueDataArray) - 1;
+        if ($FirstElementIndex) {
+            splice( @QueueDataArray, 0, 0, splice( @QueueDataArray, $FirstElementIndex, 1 ) );
+        }
         $Param{Data} = \@QueueDataArray;
 
         $Param{MoveQueuesStrg} = $Self->BuildSelection(
