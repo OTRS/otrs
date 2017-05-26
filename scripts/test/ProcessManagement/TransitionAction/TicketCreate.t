@@ -82,6 +82,49 @@ $Self->True(
 
 my @AddedTickets = ($TicketID);
 
+my $ArticleInternalBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
+my $ArticlePhoneBackendObject    = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
+
+my $AgentArticleID = $ArticleInternalBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    SenderType           => 'agent',
+    IsVisibleForCustomer => 0,
+    UserID               => $UserID,
+    From                 => 'Some Agent <email@example.com>',
+    To                   => 'Some Customer A <customer-a@example.com>',
+    Subject              => 'Subject from Agent',
+    Body                 => 'A short text from the agent',
+    Charset              => 'ISO-8859-15',
+    MimeType             => 'text/plain',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+);
+
+$Self->True(
+    IsStringWithData($AgentArticleID),
+    "Article (SenderType = agent) created.",
+);
+
+my $CustomerArticleID = $ArticlePhoneBackendObject->ArticleCreate(
+    TicketID             => $TicketID,
+    SenderType           => 'customer',
+    IsVisibleForCustomer => 1,
+    UserID               => $UserID,
+    From                 => 'Some Agent <email@example.com>',
+    To                   => 'Some Customer A <customer-a@example.com>',
+    Subject              => 'Subject from Customer',
+    Body                 => 'A short text from the customer',
+    Charset              => 'ISO-8859-15',
+    MimeType             => 'text/plain',
+    HistoryType          => 'OwnerUpdate',
+    HistoryComment       => 'Some free text!',
+);
+
+$Self->True(
+    IsStringWithData($CustomerArticleID),
+    "Article (SenderType = customer) created.",
+);
+
 my $UserLogin = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserID => 1,
 );
@@ -819,6 +862,36 @@ my @Tests = (
                 ExcludeNotificationToUserID     => '43, 56',
                 ExcludeMuteNotificationToUserID => '43, 56',
                 UserID                          => $TestUserID,
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'Correct Ticket->OTRS smart tags',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::8::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                OwnerID       => 1,
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                SenderType           => 'agent',
+                IsVisibleForCustomer => 0,
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                Subject              => '<OTRS_AGENT_SUBJECT>',
+                Body                 => '<OTRS_CUSTOMER_BODY>',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'Some free text!',
+
+                NoAgentNotify => 0,
+
+                LinkAs   => 'Child',
+                TimeUnit => 123,
             },
         },
         Success => 1,

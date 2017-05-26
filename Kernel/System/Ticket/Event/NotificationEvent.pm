@@ -488,7 +488,11 @@ sub _NotificationFilter {
             }
             else {
 
-                if ( $Value eq $Param{Ticket}->{$Key} ) {
+                if (
+                    $Param{Ticket}->{$Key}
+                    && $Value eq $Param{Ticket}->{$Key}
+                    )
+                {
                     $Match = 1;
                     last VALUE;
                 }

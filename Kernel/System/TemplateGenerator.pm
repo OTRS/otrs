@@ -1016,7 +1016,7 @@ sub NotificationEvent {
         next KEY if !$Param{CustomerMessageParams}->{$Key};
 
         $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_DATA_$Key${End}/$Param{CustomerMessageParams}->{$Key}/gi;
-        $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$Key>/$Param{CustomerMessageParams}->{$Key}{$_}/gi;
+        $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$Key>/$Param{CustomerMessageParams}->{$Key}{$Key}/gi;
     }
 
     # do text/plain to text/html convert

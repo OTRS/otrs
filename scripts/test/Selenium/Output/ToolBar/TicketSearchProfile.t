@@ -155,7 +155,7 @@ $Selenium->RunTest(
             $Success,
             "Ticket is deleted - $TicketID"
         );
-    }
+        }
 );
 
 1;

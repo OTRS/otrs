@@ -16,9 +16,15 @@ use utf8;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
-    'Kernel::System::Log',
+    'Kernel::Config',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
+    'Kernel::System::Encode',
+    'Kernel::System::HTMLUtils',
+    'Kernel::System::Log',
+    'Kernel::System::TemplateGenerator',
+    'Kernel::System::Ticket::Article',
+    'Kernel::System::User',
 );
 
 sub _CheckParams {
@@ -132,6 +138,182 @@ sub _ReplaceTicketAttributes {
                 # this unfortunately will not let a combination of values to be replaced
                 $Param{Config}->{$Attribute} = $Param{Ticket}->{$TicketAttribute};
             }
+        }
+    }
+
+    return 1;
+}
+
+sub _ReplaceAdditionalAttributes {
+    my ( $Self, %Param ) = @_;
+
+    # get system default language
+    my %User;
+    if ( $Param{UserID} ) {
+        %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+            UserID => $Param{UserID},
+        );
+    }
+
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+    my $DefaultLanguage = $ConfigObject->Get('DefaultLanguage') || 'en';
+    my $Language        = $User{UserLanguage} || $DefaultLanguage;
+
+    # get and store richtext information
+    my $RichText = $ConfigObject->Get('Frontend::RichText');
+
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    # get last customer article
+    my @ArticleListCustomer = $ArticleObject->ArticleList(
+        TicketID   => $Param{Ticket}->{TicketID},
+        SenderType => 'customer',
+        OnlyLast   => 1,
+    );
+
+    my %ArticleCustomer;
+    if (@ArticleListCustomer) {
+        %ArticleCustomer = $ArticleObject->BackendForArticle( %{ $ArticleListCustomer[0] } )->ArticleGet(
+            %{ $ArticleListCustomer[0] },
+            UserID        => $Param{UserID},
+            DynamicFields => 0,
+        );
+    }
+
+    # get last agent article
+    my @ArticleListAgent = $ArticleObject->ArticleList(
+        TicketID   => $Param{Ticket}->{TicketID},
+        SenderType => 'agent',
+        OnlyLast   => 1,
+    );
+
+    my %ArticleAgent;
+    if (@ArticleListAgent) {
+        %ArticleAgent = $ArticleObject->BackendForArticle( %{ $ArticleListAgent[0] } )->ArticleGet(
+            %{ $ArticleListAgent[0] },
+            UserID        => $Param{UserID},
+            DynamicFields => 0,
+        );
+    }
+
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
+    # set the accounted time as part of the article information
+    ARTICLEDATA:
+    for my $ArticleData ( \%ArticleCustomer, \%ArticleAgent ) {
+
+        next ARTICLEDATA if !$ArticleData->{ArticleID};
+
+        my $AccountedTime = $ArticleObject->ArticleAccountedTimeGet(
+            ArticleID => $ArticleData->{ArticleID},
+        );
+
+        $ArticleData->{TimeUnit} = $AccountedTime;
+
+        my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+            ArticleID => $ArticleData->{ArticleID},
+            TicketID  => $Param{Ticket}->{TicketID},
+        );
+
+        # get richtext body for customer and agent article
+        if ($RichText) {
+
+            # check if there are HTML body attachments
+            my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID    => $ArticleData->{ArticleID},
+                UserID       => $Param{UserID},
+                OnlyHTMLBody => 1,
+            );
+
+            my @HTMLBodyAttachmentIDs = sort keys %AttachmentIndexHTMLBody;
+
+            if ( $HTMLBodyAttachmentIDs[0] ) {
+
+                my %AttachmentHTML = $ArticleBackendObject->ArticleAttachment(
+                    TicketID  => $Param{Ticket}->{TicketID},
+                    ArticleID => $ArticleData->{ArticleID},
+                    FileID    => $HTMLBodyAttachmentIDs[0],
+                    UserID    => $Param{UserID},
+                );
+
+                my $Charset = $AttachmentHTML{ContentType} || '';
+                $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+                $Charset =~ s/"|'//g;
+                $Charset =~ s/(.+?);.*/$1/g;
+
+                # convert html body to correct charset
+                my $Body = $Kernel::OM->Get('Kernel::System::Encode')->Convert(
+                    Text  => $AttachmentHTML{Content},
+                    From  => $Charset,
+                    To    => 'utf-8',
+                    Check => 1,
+                );
+
+                $Body = $HTMLUtilsObject->LinkQuote(
+                    String => $Body,
+                );
+
+                $Body = $HTMLUtilsObject->DocumentStrip(
+                    String => $Body,
+                );
+
+                $ArticleData->{Body} = $Body;
+            }
+        }
+    }
+
+    my $Start = '<';
+    my $End   = '>';
+
+    if ($RichText) {
+        $Start = $HTMLUtilsObject->ToHTML(
+            String => $Start,
+        );
+        $End = $HTMLUtilsObject->ToHTML(
+            String => $End,
+        );
+    }
+
+    my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+
+    # start replacing of OTRS smart tags
+    for my $Attribute ( sort keys %{ $Param{Config} } ) {
+
+        my $ConfigValue = $Param{Config}->{$Attribute};
+
+        if ( $ConfigValue && $ConfigValue =~ m{<OTRS_[A-Za-z0-9_]+>}smxi ) {
+
+            if ($RichText) {
+                $ConfigValue = $HTMLUtilsObject->ToHTML(
+                    String => $ConfigValue,
+                );
+            }
+
+            $ConfigValue = $TemplateGeneratorObject->_Replace(
+                RichText  => $RichText,
+                Text      => $ConfigValue,
+                Data      => \%ArticleCustomer,
+                DataAgent => \%ArticleAgent,
+                TicketID  => $Param{Ticket}->{TicketID},
+                UserID    => $Param{UserID},
+                Language  => $Language,
+            );
+
+            # Convert quoted body to Ascii and create a completed
+            # html doc for correct displaying.
+            if ( $RichText && $Attribute eq 'Body' ) {
+
+                $ConfigValue = $HTMLUtilsObject->ToAscii(
+                    String => $ConfigValue,
+                );
+
+                $ConfigValue = $HTMLUtilsObject->DocumentComplete(
+                    String  => $ConfigValue,
+                    Charset => 'utf-8',
+                );
+            }
+
+            $Param{Config}->{$Attribute} = $ConfigValue;
         }
     }
 
