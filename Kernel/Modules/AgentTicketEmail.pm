@@ -592,6 +592,7 @@ sub Run {
 
     # deliver signature
     elsif ( $Self->{Subaction} eq 'Signature' ) {
+        my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
         my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' );
         if ( !$QueueID ) {
             my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
@@ -601,7 +602,10 @@ sub Run {
         # start with empty signature (no queue selected) - if we have a queue, get the sig.
         my $Signature = '';
         if ($QueueID) {
-            $Signature = $Self->_GetSignature( QueueID => $QueueID );
+            $Signature = $Self->_GetSignature(
+                QueueID        => $QueueID,
+                CustomerUserID => $CustomerUser,
+            );
         }
         my $MimeType = 'text/plain';
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
@@ -660,11 +664,6 @@ sub Run {
             $GetParam{From} = $Queue{Email};
         }
 
-        # get sender queue from
-        my $Signature = '';
-        if ($NewQueueID) {
-            $Signature = $Self->_GetSignature( QueueID => $NewQueueID );
-        }
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
@@ -701,6 +700,15 @@ sub Run {
             elsif ( $Number == 2 && $Item ) {
                 $ExpandCustomerName = 2;
             }
+        }
+
+        # get sender queue from
+        my $Signature = '';
+        if ($NewQueueID) {
+            $Signature = $Self->_GetSignature(
+                QueueID        => $NewQueueID,
+                CustomerUserID => $CustomerUser
+            );
         }
 
         # attachment delete
@@ -1440,9 +1448,9 @@ sub Run {
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
-        my $Dest           = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
-        my $CustomerUser   = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
-        my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' ) || '';
+        my $Dest           = $Self->{ParamObject}->GetParam( Param => 'Dest' )                 || '';
+        my $CustomerUser   = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
+        my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' )       || '';
 
         # get From based on selected queue
         my $QueueID = '';
@@ -1476,7 +1484,10 @@ sub Run {
         }
         my $Signature = '';
         if ($QueueID) {
-            $Signature = $Self->_GetSignature( QueueID => $QueueID );
+            $Signature = $Self->_GetSignature(
+                QueueID        => $QueueID,
+                CustomerUserID => $CustomerUser,
+            );
         }
         my $Users = $Self->_GetUsers(
             %GetParam,

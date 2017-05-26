@@ -1556,10 +1556,12 @@ sub _Replace {
     $Tag  = $Start . 'OTRS_CUSTOMER_';
     $Tag2 = $Start . 'OTRS_CUSTOMER_DATA_';
 
-    if ( $Ticket{CustomerUserID} ) {
+    if ( $Ticket{CustomerUserID} || $Param{Data}->{CustomerUserID} ) {
+
+        my $CustomerUserID = $Param{Data}->{CustomerUserID} || $Ticket{CustomerUserID};
 
         my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-            User => $Ticket{CustomerUserID},
+            User => $CustomerUserID,
         );
 
         # html quoting of content
