@@ -373,7 +373,8 @@ Core.App = (function (TargetNS) {
         var HTMLEntities = {
             '&': '&amp;',
             '<': '&lt;',
-            '>': '&gt;'
+            '>': '&gt;',
+            '"': '&quot;'
         };
 
         if (!StringToEscape) {
