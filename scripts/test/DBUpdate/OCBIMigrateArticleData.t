@@ -263,7 +263,10 @@ $Self->True(
 );
 
 my $RunSuccess = $DBUpdateObject->Run(
-    RowsPerLoop => 10,
+    RowsPerLoop        => 10,
+    CommandlineOptions => {
+        Verbose => 1,
+    },
 );
 
 $Self->Is(

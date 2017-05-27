@@ -30,6 +30,7 @@ sub Run {
 
     my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
     my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
+    my $Verbose   = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my %TablesData = (
         'article' => {
@@ -103,6 +104,18 @@ sub Run {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $CommunicationChannels{ $Row[1] } = $Row[0];
     }
+
+    my $MaxVerboseOutputs    = 20;
+    my $ArticlesForMigration = $TablesData{article_data_mime}->{Count} - $TablesData{article}->{Count};
+    my $VerboseRange         = $ArticlesForMigration / $MaxVerboseOutputs;
+
+    if ($Verbose) {
+
+        print STDERR
+            "\n $ArticlesForMigration articles will be migrated \n";
+    }
+    my $AlreadyMigratedArticles = 0;
+    my $VerboseLoop             = 1;
 
     # TODO:OCBI: This number might be changed or even configurable
     my $RowsPerLoop = $Param{RowsPerLoop} || 1000;
@@ -188,14 +201,36 @@ sub Run {
         }
 
         $StartInEntry += $RowsPerLoop;
+        $AlreadyMigratedArticles += scalar @Data;
+
+        # Add some meaningful information
+        if ( $Verbose && ( $AlreadyMigratedArticles > $VerboseLoop * $VerboseRange ) ) {
+
+            print STDERR
+                "\n $AlreadyMigratedArticles of $ArticlesForMigration articles migrated. \n";
+            $VerboseLoop++;
+        }
+
     }
 
+    if ($Verbose) {
+        print STDERR "\n Reseting auto-incremental if needed for article table. \n";
+    }
     $Self->_ResetAutoIncrementField();
 
+    if ($Verbose) {
+        print STDERR "\n Performing needed actions on article_data_mime table. \n";
+    }
     $Self->_UpdateArticleDataMimeTable();
 
+    if ($Verbose) {
+        print STDERR "\n Performing needed actions on article_data_mime_plain table. \n";
+    }
     $Self->_UpdateArticleDataMimePlainTable();
 
+    if ($Verbose) {
+        print STDERR "\n Performing needed actions on article_data_mime_attachment table. \n";
+    }
     $Self->_UpdateArticleDataMimeAttachmentTable();
 
     return 1;

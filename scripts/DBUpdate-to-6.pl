@@ -43,11 +43,13 @@ my %Options = (
     Help           => 0,
     NonInteractive => 0,
     Timing         => 0,
+    Verbose        => 0,
 );
 Getopt::Long::GetOptions(
     'help',            \$Options{Help},
     'non-interactive', \$Options{NonInteractive},
     'timing',          \$Options{Timing},
+    'verbose',         \$Options{Verbose},
 );
 
 {
@@ -62,6 +64,7 @@ Usage: $0
         --help              display this help
         --non-interactive   skip interactive input and display steps to execute after script has been executed
         --timing            shows how much time is consumed on each task execution in the script
+        --verbose           shows details on some migration steps, not just failing.
 
 EOF
         exit 1;
