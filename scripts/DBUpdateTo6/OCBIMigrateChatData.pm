@@ -160,9 +160,7 @@ sub Run {
             return;
         }
 
-        my $DataSize = scalar @Data;
-
-        $StartInEntry += $DataSize;
+        $StartInEntry += $RowsPerLoop;
     }
 
     # Delete old chat articles.
