@@ -137,6 +137,63 @@ $Self->True(
 # TODO: Adde some test data in article table, to have some values for the 3 new columns:
 # a_communication_channel_id, a_sender_type_id, a_is_visible_for_customer
 # also add some data into the ticket_history table whcoh reference to the to be mapped ticket_history_types
+$XMLString = <<"EOF";
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+    <Insert Table="ticket">
+        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="tn" Type="Quote">2017050210100001</Data>
+        <Data Key="queue_id">2</Data>
+        <Data Key="ticket_lock_id">1</Data>
+        <Data Key="user_id">1</Data>
+        <Data Key="responsible_user_id">1</Data>
+        <Data Key="ticket_priority_id">3</Data>
+        <Data Key="ticket_state_id">1</Data>
+        <Data Key="title" Type="Quote">Article data migration test</Data>
+        <Data Key="create_time_unix">1436949031</Data>
+        <Data Key="timeout">0</Data>
+        <Data Key="until_time">0</Data>
+        <Data Key="escalation_time">0</Data>
+        <Data Key="escalation_response_time">0</Data>
+        <Data Key="escalation_update_time">0</Data>
+        <Data Key="escalation_solution_time">0</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+EOF
+
+for my $Index ( 1 .. 40 ) {
+
+    my $HistoryID = $Index + 3;
+    $XMLString .= <<"EOF";
+    <Insert Table="ticket_history">
+        <Data Key="id" Type="AutoIncrement">$HistoryID</Data>
+        <Data Key="name" Type="Quote">HistoryName $HistoryID</Data>
+        <Data Key="ticket_id">2</Data>
+        <Data Key="history_type_id">$ArticleCreateHistoryTypeID</Data>
+        <Data Key="type_id">1</Data>
+        <Data Key="queue_id">1</Data>
+        <Data Key="owner_id">1</Data>
+        <Data Key="priority_id">1</Data>
+        <Data Key="state_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+EOF
+}
+
+$XMLString .= <<"EOF";
+</database>
+EOF
+
+# Execute the the article insert XML string.
+$Helper->DatabaseXMLExecute(
+    XML => $XMLString,
+);
 
 # initiate the migration of the ticket history real test.
 my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigrateTicketHistory');
@@ -146,7 +203,9 @@ $Self->True(
 );
 
 # run the ticket_history migration
-my $RunSuccess = $DBUpdateObject->Run();
+my $RunSuccess = $DBUpdateObject->Run(
+    RowsPerLoop => 10,
+);
 
 $Self->True(
     $RunSuccess,

@@ -137,32 +137,57 @@ sub Run {
         }
     }
 
-    # copy a_sender_type_id, a_communication_channel_id, a_is_visible_for_customer
-    # from article table to ticket_history table
-    return if !$DBObject->Do(
-        SQL => "
-            UPDATE ticket_history
-            SET a_sender_type_id = (
-                SELECT article.article_sender_type_id
-                FROM article
-                WHERE article.id = article_id
-
-            ),
-            a_communication_channel_id = (
-                SELECT article.communication_channel_id
-                FROM article
-                WHERE article.id = article_id
-
-            ),
-            a_is_visible_for_customer = (
-                SELECT article.is_visible_for_customer
-                FROM article
-                WHERE article.id = article_id
-
-            )
-            WHERE article_id IS NOT NULL
-        ",
+    # Get last id.
+    return if !$DBObject->Prepare(
+        SQL => "SELECT MAX(id) FROM ticket_history",
     );
+
+    my $HistoryMaxID;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $HistoryMaxID = $Row[0] || 0;
+    }
+
+    # TODO:OCBI: This number might be changed or even configurable
+    my $RowsPerLoop = $Param{RowsPerLoop} || 10000;
+
+    my $LowLimit = 0;
+
+    while ( $LowLimit < $HistoryMaxID ) {
+
+        # Get the complete set of Article entries.
+        my $HighLimit = $LowLimit + 1 + $RowsPerLoop;
+
+        # copy a_sender_type_id, a_communication_channel_id, a_is_visible_for_customer
+        # from article table to ticket_history table
+        return if !$DBObject->Do(
+            SQL => "
+                UPDATE ticket_history
+                SET a_sender_type_id = (
+                    SELECT article.article_sender_type_id
+                    FROM article
+                    WHERE article.id = article_id
+
+                ),
+                a_communication_channel_id = (
+                    SELECT article.communication_channel_id
+                    FROM article
+                    WHERE article.id = article_id
+
+                ),
+                a_is_visible_for_customer = (
+                    SELECT article.is_visible_for_customer
+                    FROM article
+                    WHERE article.id = article_id
+
+                )
+                WHERE article_id IS NOT NULL
+                AND article_id > $LowLimit
+                AND article_id < $HighLimit
+            ",
+        );
+
+        $LowLimit += $RowsPerLoop;
+    }
 
     return 1;
 }

@@ -545,7 +545,8 @@ sub _UpdateArticleDataMimeTable {
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE article_data_mime
-            SET article_id = id',
+            SET article_id = id
+            WHERE id IS NOT NULL',
     );
 
 # recreate indexes and foreign keys, and drop no longer used columns
