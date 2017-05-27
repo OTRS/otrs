@@ -407,6 +407,12 @@ CREATE TABLE article (
     INDEX article_communication_channel_id (communication_channel_id),
     INDEX article_ticket_id (ticket_id)
 );
+# ----------------------------------------------------------
+#  alter table article_data_mime
+# ----------------------------------------------------------
+ALTER TABLE article_data_mime ADD article_id BIGINT NULL;
+UPDATE article_data_mime SET article_id = 0 WHERE article_id IS NULL;
+ALTER TABLE article_data_mime CHANGE article_id article_id BIGINT NOT NULL;
 SET @IndexExists := (SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = 'ticket_history' AND index_name = 'ticket_history_article_id');
 SET @IndexSQLStatement := IF( @IndexExists = 0, 'CREATE INDEX ticket_history_article_id ON ticket_history (article_id)', 'SELECT ''INFO: Index ticket_history_article_id already exists, skipping.''' );
 PREPARE IndexStatement FROM @IndexSQLStatement;

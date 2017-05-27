@@ -353,6 +353,12 @@ IF NOT EXISTS (
 END IF;
 END$$;
 ;
+-- ----------------------------------------------------------
+--  alter table article_data_mime
+-- ----------------------------------------------------------
+ALTER TABLE article_data_mime ADD article_id BIGINT NULL;
+UPDATE article_data_mime SET article_id = 0 WHERE article_id IS NULL;
+ALTER TABLE article_data_mime ALTER article_id SET NOT NULL;
 DO $$
 BEGIN
 IF NOT EXISTS (

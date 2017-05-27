@@ -433,6 +433,11 @@ ArticleDataTables:
         </ForeignKey>
     </Table>
 
+    <!-- Include new article_id field -->
+    <TableAlter Name="article_data_mime">
+        <ColumnAdd Name="article_id" Required="true" Type="BIGINT"/>
+    </TableAlter>
+
     <!-- recreation of needed foreign keys and indexes for the tables article_data_mime, article_data_mime_plain
     and article_data_mime_attachment is done in a later step in scripts::DBUpdateTo6::MigrateArticleData -->
 

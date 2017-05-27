@@ -1005,6 +1005,12 @@ END;
 /
 --
 ;
+-- ----------------------------------------------------------
+--  alter table article_data_mime
+-- ----------------------------------------------------------
+ALTER TABLE article_data_mime ADD article_id NUMBER (20, 0) NULL;
+UPDATE article_data_mime SET article_id = 0 WHERE article_id IS NULL;
+ALTER TABLE article_data_mime MODIFY article_id NUMBER (20, 0) NOT NULL;
 BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX ticket_history_article_id ON ticket_history (article_id)';
 EXCEPTION

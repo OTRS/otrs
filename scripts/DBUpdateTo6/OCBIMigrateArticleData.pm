@@ -531,15 +531,6 @@ Returns 1 on success
 sub _UpdateArticleDataMimeTable {
     my ( $Self, %Param ) = @_;
 
-    # add article_id column
-    my $XMLString = '
-        <TableAlter Name="article_data_mime">
-            <ColumnAdd Name="article_id" Required="true" Type="BIGINT"/>
-        </TableAlter>
-    ';
-
-    return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-
     # copy values from id column to article_id column
     # so they are the same as the id in article table.
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
@@ -551,7 +542,7 @@ sub _UpdateArticleDataMimeTable {
 
 # recreate indexes and foreign keys, and drop no longer used columns
 # TODO: Maybe check if there are custom article types in the system and delay the dropping of article_type_id and sender_type_id
-    $XMLString = '
+    my $XMLString = '
         <TableAlter Name="article_data_mime">
             <IndexCreate Name="article_data_mime_message_id_md5">
                 <IndexColumn Name="a_message_id_md5"/>
