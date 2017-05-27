@@ -633,7 +633,7 @@ sub LinkCleanup {
     );
 
     # delete cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Cleanup(
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
     );
 
