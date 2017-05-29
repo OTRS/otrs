@@ -1,0 +1,172 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Skin overrides
+ */
+
+@media screen,projection,tv,handheld {
+
+* {
+    text-shadow: none !important;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.WidgetSimple {
+    border: 1px solid #333;
+}
+
+.WidgetSimple > .Header,
+.WidgetSimple.Collapsed.AnimationRunning > .Header {
+    background: #333;
+}
+
+.WidgetSimple > .Header *,
+.WidgetAction:hover i,
+.WidgetAction a:focus i,
+.MessageBox.Error p, .MessageBox.Error a,
+#Navigation > li > a {
+    color: #fff;
+}
+
+.WidgetAction.Toggle i,
+#ToolBar a,
+#Navigation > .Active > ul > li > a {
+    color: #fff !important;
+}
+
+.DataTable,
+.DataTable thead th,
+.DataTable tbody td,
+.TableSmall,
+.TableSmall thead th,
+.TableSmall tbody td,
+input[type=text],
+input[type=password],
+input[type=email],
+textarea,
+select[multiple=multiple],
+#cke_RichText,
+ul.Tablelike,
+.FilterInputContainer {
+    border-color: #333 !important;
+}
+
+.DataTable tbody td,
+.TableSmall tbody td {
+    border-bottom: 1px solid #333;
+}
+
+.DataTable tbody tr:last-child td,
+.TableSmall tbody tr:last-child td {
+    border-bottom: 0px;
+}
+
+.DataTable tr:nth-child(even) td,
+.TableSmall tr:nth-child(even) td {
+    background-color: #ddd;
+}
+
+.MessageBox p,
+.MessageBox a,
+fieldset.TableLike > label,
+fieldset.TableLike > .Row > label,
+.Tab.Actions li a,
+.Tab.Actions li.Selected a,
+.FieldExplanation,
+.DataTable tr:nth-child(even) td a,
+a,
+.AsteriskExplanation,
+#Footer a {
+    color: #000;
+}
+
+.WidgetSimple.Setting.IsLockedByMe input,
+.WidgetSimple.Setting.IsLockedByMe textarea,
+.WidgetSimple.Setting.IsLockedByMe label,
+.WidgetSimple.Setting .SettingWrapper > .SettingDescription,
+.WidgetSimple.Setting .SettingWrapper > form,
+#Navigation > .Active > ul > li:hover * {
+    color: #000 !important;
+}
+
+.Tab.Actions li.Selected a,
+form label.Mandatory,
+a {
+    text-decoration: underline;
+}
+
+form label.Mandatory span {
+    text-decoration: none;
+}
+
+.DataTable tbody tr:hover td,
+.TableSmall tbody tr:hover td,
+.DataTable tbody tr:active td.Clickable,
+.TableSmall tbody tr:active td.Clickable,
+.DataTable tr:nth-child(even):hover td.Highlight {
+    background: #000 !important;
+}
+
+.DataTable tbody tr:hover td *,
+.TableSmall tbody tr:hover td *,
+.DataTable tbody tr:active td.Clickable *,
+.TableSmall tbody tr:active td.Clickable *,
+.DataTable tr:nth-child(even):hover td.Highlight *,
+.WidgetSimple.Setting.IsLockedByMe h2 label,
+#Navigation ul li a {
+    color: #fff !important;
+}
+
+.CallForAction,
+.cke_dialog_footer_buttons a.cke_dialog_ui_button {
+    background: #000;
+    border-color: #000;
+}
+
+.CallForAction:active,
+.CallForAction:hover,
+.CallForAction:focus,
+#Navigation > .Active > ul > li:hover {
+    background: #fff;
+}
+
+.CallForAction:active span,
+.CallForAction:hover span,
+.CallForAction:focus span {
+    color: #000;
+}
+
+.CallForAction span,
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span,
+.jstree-InputField .jstree-wholerow-clicked ~ .jstree-anchor {
+    color: #fff;
+}
+
+div.InputField_Selection div.Text,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
+    background: #000;
+    color: #fff;
+}
+
+.Preferences .WidgetSimple.Setting.IsLockedByMe {
+    border-left: 1px solid #333 !important;
+}
+
+.SettingsWidget label {
+    color: #000 !important;
+    text-decoration: line-through;
+}
+
+.SettingsWidget label.Checked {
+    text-decoration: none;
+}
+
+} /* end @media */
