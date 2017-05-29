@@ -84,7 +84,9 @@ fieldset.TableLike > .Row > label,
 .DataTable tr:nth-child(even) td a,
 a,
 .AsteriskExplanation,
-#Footer a {
+#Footer a,
+.OverviewMedium table.Infos td label,
+.OverviewLarge .Infos table td label {
     color: #000;
 }
 
