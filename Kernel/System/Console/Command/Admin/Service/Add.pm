@@ -49,27 +49,32 @@ sub Configure {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    # check if service already exists
+    # Get all services.
     $Self->{Name} = $Self->GetOption('name');
     my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
         Valid  => 0,
         UserID => 1,
     );
     my %Reverse = reverse %ServiceList;
-    if ( $Reverse{ $Self->{Name} } ) {
-        die "Service '$Self->{Name}' already exists!\n";
-    }
 
-    # check if parent exists (if given)
     $Self->{ParentName} = $Self->GetOption('parent-name');
     if ( $Self->{ParentName} ) {
+
+        # Check if Parent service exists.
         $Self->{ParentID} = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
             Name   => $Self->{ParentName},
             UserID => 1,
         );
-        if ( !$Self->{ParentID} ) {
-            die "Parent service $Self->{ParentName} does not exist.\n";
-        }
+        die "Parent service $Self->{ParentName} does not exist.\n" if !$Self->{ParentID};
+
+        # Check if Parent::Child service combination exists.
+        my $ServiceName = $Self->{ParentName} . '::' . $Self->{Name};
+        die "Service '$ServiceName' already exists!\n" if $Reverse{$ServiceName};
+    }
+    else {
+
+        # Check if service already exists.
+        die "Service '$Self->{Name}' already exists!\n" if $Reverse{ $Self->{Name} };
     }
 
     return;
