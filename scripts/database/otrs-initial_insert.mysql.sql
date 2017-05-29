@@ -229,7 +229,7 @@ INSERT INTO follow_up_possible (id, name, comments, valid_id, create_by, create_
 # ----------------------------------------------------------
 INSERT INTO follow_up_possible (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'new ticket', 'Follow-ups for closed tickets are not possible. A new ticket will be created..', 1, 1, current_timestamp, 1, current_timestamp);
+    (3, 'new ticket', 'Follow-ups for closed tickets are not possible. A new ticket will be created.', 1, 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table queue
 # ----------------------------------------------------------
