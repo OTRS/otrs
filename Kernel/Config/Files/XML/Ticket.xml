@@ -12670,7 +12670,7 @@ Thanks for your help!
         </Value>
     </Setting>
     <Setting Name="Frontend::NavBarModule###7-AgentTicketService" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).</Description>
+        <Description Translatable="1">Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).</Description>
         <Navigation>Frontend::Agent::NavBarModule</Navigation>
         <Value>
             <Hash>
