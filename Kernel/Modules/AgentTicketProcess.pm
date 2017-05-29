@@ -4877,7 +4877,7 @@ sub _StoreActivityDialog {
             push @Notify, {
                 Priority => 'Error',
                 Data     => $LayoutObject->{LanguageObject}->Translate(
-                    'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.',
+                    'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.',
                     $TicketHook,
                     $TicketHookDivider,
                     $Ticket{TicketNumber},
