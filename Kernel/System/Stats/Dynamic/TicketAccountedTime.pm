@@ -1190,7 +1190,7 @@ sub _ReportingValues {
     if ( $SearchAttributes->{AccountedByAgent} ) {
         my $SQLAccountedByAgentInCondition = $Self->_QueryInCondition(
             Key       => 'create_by',
-            Values    => $Param{AccountedByAgent},
+            Values    => $SearchAttributes->{AccountedByAgent},
             QuoteType => 'Integer',
             BindMode  => 0,
         );
