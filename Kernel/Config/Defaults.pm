@@ -1182,6 +1182,7 @@ sub LoadDefaults {
         'PreferenceGroup'  => 'UserProfile',
         'Key'     => 'Frontend theme',
         'Label'   => 'Theme',
+        'Desc'    => 'Select your preferred theme for OTRS.',
         'Module'  => 'Kernel::Output::HTML::Preferences::Theme',
         'PrefKey' => 'UserTheme',
         'Prio'    => '3000',
