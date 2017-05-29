@@ -3764,6 +3764,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Spelling Dictionary</Item>
+                <Item Key="Desc" Translatable="1">Select your default spelling dictionary.</Item>
                 <Item Key="Key" Translatable="1">Default spelling dictionary</Item>
                 <Item Key="Data">
                     <Hash>
@@ -3857,6 +3858,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Theme</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Theme</Item>
+                <Item Key="Desc" Translatable="1">Select your preferred theme for OTRS.</Item>
                 <Item Key="Key" Translatable="1">Frontend theme</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">3000</Item>
@@ -4557,6 +4559,7 @@ via the Preferences button after logging in.
                 <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Google Authenticator</Item>
                 <Item Key="Key" Translatable="1">Shared Secret</Item>
+                <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication.</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
                 <Item Key="Prio">1100</Item>
@@ -4590,7 +4593,8 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Theme</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Theme</Item>
-                <Item Key="Key" Translatable="1">Select your frontend Theme.</Item>
+                <Item Key="Desc" Translatable="1">Select your preferred theme for OTRS.</Item>
+                <Item Key="Key" Translatable="1">Frontend theme.</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Active">0</Item>
@@ -4622,7 +4626,8 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::PGP</Item>
                 <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">PGP Key</Item>
-                <Item Key="Key" Translatable="1">PGP Key Upload</Item>
+                <Item Key="Desc" Translatable="1">Upload your PGP key.</Item>
+                <Item Key="Key" Translatable="1">PGP Key</Item>
                 <Item Key="PrefKey">UserPGPKey</Item>
                 <Item Key="Prio">10000</Item>
                 <Item Key="Active">1</Item>
@@ -4638,7 +4643,8 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::SMIME</Item>
                 <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">S/MIME Certificate</Item>
-                <Item Key="Key" Translatable="1">S/MIME Certificate Upload</Item>
+                <Item Key="Desc" Translatable="1">Upload your S/MIME certificate.</Item>
+                <Item Key="Key" Translatable="1">S/MIME Certificate</Item>
                 <Item Key="PrefKey">UserSMIMEKey</Item>
                 <Item Key="Prio">11000</Item>
                 <Item Key="Active">1</Item>
