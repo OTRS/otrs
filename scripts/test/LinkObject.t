@@ -3053,7 +3053,9 @@ for my $ObjectCount ( 0 .. 49 ) {
                     Length     => 1,
                     Dictionary => [ 0 .. 49 ],
                     )
-            ); $Count > 0; --$Count
+            );
+            $Count > 0;
+            --$Count
             )
         {
             ++$NumberOfLinks;
