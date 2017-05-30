@@ -437,10 +437,6 @@ sub Do {
     # - This avoids time inconsistencies of app and db server
     # - This avoids timestamp problems in Postgresql servers where
     #   the timestamp is sometimes 1 second off the perl timestamp.
-    my $DateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-    );
-    my $Timestamp = $DateTimeObject->ToString();
 
     $Param{SQL} =~ s{
         (?<= \s | \( | , )  # lookahead
@@ -448,8 +444,15 @@ sub Do {
         (?=  \s | \) | , )  # lookbehind
     }
     {
-        '$Timestamp'
-    }xmsg;
+        # Only calculate timestamp if it is really needed (on first invocation or if the system time changed)
+        #   for performance reasons.
+        my $GMTime = gmtime;
+        if (!$Self->{TimestampEpoch} || $Self->{TimestampEpoch} != $GMTime) {
+            $Self->{TimestampEpoch} = $GMTime;
+            $Self->{Timestamp}      = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
+        }
+        "'$Self->{Timestamp}'";
+    }exmsg;
 
     # debug
     if ( $Self->{Debug} > 0 ) {
