@@ -989,12 +989,23 @@ sub _SendRecipientNotification {
         );
 
         # get last notification sent ticket history entry for this transport and this user
-        my $LastNotificationHistory = first {
-            $_->{HistoryType} eq 'SendAgentNotification'
-                && $_->{Name} eq
-                "\%\%$Param{Notification}->{Name}\%\%$Param{Recipient}->{UserLogin}\%\%$Param{Transport}"
+        my $LastNotificationHistory;
+        if ( defined $Param{Recipient}->{Source} && $Param{Recipient}->{Source} eq 'CustomerUser' ) {
+            $LastNotificationHistory = first {
+                $_->{HistoryType} eq 'SendCustomerNotification'
+                    && $_->{Name} eq
+                    "\%\%$Param{Recipient}->{UserEmail}"
+            }
+            reverse @HistoryLines;
         }
-        reverse @HistoryLines;
+        else {
+            $LastNotificationHistory = first {
+                $_->{HistoryType} eq 'SendAgentNotification'
+                    && $_->{Name} eq
+                    "\%\%$Param{Notification}->{Name}\%\%$Param{Recipient}->{UserLogin}\%\%$Param{Transport}"
+            }
+            reverse @HistoryLines;
+        }
 
         if ( $LastNotificationHistory && $LastNotificationHistory->{CreateTime} ) {
 

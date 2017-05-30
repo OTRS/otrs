@@ -1,4 +1,5 @@
 #5.0.20 2017-??-??
+ - 2017-05-30 Fixed bug#[12740](https://bugs.otrs.org/show_bug.cgi?id=12740) - Notification to customer of the ticket is send more than once.
  - 2017-05-30 Fixed bug#[12745](https://bugs.otrs.org/show_bug.cgi?id=12745) - AgentTicketSearch missing 'Extended' param in Article and Ticket get methods.
  - 2017-05-30 Fixed bug#[12819](https://bugs.otrs.org/show_bug.cgi?id=12819) - Unable to select queue if it contains two spaces.
  - 2017-05-30 Fixed bug#[12855](https://bugs.otrs.org/show_bug.cgi?id=12855) - Webservice HTTPBasicAuth User and Password Field are not escaped correct.

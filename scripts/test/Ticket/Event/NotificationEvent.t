@@ -965,6 +965,25 @@ my @Tests = (
         Success => 1,
     },
     {
+        Name => 'RecipientCustomer + OncePerDay',
+        Data => {
+            Events                    => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients                => ['Customer'],
+            NotificationArticleTypeID => [$ArticleTypeIntID],
+            OncePerDay                => [1],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [],
+        Success         => 1,
+    },
+    {
         Name => 'RecipientEmail filter by unchecked dynamic field',
         Data => {
             Events         => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
