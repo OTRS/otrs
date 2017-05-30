@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-05-30 Fixed bug#[12837](https://bugs.otrs.org/show_bug.cgi?id=12837) - Existing Dynamic Field's RegEx config cannot be removed.	
  - 2017-05-29 Added a high-contrast skin for visually impaired users to ease usability.
  - 2017-05-26 Added PostMaster state keep feature via additional xheaders.
  - 2017-05-26 Added information about the ticket responsible to medium and preview view in ticket lists, thanks to frennkie.

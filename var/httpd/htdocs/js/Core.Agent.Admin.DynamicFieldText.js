@@ -123,6 +123,12 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
             return false;
         });
 
+        // Bind click event to remove button for existing RegExs.
+        $('a.RemoveRegEx').on('click', function () {
+            TargetNS.RemoveRegEx($(this).attr('id'));
+            return false;
+        });
+
         Core.Agent.Admin.DynamicField.ValidationInit();
     };
 
