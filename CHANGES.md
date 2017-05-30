@@ -123,6 +123,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.20 2017-??-??
+ - 2017-05-30 Fixed bug#[12740](https://bugs.otrs.org/show_bug.cgi?id=12740) - Notification to customer of the ticket is send more than once.
  - 2017-05-30 Fixed bug#[12819](https://bugs.otrs.org/show_bug.cgi?id=12819) - Unable to select queue if it contains two spaces.
  - 2017-05-30 Fixed bug#[12855](https://bugs.otrs.org/show_bug.cgi?id=12855) - Webservice HTTPBasicAuth User and Password Field are not escaped correct.
  - 2017-05-29 Fixed bug#[12735](https://bugs.otrs.org/show_bug.cgi?id=12735) - OTRS console does not allow adding of sub services when their name exists as a service.
