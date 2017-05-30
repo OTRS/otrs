@@ -111,7 +111,8 @@ Core.Agent.TicketAction = (function (TargetNS) {
             Core.Data.Get($Link.closest('tr'), 'Email')
             .replace(/&quot;/g, '"')
             .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>');
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&');
         $Element.val(NewValue);
 
         Length = $Element.val().length;
