@@ -446,9 +446,9 @@ sub Do {
     {
         # Only calculate timestamp if it is really needed (on first invocation or if the system time changed)
         #   for performance reasons.
-        my $GMTime = gmtime;
-        if (!$Self->{TimestampEpoch} || $Self->{TimestampEpoch} != $GMTime) {
-            $Self->{TimestampEpoch} = $GMTime;
+        my $Epoch = time;
+        if (!$Self->{TimestampEpoch} || $Self->{TimestampEpoch} != $Epoch) {
+            $Self->{TimestampEpoch} = $Epoch;
             $Self->{Timestamp}      = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
         }
         "'$Self->{Timestamp}'";
