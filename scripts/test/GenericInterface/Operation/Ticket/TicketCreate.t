@@ -24,15 +24,13 @@ use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStri
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# Skip SSL certificate verification.
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        SkipSSLVerify => 1,
+        SkipSSLVerify     => 1,
+        DisableAsyncCalls => 1,
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-# $Helper->FixedTimeSet();
 
 my $RandomID = $Helper->GetRandomID();
 

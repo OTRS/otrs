@@ -99,6 +99,10 @@ sub new {
 
     }
 
+    if ( $Param{DisableAsyncCalls} ) {
+        $Self->DisableAsyncCalls();
+    }
+
     return $Self;
 }
 
@@ -755,6 +759,24 @@ sub UseTmpArticleDir {
     );
 
     $Self->{TmpArticleDir} = $TmpArticleDir;
+
+    return 1;
+}
+
+=head2 DisableAsyncCalls()
+
+Disable scheduling of asynchronous tasks using C<AsynchronousExecutor> component of OTRS daemon.
+
+=cut
+
+sub DisableAsyncCalls {
+    my ( $Self, %Param ) = @_;
+
+    $Self->ConfigSettingChange(
+        Valid => 1,
+        Key   => 'DisableAsyncCalls',
+        Value => 1,
+    );
 
     return 1;
 }

@@ -16,7 +16,11 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
-
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                DisableAsyncCalls => 1,
+            },
+        );
         my $Helper      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
@@ -249,26 +253,6 @@ $Selenium->RunTest(
             $Success,
             "Deleted test group - $GroupID"
         );
-
-        # Remove scheduled asynchronous tasks from DB, as they may interfere with tests run later.
-        my @TaskIDs;
-        my @AllTasks = $SchedulerDBObject->TaskList(
-            Type => 'AsynchronousExecutor',
-        );
-        for my $Task (@AllTasks) {
-            if ( $Task->{Name} eq 'Kernel::System::Calendar-TicketAppointmentProcessCalendar()' ) {
-                push @TaskIDs, $Task->{TaskID};
-            }
-        }
-        for my $TaskID (@TaskIDs) {
-            my $Success = $SchedulerDBObject->TaskDelete(
-                TaskID => $TaskID,
-            );
-            $Self->True(
-                $Success,
-                "TaskDelete - Removed scheduled asynchronous task $TaskID",
-            );
-        }
 
         # Make sure cache is correct.
         for my $Cache (qw(Calendar Queue)) {
