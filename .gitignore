@@ -32,16 +32,7 @@ var/tmp/*
 var/httpd/htdocs/SeleniumScreenshots/
 var/httpd/htdocs/js/thirdparty/jslint
 var/httpd/htdocs/js/js-cache
-var/httpd/htdocs/js/js-cache/*
-var/httpd/htdocs/skins/Agent/default/css-cache
-var/httpd/htdocs/skins/Agent/default/css-cache/*
-var/httpd/htdocs/skins/Agent/ivory/css-cache
-var/httpd/htdocs/skins/Agent/ivory/css-cache/*
-var/httpd/htdocs/skins/Agent/ivory-slim/css-cache
-var/httpd/htdocs/skins/Agent/ivory-slim/css-cache/*
-var/httpd/htdocs/skins/Agent/slim/css-cache/*
-var/httpd/htdocs/skins/Customer/default/css-cache/*
-var/httpd/htdocs/skins/Customer/ivory/css-cache/*
+var/httpd/htdocs/skins/*/*/css-cache
 var/sessions/Data*
 var/sessions/State*
 var/article/*
