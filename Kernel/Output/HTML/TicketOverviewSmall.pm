@@ -408,12 +408,14 @@ sub Run {
             # get last customer article
             my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
                 TicketID      => $TicketID,
+                Extended      => 1,
                 DynamicFields => 0,
             );
 
             # get ticket data
             my %Ticket = $Self->{TicketObject}->TicketGet(
                 TicketID      => $TicketID,
+                Extended      => 1,
                 DynamicFields => 0,
             );
 

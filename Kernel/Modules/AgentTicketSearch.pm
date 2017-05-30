@@ -666,6 +666,7 @@ sub Run {
                     # get ticket data instead
                     %Data = $Self->{TicketObject}->TicketGet(
                         TicketID      => $TicketID,
+                        Extended      => 1,
                         DynamicFields => 1,
                     );
 
@@ -841,6 +842,7 @@ sub Run {
                 # get first article data
                 my %Data = $Self->{TicketObject}->ArticleFirstArticle(
                     TicketID      => $TicketID,
+                    Extended      => 1,
                     DynamicFields => 1,
                 );
 
@@ -849,6 +851,7 @@ sub Run {
                     # get ticket data instead
                     %Data = $Self->{TicketObject}->TicketGet(
                         TicketID      => $TicketID,
+                        Extended      => 1,
                         DynamicFields => 1,
                     );
 
