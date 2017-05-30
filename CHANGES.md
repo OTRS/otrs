@@ -1,4 +1,5 @@
 #4.0.24 2017-??-??
+ - 2017-05-30 Fixed bug#[12855](https://bugs.otrs.org/show_bug.cgi?id=12855) - Webservice HTTPBasicAuth User and Password Field are not escaped correct.
  - 2017-05-30 Fixed bug#[12785](https://bugs.otrs.org/show_bug.cgi?id=12785) - Wrong convert for CustomerUser with '&' (amp) in adressbook in cc or bcc.
  - 2017-05-29 Fixed bug#[12838](https://bugs.otrs.org/show_bug.cgi?id=12838) - Typo in SysConfig Frontend::NavBarModule###7-AgentTicketService.
  - 2017-05-29 Fixed bug#[12762](https://bugs.otrs.org/show_bug.cgi?id=12762) - Missing information in the process ticket (follow up Bug 12443).
