@@ -494,7 +494,10 @@ sub AgentQueueListOption {
     # set default item of select box
     if ($ValueNoQueue) {
         $Param{MoveQueuesStrg} .= '<option value="'
-            . $HTMLUtilsObject->ToHTML( String => $KeyNoQueue )
+            . $HTMLUtilsObject->ToHTML(
+            String             => $KeyNoQueue,
+            ReplaceDoubleSpace => 0,
+            )
             . '">'
             . $ValueNoQueue
             . "</option>\n";
@@ -553,7 +556,8 @@ sub AgentQueueListOption {
                         my $OptionTitleHTMLValue = '';
                         if ($OptionTitle) {
                             my $HTMLValue = $HTMLUtilsObject->ToHTML(
-                                String => $Queue[$Index],
+                                String             => $Queue[$Index],
+                                ReplaceDoubleSpace => 0,
                             );
                             $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
                         }
@@ -574,12 +578,14 @@ sub AgentQueueListOption {
             my $OptionTitleHTMLValue = '';
             if ($OptionTitle) {
                 my $HTMLValue = $HTMLUtilsObject->ToHTML(
-                    String => $Queue[-1],
+                    String             => $Queue[-1],
+                    ReplaceDoubleSpace => 0,
                 );
                 $OptionTitleHTMLValue = ' title="' . $HTMLValue . '"';
             }
             my $HTMLValue = $HTMLUtilsObject->ToHTML(
-                String => $_,
+                String             => $_,
+                ReplaceDoubleSpace => 0,
             );
             if (
                 $SelectedID eq $_
