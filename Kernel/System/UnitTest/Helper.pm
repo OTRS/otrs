@@ -396,6 +396,7 @@ sub FixedTimeSet {
     #   to get a hold of the overrides.
     my @Objects = (
         'Kernel::System::Time',
+        'Kernel::System::DB',
         'Kernel::System::Cache::FileStorable',
         'Kernel::System::PID',
     );
