@@ -661,6 +661,7 @@ sub Run {
                     # get ticket data instead
                     %Data = $TicketObject->TicketGet(
                         TicketID      => $TicketID,
+                        Extended      => 1,
                         DynamicFields => 1,
                     );
 
