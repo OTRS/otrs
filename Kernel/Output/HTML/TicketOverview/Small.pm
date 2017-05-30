@@ -468,6 +468,7 @@ sub Run {
             # Get ticket data.
             my %Ticket = $TicketObject->TicketGet(
                 TicketID      => $TicketID,
+                Extended      => 1,
                 DynamicFields => 0,
             );
 
