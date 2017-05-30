@@ -593,7 +593,10 @@ sub ToAscii {
 
 convert an ASCII string to an HTML string
 
-    my $HTMLString = $HTMLUtilsObject->ToHTML( String => $String );
+    my $HTMLString = $HTMLUtilsObject->ToHTML(
+        String             => $String,
+        ReplaceDoubleSpace => 0,        # replace &nbsp;&nbsp; with "  ", optional 1 or 0 (defaults to 1)
+    );
 
 =cut
 
@@ -619,7 +622,7 @@ sub ToHTML {
     $Param{String} =~ s/>/&gt;/g;
     $Param{String} =~ s/"/&quot;/g;
     $Param{String} =~ s/(\n|\r)/<br\/>\n/g;
-    $Param{String} =~ s/  /&nbsp;&nbsp;/g;
+    $Param{String} =~ s/  /&nbsp;&nbsp;/g if $Param{ReplaceDoubleSpace};
 
     return $Param{String};
 }

@@ -1,4 +1,5 @@
 #5.0.20 2017-??-??
+ - 2017-05-30 Fixed bug#[12819](https://bugs.otrs.org/show_bug.cgi?id=12819) - Unable to select queue if it contains two spaces.
  - 2017-05-30 Fixed bug#[12855](https://bugs.otrs.org/show_bug.cgi?id=12855) - Webservice HTTPBasicAuth User and Password Field are not escaped correct.
  - 2017-05-30 Fixed bug#[12785](https://bugs.otrs.org/show_bug.cgi?id=12785) - Wrong convert for CustomerUser with '&' (amp) in adressbook in cc or bcc.
  - 2017-05-29 Fixed bug#[12735](https://bugs.otrs.org/show_bug.cgi?id=12735) - OTRS console does not allow adding of sub services when their name exists as a service.
