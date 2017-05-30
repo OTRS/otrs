@@ -1296,4 +1296,16 @@ for my $Test (@Tests) {
     }
 }
 
+# cleanup cache
+my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+$CacheObject->CleanUp(
+    Type => 'SysConfigDefault',
+);
+$CacheObject->CleanUp(
+    Type => 'DefaultSettingListGet',
+);
+$CacheObject->CleanUp(
+    Type => 'DefaultSettingList',
+);
+
 1;

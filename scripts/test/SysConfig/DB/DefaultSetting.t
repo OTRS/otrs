@@ -22,6 +22,8 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
 #
 # Prepare valid config XML and Perl
 #
@@ -607,8 +609,9 @@ for my $Test (@Tests) {
     #
     my $DefaultSettingID;
     if ( exists $Test->{Config}->{DefaultSettingAdd} ) {
+
         $DefaultSettingID = $SysConfigDBObject->DefaultSettingAdd(
-            %{ $Test->{Config}->{DefaultSettingAdd}->{Data} }
+            %{ $Test->{Config}->{DefaultSettingAdd}->{Data} },
         );
 
         my $Result = $DefaultSettingID ? 1 : 0;
@@ -707,11 +710,22 @@ for my $Test (@Tests) {
     #
     my $DefaultSettingVersionID;
     if ( exists $Test->{Config}->{DefaultSettingVersionAdd} ) {
+
+        my $XMLContentParsedYAML = $YAMLObject->Dump(
+            Data => $Test->{Config}->{DefaultSettingVersionAdd}->{Data}->{XMLContentParsed},
+        );
+
+        my $EffectiveValueYAML = $YAMLObject->Dump(
+            Data => $Test->{Config}->{DefaultSettingVersionAdd}->{Data}->{EffectiveValue},
+        );
+
         $DefaultSettingVersionID = $SysConfigDBObject->DefaultSettingVersionAdd(
             DefaultID => $Test->{Config}->{DefaultSettingVersionAdd}->{DefaultID}
             ? $Test->{Config}->{DefaultSettingVersionAdd}->{DefaultID}
             : $DefaultSettingID,
-            %{ $Test->{Config}->{DefaultSettingVersionAdd}->{Data} }
+            %{ $Test->{Config}->{DefaultSettingVersionAdd}->{Data} },
+            XMLContentParsed => $XMLContentParsedYAML,
+            EffectiveValue   => $EffectiveValueYAML,
         );
 
         my $Result = $DefaultSettingVersionID ? 1 : 0;
@@ -834,7 +848,7 @@ for my $Test (@Tests) {
                 . '.',
         );
 
-        # Default setting shoult NOT be locked
+        # Default setting should NOT be locked
         $IsLock = $SysConfigDBObject->DefaultSettingIsLocked(
             DefaultID => $Test->{Config}->{ModifiedSettingAdd}->{DefaultID}
                 || $DefaultSettingID,
@@ -1168,513 +1182,6 @@ for my $Test (@Tests) {
             @DefaultSettings == 0,
             $Test->{Description}
                 . ': DefaultSettingListGet() must return no matching setting for deleted default setting..',
-        );
-    }
-}
-
-@Tests = (
-    {
-        Name    => 'Empty',
-        Config  => {},
-        Success => 0,
-    },
-    {
-        Name   => 'Missing Search',
-        Config => {
-            SearchType => 'XMLContent',
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'Search XMLContent WrongSearch',
-        Config => {
-            Search     => "OTRSNoneExsitingString$RandomNumber-UnitTest",
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Metadata WrongSearch',
-        Config => {
-            Search     => "OTRSNoneExsitingString$RandomNumber-UnitTest",
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Filename WrongSearch',
-        Config => {
-            Search     => "OTRSNoneExsitingString$RandomNumber-UnitTest",
-            SearchType => 'Filename',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XMLContent ValueType=',
-        Config => {
-            Search     => "ValueType=",
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude => [qw(Daemon::Log::STDERR AdminEmail Ticket::Hook)],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Metadata ValueType=',
-        Config => {
-            Search     => "ValueType=",
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Filename ValueType=',
-        Config => {
-            CategoryFiles => ["ValueType="],
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket',
-        Config => {
-            Search     => "Ticket",
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook Ticket::NumberGenerator)],
-        ExpectedResultsNotInclude => [qw(Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search Metadata Ticket',
-        Config => {
-            Search     => "Ticket",
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook Ticket::NumberGenerator)],
-        ExpectedResultsNotInclude => [qw(Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search Filename Ticket',
-        Config => {
-            CategoryFiles => ["Ticket.xml"],
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook Ticket::NumberGenerator)],
-        ExpectedResultsNotInclude => [qw(Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket:',
-        Config => {
-            Search     => "Ticket:",
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook Ticket::NumberGenerator)],
-        ExpectedResultsNotInclude => [qw(Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search Metadata Ticket:',
-        Config => {
-            Search     => "Ticket:",
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook Ticket::NumberGenerator)],
-        ExpectedResultsNotInclude => [qw(Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search Filename Ticket:',
-        Config => {
-            CategoryFiles => ["Ticket:.xml"],
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket.xml',
-        Config => {
-            Search     => "Ticket.xml",
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Metadata Ticket.xml',
-        Config => {
-            Search     => "Ticket.xml",
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Filename Ticket.xml',
-        Config => {
-            CategoryFiles => ["Ticket.xml"],
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook Ticket::NumberGenerator)],
-        ExpectedResultsNotInclude => [qw(Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket::Hook',
-        Config => {
-            Search     => "Ticket::Hook",
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook)],
-        ExpectedResultsNotInclude => [qw(Ticket::NumberGenerator Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search Metadata Ticket::Hook',
-        Config => {
-            Search     => "Ticket::Hook",
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook)],
-        ExpectedResultsNotInclude => [qw(Ticket::NumberGeneratorDaemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search Filename Ticket::Hook',
-        Config => {
-            CategoryFiles => ["Ticket::Hook"],
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket:',
-        Config => {
-            Search     => [qw(Ticket::Hook Ticket::NumberGenerator)],
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Metadata Ticket:',
-        Config => {
-            Search     => [qw(Ticket::Hook Ticket::NumberGenerator)],
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Filename Ticket:',
-        Config => {
-            CategoryFiles => [qw(Ticket::Hook Ticket::NumberGenerator)],
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket.xml Framework.xml',
-        Config => {
-            Search     => [qw(TTicket.xml Framework.xml)],
-            SearchType => 'XMLContent',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Metadata Ticket.xml Framework.xml',
-        Config => {
-            Search     => [qw(Ticket.xml Framework.xml)],
-            SearchType => 'Metadata',
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search Filename Ticket.xml Framework.xml',
-        Config => {
-            CategoryFiles => [qw(Ticket.xml Framework.xml)],
-        },
-        ExpectedResultsInclude    => [qw(AdminEmail Ticket::Hook Ticket::NumberGenerator)],
-        ExpectedResultsNotInclude => [qw(Daemon::Log::STDERR )],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket::Hook Valid 1',
-        Config => {
-            Search     => "Ticket::Hook",
-            SearchType => 'XMLContent',
-            Valid      => 1,
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook)],
-        ExpectedResultsNotInclude => [qw(Ticket::NumberGenerator Daemon::Log::STDERR AdminEmail )],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket::Hook Valid 0',
-        Config => {
-            Search     => "Ticket::Hook",
-            SearchType => 'XMLContent',
-            Valid      => 0,
-        },
-        ExpectedResultsInclude    => [qw(Ticket::Hook)],
-        ExpectedResultsNotInclude => [qw(Ticket::NumberGenerator Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket::WatcherGroup Valid 1',
-        Config => {
-            Search     => "Ticket::WatcherGroup",
-            SearchType => 'XMLContent',
-            Valid      => 1,
-        },
-        ExpectedResultsInclude => [qw()],
-        ExpectedResultsNotInclude =>
-            [qw(Ticket::WatcherGroup Ticket::NumberGenerator Daemon::Log::STDERR AdminEmail )],
-        Success => 1,
-    },
-    {
-        Name   => 'Search XMLContent Ticket::WatcherGroup Valid 0',
-        Config => {
-            Search     => "Ticket::WatcherGroup",
-            SearchType => 'XMLContent',
-            Valid      => 0,
-        },
-        ExpectedResultsInclude    => [qw(Ticket::WatcherGroup)],
-        ExpectedResultsNotInclude => [qw(Ticket::NumberGenerator Daemon::Log::STDERR AdminEmail)],
-        Success                   => 1,
-    },
-    {
-        Name   => 'Search XMLContent AdminEmail in Ticket.xml ',
-        Config => {
-            Search        => "AdminEmail",
-            SearchType    => 'XMLContent',
-            CategoryFiles => [qw(Ticket.xml)],
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XXMLContent AdminEmail in Framework.xml ',
-        Config => {
-            Search        => "AdminEmail",
-            SearchType    => 'XMLContent',
-            CategoryFiles => [qw(Framework.xml)],
-        },
-        ExpectedResultsInclude => [qw(AdminEmail)],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XXMLContent Ticket::Hook in Ticket.xml ',
-        Config => {
-            Search        => "Ticket::Hook",
-            SearchType    => 'XMLContent',
-            CategoryFiles => [qw(Ticket.xml)],
-        },
-        ExpectedResultsInclude => [qw(Ticket::Hook)],
-        Success                => 1,
-    },
-    {
-        Name   => 'Search XXMLContent Ticket::Hook in Framework.xml ',
-        Config => {
-            Search        => "Ticket::Hook",
-            SearchType    => 'XMLContent',
-            CategoryFiles => [qw(Framework.xml)],
-        },
-        ExpectedResultsInclude => [],
-        Success                => 1,
-    },
-
-);
-
-TEST:
-for my $Test (@Tests) {
-
-    my @Result = $SysConfigDBObject->DefaultSettingSearch( %{ $Test->{Config} } );
-
-    if ( !$Test->{Success} ) {
-        $Self->IsDeeply(
-            \@Result,
-            [],
-            "$Test->{Name} DefaultSettingSearch() - not succeed",
-        );
-        next TEST;
-    }
-
-    if ( scalar @{ $Test->{ExpectedResultsInclude} } == 0 ) {
-        $Self->IsDeeply(
-            \@Result,
-            $Test->{ExpectedResultsInclude},
-            "$Test->{Name} DefaultSettingSearch() - empty return",
-        );
-
-        next TEST;
-    }
-
-    my %ResultLookup = map { $_ => 1 } @Result;
-
-    for my $ExpectedResult ( @{ $Test->{ExpectedResultsInclude} } ) {
-        $Self->True(
-            $ResultLookup{$ExpectedResult},
-            "$Test->{Name} DefaultSettingSearch() - $ExpectedResult found with true",
-        );
-    }
-    for my $NotExpectedResult ( @{ $Test->{NotExpectedResultsInclude} } ) {
-        $Self->False(
-            $ResultLookup{$NotExpectedResult},
-            "$Test->{Name} DefaultSettingSearch() - $NotExpectedResult found with false",
-        );
-    }
-}
-
-my $String = '<?xml version="1.0" encoding="utf-8" ?>
-<otrs_package version="1.1">
-    <Name>TestPackage1</Name>
-    <Version>0.0.1</Version>
-    <Vendor>OTRS AG</Vendor>
-    <URL>http://otrs.com/</URL>
-    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
-    <Description Lang="en">TestPackage1.</Description>
-    <Framework>6.0.x</Framework>
-    <BuildDate>2016-10-11 02:35:46</BuildDate>
-    <BuildHost>yourhost.example.com</BuildHost>
-    <Filelist>
-        <File Location="Kernel/Config/Files/XML/TestPackage1.xml" Permission="660" Encode="Base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiID8+CjxvdHJzX2NvbmZpZyB2ZXJzaW9uPSIyLjAiIGluaXQ9IkFwcGxpY2F0aW9uIj4KICAgIDxTZXR0aW5nIE5hbWU9IlRlc3RQYWNrYWdlMTo6U2V0dGluZzEiIFJlcXVpcmVkPSIwIiBWYWxpZD0iMSI+IAogICAgICAgIDxEZXNjcmlwdGlvbiBUcmFuc2xhdGFibGU9IjEiPlRlc3QgU2V0dGluZy48L0Rlc2NyaXB0aW9uPgogICAgICAgIDxLZXl3b3Jkcz5UZXN0UGFja2FnZTwvS2V5d29yZHM+CiAgICAgICAgPE5hdmlnYXRpb24+Q29yZTo6VGVzdFBhY2thZ2U8L05hdmlnYXRpb24+CiAgICAgICAgICAgIDxWYWx1ZT4KICAgICAgICAgICAgICAgIDxJdGVtIFZhbHVlVHlwZT0iU3RyaW5nIj48L0l0ZW0+CiAgICAgICAgICAgIDwvVmFsdWU+CiAgICA8L1NldHRpbmc+Cjwvb3Ryc19jb25maWc+Cg==</File>
-    </Filelist>
-</otrs_package>
-';
-
-my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
-<otrs_package version="1.1">
-    <Name>TestPackage2</Name>
-    <Version>0.0.1</Version>
-    <Vendor>OTRS AG</Vendor>
-    <URL>http://otrs.com/</URL>
-    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
-    <Description Lang="en">TestPackage2.</Description>
-    <Framework>6.0.x</Framework>
-    <BuildDate>2016-10-11 02:36:29</BuildDate>
-    <BuildHost>yourhost.example.com</BuildHost>
-    <Filelist>
-        <File Location="Kernel/Config/Files/XML/TestPackage2.xml" Permission="660" Encode="Base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiID8+CjxvdHJzX2NvbmZpZyB2ZXJzaW9uPSIyLjAiIGluaXQ9IkFwcGxpY2F0aW9uIj4KICAgIDxTZXR0aW5nIE5hbWU9IlRlc3RQYWNrYWdlMjo6U2V0dGluZzEiIFJlcXVpcmVkPSIwIiBWYWxpZD0iMSI+CiAgICAgICAgPERlc2NyaXB0aW9uIFRyYW5zbGF0YWJsZT0iMSI+VGVzdCBTZXR0aW5nLjwvRGVzY3JpcHRpb24+CiAgICAgICAgPE5hdmlnYXRpb24+Q29yZTo6VGVzdFBhY2thZ2U8L05hdmlnYXRpb24+CiAgICAgICAgPFZhbHVlPgogICAgICAgICAgICA8SXRlbSBWYWx1ZVR5cGU9IlN0cmluZyI+PC9JdGVtPgogICAgICAgIDwvVmFsdWU+CiAgICA8L1NldHRpbmc+CiAgICA8U2V0dGluZyBOYW1lPSJUZXN0UGFja2FnZTI6OlNldHRpbmcyIiBSZXF1aXJlZD0iMCIgVmFsaWQ9IjEiPgogICAgICAgIDxEZXNjcmlwdGlvbiBUcmFuc2xhdGFibGU9IjEiPlRlc3QgU2V0dGluZy48L0Rlc2NyaXB0aW9uPgogICAgICAgIDxOYXZpZ2F0aW9uPkNvcmU6OlRlc3RQYWNrYWdlPC9OYXZpZ2F0aW9uPgogICAgICAgIDxWYWx1ZT4KICAgICAgICAgICAgPEl0ZW0gVmFsdWVUeXBlPSJTdHJpbmciPjwvSXRlbT4KICAgICAgICA8L1ZhbHVlPgogICAgPC9TZXR0aW5nPgo8L290cnNfY29uZmlnPg==</File>
-    </Filelist>
-</otrs_package>
-';
-
-my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-
-# Cleanup the system.
-for my $PackageName (qw(TestPackage1 TestPackage2)) {
-    if ( $PackageObject->PackageIsInstalled( Name => $PackageName ) ) {
-        my $PackageRemove = $PackageObject->PackageUninstall(
-            Name    => $PackageName,
-            Version => '0.0.1',
-        );
-
-        $Self->True(
-            $PackageRemove,
-            "RepositoryRemove() $PackageName",
-        );
-    }
-}
-my $Counter = 0;
-for my $PackageString ( $String, $String2 ) {
-    $Counter++;
-    my $PackageName = "TestPackage$Counter";
-    if ( $PackageObject->PackageIsInstalled( Name => $PackageName ) ) {
-        my $PackagUninstall = $PackageObject->PackageUninstall( String => $PackageString );
-
-        $Self->True(
-            $PackagUninstall,
-            "$PackagUninstall() $PackageName",
-        );
-    }
-
-    my $PackageInstall = $PackageObject->PackageInstall( String => $PackageString );
-    $Self->True(
-        $PackageInstall,
-        "PackageInstall() $PackageName",
-    );
-}
-
-@Tests = (
-    {
-        Name   => 'TestPackage1',
-        Config => {
-            Category      => 'TestPackage1',
-            CategoryFiles => ['TestPackage1.xml'],
-        },
-        ExpectedResults => {
-            'TestPackage1::Setting1' => 1,
-        },
-    },
-    {
-        Name   => 'TestPackage2',
-        Config => {
-            Category      => 'TestPackage2',
-            CategoryFiles => ['TestPackage2.xml'],
-        },
-        ExpectedResults => {
-            'TestPackage2::Setting1' => 1,
-            'TestPackage2::Setting2' => 1,
-        },
-    },
-);
-
-for my $Test (@Tests) {
-    my @List = $SysConfigDBObject->DefaultSettingListGet( %{ $Test->{Config} } );
-
-    my %Results = map { $_->{Name} => 1 } @List;
-
-    $Self->IsDeeply(
-        \%Results,
-        $Test->{ExpectedResults},
-        "$Test->{Name} DefaultSettingListGet() Category Search",
-    );
-}
-
-my @List2 = $SysConfigDBObject->DefaultSettingList();
-$Self->True(
-    @List2,
-    'DefaultSettingList() returned some value.'
-);
-for my $Item (@List2) {
-    my %DefaultSetting = $SysConfigDBObject->DefaultSettingGet(
-        DefaultID => $Item->{DefaultID},
-    );
-    if ( $DefaultSetting{Name} ne $Item->{Name} ) {
-        $Self->Is(
-            $Item->{Name},
-            $DefaultSetting{Name},
-            "DefaultSettingList() is DIFFERENT from DefaultSettingGet() for ID $Item->{DefaultID} .",
-        );
-    }
-
-    # would produce +1000 tests - that would be alsways OK
-    # else {
-    #     $Self->Is(
-    #         $List2{$ID},
-    #         $DefaultSetting{Name},
-    #         "DefaultSettingList() has same data as DefaultSettingGet() for $ID .",
-    #     );
-    # }
-}
-
-# Cleanup the system.
-$Counter = 0;
-for my $PackageString ( $String, $String2 ) {
-    $Counter++;
-    my $PackageName = "TestPackage$Counter";
-    if ( $PackageObject->PackageIsInstalled( Name => $PackageName ) ) {
-        my $PackagUninstall = $PackageObject->PackageUninstall( String => $PackageString );
-
-        $Self->True(
-            $PackagUninstall,
-            "PackagUninstall() $PackageName",
         );
     }
 }

@@ -491,6 +491,13 @@ sub DESTROY {
 
     # FixedDateTimeObjectUnset();
 
+    if ( $Self->{DestroyLog} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Helper is destroyed!"
+        );
+    }
+
     # Cleanup temporary database if it was set up.
     $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
 

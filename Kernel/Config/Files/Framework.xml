@@ -11549,6 +11549,11 @@ via the Preferences button after logging in.
                     <JavaScript>thirdparty/clipboardjs-1.5.16/clipboard.min.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.Date.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.DateTime.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.VacationDays.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.VacationDaysOneTime.js</JavaScript>
+                    <JavaScript>Core.SystemConfiguration.WorkingHours.js</JavaScript>
+                    <JavaScript>Core.Form.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.SystemConfiguration.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>

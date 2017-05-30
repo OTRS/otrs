@@ -457,12 +457,12 @@ sub Run {
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
-        if ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Update' ) {
+        if ( ( $ParamObject->GetParam( Param => 'Notification' ) || '' ) eq 'Update' ) {
             $Output .= $LayoutObject->Notify(
                 Info => Translatable('System Maintenance was updated successfully!')
             );
         }
-        elsif ( $ParamObject->GetParam( Param => 'Notification' ) eq 'Add' ) {
+        elsif ( ( $ParamObject->GetParam( Param => 'Notification' ) || '' ) eq 'Add' ) {
             $Output .= $LayoutObject->Notify(
                 Info => Translatable('System Maintenance was added successfully!')
             );

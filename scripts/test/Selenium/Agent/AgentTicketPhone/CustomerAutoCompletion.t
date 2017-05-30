@@ -239,9 +239,9 @@ $Selenium->RunTest(
             }
             else {
 
-                # Send a "tab" to trigger the javascript events, because we need a change of the field,
+                # Send a "return" key to trigger the javascript events, because we need a change of the field,
                 #   if no auto complete result exists.
-                $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys("\N{U+E004}");
+                $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys("\n");
 
                 # Wait for ajax call after customer user selection.
                 $Selenium->WaitFor(

@@ -22,8 +22,6 @@ use Kernel::GenericInterface::Operation::Session::SessionCreate;
 
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify     => 1,
@@ -31,6 +29,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+$Helper->{DestroyLog} = 1;
 
 my $RandomID = $Helper->GetRandomID();
 
@@ -78,6 +77,13 @@ $Helper->ConfigSettingChange(
     Key   => 'CustomerGroupSupport',
     Value => 1,
 );
+
+$Kernel::OM->ObjectsDiscard(
+    Objects            => ['Kernel::Config'],
+    ForcePackageReload => 1,
+);
+
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # check if SSL Certificate verification is disabled
 $Self->Is(
@@ -3995,7 +4001,7 @@ for my $Test (@Tests) {
             $LocalResult->{Data}->{ArticleID},
             "$Test->{Name} - Local result ArticleID with True."
         );
-        $Self->Is(
+        $Self->IsDeeply(
             $LocalResult->{Data}->{Error},
             undef,
             "$Test->{Name} - Local result Error is undefined."
@@ -4014,7 +4020,7 @@ for my $Test (@Tests) {
             $RequesterResult->{Data}->{ArticleID},
             "$Test->{Name} - Requester result ArticleID with True."
         );
-        $Self->Is(
+        $Self->IsDeeply(
             $RequesterResult->{Data}->{Error},
             undef,
             "$Test->{Name} - Requester result Error is undefined."
@@ -4031,7 +4037,7 @@ for my $Test (@Tests) {
         );
 
         $Self->True(
-            IsHashRefWithData( \%LocalTicketData ),
+            scalar %LocalTicketData,
             "$Test->{Name} - created local ticket structure with True."
         );
 
@@ -4043,7 +4049,7 @@ for my $Test (@Tests) {
         );
 
         $Self->True(
-            IsHashRefWithData( \%RequesterTicketData ),
+            scalar %RequesterTicketData,
             "$Test->{Name} - created requester ticket structure with True."
         );
 
@@ -4332,6 +4338,11 @@ $Self->True(
 
 # get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+$Self->Is(
+    ref $DBObject,
+    'Kernel::System::DB',
+    "DBObject created correctly",
+);
 my $Success;
 
 # delete queues

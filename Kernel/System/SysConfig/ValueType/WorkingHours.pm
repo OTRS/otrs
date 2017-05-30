@@ -136,7 +136,7 @@ sub SettingEffectiveValueCheck {
 
         for my $Hour ( @{ $Param{EffectiveValue}->{$Day} } ) {
 
-            if ( $Hour !~ m{^([0-9]|1[0-9]|2[0-3])$}gsmx ) {
+            if ( $Hour !~ m{^([0-9]|1[0-9]|2[0-3])$}msx ) {
                 $Result{Error} = "'$Hour' must be number(0-23)!";
                 last DAY;
             }

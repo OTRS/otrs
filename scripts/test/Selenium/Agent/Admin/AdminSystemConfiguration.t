@@ -1111,7 +1111,7 @@ my @Tests = (
                 Select => '.HashItem:nth-of-type(2) input',
             },
             {
-                Write => 'Address',
+                Write => 'DynamicField_Address',    # check if keys with "_" works
             },
             {
                 Click => '.AddKey',
@@ -1133,8 +1133,8 @@ my @Tests = (
             },
         ],
         ExpectedResult => {
-            'First name' => 'John',
-            'Address'    => 'Street #, City',
+            'First name'           => 'John',
+            'DynamicField_Address' => 'Street #, City',
         },
     },
     {
@@ -3200,8 +3200,7 @@ $Selenium->RunTest(
                 }
                 elsif ( $CommandType eq 'JS' ) {
 
-                    # wait for any tasks to complete
-
+                    # Wait for any tasks to complete.
                     $Selenium->WaitFor(
                         JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
                     );
@@ -3212,10 +3211,9 @@ $Selenium->RunTest(
                 }
             }
 
-            # Compare result
+            # compare results
             my %Setting = $SysConfigObject->SettingGet(
-                Name      => $Test->{Name},
-                Translate => 0,
+                Name => $Test->{Name},
             );
 
             if ( $Test->{ExpectedResult} ) {

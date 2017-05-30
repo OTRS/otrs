@@ -359,7 +359,7 @@ var Core = Core || {};
                     FullName = FullName.substr(0, FullName.lastIndexOf("_Hash"));
                 }
                 else {
-                    // Array is not empty.
+                    // Hash is not empty.
                     return;
                 }
             }
@@ -479,7 +479,7 @@ var Core = Core || {};
      */
     function ValueSet(Data, Name, Value) {
         var Result = Data,
-            StructureArray = Name.split("_"),
+            StructureArray = Name.split(/_(?=Array|Hash)/),
             HashKey,
             SettingName = StructureArray.shift(),
             Structure,
@@ -1396,7 +1396,7 @@ var Core = Core || {};
             if (ID.indexOf("_Hash###") > 0) {
                 // put placeholders
                 while (ID.indexOf("_Hash###") > 0) {
-                    SubString = ID.match(/(_Hash###.*?)(_|Day$|Month$|Year$|Hour$|Minute$|$)/)[1];
+                    SubString = ID.match(/(_Hash###.*?)(_Array|_Hash|Day$|Month$|Year$|Hour$|Minute$|$)/)[1];
 
                     ID = ID.replace(SubString, "_PLACEHOLDER" + Count);
                     Count++;

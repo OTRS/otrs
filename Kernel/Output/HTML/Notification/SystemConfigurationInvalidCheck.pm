@@ -34,7 +34,9 @@ sub Run {
 
     return '' if !$HasPermission;
 
-    my @InvalidSettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationInvalidList();
+    my @InvalidSettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationInvalidList(
+        CachedOnly => 1,
+    );
 
     if ( scalar @InvalidSettings ) {
 

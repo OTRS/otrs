@@ -750,9 +750,11 @@ sub _ReturnJSON {
 sub _CheckInvalidSettings {
     my ( $Self, %Param ) = @_;
 
-    my @InvalidSettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationInvalidList();
+    my @InvalidSettings = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationInvalidList(
+        CachedOnly => 1,
+    );
 
-    return if !@InvalidSettings;
+    return 0 if !@InvalidSettings;
 
     return 1;
 }
