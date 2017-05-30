@@ -53,7 +53,8 @@ need to implement this function.
 
 =head2 TicketNumberCounterAdd()
 
-Add a new unique ticket counter entry.
+Add a new unique ticket counter entry. These counters are used by the different number generators
+    to generate unique C<TicketNumber>s
 
     my $Counter = $TicketNumberObject->TicketNumberCounterAdd(
         Offset      => 123,
@@ -62,6 +63,13 @@ Add a new unique ticket counter entry.
 Returns:
 
     my $Counter = 123;  # undef in case of an error
+
+This method has logic to generate unique numbers even though concurrent processes might write to the
+same table. The algorithm runs as follows:
+    - Insert a new record into the C<ticket_number_counter> table with a C<counter> value of 0.
+    - Then update all preceding records including and up to the current one that still have value 0 and compute the correct value for each, which depends on the previous record.
+
+This works well also if concurrent processes write to the records at the same time, because they will compute the same (unique) values for the counters.
 
 =cut
 
