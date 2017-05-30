@@ -13,6 +13,7 @@ use warnings;
 
 use Encode;
 use HTTP::Status;
+use MIME::Base64;
 use PerlIO;
 use SOAP::Lite;
 
@@ -536,7 +537,7 @@ sub RequesterPerformRequest {
     }
 
     # add authentication if configured
-    my $URL = $Config->{Endpoint};
+    my %Headers;
     if ( IsHashRefWithData( $Config->{Authentication} ) ) {
 
         # basic authentication
@@ -545,10 +546,14 @@ sub RequesterPerformRequest {
             && $Config->{Authentication}->{Type} eq 'BasicAuth'
             )
         {
-            my $User     = $Config->{Authentication}->{User};
-            my $Password = $Config->{Authentication}->{Password};
-            if ( IsStringWithData($User) && IsStringWithData($Password) ) {
-                $URL =~ s{ ( http s? :// ) }{$1\Q$User\E:\Q$Password\E@}xmsi;
+            my $User = $Config->{Authentication}->{User};
+            my $Password = $Config->{Authentication}->{Password} || '';
+
+            # Prepare user credentials for inclusion as request header instead of adding it to the URL. This prevents
+            #   issues with escaping characters like dot and at-sign in URL. See bug#12855 for more information.
+            if ( IsStringWithData($User) ) {
+                my $EncodedCredentials = encode_base64("$User:$Password");
+                $Headers{Authorization} = 'Basic ' . $EncodedCredentials;
             }
         }
     }
@@ -597,7 +602,7 @@ sub RequesterPerformRequest {
     # prepare connect
     my $SOAPHandle = eval {
         SOAP::Lite->autotype(0)->default_ns( $Config->{NameSpace} )->proxy(
-            $URL,
+            $Config->{Endpoint},
             timeout => 60,
         );
     };
@@ -655,6 +660,12 @@ sub RequesterPerformRequest {
             push @CallData, $SOAPData->{Data};
         }
     }
+
+    # Add additional request headers if they have been defined.
+    if (%Headers) {
+        $SOAPHandle->transport()->http_request()->headers()->push_header(%Headers);
+    }
+
     my $SOAPResult = eval {
         $SOAPHandle->call(@CallData);
     };
