@@ -57,6 +57,7 @@ Kernel/Output/HTML/Fred/*
 Kernel/Output/HTML/Templates/Standard/DevelFred*
 Kernel/Config/Files/AAAFred.pm
 Kernel/Config/Files/Fred.xml
+Kernel/Config/Files/XML/Fred.xml
 Kernel/Modules/DevelFred.pm
 Kernel/System/Fred
 var/fred
