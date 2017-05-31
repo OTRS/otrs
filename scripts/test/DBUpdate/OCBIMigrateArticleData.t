@@ -68,7 +68,7 @@ my $XMLString = <<"EOF";
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
     <Insert Table="ticket">
-        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="id">2</Data>
         <Data Key="tn" Type="Quote">2017050210100001</Data>
         <Data Key="queue_id">2</Data>
         <Data Key="ticket_lock_id">1</Data>
@@ -96,7 +96,7 @@ for my $Index ( 1 .. 40 ) {
     my $ArticleID = $Index + 3;
     $XMLString .= <<"EOF";
     <Insert Table="article">
-        <Data Key="id" Type="AutoIncrement">$ArticleID</Data>
+        <Data Key="id">$ArticleID</Data>
         <Data Key="ticket_id">2</Data>
         <Data Key="article_type_id">1</Data>
         <Data Key="article_sender_type_id">1</Data>

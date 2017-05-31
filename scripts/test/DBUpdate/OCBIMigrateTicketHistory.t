@@ -134,14 +134,14 @@ $Self->True(
     "Found new ticket history type 'ArticleCreate' in table 'ticket_history_type'",
 );
 
-# TODO: Adde some test data in article table, to have some values for the 3 new columns:
+# TODO: Add some test data in article table, to have some values for the 3 new columns:
 # a_communication_channel_id, a_sender_type_id, a_is_visible_for_customer
-# also add some data into the ticket_history table whcoh reference to the to be mapped ticket_history_types
+# also add some data into the ticket_history table which reference to the to be mapped ticket_history_types
 $XMLString = <<"EOF";
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
     <Insert Table="ticket">
-        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="id">2</Data>
         <Data Key="tn" Type="Quote">2017050210100001</Data>
         <Data Key="queue_id">2</Data>
         <Data Key="ticket_lock_id">1</Data>
@@ -169,7 +169,7 @@ for my $Index ( 1 .. 40 ) {
     my $HistoryID = $Index + 3;
     $XMLString .= <<"EOF";
     <Insert Table="ticket_history">
-        <Data Key="id" Type="AutoIncrement">$HistoryID</Data>
+        <Data Key="id">$HistoryID</Data>
         <Data Key="name" Type="Quote">HistoryName $HistoryID</Data>
         <Data Key="ticket_id">2</Data>
         <Data Key="history_type_id">$ArticleCreateHistoryTypeID</Data>

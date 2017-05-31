@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
     <Insert Table="ticket">
-        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="id">2</Data>
         <Data Key="tn" Type="Quote">2017050210123456</Data>
         <Data Key="queue_id">2</Data>
         <Data Key="ticket_lock_id">1</Data>
@@ -23,7 +23,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article">
-        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="id">2</Data>
         <Data Key="ticket_id">2</Data>
         <Data Key="article_type_id">12</Data>
         <Data Key="article_sender_type_id">3</Data>
@@ -43,7 +43,7 @@
     </Insert>
 
     <Insert Table="ticket">
-        <Data Key="id" Type="AutoIncrement">3</Data>
+        <Data Key="id">3</Data>
         <Data Key="tn" Type="Quote">2017050210123457</Data>
         <Data Key="queue_id">2</Data>
         <Data Key="ticket_lock_id">1</Data>
@@ -65,7 +65,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article">
-        <Data Key="id" Type="AutoIncrement">3</Data>
+        <Data Key="id">3</Data>
         <Data Key="ticket_id">3</Data>
         <Data Key="article_type_id">12</Data>
         <Data Key="article_sender_type_id">3</Data>
