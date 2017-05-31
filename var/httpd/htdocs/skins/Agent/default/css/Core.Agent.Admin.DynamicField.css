@@ -53,6 +53,10 @@
     padding: 0px 8px 0px;
 }
 
+.WidgetSimple > .DynamicFieldsPagination span.Pagination {
+    display: block;
+}
+
 .SpacingTopMini {
     margin-top: 5px;
 }
