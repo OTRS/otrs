@@ -37,6 +37,15 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
+        $LayoutObject->FatalError(
+            Message => Translatable('SecureMode active!'),
+            Comment => Translatable(
+                'If you want to re-run the Installer, disable the SecureMode in the SysConfig.'
+            ),
+        );
+    }
+
     # check env directories
     $Self->{Path} = $ConfigObject->Get('Home');
     if ( !-d $Self->{Path} ) {
