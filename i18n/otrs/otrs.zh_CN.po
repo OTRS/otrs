@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-04 12:03+0000\n"
-"PO-Revision-Date: 2017-05-04 17:04+0000\n"
+"POT-Creation-Date: 2017-05-31 17:16+0000\n"
+"PO-Revision-Date: 2017-05-31 22:17+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -5728,7 +5728,7 @@ msgstr "管理 %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Go to the OTRS customer portal"
-msgstr ""
+msgstr "访问OTRS客户门户"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
@@ -5797,47 +5797,47 @@ msgstr "%s 更新可用"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "软件包安装需要更新OTRS的补丁级别。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "请访问我们的客户门户并提出请求。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Everything else will be done as part of your contract."
-msgstr ""
+msgstr "一切都将作为您的合同的一部分完成。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "您安装的OTRS版本是%s。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, you need to "
 "update to OTRS %s or higher."
-msgstr ""
+msgstr "要安装当前版本的OTRS Business Solution™，您需要更新到OTRS %s或更高版本。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, the Maximum OTRS "
 "Version is %s."
-msgstr ""
+msgstr "要安装当前版本的OTRS Business Solution™，最高的OTRS版本为%s。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
-msgstr ""
+msgstr "要安装此软件包，所需的框架版本为％s。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Why should I keep OTRS up to date?"
-msgstr ""
+msgstr "为什么要保持OTRS是最新的？"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates about relevant security issues."
-msgstr ""
+msgstr "您将收到有关安全问题的更新。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates for all other relevant OTRS issues"
-msgstr ""
+msgstr "您将收到所有其他OTRS相关问题的更新"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
@@ -5878,11 +5878,11 @@ msgstr "不能通过HTTPS连接到cloud.otrs.com，请确保你的OTRS系统能�
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
+msgstr "要安装此软件包，您需要更新到OTRS %s或更高版本。"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr ""
+msgstr "要安装此软件包，OTRS最高版本为%s。"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -6057,54 +6057,61 @@ msgstr "您真的想要重新安装该软包吗? 所有该模块的手工设置�
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
+msgstr "转到升级说明"
 
 #. Template: AdminPackageManager
 msgid "package information"
+msgstr "软件包信息"
+
+#. Template: AdminPackageManager
+msgid "Package installation requires a patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS."
+msgid "Package update requires a patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
 "If you are a OTRS Business Solution™ customer, please visit our customer "
 "portal and file a request."
-msgstr ""
+msgstr "如果您是OTRS Business Solution™客户，请访问我们的客户门户并提交请求。"
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
+msgstr "请注意，您安装的OTRS版本是%s。"
+
+#. Template: AdminPackageManager
+msgid ""
+"To install this package, you need to update OTRS to version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or older."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
-msgstr ""
+msgstr "如果没有合约，我怎么更新补丁级别？"
 
 #. Template: AdminPackageManager
-msgid "Please find all relevant information within"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "the upgrading instructions"
+msgid ""
+"Please find all relevant information within the upgrading instructions at "
+"%s."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
 "In case you would have further questions we would be glad to answer them."
 msgstr "如果您还有其它问题，我们非常愿意答复您。"
-
-#. Template: AdminPackageManager
-msgid "Please visit our customer"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "portal"
-msgstr "门户"
-
-#. Template: AdminPackageManager
-msgid "and file a request."
-msgstr "并提出请求。"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -7378,6 +7385,14 @@ msgid "Please visit our"
 msgstr "请访问我们的"
 
 #. Template: AdminRegistration
+msgid "portal"
+msgstr "门户"
+
+#. Template: AdminRegistration
+msgid "and file a request."
+msgstr "并提出请求。"
+
+#. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
 msgstr "如果你取消注册你的系统，你将失去以下好处："
 
@@ -7846,6 +7861,10 @@ msgid "Edit Service"
 msgstr "编辑服务"
 
 #. Template: AdminService
+msgid "Service name maximum length is 200 characters (with Sub-service)."
+msgstr ""
+
+#. Template: AdminService
 msgid "Sub-service of"
 msgstr "上一级服务"
 
@@ -8276,8 +8295,18 @@ msgid "Edit System Email Address"
 msgstr "编辑统邮件地址"
 
 #. Template: AdminSystemAddress
+msgid "This email address is already used as system email address."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
 msgstr "邮件地址和显示名称将在发送的邮件中显示。"
+
+#. Template: AdminSystemAddress
+msgid ""
+"This system address cannot be set to invalid, because it is used in one or "
+"more queue(s)."
+msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -9518,6 +9547,10 @@ msgid "Article Create Time (between)"
 msgstr "信件创建时间（在...之间）"
 
 #. Template: AgentTicketSearch
+msgid "Invalid date"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
 msgstr "工单创建时间（在...之前/之后）"
 
@@ -9734,24 +9767,6 @@ msgstr "关闭本消息"
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "不能打开信件！或许它在另外一个信件页面上打开了？"
-
-#. Template: AgentTicketZoom
-msgid "Scale preview content"
-msgstr "缩放预览内容"
-
-#. Template: AgentTicketZoom
-msgid "Open URL in new tab"
-msgstr "在新的标签页打开链接"
-
-#. Template: AgentTicketZoom
-msgid "Close preview"
-msgstr "关闭预览"
-
-#. Template: AgentTicketZoom
-msgid ""
-"A preview of this website can't be provided because it didn't allow to be "
-"embedded."
-msgstr "这个网站不允许被嵌入，无法提供预览。"
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10693,6 +10708,24 @@ msgstr "请求新密码"
 #. Template: Login
 msgid "Back to login"
 msgstr "重新登录"
+
+#. Template: MetaFloater
+msgid "Scale preview content"
+msgstr "缩放预览内容"
+
+#. Template: MetaFloater
+msgid "Open URL in new tab"
+msgstr "在新的标签页打开链接"
+
+#. Template: MetaFloater
+msgid "Close preview"
+msgstr "关闭预览"
+
+#. Template: MetaFloater
+msgid ""
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
+msgstr "这个网站不允许被嵌入，无法提供预览。"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
@@ -12324,8 +12357,9 @@ msgstr "在工单 “%s”中缺少活动实体ID！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for ticket"
-" '%s%s%s'! Another user changed this ticket in the meantime."
+"This step does not belong anymore to the current activity in process for "
+"ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
+"close this window and reload the ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12678,6 +12712,16 @@ msgid "Create a new ticket!"
 msgstr "创建一个新工单！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "SecureMode active!"
+msgstr "激活了安全模式！"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr "如果你要重新运行安装程序，请在系统配置中禁用安全模式。"
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
 msgstr "目录 “%s”不存在！"
 
@@ -12992,7 +13036,7 @@ msgstr "排序"
 #. Perl Module: Kernel/System/ACL/DB/ACL.pm
 msgid ""
 "Couldn't read ACL configuration file. Please make sure the file is valid."
-msgstr ""
+msgstr "无法读取ACL配置文件。 请确保该文件有效。"
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -13031,11 +13075,11 @@ msgstr "不能使这个设置失效。"
 
 #. Perl Module: Kernel/System/CustomerUser.pm
 msgid "Customer user \"%s\" already exists."
-msgstr ""
+msgstr "客户联系人“%s”已经存在。"
 
 #. Perl Module: Kernel/System/CustomerUser/DB.pm
 msgid "This email address is already in use for another customer user."
-msgstr ""
+msgstr "这个电子邮件地址已被其他客户联系人使用。"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
@@ -13049,7 +13093,7 @@ msgstr "忽略该字段。"
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
-msgstr ""
+msgstr "无法读取通知配置文件。 请确保该文件有效。"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -13069,7 +13113,7 @@ msgstr "不能读取文件！"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
-msgstr ""
+msgstr "流程“%s”及其所有数据已成功导入。"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -14099,16 +14143,6 @@ msgid "Can't send account info!"
 msgstr "不能发送帐户信息！"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid "SecureMode active!"
-msgstr "激活了安全模式！"
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the "
-"SysConfig."
-msgstr "如果你要重新运行安装程序，请在系统配置中禁用安全模式。"
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
 msgstr "没有找到操作“%s”！"
 
@@ -14221,8 +14255,8 @@ msgstr "新建工单"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be "
-"created.."
-msgstr "跟进已关闭工单是可能的，这将会创建一个新的工单。"
+"created."
+msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
@@ -17584,7 +17618,7 @@ msgid ""
 "Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
 " collection with the public module 'PublicSupportDataCollector' (e.g. used "
 "from the OTRS Daemon)."
-msgstr ""
+msgstr "使用公共模块“PublicSupportDataCollector”（例如用于OTRS守护进程的模块）来定义支持数据收集的超时（以秒为单位，最小为20秒）。"
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
@@ -18522,8 +18556,8 @@ msgstr "前端"
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
-"Serivice feature is not used)."
-msgstr "前端模块注册（如果没有使用工单服务功能，禁用服务人员工单服务链接）。"
+"Service feature is not used)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18554,6 +18588,10 @@ msgstr "客户界面的前端模块注册。"
 #. SysConfig
 msgid "Frontend theme"
 msgstr "前端界面主题"
+
+#. SysConfig
+msgid "Frontend theme."
+msgstr ""
 
 #. SysConfig
 msgid "Full value"
@@ -19036,9 +19074,11 @@ msgstr "如果设置了此参数，这个地址将用于外发消息（不是通
 
 #. SysConfig
 msgid ""
-"If this option is enabled, then the decrypted data will be stored in the "
-"database if they are displayed in AgentTicketZoom."
-msgstr "如果启用了此选项，则解密了的数据将存储在数据库中（如果在工单详情视图中显示过）。"
+"If this option is disabled, articles will not automatically be decrypted and"
+" stored in the database. Please note that this also means no decryption will"
+" take place and the articles will be shown in ticket zoom in their original "
+"(encrypted) form."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19477,8 +19517,8 @@ msgid ""
 msgstr "工单详情视图客户信息表格的最大尺寸（单位：字符）。"
 
 #. SysConfig
-msgid "Merge this ticket and all articles into a another ticket"
-msgstr "将这个工单和所有的信件合并到另一工单"
+msgid "Merge this ticket and all articles into another ticket"
+msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
@@ -19795,10 +19835,6 @@ msgid "PGP Key Management"
 msgstr "PGP密钥管理"
 
 #. SysConfig
-msgid "PGP Key Upload"
-msgstr "上传PGP密钥"
-
-#. SysConfig
 msgid "Package event module file a scheduler task for update registration."
 msgstr "软件包事件模块注册。"
 
@@ -19833,11 +19869,11 @@ msgstr "工单概览简洁模式的字段过滤器参数。"
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the customer company information of "
-"the agent interface . \"Group\" is used to restrict the access to the plugin"
-" (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin "
-"is enabled by default or if the user needs to enable it manually. "
+"the agent interface. \"Group\" is used to restrict the access to the plugin "
+"(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
+" enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "服务人员界面客户单位信息的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20284,10 +20320,9 @@ msgstr "角色 <-> 组"
 
 #. SysConfig
 msgid ""
-"Run file based generic agent jobs (Note: module name need needs to be "
-"specified in -configuration-module param e.g. "
-"\"Kernel::System::GenericAgent\")."
-msgstr "运行基于文件的自动任务（注意：需要在配置模块参数中指定模块名，如\"Kernel::System::GenericAgent\"）。"
+"Run file based generic agent jobs (Note: module name needs to be specified "
+"in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
+msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
@@ -20316,10 +20351,6 @@ msgstr "系统运行到“演示”模式。如果设置为“是”，服务人
 #. SysConfig
 msgid "Russian"
 msgstr "俄语"
-
-#. SysConfig
-msgid "S/MIME Certificate Upload"
-msgstr "上传S/MIME证书"
 
 #. SysConfig
 msgid "SMS"
@@ -20397,12 +20428,16 @@ msgid "Select the main interface language."
 msgstr "选择主界面语言。"
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "选择您的界面主题。"
+msgid "Select your default spelling dictionary."
+msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
 msgstr "选择你喜欢的OTRS布局。"
+
+#. SysConfig
+msgid "Select your preferred theme for OTRS."
+msgstr ""
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -20520,7 +20555,7 @@ msgid ""
 "Set the minimum log level. If you select 'error', just errors are logged. "
 "With 'debug' you get all logging messages. The order of log levels is: "
 "'debug', 'info', 'notice' and 'error'."
-msgstr ""
+msgstr "设置最小日志级别。 如果选择'error'，则只会记录错误。 使用'debug'可以获取所有日志消息。 日志级别的顺序是：'debug'，'info'，'notice'和'error'。"
 
 #. SysConfig
 msgid ""
@@ -22538,6 +22573,14 @@ msgstr "在工单属性更新后更新工单升级指标。"
 #. SysConfig
 msgid "Updates the ticket index accelerator."
 msgstr "更新工单索引加速器。"
+
+#. SysConfig
+msgid "Upload your PGP key."
+msgstr ""
+
+#. SysConfig
+msgid "Upload your S/MIME certificate."
+msgstr ""
 
 #. SysConfig
 msgid ""

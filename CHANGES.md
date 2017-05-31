@@ -1,4 +1,5 @@
 #5.0.20 2017-??-??
+ - 2017-05-31 Updated translations, thanks to all translators.
  - 2017-05-31 Improved SecureMode detection in Installer.
  - 2017-05-31 Fixed bug#[12765](https://bugs.otrs.org/show_bug.cgi?id=12765) - Show page buttons of dynamic fields are not displayed in mobile view.
  - 2017-05-30 Masked passwords in Kernel/Config.pm and in files located in Kernel/Config/Files during SupportBundle create.

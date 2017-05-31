@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.740464177598385;
+    $Self->{Completeness}        = 0.743895055499495;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -179,7 +179,7 @@ sub Data {
         'Comment' => 'Komentarz',
         'Invalid Option!' => 'Błędna opcja!',
         'Invalid time!' => 'Błędny czas!',
-        'Invalid date!' => 'Błedna data!',
+        'Invalid date!' => 'Błędna data!',
         'Name' => 'Nazwa',
         'Group' => 'Grupa',
         'Description' => 'Opis',
@@ -1360,7 +1360,7 @@ sub Data {
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'np. /opt/otrs/var/certificates/REST/ssl.key',
         'Certification Authority (CA) File' => 'Plik Certification Authority (CA)',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
-            '',
+            'Pełna ścieżka i nazwa pliku z certyfikatem CA, który potwierdza certyfikat SSL.',
         'e.g. /opt/otrs/var/certificates/REST/CA/ca.file' => 'np. /opt/otrs/var/certificates/REST/CA/ca.file',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -1583,7 +1583,7 @@ sub Data {
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
         'Enable this notification method' => 'Włącz tą metodę powiadomienia',
-        'Transport' => '',
+        'Transport' => 'Transport',
         'At least one method is needed per notification.' => '',
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
@@ -1609,11 +1609,11 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Aby uzyskać pierwsze 5 linii treści (najnowszej wiadomości klienta).',
         'Attributes of the current customer user data' => 'Atrybuty danych obecnego użytkownika klienta',
-        'Attributes of the current ticket owner user data' => '',
-        'Attributes of the current ticket responsible user data' => '',
+        'Attributes of the current ticket owner user data' => 'Atrybuty danych użytkownika aktualnego właściciela zgłoszenia',
+        'Attributes of the current ticket responsible user data' => 'Atrybuty danych użytkownika aktualnego odpowiedzialnego za zgłoszenie',
         'Attributes of the current agent user who requested this action' =>
-            '',
-        'Attributes of the recipient user for the notification' => '',
+            'Opcje bieżącego agenta, który żądał akcji',
+        'Attributes of the recipient user for the notification' => 'Atrybuty danych odbiorcy powiadomienia',
         'Attributes of the ticket data' => 'Atrybuty danych zgłoszenia',
         'Ticket dynamic fields internal key values' => 'Wartości wewnętrznych kluczy pól dynamicznych',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
@@ -1629,7 +1629,7 @@ sub Data {
             '',
         'Email template' => 'Formatka email',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
+            'Użyj tego szablonu, aby wygenerować kompletną wiadomość email (dotyczy tylko emaili HTML).',
         'Enable email security' => 'Włącz zabezpieczenia email',
         'Email security level' => 'Poziom zabezpieczeń Email',
         'If signing key/certificate is missing' => 'Jeśli brakuje podpisanego klucza / certyfikatu',
@@ -1660,14 +1660,14 @@ sub Data {
         'Package installation requires patch level update of OTRS.' => '',
         'Please visit our customer portal and file a request.' => '',
         'Everything else will be done as part of your contract.' => '',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'Twoja zainstalowana wersja OTRS to %s',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
             '',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
             '',
         'To install this package, the required Framework version is %s.' =>
             '',
-        'Why should I keep OTRS up to date?' => '',
+        'Why should I keep OTRS up to date?' => 'Dlaczego powinienem aktualizować OTRS?',
         'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTRS issues' => '',
         'An update for your %s is available! Please update at your earliest!' =>
@@ -1709,7 +1709,7 @@ sub Data {
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => 'Baza danych pól dynamicznych',
-        'SLA Selection Dialog' => '',
+        'SLA Selection Dialog' => 'Okno wyboru SLA',
         'Ticket Attachment View' => 'Widok załącznika zgłoszenia',
         'The %s skin' => '',
 
@@ -2007,7 +2007,7 @@ sub Data {
             'Na tym ekranie możesz utworzyć nowy proces. Aby udostępnić proces użytkownikom, ustaw stan na "Aktywne" i zsynchronizuj po zakończeniu.',
 
         # Template: AdminProcessManagementProcessPrint
-        'cancel & close' => '',
+        'cancel & close' => 'zrezygnuj i zamknij',
         'Start Activity' => 'Działanie początkowe',
         'Contains %s dialog(s)' => 'Zawiera %s okien',
         'Assigned dialogs' => 'Przypisane okna',
@@ -2261,7 +2261,7 @@ sub Data {
         'Relate this certificate' => 'Powiąż ten certyfikat',
 
         # Template: AdminSMIMECertRead
-        'Close dialog' => '',
+        'Close dialog' => 'Zamknij okienko dialogowe',
         'Certificate details' => 'Szczegóły certyfikatu',
 
         # Template: AdminSalutation
@@ -2498,7 +2498,7 @@ sub Data {
         'Switch to agent' => 'Przełącz na agenta',
         'Add Agent' => 'Dodaj agenta',
         'Edit Agent' => 'Edytuj agenta',
-        'Title or salutation' => '',
+        'Title or salutation' => 'Tytuł albo zwrot grzecznościowy',
         'Firstname' => 'Imię',
         'Lastname' => 'Nazwisko',
         'A user with this username already exists!' => 'Użytkownik o takiej nazwie już istnieje!',
@@ -2569,7 +2569,7 @@ sub Data {
         'Phone ticket' => 'Zgłoszenia tel.',
         'Email ticket' => 'Zgłoszenia e-mail',
         '%s open ticket(s) of %s' => '% otwartych zgłoszeń z %s',
-        '%s closed ticket(s) of %s' => '% zamknietych zgłoszeń z %s',
+        '%s closed ticket(s) of %s' => '%s zamkniętych zgłoszeń z %s',
         'New phone ticket from %s' => 'Nowe zgłoszenie tel. od %s',
         'New email ticket to %s' => 'Nowe zgłoszenie e-mail od %s',
 
@@ -3864,7 +3864,7 @@ sub Data {
         'Default Config for Process::Default%s invalid!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
-        'Untitled' => '',
+        'Untitled' => 'Bez tytułu',
         'Customer Name' => 'Nazwa klienta',
         'Invalid Users' => 'Nieprawidłowi użytkownicy',
         'CSV' => 'CSV',
@@ -3901,7 +3901,7 @@ sub Data {
         'Priority Updated' => '',
         'Ticket Unlocked' => '',
         'Outgoing Email' => 'Wiadomość Wychodząca',
-        'Title Updated' => '',
+        'Title Updated' => 'Tytuł został zaktualizowany',
         'Ticket Merged' => '',
         'Outgoing Phone Call' => 'Telefon Wychodzący',
         'Forwarded Message' => '',
@@ -4027,7 +4027,7 @@ sub Data {
         'sorted descending' => 'posortowane malejąco',
         'filter not active' => '',
         'filter active' => '',
-        'This ticket has no title or subject' => '',
+        'This ticket has no title or subject' => 'Zgłoszenie nie ma tytułu albo tematu',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
@@ -6657,7 +6657,7 @@ Thanks for your help!
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => 'Pokazuje obecnego właściciela w interfejsie klienta.',
         'Show the current queue in the customer interface.' => 'Pokazuje obecną kolejkę w interfejsie klienta.',
-        'Show the history for this ticket' => '',
+        'Show the history for this ticket' => 'Pokaż historię tego zgłoszenia',
         'Shows a count of icons in the ticket zoom, if the article has attachments.' =>
             'Pokazuje licznik ikon w przybliżeniu zgłoszenia, jeśli artykuł zawiera załączniki.',
         'Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>

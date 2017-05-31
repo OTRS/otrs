@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.990312815338042;
+    $Self->{Completeness}        = 0.995358224016145;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1640,7 +1640,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '管理 %s',
-        'Go to the OTRS customer portal' => '',
+        'Go to the OTRS customer portal' => '访问OTRS客户门户',
         'Downgrade to OTRS Free' => '降级到免费版本',
         'Read documentation' => '阅读文档',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1660,19 +1660,19 @@ sub Data {
         '%s Not Yet Available' => '%s 还不可用',
         '%s will be available soon.' => '%s 很快就可用了。',
         '%s Update Available' => '%s 更新可用',
-        'Package installation requires patch level update of OTRS.' => '',
-        'Please visit our customer portal and file a request.' => '',
-        'Everything else will be done as part of your contract.' => '',
-        'Your installed OTRS version is %s.' => '',
+        'Package installation requires patch level update of OTRS.' => '软件包安装需要更新OTRS的补丁级别。',
+        'Please visit our customer portal and file a request.' => '请访问我们的客户门户并提出请求。',
+        'Everything else will be done as part of your contract.' => '一切都将作为您的合同的一部分完成。',
+        'Your installed OTRS version is %s.' => '您安装的OTRS版本是%s。',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
-            '',
+            '要安装当前版本的OTRS Business Solution™，您需要更新到OTRS %s或更高版本。',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
-            '',
+            '要安装当前版本的OTRS Business Solution™，最高的OTRS版本为%s。',
         'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTRS up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTRS issues' => '',
+            '要安装此软件包，所需的框架版本为％s。',
+        'Why should I keep OTRS up to date?' => '为什么要保持OTRS是最新的？',
+        'You will receive updates about relevant security issues.' => '您将收到有关安全问题的更新。',
+        'You will receive updates for all other relevant OTRS issues' => '您将收到所有其他OTRS相关问题的更新',
         'An update for your %s is available! Please update at your earliest!' =>
             '%s 有更新版本可用了！请尽早更新！',
         '%s Correctly Deployed' => '%s 已经正确地部署',
@@ -1690,8 +1690,8 @@ sub Data {
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '不能通过HTTPS连接到cloud.otrs.com，请确保你的OTRS系统能够通过端口443连接到cloud.otrs.com。',
         'To install this package, you need to update to OTRS %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTRS Version is %s.' => '',
+            '要安装此软件包，您需要更新到OTRS %s或更高版本。',
+        'To install this package, the Maximum OTRS Version is %s.' => '要安装此软件包，OTRS最高版本为%s。',
         'With your existing contract you can only use a small part of the %s.' =>
             '当前的合同表明你只能使用%s 的小部分功能。',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
@@ -1746,13 +1746,13 @@ sub Data {
         'Reinstall package' => '重新安装软件包',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '您真的想要重新安装该软包吗? 所有该模块的手工设置将丢失.',
-        'Go to upgrading instructions' => '',
-        'package information' => '',
+        'Go to upgrading instructions' => '转到升级说明',
+        'package information' => '软件包信息',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
-            '',
-        'Please note that your installed OTRS version is %s.' => '',
+            '如果您是OTRS Business Solution™客户，请访问我们的客户门户并提交请求。',
+        'Please note that your installed OTRS version is %s.' => '请注意，您安装的OTRS版本是%s。',
         'To install this package, you need to update OTRS to version %s or newer.' =>
             '',
         'This package can only be installed on OTRS version %s or older.' =>
@@ -1762,7 +1762,7 @@ sub Data {
         'You will receive updates for all other relevant OTRS issues.' =>
             '',
         'How can I do a patch level update if I don’t have a contract?' =>
-            '',
+            '如果没有合约，我怎么更新补丁级别？',
         'Please find all relevant information within the upgrading instructions at %s.' =>
             '',
         'In case you would have further questions we would be glad to answer them.' =>
@@ -4095,7 +4095,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ACL/DB/ACL.pm
         'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
-            '',
+            '无法读取ACL配置文件。 请确保该文件有效。',
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
@@ -4112,11 +4112,11 @@ sub Data {
         'This setting can not be deactivated.' => '不能使这个设置失效。',
 
         # Perl Module: Kernel/System/CustomerUser.pm
-        'Customer user "%s" already exists.' => '',
+        'Customer user "%s" already exists.' => '客户联系人“%s”已经存在。',
 
         # Perl Module: Kernel/System/CustomerUser/DB.pm
         'This email address is already in use for another customer user.' =>
-            '',
+            '这个电子邮件地址已被其他客户联系人使用。',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
         'e.g. Text or Te*t' => '如：Text或Te*t',
@@ -4126,7 +4126,7 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
-            '',
+            '无法读取通知配置文件。 请确保该文件有效。',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '没有安装',
@@ -4136,7 +4136,7 @@ sub Data {
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
-            '',
+            '流程“%s”及其所有数据已成功导入。',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
         'Inactive' => '非活动的',
@@ -5584,7 +5584,7 @@ Thanks for your help!
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             '定义一个指定日历（可能在以后分配给一个指定的队列）的时区。',
         'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
-            '',
+            '使用公共模块“PublicSupportDataCollector”（例如用于OTRS守护进程的模块）来定义支持数据收集的超时（以秒为单位，最小为20秒）。',
         'Defines the two-factor module to authenticate agents.' => '定义服务人员的双因素身份验证模块。',
         'Defines the two-factor module to authenticate customers.' => '定义客户的双因素身份验证模块。',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
@@ -6446,7 +6446,7 @@ Thanks for your help!
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '设置服务人员工单详情窗口内嵌HTML信件的最大高度（单位：像素）。',
         'Set the minimum log level. If you select \'error\', just errors are logged. With \'debug\' you get all logging messages. The order of log levels is: \'debug\', \'info\', \'notice\' and \'error\'.' =>
-            '',
+            '设置最小日志级别。 如果选择\'error\'，则只会记录错误。 使用\'debug\'可以获取所有日志消息。 日志级别的顺序是：\'debug\'，\'info\'，\'notice\'和\'error\'。',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '如果你信任所有的公共和私有PGP密钥（即使它们不是可信任签名认证的），设置这个参数为“是”。',
         'Sets if SLA must be selected by the agent.' => '设置是否必须由服务人员选择SLA。',

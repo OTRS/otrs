@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-04 12:03+0000\n"
-"PO-Revision-Date: 2017-05-04 17:04+0000\n"
+"POT-Creation-Date: 2017-05-31 17:16+0000\n"
+"PO-Revision-Date: 2017-05-31 22:17+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -918,7 +918,7 @@ msgstr "Ha az adatbázishoz rendszergazda jelszót állított be, akkor azt itt 
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr "Az adatbázis már tartalmaz adatokat - üresnek kell lennie!"
+msgstr "Az adatbázis már tartalmaz adatokat – üresnek kell lennie!"
 
 #. Template: AAABase
 msgid "Login is needed!"
@@ -3279,7 +3279,7 @@ msgstr "Kiválasztás"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr "Lista (csak %s látható - több érhető el)"
+msgstr "Lista (csak %s látható – több érhető el)"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
@@ -4104,7 +4104,7 @@ msgstr "Jegy eszkalációs ideje elérve a következő időpontok között"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
-msgstr "Eszkaláció - első válaszidő"
+msgstr "Eszkaláció – első válaszidő"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached"
@@ -4116,7 +4116,7 @@ msgstr "Jegy első válaszideje elérve a következő időpontok között"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr "Eszkaláció - frissítési idő"
+msgstr "Eszkaláció – frissítési idő"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
@@ -4128,7 +4128,7 @@ msgstr "Jegy frissítési ideje elérve a következő időpontok között"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr "Eszkaláció - megoldási idő"
+msgstr "Eszkaláció – megoldási idő"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
@@ -5018,7 +5018,7 @@ msgstr "Elem"
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
-msgstr "Kimenő rendezési sorrend az XML-mezőknél (a szerkezet a függvénynév csomagoló alatt indul) - nézze meg a SOAP-átvitel dokumentációját."
+msgstr "Kimenő rendezési sorrend az XML-mezőknél (a szerkezet a függvénynév csomagoló alatt indul) – nézze meg a SOAP-átvitel dokumentációját."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "GenericInterface Web Service Management"
@@ -6059,7 +6059,11 @@ msgid "package information"
 msgstr "csomaginformációk"
 
 #. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS."
+msgid "Package installation requires a patch level update of OTRS."
+msgstr "A csomagtelepítés az OTRS hibajavító szintű frissítését igényli."
+
+#. Template: AdminPackageManager
+msgid "Package update requires a patch level update of OTRS."
 msgstr "A csomagfrissítés az OTRS hibajavító szintű frissítését igényli."
 
 #. Template: AdminPackageManager
@@ -6073,33 +6077,36 @@ msgid "Please note that your installed OTRS version is %s."
 msgstr "Ne feledje, hogy a telepített OTRS verziója %s."
 
 #. Template: AdminPackageManager
+msgid ""
+"To install this package, you need to update OTRS to version %s or newer."
+msgstr "A csomag telepítéséhez frissítenie kell az OTRS-t %s vagy újabb verzióra."
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or older."
+msgstr "Ez a csomag csak az OTRS %s vagy régebbi verziójára telepíthető."
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or newer."
+msgstr "Ez a csomag csak az OTRS %s vagy újabb verziójára telepíthető."
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues."
+msgstr "Frissítéseket fog kapni minden egyéb fontos OTRS problémáról."
+
+#. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
 msgstr "Hogyan végezhetek hibajavító szintű frissítést, ha nincs szerződésem?"
 
 #. Template: AdminPackageManager
-msgid "Please find all relevant information within"
-msgstr "Keresse meg az összes fontos információt a"
-
-#. Template: AdminPackageManager
-msgid "the upgrading instructions"
-msgstr "frissítési utasításokban"
+msgid ""
+"Please find all relevant information within the upgrading instructions at "
+"%s."
+msgstr "Nézze meg az összes fontos információt a frissítési utasításokban itt: %s."
 
 #. Template: AdminPackageManager
 msgid ""
 "In case you would have further questions we would be glad to answer them."
 msgstr "Abban az esetben, ha további kérdései vannak, szívesen megválaszoljuk azokat."
-
-#. Template: AdminPackageManager
-msgid "Please visit our customer"
-msgstr "Látogassa meg az ügyfél"
-
-#. Template: AdminPackageManager
-msgid "portal"
-msgstr "portálunkat"
-
-#. Template: AdminPackageManager
-msgid "and file a request."
-msgstr "és küldje el a kérését."
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -7090,7 +7097,7 @@ msgstr "0 = nincs eszkaláció"
 msgid ""
 "If there is not added a customer contact, either email-external or phone, to"
 " a new ticket before the time defined here expires, the ticket is escalated."
-msgstr "Ha az új jegyhez nem lett ügyfél-elérhetőség - külső e-mail cím vagy telefon - hozzáadva az itt megadott idő lejárta előtt, a jegy eszkalálva lesz."
+msgstr "Ha az új jegyhez nem lett ügyfél-elérhetőség – külső e-mail cím vagy telefon – hozzáadva az itt megadott idő lejárta előtt, a jegy eszkalálva lesz."
 
 #. Template: AdminQueue
 msgid ""
@@ -7098,7 +7105,7 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Ha hozzá lett adva egy bejegyzés, úgymint követő e-mail vagy ügyfélportál, az eszkaláció frissítési ideje vissza lesz állítva. Ha nincs ügyfél-elérhetőség - külső e-mail cím vagy telefon - hozzáadva az itt megadott idő lejárta előtt, a jegy eszkalálva lesz."
+msgstr "Ha hozzá lett adva egy bejegyzés, úgymint követő e-mail vagy ügyfélportál, az eszkaláció frissítési ideje vissza lesz állítva. Ha nincs ügyfél-elérhetőség – külső e-mail cím vagy telefon – hozzáadva az itt megadott idő lejárta előtt, a jegy eszkalálva lesz."
 
 #. Template: AdminQueue
 msgid ""
@@ -7371,6 +7378,14 @@ msgstr "Ez tipikusan nagyjából három naponta történik."
 #. Template: AdminRegistration
 msgid "Please visit our"
 msgstr "Látogassa meg a"
+
+#. Template: AdminRegistration
+msgid "portal"
+msgstr "portálunkat"
+
+#. Template: AdminRegistration
+msgid "and file a request."
+msgstr "és küldje el a kérését."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
@@ -7841,6 +7856,10 @@ msgid "Edit Service"
 msgstr "Szolgáltatás szerkesztése"
 
 #. Template: AdminService
+msgid "Service name maximum length is 200 characters (with Sub-service)."
+msgstr "A szolgáltatás nevének legnagyobb hossza 200 karakter (alszolgáltatásokkal)."
+
+#. Template: AdminService
 msgid "Sub-service of"
 msgstr "Részszolgáltatása ennek"
 
@@ -8271,8 +8290,18 @@ msgid "Edit System Email Address"
 msgstr "Rendszer e-mail cím szerkesztése"
 
 #. Template: AdminSystemAddress
+msgid "This email address is already used as system email address."
+msgstr "Ez az e-mail cím már használatban van rendszer e-mail címként."
+
+#. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
 msgstr "A megjelenített név és az e-mail cím meg lesz jelenítve az elküldött leveleknél."
+
+#. Template: AdminSystemAddress
+msgid ""
+"This system address cannot be set to invalid, because it is used in one or "
+"more queue(s)."
+msgstr "Ezt a rendszercímet nem lehet érvénytelenre állítani, mert egy vagy több várólistában használják."
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -9513,6 +9542,10 @@ msgid "Article Create Time (between)"
 msgstr "Bejegyzés létrehozási ideje (között)"
 
 #. Template: AgentTicketSearch
+msgid "Invalid date"
+msgstr "Érvénytelen dátum"
+
+#. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
 msgstr "Jegy létrehozási ideje (előtt/után)"
 
@@ -9729,24 +9762,6 @@ msgstr "Üzenet bezárása"
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "A bejegyzést nem sikerült megnyitni! Talán egy másik bejegyzés oldalon van?"
-
-#. Template: AgentTicketZoom
-msgid "Scale preview content"
-msgstr "Előnézet tartalmának méretezése"
-
-#. Template: AgentTicketZoom
-msgid "Open URL in new tab"
-msgstr "URL megnyitása új lapon"
-
-#. Template: AgentTicketZoom
-msgid "Close preview"
-msgstr "Előnézet bezárása"
-
-#. Template: AgentTicketZoom
-msgid ""
-"A preview of this website can't be provided because it didn't allow to be "
-"embedded."
-msgstr "Ennek a weboldalnak nem lehet biztosítani az előnézetét, mert nem engedte meg a beágyazását."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10688,6 +10703,24 @@ msgstr "Új jelszó kérése"
 #. Template: Login
 msgid "Back to login"
 msgstr "Vissza a bejelentkezéshez"
+
+#. Template: MetaFloater
+msgid "Scale preview content"
+msgstr "Előnézet tartalmának méretezése"
+
+#. Template: MetaFloater
+msgid "Open URL in new tab"
+msgstr "URL megnyitása új lapon"
+
+#. Template: MetaFloater
+msgid "Close preview"
+msgstr "Előnézet bezárása"
+
+#. Template: MetaFloater
+msgid ""
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
+msgstr "Ennek a weboldalnak nem lehet biztosítani az előnézetét, mert nem engedte meg a beágyazását."
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
@@ -12319,9 +12352,10 @@ msgstr "Hiányzó tevékenységegyed-azonosító a következő jegyben: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for ticket"
-" '%s%s%s'! Another user changed this ticket in the meantime."
-msgstr "Ez a lépés többé nem tartozik a jelenlegi tevékenységhez a folyamatban a következő jegynél: „%s%s%s”! Egy másik felhasználó időközben megváltoztatta ezt a jegyet."
+"This step does not belong anymore to the current activity in process for "
+"ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
+"close this window and reload the ticket."
+msgstr "Ez a lépés többé nem tartozik a jelenlegi tevékenységhez a folyamatban a következő jegynél: „%s%s%s”! Egy másik felhasználó időközben megváltoztatta ezt a jegyet. Zárja be ezt az ablakot, és töltse újra a jegyet."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -12673,6 +12707,16 @@ msgid "Create a new ticket!"
 msgstr "Hozzon létre új jegyet!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "SecureMode active!"
+msgstr "Biztonságos mód bekapcsolva!"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr "Ha újra szeretné futtatni a telepítőt, akkor tiltsa le a biztonságos módot a rendszerbeállításokban."
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
 msgstr "A(z) „%s” könyvtár nem létezik!"
 
@@ -12732,7 +12776,7 @@ msgstr "Lépjen vissza."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
-msgstr "Az OTRS telepítése - hiba"
+msgstr "Az OTRS telepítése – hiba"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
@@ -12992,7 +13036,7 @@ msgstr "Nem sikerült beolvasni az ACL beállítófájlját. Győződjön meg ar
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
 "You have exceeded the number of concurrent agents - contact sales@otrs.com."
-msgstr "Túllépte az egyidejű ügyintézők számát - vegye fel a kapcsolatot velünk a sales@otrs.com e-mail címen."
+msgstr "Túllépte az egyidejű ügyintézők számát – vegye fel a kapcsolatot velünk a sales@otrs.com e-mail címen."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
@@ -13104,15 +13148,15 @@ msgstr "Lezárás ideje"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - First Response Time"
-msgstr "Eszkaláció - első válaszidő"
+msgstr "Eszkaláció – első válaszidő"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Update Time"
-msgstr "Eszkaláció - frissítési idő"
+msgstr "Eszkaláció – frissítési idő"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Solution Time"
-msgstr "Eszkaláció - megoldási idő"
+msgstr "Eszkaláció – megoldási idő"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Agent/Owner"
@@ -14094,16 +14138,6 @@ msgid "Can't send account info!"
 msgstr "Nem lehet elküldeni a fiókinformációkat!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid "SecureMode active!"
-msgstr "Biztonságos mód bekapcsolva!"
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the "
-"SysConfig."
-msgstr "Ha újra szeretné futtatni a telepítőt, akkor tiltsa le a biztonságos módot a rendszerbeállításokban."
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
 msgstr "A(z) „%s” művelet nem található!"
 
@@ -14216,7 +14250,7 @@ msgstr "új jegy"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be "
-"created.."
+"created."
 msgstr "Követések nem lehetségesek a lezárt jegyeknél. Egy új jegy lesz létrehozva."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -14840,13 +14874,13 @@ msgstr "Lehetővé teszi a kiterjesztett keresési feltételeket az általános 
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
-msgstr "Lehetővé teszi a közepes formátumú jegyáttekintőt (CustomerInfo => 1 - megjeleníti az ügyfél-információkat is)."
+msgstr "Lehetővé teszi a közepes formátumú jegyáttekintőt (CustomerInfo => 1 – megjeleníti az ügyfél-információkat is)."
 
 #. SysConfig
 msgid ""
 "Allows having a small format ticket overview (CustomerInfo => 1 - shows also"
 " the customer information)."
-msgstr "Lehetővé teszi a kis formátumú jegyáttekintőt (CustomerInfo => 1 - megjeleníti az ügyfél-információkat is)."
+msgstr "Lehetővé teszi a kis formátumú jegyáttekintőt (CustomerInfo => 1 – megjeleníti az ügyfél-információkat is)."
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
@@ -17093,7 +17127,7 @@ msgid ""
 "Defines the module that shows a generic notification in the agent interface."
 " Either \"Text\" - if configured - or the contents of \"File\" will be "
 "displayed."
-msgstr "Meghatározza azt a modult, amely egy általános értesítést jelenít meg az ügyintézői felületen. Vagy „Szöveg” - ha be van állítva - vagy a „Fájl” tartalma kerül megjelenítésre."
+msgstr "Meghatározza azt a modult, amely egy általános értesítést jelenít meg az ügyintézői felületen. Vagy „Szöveg” – ha be van állítva – vagy a „Fájl” tartalma kerül megjelenítésre."
 
 #. SysConfig
 msgid ""
@@ -17579,7 +17613,7 @@ msgid ""
 "Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
 " collection with the public module 'PublicSupportDataCollector' (e.g. used "
 "from the OTRS Daemon)."
-msgstr ""
+msgstr "Meghatározza az időkorlátot (másodpercben, a minimum 20 másodperc) a támogatási adatok gyűjtéséhez a nyilvános „PublicSupportDataCollector” modullal (például az OTRS démonból használva)."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
@@ -18517,7 +18551,7 @@ msgstr "Előtétprogram"
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
-"Serivice feature is not used)."
+"Service feature is not used)."
 msgstr "Előtétprogram-modul regisztráció (az AgentTicketService hivatkozás letiltása, ha a jegy szolgáltatás funkció nincs használatban)."
 
 #. SysConfig
@@ -18549,6 +18583,10 @@ msgstr "Előtétprogram-modul regisztráció az ügyfélfelülethez."
 #. SysConfig
 msgid "Frontend theme"
 msgstr "Előtétprogram téma"
+
+#. SysConfig
+msgid "Frontend theme."
+msgstr "Előtétprogram téma."
 
 #. SysConfig
 msgid "Full value"
@@ -19027,13 +19065,15 @@ msgid ""
 "If set, this address is used as envelope sender in outgoing messages (not "
 "notifications - see below). If no address is specified, the envelope sender "
 "is equal to queue e-mail address."
-msgstr "Ha be van állítva, akkor ez a cím lesz használva boríték küldőként a kimenő üzenetekben (nem értesítések - lásd lent). Ha nincs cím beállítva, a boríték küldő megegyezik a várólista e-mail címével."
+msgstr "Ha be van állítva, akkor ez a cím lesz használva boríték küldőként a kimenő üzenetekben (nem értesítések – lásd lent). Ha nincs cím beállítva, a boríték küldő megegyezik a várólista e-mail címével."
 
 #. SysConfig
 msgid ""
-"If this option is enabled, then the decrypted data will be stored in the "
-"database if they are displayed in AgentTicketZoom."
-msgstr "Ha ez a beállítás engedélyezve van, akkor a visszafejtett adatok az adatbázisban lesznek tárolva, ha megjelenítésre kerültek az ügyintézői jegynagyítás képernyőn."
+"If this option is disabled, articles will not automatically be decrypted and"
+" stored in the database. Please note that this also means no decryption will"
+" take place and the articles will be shown in ticket zoom in their original "
+"(encrypted) form."
+msgstr "Ha ez a beállítás le van tiltva, akkor a bejegyzések nem lesznek automatikusan visszafejtve és eltárolva az adatbázisban. Ne feledje, hogy ez azt is jelenti, hogy nem lesz visszafejtés végrehajtva, és a bejegyzések az eredeti (titkosított) formájukban lesznek láthatók a jegynagyításban."
 
 #. SysConfig
 msgid ""
@@ -19472,7 +19512,7 @@ msgid ""
 msgstr "Az ügyfél-információs tábla legnagyobb mérete (karakterben) a jegynagyítás nézeten."
 
 #. SysConfig
-msgid "Merge this ticket and all articles into a another ticket"
+msgid "Merge this ticket and all articles into another ticket"
 msgstr "A jegy és minden bejegyzés egyesítése egy másik jegybe"
 
 #. SysConfig
@@ -19790,10 +19830,6 @@ msgid "PGP Key Management"
 msgstr "PGP kulcs kezelés"
 
 #. SysConfig
-msgid "PGP Key Upload"
-msgstr "PGP kulcs feltöltés"
-
-#. SysConfig
 msgid "Package event module file a scheduler task for update registration."
 msgstr "Csomag esemény modul egy ütemező feladat iktatásához a regisztráció frissítésénél."
 
@@ -19828,9 +19864,9 @@ msgstr "Paraméterek a kis jegyáttekintő oszlopszűrőihez."
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the customer company information of "
-"the agent interface . \"Group\" is used to restrict the access to the plugin"
-" (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin "
-"is enabled by default or if the user needs to enable it manually. "
+"the agent interface. \"Group\" is used to restrict the access to the plugin "
+"(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
+" enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
 msgstr "Paraméterek az ügyintézői felület ügyfél-vállalat információinak vezérlőpult háttérprogramjához. A „Group” használható a hozzáférés korlátozásához a bővítményre (például Group: admin;csoport1;csoport2;). A „Default” azt határozza meg, hogy a bővítmény alapértelmezetten engedélyezve van, vagy hogy a felhasználónak kézzel kell engedélyeznie azt. A „CacheTTLLocal” a bővítmény gyorsítótár ideje percben."
 
@@ -20098,7 +20134,7 @@ msgstr "Folyamatazonosító"
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info"
 " see http://en.wikipedia.org/wiki/Cross-site_request_forgery)."
-msgstr "CSRF (Cross Site Request Forgery - oldalon-keresztüli kéréshamisítás) exploitok elleni védelem (további információkért nézze meg a http://hu.wikipedia.org/wiki/Cross-site_request_forgery oldalt)."
+msgstr "CSRF (Cross Site Request Forgery – oldalon-keresztüli kéréshamisítás) exploitok elleni védelem (további információkért nézze meg a http://hu.wikipedia.org/wiki/Cross-site_request_forgery oldalt)."
 
 #. SysConfig
 msgid "Provides a matrix overview of the tickets per state per queue."
@@ -20279,9 +20315,8 @@ msgstr "Szerepek <-> Csoportok"
 
 #. SysConfig
 msgid ""
-"Run file based generic agent jobs (Note: module name need needs to be "
-"specified in -configuration-module param e.g. "
-"\"Kernel::System::GenericAgent\")."
+"Run file based generic agent jobs (Note: module name needs to be specified "
+"in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
 msgstr "Fájlalapú általános ügyintéző feladatok futtatása (Megjegyzés: a modul nevét meg kell adni a -configuration-module paraméterben, például „Kernel::System::GenericAgent”)."
 
 #. SysConfig
@@ -20311,10 +20346,6 @@ msgstr "„Demo” módban futtatja a rendszert. Ha „Igen” értékre van ál
 #. SysConfig
 msgid "Russian"
 msgstr "Orosz"
-
-#. SysConfig
-msgid "S/MIME Certificate Upload"
-msgstr "S/MIME tanúsítvány feltöltés"
 
 #. SysConfig
 msgid "SMS"
@@ -20392,12 +20423,16 @@ msgid "Select the main interface language."
 msgstr "A felület fő nyelvének kiválasztása."
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "Válasszon előtétprogram témát."
+msgid "Select your default spelling dictionary."
+msgstr "Alapértelmezett helyesírás-ellenőrző szótár kiválasztása."
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
 msgstr "Az előnyben részesített elrendezés kiválasztása az OTRS-hez."
+
+#. SysConfig
+msgid "Select your preferred theme for OTRS."
+msgstr "Az előnyben részesített téma kiválasztása az OTRS-hez."
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -21555,7 +21590,7 @@ msgid ""
 "Shows a preview of the ticket overview (CustomerInfo => 1 - shows also "
 "Customer-Info, CustomerInfoMaxSize max. size in characters of Customer-"
 "Info)."
-msgstr "Megjeleníti a jegyáttekintő előnézetét (CustomerInfo => 1 - az ügyfél-információt is megjeleníti, a CustomerInfoMaxSize az ügyfél-információ legnagyobb mérete karakterben)."
+msgstr "Megjeleníti a jegyáttekintő előnézetét (CustomerInfo => 1 – az ügyfél-információt is megjeleníti, a CustomerInfoMaxSize az ügyfél-információ legnagyobb mérete karakterben)."
 
 #. SysConfig
 msgid ""
@@ -22227,11 +22262,11 @@ msgstr "Ez az eseménymodul az ügyfél-felhasználó jellemzőit tárolja jegy 
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."
-msgstr "Ez az alapértelmezett narancssárga - fekete felszín az ügyfélfelülethez."
+msgstr "Ez az alapértelmezett narancssárga-fekete felszín az ügyfélfelülethez."
 
 #. SysConfig
 msgid "This is the default orange - black skin."
-msgstr "Ez az alapértelmezett narancssárga - fekete felszín."
+msgstr "Ez az alapértelmezett narancssárga-fekete felszín."
 
 #. SysConfig
 msgid ""
@@ -22533,6 +22568,14 @@ msgstr "Frissíti a jegyeszkalációs indexet, miután egy jegyjellemző frissí
 #. SysConfig
 msgid "Updates the ticket index accelerator."
 msgstr "Frissíti a jegyindex gyorsítót."
+
+#. SysConfig
+msgid "Upload your PGP key."
+msgstr "A PGP kulcsának feltöltése."
+
+#. SysConfig
+msgid "Upload your S/MIME certificate."
+msgstr "Az S/MIME tanúsítványának feltöltése."
 
 #. SysConfig
 msgid ""

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.542885973763875;
+    $Self->{Completeness}        = 0.599394550958628;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -2721,8 +2721,8 @@ sub Data {
         'Note type' => 'Тип замітки',
 
         # Template: AgentTicketBounce
-        'Bounce %s%s%s' => 'Стрибнути %s%s%s',
-        'Bounce to' => 'Переслати для',
+        'Bounce %s%s%s' => 'Повернути %s%s%s',
+        'Bounce to' => 'Повернути до',
         'You need a email address.' => 'Вам потрібна адреса електронної пошти.',
         'Need a valid email address or don\'t use a local email address.' =>
             'Потрібна дійсна адреса електронної пошти або не використовуйте локальну адресу електронної пошти.',
@@ -3315,34 +3315,34 @@ sub Data {
         'Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field).' =>
             'Зберігання даних результатів статистики в кеші для використання в наступних переглядах з тією ж самою конфігурацією (потрібно вибрати принаймні одне поле з часом).',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '',
+            'Забезпечує статистику у вигляді віджету, який можуть активувати агенти на своїх панелях.',
         'Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '',
-        'If set to invalid end users can not generate the stat.' => '',
+            'Зверніть увагу, що включення до панелі приладів віджета активує кешування для цієї статистики.',
+        'If set to invalid end users can not generate the stat.' => 'Статистику не буде створено, якщо вказати недійсних кінцевих користувачів.',
 
         # Template: PreviewWidget
-        'There are problems in the configuration of this statistic:' => '',
-        'You may now configure the X-axis of your statistic.' => '',
-        'This statistic does not provide preview data.' => '',
-        'Preview format:' => '',
+        'There are problems in the configuration of this statistic:' => 'В налаштуваннях цієї статистики наступні проблеми:',
+        'You may now configure the X-axis of your statistic.' => 'Зараз ви маєте налаштувати вісь Х вашої статистики.',
+        'This statistic does not provide preview data.' => 'Ця статистика не надає попереднього перегляду.',
+        'Preview format:' => 'Формат перегляду:',
         'Please note that the preview uses random data and does not consider data filters.' =>
-            '',
-        'Configure X-Axis' => '',
+            'Зверніть увагу, що попередній перегляд використовує випадкові дані, що не враховує використання фільтрів.',
+        'Configure X-Axis' => 'Налаштування осі Х',
         'X-axis' => 'Вісь X',
-        'Configure Y-Axis' => '',
-        'Y-axis' => '',
-        'Configure Filter' => '',
+        'Configure Y-Axis' => 'Налаштування осі Y',
+        'Y-axis' => 'Вісь Y',
+        'Configure Filter' => 'Налаштування Фільтру',
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
             'Виберіть тільки один пункт або заберіть прапорець «Фіксоване».',
-        'Absolute period' => '',
+        'Absolute period' => 'Абсолютний Період',
         'Between' => ' Між',
-        'Relative period' => '',
+        'Relative period' => 'Відносний період',
         'The past complete %s and the current+upcoming complete %s %s' =>
-            '',
+            'Минулий повний %s та поточний+майбутній повний %s %s',
         'Do not allow changes to this element when the statistic is generated.' =>
-            '',
+            'Не погоджуйтесь на зміни цього елемента коли створюється статистика.',
 
         # Template: StatsParamsWidget
         'Format' => 'Формат',
@@ -3350,30 +3350,30 @@ sub Data {
         'Configurable params of static stat' => 'Налаштовувані параметри статичного звіту',
         'No element selected.' => 'Елементи не обрані',
         'Scale' => 'Масштаб',
-        'show more' => '',
-        'show less' => '',
+        'show more' => 'показати більше',
+        'show less' => 'показати менше',
 
         # Template: D3
-        'Download SVG' => '',
-        'Download PNG' => '',
+        'Download SVG' => 'Завантажити SVG',
+        'Download PNG' => 'Завантажити PNG',
 
         # Template: XAxisWidget
         'The selected time period defines the default time frame for this statistic to collect data from.' =>
-            '',
+            'Вибраний період визначає типові межі часу в яких будуть збиратися дані для статистики.',
         'Defines the time unit that will be used to split the selected time period into reporting data points.' =>
-            '',
+            'Визначає одиницю часу, що буде використовуватись для поділу вибраного періоду в даних звітності.',
 
         # Template: YAxisWidget
         'Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year).' =>
-            '',
+            'Запам\'ятайте будь ласка, що шкала осі Y має бути більшою ніж шкала осі X (наприклад, вісь Х => Місяць, вісь Y => Рік).',
 
         # Template: Test
         'OTRS Test Page' => 'Тестова сторінка OTRS',
-        'Welcome %s %s' => '',
+        'Welcome %s %s' => 'Ласкаво просимо %s %s',
         'Counter' => 'Лічильник',
 
         # Template: Warning
-        'Go back to the previous page' => '',
+        'Go back to the previous page' => 'Повернутись до попередньої сторінки',
 
         # Perl Module: Kernel/Config/Defaults.pm
         'View system log messages.' => 'Перегляд системних повідомлень.',
@@ -3381,375 +3381,375 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
-        'The following ACLs have been added successfully: %s' => '',
-        'The following ACLs have been updated successfully: %s' => '',
+            'Списки АСL не можуть бути імпортовані через невідому помилку, будь ласка, перевірте журнал OTRS для отримання додаткової інформації.',
+        'The following ACLs have been added successfully: %s' => 'Вдало додано наступні списки ACL: %s',
+        'The following ACLs have been updated successfully: %s' => 'Вдало поновлено наступні списки ACL: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
-            '',
-        'This field is required' => '',
-        'There was an error creating the ACL' => '',
-        'Need ACLID!' => '',
-        'Could not get data for ACLID %s' => '',
-        'There was an error updating the ACL' => '',
-        'There was an error setting the entity sync status.' => '',
-        'There was an error synchronizing the ACLs.' => '',
-        'ACL %s could not be deleted' => '',
-        'There was an error getting data for ACL with ID %s' => '',
-        'Exact match' => '',
-        'Negated exact match' => '',
-        'Regular expression' => '',
-        'Regular expression (ignore case)' => '',
-        'Negated regular expression' => '',
-        'Negated regular expression (ignore case)' => '',
+            'Виникли помилки при додаванні/оновленні наступних списків ACL: %s. Будь ласка, перевірте файл журналу для отримання додаткової інформації.',
+        'This field is required' => 'Це поле є обов\'язковим',
+        'There was an error creating the ACL' => 'При створенні списку ACL виникла помилка',
+        'Need ACLID!' => 'Потрібний ACLID!',
+        'Could not get data for ACLID %s' => 'Не можу отримати дані для ACLID %s',
+        'There was an error updating the ACL' => 'При оновленні списку ACL виникла помилка',
+        'There was an error setting the entity sync status.' => 'Під час встановлення статусу синхронізації об\'єкту виникла помилка.',
+        'There was an error synchronizing the ACLs.' => 'Під час синхронізації списків ACL виникла помилка.',
+        'ACL %s could not be deleted' => 'ACL список %s не може бути видалений',
+        'There was an error getting data for ACL with ID %s' => 'При отримані даних для ACL з ID %s виникла помилка.',
+        'Exact match' => 'Точний збіг',
+        'Negated exact match' => 'Точний збіг заперечується',
+        'Regular expression' => 'Регулярний вислів',
+        'Regular expression (ignore case)' => 'Регулярний вислів (ігнорувати регістр)',
+        'Negated regular expression' => 'Регулярний вислів заперечується',
+        'Negated regular expression (ignore case)' => 'Регулярний вислів заперечується (ігнорувати регістр)',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
-        'Customer Company %s already exists!' => '',
+        'Customer Company %s already exists!' => 'Компанія Клієнта %s вже їснує!',
 
         # Perl Module: Kernel/Modules/AdminCustomerUser.pm
         'New phone ticket' => 'Нова телефонна заявка',
         'New email ticket' => 'Нова e-mail заявка',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
-        'Fields configuration is not valid' => '',
-        'Objects configuration is not valid' => '',
+        'Fields configuration is not valid' => 'Неправильне налаштування полів',
+        'Objects configuration is not valid' => 'Неправильне налаштування об\'єктів',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
-            '',
+            'Не можу правильно скинути  порядок Динамічного Поля, будь ласка перевірте журнал помилок для отримання більш докладної інформації.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
-        'Undefined subaction.' => '',
-        'Need %s' => '',
-        'The field does not contain only ASCII letters and numbers.' => '',
-        'There is another field with the same name.' => '',
-        'The field must be numeric.' => '',
-        'Need ValidID' => '',
-        'Could not create the new field' => '',
-        'Need ID' => '',
-        'Could not get data for dynamic field %s' => '',
-        'The name for this field should not change.' => '',
-        'Could not update the field %s' => '',
-        'Currently' => '',
-        'Unchecked' => '',
-        'Checked' => '',
+        'Undefined subaction.' => 'Невизначена субдія.',
+        'Need %s' => 'Потрібний %s',
+        'The field does not contain only ASCII letters and numbers.' => 'Поле не містить жодної ASCII літери або числа.',
+        'There is another field with the same name.' => 'Тут вже є інше поле з таким самим ім\'ям.',
+        'The field must be numeric.' => 'Поле має бути числовим.',
+        'Need ValidID' => 'Потрібний ValidID',
+        'Could not create the new field' => 'Не вдалося створити нове поле',
+        'Need ID' => 'Потрібний ID',
+        'Could not get data for dynamic field %s' => 'Не можу отримати дані для динамічного поля %s',
+        'The name for this field should not change.' => 'ім\'я цього поля не повинно змінюватися.',
+        'Could not update the field %s' => 'Не можу оновити поле %s',
+        'Currently' => 'Наразі',
+        'Unchecked' => 'Непозначено',
+        'Checked' => 'Позначено',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
-        'Prevent entry of dates in the future' => '',
-        'Prevent entry of dates in the past' => '',
+        'Prevent entry of dates in the future' => 'Попередити уведення дати в майбутньому',
+        'Prevent entry of dates in the past' => 'Попередити уведення дат в минулому',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDropdown.pm
-        'This field value is duplicated.' => '',
+        'This field value is duplicated.' => 'Значення цього поля дублюється.',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
-        'Select at least one recipient.' => '',
+        'Select at least one recipient.' => 'Виберіть принаймні, одного одержувача.',
 
         # Perl Module: Kernel/Modules/AdminGenericAgent.pm
-        'archive tickets' => '',
-        'restore tickets from archive' => '',
-        'Need Profile!' => '',
-        'Got no values to check.' => '',
+        'archive tickets' => 'архівувати квитки',
+        'restore tickets from archive' => 'відновити квитки з архіву',
+        'Need Profile!' => 'Потрібний Профіль!',
+        'Got no values to check.' => 'Немає значень для перевірки.',
         'Please remove the following words because they cannot be used for the ticket selection:' =>
-            '',
+            'Будь ласка, вилучіть наступні слова, тому що їх не можна використати для вибору квитка:',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
-        'Need WebserviceID!' => '',
-        'Could not get data for WebserviceID %s' => '',
+        'Need WebserviceID!' => 'Потрібний WebserviceID!',
+        'Could not get data for WebserviceID %s' => 'Неможливо отримати дані для WebserviceID %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
-        'Need InvokerType' => '',
-        'Invoker %s is not registered' => '',
-        'InvokerType %s is not registered' => '',
-        'Need Invoker' => '',
-        'Could not determine config for invoker %s' => '',
+        'Need InvokerType' => 'Потрібний Тип Активатора',
+        'Invoker %s is not registered' => 'Активатор %s не зареєстрований',
+        'InvokerType %s is not registered' => 'Тип Активатора %s не зареєстрований',
+        'Need Invoker' => 'Потрібний активатор',
+        'Could not determine config for invoker %s' => 'Не можу визначити налаштування для активатора %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
-        'Could not get registered configuration for action type %s' => '',
-        'Could not get backend for %s %s' => '',
-        'Could not update configuration data for WebserviceID %s' => '',
-        'Keep (leave unchanged)' => '',
-        'Ignore (drop key/value pair)' => '',
-        'Map to (use provided value as default)' => '',
-        'Exact value(s)' => '',
-        'Ignore (drop Value/value pair)' => '',
+        'Could not get registered configuration for action type %s' => 'Не можу отримати зареєстровані налаштування для типу дій %s',
+        'Could not get backend for %s %s' => 'Не можу визначити механізм для %s %s',
+        'Could not update configuration data for WebserviceID %s' => 'Не можу оновити дані налаштування WebserviceID %s',
+        'Keep (leave unchanged)' => 'Полишити (залишити без змін)',
+        'Ignore (drop key/value pair)' => 'Ігнорувати (відкинути пари ключ/значення)',
+        'Map to (use provided value as default)' => 'Відобразити до (використовувати надане значення як типове)',
+        'Exact value(s)' => 'Точне(-і) значення',
+        'Ignore (drop Value/value pair)' => 'Ігнорувати (відкинути пари Значення/значення)',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
-        'Could not find required library %s' => '',
+        'Could not find required library %s' => 'Не вдалося знайти необхідну бібліотеку %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
-        'Need OperationType' => '',
-        'Operation %s is not registered' => '',
-        'OperationType %s is not registered' => '',
-        'Need Operation' => '',
-        'Could not determine config for operation %s' => '',
+        'Need OperationType' => 'Потрібний Тип Операції',
+        'Operation %s is not registered' => 'Операцію %s не зареєстровано',
+        'OperationType %s is not registered' => 'Тип операції %s не зареєстровано',
+        'Need Operation' => 'Потрібна Операція',
+        'Could not determine config for operation %s' => 'Не можу визначити налаштування для операції %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
-        'Need Subaction!' => '',
+        'Need Subaction!' => 'Потрібна Субдія',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
-        'There is another web service with the same name.' => '',
-        'There was an error updating the web service.' => '',
-        'Web service "%s" updated!' => '',
-        'There was an error creating the web service.' => '',
-        'Web service "%s" created!' => '',
-        'Need Name!' => '',
-        'Need ExampleWebService!' => '',
-        'Could not read %s!' => '',
-        'Need a file to import!' => '',
+        'There is another web service with the same name.' => 'Тут вже є інша веб-служба з таким самим ім\'ям.',
+        'There was an error updating the web service.' => 'Під час оновлення веб-служби виникла помилка.',
+        'Web service "%s" updated!' => 'Веб-службу "%s" оновлено!',
+        'There was an error creating the web service.' => 'Під час створення веб-служби виникла помилка.',
+        'Web service "%s" created!' => 'Веб-службу "%s" створено!',
+        'Need Name!' => 'Потрібно Ім\'я!',
+        'Need ExampleWebService!' => 'Потрібний Взірець Веб-служби!',
+        'Could not read %s!' => 'Неможливо прочитати %s!',
+        'Need a file to import!' => 'Потрібний файл для імпорту!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
-            '',
-        'Web service "%s" deleted!' => '',
-        'New Web service' => '',
+            'Файл, що імпортується, не має правильного YAML вмісту! Будь ласка, перегляньте OTRS журнал для отримання детальної інформації.',
+        'Web service "%s" deleted!' => 'Веб-службу "%s" вилучено!',
+        'New Web service' => 'Нова Веб-служба',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
-        'Got no WebserviceHistoryID!' => '',
-        'Could not get history data for WebserviceHistoryID %s' => '',
+        'Got no WebserviceHistoryID!' => 'WebserviceHistoryID не отримано!',
+        'Could not get history data for WebserviceHistoryID %s' => 'Неможливо отримати дані історії для WebserviceHistoryID  %s',
 
         # Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-        'Notification updated!' => '',
-        'Notification added!' => '',
+        'Notification updated!' => 'Сповіщення оновлено!',
+        'Notification added!' => 'Сповіщення додано!',
         'There was an error getting data for Notification with ID:%s!' =>
-            '',
-        'Unknown Notification %s!' => '',
-        'There was an error creating the Notification' => '',
+            'Під час отримання даних для Сповіщення з ID:%s виникла помилка!',
+        'Unknown Notification %s!' => 'Невідоме Сповіщення %s!',
+        'There was an error creating the Notification' => 'Під час створення Сповіщення виникла помилка',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
+            'Через невідому помилку Сповіщення не вдалося імпортувати, будь ласка, перегляньте OTRS-журнали для отримання додаткової інформації.',
         'The following Notifications have been added successfully: %s' =>
-            '',
+            'Вдало додано наступні Сповіщення: %s',
         'The following Notifications have been updated successfully: %s' =>
-            '',
+            'Вдало оновлено наступні Сповіщення: %s',
         'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.' =>
-            '',
-        'Agent who owns the ticket' => '',
-        'Agent who is responsible for the ticket' => '',
-        'All agents watching the ticket' => '',
-        'All agents with write permission for the ticket' => '',
-        'All agents subscribed to the ticket\'s queue' => '',
-        'All agents subscribed to the ticket\'s service' => '',
+            'Під час додавання/оновлення наступних Сповіщень виникли помилки: %s. Будь ласка, перегляньте файл журналу для отримання більш детальної інформації.',
+        'Agent who owns the ticket' => 'Агент, якому належить квиток',
+        'Agent who is responsible for the ticket' => 'Агент, який несе відповідальність за квиток',
+        'All agents watching the ticket' => 'Всі агенти стежать за квитком',
+        'All agents with write permission for the ticket' => 'Всі агенти, що мають дозвіл на запис для квитка',
+        'All agents subscribed to the ticket\'s queue' => 'Всі агенти, що підписалися на чергу квитка',
+        'All agents subscribed to the ticket\'s service' => 'Всі агенти, що підписалися на службу квитка',
         'All agents subscribed to both the ticket\'s queue and service' =>
-            '',
-        'Customer of the ticket' => '',
-        'Yes, but require at least one active notification method' => '',
+            'Всі агенти, що підписалися на чергу та службу квитка',
+        'Customer of the ticket' => 'Клієнт, якому належить квиток',
+        'Yes, but require at least one active notification method' => 'Так, але потрібний принаймні один активний метод сповіщення.',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
-            '',
-        'Need param Key to delete!' => '',
-        'Key %s deleted!' => '',
-        'Need param Key to download!' => '',
+            'PGP оточення не працює. Будь ласка перегляньте журнал для отримання додаткової інформації.',
+        'Need param Key to delete!' => 'Потрібний Ключ, щоб вилучити.',
+        'Key %s deleted!' => 'Ключ %s вилучено!',
+        'Need param Key to download!' => 'Потрібний Ключ щоб завантажити!',
 
         # Perl Module: Kernel/Modules/AdminPackageManager.pm
         'Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otrs.Console.pl to install packages!' =>
-            '',
-        'No such package!' => '',
-        'No such file %s in package!' => '',
-        'No such file %s in local file system!' => '',
-        'Can\'t read %s!' => '',
-        'File is OK' => '',
-        'Package has locally modified files.' => '',
+            'На жаль, потрібно вказати Perl-модуль та PerlInitHandler Apache::Reload в файлі налаштувань Apache. Дивись також scripts/apache2-httpd.include.conf. Крім того, ви можете скористатися знаряддям командного рядка bin/otrs.Console.pl для встановлення пакунків!',
+        'No such package!' => 'Немає такого пакунка!',
+        'No such file %s in package!' => 'Немає файлу %s в пакунку!',
+        'No such file %s in local file system!' => 'Немає файлу %s в локальній файловій системі!',
+        'Can\'t read %s!' => 'Неможливо прочитати %s!',
+        'File is OK' => 'Файл в нормі',
+        'Package has locally modified files.' => 'Пакунок має локально змінені файли.',
         'No packages or no new packages found in selected repository.' =>
-            '',
+            'Жодного пакунку або нового пакунку в вибраному сховищі не знайдено.',
         'Package not verified due a communication issue with verification server!' =>
-            '',
-        'Can\'t connect to OTRS Feature Add-on list server!' => '',
-        'Can\'t get OTRS Feature Add-on list from server!' => '',
-        'Can\'t get OTRS Feature Add-on from server!' => '',
+            'Пакунок не перевірено через проблеми зі зв\'язком з сервером перевірки!',
+        'Can\'t connect to OTRS Feature Add-on list server!' => 'Неможливо встановити зв\'язок із сервером списку Додаткових функцій OTRS!',
+        'Can\'t get OTRS Feature Add-on list from server!' => 'Неможливо отримати список Додаткових функцій OTRS з серверу!',
+        'Can\'t get OTRS Feature Add-on from server!' => 'Неможливо отримати Додаткові функції OTRS з серверу!',
 
         # Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
-        'No such filter: %s' => '',
+        'No such filter: %s' => 'Немає такого фільтру: %s',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
-        'Need ExampleProcesses!' => '',
-        'Need ProcessID!' => '',
-        'Yes (mandatory)' => '',
-        'Unknown Process %s!' => '',
+        'Need ExampleProcesses!' => 'Потрібний Зразок Процесів!',
+        'Need ProcessID!' => 'Потрібний ProcessID!',
+        'Yes (mandatory)' => 'Так (обов\'язково)',
+        'Unknown Process %s!' => 'Незнайомий Процес %s!',
         'There was an error generating a new EntityID for this Process' =>
-            '',
-        'The StateEntityID for state Inactive does not exists' => '',
-        'There was an error creating the Process' => '',
+            'Під час обчислення нового EntityID для цього Процесу виникла помилка',
+        'The StateEntityID for state Inactive does not exists' => 'Не існує StateEntityID для неактивного стану',
+        'There was an error creating the Process' => 'Виникла помилка під час створення Процесу',
         'There was an error setting the entity sync status for Process entity: %s' =>
-            '',
-        'Could not get data for ProcessID %s' => '',
-        'There was an error updating the Process' => '',
-        'Process: %s could not be deleted' => '',
-        'There was an error synchronizing the processes.' => '',
-        'The %s:%s is still in use' => '',
-        'The %s:%s has a different EntityID' => '',
-        'Could not delete %s:%s' => '',
+            'Виникла помилка під час встановлення статусу об\'єктної синхронізації об\'єкта Процесу: %s',
+        'Could not get data for ProcessID %s' => 'Не можу отримати дані для ProcessID %s',
+        'There was an error updating the Process' => 'Під час оновлення Процесу виникла помилка',
+        'Process: %s could not be deleted' => 'Процес %s не може бути вилучений',
+        'There was an error synchronizing the processes.' => 'Під час синхронізації процесів виникла помилка.',
+        'The %s:%s is still in use' => '%s:%s ще досі використовується',
+        'The %s:%s has a different EntityID' => '%s:%s має інший EntityID',
+        'Could not delete %s:%s' => 'Неможливо видалити %s:%s',
         'There was an error setting the entity sync status for %s entity: %s' =>
-            '',
-        'Could not get %s' => '',
-        'Need %s!' => '',
-        'Process: %s is not Inactive' => '',
+            'Виникла помилка під час встановлення статусу об\'єктної синхронізації об\'єкта для %s об\'єкту: %s',
+        'Could not get %s' => 'Неможливо отримати %s',
+        'Need %s!' => 'Потрібний %s!',
+        'Process: %s is not Inactive' => 'Процес: %s не є активним',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
         'There was an error generating a new EntityID for this Activity' =>
-            '',
-        'There was an error creating the Activity' => '',
+            'Під час створення нового EntityID для цієї Активності виникла помилка',
+        'There was an error creating the Activity' => 'Під час створення Активності виникла помилка',
         'There was an error setting the entity sync status for Activity entity: %s' =>
-            '',
-        'Need ActivityID!' => '',
-        'Could not get data for ActivityID %s' => '',
-        'There was an error updating the Activity' => '',
-        'Missing Parameter: Need Activity and ActivityDialog!' => '',
-        'Activity not found!' => '',
-        'ActivityDialog not found!' => '',
+            'Виникла помилка під час встановлення статусу об\'єктної синхронізації для об\'єкта Активності: %s',
+        'Need ActivityID!' => 'Потрібний ActivityID!',
+        'Could not get data for ActivityID %s' => 'Не можу отримати дані для ActivityID %s',
+        'There was an error updating the Activity' => 'Під час оновлення Активності виникла помилка',
+        'Missing Parameter: Need Activity and ActivityDialog!' => 'Відсутній параметр: потрібна Активність та Діалог Активності!',
+        'Activity not found!' => 'Активність не знайдена!',
+        'ActivityDialog not found!' => 'Діалога Активності не знайдено!',
         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
-            '',
-        'Error while saving the Activity to the database!' => '',
-        'This subaction is not valid' => '',
-        'Edit Activity "%s"' => '',
+            'Діалог Активності вже призначений для Активності. Ви не можете додати Діалог Активності двічі!',
+        'Error while saving the Activity to the database!' => 'Під час збереження Активності до бази даних виникла помилка!',
+        'This subaction is not valid' => 'Ця піддія неправильна',
+        'Edit Activity "%s"' => 'Редагувати Активність "%s"',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
         'There was an error generating a new EntityID for this ActivityDialog' =>
-            '',
-        'There was an error creating the ActivityDialog' => '',
+            'Під час створення нового EntityID для цього Діалогу Активності виникла помилка',
+        'There was an error creating the ActivityDialog' => 'Під час створення Діалогу Активності виникла помилка',
         'There was an error setting the entity sync status for ActivityDialog entity: %s' =>
-            '',
-        'Need ActivityDialogID!' => '',
-        'Could not get data for ActivityDialogID %s' => '',
-        'There was an error updating the ActivityDialog' => '',
-        'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
-        'Customer Interface' => '',
-        'Agent and Customer Interface' => '',
-        'Do not show Field' => '',
-        'Show Field' => '',
-        'Show Field As Mandatory' => '',
-        'fax' => '',
+            'Виникла помилка під час встановлення статусу об\'єктної синхронізації для об\'єкту Діалогу Активності: %s',
+        'Need ActivityDialogID!' => 'Потрібний ActivityDialogID!',
+        'Could not get data for ActivityDialogID %s' => 'Не можу отримати дані для ActivityDialogID %s',
+        'There was an error updating the ActivityDialog' => 'Під час оновлення Діалогу Активності виникла помилка',
+        'Edit Activity Dialog "%s"' => 'Редагувати Діалог Активності "%s"',
+        'Agent Interface' => 'Інтерфейс агента',
+        'Customer Interface' => 'Інтерфейс клієнта',
+        'Agent and Customer Interface' => 'Інтерфейс Агента та Клієнта',
+        'Do not show Field' => 'Не показувати поле',
+        'Show Field' => 'Показувати поле',
+        'Show Field As Mandatory' => 'Показувати поле як обов\'язкове',
+        'fax' => 'факс',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
-        'Edit Path' => '',
+        'Edit Path' => 'Змінити Шлях',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
         'There was an error generating a new EntityID for this Transition' =>
-            '',
-        'There was an error creating the Transition' => '',
+            'Під час створення нового EntityID для цього Переходу виникла помилка',
+        'There was an error creating the Transition' => 'Під час створення Переходу виникла помилка',
         'There was an error setting the entity sync status for Transition entity: %s' =>
-            '',
-        'Need TransitionID!' => '',
-        'Could not get data for TransitionID %s' => '',
-        'There was an error updating the Transition' => '',
-        'Edit Transition "%s"' => '',
-        'xor' => '',
-        'String' => '',
-        'Transition validation module' => '',
+            'Виникла помилка під час встановлення статусу об\'єктної синхронізації для об\'єкту Переходу: %s',
+        'Need TransitionID!' => 'Потрібний TransitionID!',
+        'Could not get data for TransitionID %s' => 'Не можу отримати дані для TransitionID %s',
+        'There was an error updating the Transition' => 'Під час оновлення Переходу виникла помилка',
+        'Edit Transition "%s"' => 'Редагувати Перехід "%s"',
+        'xor' => 'xor',
+        'String' => 'Рядок',
+        'Transition validation module' => 'Модуль перевірки Переходу',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
-        'At least one valid config parameter is required.' => '',
+        'At least one valid config parameter is required.' => 'Потрібен принаймні один дійсний параметр налаштування.',
         'There was an error generating a new EntityID for this TransitionAction' =>
-            '',
-        'There was an error creating the TransitionAction' => '',
+            'Під час створення нового EntityID для цієї Дії Переходу виникла помилка',
+        'There was an error creating the TransitionAction' => 'Під час створення Дії Переходу виникла помилка',
         'There was an error setting the entity sync status for TransitionAction entity: %s' =>
-            '',
-        'Need TransitionActionID!' => '',
-        'Could not get data for TransitionActionID %s' => '',
-        'There was an error updating the TransitionAction' => '',
-        'Edit Transition Action "%s"' => '',
-        'Error: Not all keys seem to have values or vice versa.' => '',
+            'Виникла помилка під час встановлення статусу об\'єктної синхронізації для об\'єкту Дії Переходу: %s',
+        'Need TransitionActionID!' => 'Потрібна TransitionActionID!',
+        'Could not get data for TransitionActionID %s' => 'Не можу отримати дані для TransitionActionID %s',
+        'There was an error updating the TransitionAction' => 'Під час оновлення Дії Переходу виникла помилка',
+        'Edit Transition Action "%s"' => 'Редагувати Дію Переходу "%s"',
+        'Error: Not all keys seem to have values or vice versa.' => 'Помилка: здається не всі ключі мають значення, або навпаки.',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
-        'Don\'t use :: in queue name!' => '',
-        'Click back and change it!' => '',
+        'Don\'t use :: in queue name!' => 'Не використовуйте :: в імені черги!',
+        'Click back and change it!' => 'Натисніть назад та змініть це!',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
-        'Queues ( without auto responses )' => '',
+        'Queues ( without auto responses )' => 'Черги (без автовідповідей)',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
-            '',
-        'Need param Filename to delete!' => '',
-        'Need param Filename to download!' => '',
-        'Needed CertFingerprint and CAFingerprint!' => '',
-        'CAFingerprint must be different than CertFingerprint' => '',
-        'Relation exists!' => '',
-        'Relation added!' => '',
-        'Impossible to add relation!' => '',
-        'Relation doesn\'t exists' => '',
-        'Relation deleted!' => '',
-        'Impossible to delete relation!' => '',
-        'Certificate %s could not be read!' => '',
-        'Needed Fingerprint' => '',
+            'S/MIME оточення не працює. Будь ласка перевірте журнал для більше детальної інформації!',
+        'Need param Filename to delete!' => 'Потрібний параметр Ім\'я файлу для вилучення!',
+        'Need param Filename to download!' => 'Потрібний параметр Ім\'я файлу для завантаження!',
+        'Needed CertFingerprint and CAFingerprint!' => 'Потрібні CertFingerprint та CAFingerprint!',
+        'CAFingerprint must be different than CertFingerprint' => 'CAFingerprint має відрізнятись від CertFingerprint',
+        'Relation exists!' => 'Стосунок існує!',
+        'Relation added!' => 'Стосунок додано!',
+        'Impossible to add relation!' => 'Неможливо додати стосунок!',
+        'Relation doesn\'t exists' => 'Стосунку не існує',
+        'Relation deleted!' => 'Стосунок вилучено!',
+        'Impossible to delete relation!' => 'Неможливо видалити стосунок!',
+        'Certificate %s could not be read!' => 'Неможливо прочитати сертифікат %s!',
+        'Needed Fingerprint' => 'Потрібний цифровий відбиток',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
-        'Salutation updated!' => '',
-        'Salutation added!' => '',
+        'Salutation updated!' => 'Привітання оновлено!',
+        'Salutation added!' => 'Привітання додано!',
 
         # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
-        'File %s could not be read!' => '',
+        'File %s could not be read!' => 'Неможливо прочитати файл %s!',
 
         # Perl Module: Kernel/Modules/AdminSysConfig.pm
-        'Import not allowed!' => '',
-        'Need File!' => '',
-        'Can\'t write ConfigItem!' => '',
+        'Import not allowed!' => 'Імпорт не допускається!',
+        'Need File!' => 'Потрібний файл!',
+        'Can\'t write ConfigItem!' => 'Не можу записати ConfigItem!',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
-        'Start date shouldn\'t be defined after Stop date!' => '',
-        'There was an error creating the System Maintenance' => '',
-        'Need SystemMaintenanceID!' => '',
-        'Could not get data for SystemMaintenanceID %s' => '',
-        'System Maintenance was saved successfully!' => '',
-        'Session has been killed!' => '',
-        'All sessions have been killed, except for your own.' => '',
-        'There was an error updating the System Maintenance' => '',
-        'Was not possible to delete the SystemMaintenance entry: %s!' => '',
+        'Start date shouldn\'t be defined after Stop date!' => 'Початкова дата не може бути визначена після кінцевої!',
+        'There was an error creating the System Maintenance' => 'Під час створення технічного обслуговування системи виникла помилка',
+        'Need SystemMaintenanceID!' => 'Потрібний SystemMaintenanceID!',
+        'Could not get data for SystemMaintenanceID %s' => 'Не можу отримати дані для SystemMaintenanceID %s',
+        'System Maintenance was saved successfully!' => 'Вдало збережено технічне обслуговування системи!',
+        'Session has been killed!' => 'Сесію було завершено!',
+        'All sessions have been killed, except for your own.' => 'За винятком вашої особистої сесії, всі інші було завершено.',
+        'There was an error updating the System Maintenance' => 'Під час оновлення Технічного обслуговування системи виникла помілка',
+        'Was not possible to delete the SystemMaintenance entry: %s!' => 'Не можливо було видалити запис технічного обслуговування системи: %s!',
 
         # Perl Module: Kernel/Modules/AdminTemplate.pm
-        'Template updated!' => '',
-        'Template added!' => '',
+        'Template updated!' => 'Шаблон оновлений!',
+        'Template added!' => 'Шаблон додано!',
 
         # Perl Module: Kernel/Modules/AdminType.pm
-        'Need Type!' => '',
+        'Need Type!' => 'Потрібний Тип!',
 
         # Perl Module: Kernel/Modules/AgentDashboardCommon.pm
-        'No such config for %s' => '',
-        'Statistic' => '',
-        'No preferences for %s!' => '',
-        'Can\'t get element data of %s!' => '',
-        'Can\'t get filter content data of %s!' => '',
-        'Customer Company Name' => '',
-        'Customer User ID' => '',
+        'No such config for %s' => 'Немає налаштувань для %s',
+        'Statistic' => 'Статистика',
+        'No preferences for %s!' => 'Немає уподобань для %s!',
+        'Can\'t get element data of %s!' => 'Не можу отримати елемент даних %s!',
+        'Can\'t get filter content data of %s!' => 'Неможливо отримати дані вмісту фільтру для %s!',
+        'Customer Company Name' => 'Найменування Компанії Клієнта',
+        'Customer User ID' => 'ID користувача клієнта',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
-        'Need SourceObject and SourceKey!' => '',
-        'Please contact the administrator.' => '',
-        'You need ro permission!' => '',
-        'Can not delete link with %s!' => '',
-        'Can not create link with %s! Object already linked as %s.' => '',
-        'Can not create link with %s!' => '',
-        'The object %s cannot link with other object!' => '',
+        'Need SourceObject and SourceKey!' => 'Потрібні SourceObject та SourceKey!',
+        'Please contact the administrator.' => 'Будь ласка, зверніться до адміністратора.',
+        'You need ro permission!' => 'Вам потрібен дозвіл на читання (ro)!',
+        'Can not delete link with %s!' => 'Не можу вилучити зв\'язок з %s!',
+        'Can not create link with %s! Object already linked as %s.' => 'Не можу створити посилання до %s! Об\'єкт вже пов\'язаний із %s.',
+        'Can not create link with %s!' => 'Не можу створити зв\'язок з %s!',
+        'The object %s cannot link with other object!' => 'Об\'єкт %s не може бути пов\'язаний з іншим об\'єктом!',
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
-        'Param Group is required!' => '',
+        'Param Group is required!' => 'Необхідний параметр Група!',
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
-        'Parameter %s is missing.' => '',
-        'Invalid Subaction.' => '',
-        'Statistic could not be imported.' => '',
-        'Please upload a valid statistic file.' => '',
-        'Export: Need StatID!' => '',
-        'Delete: Get no StatID!' => '',
-        'Need StatID!' => '',
-        'Could not load stat.' => '',
-        'Could not create statistic.' => '',
-        'Run: Get no %s!' => '',
+        'Parameter %s is missing.' => 'Параметр %s відсутній.',
+        'Invalid Subaction.' => 'Нечинна Піддія.',
+        'Statistic could not be imported.' => 'Неможливо імпортувати статистику.',
+        'Please upload a valid statistic file.' => 'Будь ласка вивантажте чинний файл статистики.',
+        'Export: Need StatID!' => 'Експорт: потрібний StatID!',
+        'Delete: Get no StatID!' => 'Вилучення: не можу отримати StatID!',
+        'Need StatID!' => 'Потрібний StatID!',
+        'Could not load stat.' => 'Не вдалося завантажити статистику.',
+        'Could not create statistic.' => 'Не можу створити статистику.',
+        'Run: Get no %s!' => 'Виконання: не можу отримати %s!',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
-        'No TicketID is given!' => '',
-        'You need %s permissions!' => '',
-        'Could not perform validation on field %s!' => '',
-        'No subject' => '',
+        'No TicketID is given!' => 'Не надано TicketID!',
+        'You need %s permissions!' => 'Вам потрібні дозволи %s!',
+        'Could not perform validation on field %s!' => 'Не вдалось виконати перевірку на полі %s!',
+        'No subject' => 'Без теми',
         'Previous Owner' => 'Попередній власник',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
-        '%s is needed!' => '',
-        'Plain article not found for article %s!' => '',
-        'Article does not belong to ticket %s!' => '',
-        'Can\'t bounce email!' => '',
-        'Can\'t send email!' => '',
-        'Wrong Subaction!' => '',
+        '%s is needed!' => 'Потрібний %s!',
+        'Plain article not found for article %s!' => 'Для статті %s не знайдено статті зі звичайного тексту!',
+        'Article does not belong to ticket %s!' => 'Стаття не відноситься до квитка %s!',
+        'Can\'t bounce email!' => 'Не можу повернути лист!',
+        'Can\'t send email!' => 'Не можу надіслати листа!',
+        'Wrong Subaction!' => 'Помилкова Піддія!',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
-        'Can\'t lock Tickets, no TicketIDs are given!' => '',
-        'Ticket (%s) is not unlocked!' => '',
-        'Bulk feature is not enabled!' => '',
+        'Can\'t lock Tickets, no TicketIDs are given!' => 'Не можу заблокувати квиток, не надано TicketID!',
+        'Ticket (%s) is not unlocked!' => 'Квиток (%s) не разблоковано!',
+        'Bulk feature is not enabled!' => 'Масову функцію не увімкнено!',
         'No selectable TicketID is given!' => '',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
             '',

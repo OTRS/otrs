@@ -27,8 +27,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-04 12:03+0000\n"
-"PO-Revision-Date: 2017-05-04 17:04+0000\n"
+"POT-Creation-Date: 2017-05-31 17:16+0000\n"
+"PO-Revision-Date: 2017-05-31 22:17+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -6073,7 +6073,11 @@ msgid "package information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS."
+msgid "Package installation requires a patch level update of OTRS."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package update requires a patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6087,33 +6091,36 @@ msgid "Please note that your installed OTRS version is %s."
 msgstr ""
 
 #. Template: AdminPackageManager
+msgid ""
+"To install this package, you need to update OTRS to version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or older."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues."
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Please find all relevant information within"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "the upgrading instructions"
+msgid ""
+"Please find all relevant information within the upgrading instructions at "
+"%s."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
 "In case you would have further questions we would be glad to answer them."
 msgstr "В случае, если у Вас возникли вопросы, мы будем рады ответить на них."
-
-#. Template: AdminPackageManager
-msgid "Please visit our customer"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "portal"
-msgstr "портал"
-
-#. Template: AdminPackageManager
-msgid "and file a request."
-msgstr "и задайте вопрос."
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -7387,6 +7394,14 @@ msgid "Please visit our"
 msgstr "Посетите наш"
 
 #. Template: AdminRegistration
+msgid "portal"
+msgstr "портал"
+
+#. Template: AdminRegistration
+msgid "and file a request."
+msgstr "и задайте вопрос."
+
+#. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
 msgstr "Если вы откажетесь от регистрации вашей системы, вы потеряете следующие выгоды:"
 
@@ -7855,6 +7870,10 @@ msgid "Edit Service"
 msgstr "Изменить Сервис"
 
 #. Template: AdminService
+msgid "Service name maximum length is 200 characters (with Sub-service)."
+msgstr ""
+
+#. Template: AdminService
 msgid "Sub-service of"
 msgstr "Подсервис сервиса"
 
@@ -8285,8 +8304,18 @@ msgid "Edit System Email Address"
 msgstr "Редактировать системный адрес электронной почты"
 
 #. Template: AdminSystemAddress
+msgid "This email address is already used as system email address."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
 msgstr "Отображаемое имя и адрес электронной почты будут показываться в отправляемой вами почте."
+
+#. Template: AdminSystemAddress
+msgid ""
+"This system address cannot be set to invalid, because it is used in one or "
+"more queue(s)."
+msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -9527,6 +9556,10 @@ msgid "Article Create Time (between)"
 msgstr "Время создания сообщения (между)"
 
 #. Template: AgentTicketSearch
+msgid "Invalid date"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
 msgstr "Время создания заявки (до/после)"
 
@@ -9743,24 +9776,6 @@ msgstr "Закрыть это сообщение"
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "Заметка не может быть открыта! Возможно, она на другой странице заметок?"
-
-#. Template: AgentTicketZoom
-msgid "Scale preview content"
-msgstr "Масштабировать предпросмотр"
-
-#. Template: AgentTicketZoom
-msgid "Open URL in new tab"
-msgstr "Открыть URL в новой вкладке"
-
-#. Template: AgentTicketZoom
-msgid "Close preview"
-msgstr "Закрыть превью"
-
-#. Template: AgentTicketZoom
-msgid ""
-"A preview of this website can't be provided because it didn't allow to be "
-"embedded."
-msgstr "Предпросмотр этого сайта недоступен, так как его встраивание не разрешено."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10702,6 +10717,24 @@ msgstr "Запросить новый пароль"
 #. Template: Login
 msgid "Back to login"
 msgstr "Вернуться к странице входа в систему"
+
+#. Template: MetaFloater
+msgid "Scale preview content"
+msgstr "Масштабировать предпросмотр"
+
+#. Template: MetaFloater
+msgid "Open URL in new tab"
+msgstr "Открыть URL в новой вкладке"
+
+#. Template: MetaFloater
+msgid "Close preview"
+msgstr "Закрыть превью"
+
+#. Template: MetaFloater
+msgid ""
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
+msgstr "Предпросмотр этого сайта недоступен, так как его встраивание не разрешено."
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
@@ -12333,8 +12366,9 @@ msgstr "Отсутствует ActivityEntityID в Ticket %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for ticket"
-" '%s%s%s'! Another user changed this ticket in the meantime."
+"This step does not belong anymore to the current activity in process for "
+"ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
+"close this window and reload the ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12685,6 +12719,16 @@ msgstr "Не удается переоткрыть заявку, невозмо�
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
 msgstr "Создать новую заявку!"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "SecureMode active!"
+msgstr "Активирован SecureMode!"
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr "Если вы желаете перезапустить установщик, отключите SecureMode в SysConfig."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
@@ -14108,16 +14152,6 @@ msgid "Can't send account info!"
 msgstr "Не удается отправить информацию аккаунта!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid "SecureMode active!"
-msgstr "Активирован SecureMode!"
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the "
-"SysConfig."
-msgstr "Если вы желаете перезапустить установщик, отключите SecureMode в SysConfig."
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
 msgstr "Действие  \"%s\" не найдено!"
 
@@ -14230,8 +14264,8 @@ msgstr "новая заявка"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be "
-"created.."
-msgstr "Дополнения к закрытым заявкам запрещены. Будет создана новая заявка."
+"created."
+msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
@@ -18531,8 +18565,8 @@ msgstr "Интерфес"
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
-"Serivice feature is not used)."
-msgstr "Frontend module registration (отключает ссылку AgentTicketService если опция Ticket Serivice не используется). "
+"Service feature is not used)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18563,6 +18597,10 @@ msgstr "Frontend module registration для интерфейса клиента.
 #. SysConfig
 msgid "Frontend theme"
 msgstr "Тема интерфеса"
+
+#. SysConfig
+msgid "Frontend theme."
+msgstr ""
 
 #. SysConfig
 msgid "Full value"
@@ -19045,9 +19083,11 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"If this option is enabled, then the decrypted data will be stored in the "
-"database if they are displayed in AgentTicketZoom."
-msgstr "Если включено, то расшифрованное содержимое будет сохраняться в БД, если оно отображается в AgentTicketZoom."
+"If this option is disabled, articles will not automatically be decrypted and"
+" stored in the database. Please note that this also means no decryption will"
+" take place and the articles will be shown in ticket zoom in their original "
+"(encrypted) form."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19486,8 +19526,8 @@ msgid ""
 msgstr "Максимальная длина (в символах) для таблицы информации о клиенте при просмотре заявки."
 
 #. SysConfig
-msgid "Merge this ticket and all articles into a another ticket"
-msgstr "Объединить эту заявку и все ее заметки/сообщения с другой заявкой"
+msgid "Merge this ticket and all articles into another ticket"
+msgstr ""
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
@@ -19804,10 +19844,6 @@ msgid "PGP Key Management"
 msgstr "Управление ключами PGP"
 
 #. SysConfig
-msgid "PGP Key Upload"
-msgstr "Загрузить PGP ключ"
-
-#. SysConfig
 msgid "Package event module file a scheduler task for update registration."
 msgstr ""
 
@@ -19842,11 +19878,11 @@ msgstr "Параметры фильтров колонок при обзора �
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the customer company information of "
-"the agent interface . \"Group\" is used to restrict the access to the plugin"
-" (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin "
-"is enabled by default or if the user needs to enable it manually. "
+"the agent interface. \"Group\" is used to restrict the access to the plugin "
+"(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
+" enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "Параметры для раздела Дайджеста (CIC - Центр информации о клиентах) с информацией о компании клиента в интерфейсе агента. \"Group\" используется для ограничения доступа к разделу (например, Group: admin;group1;group2;). \"Default\" - задает, будет ли раздел доступен по умолчанию или агент должен активировать его вручную. \"CacheTTLLocal\" - время обновления кэша в минутах для этого раздела."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20293,10 +20329,9 @@ msgstr "Роли <-> Группы"
 
 #. SysConfig
 msgid ""
-"Run file based generic agent jobs (Note: module name need needs to be "
-"specified in -configuration-module param e.g. "
-"\"Kernel::System::GenericAgent\")."
-msgstr "Выполняет сохраненные агентом в БД задания планировщика (Помните: Имя модуля должно быть задано в -configuration-module param, например, \"Kernel::System::GenericAgent\")."
+"Run file based generic agent jobs (Note: module name needs to be specified "
+"in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
+msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
@@ -20325,10 +20360,6 @@ msgstr "Запускает систему в режиме \"Demo\". Если у�
 #. SysConfig
 msgid "Russian"
 msgstr "Русский"
-
-#. SysConfig
-msgid "S/MIME Certificate Upload"
-msgstr "Загрузка сертификата S/MIME"
 
 #. SysConfig
 msgid "SMS"
@@ -20406,11 +20437,15 @@ msgid "Select the main interface language."
 msgstr "Выберете главный язык интерфейса."
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "Тема интерфейса (имя папки с кастомными модулями)."
+msgid "Select your default spelling dictionary."
+msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your preferred theme for OTRS."
 msgstr ""
 
 #. SysConfig
@@ -22547,6 +22582,14 @@ msgstr "Обновляет индексы эскалации заявок пос
 #. SysConfig
 msgid "Updates the ticket index accelerator."
 msgstr "Обновляет ticket index accelerator."
+
+#. SysConfig
+msgid "Upload your PGP key."
+msgstr ""
+
+#. SysConfig
+msgid "Upload your S/MIME certificate."
+msgstr ""
 
 #. SysConfig
 msgid ""

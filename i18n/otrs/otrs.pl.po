@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-04 12:03+0000\n"
-"PO-Revision-Date: 2017-05-04 17:04+0000\n"
+"POT-Creation-Date: 2017-05-31 17:16+0000\n"
+"PO-Revision-Date: 2017-05-31 22:17+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -606,7 +606,7 @@ msgstr "Błędny czas!"
 
 #. Template: AAABase
 msgid "Invalid date!"
-msgstr "Błedna data!"
+msgstr "Błędna data!"
 
 #. Template: AAABase
 msgid "Name"
@@ -4822,7 +4822,7 @@ msgstr "Plik Certification Authority (CA)"
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates the SSL certificate."
-msgstr ""
+msgstr "Pełna ścieżka i nazwa pliku z certyfikatem CA, który potwierdza certyfikat SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/CA/ca.file"
@@ -5557,7 +5557,7 @@ msgstr "Włącz tą metodę powiadomienia"
 
 #. Template: AdminNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Transport"
 
 #. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
@@ -5645,19 +5645,19 @@ msgstr "Atrybuty danych obecnego użytkownika klienta"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "Atrybuty danych użytkownika aktualnego właściciela zgłoszenia"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "Atrybuty danych użytkownika aktualnego odpowiedzialnego za zgłoszenie"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
-msgstr ""
+msgstr "Opcje bieżącego agenta, który żądał akcji"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Atrybuty danych odbiorcy powiadomienia"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the ticket data"
@@ -5704,7 +5704,7 @@ msgstr "Formatka email"
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
+msgstr "Użyj tego szablonu, aby wygenerować kompletną wiadomość email (dotyczy tylko emaili HTML)."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -5809,7 +5809,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "Twoja zainstalowana wersja OTRS to %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -5829,7 +5829,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Why should I keep OTRS up to date?"
-msgstr ""
+msgstr "Dlaczego powinienem aktualizować OTRS?"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates about relevant security issues."
@@ -5945,7 +5945,7 @@ msgstr "Baza danych pól dynamicznych"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "SLA Selection Dialog"
-msgstr ""
+msgstr "Okno wyboru SLA"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Ticket Attachment View"
@@ -6064,7 +6064,11 @@ msgid "package information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS."
+msgid "Package installation requires a patch level update of OTRS."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package update requires a patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6078,33 +6082,36 @@ msgid "Please note that your installed OTRS version is %s."
 msgstr ""
 
 #. Template: AdminPackageManager
+msgid ""
+"To install this package, you need to update OTRS to version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or older."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues."
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Please find all relevant information within"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "the upgrading instructions"
+msgid ""
+"Please find all relevant information within the upgrading instructions at "
+"%s."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
 "In case you would have further questions we would be glad to answer them."
 msgstr "W przyapdku gdy posiadasz dodatkowe pytania będziemy zadowoleni by móc na nie odpowiedzieć."
-
-#. Template: AdminPackageManager
-msgid "Please visit our customer"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "portal"
-msgstr "portal"
-
-#. Template: AdminPackageManager
-msgid "and file a request."
-msgstr "i złóż podanie"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -6914,7 +6921,7 @@ msgstr "Na tym ekranie możesz utworzyć nowy proces. Aby udostępnić proces u�
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "zrezygnuj i zamknij"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -7378,6 +7385,14 @@ msgid "Please visit our"
 msgstr "Proszę odwiedź nasz"
 
 #. Template: AdminRegistration
+msgid "portal"
+msgstr "portal"
+
+#. Template: AdminRegistration
+msgid "and file a request."
+msgstr "i złóż podanie"
+
+#. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
 msgstr ""
 
@@ -7742,7 +7757,7 @@ msgstr "Powiąż ten certyfikat"
 
 #. Template: AdminSMIMECertRead
 msgid "Close dialog"
-msgstr ""
+msgstr "Zamknij okienko dialogowe"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
@@ -7844,6 +7859,10 @@ msgstr "Dodaj usługę"
 #. Template: AdminService
 msgid "Edit Service"
 msgstr "Edytuj usługę"
+
+#. Template: AdminService
+msgid "Service name maximum length is 200 characters (with Sub-service)."
+msgstr ""
 
 #. Template: AdminService
 msgid "Sub-service of"
@@ -8276,8 +8295,18 @@ msgid "Edit System Email Address"
 msgstr "Edytuj systemowy adres e-mail"
 
 #. Template: AdminSystemAddress
+msgid "This email address is already used as system email address."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
 msgstr "Wyświetlana nazwa oraz adres e-mail będą umieszczane w wysyłanej poczcie."
+
+#. Template: AdminSystemAddress
+msgid ""
+"This system address cannot be set to invalid, because it is used in one or "
+"more queue(s)."
+msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -8483,7 +8512,7 @@ msgstr "Edytuj agenta"
 
 #. Template: AdminUser
 msgid "Title or salutation"
-msgstr ""
+msgstr "Tytuł albo zwrot grzecznościowy"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -8659,7 +8688,7 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s closed ticket(s) of %s"
-msgstr ""
+msgstr "%s zamkniętych zgłoszeń z %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New phone ticket from %s"
@@ -9518,6 +9547,10 @@ msgid "Article Create Time (between)"
 msgstr "Czas utworzenia wiadomości (pomiędzy)"
 
 #. Template: AgentTicketSearch
+msgid "Invalid date"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
 msgstr "Czas utworzenia zgłoszenia (przed/po)"
 
@@ -9734,24 +9767,6 @@ msgstr "Zamknij wiadomość"
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "Wiadomość nie może być otwarta! Być może znajduje się na innej stronie wiadomości."
-
-#. Template: AgentTicketZoom
-msgid "Scale preview content"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Open URL in new tab"
-msgstr "Otwórz URL w nowej zakładce"
-
-#. Template: AgentTicketZoom
-msgid "Close preview"
-msgstr "Zamknij podgląd"
-
-#. Template: AgentTicketZoom
-msgid ""
-"A preview of this website can't be provided because it didn't allow to be "
-"embedded."
-msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10693,6 +10708,24 @@ msgstr "Prośba o nowe hasło"
 #. Template: Login
 msgid "Back to login"
 msgstr "Powrót do logowania"
+
+#. Template: MetaFloater
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: MetaFloater
+msgid "Open URL in new tab"
+msgstr "Otwórz URL w nowej zakładce"
+
+#. Template: MetaFloater
+msgid "Close preview"
+msgstr "Zamknij podgląd"
+
+#. Template: MetaFloater
+msgid ""
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
+msgstr ""
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
@@ -12324,8 +12357,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for ticket"
-" '%s%s%s'! Another user changed this ticket in the meantime."
+"This step does not belong anymore to the current activity in process for "
+"ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
+"close this window and reload the ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12363,7 +12397,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
-msgstr ""
+msgstr "Bez tytułu"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Customer Name"
@@ -12487,7 +12521,7 @@ msgstr "Wiadomość Wychodząca"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Title Updated"
-msgstr ""
+msgstr "Tytuł został zaktualizowany"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Merged"
@@ -12678,6 +12712,16 @@ msgid "Create a new ticket!"
 msgstr "Stwórz nowe zgłoszenie!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "SecureMode active!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
 msgstr ""
 
@@ -12855,7 +12899,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
-msgstr ""
+msgstr "Zgłoszenie nie ma tytułu albo tematu"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
@@ -14099,16 +14143,6 @@ msgid "Can't send account info!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid "SecureMode active!"
-msgstr ""
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the "
-"SysConfig."
-msgstr ""
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
 msgstr ""
 
@@ -14221,7 +14255,7 @@ msgstr "nowe zgłoszenie"
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be "
-"created.."
+"created."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -18522,7 +18556,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
-"Serivice feature is not used)."
+"Service feature is not used)."
 msgstr ""
 
 #. SysConfig
@@ -18554,6 +18588,10 @@ msgstr "Rejestracja modułu interfejsu dla interfejsu klienta."
 #. SysConfig
 msgid "Frontend theme"
 msgstr "Schemat graficzny"
+
+#. SysConfig
+msgid "Frontend theme."
+msgstr ""
 
 #. SysConfig
 msgid "Full value"
@@ -19036,8 +19074,10 @@ msgstr "Jeśli ustawiony, ten adres jest używany w nagłówku 'envelope sender'
 
 #. SysConfig
 msgid ""
-"If this option is enabled, then the decrypted data will be stored in the "
-"database if they are displayed in AgentTicketZoom."
+"If this option is disabled, articles will not automatically be decrypted and"
+" stored in the database. Please note that this also means no decryption will"
+" take place and the articles will be shown in ticket zoom in their original "
+"(encrypted) form."
 msgstr ""
 
 #. SysConfig
@@ -19477,7 +19517,7 @@ msgid ""
 msgstr "Maksymalny rozmiar (w znakach) tabeli informacji klienta w przybliżonym widoku zgłoszenia."
 
 #. SysConfig
-msgid "Merge this ticket and all articles into a another ticket"
+msgid "Merge this ticket and all articles into another ticket"
 msgstr ""
 
 #. SysConfig
@@ -19795,10 +19835,6 @@ msgid "PGP Key Management"
 msgstr "Zarządzanie kluczami PGP"
 
 #. SysConfig
-msgid "PGP Key Upload"
-msgstr "Prześlij klucz PGP"
-
-#. SysConfig
 msgid "Package event module file a scheduler task for update registration."
 msgstr ""
 
@@ -19833,9 +19869,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the customer company information of "
-"the agent interface . \"Group\" is used to restrict the access to the plugin"
-" (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin "
-"is enabled by default or if the user needs to enable it manually. "
+"the agent interface. \"Group\" is used to restrict the access to the plugin "
+"(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
+" enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
 msgstr ""
 
@@ -20284,10 +20320,9 @@ msgstr "Role <-> Grupy"
 
 #. SysConfig
 msgid ""
-"Run file based generic agent jobs (Note: module name need needs to be "
-"specified in -configuration-module param e.g. "
-"\"Kernel::System::GenericAgent\")."
-msgstr "Uruchamia zadania agenta automatycznego zapisane w plikach (Uwaga: należy podać nazwę wymaganego modułu w parametrze -configuration-module n.p. \"Kernel::System::GenericAgent\")."
+"Run file based generic agent jobs (Note: module name needs to be specified "
+"in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
+msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
@@ -20316,10 +20351,6 @@ msgstr ""
 #. SysConfig
 msgid "Russian"
 msgstr "Rosyjski"
-
-#. SysConfig
-msgid "S/MIME Certificate Upload"
-msgstr "Wgrywanie certyfikatu S/MIME"
 
 #. SysConfig
 msgid "SMS"
@@ -20397,11 +20428,15 @@ msgid "Select the main interface language."
 msgstr ""
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "Wybierz schemat wyglądu systemu."
+msgid "Select your default spelling dictionary."
+msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your preferred theme for OTRS."
 msgstr ""
 
 #. SysConfig
@@ -21182,7 +21217,7 @@ msgstr "Pokazuje obecną kolejkę w interfejsie klienta."
 
 #. SysConfig
 msgid "Show the history for this ticket"
-msgstr ""
+msgstr "Pokaż historię tego zgłoszenia"
 
 #. SysConfig
 msgid ""
@@ -22538,6 +22573,14 @@ msgstr "Aktualizuje indeks eskalacji zgłoszenia po zmianie tego atrybutu."
 #. SysConfig
 msgid "Updates the ticket index accelerator."
 msgstr "Aktualizuje akcelerator indeksu zgłoszeń."
+
+#. SysConfig
+msgid "Upload your PGP key."
+msgstr ""
+
+#. SysConfig
+msgid "Upload your S/MIME certificate."
+msgstr ""
 
 #. SysConfig
 msgid ""

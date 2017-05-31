@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-04 12:03+0000\n"
-"PO-Revision-Date: 2017-05-04 17:04+0000\n"
+"POT-Creation-Date: 2017-05-31 17:16+0000\n"
+"PO-Revision-Date: 2017-05-31 22:17+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/otrs/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
@@ -6054,7 +6054,11 @@ msgid "package information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Package upgrade requires patch level update of OTRS."
+msgid "Package installation requires a patch level update of OTRS."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "Package update requires a patch level update of OTRS."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6068,33 +6072,36 @@ msgid "Please note that your installed OTRS version is %s."
 msgstr ""
 
 #. Template: AdminPackageManager
+msgid ""
+"To install this package, you need to update OTRS to version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or older."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "This package can only be installed on OTRS version %s or newer."
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "You will receive updates for all other relevant OTRS issues."
+msgstr ""
+
+#. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Please find all relevant information within"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "the upgrading instructions"
+msgid ""
+"Please find all relevant information within the upgrading instructions at "
+"%s."
 msgstr ""
 
 #. Template: AdminPackageManager
 msgid ""
 "In case you would have further questions we would be glad to answer them."
 msgstr "Kama una maswali zaidi tungependa kuyajibu."
-
-#. Template: AdminPackageManager
-msgid "Please visit our customer"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "portal"
-msgstr "Kituo"
-
-#. Template: AdminPackageManager
-msgid "and file a request."
-msgstr "Na ombi la faili."
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -7368,6 +7375,14 @@ msgid "Please visit our"
 msgstr "Tafadhali tembelea"
 
 #. Template: AdminRegistration
+msgid "portal"
+msgstr "Kituo"
+
+#. Template: AdminRegistration
+msgid "and file a request."
+msgstr "Na ombi la faili."
+
+#. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
 msgstr "Kama utatoa usajili katika mfumo wako, utapoteza manufaa haya."
 
@@ -7836,6 +7851,10 @@ msgid "Edit Service"
 msgstr "Hariri huduma"
 
 #. Template: AdminService
+msgid "Service name maximum length is 200 characters (with Sub-service)."
+msgstr ""
+
+#. Template: AdminService
 msgid "Sub-service of"
 msgstr "Huduma ya "
 
@@ -8266,8 +8285,18 @@ msgid "Edit System Email Address"
 msgstr "Hariri Anuani ya Barua pepe ya Mfumo"
 
 #. Template: AdminSystemAddress
+msgid "This email address is already used as system email address."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
 msgstr "Jina la kuonyesha na Anuani ya barua pepe zitaonyeshwa kwenye barua pepe unayotuma"
+
+#. Template: AdminSystemAddress
+msgid ""
+"This system address cannot be set to invalid, because it is used in one or "
+"more queue(s)."
+msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -9508,6 +9537,10 @@ msgid "Article Create Time (between)"
 msgstr "Muda wa kutengeneza makala (Kati ya)"
 
 #. Template: AgentTicketSearch
+msgid "Invalid date"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
 msgstr "Muda wa kutengeneza tiketi (Kabla/baada)"
 
@@ -9633,7 +9666,7 @@ msgstr "Makala"
 
 #. Template: AgentTicketZoom
 msgid "Page"
-msgstr "Ukurasa"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Add Filter"
@@ -9725,24 +9758,6 @@ msgstr "Funga ujumbe huu"
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "Makala haiwezi kufunguliwa! Huenda ipo kwenye ukurasa mwingine wa makala."
 
-#. Template: AgentTicketZoom
-msgid "Scale preview content"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Open URL in new tab"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Close preview"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid ""
-"A preview of this website can't be provided because it didn't allow to be "
-"embedded."
-msgstr ""
-
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
@@ -9761,11 +9776,11 @@ msgstr ""
 
 #. Template: CloudServicesDisabled
 msgid "You can"
-msgstr "Unaweza"
+msgstr ""
 
 #. Template: CloudServicesDisabled
 msgid "go back to the previous page"
-msgstr "Rudi nyuma kwenye ukurasa uliopita"
+msgstr ""
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -9868,7 +9883,7 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "You have unanswered chat requests"
-msgstr "Unamaombi ya mazungumzo ambayo hayajajibiwa"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Accept"
@@ -9990,19 +10005,19 @@ msgstr "Jina lako la kwanza"
 
 #. Template: CustomerLogin
 msgid "Your Last Name"
-msgstr "Jina lako la mwisho"
+msgstr ""
 
 #. Template: CustomerLogin
 msgid "Your email address (this will become your username)"
-msgstr "Anwani yako ya barua pepe (Hii itakuwa jina lako la utumiaji )"
+msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr "Maombi ya mazungumzo yanayoingia"
+msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
-msgstr "Hariri mapendeleo binafsi"
+msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
@@ -10018,31 +10033,31 @@ msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr "Kubaliano la kiwango cha huduma"
+msgstr ""
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
-msgstr "Karibu "
+msgstr ""
 
 #. Template: CustomerTicketOverview
 msgid "Please click the button below to create your first ticket."
-msgstr "Tafadhali bofya kwneye kitufe cha chini kutengeneza tiketi yako ya kwanza."
+msgstr ""
 
 #. Template: CustomerTicketOverview
 msgid "Create your first ticket"
-msgstr "Tengeneza tiketi yako ya kwanza"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
-msgstr "Maelezo mafupi"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "e. g. 10*5155 or 105658*"
-msgstr "Mfano 10*5155 au 105658"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Customer ID"
-msgstr "Kitambulisho cha mteja"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
@@ -10062,7 +10077,7 @@ msgstr "Mfano m*file au myfil*"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
-msgstr "Aina"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Time restrictions"
@@ -10094,39 +10109,39 @@ msgstr "Mfumo wa nyaraka za tiketi"
 
 #. Template: CustomerTicketSearch
 msgid "Save search as template?"
-msgstr "Hifadhi tafuti kama kielezo?"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
-msgstr "Hifadhi kama kielezo?"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template"
-msgstr "Hifadhi kama kielezo"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Template Name"
-msgstr "Jina la kielezo"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Pick a profile name"
-msgstr "Chagua jina la umbo"
+msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr "Matokeo ya "
+msgstr ""
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr "Ya"
+msgstr ""
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
-msgstr "Majibu ya kutafuka kwa"
+msgstr ""
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr "Ondoa hii neno la kutafuta"
+msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Start a chat from this ticket"
@@ -10134,7 +10149,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
-msgstr "Panua makal"
+msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Information"
@@ -10142,11 +10157,11 @@ msgstr "Taarifa"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
-msgstr "Hatua inayofuata"
+msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
-msgstr "Jibu"
+msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Chat Protocol"
@@ -10154,91 +10169,91 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr "Siku nzima"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
-msgstr "Jumapili"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Monday"
-msgstr "Jumatatu"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tuesday"
-msgstr "Jumanne"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Wednesday"
-msgstr "Jumatano"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Thursday"
-msgstr "Alhamisi"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Friday"
-msgstr "Ijumaa"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Saturday"
-msgstr "Jumamosi"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Su"
-msgstr "J2"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Mo"
-msgstr "J3"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr "J4"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr "J5"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr "Alh"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
-msgstr "Iju"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sa"
-msgstr "Jmosi"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
-msgstr "Taarifa kuhusu tukio"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Ticket fields"
-msgstr "Uga wa tiketi"
+msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr "Uga wenye nguvu"
+msgstr ""
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr "Tarehe batili (Tarehe ijayo inatakiwa)"
+msgstr ""
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr "Tarehe batili (Tarehe ya zamani inahitajika)"
+msgstr ""
 
 #. Template: Datepicker
 msgid "Previous"
-msgstr "Iliyopita"
+msgstr ""
 
 #. Template: Datepicker
 msgid "Open date selection"
-msgstr "Fungua chaguo la tarehe"
+msgstr ""
 
 #. Template: Error
 msgid "An error occurred."
@@ -10683,6 +10698,24 @@ msgstr "Ombi la neno jipya la siri"
 #. Template: Login
 msgid "Back to login"
 msgstr "Rudi kwenye kuingia"
+
+#. Template: MetaFloater
+msgid "Scale preview content"
+msgstr ""
+
+#. Template: MetaFloater
+msgid "Open URL in new tab"
+msgstr ""
+
+#. Template: MetaFloater
+msgid "Close preview"
+msgstr ""
+
+#. Template: MetaFloater
+msgid ""
+"A preview of this website can't be provided because it didn't allow to be "
+"embedded."
+msgstr ""
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not available"
@@ -12177,7 +12210,7 @@ msgstr "Imechapishwa na "
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Ticket Dynamic Fields"
-msgstr "Uga wenye nguvu wa tiketi"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
@@ -12314,8 +12347,9 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
-"This step does not belong anymore the current activity in process for ticket"
-" '%s%s%s'! Another user changed this ticket in the meantime."
+"This step does not belong anymore to the current activity in process for "
+"ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
+"close this window and reload the ticket."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
@@ -12665,6 +12699,16 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid "SecureMode active!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
+msgid ""
+"If you want to re-run the Installer, disable the SecureMode in the "
+"SysConfig."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -14089,16 +14133,6 @@ msgid "Can't send account info!"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid "SecureMode active!"
-msgstr ""
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-msgid ""
-"If you want to re-run the Installer, disable the SecureMode in the "
-"SysConfig."
-msgstr ""
-
-#. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
 msgstr ""
 
@@ -14211,7 +14245,7 @@ msgstr ""
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be "
-"created.."
+"created."
 msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -18512,8 +18546,8 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
-"Serivice feature is not used)."
-msgstr "Usajili wa moduli ya mazingira ya mbele (Lemaza kiunganishi cha huduma za tiketi cha wakala kama kipengele cha huduma ya tiketi haijatumika)."
+"Service feature is not used)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -18544,6 +18578,10 @@ msgstr "Usajili wa moduli ya mazingira ya mbele kwa ajili ya kiolesura cha mteja
 #. SysConfig
 msgid "Frontend theme"
 msgstr "Dhima ya mazingira ya mbele"
+
+#. SysConfig
+msgid "Frontend theme."
+msgstr ""
 
 #. SysConfig
 msgid "Full value"
@@ -19026,9 +19064,11 @@ msgstr "Kama imewekwa, anwani hii inatumika kama mtumaji wa bahasha katika ujumb
 
 #. SysConfig
 msgid ""
-"If this option is enabled, then the decrypted data will be stored in the "
-"database if they are displayed in AgentTicketZoom."
-msgstr "Kama chaguo hili limewezeshwa, data iliyosimbuliwa fiche itahifadhiwa katika hifadhi data kama zinaonyeshwa katika kikuzaji cha tiketi cha wakala."
+"If this option is disabled, articles will not automatically be decrypted and"
+" stored in the database. Please note that this also means no decryption will"
+" take place and the articles will be shown in ticket zoom in their original "
+"(encrypted) form."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19467,7 +19507,7 @@ msgid ""
 msgstr "Ukubwa wa upeo wa juu (katika herufi) wa jedwali la taarifa za mteja katika mandhari iliyokuzwa ya tiketi."
 
 #. SysConfig
-msgid "Merge this ticket and all articles into a another ticket"
+msgid "Merge this ticket and all articles into another ticket"
 msgstr ""
 
 #. SysConfig
@@ -19785,10 +19825,6 @@ msgid "PGP Key Management"
 msgstr "Usimamizi wa kibonye cha PGP"
 
 #. SysConfig
-msgid "PGP Key Upload"
-msgstr "Pakia kibonye cha PGP"
-
-#. SysConfig
 msgid "Package event module file a scheduler task for update registration."
 msgstr "Faili la moduli ya tukio la kifurushi kipanga ratiba cha kazi kwa ajili la usajili wa usasishwaji."
 
@@ -19823,11 +19859,11 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Parameters for the dashboard backend of the customer company information of "
-"the agent interface . \"Group\" is used to restrict the access to the plugin"
-" (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin "
-"is enabled by default or if the user needs to enable it manually. "
+"the agent interface. \"Group\" is used to restrict the access to the plugin "
+"(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
+" enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "Parameta kwa mazingira ya nyuma ya dashibodi ya taarifa ya kampuni ya mteja ya kiolesura cha wakala. ''Kikundi'' kinatumika kuzuia kufikia kuchomeka (mfano Kikundi:Utawala;kikundi cha 1;kikundi cha 2;). ''Chaguo-msingi'' inahakiki kama mchomeko umewezeshwa kwa mchaguo-msingi au kama mtumizi anahitaji kuwezesha kwa mkono. ''HifadhimudaTTLKiambo'' ni muda wa hifadhi muda katika dakika kwa mchomeko."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -20274,9 +20310,8 @@ msgstr "Majukumu <-> Makundi"
 
 #. SysConfig
 msgid ""
-"Run file based generic agent jobs (Note: module name need needs to be "
-"specified in -configuration-module param e.g. "
-"\"Kernel::System::GenericAgent\")."
+"Run file based generic agent jobs (Note: module name needs to be specified "
+"in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
 msgstr ""
 
 #. SysConfig
@@ -20306,10 +20341,6 @@ msgstr "Mfumo unafanya kazi katika hali-tumizi \"Mfano\". Kama imewekwa kuwa \"N
 #. SysConfig
 msgid "Russian"
 msgstr ""
-
-#. SysConfig
-msgid "S/MIME Certificate Upload"
-msgstr "Upakizi wa cheti cha S/MIME"
 
 #. SysConfig
 msgid "SMS"
@@ -20387,11 +20418,15 @@ msgid "Select the main interface language."
 msgstr ""
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "Chagua dhima ya mazingira yako ya mbele."
+msgid "Select your default spelling dictionary."
+msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your preferred theme for OTRS."
 msgstr ""
 
 #. SysConfig
@@ -22528,6 +22563,14 @@ msgstr "Sasisha kielezo cha kupanda cha tiketi baada ya sifa ya tiketi kusasishw
 #. SysConfig
 msgid "Updates the ticket index accelerator."
 msgstr "Sasisha kiharakishi cha kielezo cha tiketi."
+
+#. SysConfig
+msgid "Upload your PGP key."
+msgstr ""
+
+#. SysConfig
+msgid "Upload your S/MIME certificate."
+msgstr ""
 
 #. SysConfig
 msgid ""
