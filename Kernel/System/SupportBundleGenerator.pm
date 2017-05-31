@@ -329,28 +329,38 @@ sub GenerateCustomFilesArchive {
     my $HomeWithoutSlash = $Self->{Home};
     $HomeWithoutSlash =~ s{\A\/}{};
 
-    # Mask Passwords in Config.pm
-    my $Config = $TarObject->get_content( $HomeWithoutSlash . '/Kernel/Config.pm' );
+    # Mask passwords in Config files.
+    CONFIGFILE:
+    for my $ConfigFile ( $TarObject->list_files() ) {
 
-    if ( !$Config ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Kernel/Config.pm was not found in the modified files!",
-        );
-        return;
+        my $File = $ConfigFile;
+        $File =~ s{$HomeWithoutSlash/}{}g;
+        my $FullFilePath = $HomeWithoutSlash . '/' . $File;
+
+        next CONFIGFILE if ( $File !~ 'Kernel/Config.pm' && $File !~ 'Kernel/Config/Files' );
+
+        my $Content = $TarObject->get_content($FullFilePath);
+
+        if ( !$Content ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$File was not found in the modified files!",
+            );
+            next CONFIGFILE;
+        }
+
+        # Trim any passswords.
+        # Simple settings like $Self->{'DatabasePw'} or $Self->{'AuthModule::LDAP::SearchUserPw1'}.
+        $Content =~ s/(\$Self->\{'*[^']+(?:Password|Pw)\d*'*\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
+
+        # Complex settings like:
+        #     $Self->{CustomerUser1} = {
+        #         Params => {
+        #             UserPw => 'xxx',
+        $Content =~ s/((?:Password|Pw)\d*\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
+
+        $TarObject->replace_content( $FullFilePath, $Content );
     }
-
-    # Trim any passswords from Config.pm.
-    # Simple settings like $Self->{'DatabasePw'} or $Self->{'AuthModule::LDAP::SearchUserPw1'}
-    $Config =~ s/(\$Self->\{'[^']+(?:Password|Pw)\d*'\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
-
-    # Complex settings like:
-    #     $Self->{CustomerUser1} = {
-    #         Params => {
-    #             UserPw => 'xxx',
-    $Config =~ s/((?:Password|Pw)\d*\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
-
-    $TarObject->replace_content( $HomeWithoutSlash . '/Kernel/Config.pm', $Config );
 
     my $Write = $TarObject->write( $CustomFilesArchive, 0 );
     if ( !$Write ) {

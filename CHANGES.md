@@ -1,5 +1,6 @@
 #4.0.24 2017-??-??
  - 2017-05-31 Improved SecureMode detection in Installer.
+ - 2017-05-30 Masked passwords in Kernel/Config.pm and in files located in Kernel/Config/Files during SupportBundle create.
  - 2017-05-30 Fixed bug#[12745](https://bugs.otrs.org/show_bug.cgi?id=12745) - AgentTicketSearch missing 'Extended' param in Article and Ticket get methods.
  - 2017-05-30 Fixed bug#[12855](https://bugs.otrs.org/show_bug.cgi?id=12855) - Webservice HTTPBasicAuth User and Password Field are not escaped correct.
  - 2017-05-30 Fixed bug#[12785](https://bugs.otrs.org/show_bug.cgi?id=12785) - Wrong convert for CustomerUser with '&' (amp) in adressbook in cc or bcc.

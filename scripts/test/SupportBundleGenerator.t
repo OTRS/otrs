@@ -5,6 +5,7 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
 
 use strict;
 use warnings;
@@ -243,7 +244,7 @@ for my $Test (@Tests) {
     $Self->IsNot(
         $FileCount,
         undef,
-        "$Test->{Name}: GenerateCustomFilesArchive() - The number or files within application.tar should not be undef",
+        "$Test->{Name}: GenerateCustomFilesArchive() - The number of files within application.tar should not be undef",
     );
     my @FileList = $TarObject->get_files();
 
@@ -537,6 +538,94 @@ $Self->IsDeeply(
     "GenerateSupportData() - Result",
 );
 
+# Generate ZZZUnitTestMaskPasswords.pm to check later for mask passwords.
+my $MaskPasswordFile    = 'ZZZUnitTest' . $Helper->GetRandomNumber() . 'MaskPasswords';
+my $MaskPasswordContent = <<"EOF";
+# OTRS config file (automatically generated)
+# VERSION:1.1
+package Kernel::Config::Files::$MaskPasswordFile;
+use strict;
+use warnings;
+no warnings \'redefine\';
+use utf8;
+sub Load {
+    my (\$File, \$Self) = \@_;
+
+    # Simple tests.
+    \$Self->{DatabasePw} = 'some-pass';
+    \$Self->{'DatabasePw'} = 'some-pass2';
+    \$Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'password123';
+    \$Self->{'Customer::AuthModule::DB::Password'} = 'password456';
+
+    # Complex tests.
+    \$Self->{CustomerUser} = {
+        Name   => 'Database Backend',
+        Module => 'Kernel::System::CustomerUser::DB',
+        Params => {
+           User => 'OTRS',
+           Password => 'secure-password',
+           Table => 'customer_user',
+        },
+    };
+
+    \$Self->{CustomerUser} = {
+        Name => 'LDAP Backend',
+        Module => 'Kernel::System::CustomerUser::LDAP',
+        Params => {
+            # ldap host
+            Host => 'bay.csuhayward.edu',
+
+            # ldap base dn
+            BaseDN => 'ou=seas,o=csuh',
+
+            # search scope (one|sub)
+            SSCOPE => 'sub',
+
+            # The following is valid but would only be necessary if the
+            # anonymous user does NOT have permission to read from the LDAP tree
+            UserDN => 'UnitTester',
+            UserPw => 'strong-secret-password',
+        },
+    };
+}
+
+1;
+EOF
+
+$MaskPasswordFile .= '.pm';
+
+my @ExpectedResults = (
+    {
+        Name   => 'DatabasePw (normal)',
+        Result => "\$Self->{DatabasePw} = 'xxx';",
+    },
+    {
+        Name   => 'DatabasePw (with single quotes)',
+        Result => "\$Self->{'DatabasePw'} = 'xxx';",
+    },
+    {
+        Name   => 'CustomerPassword (Customer::AuthModule::DB::CustomerPassword)',
+        Result => "\$Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'xxx';",
+    },
+    {
+        Name   => 'Password (Customer::AuthModule::DB::Password)',
+        Result => "\$Self->{'Customer::AuthModule::DB::Password'} = 'xxx';",
+    },
+    {
+        Name   => 'Password (CustomerUser DB backend)',
+        Result => "Password => 'xxx'",
+    },
+    {
+        Name   => 'UserPw (CustomerUser LDAP backend)',
+        Result => "UserPw => 'xxx'",
+    },
+);
+
+my $MaskPasswordFileLocation = $MainObject->FileWrite(
+    Location => $Home . '/Kernel/Config/Files/' . $MaskPasswordFile,
+    Content  => \$MaskPasswordContent,
+);
+
 # Generate tests
 my $Result = $SupportBundleGeneratorObject->Generate();
 
@@ -574,7 +663,7 @@ my $FileCount = $TarObject->read($TmpFilename);
 $Self->Is(
     $FileCount,
     4,
-    "Generate() - The number or files",
+    "Generate() - The number of files",
 );
 my @FileList = $TarObject->get_files();
 
@@ -592,6 +681,48 @@ for my $File (@ExpectedFiles) {
     $Self->True(
         $FileListLookup{$File},
         "Generate() - Required:'$File' is in the tar file",
+    );
+}
+
+TARFILE:
+for my $TarFile (@FileList) {
+
+    next TARFILE if $TarFile->name() ne $ApplicationFile;
+
+    my $TargetPath = $Home . '/' . $ApplicationFile;
+
+    $TarFile->extract($TargetPath);
+    $TarObject->read($TargetPath);
+
+    my @List = $TarObject->get_files();
+
+    FILE:
+    for my $File (@List) {
+
+        next FILE if $File->name() ne $MaskPasswordFile;
+
+        my $Content = $File->get_content();
+
+        # Look for masked password settings.
+        for my $Test (@ExpectedResults) {
+
+            $Self->True(
+                index( $Content, $Test->{Result} ) > 0,
+                "$Test->{Name} is masked."
+            );
+        }
+    }
+
+    my $Success = unlink $TargetPath;
+    $Self->True(
+        $Success,
+        "$TargetPath was deleted.",
+    );
+
+    $Success = unlink $MaskPasswordFileLocation;
+    $Self->True(
+        $Success,
+        "$MaskPasswordFileLocation was deleted.",
     );
 }
 
