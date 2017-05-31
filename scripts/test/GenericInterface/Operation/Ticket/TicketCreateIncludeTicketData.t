@@ -22,9 +22,6 @@ use Kernel::GenericInterface::Operation::Session::SessionCreate;
 
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
-# Skip test for now, known issue with strange return type on first run only!
-return 1;
-
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
@@ -804,7 +801,7 @@ for my $Test (@Tests) {
         }
 
         LOCALRESULTARTICLE:
-        for my $Field ( @{ $RequesterResult->{Data}->{Ticket}->{Article}->{DynamicField} } ) {
+        for my $Field ( $RequesterResult->{Data}->{Ticket}->{Article}->{DynamicField} ) {
             next LOCALRESULTARTICLE if $Field->{Name} ne $DynamicFieldData2->{Name};
             $CompareDynamicFieldReq{Article} = $Field;
         }
@@ -942,13 +939,14 @@ $Self->True(
     "Priority with ID $PriorityID is deleted!",
 );
 
-# delete dynamic field
+# Delete test dynamic fields.
 $Success = $DBObject->Do(
-    SQL => "DELETE FROM dynamic_field WHERE id = $DynamicFieldID",
+    SQL  => 'DELETE FROM dynamic_field WHERE id = ? OR id = ?',
+    Bind => [ \$DynamicFieldID, \$DynamicFieldID2 ],
 );
 $Self->True(
     $Success,
-    "Dynamic field with ID $DynamicFieldID is deleted!",
+    "Dynamic fields with ID $DynamicFieldID and $DynamicFieldID2 are deleted!",
 );
 
 # cleanup cache
