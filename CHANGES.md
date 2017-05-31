@@ -1,4 +1,6 @@
-#4.0.24 2017-??-??
+#4.0.25 2017-??-??
+
+#4.0.24 2017-06-06
  - 2017-05-31 Improved SecureMode detection in Installer.
  - 2017-05-30 Masked passwords in Kernel/Config.pm and in files located in Kernel/Config/Files during SupportBundle create.
  - 2017-05-30 Fixed bug#[12745](https://bugs.otrs.org/show_bug.cgi?id=12745) - AgentTicketSearch missing 'Extended' param in Article and Ticket get methods.
