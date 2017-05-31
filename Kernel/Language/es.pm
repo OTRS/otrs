@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.80469065911848;
+    $Self->{Completeness}        = 0.802219979818365;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1747,19 +1747,25 @@ sub Data {
             '¿Realmente desea reinstalar este paquete? Se perderá cualquier cambio manual.',
         'Go to upgrading instructions' => '',
         'package information' => '',
-        'Package upgrade requires patch level update of OTRS.' => '',
+        'Package installation requires a patch level update of OTRS.' => '',
+        'Package update requires a patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             '',
         'Please note that your installed OTRS version is %s.' => '',
+        'To install this package, you need to update OTRS to version %s or newer.' =>
+            '',
+        'This package can only be installed on OTRS version %s or older.' =>
+            '',
+        'This package can only be installed on OTRS version %s or newer.' =>
+            '',
+        'You will receive updates for all other relevant OTRS issues.' =>
+            '',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
-        'Please find all relevant information within' => '',
-        'the upgrading instructions' => '',
+        'Please find all relevant information within the upgrading instructions at %s.' =>
+            '',
         'In case you would have further questions we would be glad to answer them.' =>
             'En caso de que tenga alguna duda estaremos encantados de responderla.',
-        'Please visit our customer' => '',
-        'portal' => 'portal',
-        'and file a request.' => 'e ingrese una solicitud.',
         'Continue' => 'Continuar',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             'Por favor asegúrese de que su base de datos acepta paquetes mayores a % MB en tamaño (actualmente sólo acepta paquetes hasta % MB). Por favor adapte la configuración max_allowed_packet de su base de datos para prevenir errores.',
@@ -2140,6 +2146,8 @@ sub Data {
             'Su sistema enviará actualizaciones al servidor de registro a intervalos regulares.',
         'Typically this would be around once every three days.' => 'Normalmente, esto sería alrededor de una vez cada tres días.',
         'Please visit our' => 'Por favor, visite nuestro',
+        'portal' => 'portal',
+        'and file a request.' => 'e ingrese una solicitud.',
         'If you deregister your system, you will lose these benefits:' =>
             'Si da de baja su sistema, perderá estos beneficios :',
         'You need to log in with your OTRS-ID to deregister your system.' =>
@@ -2293,6 +2301,8 @@ sub Data {
         'Add service' => 'Añadir servicio',
         'Add Service' => 'Añadir servicio',
         'Edit Service' => 'Editar el servicio',
+        'Service name maximum length is 200 characters (with Sub-service).' =>
+            '',
         'Sub-service of' => 'Subservicio de',
 
         # Template: AdminSession
@@ -2420,8 +2430,11 @@ sub Data {
         'Display name' => 'Mostrar nombre',
         'Add System Email Address' => 'Añadir Dirección de Correo Electrónico de Sistema',
         'Edit System Email Address' => 'Editar Dirección de Correo Electrónico de Sistema',
+        'This email address is already used as system email address.' => '',
         'The display name and email address will be shown on mail you send.' =>
             'El nombre a mostrar y la dirección de correo electrónico serán mostrados en el correo que tu envías.',
+        'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
+            '',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Sistema de Gestión de Mantenimiento',
@@ -2860,6 +2873,7 @@ sub Data {
         'Watcher' => 'Vigilante',
         'Article Create Time (before/after)' => 'Hora de creación del artículo (antes/después)',
         'Article Create Time (between)' => 'Hora de creación del artículo (entre)',
+        'Invalid date' => '',
         'Ticket Create Time (before/after)' => 'Hora de creación del ticket (antes/después)',
         'Ticket Create Time (between)' => 'Hora de creación del ticket (entre)',
         'Ticket Change Time (before/after)' => 'Hora de modificación del ticket (antes/después)',
@@ -2920,11 +2934,6 @@ sub Data {
         'Close this message' => 'Cerrar este mensaje',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'El artículo no se pudo abrir! Tal vez sea en otro artículo de la página?',
-        'Scale preview content' => 'Escalar contenido en vista preliminar',
-        'Open URL in new tab' => 'Abrir URL en una nueva pestaña',
-        'Close preview' => 'Cerrar vista previa',
-        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
-            'La vista previa de esta página no puede ser mostrada porque no se permitió su integración',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Para proteger su privacidad, se bloqueó el contenido remoto.',
@@ -3232,6 +3241,13 @@ sub Data {
         'Lost your password?' => '¿Perdió su contraseña?',
         'Request New Password' => 'Solicitar nueva contraseña',
         'Back to login' => 'Volver al inicio de sesión',
+
+        # Template: MetaFloater
+        'Scale preview content' => 'Escalar contenido en vista preliminar',
+        'Open URL in new tab' => 'Abrir URL en una nueva pestaña',
+        'Close preview' => 'Cerrar vista previa',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.' =>
+            'La vista previa de esta página no puede ser mostrada porque no se permitió su integración',
 
         # Template: MobileNotAvailableWidget
         'Feature not available' => 'Característica no disponible',
@@ -3835,7 +3851,7 @@ sub Data {
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'No se pudo almacenar el Diálogo de Actividad, TicketID inválido: %s!',
         'Invalid TicketID: %s!' => '¡TicketID no valido: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Falta ID de Entidad de Actividad en Ticket %s!',
-        'This step does not belong anymore the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime.' =>
+        'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
             '',
         'Missing ProcessEntityID in Ticket %s!' => 'Falta ID de Entidad de Proceso en Ticket %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
@@ -3948,6 +3964,9 @@ sub Data {
         'Create a new ticket!' => '¡Crear un nuevo Ticket!',
 
         # Perl Module: Kernel/Modules/Installer.pm
+        'SecureMode active!' => '¡Modo seguro activo!',
+        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
+            'Si desea volver a ejecutar el instalador, desactive el modo seguro en SysConfig.',
         'Directory "%s" doesn\'t exist!' => '¡El directorio "%s" no existe!',
         'Configure "Home" in Kernel/Config.pm first!' => 'Configurar "Casa" en Kernel/Config.pm primero!',
         'File "%s/Kernel/Config.pm" not found!' => '¡Archivo "%s/Kernel/Config.pm" no encontrado!',
@@ -4496,9 +4515,6 @@ sub Data {
         'Can\'t send account info!' => '¡No se puede enviar información de la cuenta!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-        'SecureMode active!' => '¡Modo seguro activo!',
-        'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
-            'Si desea volver a ejecutar el instalador, desactive el modo seguro en SysConfig.',
         'Action "%s" not found!' => '¡Acción "% s" no encontrada!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
@@ -4530,8 +4546,8 @@ sub Data {
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
             'Los seguimientos para tickets cerrados no son posibles. No se creará un nuevo ticket.',
         'new ticket' => 'nuevo ticket',
-        'Follow-ups for closed tickets are not possible. A new ticket will be created..' =>
-            'Los seguimientos para tickets cerrados no son posibles. Un nuevo ticket será creado.',
+        'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
+            '',
         'Postmaster queue.' => 'Cola Postmaster',
         'All default incoming tickets.' => 'Todos los tickets entrantes por defecto.',
         'All junk tickets.' => 'Todos los tickets basura.',
@@ -5859,7 +5875,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             'Palabras vacías en frances para el índice de texto completo. Estas palabras serán eliminadas del índice de búsqueda.',
         'Frontend' => '',
-        'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
+        'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
             '',
         'Frontend module registration (disable company link if no company feature is used).' =>
             '',
@@ -5870,6 +5886,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Frontend module registration for the agent interface.' => '',
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Tema de la interfaz',
+        'Frontend theme.' => '',
         'Full value' => 'Valor completo',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => 'Búsqueda de texto completo',
@@ -6014,7 +6031,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '',
-        'If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom.' =>
+        'If this option is disabled, articles will not automatically be decrypted and stored in the database. Please note that this also means no decryption will take place and the articles will be shown in ticket zoom in their original (encrypted) form.' =>
             '',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '',
@@ -6143,7 +6160,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             'Número máximo de tickets que se mostrarán en el resultado de esta operación.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '',
-        'Merge this ticket and all articles into a another ticket' => 'Fusiona este ticket y todos los artículos en otro ticket ',
+        'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Combinar Ticket  <OTRS_TICKET> con <OTRS_MERGE_TO_TICKET>.',
         'Miscellaneous' => 'Misceláneo',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -6238,7 +6255,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Overview of all open tickets.' => 'Vista general de todos los tickets abiertos.',
         'Overview of customer tickets.' => 'Visión general de los tickets del cliente.',
         'PGP Key Management' => 'Administración de la Clave PGP',
-        'PGP Key Upload' => 'Carga de Clave PGP',
         'Package event module file a scheduler task for update registration.' =>
             '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
@@ -6251,7 +6267,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Parameters for the column filters of the small ticket overview.' =>
             '',
-        'Parameters for the dashboard backend of the customer company information of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -6373,7 +6389,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Right' => 'Derecha',
         'Roles <-> Groups' => 'Roles <-> Grupos',
-        'Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
+        'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => 'Corriendo Tickets de Proceso',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -6383,7 +6399,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'Russian' => 'Ruso',
-        'S/MIME Certificate Upload' => 'Carga de Certificado S/MIME',
         'SMS' => 'SMS',
         'SMS (Short Message Service)' => 'SMS (Short Message Service)',
         'Sample command output' => 'Ejemplo de comando de salida.',
@@ -6404,8 +6419,9 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Select how many tickets should be shown in overviews by default.' =>
             '',
         'Select the main interface language.' => '',
-        'Select your frontend Theme.' => 'Seleccione su tema',
+        'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
+        'Select your preferred theme for OTRS.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -7057,6 +7073,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => 'Actualiza el acelerador del índice de tickets.',
+        'Upload your PGP key.' => '',
+        'Upload your S/MIME certificate.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
