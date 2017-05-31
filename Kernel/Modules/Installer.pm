@@ -50,6 +50,13 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    if ( $Self->{ConfigObject}->Get('SecureMode') ) {
+        $Self->{LayoutObject}->FatalError(
+            Message => 'SecureMode active!',
+            Comment => 'If you want to re-run the Installer, disable the SecureMode in the SysConfig.',
+        );
+    }
+
     # check env directories
     $Self->{Path} = $Self->{ConfigObject}->Get('Home');
     if ( !-d $Self->{Path} ) {
