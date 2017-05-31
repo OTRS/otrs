@@ -341,24 +341,31 @@ sub GenerateCustomFilesArchive {
     my $HomeWithoutSlash = $Self->{Home};
     $HomeWithoutSlash =~ s{\A\/}{};
 
-    # Mask Passwords in files
+    # Mask passwords in Config files.
     CONFIGFILE:
-    for my $FilePath (qw(/Kernel/Config.pm /Kernel/Config/Files/ZZZAAuto.pm /Kernel/Config/Files/ZZZAuto.pm)) {
+    for my $ConfigFile ( $TarObject->list_files() ) {
 
-        my $FullFilePath = $HomeWithoutSlash . $FilePath;
-        my $FileString   = $TarObject->get_content($FullFilePath);
+        my $File = $ConfigFile;
+        $File =~ s{$HomeWithoutSlash/}{}g;
+        my $FullFilePath = $HomeWithoutSlash . '/' . $File;
 
-        if ( !$FileString ) {
+        next CONFIGFILE if ( $File !~ 'Kernel/Config.pm' && $File !~ 'Kernel/Config/Files' );
+
+        my $Content = $TarObject->get_content($FullFilePath);
+
+        if ( !$Content ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "$FilePath was not found in the modified files!",
+                Message  => "$File was not found in the modified files!",
             );
             next CONFIGFILE;
         }
 
-        $FileString = $Self->_MaskPasswords( StringToMask => $FileString );
+        $Content = $Self->_MaskPasswords(
+            StringToMask => $Content,
+        );
 
-        $TarObject->replace_content( $FullFilePath, $FileString );
+        $TarObject->replace_content( $FullFilePath, $Content );
     }
 
     my $Write = $TarObject->write( $CustomFilesArchive, 0 );
@@ -707,30 +714,15 @@ sub _MaskPasswords {
 
     my $StringToMask = $Param{StringToMask};
 
-    my @TrimAction = qw(
-        DatabasePw
-        SearchUserPw
-        UserPw
-        SendmailModule::AuthPassword
-        AuthModule::Radius::Password
-        PGP::Key::Password
-        Customer::AuthModule::DB::CustomerPassword
-        Customer::AuthModule::Radius::Password
-        PublicFrontend::AuthPassword
-    );
+    # Trim any passswords.
+    # Simple settings like $Self->{'DatabasePw'} or $Self->{'AuthModule::LDAP::SearchUserPw1'}.
+    $StringToMask =~ s/(\$Self->\{'*[^']+(?:Password|Pw)\d*'*\}\s*=\s*)\'.*?\'/$1\'xxx\'/mg;
 
-    STRING:
-    for my $String (@TrimAction) {
-        next STRING if !$String;
-        if ( !$Param{YAML} ) {
-            $StringToMask =~ s/(^\s*\$Self.*?$String.*?=.*?)\'.*?\';/$1\'xxx\';/mg;
-        }
-        else {
-            $StringToMask =~ s/($String:.*?EffectiveValue:).*?\n/$1 xxx \n/sxg;
-        }
-    }
-
-    $StringToMask =~ s/(^\s+Password.*?=>.*?)\'.*?\',/$1\'xxx\',/mg;
+    # Complex settings like:
+    #     $Self->{CustomerUser1} = {
+    #         Params => {
+    #             UserPw => 'xxx',
+    $StringToMask =~ s/((?:Password|Pw)\d*\s*=>\s*)\'.*?\'/$1\'xxx\'/mg;
 
     return $StringToMask;
 

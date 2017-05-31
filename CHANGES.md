@@ -1,5 +1,5 @@
 #6.0.0.beta1 2017-??-??
- - 2017-05-30 Fixed bug#[12837](https://bugs.otrs.org/show_bug.cgi?id=12837) - Existing Dynamic Field's RegEx config cannot be removed.	
+ - 2017-05-30 Fixed bug#[12837](https://bugs.otrs.org/show_bug.cgi?id=12837) - Existing Dynamic Field's RegEx config cannot be removed.
  - 2017-05-29 Added a high-contrast skin for visually impaired users to ease usability.
  - 2017-05-26 Added PostMaster state keep feature via additional xheaders.
  - 2017-05-26 Added information about the ticket responsible to medium and preview view in ticket lists, thanks to frennkie.
@@ -126,6 +126,7 @@
 #5.0.20 2017-??-??
  - 2017-05-31 Improved SecureMode detection in Installer.
  - 2017-05-31 Fixed bug#[12765](https://bugs.otrs.org/show_bug.cgi?id=12765) - Show page buttons of dynamic fields are not displayed in mobile view.
+ - 2017-05-30 Masked passwords in Kernel/Config.pm and in files located in Kernel/Config/Files during SupportBundle create.
  - 2017-05-30 Fixed bug#[12740](https://bugs.otrs.org/show_bug.cgi?id=12740) - Notification to customer of the ticket is send more than once.
  - 2017-05-30 Fixed bug#[12819](https://bugs.otrs.org/show_bug.cgi?id=12819) - Unable to select queue if it contains two spaces.
  - 2017-05-30 Fixed bug#[12855](https://bugs.otrs.org/show_bug.cgi?id=12855) - Webservice HTTPBasicAuth User and Password Field are not escaped correct.
