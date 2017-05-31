@@ -1,4 +1,6 @@
-#3.3.17 ????-??-??
+#3.3.18 ????-??-??
+
+#3.3.17 2017-06-06
  - 2017-05-31 Improved SecureMode detection in Installer.
  - 2017-04-06 Fixed bug#[12753](https://bugs.otrs.org/show_bug.cgi?id=12753) - Function "SystemDataGroupGet" has problems with empty values in oracle.
  - 2017-03-03 Fixed bug#[9941](https://bugs.otrs.org/show_bug.cgi?id=9941) - Articles with multi-byte characters that claim to be UTF-8 will not display in the browser.
