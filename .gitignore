@@ -89,7 +89,6 @@ var/git
 CHANGES-OTRSBusiness.md
 doc/*/OTRSBusiness.*
 i18n/OTRSBusiness
-Kernel/cpan-lib/Selenium/Firefox/
 Kernel/Config/Files/OTRSBusiness.xml
 Kernel/Language/*OTRSBusiness.pm
 Kernel/Modules/AdminCloudServiceSMS.pm
@@ -116,6 +115,7 @@ Kernel/Output/HTML/FilterElementPost/ContactWithData.pm
 Kernel/Output/HTML/FilterElementPost/SLASelectionDialog.pm
 Kernel/Output/HTML/Layout/NotificationView.pm
 Kernel/Output/HTML/NavBar/*Chat*
+Kernel/Output/HTML/NavBar/AdminContactWithData.pm
 Kernel/Output/HTML/NotificationView/*
 Kernel/Output/HTML/Templates/Standard/*ContactWithData*
 Kernel/Output/HTML/Templates/Standard/*DynamicFieldDatabase*
@@ -178,6 +178,7 @@ scripts/test/Selenium/Agent/Admin/GenericInterface/AdminGenericInterfaceWebservi
 scripts/test/Selenium/Agent/AgentAppointmentResourceOverview.t
 scripts/test/Selenium/Agent/AgentContactWithDataSearch.t
 scripts/test/Selenium/Agent/AgentDynamicFieldDatabase.t
+scripts/test/Selenium/Agent/AgentDynamicFieldDatabaseSearch.t
 scripts/test/Selenium/Agent/AgentNotificationView.t
 scripts/test/Selenium/Agent/AgentStatisticsReports.t
 scripts/test/Selenium/Agent/AgentTicketAttachmentView.t
