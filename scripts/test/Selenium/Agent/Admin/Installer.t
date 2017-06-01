@@ -12,6 +12,9 @@ use utf8;
 
 use vars (qw($Self));
 
+# TODO: Disable this test for now, until compatibility issues with CI infrastructure are fixed.
+return 1;
+
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
