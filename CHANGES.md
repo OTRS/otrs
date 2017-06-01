@@ -1,4 +1,5 @@
 #5.0.21 2017-??-??
+ - 2017-06-01 Follow-up fix for bug#[10691](https://bugs.otrs.org/show_bug.cgi?id=10691) - No CustomerID shown after TicketCreate (for unknown customers): activate new config setting `PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers` by default, restoring old default behaviour on incoming mails with unknown customers.
 
 #5.0.20 2017-06-06
  - 2017-05-31 Updated translations, thanks to all translators.
