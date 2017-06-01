@@ -12,30 +12,27 @@ use utf8;
 
 use vars (qw($Self));
 
-# TODO: Disable this test for now, until compatibility issues with CI infrastructure are fixed.
-return 1;
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Use test database, if configured. Otherwise, skip this test. ProvideTestDatabase() will clean the test database and
+#   change database settings system-wide.
+my $Success = $Helper->ProvideTestDatabase();
+if ( !$Success ) {
+    $Self->False(
+        0,
+        'Test database could not be provided, skipping test'
+    );
+    return 1;
+}
+$Self->True(
+    $Success,
+    'ProvideTestDatabase - Database cleared'
+);
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # Use test database, if configured. Otherwise, skip this test. ProvideTestDatabase() will clean the test
-        #   database and change database settings system-wide.
-        my $Success = $Helper->ProvideTestDatabase();
-        if ( !$Success ) {
-            $Self->False(
-                0,
-                'Test database could not be provided, skipping test'
-            );
-            return 1;
-        }
-        $Self->True(
-            $Success,
-            'ProvideTestDatabase - Database cleared'
-        );
-
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Parse the TestDatabase hash from configuration to variables.
@@ -43,15 +40,15 @@ $Selenium->RunTest(
         my ( $DBType, $DBName, $DBPort, $DBHost );
         if ( $TestDatabase->{DatabaseDSN} =~ /^DBI:mysql/ ) {
             $DBType = 'mysql';
-            ( $DBName, $DBHost ) = ( $TestDatabase->{DatabaseDSN} =~ /database=(.*?);host=(.*?);/ );
+            ( $DBName, $DBHost ) = ( $TestDatabase->{DatabaseDSN} =~ /database=(.*);host=(.*);?/ );
         }
         elsif ( $TestDatabase->{DatabaseDSN} =~ /^DBI:Pg/ ) {
             $DBType = 'postgresql';
-            ( $DBName, $DBHost ) = ( $TestDatabase->{DatabaseDSN} =~ /dbname=(.*?);host=(.*?);/ );
+            ( $DBName, $DBHost ) = ( $TestDatabase->{DatabaseDSN} =~ /dbname=(.*);host=(.*);?/ );
         }
         elsif ( $TestDatabase->{DatabaseDSN} =~ /^DBI:Oracle/ ) {
             $DBType = 'oracle';
-            ( $DBName, $DBHost, $DBPort ) = ( $TestDatabase->{DatabaseDSN} =~ /sid=(.*);host=(.*?);port=(.*?);/ );
+            ( $DBName, $DBHost, $DBPort ) = ( $TestDatabase->{DatabaseDSN} =~ /sid=(.*);host=(.*);port=(.*);/ );
         }
         else {
             die 'Unsupported database backend';
@@ -74,39 +71,24 @@ $Selenium->RunTest(
                 'Original configuration backed up successfully'
             ) || die;
 
-            # Read the original configuration file.
-            my $Filehandle;
-            if ( !open $Filehandle, '<', $ConfigPmFile ) {    ## no critic
-                $Self->True(
-                    0,
-                    'Error reading original configuration file'
-                );
-                die;
-            }
-            my @Lines = <$Filehandle>;
-            close $Filehandle;
-
-            my $Config = join '', @Lines;
-
-            # Deactivate secure mode.
-            $Config =~ s/\$Self->\{('|")?SecureMode('|")?\}\s+=\s+('|")?1('|")?;//;
-
-            # Write new configuration file.
-            if ( !open $Filehandle, '>', $ConfigPmFile ) {    ## no critic
-                $Self->True(
-                    0,
-                    'Error writing new configuration file'
-                );
-                die;
-            }
-            print $Filehandle $Config;
-            close $Filehandle;
-
-            # Additionally override secure mode setting for stability reasons.
+            # Turn off secure mode setting via additional configuration file. This works on systems where secure mode is
+            #   activated outside the main configuration file (Config.pm).
             $Helper->ConfigSettingChange(
                 Key   => 'SecureMode',
                 Value => 0,
             );
+
+            # Reload the config object.
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Config'] );
+            $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+            if ( $ConfigObject->Get('SecureMode') ) {
+                $Self->True(
+                    0,
+                    'Secure mode cannot be deactivated'
+                );
+                die 'Terminating test, please check if you have overridden SecureMode in Config.pm';
+            }
 
             my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
@@ -221,13 +203,23 @@ $Selenium->RunTest(
                 "Version information present ($Product $Version)",
             );
 
-            # Discard the unit test helper object before Selenium object goes out of scope. This will restore database
-            #   configuration, so Selenium can do its cleanup.
-            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Helper'] );
+            # Turn on secure mode.
+            $Helper->ConfigSettingChange(
+                Key   => 'SecureMode',
+                Value => 1,
+            );
+
+            # Check that secure mode is honored.
+            $Selenium->VerifiedGet("${ScriptAlias}installer.pl");
+            $Self->True(
+                index( $Selenium->get_page_source(), 'SecureMode active!' ) > -1,
+                'Secure mode is active'
+            );
         };
 
         # Catch any exceptions raised during the test.
         if ($@) {
+            $Selenium->HandleError($@);
             $Self->Is(
                 $@,
                 undef,
@@ -237,7 +229,7 @@ $Selenium->RunTest(
         else {
             $Self->False(
                 $@,
-                'No errors encountered'
+                'No trappable errors encountered'
             );
         }
 
@@ -246,5 +238,9 @@ $Selenium->RunTest(
         system("rm $ConfigPmFileBackup")               if -e $ConfigPmFileBackup;
     }
 );
+
+# Discard the Selenium object before unit test helper object goes out of scope. This will demolish the object before
+#   restoring database configuration, and prevents issues with Selenium cleanup because of empty database.
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::UnitTest::Selenium'] );
 
 1;
