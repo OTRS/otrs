@@ -279,6 +279,11 @@ sub Run {
             TicketID => $Self->{TicketID},
             QueueID  => $GetParam{DestQueueID} || 1,
         );
+        my $DestQueues = $Self->_GetQueues(
+            %GetParam,
+            %ACLCompatGetParam,
+            TicketID => $Self->{TicketID},
+        );
 
         # update Dynamc Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
@@ -447,6 +452,14 @@ sub Run {
                     SelectedID   => $GetParam{StandardTemplateID},
                     PossibleNone => 1,
                     Translation  => 1,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'DestQueueID',
+                    Data         => $DestQueues,
+                    SelectedID   => $GetParam{DestQueueID},
+                    PossibleNone => 1,
+                    Translation  => 0,
                     Max          => 100,
                 },
                 @DynamicFieldAJAX,
@@ -1725,6 +1738,20 @@ sub _GetStandardTemplates {
 
     # return just the templates for this screen
     return $StandardTemplates{Note};
+}
+
+sub _GetQueues {
+    my ( $Self, %Param ) = @_;
+
+    # Get Queues.
+    my %Queues = $Kernel::OM->Get('Kernel::System::Ticket')->TicketMoveList(
+        %Param,
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID},
+        Action   => $Self->{Action},
+        Type     => 'move_into',
+    );
+    return \%Queues;
 }
 
 1;
