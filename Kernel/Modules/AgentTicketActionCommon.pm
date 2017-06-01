@@ -1036,6 +1036,9 @@ sub Run {
             QueueID        => $QueueID,
             StateID        => $StateID,
         );
+        my $NewQueues = $Self->_GetQueues(
+            %GetParam,
+        );
 
         # reset previous ServiceID to reset SLA-List if no service is selected
         if ( !defined $ServiceID || !$Services->{$ServiceID} ) {
@@ -1286,6 +1289,14 @@ sub Run {
                     Name         => 'TypeID',
                     Data         => $Types,
                     SelectedID   => $GetParam{TypeID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'NewQueueID',
+                    Data         => $NewQueues,
+                    SelectedID   => $GetParam{NewQueueID},
                     PossibleNone => 1,
                     Translation  => 0,
                     Max          => 100,
@@ -2686,6 +2697,20 @@ sub _GetTypes {
         );
     }
     return \%Type;
+}
+
+sub _GetQueues {
+    my ( $Self, %Param ) = @_;
+
+    # Get Queues.
+    my %Queues = $Self->{TicketObject}->TicketMoveList(
+        %Param,
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID},
+        Action   => $Self->{Action},
+        Type     => 'move_into',
+    );
+    return \%Queues;
 }
 
 1;
