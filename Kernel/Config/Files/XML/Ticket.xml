@@ -11018,7 +11018,7 @@ Thanks for your help!
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers" Required="0" Valid="0">
+    <Setting Name="PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers" Required="1" Valid="1">
         <Description Translatable="1">Controls if CustomerID is automatically copied from the sender address for unknown customers.</Description>
         <Navigation>Core::PostMaster</Navigation>
         <Value>
