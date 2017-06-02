@@ -1884,6 +1884,37 @@ sub _InstallHandling {
         $FromCloud = 1;
     }
 
+    my %Response = $PackageObject->AnalyzePackageFrameworkRequirements(
+        Framework => $Structure{Framework},
+        NoLog     => 1,
+    );
+
+    if ( !$Response{Success} ) {
+        $LayoutObject->Block(
+            Name => 'IncompatibleInfo',
+            Data => {
+                %Param,
+                %Data,
+                Subaction              => $Self->{Subaction},
+                Type                   => 'InstallIncompatible',
+                Name                   => $Structure{Name}->{Content},
+                Version                => $Structure{Version}->{Content},
+                RequiredMinimumVersion => $Response{RequiredFrameworkMinimum},
+                RequiredMaximumVersion => $Response{RequiredFrameworkMaximum},
+                RequiredFramework      => $Response{RequiredFramework},
+            },
+        );
+
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'AdminPackageManager',
+        );
+        $Output .= $LayoutObject->Footer();
+        return $Output;
+
+    }
+
     # intro before installation
     if ( %Data && !$IntroInstallPre ) {
 
@@ -1908,6 +1939,7 @@ sub _InstallHandling {
         $LayoutObject->Block(
             Name => 'IntroCancel',
         );
+
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(
@@ -2005,6 +2037,37 @@ sub _UpgradeHandling {
             Type => 'pre'
         );
     }
+
+    my %Response = $PackageObject->AnalyzePackageFrameworkRequirements(
+        Framework => $Structure{Framework},
+        NoLog     => 1,
+    );
+
+    if ( !$Response{Success} ) {
+        $LayoutObject->Block(
+            Name => 'IncompatibleInfo',
+            Data => {
+                %Param,
+                %Data,
+                Subaction              => $Self->{Subaction},
+                Type                   => 'UpgradeIncompatible',
+                Name                   => $Structure{Name}->{Content},
+                Version                => $Structure{Version}->{Content},
+                RequiredMinimumVersion => $Response{RequiredFrameworkMinimum},
+                RequiredMaximumVersion => $Response{RequiredFrameworkMaximum},
+                RequiredFramework      => $Response{RequiredFramework},
+            },
+        );
+
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'AdminPackageManager',
+        );
+        $Output .= $LayoutObject->Footer();
+        return $Output;
+    }
+
     if ( %Data && !$IntroUpgradePre ) {
         $LayoutObject->Block(
             Name => 'Intro',
@@ -2020,6 +2083,7 @@ sub _UpgradeHandling {
         $LayoutObject->Block(
             Name => 'IntroCancel',
         );
+
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $LayoutObject->Output(

@@ -76,12 +76,12 @@ sub Run {
             String => $PackageContent,
         );
 
-        my $CheckFrameworkOk = $PackageObject->_CheckFramework(
+        my %CheckFramework = $PackageObject->AnalyzePackageFrameworkRequirements(
             Framework => $PackageStructure{Framework},
             NoLog     => 1,
         );
 
-        if ( !$CheckFrameworkOk ) {
+        if ( !$CheckFramework{Success} ) {
             push @WrongFrameworkVersion, "$Package->{Name}->{Content} $Package->{Version}->{Content}";
         }
     }
