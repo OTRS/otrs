@@ -245,6 +245,19 @@ $CheckData->(
     Test => 'Is',
 );
 
+# Run module again
+
+$RunSuccess = $DBUpdateObject->Run();
+
+$Self->True(
+    $RunSuccess,
+    'DBUpdateObject ran a second time with problems information present in tables.'
+);
+
+$CheckData->(
+    Test => 'Is',
+);
+
 # Cleanup is done by TmpDatabaseCleanup().
 
 1;

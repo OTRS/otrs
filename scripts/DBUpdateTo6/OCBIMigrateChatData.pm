@@ -48,6 +48,13 @@ sub Run {
 
     return 1 if !$ChatChannelID;
 
+    # verify if chat articles exist.
+    my $CheckChatArticles = $Self->_CheckChatArticles(
+        ChatChannelID => $ChatChannelID,
+    );
+
+    return 1 if !$CheckChatArticles;
+
     my $ArticleChatCount = 0;
     my $ChatCount        = 0;
 
@@ -361,6 +368,52 @@ sub _DeleteOldChatArticles {
     );
 
     return 1;
+}
+
+=head2 _CheckChatArticles()
+
+Verify if chat articles exists. Returns 1 on success
+
+    my $Result = $DBUpdateTo6Object->_CheckChatArticles(
+        ChatChannelID => $ChatChannelID, # ID of chat channel
+    );
+
+=cut
+
+sub _CheckChatArticles {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{ChatChannelID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need ChatChannelID!",
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Check chat article data.
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT COUNT(id) FROM article_data_mime
+            WHERE
+                article_id IN (
+                    SELECT id
+                    FROM article
+                    WHERE communication_channel_id = ?
+                )
+        ',
+        Bind => [ \$Param{ChatChannelID} ],
+    );
+
+    my $ChatCount = 0;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $ChatCount = $Row[0] || 0;
+    }
+
+    return $ChatCount;
 }
 
 1;
