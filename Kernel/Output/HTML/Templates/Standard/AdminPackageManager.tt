@@ -147,7 +147,7 @@
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                         </li>
                         <li>
-                            <a href="http://otrs.github.io/doc/manual/admin/5.0/en/html/upgrading.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to upgrading instructions") | html %]</span></a>
+                            <a href="http://otrs.github.io/doc/manual/admin/stable/en/html/upgrading.html" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to upgrading instructions") | html %]</span></a>
                         </li>
                         <li>
                             <a href="https://portal.otrs.com/" target="_blank" class="CallForAction Fullsize Center"><span><i class="fa fa-external-link"></i>[% Translate("Go to the OTRS customer portal") | html %]</span></a>
