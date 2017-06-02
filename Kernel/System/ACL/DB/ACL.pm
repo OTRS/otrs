@@ -20,7 +20,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::YAML',
 );
@@ -917,9 +916,6 @@ sub ACLDump {
             ChangeBy   => $ACLDump{$ACLName}{ChangeBy},
         );
     }
-
-    # get current time for the file comment
-    my $CurrentTime = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
 
     # get user data of the current user to use for the file comment
     my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(

@@ -15,10 +15,10 @@ use Encode ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
 );
 
 sub new {
@@ -738,8 +738,8 @@ sub Insert {
     my ( $Self, @Param ) = @_;
 
     # get needed objects
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     my $SQL    = '';
     my @Keys   = ();
@@ -800,7 +800,7 @@ sub Insert {
                 $Value .= $Tmp;
             }
             else {
-                my $Timestamp = $TimeObject->CurrentTimestamp();
+                my $Timestamp = $DateTimeObject->ToString();
                 $Value .= '\'' . $Timestamp . '\'';
             }
         }

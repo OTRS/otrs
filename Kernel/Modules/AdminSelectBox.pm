@@ -193,7 +193,7 @@ sub Run {
                     $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
                 }
 
-                my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
+                my $TimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
                 $TimeStamp =~ s/[:-]//g;
                 $TimeStamp =~ s/ /-/;
                 my $FileName  = 'admin-select-' . $TimeStamp;

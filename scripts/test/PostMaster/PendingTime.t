@@ -15,9 +15,9 @@ use vars (qw($Self));
 use Kernel::System::PostMaster;
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject   = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -60,14 +60,20 @@ my @Tests = (
             'X-OTRS-FollowUp-State-PendingTime' => '2022-01-01 00:00:00',
         },
         CheckNewTicket => {
-            RealTillTimeNotUsed => $TimeObject->TimeStamp2SystemTime(
-                String => '2021-01-01 00:00:00'
-            ),
+            RealTillTimeNotUsed => $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => '2021-01-01 00:00:00',
+                    }
+                )->ToEpoch(),
         },
         CheckFollowUp => {
-            RealTillTimeNotUsed => $TimeObject->TimeStamp2SystemTime(
-                String => '2022-01-01 00:00:00'
-            ),
+            RealTillTimeNotUsed => $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => '2022-01-01 00:00:00',
+                    }
+                )->ToEpoch(),
         },
     },
     {

@@ -33,7 +33,6 @@ sub Run {
     my $ParamObject             = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $SessionObject           = $Kernel::OM->Get('Kernel::System::AuthSession');
     my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
-    my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
 
     my $SystemMaintenanceID = $ParamObject->GetParam( Param => 'SystemMaintenanceID' ) || '';
     my $WantSessionID       = $ParamObject->GetParam( Param => 'WantSessionID' )       || '';
@@ -207,10 +206,15 @@ sub Run {
         # include time stamps on the correct key
         for my $Key (qw(StartDate StopDate)) {
 
-            # try to convert SystemTime to TimeStamp
-            $SystemMaintenanceData->{ $Key . 'TimeStamp' } = $TimeObject->SystemTime2TimeStamp(
-                SystemTime => $SystemMaintenanceData->{$Key},
+            # try to convert to TimeStamp
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $SystemMaintenanceData->{$Key},
+                    }
             );
+            $SystemMaintenanceData->{ $Key . 'TimeStamp' } =
+                $DateTimeObject ? $DateTimeObject->ToString() : undef;
         }
 
         # check for valid system maintenance data

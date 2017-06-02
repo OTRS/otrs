@@ -1293,23 +1293,24 @@ my $SetOutOfOffice = sub {
 
     if ( $Param{OutOfOffice} ) {
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime() + $Param{SetOutOfOfficeDiffStart},
-        );
+        # create datetime object
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-        my ( $ESec, $EMin, $EHour, $EDay, $EMonth, $EYear, $EWeekDay ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime() + $Param{SetOutOfOfficeDiffEnd},
-        );
+        my $SetOutOfOfficeDiffStartObj = $DateTimeObject->Clone();
+        $SetOutOfOfficeDiffStartObj->Add( Seconds => $Param{SetOutOfOfficeDiffStart} );
+        my $SetOutOfOfficeDiffStartValues = $SetOutOfOfficeDiffStartObj->Get();
+
+        my $SetOutOfOfficeDiffEndObj = $DateTimeObject->Clone();
+        $SetOutOfOfficeDiffEndObj->Add( Seconds => $Param{SetOutOfOfficeDiffEnd} );
+        my $SetOutOfOfficeDiffEndValues = $SetOutOfOfficeDiffEndObj->Get();
 
         my %Preferences = (
-            OutOfOfficeStartYear  => $Year,
-            OutOfOfficeStartMonth => $Month,
-            OutOfOfficeStartDay   => $Day,
-            OutOfOfficeEndYear    => $EYear,
-            OutOfOfficeEndMonth   => $EMonth,
-            OutOfOfficeEndDay     => $EDay,
+            OutOfOfficeStartYear  => $SetOutOfOfficeDiffStartValues->{Year},
+            OutOfOfficeStartMonth => $SetOutOfOfficeDiffStartValues->{Month},
+            OutOfOfficeStartDay   => $SetOutOfOfficeDiffStartValues->{Day},
+            OutOfOfficeEndYear    => $SetOutOfOfficeDiffEndValues->{Year},
+            OutOfOfficeEndMonth   => $SetOutOfOfficeDiffEndValues->{Month},
+            OutOfOfficeEndDay     => $SetOutOfOfficeDiffEndValues->{Day},
         );
 
         # pref update db

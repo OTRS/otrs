@@ -662,7 +662,6 @@ sub Run {
 
         # get needed objects
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
         # get the ticket dynamic fields for CSV display
         my $CSVDynamicField = $DynamicFieldObject->DynamicFieldListGet(
@@ -848,14 +847,13 @@ sub Run {
             my @CSVHeadTranslated = map { $LayoutObject->{LanguageObject}->Translate( $HeaderMap{$_} || $_ ); }
                 @CSVHead;
 
-            my $FileName = 'ticket_search';
-            my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeObject->SystemTime(),
+            my $CurDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            my $FileName          = sprintf(
+                'ticket_search_%s',
+                $CurDateTimeObject->Format(
+                    Format => '%Y-%m-%d_%H-%M'
+                    )
             );
-            $M = sprintf( "%02d", $M );
-            $D = sprintf( "%02d", $D );
-            $h = sprintf( "%02d", $h );
-            $m = sprintf( "%02d", $m );
 
             # get CSV object
             my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
@@ -870,7 +868,7 @@ sub Run {
 
                 # return csv to download
                 return $LayoutObject->Attachment(
-                    Filename    => $FileName . "_" . "$Y-$M-$D" . "_" . "$h-$m.csv",
+                    Filename    => $FileName . '.csv',
                     ContentType => "text/csv; charset=" . $LayoutObject->{UserCharset},
                     Content     => $CSV,
                 );
@@ -886,7 +884,7 @@ sub Run {
 
                 # return Excel to download
                 return $LayoutObject->Attachment(
-                    Filename => $FileName . "_" . "$Y-$M-$D" . "_" . "$h-$m.xlsx",
+                    Filename => $FileName . '.xlsx',
                     ContentType =>
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     Content => $Excel,
@@ -1127,17 +1125,17 @@ sub Run {
             }
 
             # return the pdf document
-            my $Filename = 'ticket_search';
-            my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeObject->SystemTime(),
+            my $CurDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            my $Filename          = sprintf(
+                'ticket_search_%s.pdf',
+                $CurDateTimeObject->Format(
+                    Format => '%Y-%m-%d_%H-%M'
+                    )
             );
-            $M = sprintf( "%02d", $M );
-            $D = sprintf( "%02d", $D );
-            $h = sprintf( "%02d", $h );
-            $m = sprintf( "%02d", $m );
+
             my $PDFString = $PDFObject->DocumentOutput();
             return $LayoutObject->Attachment(
-                Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
+                Filename    => $Filename,
                 ContentType => "application/pdf",
                 Content     => $PDFString,
                 Type        => 'inline',

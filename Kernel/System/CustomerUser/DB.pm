@@ -23,13 +23,13 @@ our @ObjectDependencies = (
     'Kernel::Language',
     'Kernel::System::Cache',
     'Kernel::System::CheckItem',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::Valid',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
@@ -1281,9 +1281,16 @@ sub CustomerUserDataGet {
 
     # add last login timestamp
     if ( $Preferences{UserLastLogin} ) {
-        $Preferences{UserLastLoginTimestamp} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
-            SystemTime => $Preferences{UserLastLogin},
+
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $Preferences{UserLastLogin},
+            },
         );
+
+        $Preferences{UserLastLoginTimestamp} = $DateTimeObject->ToString();
+
     }
 
     # cache request
@@ -1341,13 +1348,11 @@ sub CustomerUserAdd {
     if ( !$Param{UserLogin} && $Self->{CustomerUserMap}->{AutoLoginCreation} ) {
 
         # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $DateTimeString = $DateTimeObject->Format( Format => '%Y%m%d%H%M' );
 
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime(),
-        );
         my $Prefix = $Self->{CustomerUserMap}->{AutoLoginCreationPrefix} || 'auto';
-        $Param{UserLogin} = "$Prefix-$Year$Month$Day$Hour$Min" . int( rand(99) );
+        $Param{UserLogin} = "$Prefix-$DateTimeString" . int( rand(99) );
     }
 
     # check if user login exists

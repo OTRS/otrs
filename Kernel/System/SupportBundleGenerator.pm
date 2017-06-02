@@ -23,7 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::Registration',
     'Kernel::System::SupportDataCollector',
     'Kernel::System::SysConfig',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 =head1 NAME
@@ -218,15 +218,8 @@ sub Generate {
         }
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    ## no critic
-    my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-    ## use critic
-    my $Filename = "SupportBundle_$Y-$M-$D" . '_' . "$h-$m";
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Filename = "SupportBundle_" . $DateTimeObject->Format( Format => "%Y-%m-%d_%H-%M" );
 
     # add files to the tar archive
     my $Archive   = $TempDir . '/' . $Filename;

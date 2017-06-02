@@ -15,8 +15,8 @@ use warnings;
 
 use List::Util qw( first );
 
-use Kernel::System::DateTime qw(:all);
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::DateTime qw( OTRSTimeZoneGet TimeZoneList );
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -24,13 +24,13 @@ our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::Output::PDF::Statistics',
     'Kernel::System::CSV',
+    'Kernel::System::DateTime',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::PDF',
     'Kernel::System::Stats',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
@@ -1208,7 +1208,6 @@ sub StatsParamsGet {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
     my $LocalGetParam = sub {
         my (%Param) = @_;
@@ -1244,12 +1243,11 @@ sub StatsParamsGet {
     # Static statistics
     #
     if ( $Stat->{StatType} eq 'static' ) {
-        my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime(),
-        );
-        $GetParam{Year}  = $Y;
-        $GetParam{Month} = $M;
-        $GetParam{Day}   = $D;
+        my $CurSysDTDetails = $Kernel::OM->Create('Kernel::System::DateTime')->Get();
+
+        $GetParam{Year}  = $CurSysDTDetails->{Year};
+        $GetParam{Month} = $CurSysDTDetails->{Month};
+        $GetParam{Day}   = $CurSysDTDetails->{Day};
 
         my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams(
             StatID => $Stat->{StatID},
@@ -1344,9 +1342,6 @@ sub StatsParamsGet {
                         # Check if it is an absolute time period
                         if ( $Element->{TimeStart} ) {
 
-                            # get time object
-                            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
                             if ( $LocalGetParam->( Param => $ElementName . 'StartYear' ) ) {
                                 for my $Limit (qw(Start Stop)) {
                                     for my $Unit (qw(Year Month Day Hour Minute Second)) {
@@ -1391,9 +1386,21 @@ sub StatsParamsGet {
                                 $Element->{TimeStop}  = $Time{TimeStop};
 
                                 if ( $Use eq 'UseAsXvalue' ) {
-                                    $TimePeriod
-                                        = ( $TimeObject->TimeStamp2SystemTime( String => $Element->{TimeStop} ) )
-                                        - ( $TimeObject->TimeStamp2SystemTime( String => $Element->{TimeStart} ) );
+                                    my $TimeStartEpoch = $Kernel::OM->Create(
+                                        'Kernel::System::Create',
+                                        ObjectParams => {
+                                            String => $Element->{TimeStart},
+                                        },
+                                    )->ToEpoch();
+
+                                    my $TimeStopEpoch = $Kernel::OM->Create(
+                                        'Kernel::System::Create',
+                                        ObjectParams => {
+                                            String => $Element->{TimeStop},
+                                        },
+                                    )->ToEpoch();
+
+                                    $TimePeriod = $TimeStopEpoch - $TimeStartEpoch;
                                 }
                             }
                         }
@@ -1675,7 +1682,6 @@ sub StatsConfigurationValidate {
     }
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
     if ( $Stat{StatType} eq 'dynamic' ) {
 
@@ -1691,16 +1697,24 @@ sub StatsConfigurationValidate {
 
                 if ( $Xvalue->{Block} eq 'Time' ) {
                     if ( $Xvalue->{TimeStart} && $Xvalue->{TimeStop} ) {
-                        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-                            String => $Xvalue->{TimeStart}
+                        my $TimeStartDTObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                String => $Xvalue->{TimeStart},
+                            },
                         );
-                        my $TimeStop = $TimeObject->TimeStamp2SystemTime(
-                            String => $Xvalue->{TimeStop}
+
+                        my $TimeStopDTObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                String => $Xvalue->{TimeStop},
+                            },
                         );
-                        if ( !$TimeStart || !$TimeStop ) {
+
+                        if ( !$TimeStartDTObject || !$TimeStopDTObject ) {
                             $XAxisFieldErrors{ $Xvalue->{Element} } = Translatable('The selected date is not valid.');
                         }
-                        elsif ( $TimeStart > $TimeStop ) {
+                        elsif ( $TimeStartDTObject > $TimeStopDTObject ) {
                             $XAxisFieldErrors{ $Xvalue->{Element} }
                                 = Translatable('The selected end time is before the start time.');
                         }
@@ -1840,17 +1854,25 @@ sub StatsConfigurationValidate {
                 }
                 elsif ( $Restriction->{Block} eq 'Time' || $Restriction->{Block} eq 'TimeExtended' ) {
                     if ( $Restriction->{TimeStart} && $Restriction->{TimeStop} ) {
-                        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-                            String => $Restriction->{TimeStart}
+                        my $TimeStartDTObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                String => $Restriction->{TimeStart},
+                            },
                         );
-                        my $TimeStop = $TimeObject->TimeStamp2SystemTime(
-                            String => $Restriction->{TimeStop}
+
+                        my $TimeStopDTObject = $Kernel::OM->Create(
+                            'Kernel::System::DateTime',
+                            ObjectParams => {
+                                String => $Restriction->{TimeStop},
+                            },
                         );
-                        if ( !$TimeStart || !$TimeStop ) {
+
+                        if ( !$TimeStartDTObject || !$TimeStopDTObject ) {
                             $RestrictionsFieldErrors{ $Restriction->{Element} }
                                 = Translatable('The selected date is not valid.');
                         }
-                        elsif ( $TimeStart > $TimeStop ) {
+                        elsif ( $TimeStartDTObject > $TimeStopDTObject ) {
                             $RestrictionsFieldErrors{ $Restriction->{Element} }
                                 = Translatable('The selected end time is before the start time.');
                         }
@@ -1902,12 +1924,21 @@ sub StatsConfigurationValidate {
                 }
 
                 if ( $Xvalue->{TimeStop} && $Xvalue->{TimeStart} ) {
-                    $TimePeriod = (
-                        $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} )
-                        )
-                        - (
-                        $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} )
-                        );
+                    my $TimeStartEpoch = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            String => $Xvalue->{TimeStart},
+                        },
+                    )->ToEpoch();
+
+                    my $TimeStopEpoch = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            String => $Xvalue->{TimeStop},
+                        },
+                    )->ToEpoch();
+
+                    $TimePeriod = $TimeStopEpoch - $TimeStartEpoch;
                 }
                 else {
                     $TimePeriod = $Xvalue->{TimeRelativeCount} * $Self->_TimeInSeconds(
@@ -1997,13 +2028,9 @@ sub _TimeOutput {
                 );
             }
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
             # get time
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeObject->SystemTime(),
-            );
+            my $CurSysDTDetails = $Kernel::OM->Create('Kernel::System::DateTime')->Get();
+            my $Year            = $CurSysDTDetails->{Year};
             my %TimeConfig;
 
             # default time configuration

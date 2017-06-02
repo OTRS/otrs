@@ -19,9 +19,9 @@ use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Daemon::SchedulerDB',
+    'Kernel::System::DateTime',
     'Kernel::System::Email',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -89,7 +89,7 @@ sub Run {
     # Stop execution if an error in params is detected.
     return if !$CheckResult;
 
-    my $StartSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     my $ModuleObject;
     eval {
@@ -147,7 +147,7 @@ sub Run {
     };
 
     # Get current system time (as soon as the method has been called).
-    my $EndSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     my $IsConsoleCommand;
     if (

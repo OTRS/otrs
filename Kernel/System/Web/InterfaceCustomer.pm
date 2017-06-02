@@ -28,7 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Scheduler',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::Web::Request',
     'Kernel::System::Valid',
 );
@@ -322,10 +322,13 @@ sub Run {
             return;
         }
 
+        # create datetime object
+        my $SessionDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
         # create new session id
         my $NewSessionID = $SessionObject->CreateSessionID(
             %UserData,
-            UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+            UserLastRequest => $SessionDTObject->ToEpoch(),
             UserType        => 'Customer',
         );
 
@@ -348,17 +351,13 @@ sub Run {
             return;
         }
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
         # execution in 20 seconds
-        my $ExecutionTime = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => ( $TimeObject->SystemTime() + 20 ),
-        );
+        my $ExecutionTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+        $ExecutionTimeObj->Add( Seconds => 20 );
 
         # add a asynchronous executor scheduler task to count the concurrent user
         $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
-            ExecutionTime            => $ExecutionTime,
+            ExecutionTime            => $ExecutionTimeObj->ToString(),
             Type                     => 'AsynchronousExecutor',
             Name                     => 'PluginAsynchronous::ConcurrentUser',
             MaximumParallelInstances => 1,
@@ -828,9 +827,10 @@ sub Run {
         }
 
         # create account
-        my $Now = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
-            SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-        );
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        my $Now = $DateTimeObject->ToString();
+
         my $Add = $UserObject->CustomerUserAdd(
             %GetParams,
             Comment => $LayoutObject->{LanguageObject}->Translate( 'Added via Customer Panel (%s)', $Now ),
@@ -1170,10 +1170,12 @@ sub Run {
             || $Param{Action} eq 'CustomerVideoChat'
             )
         {
+            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
             $SessionObject->UpdateSessionID(
                 SessionID => $Param{SessionID},
                 Key       => 'UserLastRequest',
-                Value     => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+                Value     => $DateTimeObject->ToEpoch(),
             );
         }
 

@@ -1065,9 +1065,12 @@ for my $Test (@Tests) {
                 $ExpectedValue = 0;
             }
             elsif ( $Attribute eq 'PendingTime' && $OrigTest->{UpdatePendingTime} ) {
-                $ExpectedValue = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-                    String => $ExpectedValue,
-                );
+                $ExpectedValue = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $ExpectedValue,
+                        }
+                    )->ToEpoch(),
             }
 
             # TODO: currently disabled, re-enable it when AgentNotification is fully switch to NotificationEvent

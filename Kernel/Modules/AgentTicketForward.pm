@@ -684,19 +684,22 @@ sub SendEmail {
 
     my $NextState = $StateData{Name};
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
     # check pending date
     if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
-        if ( !$TimeObject->Date2SystemTime( %GetParam, Second => 0 ) ) {
-            $Error{'DateInvalid'} = 'ServerError';
-        }
-        if (
-            $TimeObject->Date2SystemTime( %GetParam, Second => 0 )
-            < $TimeObject->SystemTime()
-            )
-        {
+
+        # create a datetime object bsed on pending date
+        my $PendingDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                %GetParam,
+                Second => 0,
+            },
+        );
+
+        # get current system epoch
+        my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        if ( !$PendingDateTimeObject || $PendingDateTimeObject < $CurSystemDateTimeObject ) {
             $Error{'DateInvalid'} = 'ServerError';
         }
     }

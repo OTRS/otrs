@@ -25,22 +25,17 @@ sub Run {
     my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{UserID} );
     return '' if ( !$UserData{OutOfOffice} );
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    my $Time = $TimeObject->SystemTime();
-
-    my $Start
-        = "$UserData{OutOfOfficeStartYear}-$UserData{OutOfOfficeStartMonth}-$UserData{OutOfOfficeStartDay} 00:00:00";
-
-    my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-        String => $Start,
+    my $CurSystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $OOOStartDTObject  = $Self->_GetOutOfOfficeDateTimeObject(
+        UserData => \%UserData,
+        Type     => 'Start'
     );
-    my $End     = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
-    my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
-        String => $End,
+    my $OOOEndDTObject = $Self->_GetOutOfOfficeDateTimeObject(
+        UserData => \%UserData,
+        Type     => 'End'
     );
-    if ( $TimeStart < $Time && $TimeEnd > $Time ) {
+
+    if ( $OOOStartDTObject < $CurSystemDTObject && $OOOEndDTObject > $CurSystemDTObject ) {
 
         # get layout object
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -53,9 +48,30 @@ sub Run {
                 ->Translate("You have Out of Office enabled, would you like to disable it?"),
         );
     }
-    else {
-        return '';
-    }
+
+    return '';
+}
+
+sub _GetOutOfOfficeDateTimeObject {
+    my ( $Self, %Param ) = @_;
+
+    my $Type     = $Param{Type};
+    my $UserData = $Param{UserData};
+
+    my $DTString = sprintf(
+        '%s-%s-%s %s',
+        $UserData->{"OutOfOffice${Type}Year"},
+        $UserData->{"OutOfOffice${Type}Month"},
+        $UserData->{"OutOfOffice${Type}Day"},
+        ( $Type eq 'End' ? '23:59:59' : '00:00:00' ),
+    );
+
+    return $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $DTString,
+        },
+    );
 }
 
 1;

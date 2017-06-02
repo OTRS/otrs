@@ -24,7 +24,12 @@ $Selenium->RunTest(
 
         # set fixed time for test purposes
         $Helper->FixedTimeSet(
-            $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => '2014-12-12 00:00:00' ),
+            $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => '2014-12-12 00:00:00'
+                    }
+                )->ToEpoch(),
         );
 
         # create test user and login

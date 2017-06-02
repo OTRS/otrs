@@ -55,12 +55,8 @@ $Selenium->RunTest(
         );
 
         # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        # get current system time
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime(),
-        );
+        my $DTObj    = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $DTValues = $DTObj->Get();
 
         # create OutOfOffice params
         my @OutOfOfficeTime = (
@@ -70,27 +66,27 @@ $Selenium->RunTest(
             },
             {
                 Key   => 'OutOfOfficeStartYear',
-                Value => $Year,
+                Value => $DTValues->{Year},
             },
             {
                 Key   => 'OutOfOfficeEndYear',
-                Value => $Year + 1,
+                Value => $DTValues->{Year} + 1,
             },
             {
                 Key   => 'OutOfOfficeStartMonth',
-                Value => $Month,
+                Value => $DTValues->{Month},
             },
             {
                 Key   => 'OutOfOfficeEndMonth',
-                Value => $Month,
+                Value => $DTValues->{Month},
             },
             {
                 Key   => 'OutOfOfficeStartDay',
-                Value => $Day,
+                Value => $DTValues->{Day},
             },
             {
                 Key   => 'OutOfOfficeEndDay',
-                Value => $Day,
+                Value => $DTValues->{Day},
             },
         );
 
@@ -108,7 +104,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # test OutOfOffice plugin
-        my $ExpectedResult = "$TestUserLogin until $Month/$Day/" . ( $Year + 1 );
+        my $ExpectedResult = sprintf(
+            "$TestUserLogin until %02d/%02d/%d",
+            $DTValues->{Month},
+            $DTValues->{Day},
+            $DTValues->{Year} + 1,
+        );
         $Self->True(
             index( $Selenium->get_page_source(), $ExpectedResult ) > -1,
             "OutOfOffice message - found on screen"

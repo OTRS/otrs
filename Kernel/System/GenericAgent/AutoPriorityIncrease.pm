@@ -12,10 +12,10 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::System::DateTime',
     'Kernel::System::Log',
     'Kernel::System::Priority',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
 );
 
 sub new {
@@ -69,14 +69,17 @@ sub Run {
     }
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $SystemTime     = $DateTimeObject->ToEpoch();
 
-    $LatestAutoIncrease = $TimeObject->TimeStamp2SystemTime(
+    $LatestAutoIncrease = $DateTimeObject->Set(
         String => $LatestAutoIncrease,
     );
 
+    $LatestAutoIncrease = $LatestAutoIncrease ? $DateTimeObject->ToEpoch() : undef;
+
     if (
-        ( $TimeObject->SystemTime() - $LatestAutoIncrease )
+        ( $SystemTime - $LatestAutoIncrease )
         > $Param{New}->{TimeInterval}
         )
     {

@@ -25,7 +25,7 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::User',
 );
 
@@ -246,18 +246,14 @@ sub Run {
 
         if ( $Param{Config}->{PendingTime} ) {
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-            # convert pending time to system time
-            my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-                String => $Param{Config}->{PendingTime},
+            # get datetime object
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Param{Config}->{PendingTime}
+                    }
             );
-
-            # convert it back again so we are sure the sting is correct
-            my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-                SystemTime => $SystemTime,
-            );
+            my $TimeStamp = $DateTimeObject->ToString();
 
             # set pending time
             $TicketObject->TicketPendingTimeSet(

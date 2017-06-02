@@ -4646,7 +4646,7 @@ sub _StoreActivityDialog {
             if ( !$TicketParam{Title} ) {
 
                 # get the current server Time-stamp
-                my $CurrentTimeStamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
+                my $CurrentTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
                 $TicketParam{Title} = "$Param{ProcessName} - $CurrentTimeStamp";
 
                 # use article subject from the web request if any

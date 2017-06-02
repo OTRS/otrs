@@ -15,10 +15,10 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Storable',
-    'Kernel::System::Time',
 );
 
 sub new {
@@ -91,7 +91,7 @@ sub CheckSessionID {
     }
 
     # check session idle time
-    my $TimeNow            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $TimeNow            = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
     my $MaxSessionIdleTime = $ConfigObject->Get('SessionMaxIdleTime');
 
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
@@ -193,7 +193,7 @@ sub CreateSessionID {
     my ( $Self, %Param ) = @_;
 
     # get system time
-    my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $TimeNow = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     # get remote address and the http user agent
     my $RemoteAddr      = $ENV{REMOTE_ADDR}     || 'none';
@@ -358,7 +358,7 @@ sub GetActiveSessions {
 
     my $MaxSessionIdleTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionMaxIdleTime');
 
-    my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $TimeNow = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -425,7 +425,7 @@ sub GetExpiredSessionIDs {
     my $MaxSessionIdleTime = $ConfigObject->Get('SessionMaxIdleTime');
 
     # get current time
-    my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $TimeNow = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');

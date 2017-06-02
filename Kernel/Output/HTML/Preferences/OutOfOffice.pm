@@ -16,12 +16,12 @@ use warnings;
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
-    'Kernel::Output::HTML::Layout',
-    'Kernel::System::Web::Request',
     'Kernel::Config',
-    'Kernel::System::User',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::AuthSession',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
+    'Kernel::System::User',
+    'Kernel::System::Web::Request',
 );
 
 sub Param {
@@ -90,7 +90,6 @@ sub Run {
     my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 
     for my $Key (
         qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
@@ -99,14 +98,16 @@ sub Run {
         $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || '';
     }
 
-    my $OutOfOfficeStartTime = $TimeObject->TimeStamp2SystemTime(
-        String => "$Param{OutOfOfficeStartYear}-$Param{OutOfOfficeStartMonth}-$Param{OutOfOfficeStartDay} 00:00:00",
+    my $OOOStartDTObject = $Self->_GetOutOfOfficeDateTimeObject(
+        Type => 'Start',
+        Data => \%Param
     );
-    my $OutOfOfficeEndTime = $TimeObject->TimeStamp2SystemTime(
-        String => "$Param{OutOfOfficeEndYear}-$Param{OutOfOfficeEndMonth}-$Param{OutOfOfficeEndDay} 00:00:00",
+    my $OOOEndDTObject = $Self->_GetOutOfOfficeDateTimeObject(
+        Type => 'End',
+        Data => \%Param
     );
 
-    if ( $OutOfOfficeStartTime <= $OutOfOfficeEndTime ) {
+    if ( $OOOStartDTObject <= $OOOEndDTObject ) {
         for my $Key (
             qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
             )
@@ -164,6 +165,28 @@ sub Message {
     my ( $Self, %Param ) = @_;
 
     return $Self->{Message} || '';
+}
+
+sub _GetOutOfOfficeDateTimeObject {
+    my ( $Self, %Param ) = @_;
+
+    my $Type = $Param{Type};
+    my $Data = $Param{Data};
+
+    my $DTString = sprintf(
+        '%s-%s-%s %s',
+        $Data->{"OutOfOffice${Type}Year"},
+        $Data->{"OutOfOffice${Type}Month"},
+        $Data->{"OutOfOffice${Type}Day"},
+        ( $Type eq 'End' ? '23:59:59' : '00:00:00' ),
+    );
+
+    return $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $DTString,
+        },
+    );
 }
 
 1;

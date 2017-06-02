@@ -14,7 +14,7 @@ use vars (qw($Self));
 
 my $UserObject           = $Kernel::OM->Get('Kernel::System::User');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject           = $Kernel::OM->Get('Kernel::System::Time');
+my $DateTimeObject       = $Kernel::OM->Create('Kernel::System::DateTime');
 my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
     ChannelName => 'Internal',
 );
@@ -84,44 +84,42 @@ $UserObject->SetPreferences(
     Value  => 1,
 );
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-    SystemTime => $TimeObject->SystemTime(),
-);
+my $DTValues = $DateTimeObject->Get();
 
 # Special case for leap years. There is no Feb 29 in the next and previous years in this case.
-if ( $Month == 2 && $Day == 29 ) {
-    $Day--;
+if ( $DTValues->{Month} == 2 && $DTValues->{Day} == 29 ) {
+    $DTValues->{Day}--;
 }
 
 $UserObject->SetPreferences(
     UserID => $Ticket{OwnerID},
     Key    => 'OutOfOfficeStartYear',
-    Value  => $Year - 1,
+    Value  => $DTValues->{Year} - 1,
 );
 $UserObject->SetPreferences(
     UserID => $Ticket{OwnerID},
     Key    => 'OutOfOfficeEndYear',
-    Value  => $Year + 1,
+    Value  => $DTValues->{Year} + 1,
 );
 $UserObject->SetPreferences(
     UserID => $Ticket{OwnerID},
     Key    => 'OutOfOfficeStartMonth',
-    Value  => $Month,
+    Value  => $DTValues->{Month},
 );
 $UserObject->SetPreferences(
     UserID => $Ticket{OwnerID},
     Key    => 'OutOfOfficeEndMonth',
-    Value  => $Month,
+    Value  => $DTValues->{Month},
 );
 $UserObject->SetPreferences(
     UserID => $Ticket{OwnerID},
     Key    => 'OutOfOfficeStartDay',
-    Value  => $Day,
+    Value  => $DTValues->{Day},
 );
 $UserObject->SetPreferences(
     UserID => $Ticket{OwnerID},
     Key    => 'OutOfOfficeEndDay',
-    Value  => $Day,
+    Value  => $DTValues->{Day},
 );
 
 $ArticleBackendObject->ArticleCreate(

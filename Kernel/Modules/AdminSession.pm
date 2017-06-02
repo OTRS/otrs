@@ -105,14 +105,17 @@ sub Run {
                 }
                 if ( $Key eq 'UserSessionStart' ) {
 
-                    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-                    my $Age        = int(
-                        ( $TimeObject->SystemTime() - $Data{UserSessionStart} )
+                    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+                    my $Age            = int(
+                        ( $DateTimeObject->ToEpoch() - $Data{UserSessionStart} )
                         / 3600
                     );
-                    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-                        SystemTime => $Data{UserSessionStart},
-                    );
+                    my $TimeStamp = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            Epoch => $Data{UserSessionStart},
+                            }
+                    )->ToString();
                     $Data{$Key} = "$TimeStamp / $Age h ";
                 }
                 if ( $Data{$Key} eq ';' ) {

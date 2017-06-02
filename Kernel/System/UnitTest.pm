@@ -30,7 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SupportDataCollector',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::WebUserAgent',
 );
 
@@ -111,7 +111,9 @@ sub Run {
     $Self->{TestCountOk}    = 0;
     $Self->{TestCountNotOk} = 0;
 
-    my $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+    my $StartTime = $DateTimeObject->ToEpoch();
 
     my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
@@ -142,7 +144,9 @@ sub Run {
 
         $Self->{TestFile} = $File;
 
-        my $FileStartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        my $FileStartTime = $DateTimeObject->ToEpoch();
 
         # create a new scope to be sure to destroy local object of the test files
         {
@@ -183,14 +187,17 @@ sub Run {
             }
         }
 
-        my $FileDuration = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $FileStartTime;
+        my $FileDurationObj = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        my $FileDuration = $FileDurationObj->ToEpoch() - $FileStartTime;
         $Self->{ResultData}->{$File}->{Duration} = $FileDuration;
 
         print "\n";
     }
 
-    my $EndTime  = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
-    my $Duration = $EndTime - $StartTime;
+    my $EndTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $EndTime    = $EndTimeObj->ToEpoch();
+    my $Duration   = $EndTime - $StartTime;
 
     my $Host = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
 

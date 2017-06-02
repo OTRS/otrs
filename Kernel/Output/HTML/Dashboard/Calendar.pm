@@ -143,14 +143,21 @@ sub Run {
                     next TICKETID;
                 }
 
-                # get time object
-                my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+                # get current system datetime object
+                my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-                my $DestDate = $TimeObject->SystemTime() + $Ticket{UntilTime};
-                $TimeTill  = $Ticket{UntilTime};
-                $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-                    SystemTime => $DestDate,
+                my $DestDate        = $CurSystemDateTimeObject->ToEpoch() + $Ticket{UntilTime};
+                my $TimeStampObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Epoch => $DestDate,
+                    },
                 );
+                if ($TimeStampObject) {
+                    $TimeStamp = $TimeStampObject->ToString();
+                }
+
+                $TimeTill = $Ticket{UntilTime};
             }
 
             # remember attributes for content table

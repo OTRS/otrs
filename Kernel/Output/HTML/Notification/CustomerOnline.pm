@@ -15,7 +15,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::AuthSession',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::Output::HTML::Layout',
 );
 
@@ -36,7 +36,8 @@ sub Run {
         if (
             $Data{UserType} eq 'Customer'
             && $Data{UserLastRequest}
-            && $Data{UserLastRequest} + ( $IdleMinutes * 60 ) > $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
+            && $Data{UserLastRequest} + ( $IdleMinutes * 60 )
+            > $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch()
             && $Data{UserFirstname}
             && $Data{UserLastname}
             )

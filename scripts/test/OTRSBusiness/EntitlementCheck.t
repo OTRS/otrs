@@ -197,9 +197,14 @@ if (!window.location.search.match(/^[?]Action=(AgentOTRSBusiness|Admin.*)/)) {
 
 for my $Test (@Tests) {
 
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-        String => $Test->{CurrentTime},
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Test->{CurrentTime},
+            }
     );
+    my $SystemTime = $DateTimeObject->ToEpoch();
+
     $Helper->FixedTimeSet($SystemTime);
 
     no warnings 'redefine';

@@ -55,11 +55,8 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-# get time object
-my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
 # get the start time for the test
-my $StartTime = $TimeObject->SystemTime();
+my $StartTime = $Kernel::OM->Create('Kernel::System::DateTime');
 
 # get user object
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
@@ -243,7 +240,7 @@ $Self->True(
 );
 
 # update escalation times directly in the DB
-my $EscalationTime = $TimeObject->SystemTime() + 120;
+my $EscalationTime = $StartTime->ToEpoch() + 120;
 return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => '
         UPDATE ticket
@@ -1364,10 +1361,8 @@ my @Tests = (
         Name           => "Test LastChangeTimeNewerDate +  CreateTimeNewerDate " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            TicketLastChangeTimeNewerDate =>
-                $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime ),
-            TicketCreateTimeNewerDate =>
-                $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime ),
+            TicketLastChangeTimeNewerDate => $StartTime->ToString(),
+            TicketCreateTimeNewerDate     => $StartTime->ToString(),
             SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
             OrderBy => 'Down',
         },
@@ -1389,8 +1384,12 @@ my @Tests = (
         Name           => "Test CreateTimeNewerDate " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            TicketCreateTimeNewerDate =>
-                $TimeObject->SystemTime2TimeStamp( SystemTime => $TimeObject->SystemTime() + 1 ),
+            TicketCreateTimeNewerDate => $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $StartTime->ToEpoch() + 10,
+                },
+                )->ToString(),
             SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
             OrderBy => 'Down',
         },
@@ -1408,10 +1407,8 @@ my @Tests = (
         Name           => "Test Limit " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            TicketLastChangeTimeNewerDate =>
-                $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime ),
-            TicketCreateTimeNewerDate =>
-                $TimeObject->SystemTime2TimeStamp( SystemTime => $StartTime ),
+            TicketLastChangeTimeNewerDate => $StartTime->ToString(),
+            TicketCreateTimeNewerDate     => $StartTime->ToString(),
             SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
             OrderBy => 'Down',
             Limit   => 1,

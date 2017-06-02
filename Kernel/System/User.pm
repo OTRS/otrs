@@ -23,7 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SearchProfile',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::Valid',
 );
 
@@ -243,13 +243,19 @@ sub GetUserData {
     # get preferences
     my %Preferences = $Self->GetPreferences( UserID => $Data{UserID} );
 
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # add last login timestamp
     if ( $Preferences{UserLastLogin} ) {
-        $Preferences{UserLastLoginTimestamp} = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => $Preferences{UserLastLogin},
+
+        my $UserLastLoginTimeObj = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $Preferences{UserLastLogin}
+                }
         );
+
+        $Preferences{UserLastLoginTimestamp} = $UserLastLoginTimeObj->ToString();
     }
 
     # check compat stuff
@@ -260,18 +266,40 @@ sub GetUserData {
     # out of office check
     if ( !$Param{NoOutOfOffice} ) {
         if ( $Preferences{OutOfOffice} ) {
-            my $Time = $TimeObject->SystemTime();
-            my $Start
-                = "$Preferences{OutOfOfficeStartYear}-$Preferences{OutOfOfficeStartMonth}-$Preferences{OutOfOfficeStartDay} 00:00:00";
-            my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-                String => $Start,
+
+            my $CurrentTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            my $CreateDTObject    = sub {
+                my %Param = @_;
+
+                return $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => sprintf(
+                            '%d-%02d-%02d %s',
+                            $Param{Year},
+                            $Param{Month},
+                            $Param{Day},
+                            $Param{Time}
+                        ),
+                    },
+                );
+            };
+
+            my $TimeStartObj = $CreateDTObject->(
+                Year  => $Preferences{OutOfOfficeStartYear},
+                Month => $Preferences{OutOfOfficeStartMonth},
+                Day   => $Preferences{OutOfOfficeStartDay},
+                Time  => '00:00:00',
             );
-            my $End
-                = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay} 23:59:59";
-            my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
-                String => $End,
+
+            my $TimeEndObj = $CreateDTObject->(
+                Year  => $Preferences{OutOfOfficeEndYear},
+                Month => $Preferences{OutOfOfficeEndMonth},
+                Day   => $Preferences{OutOfOfficeEndDay},
+                Time  => '23:59:59',
             );
-            if ( $TimeStart < $Time && $TimeEnd > $Time ) {
+
+            if ( $TimeStartObj < $CurrentTimeObject && $TimeEndObj > $CurrentTimeObject ) {
                 my $OutOfOfficeMessageTemplate =
                     $ConfigObject->Get('OutOfOfficeMessageTemplate') || '*** out of office until %s (%s d left) ***';
                 my $TillDate = sprintf(
@@ -280,7 +308,7 @@ sub GetUserData {
                     $Preferences{OutOfOfficeEndMonth},
                     $Preferences{OutOfOfficeEndDay}
                 );
-                my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
+                my $Till = int( ( $TimeEndObj->ToEpoch() - $CurrentTimeObject->ToEpoch() ) / 60 / 60 / 24 );
                 $Preferences{OutOfOfficeMessage} = sprintf( $OutOfOfficeMessageTemplate, $TillDate, $Till );
                 $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }

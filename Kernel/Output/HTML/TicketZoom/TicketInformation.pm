@@ -160,12 +160,14 @@ sub Run {
             $Ticket{PendingUntilClass} = 'Warning';
         }
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my $CurSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        $Ticket{UntilTimeHuman} = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => ( $Ticket{UntilTime} + $CurSysDTObject->ToEpoch() ),
+            },
+        )->ToString();
 
-        $Ticket{UntilTimeHuman} = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => ( $Ticket{UntilTime} + $TimeObject->SystemTime() ),
-        );
         $Ticket{PendingUntil} .= $LayoutObject->CustomerAge(
             Age   => $Ticket{UntilTime},
             Space => ' '

@@ -16,10 +16,10 @@ use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::GenericInterface::Requester',
+    'Kernel::System::DateTime',
     'Kernel::System::Daemon::SchedulerDB',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -119,18 +119,16 @@ sub Run {
         # Check if task needs to be re-schedule in the future.
         if ( $Result->{Data}->{ReSchedule} ) {
 
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-            # Use the execution time from the return data (if nay).
+            # Use the execution time from the return data (if any).
             my $ExecutionTime = $Result->{Data}->{ExecutionTime} || 0;
 
             # Check if execution time is valid.
             if ($ExecutionTime) {
-                my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-                    String => $ExecutionTime,
-                );
+                my $ValidSystemTime = $DateTimeObject->Set( String => $ExecutionTime );
 
-                if ( !$SystemTime ) {
+                if ( !$ValidSystemTime ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
                         Message =>
@@ -149,9 +147,9 @@ sub Run {
                         ->Get('Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff') || 300 );
 
                 # Calculate execution time in future.
-                $ExecutionTime = $TimeObject->SystemTime2TimeStamp(
-                    SystemTime => $TimeObject->SystemTime() + $FutureTaskTimeDiff,
-                );
+                $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+                $DateTimeObject->Add( Seconds => $FutureTaskTimeDiff );
+                $ExecutionTime = $DateTimeObject->ToString();
             }
 
             if ( $Self->{Debug} ) {

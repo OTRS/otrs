@@ -12,12 +12,12 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::System::DateTime',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Queue',
     'Kernel::System::SLA',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
     'Kernel::System::User',
 );
 
@@ -52,13 +52,20 @@ sub Run {
     );
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $StopDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # check if it is during business hours, then send escalation info
-    my $CountedTime = $TimeObject->WorkingTime(
-        StartTime => $TimeObject->SystemTime() - ( 10 * 60 ),
-        StopTime  => $TimeObject->SystemTime(),
-        Calendar  => $Calendar,
+    my $StartDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch => $StopDateTimeObject->ToEpoch() - ( 10 * 60 ),
+            }
+    );
+
+    my $CountedTime = StartDateTimeObject->Delta(
+        DateTimeObject => $StopDateTimeObject,
+        ForWorkingTime => 1,
+        Calendar       => $Calendar,
     );
     if ( !$CountedTime ) {
         if ( $Self->{Debug} ) {

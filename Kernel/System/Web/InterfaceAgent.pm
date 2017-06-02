@@ -25,7 +25,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Scheduler',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
     'Kernel::System::Valid',
@@ -324,10 +324,12 @@ sub Run {
             return;
         }
 
+        my $DateTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+
         # create new session id
         my $NewSessionID = $SessionObject->CreateSessionID(
             %UserData,
-            UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+            UserLastRequest => $DateTimeObj->ToEpoch(),
             UserType        => 'User',
         );
 
@@ -350,13 +352,10 @@ sub Run {
             return;
         }
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
         # execution in 20 seconds
-        my $ExecutionTime = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => ( $TimeObject->SystemTime() + 20 ),
-        );
+        my $ExecutionTimeObj = $DateTimeObj->Clone();
+        $ExecutionTimeObj->Add( Seconds => 20 );
+        my $ExecutionTime = $ExecutionTimeObj->ToString();
 
         # add a asychronous executor scheduler task to count the concurrent user
         $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
@@ -983,10 +982,12 @@ sub Run {
             )
             )
         {
+            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
             $SessionObject->UpdateSessionID(
                 SessionID => $Param{SessionID},
                 Key       => 'UserLastRequest',
-                Value     => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+                Value     => $DateTimeObject->ToEpoch(),
             );
         }
 

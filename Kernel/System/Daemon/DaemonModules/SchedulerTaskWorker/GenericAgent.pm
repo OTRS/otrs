@@ -16,9 +16,9 @@ use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Daemon::SchedulerDB',
+    'Kernel::System::DateTime',
     'Kernel::System::GenericAgent',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -86,7 +86,7 @@ sub Run {
 
     my %Job = %{ $Param{Data} };
 
-    my $StartSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     # Check if last run was less than 1 minute ago.
     if (
@@ -135,7 +135,7 @@ sub Run {
     };
 
     # Get current system time (as soon as the job finish to run).
-    my $EndSystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     if ( !$Success ) {
 

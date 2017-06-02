@@ -22,7 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 =head1 NAME
@@ -222,7 +222,8 @@ sub ArticleSend {
     my $Loop        = $Param{Loop}        || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
 
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # Lookup if no ID is passed.
     if ( $Param{SenderType} && !$Param{SenderTypeID} ) {
@@ -269,7 +270,7 @@ sub ArticleSend {
     );
 
     # create article
-    my $Time      = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $Time      = $DateTimeObject->ToEpoch();
     my $Random    = rand 999999;
     my $FQDN      = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
     my $MessageID = "<$Time.$Random\@$FQDN>";
@@ -352,8 +353,10 @@ sub ArticleBounce {
         }
     }
 
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     # create message id
-    my $Time         = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $Time         = $DateTimeObject->ToEpoch();
     my $Random       = rand 999999;
     my $FQDN         = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
     my $NewMessageID = "<$Time.$Random.0\@$FQDN>";

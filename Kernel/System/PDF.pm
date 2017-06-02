@@ -16,9 +16,9 @@ use PDF::API2;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::DateTime',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -123,23 +123,13 @@ sub DocumentNew {
     }
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # today
-    my ( $NowSec, $NowMin, $NowHour, $NowDay, $NowMonth, $NowYear ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # set document infos
     $Self->{PDF}->info(
         'Author'       => $PDFCreator,
         'CreationDate' => "D:"
-            . $NowYear
-            . $NowMonth
-            . $NowDay
-            . $NowHour
-            . $NowMin
-            . $NowSec
+            . $DateTimeObject->Format( Format => '%Y%m%d%H:%M:%S' )
             . "+01'00'",
         'Creator'  => $PDFCreator,
         'Producer' => $PDFCreator,

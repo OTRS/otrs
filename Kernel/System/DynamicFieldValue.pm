@@ -16,9 +16,9 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -448,19 +448,17 @@ sub ValueValidate {
     if ( $Value{ValueDateTime} ) {
 
         # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
         # convert the DateTime value to system time to check errors
-        my $SystemTime = $TimeObject->TimeStamp2SystemTime(
+        my $SystemTime = $DateTimeObject->Set(
             String => $Value{ValueDateTime},
         );
 
         return if !defined $SystemTime;
 
         # convert back to time stamp to check errors
-        my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => $SystemTime,
-        );
+        my $TimeStamp = $DateTimeObject->ToString();
 
         return if !$TimeStamp;
 

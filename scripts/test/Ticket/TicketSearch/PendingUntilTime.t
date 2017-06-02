@@ -15,7 +15,6 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -223,9 +222,12 @@ for my $Test (@Tests) {
     if ( $Test->{TimeStamp} ) {
 
         # set the fixed time
-        my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Test->{TimeStamp},
-        );
+        my $SystemTime = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Test->{TimeStamp},
+                }
+        )->ToEpoch();
         $Helper->FixedTimeSet($SystemTime);
     }
 

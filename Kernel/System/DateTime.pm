@@ -1659,7 +1659,7 @@ sub _StringToHash {
         }
     }
 
-    if ( $Param{String} =~ m{\A(\d{4})-(\d{2})-(\d{2})(\s(\d{2}):(\d{2})(:(\d{2}))?)?\z} ) {
+    if ( $Param{String} =~ m{\A(\d{4})-(\d{1,2})-(\d{1,2})(\s(\d{1,2}):(\d{1,2})(:(\d{1,2}))?)?\z} ) {
 
         my $DateTimeHash = {
             Year   => int $1,
@@ -1671,6 +1671,49 @@ sub _StringToHash {
         };
 
         return $DateTimeHash;
+    }
+
+    # Match the following formats:
+    #   - yyyy-mm-ddThh:mm:ss+tt:zz
+    #   - yyyy-mm-ddThh:mm:ss+ttzz
+    #   - yyyy-mm-ddThh:mm:ss-tt:zz
+    #   - yyyy-mm-ddThh:mm:ss-ttzz
+    #   - yyyy-mm-ddThh:mm:ss [timezone]
+    #   - yyyy-mm-ddThh:mm:ss[timezone]
+    if ( $Param{String} =~ /^\d{4}-\d{1,2}-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}(.+)$/i ) {
+        my ( $Year, $Month, $Day, $Hour, $Minute, $Second, $OffsetOrTZ ) =
+            ( $Param{String} =~ m/^(\d{4})-(\d{2})-(\d{2})T(\d{1,2}):(\d{1,2}):(\d{1,2})\s*(.+)$/i );
+
+        my $DateTimeHash = {
+            Year   => int $Year,
+            Month  => int $Month,
+            Day    => int $Day,
+            Hour   => int $Hour,
+            Minute => int $Minute,
+            Second => int $Second,
+        };
+
+        # Check if the rest 'OffsetOrTZ' is an offset or timezone.
+        #   If isn't an offset consider it a timezone
+        if ( $OffsetOrTZ !~ m/(\+|\-)\d{2}:?\d{2}/i ) {
+            return {
+                %{$DateTimeHash},
+                TimeZone => $OffsetOrTZ,
+            };
+        }
+
+        # It's an offset, get the time in GMT/UTC.
+        $OffsetOrTZ =~ s/://i;    # Remove the ':'
+        my $DT = DateTime->new(
+            ( map { lcfirst $_ => $DateTimeHash->{$_} } keys %{$DateTimeHash} ),
+            time_zone => $OffsetOrTZ,
+        );
+        $DT->set_time_zone('UTC');
+        $DT->set_time_zone( $Self->OTRSTimeZoneGet() );
+
+        return {
+            ( map { ucfirst $_ => $DT->$_() } qw(year month day hour minute second) )
+        };
     }
 
     $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1727,6 +1770,24 @@ Creates a CPAN DateTime object which will be stored within this object and used 
 sub _CPANDateTimeObjectCreate {
     my ( $Self, %Param ) = @_;
 
+    # Create object from string
+    if ( defined $Param{String} ) {
+        my $DateTimeHash = $Self->_StringToHash( String => $Param{String} );
+        if ( !IsHashRefWithData($DateTimeHash) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                'Priority' => 'Error',
+                'Message'  => "Invalid value for String: $Param{String}.",
+            );
+
+            return;
+        }
+
+        %Param = (
+            TimeZone => $Param{TimeZone},
+            %{$DateTimeHash},
+        );
+    }
+
     my $CPANDateTimeObject;
     my $TimeZone = $Param{TimeZone} || $Self->OTRSTimeZoneGet();
 
@@ -1760,21 +1821,6 @@ sub _CPANDateTimeObjectCreate {
         };
 
         return $CPANDateTimeObject;
-    }
-
-    # Create object from string
-    if ( defined $Param{String} ) {
-        my $DateTimeHash = $Self->_StringToHash( String => $Param{String} );
-        if ( !IsHashRefWithData($DateTimeHash) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                'Priority' => 'Error',
-                'Message'  => "Invalid value for String: $Param{String}.",
-            );
-
-            return;
-        }
-
-        %Param = %{$DateTimeHash};
     }
 
     $Param{TimeZone} = $TimeZone;

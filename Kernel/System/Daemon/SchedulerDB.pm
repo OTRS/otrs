@@ -19,12 +19,12 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::CronEvent',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::GenericAgent',
     'Kernel::System::Log',
     'Kernel::System::Storable',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -125,15 +125,14 @@ sub TaskAdd {
     $Data = encode_base64($Data);
 
     # get needed objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my $Identifier;
     TRY:
     for my $Try ( 1 .. 10 ) {
 
         # calculate a task identifier
-        $Identifier = $TimeObject->SystemTime() . int rand 1000000;
+        $Identifier = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch() . int rand 1000000;
 
         # insert the task (initially locked with lock_key = 1 so it will not be taken by any worker
         #   at this moment)
@@ -557,9 +556,6 @@ sub TaskCleanup {
 
     my @List = $Self->TaskList();
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
     TASKITEM:
     for my $TaskItem (@List) {
 
@@ -574,14 +570,19 @@ sub TaskCleanup {
         next TASKITEM if $Task{LockKey} < 1;
 
         # get system time
-        my $SystemTime = $TimeObject->SystemTime();
+        my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
         # get expiration time. 7 days ago system time
         my $ExpiredTime = $SystemTime - ( 60 * 60 * 24 * 7 );
 
-        my $LockTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Task{LockTime},
+        my $LockTime = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Task{LockTime},
+            },
         );
+
+        $LockTime = $LockTime ? $LockTime->ToEpoch() : 0;
 
         # skip if task is not expired
         next TASKITEM if $LockTime > $ExpiredTime;
@@ -638,10 +639,7 @@ sub TaskSummary {
     my @HandledTasks;
     my @UnhandledTasks;
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    my $SystemTime = $TimeObject->SystemTime();
+    my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     TASK:
     for my $Task (@List) {
@@ -662,9 +660,14 @@ sub TaskSummary {
             # calculate duration from lock time
             my $CurrentDuration;
             if ( defined $Task->{LockTime} ) {
-                my $LockSystemTime = $TimeObject->TimeStamp2SystemTime(
-                    String => $Task->{LockTime},
+                my $LockSystemTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $Task->{LockTime},
+                    },
                 );
+                $LockSystemTime = $LockSystemTime ? $LockSystemTime->ToEpoch() : 0;
+
                 $CurrentDuration = $Self->_Seconds2String( $SystemTime - $LockSystemTime );
             }
 
@@ -791,8 +794,7 @@ sub TaskUnlockExpired {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # ask the database (get all worker tasks with a lock key different than 0)
     return if !$DBObject->Prepare(
@@ -809,13 +811,20 @@ sub TaskUnlockExpired {
     ROW:
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
+        # get current system time
+        my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+
         # convert lock update time stamp to a system time
         my $LockUpdateTime = 0;
 
         if ( $Row[2] ) {
-            $LockUpdateTime = $TimeObject->TimeStamp2SystemTime(
-                String => $Row[2],
+            $LockUpdateTime = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Row[2],
+                },
             );
+            $LockUpdateTime = $LockUpdateTime ? $LockUpdateTime->ToEpoch() : 0;
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -823,9 +832,6 @@ sub TaskUnlockExpired {
                 Message  => "Lock Update Time missing for task $Row[1]! ($Row[0])",
             );
         }
-
-        # get current system time
-        my $SystemTime = $TimeObject->SystemTime();
 
         # skip task if it has been locked update time is in within the last 5 minutes
         next ROW if $SystemTime - $LockUpdateTime < ( 60 * 5 );
@@ -895,8 +901,12 @@ sub FutureTaskAdd {
     }
 
     # check valid ExecutionTime
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-        String => $Param{ExecutionTime},
+
+    my $SystemTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Param{ExecutionTime},
+        },
     );
 
     if ( !$SystemTime ) {
@@ -907,6 +917,7 @@ sub FutureTaskAdd {
 
         return;
     }
+    $SystemTime = $SystemTime->ToEpoch();
 
     if ( $Param{MaximumParallelInstances} && $Param{MaximumParallelInstances} =~ m{\A \d+ \z}msx ) {
 
@@ -939,15 +950,14 @@ sub FutureTaskAdd {
     $Data = encode_base64($Data);
 
     # get needed objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my $Identifier;
     TRY:
     for my $Try ( 1 .. 10 ) {
 
         # calculate a task identifier
-        $Identifier = $TimeObject->SystemTime() . int rand 1000000;
+        $Identifier = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch() . int rand 1000000;
 
         # insert the future task (initially locked with lock_key = 1 so it will not be taken by any
         #    moved into worker task list at this moment)
@@ -1227,11 +1237,10 @@ sub FutureTaskToExecute {
     my $LockKey       = '1' . $LockKeyNodeID . $LockKeyPID;
 
     # get needed objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get current time
-    my $CurrentTime = $TimeObject->CurrentTimestamp();
+    my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
 
     # lock the task in database
     return if !$DBObject->Do(
@@ -1386,11 +1395,7 @@ sub CronTaskToExecute {
     return 1 if !IsHashRefWithData($Config);
 
     # get needed objects
-    my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
     my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
-
-    # get current time
-    my $SystemTime = $TimeObject->SystemTime();
 
     CRONJOBKEY:
     for my $CronjobKey ( sort keys %{$Config} ) {
@@ -1464,7 +1469,6 @@ sub CronTaskCleanup {
     return 1 if !IsHashRefWithData($Config);
 
     # get needed objects
-    my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
     my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
 
     my %CronJobLookup;
@@ -2025,8 +2029,7 @@ sub RecurrentTaskExecute {
     return 1 if $Cache && $Cache eq $Param{PreviousEventTimestamp};
 
     # get needed objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my $LastExecutionTimeStamp;
 
@@ -2233,7 +2236,6 @@ sub RecurrentTaskSummary {
     );
 
     # get needed objects
-    my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
     my $CronEventObject = $Kernel::OM->Get('Kernel::System::CronEvent');
 
     # fetch the result
@@ -2374,8 +2376,7 @@ sub RecurrentTaskUnlockExpired {
     }
 
     # get needed objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # ask the database (get all recurrent tasks for the given type with a lock key different than 0)
     return if !$DBObject->Prepare(
@@ -2393,13 +2394,17 @@ sub RecurrentTaskUnlockExpired {
     ROW:
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
-        # convert lock time stamp to a system time
-        my $LockTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Row[2],
-        ) || 0;
-
         # get current system time
-        my $SystemTime = $TimeObject->SystemTime();
+        my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+
+        # convert lock time stamp to a system time
+        my $LockTime = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Row[2],
+            },
+        );
+        $LockTime = $LockTime ? $LockTime->ToEpoch() : 0;
 
         # skip task if it has been locked within the last minute
         next ROW if $SystemTime - $LockTime < 60;

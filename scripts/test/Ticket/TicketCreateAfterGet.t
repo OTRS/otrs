@@ -18,7 +18,6 @@ my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
 my $StateObject   = $Kernel::OM->Get('Kernel::System::State');
 my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
 my $TypeObject    = $Kernel::OM->Get('Kernel::System::Type');
 my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
 

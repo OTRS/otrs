@@ -13,10 +13,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get time object
-my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-my $SystemTime = $TimeObject->SystemTime();
+my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
 # NextEventGet() tests
 my @Tests = (

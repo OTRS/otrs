@@ -20,7 +20,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::AuthSession',
     'Kernel::System::SystemData',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 sub GetDisplayPath {

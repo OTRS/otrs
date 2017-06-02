@@ -623,16 +623,21 @@ sub Run {
                     }
                 }
 
-                # get time object
-                my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+                # create a datetime object based on pending date
+                my $PendingDateTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        %GetParam,
+                        Second => 0,
+                    },
+                );
 
-                # check date
-                if ( !$TimeObject->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                    $Error{'DateInvalid'} = 'ServerError';
-                }
+                # get current system epoch
+                my $CurSystemDateTime = $Kernel::OM->Create('Kernel::System::DateTime');
+
                 if (
-                    $TimeObject->Date2SystemTime( %GetParam, Second => 0 )
-                    < $TimeObject->SystemTime()
+                    !$PendingDateTimeObject
+                    || $PendingDateTimeObject < $CurSystemDateTime
                     )
                 {
                     $Error{'DateInvalid'} = 'ServerError';

@@ -29,7 +29,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB',
-    'Kernel::System::Time',
 );
 
 =head1 NAME

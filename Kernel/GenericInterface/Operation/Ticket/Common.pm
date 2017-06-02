@@ -745,12 +745,15 @@ sub ValidatePendingTime {
         return if int $Param{PendingTime}->{$TimeAttribute} < 0,
     }
 
-    # try to convert pending time to a SystemTime
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->Date2SystemTime(
-        %{ $Param{PendingTime} },
-        Second => 0,
+    # try to convert pending time to a DateTime object
+    my $PendingTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            %{ $Param{PendingTime} },
+            Second => 0,
+            }
     );
-    return if !$SystemTime;
+    return if !$PendingTime;
 
     return 1;
 }

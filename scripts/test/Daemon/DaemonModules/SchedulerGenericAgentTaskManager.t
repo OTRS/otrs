@@ -64,12 +64,8 @@ $RunTasks->();
 # freeze time
 $Helper->FixedTimeSet();
 
-my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-    SystemTime => $TimeObject->SystemTime(),
-);
-
-my $SecsDiff = $Sec - 60;
+my $CurSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+my $SecsDiff       = $CurSysDTObject->Get()->{Second} - 60;
 
 # go back in time to have 0 seconds in the current minute
 $Helper->FixedTimeAddSeconds($SecsDiff);
@@ -235,25 +231,31 @@ for my $Test (@Tests) {
             "$Test->{Name} task manager Run() - with true (this will create the recurrent task but not execution)",
         );
 
-        my $StartSystemTime = $TimeObject->SystemTime();
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-            SystemTime => $StartSystemTime,
-        );
-        my $SecondsAdd = ( 60 - $Sec );
+        my $StartSystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $SecondsAdd            = ( 60 - $StartSystemTimeObject->Get()->{Second} );
         $Helper->FixedTimeAddSeconds($SecondsAdd);
-        my $EndSystemTime = $TimeObject->SystemTime();
-        print("  Added $SecondsAdd seconds to time (initial adjustment) form $StartSystemTime to $EndSystemTime\n");
-
+        my $EndSystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        printf(
+            "  Added %s seconds to time (initial adjustment) from %s to %s\n",
+            $SecondsAdd,
+            $StartSystemTimeObject->ToEpoch(),
+            $EndSystemTimeObject->ToEpoch(),
+        );
     }
 
     $JobName //= $Test->{JobName} || '';
 
     # add seconds if needed
     if ( $Test->{SecondsAdd} ) {
-        my $StartSystemTime = $TimeObject->SystemTime();
+        my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         $Helper->FixedTimeAddSeconds( $Test->{SecondsAdd} );
-        my $EndSystemTime = $TimeObject->SystemTime();
-        print("  Added $Test->{SecondsAdd} seconds to time form $StartSystemTime to $EndSystemTime\n");
+        my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+        printf(
+            "  Added %s seconds to time from %s to %s\n",
+            $Test->{SecondsAdd},
+            $StartSystemTime,
+            $EndSystemTime,
+        );
     }
 
     # cleanup Task Manager Cache
@@ -419,8 +421,6 @@ my %TestJobNames = (
 
 # get db object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-my $SystemTime = $TimeObject->SystemTime();
 
 # add tasks
 for my $Name ( sort keys %TestJobNames ) {

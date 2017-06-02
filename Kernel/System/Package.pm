@@ -27,6 +27,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::CloudService::Backend::Run',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::JSON',
@@ -35,7 +36,6 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::SysConfig::Migration',
     'Kernel::System::SysConfig::XML',
-    'Kernel::System::Time',
     'Kernel::System::XML',
 );
 
@@ -2225,13 +2225,9 @@ sub PackageBuild {
     if ( !$Param{Type} ) {
 
         # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-        my $Time = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => $TimeObject->SystemTime(),
-        );
-
-        $XML .= "    <BuildDate>" . $Time . "</BuildDate>\n";
+        $XML .= "    <BuildDate>" . $DateTimeObject->ToString() . "</BuildDate>\n";
         $XML .= "    <BuildHost>" . $Self->{ConfigObject}->Get('FQDN') . "</BuildHost>\n";
     }
 

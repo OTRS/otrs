@@ -15,9 +15,9 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::JSON',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::WebUserAgent',
 );
 
@@ -87,8 +87,7 @@ sub Run {
     );
 
     # remember the time when the request is sent
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-    my $TimeStart  = $TimeObject->SystemTime();
+    my $TimeStartObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # send request
     my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
@@ -101,9 +100,16 @@ sub Run {
     );
 
     # calculate and print the time spent in the request
-    my $TimeEnd  = $TimeObject->SystemTime();
-    my $TimeDiff = $TimeEnd - $TimeStart;
-    $Self->Print("<yellow>Response time:</yellow> $TimeDiff second(s)\n\n");
+    my $TimeEndObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $TimeDelta     = $TimeEndObject->Delta( DateTimeObject => $TimeStartObject );
+    my $TimeDiff      = $TimeDelta->{AbsoluteSeconds};
+
+    $Self->Print(
+        sprintf(
+            "<yellow>Response time:</yellow> %s second(s)\n\n",
+            $TimeDiff,
+            )
+    );
 
     # dump the request response
     my $Dump = $Kernel::OM->Get('Kernel::System::Main')->Dump(

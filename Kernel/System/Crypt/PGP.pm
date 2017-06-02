@@ -13,11 +13,11 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Encode',
     'Kernel::System::FileTemp',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -1054,9 +1054,6 @@ parses given key list (as received from gpg) and returns an array with key infos
 sub _ParseGPGKeyList {
     my ( $Self, %Param ) = @_;
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
     my %Key;
     my $InKey;
     my @Result;
@@ -1141,19 +1138,22 @@ sub _ParseGPGKeyList {
         }
 
         # convert system time to timestamp
+        my $Epoch2YMD = sub {
+            return $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => shift,
+                },
+            )->Format( Format => '%Y-%m-%d' );
+        };
+
         if ( $Key{Created} !~ /-/ ) {
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-                SystemTime => $Key{Created},
-            );
-            $Key{Created} = "$Year-$Month-$Day";
+            $Key{Created} = $Epoch2YMD->( $Key{Created} );
         }
 
         # expires
         if ( $Key{Expires} =~ /^\d*$/ ) {
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-                SystemTime => $Key{Expires},
-            );
-            $Key{Expires} = "$Year-$Month-$Day";
+            $Key{Expires} = $Epoch2YMD->( $Key{Expires} );
         }
     }
 

@@ -22,11 +22,11 @@ use Kernel::Language;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Encode',
     'Kernel::System::Main',
     'Kernel::System::Storable',
     'Kernel::System::SysConfig',
-    'Kernel::System::Time',
 );
 
 sub Configure {
@@ -690,13 +690,10 @@ sub WritePOTFile {
 
     my $Package = $Param{Module} // 'OTRS';
 
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
-    my $CreationDate = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime(),
+    # build creation date, only YEAR-MO-DA HO:MI is needed without seconds
+    my $CreationDate = $Kernel::OM->Create('Kernel::System::DateTime')->Format(
+        Format => '%Y-%m-%d %H:%M+0000'
     );
-
-    # only YEAR-MO-DA HO:MI is needed without seconds
-    $CreationDate = substr( $CreationDate, 0, -3 ) . '+0000';
 
     push @POTEntries, Locale::PO->new(
         -msgid => '',

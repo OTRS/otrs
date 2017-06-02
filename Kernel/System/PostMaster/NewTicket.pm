@@ -23,7 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::Type',
     'Kernel::System::User',
 );
@@ -316,12 +316,10 @@ sub Run {
 
             $Seconds = $Seconds * $UnitMultiplier{$Unit};
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-            $TargetTimeStamp = $TimeObject->SystemTime2TimeStamp(
-                SystemTime => $TimeObject->SystemTime() + $Seconds,
-            );
+            # get datetime object
+            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            $DateTimeObject->Add( Seconds => $Seconds );
+            $TargetTimeStamp = $DateTimeObject->ToString();
         }
 
         my $Set = $TicketObject->TicketPendingTimeSet(
@@ -422,14 +420,15 @@ sub Run {
 
         if ( defined $GetParam{$Key} && length $GetParam{$Key} ) {
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-            my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-                String => $GetParam{$Key},
+            # get datetime object
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $GetParam{$Key}
+                    }
             );
 
-            if ( $SystemTime && $DynamicFieldListReversed{ 'TicketFreeTime' . $Count } ) {
+            if ( $DateTimeObject && $DynamicFieldListReversed{ 'TicketFreeTime' . $Count } ) {
 
                 # get dynamic field config
                 my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(

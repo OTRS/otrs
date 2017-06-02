@@ -27,7 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::SLA',
     'Kernel::System::State',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::Type',
     'Kernel::System::User',
 );
@@ -118,8 +118,7 @@ sub GetObjectAttributes {
     );
 
     # get current time to fix bug#3830
-    my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
-    my ($Date) = split /\s+/, $TimeStamp;
+    my $Date = $Kernel::OM->Create('Kernel::System::DateTime')->Format( Format => '%Y-%m-%d' );
     my $Today = sprintf "%s 23:59:59", $Date;
 
     my @ObjectAttributes = (

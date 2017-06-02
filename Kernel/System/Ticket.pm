@@ -46,7 +46,7 @@ our @ObjectDependencies = (
     'Kernel::System::SLA',
     'Kernel::System::State',
     'Kernel::System::TemplateGenerator',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::Ticket::Article',
     'Kernel::System::Type',
     'Kernel::System::User',
@@ -415,8 +415,10 @@ sub TicketCreate {
         }
     }
 
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     # set default values if no values are specified
-    my $Age = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $Age = $DateTimeObject->ToEpoch();
 
     my $ArchiveFlag = 0;
     if ( $Param{ArchiveFlag} && $Param{ArchiveFlag} eq 'y' ) {
@@ -1331,12 +1333,13 @@ sub TicketGet {
         }
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    $Ticket{Created} = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $Ticket{CreateTimeUnix},
+    my $TicketCreatedDTObj = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch => $Ticket{CreateTimeUnix}
+            }
     );
+    $Ticket{Created} = $TicketCreatedDTObj->ToString();
 
     my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
         ID => $Ticket{QueueID},
@@ -1346,7 +1349,9 @@ sub TicketGet {
     $Ticket{GroupID} = $Queue{GroupID};
 
     # fillup runtime values
-    $Ticket{Age} = $TimeObject->SystemTime() - $Ticket{CreateTimeUnix};
+    my $CreateTimeUnixDTObj = $Kernel::OM->Create('Kernel::System::DateTime');
+    $CreateTimeUnixDTObj->Subtract( Seconds => $Ticket{CreateTimeUnix} );
+    $Ticket{Age} = $CreateTimeUnixDTObj->ToEpoch();
 
     $Ticket{Priority} = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
         PriorityID => $Ticket{PriorityID},
@@ -1400,7 +1405,7 @@ sub TicketGet {
         $Ticket{UntilTime} = 0;
     }
     else {
-        $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - $TimeObject->SystemTime();
+        $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
     }
 
     # get escalation attributes
@@ -1516,7 +1521,7 @@ sub TicketTitleUpdate {
 set the ticket unlock time to the passed time
 
     my $Success = $TicketObject->TicketUnlockTimeoutUpdate(
-        UnlockTimeout => $TimeObject->SystemTime(),
+        UnlockTimeout => $Epoch,
         TicketID      => 123,
         UserID        => 143,
     );
@@ -2401,11 +2406,10 @@ sub TicketEscalationDateCalculation {
 
     return if !$EscalationAttribute;
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # create datetime object
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # calculate escalation times based on escalation properties
-    my $Time = $TimeObject->SystemTime();
     my %Data;
 
     TIME:
@@ -2414,17 +2418,26 @@ sub TicketEscalationDateCalculation {
         next TIME if !$Ticket{$Key};
 
         # get time before or over escalation (escalation_destination_unixtime - now)
-        my $TimeTillEscalation = $Ticket{$Key} - $Time;
+        my $TimeTillEscalation = $Ticket{$Key} - $DateTimeObject->ToEpoch();
 
         # ticket is not escalated till now ($TimeTillEscalation > 0)
         my $WorkingTime = 0;
         if ( $TimeTillEscalation > 0 ) {
 
-            $WorkingTime = $TimeObject->WorkingTime(
-                StartTime => $Time,
-                StopTime  => $Ticket{$Key},
-                Calendar  => $Escalation{Calendar},
+            my $StopTimeObj = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $Ticket{$Key}
+                    }
             );
+
+            my $DeltaObj = $DateTimeObject->Delta(
+                DateTimeObject => $StopTimeObj,
+                ForWorkingTime => 1,
+                Calendar       => $Escalation{Calendar},
+            );
+
+            $WorkingTime = $DeltaObj ? $DeltaObj->{AbsoluteSeconds} : 0;
 
             # extract needed data
             my $Notify = $Escalation{ $Map{$Key} . 'Notify' };
@@ -2443,21 +2456,37 @@ sub TicketEscalationDateCalculation {
 
         # ticket is overtime ($TimeTillEscalation < 0)
         else {
-            $WorkingTime = $TimeObject->WorkingTime(
-                StartTime => $Ticket{$Key},
-                StopTime  => $Time,
-                Calendar  => $Escalation{Calendar},
+            my $StartTimeObj = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $Ticket{$Key}
+                    }
             );
-            $WorkingTime = "-$WorkingTime";
+
+            my $DeltaObj = $DateTimeObject->Delta(
+                DateTimeObject => $StartTimeObj,
+                ForWorkingTime => 1,
+                Calendar       => $Escalation{Calendar},
+            );
+
+            $WorkingTime = 0;
+            if ( $DeltaObj && $DeltaObj->{AbsoluteSeconds} ) {
+                $WorkingTime = '-' . $DeltaObj->{AbsoluteSeconds};
+            }
 
             # set escalation
             $Data{ $Map{$Key} . 'TimeEscalation' } = 1;
         }
-        my $DestinationDate = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => $Ticket{$Key},
+
+        my $DestinationDate = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $Ticket{$Key}
+                }
         );
+
         $Data{ $Map{$Key} . 'TimeDestinationTime' } = $Ticket{$Key};
-        $Data{ $Map{$Key} . 'TimeDestinationDate' } = $DestinationDate;
+        $Data{ $Map{$Key} . 'TimeDestinationDate' } = $DestinationDate->ToString();
         $Data{ $Map{$Key} . 'TimeWorkingTime' }     = $WorkingTime;
         $Data{ $Map{$Key} . 'Time' }                = $TimeTillEscalation;
 
@@ -2468,7 +2497,7 @@ sub TicketEscalationDateCalculation {
             )
         {
             $Data{EscalationDestinationTime} = $Ticket{$Key};
-            $Data{EscalationDestinationDate} = $DestinationDate;
+            $Data{EscalationDestinationDate} = $DestinationDate->ToString();
             $Data{EscalationTimeWorkingTime} = $WorkingTime;
             $Data{EscalationTime}            = $TimeTillEscalation;
 
@@ -2600,16 +2629,20 @@ sub TicketEscalationIndexBuild {
         # update first response time to expected escalation destination time
         else {
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-            my $DestinationTime = $TimeObject->DestinationTime(
-                StartTime => $TimeObject->TimeStamp2SystemTime(
-                    String => $Ticket{Created}
-                ),
-                Time     => $Escalation{FirstResponseTime} * 60,
-                Calendar => $Escalation{Calendar},
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Ticket{Created},
+                    }
             );
+
+            $DateTimeObject->Add(
+                AsWorkingTime => 1,
+                Calendar      => $Escalation{Calendar},
+                Seconds       => $Escalation{FirstResponseTime} * 60,
+            );
+
+            my $DestinationTime = $DateTimeObject->ToEpoch();
 
             # update first response time to $DestinationTime
             $DBObject->Do(
@@ -2699,16 +2732,21 @@ sub TicketEscalationIndexBuild {
         }
         if ($LastSenderTime) {
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-            my $DestinationTime = $TimeObject->DestinationTime(
-                StartTime => $TimeObject->TimeStamp2SystemTime(
+            # create datetime object
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
                     String => $LastSenderTime,
-                ),
-                Time     => $Escalation{UpdateTime} * 60,
-                Calendar => $Escalation{Calendar},
+                    }
             );
+
+            $DateTimeObject->Add(
+                Seconds       => $Escalation{UpdateTime} * 60,
+                AsWorkingTime => 1,
+                Calendar      => $Escalation{Calendar},
+            );
+
+            my $DestinationTime = $DateTimeObject->ToEpoch();
 
             # update update time to $DestinationTime
             $DBObject->Do(
@@ -2763,16 +2801,21 @@ sub TicketEscalationIndexBuild {
         }
         else {
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-            my $DestinationTime = $TimeObject->DestinationTime(
-                StartTime => $TimeObject->TimeStamp2SystemTime(
-                    String => $Ticket{Created}
-                ),
-                Time     => $Escalation{SolutionTime} * 60,
-                Calendar => $Escalation{Calendar},
+            # get datetime object
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Ticket{Created},
+                    }
             );
+
+            $DateTimeObject->Add(
+                Seconds       => $Escalation{SolutionTime} * 60,
+                AsWorkingTime => 1,
+                Calendar      => $Escalation{Calendar},
+            );
+
+            my $DestinationTime = $DateTimeObject->ToEpoch();
 
             # update solution time to $DestinationTime
             $DBObject->Do(
@@ -3570,29 +3613,51 @@ sub TicketPendingTimeSet {
     my $Time = 0;
     if ( !$PendingTimeNull ) {
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
         if ( $Param{String} ) {
-            $Time = $TimeObject->TimeStamp2SystemTime(
-                String => $Param{String},
+
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Param{String}
+                    }
             );
-            ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
-                = $TimeObject->SystemTime2Date(
-                SystemTime => $Time,
-                );
+            return if ( !$DateTimeObject );
+
+            $Time = $DateTimeObject->ToEpoch();
+
+            my $DateTimeValues = $DateTimeObject->Get();
+            $Param{Sec}    = $DateTimeValues->{Second};
+            $Param{Minute} = $DateTimeValues->{Minute};
+            $Param{Hour}   = $DateTimeValues->{Hour};
+            $Param{Day}    = $DateTimeValues->{Day};
+            $Param{Month}  = $DateTimeValues->{Month};
+            $Param{Year}   = $DateTimeValues->{Year};
         }
         elsif ( $Param{Diff} ) {
-            $Time = $TimeObject->SystemTime() + ( $Param{Diff} * 60 );
-            ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} ) =
-                $TimeObject->SystemTime2Date(
-                SystemTime => $Time,
-                );
+
+            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            $DateTimeObject->Add( Minutes => $Param{Diff} );
+
+            $Time = $DateTimeObject->ToEpoch();
+
+            my $DateTimeValues = $DateTimeObject->Get();
+            $Param{Sec}    = $DateTimeValues->{Second};
+            $Param{Minute} = $DateTimeValues->{Minute};
+            $Param{Hour}   = $DateTimeValues->{Hour};
+            $Param{Day}    = $DateTimeValues->{Day};
+            $Param{Month}  = $DateTimeValues->{Month};
+            $Param{Year}   = $DateTimeValues->{Year};
         }
         else {
-            $Time = $TimeObject->TimeStamp2SystemTime(
-                String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
+            # create datetime object
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => "$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:00",
+                    }
             );
+            return if !$DateTimeObject;
+            $Time = $DateTimeObject->ToEpoch();
         }
 
         # return if no convert is possible
@@ -3774,11 +3839,11 @@ sub TicketLockSet {
     # set unlock time it event is 'lock'
     if ( $Param{Lock} eq 'lock' ) {
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        # create datetime object
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
         $Self->TicketUnlockTimeoutUpdate(
-            UnlockTimeout => $TimeObject->SystemTime(),
+            UnlockTimeout => $DateTimeObject->ToEpoch(),
             TicketID      => $Param{TicketID},
             UserID        => $Param{UserID},
         );
@@ -5331,16 +5396,14 @@ sub HistoryTicketGet {
         }
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # create datetime object
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # check if we should cache this ticket data
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
+    my $DateTimeValues = $DateTimeObject->Get();
 
     # if the request is for the last month or older, cache it
-    if ( "$Year-$Month" gt "$Param{StopYear}-$Param{StopMonth}" ) {
+    if ( int $DateTimeValues->{Year} . int $DateTimeValues->{Month} > int $Param{StopYear} . int $Param{StopMonth} ) {
         $Kernel::OM->Get('Kernel::System::Cache')->Set(
             Type  => $Self->{CacheType},
             TTL   => $Self->{CacheTTL},
@@ -7516,27 +7579,31 @@ sub _TicketGetFirstResponse {
 
     if ( $Escalation{FirstResponseTime} ) {
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        # get unix time stamps
-        my $CreateTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Param{Ticket}->{Created},
-        );
-        my $FirstResponseTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Data{FirstResponse},
+        # create datetime object
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Param{Ticket}->{Created},
+                }
         );
 
-        # get time between creation and first response
-        my $WorkingTime = $TimeObject->WorkingTime(
-            StartTime => $CreateTime,
-            StopTime  => $FirstResponseTime,
-            Calendar  => $Escalation{Calendar},
+        my $FirstResponseTimeObj = $DateTimeObject->Clone();
+        $FirstResponseTimeObj->Set(
+            String => $Data{FirstResponse}
         );
+
+        my $DeltaObj = $DateTimeObject->Delta(
+            DateTimeObject => $FirstResponseTimeObj,
+            ForWorkingTime => 1,
+            Calendar       => $Escalation{Calendar},
+        );
+
+        my $WorkingTime = $DeltaObj ? $DeltaObj->{AbsoluteSeconds} : 0;
 
         $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
         my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
-        $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
+        $Data{FirstResponseDiffInMin} =
+            int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
     }
 
     return %Data;
@@ -7613,29 +7680,35 @@ sub _TicketGetClosed {
         UserID => $Param{UserID} || 1,
     );
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # get unix time stamps
-    my $CreateTime = $TimeObject->TimeStamp2SystemTime(
-        String => $Param{Ticket}->{Created},
-    );
-    my $SolutionTime = $TimeObject->TimeStamp2SystemTime(
-        String => $Data{Closed},
+    # create datetime object
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Param{Ticket}->{Created},
+            }
     );
 
-    # get time between creation and solution
-    my $WorkingTime = $TimeObject->WorkingTime(
-        StartTime => $CreateTime,
-        StopTime  => $SolutionTime,
-        Calendar  => $Escalation{Calendar},
+    my $SolutionTimeObj = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Data{Closed},
+            }
     );
+
+    my $DeltaObj = $DateTimeObject->Delta(
+        DateTimeObject => $SolutionTimeObj,
+        ForWorkingTime => 1,
+        Calendar       => $Escalation{Calendar},
+    );
+
+    my $WorkingTime = $DeltaObj ? $DeltaObj->{AbsoluteSeconds} : 0;
 
     $Data{SolutionInMin} = int( $WorkingTime / 60 );
 
     if ( $Escalation{SolutionTime} ) {
         my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
-        $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+        $Data{SolutionDiffInMin} =
+            int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
     }
 
     return %Data;

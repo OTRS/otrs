@@ -18,6 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
@@ -27,7 +28,6 @@ our @ObjectDependencies = (
     'Kernel::System::State',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
     'Kernel::System::TemplateGenerator',
     'Kernel::System::CustomerUser',
 );
@@ -1112,21 +1112,16 @@ sub _JobRunTicket {
         }
 
         # add systemtime
-        $PendingTime += $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
-
-        # get date
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
-            SystemTime => $PendingTime,
-            );
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        $DateTimeObject->Add( Seconds => $PendingTime );
 
         # set pending time
         $TicketObject->TicketPendingTimeSet(
-            Year     => $Year,
-            Month    => $Month,
-            Day      => $Day,
-            Hour     => $Hour,
-            Minute   => $Min,
+            Year     => $DateTimeObject->Format( Format => '%Y' ),
+            Month    => $DateTimeObject->Format( Format => '%m' ),
+            Day      => $DateTimeObject->Format( Format => '%d' ),
+            Hour     => $DateTimeObject->Format( Format => '%H' ),
+            Minute   => $DateTimeObject->Format( Format => '%M' ),
             TicketID => $Param{TicketID},
             UserID   => $Param{UserID},
         );
@@ -1496,14 +1491,12 @@ sub _JobUpdateRunTime {
     );
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # update new run time
     my %Insert = (
-        ScheduleLastRun => $TimeObject->SystemTime2TimeStamp(
-            SystemTime => $TimeObject->SystemTime()
-        ),
-        ScheduleLastRunUnixTime => $TimeObject->SystemTime(),
+        ScheduleLastRun         => $DateTimeObject->ToString(),
+        ScheduleLastRunUnixTime => $DateTimeObject->ToEpoch(),
     );
 
     for my $Key ( sort keys %Insert ) {

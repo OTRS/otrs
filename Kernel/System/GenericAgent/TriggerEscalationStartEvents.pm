@@ -15,11 +15,11 @@ use List::Util qw(first);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Log',
     'Kernel::System::Queue',
     'Kernel::System::SLA',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
 );
 
 sub new {
@@ -54,16 +54,23 @@ sub Run {
     );
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $StopDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    # do not trigger escalation start events outside business hours
-    my $CountedTime = $TimeObject->WorkingTime(
-        StartTime => $TimeObject->SystemTime() - ( 10 * 60 ),
-        StopTime  => $TimeObject->SystemTime(),
-        Calendar  => $Calendar,
+    # check if it is during business hours, then send escalation info
+    my $StartDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            Epoch => $StopDateTimeObject->ToEpoch() - ( 10 * 60 ),
+            }
     );
 
-    if ( !$CountedTime ) {
+    my $CountedTime = $StartDateTimeObject->Delta(
+        DateTimeObject => $StopDateTimeObject,
+        ForWorkingTime => 1,
+        Calendar       => $Calendar,
+    );
+
+    if ( !$CountedTime || !$CountedTime->{AbsoluteSeconds} ) {
 
         if ( $Self->{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -110,10 +117,16 @@ sub Run {
             my $PrevEventLine = first { $_->{HistoryType} eq $TicketAttr2Event{$Attr} }
             reverse @HistoryLines;
             if ( $PrevEventLine && $PrevEventLine->{CreateTime} ) {
-                my $PrevEventTime = $TimeObject->TimeStamp2SystemTime(
-                    String => $PrevEventLine->{CreateTime},
+
+                my $PrevEventTime = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $PrevEventLine->{CreateTime},
+                    },
                 );
-                my $TimeSincePrevEvent = $TimeObject->SystemTime() - $PrevEventTime;
+                $PrevEventTime = $PrevEventTime ? $PrevEventTime->ToEpoch() : 0;
+
+                my $TimeSincePrevEvent = $StopDateTimeObject->ToEpoch() - $PrevEventTime;
 
                 next ATTR if $TimeSincePrevEvent <= $DecayTimeInSeconds;
             }

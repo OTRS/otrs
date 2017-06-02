@@ -20,7 +20,6 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CustomerUser',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 sub new {

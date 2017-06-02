@@ -20,7 +20,6 @@ our @ObjectDependencies = (
     'Kernel::System::Daemon::SchedulerDB',
     'Kernel::System::Cache',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 =head1 NAME

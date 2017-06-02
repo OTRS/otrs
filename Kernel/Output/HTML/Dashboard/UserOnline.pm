@@ -127,11 +127,8 @@ sub Run {
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
     my $SortBy      = $Self->{Config}->{SortBy}      || 'UserFullname';
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # get current time-stamp
-    my $Time = $TimeObject->SystemTime();
+    # get current system datetime
+    my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -201,7 +198,7 @@ sub Run {
 
             # check last request time / idle time out
             next SESSIONID if !$Data{UserLastRequest};
-            next SESSIONID if $Data{UserLastRequest} + ( $IdleMinutes * 60 ) < $Time;
+            next SESSIONID if $Data{UserLastRequest} + ( $IdleMinutes * 60 ) < $CurSystemDateTimeObject->ToEpoch();
 
             # remember user and data
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
@@ -429,24 +426,28 @@ sub Run {
 
         next USERID if !$UserData->{OutOfOffice};
 
-        my $Start = sprintf(
-            "%04d-%02d-%02d 00:00:00",
-            $UserData->{OutOfOfficeStartYear}, $UserData->{OutOfOfficeStartMonth},
-            $UserData->{OutOfOfficeStartDay}
-        );
-        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-            String => $Start,
-        );
-        my $End = sprintf(
-            "%04d-%02d-%02d 23:59:59",
-            $UserData->{OutOfOfficeEndYear}, $UserData->{OutOfOfficeEndMonth},
-            $UserData->{OutOfOfficeEndDay}
-        );
-        my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
-            String => $End,
-        );
+        my $CreateOutOfOfficeDTObject = sub {
+            my $Type = shift;
 
-        next USERID if $TimeStart > $Time || $TimeEnd < $Time;
+            my $DTString = sprintf(
+                '%04d-%02d-%02d ' . ( $Type eq 'End' ? '23:59:59' : '00:00:00' ),
+                $UserData->{"OutOfOffice${Type}Year"}, $UserData->{"OutOfOffice${Type}Month"},
+                $UserData->{"OutOfOffice${Type}Day"}
+            );
+
+            return $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $DTString,
+                },
+            );
+        };
+
+        my $OOOStartDTObject = $CreateOutOfOfficeDTObject->('Start');
+        my $OOOEndDTObject   = $CreateOutOfOfficeDTObject->('End');
+
+        next USERID if $OOOStartDTObject > $CurSystemDateTimeObject
+            || $OOOEndDTObject < $CurSystemDateTimeObject;
 
         $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineRowOutOfOffice',

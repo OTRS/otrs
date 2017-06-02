@@ -53,7 +53,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 $Helper->FixedTimeSet();
 
 # get current time stamp
-my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
+my $TimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
 
 # FutureTaskAdd()
 my @Tests = (

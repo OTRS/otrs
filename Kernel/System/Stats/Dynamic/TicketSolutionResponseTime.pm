@@ -28,7 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::SLA',
     'Kernel::System::State',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::Type',
     'Kernel::System::User',
 );
@@ -821,8 +821,6 @@ sub GetStatElement {
     # Do nothing, if there are no tickets.
     return 0 if !@TicketIDs;
 
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
     my $Counter        = 0;
     my $CounterAllOver = 0;
 
@@ -844,11 +842,15 @@ sub GetStatElement {
             DynamicFields => 0,
         );
 
-        my $SolutionTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Ticket{Closed},
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Ticket{Closed}
+                }
         );
 
-        $SolutionAllOver{$TicketID} = $SolutionTime - $Ticket{CreateTimeUnix};
+        $DateTimeObject->Subtract( Seconds => $Ticket{CreateTimeUnix} );
+        $SolutionAllOver{$TicketID} = $DateTimeObject->ToEpoch();
 
         next TICKET if !defined $Ticket{SolutionInMin};
 
@@ -858,11 +860,11 @@ sub GetStatElement {
         $SolutionWorkingTime{$TicketID} = $Ticket{SolutionInMin};
 
         if ( $Ticket{FirstResponse} ) {
-            my $FirstResponse = $TimeObject->TimeStamp2SystemTime(
-                String => $Ticket{FirstResponse},
-            );
 
-            $Response{$TicketID}            = $FirstResponse - $Ticket{CreateTimeUnix};
+            $DateTimeObject->Set( String => $Ticket{FirstResponse} );
+            $DateTimeObject->Subtract( Seconds => $Ticket{CreateTimeUnix} );
+
+            $Response{$TicketID}            = $DateTimeObject->ToEpoch();
             $ResponseWorkingTime{$TicketID} = $Ticket{FirstResponseInMin};
         }
         else {

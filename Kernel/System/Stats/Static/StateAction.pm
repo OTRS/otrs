@@ -15,7 +15,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Language',
     'Kernel::System::DB',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 sub new {
@@ -41,20 +41,14 @@ sub GetObjectBehaviours {
 sub Param {
     my $Self = shift;
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # get current time
-    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # get one month before
-    my $SelectedYear  = $M == 1 ? $Y - 1 : $Y;
-    my $SelectedMonth = $M == 1 ? 12     : $M - 1;
+    $DateTimeObject->Subtract( Months => 1 );
+    my $DateTimeSettings = $DateTimeObject->Get();
 
     # create possible time selections
-    my %Year = map { $_ => $_; } ( $Y - 10 .. $Y );
+    my %Year = map { $_ => $_; } ( $DateTimeSettings->{Year} - 10 .. $DateTimeSettings->{Year} );
     my %Month = map { $_ => sprintf( "%02d", $_ ); } ( 1 .. 12 );
 
     my @Params = (
@@ -63,7 +57,7 @@ sub Param {
             Name       => 'Year',
             Multiple   => 0,
             Size       => 0,
-            SelectedID => $SelectedYear,
+            SelectedID => $DateTimeSettings->{Year},
             Data       => \%Year,
         },
         {
@@ -71,7 +65,7 @@ sub Param {
             Name       => 'Month',
             Multiple   => 0,
             Size       => 0,
-            SelectedID => $SelectedMonth,
+            SelectedID => $DateTimeSettings->{Month},
             Data       => \%Month,
         },
     );

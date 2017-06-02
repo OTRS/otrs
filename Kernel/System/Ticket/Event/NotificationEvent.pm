@@ -34,7 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::TemplateGenerator',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::User',
     'Kernel::System::CheckItem',
 );
@@ -1166,10 +1166,7 @@ sub _RecipientsGet {
     @RecipientUserIDs = sort keys %TempRecipientUserIDs;
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # get current time-stamp
-    my $Time = $TimeObject->SystemTime();
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # get all data for recipients as they should be needed by all notification transports
     RECIPIENT:
@@ -1199,19 +1196,25 @@ sub _RecipientsGet {
                 $User{OutOfOfficeStartYear}, $User{OutOfOfficeStartMonth},
                 $User{OutOfOfficeStartDay}
             );
-            my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-                String => $Start,
+            my $TimeStart = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Start,
+                    }
             );
             my $End = sprintf(
                 "%04d-%02d-%02d 23:59:59",
                 $User{OutOfOfficeEndYear}, $User{OutOfOfficeEndMonth},
                 $User{OutOfOfficeEndDay}
             );
-            my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
-                String => $End,
+            my $TimeEnd = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $End,
+                    }
             );
 
-            next RECIPIENT if $TimeStart < $Time && $TimeEnd > $Time;
+            next RECIPIENT if $TimeStart < $DateTimeObject && $TimeEnd > $DateTimeObject;
         }
 
         # skip users with out ro permissions
@@ -1281,27 +1284,19 @@ sub _SendRecipientNotification {
 
         if ( $LastNotificationHistory && $LastNotificationHistory->{CreateTime} ) {
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-            # get last notification date
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeObject->TimeStamp2SystemTime(
-                    String => $LastNotificationHistory->{CreateTime},
-                    )
+            my $LastNotificationDateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $LastNotificationHistory->{CreateTime}
+                    }
             );
-
-            # get current date
-            my ( $CurrSec, $CurrMin, $CurrHour, $CurrDay, $CurrMonth, $CurrYear, $CurrWeekDay )
-                = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeObject->SystemTime(),
-                );
 
             # do not send the notification if it has been sent already today
             if (
-                $CurrYear == $Year
-                && $CurrMonth == $Month
-                && $CurrDay == $Day
+                $DateTimeObject->Format( Format => "%Y-%M-%D" ) eq
+                $LastNotificationDateTimeObject->Format( Format => "%Y-%M-%D" )
                 )
             {
                 return;

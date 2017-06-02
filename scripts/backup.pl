@@ -139,12 +139,10 @@ if ( $Home !~ m{\/\z} ) {
 
 chdir($Home);
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
-    SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-);
-
 # create directory name - this looks like 2013-09-09_22-19'
-my $Directory = sprintf( "$Opts{d}/%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );
+my $Directory = $Kernel::OM->Create('Kernel::System::DateTime')->Format(
+    Format => $Opts{d} . '/%Y-%m-%d_%H-%M',
+);
 
 if ( !mkdir($Directory) ) {
     die "ERROR: Can't create directory: $Directory: $!\n";
@@ -257,35 +255,39 @@ else {
 # remove old backups only after everything worked well
 if ( defined $Opts{r} ) {
     my %LeaveBackups;
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $SystemDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # we'll be substracting days to the current time
     # we don't want DST changes to affect our dates
     # if it is < 2:00 AM, add two hours so we're sure DST will not change our timestamp
     # to another day
-    my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
-        SystemTime => $SystemTime,
-        Type       => 'Short',
-    );
-
-    if ( substr( $TimeStamp, 0, 2 ) < 2 ) {
-        $SystemTime += ( 3600 * 2 );
+    if ( $SystemDTObject->Get()->{Hour} < 2 ) {
+        $SystemDTObject->Add( Hours => 2 );
     }
 
     for ( 0 .. $Opts{r} ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
-            SystemTime => $SystemTime,
-            );
 
         # legacy, old directories could be in the format 2013-4-8
-        $LeaveBackups{ sprintf( "%04d-%01d-%01d", $Year, $Month, $Day ) } = 1;
-        $LeaveBackups{ sprintf( "%04d-%02d-%01d", $Year, $Month, $Day ) } = 1;
-        $LeaveBackups{ sprintf( "%04d-%01d-%02d", $Year, $Month, $Day ) } = 1;
-        $LeaveBackups{ sprintf( "%04d-%02d-%02d", $Year, $Month, $Day ) } = 1;
+        my @LegacyDirFormats = (
+            '%04d-%01d-%01d',
+            '%04d-%02d-%01d',
+            '%04d-%01d-%02d',
+            '%04d-%02d-%02d',
+        );
+
+        my $SystemDTDetails = $SystemDTObject->Get();
+        for my $LegacyFirFormat (@LegacyDirFormats) {
+            my $Dir = sprintf(
+                $LegacyFirFormat,
+                $SystemDTDetails->{Year},
+                $SystemDTDetails->{Month},
+                $SystemDTDetails->{Day},
+            );
+            $LeaveBackups{$Dir} = 1;
+        }
 
         # substract one day
-        $SystemTime -= ( 24 * 3600 );
+        $SystemDTObject->Subtract( Days => 1 );
     }
 
     my @Directories = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(

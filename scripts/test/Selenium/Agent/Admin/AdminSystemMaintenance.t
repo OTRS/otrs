@@ -39,9 +39,6 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
         # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -105,11 +102,13 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
+        my $DTObj = $Kernel::OM->Create('Kernel::System::DateTime');
+
         # create error test SystemMaintenance scenario
         # get test end time - 1 hour of current time
-        my ( $SecWrong, $MinWrong, $HourWrong, $DayWrong, $MonthWrong, $YearWrong, ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime() - 60 * 60,
-        );
+        my $DTWrongObj = $DTObj->Clone();
+        $DTWrongObj->Subtract( Hours => 1 );
+        my $DTWrong = $DTWrongObj->Get();
 
         my $SysMainComment = "sysmaintenance" . $Helper->GetRandomID();
         my $SysMainLogin   = "Selenium test SystemMaintance is progress, please log in later on";
@@ -117,13 +116,17 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
 
-        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",     'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTWrong->{Day} ) . "']", 'css' )
+            ->VerifiedClick();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTWrong->{Month} ) . "']", 'css' )
+            ->VerifiedClick();
         $Selenium->execute_script(
-            "\$('#StopDateYear').val('$YearWrong').trigger('redraw.InputField').trigger('change');"
+            "\$('#StopDateYear').val('$DTWrong->{Year}').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTWrong->{Hour} ) . "']", 'css' )
+            ->VerifiedClick();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTWrong->{Minute} ) . "']", 'css' )
+            ->VerifiedClick();
 
         $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
         $Self->True(
@@ -132,30 +135,37 @@ $Selenium->RunTest(
         );
 
         # get test start time + 1 hour of system time
-        my ( $SecStart, $MinStart, $HourStart, $DayStart, $MonthStart, $YearStart, ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime() + 60 * 60,
-        );
+        my $DTStartObj = $DTObj->Clone();
+        $DTStartObj->Add( Hours => 1 );
+        my $DTStart = $DTStartObj->Get();
 
         # get test end time + 2 hour of system time
-        my ( $SecEnd, $MinEnd, $HourEnd, $DayEnd, $MonthEnd, $YearEnd ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime() + 2 * 60 * 60,
-        );
+        my $DTEndObj = $DTObj->Clone();
+        $DTEndObj->Add( Hours => 2 );
+        my $DTEnd = $DTEndObj->Get();
 
         # create real test SystemMaintenance
-        $Selenium->find_element( "#StartDateDay option[value='" . int($DayStart) . "']",     'css' )->VerifiedClick();
-        $Selenium->find_element( "#StartDateMonth option[value='" . int($MonthStart) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StartDateDay option[value='" . int( $DTStart->{Day} ) . "']", 'css' )
+            ->VerifiedClick();
+        $Selenium->find_element( "#StartDateMonth option[value='" . int( $DTStart->{Month} ) . "']", 'css' )
+            ->VerifiedClick();
         $Selenium->execute_script(
-            "\$('#StartDateYear').val('$YearStart').trigger('redraw.InputField').trigger('change');"
+            "\$('#StartDateYear').val('$DTStart->{Year}').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StartDateHour option[value='" . int($HourStart) . "']",  'css' )->VerifiedClick();
-        $Selenium->find_element( "#StartDateMinute option[value='" . int($MinStart) . "']", 'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateDay option[value='" . int($DayEnd) . "']",       'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthEnd) . "']",   'css' )->VerifiedClick();
+        $Selenium->find_element( "#StartDateHour option[value='" . int( $DTStart->{Hour} ) . "']", 'css' )
+            ->VerifiedClick();
+        $Selenium->find_element( "#StartDateMinute option[value='" . int( $DTStart->{Minute} ) . "']", 'css' )
+            ->VerifiedClick();
+        $Selenium->find_element( "#StopDateDay option[value='" . int( $DTEnd->{Day} ) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int( $DTEnd->{Month} ) . "']", 'css' )
+            ->VerifiedClick();
         $Selenium->execute_script(
-            "\$('#StopDateYear').val('$YearEnd').trigger('redraw.InputField').trigger('change');"
+            "\$('#StopDateYear').val('$DTEnd->{Year}').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourEnd) . "']",  'css' )->VerifiedClick();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#StopDateHour option[value='" . int( $DTEnd->{Hour} ) . "']", 'css' )
+            ->VerifiedClick();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int( $DTEnd->{Minute} ) . "']", 'css' )
+            ->VerifiedClick();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($SysMainNotify);
         $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
@@ -274,84 +284,86 @@ $Selenium->RunTest(
             "Deleted - $SysMainComment"
         );
 
+        my $Epoch = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+
         # define test SystemMaintenance scenarios
         my @Tests = (
             {
                 # now, duration 2 hours
-                StartDate => $TimeObject->SystemTime(),
-                StopDate  => $TimeObject->SystemTime() + 2 * 60 * 60,
+                StartDate => $Epoch,
+                StopDate  => $Epoch + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #1',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 1 day later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 24 * 60 * 60,
+                StopDate  => $Epoch + 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #2',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 2 days later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 2 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 2 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 2 * 24 * 60 * 60,
+                StopDate  => $Epoch + 2 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #3',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 3 days later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 3 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 3 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 3 * 24 * 60 * 60,
+                StopDate  => $Epoch + 3 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #4',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 4 days later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 4 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 4 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 4 * 24 * 60 * 60,
+                StopDate  => $Epoch + 4 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #5',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 5 days later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 5 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 5 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 5 * 24 * 60 * 60,
+                StopDate  => $Epoch + 5 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #6',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 6 days later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 6 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 6 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 6 * 24 * 60 * 60,
+                StopDate  => $Epoch + 6 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #7',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 7 days later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 7 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 7 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 7 * 24 * 60 * 60,
+                StopDate  => $Epoch + 7 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #8',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # 8 days later, duration 2 hours
-                StartDate => $TimeObject->SystemTime() + 8 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() + 8 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch + 8 * 24 * 60 * 60,
+                StopDate  => $Epoch + 8 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #9',
                 ValidID   => 1,
                 UserID    => 1,
             },
             {
                 # one week earlier, duration 2 hours
-                StartDate => $TimeObject->SystemTime() - 7 * 24 * 60 * 60,
-                StopDate  => $TimeObject->SystemTime() - 7 * 24 * 60 * 60 + 2 * 60 * 60,
+                StartDate => $Epoch - 7 * 24 * 60 * 60,
+                StopDate  => $Epoch - 7 * 24 * 60 * 60 + 2 * 60 * 60,
                 Comment   => $SysMainComment . ' maintenance period #10',
                 ValidID   => 1,
                 UserID    => 1,

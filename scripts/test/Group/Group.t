@@ -14,7 +14,6 @@ use vars (qw($Self));
 
 # get needed objects
 my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -27,7 +26,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 #
 # Group tests
 #
-my $GroupNameRandomPartBase = $TimeObject->SystemTime();
+my $GroupNameRandomPartBase = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 my %GroupIDByGroupName      = (
     'test-group-' . $GroupNameRandomPartBase . '-1' => undef,
     'test-group-' . $GroupNameRandomPartBase . '-2' => undef,

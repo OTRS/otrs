@@ -16,8 +16,8 @@ use parent qw(Kernel::System::Console::BaseCommand);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
+    'Kernel::System::DateTime',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Ticket::Article',
 );
@@ -47,8 +47,8 @@ sub Run {
     my $InvalidID = 2;
 
     # Users must be invalid for at least one month
-    my $Offset        = 60 * 60 * 24 * 31;
-    my $InvalidBefore = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $Offset;
+    my $InvalidBeforeDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    $InvalidBeforeDTObject->Subtract( Seconds => 60 * 60 * 24 * 31 );
 
     # get user object
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
@@ -69,13 +69,16 @@ sub Run {
         next USERID if ( $User{ValidID} != $InvalidID );
 
         # Only take users which are invalid for more than one month
-        my $InvalidTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-            String => $User{ChangeTime},
+        my $InvalidTimeDTObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $User{ChangeTime},
+            },
         );
 
         push @CleanupInvalidUsersImmediately, \%User;
 
-        next USERID if ( $InvalidTime >= $InvalidBefore );
+        next USERID if ( $InvalidTimeDTObject >= $InvalidBeforeDTObject );
 
         push @CleanupInvalidUsers, \%User;
     }

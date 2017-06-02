@@ -29,7 +29,12 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 
 # create isolated time environment during test
 $HelperObject->FixedTimeSet(
-    $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => '2000-10-20 00:00:00' ),
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2000-10-20 00:00:00',
+        },
+        )->ToEpoch()
 );
 
 # create test ticket with attachments

@@ -118,7 +118,7 @@ sub new {
     $Self->{RemoteIP} = $Param{RemoteIP};
 
     # communication ID MD5 (system time + random #)
-    my $CurrentTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
     my $MD5String   = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
         String => $CurrentTime . int( rand(1000000) ),
     );

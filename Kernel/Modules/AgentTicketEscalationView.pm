@@ -158,23 +158,25 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $CreateEndOfDayDateTimeObject = sub {
+        my %Param = @_;
 
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() + 60 * 60 * 24 * 7,
-    );
-    my $TimeStampNextWeek = "$Year-$Month-$Day 23:59:59";
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        if ( $Param{AddDays} ) {
+            $DateTimeObject->Add( Days => $Param{AddDays} );
+        }
 
-    ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() + 60 * 60 * 24,
-    );
-    my $TimeStampTomorrow = "$Year-$Month-$Day 23:59:59";
+        $DateTimeObject->Set(
+            Hour   => 23,
+            Minute => 59,
+            Second => 59
+        );
+        return $DateTimeObject;
+    };
 
-    ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-    my $TimeStampToday = "$Year-$Month-$Day 23:59:59";
+    my $NextWeekDateTimeObject = $CreateEndOfDayDateTimeObject->( AddDays => 7 );
+    my $TomorrowDateTimeObject = $CreateEndOfDayDateTimeObject->( AddDays => 1 );
+    my $TodayDateTimeObject    = $CreateEndOfDayDateTimeObject->();
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -193,7 +195,7 @@ sub Run {
             Name   => Translatable('Today'),
             Prio   => 1000,
             Search => {
-                TicketEscalationTimeOlderDate => $TimeStampToday,
+                TicketEscalationTimeOlderDate => $TodayDateTimeObject->ToString(),
                 OrderBy                       => $OrderBy,
                 SortBy                        => $SortBy,
                 UserID                        => $Self->{UserID},
@@ -204,7 +206,7 @@ sub Run {
             Name   => Translatable('Tomorrow'),
             Prio   => 2000,
             Search => {
-                TicketEscalationTimeOlderDate => $TimeStampTomorrow,
+                TicketEscalationTimeOlderDate => $TomorrowDateTimeObject->ToString(),
                 OrderBy                       => $OrderBy,
                 SortBy                        => $SortBy,
                 UserID                        => $Self->{UserID},
@@ -215,7 +217,7 @@ sub Run {
             Name   => Translatable('Next week'),
             Prio   => 3000,
             Search => {
-                TicketEscalationTimeOlderDate => $TimeStampNextWeek,
+                TicketEscalationTimeOlderDate => $NextWeekDateTimeObject->ToString(),
                 OrderBy                       => $OrderBy,
                 SortBy                        => $SortBy,
                 UserID                        => $Self->{UserID},

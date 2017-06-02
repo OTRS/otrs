@@ -15,9 +15,9 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
+    'Kernel::System::DateTime',
     'Kernel::System::Log',
     'Kernel::System::SystemData',
-    'Kernel::System::Time',
 );
 
 sub new {
@@ -68,14 +68,8 @@ sub Run {
     );
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # calculate next update time for 1 hour
-    my $NewUpdateSeconds    = 3600;
-    my $NewUpdateSystemTime = $TimeObject->SystemTime() + $NewUpdateSeconds;
-    my $NewUpdateTime       = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $NewUpdateSystemTime,
-    );
+    my $NewUpdateDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    $NewUpdateDateTimeObject->Add( Hours => 1 );
 
     # get current update time
     my $CurrentUpdateTime = $SystemDataObject->SystemDataGet(
@@ -86,24 +80,26 @@ sub Run {
     if ( !defined $CurrentUpdateTime ) {
         $SystemDataObject->SystemDataAdd(
             Key    => 'Registration::NextUpdateTime',
-            Value  => $NewUpdateTime,
+            Value  => $NewUpdateDateTimeObject->ToString(),
             UserID => 1,
         );
         return 1;
     }
 
-    # convert update time to system time for easy compare
-    my $CurrentUpdateSystemTime = $TimeObject->TimeStamp2SystemTime(
-        String => $CurrentUpdateTime,
+    my $CurrentUpdateDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $CurrentUpdateTime,
+            }
     );
 
     # return success if the next update is schedule in or less than 1 hour
-    return 1 if $CurrentUpdateSystemTime <= $NewUpdateSystemTime;
+    return 1 if $CurrentUpdateDateTimeObject <= $NewUpdateDateTimeObject;
 
     # otherwise update next update for 1 hour
     $SystemDataObject->SystemDataUpdate(
         Key    => 'Registration::NextUpdateTime',
-        Value  => $NewUpdateTime,
+        Value  => $NewUpdateDateTimeObject->ToString(),
         UserID => 1,
     );
     return 1;

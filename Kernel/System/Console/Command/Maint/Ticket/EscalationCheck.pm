@@ -17,8 +17,8 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
 );
 
 sub Configure {
@@ -62,7 +62,6 @@ sub Run {
 
     # get needed objects
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 
     # the decay time is configured in minutes
     my $DecayTimeInSeconds = $Kernel::OM->Get('Kernel::Config')->Get('OTRSEscalationEvents::DecayTime') || 0;
@@ -103,14 +102,19 @@ sub Run {
         );
 
         # check if it is during business hours, then send escalation info
-        my $CountedTime = $TimeObject->WorkingTime(
-            StartTime => $TimeObject->SystemTime() - ( 10 * 60 ),
-            StopTime  => $TimeObject->SystemTime(),
-            Calendar  => $Calendar,
+        my $BusinessStartDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        $BusinessStartDTObject->Subtract( Seconds => 10 * 60 );
+
+        my $BusinessStopDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        my $CountedTime = $BusinessStopDTObject->Delta(
+            DateTimeObject => $BusinessStartDTObject,
+            ForWorkingTime => 1,
+            Calendar       => $Calendar,
         );
 
         # don't trigger events if not counted time
-        if ( !$CountedTime ) {
+        if ( !$CountedTime || !$CountedTime->{AbsoluteSeconds} ) {
             next TICKET;
         }
 
@@ -142,10 +146,16 @@ sub Run {
                 @ReversedHistoryLines;
 
                 if ( $PrevEventLine && $PrevEventLine->{CreateTime} ) {
-                    my $PrevEventTime = $TimeObject->TimeStamp2SystemTime(
-                        String => $PrevEventLine->{CreateTime},
-                    );
-                    my $TimeSincePrevEvent = $TimeObject->SystemTime() - $PrevEventTime;
+                    my $PrevEventTime = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            String => $PrevEventLine->{CreateTime},
+                        },
+                    )->ToEpoch();
+
+                    my $CurSysTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+
+                    my $TimeSincePrevEvent = $CurSysTime - $PrevEventTime;
 
                     next TYPE if $TimeSincePrevEvent <= $DecayTimeInSeconds;
                 }

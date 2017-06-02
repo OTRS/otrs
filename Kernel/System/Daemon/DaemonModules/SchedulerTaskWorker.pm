@@ -21,11 +21,11 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
     'Kernel::System::Daemon::SchedulerDB',
+    'Kernel::System::DateTime',
     'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Storable',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -54,11 +54,11 @@ sub new {
     # Get objects in constructor to save performance.
     $Self->{ConfigObject}      = $Kernel::OM->Get('Kernel::Config');
     $Self->{CacheObject}       = $Kernel::OM->Get('Kernel::System::Cache');
-    $Self->{TimeObject}        = $Kernel::OM->Get('Kernel::System::Time');
     $Self->{MainObject}        = $Kernel::OM->Get('Kernel::System::Main');
     $Self->{DBObject}          = $Kernel::OM->Get('Kernel::System::DB');
     $Self->{StorableObject}    = $Kernel::OM->Get('Kernel::System::Storable');
     $Self->{SchedulerDBObject} = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+    $Self->{DateTimeObject}    = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # Disable in memory cache to be clusterable.
     $Self->{CacheObject}->Configure(
@@ -271,7 +271,7 @@ sub Run {
         $Self->{CurrentWorkers}->{$PID} = {
             PID       => $PID,
             TaskID    => $TaskID,
-            StartTime => $Self->{TimeObject}->SystemTime(),
+            StartTime => $Self->{DateTimeObject}->ToEpoch(),
         };
 
         $Self->{CurrentWorkersCount}++;

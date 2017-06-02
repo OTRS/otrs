@@ -121,19 +121,17 @@ $Selenium->RunTest(
         # get backend object
         my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        # get current system time
-        my $Now = $TimeObject->SystemTime();
+        # create datetime object
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
         my %DynamicFieldValue = (
-            TicketCalendarStartTime => $TimeObject->SystemTime2TimeStamp(
-                SystemTime => $Now,
-            ),
-            TicketCalendarEndTime => $TimeObject->SystemTime2TimeStamp(
-                SystemTime => $Now + 60 * 60,
-            ),
+            TicketCalendarStartTime => $DateTimeObject->ToString(),
+            TicketCalendarEndTime   => $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $DateTimeObject->ToEpoch() + 60 * 60,
+                    }
+                )->ToString(),
         );
 
         # set value of ticket's dynamic fields

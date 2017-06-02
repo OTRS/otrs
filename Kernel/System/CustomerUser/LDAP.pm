@@ -24,7 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Encode',
     'Kernel::System::Log',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 sub new {
@@ -1446,9 +1446,16 @@ sub CustomerUserDataGet {
 
     # add last login timestamp
     if ( $Preferences{UserLastLogin} ) {
-        $Preferences{UserLastLoginTimestamp} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
-            SystemTime => $Preferences{UserLastLogin},
+
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $Preferences{UserLastLogin},
+            },
         );
+
+        $Preferences{UserLastLoginTimestamp} = $DateTimeObject->toString();
+
     }
 
     # cache request

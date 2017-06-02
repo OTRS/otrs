@@ -174,6 +174,7 @@ $Selenium->RunTest(
             TicketID => $TicketID,
             UserID   => 1,
         );
+
         for my $EscalationType (qw(FirstResponseTime UpdateTime SolutionTime)) {
             my $EscalationTimeStartObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
@@ -452,7 +453,7 @@ $Selenium->RunTest(
                                 ObjectParams => {
                                     String => '2016-01-01 00:00:00',
                                 },
-                                )
+                            ),
                             )->{AbsoluteSeconds}
                     ),
                 },

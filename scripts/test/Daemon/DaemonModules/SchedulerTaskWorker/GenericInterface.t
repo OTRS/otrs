@@ -268,7 +268,6 @@ my @Test = (
 my $TaskHandlerObject
     = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker::GenericInterface');
 my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
-my $TimeObject        = $Kernel::OM->Get('Kernel::System::Time');
 
 TEST:
 for my $Test (@Test) {
@@ -306,13 +305,12 @@ for my $Test (@Test) {
 
         my $ExecutionTime = $Test->{RescheculeExecutionTime};
         if ( !$ExecutionTime ) {
-
-            $ExecutionTime = $TimeObject->SystemTime2TimeStamp(
-                SystemTime => $TimeObject->SystemTime() + $Test->{RescheculeTimeDiff},
-            );
+            $ExecutionTime = $Kernel::OM->Create('Kernel::System::DateTime');
+            $ExecutionTime->Add( Seconds => $Test->{RescheculeTimeDiff} );
+            $ExecutionTime = $ExecutionTime->ToString();
         }
 
-        my $TimeStamp = $TimeObject->CurrentTimestamp();
+        my $TimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
 
         $Self->IsDeeply(
             \%Task,

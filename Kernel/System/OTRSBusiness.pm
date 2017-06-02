@@ -20,10 +20,10 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::Package',
     'Kernel::System::SystemData',
-    'Kernel::System::Time',
 );
 
 # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
@@ -491,19 +491,24 @@ sub OTRSBusinessEntitlementStatus {
     }
 
     # Check when the last successful BusinessPermission check was made.
-    my $LastUpdateSystemTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-        String => $EntitlementData{LastUpdateTime},
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $EntitlementData{LastUpdateTime},
+            }
     );
 
-    my $SecondsSinceLastUpdate = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $LastUpdateSystemTime;
+    my $Delta = $Kernel::OM->Create('Kernel::System::DateTime')->Delta(
+        DateTimeObject => $DateTimeObject,
+    );
 
-    if ( $SecondsSinceLastUpdate > $NoConnectBlockPeriod ) {
+    if ( $Delta->{AbsoluteSeconds} > $NoConnectBlockPeriod ) {
         return 'forbidden';
     }
-    if ( $SecondsSinceLastUpdate > $NoConnectErrorPeriod ) {
+    if ( $Delta->{AbsoluteSeconds} > $NoConnectErrorPeriod ) {
         return 'warning-error';
     }
-    if ( $SecondsSinceLastUpdate > $NoConnectWarningPeriod ) {
+    if ( $Delta->{AbsoluteSeconds} > $NoConnectWarningPeriod ) {
         return 'warning';
     }
 
@@ -539,13 +544,20 @@ sub OTRSBusinessContractExpiryDateCheck {
         return;
     }
 
-    my $ExpiryDateSystemTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-        String => $EntitlementData{ExpiryDate},
+    my $ExpiryDateTimeObj = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $EntitlementData{ExpiryDate},
+            }
     );
 
-    my $SecondsUntilExpiryDate = $ExpiryDateSystemTime - $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-    if ( $SecondsUntilExpiryDate < $ContractExpiryWarningPeriod ) {
+    my $Delta = $ExpiryDateTimeObj->Delta(
+        DateTimeObject => $DateTimeObject
+    );
+
+    if ( $Delta->{AbsoluteSeconds} < $ContractExpiryWarningPeriod ) {
         return $EntitlementData{ExpiryDate};
     }
 
@@ -564,11 +576,9 @@ sub HandleBusinessPermissionCloudServiceResult {
     #   to determine if the results can still be used later, if a connection to
     #   cloud.otrs.com cannot be made temporarily.
     my %StoreData = (
-        BusinessPermission => $OperationResult->{Data}->{BusinessPermission} // 0,
-        ExpiryDate         => $OperationResult->{Data}->{ExpiryDate}         // '',
-        LastUpdateTime     => $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
-            SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
-        ),
+        BusinessPermission            => $OperationResult->{Data}->{BusinessPermission}            // 0,
+        ExpiryDate                    => $OperationResult->{Data}->{ExpiryDate}                    // '',
+        LastUpdateTime                => $Kernel::OM->Create('Kernel::System::DateTime')->ToString(),
         AgentSessionLimit             => $OperationResult->{Data}->{AgentSessionLimit}             // 0,
         AgentSessionLimitPriorWarning => $OperationResult->{Data}->{AgentSessionLimitPriorWarning} // 0,
     );
@@ -870,12 +880,9 @@ sub OTRSBusinessCommandNextUpdateTimeSet {
         $NextUpdateSecondsOffset = 60 * 60 * $RandomHour + ( 60 * $RandomMinute );
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    my $CalculatedNextUpdateTime = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime() + $NextUpdateSecondsOffset,
-    );
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    $DateTimeObject->Add( Seconds => $NextUpdateSecondsOffset );
+    my $CalculatedNextUpdateTime = $DateTimeObject->ToString();
 
     if ( defined $NextUpdateTime ) {
         $SystemDataObject->SystemDataUpdate(

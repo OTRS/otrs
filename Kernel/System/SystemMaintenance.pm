@@ -19,7 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::Valid',
 );
 
@@ -467,7 +467,8 @@ Returns:
 sub SystemMaintenanceIsActive {
     my ( $Self, %Param ) = @_;
 
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $SystemTime     = $DateTimeObject->ToEpoch();
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -516,11 +517,14 @@ Returns:
 sub SystemMaintenanceIsComing {
     my ( $Self, %Param ) = @_;
 
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $SystemTime     = $DateTimeObject->ToEpoch();
+
     my $NotifiBeforeTime =
         $Kernel::OM->Get('Kernel::Config')->Get('SystemMaintenance::TimeNotifyUpcomingMaintenance')
         || 30;
-    my $TargetTime = $SystemTime + ( $NotifiBeforeTime * 60 );
+    $DateTimeObject->Add( Minutes => $NotifiBeforeTime * 60 );
+    my $TargetTime = $DateTimeObject->ToEpoch();
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

@@ -179,7 +179,8 @@ sub Run {
         $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
 
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            $DateTimeObject->Subtract( Minutes => $Minute * 60 );
 
             # set output class
             if ( $Action{$Minute} ) {
@@ -193,10 +194,8 @@ sub Run {
                     Data => {
                         %{ $Action{$Minute} },
                         Average => $Average,
-                        Date    => $TimeObject->SystemTime2TimeStamp(
-                            SystemTime => $TimeObject->SystemTime() - $Minute * 60,
-                        ),
-                        Width => $W . "%",
+                        Date    => $DateTimeObject->ToString(),
+                        Width   => $W . "%",
                     },
                 );
             }
@@ -208,10 +207,8 @@ sub Run {
                         Max     => 0,
                         Count   => $Action{$Minute}->{Count} || '0',
                         Average => 0,
-                        Date    => $TimeObject->SystemTime2TimeStamp(
-                            SystemTime => $TimeObject->SystemTime() - $Minute * 60,
-                        ),
-                        Width => '0%',
+                        Date    => $DateTimeObject->ToString(),
+                        Width   => '0%',
                     },
                 );
             }

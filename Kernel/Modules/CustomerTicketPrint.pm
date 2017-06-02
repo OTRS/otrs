@@ -292,19 +292,16 @@ sub Run {
     );
 
     # return the pdf document
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-    my $Filename   = 'Ticket_' . $Ticket{TicketNumber};
-    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
+    my $CurDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Filename          = sprintf(
+        'Ticket_%s_%s.pdf',
+        $Ticket{TicketNumber},
+        $CurDateTimeObject->Format( Format => '%Y-%m-%d_%H-%M' ),
     );
-    $M = sprintf( "%02d", $M );
-    $D = sprintf( "%02d", $D );
-    $h = sprintf( "%02d", $h );
-    $m = sprintf( "%02d", $m );
     my $PDFString = $PDFObject->DocumentOutput();
     return $LayoutObject->Attachment(
-        Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
-        ContentType => "application/pdf",
+        Filename    => $Filename,
+        ContentType => 'application/pdf',
         Content     => $PDFString,
         Type        => 'inline',
     );

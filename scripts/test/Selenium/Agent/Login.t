@@ -104,7 +104,7 @@ $Selenium->RunTest(
             # create new session id
             my $NewSessionID = $SessionObject->CreateSessionID(
                 UserLogin       => $TestUserLogins[$Counter],
-                UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+                UserLastRequest => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
                 UserType        => 'User',
             );
 

@@ -442,30 +442,33 @@ sub Run {
             FormID => $Self->{FormID},
         );
 
-        # get needed objects
-        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
-        my $TimeObject  = $Kernel::OM->Get('Kernel::System::Time');
-
         # check if date is valid
         my %StateData;
         $GetParam{NextStateID} ||= '';
         if ( $GetParam{NextStateID} ) {
+            my $StateObject = $Kernel::OM->Get('Kernel::System::State');
             %StateData = $StateObject->StateGet( ID => $GetParam{NextStateID} );
 
             if ( $StateData{TypeName} =~ /^pending/i ) {
-                if ( !$TimeObject->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                    if ( $IsUpload == 0 ) {
-                        $Error{'DateInvalid'} = ' ServerError';
-                    }
-                }
+
+                # create a datetime object based on pending date
+                my $PendingDateTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        %GetParam,
+                        Second => 0,
+                    },
+                );
+
+                # get current system epoch
+                my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
                 if (
-                    $TimeObject->Date2SystemTime( %GetParam, Second => 0 )
-                    < $TimeObject->SystemTime()
+                    ( !$PendingDateTimeObject || $PendingDateTimeObject < $CurSystemDateTimeObject )
+                    && !$IsUpload
                     )
                 {
-                    if ( $IsUpload == 0 ) {
-                        $Error{'DateInvalid'} = ' ServerError';
-                    }
+                    $Error{'DateInvalid'} = 'ServerError';
                 }
             }
         }

@@ -15,10 +15,10 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::CheckItem',
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::Valid',
 );
 
@@ -611,15 +611,11 @@ sub LinkCleanup {
     return if !$StateID;
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # get current time
-    my $Now = $TimeObject->SystemTime();
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # calculate delete time
-    my $DeleteTime = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => ( $Now - $Param{Age} ),
-    );
+    $DateTimeObject->Subtract( Seconds => $Param{Age} );
+    my $DeleteTime = $DateTimeObject->ToString();
 
     # delete the link
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(

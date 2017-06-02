@@ -25,7 +25,7 @@ our @ObjectDependencies = (
     'Kernel::System::AuthSession',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::UnitTest',
     'Kernel::System::UnitTest::Helper',
 );
@@ -113,7 +113,8 @@ sub new {
     $Self->{BaseURL} .= Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
 
     # Remember the start system time for the selenium test run.
-    $Self->{TestStartSystemTime} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $DateTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+    $Self->{TestStartSystemTime} = $DateTimeObj->ToEpoch();
 
     return $Self;
 }
@@ -472,7 +473,8 @@ sub HandleError {
     my $LocalScreenshotDir = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/SeleniumScreenshots';
     mkdir $LocalScreenshotDir || return $Self->False( 1, "Could not create $LocalScreenshotDir." );
 
-    my $Filename = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
+    my $DateTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $Filename    = $DateTimeObj->ToString();
     $Filename .= '-' . ( int rand 100_000_000 ) . '.png';
     $Filename =~ s{[ :]}{-}smxg;
 

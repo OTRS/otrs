@@ -16,8 +16,8 @@ use Schedule::Cron::Events;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
+    'Kernel::System::DateTime',
     'Kernel::System::Log',
-    'Kernel::System::Time',
 );
 
 =head1 NAME

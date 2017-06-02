@@ -2487,9 +2487,15 @@ sub _ArticleTree {
                 || $Item->{HistoryType};
 
             # group items which happened (nearly) coincidently together
-            $Item->{CreateSystemTime} = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-                String => $Item->{CreateTime}
+            my $CreateSystemTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Item->{CreateTime},
+                    }
             );
+            $Item->{CreateSystemTime} = $CreateSystemTimeObject
+                ? $CreateSystemTimeObject->ToEpoch()
+                : undef;
 
             # if we have two events that happened 'nearly' the same time, treat
             # them as if they happened exactly on the same time (threshold 5 seconds)

@@ -15,9 +15,9 @@ use utf8;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
+    'Kernel::System::DateTime',
     'Kernel::System::OTRSBusiness',
     'Kernel::System::SystemData',
-    'Kernel::System::Time',
 );
 
 sub Configure {
@@ -64,23 +64,24 @@ sub Run {
             Key => 'OTRSBusiness::AvailabilityCheck::NextUpdateTime',
         );
 
-        my $NextUpdateSystemTime = 0;
-
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+        my $NextUpdateSystemTime;
 
         # if there is a defined NextUpdeTime convert it system time
         if ($AvailabilityCheckNextUpdateTime) {
-            $NextUpdateSystemTime = $TimeObject->TimeStamp2SystemTime(
-                String => $AvailabilityCheckNextUpdateTime,
+            $NextUpdateSystemTime = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $AvailabilityCheckNextUpdateTime,
+                },
             );
         }
 
         # get current system time (to compare with next update time)
-        my $SystemTime = $TimeObject->SystemTime();
+        my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime');
 
         # skip if is not time yet to check again
-        return $Self->SkippCheck() if $SystemTime < $NextUpdateSystemTime
+        return $Self->SkippCheck() if $NextUpdateSystemTime
+            && $SystemTime < $NextUpdateSystemTime;
     }
 
     # call the OTRS Business Solution™ availability cloud service

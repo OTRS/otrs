@@ -78,22 +78,15 @@ $CacheObject->CleanUp(
 # freeze time
 $Helper->FixedTimeSet();
 
-my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-my $SystemTime = $TimeObject->SystemTime();
-
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-    SystemTime => $SystemTime,
-);
-
-my $SecsDiff = 60 - $Sec;
+my $SystemTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+my $SecsDiff         = 60 - $SystemTimeObject->Get()->{Second};
 
 # fix time to have 0 seconds in the current minute
 $Helper->FixedTimeAddSeconds($SecsDiff);
 
-$SystemTime = $TimeObject->SystemTime();
-my $DateTime  = $Kernel::OM->Create('Kernel::System::DateTime');
-my $TimeStamp = $DateTime->ToString();
+my $DateTime   = $Kernel::OM->Create('Kernel::System::DateTime');
+my $SystemTime = $DateTime->ToEpoch();
+my $TimeStamp  = $DateTime->ToString();
 
 $DateTime->Add( Seconds => 60 );
 my $TimeStamp2 = $DateTime->ToString();
@@ -297,9 +290,9 @@ TEST:
 for my $Test (@Tests) {
 
     if ( $Test->{AddSecondsBefore} ) {
-        my $StartSystemTime = $TimeObject->SystemTime();
+        my $StartSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         $Helper->FixedTimeAddSeconds( $Test->{AddSecondsBefore} );
-        my $EndSystemTime = $TimeObject->SystemTime();
+        my $EndSystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         print("  Added $Test->{AddSecondsBefore} seconds to time from $StartSystemTime to $EndSystemTime\n");
     }
 
@@ -373,9 +366,12 @@ for my $Test (@Tests) {
 
             # set time stamps from system times
             if ( $Attribute eq 'CreateTime' || $Attribute eq 'ChangeTime' ) {
-                $ExpectedTask{$Attribute} = $TimeObject->SystemTime2TimeStamp(
-                    SystemTime => $Test->{ExpectedTask}->{$Attribute},
-                );
+                $ExpectedTask{$Attribute} = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        Epoch => $Test->{ExpectedTask}->{$Attribute},
+                    },
+                )->ToString();
             }
             else {
                 $ExpectedTask{$Attribute} = $Test->{ExpectedTask}->{$Attribute}

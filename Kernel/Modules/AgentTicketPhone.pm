@@ -865,24 +865,27 @@ sub Run {
             FormID => $Self->{FormID},
         );
 
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
         # check pending date
         if ( !$ExpandCustomerName && $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
-            if ( !$TimeObject->Date2SystemTime( %GetParam, Second => 0 ) ) {
-                if ( $IsUpload == 0 ) {
-                    $Error{DateInvalid} = ' ServerError';
-                }
-            }
+
+            # create a datetime object based on pending date
+            my $PendingDateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    %GetParam,
+                    Second => 0,
+                },
+            );
+
+            # get current system epoch
+            my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
             if (
-                $TimeObject->Date2SystemTime( %GetParam, Second => 0 )
-                < $TimeObject->SystemTime()
+                ( !$PendingDateTimeObject || $PendingDateTimeObject < $CurSystemDateTimeObject )
+                && !$IsUpload
                 )
             {
-                if ( $IsUpload == 0 ) {
-                    $Error{DateInvalid} = ' ServerError';
-                }
+                $Error{'DateInvalid'} = 'ServerError';
             }
         }
 

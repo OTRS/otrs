@@ -121,13 +121,16 @@ sub Run {
 
         if ($Time) {
 
-            # get time object
-            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-            my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-                String => $Time,
+            my $SystemDateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Time,
+                },
             );
-            $Ago = $TimeObject->SystemTime() - $SystemTime;
+
+            my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+            $Ago = $CurSystemDateTimeObject->ToEpoch() - $SystemDateTimeObject->ToEpoch();
             $Ago = $LayoutObject->CustomerAge(
                 Age   => $Ago,
                 Space => ' ',

@@ -19,7 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::State',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 sub new {
@@ -455,7 +455,7 @@ sub TicketAcceleratorIndex {
     );
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     my %QueuesSeen;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -483,7 +483,7 @@ sub TicketAcceleratorIndex {
 
             $QueueData->{Count} += $Count;
 
-            my $MaxAge = $TimeObject->SystemTime() - $Row[2];
+            my $MaxAge = $DateTimeObject->ToEpoch() - $Row[2];
             $QueueData->{MaxAge} = $MaxAge if $MaxAge > $QueueData->{MaxAge};
 
             # get the oldest queue id

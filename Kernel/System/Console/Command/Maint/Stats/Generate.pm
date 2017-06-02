@@ -19,11 +19,11 @@ our @ObjectDependencies = (
     'Kernel::Output::PDF::Statistics',
     'Kernel::System::CSV',
     'Kernel::System::CheckItem',
+    'Kernel::System::DateTime',
     'Kernel::System::Email',
     'Kernel::System::Main',
     'Kernel::System::PDF',
     'Kernel::System::Stats',
-    'Kernel::System::Time',
     'Kernel::System::User',
 );
 
@@ -191,10 +191,7 @@ sub Run {
 
     $Self->Print("<yellow>Generating statistic number $Self->{StatNumber}...</yellow>\n");
 
-    my ( $s, $m, $h, $D, $M, $Y ) =
-        $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
-        SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-        );
+    my $CurSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     my %GetParam;
     my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
@@ -203,9 +200,9 @@ sub Run {
     );
 
     if ( $Stat->{StatType} eq 'static' ) {
-        $GetParam{Year}  = $Y;
-        $GetParam{Month} = $M;
-        $GetParam{Day}   = $D;
+        $GetParam{Year}  = $CurSysDTObject->Get()->{Year};
+        $GetParam{Month} = $CurSysDTObject->Get()->{Month};
+        $GetParam{Day}   = $CurSysDTObject->Get()->{Day};
 
         # get params from -p
         # only for static files
@@ -268,7 +265,7 @@ sub Run {
     my $Title          = $TitleArrayRef->[0];
     my $HeadArrayRef   = shift(@StatArray);
     my $CountStatArray = @StatArray;
-    my $Time           = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
+    my $Time           = $CurSysDTObject->ToString();
     my @WithHeader;
     if ( $Self->GetOption('with-header') ) {
         @WithHeader = ( "Name: $Title", "Created: $Time" );

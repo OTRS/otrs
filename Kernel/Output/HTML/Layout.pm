@@ -13,7 +13,6 @@ use warnings;
 
 use URI::Escape qw();
 
-use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -23,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::AuthSession',
     'Kernel::System::Chat',
     'Kernel::System::CustomerGroup',
+    'Kernel::System::DateTime',
     'Kernel::System::Group',
     'Kernel::System::Encode',
     'Kernel::System::HTMLUtils',
@@ -32,7 +32,6 @@ our @ObjectDependencies = (
     'Kernel::System::OTRSBusiness',
     'Kernel::System::Storable',
     'Kernel::System::SystemMaintenance',
-    'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::VideoChat',
     'Kernel::System::Web::Request',
@@ -96,16 +95,7 @@ sub new {
         $Self->{UserTheme} = $ConfigObject->Get('DefaultTheme');
     }
 
-    # We'll keep one default TimeObject and one for the user's time zone (if needed)
-    $Self->{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
-
-    if ( $Self->{UserTimeZone} ) {
-        $Self->{UserTimeObject} = Kernel::System::Time->new( %{$Self} );
-    }
-    else {
-        $Self->{UserTimeObject} = $Self->{TimeObject};
-        $Self->{UserTimeZone}   = '';
-    }
+    $Self->{UserTimeZone} ||= '';
 
     # Determine the language to use based on the browser setting, if there
     #   is none yet.
@@ -3212,13 +3202,28 @@ sub BuildDateSelection {
     my $ValidateDateBeforePrefix = $Param{ValidateDateBeforePrefix} || '';
     my $ValidateDateBeforeValue  = $Param{ValidateDateBeforeValue}  || '';
 
-    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
-        SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
-    );
+    my $GetCurSysDTUnitFromLowest = sub {
+        my %Param = @_;
 
-    my ( $Cs, $Cm, $Ch, $CD, $CM, $CY ) = $Self->{UserTimeObject}->SystemTime2Date(
-        SystemTime => $Self->{UserTimeObject}->SystemTime(),
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                TimeZone => $Self->{UserTimeZone}
+                }
+        );
+        if ( $Param{AddSeconds} ) {
+            $DateTimeObject->Add( Seconds => $Param{AddSeconds} );
+        }
+
+        my %Details = %{ $DateTimeObject->Get() };
+
+        return map { $Details{$_} } (qw(Second Minute Hour Day Month Year));
+    };
+
+    my ( $s, $m, $h, $D, $M, $Y ) = $GetCurSysDTUnitFromLowest->(
+        AddSeconds => $DiffTime,
     );
+    my ( $Cs, $Cm, $Ch, $CD, $CM, $CY ) = $GetCurSysDTUnitFromLowest->();
 
     # time zone translation
     if (

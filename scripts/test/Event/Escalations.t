@@ -28,7 +28,6 @@ my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
 # make use to disable EstalationStopEvents modules
 $ConfigObject->Set(
@@ -38,7 +37,12 @@ $ConfigObject->Set(
 
 # set fixed time
 $HelperObject->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2014-12-12 00:00:00' ),
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2014-12-12 00:00:00',
+        },
+        )->ToEpoch()
 );
 
 my $CheckNumEvents = sub {
@@ -100,9 +104,8 @@ my %WorkingHours = (
 for my $Hours ( sort keys %WorkingHours ) {
 
     # An unique indentifier, so that data from different test runs won't be mixed up.
-    my $UniqueSignature    = $HelperObject->GetRandomID();
-    my $StartingSystemTime = $TimeObject->SystemTime();
-    my $StartingTimeStamp  = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
+    my $UniqueSignature   = $HelperObject->GetRandomID();
+    my $StartingTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -506,7 +509,12 @@ $ConfigObject->Set(
 
 # Set fixed time for testing.
 $HelperObject->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2017-04-26 17:50:00' ),
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2017-04-26 17:50:00',
+        },
+        )->ToEpoch()
 );
 
 my $RandomNumber = $HelperObject->GetRandomNumber();

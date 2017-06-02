@@ -553,7 +553,7 @@ sub _LogFilesSet {
     my $FileStdOut = "$LogDir/$Param{Module}OUT";
     my $FileStdErr = "$LogDir/$Param{Module}ERR";
 
-    my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
     # get log rotation type and backup old logs if logs should be rotated by OTRS
     my $RotationType = lc $ConfigObject->Get('Daemon::Log::RotationType') || 'otrs';

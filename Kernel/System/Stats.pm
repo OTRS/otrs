@@ -30,7 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Storable',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
     'Kernel::System::User',
     'Kernel::System::XML',
 );
@@ -109,8 +109,8 @@ sub StatsAdd {
     }
 
     # get needed objects
-    my $XMLObject  = $Kernel::OM->Get('Kernel::System::XML');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $XMLObject      = $Kernel::OM->Get('Kernel::System::XML');
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # get new StatID
     my $StatID = 1;
@@ -123,9 +123,7 @@ sub StatsAdd {
     }
 
     # requesting current time stamp
-    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime(),
-    );
+    my $TimeStamp = $DateTimeObject->ToString();
 
     # meta tags
     my $StatNumber = $StatID + $Kernel::OM->Get('Kernel::Config')->Get('Stats::StatsStartNumber');
@@ -508,14 +506,11 @@ sub StatsUpdate {
         }
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # get datetime object
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # meta tags
-    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-    $StatXML{Changed}->[1]->{Content}   = $TimeStamp;
+    $StatXML{Changed}->[1]->{Content}   = $DateTimeObject->ToString();
     $StatXML{ChangedBy}->[1]->{Content} = $Param{UserID};
 
     # get xml object
@@ -1360,18 +1355,13 @@ sub Import {
         }
     }
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # get time
-    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime(),
-    );
+    # requesting current time stamp
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # meta tags
-    $StatsXML->{Created}->[1]->{Content}    = $TimeStamp;
+    $StatsXML->{Created}->[1]->{Content}    = $DateTimeObject->ToString();
     $StatsXML->{CreatedBy}->[1]->{Content}  = $Param{UserID};
-    $StatsXML->{Changed}->[1]->{Content}    = $TimeStamp;
+    $StatsXML->{Changed}->[1]->{Content}    = $DateTimeObject->ToString();
     $StatsXML->{ChangedBy}->[1]->{Content}  = $Param{UserID};
     $StatsXML->{StatNumber}->[1]->{Content} = $StatID + $ConfigObject->Get('Stats::StatsStartNumber');
 
@@ -2234,7 +2224,7 @@ sub _GenerateDynamicStats {
     return if !$StatObject;
 
     # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     # get the selected values
     # perhaps i can split the StatGet function to make this needless
@@ -2267,23 +2257,24 @@ sub _GenerateDynamicStats {
                 delete $Element->{TimePeriodFormat};
                 if ( $Element->{TimeRelativeUnit} ) {
 
-                    my $TimeStamp = $TimeObject->CurrentTimestamp();
+                    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
                     # add the selected timezone to the current timestamp
                     # to get the real start timestamp for the selected timezone
                     if ( $Param{TimeZone} ) {
-                        $TimeStamp = $Self->_FromOTRSTimeZone(
-                            String   => $TimeStamp,
+                        $DateTimeObject->ToTimeZone(
                             TimeZone => $Param{TimeZone},
-                        );
+                            )
                     }
 
-                    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-                        String => $TimeStamp,
-                    );
-
-                    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-                        SystemTime => $SystemTime,
+                    my $DateTimeValues = $DateTimeObject->Get();
+                    my ( $s, $m, $h, $D, $M, $Y ) = (
+                        $DateTimeValues->{Second},
+                        $DateTimeValues->{Minute},
+                        $DateTimeValues->{Hour},
+                        $DateTimeValues->{Day},
+                        $DateTimeValues->{Month},
+                        $DateTimeValues->{Year},
                     );
 
                     # -1 because the current time will be included
@@ -2297,7 +2288,6 @@ sub _GenerateDynamicStats {
                         $Element->{TimeStop} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 12, 31, 23, 59, 59 );
                         ( $Y, $M, $D ) = $Self->_AddDeltaYMD( $Y, $M, $D, -$CountPast, 0, 0 );
                         $Element->{TimeStart} = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, 1, 1, 0, 0, 0 );
-
                     }
                     elsif ( $Element->{TimeRelativeUnit} eq 'HalfYear' ) {
 
@@ -2491,9 +2481,14 @@ sub _GenerateDynamicStats {
             $Second = $VSSecond = int $6;
         }
 
-        $TimeAbsolutStopUnixTime = $TimeObject->TimeStamp2SystemTime(
-            String => $Element->{TimeStop},
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Element->{TimeStop},
+                }
         );
+        $TimeAbsolutStopUnixTime = $DateTimeObject->ToEpoch();
+
         my $TimeStart = 0;
         my $TimeStop  = 0;
 
@@ -2563,10 +2558,14 @@ sub _GenerateDynamicStats {
         }
 
         # FIXME Timeheader zusammenbauen
+        # my $DateTimeObject = $Kernel::OM->Create('Kernel::System::Datetime');
         while (
             !$TimeStop
-            || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
-            < $TimeAbsolutStopUnixTime
+            || (
+                $DateTimeObject->Set( String => $TimeStop )
+                && $DateTimeObject->ToEpoch()
+                < $TimeAbsolutStopUnixTime
+            )
             )
         {
             $TimeStart = sprintf(
@@ -2747,10 +2746,12 @@ sub _GenerateDynamicStats {
                 "%04d-%02d-%02d %02d:%02d:%02d",
                 $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond
             );
+
             push(
                 @{ $Xvalue->{SelectedValues} },
                 {
                     # convert to OTRS time zone for correct database search parameter
+
                     TimeStart => $Self->_ToOTRSTimeZone(
                         String   => $TimeStart,
                         TimeZone => $Param{TimeZone},
@@ -2944,10 +2945,14 @@ sub _GenerateDynamicStats {
         # Generate the time value series
         my ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond );
 
+        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         if ( $Ref1->{SelectedValues}[0] eq 'Year' ) {
             while (
-                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
-                < $TimeAbsolutStopUnixTime
+                !$TimeStop || (
+                    $DateTimeObject->Set( String => $TimeStop )
+                    && $DateTimeObject->ToEpoch()
+                    < $TimeAbsolutStopUnixTime
+                )
                 )
             {
                 $TimeStart = sprintf( "%04d-01-01 00:00:00", $VSYear );
@@ -2971,8 +2976,11 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
             while (
-                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
-                < $TimeAbsolutStopUnixTime
+                !$TimeStop || (
+                    $DateTimeObject->Set( String => $TimeStop )
+                    && $DateTimeObject->ToEpoch()
+                    < $TimeAbsolutStopUnixTime
+                )
                 )
             {
                 $TimeStart = sprintf( "%04d-%02d-01 00:00:00", $VSYear, $VSMonth );
@@ -3005,8 +3013,11 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Week' ) {
             while (
-                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
-                < $TimeAbsolutStopUnixTime
+                !$TimeStop || (
+                    $DateTimeObject->Set( String => $TimeStop )
+                    && $DateTimeObject->ToEpoch()
+                    < $TimeAbsolutStopUnixTime
+                )
                 )
             {
                 my @Monday = $Self->_MondayOfWeek( $VSYear, $VSMonth, $VSDay );
@@ -3038,8 +3049,11 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
             while (
-                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
-                < $TimeAbsolutStopUnixTime
+                !$TimeStop || (
+                    $DateTimeObject->Set( String => $TimeStop )
+                    && $DateTimeObject->ToEpoch()
+                    < $TimeAbsolutStopUnixTime
+                )
                 )
             {
                 $TimeStart = sprintf( "%04d-%02d-%02d 00:00:00", $VSYear, $VSMonth, $VSDay );
@@ -3062,8 +3076,11 @@ sub _GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
             while (
-                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
-                < $TimeAbsolutStopUnixTime
+                !$TimeStop || (
+                    $DateTimeObject->Set( String => $TimeStop )
+                    && $DateTimeObject->ToEpoch()
+                    < $TimeAbsolutStopUnixTime
+                )
                 )
             {
                 $TimeStart = sprintf( "%04d-%02d-%02d %02d:00:00", $VSYear, $VSMonth, $VSDay, $VSHour );
@@ -3087,11 +3104,13 @@ sub _GenerateDynamicStats {
                 );
             }
         }
-
         elsif ( $Ref1->{SelectedValues}[0] eq 'Minute' ) {
             while (
-                !$TimeStop || $TimeObject->TimeStamp2SystemTime( String => $TimeStop )
-                < $TimeAbsolutStopUnixTime
+                !$TimeStop || (
+                    $DateTimeObject->Set( String => $TimeStop )
+                    && $DateTimeObject->ToEpoch()
+                    < $TimeAbsolutStopUnixTime
+                )
                 )
             {
                 $TimeStart = sprintf(
@@ -3120,7 +3139,6 @@ sub _GenerateDynamicStats {
                     0, 0, 1
                 );
             }
-
         }
     }
 
@@ -3228,19 +3246,18 @@ sub _GenerateDynamicStats {
                 my $TimeStart = $Xvalue->{Values}{TimeStart};
                 my $TimeStop  = $Xvalue->{Values}{TimeStop};
                 if ( $ValueSeries{$Row}{$TimeStop} && $ValueSeries{$Row}{$TimeStart} ) {
-                    if (
-                        $TimeObject->TimeStamp2SystemTime( String => $Cell->{TimeStop} )
-                        > $TimeObject->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}{$TimeStop}
-                        )
-                        || $TimeObject->TimeStamp2SystemTime( String => $Cell->{TimeStart} )
-                        < $TimeObject->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}{$TimeStart}
-                        )
-                        )
-                    {
+
+                    my $DTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+                    my $CellStartTime        = $DTObject->Clone()->Set( String => $Cell->{TimeStart} );
+                    my $CellStopTime         = $DTObject->Clone()->Set( String => $Cell->{TimeStop} );
+                    my $ValueSeriesStartTime = $DTObject->Clone()->Set( String => $ValueSeries{$Row}{$TimeStart} );
+                    my $ValueSeriesStopTime  = $DTObject->Clone()->Set( String => $ValueSeries{$Row}{$TimeStop} );
+
+                    if ( $CellStopTime > $ValueSeriesStopTime || $CellStartTime < $ValueSeriesStartTime ) {
                         next CELL;
                     }
+
                 }
                 $Attributes{$TimeStop}  = $Cell->{TimeStop};
                 $Attributes{$TimeStart} = $Cell->{TimeStart};
@@ -3260,6 +3277,7 @@ sub _GenerateDynamicStats {
 
     # Dynamic List Statistic
     if ( $StatObject->can('GetStatTable') ) {
+
         if ($Preview) {
             return if !$StatObject->can('GetStatTablePreview');
 
@@ -3372,7 +3390,11 @@ sub _GenerateDynamicStats {
         TimeZone => $Param{TimeZone},
     );
 
-    if ( $TimeObject->TimeStamp2SystemTime( String => $CheckTimeStop ) > $TimeObject->SystemTime() ) {
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+    my $CheckTimeStopObject = $DateTimeObject->Clone()->Set( String => $CheckTimeStop );
+
+    if ( $CheckTimeStopObject > $DateTimeObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "Can't cache StatID $Param{StatID}: The selected end time is in the future!",
@@ -3565,24 +3587,24 @@ sub _WriteResultCache {
 
     my %GetParam = %{ $Param{GetParam} };
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-    # check if we should cache this result
-    # get the current time
-    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime(),
-    );
-
-    # if get params in future do not cache
     if ( $GetParam{Year} && $GetParam{Month} ) {
-        return if $GetParam{Year} > $Y;
-        return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
-        return
-            if $GetParam{Year} == $Y
-            && $GetParam{Month} == $M
-            && $GetParam{Day}
-            && $GetParam{Day} >= $D;
+        my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $DateTimeNowValues = $DateTimeObject->Get();
+
+        my $DateTimeObjectParams = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Year   => $GetParam{Year},
+                Month  => $GetParam{Month},
+                Day    => $GetParam{Day},
+                Hour   => $DateTimeNowValues->{Hour},
+                Minute => $DateTimeNowValues->{Minute},
+                Second => $DateTimeNowValues->{Second},
+                }
+        );
+
+        # if get params in future do not cache
+        return if ( !$DateTimeObject->Compare( DateTimeObject => $DateTimeObjectParams ) );
     }
 
     # write cache file

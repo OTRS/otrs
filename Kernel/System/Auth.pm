@@ -15,11 +15,11 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SystemMaintenance',
-    'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Valid',
 );
@@ -341,7 +341,7 @@ sub Auth {
     # last login preferences update
     $UserObject->SetPreferences(
         Key    => 'UserLastLogin',
-        Value  => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+        Value  => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
         UserID => $UserID,
     );
 

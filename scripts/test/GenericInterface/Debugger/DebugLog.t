@@ -59,7 +59,7 @@ $Self->Is(
 );
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+my $SystemTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
 
 my @Tests = (
 
@@ -67,7 +67,7 @@ my @Tests = (
         Name   => 'Without WebserviceID',
         Config => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',       # 'Provider' or 'Requester'
             RemoteIP          => '192.168.0.1',    # optional
@@ -101,7 +101,7 @@ my @Tests = (
         Name   => 'Without CommunicationType',
         Config => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             WebserviceID => $WebserviceID,
             RemoteIP     => '192.168.0.1',
@@ -119,7 +119,7 @@ my @Tests = (
         Name   => 'Without RemoteIP',
         Config => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             WebserviceID      => $WebserviceID,
             CommunicationType => 'Provider',
@@ -138,7 +138,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
@@ -155,7 +155,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '192.168.0.1',
@@ -174,7 +174,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Provider',
             RemoteIP          => '',
@@ -192,7 +192,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Requester',
             RemoteIP          => '192.168.0.1',
@@ -210,7 +210,7 @@ my @Tests = (
         SuccessAdd => '1',
         Config     => {
             CommunicationID => $MainObject->MD5sum(
-                String => $TimeObject->SystemTime() . $Helper->GetRandomID(),
+                String => $SystemTime . $Helper->GetRandomID(),
             ),
             CommunicationType => 'Requester',
             RemoteIP          => '',

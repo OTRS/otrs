@@ -22,11 +22,11 @@ $ConfigObject->Set(
     Value => 'UTC',
 );
 
-my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-my $StatsObject   = $Kernel::OM->Get('Kernel::System::Stats');
-my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
-my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject    = $Kernel::OM->Get('Kernel::System::Time');
+my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+my $StatsObject    = $Kernel::OM->Get('Kernel::System::Stats');
+my $QueueObject    = $Kernel::OM->Get('Kernel::System::Queue');
+my $TicketObject   = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -159,9 +159,12 @@ for my $Ticket (@Tickets) {
         next TICKET;
     }
 
-    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-        String => $Ticket->{TimeStamp},
-    );
+    my $SystemTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Ticket->{TimeStamp},
+            }
+    )->ToEpoch();
 
     # set the fixed time
     $Helper->FixedTimeSet($SystemTime);
@@ -405,9 +408,12 @@ for my $Test (@Tests) {
     }
 
     # set the fixed time
-    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
-        String => $Test->{TimeStamp},
-    );
+    my $SystemTime = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Test->{TimeStamp},
+            }
+    )->ToEpoch();
     $Helper->FixedTimeSet($SystemTime);
 
     # print test case description

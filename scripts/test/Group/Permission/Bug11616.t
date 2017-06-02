@@ -27,7 +27,6 @@ $Kernel::OM->ObjectParamAdd(
 
 # get needed objects
 my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
-my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 

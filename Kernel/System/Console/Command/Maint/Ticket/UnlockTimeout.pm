@@ -14,11 +14,11 @@ use warnings;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
+    'Kernel::System::DateTime',
     'Kernel::System::DB',
     'Kernel::System::Lock',
     'Kernel::System::State',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
 );
 
 sub Configure {
@@ -66,11 +66,23 @@ sub Run {
             SLAID   => $Row[4],
         );
 
-        my $CountedTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
-            StartTime => $Row[2],
-            StopTime  => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-            Calendar  => $Calendar,
+        my $StartDTObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $Row[2],
+            },
         );
+
+        my $StopDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        my $StartStopDelta = $StartDTObject->Delta(
+            DateTimeObject => $StopDTObject,
+            ForWorkingTime => 1,
+            Calendar       => $Calendar,
+        );
+
+        my $CountedTime = $StartStopDelta ? $StartStopDelta->{AbsoluteSeconds} : 0;
+
         next TICKET if $CountedTime < $Row[3] * 60;
 
         $Self->Print(" Unlocking ticket id $Row[0]... ");

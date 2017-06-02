@@ -16,8 +16,8 @@ use Digest::HMAC qw(hmac_hex);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::DateTime',
     'Kernel::System::Log',
-    'Kernel::System::Time',
     'Kernel::System::User',
 );
 

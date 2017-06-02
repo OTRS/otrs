@@ -21,7 +21,6 @@ our @ObjectDependencies = (
     'Kernel::System::GenericInterface::WebserviceHistory',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::Valid',
     'Kernel::System::YAML',
 );

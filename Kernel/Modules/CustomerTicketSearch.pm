@@ -527,7 +527,6 @@ sub Run {
         # get needed objects
         my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
 
         # CSV and Excel output
         if (
@@ -729,14 +728,13 @@ sub Run {
                 @CSVHead;
 
             # return csv to download
-            my $FileName = 'ticket_search';
-            my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeObject->SystemTime(),
+            my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            my $FileName                = sprintf(
+                'ticket_search_%s',
+                $CurSystemDateTimeObject->Format(
+                    Format => '%Y-%m-%d_%H-%M'
+                    )
             );
-            $M = sprintf( "%02d", $M );
-            $D = sprintf( "%02d", $D );
-            $h = sprintf( "%02d", $h );
-            $m = sprintf( "%02d", $m );
 
             # get CSV object
             my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
@@ -748,7 +746,7 @@ sub Run {
                     Data => \@CSVData,
                 );
                 return $LayoutObject->Attachment(
-                    Filename    => $FileName . "_" . "$Y-$M-$D" . "_" . "$h-$m.csv",
+                    Filename    => $FileName . '.csv',
                     ContentType => "text/csv; charset=" . $LayoutObject->{UserCharset},
                     Content     => $CSV,
                 );
@@ -764,7 +762,7 @@ sub Run {
                 );
 
                 return $LayoutObject->Attachment(
-                    Filename => $FileName . "_" . "$Y-$M-$D" . "_" . "$h-$m.xlsx",
+                    Filename => $FileName . '.xlsx',
                     ContentType =>
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     Content => $Excel,
@@ -1019,17 +1017,15 @@ sub Run {
             }
 
             # return the pdf document
-            my $Filename = 'ticket_search';
-            my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-                SystemTime => $TimeObject->SystemTime(),
+            my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+            my $Filename                = sprintf(
+                'ticket_search_%s.pdf',
+                $CurSystemDateTimeObject->Format( Format => '%Y-%m-%d_%H-%M' ),
             );
-            $M = sprintf( "%02d", $M );
-            $D = sprintf( "%02d", $D );
-            $h = sprintf( "%02d", $h );
-            $m = sprintf( "%02d", $m );
+
             my $PDFString = $PDFObject->DocumentOutput();
             return $LayoutObject->Attachment(
-                Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
+                Filename    => $Filename,
                 ContentType => "application/pdf",
                 Content     => $PDFString,
                 Type        => 'inline',

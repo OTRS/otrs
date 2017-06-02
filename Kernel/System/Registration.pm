@@ -22,7 +22,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::SupportDataCollector',
     'Kernel::System::SystemData',
-    'Kernel::System::Time',
+    'Kernel::System::DateTime',
 );
 
 =head1 NAME
@@ -398,21 +398,21 @@ sub Register {
         Message  => "Registration - received UniqueID '$ResponseData->{UniqueID}'.",
     );
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # get datetime object
+    my $DateTimeObject   = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CurrentTimestamp = $DateTimeObject->ToString();
 
     # calculate due date for next update, fall back to 24h
     my $NextUpdateSeconds = int $ResponseData->{NextUpdate} || ( 60 * 60 * 24 );
-    my $NextUpdateTime = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime() + $NextUpdateSeconds,
-    );
+    $DateTimeObject->Add( Seconds => $NextUpdateSeconds );
+    my $NextUpdateTime = $DateTimeObject->ToString();
 
     my %RegistrationData = (
         State              => 'registered',
         UniqueID           => $ResponseData->{UniqueID},
         APIKey             => $ResponseData->{APIKey},
         LastUpdateID       => $ResponseData->{LastUpdateID},
-        LastUpdateTime     => $TimeObject->CurrentTimestamp(),
+        LastUpdateTime     => $CurrentTimestamp,
         Type               => $ResponseData->{Type} || $Param{Type},
         Description        => $ResponseData->{Description} || $Param{Description},
         SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
@@ -766,19 +766,19 @@ sub RegistrationUpdateSend {
         Message  => "RegistrationUpdate - received UpdateID '$ResponseData->{UpdateID}'.",
     );
 
-    # get time object
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    # get datetime object
+    my $DateTimeObject   = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CurrentTimestamp = $DateTimeObject->ToString();
 
-    # calculate due date for next update, fall back to 24 hours
+    # calculate due date for next update, fall back to 24h
     my $NextUpdateSeconds = int $ResponseData->{NextUpdate} || ( 60 * 60 * 24 );
-    my $NextUpdateTime = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime() + $NextUpdateSeconds,
-    );
+    $DateTimeObject->Add( Seconds => $NextUpdateSeconds );
+    my $NextUpdateTime = $DateTimeObject->ToString();
 
     # gather and update provided data in SystemData table
     my %UpdateData = (
         LastUpdateID       => $ResponseData->{UpdateID},
-        LastUpdateTime     => $TimeObject->CurrentTimestamp(),
+        LastUpdateTime     => $CurrentTimestamp,
         Type               => $ResponseData->{Type},
         Description        => $ResponseData->{Description},
         SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,

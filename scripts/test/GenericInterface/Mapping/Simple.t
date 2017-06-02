@@ -18,7 +18,6 @@ use Kernel::GenericInterface::Debugger;
 # get needed objects
 my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 my $MainObject       = $Kernel::OM->Get('Kernel::System::Main');
-my $TimeObject       = $Kernel::OM->Get('Kernel::System::Time');
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 # get helper object
@@ -688,7 +687,8 @@ TEST:
 for my $Test (@MappingTests) {
 
     my $StartSeconds;
-    $StartSeconds = $TimeObject->SystemTime() if ( $Test->{CheckTime} );
+    $StartSeconds = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch()
+        if ( $Test->{CheckTime} );
 
     # instantiate mapping object to catch config errors
     my $MappingObject = Kernel::GenericInterface::Mapping->new(
@@ -718,7 +718,7 @@ for my $Test (@MappingTests) {
         Data => $Test->{Data},
     );
     if ( $Test->{CheckTime} ) {
-        my $EndSeconds = $TimeObject->SystemTime();
+        my $EndSeconds = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         $Self->True(
             ( $EndSeconds - $StartSeconds ) < 5,
             $Test->{Name}
