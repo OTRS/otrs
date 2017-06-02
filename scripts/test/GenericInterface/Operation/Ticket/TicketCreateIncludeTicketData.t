@@ -800,8 +800,15 @@ for my $Test (@Tests) {
             $CompareDynamicFieldReq{Ticket} = $Field;
         }
 
+        # Check for type of key containing article dynamic field data, since it might be a hash on systems without
+        #   multiple fields defined. In this case normalize it to an array of hashes for easier comparison later.
+        if ( ref $RequesterResult->{Data}->{Ticket}->{Article}->{DynamicField} eq 'HASH' ) {
+            $RequesterResult->{Data}->{Ticket}->{Article}->{DynamicField}
+                = [ $RequesterResult->{Data}->{Ticket}->{Article}->{DynamicField} ];
+        }
+
         LOCALRESULTARTICLE:
-        for my $Field ( $RequesterResult->{Data}->{Ticket}->{Article}->{DynamicField} ) {
+        for my $Field ( @{ $RequesterResult->{Data}->{Ticket}->{Article}->{DynamicField} } ) {
             next LOCALRESULTARTICLE if $Field->{Name} ne $DynamicFieldData2->{Name};
             $CompareDynamicFieldReq{Article} = $Field;
         }
