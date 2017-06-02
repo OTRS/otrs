@@ -5014,17 +5014,17 @@ sub _StoreActivityDialog {
 
                 my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
                 $ArticleID = $ArticleBackendObject->ArticleCreate(
-                    TicketID                  => $TicketID,
-                    SenderType                => 'agent',
-                    IsVisibleForCustomer      => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer},
-                    From                      => $From,
-                    MimeType                  => $MimeType,
-                    Charset                   => $LayoutObject->{UserCharset},
-                    UserID                    => $Self->{UserID},
-                    HistoryType               => 'AddNote',
-                    HistoryComment            => '%%Note',
-                    Body                      => $Param{GetParam}{Body},
-                    Subject                   => $Param{GetParam}{Subject},
+                    TicketID             => $TicketID,
+                    SenderType           => 'agent',
+                    IsVisibleForCustomer => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} // 0,
+                    From                 => $From,
+                    MimeType             => $MimeType,
+                    Charset              => $LayoutObject->{UserCharset},
+                    UserID               => $Self->{UserID},
+                    HistoryType          => 'AddNote',
+                    HistoryComment       => '%%Note',
+                    Body                 => $Param{GetParam}{Body},
+                    Subject              => $Param{GetParam}{Subject},
                     ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}
                     ? $Param{GetParam}{InformUserID}
                     : [],
