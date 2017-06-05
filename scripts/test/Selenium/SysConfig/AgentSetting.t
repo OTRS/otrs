@@ -103,13 +103,15 @@ EOF
         # WebPath is different on each system.
         my $WebPath = $ConfigObject->Get('Frontend::WebPath');
 
-        # Link to ivory skin file should be present.
+        # Compile the regex for checking if ivory skin file has been included. Some platforms might sort additional
+        #   HTML attributes in unexpected order, therefore this check cannot be simple one.
         my $ExpectedLinkedFile
-            = '<link href="' . $WebPath . 'skins/Agent/ivory/css/Core.Default.css" type="text/css" rel="stylesheet" />';
+            = qr{<link .*? \s href="${WebPath}skins/Agent/ivory/css/Core.Default.css"}x;
 
+        # Link to ivory skin file should be present.
         $Self->True(
-            index( $Selenium->get_page_source(), $ExpectedLinkedFile ) > -1,
-            "Ivory skin should be selected",
+            $Selenium->get_page_source() =~ $ExpectedLinkedFile,
+            'Ivory skin should be selected'
         );
 
         # logout
@@ -125,8 +127,8 @@ EOF
 
         # Link to ivory skin file shouldn't be present.
         $Self->True(
-            index( $Selenium->get_page_source(), $ExpectedLinkedFile ) == -1,
-            "Ivory skin shouldn't be selected",
+            $Selenium->get_page_source() !~ $ExpectedLinkedFile,
+            "Ivory skin shouldn't be selected"
         );
 
         # Cleanup system.
