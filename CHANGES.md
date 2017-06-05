@@ -1,4 +1,5 @@
 #4.0.25 2017-??-??
+ - 2017-06-05 Fixed bug#[12835](https://bugs.otrs.org/show_bug.cgi?id=12835) - Wrong Event in History - ProcessManagement Article Field.
  - 2017-06-01 Fixed bug#[12862](https://bugs.otrs.org/show_bug.cgi?id=12862) - Queues don't update when ACL triggers.
 
 #4.0.24 2017-06-06

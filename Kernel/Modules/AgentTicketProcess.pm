@@ -4754,6 +4754,18 @@ sub _StoreActivityDialog {
                     );
                 }
 
+                # Change history type and comment accordingly to the process article.
+                my $ArticleType = $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType};
+                my $HistoryType;
+                my $HistoryComment = '';
+                if ( $ArticleType eq 'phone' ) {
+                    $HistoryType = 'PhoneCallAgent';
+                }
+                else {
+                    $HistoryType    = 'AddNote';
+                    $HistoryComment = 'Note';
+                }
+
                 my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
                     TicketID                  => $TicketID,
@@ -4762,11 +4774,11 @@ sub _StoreActivityDialog {
                     MimeType                  => $MimeType,
                     Charset                   => $Self->{LayoutObject}->{UserCharset},
                     UserID                    => $Self->{UserID},
-                    HistoryType               => 'AddNote',
-                    HistoryComment            => '%%Note',
+                    HistoryType               => $HistoryType,
+                    HistoryComment            => '%%' . $HistoryComment,
                     Body                      => $Param{GetParam}{Body},
                     Subject                   => $Param{GetParam}{Subject},
-                    ArticleType               => $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType},
+                    ArticleType               => $ArticleType,
                     ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}
                     ? $Param{GetParam}{InformUserID}
                     : [],
