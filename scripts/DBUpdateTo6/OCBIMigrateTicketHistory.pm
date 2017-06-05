@@ -137,6 +137,35 @@ sub Run {
         }
     }
 
+    # Verify new columns for ticket_history
+    # table are present.
+    my $CheckNewFields = $Self->_NewTicketHistoryColumsPresent();
+    return 1 if !$CheckNewFields;
+
+    $DBObject->Prepare(
+        SQL => "
+            SELECT COUNT(id)
+            FROM ticket_history
+            WHERE article_id IS NOT NULL
+            AND (
+                   a_sender_type_id IS NULL
+                OR a_communication_channel_id IS NULL
+                OR a_is_visible_for_customer IS NULL
+            )
+        ",
+    );
+
+    my $HistoryEntriesToUpdate;
+    NEWCOLUMNS:
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $HistoryEntriesToUpdate = $Row[0];
+        last NEWCOLUMNS;
+    }
+
+    # No furter entries for update means
+    # migration is not neeeded or already done.
+    return 1 if !$HistoryEntriesToUpdate;
+
     # copy a_sender_type_id, a_communication_channel_id, a_is_visible_for_customer
     # from article table to ticket_history table
     return if !$DBObject->Do(
@@ -165,6 +194,48 @@ sub Run {
     );
 
     return 1;
+}
+
+=head2 _NewTicketHistoryColumsPresent()
+
+updates the table article_data_mime_attachment:
+
+    - recreating indexes and foreign keys
+
+Returns 1 on success
+
+    my $Result = $DBUpdateTo6Object->_NewTicketHistoryColumsPresent();
+
+=cut
+
+sub _NewTicketHistoryColumsPresent {
+    my ( $Self, %Param ) = @_;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # get column names from ticket_history table
+    $DBObject->Prepare(
+        SQL   => "SELECT * FROM ticket_history",
+        Limit => 1,
+    );
+    my %ColumnNameLookup = map { lc $_ => 1 } $DBObject->GetColumnNames();
+
+    my $ColumnsPresent = 1;
+
+    # check if the newly added columns exist
+    for my $ColumnName (
+        qw(
+        a_communication_channel_id
+        a_sender_type_id
+        a_is_visible_for_customer
+        )
+        )
+    {
+        if ( !$ColumnNameLookup{$ColumnName} ) {
+            $ColumnsPresent = 0;
+        }
+    }
+    return $ColumnsPresent;
 }
 
 1;
