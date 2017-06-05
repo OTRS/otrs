@@ -353,19 +353,50 @@ sub _DeleteOldChatArticles {
         return;
     }
 
-    # Delete chat article data.
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Check chat article data.
+    return if !$DBObject->Prepare(
         SQL => '
-            DELETE FROM article_data_mime
-            WHERE
-                article_id IN (
-                    SELECT id
-                    FROM article
-                    WHERE communication_channel_id = ?
-                )
+            SELECT adm.id
+            FROM article_data_mime adm
+                JOIN article at ON adm.article_id = at.id
+            WHERE at.communication_channel_id = ?
         ',
         Bind => [ \$Param{ChatChannelID} ],
     );
+
+    my @ChatIDs;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        push @ChatIDs, $Row[0];
+    }
+
+    my $RowsPerLoop = 1;
+    my $IndexStart  = 0;
+    my $IndexEnd;
+    my $LastChatIDIndex = scalar @ChatIDs - 1;
+
+    ENTRIES:
+    while ( $IndexStart < scalar @ChatIDs ) {
+
+        # Set the upper limit.
+        my $IndexEnd = $IndexStart + $RowsPerLoop - 1;
+
+        if ( $IndexEnd > $LastChatIDIndex ) {
+            $IndexEnd = $LastChatIDIndex;
+        }
+
+        # Delete chat article data.
+        return if !$DBObject->Do(
+            SQL => '
+                DELETE
+                FROM article_data_mime
+                WHERE id IN (' . join( ', ', @ChatIDs[ $IndexStart .. $IndexEnd ] ) . ' )
+            ',
+        );
+
+        $IndexStart += $RowsPerLoop;
+    }
 
     return 1;
 }
@@ -397,13 +428,10 @@ sub _CheckChatArticles {
     # Check chat article data.
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT COUNT(id) FROM article_data_mime
-            WHERE
-                article_id IN (
-                    SELECT id
-                    FROM article
-                    WHERE communication_channel_id = ?
-                )
+            SELECT COUNT(at.id)
+            FROM article_data_mime adm
+                JOIN article at ON adm.article_id = at.id
+            WHERE at.communication_channel_id = ?
         ',
         Bind => [ \$Param{ChatChannelID} ],
     );
