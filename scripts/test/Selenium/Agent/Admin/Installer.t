@@ -12,9 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# TODO: Disable this test for now, until compatibility issues with CI infrastructure are fixed.
-return 1;
-
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # Use test database, if configured. Otherwise, skip this test. ProvideTestDatabase() will clean the test database and
