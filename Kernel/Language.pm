@@ -321,7 +321,7 @@ sub FormatTimeString {
         if (
             $Config ne 'DateFormatShort'
             && $Self->{TimeZone}
-            && $Self->{TimeZone} ne OTRSTimeZoneGet()
+            && $Self->{TimeZone} ne Kernel::System::DateTime->OTRSTimeZoneGet()
             )
         {
             return $ReturnString . " ($Self->{TimeZone})";
