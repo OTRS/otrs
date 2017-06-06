@@ -105,8 +105,7 @@ EOF
 
         # Compile the regex for checking if ivory skin file has been included. Some platforms might sort additional
         #   HTML attributes in unexpected order, therefore this check cannot be simple one.
-        my $ExpectedLinkedFile
-            = qr{<link .*? \s href="${WebPath}skins/Agent/ivory/css/Core.Default.css"}x;
+        my $ExpectedLinkedFile = qr{<link .*? \s href="${WebPath}skins/Agent/ivory/css/Core.Default.css"}x;
 
         # Link to ivory skin file should be present.
         $Self->True(
