@@ -485,6 +485,7 @@ for my $Test (@Tests) {
     if ( $Test->{Name} =~ m{(Deployed)} ) {
         delete $Setting{ChangeTime};
         delete $Setting{CreateTime};
+        delete $Setting{SettingUID};
         $Kernel::OM->Get('Kernel::System::Log')
             ->Dumper( 'N', $Test->{Name}, 'is', \%Setting, 'should', $Test->{ExpectedValue} );
     }
@@ -499,7 +500,9 @@ for my $Test (@Tests) {
     }
 
     # Remove not important attributes
-    for my $Attribute (qw(CreateTime ChangeTime ExclusiveLockGUID ExclusiveLockUserID ExclusiveLockExpiryTime IsDirty))
+    for my $Attribute (
+        qw(CreateTime ChangeTime ExclusiveLockGUID ExclusiveLockUserID ExclusiveLockExpiryTime IsDirty SettingUID)
+        )
     {
         delete $Setting{$Attribute};
     }
@@ -1357,7 +1360,7 @@ for my $Test (@Tests) {
 
     # Remove not important attributes
     for my $Attribute (
-        qw(ModifiedID CreateTime ChangeTime ExclusiveLockGUID ExclusiveLockUserID ExclusiveLockExpiryTime IsDirty)
+        qw(ModifiedID CreateTime ChangeTime ExclusiveLockGUID ExclusiveLockUserID ExclusiveLockExpiryTime IsDirty SettingUID)
         )
     {
         delete $Setting{$Attribute};

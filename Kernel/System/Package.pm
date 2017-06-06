@@ -636,6 +636,8 @@ sub PackageInstall {
             'DefaultSettingListGet',
             'DefaultSettingList',
             'SysConfigDefault',
+            'SysConfigSettingEffectiveValueCheck',
+            'SysConfigSettingEffectiveValues2PerlFile',
             'SysConfig_ConfigurationXML2DB',
         ],
     );
@@ -737,6 +739,8 @@ sub PackageReinstall {
             'DefaultSettingListGet',
             'DefaultSettingList',
             'SysConfigDefault',
+            'SysConfigSettingEffectiveValueCheck',
+            'SysConfigSettingEffectiveValues2PerlFile',
             'SysConfig_ConfigurationXML2DB',
         ],
     );
@@ -1159,6 +1163,8 @@ sub PackageUpgrade {
             'DefaultSettingListGet',
             'DefaultSettingList',
             'SysConfigDefault',
+            'SysConfigSettingEffectiveValueCheck',
+            'SysConfigSettingEffectiveValues2PerlFile',
             'SysConfig_ConfigurationXML2DB',
         ],
     );
@@ -1266,6 +1272,8 @@ sub PackageUninstall {
             'DefaultSettingListGet',
             'DefaultSettingList',
             'SysConfigDefault',
+            'SysConfigSettingEffectiveValueCheck',
+            'SysConfigSettingEffectiveValues2PerlFile',
             'SysConfig_ConfigurationXML2DB',
         ],
     );
@@ -3955,6 +3963,8 @@ sub _PackageUninstallMerged {
             'DefaultSettingListGet',
             'DefaultSettingList',
             'SysConfigDefault',
+            'SysConfigSettingEffectiveValueCheck',
+            'SysConfigSettingEffectiveValues2PerlFile',
             'SysConfig_ConfigurationXML2DB',
         ],
     );

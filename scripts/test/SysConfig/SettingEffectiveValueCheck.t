@@ -4271,8 +4271,10 @@ for my $Setting (@SettingList) {
     next SETTING if !$Setting->{IsValid};
 
     my %Result = $SysConfigObject->SettingEffectiveValueCheck(
+        SettingUID       => $Setting->{SettingUID},
         XMLContentParsed => $Setting->{XMLContentParsed},
         EffectiveValue   => $Setting->{EffectiveValue},
+        UseCache         => 1,
         UserID           => 1,
     );
 
@@ -4284,6 +4286,185 @@ for my $Setting (@SettingList) {
         },
         "Check EffectiveValue for $Setting->{Name}."
     );
+}
+
+# Cache tests
+@Tests = (
+    {
+        Description => 'Correct string',
+        Config      => {
+            XMLContentParsed => {
+                Value => [
+                    {
+                        Item => [
+                            {
+                                Content => 'string',
+
+                            },
+                        ],
+                    },
+                ],
+            },
+            EffectiveValue => 'another string',
+            SettingUID     => 'Test007',
+            UseCache       => 1,
+            UserID         => 1,
+        },
+        Success => 1,
+    },
+    {
+        Description => 'Correct priority',
+        Config      => {
+            XMLContentParsed => {
+                Value => [
+                    {
+                        Item => [
+                            {
+                                Content         => '3 normal',
+                                ValueEntityType => 'Priority',
+                                ValueType       => 'Entity',
+
+                            },
+                        ],
+                    },
+                ],
+            },
+            EffectiveValue => '2 low',
+            SettingUID     => 'Test123',
+            UseCache       => 1,
+            UserID         => 1,
+        },
+        EffectiveValueWrong => 'any string',
+        Success             => 1,
+    },
+    {
+        Description => 'Wrong SettingUID (but succeed)',    # this will succeed due the cache
+        Config      => {
+            XMLContentParsed => {
+                Value => [
+                    {
+                        Item => [
+                            {
+                                Content         => '3 normal',
+                                ValueEntityType => 'Priority',
+                                ValueType       => 'Entity',
+
+                            },
+                        ],
+                    },
+                ],
+            },
+            EffectiveValue => 'another string',
+            SettingUID     => 'Test007',
+            UseCache       => 1,
+            UserID         => 1,
+        },
+        Success => 1,
+    },
+    {
+        Description => 'Wrong priority Different SettingUID',
+        Config      => {
+            XMLContentParsed => {
+                Value => [
+                    {
+                        Item => [
+                            {
+                                Content         => '3 normal',
+                                ValueEntityType => 'Priority',
+                                ValueType       => 'Entity',
+
+                            },
+                        ],
+                    },
+                ],
+            },
+            EffectiveValue => 'another string',
+            SettingUID     => 'Test456',
+            UseCache       => 1,
+            UserID         => 1,
+        },
+        Success => 0,
+    },
+
+    {
+        Description => 'Correct priority with wrong SettingUID',    # this works because the values is new
+        Config      => {
+            XMLContentParsed => {
+                Value => [
+                    {
+                        Item => [
+                            {
+                                Content         => '3 normal',
+                                ValueEntityType => 'Priority',
+                                ValueType       => 'Entity',
+
+                            },
+                        ],
+                    },
+                ],
+            },
+            EffectiveValue => '2 low',
+            SettingUID     => 'Test456',
+            UseCache       => 1,
+            UserID         => 1,
+        },
+        Success => 1,
+    },
+
+    {
+        Description => 'Correct string',    # This fails due the cache
+        Config      => {
+            XMLContentParsed => {
+                Value => [
+                    {
+                        Item => [
+                            {
+                                Content => 'string',
+
+                            },
+                        ],
+                    },
+                ],
+            },
+            EffectiveValue => 'another string',
+            SettingUID     => 'Test456',
+            UseCache       => 1,
+            UserID         => 1,
+        },
+        Success => 0,
+    },
+);
+
+for my $Test (@Tests) {
+    my %Result = $SysConfigObject->SettingEffectiveValueCheck( %{ $Test->{Config} } );
+
+    $Self->Is(
+        $Result{Success},
+        $Test->{Success},
+        "$Test->{Description} SettingEffectiveValueCheck() result"
+    );
+
+    my %ResultCached = $SysConfigObject->SettingEffectiveValueCheck( %{ $Test->{Config} } );
+
+    $Self->IsDeeply(
+        \%ResultCached,
+        \%Result,
+        "$Test->{Description} SettingEffectiveValueCheck() result cached"
+    );
+
+    if ( $Test->{Success} && $Test->{EffectiveValueWrong} ) {
+        my %Result = $SysConfigObject->SettingEffectiveValueCheck(
+            %{ $Test->{Config} },
+            EffectiveValue => $Test->{EffectiveValueWrong}
+        );
+
+        $Self->Is(
+            $Result{Success},
+            0,
+            "$Test->{Description} SettingEffectiveValueCheck() result (with wrong value)",
+        );
+
+    }
 }
 
 1;

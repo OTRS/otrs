@@ -1253,12 +1253,13 @@ for my $Test (@Tests) {
     if ($Result) {
         my @DefaultSettingList = $Kernel::OM->Get('Kernel::System::SysConfig::DB')->DefaultSettingListGet();
 
-        # Delete settings that are always different
+        # Delete setting attributes that are always different
         for my $Setting (@DefaultSettingList) {
             delete $Setting->{CreateTime};
             delete $Setting->{ChangeTime};
             delete $Setting->{DefaultID};
             delete $Setting->{ExclusiveLockExpiryTime};
+            delete $Setting->{SettingUID},
         }
 
         $Self->Is(

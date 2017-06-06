@@ -257,7 +257,7 @@ sub SettingGet {
             ATTRIBUTE:
             for my $Attribute (
                 qw(ModifiedID IsValid UserModificationActive EffectiveValue IsDirty
-                CreateTime CreateBy ChangeTime ChangeBy
+                CreateTime CreateBy ChangeTime ChangeBy SettingUID
                 )
                 )
             {
@@ -708,20 +708,20 @@ Calculate effective value for a given parsed XML structure.
     my $Result = $SysConfigObject->SettingEffectiveValueGet(
         Translate => 1,                      # (optional) Translate translatable strings. Default 0.
         Value  => [                          # (required) parsed XML structure
-          {
-            'Item' => [
-                {
-                    'ValueType' => 'String',
-                    'Content' => '3600',
-                    'ValueRegex' => ''
-                },
-            ],
-          },
-        Objects => {
-            Select => { ... },
-            PerlModule => { ... },
-            ...
-        }
+            {
+                'Item' => [
+                    {
+                        'ValueType' => 'String',
+                        'Content' => '3600',
+                        'ValueRegex' => ''
+                    },
+                ],
+            },
+            Objects => {
+                Select => { ... },
+                PerlModule => { ... },
+                # ...
+            }
         ];
     );
 
@@ -1192,8 +1192,10 @@ Check if provided EffectiveValue matches structure defined in DefaultSetting. Al
                 },
             ],
         },
-        NoValidation          => 1,    # (optional) no value type validation.
-        UserID                => 1,    # (required) UserID
+        UseCache              => 1,
+        SettingUID            => 'Default1234'  # (required if UseCache)
+        NoValidation          => 1,             # (optional) no value type validation.
+        UserID                => 1,             # (required) UserID
     );
 
 Returns:
@@ -1221,6 +1223,44 @@ sub SettingEffectiveValueCheck {
 
     $Param{EffectiveValue} //= '';
     $Param{NoValidation}   //= 0;
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheType = 'SysConfigSettingEffectiveValueCheck';
+    my $CacheKey  = 'EffectiveValueCheck';
+
+    if ( $Param{UseCache} ) {
+
+        if ( !$Param{SettingUID} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need SettingUID!"
+            );
+            return;
+        }
+
+        my $MainObject     = $Kernel::OM->Get('Kernel::System::Main');
+        my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+
+        my $ValueString = $Param{EffectiveValue};
+        if ( ref $ValueString ) {
+            my $String = $StorableObject->Serialize(
+                Data => $Param{EffectiveValue},
+            );
+            $ValueString = $MainObject->MD5sum(
+                String => \$String,
+            );
+        }
+
+        $CacheKey .= "$Param{SettingUID}::${ValueString}::$Param{NoValidation}";
+
+        my $Cache = $CacheObject->Get(
+            Type => $CacheType,
+            Key  => $CacheKey,
+        );
+
+        return %{$Cache} if ref $Cache eq 'HASH';
+    }
 
     my %Result = (
         Success => 0,
@@ -1693,6 +1733,16 @@ sub SettingEffectiveValueCheck {
 
     if ( $Result{Success} ) {
         $Result{EffectiveValue} = $Param{EffectiveValue};
+    }
+
+    if ( $Param{UseCache} ) {
+
+        $CacheObject->Set(
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            Value => \%Result,
+            TTL   => 20 * 24 * 60 * 60,
+        );
     }
 
     return %Result;
@@ -2274,27 +2324,13 @@ sub ConfigurationXML2DB {
 
     my $CleanUpNeeded;
 
-    my @DefaultSettings = $SysConfigDBObject->DefaultSettingList();
-
     # Create/Update settings in DB.
     SETTING:
     for my $SettingName ( sort keys %Settings ) {
 
         # Check if exists.
-        my %SettingData;
-
-        my ($SettingExisting) = grep { $_->{Name} eq $SettingName } @DefaultSettings;
-        if ( IsHashRefWithData($SettingExisting) ) {
-            %SettingData = %{$SettingExisting};
-        }
-
-        # Create a local clone of the value to prevent any modification.
-        my $Value = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
-            Data => $Settings{$SettingName}->{XMLContentParsed}->{Value},
-        );
-
-        my $EffectiveValue = $Self->SettingEffectiveValueGet(
-            Value => $Value,
+        my %SettingData = $SysConfigDBObject->DefaultSettingGet(
+            Name => $SettingName,
         );
 
         if (%SettingData) {
@@ -2318,6 +2354,15 @@ sub ConfigurationXML2DB {
                 );
                 next SETTING;
             }
+
+            # Create a local clone of the value to prevent any modification.
+            my $Value = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
+                Data => $Settings{$SettingName}->{XMLContentParsed}->{Value},
+            );
+
+            my $EffectiveValue = $Self->SettingEffectiveValueGet(
+                Value => $Value,
+            );
 
             # Update default setting.
             my $Success = $SysConfigDBObject->DefaultSettingUpdate(
@@ -2365,6 +2410,8 @@ sub ConfigurationXML2DB {
                 my %ValueCheckResult = $Self->SettingEffectiveValueCheck(
                     EffectiveValue   => $ModifiedSetting->{EffectiveValue},
                     XMLContentParsed => $Settings{$SettingName}->{XMLContentParsed},
+                    SettingUID       => $ModifiedSetting->{SettingUID},
+                    UseCache         => 1,
                     UserID           => $Param{UserID},
                 );
 
@@ -2382,6 +2429,15 @@ sub ConfigurationXML2DB {
             }
         }
         else {
+
+            # Create a local clone of the value to prevent any modification.
+            my $Value = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
+                Data => $Settings{$SettingName}->{XMLContentParsed}->{Value},
+            );
+
+            my $EffectiveValue = $Self->SettingEffectiveValueGet(
+                Value => $Value,
+            );
 
             # Create default setting.
             my $DefaultID = $SysConfigDBObject->DefaultSettingAdd(
@@ -2717,7 +2773,7 @@ sub ConfigurationListGet {
         # Update setting attributes.
         ATTRIBUTE:
         for my $Attribute (
-            qw(ModifiedID IsValid UserModificationActive UserPreferencesGroup EffectiveValue IsDirty ChangeTime XMLContentParsed)
+            qw(ModifiedID IsValid UserModificationActive UserPreferencesGroup EffectiveValue IsDirty ChangeTime XMLContentParsed SettingUID)
             )
         {
             next ATTRIBUTE if !defined $ModifiedSetting{$Attribute};
@@ -2985,6 +3041,8 @@ sub ConfigurationDeploy {
             XMLContentParsed => $CurrentSetting->{XMLContentParsed},
             EffectiveValue   => $CurrentSetting->{EffectiveValue},
             NoValidation     => $Param{NoValidation} //= 0,
+            UseCache         => 1,
+            SettingUID       => $CurrentSetting->{SettingUID},
             UserID           => $Param{UserID},
         );
 
@@ -4573,6 +4631,9 @@ sub _EffectiveValues2PerlFile {
 
     my $PerlHashStrg;
 
+    my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+    my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
+
     # Convert all settings from DB format to perl file.
     for my $Setting ( @{ $Param{Settings} } ) {
 
@@ -4583,9 +4644,40 @@ sub _EffectiveValues2PerlFile {
 
         if ( $Setting->{IsValid} ) {
 
-            my $EffectiveValue = $MainObject->Dump( $Setting->{EffectiveValue} );
-            $EffectiveValue =~ s/\$VAR1 =//;
+            my $EffectiveValue;
 
+            my $ValueString = $Setting->{EffectiveValue} // '';
+            if ( ref $ValueString ) {
+                my $String = $StorableObject->Serialize(
+                    Data => $Setting->{EffectiveValue},
+                );
+                $ValueString = $MainObject->MD5sum(
+                    String => \$String,
+                );
+            }
+
+            my $CacheType = 'SysConfigSettingEffectiveValues2PerlFile';
+            my $CacheKey  = "Value::$ValueString";
+
+            my $Cache = $CacheObject->Get(
+                Type => $CacheType,
+                Key  => $CacheKey,
+            );
+            if ( ref $Cache eq 'SCALAR' ) {
+                $EffectiveValue = ${$Cache};
+            }
+            else {
+                $EffectiveValue = $MainObject->Dump( $Setting->{EffectiveValue} );
+
+                $CacheObject->Set(
+                    Type  => $CacheType,
+                    Key   => $CacheKey,
+                    Value => \$EffectiveValue,
+                    TTL   => 20 * 24 * 60 * 60,
+                );
+            }
+
+            $EffectiveValue =~ s/\$VAR1 =//;
             $PerlHashStrg .= "\$Self->{'$Name'} = $EffectiveValue";
         }
         elsif ( eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) ) {

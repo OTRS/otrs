@@ -279,6 +279,7 @@ Returns:
         CreateBy                 => 1,
         ChangeTime               => "2016-05-29 11:04:04",
         ChangeBy                 => 1,
+        SettingUID               => 'Default12320160529110404',
     );
 
 =cut
@@ -350,6 +351,9 @@ sub DefaultSettingGet {
         my $XMLContentParsed = $YAMLObject->Load( Data => $Data[13] );
         my $EffectiveValue   = $YAMLObject->Load( Data => $Data[15] );
 
+        my $TimeStamp = $Data[22];
+        $TimeStamp =~ s{:|-|[ ]}{}gmsx;
+
         %DefaultSetting = (
             DefaultID                => $Data[0],
             Name                     => $Data[1],
@@ -375,6 +379,7 @@ sub DefaultSettingGet {
             CreateBy                 => $Data[21],
             ChangeTime               => $Data[22],
             ChangeBy                 => $Data[23],
+            SettingUID               => "Default$Data[0]$TimeStamp",
         );
     }
 
@@ -2473,6 +2478,7 @@ Returns:
         CreateBy               => 1,
         ChangeTime             => "2016-05-29 11:04:04",
         ChangeBy               => 1,
+        SettingUID             => 'Modified12320160529110404',
     );
 
 =cut
@@ -2582,6 +2588,9 @@ sub ModifiedSettingGet {
         # De-serialize modified data.
         my $EffectiveValue = $YAMLObject->Load( Data => $Data[6] );
 
+        my $TimeStamp = $Data[11];
+        $TimeStamp =~ s{:|-|[ ]}{}gmsx;
+
         %ModifiedSetting = (
             ModifiedID             => $Data[0],
             DefaultID              => $Data[1],
@@ -2596,6 +2605,7 @@ sub ModifiedSettingGet {
             CreateBy               => $Data[10],
             ChangeTime             => $Data[11],
             ChangeBy               => $Data[12],
+            SettingUID             => "Modified$Data[0]$TimeStamp",
         );
     }
 
