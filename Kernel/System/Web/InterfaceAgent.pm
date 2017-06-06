@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::Language qw(Translatable);
-use Kernel::System::DateTime qw(:all);
+use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -370,7 +370,7 @@ sub Run {
         );
 
         # get time zone
-        my $UserTimeZone = $UserData{UserTimeZone} || UserDefaultTimeZoneGet();
+        my $UserTimeZone = $UserData{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet();
         $SessionObject->UpdateSessionID(
             SessionID => $NewSessionID,
             Key       => 'UserTimeZone',

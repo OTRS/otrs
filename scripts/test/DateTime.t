@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::DateTime qw(SystemTimeZoneGet);
+use Kernel::System::DateTime;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -479,7 +479,7 @@ for my $TestConfig (@TestConfigs) {
 #
 my $ExpectedSystemTimeZone = 'Europe/Berlin';
 $ENV{TZ} = $ExpectedSystemTimeZone;
-my $SystemTimeZone = SystemTimeZoneGet();
+my $SystemTimeZone = Kernel::System::DateTime->SystemTimeZoneGet();
 
 $Self->Is(
     $SystemTimeZone,

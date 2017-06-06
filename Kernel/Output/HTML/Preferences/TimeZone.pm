@@ -12,7 +12,7 @@ use strict;
 use warnings;
 
 use Kernel::Language qw(Translatable);
-use Kernel::System::DateTime qw(:all);
+use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -38,8 +38,8 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     my $PreferencesKey      = $Self->{ConfigItem}->{PrefKey};
-    my $UserDefaultTimeZone = UserDefaultTimeZoneGet();
-    my $TimeZones           = TimeZoneList();
+    my $UserDefaultTimeZone = Kernel::System::DateTime->UserDefaultTimeZoneGet();
+    my $TimeZones           = Kernel::System::DateTime->TimeZoneList();
     my %TimeZones           = map { $_ => $_ } sort @{$TimeZones};
     my $SelectedTimeZone    = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $PreferencesKey )
         || $Param{UserData}->{$PreferencesKey}

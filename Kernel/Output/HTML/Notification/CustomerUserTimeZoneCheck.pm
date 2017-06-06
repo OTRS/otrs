@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use Kernel::Language qw(Translatable);
-use Kernel::System::DateTime qw(:all);
+use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -37,8 +37,8 @@ sub Run {
 
     # If OTRSTimeZone and UserDefaultTimeZone match and are not set to UTC, don't show a notification,
     # because in this case it almost certainly means that only this time zone is relevant.
-    my $OTRSTimeZone        = OTRSTimeZoneGet();
-    my $UserDefaultTimeZone = UserDefaultTimeZoneGet();
+    my $OTRSTimeZone        = Kernel::System::DateTime->OTRSTimeZoneGet();
+    my $UserDefaultTimeZone = Kernel::System::DateTime->UserDefaultTimeZoneGet();
     return '' if $OTRSTimeZone eq $UserDefaultTimeZone && $OTRSTimeZone ne 'UTC';
 
     # show notification to set time zone

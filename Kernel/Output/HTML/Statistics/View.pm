@@ -16,7 +16,7 @@ use warnings;
 use List::Util qw( first );
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::DateTime qw( OTRSTimeZoneGet TimeZoneList );
+use Kernel::System::DateTime;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -184,7 +184,7 @@ sub StatsParamsWidget {
     if ( $Stat->{StatType} eq 'dynamic' ) {
         my $SelectedTimeZone = $LocalGetParam->( Param => 'TimeZone' )
             // $Stat->{TimeZone}
-            // OTRSTimeZoneGet();
+            // Kernel::System::DateTime->OTRSTimeZoneGet();
 
         my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
 
@@ -807,7 +807,7 @@ sub GeneralSpecificationsWidget {
                 UserID => $Param{UserID}
             );
             $SelectedTimeZone = $UserPreferences{UserTimeZone}
-                // OTRSTimeZoneGet();
+                // Kernel::System::DateTime->OTRSTimeZoneGet();
         }
 
         my %TimeZoneBuildSelection = $Self->_TimeZoneBuildSelection();
@@ -2316,7 +2316,7 @@ sub _TimeScaleYAxis {
 sub _TimeZoneBuildSelection {
     my ( $Self, %Param ) = @_;
 
-    my $TimeZones = TimeZoneList();
+    my $TimeZones = Kernel::System::DateTime->TimeZoneList();
 
     my %TimeZoneBuildSelection = (
         Data => { map { $_ => $_ } @{$TimeZones} },

@@ -11,7 +11,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
-use Kernel::System::DateTime qw(:all);
+use Kernel::System::DateTime;
 use Kernel::System::Email;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 use Kernel::Language qw(Translatable);
@@ -368,7 +368,7 @@ sub Run {
         );
 
         # get time zone
-        my $UserTimeZone = $UserData{UserTimeZone} || UserDefaultTimeZoneGet();
+        my $UserTimeZone = $UserData{UserTimeZone} || Kernel::System::DateTime->UserDefaultTimeZoneGet();
         $SessionObject->UpdateSessionID(
             SessionID => $NewSessionID,
             Key       => 'UserTimeZone',
