@@ -349,6 +349,54 @@ $Self->Is(
     "Merged ticket accounted time",
 );
 
+my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+my $QueueRand   = 'Some::Queue' . $Helper->GetRandomID();
+my $NewQueueID  = $QueueObject->QueueAdd(
+    Name            => $QueueRand,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    UserID          => 1,
+    Comment         => 'Some Comment',
+);
+
+$Self->True(
+    $QueueID,
+    "QueueAdd() - $QueueRand, $QueueID",
+);
+
+for my $Index ( 1 .. 3 ) {
+    $TicketID = $TicketObject->TicketCreate(
+        Title        => 'Some Ticket_Title - ticket index accelerator tests',
+        QueueID      => $NewQueueID,
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        State        => 'open',
+        CustomerNo   => '123465',
+        CustomerUser => 'customer@example.com',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    $Self->True(
+        $TicketID,
+        "TicketCreate() - unlock - open - new Queue",
+    );
+
+    sleep($Index);
+}
+%IndexNow = $TicketObject->TicketAcceleratorIndex(
+    UserID        => 1,
+    QueueID       => [ 1, 2, 3, 4, 5, $NewQueueID ],
+    ShownQueueIDs => [ 1, 2, 3, 4, 5, $NewQueueID ],
+);
+
+$Self->True(
+    $IndexNow{MaxAge},
+    "TicketAcceleratorIndex() - there is MaxAge",
+);
+
 # cleanup is done by RestoreDatabase.
 
 1;

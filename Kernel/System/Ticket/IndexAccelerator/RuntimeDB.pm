@@ -228,7 +228,7 @@ sub TicketAcceleratorIndex {
 
             $QueueData->{Count} += $Count;
 
-            my $MaxAge = $DateTimeObject->ToString() - $Row[2];
+            my $MaxAge = $DateTimeObject->ToEpoch() - $Row[2];
             $QueueData->{MaxAge} = $MaxAge if $MaxAge > $QueueData->{MaxAge};
 
             # get the oldest queue id
