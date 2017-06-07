@@ -1405,6 +1405,7 @@ sub TicketSearch {
                     my $ValidateSuccess = $DynamicFieldBackendObject->ValueValidate(
                         DynamicFieldConfig => $DynamicField,
                         Value              => $Text,
+                        NoValidateRegex    => 1,
                         UserID             => $Param{UserID} || 1,
                     );
                     if ( !$ValidateSuccess ) {
