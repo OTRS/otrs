@@ -12,7 +12,7 @@
 [% RenderBlockStart("ContentLargeTicketQueueOverviewHeaderStatus") %]
             <th>[% Translate(Data.Text) | html %]</th>
 [% RenderBlockEnd("ContentLargeTicketQueueOverviewHeaderStatus") %]
-            <th class="QueueOverviewTotals">[% Translate("Totals") | html %]</th>
+            <th class="QueueOverviewTotals">[% Translate("Total") | html %]</th>
         </tr>
     </thead>
     <tbody>
@@ -29,7 +29,7 @@
 [% RenderBlockEnd("ContentLargeTicketQueueOverviewQueueName") %]
 [% RenderBlockStart("ContentLargeTicketQueueOverviewStatusTotalRow") %]
         <tr class="Row">
-            <td class="QueueOverviewTotals">[% Translate("Totals") | html %]</td>
+            <td class="QueueOverviewTotals">[% Translate("Total") | html %]</td>
 [% RenderBlockStart("ContentLargeTicketQueueOverviewStatusTotal") %]
             <td class="QueueOverviewTotals"><a class="AsBlock" href="[% Env("Baselink") %]Action=AgentTicketSearch;Subaction=Search;[% Env("ChallengeTokenParam") | html %];StateIDs=[% Data.StateID | uri %];[% Data.QueueIDs | html %];[% Data.Sort | html %]">[% Translate(Data.Number) | html %]</a></td>
 [% RenderBlockEnd("ContentLargeTicketQueueOverviewStatusTotal") %]
