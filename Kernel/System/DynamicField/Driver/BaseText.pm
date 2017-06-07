@@ -80,9 +80,15 @@ sub ValueValidate {
         UserID => $Param{UserID}
     );
 
+    my $CheckRegex = 1;
+    if ( defined $Param{NoValidateRegex} && $Param{NoValidateRegex} ) {
+        $CheckRegex = 0;
+    }
+
     if (
         IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
         && IsStringWithData( $Param{Value} )
+        && $CheckRegex
         )
     {
         # check regular expressions
