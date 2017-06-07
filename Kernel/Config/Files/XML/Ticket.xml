@@ -107,7 +107,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Type" Required="1" Valid="1">
-        <Description Translatable="1">Allows defining new types for ticket (if ticket type feature is enabled).</Description>
+        <Description Translatable="1">Enables ticket type feature.</Description>
         <Navigation>Core::Ticket</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
