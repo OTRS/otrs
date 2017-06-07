@@ -211,7 +211,7 @@
                                 [% Translate("Your system will send updates to the registration server at regular intervals.") | html %] [% Translate("Typically this would be around once every three days.") | html %]
                             </p>
                             <p>
-                                [% Translate("In case you would have further questions we would be glad to answer them.") | html %] [% Translate("Please visit our") | html %] <a href="https://portal.otrs.com/" target="_blank">[% Translate("portal") | html %]</a> [% Translate("and file a request.") | html %]
+                                [% Translate("In case you would have further questions we would be glad to answer them.") | html %] [% Translate("Please visit our customer portal and file a request.") | html %]
                             </p>
                         </div>
                     </div>
