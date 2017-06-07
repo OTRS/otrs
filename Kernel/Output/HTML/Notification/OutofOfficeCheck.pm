@@ -15,7 +15,6 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::System::User',
-    'Kernel::System::Time',
     'Kernel::Output::HTML::Layout',
 );
 

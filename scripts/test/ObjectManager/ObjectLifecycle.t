@@ -12,6 +12,8 @@ use vars (qw($Self));
 
 use Scalar::Util qw/weaken/;
 
+## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::TimeObject)
+
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();

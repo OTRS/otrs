@@ -118,6 +118,7 @@ $Self->False(
     'Delta calculation with invalid DateTime object must fail.',
 );
 
+## nofilter(TidyAll::Plugin::OTRS::Migrations::OTRS6::TimeObject)
 $Delta = $DateTimeObject->Delta( DateTimeObject => $Kernel::OM->Get('Kernel::System::Time') );
 $Self->False(
     $Delta,

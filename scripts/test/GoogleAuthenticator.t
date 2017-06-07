@@ -210,11 +210,6 @@ for my $Test (@Tests) {
             Key   => 'OTRSTimeZone',
             Value => $CurrentConfig{TimeZone},
         );
-
-        # a different timezone config requires a new time object
-        $Kernel::OM->ObjectsDiscard(
-            Objects => ['Kernel::System::Time'],
-        );
     }
 
     # update config if necessary

@@ -27,8 +27,8 @@ $Self->True(
 );
 
 $Self->False(
-    exists $Kernel::OM->{Objects}->{'Kernel::System::Time'},
-    'Kernel::System::Time was not loaded yet',
+    exists $Kernel::OM->{Objects}->{'Kernel::System::Valid'},
+    'Kernel::System::Valid was not loaded yet',
 );
 
 $Self->False(
@@ -36,16 +36,16 @@ $Self->False(
     'Kernel::System::Log was not loaded yet',
 );
 
-$Kernel::OM->Get('Kernel::System::Time');
+$Kernel::OM->Get('Kernel::System::Valid');
 
 $Self->True(
-    exists $Kernel::OM->{Objects}->{'Kernel::System::Time'},
-    'Kernel::System::Time was loaded',
+    exists $Kernel::OM->{Objects}->{'Kernel::System::Valid'},
+    'Kernel::System::Valid was loaded',
 );
 
 $Self->False(
     exists $Kernel::OM->{Objects}->{'Kernel::System::Log'},
-    'Kernel::System::Log is a dependency of Kernel::System::Time, but was not yet loaded',
+    'Kernel::System::Log is a dependency of Kernel::System::Valid, but was not yet loaded',
 );
 
 1;
