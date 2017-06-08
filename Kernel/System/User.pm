@@ -1246,38 +1246,31 @@ sub _UserCacheClear {
         return;
     }
 
-    # get configuration for the full name order
-    my $FirstnameLastNameOrder = $Kernel::OM->Get('Kernel::Config')->Get('FirstnameLastnameOrder') || 0;
-
-    # create cachekey
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
-    my @CacheKeys = (
-        'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::0',
-        'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::1',
-        'GetUserData::User::' . $Login . '::1::' . $FirstnameLastNameOrder . '::0',
-        'GetUserData::User::' . $Login . '::1::' . $FirstnameLastNameOrder . '::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::1',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::0',
-        'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::1',
-        'UserList::Short::0::' . $FirstnameLastNameOrder . '::0',
-        'UserList::Short::0::' . $FirstnameLastNameOrder . '::1',
-        'UserList::Short::1::' . $FirstnameLastNameOrder . '::0',
-        'UserList::Short::1::' . $FirstnameLastNameOrder . '::1',
-        'UserList::Long::0::' . $FirstnameLastNameOrder . '::0',
-        'UserList::Long::0::' . $FirstnameLastNameOrder . '::1',
-        'UserList::Long::1::' . $FirstnameLastNameOrder . '::0',
-        'UserList::Long::1::' . $FirstnameLastNameOrder . '::1',
-        'UserLookup::ID::' . $Login,
-        'UserLookup::Login::' . $Param{UserID},
-    );
 
-    # get cache object
+    my @CacheKeys;
+
+    # Delete cache for all possible FirstnameLastNameOrder settings as this might be overridden by users.
+    for my $FirstnameLastNameOrder ( 0 .. 8 ) {
+        for my $ActiveLevel1 ( 0 .. 1 ) {
+            for my $ActiveLevel2 ( 0 .. 1 ){
+                push @CacheKeys, (
+                    "GetUserData::User::${Login}::${ActiveLevel1}::${FirstnameLastNameOrder}::${ActiveLevel2}",
+                    "GetUserData::UserID::$Param{UserID}::${ActiveLevel1}::${FirstnameLastNameOrder}::${ActiveLevel2}",
+                    "UserList::Short::${ActiveLevel1}::${FirstnameLastNameOrder}::${ActiveLevel2}",
+                    "UserList::Long::${ActiveLevel1}::${FirstnameLastNameOrder}::${ActiveLevel2}",
+                );
+            }
+        }
+        push @CacheKeys, (
+            'UserLookup::ID::' . $Login,
+            'UserLookup::Login::' . $Param{UserID},
+        );
+    }
+
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # delete cache
     for my $CacheKey (@CacheKeys) {
-
         $CacheObject->Delete(
             Type => $Self->{CacheType},
             Key  => $CacheKey,
