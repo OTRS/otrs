@@ -542,12 +542,12 @@ sub DefaultSettingDelete {
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _ConfigurationTranslatedGet.
+    # Clean cache for _SettingTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigConfigurationTranslatedGet',
-            Key  => "_ConfigurationTranslatedGet::$Language" . "::$DefaultSetting{Name}",
+            Type => 'SysConfigSettingTranslatedGet',
+            Key  => "SettingTranslatedGet::$Language" . "::$DefaultSetting{Name}",
         );
     }
 
@@ -721,12 +721,12 @@ sub DefaultSettingUpdate {
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _ConfigurationTranslatedGet.
+    # Clean cache for _SettingTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigConfigurationTranslatedGet',
-            Key  => "_ConfigurationTranslatedGet::$Language" . "::$DefaultSetting{Name}",
+            Type => 'SysConfigSettingTranslatedGet',
+            Key  => "SettingTranslatedGet::$Language" . "::$DefaultSetting{Name}",
         );
     }
 
@@ -2424,12 +2424,12 @@ sub ModifiedSettingAdd {
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _ConfigurationTranslatedGet.
+    # Clean cache for _SettingTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigConfigurationTranslatedGet',
-            Key  => "_ConfigurationTranslatedGet::$Language" . "::$Param{Name}",
+            Type => 'SysConfigSettingTranslatedGet',
+            Key  => "SettingTranslatedGet::$Language" . "::$Param{Name}",
         );
     }
 
@@ -2869,12 +2869,12 @@ sub ModifiedSettingDelete {
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _ConfigurationTranslatedGet.
+    # Clean cache for _SettingTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigConfigurationTranslatedGet',
-            Key  => "_ConfigurationTranslatedGet::$Language" . "::$ModifiedSetting{Name}",
+            Type => 'SysConfigSettingTranslatedGet',
+            Key  => "SettingTranslatedGet::$Language" . "::$ModifiedSetting{Name}",
         );
     }
 
@@ -3054,12 +3054,12 @@ sub ModifiedSettingUpdate {
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _ConfigurationTranslatedGet.
+    # Clean cache for _SettingTranslatedGet.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigConfigurationTranslatedGet',
-            Key  => "_ConfigurationTranslatedGet::$Language" . "::$Param{Name}",
+            Type => 'SysConfigSettingTranslatedGet',
+            Key  => "SettingTranslatedGet::$Language" . "::$Param{Name}",
         );
     }
 

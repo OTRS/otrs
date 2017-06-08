@@ -1892,7 +1892,7 @@ sub ConfigurationTranslatedGet {
 
     for my $Setting (@SettingList) {
 
-        my %SettingTranslated = $Self->_ConfigurationTranslatedGet(
+        my %SettingTranslated = $Self->_SettingTranslatedGet(
             Language => $LanguageObject->{UserLanguage},
             Name     => $Setting->{Name},
         );
@@ -5078,11 +5078,11 @@ sub _HandleSettingsToDeploy {
     return 1;
 }
 
-=head2 _ConfigurationTranslatedGet()
+=head2 _SettingTranslatedGet()
 
 Helper method for ConfigurationTranslatedGet().
 
-    my %Result = $SysConfigObject->_ConfigurationTranslatedGet(
+    my %Result = $SysConfigObject->_SettingTranslatedGet(
         Language => 'de',               # (required) User language
         Name     => 'SettingName',      # (required) Setting name
         Silent   => 1,                  # (optional) Default 1
@@ -5100,7 +5100,7 @@ Cache-Zeit in Sekunden f\x{fc}r Datenbank ACL-Backends.",
 
 =cut
 
-sub _ConfigurationTranslatedGet {
+sub _SettingTranslatedGet {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
@@ -5116,8 +5116,8 @@ sub _ConfigurationTranslatedGet {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = 'SysConfigConfigurationTranslatedGet';
-    my $CacheKey  = "_ConfigurationTranslatedGet::$Param{Language}::$Param{Name}";
+    my $CacheType = 'SysConfigSettingTranslatedGet';
+    my $CacheKey  = "SettingTranslatedGet::$Param{Language}::$Param{Name}";
 
     # Return cache.
     my $Cache = $CacheObject->Get(
