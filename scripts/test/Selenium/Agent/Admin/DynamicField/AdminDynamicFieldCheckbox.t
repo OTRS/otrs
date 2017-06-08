@@ -147,9 +147,6 @@ $Selenium->RunTest(
                 "#DefaultValue updated value",
             );
 
-            # go back to AdminDynamicField screen
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
-
             # delete DynamicFields
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
             my $DynamicField       = $DynamicFieldObject->DynamicFieldGet(
@@ -165,6 +162,9 @@ $Selenium->RunTest(
                 $Success,
                 "DynamicFieldDelete() - $RandomID"
             );
+
+            # Go back to AdminDynamicField screen.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
         }
 

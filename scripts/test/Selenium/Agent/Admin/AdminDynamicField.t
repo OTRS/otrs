@@ -39,14 +39,16 @@ my $CheckBredcrumb = sub {
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        # Get needed objects.
+        my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
 
         my %DynamicFieldsOverviewPageShownSysConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
             Name => 'PreferencesGroups###DynamicFieldsOverviewPageShown',
         );
 
-        # show more dynamic fields per page as the default value
+        # Show more dynamic fields per page as the default value.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'PreferencesGroups###DynamicFieldsOverviewPageShown',
@@ -56,7 +58,7 @@ $Selenium->RunTest(
             },
         );
 
-        # create test user and login
+        # Create test user and login.
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => ['admin'],
@@ -69,33 +71,33 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
+        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminDynamiFied screen
+        # Navigate to AdminDynamiField screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-        # get language object
+        # Get language object.
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => $Language,
         );
 
-        # check overview AdminDynamicField
+        # Check overview AdminDynamicField.
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->True(
             $Selenium->find_element( '.BreadCrumb', 'css' ),
             "Breadcrumb is found on Overview screen.",
         );
 
-        # define variables for breadcrumb
+        # Define variables for breadcrumb.
         my $OverviewTitleBreadcrumb = $LanguageObject->Translate('Dynamic Fields Management');
         my $IDText;
 
-        # check page
+        # Check page.
         for my $Type (
             qw(Ticket Article)
             )
@@ -108,16 +110,16 @@ $Selenium->RunTest(
                 my $Element = $Selenium->find_element( "#$ObjectType option[value=$ID]", 'css' );
                 $Element->is_enabled();
 
-                # create a real test DynamicField
+                # Create a real test DynamicField.
                 my $RandomID = $Helper->GetRandomID();
                 $Selenium->execute_script(
                     "\$('#$ObjectType').val('$ID').trigger('redraw.InputField').trigger('change');"
                 );
 
-                # wait until page has finished loading
+                # Wait until page has finished loading.
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
 
-                # modify names in two cases
+                # Modify names in two cases.
                 if ( $ID eq 'DateTime' ) {
                     $IDText = 'Date / Time';
                 }
@@ -128,7 +130,7 @@ $Selenium->RunTest(
                     $IDText = $ID;
                 }
 
-                # check breadcrumb on Add screen
+                # Check breadcrumb on Add screen.
                 $CheckBredcrumb->(
                     OverviewTitle  => $OverviewTitleBreadcrumb,
                     BreadcrumbText => $LanguageObject->Translate($Type) . ': '
@@ -140,16 +142,16 @@ $Selenium->RunTest(
                 $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
                 $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
-                # check if test DynamicField show on AdminDynamicField screen
+                # Check if test DynamicField show on AdminDynamicField screen.
                 $Self->True(
                     index( $Selenium->get_page_source(), $RandomID ) > -1,
                     "$RandomID $ID $Type DynamicField found on page",
                 );
 
-                # go to new DynamicField again
+                # Go to new DynamicField again.
                 $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
-                # check breadcrumb on Edit screen
+                # Check breadcrumb on Edit screen.
                 $CheckBredcrumb->(
                     OverviewTitle => $OverviewTitleBreadcrumb,
                     BreadcrumbText =>
@@ -164,7 +166,7 @@ $Selenium->RunTest(
                 $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
                 $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
 
-                # check class of invalid DynamicField in the overview table
+                # Check class of invalid DynamicField in the overview table.
                 $Self->True(
                     $Selenium->execute_script(
                         "return \$('tr.Invalid td a:contains($RandomID)').length"
@@ -172,10 +174,10 @@ $Selenium->RunTest(
                     "There is a class 'Invalid' for test DynamicField",
                 );
 
-                # go to new DynamicField again after update and check values
+                # Go to new DynamicField again after update and check values.
                 $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
 
-                # check new DynamicField values
+                # Check new DynamicField values.
                 $Self->Is(
                     $Selenium->find_element( '#Name', 'css' )->get_value(),
                     $RandomID,
@@ -194,12 +196,12 @@ $Selenium->RunTest(
 
                 $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-                # delete DynamicFields, check button for deleting Dynamic Field
-                my $DynamicFieldID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+                # Delete DynamicFields, check button for deleting Dynamic Field.
+                my $DynamicFieldID = $DynamicFieldObject->DynamicFieldGet(
                     Name => $RandomID
                 )->{ID};
 
-                # click on delete icon
+                # Click on delete icon.
                 my $CheckConfirmJSBlock = <<"JAVASCRIPT";
 (function () {
     var lastConfirm = undefined;
@@ -253,10 +255,10 @@ JAVASCRIPT
                     JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 0;'
                 );
 
-                # navigate to AdminDynamicField screen
+                # Navigate to AdminDynamicField screen.
                 $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-                # check if dynamic filed is deleted
+                # Check if dynamic filed is deleted.
                 my $Success;
                 eval {
                     $Success = $Selenium->find_element( $RandomID, 'link_text' )->is_displayed();
@@ -269,9 +271,105 @@ JAVASCRIPT
 
             }
 
-            # make sure the cache is correct
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
+            # Make sure the cache is correct.
+            $CacheObject->CleanUp( Type => "DynamicField" );
         }
+
+        # Test MaxOrder default value.
+        # It could not be matter from which page creation of dynamic field starts - default value of
+        # field order must be always the first next number of all fields (see bug#10681).
+        my $RandomNumber = $Helper->GetRandomNumber();
+        my @TestDynamicFieldIDs;
+
+        # Create some dynamic fields to be sure there will be at least two pages.
+        for my $Count ( 1 .. 11 ) {
+            my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
+                Name       => 'Name' . $Count . $RandomNumber,
+                Label      => 'Label' . $Count . $RandomNumber,
+                FieldType  => 'Text',
+                FieldOrder => 10000,
+                ObjectType => 'Ticket',
+                Config     => {
+                    Name        => 'TestName',
+                    Description => 'Description for Dynamic Field.',
+                },
+                ValidID => 1,
+                UserID  => 1,
+            );
+            $Self->True(
+                $DynamicFieldID,
+                "DynamicFieldID $DynamicFieldID is created",
+            );
+            push @TestDynamicFieldIDs, $DynamicFieldID;
+        }
+
+        # Navigate to AdminDynamiField screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
+
+        # Set 10 fields per page.
+        $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->VerifiedClick();
+        $Selenium->execute_script(
+            "\$('#UserTicketOverviewMediumPageShown').val('10').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+
+        # Get list of all dynamic fields for define MaxFieldOrder default value.
+        my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
+            Valid => 0,
+        );
+        my $MaxFieldOrder = scalar @{$DynamicFieldsList} + 1;
+
+        # Click to create 'Text' type ticket dynamic field from the first page.
+        $Selenium->execute_script(
+            "\$('#TicketDynamicField').val('Text').trigger('redraw.InputField').trigger('change');"
+        );
+
+        # Wait until page has finished loading.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+
+        # Check FieldOrder default value.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#FieldOrder').val()"),
+            $MaxFieldOrder,
+            "MaxFieldOrder default value ($MaxFieldOrder) is correct",
+        );
+
+        # Go back to AdminDynamiField screen.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
+
+        # Go to the second page.
+        $Selenium->find_element( "#AdminDynamicFieldPage2", 'css' )->VerifiedClick();
+
+        # Click to create 'Text' type ticket dynamic field from the second page.
+        $Selenium->execute_script(
+            "\$('#TicketDynamicField').val('Text').trigger('redraw.InputField').trigger('change');"
+        );
+
+        # Wait until page has finished loading.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Name").length' );
+
+        # Check FieldOrder default value.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#FieldOrder').val()"),
+            $MaxFieldOrder,
+            "MaxFieldOrder default value ($MaxFieldOrder) is correct",
+        );
+
+        # Delete created test dynamic fields.
+        for my $TestDynamicFieldID (@TestDynamicFieldIDs) {
+            my $Success = $DynamicFieldObject->DynamicFieldDelete(
+                ID     => $TestDynamicFieldID,
+                UserID => 1,
+            );
+            $Self->True(
+                $Success,
+                "DynamicFieldID $TestDynamicFieldID is deleted",
+            );
+        }
+
+        # Make sure the cache is correct.
+        $CacheObject->CleanUp( Type => "DynamicField" );
+
     }
 );
 
