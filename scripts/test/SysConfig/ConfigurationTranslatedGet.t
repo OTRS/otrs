@@ -184,7 +184,7 @@ $CacheObject->CleanUp(
     Type => 'SysConfigDefaultList',
 );
 $CacheObject->CleanUp(
-    Type => 'ConfigurationTranslatedGet',
+    Type => 'SysConfigConfigurationTranslatedGet',
 );
 
 1;

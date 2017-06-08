@@ -536,7 +536,7 @@ sub DefaultSettingDelete {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'ConfigurationTranslatedGet',
+        Type => 'SysConfigConfigurationTranslatedGet',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
@@ -715,7 +715,7 @@ sub DefaultSettingUpdate {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'ConfigurationTranslatedGet',
+        Type => 'SysConfigConfigurationTranslatedGet',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
@@ -2418,7 +2418,7 @@ sub ModifiedSettingAdd {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'ConfigurationTranslatedGet',
+        Type => 'SysConfigConfigurationTranslatedGet',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
@@ -2863,7 +2863,7 @@ sub ModifiedSettingDelete {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'ConfigurationTranslatedGet',
+        Type => 'SysConfigConfigurationTranslatedGet',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
@@ -3048,7 +3048,7 @@ sub ModifiedSettingUpdate {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'ConfigurationTranslatedGet',
+        Type => 'SysConfigConfigurationTranslatedGet',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',

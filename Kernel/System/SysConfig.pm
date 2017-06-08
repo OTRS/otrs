@@ -1875,7 +1875,7 @@ sub ConfigurationTranslatedGet {
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = 'ConfigurationTranslatedGet';
+    my $CacheType = 'SysConfigConfigurationTranslatedGet';
     my $CacheKey  = "ConfigurationTranslatedGet::$LanguageObject->{UserLanguage}";
 
     # Return cache.
