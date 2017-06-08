@@ -311,8 +311,6 @@ sub _DynamicFieldsListShow {
         );
     }
 
-    my $MaxFieldOrder = 0;
-
     # check if at least 1 dynamic field is registered in the system
     if ( $Param{Total} ) {
 
@@ -371,11 +369,6 @@ sub _DynamicFieldsListShow {
                         },
                     );
                 }
-
-                # set MaxFieldOrder
-                if ( int $DynamicFieldData->{FieldOrder} > int $MaxFieldOrder ) {
-                    $MaxFieldOrder = $DynamicFieldData->{FieldOrder}
-                }
             }
         }
     }
@@ -391,7 +384,7 @@ sub _DynamicFieldsListShow {
     $Self->{LayoutObject}->Block(
         Name => 'MaxFieldOrder',
         Data => {
-            MaxFieldOrder => $MaxFieldOrder,
+            MaxFieldOrder => scalar @{ $Param{DynamicFields} },
         },
     );
 
