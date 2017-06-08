@@ -3199,9 +3199,34 @@ $Self->IsDeeply(
     "LinkList() deep structure test for $NumberOfLinks links - cache validation 1",
 );
 
-# delete cache, remove entry from expected list and try again
+# Delete remove entry from expected list and cache, and try again.
 delete $ExpectedLinkList{ $DeleteExpectedData{Object} }->{ $DeleteExpectedData{Type} }
     ->{ $DeleteExpectedData{Direction} }->{ $DeleteExpectedData{Key} };
+
+# If $ExpectedLinkList{ $DeleteExpectedData{Object} }->{ $DeleteExpectedData{Type} }->{ $DeleteExpectedData{Direction} }
+# is empty hash, delete it because LinkList does not return empty hash with this key.
+if (
+    !%{
+        $ExpectedLinkList{ $DeleteExpectedData{Object} }->{ $DeleteExpectedData{Type} }
+            ->{ $DeleteExpectedData{Direction} }
+    }
+    )
+{
+    delete $ExpectedLinkList{ $DeleteExpectedData{Object} }->{ $DeleteExpectedData{Type} }
+        ->{ $DeleteExpectedData{Direction} };
+}
+
+# If $ExpectedLinkList{ $DeleteExpectedData{Object} }->{ $DeleteExpectedData{Type} } is empty hash,
+# delete it because LinkList does not return empty hash with this key.
+if (
+    !%{
+        $ExpectedLinkList{ $DeleteExpectedData{Object} }->{ $DeleteExpectedData{Type} }
+    }
+    )
+{
+    delete $ExpectedLinkList{ $DeleteExpectedData{Object} }->{ $DeleteExpectedData{Type} };
+}
+
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
     Type => 'LinkObject',
 );
