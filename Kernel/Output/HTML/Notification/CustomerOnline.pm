@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::AuthSession',
     'Kernel::System::Time',
     'Kernel::Output::HTML::Layout',
@@ -33,10 +34,12 @@ sub Run {
     # get session object
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
+    my $SessionMaxIdleTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionMaxIdleTime');
+
     # get session info
     my %Online      = ();
     my @Sessions    = $SessionObject->GetAllSessionIDs();
-    my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60 * 2;
+
     for (@Sessions) {
         my %Data = $SessionObject->GetSessionIDData(
             SessionID => $_,
@@ -44,7 +47,7 @@ sub Run {
         if (
             $Data{UserType} eq 'Customer'
             && $Data{UserLastRequest}
-            && $Data{UserLastRequest} + ( $IdleMinutes * 60 ) > $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
+            && $Data{UserLastRequest} + $SessionMaxIdleTime > $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
             && $Data{UserFirstname}
             && $Data{UserLastname}
             )

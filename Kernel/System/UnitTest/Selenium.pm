@@ -22,6 +22,7 @@ use Kernel::System::UnitTest::Helper;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::AuthSession',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Time',
@@ -114,6 +115,9 @@ sub new {
 
     $Self->{BaseURL} = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://';
     $Self->{BaseURL} .= Kernel::System::UnitTest::Helper->GetTestHTTPHostname();
+
+    # Remember the start system time for the selenium test run.
+    $Self->{TestStartSystemTime} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     return $Self;
 }
@@ -528,6 +532,22 @@ sub DEMOLISH {
         if ( -d $LeftoverFirefoxProfile ) {
             File::Path::remove_tree($LeftoverFirefoxProfile);
         }
+    }
+
+    # Cleanup all sessions, which was created after the selenium test start time.
+    my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
+    my @Sessions = $AuthSessionObject->GetAllSessionIDs();
+
+    SESSION:
+    for my $SessionID (@Sessions) {
+
+        my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
+
+        next SESSION if !%SessionData;
+        next SESSION if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->{TestStartSystemTime};
+
+        $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
     }
 }
 

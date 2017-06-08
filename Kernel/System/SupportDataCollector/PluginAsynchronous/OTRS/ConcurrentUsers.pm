@@ -118,11 +118,11 @@ sub RunAsynchronous {
     if ( IsArrayRefWithData($AsynchronousData) ) {
 
         # already existing entry counter
-        my $AsynchronousDataCounter = scalar @{$AsynchronousData} - 1;
+        my $AsynchronousDataCount = scalar @{$AsynchronousData} - 1;
 
         # check if for the current hour already a value exists
         COUNTER:
-        for my $Counter ( 0 .. $AsynchronousDataCounter ) {
+        for my $Counter ( 0 .. $AsynchronousDataCount ) {
 
             next COUNTER
                 if $AsynchronousData->[$Counter]->{TimeStamp}
@@ -164,9 +164,6 @@ sub RunAsynchronous {
         }
     }
 
-    # get the session active time
-    my $SessionActiveTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionActiveTime') || 60 * 10;
-
     # get all sessions
     my @Sessions = $AuthSessionObject->GetAllSessionIDs();
 
@@ -179,47 +176,18 @@ sub RunAsynchronous {
         CustomerSessionUnique => 0,
     );
 
-    # to save the unique agents and customer users
-    my %LookupUsers;
-    my %LookupCustomers;
+    for my $UserType (qw(User Customer)) {
 
-    # collect the existing sessions of each user (not customer user)
-    SESSION:
-    for my $SessionID (@Sessions) {
+        my %ActiveSessions = $AuthSessionObject->GetActiveSessions(
+            UserType => $UserType,
+        );
 
-        # get session data
-        my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
-
-        next SESSION if !%SessionData;
-
-        # get needed data
-        my $UserType        = $SessionData{UserType}        || '';
-        my $UserLastRequest = $SessionData{UserLastRequest} || $SystemTimeNow;
-        my $UserLogin       = $SessionData{UserLogin};
-
-        next SESSION if $UserType ne 'User' && $UserType ne 'Customer';
-        next SESSION if ( $UserLastRequest + $SessionActiveTime ) < $SystemTimeNow;
-
-        $CountConcurrentUser{ $UserType . 'Session' }++;
-
-        if ( $UserType eq 'User' ) {
-
-            if ( !$LookupUsers{$UserLogin} ) {
-                $CountConcurrentUser{UserSessionUnique}++;
-                $LookupUsers{$UserLogin} = 1;
-            }
-        }
-        elsif ( $UserType eq 'Customer' ) {
-
-            if ( !$LookupCustomers{$UserLogin} ) {
-                $CountConcurrentUser{CustomerSessionUnique}++;
-                $LookupCustomers{$UserLogin} = 1;
-            }
-        }
+        $CountConcurrentUser{ $UserType . 'Session' }       = $ActiveSessions{Total};
+        $CountConcurrentUser{ $UserType . 'SessionUnique' } = scalar keys %{ $ActiveSessions{PerUser} };
     }
 
     # update the concurrent user counter, if a higher value for the current hour exists
-    if ($CurrentHourPosition) {
+    if ( defined $CurrentHourPosition ) {
 
         my $ChangedConcurrentUserCounter;
 

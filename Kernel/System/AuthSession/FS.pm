@@ -33,13 +33,8 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get more common params
-    $Self->{SessionSpool}      = $ConfigObject->Get('SessionDir');
-    $Self->{SystemID}          = $ConfigObject->Get('SystemID');
-    $Self->{SessionActiveTime} = $ConfigObject->Get('SessionActiveTime') || 60 * 10;
-
-    if ( $Self->{SessionActiveTime} < 300 ) {
-        $Self->{SessionActiveTime} = 300;
-    }
+    $Self->{SessionSpool} = $ConfigObject->Get('SessionDir');
+    $Self->{SystemID}     = $ConfigObject->Get('SystemID');
 
     return $Self;
 }
@@ -360,6 +355,8 @@ sub GetAllSessionIDs {
 sub GetActiveSessions {
     my ( $Self, %Param ) = @_;
 
+    my $MaxSessionIdleTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionMaxIdleTime');
+
     my $TimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -400,7 +397,7 @@ sub GetActiveSessions {
 
         next SESSIONID if $UserType ne $Param{UserType};
 
-        next SESSIONID if ( $UserLastRequest + $Self->{SessionActiveTime} ) < $TimeNow;
+        next SESSIONID if ( $UserLastRequest + $MaxSessionIdleTime ) < $TimeNow;
 
         $ActiveSessionCount++;
 
