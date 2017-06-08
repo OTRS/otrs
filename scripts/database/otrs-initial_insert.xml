@@ -75,7 +75,6 @@
         <Data Key="user_id">1</Data>
         <Data Key="group_id">1</Data>
         <Data Key="permission_key" Type="Quote">rw</Data>
-        <Data Key="permission_value">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -85,7 +84,6 @@
         <Data Key="user_id">1</Data>
         <Data Key="group_id">2</Data>
         <Data Key="permission_key" Type="Quote">rw</Data>
-        <Data Key="permission_value">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -95,7 +93,6 @@
         <Data Key="user_id">1</Data>
         <Data Key="group_id">3</Data>
         <Data Key="permission_key" Type="Quote">rw</Data>
-        <Data Key="permission_value">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>

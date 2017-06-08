@@ -27,13 +27,13 @@ my $Success = $Helper->ProvideTestDatabase(
 if ( !$Success ) {
     $Self->False(
         0,
-        'Test database could not be provided, skipping test'
+        'Test database could not be provided, skipping test',
     );
     return 1;
 }
 $Self->True(
     $Success,
-    'ProvideTestDatabase - Load and execute XML files'
+    'ProvideTestDatabase - Load and execute XML files',
 );
 
 $Success = $Helper->DatabaseXMLExecute(
@@ -57,7 +57,7 @@ for my $Count ( 1 .. 2 ) {
     $Self->Is(
         $Success,
         1,
-        "DBUpdateTo6 ran without problems (Run $Count)"
+        "DBUpdateTo6 ran without problems (Run $Count)",
     );
 }
 

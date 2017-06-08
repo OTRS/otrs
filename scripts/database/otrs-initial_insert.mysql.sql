@@ -46,21 +46,21 @@ INSERT INTO groups (id, name, comments, valid_id, create_by, create_time, change
 # ----------------------------------------------------------
 #  insert into table group_user
 # ----------------------------------------------------------
-INSERT INTO group_user (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
+INSERT INTO group_user (user_id, group_id, permission_key, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 'rw', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table group_user
 # ----------------------------------------------------------
-INSERT INTO group_user (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
+INSERT INTO group_user (user_id, group_id, permission_key, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 2, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 2, 'rw', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table group_user
 # ----------------------------------------------------------
-INSERT INTO group_user (user_id, group_id, permission_key, permission_value, create_by, create_time, change_by, change_time)
+INSERT INTO group_user (user_id, group_id, permission_key, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 3, 'rw', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 3, 'rw', 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table link_type
 # ----------------------------------------------------------

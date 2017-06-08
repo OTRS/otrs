@@ -102,7 +102,6 @@ CREATE TABLE group_user (
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     permission_key VARCHAR (20) NOT NULL,
-    permission_value SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,

@@ -248,7 +248,6 @@ CREATE TABLE group_user (
     user_id NUMBER (12, 0) NOT NULL,
     group_id NUMBER (12, 0) NOT NULL,
     permission_key VARCHAR2 (20) NOT NULL,
-    permission_value NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,

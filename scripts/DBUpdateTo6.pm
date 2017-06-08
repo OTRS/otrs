@@ -128,12 +128,10 @@ sub _TasksGet {
     my ( $Self, %Param ) = @_;
 
     my @Tasks = (
-
         {
             Message => 'Check framework version',
             Module  => 'FrameworkVersionCheck',
         },
-
         {
             Message => 'Migrate configuration',
             Module  => 'MigrateConfigEffectiveValues',
@@ -177,6 +175,10 @@ sub _TasksGet {
         {
             Message => 'Add basic appointment notification for reminders',
             Module  => 'AddAppointmentCalendarNotification',
+        },
+        {
+            Message => 'Clean and drop group_user permission_value column',
+            Module  => 'CleanGroupUserPermissionValue',
         },
         {
             Message => 'Migrate GenericAgent jobs configuration',

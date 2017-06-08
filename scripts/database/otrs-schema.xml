@@ -118,9 +118,6 @@
     <Column Name="user_id" Required="true" Type="INTEGER"/>
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="permission_key" Required="true" Size="20" Type="VARCHAR"/>
-    <!-- permission_value is currently unneeded (always 1), but there could be old entries from
-        OTRS 4 or earlier which have 0 set. -->
-    <Column Name="permission_value" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
