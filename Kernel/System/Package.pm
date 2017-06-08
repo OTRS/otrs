@@ -633,12 +633,12 @@ sub PackageInstall {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         KeepTypes => [
             'XMLParse',
-            'DefaultSettingListGet',
-            'DefaultSettingList',
+            'SysConfigDefaultListGet',
+            'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigSettingEffectiveValueCheck',
             'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfig_ConfigurationXML2DB',
+            'SysConfigConfigurationXML2DB',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -736,12 +736,12 @@ sub PackageReinstall {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         KeepTypes => [
             'XMLParse',
-            'DefaultSettingListGet',
-            'DefaultSettingList',
+            'SysConfigDefaultListGet',
+            'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigSettingEffectiveValueCheck',
             'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfig_ConfigurationXML2DB',
+            'SysConfigConfigurationXML2DB',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -1160,12 +1160,12 @@ sub PackageUpgrade {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         KeepTypes => [
             'XMLParse',
-            'DefaultSettingListGet',
-            'DefaultSettingList',
+            'SysConfigDefaultListGet',
+            'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigSettingEffectiveValueCheck',
             'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfig_ConfigurationXML2DB',
+            'SysConfigConfigurationXML2DB',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -1269,12 +1269,12 @@ sub PackageUninstall {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         KeepTypes => [
             'XMLParse',
-            'DefaultSettingListGet',
-            'DefaultSettingList',
+            'SysConfigDefaultListGet',
+            'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigSettingEffectiveValueCheck',
             'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfig_ConfigurationXML2DB',
+            'SysConfigConfigurationXML2DB',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -3960,12 +3960,12 @@ sub _PackageUninstallMerged {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         KeepTypes => [
             'XMLParse',
-            'DefaultSettingListGet',
-            'DefaultSettingList',
+            'SysConfigDefaultListGet',
+            'SysConfigDefaultList',
             'SysConfigDefault',
             'SysConfigSettingEffectiveValueCheck',
             'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfig_ConfigurationXML2DB',
+            'SysConfigConfigurationXML2DB',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();

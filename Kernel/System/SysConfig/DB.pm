@@ -218,10 +218,10 @@ sub DefaultSettingAdd {
             Key  => 'DefaultSettingGet::' . $Param{Name},
         );
         $CacheObject->CleanUp(
-            Type => 'DefaultSettingListGet',
+            Type => 'SysConfigDefaultListGet',
         );
         $CacheObject->Delete(
-            Type => 'DefaultSettingList',
+            Type => 'SysConfigDefaultList',
             Key  => 'DefaultSettingList',
         );
         $CacheObject->CleanUp(
@@ -523,10 +523,10 @@ sub DefaultSettingDelete {
         Key  => 'DefaultSettingGet::' . $DefaultSetting{Name},
     );
     $CacheObject->CleanUp(
-        Type => 'DefaultSettingListGet',
+        Type => 'SysConfigDefaultListGet',
     );
     $CacheObject->Delete(
-        Type => 'DefaultSettingList',
+        Type => 'SysConfigDefaultList',
         Key  => 'DefaultSettingList',
     );
     $CacheObject->CleanUp(
@@ -546,7 +546,7 @@ sub DefaultSettingDelete {
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => '_ConfigurationTranslatedGet',
+            Type => 'SysConfigConfigurationTranslatedGet',
             Key  => "_ConfigurationTranslatedGet::$Language" . "::$DefaultSetting{Name}",
         );
     }
@@ -702,10 +702,10 @@ sub DefaultSettingUpdate {
         Key  => 'DefaultSettingGet::' . $DefaultSetting{Name},
     );
     $CacheObject->CleanUp(
-        Type => 'DefaultSettingListGet',
+        Type => 'SysConfigDefaultListGet',
     );
     $CacheObject->Delete(
-        Type => 'DefaultSettingList',
+        Type => 'SysConfigDefaultList',
         Key  => 'DefaultSettingList',
     );
     $CacheObject->CleanUp(
@@ -725,7 +725,7 @@ sub DefaultSettingUpdate {
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => '_ConfigurationTranslatedGet',
+            Type => 'SysConfigConfigurationTranslatedGet',
             Key  => "_ConfigurationTranslatedGet::$Language" . "::$DefaultSetting{Name}",
         );
     }
@@ -986,7 +986,7 @@ sub DefaultSettingListGet {
     my @Filters;
     my @Bind;
 
-    my $CacheType = 'DefaultSettingListGet';
+    my $CacheType = 'SysConfigDefaultListGet';
     my $CacheKey  = 'DefaultSettingListGet';
 
     # Check params have a default value.
@@ -1125,7 +1125,7 @@ Returns:
 sub DefaultSettingList {
     my ( $Self, %Param ) = @_;
 
-    my $CacheType = 'DefaultSettingList';
+    my $CacheType = 'SysConfigDefaultList';
     my $CacheKey  = 'DefaultSettingList';
 
     my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
@@ -1341,7 +1341,7 @@ sub DefaultSettingLock {
         );
     }
     $CacheObject->CleanUp(
-        Type => 'DefaultSettingListGet',
+        Type => 'SysConfigDefaultListGet',
     );
 
     return $ExclusiveLockGUID;
@@ -1597,7 +1597,7 @@ sub DefaultSettingUnlock {
     }
 
     $CacheObject->CleanUp(
-        Type => 'DefaultSettingListGet',
+        Type => 'SysConfigDefaultListGet',
     );
 
     return 1;
@@ -1649,10 +1649,10 @@ sub DefaultSettingDirtyCleanUp {
         }
     }
     $CacheObject->CleanUp(
-        Type => 'DefaultSettingListGet',
+        Type => 'SysConfigDefaultListGet',
     );
     $CacheObject->CleanUp(
-        Type => 'DefaultSettingList',
+        Type => 'SysConfigDefaultList',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
@@ -2170,9 +2170,9 @@ sub DefaultSettingVersionListGet {
 
     # Set filters on SQL and cache key.
     my $SQLFilter = "WHERE $FieldName = '$FieldValue' ";
-    my $CacheKey  = 'DefaultSettingVersionList::' . $FieldCache;
 
     my $CacheType = 'SysConfigDefaultVersionList';
+    my $CacheKey  = 'DefaultSettingVersionList::' . $FieldCache;
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -2428,7 +2428,7 @@ sub ModifiedSettingAdd {
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => '_ConfigurationTranslatedGet',
+            Type => 'SysConfigConfigurationTranslatedGet',
             Key  => "_ConfigurationTranslatedGet::$Language" . "::$Param{Name}",
         );
     }
@@ -2705,6 +2705,7 @@ sub ModifiedSettingListGet {
 
     my @Filters;
     my @Bind;
+
     my $CacheType = 'SysConfigModifiedList';
     my $CacheKey  = 'ModifiedSettingList';
 
@@ -2872,7 +2873,7 @@ sub ModifiedSettingDelete {
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => '_ConfigurationTranslatedGet',
+            Type => 'SysConfigConfigurationTranslatedGet',
             Key  => "_ConfigurationTranslatedGet::$Language" . "::$ModifiedSetting{Name}",
         );
     }
@@ -3057,7 +3058,7 @@ sub ModifiedSettingUpdate {
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => '_ConfigurationTranslatedGet',
+            Type => 'SysConfigConfigurationTranslatedGet',
             Key  => "_ConfigurationTranslatedGet::$Language" . "::$Param{Name}",
         );
     }
@@ -3423,9 +3424,9 @@ sub ModifiedSettingVersionListGet {
 
     # Loop over filters and set them on SQL and cache key.
     my $SQLFilter = "WHERE $FieldName = '$FieldValue' ";
-    my $CacheKey  = 'ModifiedSettingVersionList::' . $FieldCache . '=' . $FieldValue;
 
     my $CacheType = 'SysConfigModifiedVersionList';
+    my $CacheKey  = 'ModifiedSettingVersionList::' . $FieldCache . '=' . $FieldValue;
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -3596,8 +3597,8 @@ Returns:
 sub ModifiedSettingVersionListGetLast {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey  = 'ModifiedSettingVersionListGetLast';
     my $CacheType = 'SysConfigModifiedVersionList';
+    my $CacheKey  = 'ModifiedSettingVersionListGetLast';
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -3756,8 +3757,8 @@ Returns:
 sub ConfigurationIsDirty {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey  = 'IsDirty';
     my $CacheType = 'SysConfigIsDirty';
+    my $CacheKey  = 'IsDirty';
 
     if ( $Param{UserID} ) {
         $CacheKey .= "::UserID=$Param{UserID}";

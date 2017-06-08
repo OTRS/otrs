@@ -2226,8 +2226,8 @@ sub ConfigurationXML2DB {
         $Filename =~ s{\A .+ Kernel/Config/Files/XML/ (.+)\.xml\z}{$1}msx;
         $Filename =~ s{\A .+ scripts/test/sample/SysConfig/XML/ (.+)\.xml\z}{$1}msx;
 
+        my $CacheType = 'SysConfigConfigurationXML2DB';
         my $CacheKey  = "ConfigurationXML2DB::${Filename}::${MD5Sum}";
-        my $CacheType = "SysConfig_ConfigurationXML2DB";
 
         my $Cache = $CacheObject->Get(
             Type => $CacheType,
@@ -2483,10 +2483,10 @@ sub ConfigurationXML2DB {
         # IMPORTANT - Since NoCleanup parameter is used, cache is not cleared,
         # so we need to do it here (we do it here once and not 1800+ times).
         $CacheObject->CleanUp(
-            Type => 'DefaultSettingListGet',
+            Type => 'SysConfigDefaultListGet',
         );
         $CacheObject->Delete(
-            Type => 'DefaultSettingList',
+            Type => 'SysConfigDefaultList',
             Key  => 'DefaultSettingList',
         );
         $CacheObject->CleanUp(
@@ -3902,8 +3902,8 @@ Returns:
 sub ConfigurationCategoriesGet {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey  = 'ConfigurationCategoriesGet';
     my $CacheType = 'SysConfig';
+    my $CacheKey  = 'ConfigurationCategoriesGet';
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -3995,8 +3995,8 @@ Returns:
 sub ForbiddenValueTypesGet {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey  = 'ForbiddenValueTypesGet';
     my $CacheType = 'SysConfig';
+    my $CacheKey  = 'ForbiddenValueTypesGet';
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -4061,8 +4061,8 @@ sub ValueAttributeList {
 
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey  = 'ValueAttributeList';
     my $CacheType = 'SysConfig';
+    my $CacheKey  = 'ValueAttributeList';
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -5116,7 +5116,7 @@ sub _ConfigurationTranslatedGet {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = '_ConfigurationTranslatedGet';
+    my $CacheType = 'SysConfigConfigurationTranslatedGet';
     my $CacheKey  = "_ConfigurationTranslatedGet::$Param{Language}::$Param{Name}";
 
     # Return cache.
