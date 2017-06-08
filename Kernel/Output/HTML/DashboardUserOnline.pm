@@ -116,9 +116,10 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $SessionMaxIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+
     # get config settings
-    my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
-    my $SortBy      = $Self->{Config}->{SortBy}      || 'UserFullname';
+    my $SortBy = $Self->{Config}->{SortBy} || 'UserFullname';
 
     # get current time-stamp
     my $Time = $Self->{TimeObject}->SystemTime();
@@ -192,7 +193,7 @@ sub Run {
 
             # check last request time / idle time out
             next SESSIONID if !$Data{UserLastRequest};
-            next SESSIONID if $Data{UserLastRequest} + ( $IdleMinutes * 60 ) < $Time;
+            next SESSIONID if $Data{UserLastRequest} + $SessionMaxIdleTime < $Time;
 
             # remember user and data
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};

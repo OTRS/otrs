@@ -31,10 +31,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $SessionMaxIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+
     # get session info
-    my %Online      = ();
-    my @Sessions    = $Self->{SessionObject}->GetAllSessionIDs();
-    my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60 * 2;
+    my %Online   = ();
+    my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
     for (@Sessions) {
         my %Data = $Self->{SessionObject}->GetSessionIDData(
             SessionID => $_,
@@ -42,7 +43,7 @@ sub Run {
         if (
             $Data{UserType} eq 'Customer'
             && $Data{UserLastRequest}
-            && $Data{UserLastRequest} + ( $IdleMinutes * 60 ) > $Self->{TimeObject}->SystemTime()
+            && $Data{UserLastRequest} + $SessionMaxIdleTime > $Self->{TimeObject}->SystemTime()
             && $Data{UserFirstname}
             && $Data{UserLastname}
             )

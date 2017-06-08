@@ -94,7 +94,7 @@ sub RunAsynchronous {
     my $SystemTimeNow = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $SystemTimeNow,
+        SystemTime => $SystemTimeNow + 3600,
     );
 
     my $SystemTime = $TimeObject->Date2SystemTime(
@@ -112,19 +112,24 @@ sub RunAsynchronous {
 
     my $AsynchronousData = $Self->_GetAsynchronousData();
 
-    my $TimeStampExists;
+    my $CurrentHourPosition;
 
     if ( IsArrayRefWithData($AsynchronousData) ) {
 
+        # already existing entry counter
+        my $AsynchronousDataCount = scalar @{$AsynchronousData} - 1;
+
         # check if for the current hour already a value exists
-        ENTRY:
-        for my $Entry ( reverse @{$AsynchronousData} ) {
+        COUNTER:
+        for my $Counter ( 0 .. $AsynchronousDataCount ) {
 
-            next ENTRY if $Entry->{TimeStamp} && $Entry->{TimeStamp} ne $TimeStamp;
+            next COUNTER
+                if $AsynchronousData->[$Counter]->{TimeStamp}
+                && $AsynchronousData->[$Counter]->{TimeStamp} ne $TimeStamp;
 
-            $TimeStampExists = 1;
+            $CurrentHourPosition = $Counter;
 
-            last ENTRY;
+            last COUNTER;
         }
 
         # set the check timestamp to one week ago
@@ -145,14 +150,6 @@ sub RunAsynchronous {
 
         # remove all entries older than one week
         @{$AsynchronousData} = grep { $_->{TimeStamp} && $_->{TimeStamp} ge $CheckTimeStamp } @{$AsynchronousData};
-
-        if ($TimeStampExists) {
-
-            $Self->_StoreAsynchronousData(
-                Data => $AsynchronousData,
-            );
-            return 1;
-        }
     }
 
     # get AuthSession object
@@ -166,9 +163,6 @@ sub RunAsynchronous {
         }
     }
 
-    # set the session active time for the counter
-    my $SessionActiveTime = 3600;
-
     # get all sessions
     my @Sessions = $AuthSessionObject->GetAllSessionIDs();
 
@@ -181,47 +175,37 @@ sub RunAsynchronous {
         CustomerSessionUnique => 0,
     );
 
-    # to save the unique agents and customer users
-    my %LookupUsers;
-    my %LookupCustomers;
+    for my $UserType (qw(User Customer)) {
 
-    # collect the existing sessions of each user (not customer user)
-    SESSION:
-    for my $SessionID (@Sessions) {
+        my %ActiveSessions = $AuthSessionObject->GetActiveSessions(
+            UserType => $UserType,
+        );
 
-        # get session data
-        my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
-
-        next SESSION if !%SessionData;
-
-        # get needed data
-        my $UserType        = $SessionData{UserType}        || '';
-        my $UserLastRequest = $SessionData{UserLastRequest} || $SystemTimeNow;
-        my $UserLogin       = $SessionData{UserLogin};
-
-        next SESSION if $UserType ne 'User' && $UserType ne 'Customer';
-        next SESSION if ( $UserLastRequest + $SessionActiveTime ) < $SystemTimeNow;
-
-        $CountConcurrentUser{ $UserType . 'Session' }++;
-
-        if ( $UserType eq 'User' ) {
-
-            if ( !$LookupUsers{$UserLogin} ) {
-                $CountConcurrentUser{UserSessionUnique}++;
-                $LookupUsers{$UserLogin} = 1;
-            }
-        }
-        elsif ( $UserType eq 'Customer' ) {
-
-            if ( !$LookupCustomers{$UserLogin} ) {
-                $CountConcurrentUser{CustomerSessionUnique}++;
-                $LookupCustomers{$UserLogin} = 1;
-            }
-        }
+        $CountConcurrentUser{ $UserType . 'Session' }       = $ActiveSessions{Total};
+        $CountConcurrentUser{ $UserType . 'SessionUnique' } = scalar keys %{ $ActiveSessions{PerUser} };
     }
 
-    # add the new entry to the AsynchronousData
-    push @{$AsynchronousData}, \%CountConcurrentUser;
+    # update the concurrent user counter, if a higher value for the current hour exists
+    if ( defined $CurrentHourPosition ) {
+
+        my $ChangedConcurrentUserCounter;
+
+        IDENTIFIER:
+        for my $Identifier (qw(UserSessionUnique UserSession CustomerSession CustomerSessionUnique)) {
+
+            next IDENTIFIER
+                if $AsynchronousData->[$CurrentHourPosition]->{$Identifier} >= $CountConcurrentUser{$Identifier};
+
+            $AsynchronousData->[$CurrentHourPosition]->{$Identifier} = $CountConcurrentUser{$Identifier};
+
+            $ChangedConcurrentUserCounter = 1;
+        }
+
+        return 1 if !$ChangedConcurrentUserCounter;
+    }
+    else {
+        push @{$AsynchronousData}, \%CountConcurrentUser;
+    }
 
     $Self->_StoreAsynchronousData(
         Data => $AsynchronousData,
