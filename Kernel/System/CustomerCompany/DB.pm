@@ -132,7 +132,7 @@ sub CustomerCompanyList {
             $Part =~ s/%%/%/g;
 
             if ( defined $SQL ) {
-                $SQL .= " AND ";
+                $SQL .= " AND ( ";
             }
 
             my $CustomerCompanySearchFields = $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields};
@@ -153,6 +153,10 @@ sub CustomerCompanyList {
                 if (@SQLParts) {
                     $SQL .= join( ' OR ', @SQLParts );
                 }
+            }
+
+            if ($Valid) {
+                $SQL .= " ) ";
             }
         }
     }

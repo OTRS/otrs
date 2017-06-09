@@ -56,12 +56,19 @@ sub Run {
             );
         }
 
+        # Search for Valid customer companies.
         my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
             Search => $SearchTerm,
         );
 
         # add customers not saved in backend to customer company list
         map { $CustomerCompanyList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
+
+        # Search for all customer companies, valid and invalid.
+        my %CustomerCompanyListAll = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $SearchTerm,
+            Valid  => 0,
+        );
 
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDList(
             SearchTerm => $SearchTerm,
@@ -76,7 +83,7 @@ sub Run {
             $Seen{$CustomerID} = 1;
 
             # identifies unknown companies
-            if ( !exists $CustomerCompanyList{$CustomerID} ) {
+            if ( !exists $CustomerCompanyListAll{$CustomerID} ) {
                 $CustomerCompanyList{$CustomerID} = $CustomerID;
             }
         }
