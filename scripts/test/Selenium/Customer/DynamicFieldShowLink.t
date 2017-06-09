@@ -114,8 +114,6 @@ $Selenium->RunTest(
             "DynamicFieldID $DynamicFieldID is found in 'Information' sidebar",
         );
 
-        sleep 5;
-
         # Check dynamic field text.
         my $ValueTextShortened = substr $ValueText, 0, 20;
         $ValueTextShortened .= '[...]';
@@ -152,8 +150,6 @@ $Selenium->RunTest(
             1,
             'Floater is visible',
         );
-
-        sleep 5;
 
         # Delete test created ticket.
         $Success = $TicketObject->TicketDelete(
