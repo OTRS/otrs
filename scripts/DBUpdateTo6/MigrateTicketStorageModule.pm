@@ -44,7 +44,11 @@ sub Run {
     );
     Kernel::Config::Backups::ZZZAutoOTRS5->Load( \%OTRS5Config );
 
-    if ( $OTRS5Config{'Ticket::StorageModule'} eq 'Kernel::System::Ticket::ArticleStorageFS' ) {
+    if (
+        $OTRS5Config{'Ticket::StorageModule'}
+        && $OTRS5Config{'Ticket::StorageModule'} eq 'Kernel::System::Ticket::ArticleStorageFS'
+        )
+    {
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
             Name   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
             Force  => 1,
