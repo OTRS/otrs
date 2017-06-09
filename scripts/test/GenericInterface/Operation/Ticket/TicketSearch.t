@@ -152,8 +152,8 @@ my @DynamicFieldProperties = (
     },
     {
         Name       => "DFT4$RandomID",
-        FieldOrder => 9993,
-        FieldType  => 'Checkbox',        # mandatory, selects the DF backend to use for this field
+        FieldOrder => 9994,
+        FieldType  => 'Date',        # mandatory, selects the DF backend to use for this field
         Config     => {
             DefaultValue => 'Default',
         },
@@ -161,6 +161,14 @@ my @DynamicFieldProperties = (
     {
         Name       => "DFT5$RandomID",
         FieldOrder => 9995,
+        FieldType  => 'Checkbox',        # mandatory, selects the DF backend to use for this field
+        Config     => {
+            DefaultValue => 'Default',
+        },
+    },
+    {
+        Name       => "DFT6$RandomID",
+        FieldOrder => 9996,
         FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
         Config     => {
             DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
@@ -282,12 +290,19 @@ $BackendObject->ValueSet(
 $BackendObject->ValueSet(
     DynamicFieldConfig => $TestFieldConfig[3],
     ObjectID           => $TicketID1,
-    Value              => '0',
+    Value              => '2001-01-01 00:00:00',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
     DynamicFieldConfig => $TestFieldConfig[4],
+    ObjectID           => $TicketID1,
+    Value              => '0',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $TestFieldConfig[5],
     ObjectID           => $TicketID1,
     Value              => [ 'ticket1_field51', 'ticket1_field52', 'ticket1_field53' ],
     UserID             => 1,
@@ -394,12 +409,19 @@ $BackendObject->ValueSet(
 $BackendObject->ValueSet(
     DynamicFieldConfig => $TestFieldConfig[3],
     ObjectID           => $TicketID2,
-    Value              => '1',
+    Value              => '2011-11-11 00:00:00',
     UserID             => 1,
 );
 
 $BackendObject->ValueSet(
     DynamicFieldConfig => $TestFieldConfig[4],
+    ObjectID           => $TicketID2,
+    Value              => '1',
+    UserID             => 1,
+);
+
+$BackendObject->ValueSet(
+    DynamicFieldConfig => $TestFieldConfig[5],
     ObjectID           => $TicketID2,
     Value              => [
         'ticket1_field5',
@@ -1191,6 +1213,29 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test DF Date " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            "DynamicField_DFT4$RandomID" => {
+                GreaterThanEquals => '2010-01-01',
+            },
+            SortBy => 'TicketNumber',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID2 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => $TicketID2,
             },
             Success => 1,
         },

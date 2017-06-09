@@ -404,6 +404,29 @@ my @Tests = (
             SmallerThanEquals => " dfv.value_date <= 'Foo' ",
         },
     },
+    {
+        Name   => 'Date',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            TableAlias         => 'dfv',
+            TestOperators      => {
+                Equals            => '2017-01-01',
+                GreaterThan       => '2017-01-01',
+                GreaterThanEquals => '2017-01-01',
+                Like              => '2017-01-01',
+                SmallerThan       => '2017-01-01',
+                SmallerThanEquals => '2017-01-01',
+            },
+        },
+        ExpectedResult => {
+            Equals            => " dfv.value_date = '2017-01-01 00:00:00' ",
+            GreaterThan       => " dfv.value_date > '2017-01-01 00:00:00' ",
+            GreaterThanEquals => " dfv.value_date >= '2017-01-01 00:00:00' ",
+            Like              => undef,
+            SmallerThan       => " dfv.value_date < '2017-01-01 00:00:00' ",
+            SmallerThanEquals => " dfv.value_date <= '2017-01-01 00:00:00' ",
+        },
+    },
 );
 
 # execute tests

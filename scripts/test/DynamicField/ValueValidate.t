@@ -429,6 +429,15 @@ my @Tests = (
         Success => 0,
     },
     {
+        Name   => 'Correct Value Date (without time)',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldConfigs{Date},
+            Value              => '2013-01-01',
+            UserID             => $UserID,
+        },
+        Success => 1,
+    },
+    {
         Name   => 'Text Value Date',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
