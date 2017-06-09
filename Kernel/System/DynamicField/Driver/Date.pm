@@ -105,6 +105,10 @@ sub new {
 sub ValueSet {
     my ( $Self, %Param ) = @_;
 
+    # Convert the ISO date string to a ISO date time string, if only the date is given to
+    #   have the correct format.
+    $Param{Value} = $Self->_ConvertDate2DateTime( $Param{Value} );
+
     # check for no time in date fields
     if ( $Param{Value} && $Param{Value} !~ m{\A \d{4}-\d{2}-\d{2}\s00:00:00 \z}xms ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -135,6 +139,10 @@ sub ValueValidate {
     my $Prefix          = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
     my $DateRestriction = $Param{DynamicFieldConfig}->{Config}->{DateRestriction};
 
+    # Convert the ISO date string to a ISO date time string, if only the date is given to
+    #   have the correct format.
+    $Param{Value} = $Self->_ConvertDate2DateTime( $Param{Value} );
+
     # check for no time in date fields
     if (
         $Param{Value}
@@ -144,7 +152,7 @@ sub ValueValidate {
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The value for the field Date is invalid!\n"
+            Message  => "The value for the Date field ($Param{DynamicFieldConfig}->{Name}) is invalid!\n"
                 . "The date must be valid and the time must be 00:00:00"
                 . " (or 23:59:59 for search parameters)",
         );
@@ -191,7 +199,7 @@ sub ValueValidate {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "The value for the field Date is in the future! The date needs to be in the past!",
+                    "The value for the Date field ($Param{DynamicFieldConfig}->{Name}) is in the future! The date needs to be in the past!",
             );
             return;
         }
@@ -199,7 +207,7 @@ sub ValueValidate {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "The value for the field Date is in the past! The date needs to be in the future!",
+                    "The value for the Date field ($Param{DynamicFieldConfig}->{Name}) is in the past! The date needs to be in the future!",
             );
             return;
         }
@@ -235,15 +243,13 @@ sub SearchSQLGet {
         return;
     }
 
+    # Convert the ISO date string to a ISO date time string, if only the date is given to
+    #   have the correct format.
+    $Param{SearchTerm} = $Self->_ConvertDate2DateTime( $Param{SearchTerm} );
+
     my $SQL = " $Param{TableAlias}.value_date $Operators{ $Param{Operator} } '"
-        . $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm} );
+        . $Kernel::OM->Get('Kernel::System::DB')->Quote( $Param{SearchTerm} ) . "' ";
 
-    # Append hh:mm:ss if only the ISO date was supplied to get a full date-time string.
-    if ( $Param{SearchTerm} =~ m{\A \d{4}-\d{2}-\d{2}\z}xms ) {
-        $SQL .= " 00:00:00";
-    }
-
-    $SQL .= "' ";
     return $SQL;
 }
 
@@ -1295,7 +1301,38 @@ sub ValueLookup {
     return $Value;
 }
 
+=begin Internal:
+
+=cut
+
+=head2 _ConvertDate2DateTime()
+
+Append hh:mm:ss if only the ISO date was supplied to get a full date-time string.
+
+    my $DateTime = $BackendObject->_ConvertDate2DateTime(
+        '2017-01-01',
+    );
+
+Returns
+
+    $DataTime = '2017-01-01 00:00:00'
+
+=cut
+
+sub _ConvertDate2DateTime {
+    my ( $Self, $Value ) = @_;
+
+    if ( $Value && $Value =~ m{ \A \d{4}-\d{2}-\d{2} \z }xms ) {
+        $Value .= ' 00:00:00';
+    }
+
+    return $Value;
+}
+
 1;
+
+
+=end Internal:
 
 =head1 TERMS AND CONDITIONS
 
