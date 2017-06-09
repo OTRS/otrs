@@ -241,27 +241,6 @@ my $Field5Config = $DynamicFieldObject->DynamicFieldGet(
 
 push @TestDynamicFields, $FieldID5;
 
-# create a dynamic field
-my $FieldID6 = $DynamicFieldObject->DynamicFieldAdd(
-    Name       => "DFT6$RandomID",
-    Label      => 'Description',
-    FieldOrder => 9993,
-    FieldType  => 'Date',        # mandatory, selects the DF backend to use for this field
-    ObjectType => 'Ticket',
-    Config     => {
-        DefaultValue => 'Default',
-    },
-    ValidID => 1,
-    UserID  => 1,
-    Reorder => 0,
-);
-
-my $Field6Config = $DynamicFieldObject->DynamicFieldGet(
-    ID => $FieldID6,
-);
-
-push @TestDynamicFields, $FieldID6;
-
 # finish DynamicFields
 
 # create ticket object
@@ -360,13 +339,6 @@ $BackendObject->ValueSet(
     DynamicFieldConfig => $Field5Config,
     ObjectID           => $TicketID1,
     Value              => [ 'ticket1_field51', 'ticket1_field52', 'ticket1_field53' ],
-    UserID             => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field6Config,
-    ObjectID           => $TicketID1,
-    Value              => '2001-01-01 00:00:00',
     UserID             => 1,
 );
 
@@ -484,13 +456,6 @@ $BackendObject->ValueSet(
         'ticket4_field5',
     ],
     UserID => 1,
-);
-
-$BackendObject->ValueSet(
-    DynamicFieldConfig => $Field6Config,
-    ObjectID           => $TicketID2,
-    Value              => '2011-11-11',
-    UserID             => 1,
 );
 
 # get the Ticket entry
@@ -1291,29 +1256,6 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 TicketID => [ $TicketID2, $TicketID1 ],
-            },
-            Success => 1,
-        },
-        Operation => 'TicketSearch',
-    },
-    {
-        Name           => "Test DF Date " . $TestCounter++,
-        SuccessRequest => 1,
-        RequestData    => {
-            "DynamicField_DFT6$RandomID" => {
-                GreaterThanEquals => '2010-01-01',
-            },
-            SortBy => 'TicketNumber',
-        },
-        ExpectedReturnLocalData => {
-            Data => {
-                TicketID => [ $TicketID2 ],
-            },
-            Success => 1
-        },
-        ExpectedReturnRemoteData => {
-            Data => {
-                TicketID => $TicketID2,
             },
             Success => 1,
         },
