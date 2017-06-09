@@ -133,6 +133,10 @@ sub _TasksGet {
             Module  => 'FrameworkVersionCheck',
         },
         {
+            Message => 'Upgrade database structure',
+            Module  => 'UpgradeDatabaseStructure',
+        },
+        {
             Message => 'Migrate configuration',
             Module  => 'MigrateConfigEffectiveValues',
         },
