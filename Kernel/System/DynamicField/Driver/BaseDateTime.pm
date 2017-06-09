@@ -97,7 +97,7 @@ sub ValueValidate {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "The value for the field Date is in the future! The date needs to be in the past!",
+                    "The value for the Data field ($Param{DynamicFieldConfig}->{Name}) is in the future! The date needs to be in the past!",
             );
             return;
         }
@@ -105,7 +105,7 @@ sub ValueValidate {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "The value for the field Date is in the past! The date needs to be in the future!",
+                    "The value for the Date field ($Param{DynamicFieldConfig}->{Name}) is in the past! The date needs to be in the future!",
             );
             return;
         }
