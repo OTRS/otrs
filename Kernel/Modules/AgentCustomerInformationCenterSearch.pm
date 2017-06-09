@@ -30,11 +30,12 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get needed objects
-    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ParamObject           = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject          = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
     my $AutoCompleteConfig            = $ConfigObject->Get('AutoComplete::Agent')->{CustomerSearch};
     my $MaxResults                    = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
@@ -54,10 +55,17 @@ sub Run {
             );
         }
 
-        my %CustomerCompanyList = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList(
+        # Search for Valid customer companies.
+        my %CustomerCompanyList = $CustomerCompanyObject->CustomerCompanyList(
             Search => $SearchTerm,
         );
         map { $CustomerCompanyList{$_} = $UnknownTicketCustomerList->{$_} } keys %{$UnknownTicketCustomerList};
+
+        # Search for all customer companies, valid and invalid.
+        my %CustomerCompanyListAll = $CustomerCompanyObject->CustomerCompanyList(
+            Search => $SearchTerm,
+            Valid  => 0,
+        );
 
         my @CustomerIDs = $CustomerUserObject->CustomerIDList(
             SearchTerm => $SearchTerm,
@@ -72,7 +80,7 @@ sub Run {
             $Seen{$CustomerID} = 1;
 
             # identifies unknown companies
-            if ( !exists $CustomerCompanyList{$CustomerID} ) {
+            if ( !exists $CustomerCompanyListAll{$CustomerID} ) {
                 $CustomerCompanyList{$CustomerID} = $CustomerID;
             }
 
