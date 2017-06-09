@@ -49,7 +49,7 @@ $Selenium->RunTest(
         # Create dynamic field.
         my $RandomNumber     = $Helper->GetRandomNumber();
         my $DynamicFieldName = 'DF' . $RandomNumber;
-        my $DynamicFieldLink = "https://www.example$RandomNumber.com";
+        my $DynamicFieldLink = "https://www.example.com";
         my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
             Name       => $DynamicFieldName,
             Label      => $DynamicFieldName,
@@ -114,6 +114,8 @@ $Selenium->RunTest(
             "DynamicFieldID $DynamicFieldID is found in 'Information' sidebar",
         );
 
+        sleep 5;
+
         # Check dynamic field text.
         my $ValueTextShortened = substr $ValueText, 0, 20;
         $ValueTextShortened .= '[...]';
@@ -150,6 +152,8 @@ $Selenium->RunTest(
             1,
             'Floater is visible',
         );
+
+        sleep 5;
 
         # Delete test created ticket.
         $Success = $TicketObject->TicketDelete(

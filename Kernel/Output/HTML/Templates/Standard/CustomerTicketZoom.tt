@@ -101,7 +101,12 @@
 [% RenderBlockStart("ArticleDynamicField") %]
                             <div>
                                 <div class="Label" title="[% Data.Label | html %]">[% Translate(Data.Label) | html %]:</div>
+[% RenderBlockStart("ArticleDynamicFieldLink") %]
+                                <span title="[% Data.Title | html %]"><a href="[% Data.Link | Interpolate %]" [% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank" class="DynamicFieldLink">[% Data.Value %]</a></span>
+[% RenderBlockEnd("ArticleDynamicFieldLink") %]
+[% RenderBlockStart("ArticleDynamicFieldPlain") %]
                                 <span title="[% Data.Title | html %]">[% Data.Value %]</span>
+[% RenderBlockEnd("ArticleDynamicFieldPlain") %]
                                 <div class="Clear"></div>
                             </div>
 [% RenderBlockEnd("ArticleDynamicField") %]
@@ -234,7 +239,12 @@
 [% RenderBlockStart("TicketDynamicField") %]
                     <li>
                         <span class="Key">[% Translate(Data.Label) | html %]:</span>
+[% RenderBlockStart("TicketDynamicFieldLink") %]
                         <span title="[% Data.Title | html %]"><a href="[% Data.Link | Interpolate %]" class="DynamicFieldLink" [% IF Data.LinkPreview %] data-trigger="floater" data-floater-url="[% Data.LinkPreview | Interpolate %]"[% END %] target="_blank">[% Data.Value %]</a></span>
+[% RenderBlockEnd("TicketDynamicFieldLink") %]
+[% RenderBlockStart("TicketDynamicFieldPlain") %]
+                        <span title="[% Data.Title | html %]">[% Data.Value %]</span>
+[% RenderBlockEnd("TicketDynamicFieldPlain") %]
                     </li>
 [% RenderBlockEnd("TicketDynamicField") %]
 # example of how to use fixed dynamic field blocks for customizations
