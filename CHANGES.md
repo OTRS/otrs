@@ -125,6 +125,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.21 2017-??-??
+ - 2017-06-09 Fixed bug#[11212](https://bugs.otrs.org/show_bug.cgi?id=11212) - Validity of customer company has no impact in CIC search.
  - 2017-06-08 Fixed bug#[10681](https://bugs.otrs.org/show_bug.cgi?id=10681) - Dynamic Field Creation Default Field Order Error.
  - 2017-06-07 Fixed bug#[12752](https://bugs.otrs.org/show_bug.cgi?id=12752) - Regular expression for dynamic field also affects search.
  - 2017-06-05 Fixed bug#[12835](https://bugs.otrs.org/show_bug.cgi?id=12835) - Wrong Event in History - ProcessManagement Article Field.
