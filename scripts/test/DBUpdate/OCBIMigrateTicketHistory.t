@@ -203,9 +203,7 @@ $Self->True(
 );
 
 # run the ticket_history migration
-my $RunSuccess = $DBUpdateObject->Run(
-    RowsPerLoop => 10,
-);
+my $RunSuccess = $DBUpdateObject->Run();
 
 $Self->True(
     $RunSuccess,
