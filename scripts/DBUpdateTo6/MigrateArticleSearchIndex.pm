@@ -44,17 +44,17 @@ sub Run {
     );
     Kernel::Config::Backups::ZZZAutoOTRS5->Load( \%OTRS5Config );
 
-    if ( $OTRS5Config{'Ticket::SearchIndexModule'} eq 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB' ) {
+    if ( $OTRS5Config{'Ticket::SearchIndexModule'} ) {
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => 'Ticket::SearchIndex::FilterStopWords',
+            Name   => 'Ticket::SearchIndexModule',
             Force  => 1,
             UserID => 1,
         );
 
         my %Result = $SysConfigObject->SettingUpdate(
-            Name              => 'Ticket::SearchIndex::FilterStopWords',
+            Name              => 'Ticket::SearchIndexModule',
             IsValid           => 1,
-            EffectiveValue    => 0,
+            EffectiveValue    => 'Kernel::System::Ticket::ArticleSearchIndex::DB',
             ExclusiveLockGUID => $ExclusiveLockGUID,
             UserID            => 1,
         );
@@ -62,6 +62,29 @@ sub Run {
         if ( !$Result{Success} ) {
             print "\nUnable to migrate Ticket::SearchIndexModule.\n";
             return;
+        }
+
+        # Turn off filtering of stop words if previous article search index module was set to RuntimeDB. Effectively,
+        #   this will mimic old search behavior.
+        if ( $OTRS5Config{'Ticket::SearchIndexModule'} eq 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB' ) {
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                Name   => 'Ticket::SearchIndex::FilterStopWords',
+                Force  => 1,
+                UserID => 1,
+            );
+
+            my %Result = $SysConfigObject->SettingUpdate(
+                Name              => 'Ticket::SearchIndex::FilterStopWords',
+                IsValid           => 1,
+                EffectiveValue    => 0,
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                UserID            => 1,
+            );
+
+            if ( !$Result{Success} ) {
+                print "\nUnable to migrate Ticket::SearchIndex::FilterStopWords.\n";
+                return;
+            }
         }
     }
 
