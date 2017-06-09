@@ -38,6 +38,15 @@ $ConfigObject->Set(
     Value => 10,
 );
 
+# Delete counters
+my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+    SQL => 'DELETE FROM ticket_number_counter',
+);
+$Self->True(
+    $Success,
+    'Temporary cleared ticket_nuber_counter table',
+);
+
 my @Tests = (
     {
         Name           => '2016-01-01 1',

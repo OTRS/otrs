@@ -34,6 +34,15 @@ $ConfigObject->Set(
     Value => 10,
 );
 
+# Delete counters
+my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+    SQL => 'DELETE FROM ticket_number_counter',
+);
+$Self->True(
+    $Success,
+    'Temporary cleared ticket_nuber_counter table',
+);
+
 my $TicketNumberGeneratorObject = $Kernel::OM->Get('Kernel::System::Ticket::Number::AutoIncrement');
 
 # Create a new ticket and get it in order to influence its cache
