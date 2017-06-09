@@ -49,7 +49,7 @@ $Selenium->RunTest(
         # Create dynamic field.
         my $RandomNumber     = $Helper->GetRandomNumber();
         my $DynamicFieldName = 'DF' . $RandomNumber;
-        my $DynamicFieldLink = "https://www.example$RandomNumber.com";
+        my $DynamicFieldLink = "https://www.example.com";
         my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
             Name       => $DynamicFieldName,
             Label      => $DynamicFieldName,

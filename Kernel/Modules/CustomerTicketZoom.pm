@@ -1298,13 +1298,31 @@ sub _Mask {
         $LayoutObject->Block(
             Name => 'TicketDynamicField',
             Data => {
-                Label       => $Label,
-                Value       => $ValueStrg->{Value},
-                Title       => $ValueStrg->{Title},
-                Link        => $DynamicFieldConfig->{Config}->{Link},
-                LinkPreview => $DynamicFieldConfig->{Config}->{LinkPreview},
+                Label => $Label,
             },
         );
+
+        if ( $DynamicFieldConfig->{Config}->{Link} ) {
+            $LayoutObject->Block(
+                Name => 'TicketDynamicFieldLink',
+                Data => {
+                    Value                       => $ValueStrg->{Value},
+                    Title                       => $ValueStrg->{Title},
+                    Link                        => $DynamicFieldConfig->{Config}->{Link},
+                    LinkPreview                 => $DynamicFieldConfig->{Config}->{LinkPreview},
+                    $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                },
+            );
+        }
+        else {
+            $LayoutObject->Block(
+                Name => 'TicketDynamicFieldPlain',
+                Data => {
+                    Value => $ValueStrg->{Value},
+                    Title => $ValueStrg->{Title},
+                },
+            );
+        }
 
         # example of dynamic fields order customization
         $LayoutObject->Block(
@@ -1535,10 +1553,30 @@ sub _Mask {
                 Name => 'ArticleDynamicField',
                 Data => {
                     Label => $Label,
-                    Value => $ValueStrg->{Value},
-                    Title => $ValueStrg->{Title},
                 },
             );
+
+            if ( $DynamicFieldConfig->{Config}->{Link} ) {
+                $LayoutObject->Block(
+                    Name => 'ArticleDynamicFieldLink',
+                    Data => {
+                        Value                       => $ValueStrg->{Value},
+                        Title                       => $ValueStrg->{Title},
+                        Link                        => $DynamicFieldConfig->{Config}->{Link},
+                        LinkPreview                 => $DynamicFieldConfig->{Config}->{LinkPreview},
+                        $DynamicFieldConfig->{Name} => $ValueStrg->{Value},
+                    },
+                );
+            }
+            else {
+                $LayoutObject->Block(
+                    Name => 'ArticleDynamicFieldPlain',
+                    Data => {
+                        Value => $ValueStrg->{Value},
+                        Title => $ValueStrg->{Title},
+                    },
+                );
+            }
 
             # example of dynamic fields order customization
             $LayoutObject->Block(
