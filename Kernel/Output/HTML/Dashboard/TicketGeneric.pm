@@ -644,13 +644,59 @@ sub Run {
         $CacheUsed = 0;
         my @TicketIDsArray;
         if ( !$Self->{Config}->{IsProcessWidget} || IsArrayRefWithData( $Self->{ProcessList} ) ) {
-            @TicketIDsArray = $TicketObject->TicketSearch(
-                Result => 'ARRAY',
-                %TicketSearch,
-                %{ $TicketSearchSummary{ $Self->{Filter} } },
-                %{ $Self->{ColumnFilter} },
-                Limit => $Self->{PageShown} + $Self->{StartHit} - 1,
-            );
+
+            # Copy original column filter.
+            my %ColumnFilter = %{ $Self->{ColumnFilter} || {} };
+
+            # Change filter name accordingly.
+            my $Filter;
+            if ( $Self->{Filter} eq 'MyQueues' ) {
+                $Filter = 'QueueIDs';
+            }
+            elsif ( $Self->{Filter} eq 'MyServices' ) {
+                $Filter = 'ServiceIDs';
+
+                if ( $ColumnFilter{QueueIDs} ) {
+                    $TicketSearchSummary{ $Self->{Filter} }->{QueueIDs} = $ColumnFilter{QueueIDs};
+                }
+            }
+            elsif ( $Self->{Filter} eq 'Responsible' ) {
+                $Filter = 'ResponsibleIDs';
+            }
+            elsif ( $Self->{Filter} eq 'Locked' ) {
+                $Filter = 'LockIDs';
+            }
+
+            # Handle cases for filter columns to preserve filter value in other tab actions.
+            if ( $ColumnFilter{LockIDs} ) {
+                $TicketSearchSummary{ $Self->{Filter} }->{LockIDs} = $ColumnFilter{LockIDs};
+            }
+            elsif ( $ColumnFilter{OwnerIDs} ) {
+                $TicketSearchSummary{ $Self->{Filter} }->{OwnerIDs} = $ColumnFilter{OwnerIDs};
+            }
+
+            # Filter is used and is not in user prefered values, show no results.
+            # See bug#12808 ( https://bugs.otrs.org/show_bug.cgi?id=12808 ).
+            if (
+                $Filter
+                && IsArrayRefWithData( $TicketSearchSummary{ $Self->{Filter} }->{$Filter} )
+                && IsArrayRefWithData( $ColumnFilter{$Filter} )
+                && !grep { $ColumnFilter{$Filter}->[0] == $_ } @{ $TicketSearchSummary{ $Self->{Filter} }->{$Filter} }
+                )
+            {
+                @TicketIDsArray = ();
+            }
+
+            # Execute search.
+            else {
+                @TicketIDsArray = $TicketObject->TicketSearch(
+                    Result => 'ARRAY',
+                    %TicketSearch,
+                    %ColumnFilter,
+                    %{ $TicketSearchSummary{ $Self->{Filter} } },
+                    Limit => $Self->{PageShown} + $Self->{StartHit} - 1,
+                );
+            }
         }
         $TicketIDs = \@TicketIDsArray;
     }
@@ -683,9 +729,6 @@ sub Run {
 
                 # Verify if current column filter element is already present in the ticket search
                 #   summary, to delete it from the column filter hash.
-                if ( $TicketSearchSummary{$Type}->{$Element} ) {
-                    delete $ColumnFilter{$Element};
-                }
                 if ( $Self->{AdditionalFilter} && $TicketSearchSummary{ $Self->{AdditionalFilter} }->{$Element} ) {
                     delete $ColumnFilter{$Element};
                 }
@@ -701,13 +744,55 @@ sub Run {
             $Summary->{$Type} = 0;
 
             if ( !$Self->{Config}->{IsProcessWidget} || IsArrayRefWithData( $Self->{ProcessList} ) ) {
-                $Summary->{$Type} = $TicketObject->TicketSearch(
-                    Result => 'COUNT',
-                    %TicketSearch,
-                    %{ $TicketSearchSummary{$Type} },
-                    %{ $Self->{ColumnFilter} },
-                    %ColumnFilter,
-                ) || 0;
+
+                # Change filter name accordingly.
+                my $Filter;
+                if ( $Type eq 'MyQueues' ) {
+                    $Filter = 'QueueIDs';
+                }
+                elsif ( $Type eq 'MyServices' ) {
+                    $Filter = 'ServiceIDs';
+
+                    if ( $ColumnFilter{QueueIDs} ) {
+                        $TicketSearchSummary{$Type}->{QueueIDs} = $ColumnFilter{QueueIDs};
+                    }
+                }
+                elsif ( $Type eq 'Responsible' ) {
+                    $Filter = 'ResponsibleIDs';
+                }
+                elsif ( $Type eq 'MyLocks' ) {
+                    $Filter = 'LockIDs';
+                }
+
+                # Handle cases for filter columns to preserve filter value in other tab actions.
+                if ( $ColumnFilter{LockIDs} ) {
+                    $TicketSearchSummary{$Type}->{LockIDs} = $ColumnFilter{LockIDs};
+                }
+                elsif ( $ColumnFilter{OwnerIDs} ) {
+                    $TicketSearchSummary{ $Self->{Filter} }->{OwnerIDs} = $ColumnFilter{OwnerIDs};
+                }
+
+                # Filter is used and is not in user prefered values, show no results.
+                # See bug#12808 ( https://bugs.otrs.org/show_bug.cgi?id=12808 ).
+                if (
+                    $Filter
+                    && IsArrayRefWithData( $TicketSearchSummary{$Type}->{$Filter} )
+                    && IsArrayRefWithData( $ColumnFilter{$Filter} )
+                    && !grep { $ColumnFilter{$Filter}->[0] == $_ } @{ $TicketSearchSummary{$Type}->{$Filter} }
+                    )
+                {
+                    $Summary->{$Type} = 0;
+                }
+
+                # Execute search.
+                else {
+                    $Summary->{$Type} = $TicketObject->TicketSearch(
+                        Result => 'COUNT',
+                        %TicketSearch,
+                        %ColumnFilter,
+                        %{ $TicketSearchSummary{$Type} },
+                    ) || 0;
+                }
             }
         }
     }
