@@ -128,7 +128,7 @@ Core.Agent.Preferences = (function (TargetNS) {
                         }
                         else {
                             $WidgetObj.find('.Content').before('<div class="WidgetMessage Top Error" style="display: none;"></div>');
-                            $WidgetObj.find('.WidgetMessage').text(Core.Language.Translate('An unknown error ocurred. Please contact the administrator.'));
+                            $WidgetObj.find('.WidgetMessage').text(Core.Language.Translate('An unknown error occurred. Please contact the administrator.'));
                             $WidgetObj.find('.WidgetMessage').slideDown().delay(5000).slideUp(function() {
                                 $(this).remove();
                             });
