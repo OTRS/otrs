@@ -40,8 +40,8 @@ sub Run {
     my $SessionMaxIdleTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionMaxIdleTime');
 
     # get session info
-    my %Online      = ();
-    my @Sessions    = $SessionObject->GetAllSessionIDs();
+    my %Online   = ();
+    my @Sessions = $SessionObject->GetAllSessionIDs();
 
     for (@Sessions) {
         my %Data = $SessionObject->GetSessionIDData(
