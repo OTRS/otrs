@@ -246,7 +246,7 @@ my $FieldID6 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "DFT6$RandomID",
     Label      => 'Description',
     FieldOrder => 9993,
-    FieldType  => 'Date',        # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Date',            # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'Default',
@@ -1307,7 +1307,7 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [ $TicketID2 ],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
