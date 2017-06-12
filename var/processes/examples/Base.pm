@@ -24,24 +24,32 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-var::processes::examples::Base - common methods used during example process import
+var::processes::examples::Base - base class for ready to process examples
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
+
+This is a base class for example processes and should not be instantiated directly.
 
 All _pre.pm and _post.pm files can use helper methods defined in this class.
 
-=head1 PUBLIC INTERFACE
+    package var::processes::examples::MyProcessExample;
+    use strict;
+    use warnings;
 
-=over 4
+    use parent qw(var::processes::examples::Base);
+
+    # methods go here
 
 =cut
 
-=item DynamicFieldsAdd()
+=head1 PUBLIC INTERFACE
+
+=head2 DynamicFieldsAdd()
 
 Creates dynamic fields according to provided configurations.
 
-    my %Result = $SysConfigObject->DynamicFieldsAdd(
-        DynamicFieldList => [                                # (required) List of dinamic field configuration
+    my %Result = $ProcessExampleObject->DynamicFieldsAdd(
+        DynamicFieldList => [                                # (required) List of dynamic field configuration
             {
                 Name       => 'PreProcApplicationRecorded',
                 Label      => 'Application Recorded',
@@ -150,7 +158,7 @@ sub DynamicFieldsAdd {
     return %Response;
 }
 
-=item SystemConfigurationUpdate()
+=head2 SystemConfigurationUpdate()
 
 Updates system configuration according with the provided data.
 
@@ -255,8 +263,6 @@ sub SystemConfigurationUpdate {
 }
 
 1;
-
-=back
 
 =head1 TERMS AND CONDITIONS
 
