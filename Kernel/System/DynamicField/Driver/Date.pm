@@ -1331,7 +1331,6 @@ sub _ConvertDate2DateTime {
 
 1;
 
-
 =end Internal:
 
 =head1 TERMS AND CONDITIONS

@@ -3966,8 +3966,8 @@ my @Tests        = (
                 ExcludeMuteNotificationToUserID => [1],
             },
             DynamicField => {
-                Name  => $DynamicFieldDateConfig{Name},
-                Value => '2012-01-17',
+                Name      => $DynamicFieldDateConfig{Name},
+                Value     => '2012-01-17',
                 FieldType => 'Date',
             },
             Attachment => {

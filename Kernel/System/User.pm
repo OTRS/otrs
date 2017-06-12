@@ -1253,7 +1253,7 @@ sub _UserCacheClear {
     # Delete cache for all possible FirstnameLastNameOrder settings as this might be overridden by users.
     for my $FirstnameLastNameOrder ( 0 .. 8 ) {
         for my $ActiveLevel1 ( 0 .. 1 ) {
-            for my $ActiveLevel2 ( 0 .. 1 ){
+            for my $ActiveLevel2 ( 0 .. 1 ) {
                 push @CacheKeys, (
                     "GetUserData::User::${Login}::${ActiveLevel1}::${FirstnameLastNameOrder}::${ActiveLevel2}",
                     "GetUserData::UserID::$Param{UserID}::${ActiveLevel1}::${FirstnameLastNameOrder}::${ActiveLevel2}",

@@ -163,7 +163,7 @@ my @DynamicFieldProperties = (
     {
         Name       => "DFT4$RandomID",
         FieldOrder => 9994,
-        FieldType  => 'Date',        # mandatory, selects the DF backend to use for this field
+        FieldType  => 'Date',            # mandatory, selects the DF backend to use for this field
         Config     => {
             DefaultValue => 'Default',
         },
@@ -1390,7 +1390,7 @@ my @Tests = (
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [ $TicketID2 ],
+                TicketID => [$TicketID2],
             },
             Success => 1
         },
