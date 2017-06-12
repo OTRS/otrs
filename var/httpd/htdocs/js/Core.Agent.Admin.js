@@ -37,15 +37,17 @@ Core.Agent.Admin = (function (TargetNS) {
             var $TriggerObj = $(this),
                 Module = $(this).data('module');
 
-            Event.stopPropagation();
-            $(this).addClass('Clicked');
-            Favourites.push(Module);
-            Core.Agent.PreferencesUpdate('AdminNavigationBarFavourites', JSON.stringify(Favourites), function() {
+
+            if(!$TriggerObj.hasClass('Clicked')){
+                Event.stopPropagation();
+                Favourites.push(Module);
+                Core.Agent.PreferencesUpdate('AdminNavigationBarFavourites', JSON.stringify(Favourites), function() {
 
                 var FavouriteHTML = '';
 
                 if ($('#ToggleView').hasClass('Grid')) {
 
+                    $TriggerObj.addClass('Clicked');
                     // also add the entry to the sidebar favourites list dynamically
                     FavouriteHTML = Core.Template.Render('Agent/Admin/Favourite', {
                         'Link'  : $TriggerObj.closest('a').attr('href'),
@@ -55,13 +57,15 @@ Core.Agent.Admin = (function (TargetNS) {
 
                     // Fade the original icon out and display a success icon
                     $TriggerObj.find('i').fadeOut(function() {
-                        $(this).closest('li').find('.AddAsFavourite').append('<i class="fa fa-check" style="display: none;"></i>').find('i').fadeIn().delay(1000).fadeOut(function() {
+                        $(this).closest('li').find('.AddAsFavourite').append('<i class="fa fa-check" style="display: none;"></i>').find('i.fa-check').fadeIn().delay(1000).fadeOut(function() {
                             $(this)
                                 .closest('.AddAsFavourite')
+                                .hide()
+                                .find('i.fa-check')
                                 .remove();
                             $('.GridView, .ListView').find('[data-module="' + Module + '"]').addClass('IsFavourite');
                         });
-                        $(this).remove();
+                        $(this).hide();
                     });
                 }
                 else {
@@ -81,28 +85,34 @@ Core.Agent.Admin = (function (TargetNS) {
                 $('.DataTable.Favourites').show();
 
             });
+        }
             return false;
         });
 
         $('.DataTable.Favourites').on('click', '.RemoveFromFavourites', function() {
             var Module = $(this).data('module'),
                 Index = Favourites.indexOf(Module),
-                $TriggerObj = $(this);
+                $TriggerObj = $(this),
+                ListItem = $('.GridView, .ListView').find('[data-module="' + Module + '"]'),
+                ListItemGridOnly = $('.GridView').find('[data-module="' + Module + '"]');
 
-            if (Index > -1) {
-                Favourites.splice(Index, 1);
-                Core.Agent.PreferencesUpdate('AdminNavigationBarFavourites', JSON.stringify(Favourites), function() {
-                    $TriggerObj.closest('tr').fadeOut(function() {
-                        var $TableObj = $(this).closest('table');
-                        $(this).remove();
-                        if (!$TableObj.find('tr').length) {
-                            $TableObj.hide();
-                        }
+            if(ListItem.hasClass('IsFavourite')){
+                if (Index > -1) {
+                    Favourites.splice(Index, 1);
+                    Core.Agent.PreferencesUpdate('AdminNavigationBarFavourites', JSON.stringify(Favourites), function() {
+                        $TriggerObj.closest('tr').fadeOut(function() {
+                            var $TableObj = $(this).closest('table');
+                            $(this).remove();
+                            if (!$TableObj.find('tr').length) {
+                                $TableObj.hide();
+                            }
 
-                        // also remove the corresponding class from the entry in the grid
-                        $('.GridView, .ListView').find('[data-module="' + Module + '"]').removeClass('IsFavourite');
+                            // also remove the corresponding class from the entry in the grid view and list view
+                            ListItem.removeClass('IsFavourite').removeClass('Clicked').show().find('i.fa-star-o').show();
+                            ListItemGridOnly.find('i.fa-star').show();
+                        });
                     });
-                });
+                }
             }
 
             return false;

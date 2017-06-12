@@ -137,6 +137,56 @@ $Selenium->RunTest(
                 "Directory deleted - '$Directory'",
             );
         }
+
+        # Go to grid view.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=Admin");
+
+        # Add AdminACL to favourites.
+        $Selenium->execute_script(
+            "\$('a[href=\"/otrs/index.pl?Action=AdminACL\"] .AddAsFavourite').trigger('click')"
+        );
+
+        # Wait until AdminACL gets class IsFavourite.
+        $Selenium->WaitFor( JavaScript => "return \$('li[data-module=\"AdminACL\"]').hasClass('IsFavourite');" );
+
+        # Remove AdminACL from favourites.
+        $Selenium->execute_script(
+            "\$('.DataTable .RemoveFromFavourites').trigger('click')"
+        );
+
+        # Checks if Add as Favourite star is visible again.
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('a[href=\"/otrs/index.pl?Action=AdminACL\"] .AddAsFavourite').length === 1"
+            ),
+            "AddAsFavourite (Star) button is displayed as expected.",
+        );
+
+        # Go to list view.
+        $Selenium->find_element( "#ToggleView", 'css' )->VerifiedClick();
+
+        # Adds AdminACL to favourites.
+        $Selenium->execute_script(
+            "\$('.FavouriteButtons a[data-module=\"AdminACL\"]').trigger('click')"
+        );
+
+        $Selenium->WaitFor( JavaScript => "return \$('.RemoveFromFavourites').length === 1;" );
+
+        # Removes AdminACL from favourites.
+        $Selenium->execute_script(
+            "\$('.DataTable .RemoveFromFavourites').trigger('click')"
+        );
+
+        # Wait until IsFavourite class is removed from AdminACL row.
+        $Selenium->WaitFor( JavaScript => "return !\$('tr[data-module=\"AdminACL\"]').hasClass('IsFavourite');" );
+
+        # Check if AddAsFavourite on list view has IsFavourite class, false is expected.
+        $Self->True(
+            $Selenium->execute_script(
+                "return !\$('tr[data-module=\"AdminACL\"] a.AddAsFavourite').hasClass('IsFavourite')"
+            ),
+            "AddAsFavourite (star) on list view is visible.",
+        );
     }
 );
 

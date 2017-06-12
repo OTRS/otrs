@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-06-09 Fixed bug#[12851](https://bugs.otrs.org/show_bug.cgi?id=12851) - Duplicated favorite entry in the new admin overview.
  - 2017-06-01 Improved otrs.CheckModules.pl for FreeBSD, thanks to Felix J. Ogris.
  - 2017-05-30 Fixed bug#[12837](https://bugs.otrs.org/show_bug.cgi?id=12837) - Existing Dynamic Field's RegEx config cannot be removed.
  - 2017-05-29 Added a high-contrast skin for visually impaired users to ease usability.
