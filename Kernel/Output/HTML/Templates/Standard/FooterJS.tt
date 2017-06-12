@@ -63,7 +63,7 @@ Core.App.Ready(function () {
 
 <div id="AjaxErrorDialog">
     <div id="AjaxErrorDialogInner">
-        <div class="NoConnection">
+        <div class="NoConnection" style="display:none;">
             <span class="Icon">
                 <i class="fa fa-bolt"></i>
             </span>
