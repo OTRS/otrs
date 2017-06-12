@@ -290,6 +290,9 @@ Core.App = (function (TargetNS) {
                 return false;
             }
 
+            // Show 'No Connection' dialog content.
+            $DialogObj.find('.NoConnection').show();
+
             Core.UI.Dialog.ShowDialog({
                 HTML : $DialogObj,
                 Title : Core.Config.Get('ConnectionErrorTitle'),
