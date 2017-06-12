@@ -15,14 +15,7 @@ use warnings;
 
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::Output::HTML::Layout',
-    'Kernel::System::AuthSession',
-    'Kernel::System::DateTime',
-    'Kernel::System::User',
-    'Kernel::System::Web::Request',
-);
+our $ObjectManagerDisabled = 1;
 
 sub Param {
     my ( $Self, %Param ) = @_;
@@ -87,9 +80,10 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     #  get needed objects
-    my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
-    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-    my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+    my $SessionObject  = $Kernel::OM->Get('Kernel::System::AuthSession');
+    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     for my $Key (
         qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
@@ -148,7 +142,7 @@ sub Run {
         $Self->{Message} = Translatable('Preferences updated successfully!');
     }
     else {
-        $Self->{Error} = Translatable('Please specify an end date that is after the start date.');
+        $Self->{Error} = $LanguageObject->Translate('Please specify an end date that is after the start date.');
         return;
     }
 

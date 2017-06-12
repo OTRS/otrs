@@ -105,11 +105,11 @@ Core.Agent.Preferences = (function (TargetNS) {
 
                             // if there is already a message box, replace the content
                             if ($WidgetObj.find('.WidgetMessage').length) {
-                                $WidgetObj.find('.WidgetMessage').text(Core.Language.Translate(Response.Message));
+                                $WidgetObj.find('.WidgetMessage').text(Response.Message);
                             }
                             else {
                                 $WidgetObj.find('.Content').before('<div class="WidgetMessage Top Error" style="display: none;"></div>');
-                                $WidgetObj.find('.WidgetMessage').text(Core.Language.Translate(Response.Message));
+                                $WidgetObj.find('.WidgetMessage').text(Response.Message);
                                 $WidgetObj.find('.WidgetMessage').slideDown().delay(5000).slideUp(function() {
                                     $(this).remove();
                                 });
@@ -124,11 +124,11 @@ Core.Agent.Preferences = (function (TargetNS) {
                     else {
 
                         if ($WidgetObj.find('.WidgetMessage').length) {
-                            $WidgetObj.find('.WidgetMessage').text(Core.Language.Translate(Response.Message));
+                            $WidgetObj.find('.WidgetMessage').text(Response.Message);
                         }
                         else {
                             $WidgetObj.find('.Content').before('<div class="WidgetMessage Top Error" style="display: none;"></div>');
-                            $WidgetObj.find('.WidgetMessage').text(Core.Language.Translate('An unknown error occurred. Please contact the administrator.'));
+                            $WidgetObj.find('.WidgetMessage').text(Core.Language.Translate('An unknown error ocurred. Please contact the administrator.'));
                             $WidgetObj.find('.WidgetMessage').slideDown().delay(5000).slideUp(function() {
                                 $(this).remove();
                             });

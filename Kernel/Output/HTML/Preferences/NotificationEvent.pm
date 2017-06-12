@@ -235,10 +235,10 @@ sub Run {
         }
     }
 
-    # get needed objects
-    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     my %UserNotificationTransport;
     my %MandatoryFulfilled;
@@ -257,7 +257,7 @@ sub Run {
     # now check if there are notifications for which no transport has been selected
     for my $NotificationID (@MandatoryNotificationIDs) {
         if ( $MandatoryFulfilled{$NotificationID} != 1 ) {
-            $Self->{Error} = Translatable(
+            $Self->{Error} = $LanguageObject->Translate(
                 "Please make sure you've chosen at least one transport method for mandatory notifications."
             );
             return;
