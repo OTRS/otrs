@@ -14,9 +14,7 @@ use warnings;
 
 use parent qw(var::processes::examples::Base);
 
-our @ObjectDependencies = (
-    'Kernel::System::Log',
-);
+our @ObjectDependencies = ();
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +60,7 @@ sub Run {
         }
     );
 
-    my $Success = $Self->SystemConfigurationUpdate(
+    $Response{Success} = $Self->SystemConfigurationUpdate(
         ProcessName => 'Application For Leave',
         Data        => \@Data,
     );
