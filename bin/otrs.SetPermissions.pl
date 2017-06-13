@@ -34,9 +34,19 @@ use Getopt::Long();
 my $OTRSDirectory       = dirname($RealBin);
 my $OTRSDirectoryLength = length($OTRSDirectory);
 
-my $OtrsUser   = 'otrs';    # default otrs
-my $WebGroup   = '';        # no default, too different
-my $AdminGroup = 'root';    # default root
+my $OtrsUser   = 'otrs';    # default: otrs
+my $WebGroup   = '';        # Try to find a default from predefined group list, take the first match.
+
+WEBGROUP:
+for my $GroupCheck (qw(wwwrun apache www-data www _www)) {
+    my ($GroupName) = getgrnam $GroupCheck;
+    if ($GroupName) {
+        $WebGroup = $GroupName;
+        last WEBGROUP;
+    }
+}
+
+my $AdminGroup = 'root';    # default: root
 my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex, $OtrsUserID, $WebGroupID, $AdminGroupID );
 
 sub PrintUsage {
@@ -45,8 +55,8 @@ bin/otrs.SetPermissions.pl - set OTRS file permissions
 Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 
 Usage: otrs.SetPermissions.pl
-    --web-group=<WEB_GROUP>         # web server group ('www', 'www-data' or similar)
     [--otrs-user=<OTRS_USER>]       # OTRS user, defaults to 'otrs'
+    [--web-group=<WEB_GROUP>]       # web server group ('_www', 'www-data' or similar), tries to find a default
     [--admin-group=<ADMIN_GROUP>]   # admin group, defaults to 'root'
     [--skip-article-dir]            # Skip var/article as it might take too long on some systems.
     [--skip-regex="..."]            # Add another skip regex like "^/var/my/directory".
@@ -127,7 +137,6 @@ sub Run {
         print STDERR "ERROR: --admin-group is invalid.\n";
         exit 1;
     }
-
     if ( defined $SkipArticleDir ) {
         push @IgnoreFiles, qr{^/var/article}smx;
     }
