@@ -569,13 +569,35 @@ sub IndexDrop {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
-    my $SQL = 'DROP INDEX ' . $Param{Name};
-    return ($SQL);
+    my $DropIndexSQL = 'DROP INDEX ' . $Param{Name};
+
+    # put two literal dollar characters in a string
+    # this is needed for the postgres 'do' statement
+    my $DollarDollar = '$$';
+
+    # build SQL to drop index within a "try/catch block"
+    # to prevent errors if index does not exist
+    $DropIndexSQL = <<"EOF";
+DO $DollarDollar
+BEGIN
+IF EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = '$Param{Name}'
+    ) THEN
+    $DropIndexSQL;
+END IF;
+END$DollarDollar;
+EOF
+
+    # return SQL
+    return ($DropIndexSQL);
+
 }
 
 sub ForeignKeyCreate {

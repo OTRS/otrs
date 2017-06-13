@@ -764,7 +764,7 @@ sub IndexDrop {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -774,8 +774,25 @@ sub IndexDrop {
         Name => $Param{Name},
     );
 
-    my $SQL = 'DROP INDEX ' . $Index;
-    return ($SQL);
+    my $DropIndexSQL = 'DROP INDEX ' . $Index;
+
+    my $Shell = '';
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
+        $Shell = "/\n--";
+    }
+
+    # build sql to drop index within a "try/catch block"
+    # to prevent errors if index does not exist
+    $DropIndexSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE '$DropIndexSQL';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
+
+    return ($DropIndexSQL);
 }
 
 sub ForeignKeyCreate {

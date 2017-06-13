@@ -109,6 +109,51 @@ for my $SQL (@SQL) {
     );
 }
 
+
+# try to drop the last index
+$XML = '
+<TableAlter Name="test_f">
+    <IndexDrop Name="test_f_name_a2"/>
+</TableAlter>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    'SQLProcessor() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() ALTER TABLE ($SQL)",
+    );
+}
+
+# try to drop the last index again
+# has already been deleted, but should be fine, as IndexDrop should handle this
+$XML = '
+<TableAlter Name="test_f">
+    <IndexDrop Name="test_f_name_a2"/>
+</TableAlter>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    'SQLProcessor() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() ALTER TABLE ($SQL)",
+    );
+}
+
+
 my $DefaultTest2Insert = [
 
     # general function test
