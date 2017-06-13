@@ -212,6 +212,22 @@ JAVASCRIPT
             'Check for .AddAll element',
         );
 
+        # Add all possible prefix values to check for inputed values see bug#12854
+        # ( https://bugs.otrs.org/show_bug.cgi?id=12854 ).
+        my $Count = 1;
+        for my $Prefix ( '[Not]', '[RegExp]', '[regexp]', '[NotRegExp]', '[Notregexp]' ) {
+            $Selenium->find_element( "#Prefixes option[Value='$Prefix']", 'css' )->click();
+            $Selenium->find_element( ".NewDataItem",                      'css' )->send_keys('Test');
+            $Selenium->find_element( ".AddDataItem",                      'css' )->click();
+            $Self->Is(
+                $Selenium->execute_script("return \$('ul li.Editable:eq($Count) span').text();"),
+                $Prefix . 'Test',
+                "Value with prefix $Prefix is correct"
+            );
+            $Selenium->find_element( ".AddDataItem", 'css' )->click();
+            $Count++;
+        }
+
         # set ACL to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
