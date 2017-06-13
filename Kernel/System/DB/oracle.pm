@@ -818,22 +818,6 @@ sub ForeignKeyCreate {
     my $CreateForeignKeySQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
         . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
 
-    my $Shell = '';
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
-        $Shell = "/\n--";
-    }
-
-    # build sql to create foreign key within a "try/catch block"
-    # to prevent errors if foreign key exists already
-    $CreateForeignKeySQL = <<"EOF";
-BEGIN
-    EXECUTE IMMEDIATE '$CreateForeignKeySQL';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-$Shell
-EOF
-
     # build index name
     my $IndexName = $Self->_IndexName(
         Name => 'FK_' . $Param{LocalTableName} . '_' . $Param{Local},
@@ -868,20 +852,13 @@ sub ForeignKeyDrop {
         Name => "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}",
     );
 
+    # drop foreign key
+    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
+
     my $Shell = '';
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
         $Shell = "/\n--";
     }
-
-    # drop foreign key
-    my $DropForeignKeySQL = <<"EOF";
-BEGIN
-    EXECUTE IMMEDIATE 'ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-$Shell
-EOF
 
     # build index name
     my $IndexName = $Self->_IndexName(
@@ -898,7 +875,7 @@ END;
 $Shell
 EOF
 
-    return ( $DropForeignKeySQL, $DropIndexSQL );
+    return ( $SQL, $DropIndexSQL );
 }
 
 sub UniqueCreate {

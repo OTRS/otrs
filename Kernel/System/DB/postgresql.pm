@@ -626,30 +626,10 @@ sub ForeignKeyCreate {
     }
 
     # add foreign key
-    my $CreateForeignKeySQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
         . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
 
-    # put two literal dollar characters in a string
-    # this is needed for the postgres 'do' statement
-    my $DollarDollar = '$$';
-
-    # build SQL to create foreign key within a "try/catch block"
-    # to prevent errors if foreign key exists already
-    $CreateForeignKeySQL = <<"EOF";
-DO $DollarDollar
-BEGIN
-IF NOT EXISTS (
-    SELECT 1
-    FROM pg_constraint
-    WHERE conname = '$Param{Name}'
-    ) THEN
-    $CreateForeignKeySQL;
-END IF;
-END$DollarDollar;
-EOF
-
-    # return SQL
-    return ($CreateForeignKeySQL);
+    return ($SQL);
 }
 
 sub ForeignKeyDrop {

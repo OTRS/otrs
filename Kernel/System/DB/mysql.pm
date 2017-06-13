@@ -610,7 +610,7 @@ sub IndexDrop {
     push @SQL,
         "SET \@IndexExists := (SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = '$Param{TableName}' AND index_name = '$Param{Name}')";
     push @SQL,
-        "SET \@IndexSQLStatement := IF( \@IndexExists > 0, '$DropIndexSQL', 'SELECT ''INFO: Index $Param{Name} does not exist, skipping.''' )";
+        "SET \@IndexSQLStatement := IF( \@IndexExists = 1, '$DropIndexSQL', 'SELECT ''INFO: Index $Param{Name} does not exist, skipping.''' )";
     push @SQL, "PREPARE IndexStatement FROM \@IndexSQLStatement";
     push @SQL, "EXECUTE IndexStatement";
 
@@ -644,20 +644,10 @@ sub ForeignKeyCreate {
     }
 
     # add foreign key
-    my $CreateForeignKeySQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
         . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
 
-    my @SQL;
-
-    # create foreign key
-    push @SQL,
-        "SET \@FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = '$Param{LocalTableName}' AND constraint_name = '$ForeignKey')";
-    push @SQL,
-        "SET \@FKSQLStatement := IF( \@FKExists = 0, '$CreateForeignKeySQL', 'SELECT ''INFO: Foreign key constraint $ForeignKey does already exist, skipping.''' )";
-    push @SQL, "PREPARE FKStatement FROM \@FKSQLStatement";
-    push @SQL, "EXECUTE FKStatement";
-
-    return @SQL;
+    return ($SQL);
 }
 
 sub ForeignKeyDrop {
