@@ -596,13 +596,26 @@ sub IndexDrop {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
-    my $SQL = 'DROP INDEX ' . $Param{Name} . ' ON ' . $Param{TableName};
-    return ($SQL);
+
+    my $DropIndexSQL = 'DROP INDEX ' . $Param{Name} . ' ON ' . $Param{TableName};
+
+    my @SQL;
+
+    # drop index only if it does still exist
+    push @SQL,
+        "SET \@IndexExists := (SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema = DATABASE() AND table_name = '$Param{TableName}' AND index_name = '$Param{Name}')";
+    push @SQL,
+        "SET \@IndexSQLStatement := IF( \@IndexExists = 1, '$DropIndexSQL', 'SELECT ''INFO: Index $Param{Name} does not exist, skipping.''' )";
+    push @SQL, "PREPARE IndexStatement FROM \@IndexSQLStatement";
+    push @SQL, "EXECUTE IndexStatement";
+
+    # return SQL
+    return @SQL;
 }
 
 sub ForeignKeyCreate {
