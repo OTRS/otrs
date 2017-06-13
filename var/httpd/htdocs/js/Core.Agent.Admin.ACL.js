@@ -385,7 +385,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                 $LevelObj
                     .attr('data-content', Value)
                     .find('em')
-                    .before('<span>' + ValueEscaped + '</span>');
+                    .before('<span>' + Value + '</span>');
                 $LevelObj.insertBefore($Object.parent());
             }
             $Object
