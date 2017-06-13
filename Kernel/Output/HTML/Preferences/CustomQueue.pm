@@ -62,7 +62,7 @@ sub Param {
     if ( $ParamObject->GetArray( Param => 'QueueID' ) ) {
         @CustomQueueIDs = $ParamObject->GetArray( Param => 'QueueID' );
     }
-    elsif ( $Param{UserData}->{UserID} && !defined $CustomQueueIDs[0] ) {
+    elsif ( $Param{UserData}->{UserID} ) {
         @CustomQueueIDs = $QueueObject->GetAllCustomQueues(
             UserID => $Param{UserData}->{UserID}
         );
