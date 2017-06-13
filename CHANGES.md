@@ -1,4 +1,5 @@
 #5.0.21 2017-??-??
+ - 2017-06-13 Fixed bug#[12726](https://bugs.otrs.org/show_bug.cgi?id=12726) - Automatic links to CVE numbers don't work in TicketViewZoom.
  - 2017-06-13 Fixed bug#[12854](https://bugs.otrs.org/show_bug.cgi?id=12854) - ACL Editor shows wrong values.
  - 2017-06-12 Fixed bug#[12824](https://bugs.otrs.org/show_bug.cgi?id=12824) - AjaxErrorDialog visible when printing Ticket via Browser.
  - 2017-06-12 Fixed bug#[12808](https://bugs.otrs.org/show_bug.cgi?id=12808) - Wrong counting in Dashlets for "Ticket in My Queues".
@@ -26,6 +27,8 @@
  - 2017-05-29 Follow-up fix for bug#[9723](https://bugs.otrs.org/show_bug.cgi?id=9723) - TicketAccountedTime stat does not run on Oracle with many tickets.
  - 2017-05-29 Fixed bug#[12762](https://bugs.otrs.org/show_bug.cgi?id=12762) - Missing information in the process ticket (follow up Bug 12443).
  - 2017-05-26 Fixed bug#[12482](https://bugs.otrs.org/show_bug.cgi?id=12482) - Show link URL of DF doesn't work in CustomerTicketZoom.
+=======
+#5.0.20 2017-??-??
  - 2017-05-26 Fixed bug#[12853](https://bugs.otrs.org/show_bug.cgi?id=12853) - Notification tags like OTRS_CUSTOMER_DATA_* not working in AgentTicketEmail signature field.
  - 2017-05-26 Fixed bug#[12849](https://bugs.otrs.org/show_bug.cgi?id=12849) - Default entry sorting broken for e.g. AgentTicketPhone if 'Ticket::Frontend::ListType' set to 'list'.
  - 2017-05-23 Fixed bug#[11243](https://bugs.otrs.org/show_bug.cgi?id=11243) - Wrong escalation time if response time set to 60 or less minutes.
