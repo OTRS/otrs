@@ -103,7 +103,7 @@ Core.UI.Autocomplete = (function (TargetNS) {
     // which matches the search term.
     $.ui.autocomplete.prototype._renderItem = function(ul, item) {
 
-        var Regex = new RegExp("(" + this.term.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&") + ")", "i"),
+        var Regex = new RegExp("(" + this.term.replace(/[-[\]/{}()*+?.\\^$|]/g, "\\$&") + ")", "i"),
             Label = Core.App.EscapeHTML(item.label);
 
         // Mark matches with strong tag.

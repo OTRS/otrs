@@ -64,7 +64,7 @@ Core.Agent.LinkObject.SearchForm = (function (TargetNS) {
 
             SearchValueFlag = false;
             $('#LinkSearchForm input, #LinkSearchForm select').each(function () {
-                if ($(this).attr('name') && $(this).attr('name').match(/^SEARCH\:\:/)) {
+                if ($(this).attr('name') && $(this).attr('name').match(/^SEARCH::/)) {
                     if ($(this).val() && $(this).val().length) {
                         SearchValueFlag = true;
                     }

@@ -130,7 +130,7 @@ Core.App = (function (TargetNS) {
             });
             return AppropriateBrowser;
         }
-        alert(Core.Language.Translate('Error: Browser Check failed!'));
+        alert('Error: Browser Check failed!');
     };
 
     /**
@@ -181,11 +181,13 @@ Core.App = (function (TargetNS) {
     TargetNS.Ready = function (Callback) {
         if ($.isFunction(Callback)) {
             $(document).ready(function () {
+                var Trace;
                 try {
                     Callback();
                 }
                 catch (Error) {
-                    Core.Exception.HandleFinalError(Error);
+                    Trace = printStackTrace({e: Error, guess: true}).join('\n');
+                    Core.Exception.HandleFinalError(Error, Trace);
                 }
             });
         }
@@ -221,7 +223,7 @@ Core.App = (function (TargetNS) {
 
                 Core.UI.Dialog.ShowDialog({
                     HTML : $DialogObj,
-                    Title : Core.Language.Translate("Connection error"),
+                    Title : Core.Config.Get('ConnectionErrorTitle'),
                     Modal : true,
                     CloseOnClickOutside : false,
                     CloseOnEscape : false,
@@ -229,14 +231,14 @@ Core.App = (function (TargetNS) {
                     PositionLeft: 'Center',
                     Buttons: [
                         {
-                            Label: Core.Language.Translate("Reload page"),
+                            Label: Core.Config.Get('ConnectionErrorReloadButton'),
                             Class: 'Primary',
                             Function: function () {
                                 location.reload();
                             }
                         },
                         {
-                            Label: Core.Language.Translate("Close this dialog"),
+                            Label: Core.Config.Get('DialogCloseMsg'),
                             Function: function () {
                                 if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                                     $('body').addClass('ConnectionErrorDialogClosed');
@@ -293,7 +295,7 @@ Core.App = (function (TargetNS) {
 
             Core.UI.Dialog.ShowDialog({
                 HTML : $DialogObj,
-                Title : Core.Language.Translate("Connection error"),
+                Title : Core.Config.Get('ConnectionErrorTitle'),
                 Modal : true,
                 CloseOnClickOutside : false,
                 CloseOnEscape : false,
@@ -301,14 +303,14 @@ Core.App = (function (TargetNS) {
                 PositionLeft: 'Center',
                 Buttons: [
                     {
-                        Label: Core.Language.Translate("Reload page"),
+                        Label: Core.Config.Get('ConnectionErrorReloadButton'),
                         Class: 'Primary',
                         Function: function () {
                             location.reload();
                         }
                     },
                     {
-                        Label: Core.Language.Translate("Close this dialog"),
+                        Label: Core.Config.Get('DialogCloseMsg'),
                         Function: function () {
                             if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                                 $('body').addClass('ConnectionErrorDialogClosed');
@@ -355,7 +357,7 @@ Core.App = (function (TargetNS) {
      */
     TargetNS.EscapeSelector = function (Selector) {
         if (Selector && Selector.length) {
-            return Selector.replace(/( |#|:|\.|\[|\]|@|!|"|\$|%|&|<|=|>|'|\(|\)|\*|\+|,|\?|\/|\;|\\|\^|{|}|`|\||~)/g, '\\$1');
+            return Selector.replace(/( |#|:|\.|\[|\]|@|!|"|\$|%|&|<|=|>|'|\(|\)|\*|\+|,|\?|\/|;|\\|\^|{|}|`|\||~)/g, '\\$1');
         }
         return '';
     };
@@ -367,7 +369,7 @@ Core.App = (function (TargetNS) {
      * @returns {String} The escaped string.
      * @param {String} StringToEscape - The string which is supposed to be escaped.
      * @description
-     *      Escapes the special HTML characters ( < > & ") in supplied string to their
+     *      Escapes the special HTML characters ( < > & ) in supplied string to their
      *      corresponding entities.
      */
     TargetNS.EscapeHTML = function (StringToEscape) {
@@ -425,67 +427,6 @@ Core.App = (function (TargetNS) {
     TargetNS.Unsubscribe = function (Handle) {
         $.unsubscribe(Handle);
     };
-
-    /**
-     * @name Init
-     * @memberof Core.App
-     * @function
-     * @description
-     *      This function initializes the special functions.
-     */
-    TargetNS.Init = function () {
-        var RefreshSeconds = parseInt(Core.Config.Get('Refresh'), 10) || 0;
-
-        if (RefreshSeconds !== 0) {
-            window.setInterval(function() {
-
-                // If there are any open overlay dialogs, don't refresh
-                if ($('.Dialog:visible').length) {
-                    return;
-                }
-
-                // If there are open child popup windows, don't refresh
-                if (Core && Core.UI && Core.UI.Popup && Core.UI.Popup.HasOpenPopups()) {
-                    return;
-                }
-                // Now we can reload
-                window.location.reload();
-            }, RefreshSeconds * 1000);
-        }
-
-        // Initialize return to previous page function.
-        TargetNS.ReturnToPreviousPage();
-    };
-
-    /**
-     * @name ReturnToPreviousPage
-     * @memberof Core.App
-     * @function
-     * @description
-     *      This function bind on click event to return on previous page.
-     */
-    TargetNS.ReturnToPreviousPage = function () {
-
-        $('.ReturnToPreviousPage').on('click', function () {
-
-            // Check if an older history entry is available
-            if (history.length > 1) {
-            history.back();
-            return false;
-            }
-
-            // If we're in a popup window, close it
-            if (Core.UI.Popup.CurrentIsPopupWindow()) {
-                Core.UI.Popup.ClosePopup();
-                return false;
-            }
-
-            // Normal window, no history: no action possible
-            return false;
-        });
-    };
-
-    Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
 }(Core.App || {}));

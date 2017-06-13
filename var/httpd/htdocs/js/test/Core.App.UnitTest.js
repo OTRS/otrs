@@ -43,7 +43,7 @@ Core.App = (function (Namespace) {
             Assert.expect(13);
             Assert.equal(Core.App.EscapeSelector(Selector), 'ConfigItemClass\\:\\:Config\\:\\:Hardware\\:\\:MapTypeAdd\\:\\:Attribute\\#\\#\\#SubItem');
             Assert.equal(Core.App.EscapeSelector('ID-mit_anderen_Sonderzeichen'), 'ID-mit_anderen_Sonderzeichen');
-            Assert.equal(Core.App.EscapeSelector('#:.\[\]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
+            Assert.equal(Core.App.EscapeSelector('#:.[]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
             Assert.equal(Core.App.EscapeSelector('%&<=>'), '\\%\\&\\<\\=\\>');
             Assert.equal(Core.App.EscapeSelector("'"), "\\'");
             Assert.equal(Core.App.EscapeSelector('()*+,?/;'), '\\(\\)\\*\\+\\,\\?\\/\\;');
