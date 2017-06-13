@@ -134,6 +134,30 @@ for my $SQL (@SQL) {
     );
 }
 
+# remove the same foreign key again (should be fine)
+$XML = '
+<TableAlter Name="test_foreignkeys_2">
+    <ForeignKeyDrop ForeignTable="test_foreignkeys_1">
+        <Reference Local="name_a" Foreign="name_a"/>
+    </ForeignKeyDrop>
+</TableAlter>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    'SQLProcessor() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() ALTER TABLE ($SQL)",
+    );
+}
+
+
 # delete the column
 $XML = '
 <TableAlter Name="test_foreignkeys_1">

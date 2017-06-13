@@ -658,9 +658,29 @@ sub ForeignKeyDrop {
     }
 
     # drop foreign key
-    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
+    my $DropForeignKeySQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
 
-    return ($SQL);
+    # put two literal dollar characters in a string
+    # this is needed for the postgres 'do' statement
+    my $DollarDollar = '$$';
+
+    # build SQL to drop foreign key within a "try/catch block"
+    # to prevent errors if foreign key does not exist
+    $DropForeignKeySQL = <<"EOF";
+DO $DollarDollar
+BEGIN
+IF EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = '$Param{Name}'
+    ) THEN
+    $DropForeignKeySQL;
+END IF;
+END$DollarDollar;
+EOF
+
+    # return SQL
+    return ($DropForeignKeySQL);
 }
 
 sub UniqueCreate {
