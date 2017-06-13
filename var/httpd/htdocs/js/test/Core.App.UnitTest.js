@@ -43,7 +43,7 @@ Core.App = (function (Namespace) {
             expect(13);
             equal(Core.App.EscapeSelector(Selector), 'ConfigItemClass\\:\\:Config\\:\\:Hardware\\:\\:MapTypeAdd\\:\\:Attribute\\#\\#\\#SubItem');
             equal(Core.App.EscapeSelector('ID-mit_anderen_Sonderzeichen'), 'ID-mit_anderen_Sonderzeichen');
-            equal(Core.App.EscapeSelector('#:.\[\]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
+            equal(Core.App.EscapeSelector('#:.[]@!"$'), '\\#\\:\\.\\[\\]\\@\\!\\"\\$');
             equal(Core.App.EscapeSelector('%&<=>'), '\\%\\&\\<\\=\\>');
             equal(Core.App.EscapeSelector("'"), "\\'");
             equal(Core.App.EscapeSelector('()*+,?/;'), '\\(\\)\\*\\+\\,\\?\\/\\;');

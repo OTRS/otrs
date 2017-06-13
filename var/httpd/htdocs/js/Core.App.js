@@ -357,7 +357,7 @@ Core.App = (function (TargetNS) {
      */
     TargetNS.EscapeSelector = function (Selector) {
         if (Selector && Selector.length) {
-            return Selector.replace(/( |#|:|\.|\[|\]|@|!|"|\$|%|&|<|=|>|'|\(|\)|\*|\+|,|\?|\/|\;|\\|\^|{|}|`|\||~)/g, '\\$1');
+            return Selector.replace(/( |#|:|\.|\[|\]|@|!|"|\$|%|&|<|=|>|'|\(|\)|\*|\+|,|\?|\/|;|\\|\^|{|}|`|\||~)/g, '\\$1');
         }
         return '';
     };
