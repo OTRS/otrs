@@ -288,7 +288,7 @@ sub GetUserData {
                 );
                 my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
                 $Preferences{OutOfOfficeMessage} = sprintf( $OutOfOfficeMessageTemplate, $TillDate, $Till );
-                $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
+                $Data{UserFullname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
 
             # Reduce CacheTTL to one hour for users that are out of office to make sure the cache expires timely
