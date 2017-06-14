@@ -716,19 +716,37 @@ sub UniqueCreate {
             return;
         }
     }
-    my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
+    my $CreateUniqueSQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
     my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ', ';
+            $CreateUniqueSQL .= ', ';
         }
-        $SQL .= $Array[$_]->{Name};
+        $CreateUniqueSQL .= $Array[$_]->{Name};
     }
-    $SQL .= ')';
+    $CreateUniqueSQL .= ')';
+
+    # put two literal dollar characters in a string
+    # this is needed for the postgres 'do' statement
+    my $DollarDollar = '$$';
+
+    # build SQL to create unique constraint within a "try/catch block"
+    # to prevent errors if unique constraint does already exist
+    $CreateUniqueSQL = <<"EOF";
+DO $DollarDollar
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE LOWER(conname) = LOWER('$Param{Name}')
+    ) THEN
+    $CreateUniqueSQL;
+END IF;
+END$DollarDollar;
+EOF
 
     # return SQL
-    return ($SQL);
-
+    return ($CreateUniqueSQL);
 }
 
 sub UniqueDrop {
@@ -744,8 +762,29 @@ sub UniqueDrop {
             return;
         }
     }
-    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
-    return ($SQL);
+    my $DropUniqueSQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
+
+    # put two literal dollar characters in a string
+    # this is needed for the postgres 'do' statement
+    my $DollarDollar = '$$';
+
+    # build SQL to drop unique constraint within a "try/catch block"
+    # to prevent errors if unique constraint does not exist
+    $DropUniqueSQL = <<"EOF";
+DO $DollarDollar
+BEGIN
+IF EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE LOWER(conname) = LOWER('$Param{Name}')
+    ) THEN
+    $DropUniqueSQL;
+END IF;
+END$DollarDollar;
+EOF
+
+    # return SQL
+    return ($DropUniqueSQL);
 }
 
 sub Insert {

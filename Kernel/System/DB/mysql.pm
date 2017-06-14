@@ -725,19 +725,27 @@ sub UniqueCreate {
             return;
         }
     }
-    my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE INDEX (";
+    my $CreateUniqueSQL = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE INDEX (";
     my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ', ';
+            $CreateUniqueSQL .= ', ';
         }
-        $SQL .= $Array[$_]->{Name};
+        $CreateUniqueSQL .= $Array[$_]->{Name};
     }
-    $SQL .= ')';
+    $CreateUniqueSQL .= ')';
 
-    # return SQL
-    return ($SQL);
+    my @SQL;
 
+    # create unique constraint
+    push @SQL,
+        "SET \@UniqueExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = '$Param{TableName}' AND constraint_name = '$Param{Name}')";
+    push @SQL,
+        "SET \@UniqueSQLStatement := IF( \@UniqueExists = 0, '$CreateUniqueSQL', 'SELECT ''INFO: Unique constraint $Param{Name} does already exist, skipping.''' )";
+    push @SQL, "PREPARE UniqueStatement FROM \@UniqueSQLStatement";
+    push @SQL, "EXECUTE UniqueStatement";
+
+    return @SQL;
 }
 
 sub UniqueDrop {
@@ -753,8 +761,19 @@ sub UniqueDrop {
             return;
         }
     }
-    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP INDEX ' . $Param{Name};
-    return ($SQL);
+    my $DropUniqueSQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP INDEX ' . $Param{Name};
+
+    my @SQL;
+
+    # create unique constraint
+    push @SQL,
+        "SET \@UniqueExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = '$Param{TableName}' AND constraint_name = '$Param{Name}')";
+    push @SQL,
+        "SET \@UniqueSQLStatement := IF( \@UniqueExists > 0, '$DropUniqueSQL', 'SELECT ''INFO: Unique constraint $Param{Name} does not exist, skipping.''' )";
+    push @SQL, "PREPARE UniqueStatement FROM \@UniqueSQLStatement";
+    push @SQL, "EXECUTE UniqueStatement";
+
+    return @SQL;
 }
 
 sub Insert {

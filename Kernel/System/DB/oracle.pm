@@ -919,20 +919,35 @@ sub UniqueCreate {
         Name => $Param{Name},
     );
 
-    my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Unique UNIQUE (";
+    my $CreateUniqueSQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Unique UNIQUE (";
     my @Array = @{ $Param{Data} };
     my $Name  = '';
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ', ';
+            $CreateUniqueSQL .= ', ';
         }
-        $SQL  .= $Array[$_]->{Name};
+        $CreateUniqueSQL  .= $Array[$_]->{Name};
         $Name .= '_' . $Array[$_]->{Name};
     }
-    $SQL .= ')';
+    $CreateUniqueSQL .= ')';
 
-    return ($SQL);
+    my $Shell = '';
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
+        $Shell = "/\n--";
+    }
 
+    # build SQL to create unique constraint within a "try/catch block"
+    # to prevent errors if unique constraint does already exist
+    $CreateUniqueSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE '$CreateUniqueSQL';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
+
+    return ($CreateUniqueSQL);
 }
 
 sub UniqueDrop {
@@ -953,8 +968,25 @@ sub UniqueDrop {
         Name => $Param{Name},
     );
 
-    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Unique";
-    return ($SQL);
+    my $DropUniqueSQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Unique";
+
+    my $Shell = '';
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Database::ShellOutput') ) {
+        $Shell = "/\n--";
+    }
+
+    # build SQL to drop unique constraint within a "try/catch block"
+    # to prevent errors if unique constraint does not exist
+    $DropUniqueSQL = <<"EOF";
+BEGIN
+    EXECUTE IMMEDIATE '$DropUniqueSQL';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+$Shell
+EOF
+
+    return ($DropUniqueSQL);
 }
 
 sub Insert {
