@@ -133,6 +133,10 @@ sub _TasksGet {
             Module  => 'FrameworkVersionCheck',
         },
         {
+            Message => 'Check required Perl modules',
+            Module  => 'PerlModulesCheck',
+        },
+        {
             Message => 'Upgrade database structure',
             Module  => 'UpgradeDatabaseStructure',
         },
