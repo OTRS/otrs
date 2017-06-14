@@ -608,7 +608,7 @@ sub ForeignKeyCreate {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -626,10 +626,30 @@ sub ForeignKeyCreate {
     }
 
     # add foreign key
-    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
+    my $CreateForeignKeySQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
         . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
 
-    return ($SQL);
+    # put two literal dollar characters in a string
+    # this is needed for the postgres 'do' statement
+    my $DollarDollar = '$$';
+
+    # build SQL to create foreign key within a "try/catch block"
+    # to prevent errors if foreign key exists already
+    $CreateForeignKeySQL = <<"EOF";
+DO $DollarDollar
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = '$ForeignKey'
+    ) THEN
+    $CreateForeignKeySQL;
+END IF;
+END$DollarDollar;
+EOF
+
+    # return SQL
+    return ($CreateForeignKeySQL);
 }
 
 sub ForeignKeyDrop {
