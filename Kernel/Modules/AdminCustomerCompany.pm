@@ -304,6 +304,7 @@ sub Run {
         $Self->_Overview(
             Nav    => $Nav,
             Search => $Search,
+            %GetParam,
         );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar(
