@@ -176,7 +176,7 @@ sub Run {
     # add
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
-        $GetParam{Name}   = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -297,6 +297,7 @@ sub Run {
         $Self->_Overview(
             Nav    => $Nav,
             Search => $Search,
+            %GetParam,
         );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
