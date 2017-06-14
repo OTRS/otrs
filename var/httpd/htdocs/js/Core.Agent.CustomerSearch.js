@@ -113,6 +113,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 // Update signature if needed.
                 if ($('#Dest').val() !== '') {
                     SignatureURL = Core.Config.Get('Baselink') + 'Action=' + Core.Config.Get('Action') + ';Subaction=Signature;Dest=' + $('#Dest').val() + ';SelectedCustomerUser=' + $('#SelectedCustomerUser').val();
+                    if (!Core.Config.Get('SessionIDCookie')) {
+                        SignatureURL += ';' + Core.Config.Get('SessionName') + '=' + Core.Config.Get('SessionID');
+                    }
                     $('#Signature').attr('src', SignatureURL);
                 }
             }
