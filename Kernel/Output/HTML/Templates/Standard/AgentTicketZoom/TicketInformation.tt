@@ -130,13 +130,13 @@
 [% RenderBlockEnd("TotalAccountedTime") %]
 [% RenderBlockStart("Owner") %]
                         <label>[% Translate("Owner") | html %]:</label>
-                        <p class="Value" title="[% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %] ([% Data.UserLogin | html %])">
+                        <p class="Value" title="[% Data.UserFullname | html %] ([% Data.UserLogin | html %])">
                             [% IF Data.EnableChat %]
                             <span class="UserStatusIcon [% Data.UserState | html %]">
                                 <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
                             </span>
                             [% END %]
-                            [% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %]
+                            [% Data.UserFullname | html %]
                             [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
                             <span class="UserChatIcons Block Hidden">
                                 <a href="#" title="[% Translate("Start chat") | html %]" type="button" class="UserChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="User" data-user-fullname="[% Data.UserFullname | html %]" data-ticket-id="[% Data.TicketID | html %]">
@@ -158,13 +158,13 @@
 [% RenderBlockEnd("Owner") %]
 [% RenderBlockStart("Responsible") %]
                         <label>[% Translate("Responsible") | html %]:</label>
-                        <p class="Value" title="[% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %] ([% Data.UserLogin | html %])">
+                        <p class="Value" title="[% Data.UserFullname | html %] ([% Data.UserLogin | html %])">
                             [% IF Data.EnableChat %]
                             <span class="UserStatusIcon [% Data.UserState | html %]">
                                 <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
                             </span>
                             [% END %]
-                            [% Data.UserFullname | html %] [% Data.OutOfOfficeMessage | html %]
+                            [% Data.UserFullname | html %]
                             [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
                             <span class="UserChatIcons Block Hidden">
                                 <a href="#" title="[% Translate("Start chat") | html %]" type="button" class="UserChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="User" data-user-fullname="[% Data.UserFullname | html %]" data-ticket-id="[% Data.TicketID | html %]">

@@ -62,15 +62,41 @@ $Selenium->RunTest(
             Password => $TestUser[0],
         );
 
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
         # get test users ID
         my @UserID;
         for my $UserID (@TestUser) {
-            my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            my $TestUserID = $UserObject->UserLookup(
                 UserLogin => $UserID,
             );
 
             push @UserID, $TestUserID;
         }
+
+        my $DateTimeSettings = $Kernel::OM->Create('Kernel::System::DateTime')->Get();
+        my %Values           = (
+            'OutOfOffice'           => 'on',
+            'OutOfOfficeStartYear'  => $DateTimeSettings->{Year},
+            'OutOfOfficeStartMonth' => $DateTimeSettings->{Month},
+            'OutOfOfficeStartDay'   => $DateTimeSettings->{Day},
+            'OutOfOfficeEndYear'    => $DateTimeSettings->{Year} + 1,
+            'OutOfOfficeEndMonth'   => $DateTimeSettings->{Month},
+            'OutOfOfficeEndDay'     => $DateTimeSettings->{Day},
+        );
+
+        for my $Key ( sort keys %Values ) {
+            $UserObject->SetPreferences(
+                UserID => $UserID[1],
+                Key    => $Key,
+                Value  => $Values{$Key},
+            );
+        }
+
+        my %UserData = $UserObject->GetUserData(
+            UserID => $UserID[1],
+            Valid  => 0,
+        );
 
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -84,8 +110,8 @@ $Selenium->RunTest(
             State        => 'new',
             CustomerID   => 'SeleniumCustomer',
             CustomerUser => 'SeleniumCustomer@localhost.com',
-            OwnerID      => $UserID[0],
-            UserID       => $UserID[0],
+            OwnerID      => $UserID[1],
+            UserID       => $UserID[1],
         );
         $Self->True(
             $TicketID,
@@ -128,10 +154,34 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # check out of office user message without filter
+        $Self->Is(
+            $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
+            "$UserData{UserFullname}",
+            "Out of office message is found for the user - $TestUser[1]"
+        );
+
+        # expand 'New owner' input field
+        $Selenium->execute_script("\$('#NewOwnerID_Search').focus().focus()");
+
+        # click on filter button in input fileld
+        $Selenium->execute_script("\$('.InputField_Filters').click();");
+
+        # enable 'Previous Owner' filter
+        $Selenium->execute_script("\$('.InputField_FiltersList').children('input').click();");
+
+        # check out of office user message with filter
+        $Self->Is(
+            $Selenium->execute_script("return \$('#NewOwnerID option[value=$UserID[1]]').text();"),
+            "1: $UserData{UserFullname}",
+            "Out of office message is found for the user - $TestUser[1]"
+        );
+
         # change ticket user owner
         $Selenium->execute_script(
             "\$('#NewOwnerID').val('$UserID[1]').trigger('redraw.InputField').trigger('change');"
         );
+
         $Selenium->find_element( "#Subject",        'css' )->send_keys('Test');
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Test');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
