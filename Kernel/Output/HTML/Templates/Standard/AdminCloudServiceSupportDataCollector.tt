@@ -21,7 +21,7 @@
                         <a href="[% Env("Baselink") %]Action=AdminCloudServices" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
                     <li>
-                        <a href="Action=AdminSupportDataCollector" class="CallForAction Fullsize Center"><span><i class="fa fa-compass"></i>[% Translate("Support data collector") | html %]</span></a>
+                        <a href="[% Env("Baselink") %]Action=AdminSupportDataCollector" class="CallForAction Fullsize Center"><span><i class="fa fa-compass"></i>[% Translate("Support data collector") | html %]</span></a>
                     </li>
                 </ul>
             </div>
