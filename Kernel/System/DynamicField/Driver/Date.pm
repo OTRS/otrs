@@ -528,7 +528,7 @@ sub EditFieldValueValidate {
         # get time object
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-        my $ValueSystemTime = $DateTimeObject->Set( String => $Param{Value} );
+        my $ValueSystemTime = $DateTimeObject->Set( String => $ManualTimeStamp );
         $ValueSystemTime = $ValueSystemTime ? $DateTimeObject->ToEpoch() : undef;
 
         my $SystemTime     = $DateTimeObject->ToEpoch();
