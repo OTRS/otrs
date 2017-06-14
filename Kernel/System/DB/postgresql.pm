@@ -716,8 +716,8 @@ sub UniqueCreate {
             return;
         }
     }
-    my $CreateUniqueSQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
-    my @Array = @{ $Param{Data} };
+    my $CreateUniqueSQL = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
+    my @Array           = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
             $CreateUniqueSQL .= ', ';

@@ -180,7 +180,6 @@ for my $SQL (@SQL) {
     );
 }
 
-
 # delete the column
 $XML = '
 <TableAlter Name="test_foreignkeys_1">

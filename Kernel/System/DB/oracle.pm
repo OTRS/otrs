@@ -919,14 +919,14 @@ sub UniqueCreate {
         Name => $Param{Name},
     );
 
-    my $CreateUniqueSQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Unique UNIQUE (";
-    my @Array = @{ $Param{Data} };
-    my $Name  = '';
+    my $CreateUniqueSQL = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Unique UNIQUE (";
+    my @Array           = @{ $Param{Data} };
+    my $Name            = '';
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
             $CreateUniqueSQL .= ', ';
         }
-        $CreateUniqueSQL  .= $Array[$_]->{Name};
+        $CreateUniqueSQL .= $Array[$_]->{Name};
         $Name .= '_' . $Array[$_]->{Name};
     }
     $CreateUniqueSQL .= ')';

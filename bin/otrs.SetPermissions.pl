@@ -34,8 +34,8 @@ use Getopt::Long();
 my $OTRSDirectory       = dirname($RealBin);
 my $OTRSDirectoryLength = length($OTRSDirectory);
 
-my $OtrsUser   = 'otrs';    # default: otrs
-my $WebGroup   = '';        # Try to find a default from predefined group list, take the first match.
+my $OtrsUser = 'otrs';    # default: otrs
+my $WebGroup = '';        # Try to find a default from predefined group list, take the first match.
 
 WEBGROUP:
 for my $GroupCheck (qw(wwwrun apache www-data www _www)) {
