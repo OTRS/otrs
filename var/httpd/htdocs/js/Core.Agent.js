@@ -563,6 +563,13 @@ Core.Agent = (function (TargetNS) {
                 + parseInt($(this).css('border-left-width'), 10)
                 + parseInt($(this).css('border-right-width'), 10);
         });
+
+        // Add additional pixel to calculated width, in order to prevent rounding problems in IE.
+        //   Please see bug#12742 for more information.
+        if ($.browser.msie || $.browser.trident) {
+            NavigationBarWidth += 1;
+        }
+
         $('#Navigation').css('width', NavigationBarWidth);
 
         if (NavigationBarWidth > $('#NavigationContainer').outerWidth()) {
