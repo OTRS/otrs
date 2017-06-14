@@ -550,7 +550,7 @@ BEGIN
 IF NOT EXISTS (
     SELECT 1
     FROM pg_indexes
-    WHERE indexname = '$Param{Name}'
+    WHERE LOWER(indexname) = LOWER('$Param{Name}')
     ) THEN
     $CreateIndexSQL;
 END IF;
@@ -588,7 +588,7 @@ BEGIN
 IF EXISTS (
     SELECT 1
     FROM pg_indexes
-    WHERE indexname = '$Param{Name}'
+    WHERE LOWER(indexname) = LOWER('$Param{Name}')
     ) THEN
     $DropIndexSQL;
 END IF;
@@ -608,7 +608,7 @@ sub ForeignKeyCreate {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -641,7 +641,7 @@ BEGIN
 IF NOT EXISTS (
     SELECT 1
     FROM pg_constraint
-    WHERE conname = '$ForeignKey'
+    WHERE LOWER(conname) = LOWER('$ForeignKey')
     ) THEN
     $CreateForeignKeySQL;
 END IF;
@@ -692,7 +692,7 @@ BEGIN
 IF EXISTS (
     SELECT 1
     FROM pg_constraint
-    WHERE conname = '$ForeignKey'
+    WHERE LOWER(conname) = LOWER('$ForeignKey')
     ) THEN
     $DropForeignKeySQL;
 END IF;
