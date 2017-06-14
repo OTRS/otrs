@@ -39,6 +39,9 @@ sub Run {
     my $LayoutObject          = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
+    my %GetParam;
+    $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' ) || 'CustomerCompany';
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -74,12 +77,10 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my $Note = '';
-        my ( %GetParam, %Errors );
-        $GetParam{Source}            = $ParamObject->GetParam( Param => 'Source' );
-        $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
+        my %Errors;
         $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
 
-        for my $Entry ( @{ $ConfigObject->Get('CustomerCompany')->{Map} } ) {
+        for my $Entry ( @{ $ConfigObject->Get( $GetParam{Source} )->{Map} } ) {
             $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) // '';
 
             # check mandatory fields
@@ -121,6 +122,7 @@ sub Run {
                 $Self->_Overview(
                     Nav    => $Nav,
                     Search => $Search,
+                    %GetParam,
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar(
@@ -173,9 +175,7 @@ sub Run {
     # add
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
-        my %GetParam = ();
-        $GetParam{Name}   = $ParamObject->GetParam( Param => 'Name' );
-        $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' );
+        $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar(
             Type => $NavigationBarType,
@@ -202,13 +202,12 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my $Note = '';
-        my ( %GetParam, %Errors );
+        my %Errors;
 
-        $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' );
-        my $CustomerCompanyKey = $ConfigObject->Get('CustomerCompany')->{CustomerCompanyKey};
+        my $CustomerCompanyKey = $ConfigObject->Get( $GetParam{Source} )->{CustomerCompanyKey};
         my $CustomerCompanyID;
 
-        for my $Entry ( @{ $ConfigObject->Get('CustomerCompany')->{Map} } ) {
+        for my $Entry ( @{ $ConfigObject->Get( $GetParam{Source} )->{Map} } ) {
             $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) // '';
 
             # check mandatory fields
@@ -247,6 +246,7 @@ sub Run {
                 $Self->_Overview(
                     Nav    => $Nav,
                     Search => $Search,
+                    %GetParam,
                 );
                 my $Output = $LayoutObject->Header();
                 $Output .= $LayoutObject->NavigationBar(
@@ -365,7 +365,7 @@ sub _Edit {
             my $Block = 'Input';
 
             # build selections or input fields
-            if ( $ConfigObject->Get('CustomerCompany')->{Selections}->{ $Entry->[0] } ) {
+            if ( $ConfigObject->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
                 my $OptionRequired = '';
                 if ( $Entry->[4] ) {
                     $OptionRequired = 'Validate_Required';
@@ -375,7 +375,7 @@ sub _Edit {
                 $Block = 'Option';
                 $Param{Option} = $LayoutObject->BuildSelection(
                     Data =>
-                        $ConfigObject->Get('CustomerCompany')->{Selections}
+                        $ConfigObject->Get( $Param{Source} )->{Selections}
                         ->{ $Entry->[0] },
                     Name  => $Entry->[0],
                     Class => "$OptionRequired Modernize " .
@@ -583,7 +583,7 @@ sub _Overview {
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
-        if ( !$ConfigObject->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+        if ( !$ConfigObject->Get( $Param{Source} )->{Params}->{ForeignDB} ) {
             $LayoutObject->Block( Name => 'LocalDB' );
         }
 
@@ -601,7 +601,7 @@ sub _Overview {
                     },
                 );
 
-                if ( !$ConfigObject->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+                if ( !$ConfigObject->Get( $Param{Source} )->{Params}->{ForeignDB} ) {
                     $LayoutObject->Block(
                         Name => 'LocalDBRow',
                         Data => {
