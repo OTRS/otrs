@@ -281,7 +281,7 @@ sub GetUserData {
                 = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay}";
             if ( $TimeStart < $Time && $TimeEnd > $Time ) {
                 $Preferences{OutOfOfficeMessage} = "*** out of office till $TillDate/$Till d ***";
-                $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
+                $Data{UserFullname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
 
             # Reduce CacheTTL to one hour for users that are out of office to make sure the cache expires timely
