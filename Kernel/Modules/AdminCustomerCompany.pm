@@ -44,6 +44,9 @@ sub Run {
     $Search
         ||= $Self->{ConfigObject}->Get('AdminCustomerCompany::RunInitialWildcardSearch') ? '*' : '';
 
+    my %GetParam;
+    $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' ) || 'CustomerCompany';
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
@@ -79,11 +82,11 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Note = '';
-        my ( %GetParam, %Errors );
+        my %Errors;
         $GetParam{Source}            = $Self->{ParamObject}->GetParam( Param => 'Source' );
         $GetParam{CustomerCompanyID} = $Self->{ParamObject}->GetParam( Param => 'CustomerCompanyID' );
 
-        for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
+        for my $Entry ( @{ $Self->{ConfigObject}->Get( $GetParam{Source} )->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) // '';
 
             # check mandatory fields
@@ -125,6 +128,7 @@ sub Run {
                 $Self->_Overview(
                     Nav    => $Nav,
                     Search => $Search,
+                    %GetParam,
                 );
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar(
@@ -172,9 +176,7 @@ sub Run {
     # add
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
-        my %GetParam = ();
         $GetParam{Name}   = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -201,12 +203,11 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my $Note = '';
-        my ( %GetParam, %Errors );
-        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
-        my $CustomerCompanyKey = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey};
+        my %Errors;
+        my $CustomerCompanyKey = $Self->{ConfigObject}->Get( $GetParam{Source} )->{CustomerCompanyKey};
         my $CustomerCompanyID;
 
-        for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
+        for my $Entry ( @{ $Self->{ConfigObject}->Get( $GetParam{Source} )->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) // '';
 
             # check mandatory fields
@@ -245,6 +246,7 @@ sub Run {
                 $Self->_Overview(
                     Nav    => $Nav,
                     Search => $Search,
+                    %GetParam,
                 );
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar(
@@ -349,7 +351,7 @@ sub _Edit {
             my $Block = 'Input';
 
             # build selections or input fields
-            if ( $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}->{ $Entry->[0] } ) {
+            if ( $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] } ) {
                 my $OptionRequired = '';
                 if ( $Entry->[4] ) {
                     $OptionRequired = 'Validate_Required';
@@ -359,7 +361,7 @@ sub _Edit {
                 $Block = 'Option';
                 $Param{Option} = $Self->{LayoutObject}->BuildSelection(
                     Data =>
-                        $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}
+                        $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}
                         ->{ $Entry->[0] },
                     Name  => $Entry->[0],
                     Class => $OptionRequired . ' ' .
@@ -520,7 +522,7 @@ sub _Overview {
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
 
-        if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+        if ( !$Self->{ConfigObject}->Get( $Param{Source} )->{Params}->{ForeignDB} ) {
             $Self->{LayoutObject}->Block( Name => 'LocalDB' );
         }
 
@@ -538,7 +540,7 @@ sub _Overview {
                     },
                 );
 
-                if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+                if ( !$Self->{ConfigObject}->Get( $Param{Source} )->{Params}->{ForeignDB} ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'LocalDBRow',
                         Data => {
