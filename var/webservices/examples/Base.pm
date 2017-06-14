@@ -15,31 +15,41 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::Language',
     'Kernel::System::DynamicField',
     'Kernel::System::Log',
+    'Kernel::System::SysConfig',
 );
 
 =head1 NAME
 
-var::webservices::examples::Base - common methods used during example web service import
+var::websertvices::examples::Base - base class for ready to run web services examples
 
-=head1 SYNOPSIS
+=head1 DESCRIPTION
+
+This is a base class for example web services and should not be instantiated directly.
 
 All _pre.pm and _post.pm files can use helper methods defined in this class.
 
-=head1 PUBLIC INTERFACE
+    package var::webservices::examples::MyWebServiceExample;
+    use strict;
+    use warnings;
 
-=over 4
+    use parent qw(var::webservices::examples::Base);
+
+    # methods go here
 
 =cut
 
-=item DynamicFieldsAdd()
+=head1 PUBLIC INTERFACE
+
+=head2 DynamicFieldsAdd()
 
 Creates dynamic fields according to provided configurations.
 
-    my %Result = $SysConfigObject->DynamicFieldsAdd(
-        DynamicFieldList => [                                # (required) List of dinamic field configuration
+    my %Result = $WebServiceExampleObject->DynamicFieldsAdd(
+        DynamicFieldList => [                                # (required) List of dynamic field configuration
             {
                 Name       => 'PreProcApplicationRecorded',
                 Label      => 'Application Recorded',
@@ -148,9 +158,101 @@ sub DynamicFieldsAdd {
     return %Response;
 }
 
-1;
+=head2 SystemConfigurationUpdate()
 
-=back
+Updates system configuration according with the provided data.
+
+    my $Success = $WebServiceExampleObject->SystemConfigurationUpdate(
+        WebServiceName => 'Some WebService',
+        Data => [
+            {
+                'GenericInterface::Invoker::Settings::ResponseDynamicField' => {
+                    1234 => 'Some Dynamic Field',
+                    # ...
+                },
+            },
+        ],
+    );
+
+=cut
+
+sub SystemConfigurationUpdate {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(WebServiceName Data)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed",
+            );
+
+            return;
+        }
+    }
+
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    my @UpdatedSettings;
+
+    for my $Item ( @{ $Param{Data} } ) {
+        my $ItemName     = ( keys %{$Item} )[0];
+        my $CurrentValue = $ConfigObject->Get($ItemName);
+
+        for my $Key ( sort keys %{ $Item->{$ItemName} } ) {
+
+            my $Value = $Item->{$ItemName}->{$Key};
+
+            if (
+                !$CurrentValue->{$Key}
+                || $CurrentValue->{$Key} ne $Value
+                )
+            {
+                $CurrentValue->{$Key} = $Value;
+            }
+
+            my $SettingName = $ItemName;
+
+            my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+                Name   => $SettingName,
+                Force  => 1,
+                UserID => 1,
+            );
+
+            my %Result = $SysConfigObject->SettingUpdate(
+                Name              => $SettingName,
+                IsValid           => 1,
+                EffectiveValue    => $CurrentValue,
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                UserID            => 1,
+            );
+
+            push @UpdatedSettings, $SettingName;
+        }
+
+        $ConfigObject->Set(
+            Key   => $ItemName,
+            Value => $CurrentValue,
+        );
+    }
+
+    my $Success = $SysConfigObject->ConfigurationDeploy(
+        Comments      => "Deployed by '$Param{WebServiceName}' web service setup",
+        UserID        => 1,
+        Force         => 1,
+        DirtySettings => \@UpdatedSettings,
+    );
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "System was unable to deploy settings needed for '$Param{WebServiceName}' web service!"
+        );
+    }
+
+    return $Success;
+}
+
+1;
 
 =head1 TERMS AND CONDITIONS
 
