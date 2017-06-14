@@ -1009,8 +1009,9 @@ for my $Test (@Tests) {
     next TEST if !$DBSuccess;
 
     # Delete cache to get fresh data.
-    $CacheObject->CleanUp(
-        Type => 'SysConfigInvalid',
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => 'ConfigurationInvalidList'
     );
 
     my @InvalidSettings = $SysConfigObject->ConfigurationInvalidList();

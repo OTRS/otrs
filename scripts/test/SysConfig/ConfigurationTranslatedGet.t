@@ -183,8 +183,12 @@ $CacheObject->CleanUp(
 $CacheObject->CleanUp(
     Type => 'SysConfigDefaultList',
 );
-$CacheObject->CleanUp(
-    Type => 'SysConfigConfigurationTranslatedGet',
-);
+my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+for my $Language ( sort keys %Languages ) {
+    $CacheObject->Delete(
+        Type => 'SysConfig',
+        Key  => "ConfigurationTranslatedGet::$Language",
+    );
+}
 
 1;

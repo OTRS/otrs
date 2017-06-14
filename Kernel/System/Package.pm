@@ -636,9 +636,7 @@ sub PackageInstall {
             'SysConfigDefaultListGet',
             'SysConfigDefaultList',
             'SysConfigDefault',
-            'SysConfigSettingEffectiveValueCheck',
-            'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfigConfigurationXML2DB',
+            'SysConfigPersistent',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -739,9 +737,7 @@ sub PackageReinstall {
             'SysConfigDefaultListGet',
             'SysConfigDefaultList',
             'SysConfigDefault',
-            'SysConfigSettingEffectiveValueCheck',
-            'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfigConfigurationXML2DB',
+            'SysConfigPersistent',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -1163,9 +1159,7 @@ sub PackageUpgrade {
             'SysConfigDefaultListGet',
             'SysConfigDefaultList',
             'SysConfigDefault',
-            'SysConfigSettingEffectiveValueCheck',
-            'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfigConfigurationXML2DB',
+            'SysConfigPersistent',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -1272,9 +1266,7 @@ sub PackageUninstall {
             'SysConfigDefaultListGet',
             'SysConfigDefaultList',
             'SysConfigDefault',
-            'SysConfigSettingEffectiveValueCheck',
-            'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfigConfigurationXML2DB',
+            'SysConfigPersistent',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();
@@ -3963,9 +3955,7 @@ sub _PackageUninstallMerged {
             'SysConfigDefaultListGet',
             'SysConfigDefaultList',
             'SysConfigDefault',
-            'SysConfigSettingEffectiveValueCheck',
-            'SysConfigSettingEffectiveValues2PerlFile',
-            'SysConfigConfigurationXML2DB',
+            'SysConfigPersistent',
         ],
     );
     $Kernel::OM->Get('Kernel::System::Loader')->CacheDelete();

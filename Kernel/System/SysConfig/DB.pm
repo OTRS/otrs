@@ -536,18 +536,19 @@ sub DefaultSettingDelete {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'SysConfigConfigurationTranslatedGet',
-    );
-    $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _SettingTranslatedGet.
+    # Clean cache for setting translations.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigSettingTranslatedGet',
+            Type => 'SysConfig',
             Key  => "SettingTranslatedGet::$Language" . "::$DefaultSetting{Name}",
+        );
+        $CacheObject->Delete(
+            Type => 'SysConfig',
+            Key  => "ConfigurationTranslatedGet::$Language",
         );
     }
 
@@ -715,18 +716,19 @@ sub DefaultSettingUpdate {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'SysConfigConfigurationTranslatedGet',
-    );
-    $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _SettingTranslatedGet.
+    # Clean cache for setting translations.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigSettingTranslatedGet',
+            Type => 'SysConfig',
             Key  => "SettingTranslatedGet::$Language" . "::$DefaultSetting{Name}",
+        );
+        $CacheObject->Delete(
+            Type => 'SysConfig',
+            Key  => "ConfigurationTranslatedGet::$Language",
         );
     }
 
@@ -2418,18 +2420,19 @@ sub ModifiedSettingAdd {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'SysConfigConfigurationTranslatedGet',
-    );
-    $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _SettingTranslatedGet.
+    # Clean cache for setting translations.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigSettingTranslatedGet',
+            Type => 'SysConfig',
             Key  => "SettingTranslatedGet::$Language" . "::$Param{Name}",
+        );
+        $CacheObject->Delete(
+            Type => 'SysConfig',
+            Key  => "ConfigurationTranslatedGet::$Language",
         );
     }
 
@@ -2863,18 +2866,19 @@ sub ModifiedSettingDelete {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'SysConfigConfigurationTranslatedGet',
-    );
-    $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _SettingTranslatedGet.
+    # Clean cache for setting translations.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigSettingTranslatedGet',
+            Type => 'SysConfig',
             Key  => "SettingTranslatedGet::$Language" . "::$ModifiedSetting{Name}",
+        );
+        $CacheObject->Delete(
+            Type => 'SysConfig',
+            Key  => "ConfigurationTranslatedGet::$Language",
         );
     }
 
@@ -3048,18 +3052,19 @@ sub ModifiedSettingUpdate {
         Type => 'SysConfigEntities',
     );
     $CacheObject->CleanUp(
-        Type => 'SysConfigConfigurationTranslatedGet',
-    );
-    $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
     );
 
-    # Clean cache for _SettingTranslatedGet.
+    # Clean cache for setting translations.
     my %Languages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
     for my $Language ( sort keys %Languages ) {
         $CacheObject->Delete(
-            Type => 'SysConfigSettingTranslatedGet',
+            Type => 'SysConfig',
             Key  => "SettingTranslatedGet::$Language" . "::$Param{Name}",
+        );
+        $CacheObject->Delete(
+            Type => 'SysConfig',
+            Key  => "ConfigurationTranslatedGet::$Language",
         );
     }
 

@@ -1226,7 +1226,7 @@ sub SettingEffectiveValueCheck {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = 'SysConfigSettingEffectiveValueCheck';
+    my $CacheType = 'SysConfigPersistent';
     my $CacheKey  = 'EffectiveValueCheck';
 
     if ( $Param{UseCache} ) {
@@ -1875,7 +1875,7 @@ sub ConfigurationTranslatedGet {
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = 'SysConfigConfigurationTranslatedGet';
+    my $CacheType = 'SysConfig';
     my $CacheKey  = "ConfigurationTranslatedGet::$LanguageObject->{UserLanguage}";
 
     # Return cache.
@@ -2117,7 +2117,7 @@ sub ConfigurationEntityCheck {
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $CacheType = "SysConfigEntities";
-    my $CacheKey  = "ConfigurationEntityCheck$Param{EntityType}-$Param{EntityName}";
+    my $CacheKey  = "ConfigurationEntityCheck::$Param{EntityType}::$Param{EntityName}";
 
     my $CacheData = $CacheObject->Get(
         Type => $CacheType,
@@ -2226,7 +2226,7 @@ sub ConfigurationXML2DB {
         $Filename =~ s{\A .+ Kernel/Config/Files/XML/ (.+)\.xml\z}{$1}msx;
         $Filename =~ s{\A .+ scripts/test/sample/SysConfig/XML/ (.+)\.xml\z}{$1}msx;
 
-        my $CacheType = 'SysConfigConfigurationXML2DB';
+        my $CacheType = 'SysConfigPersistent';
         my $CacheKey  = "ConfigurationXML2DB::${Filename}::${MD5Sum}";
 
         my $Cache = $CacheObject->Get(
@@ -2840,7 +2840,7 @@ sub ConfigurationInvalidList {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = 'SysConfigInvalid';
+    my $CacheType = 'SysConfig';
     my $CacheKey  = 'ConfigurationInvalidList';
 
     # Return cache.
@@ -3156,8 +3156,9 @@ sub ConfigurationDeploy {
             Key  => 'ConfigurationCategoriesGet',
         );
 
-        $CacheObject->CleanUp(
-            Type => 'SysConfigInvalid',
+        $CacheObject->Delete(
+            Type => 'SysConfig',
+            Key  => 'ConfigurationInvalidList'
         );
     }
     else {
@@ -4656,8 +4657,8 @@ sub _EffectiveValues2PerlFile {
                 );
             }
 
-            my $CacheType = 'SysConfigSettingEffectiveValues2PerlFile';
-            my $CacheKey  = "Value::$ValueString";
+            my $CacheType = 'SysConfigPersistent';
+            my $CacheKey  = "EffectiveValues2PerlFile::$ValueString";
 
             my $Cache = $CacheObject->Get(
                 Type => $CacheType,
@@ -5116,7 +5117,7 @@ sub _SettingTranslatedGet {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheType = 'SysConfigSettingTranslatedGet';
+    my $CacheType = 'SysConfig';
     my $CacheKey  = "SettingTranslatedGet::$Param{Language}::$Param{Name}";
 
     # Return cache.
@@ -5198,8 +5199,8 @@ Returns:
 sub _ValueTypesList {
     my ( $Self, %Param ) = @_;
 
-    my $CacheKey  = '_ValueTypesList';
     my $CacheType = 'SysConfig';
+    my $CacheKey  = '_ValueTypesList';
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
