@@ -128,6 +128,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.21 2017-??-??
+ - 2017-06-15 Fixed bug#[12885](https://bugs.otrs.org/show_bug.cgi?id=12885) - Customer User search shows always only one result.
  - 2017-06-15 Follow-up fix for bug#[11843](https://bugs.otrs.org/show_bug.cgi?id=11843) - Notifications tag CUSTOMER_FROM gets replaced by CUSTOMER_REALNAME.
  - 2017-06-14 Fixed bug#[11843](https://bugs.otrs.org/show_bug.cgi?id=11843) - Notifications tag CUSTOMER_FROM gets replaced by CUSTOMER_REALNAME. Thanks to S7.
  - 2017-06-14 Follow-up fix for bug#[11513](https://bugs.otrs.org/show_bug.cgi?id=11513) - Out of Office is missing in owner dropdown.

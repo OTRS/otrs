@@ -12,13 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create test user and login
@@ -45,9 +43,56 @@ $Selenium->RunTest(
         my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
             User => $TestCustomerUserLogin,
         );
-        my $CustomerID = $CustomerIDs[0];
+        my $CustomerID            = $CustomerIDs[0];
+        my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+        my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-        # get needed objects
+        my $RandomID    = $Helper->GetRandomID();
+        my $CompanyRand = 'Customer-Company' . $RandomID;
+
+        my $CustomersID = $CustomerCompanyObject->CustomerCompanyAdd(
+            CustomerID             => $CompanyRand,
+            CustomerCompanyName    => $CompanyRand . ' Inc',
+            CustomerCompanyStreet  => 'Some Street',
+            CustomerCompanyZIP     => '12345',
+            CustomerCompanyCity    => 'Some city',
+            CustomerCompanyCountry => 'USA',
+            CustomerCompanyURL     => 'http://example.com',
+            CustomerCompanyComment => 'some comment',
+            ValidID                => 1,
+            UserID                 => 1,
+        );
+
+        $Self->True(
+            $CustomerID,
+            "CustomerCompanyAdd() - $CustomerID",
+        );
+
+        my @CustomerUserIDs;
+        for my $Key ( 1 .. 5 ) {
+            my $UserRand = 'unittest-' . $Key . $Helper->GetRandomID();
+
+            my $CustomerUserID = $CustomerUserObject->CustomerUserAdd(
+                Source         => 'CustomerUser',
+                UserFirstname  => 'Firstname' . $Key,
+                UserLastname   => 'Lastname' . $Key,
+                UserCustomerID => $CustomerID,
+                UserLogin      => $RandomID . 'CustomerUser' . $Key,
+                UserEmail      => $UserRand . '-Email@example.com',
+                UserPassword   => 'some_pass',
+                ValidID        => 1,
+                UserID         => 1,
+            );
+
+            $Self->True(
+                $CustomerUserID,
+                "CustomerUserAdd() - $CustomerUserID",
+            );
+
+            push @CustomerUserIDs, $CustomerUserID;
+
+        }
+
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test data parameters
@@ -100,7 +145,6 @@ $Selenium->RunTest(
             $TicketData{$TicketCreate}->{TicketCount} = $TicketCount;
         }
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # navigate to AdminCustomerInformationCenter screen
@@ -110,7 +154,19 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length',
         );
 
-        # input search parameters
+        # input search parameters for CustomerUser
+        $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerUser", 'css' )
+            ->send_keys( $RandomID . 'CustomerUser' . '*' );
+
+        $Selenium->WaitFor( JavaScript => "return \$('.ui-menu:eq(1) li').length > 0;" );
+
+        $Self->Is(
+            $Selenium->execute_script("return \$('.ui-menu:eq(1) li').length;"), 5,
+            'Check result of customer user search.',
+        );
+        $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerUser", 'css' )->clear();
+
+        # input search parameters CustomerID
         $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )
             ->send_keys($TestCustomerUserLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
@@ -214,6 +270,28 @@ $Selenium->RunTest(
                 );
             }
         }
+
+        # delete created test customer user and customer company
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+        for my $CustomerID (@CustomerUserIDs) {
+            my $Success = $DBObject->Do(
+                SQL  => "DELETE FROM customer_user WHERE login = ?",
+                Bind => [ \$CustomerID ],
+            );
+            $Self->True(
+                $Success,
+                "Deleted Customers - $CustomerID",
+            );
+        }
+
+        my $Success = $DBObject->Do(
+            SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
+            Bind => [ \$CompanyRand ],
+        );
+        $Self->True(
+            $Success,
+            "Deleted CustomerUser - $CustomerID",
+        );
 
         # make sure cache is correct
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
