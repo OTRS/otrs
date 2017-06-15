@@ -1243,7 +1243,7 @@ sub GetStatTable {
         for my $Attribute ( @{$SortedAttributesRef} ) {
             next ATTRIBUTE if !$TicketAttributes{$Attribute};
 
-            if ( $Attribute eq 'Owner' && $Attribute eq 'Responsible' ) {
+            if ( $Attribute eq 'Owner' || $Attribute eq 'Responsible' ) {
                 $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::User')->UserName(
                     User => $Ticket{$Attribute},
                 );
