@@ -176,7 +176,7 @@ sub Run {
     # Check if there are errors.
     if ( $ErrorMessage || $ConsoleCommandFailure ) {
 
-        $ErrorMessage //= '';
+        $ErrorMessage //= "Console command '$Param{TaskName}' is failed.";
 
         $Self->_HandleError(
             TaskName     => $Param{TaskName},
