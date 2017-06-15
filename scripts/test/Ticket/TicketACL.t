@@ -2715,6 +2715,35 @@ $Self->True(
             3 => 'closed',
         },
     },
+    {
+        Name => 'ACL DB-DynamicField - restrict action',
+        ACLs => {
+            'DB-DynamicField' => {
+                Properties => {
+                    DynamicField => {
+                        'DynamicField_' . $DynamicFieldNames[0] => ['Item1'],
+                    },
+                },
+                PossibleNot => {
+                    Action => ['AgentTicketClose'],
+                },
+            },
+        },
+        Config => {
+            Data => {
+                1 => 'AgentTicketPrint',
+                2 => 'AgentTicketClose',
+            },
+            ReturnType    => 'Action',
+            ReturnSubType => '-',
+            TicketID      => $TicketID,
+            UserID        => $UserID,
+        },
+        SuccessMatch     => 1,
+        ReturnActionData => {
+            1 => 'AgentTicketPrint',
+            }
+    },
 
     # user based tests
     {
