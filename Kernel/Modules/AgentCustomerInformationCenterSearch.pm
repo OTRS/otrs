@@ -136,13 +136,13 @@ sub Run {
             my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
                 User => $CustomerLogin,
             );
-            if ( !( grep { $_->{Value} eq $CustomerData{UserCustomerID} } @Result ) ) {
-                push @Result,
-                    {
-                    Label => $CustomerList{$CustomerLogin},
-                    Value => $CustomerData{UserCustomerID}
-                    };
-            }
+
+            push @Result,
+                {
+                Label => $CustomerList{$CustomerLogin},
+                Value => $CustomerData{UserCustomerID}
+                };
+
             last CUSTOMERLOGIN if scalar @Result >= $MaxResults;
 
         }
