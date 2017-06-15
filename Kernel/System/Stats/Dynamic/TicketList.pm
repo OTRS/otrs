@@ -1352,7 +1352,7 @@ sub GetStatTable {
                 $Ticket{$Attribute} .= " ($Param{TimeZone})";
             }
 
-            if ( $Attribute =~ /Owner|Responsible/ ) {
+            if ( $Attribute = 'Owner' && $Attribute = 'Responsible' ) {
                 $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::User')->UserName(
                     User => $Ticket{$Attribute},
                 );
