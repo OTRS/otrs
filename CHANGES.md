@@ -1,4 +1,5 @@
 #4.0.25 2017-??-??
+ - 2017-06-15 Fixed bug#[12885](https://bugs.otrs.org/show_bug.cgi?id=12885) - Customer User search shows always only one result.
  - 2017-06-14 Follow-up fix for bug#[11513](https://bugs.otrs.org/show_bug.cgi?id=11513) - Out of Office is missing in owner dropdown.
  - 2017-06-14 Fixed bug#[12781](https://bugs.otrs.org/show_bug.cgi?id=12781) - AdminCustomerCompany allows only one customer company backend.
  - 2017-06-13 Fixed bug#[12890](https://bugs.otrs.org/show_bug.cgi?id=12890) - Mask New Mail Ticket - signature frame require login.
