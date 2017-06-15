@@ -768,9 +768,10 @@ sub AutoResponse {
             From => $Param{OrigHeader}->{To},
             To   => $Param{OrigHeader}->{From},
         },
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
-        Language => $Language,
+        TicketID     => $Param{TicketID},
+        UserID       => $Param{UserID},
+        Language     => $Language,
+        AutoResponse => 1,
     );
     $AutoResponse{Subject} = $Self->_Replace(
         RichText => 0,
@@ -780,9 +781,10 @@ sub AutoResponse {
             From => $Param{OrigHeader}->{To},
             To   => $Param{OrigHeader}->{From},
         },
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
-        Language => $Language,
+        TicketID     => $Param{TicketID},
+        UserID       => $Param{UserID},
+        Language     => $Language,
+        AutoResponse => 1,
     );
 
     $AutoResponse{Subject} = $TicketObject->TicketSubjectBuild(
@@ -1614,7 +1616,19 @@ sub _Replace {
                     my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')
                         ->CustomerUserDataGet( User => $Ticket{CustomerUserID} );
 
-                    if ( $CustomerUserData{UserEmail} =~ /$Data{From}/ ) {
+                    if (
+
+                        # Check if Customer 'UserEmail' match article data 'From'.
+                        # Or check if this is auto response replacement.
+                        # Take ticket customer as 'From'.
+                        (
+                            $CustomerUserData{UserEmail}
+                            && $Data{From}
+                            && $CustomerUserData{UserEmail} =~ /$Data{From}/
+                        )
+                        || $Param{AutoResponse}
+                        )
+                    {
                         $From = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
                             UserLogin => $Ticket{CustomerUserID}
                         );
