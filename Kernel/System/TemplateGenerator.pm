@@ -1487,9 +1487,18 @@ sub _Replace {
 
                 if ( $Ticket{CustomerUserID} ) {
 
-                    $From = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
-                        UserLogin => $Ticket{CustomerUserID}
-                    );
+                    my %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')
+                        ->CustomerUserDataGet( User => $Ticket{CustomerUserID} );
+
+                    if ( $CustomerUserData{UserEmail} =~ /$Data{From}/ ) {
+                        $From = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
+                            UserLogin => $Ticket{CustomerUserID}
+                        );
+                    }
+                    else {
+                        $From = $Data{From};
+                    }
+
                 }
 
                 # try to get the real name directly from the data
