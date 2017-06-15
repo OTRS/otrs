@@ -91,12 +91,34 @@ sub Run {
         next KEY if ( $MailAccountID && $Key != $MailAccountID );
         my %Data = $MailAccountObject->MailAccountGet( ID => $Key );
         $Self->Print("<yellow>$Data{Host} ($Data{Type})...</yellow>\n");
-        my $Status = $MailAccountObject->MailAccountFetch(
-            %Data,
-            Debug  => $Self->GetOption('debug'),
-            CMD    => 1,
-            UserID => 1,
-        );
+        my $Status;
+
+        # It is needed for capture the standard error.
+        my $ErrorMessage;
+
+        eval {
+
+            # Localize the standard error, everything will be restored after the eval block.
+            local *STDERR;
+
+            # Redirect the standard error to a variable.
+            open STDERR, ">>", \$ErrorMessage;
+
+            $Status = $MailAccountObject->MailAccountFetch(
+                %Data,
+                Debug  => $Self->GetOption('debug'),
+                CMD    => 1,
+                UserID => 1,
+            );
+        };
+
+        # Hide password contained in error message and print message back to standard error.
+        # Please see bug#12829 for more information.
+        if ($ErrorMessage) {
+            $ErrorMessage =~ s/\Q$Data{Password}\E/********/g;
+            print STDERR $ErrorMessage;
+        }
+
         if ($Status) {
             $FetchedCount++;
         }
