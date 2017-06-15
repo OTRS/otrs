@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-06-15 Fixed bug#[12848](https://bugs.otrs.org/show_bug.cgi?id=12848) - Quoting is not visible in the Rich Text Editor.
  - 2017-06-12 Fixed bug#[12827](https://bugs.otrs.org/show_bug.cgi?id=12827) - Translation of error messages is not applied in preferences.
  - 2017-06-09 Fixed bug#[12851](https://bugs.otrs.org/show_bug.cgi?id=12851) - Duplicated favorite entry in the new admin overview.
  - 2017-06-01 Improved otrs.CheckModules.pl for FreeBSD, thanks to Felix J. Ogris.

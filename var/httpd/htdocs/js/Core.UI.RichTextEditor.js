@@ -179,6 +179,23 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 }
             };
 
+            // Redefine 'writeCssText' function because of unnecessary sorting of CSS properties (bug#12848).
+            /* eslint-disable no-unused-vars */
+            CKEDITOR.tools.writeCssText = function (styles, sort) {
+                var name,
+                stylesArr = [];
+
+                for (name in styles)
+                    stylesArr.push(name + ':' + styles[name]);
+
+                // This block sorts CSS properties which can make a wrong CSS style sent to CKEditor.
+                // if ( sort )
+                //     stylesArr.sort();
+
+                return stylesArr.join('; ');
+            };
+            /* eslint-enable no-unused-vars */
+
             // Needed for clientside validation of RTE
             CKEDITOR.instances[EditorID].on('blur', function () {
                 CKEDITOR.instances[EditorID].updateElement();
