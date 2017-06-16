@@ -443,6 +443,11 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
                         <div title="[% Data.Title | html %]">[% Data.Title | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordTicketTitle") %]
+[% RenderBlockStart("RecordTicketCreatedBy") %]
+                    <td>
+                        <div title="[% Data.UserFirstname | html %] [% Data.UserLastname | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | truncate(30) | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordTicketCreatedBy") %]
 [% RenderBlockStart("RecordTicketColumn") %]
                     <td>
                         <div title="[% Data.GenericValue | html %]">[% Data.GenericValue | truncate(30) | html %]</div>
