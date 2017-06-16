@@ -274,13 +274,13 @@ sub Run {
     # Search dialog
     elsif ( $Self->{Subaction} eq 'SearchDialog' ) {
 
-        my $Output .= $LayoutObject->Output(
+        my $Output = $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationSearchDialog',
             Data         => {
                 %OutputData,
                 SearchTerm => $ParamObject->GetParam( Param => 'Term' ) || '',
             },
-            \%Param
+            %Param,
         );
 
         return $LayoutObject->Attachment(
