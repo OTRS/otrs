@@ -1517,6 +1517,19 @@ sub Run {
                     next TICKETCOLUMN;
                 }
 
+                if ( $TicketColumn eq 'CreatedBy' ) {
+
+                    my %TicketCreatedByInfo = $UserObject->GetUserData(
+                        UserID => $Article{CreateBy},
+                    );
+
+                    $LayoutObject->Block(
+                        Name => 'RecordTicketCreatedBy',
+                        Data => \%TicketCreatedByInfo,
+                    );
+                    next TICKETCOLUMN;
+                }
+
                 # escalation column
                 my %EscalationData;
                 if ( $TicketColumn eq 'EscalationTime' ) {
