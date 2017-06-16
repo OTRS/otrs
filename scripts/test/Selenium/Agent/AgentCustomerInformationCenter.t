@@ -19,6 +19,12 @@ $Selenium->RunTest(
 
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # disable check email addresses
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -43,7 +49,7 @@ $Selenium->RunTest(
         my @CustomerIDs = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
             User => $TestCustomerUserLogin,
         );
-        my $CustomerID = $CustomerIDs[0];
+        my $CustomerID            = $CustomerIDs[0];
         my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
         my $CustomerUserObject    = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
