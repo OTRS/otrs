@@ -751,7 +751,7 @@
     </Setting>
     <Setting Name="Frontend::HeaderMetaModule###100-Refresh" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to generate code for periodic page reloads.</Description>
-        <Navigation>Frontend::Agent::ModuleMetaHead</Navigation>
+        <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::HeaderMeta::Refresh</Item>
@@ -760,7 +760,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###1100-OTRSBusiness" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentOTRSBusiness</Item>
@@ -770,7 +770,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::NotifyModule###1-OTRSBusiness" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.</Description>
-        <Navigation>Frontend::Customer::ModuleNotify</Navigation>
+        <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::CustomerOTRSBusiness</Item>
@@ -779,7 +779,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###2000-UID-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin).</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::UIDCheck</Item>
@@ -788,7 +788,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###2500-AgentSessionLimit" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentSessionLimit</Item>
@@ -797,7 +797,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###3000-ShowAgentOnline" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows all the currently logged in agents in the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentOnline</Item>
@@ -808,7 +808,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###4000-ShowCustomerOnline" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows all the currently logged in customers in the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::CustomerOnline</Item>
@@ -819,7 +819,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###5000-SystemConfigurationIsDirty-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if there are modified sysconfig settings that are not deployed yet.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::SystemConfigurationIsDirtyCheck</Item>
@@ -829,7 +829,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###5200-SystemConfigurationInvalid-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if there are invalid sysconfig settings deployed.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::SystemConfigurationInvalidCheck</Item>
@@ -839,7 +839,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###5500-OutofOffice-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::OutofOfficeCheck</Item>
@@ -848,7 +848,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###6000-SystemMaintenance-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent is logged in while having system maintenance active.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::SystemMaintenanceCheck</Item>
@@ -857,7 +857,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###6050-SystemConfiguration-OutOfSync-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface if the system configuration is out of sync.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::SystemConfigurationOutOfSyncCheck</Item>
@@ -867,7 +867,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###7000-AgentTimeZone-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the agent has not yet selected a time zone.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentTimeZoneCheck</Item>
@@ -876,7 +876,7 @@
     </Setting>
     <Setting Name="Frontend::NotifyModule###9000-Generic" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.</Description>
-        <Navigation>Frontend::Agent::ModuleNotify</Navigation>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::Generic</Item>
@@ -7430,63 +7430,63 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="AuthTwoFactorModule" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the two-factor module to authenticate agents.</Description>
-        <Navigation>Frontend::Agent::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Agent::TwoFactor</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Auth/TwoFactor/*.pm">Kernel::System::Auth::TwoFactor::GoogleAuthenticator</Item>
         </Value>
     </Setting>
     <Setting Name="AuthTwoFactorModule::SecretPreferencesKey" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the agent preferences key where the shared secret key is stored.</Description>
-        <Navigation>Frontend::Agent::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Agent::TwoFactor</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">UserGoogleAuthenticatorSecretKey</Item>
         </Value>
     </Setting>
     <Setting Name="AuthTwoFactorModule::AllowEmptySecret" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines if agents should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.</Description>
-        <Navigation>Frontend::Agent::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Agent::TwoFactor</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="AuthTwoFactorModule::AllowPreviousToken" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.</Description>
-        <Navigation>Frontend::Agent::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Agent::TwoFactor</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="PreferencesTable" Required="1" Valid="1">
         <Description Translatable="1">Defines the name of the table where the user preferences are stored.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">user_preferences</Item>
         </Value>
     </Setting>
     <Setting Name="PreferencesTableKey" Required="1" Valid="1">
         <Description Translatable="1">Defines the column to store the keys for the preferences table.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">preferences_key</Item>
         </Value>
     </Setting>
     <Setting Name="PreferencesTableValue" Required="1" Valid="1">
         <Description Translatable="1">Defines the name of the column to store the data in the preferences table.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">preferences_value</Item>
         </Value>
     </Setting>
     <Setting Name="PreferencesTableUserID" Required="1" Valid="1">
         <Description Translatable="1">Defines the name of the column to store the user identifier in the preferences table.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">user_id</Item>
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###Password" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Password</Item>
@@ -7508,7 +7508,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###GoogleAuthenticatorSecretKey" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
@@ -7525,7 +7525,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###Comment" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
@@ -7542,7 +7542,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###DynamicField" Required="0" Valid="0">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
@@ -7559,7 +7559,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###Language" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Language</Item>
@@ -7575,7 +7575,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###Skin" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Skin</Item>
@@ -7591,7 +7591,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###Theme" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Theme</Item>
@@ -7607,7 +7607,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###TimeZone" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::TimeZone</Item>
@@ -7623,7 +7623,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###OutOfOffice" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::OutOfOffice</Item>
@@ -7640,7 +7640,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="PreferencesGroups###CSVSeparator" Required="0" Valid="0">
         <Description Translatable="1">Gives end users the possibility to override the separator character for CSV files, defined in the translation files.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
@@ -7720,7 +7720,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="CustomerFrontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to generate code for periodic page reloads.</Description>
-        <Navigation>Frontend::Customer::ModuleMetaHead</Navigation>
+        <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::HeaderMeta::Refresh</Item>
@@ -7729,7 +7729,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows the currently logged in agents in the customer interface.</Description>
-        <Navigation>Frontend::Customer::ModuleNotify</Navigation>
+        <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentOnline</Item>
@@ -7740,7 +7740,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="CustomerFrontend::NotifyModule###1-ShowCustomerOnline" Required="0" Valid="0">
         <Description Translatable="1">Defines the module that shows the currently logged in customers in the customer interface.</Description>
-        <Navigation>Frontend::Customer::ModuleNotify</Navigation>
+        <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::CustomerOnline</Item>
@@ -7750,7 +7750,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="CustomerFrontend::NotifyModule###6-CustomerSystemMaintenance-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the customer interface, if the customer is logged in while having system maintenance active.</Description>
-        <Navigation>Frontend::Customer::ModuleNotify</Navigation>
+        <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::CustomerSystemMaintenanceCheck</Item>
@@ -7759,7 +7759,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="CustomerFrontend::NotifyModule###7-CustomerUserTimeZone-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.</Description>
-        <Navigation>Frontend::Customer::ModuleNotify</Navigation>
+        <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::CustomerUserTimeZoneCheck</Item>
@@ -7974,14 +7974,14 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Customer::AuthModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the module to authenticate customers.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/CustomerAuth/*.pm">Kernel::System::CustomerAuth::DB</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::CryptType" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the encryption type of passwords must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="sha2">
                 <Item ValueType="Option" Value="crypt">Crypt</Item>
@@ -7997,105 +7997,105 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Customer::AuthModule::DB::Table" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">customer_user</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::CustomerKey" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the name of the column for the CustomerKey in the customer table must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">login</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::CustomerPassword" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the column name for the CustomerPassword in the customer table must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">pw</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::DSN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the DSN for the connection to the customer table must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">DBI:mysql:database=customerdb;host=customerdbhost</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a username to connect to the customer table can be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">some_user</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::Password" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="Password">some_password</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::DB::Type" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">mysql</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::HTTPBasicAuth::Replace" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">example_domain\\</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::HTTPBasicAuth::ReplaceRegExp" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">^(.+?)@.+?$</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the LDAP host can be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">ldap.example.com</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::BaseDN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the BaseDN must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">dc=example,dc=com</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::UID" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, the user identifier must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">uid</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::GroupDN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to authenticate because he is in a posixGroup, e.g. user needs to be in a group xyz to use OTRS. Specify the group, who may access the system.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">cn=otrsallow,ou=posixGroups,dc=example,dc=com</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::AccessAttr" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">memberUid</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, user attributes can be specified. For LDAP posixGroups use UID, for non LDAP posixGroups use full user DN.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="UID">
                 <Item ValueType="Option" Value="UID">UID</Item>
@@ -8105,35 +8105,35 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">cn=binduser,ou=users,dc=example,dc=com</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="Password">some_password</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::AlwaysFilter" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">(!objectclass=computer)</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">@domain.com</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::Params" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Hash>
                 <Item Key="port">389</Item>
@@ -8145,63 +8145,63 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Customer::AuthModule::LDAP::Die" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::Radius::Host" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, the radius host must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">radiushost</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::Radius::Password" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, the password to authenticate to the radius host must be specified.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="Password">radiussecret</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthModule::Radius::Die" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
-        <Navigation>Frontend::Customer::Auth</Navigation>
+        <Navigation>Core::Auth::Customer</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthTwoFactorModule" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the two-factor module to authenticate customers.</Description>
-        <Navigation>Frontend::Customer::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Customer::TwoFactor</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/CustomerAuth/TwoFactor/*.pm">Kernel::System::CustomerAuth::TwoFactor::GoogleAuthenticator</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthTwoFactorModule::SecretPreferencesKey" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the customer preferences key where the shared secret key is stored.</Description>
-        <Navigation>Frontend::Customer::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Customer::TwoFactor</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">UserGoogleAuthenticatorSecretKey</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthTwoFactorModule::AllowEmptySecret" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.</Description>
-        <Navigation>Frontend::Customer::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Customer::TwoFactor</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Customer::AuthTwoFactorModule::AllowPreviousToken" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.</Description>
-        <Navigation>Frontend::Customer::Auth::TwoFactor</Navigation>
+        <Navigation>Core::Auth::Customer::TwoFactor</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerPreferences" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the parameters for the customer preferences table.</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Preferences::DB</Item>
@@ -8218,7 +8218,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerPreferencesGroups###Password" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control).</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Password</Item>
@@ -8239,7 +8239,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerPreferencesGroups###GoogleAuthenticatorSecretKey" Required="0" Valid="1">
         <Description Translatable="1">Defines the config parameters of this item, to be shown in the preferences view.</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
@@ -8256,7 +8256,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerPreferencesGroups###Language" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Language</Item>
@@ -8272,7 +8272,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerPreferencesGroups###TimeZone" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::TimeZone</Item>
@@ -8288,7 +8288,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerPreferencesGroups###Theme" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Theme</Item>
@@ -8304,7 +8304,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerPreferencesGroups###PGP" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::PGP</Item>
@@ -8320,7 +8320,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerPreferencesGroups###SMIME" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this item in the customer preferences.</Description>
-        <Navigation>Frontend::Customer::Preferences</Navigation>
+        <Navigation>Frontend::Customer::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::SMIME</Item>
@@ -8552,7 +8552,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search###AgentCustomerInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::SearchRouter</Navigation>
+        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerInformationCenter">Action=AgentCustomerInformationCenterSearch</Item>
@@ -8561,7 +8561,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AgentCustomerInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::SearchRouter</Navigation>
+        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerInformationCenter">Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog()</Item>
@@ -8570,7 +8570,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="AgentCustomerInformationCenter::MainMenu###010-EditCustomerID" Required="0" Valid="0">
         <Description Translatable="1">Main menu registration.</Description>
-        <Navigation>Frontend::Agent::CustomerInformationCenter</Navigation>
+        <Navigation>Frontend::Agent::View::CustomerInformationCenter</Navigation>
         <Value>
             <Hash>
                 <Item Key="Name" Translatable="1">Edit customer company</Item>
@@ -8580,7 +8580,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="AgentCustomerInformationCenter::Backend###0600-CIC-CustomerCompanyInformation" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerCompanyInformation</Item>
@@ -8683,7 +8683,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search###AgentCustomerUserInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::SearchRouter</Navigation>
+        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerUserInformationCenter">Action=AgentCustomerUserInformationCenterSearch</Item>
@@ -8692,7 +8692,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AgentCustomerUserInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::SearchRouter</Navigation>
+        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerUserInformationCenter">Core.Agent.CustomerUserInformationCenterSearch.OpenSearchDialog()</Item>
@@ -8701,7 +8701,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="AgentCustomerUserInformationCenter::Backend###0600-CUIC-CustomerCompanyInformation" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerCompanyInformation</Item>
@@ -8716,7 +8716,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="AgentCustomerUserInformationCenter::Backend###0100-CUIC-CustomerUserInformation" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the customer user information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerUserInformation</Item>
@@ -8911,14 +8911,14 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::SearchDefault" Required="0" Valid="1">
         <Description Translatable="1">Search backend default router.</Description>
-        <Navigation>Frontend::Agent::SearchRouter</Navigation>
+        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
         <Value>
             <Item ValueType="String">Action=AgentTicketSearch;Subaction=AJAX</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Search###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::SearchRouter</Navigation>
+        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Action=AdminSystemConfiguration;Subaction=SearchDialog</Item>
@@ -8927,7 +8927,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::SearchRouter</Navigation>
+        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Core.Agent.Admin.SystemConfiguration.OpenSearchDialog()</Item>
@@ -9028,7 +9028,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavBarModule###2-AdminFavourites" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (show personal favorites as sub navigation items of 'Admin').</Description>
-        <Navigation>Frontend::Agent::NavBarModule</Navigation>
+        <Navigation>Frontend::Agent::NavBar</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::AdminFavourites</Item>
@@ -9400,7 +9400,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavBarModule###6-CustomerCompany" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (disable company link if no company feature is used).</Description>
-        <Navigation>Frontend::Agent::NavBarModule</Navigation>
+        <Navigation>Frontend::Agent::NavBar</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::CustomerCompany</Item>
@@ -11072,21 +11072,21 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Stats::SearchPageShown" Required="1" Valid="1">
         <Description Translatable="1">Defines the default maximum number of statistics per page on the overview screen.</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,2}$">50</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::DefaultSelectedDynamicObject" Required="1" Valid="1">
         <Description Translatable="1">Defines the default selection at the drop down menu for dynamic objects (Form: Common Specification).</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Ticket</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::DefaultSelectedPermissions" Required="1" Valid="1">
         <Description Translatable="1">Defines the default selection at the drop down menu for permissions (Form: Common Specification).</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Array>
                 <Item Translatable="1">stats</Item>
@@ -11095,7 +11095,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Stats::DefaultSelectedFormat" Required="1" Valid="1">
         <Description Translatable="1">Defines the default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Array>
                 <Item>Print</Item>
@@ -11109,14 +11109,14 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Stats::SearchLimit" Required="1" Valid="1">
         <Description Translatable="1">Defines the search limit for the stats.</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,6}$">1000</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::Format" Required="1" Valid="1">
         <Description Translatable="1">Defines all the possible stats output formats.</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Hash>
                 <Item Key="Print" Translatable="1">Print</Item>
@@ -11130,35 +11130,35 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Stats::ExchangeAxis" Required="1" Valid="1">
         <Description Translatable="1">Allows agents to exchange the axis of a stat if they generate one.</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::UseAgentElementInStats" Required="1" Valid="1">
         <Description Translatable="1">Allows agents to generate individual-related stats.</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::UseInvalidAgentInStats" Required="1" Valid="1">
         <Description Translatable="1">Allows invalid agents to generate individual-related stats.</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::CustomerIDAsMultiSelect" Required="1" Valid="1">
         <Description Translatable="1">Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Stats::CustomerUserLoginsAsMultiSelect" Required="1" Valid="1">
         <Description Translatable="1">Shows all the customer user identifiers in a multi-select field (not useful if you have a lot of customer user identifiers).</Description>
-        <Navigation>Frontend::Agent::Stats</Navigation>
+        <Navigation>Frontend::Agent::View::Stats</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
@@ -11255,7 +11255,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0000-ProductNotify" Required="0" Valid="1">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::ProductNotify</Item>
@@ -11270,7 +11270,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0390-UserOutOfOffice" Required="0" Valid="1">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOutOfOffice</Item>
@@ -11288,7 +11288,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0400-UserOnline" Required="0" Valid="1">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOnline</Item>
@@ -11308,7 +11308,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0405-News" Required="0" Valid="1">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::News</Item>
@@ -11324,7 +11324,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0410-RSS" Required="0" Valid="0">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::RSS</Item>
@@ -11346,7 +11346,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0420-CmdOutput" Required="0" Valid="0">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::CmdOutput</Item>
@@ -11362,7 +11362,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0200-Image" Required="0" Valid="0">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::Image</Item>
@@ -11381,7 +11381,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0210-MOTD" Required="0" Valid="0">
         <Description Translatable="1">Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::MOTD</Item>
@@ -11394,7 +11394,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="DashboardBackend###0300-IFrame" Required="0" Valid="0">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::IFrame</Item>
@@ -11418,7 +11418,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::AgentLinkObject::WildcardSearch" Required="1" Valid="1">
         <Description Translatable="1">Starts a wildcard search of the active object after the link object mask is started.</Description>
-        <Navigation>Frontend::Agent::LinkObject</Navigation>
+        <Navigation>Frontend::Agent::View::LinkObject</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
@@ -11992,28 +11992,28 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="AdminCustomerUser::RunInitialWildcardSearch" Required="1" Valid="1">
         <Description Translatable="1">Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.</Description>
-        <Navigation>Frontend::Admin::AdminCustomerUser</Navigation>
+        <Navigation>Frontend::Admin::View::CustomerUser</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="AdminCustomerUser::UseAutoComplete" Required="1" Valid="1">
         <Description Translatable="1">Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.</Description>
-        <Navigation>Frontend::Admin::AdminCustomerUser</Navigation>
+        <Navigation>Frontend::Admin::View::CustomerUser</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
      <Setting Name="AdminCustomerCompany::RunInitialWildcardSearch" Required="1" Valid="1">
         <Description Translatable="1">Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.</Description>
-        <Navigation>Frontend::Admin::AdminCustomerCompany</Navigation>
+        <Navigation>Frontend::Admin::View::CustomerCompany</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="AdminSelectBox::AllowDatabaseModification" Required="1" Valid="1">
         <Description Translatable="1">Controls if the admin is allowed to make changes to the database via AdminSelectBox.</Description>
-        <Navigation>Frontend::Admin::AdminSelectBox</Navigation>
+        <Navigation>Frontend::Admin::View::SelectBox</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
@@ -12248,7 +12248,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerUser::Frontend::Overview###AddressBook" Required="1" Valid="1">
         <Description Translatable="1">Defines an overview module to show the address book view of a customer user list.</Description>
-        <Navigation>Frontend::Agent::CustomerUserOverview</Navigation>
+        <Navigation>Frontend::Agent::View::CustomerUserAddressBook</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::CustomerUser::OverviewAddressBook</Item>
@@ -12258,14 +12258,14 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###PageShown" Required="1" Valid="1">
         <Description Translatable="1">Defines the number of entries per page for the AgentCustomerUserAddressBook result screen.</Description>
-        <Navigation>Frontend::Agent::ViewCustomerUserSearch</Navigation>
+        <Navigation>Frontend::Agent::View::CustomerUserAddressBook</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">50</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###DefaultFields" Required="1" Valid="1">
         <Description Translatable="1">Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix 'CustomerCompany_' must be added.</Description>
-        <Navigation>Frontend::Agent::ViewCustomerUserSearch</Navigation>
+        <Navigation>Frontend::Agent::View::CustomerUserAddressBook</Navigation>
         <Value>
             <Array>
                 <Item>UserLogin</Item>
@@ -12278,7 +12278,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###ShowColumns" Required="1" Valid="1">
         <Description Translatable="1">Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.</Description>
-        <Navigation>Frontend::Agent::ViewCustomerUserSearch</Navigation>
+        <Navigation>Frontend::Agent::View::CustomerUserAddressBook</Navigation>
         <Value>
             <Array>
                 <Item>UserFirstname</Item>
@@ -12291,7 +12291,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###SearchLimit" Required="1" Valid="1">
         <Description Translatable="1">Defines the search limit for the AgentCustomerUserAddressBook screen.</Description>
-        <Navigation>Frontend::Agent::ViewCustomerUserSearch</Navigation>
+        <Navigation>Frontend::Agent::View::CustomerUserAddressBook</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">10000</Item>
         </Value>

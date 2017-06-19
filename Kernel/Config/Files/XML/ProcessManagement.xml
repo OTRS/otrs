@@ -278,7 +278,7 @@
     </Setting>
     <Setting Name="Frontend::NavBarModule###1-TicketProcesses" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (disable ticket processes screen if no process available).</Description>
-        <Navigation>Frontend::Agent::NavBarModule</Navigation>
+        <Navigation>Frontend::Agent::NavBar</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::AgentTicketProcess</Item>
@@ -409,7 +409,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessDisplay" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Display settings to override defaults for Process Tickets.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewZoom</Navigation>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Hash>
                 <Item Key="NavBarName" Translatable="1">Processes</Item>
@@ -419,7 +419,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessWidgetDynamicFieldGroups" Required="1" Valid="1">
         <Description Translatable="1">Dynamic fields groups for process widget. The key is the name of the group, the value contains the fields to be shown. Example: 'Key =&gt; My Group', 'Content: Name_X, NameY'.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewZoom</Navigation>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Hash>
             </Hash>
@@ -427,7 +427,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketZoom###ProcessWidgetDynamicField" Required="1" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the process widget in ticket zoom screen of the agent interface.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewZoom</Navigation>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
         <Value>
             <Hash>
                 <DefaultItem ValueType="Select">
@@ -439,7 +439,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###480-Process" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to enroll a ticket into a process in the ticket zoom view of the agent interface.</Description>
-        <Navigation>Frontend::Agent::Ticket::MenuModule</Navigation>
+        <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Process</Item>
@@ -521,7 +521,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::NavBarModule###10-CustomerTicketProcesses" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (disable ticket processes screen if no process available) for Customer.</Description>
-        <Navigation>Frontend::Customer::NavBarModule</Navigation>
+        <Navigation>Frontend::Customer::NavBar</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::CustomerTicketProcess</Item>
@@ -558,7 +558,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketProcess###StateType" Required="1" Valid="1">
         <Description Translatable="1">Determines the next possible ticket states, for process tickets in the agent interface.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewProcess</Navigation>
+        <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
         <Value>
             <Array>
                 <Item>new</Item>
@@ -571,7 +571,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketProcess###StateType" Required="1" Valid="1">
         <Description Translatable="1">Determines the next possible ticket states, for process tickets in the customer interface.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewProcess</Navigation>
+        <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
         <Value>
             <Array>
                 <Item>new</Item>
@@ -581,7 +581,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly" Required="1" Valid="1">
         <Description Translatable="1">Controls if CustomerID is read-only in the agent interface.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewProcess</Navigation>
+        <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -617,7 +617,7 @@
     </Setting>
     <Setting Name="DashboardBackend###0140-RunningTicketProcess" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>

@@ -572,7 +572,7 @@
     <!-- notifications -->
     <Setting Name="Frontend::Admin::AdminAppointmentNotificationEvent###EventObjectTypes" Required="0" Valid="1">
         <Description Translatable="1">Defines the event object types that will be handled via AdminAppointmentNotificationEvent.</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Array>
                 <Item>Calendar</Item>
@@ -679,28 +679,28 @@
     </Setting>
     <Setting Name="Frontend::Admin::AdminAppointmentNotificationEvent###RichText" Required="0" Valid="1">
         <Description Translatable="1">Uses richtext for viewing and editing ticket notification.</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Admin::AdminAppointmentNotificationEvent###RichTextWidth" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Admin::AdminAppointmentNotificationEvent###RichTextHeight" Required="0" Valid="1">
         <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="PreferencesGroups###AppointmentNotificationEvent" Required="0" Valid="1">
         <Description Translatable="1">Transport selection for appointment notifications.</Description>
-        <Navigation>Frontend::Agent::Preferences</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::AppointmentNotificationEvent</Item>
@@ -715,7 +715,7 @@
     </Setting>
     <Setting Name="Notification::CharactersPerLine" Required="1" Valid="1">
         <Description Translatable="1">Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">80</Item><!-- default 1 hour -->
         </Value>
@@ -723,7 +723,7 @@
     <!-- notification transports -->
     <Setting Name="AppointmentNotification::Transport###Email" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this notification transport.</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Calendar::Event::Transport::Email</Item>
@@ -737,7 +737,7 @@
     </Setting>
     <Setting Name="AppointmentNotification::Transport###NotificationView" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this notification transport.</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Calendar::Event::Transport::NotificationView</Item>
@@ -751,7 +751,7 @@
     </Setting>
     <Setting Name="AppointmentNotification::Transport###SMS" Required="0" Valid="1">
         <Description Translatable="1">Defines all the parameters for this notification transport.</Description>
-        <Navigation>Frontend::Admin::AdminNotificationEvent</Navigation>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Calendar::Event::Transport::SMS</Item>
@@ -776,7 +776,7 @@
     <!-- dashboard widget -->
     <Setting Name="DashboardBackend###0500-AppointmentCalendar" Required="0" Valid="1">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
-        <Navigation>Frontend::Agent::Dashboard</Navigation>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::AppointmentCalendar</Item>
@@ -797,7 +797,7 @@
     <!-- appointment creation linked to external objects -->
     <Setting Name="Ticket::Frontend::MenuModule###550-Appointment" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
-        <Navigation>Frontend::Agent::Ticket::MenuModule</Navigation>
+        <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>

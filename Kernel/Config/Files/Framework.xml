@@ -10511,7 +10511,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::AgentLinkObject::WildcardSearch" Required="1" Valid="1">
         <Description Translatable="1">Starts a wildcard search of the active object after the link object mask is started.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::LinkObject</SubGroup>
+        <SubGroup>Frontend::Agent::View::LinkObject</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0" Translatable="1">No</Item>
@@ -11448,7 +11448,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="CustomerUser::Frontend::Overview###AddressBook" Required="1" Valid="1">
         <Description Translatable="1">Defines an overview module to show the address book view of a customer user list.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::CustomerUserOverview</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerUserAddressBook</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::CustomerUser::OverviewAddressBook</Item>

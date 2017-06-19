@@ -68,21 +68,21 @@
     </Setting>
     <Setting Name="GenericInterface::WebserviceConfig::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the web service config backend.</Description>
-        <Navigation>GenericInterface::Webservice</Navigation>
+        <Navigation>GenericInterface</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">86400</Item><!-- default 1 day -->
         </Value>
     </Setting>
     <Setting Name="GenericInterface::Operation::Common::CachedAuth::AgentCacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for agent authentication in the GenericInterface.</Description>
-        <Navigation>GenericInterface::Webservice</Navigation>
+        <Navigation>GenericInterface::Operation</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">300</Item><!-- default 5 min -->
         </Value>
     </Setting>
     <Setting Name="GenericInterface::Operation::Common::CachedAuth::CustomerCacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for customer authentication in the GenericInterface.</Description>
-        <Navigation>GenericInterface::Webservice</Navigation>
+        <Navigation>GenericInterface::Operation</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">300</Item><!-- default 5 min -->
         </Value>
@@ -658,7 +658,7 @@
     </Setting>
     <Setting Name="GenericInterface::Operation::ResponseLoggingMaxSize" Required="1" Valid="1">
         <Description Translatable="1">Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.</Description>
-        <Navigation>GenericInterface::Operation::ResponseLoggingMaxSize</Navigation>
+        <Navigation>GenericInterface::Operation</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">200</Item>
         </Value>

@@ -7472,7 +7472,7 @@
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0050-CIC-CustomerUserList" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerUserList</Item>
@@ -7491,7 +7491,7 @@
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0100-CIC-TicketPendingReminder" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -7539,7 +7539,7 @@
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0110-CIC-TicketEscalation" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -7587,7 +7587,7 @@
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0120-CIC-TicketNew" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -7635,7 +7635,7 @@
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0130-CIC-TicketOpen" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -7683,7 +7683,7 @@
     <ConfigItem Name="AgentCustomerInformationCenter::Backend###0500-CIC-CustomerIDStatus" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerIDStatus</Item>
@@ -7702,7 +7702,7 @@
     <ConfigItem Name="AgentCustomerUserInformationCenter::Backend###0050-CUIC-CustomerIDList" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the customer id list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerUserInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerIDList</Item>
@@ -7721,7 +7721,7 @@
     <ConfigItem Name="AgentCustomerUserInformationCenter::Backend###0100-CUIC-TicketPendingReminder" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerUserInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -7769,7 +7769,7 @@
     <ConfigItem Name="AgentCustomerUserInformationCenter::Backend###0110-CUIC-TicketEscalation" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerUserInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -7817,7 +7817,7 @@
     <ConfigItem Name="AgentCustomerUserInformationCenter::Backend###0120-CUIC-TicketNew" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerUserInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -7865,7 +7865,7 @@
     <ConfigItem Name="AgentCustomerUserInformationCenter::Backend###0130-CUIC-TicketOpen" Required="0" Valid="1">
         <Description Translatable="1">Parameters for the dashboard backend of the open tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. "AccessibleTickets" determines if the plugin will show only tickets assigned to a customer user directly (=0) or also all accessible tickets for this customer (=1).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <SubGroup>Frontend::Agent::View::CustomerUserInformationCenter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
@@ -12574,7 +12574,7 @@ Thanks for your help!
     <ConfigItem Name="Ticket::CommunicationChannel###1000-Email" Required="0" Valid="1">
         <Description Translatable="1">Defines email communication channel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Ticket::CommunicationChannel</SubGroup>
+        <SubGroup>Core::CommunicationChannel</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Name" Translatable="1">Email</Item>
@@ -12586,7 +12586,7 @@ Thanks for your help!
     <ConfigItem Name="Ticket::CommunicationChannel###2000-Internal" Required="0" Valid="1">
         <Description Translatable="1">Defines internal communication channel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Ticket::CommunicationChannel</SubGroup>
+        <SubGroup>Core::CommunicationChannel</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Name" Translatable="1">Internal</Item>
@@ -12598,7 +12598,7 @@ Thanks for your help!
     <ConfigItem Name="Ticket::CommunicationChannel###3000-Phone" Required="0" Valid="1">
         <Description Translatable="1">Defines phone communication channel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Ticket::CommunicationChannel</SubGroup>
+        <SubGroup>Core::CommunicationChannel</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Name" Translatable="1">Phone</Item>
