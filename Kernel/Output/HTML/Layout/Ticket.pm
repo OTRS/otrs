@@ -163,7 +163,11 @@ sub AgentCustomerViewTable {
 
             if (
                 $Field->[6]
-                && ( $Param{Data}->{TicketID} || $Param{Ticket} )
+                && (
+                    $Param{Data}->{TicketID}
+                    || $Param{Ticket}
+                    || $Field->[6] !~ m{Env\("CGIHandle"\)}
+                )
                 )
             {
                 $Record{LinkStart} = "<a href=\"$Field->[6]\"";

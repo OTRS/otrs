@@ -22,7 +22,7 @@ $Selenium->RunTest(
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # Overload CustomerUser => Map setting defined in the Defaults.pm.
+        # Overload CustomerUser => Map setting defined in the Defaults.pm - use external url.
         my $DefaultCustomerUser = $ConfigObject->Get("CustomerUser");
         $DefaultCustomerUser->{Map}->[5] = [
             'UserEmail',
@@ -31,7 +31,7 @@ $Selenium->RunTest(
             1,
             1,
             'var',
-            '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]',
+            'http://www.otrs.com',
             0,
             '',
             'AsPopup OTRSPopup_TicketAction',
@@ -150,6 +150,38 @@ $Selenium->RunTest(
             JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset .Value").length'
         );
 
+        # Make sure that Customer email is link.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset a.AsPopup:visible").length'
+        );
+
+        # Overload CustomerUser => Map setting defined in the Defaults.pm - use internal url.
+        $DefaultCustomerUser->{Map}->[5] = [
+            'UserEmail',
+            'Email',
+            'email',
+            1,
+            1,
+            'var',
+            '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]',
+            0,
+            '',
+            'AsPopup OTRSPopup_TicketAction',
+        ];
+
+        $Helper->ConfigSettingChange(
+            Key   => 'CustomerUser',
+            Value => $DefaultCustomerUser,
+        );
+
+        # remove customer
+        $Selenium->find_element( "#TicketCustomerContentFromCustomer a.CustomerTicketRemove", "css" )->VerifiedClick();
+
+        # add customer again
+        $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
+
         # Make sure that Customer email is not a link.
         my $LinkVisible = $Selenium->execute_script("return \$('.SidebarColumn fieldset a.AsPopup').length;");
         $Self->False(
@@ -163,6 +195,7 @@ $Selenium->RunTest(
 
         # Get created test ticket ID and number.
         my @Ticket = split( 'TicketID=', $Selenium->get_current_url() );
+
         my $TicketID = $Ticket[1];
 
         my $TicketNumber = $TicketObject->TicketNumberLookup(
