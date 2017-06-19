@@ -115,7 +115,7 @@ sub Run {
         # Hide password contained in error message and print message back to standard error.
         # Please see bug#12829 for more information.
         if ($ErrorMessage) {
-            +$ErrorMessage =~ s/\Q$Data{Password}\E/********/g;
+            $ErrorMessage =~ s/\Q$Data{Password}\E/********/g;
             print STDERR $ErrorMessage;
         }
 
