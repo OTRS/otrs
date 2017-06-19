@@ -421,6 +421,18 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::Module###Ticket::TicketHistoryGet" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">TicketHistoryGet</Item>
+                <Item Key="Controller">Ticket</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationDefault</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 
     <ConfigItem Name="GenericInterface::Operation::TicketCreate###IsVisibleForCustomer" Required="1" Valid="1">
         <Description Translatable="1">Defines the default visibility of the article to customer for this operation.</Description>

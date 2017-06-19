@@ -36,6 +36,11 @@ Provider:
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketUpdate
+    TicketHistoryGet:
+      Description: Retrieves history of a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketHistoryGet
   Transport:
     Config:
       KeepAlive: ''
@@ -65,6 +70,10 @@ Provider:
           RequestMethod:
           - PATCH
           Route: /Ticket/:TicketID
+        TicketHistoryGet:
+          RequestMethod:
+          - GET
+          Route: /TicketHistory/:TicketID
     Type: HTTP::REST
 RemoteSystem: ''
 Requester:

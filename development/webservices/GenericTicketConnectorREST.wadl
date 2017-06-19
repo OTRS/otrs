@@ -76,5 +76,27 @@
         </response>
       </method>
     </resource>
+    <resource path="TicketHistory" id="TicketHistory">
+      <doc xml:lang="en" title="TicketHistory"/>
+      <resource path="{TicketID}" id="TicketHistoryTicketID">
+        <doc xml:lang="en" title="{TicketID}"/>
+        <param name="TicketID" default="TicketID" type="xs:string" required="true" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <param name="UserLogin" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <param name="Password" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <method name="GET" id="GET_TicketHistoryGet">
+          <doc xml:lang="en" title="GET_TicketHistoryGet"/>
+          <request/>
+          <response status="0">
+            <representation mediaType="" element="data"/>
+          </response>
+          <response status="500">
+            <representation mediaType="text/plain; charset=UTF-8" element="data"/>
+          </response>
+          <response status="200">
+            <representation mediaType="application/json; charset=UTF-8"/>
+          </response>
+        </method>
+      </resource>
+    </resource>
   </resources>
 </application>
