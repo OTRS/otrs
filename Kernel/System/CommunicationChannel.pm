@@ -473,7 +473,7 @@ sub ChannelSync {
 
     my @Result;
 
-    my $ChannelsRegistered = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::CommunicationChannel');
+    my $ChannelsRegistered = $Kernel::OM->Get('Kernel::Config')->Get('CommunicationChannel');
 
     return @Result if !$ChannelsRegistered;
 
@@ -491,7 +491,7 @@ sub ChannelSync {
         if ( !$Module ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Missing Module in registration (Ticket::CommunicationChannel###$Channel)!",
+                Message  => "Missing Module in registration (CommunicationChannel###$Channel)!",
             );
             next CHANNEL;
         }

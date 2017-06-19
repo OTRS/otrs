@@ -878,20 +878,15 @@ sub _ShowEdit {
         Class       => 'Modernize',
     );
 
-    # create ArticleType selection
-    $Param{ArticleTypeSelection} = $LayoutObject->BuildSelection(
+    # create Communication Channel selection (this has to be hard coded at the moment)
+    $Param{CommunicationChannelSelection} = $LayoutObject->BuildSelection(
         Data => [
-            Translatable('note-internal'),
-            Translatable('note-external'),
-            Translatable('note-report'),
-            Translatable('phone'),
-            Translatable('fax'),
-            Translatable('sms'),
-            Translatable('webrequest'),
+            Translatable('Internal'),
+            Translatable('Phone'),
         ],
-        SelectedValue => Translatable('note-internal'),
-        Name          => 'ArticleType',
-        ID            => 'ArticleType',
+        SelectedValue => Translatable('Internal'),
+        Name          => 'CommunicationChannel',
+        ID            => 'CommunicationChannel',
         Sort          => 'Alphanumeric',
         Translation   => 1,
         Class         => 'Modernize',

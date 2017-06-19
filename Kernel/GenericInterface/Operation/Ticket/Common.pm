@@ -850,6 +850,9 @@ sub ValidateArticleCommunicationChannel {
 
     return if !%CommunicationChannel;
 
+    # TicketCreate and TicketUpdate operations should only work with MIME based communication channels
+    return if $CommunicationChannel{ChannelName} !~ m{\AEmail|Internal|Phone\z}msxi;
+
     return 1;
 }
 

@@ -2582,8 +2582,8 @@ sub _RenderArticle {
         Name             => 'Article',
         MandatoryClass   => '',
         ValidateRequired => '',
-        Subject          => $Param{GetParam}{Subject},
-        Body             => $Param{GetParam}{Body},
+        Subject          => $Param{GetParam}->{Subject},
+        Body             => $Param{GetParam}->{Body},
         LabelSubject     => $Param{ActivityDialogField}->{Config}->{LabelSubject}
             || $LayoutObject->{LanguageObject}->Translate("Subject"),
         LabelBody => $Param{ActivityDialogField}->{Config}->{LabelBody}
@@ -4571,10 +4571,7 @@ sub _StoreActivityDialog {
     );
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
 
-    my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-        ChannelName => 'Internal',
-    );
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my @Notify;
 
@@ -5012,16 +5009,19 @@ sub _StoreActivityDialog {
                     );
                 }
 
+                my $CommunicationChannel = $ActivityDialog->{Fields}->{Article}->{Config}->{CommunicationChannel}
+                    // 'Internal';
+
+                my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+                    ChannelName => $CommunicationChannel,
+                );
+
                 # Change history type and comment accordingly to the process article.
-                my $ArticleType = $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType};
-                my $HistoryType;
-                my $HistoryComment = '';
-                if ( $ArticleType eq 'phone' ) {
-                    $HistoryType = 'PhoneCallAgent';
-                }
-                else {
-                    $HistoryType    = 'AddNote';
-                    $HistoryComment = 'Note';
+                my $HistoryType    = 'AddNote';
+                my $HistoryComment = '%%Note';
+                if ( $CommunicationChannel eq 'Phone' ) {
+                    $HistoryType    = 'PhoneCallAgent';
+                    $HistoryComment = '%%'
                 }
 
                 my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
@@ -5033,8 +5033,8 @@ sub _StoreActivityDialog {
                     MimeType             => $MimeType,
                     Charset              => $LayoutObject->{UserCharset},
                     UserID               => $Self->{UserID},
-                    HistoryType          => 'AddNote',
-                    HistoryComment       => '%%Note',
+                    HistoryType          => $HistoryType,
+                    HistoryComment       => $HistoryComment,
                     Body                 => $Param{GetParam}{Body},
                     Subject              => $Param{GetParam}{Subject},
                     ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}

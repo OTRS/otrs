@@ -1003,6 +1003,7 @@
     <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>
     <Column Name="communication_channel_id" Required="true" Type="BIGINT"/>
     <Column Name="is_visible_for_customer" Required="true" Type="SMALLINT"/>
+    <Column Name="search_index_needs_rebuild" Required="true" Type="SMALLINT" Default="1"/>
     <Column Name="insert_fingerprint" Required="false" Size="64" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1017,6 +1018,9 @@
     </Index>
     <Index Name="article_communication_channel_id">
         <IndexColumn Name="communication_channel_id"/>
+    </Index>
+    <Index Name="article_search_index_needs_rebuild">
+        <IndexColumn Name="search_index_needs_rebuild"/>
     </Index>
 
     <ForeignKey ForeignTable="ticket">

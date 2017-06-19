@@ -518,6 +518,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::SearchIndex::IndexArchivedTickets" Required="1" Valid="1">
+        <Description Translatable="1">Defines wether to index archived tickets for fulltext searches.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::FulltextSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::SearchIndex::FilterStopWords" Required="1" Valid="1">
         <Description Translatable="1">Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.</Description>
         <Group>Ticket</Group>
@@ -1513,13 +1524,13 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###2000-ArticleSearchIndex" Required="0" Valid="1">
-        <Description Translatable="1">Builds an article index right after the article's creation.</Description>
+        <Description Translatable="1">Marks articles for index rebuild right after the article's update.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ArticleSearchIndex</Item>
-                <Item Key="Event">(ArticleCreate|ArticleUpdate)</Item>
+                <Item Key="Event">(ArticleUpdate)</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9036,6 +9047,18 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketArticleContent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Title></Title>
+                <NavBarName>Ticket</NavBarName>
+                <Description Translatable="1">To view HTML attachments.</Description>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPlain" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
@@ -11565,7 +11588,6 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-
    <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###Widgets###0300-LinkTable" Required="0" Valid="1">
         <Description Translatable="1">AgentTicketZoom widget that displays a table of objects linked to the ticket.</Description>
         <Group>Ticket</Group>
@@ -11576,7 +11598,17 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-
+    <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###SenderDisplay" Required="1" Valid="1">
+         <Description Translatable="1">Controls which type of sender display will be used next to article contents in ticket zoom screen. If set to "Sender Image", system will automatically fetch image associated with sender's address from external service (Gravatar). If set to "Sender Initials", system will show first letters of sender's name.</Description>
+         <Group>Ticket</Group>
+         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+         <Setting>
+             <Option SelectedID="SenderImage">
+                 <Item Key="SenderImage" Translatable="1">Sender Image</Item>
+                 <Item Key="SenderInitials" Translatable="1">Sender Initials</Item>
+             </Option>
+         </Setting>
+     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
         <Group>Ticket</Group>
@@ -12568,42 +12600,6 @@ Thanks for your help!
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::CommunicationChannel###1000-Email" Required="0" Valid="1">
-        <Description Translatable="1">Defines email communication channel.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::CommunicationChannel</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name" Translatable="1">Email</Item>
-                <Item Key="Description" Translatable="1">Email communication channel.</Item>
-                <Item Key="Module">Kernel::System::CommunicationChannel::Email</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::CommunicationChannel###2000-Internal" Required="0" Valid="1">
-        <Description Translatable="1">Defines internal communication channel.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::CommunicationChannel</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name" Translatable="1">Internal</Item>
-                <Item Key="Description" Translatable="1">Internal communication channel.</Item>
-                <Item Key="Module">Kernel::System::CommunicationChannel::Internal</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::CommunicationChannel###3000-Phone" Required="0" Valid="1">
-        <Description Translatable="1">Defines phone communication channel.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::CommunicationChannel</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name" Translatable="1">Phone</Item>
-                <Item Key="Description" Translatable="1">Phone communication channel.</Item>
-                <Item Key="Module">Kernel::System::CommunicationChannel::Phone</Item>
             </Hash>
         </Setting>
     </ConfigItem>

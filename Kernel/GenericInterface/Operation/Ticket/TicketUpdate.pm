@@ -913,7 +913,7 @@ sub _CheckArticle {
         return {
             ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage => "TicketUpdate: Article->CommunicationChannel or Article->CommunicationChannelID parameter"
-                . " is invalid!",
+                . " is invalid or not supported!",
         };
     }
 

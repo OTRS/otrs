@@ -422,6 +422,28 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###ArticleSearchIndexRebuild" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Checks for articles that needs to be updated in the article search index.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">ArticleSearchIndexRebuild</Item>
+                <Item Key="Schedule">* * * * *</Item> <!-- default: every minute -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::ArticleIndexRebuild</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--children</Item>
+                        <Item>4</Item>
+                        <Item>--limit</Item>
+                        <Item>20000</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 
     <!-- custom cron tasks -->
     <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom1" Required="0" Valid="0" ConfigLevel="100">

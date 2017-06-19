@@ -179,7 +179,7 @@
                             <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" src="about:blank" frameborder="0" title="[% Env("Baselink") %]Action=CustomerTicketAttachment;Subaction=HTMLView;TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];FileID=[% Data.HTMLBodyAttachmentID | html %];[% Data.SessionInformation | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
 [% RenderBlockEnd("BodyHTMLPlaceholder") %]
 [% RenderBlockStart("BodyChat") %]
-[% INCLUDE "ChatDisplay.tt" %]
+[% INCLUDE "Article/Content/Chat.tt" %]
 [% RenderBlockEnd("BodyChat") %]
                         </div>
                     </div>
@@ -310,7 +310,7 @@
 [% RenderBlockStart("ChatProtocol") %]
                         <div>
                             <label for="ChatProtocol">[% Translate("Chat Protocol") | html %]:</label>
-[% INCLUDE "ChatDisplay.tt" %]
+[% INCLUDE "Article/Content/Chat.tt" %]
                             <br/>
                         </div>
 [% RenderBlockEnd("ChatProtocol") %]

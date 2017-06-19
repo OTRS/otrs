@@ -1,0 +1,202 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+## nofilter(TidyAll::Plugin::OTRS::TT::ScriptUsage)
+
+<div>
+    <a name="Article[% Data.ArticleID | html %]"></a>
+    <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %]">
+        <div class="Header">
+            <h2>
+                [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %]
+                &ndash; <span class="[% Data.ArticleFields.Sender.ValueHidden | html %]">[% Data.ArticleFields.Sender.Value | html %]</span> <span class="[% Data.ArticleFields.Sender.RealnameHidden | html %]">[% Data.ArticleFields.Sender.Realname | html %]</span>
+                &ndash; <span title="[% Translate("Created") %]: [% Data.CreateTime | Localize("TimeShort") %]">[% Data.CreateTime | Localize("RelativeTime") %]</span> [% Translate("via %s", Translate(Data.CommunicationChannel)) %]
+[% RenderBlockStart("ArticleCreatedBy") %]
+                [% Translate("by %s", Data.CreateByUser) | html %]
+[% RenderBlockEnd("ArticleCreatedBy") %]
+            </h2>
+            <div class="ActionMenu Visible">
+                <div class="WidgetAction Expand">
+                    <a href="#" title="[% Translate("Toggle article details") | html %]"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="WidgetMenu Hidden">
+
+[% PROCESS ArticleActionMenu.tt %]
+
+            <div class="ArticleMailHeader">
+                <fieldset class="TableLike FixedLabelSmall">
+
+[% FOREACH ArticleField IN Data.ArticleFields.values.nsort("Prio") %]
+    [% IF ArticleField.Label == "From" || ArticleField.Label == "To" || ArticleField.Label == "Cc"  || ArticleField.key == "Bcc" %]
+                    <label class="Switchable">[% Translate(ArticleField.Label) | html %]:</label>
+                    <p class="Value" title="[% ArticleField.Value | html %]">
+                        <span class="Switch [% ArticleField.ValueHidden | html %]">[% ArticleField.Value | html %]</span>
+                        <span class="Switch [% ArticleField.RealnameHidden | html %]">[% ArticleField.Realname | html %]</span>
+                    </p>
+                    <div class="Clear"></div>
+    [% ELSIF ArticleField.Label == "RowData" %]
+        [% FOREACH RowData IN Data.ArticleFields %]
+                    <label>[% Translate(RowData.Label) | html %]:</label>
+                    <p class="Value" title="[% RowData.Value | html %]">[% RowData.Value | html %]</p>
+                    <div class="Clear"></div>
+        [% END %]
+    [% ELSIF ArticleField.Label == "ArticleOption" %]
+                    <!-- show article options like signed, crypted, ...-->
+                    <label>[% Translate(ArticleField.Label) | html %]:</label>
+                    <div title="[% ArticleField.Value | html %]" class="[% ArticleField.Result | html %] Value">
+                        [% Translate(ArticleField.Value) | html %]
+                    </div>
+                    <div class="Clear"></div>
+
+    [% ELSIF ArticleField.Label == "Subject" %]
+                    <!-- Include the full subject so that it can be copied. The one in the title bar is shortened. -->
+                    <label>[% Translate("Subject") | html %]:</label>
+                    <p class="Value">[% ArticleField.Value | html %]</p>
+                    <div class="Clear"></div>
+    [% END %]
+[% END %]
+
+[% FOREACH ArticleField IN Data.ArticleMetaFields %]
+                    <!-- show accounted time and dynamic fields -->
+                    <label>[% Translate(ArticleField.value.Label) | html %]:</label>
+                    [% IF ArticleField.value.Link %]
+                        <p class="Value" title="[% ArticleField.value.Title %]">
+                            <a href="[% ArticleField.value.Link | Interpolate %]"
+                                [% IF ArticleField.value.LinkPreview %] data-trigger="floater" data-floater-url="[% ArticleField.value.LinkPreview | Interpolate %]"[% END %]
+                                target="_blank" class="DynamicFieldLink">
+                                    [% ArticleField.value.Value %]
+                            </a>
+                        </p>
+                    [% ELSE %]
+                        <p class="Value" title="[% ArticleField.value.Title %]">[% ArticleField.value.Value %]</p>
+                    [% END %]
+                    <div class="Clear"></div>
+[% END %]
+                </fieldset>
+            </div>
+
+        </div>
+
+        <div class="Content">
+            <div class="ArticleMailContent">
+
+[% RenderBlockStart("BrowserLinkMessage") %]
+# Show info, that links within the iframe must be clicked with strg/cmd/shift (depending on the used browser and os)
+# to open the links in a new window without the security permissions given to the iframe
+                <div class="MessageBrowser">
+                    <p>
+                        [% Translate("To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).") | html %]
+                    </p>
+                    <a class="Close" title="[% Translate("Close this message") | html %]" href="#"><i class="fa fa-times"></i></a>
+                </div>
+[% RenderBlockEnd("BrowserLinkMessage") %]
+
+                <div class="ArticleSender[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]">
+[% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
+                    <div class="ArticleSenderImage">
+                        <img src="[% Data.SenderImage | url %]" title="[% Data.From | html %]" />
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                    </div>
+[% ELSE %]
+                    <div class="ArticleSenderInitials">
+                        <span>[% Data.SenderInitials | html %]</span>
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                    </div>
+[% END %]
+                    <div class="ArticleSenderTongue[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]"></div>
+                </div>
+
+[% IF Data.HTML %]
+                <div class="ArticleMailContentHTMLWrapper">
+# execute IFrame JS asynchronously. Otherwise it could happen before our API was loaded
+# the following JS code must be within the template, otherwise it could happen, that also this code itself is not loaded yet
+<script>
+function CheckIFrameHeight(IFrameID) {
+    if (typeof Core === 'object' && typeof Core.Agent === 'object' && typeof Core.Agent.TicketZoom === 'object') {
+        Core.Agent.TicketZoom.IframeAutoHeight($('#' + IFrameID));
+    }
+    else {
+        window.setTimeout(function () {
+            CheckIFrameHeight(IFrameID);
+        }, 500);
+    }
+}
+</script>
+
+# Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
+# Append session info to URL because IE will not send cookies.
+# Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups
+                    <iframe sandbox="allow-same-origin allow-popups ms-allow-popups allow-popups-to-escape-sandbox" width="100%" frameborder="0" id="Iframe[% Data.ArticleID | html %]" onload="window.setTimeout( function (){ CheckIFrameHeight('Iframe[% Data.ArticleID | html %]'); }, 500);" src="[% Env("Baselink") %]Action=AgentTicketArticleContent;Subaction=HTMLView;TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];FileID=[% Data.HTMLBodyAttachmentID | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]"></iframe>
+                    <script type="text/javascript">
+                    // workaround for firefox, which seems to cache the src attribute of iframes sometimes which leads to
+                    // the wrong iframe content being displayed (see https://bugzilla.mozilla.org/show_bug.cgi?id=356558)
+                    document.getElementById('Iframe[% Data.ArticleID | html %]').contentWindow.location.href = document.getElementById('Iframe[% Data.ArticleID | html %]').src
+                    </script>
+                </div>
+[% ELSE %]
+[% Data.BodyNote %]
+                <div class="ArticleBody">
+[% Data.Body %]
+                </div>
+[% END %]
+
+[% IF Data.Attachments %]
+                <div class="ArticleAttachments">
+     [% FOREACH Attachment IN Data.Attachments %]
+                    <a class="[% Attachment.Class %]" href="[% Attachment.Link %]" title="[% Translate("Download") | html %] [% Attachment.Filename | html %]" [% Attachment.Target %]>
+                        <div class="Attachment">
+                            <span class="FileName">
+                                [% Attachment.Filename | truncate(20) | html %]
+                            </span>
+                            [% FOREACH Item IN Attachment.Links %]
+                                [% IF Item.Action == "Download" %]
+                                    <a class="[% Item.Class %]" href="[% Item.Link %]" title="[% Translate("Download") | html %] [% Attachment.Filename | html %]" [% Item.Target %]>
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                [% ELSE %]
+                                    <a class="[% Item.Class %]" href="[% Item.Link %]" title="[% Translate("View") | html %] [% Attachment.Filename | html %]" [% Item.Target %]>
+                                        <i class="fa fa-search-plus"></i>
+                                    </a>
+                                [% END %]
+                            [% END %]
+                            <span class="ContentType">
+                            [% IF Attachment.ContentType.match('image') %]
+                                [% Translate("Image") %]
+                            [% ELSIF Attachment.ContentType == "application/pdf" %]
+                                [% Translate("PDF") %]
+                            [% ELSE %]
+                                [% Translate("Unknown") %]
+                            [% END %]
+                            &ndash;&nbsp;
+                            </span>
+                            <span class="FileSize">[% Attachment.FilesizeRaw | Localize("Filesize") %]</span>
+                        </div>
+                    </a>
+     [% END %]
+                </div>
+                <div class="Clear"></div>
+[% END %]
+            [% IF Data.ArticleModuleMeta && Data.ArticleModuleMeta.size() %]
+                <div class="ArticleMeta">
+                [% FOREACH Entry IN Data.ArticleModuleMeta %]
+                    <h2>[% Entry.Name | html %]</h2>
+                    <ul>
+                    [% FOREACH Item IN Entry.Matches %]
+                        <li><a href="[% Item.URL | html %]"[% IF Item.URLPreview %] data-trigger="floater" data-floater-url="[% Item.URLPreview | html %]"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                    [% END %]
+                    </ul>
+                [% END %]
+                </div>
+            [% END %]
+
+            </div>
+        </div>
+    </div>
+</div>

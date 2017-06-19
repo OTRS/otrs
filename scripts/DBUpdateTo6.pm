@@ -201,6 +201,10 @@ sub _TasksGet {
             Module  => 'MigrateTicketStats',
         },
         {
+            Message => 'Migrate ticket notifications',
+            Module  => 'MigrateTicketNotifications',
+        },
+        {
             Message => 'Create entries in new article table',
             Module  => 'OCBIMigrateArticleData',
         },

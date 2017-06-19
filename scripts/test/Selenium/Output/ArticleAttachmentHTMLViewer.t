@@ -102,13 +102,14 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@title, \'Download' )]"),
             "Download link for attachment is found"
         );
+
         $Self->True(
-            $Selenium->find_element("//a[contains(\@title, \'Viewer' )]"),
-            "Viewer link for attachment is found"
+            $Selenium->find_element("//a[contains(\@title, \'View' )]"),
+            "View link for attachment is found"
         );
 
         # check test attachment in MIME-Viwer, WaitFor will be done after switch to window
-        $Selenium->find_element("//a[contains(\@title, \'Viewer' )]")->VerifiedClick();
+        $Selenium->find_element( "a.ViewAttachment i", "css" )->VerifiedClick();
 
         # switch to link object window
         $Selenium->WaitFor( WindowCount => 2 );

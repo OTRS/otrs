@@ -23,6 +23,7 @@ my $LayoutObject = Kernel::Output::HTML::Layout->new(
     UserID => 1,
     Lang   => 'de',
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my @Tests = (
     {
@@ -466,9 +467,31 @@ EOF
 ',
         Data => {},
     },
+    {
+        Name     => 'RelativeTime',
+        Template => <<'EOF',
+[% '2017-01-09 00:00:00' | Localize( 'RelativeTime' ) %] [% Localize( '2017-01-11 00:00:00', 'RelativeTime' ) %]
+EOF
+        Result => 'a day ago in a day
+',
+        Data         => {},
+        FixedTimeSet => '2017-01-10 00:00:00',
+    },
 );
 
 for my $Test (@Tests) {
+    if ( $Test->{FixedTimeSet} ) {
+
+        # Set current time to the provided timestamp.
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Test->{FixedTimeSet},
+            },
+        );
+
+        $HelperObject->FixedTimeSet($DateTimeObject);
+    }
 
     # make sure EnvRef is populated every time
     delete $LayoutObject->{EnvRef};
@@ -502,6 +525,12 @@ for my $Test (@Tests) {
         $Test->{Result},
         $Test->{Name},
     );
+
+    if ( $Test->{FixedTimeSet} ) {
+
+        # Reset time to the current timestamp.
+        $HelperObject->FixedTimeSet();
+    }
 }
 
 # verify that the TemplateObject is correctly destroyed to make sure there

@@ -408,8 +408,10 @@ sub _NotificationFilter {
         next KEY if $Key eq 'TransportEmailTemplate';
         next KEY if $Key eq 'Events';
         next KEY if $Key eq 'ArticleSenderTypeID';
+        next KEY if $Key eq 'ArticleIsVisibleForCustomer';
+        next KEY if $Key eq 'ArticleCommunicationChannelID';
         next KEY if $Key eq 'ArticleAttachmentInclude';
-        next KEY if $Key eq 'NotificationArticleTypeID';
+        next KEY if $Key eq 'IsVisibleForCustomer';
         next KEY if $Key eq 'Transports';
         next KEY if $Key eq 'OncePerDay';
         next KEY if $Key eq 'VisibleForAgent';
@@ -520,16 +522,23 @@ sub _NotificationFilter {
             DynamicFields => 0,
         );
 
-        # check article sender type
-        if ( $Notification{Data}->{ArticleSenderTypeID} ) {
+        # Check for active article filters:
+        #   - SenderTypeID
+        #   - IsVisibleForCustomer
+        #   - CommunicationChannelID
+        ARTICLE_FILTER:
+        for my $ArticleFilter (qw(ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID)) {
+            next ARTICLE_FILTER if !$Notification{Data}->{$ArticleFilter};
 
             my $Match = 0;
             VALUE:
-            for my $Value ( @{ $Notification{Data}->{ArticleSenderTypeID} } ) {
+            for my $Value ( @{ $Notification{Data}->{$ArticleFilter} } ) {
+                next VALUE if !defined $Value;
 
-                next VALUE if !$Value;
+                my $ArticleField = $ArticleFilter;
+                $ArticleField =~ s/^Article//;
 
-                if ( $Value == $Article{SenderTypeID} ) {
+                if ( $Value == $Article{$ArticleField} ) {
                     $Match = 1;
                     last VALUE;
                 }

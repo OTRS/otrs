@@ -53,14 +53,9 @@ sub Run {
 
     return 1 if !$Param{Data}->{ArticleID};
 
-    $Self->AsyncCall(
-        ObjectName     => 'Kernel::System::Ticket::Article',
-        FunctionName   => 'ArticleSearchIndexBuild',
-        FunctionParams => {
-            TicketID  => $Param{Data}->{TicketID},
-            ArticleID => $Param{Data}->{ArticleID},
-            UserID    => 1,
-        },
+    $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexRebuildFlagSet(
+        ArticleIDs => [ $Param{Data}->{ArticleID} ],
+        Value      => 1,
     );
 
     return 1;

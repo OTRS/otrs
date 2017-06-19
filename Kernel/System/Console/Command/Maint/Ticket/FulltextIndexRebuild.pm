@@ -17,21 +17,13 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
 );
 
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Completely rebuild the article search index.');
-    $Self->AddOption(
-        Name        => 'micro-sleep',
-        Description => "Specify microseconds to sleep after every ticket to reduce system load (e.g. 1000).",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/^\d+$/smx,
-    );
+    $Self->Description('Flag articles to automatically rebuild the article search index.');
 
     return;
 }
@@ -39,54 +31,29 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Rebuilding article search index...</yellow>\n");
-
-    # disable ticket events
-    $Kernel::OM->Get('Kernel::Config')->{'Ticket::EventModulePost'} = {};
-
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    # get all tickets
-    my @TicketIDs = $TicketObject->TicketSearch(
-        ArchiveFlags => [ 'y', 'n' ],
-        OrderBy      => 'Down',
-        SortBy       => 'Age',
-        Result       => 'ARRAY',
-        Limit        => 100_000_000,
-        Permission   => 'ro',
-        UserID       => 1,
-    );
-
-    my $Count      = 0;
-    my $MicroSleep = $Self->GetOption('micro-sleep');
+    $Self->Print("<yellow>Retrieving articles that needs to be marked for indexing...</yellow>\n");
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    TICKETID:
-    for my $TicketID (@TicketIDs) {
+    my %ArticleTicketIDs = $ArticleObject->ArticleSearchIndexRebuildFlagList(
+        Value => 0,
+    );
 
-        $Count++;
+    my @ArticleIDs = keys %ArticleTicketIDs;
 
-        my @MetaArticles = $ArticleObject->ArticleList(
-            TicketID => $TicketID,
-            UserID   => 1,
+    if (@ArticleIDs) {
+
+        my $ArticleCount = scalar @ArticleIDs;
+
+        $Self->Print("<yellow>Prepare $ArticleCount articles to be indexed...</yellow>\n");
+
+        $ArticleObject->ArticleSearchIndexRebuildFlagSet(
+            ArticleIDs => \@ArticleIDs,
+            Value      => 1,
         );
-
-        for my $MetaArticle (@MetaArticles) {
-            $ArticleObject->ArticleSearchIndexBuild(
-                %{$MetaArticle},
-                UserID => 1,
-            );
-        }
-
-        if ( $Count % 2000 == 0 ) {
-            my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
-            $Self->Print(
-                "<yellow>$Count</yellow> of <yellow>$#TicketIDs</yellow> processed (<yellow>$Percent %</yellow> done).\n"
-            );
-        }
-
-        Time::HiRes::usleep($MicroSleep) if $MicroSleep;
+    }
+    else {
+        $Self->Print("<yellow>All articles are already marked for indexing!</yellow>\n");
     }
 
     $Self->Print("<green>Done.</green>\n");

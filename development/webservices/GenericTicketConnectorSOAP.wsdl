@@ -102,9 +102,10 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
             <xsd:complexType name="OTRS_Article">
                 <xsd:sequence>
                     <xsd:choice maxOccurs="1" minOccurs="0">
-                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleTypeID" type="xsd:positiveInteger"/>
-                        <xsd:element maxOccurs="1" minOccurs="0" name="ArticleType" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="CommunicationChannelID" type="xsd:positiveInteger"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="CommunicationChannel" type="tns:OTRS_MIME_Communication_Channel"/>
                     </xsd:choice>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="IsVisibleForCustomer" type="xsd:string"/>
                     <xsd:choice maxOccurs="1" minOccurs="0">
                         <xsd:element maxOccurs="1" minOccurs="0" name="SenderTypeID" type="xsd:positiveInteger"/>
                         <xsd:element maxOccurs="1" minOccurs="0" name="SenderType" type="xsd:string"/>
@@ -570,6 +571,13 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:simpleType name="OTRS_MIME_Communication_Channel">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Email"/>
+                    <xsd:enumeration value="Internal"/>
+                    <xsd:enumeration value="Phone"/>
+                </xsd:restriction>
+            </xsd:simpleType>
         </xsd:schema>
     </wsdl:types>
     <wsdl:message name="TicketCreateRequest">

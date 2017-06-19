@@ -516,7 +516,7 @@ $Self->IsDeeply(
 # Register a new communication channel.
 $Helper->ConfigSettingChange(
     Valid => 1,                                # (optional) enable or disable setting
-    Key   => 'Ticket::CommunicationChannel',
+    Key   => 'CommunicationChannel',
     Value => {
         '100024-test' => {
             Name   => "TestChannelName$RandomID1",
@@ -537,7 +537,7 @@ $Self->IsDeeply(
 # Update registration - forward to another communication channel.
 $Helper->ConfigSettingChange(
     Valid => 1,                                # (optional) enable or disable setting
-    Key   => 'Ticket::CommunicationChannel',
+    Key   => 'CommunicationChannel',
     Value => {
         '100024-test' => {
             Name   => "TestChannelName$RandomID1",
@@ -605,7 +605,7 @@ $Self->True(
 
 $Helper->ConfigSettingChange(
     Valid => 1,
-    Key   => 'Ticket::CommunicationChannel',
+    Key   => 'CommunicationChannel',
     Value => {
         '100024-test' => {
             Name   => "TestChannelName$RandomID1",

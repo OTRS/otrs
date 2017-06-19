@@ -1634,6 +1634,47 @@ sub ArticleSearchableContentGet {
     return %ArticleSearchData;
 }
 
+=head2 ArticleHasHTMLContent()
+
+Returns 1 if article has HTML content.
+
+    my $ArticleHasHTMLContent = $ArticleBackendObject->ArticleHasHTMLContent(
+        TicketID  => 1,
+        ArticleID => 2,
+        UserID    => 1,
+    );
+
+Result:
+
+    $ArticleHasHTMLContent = 1;     # or 0
+
+=cut
+
+sub ArticleHasHTMLContent {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(TicketID ArticleID UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # Check if there is HTML body attachment.
+    my %AttachmentIndexHTMLBody = $Self->ArticleAttachmentIndex(
+        %Param,
+        OnlyHTMLBody => 1,
+    );
+
+    my ($HTMLBodyAttachmentID) = sort keys %AttachmentIndexHTMLBody;
+
+    return $HTMLBodyAttachmentID ? 1 : 0;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS

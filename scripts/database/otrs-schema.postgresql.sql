@@ -1189,6 +1189,7 @@ CREATE TABLE article (
     article_sender_type_id SMALLINT NOT NULL,
     communication_channel_id BIGINT NOT NULL,
     is_visible_for_customer SMALLINT NOT NULL,
+    search_index_needs_rebuild SMALLINT DEFAULT 1 NOT NULL,
     insert_fingerprint VARCHAR (64) NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
@@ -1215,6 +1216,17 @@ IF NOT EXISTS (
     WHERE indexname = 'article_communication_channel_id'
     ) THEN
     CREATE INDEX article_communication_channel_id ON article (communication_channel_id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE indexname = 'article_search_index_needs_rebuild'
+    ) THEN
+    CREATE INDEX article_search_index_needs_rebuild ON article (search_index_needs_rebuild);
 END IF;
 END$$;
 ;

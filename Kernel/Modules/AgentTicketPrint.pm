@@ -136,13 +136,14 @@ sub Run {
             DynamicFields => 0,
             UserID        => $Self->{UserID},
         );
-        $Article{Atms} = $ArticleBackendObject->ArticleAttachmentIndex(
+        my %Attachments = $ArticleBackendObject->ArticleAttachmentIndex(
             %{$MetaArticle},
             UserID           => $Self->{UserID},
             ExcludePlainText => 1,
             ExcludeHTMLBody  => 1,
             ExcludeInline    => 1,
         );
+        $Article{Atms} = \%Attachments;
         push @ArticleBox, \%Article;
     }
 
@@ -974,7 +975,7 @@ sub _PDFOutputArticles {
         my $Attachments;
         for my $FileID ( sort keys %AtmIndex ) {
             my %File = %{ $AtmIndex{$FileID} };
-            my $Filesize = $LayoutObject->HumanReadableDataSize( Size => $File{Filesize} );
+            my $Filesize = $LayoutObject->HumanReadableDataSize( Size => $File{FilesizeRaw} );
             $Attachments .= $File{Filename} . ' (' . $Filesize . ")\n";
         }
 
@@ -1021,14 +1022,36 @@ sub _PDFOutputArticles {
             Y    => 2,
         );
 
-        for my $Parameter ( 'From', 'To', 'Cc', 'Accounted time', 'Subject', ) {
-            if ( $Article{$Parameter} ) {
-                $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate($Parameter) . ':';
+        my %ArticleFields = $LayoutObject->ArticleFields(%Article);
+
+        # Display article fields.
+        for my $ArticleFieldKey (
+            sort { $ArticleFields{$a}->{Prio} <=> $ArticleFields{$b}->{Prio} }
+            keys %ArticleFields
+            )
+        {
+            my %ArticleField = %{ $ArticleFields{$ArticleFieldKey} // {} };
+            if ( $ArticleField{Value} ) {
+                $TableParam1{CellData}[$Row][0]{Content}
+                    = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $Article{$Parameter};
+                $TableParam1{CellData}[$Row][1]{Content} = $ArticleField{Value};
                 $Row++;
             }
         }
+
+        # Display article accounted time.
+        my $ArticleTime = $ArticleObject->ArticleAccountedTimeGet(
+            ArticleID => $Article{ArticleID},
+        );
+        if ($ArticleTime) {
+            $TableParam1{CellData}[$Row][0]{Content}
+                = $LayoutObject->{LanguageObject}->Translate('Accounted time') . ':';
+            $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
+            $TableParam1{CellData}[$Row][1]{Content} = $ArticleTime;
+            $Row++;
+        }
+
         $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Created') . ':';
         $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content} = $LayoutObject->{LanguageObject}->FormatTimeString(
@@ -1135,34 +1158,14 @@ sub _PDFOutputArticles {
             }
         }
 
-        my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
-            ChannelID => $Article{CommunicationChannelID},
+        my $ArticlePreview = $LayoutObject->ArticlePreview(
+            %Article,
+            ResultType => 'plain',
         );
-
-        if ( $CommunicationChannel{ChannelName} eq 'Chat' ) {
-            my $Lines = '';
-            if ( IsArrayRefWithData( $Article{ChatMessageList} ) ) {
-                for my $Line ( @{ $Article{ChatMessageList} } ) {
-                    my $CreateTime
-                        = $LayoutObject->{LanguageObject}->FormatTimeString( $Line->{CreateTime}, 'DateFormat' );
-                    if ( $Line->{SystemGenerated} ) {
-                        $Lines .= '[' . $CreateTime . '] ' . $Line->{MessageText} . "\n";
-                    }
-                    else {
-                        $Lines
-                            .= '['
-                            . $CreateTime . '] '
-                            . $Line->{ChatterName} . ' '
-                            . $Line->{MessageText} . "\n";
-                    }
-                }
-            }
-            $Article{Body} = $Lines;
-        }
 
         # table params (article body)
         my %TableParam2;
-        $TableParam2{CellData}[0][0]{Content} = $Article{Body} || ' ';
+        $TableParam2{CellData}[0][0]{Content} = $ArticlePreview || ' ';
         $TableParam2{Type}                    = 'Cut';
         $TableParam2{Border}                  = 0;
         $TableParam2{Font}                    = 'Monospaced';

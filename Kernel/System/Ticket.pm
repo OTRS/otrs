@@ -732,7 +732,7 @@ sub TicketDelete {
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    # Delete article search index.
+    # delete ticket entries from article search index.
     return if !$ArticleObject->ArticleSearchIndexDelete(
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
@@ -4008,6 +4008,42 @@ sub TicketArchiveFlagSet {
     );
 
     return 1;
+}
+
+=head2 TicketArchiveFlagGet()
+
+check if a ticket is archived or not
+
+    if ( $TicketObject->TicketArchiveFlagGet( TicketID => 123 ) ) {
+        print "Ticket is archived!\n";
+    }
+    else {
+        print "Ticket is not archived!\n";
+    }
+
+=cut
+
+sub TicketArchiveFlagGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TicketID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
+        return;
+    }
+
+    my %Ticket = $Self->TicketGet(
+        %Param,
+        DynamicFields => 0,
+    );
+
+    # check archive state
+    return 1 if lc $Ticket{ArchiveFlag} eq 'y';
+
+    return;
 }
 
 =head2 TicketStateSet()

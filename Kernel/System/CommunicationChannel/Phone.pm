@@ -124,6 +124,19 @@ sub PackageNameGet {
     return 'Framework';
 }
 
+=head2 ChannelIconGet()
+
+Returns icon for the communication channel.
+
+    my $ChannelIcon = $ChannelObject->ChannelIconGet();
+    $ChannelIcon = 'fa-phone';
+
+=cut
+
+sub ChannelIconGet {
+    return 'fa-phone';
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS

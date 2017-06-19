@@ -674,7 +674,7 @@ sub Run {
             );
         }
 
-        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+        my $ArticleID = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal')->ArticleCreate(
             TicketID             => $Self->{TicketID},
             IsVisibleForCustomer => 1,
             SenderType           => $Config->{SenderType},

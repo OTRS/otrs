@@ -1,0 +1,109 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div>
+    <a name="Article[% Data.ArticleID | html %]"></a>
+    <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %]">
+        <div class="Header">
+            <h2>
+                [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %]
+                &ndash; <span class="[% Data.ArticleFields.Sender.ValueHidden | html %]">[% Data.ArticleFields.Sender.Value | html %]</span> <span class="[% Data.ArticleFields.Sender.RealnameHidden | html %]">[% Data.ArticleFields.Sender.Realname | html %]</span>
+                &ndash; <span title="[% Translate("Created") %]: [% Data.CreateTime | Localize("TimeShort") %]">[% Data.CreateTime | Localize("RelativeTime") %]</span> [% Translate("via %s", Translate(Data.CommunicationChannel)) %]
+[% RenderBlockStart("ArticleCreatedBy") %]
+                [% Translate("by %s", Data.CreateByUser) | html %]
+[% RenderBlockEnd("ArticleCreatedBy") %]
+            </h2>
+            <div class="ActionMenu Visible">
+                <div class="WidgetAction Expand">
+                    <a href="#" title="[% Translate("Toggle article details") | html %]"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="WidgetMenu Hidden">
+
+[% PROCESS ArticleActionMenu.tt %]
+
+            <div class="ArticleMailHeader">
+                <fieldset class="TableLike FixedLabelSmall">
+
+[% FOREACH ArticleField IN Data.ArticleFields.values.nsort("Prio") %]
+    [% IF ArticleField.Label == "Sender" %]
+                    <label class="Switchable">[% Translate(ArticleField.Label) | html %]:</label>
+                    <p class="Value" title="[% ArticleField.Value | html %]">
+                        <span class="Switch [% ArticleField.ValueHidden | html %]">[% ArticleField.Value | html %]</span>
+                        <span class="Switch [% ArticleField.RealnameHidden | html %]">[% ArticleField.Realname | html %]</span>
+                    </p>
+                    <div class="Clear"></div>
+    [% ELSIF ArticleField.Label == "Subject" %]
+                    <!-- Include the full subject so that it can be copied. The one in the title bar is shortened. -->
+                    <label>[% Translate("Subject") | html %]:</label>
+                    <p class="Value">[% ArticleField.Value | html %]</p>
+                    <div class="Clear"></div>
+    [% END %]
+[% END %]
+
+[% FOREACH ArticleField IN Data.ArticleMetaFields %]
+                    <!-- show accounted time and dynamic fields -->
+                    <label>[% Translate(ArticleField.value.Label) | html %]:</label>
+                    [% IF ArticleField.value.Link %]
+                        <p class="Value" title="[% ArticleField.value.Title %]">
+                            <a href="[% ArticleField.value.Link | Interpolate %]" target="_blank" class="DynamicFieldLink">[% ArticleField.value.Value %]</a>
+                        </p>
+                    [% ELSE %]
+                        <p class="Value" title="[% ArticleField.value.Title %]">[% ArticleField.value.Value %]</p>
+                    [% END %]
+                    <div class="Clear"></div>
+[% END %]
+                </fieldset>
+            </div>
+
+        </div>
+
+        <div class="Content">
+            <div class="ArticleMailContent">
+
+                <div class="ArticleSender[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]">
+[% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
+                    <div class="ArticleSenderImage">
+                        <img src="[% Data.SenderImage | url %]" title="[% Data.From | html %]" />
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                    </div>
+[% ELSE %]
+                    <div class="ArticleSenderInitials">
+                        <span>[% Data.SenderInitials | html %]</span>
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                    </div>
+[% END %]
+                    <div class="ArticleSenderTongue[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]"></div>
+                </div>
+
+[% IF !Data.HTML %]
+                <div class="ArticleChat">
+[% END %]
+[% Data.Body %]
+[% IF !Data.HTML %]
+                </div>
+[% END %]
+
+            [% IF Data.ArticleModuleMeta && Data.ArticleModuleMeta.size() %]
+                <div class="ArticleMeta">
+                [% FOREACH Entry IN Data.ArticleModuleMeta %]
+                    <h2>[% Entry.Name | html %]</h2>
+                    <ul>
+                    [% FOREACH Item IN Entry.Matches %]
+                        <li><a href="[% Item.URL | html %]"[% IF Item.URLPreview %] data-trigger="floater" data-floater-url="[% Item.URLPreview | html %]"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                    [% END %]
+                    </ul>
+                [% END %]
+                </div>
+            [% END %]
+            </div>
+        </div>
+    </div>
+</div>

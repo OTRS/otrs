@@ -846,7 +846,7 @@ sub _CheckArticle {
         return {
             ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage => "TicketCreate: Article->CommunicationChannel or Article->CommunicationChannelID parameter"
-                . " is invalid!",
+                . " is invalid or not supported!",
         };
     }
 

@@ -359,6 +359,18 @@
                         </div>
                         <div class="Clear"></div>
 
+                        <label for="ArticleIsVisibleForCustomer">[% Translate("Customer visibility") | html %]: </label>
+                        <div class="Field">
+                            [% Data.ArticleCustomerVisibilityStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ArticleCommunicationChannelID">[% Translate("Communication channel") | html %]: </label>
+                        <div class="Field">
+                            [% Data.ArticleCommunicationChannelStrg %]
+                        </div>
+                        <div class="Clear"></div>
+
                         <label for="ArticleAttachmentInclude">[% Translate("Include attachments to notification") | html %]: </label>
                         <div class="Field">
                             [% Data.ArticleAttachmentIncludeStrg %]

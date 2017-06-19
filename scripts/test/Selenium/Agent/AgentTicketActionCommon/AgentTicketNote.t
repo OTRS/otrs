@@ -165,6 +165,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Expand article details.
+        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
+
         # click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931
         $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();
 
@@ -243,6 +246,9 @@ $Selenium->RunTest(
 
         # navigate to added note article
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ArticleID=$ArticleID");
+
+        # Expand article details.
+        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
 
         # click 'Reply to note'
         $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();

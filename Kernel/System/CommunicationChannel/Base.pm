@@ -129,6 +129,19 @@ sub PackageNameGet {
     ...;    # yada-yada (unimplemented) operator
 }
 
+=head2 ChannelIconGet()
+
+Returns icon for the communication channel. Override this method in your class.
+
+    my $ChannelIcon = $ChannelObject->ChannelIconGet();
+    $ChannelIcon = 'fa-envelope';
+
+=cut
+
+sub ChannelIconGet {
+    ...;    # yada-yada (unimplemented) operator
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS

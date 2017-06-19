@@ -26,20 +26,20 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my @Settings = qw(
-        Home
-        FQDN
-        HttpType
-        DefaultLanguage
-        SystemID
-        Version
-        ProductName
-        Organization
-        Ticket::IndexModule
-        Ticket::SearchIndexModule
-        Ticket::Article::Backend::MIMEBase
-        SendmailModule
-        Frontend::RichText
+    my @Settings = (
+        'Home',
+        'FQDN',
+        'HttpType',
+        'DefaultLanguage',
+        'SystemID',
+        'Version',
+        'ProductName',
+        'Organization',
+        'Ticket::IndexModule',
+        'Ticket::SearchIndexModule',
+        'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+        'SendmailModule',
+        'Frontend::RichText',
     );
 
     # get config object
@@ -48,6 +48,12 @@ sub Run {
     for my $Setting (@Settings) {
 
         my $ConfigValue = $ConfigObject->Get($Setting);
+
+        if ( $Setting =~ m{###} ) {
+            my ( $Name, $SubKey ) = $Setting =~ m{(.*)###(.*)};
+            $ConfigValue = $ConfigObject->Get($Name);
+            $ConfigValue = $ConfigValue->{$SubKey} if ref $ConfigValue eq 'HASH';
+        }
 
         if ( defined $ConfigValue ) {
             $Self->AddResultInformation(

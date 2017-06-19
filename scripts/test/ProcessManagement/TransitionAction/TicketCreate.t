@@ -896,6 +896,104 @@ my @Tests = (
         },
         Success => 1,
     },
+
+    {
+        Name   => 'Correct Ticket Phone Article',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::9::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                OwnerID       => 1,
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                SenderType           => 'agent',
+                CommunicationChannel => 'Phone',
+                IsVisibleForCustomer => 0,
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                Subject              => 'some subject',
+                Body                 => 'some body',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'Some free text!',
+
+                NoAgentNotify => 0,
+
+                LinkAs   => 'Child',
+                TimeUnit => 123,
+            },
+        },
+        Success => 1,
+        Article => 1,
+    },
+    {
+        Name   => 'Correct Ticket Email Article',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::10::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                OwnerID       => 1,
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                SenderType           => 'agent',
+                CommunicationChannel => 'Email',
+                IsVisibleForCustomer => 0,
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                Subject              => 'some subject',
+                Body                 => 'some body',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'Some free text!',
+
+                NoAgentNotify => 0,
+
+                LinkAs   => 'Child',
+                TimeUnit => 123,
+            },
+        },
+        Success => 1,
+        Article => 1,
+    },
+    {
+        Name   => 'Correct Ticket Internal Article',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::11::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                OwnerID       => 1,
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                SenderType           => 'agent',
+                CommunicationChannel => 'Internal',
+                IsVisibleForCustomer => 0,
+                ContentType          => 'text/plain; charset=ISO-8859-15',
+                Subject              => 'some subject',
+                Body                 => 'some body',
+                HistoryType          => 'OwnerUpdate',
+                HistoryComment       => 'Some free text!',
+
+                NoAgentNotify => 0,
+
+                LinkAs   => 'Child',
+                TimeUnit => 123,
+            },
+        },
+        Success => 1,
+        Article => 1,
+    },
+
 );
 
 my %ExcludedArtributes = (
@@ -922,6 +1020,8 @@ my %ExcludedArtributes = (
     LinkAs                          => 1,
     TimeUnit                        => 1,
 );
+
+my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
 
 for my $Test (@Tests) {
 
@@ -992,6 +1092,21 @@ for my $Test (@Tests) {
             my $ArticleAttribute = $Attribute;
 
             if ( $Test->{Article} ) {
+                if ( $Attribute eq 'CommunicationChannel' ) {
+
+                    my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+                        ChannelID => $Article{CommunicationChannelID},
+                    );
+
+                    $Self->Is(
+                        $CommunicationChannel{ChannelName},
+                        $Test->{Config}->{Config}->{$Attribute},
+                        "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
+                            . " $Article{ArticleID} match expected value",
+                    );
+                    next ATTRIBUTE;
+                }
+
                 $Self->True(
                     defined $Article{$ArticleAttribute},
                     "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
@@ -1070,7 +1185,7 @@ for my $Test (@Tests) {
                     ObjectParams => {
                         String => $ExpectedValue,
                         }
-                    )->ToEpoch(),
+                )->ToEpoch();
             }
 
             # TODO: currently disabled, re-enable it when AgentNotification is fully switch to NotificationEvent

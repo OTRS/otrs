@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::SupportDataCollector::Plugin::OTRS::ConfigBackups;
+package Kernel::System::SupportDataCollector::Plugin::OTRS::LegacyConfigBackups;
 
 use strict;
 use warnings;
@@ -43,9 +43,9 @@ sub Run {
 
     if ( !@BackupFiles ) {
         $Self->AddResultOk(
-            Label   => Translatable('Configuration Backups'),
+            Label   => Translatable('Legacy Configuration Backups'),
             Value   => 0,
-            Message => Translatable('No backup files found!'),
+            Message => Translatable('No legacy configuration backup files found.'),
         );
         return $Self->GetResults();
     }
@@ -87,19 +87,21 @@ sub Run {
     }
 
     if ( @InvalidPackages || @WrongFrameworkVersion ) {
-        $Self->AddResultWarning(
-            Label   => Translatable('Configuration Backups'),
+        $Self->AddResultOk(
+            Label   => Translatable('Legacy Configuration Backups'),
             Value   => scalar @BackupFiles,
-            Message => Translatable("Some packages might still require backup files in $BackupsFolder."),
+            Message => Translatable(
+                "Legacy configuration backup files found in $BackupsFolder, but they might still be required by some packages."
+            ),
         );
         return $Self->GetResults();
     }
 
-    $Self->AddResultProblem(
-        Label   => Translatable('Configuration Backups'),
+    $Self->AddResultWarning(
+        Label   => Translatable('Legacy Configuration Backups'),
         Value   => scalar @BackupFiles,
         Message => Translatable(
-            "Backup files are not longer needed for the installed packages, please remove them from $BackupsFolder."
+            "Legacy configuration backup files are no longer needed for the installed packages, please remove them from $BackupsFolder."
         ),
     );
     return $Self->GetResults();

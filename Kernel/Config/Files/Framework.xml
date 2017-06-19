@@ -11590,4 +11590,52 @@ via the Preferences button after logging in.
             <String>admin</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CommunicationChannel###1000-Email" Required="0" Valid="1">
+        <Description Translatable="1">Defines email communication channel.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationChannel</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name" Translatable="1">Email</Item>
+                <Item Key="Description" Translatable="1">Email communication channel.</Item>
+                <Item Key="Module">Kernel::System::CommunicationChannel::Email</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CommunicationChannel###2000-Internal" Required="0" Valid="1">
+        <Description Translatable="1">Defines internal communication channel.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationChannel</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name" Translatable="1">Internal</Item>
+                <Item Key="Description" Translatable="1">Internal communication channel.</Item>
+                <Item Key="Module">Kernel::System::CommunicationChannel::Internal</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CommunicationChannel###3000-Phone" Required="0" Valid="1">
+        <Description Translatable="1">Defines phone communication channel.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationChannel</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name" Translatable="1">Phone</Item>
+                <Item Key="Description" Translatable="1">Phone communication channel.</Item>
+                <Item Key="Module">Kernel::System::CommunicationChannel::Phone</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CommunicationChannel###4000-Chat" Required="0" Valid="1">
+        <Description Translatable="1">Defines chat communication channel.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationChannel</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name" Translatable="1">Chat</Item>
+                <Item Key="Description" Translatable="1">Chat communication channel.</Item>
+                <Item Key="Module">Kernel::System::CommunicationChannel::Chat</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 </otrs_config>

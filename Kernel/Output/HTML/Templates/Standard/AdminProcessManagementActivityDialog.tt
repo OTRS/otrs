@@ -214,9 +214,15 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label for="ArticleType">[% Translate("ArticleType") | html %]:</label>
-                <div class="Field" id="ArticleTypeContainer" class="Hidden">
-                    [% Data.ArticleTypeSelection %]
+                <label for="CommunicationChannel">[% Translate("Communication Channel") | html %]:</label>
+                <div class="Field" id="CommunicationChannelContainer" class='Hidden'>
+                    [% Data.CommunicationChannelSelection %]
+                </div>
+                <div class="Clear"></div>
+
+                <label for="IsVisibleForCustomer">[% Translate("Is visible for customer") | html %]:</label>
+                <div class="Field" id="IsVisibleForCustomerContainer" class='Hidden'>
+                    <input type="checkbox" name="IsVisibleForCustomer" id="IsVisibleForCustomer"/>
                 </div>
                 <div class="Clear"></div>
 

@@ -258,7 +258,11 @@ sub _SupportDataCollectorView {
 
     # verify if the email is valid, set it to empty string if not, this will be checked on client
     #    side
-    if ( !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Param{SenderAddress} ) ) {
+    if (
+        $Param{SenderAddress} &&
+        !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Param{SenderAddress} )
+        )
+    {
         $Param{SenderAddress} = '';
     }
 

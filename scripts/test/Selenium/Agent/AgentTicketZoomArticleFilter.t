@@ -140,19 +140,17 @@ $Selenium->RunTest(
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentTicketZoom for test created ticket
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-        # click on expand view
-        $Selenium->find_element("//a[contains(\@href, \'ZoomExpand=1')]")->VerifiedClick();
+        # Navigate to AgentTicketZoom for test created ticket (expanded view).
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;ZoomExpand=1");
 
         # verify there are last 3 created articles on first page
         my @FirstArticles = (
-            'Article #4 – Fourth Test Article',
-            'Article #5 – Fifth Test Article',
-            'Article #6 – Sixth Test Article',
+            '#4 – Fourth Test Article',
+            '#5 – Fifth Test Article',
+            '#6 – Sixth Test Article',
         );
         for my $Article (@FirstArticles) {
+
             $Self->True(
                 index( $Selenium->get_page_source(), $Article ) > -1,
                 "ZoomExpandSort: reverse - $Article found on first page - article filter off",
@@ -161,10 +159,11 @@ $Selenium->RunTest(
 
         # verify first 3 articles are not visible, they are on second page
         my @SecondArticles = (
-            'Article #1 – First Test Article',
-            'Article #2 – Second Test Article',
-            'Article #3 – Third Test Article',
+            '#1 – First Test Article',
+            '#2 – Second Test Article',
+            '#3 – Third Test Article',
         );
+
         for my $Article (@SecondArticles) {
             $Self->True(
                 index( $Selenium->get_page_source(), $Article ) == -1,
@@ -219,7 +218,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # verify we now only have first and fourth article on screen and there numeration is intact
-        my @ArticlesFilterOn = ( 'Article #1 – First Test Article', 'Article #4 – Fourth Test Article' );
+        my @ArticlesFilterOn = ( '#1 – First Test Article', '#4 – Fourth Test Article' );
         for my $ArticleFilterOn (@ArticlesFilterOn) {
 
             $Self->True(
@@ -246,6 +245,7 @@ $Selenium->RunTest(
 
         # click on first page
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=1')]")->VerifiedClick();
+
         for my $Article (@SecondArticles) {
             $Self->True(
                 index( $Selenium->get_page_source(), $Article ) > -1,
@@ -255,6 +255,7 @@ $Selenium->RunTest(
 
         # click on second page
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=2')]")->VerifiedClick();
+
         for my $Article (@FirstArticles) {
             $Self->True(
                 index( $Selenium->get_page_source(), $Article ) > -1,

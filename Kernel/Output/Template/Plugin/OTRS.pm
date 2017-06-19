@@ -97,6 +97,19 @@ sub new {
         elsif ( $Format eq 'Filesize' ) {
             return $LayoutObject->HumanReadableDataSize( Size => $_[0] );
         }
+        elsif ( $Format eq 'RelativeTime' ) {
+            my $DateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $_[0],
+                },
+            );
+            my %TimeAgo = $LayoutObject->FormatRelativeTime(
+                DateTimeObject => $DateTimeObject,
+            );
+
+            return $LayoutObject->{LanguageObject}->Translate( $TimeAgo{Message}, $TimeAgo{Value} );
+        }
         return;
     };
 
@@ -116,6 +129,19 @@ sub new {
             }
             elsif ( $Format eq 'Filesize' ) {
                 return $LayoutObject->HumanReadableDataSize( Size => $_[0] );
+            }
+            elsif ( $Format eq 'RelativeTime' ) {
+                my $DateTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $_[0],
+                    },
+                );
+                my %TimeAgo = $LayoutObject->FormatRelativeTime(
+                    DateTimeObject => $DateTimeObject,
+                );
+
+                return $LayoutObject->{LanguageObject}->Translate( $TimeAgo{Message}, $TimeAgo{Value} );
             }
             return;
         };

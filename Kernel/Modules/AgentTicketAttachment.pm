@@ -70,9 +70,10 @@ sub Run {
     my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
         Type     => 'ro',
         TicketID => $TicketID,
-        UserID   => $Self->{UserID}
+        UserID   => $Self->{UserID},
     );
     if ( !$Access ) {
+
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 

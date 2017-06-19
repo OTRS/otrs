@@ -59,23 +59,53 @@ sub Run {
                 next ROW;
             }
 
-            # Map visible for customer.
+            # Map visible for customer / communication channel.
             my $IsVisibleForCustomer = 0;
             if ( $Table eq 'pm_transition_action' ) {
                 if ( $Config->{Config}->{ArticleType} =~ /(-ext|phone|fax|sms|webrequest)/i ) {
                     $IsVisibleForCustomer = 1;
                 }
-                delete $Config->{Config}->{ArticleType};
                 $Config->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
+
+                my $CommunicationChannel;
+                if ( $Config->{Config}->{ArticleType} =~ /email-/i ) {
+                    $CommunicationChannel = 'Email';
+                }
+                elsif ( $Config->{Config}->{ArticleType} =~ /phone/i ) {
+                    $CommunicationChannel = 'Phone';
+                }
+                elsif ( $Config->{Config}->{ArticleType} =~ /chat-/i ) {
+                    $CommunicationChannel = 'Chat';
+                }
+                else {
+                    $CommunicationChannel = 'Internal';
+                }
+                delete $Config->{Config}->{ArticleType};
+                $Config->{Config}->{CommunicationChannel} = $CommunicationChannel;
             }
             elsif ( $Table eq 'pm_activity_dialog' ) {
 
                 if ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /(-ext|phone|fax|sms|webrequest)/i ) {
                     $IsVisibleForCustomer = 1;
                 }
-                delete $Config->{Fields}->{Article}->{Config}->{ArticleType};
                 $Config->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
 
+                my $CommunicationChannel;
+                if ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /email-/i ) {
+                    $CommunicationChannel = 'Email';
+                }
+                elsif ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /phone/i ) {
+                    $CommunicationChannel = 'Phone';
+                }
+                elsif ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /chat-/i ) {
+                    $CommunicationChannel = 'Chat';
+                }
+                else {
+                    $CommunicationChannel = 'Internal';
+                }
+
+                delete $Config->{Fields}->{Article}->{Config}->{ArticleType};
+                $Config->{Fields}->{Article}->{CommunicationChannel} = $CommunicationChannel;
             }
 
             my %CurrentRow = (

@@ -598,6 +598,7 @@ CREATE TABLE article (
     article_sender_type_id SMALLINT NOT NULL,
     communication_channel_id BIGINT NOT NULL,
     is_visible_for_customer SMALLINT NOT NULL,
+    search_index_needs_rebuild SMALLINT NOT NULL DEFAULT 1,
     insert_fingerprint VARCHAR (64) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -606,6 +607,7 @@ CREATE TABLE article (
     PRIMARY KEY(id),
     INDEX article_article_sender_type_id (article_sender_type_id),
     INDEX article_communication_channel_id (communication_channel_id),
+    INDEX article_search_index_needs_rebuild (search_index_needs_rebuild),
     INDEX article_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------

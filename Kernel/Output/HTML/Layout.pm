@@ -4508,6 +4508,351 @@ sub RichTextDocumentComplete {
     return $Param{String};
 }
 
+=head2 FormatRelativeTime()
+
+Returns approximate duration for provided DateTimeObject in words.
+
+    my %Result = $LayoutObject->FormatRelativeTime(
+        DateTimeObject => $DateTimeObject,      # (required)
+    );
+
+    0 <-> 9 secs
+        just now
+
+    10 <-> 29 secs
+        less than a minute ago
+
+    30 secs <-> 1 min, 29 secs
+        1 minute ago
+
+    1 min, 30 secs <-> 44 mins, 29 secs
+        [2..44] minutes ago
+
+    44 mins, 30 secs <-> 89 mins, 29 secs
+        about 1 hour ago
+
+    89 mins, 30 secs <-> 23 hrs, 59 mins, 59 secs
+        about [2..24] hours ago
+
+    24 hrs, 0 mins, 0 secs <-> 41 hrs, 59 mins, 59 secs
+        1 day ago
+
+    41 hrs, 59 mins, 30 secs <-> 29 days, 23 hrs, 59 mins, 29 secs
+        [2..29] days ago
+
+    29 days, 23 hrs, 59 mins, 30 secs <-> 44 days, 23 hrs, 59 mins, 29 secs
+        about 1 month ago
+
+    45 days, 0 hrs, 0 mins, 0 secs <-> 1 yr minus 1 sec
+        about [2..12] months ago
+
+    1 yr <-> 1 yr, 3 months
+        about 1 year ago
+
+    1 yr, 3 months <-> 1 yr, 9 months
+        over 1 year ago
+
+    1 yr, 9 months <-> 2 yr minus 1 sec
+        almost 2 years ago
+
+    2 yrs <-> max time or date
+        (same rules as 1 yr)
+
+Returns:
+    %Result = (
+        Message => "%s years ago",
+        Value   => "4",
+    );
+
+=cut
+
+sub FormatRelativeTime {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{DateTimeObject} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need DateTimeObject!",
+        );
+        return ();
+    }
+
+    if ( ref $Param{DateTimeObject} ne 'Kernel::System::DateTime' ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Provided parameter is not a DateTime object!',
+        );
+        return ();
+    }
+
+    # Get current DateTime object.
+    my $CurrentDateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+    );
+
+    my $Delta = $CurrentDateTimeObject->Delta( DateTimeObject => $Param{DateTimeObject} );
+    my $Past = $CurrentDateTimeObject > $Param{DateTimeObject};
+
+    my %Result;
+    if ( $Delta->{AbsoluteSeconds} < 10 ) {
+        %Result = (
+            Message => Translatable('just now'),
+            Value   => '0',
+        );
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 30 ) {
+        if ($Past) {
+            %Result = (
+                Message => Translatable('less than a minute ago'),
+                Value   => '1',
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in less than a minute'),
+                Value   => '1',
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 90 ) {
+        if ($Past) {
+            %Result = (
+                Message => Translatable('a minute ago'),
+                Value   => '1',
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in a minute'),
+                Value   => '1',
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 2670 ) {
+        my $Minutes = sprintf( "%.0f", $Delta->{AbsoluteSeconds} / 60 );
+        if ($Past) {
+            %Result = (
+                Message => Translatable('%s minutes ago'),
+                Value   => $Minutes,
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in %s minutes'),
+                Value   => $Minutes,
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 5340 ) {
+        if ($Past) {
+            %Result = (
+                Message => Translatable('about an hour ago'),
+                Value   => '1',
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in an hour'),
+                Value   => '1',
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 86400 ) {
+        my $Hours = sprintf( "%.0f", $Delta->{AbsoluteSeconds} / 3600 );
+        if ($Past) {
+            %Result = (
+                Message => Translatable('about %s hours ago'),
+                Value   => $Hours,
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in %s hours'),
+                Value   => $Hours,
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 151200 ) {
+        if ($Past) {
+            %Result = (
+                Message => Translatable('a day ago'),
+                Value   => '1',
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in a day'),
+                Value   => '1',
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 2592000 ) {
+        my $Days = sprintf( "%.0f", $Delta->{AbsoluteSeconds} / 86400 );
+        if ($Past) {
+            %Result = (
+                Message => Translatable('%s days ago'),
+                Value   => $Days,
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in %s days'),
+                Value   => $Days,
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 3888000 ) {
+        if ($Past) {
+            %Result = (
+                Message => Translatable('about a month ago'),
+                Value   => '1',
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in a month'),
+                Value   => '1',
+
+            );
+        }
+    }
+    elsif ( $Delta->{AbsoluteSeconds} < 31536000 ) {
+        my $Months = sprintf( "%.0f", $Delta->{AbsoluteSeconds} / 2592000 );
+        if ($Past) {
+            %Result = (
+                Message => Translatable('about %s months ago'),
+                Value   => $Months,
+
+            );
+        }
+        else {
+            %Result = (
+                Message => Translatable('in %s months'),
+                Value   => $Months,
+
+            );
+        }
+    }
+    else {
+        my $Years = $Delta->{AbsoluteSeconds} / 31536000;
+
+        if ($Past) {
+            if ( $Years < 2 ) {
+                if ( $Years < 1.25 ) {
+                    %Result = (
+                        Message => Translatable('about a year ago'),
+                        Value   => '1',
+
+                    );
+                }
+                elsif ( $Years < 1.75 ) {
+                    %Result = (
+                        Message => Translatable('over a year ago'),
+                        Value   => '1',
+
+                    );
+                }
+                else {
+                    %Result = (
+                        Message => Translatable('almost %s years ago'),
+                        Value   => '2',
+
+                    );
+                }
+            }
+            else {
+                my $YearsInteger = int($Years);
+                if ( ( $Years - $YearsInteger ) < 0.25 ) {
+                    %Result = (
+                        Message => Translatable('about %s years ago'),
+                        Value   => $YearsInteger,
+
+                    );
+                }
+                elsif ( ( $Years - $YearsInteger ) < 0.75 ) {
+                    %Result = (
+                        Message => Translatable('over %s years ago'),
+                        Value   => $YearsInteger,
+
+                    );
+                }
+                else {
+                    %Result = (
+                        Message => Translatable('almost %s years ago'),
+                        Value   => $YearsInteger + 1,
+
+                    );
+                }
+            }
+        }
+        else {
+            if ( $Years < 2 ) {
+                if ( $Years < 1.25 ) {
+                    %Result = (
+                        Message => Translatable('in a year'),
+                        Value   => '1',
+
+                    );
+                }
+                elsif ( $Years < 1.75 ) {
+                    %Result = (
+                        Message => Translatable('in over a year'),
+                        Value   => '1',
+
+                    );
+                }
+                else {
+                    %Result = (
+                        Message => Translatable('in almost %s years'),
+                        Value   => '2',
+
+                    );
+                }
+            }
+            else {
+                my $YearsInteger = int($Years);
+                if ( ( $Years - $YearsInteger ) < 0.25 ) {
+                    %Result = (
+                        Message => Translatable('in %s years'),
+                        Value   => $YearsInteger,
+
+                    );
+                }
+                elsif ( ( $Years - $YearsInteger ) < 0.75 ) {
+                    %Result = (
+                        Message => Translatable('in over %s years'),
+                        Value   => $YearsInteger,
+
+                    );
+                }
+                else {
+                    %Result = (
+                        Message => Translatable('in almost %s years'),
+                        Value   => $YearsInteger + 1,
+
+                    );
+                }
+            }
+        }
+    }
+
+    return %Result;
+}
+
 =begin Internal:
 
 =cut

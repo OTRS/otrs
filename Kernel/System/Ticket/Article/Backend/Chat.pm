@@ -564,17 +564,6 @@ sub ArticleDelete {    ## no critic;
     );
 }
 
-=head2 ArticleAttachmentIndex()
-
-Compatibility method, returns nothing. Will be removed after all places invoking C<ArticleAttachmentIndex()> on article
-backends are improved.
-
-=cut
-
-sub ArticleAttachmentIndex {
-    return;
-}
-
 =head2 BackendSearchableFieldsGet()
 
 Get the definition of the searchable fields as a hash.
@@ -713,6 +702,33 @@ sub ArticleSearchableContentGet {
     return %ArticleSearchData;
 }
 
+=head2 ArticleHasHTMLContent()
+
+Returns 1 if article has HTML content.
+
+    my $ArticleHasHTMLContent = $ArticleBackendObject->ArticleHasHTMLContent(
+        TicketID  => 1,
+        ArticleID => 2,
+        UserID    => 1,
+    );
+
+Result:
+
+    $ArticleHasHTMLContent = 1;
+
+=cut
+
+sub ArticleHasHTMLContent {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
+sub ArticleAttachmentIndex {
+    my ( $Self, %Param ) = @_;
+
+    return;
+}
 1;
 
 =head1 TERMS AND CONDITIONS

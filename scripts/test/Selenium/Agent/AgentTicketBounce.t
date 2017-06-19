@@ -114,6 +114,9 @@ $Selenium->RunTest(
         # navigate to ticket zoom page of created test ticket
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # Expand article details.
+        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
+
         # click to bounce ticket
         $Selenium->find_element("//a[contains(\@href, 'Action=AgentTicketBounce') ]")->VerifiedClick();
 

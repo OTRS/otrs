@@ -24,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Ticket::Article::Backend::Invalid',
+    'Kernel::System::Ticket',
     'Kernel::System::Valid',
 );
 
@@ -694,6 +695,153 @@ sub ArticleSenderTypeLookup {
         return $SenderTypes{ $Param{SenderTypeID} };
     }
     return { reverse %SenderTypes }->{ $Param{SenderType} };
+}
+
+=head2 ArticleSearchIndexRebuildFlagSet()
+
+Set the article flags to indicate if the article search index needs to be rebuilt.
+
+    my $Success = $ArticleObject->ArticleSearchIndexRebuildFlagSet(
+        ArticleIDs => [ 123, 234, 345 ]
+        Value      => 1, # 0/1 default 0
+    );
+
+=cut
+
+sub ArticleSearchIndexRebuildFlagSet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(ArticleIDs)) {
+        if ( !$Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+            return;
+        }
+    }
+
+    $Param{Value} = $Param{Value} ? 1 : 0;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my $InCondition = $DBObject->QueryInCondition(
+        Key       => 'id',
+        Values    => $Param{ArticleIDs},
+        QuoteType => 'Integer',
+    );
+
+    return if !$DBObject->Do(
+        SQL => "
+            UPDATE article
+            SET search_index_needs_rebuild = ?
+            WHERE $InCondition",
+        Bind => [ \$Param{Value}, ],
+    );
+
+    return 1;
+}
+
+=head2 ArticleSearchIndexRebuildFlagList()
+
+Get a list of ArticleIDs and TicketIDs for a given flag (either needs rebuild or not)
+
+    my %ArticleTicketIDs = $ArticleObject->ArticleSearchIndexRebuildFlagList(
+        Value => 1,     # (optional) 0/1 default 0
+        Limit => 10000, # (optional) default: 20000
+    );
+
+Returns:
+
+    %ArticleIDs = (
+        1 => 2, # ArticleID => TicketID
+        3 => 4,
+        5 => 6,
+        ...
+    );
+
+=cut
+
+sub ArticleSearchIndexRebuildFlagList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Value)) {
+        if ( !defined $Param{$_} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
+            return;
+        }
+    }
+
+    $Param{Value} = $Param{Value} ? 1 : 0;
+    $Param{Limit} //= 20000;
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # sql query
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT id, ticket_id
+            FROM article
+            WHERE search_index_needs_rebuild = ?',
+        Bind  => [ \$Param{Value}, ],
+        Limit => $Param{Limit},
+    );
+
+    my %ArticleIDs;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $ArticleIDs{ $Row[0] } = $Row[1];
+    }
+
+    return %ArticleIDs;
+}
+
+=head2 ArticleSearchIndexStatus()
+
+gets an article indexing status hash.
+
+    my %Status = $ArticleObject->ArticleSearchIndexStatus();
+
+Returns:
+
+    %Status = (
+        ArticlesTotal      => 443,
+        ArticlesIndexed    => 420,
+        ArticlesNotIndexed =>  23,
+    );
+
+=cut
+
+sub ArticleSearchIndexStatus {
+    my ( $Self, %Param ) = @_;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL => 'SELECT count(*) FROM article WHERE search_index_needs_rebuild = 0',
+    );
+
+    my %Result;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Result{ArticlesIndexed} = $Row[0];
+    }
+
+    return if !$DBObject->Prepare(
+        SQL => 'SELECT count(*) FROM article WHERE search_index_needs_rebuild = 1',
+    );
+
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Result{ArticlesNotIndexed} = $Row[0];
+    }
+
+    $Result{ArticlesTotal} = $Result{ArticlesIndexed} + $Result{ArticlesNotIndexed};
+
+    return %Result;
 }
 
 =head2 ArticleSearchIndexBuild()

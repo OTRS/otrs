@@ -1049,9 +1049,10 @@ iframe.TextOption.CustomerUserAddressBook {
 .ArticleBody {
     font-family: monospace,fixed;
     word-wrap: break-word;
-    background: #fff;
-    border: 1px solid #eee;
+    background: #FFF;
     padding: 10px;
+    overflow: auto;
+    min-height: 70px;
 }
 
 

@@ -59,7 +59,7 @@ my @Tests = (
                 Config => {
                     Key1        => 'String',
                     Key2        => 2,
-                    ArticleType => 'email',
+                    ArticleType => 'email-internal',
                 },
             },
             UserID => $UserID,
@@ -70,6 +70,7 @@ my @Tests = (
                 Key1                 => 'String',
                 Key2                 => 2,
                 IsVisibleForCustomer => 0,
+                CommunicationChannel => 'Email',
             },
         },
         Success => 1,
@@ -94,6 +95,7 @@ my @Tests = (
                 Key1                 => 'String',
                 Key2                 => 2,
                 IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Phone',
             },
         },
         Success => 1,
@@ -227,12 +229,13 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                     'Description',
                 Fields => {
                     Article => {
-                        DescriptionLong  => 'A long description',
-                        DefaultValue     => '',
-                        DescriptionShort => '.',
-                        Config           => {
-                            TimeUnits   => '1',
-                            ArticleType => 'phone'
+                        CommunicationChannel => 'Internal',
+                        IsVisibleForCustomer => 1,
+                        DescriptionLong      => 'A long description',
+                        DefaultValue         => '',
+                        DescriptionShort     => '.',
+                        Config               => {
+                            TimeUnits => '1',
                         },
                         Display => '1',
                     },
@@ -249,12 +252,13 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         },
         ExpectedConfigResult => {
             Article => {
-                DescriptionLong  => 'A long description',
-                DefaultValue     => '',
-                DescriptionShort => '.',
-                Config           => {
-                    TimeUnits            => '1',
-                    IsVisibleForCustomer => 1,
+                CommunicationChannel => 'Internal',
+                IsVisibleForCustomer => 1,
+                DescriptionLong      => 'A long description',
+                DefaultValue         => '',
+                DescriptionShort     => '.',
+                Config               => {
+                    TimeUnits => '1',
                 },
                 Display => '1',
             },
@@ -277,12 +281,13 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                     'Description',
                 Fields => {
                     Article => {
-                        DescriptionLong  => 'A long description',
-                        DefaultValue     => '',
-                        DescriptionShort => '.',
-                        Config           => {
-                            TimeUnits   => '1',
-                            ArticleType => 'email'
+                        CommunicationChannel => 'Email',
+                        IsVisibleForCustomer => 0,
+                        DescriptionLong      => 'A long description',
+                        DefaultValue         => '',
+                        DescriptionShort     => '.',
+                        Config               => {
+                            TimeUnits => '1',
                         },
                         Display => '1',
                     },
@@ -299,12 +304,13 @@ $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         },
         ExpectedConfigResult => {
             Article => {
-                DescriptionLong  => 'A long description',
-                DefaultValue     => '',
-                DescriptionShort => '.',
-                Config           => {
-                    TimeUnits            => '1',
-                    IsVisibleForCustomer => 0,
+                CommunicationChannel => 'Email',
+                IsVisibleForCustomer => 0,
+                DescriptionLong      => 'A long description',
+                DefaultValue         => '',
+                DescriptionShort     => '.',
+                Config               => {
+                    TimeUnits => '1',
                 },
                 Display => '1',
             },

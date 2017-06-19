@@ -95,7 +95,6 @@ sub Run {
     # Get article data.
     my @Articles = $ArticleObject->ArticleList(
         TicketID             => $Self->{TicketID},
-        SenderType           => 'customer',
         IsVisibleForCustomer => 1,
     );
 
@@ -735,7 +734,7 @@ sub _PDFOutputArticles {
         }
         my $AttachmentString;
         for my $Attachment (@Attachments) {
-            my $Filesize = $LayoutObject->HumanReadableDataSize( Size => $Attachment->{Filesize} );
+            my $Filesize = $LayoutObject->HumanReadableDataSize( Size => $Attachment->{FilesizeRaw} );
             $AttachmentString .= $Attachment->{Filename} . ' (' . $Filesize . ")\n";
         }
 
@@ -763,14 +762,24 @@ sub _PDFOutputArticles {
             Y    => 2,
         );
 
-        for my $Parameter (qw(From To Cc Subject)) {
-            if ( $Article{$Parameter} ) {
-                $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate($Parameter) . ':';
+        my %ArticleFields = $LayoutObject->ArticleFields(%Article);
+
+        # Display article fields.
+        for my $ArticleFieldKey (
+            sort { $ArticleFields{$a}->{Prio} <=> $ArticleFields{$b}->{Prio} }
+            keys %ArticleFields
+            )
+        {
+            my %ArticleField = %{ $ArticleFields{$ArticleFieldKey} // {} };
+            if ( $ArticleField{Value} ) {
+                $TableParam1{CellData}[$Row][0]{Content}
+                    = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
                 $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $Article{$Parameter};
+                $TableParam1{CellData}[$Row][1]{Content} = $ArticleField{Value};
                 $Row++;
             }
         }
+
         $TableParam1{CellData}[$Row][0]{Content} = $LayoutObject->{LanguageObject}->Translate('Created') . ':';
         $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
         $TableParam1{CellData}[$Row][1]{Content} = $LayoutObject->{LanguageObject}->FormatTimeString(

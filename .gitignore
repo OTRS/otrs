@@ -139,8 +139,10 @@ Kernel/Output/HTML/Templates/Standard/AgentVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/SystemConfiguration/SettingHistoryListCompare.tt
+Kernel/Output/HTML/Templates/Standard/TimelineView/*
 Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/Business.tt
 Kernel/Output/HTML/Templates/Standard/PublicChat.tt
+Kernel/Output/HTML/TimelineView/*
 Kernel/Output/JavaScript/Templates/Standard/Agent/AppointmentCalendar/ResourceSettingsDialog.html.tmpl
 Kernel/Output/JavaScript/Templates/Standard/Agent/OTRSBusiness/*
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm

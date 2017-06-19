@@ -103,7 +103,9 @@ sub Run {
         my %GetParam;
         for my $Parameter (
             @ArticleSearchableFieldsKeys,
-            qw(ID Name Comment ValidID Events IsVisibleForCustomer ArticleSenderTypeID Transports)
+            qw(ID Name Comment ValidID Events IsVisibleForCustomer
+            ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
+            Transports)
             )
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -114,8 +116,9 @@ sub Run {
             qw(Recipients RecipientAgents RecipientGroups RecipientRoles
             Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID
             CustomerID CustomerUserID IsVisibleForCustomer ArticleAttachmentInclude
-            ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
-            VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
+            ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
+            Transports OncePerDay SendOnOutOfOffice VisibleForAgent VisibleForAgentTooltip
+            LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -209,7 +212,12 @@ sub Run {
             @{ $GetParam{Data}->{Events} || [] }
             )
         {
-            my $ArticleFilterValueSet = $GetParam{ArticleSenderTypeID} ? 1 : 0;
+            my $ArticleFilterValueSet = 0;
+            for my $ArticleFilter (qw(ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID)) {
+                if ( $GetParam{$ArticleFilter} ) {
+                    $ArticleFilterValueSet = 1;
+                }
+            }
 
             ARTICLEFIELDKEY:
             for my $ArticleFieldKey (@ArticleSearchableFieldsKeys) {
@@ -324,7 +332,9 @@ sub Run {
         my %GetParam;
         for my $Parameter (
             @ArticleSearchableFieldsKeys,
-            qw(Name Comment ValidID Events IsVisibleForCustomer ArticleSenderTypeID Transports)
+            qw(Name Comment ValidID Events IsVisibleForCustomer
+            ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
+            Transports)
             )
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -335,8 +345,9 @@ sub Run {
             qw(Recipients RecipientAgents RecipientRoles RecipientGroups Events StateID QueueID
             PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID
             IsVisibleForCustomer ArticleAttachmentInclude
-            ArticleSenderTypeID Transports OncePerDay SendOnOutOfOffice
-            VisibleForAgent VisibleForAgentTooltip LanguageID AgentEnabledByDefault)
+            ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID
+            Transports OncePerDay SendOnOutOfOffice VisibleForAgent VisibleForAgentTooltip
+            LanguageID AgentEnabledByDefault)
             )
         {
             my @Data = $ParamObject->GetArray( Param => $Parameter );
@@ -430,7 +441,12 @@ sub Run {
             @{ $GetParam{Data}->{Events} || [] }
             )
         {
-            my $ArticleFilterValueSet = $GetParam{ArticleSenderTypeID} ? 1 : 0;
+            my $ArticleFilterValueSet = 0;
+            for my $ArticleFilter (qw(ArticleSenderTypeID ArticleIsVisibleForCustomer ArticleCommunicationChannelID)) {
+                if ( $GetParam{$ArticleFilter} ) {
+                    $ArticleFilterValueSet = 1;
+                }
+            }
 
             ARTICLEFIELDKEY:
             for my $ArticleFieldKey (@ArticleSearchableFieldsKeys) {
@@ -1182,6 +1198,31 @@ sub _Edit {
         Multiple    => 1,
         Translation => 1,
         Max         => 200,
+    );
+
+    $Param{ArticleCustomerVisibilityStrg} = $LayoutObject->BuildSelection(
+        Data => {
+            0 => 'Invisible to customer',
+            1 => 'Visible to customer',
+        },
+        Name         => 'ArticleIsVisibleForCustomer',
+        SelectedID   => $Param{Data}->{ArticleIsVisibleForCustomer},
+        Class        => 'Modernize W75pc',
+        Translation  => 1,
+        PossibleNone => 1,
+    );
+
+    my @CommunicationChannelList = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList();
+    my %CommunicationChannels = map { $_->{ChannelID} => $_->{ChannelName} } @CommunicationChannelList;
+
+    $Param{ArticleCommunicationChannelStrg} = $LayoutObject->BuildSelection(
+        Data        => \%CommunicationChannels,
+        Name        => 'ArticleCommunicationChannelID',
+        SelectedID  => $Param{Data}->{ArticleCommunicationChannelID},
+        Class       => 'Modernize W75pc',
+        Multiple    => 1,
+        Size        => 5,
+        Translation => 1,
     );
 
     $Param{ArticleAttachmentIncludeStrg} = $LayoutObject->BuildSelection(

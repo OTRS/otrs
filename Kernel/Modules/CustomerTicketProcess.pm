@@ -3763,9 +3763,6 @@ sub _StoreActivityDialog {
             }
         }
         elsif ( $CurrentField eq 'Article' && ( $UpdateTicketID || $NewTicketID ) ) {
-            my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-                ChannelName => 'Internal',
-            );
 
             my $TicketID = $UpdateTicketID || $NewTicketID;
 
@@ -3783,19 +3780,22 @@ sub _StoreActivityDialog {
                     );
                 }
 
+                my $CommunicationChannel = $ActivityDialog->{Fields}->{Article}->{Config}->{CommunicationChannel}
+                    // 'Internal';
+
+                my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+                    ChannelName => $CommunicationChannel,
+                );
+
                 # Change history type and comment accordingly to the process article.
-                my $ArticleType = $ActivityDialog->{Fields}->{Article}->{Config}->{ArticleType};
-                my $HistoryType;
-                my $HistoryComment = '';
-                if ( $ArticleType eq 'phone' ) {
+                # Initial internal should be a web request, while follow-ups should be notes
+                my $HistoryType    = 'WebRequestCustomer';
+                my $HistoryComment = '%%';
+                if ( $CommunicationChannel eq 'Phone' ) {
                     $HistoryType = 'PhoneCallCustomer';
                 }
-                elsif ( $ArticleType eq 'webrequest' ) {
-                    $HistoryType = 'WebRequestCustomer';
-                }
-                else {
-                    $HistoryType    = 'AddNote';
-                    $HistoryComment = 'Note';
+                elsif ($UpdateTicketID) {
+                    $HistoryType = 'FollowUp';
                 }
 
                 my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
@@ -3807,8 +3807,8 @@ sub _StoreActivityDialog {
                     MimeType             => $MimeType,
                     Charset              => $LayoutObject->{UserCharset},
                     UserID               => $ConfigObject->Get('CustomerPanelUserID'),
-                    HistoryType          => 'AddNote',
-                    HistoryComment       => '%%Note',
+                    HistoryType          => $HistoryType,
+                    HistoryComment       => $HistoryComment,
                     Body                 => $Param{GetParam}->{Body},
                     Subject              => $Param{GetParam}->{Subject},
                     ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}

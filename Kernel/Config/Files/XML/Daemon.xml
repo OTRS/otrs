@@ -392,6 +392,27 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###ArticleSearchIndexRebuild" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Checks for articles that needs to be updated in the article search index.</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">ArticleSearchIndexRebuild</Item>
+                <Item Key="Schedule">* * * * *</Item> <!-- default: every minute -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::ArticleIndexRebuild</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--children</Item>
+                        <Item>4</Item>
+                        <Item>--limit</Item>
+                        <Item>20000</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <!-- custom cron tasks -->
     <Setting Name="Daemon::SchedulerCronTaskManager::Task###Custom1" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>

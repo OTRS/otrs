@@ -1790,6 +1790,7 @@ CREATE TABLE article (
     article_sender_type_id NUMBER (5, 0) NOT NULL,
     communication_channel_id NUMBER (20, 0) NOT NULL,
     is_visible_for_customer NUMBER (5, 0) NOT NULL,
+    search_index_needs_rebuild NUMBER (5, 0) DEFAULT 1 NOT NULL,
     insert_fingerprint VARCHAR2 (64) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
@@ -1844,6 +1845,14 @@ END;
 ;
 BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX article_communication_channe74 ON article (communication_channel_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX article_search_index_needs_rf7 ON article (search_index_needs_rebuild)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;

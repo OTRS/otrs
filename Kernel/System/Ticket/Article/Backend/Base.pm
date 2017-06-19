@@ -89,6 +89,26 @@ sub ChannelNameGet {
     ...;    # yada-yada (unimplemented) operator
 }
 
+=head2 ArticleHasHTMLContent()
+
+Returns 1 if article has HTML content.
+
+    my $ArticleHasHTMLContent = $ArticleBackendObject->ArticleHasHTMLContent(
+        TicketID  => 1,
+        ArticleID => 2,
+        UserID    => 1,
+    );
+
+Result:
+
+    $ArticleHasHTMLContent = 1;     # or 0
+
+=cut
+
+sub ArticleHasHTMLContent {
+    ...;    # yada-yada (unimplemented) operator
+}
+
 =head2 ChannelIDGet()
 
 Returns registered communication channel ID. Same for all article backends, don't override this
@@ -563,7 +583,11 @@ sub _MetaArticleDelete {
         UserID    => $Param{UserID},
     );
 
-    # TODO: what about article search index?
+    # delete article from article search index
+    return if !$ArticleObject->ArticleSearchIndexDelete(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     return if !$DBObject->Do(

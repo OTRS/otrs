@@ -92,31 +92,12 @@ sub new {
             # article required: (if one of them is not present, article will not be created without any error message)
             SenderType           => 'agent',                            # agent|system|customer
             IsVisibleForCustomer => 1,                                  # required
-            ContentType          => 'text/plain; charset=ISO-8859-15',  # or optional Charset & MimeType
-            Subject              => 'some short description',           # required
-            Body                 => 'the message text',                 # required
-            HistoryType          => 'OwnerUpdate',                      # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
-            HistoryComment       => 'Some free text!',
+            CommunicationChannel => 'Internal',                         # Internal|Phone|Email|..., default: Internal
+
+            %DataPayload,                                               # some parameters depending of each communication channel
 
             # article optional:
-            From             => 'Some Agent <email@example.com>',       # not required but useful
-            To               => 'Some Customer A <customer-a@example.com>', # not required but useful
-            Cc               => 'Some Customer B <customer-b@example.com>', # not required but useful
-            ReplyTo          => 'Some Customer B <customer-b@example.com>', # not required
-            MessageID        => '<asdasdasd.123@example.com>',          # not required but useful
-            InReplyTo        => '<asdasdasd.12@example.com>',           # not required but useful
-            References       => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
-            NoAgentNotify    => 0,                                      # if you don't want to send agent notifications
-            AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto reply/new ticket|auto remove
-
-            ForceNotificationToUserID   => [ 1, 43, 56 ],               # if you want to force somebody
-            ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notifications,
-                                                                        # will also be removed in To: line of article,
-                                                                        # higher prio as ForceNotificationToUserID
-            ExcludeMuteNotificationToUserID => [ 43,56 ],               # the same as ExcludeNotificationToUserID but only the
-                                                                        # sending gets muted, agent will still shown in To:
-                                                                        # line of article
-            TimeUnit                        => 123
+            TimeUnit => 123
 
             # other:
             DynamicField_NameX => $Value,
@@ -273,25 +254,12 @@ sub Run {
         }
     }
 
-    # extract the article params
-    my %ArticleParam;
-    for my $Attribute (
-        qw( SenderType IsVisibleForCustomer ContentType Subject Body HistoryType
-        HistoryComment From To Cc ReplyTo MessageID InReplyTo References NoAgentNotify
-        AutoResponseType ForceNotificationToUserID ExcludeNotificationToUserID
-        ExcludeMuteNotificationToUserID
-        )
-        )
-    {
-        if ( defined $Param{Config}->{$Attribute} ) {
-            $ArticleParam{$Attribute} = $Param{Config}->{$Attribute}
-        }
-    }
+    $Param{Config}->{CommunicationChannel} ||= 'Internal';
 
     # check if article can be created
     my $ArticleCreate = 1;
-    for my $Needed (qw(SenderType IsVisibleForCustomer ContentType Subject Body HistoryType HistoryComment)) {
-        if ( !defined $ArticleParam{$Needed} ) {
+    for my $Needed (qw(SenderType IsVisibleForCustomer)) {
+        if ( !defined $Param{Config}->{$Needed} ) {
             $ArticleCreate = 0;
         }
     }
@@ -301,12 +269,12 @@ sub Run {
     if ($ArticleCreate) {
 
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-            ChannelName => 'Internal',
+            ChannelName => $Param{Config}->{CommunicationChannel},
         );
 
         # Create article for the new ticket.
         $ArticleID = $ArticleBackendObject->ArticleCreate(
-            %ArticleParam,
+            %{ $Param{Config} },
             TicketID => $TicketID,
             UserID   => $Param{UserID},
         );

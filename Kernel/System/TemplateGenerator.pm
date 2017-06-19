@@ -926,19 +926,24 @@ sub NotificationEvent {
         );
     }
 
-    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-
-    # set the accounted time as part of the articles information
     ARTICLE:
     for my $ArticleData ( \%CustomerArticle, \%AgentArticle ) {
-
+        next ARTICLE if !$ArticleData->{TicketID};
         next ARTICLE if !$ArticleData->{ArticleID};
+
+        # Get article preview in plain text and store it as Body key.
+        $ArticleData->{Body} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ArticlePreview(
+            TicketID  => $ArticleData->{TicketID},
+            ArticleID => $ArticleData->{ArticleID},
+            Result    => 'plain',
+        );
 
         # get accounted time
         my $AccountedTime = $ArticleObject->ArticleAccountedTimeGet(
             ArticleID => $ArticleData->{ArticleID},
         );
 
+        # set the accounted time as part of the articles information
         $ArticleData->{TimeUnit} = $AccountedTime;
     }
 
@@ -969,11 +974,20 @@ sub NotificationEvent {
         $Notification{$Attribute} = $Notification{Message}->{$Language}->{$Attribute};
     }
 
-    for my $Key (qw(From To Cc Subject Body ContentType)) {
-        if ( !$Param{CustomerMessageParams}->{$Key} ) {
-            $Param{CustomerMessageParams}->{$Key} = $CustomerArticle{$Key} || '';
+    # Get customer article fields.
+    my %CustomerArticleFields = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ArticleFields(
+        TicketID  => $CustomerArticle{TicketID},
+        ArticleID => $CustomerArticle{ArticleID},
+    );
+
+    ARTICLE_FIELD:
+    for my $ArticleField ( sort keys %CustomerArticleFields ) {
+        next ARTICLE_FIELD if !defined $CustomerArticleFields{$ArticleField}->{Value};
+
+        if ( !defined $Param{CustomerMessageParams}->{$ArticleField} ) {
+            $Param{CustomerMessageParams}->{$ArticleField} = $CustomerArticleFields{$ArticleField}->{Value};
         }
-        chomp $Param{CustomerMessageParams}->{$Key};
+        chomp $Param{CustomerMessageParams}->{$ArticleField};
     }
 
     # format body (only if longer the 86 chars)
@@ -1467,11 +1481,7 @@ sub _Replace {
         my %Data = %{ $ArticleData{$DataType} };
 
         # HTML quoting of content
-        if (
-            $Param{RichText}
-            && ( !$Data{ContentType} || $Data{ContentType} !~ /application\/json/ )
-            )
-        {
+        if ( $Param{RichText} ) {
 
             ATTRIBUTE:
             for my $Attribute ( sort keys %Data ) {
@@ -1484,34 +1494,6 @@ sub _Replace {
         }
 
         if (%Data) {
-
-            # Check if content type is JSON
-            if ( $Data{'ContentType'} && $Data{'ContentType'} =~ /application\/json/ ) {
-
-                # if article is chat related
-                if ( $Data{'ArticleType'} =~ /chat/ ) {
-
-                    # remove spaces
-                    $Data{Body} =~ s/\n/ /gms;
-
-                    my $Body = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-                        Data => $Data{Body},
-                    );
-
-                    # replace body with HTML text
-                    $Data{Body} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
-                        TemplateFile => "ChatDisplay",
-                        Data         => {
-                            ChatMessages => $Body,
-                        },
-                    );
-                }
-            }
-
-            # check if original content isn't text/plain, don't use it
-            if ( $Data{'Content-Type'} && $Data{'Content-Type'} !~ /(text\/plain|\btext\b)/i ) {
-                $Data{Body} = '-> no quotable message <-';
-            }
 
             # replace <OTRS_CUSTOMER_*> and <OTRS_AGENT_*> tags
             $Tag = $Start . $DataType;
