@@ -1,4 +1,5 @@
 #5.0.21 2017-??-??
+ - 2017-06-20 Fixed bug#[12820](https://bugs.otrs.org/show_bug.cgi?id=12820) - Problem paste or upload image on CustomerTicketMessage and CustomerTicketZoom.
  - 2017-06-16 Fixed bug#[12892](https://bugs.otrs.org/show_bug.cgi?id=12892) - CreatedBy-User: No real name in overview.
  - 2017-06-15 Fixed bug#[12703](https://bugs.otrs.org/show_bug.cgi?id=12703) - dynamic list and dynamic matrix interpret agent/user Userfirstname.
  - 2017-06-15 Fixed bug#[12829](https://bugs.otrs.org/show_bug.cgi?id=12829) - Scheduler Daemon sends mail account password in plain text via E-mail.

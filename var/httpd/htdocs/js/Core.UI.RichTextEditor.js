@@ -69,7 +69,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         var EditorID = '',
             Editor,
             UserLanguage,
-            UploadURL = '';
+            UploadURL = '',
+            SessionName;
 
         if (isJQueryObject($EditorArea) && $EditorArea.hasClass('HasCKEInstance')) {
             return false;
@@ -119,13 +120,19 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         // build URL for image upload
         if (CheckFormID($EditorArea).length) {
+            SessionName = Core.Config.Get('SessionName');
+
+            // Change SessionName on customer pages.
+            if (/customer\.pl/i.exec(window.location)) {
+                SessionName = Core.Config.Get('CustomerPanelSessionName');
+            }
 
             UploadURL = Core.Config.Get('Baselink')
                     + 'Action='
                     + Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload')
                     + '&FormID='
                     + CheckFormID($EditorArea).val()
-                    + '&' + Core.Config.Get('SessionName')
+                    + '&' + SessionName
                     + '=' + Core.Config.Get('SessionID');
         }
 
