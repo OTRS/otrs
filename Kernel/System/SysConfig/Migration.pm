@@ -1948,10 +1948,9 @@ sub NavigationLookupGet {
         'GenericInterface::Transport::ModuleRegistration'     => 'GenericInterface::Transport::ModuleRegistration',
         'GenericInterface::Webservice'                        => 'GenericInterface::Webservice',
         'SystemMaintenance'                                   => 'Core::SystemMaintenance',
-        'Test'                                                => 'Test',
-        'TestComplex'                                         => 'TestComplex',
-        'TestComplex3th'                                      => 'TestComplex3th',
-        'TestFrontend'                                        => 'TestFrontend',
+
+        # Packages
+        'OutputFilter' => 'Frontend',
     );
 }
 
