@@ -7649,6 +7649,11 @@
         <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
         <Value>
             <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.AllocationList.css</Item>
+                    </Array>
+                </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.UI.AllocationList.js</Item>

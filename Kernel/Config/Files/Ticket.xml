@@ -8857,6 +8857,7 @@
                     <Prio>300</Prio>
                 </NavBar>
                 <Loader>
+                    <CSS>Core.AllocationList.css</CSS>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                     <JavaScript>Core.Agent.Overview.js</JavaScript>
