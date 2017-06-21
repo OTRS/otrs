@@ -57,6 +57,23 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name SerializeData
+     * @memberof Core.UI.RichTextEditor
+     * @function
+     * @return {string} query string of the data
+     * @param {Object} Data The data that should be converted
+     * @description Converts a given hash into a query string
+     */
+    function SerializeData(Data) {
+        var QueryString = '';
+        $.each(Data, function (Key, Value) {
+            QueryString += ';' + encodeURIComponent(Key) + '=' + encodeURIComponent(Value);
+        });
+        return QueryString;
+    }
+
+    /**
      * @name Init
      * @memberof Core.UI.RichTextEditor
      * @function
@@ -69,8 +86,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         var EditorID = '',
             Editor,
             UserLanguage,
-            UploadURL = '',
-            SessionName;
+            UploadURL = '';
 
         if (isJQueryObject($EditorArea) && $EditorArea.hasClass('HasCKEInstance')) {
             return false;
@@ -120,20 +136,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         // build URL for image upload
         if (CheckFormID($EditorArea).length) {
-            SessionName = Core.Config.Get('SessionName');
-
-            // Change SessionName on customer pages.
-            if (/customer\.pl/i.exec(window.location)) {
-                SessionName = Core.Config.Get('CustomerPanelSessionName');
-            }
-
             UploadURL = Core.Config.Get('Baselink')
                     + 'Action='
                     + Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload')
                     + '&FormID='
                     + CheckFormID($EditorArea).val()
-                    + '&' + SessionName
-                    + '=' + Core.Config.Get('SessionID');
+                    + SerializeData(Core.App.GetSessionInformation());
         }
 
         /*eslint-disable camelcase */
