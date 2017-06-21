@@ -38,8 +38,8 @@ BEGIN {
     }
 }
 
-use Apache2::RequestRec;
-use ModPerl::Util;
+use Apache2::RequestRec ();
+use ModPerl::Util ();
 
 use lib "/opt/otrs/";
 use lib "/opt/otrs/Kernel/cpan-lib";
@@ -50,7 +50,7 @@ use CGI ();
 CGI->compile(':cgi');
 use CGI::Carp ();
 
-use Apache::DBI;
+use Apache::DBI ();
 
 # enable this if you use mysql
 #use DBD::mysql ();
@@ -64,10 +64,15 @@ use Apache::DBI;
 #use DBD::Oracle ();
 #use Kernel::System::DB::oracle;
 
-# preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise it
-# can be that loading of Net::DNS tooks more than 30 seconds.
+# Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
+#   could take more than 30 seconds.
 eval { require Net::DNS };
 
+# Preload DateTime, an expensive external dependency.
+use DateTime ();
+
+# Preload dependencies that are always used.
+use Template ();
 use Encode qw(:all);
 
 1;
