@@ -399,7 +399,7 @@
             <Hash>
                 <Item Key="TaskName">ArticleSearchIndexRebuild</Item>
                 <Item Key="Schedule">* * * * *</Item> <!-- default: every minute -->
-                <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::ArticleIndexRebuild</Item>
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuildWorker</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
                 <Item Key="Params">

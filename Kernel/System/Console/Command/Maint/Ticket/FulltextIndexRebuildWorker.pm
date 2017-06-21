@@ -8,7 +8,7 @@
 
 ##nofilter(TidyAll::Plugin::OTRS::Perl::NoExitInConsoleCommands)
 
-package Kernel::System::Console::Command::Maint::Ticket::ArticleIndexRebuild;
+package Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuildWorker;
 
 use strict;
 use warnings;
@@ -33,7 +33,7 @@ sub Configure {
     $Self->Description('Rebuilds the article search index for needed articles.');
     $Self->AddOption(
         Name        => 'children',
-        Description => "Specify the number of child processes to be used for indexing (Default: 4).",
+        Description => "Specify the number of child processes to be used for indexing (Default: 4, Maximum: 20).",
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
@@ -45,6 +45,18 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
     );
+
+    return;
+}
+
+sub PreRun {
+    my ( $Self, %Param ) = @_;
+
+    my $Children = $Self->GetOption('children') // 4;
+
+    if ( $Children > 20 ) {
+        die "The allowed maximum amount of child processes is 20!\n";
+    }
 
     return;
 }
@@ -144,7 +156,7 @@ sub ArticleIndexRebuild {
                 Priority => 'error',
                 Message  => "Unable to fork to a child process for article index rebuild!"
             );
-            next ARTICLEIDCHUNK;
+            last ARTICLEIDCHUNK;
         }
 
         # in child process

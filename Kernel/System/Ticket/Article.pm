@@ -702,7 +702,8 @@ sub ArticleSenderTypeLookup {
 Set the article flags to indicate if the article search index needs to be rebuilt.
 
     my $Success = $ArticleObject->ArticleSearchIndexRebuildFlagSet(
-        ArticleIDs => [ 123, 234, 345 ]
+        ArticleIDs => [ 123, 234, 345 ]   # (Either 'ArticleIDs' or 'All' must be provided) The ArticleIDs to be updated.
+        All        => 1                   # (Either 'ArticleIDs' or 'All' must be provided) Set all articles to $Value. Default: 0,
         Value      => 1, # 0/1 default 0
     );
 
@@ -711,20 +712,28 @@ Set the article flags to indicate if the article search index needs to be rebuil
 sub ArticleSearchIndexRebuildFlagSet {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(ArticleIDs)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
+    if ( !defined $Param{All} && !IsArrayRefWithData( $Param{ArticleIDs} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Either ArticleIDs or All parameter must be provided!"
+        );
+        return;
     }
 
+    $Param{All} //= 0;
+    $Param{ArticleIDs} //= [];
     $Param{Value} = $Param{Value} ? 1 : 0;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    if ( $Param{All} ) {
+
+        return if !$DBObject->Do(
+            SQL => "UPDATE article SET search_index_needs_rebuild = 1",
+        );
+
+        return 1;
+    }
 
     my $InCondition = $DBObject->QueryInCondition(
         Key       => 'id',
