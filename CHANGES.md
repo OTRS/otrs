@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-06-21 Added Generic Interface TicketGet operation response attribute 'TimeUnit', thanks to Thomas Wouters.
  - 2017-06-21 Fixed bug#[12869](https://bugs.otrs.org/show_bug.cgi?id=12869) - Queue highlighting is not possible to disable.
  - 2017-06-19 Added Generic Interface debug log cleanup console command and daemon task.
  - 2017-06-19 Added Generic Interface operation TicketHistoryGet, thanks to Renée Bäcker.

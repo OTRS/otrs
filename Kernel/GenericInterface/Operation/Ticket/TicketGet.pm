@@ -379,6 +379,10 @@ sub Run {
             $TicketEntry{$Attribute} = $TicketEntryRaw{$Attribute};
         }
 
+        $TicketEntry{TimeUnit} = $TicketObject->TicketAccountedTimeGet(
+            TicketID => $TicketID,
+        );
+
         # add dynamic fields array into 'DynamicField' hash key if any
         if (@DynamicFields) {
             $TicketEntry{DynamicField} = \@DynamicFields;
@@ -505,6 +509,10 @@ sub Run {
 
                     $Article{$Attribute} = $ArticleRaw->{$Attribute};
                 }
+
+                $Article{TimeUnit} = $ArticleObject->ArticleAccountedTimeGet(
+                    ArticleID => $ArticleRaw->{ArticleID}
+                );
 
                 # add dynamic fields array into 'DynamicField' hash key if any
                 if (@ArticleDynamicFields) {

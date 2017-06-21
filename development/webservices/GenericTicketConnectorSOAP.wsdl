@@ -328,6 +328,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     <xsd:element maxOccurs="1" minOccurs="1" name="TicketNumber" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="Title" type="xsd:string"/>
                     <xsd:element minOccurs="1" name="Type" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TimeUnit" type="xsd:float"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="TypeID" type="xsd:positiveInteger"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="UnlockTimeout" type="xsd:positiveInteger"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="UntilTime" type="xsd:nonNegativeInteger"/>
@@ -403,6 +404,7 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     <xsd:element maxOccurs="1" minOccurs="1" name="TicketID" type="xsd:positiveInteger"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="TicketNumber" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="Title" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="TimeUnit" type="xsd:float"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="To" type="xsd:string"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="ToRealname" type="xsd:string"/>
                     <xsd:element minOccurs="1" name="Type" type="xsd:string"/>
