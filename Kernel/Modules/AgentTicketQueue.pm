@@ -657,16 +657,18 @@ sub _MaskQueueView {
         }
         $QueueStrg .= '" class="';
 
-        # should i highlight this queue
-        # the oldest queue
-        if ( $Queue{QueueID} == $QueueIDOfMaxAge && $Self->{Blink} ) {
-            $QueueStrg .= 'Oldest';
-        }
-        elsif ( $Queue{MaxAge} >= $Self->{HighlightAge2} ) {
-            $QueueStrg .= 'OlderLevel2';
-        }
-        elsif ( $Queue{MaxAge} >= $Self->{HighlightAge1} ) {
-            $QueueStrg .= 'OlderLevel1';
+        # Primary control is Visual Alarms and, if disabled, will turn off all highlights.
+        # Secondary control highlights individual queues depending on age.
+        if ( $Config->{VisualAlarms} ) {
+            if ( $Queue{QueueID} == $QueueIDOfMaxAge && $Self->{Blink} ) {
+                $QueueStrg .= 'Oldest';
+            }
+            elsif ( $Queue{MaxAge} >= $Self->{HighlightAge2} ) {
+                $QueueStrg .= 'OlderLevel2';
+            }
+            elsif ( $Queue{MaxAge} >= $Self->{HighlightAge1} ) {
+                $QueueStrg .= 'OlderLevel1';
+            }
         }
 
         # display the current and all its lower levels in bold

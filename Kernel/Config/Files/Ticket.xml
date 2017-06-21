@@ -2088,6 +2088,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###VisualAlarms" Required="0" Valid="1">
+        <Description Translatable="1">Enable highlighting queues based on ticket age.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightAge1" Required="1" Valid="1">
         <Description Translatable="1">Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.</Description>
         <Group>Ticket</Group>

@@ -1874,6 +1874,13 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketQueue###VisualAlarms" Required="0" Valid="1">
+        <Description Translatable="1">Enable highlighting queues based on ticket age.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewQueue</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketQueue###HighlightAge1" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.</Description>
         <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
