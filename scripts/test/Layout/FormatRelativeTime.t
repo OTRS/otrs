@@ -12,10 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# get layout object
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+$Helper->FixedTimeSet();
+
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-# Tests for FormatTimeAgo()
 my @Tests = (
     {
         Title    => '2 Seconds',
