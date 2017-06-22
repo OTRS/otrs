@@ -410,7 +410,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             TargetNS.CheckURLHash();
         }
 
-        $('a.AsPopup').bind('click', function () {
+        $('a.AsPopup').off('click').on('click', function () {
             var Matches,
                 PopupType = 'TicketAction';
 
