@@ -19,31 +19,17 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuild');
+my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndex');
 
-# Tests for article search index modules.
-for my $Module (qw(DB)) {
+for my $Argument (qw(--status --rebuild)) {
 
-    # Make sure that the ticket and article objects get recreated for each loop.
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [
-            'Kernel::System::Ticket',
-            'Kernel::System::Ticket::Article',
-        ],
-    );
-
-    $ConfigObject->Set(
-        Key   => 'Ticket::SearchIndexModule',
-        Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
-    );
-
-    my $ExitCode = $CommandObject->Execute();
+    my $ExitCode = $CommandObject->Execute($Argument);
 
     # Check the exit code.
     $Self->Is(
         $ExitCode,
         0,
-        "Maint::Ticket::FulltextIndexRebuild exit code for backend $Module",
+        "Maint::Ticket::FulltextIndex exit code for argument $Argument",
     );
 }
 

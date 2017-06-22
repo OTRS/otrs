@@ -25,7 +25,8 @@ my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
-my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::ArticleIndexRebuild');
+my $CommandObject
+    = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuildWorker');
 
 my $RandomID = $Helper->GetRandomID();
 
@@ -83,31 +84,14 @@ $Self->True(
     'Article created.'
 );
 
-# Tests for article search index modules.
-for my $Module (qw(DB)) {
+my $ExitCode = $CommandObject->Execute();
 
-    # Make sure that the ticket and article objects get recreated for each loop.
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [
-            'Kernel::System::Ticket',
-            'Kernel::System::Ticket::Article',
-        ],
-    );
-
-    $ConfigObject->Set(
-        Key   => 'Ticket::SearchIndexModule',
-        Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
-    );
-
-    my $ExitCode = $CommandObject->Execute();
-
-    # Check the exit code.
-    $Self->Is(
-        $ExitCode,
-        0,
-        "Maint::Ticket::ArticleIndexRebuild exit code for backend $Module.",
-    );
-}
+# Check the exit code.
+$Self->Is(
+    $ExitCode,
+    0,
+    'Maint::Ticket::FulltextIndexRebuildWorker exit code'
+);
 
 for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
