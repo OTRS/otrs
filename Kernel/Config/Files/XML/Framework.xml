@@ -387,7 +387,7 @@
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
         <Navigation>Core::Web</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.6.1/</Item>
+            <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.7.0/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -11751,7 +11751,7 @@ via the Preferences button after logging in.
         <Navigation>Core::Web</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/ckeditor-4.6.1/ckeditor.js</Item>
+                <Item>thirdparty/ckeditor-4.7.0/ckeditor.js</Item>
             </Array>
         </Value>
     </Setting>
@@ -11840,7 +11840,7 @@ via the Preferences button after logging in.
         <Navigation>Core::Web</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/ckeditor-4.6.1/ckeditor.js</Item>
+                <Item>thirdparty/ckeditor-4.7.0/ckeditor.js</Item>
             </Array>
         </Value>
     </Setting>
