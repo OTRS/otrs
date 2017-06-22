@@ -151,8 +151,12 @@ $Selenium->RunTest(
         );
 
         # Make sure that Customer email is link.
-        $Selenium->WaitFor(
+        my $LinkVisible = $Selenium->WaitFor(
             JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset a.AsPopup:visible").length'
+        );
+        $Self->True(
+            $LinkVisible,
+            "Customer email isa link with class AsPopup."
         );
 
         # Overload CustomerUser => Map setting defined in the Defaults.pm - use internal url.
@@ -183,7 +187,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
 
         # Make sure that Customer email is not a link.
-        my $LinkVisible = $Selenium->execute_script("return \$('.SidebarColumn fieldset a.AsPopup').length;");
+        $LinkVisible = $Selenium->execute_script("return \$('.SidebarColumn fieldset a.AsPopup').length;");
         $Self->False(
             $LinkVisible,
             "Customer email is not a link with class AsPopup."
