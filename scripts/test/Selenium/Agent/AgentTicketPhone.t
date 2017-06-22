@@ -36,7 +36,6 @@ $Selenium->RunTest(
             '',
             'AsPopup OTRSPopup_TicketAction',
         ];
-
         $Helper->ConfigSettingChange(
             Key   => 'CustomerUser',
             Value => $DefaultCustomerUser,
@@ -156,7 +155,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $LinkVisible,
-            "Customer email isa link with class AsPopup."
+            "Customer email is a link with class AsPopup."
         );
 
         # Overload CustomerUser => Map setting defined in the Defaults.pm - use internal url.
@@ -172,7 +171,6 @@ $Selenium->RunTest(
             '',
             'AsPopup OTRSPopup_TicketAction',
         ];
-
         $Helper->ConfigSettingChange(
             Key   => 'CustomerUser',
             Value => $DefaultCustomerUser,
