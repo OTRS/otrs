@@ -13,7 +13,7 @@
 }(function ($, undefined) {
 	"use strict";
 /*!
- * jsTree 3.3.3
+ * jsTree 3.3.4
  * http://jstree.com/
  *
  * Copyright (c) 2014 Ivan Bozhanov (http://vakata.com)
@@ -54,7 +54,7 @@
 		 * specifies the jstree version in use
 		 * @name $.jstree.version
 		 */
-		version : '3.3.3',
+		version : '3.3.4',
 		/**
 		 * holds all the default options used when creating new instances
 		 * @name $.jstree.defaults
@@ -75,7 +75,7 @@
 		idregex : /[\\:&!^|()\[\]<>@*'+~#";.,=\- \/${}%?`]/g,
 		root : '#'
 	};
-
+	
 	/**
 	 * creates a jstree instance
 	 * @name $.jstree.create(el [, options])
@@ -338,7 +338,7 @@
 		 *	$('#tree').jstree({
 		 *		'core' : {
 		 *			'check_callback' : function (operation, node, node_parent, node_position, more) {
-		 *				// operation can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
+		 *				// operation can be 'create_node', 'rename_node', 'delete_node', 'move_node', 'copy_node' or 'edit'
 		 *				// in case of 'rename_node' node_position is filled with the new node name
 		 *				return operation === 'rename_node' ? true : false;
 		 *			}
@@ -515,7 +515,7 @@
 				.remove();
 			this.element.html("<"+"ul class='jstree-container-ul jstree-children' role='group'><"+"li id='j"+this._id+"_loading' class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='tree-item'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
 			this.element.attr('aria-activedescendant','j' + this._id + '_loading');
-			this._data.core.li_height = this.get_container_ul().children("li").first().height() || 24;
+			this._data.core.li_height = this.get_container_ul().children("li").first().outerHeight() || 24;
 			this._data.core.node = this._create_prototype_node();
 			/**
 			 * triggered after the loading text is shown and before loading starts
@@ -531,6 +531,12 @@
 		 * @param  {Boolean} keep_html if not set to `true` the container will be emptied, otherwise the current DOM elements will be kept intact
 		 */
 		destroy : function (keep_html) {
+			/**
+			 * triggered before the tree is destroyed
+			 * @event
+			 * @name destroy.jstree
+			 */
+			this.trigger("destroy");
 			if(this._wrk) {
 				try {
 					window.URL.revokeObjectURL(this._wrk);
@@ -1400,12 +1406,18 @@
 								return callback.call(this, false);
 							}, this))
 						.fail($.proxy(function (f) {
-								callback.call(this, false);
 								this._data.core.last_error = { 'error' : 'ajax', 'plugin' : 'core', 'id' : 'core_04', 'reason' : 'Could not load node', 'data' : JSON.stringify({ 'id' : obj.id, 'xhr' : f }) };
+								callback.call(this, false);
 								this.settings.core.error.call(this, this._data.core.last_error);
 							}, this));
 				}
-				t = ($.isArray(s) || $.isPlainObject(s)) ? JSON.parse(JSON.stringify(s)) : s;
+				if ($.isArray(s)) {
+					t = $.extend(true, [], s);
+				} else if ($.isPlainObject(s)) {
+					t = $.extend(true, {}, s);
+				} else {
+					t = s;
+				}
 				if(obj.id === $.jstree.root) {
 					return this._append_json_data(obj, t, function (status) {
 						callback.call(this, status);
@@ -3386,6 +3398,9 @@
 		 */
 		set_state : function (state, callback) {
 			if(state) {
+				if(state.core && state.core.selected && state.core.initial_selection === undefined) {
+					state.core.initial_selection = this._data.core.selected.concat([]).sort().join(',');
+				}
 				if(state.core) {
 					var res, n, t, _this, i;
 					if(state.core.open) {
@@ -3415,10 +3430,15 @@
 					}
 					if(state.core.selected) {
 						_this = this;
-						this.deselect_all();
-						$.each(state.core.selected, function (i, v) {
-							_this.select_node(v, false, true);
-						});
+						if (state.core.initial_selection === undefined ||
+							state.core.initial_selection === this._data.core.selected.concat([]).sort().join(',')
+						) {
+							this.deselect_all();
+							$.each(state.core.selected, function (i, v) {
+								_this.select_node(v, false, true);
+							});
+						}
+						delete state.core.initial_selection;
 						delete state.core.selected;
 						this.set_state(state, callback);
 						return false;
@@ -3640,7 +3660,7 @@
 				'li_attr' : $.extend(true, {}, obj.li_attr),
 				'a_attr' : $.extend(true, {}, obj.a_attr),
 				'state' : {},
-				'data' : options && options.no_data ? false : $.extend(true, {}, obj.data)
+				'data' : options && options.no_data ? false : $.extend(true, $.isArray(obj.data)?[]:{}, obj.data)
 				//( this.get_node(obj, true).length ? this.get_node(obj, true).data() : obj.data ),
 			}, i, j;
 			if(options && options.flat) {
@@ -3708,7 +3728,11 @@
 				return this.load_node(par, function () { this.create_node(par, node, pos, callback, true); });
 			}
 			if(!node) { node = { "text" : this.get_string('New node') }; }
-			if(typeof node === "string") { node = { "text" : node }; }
+			if(typeof node === "string") {
+				node = { "text" : node };
+			} else {
+				node = $.extend(true, {}, node);
+			}
 			if(node.text === undefined) { node.text = this.get_string('New node'); }
 			var tmp, dpc, i, j;
 
@@ -3766,7 +3790,6 @@
 			par.children = tmp;
 
 			this.redraw_node(par, true);
-			if(callback) { callback.call(this, this.get_node(node)); }
 			/**
 			 * triggered when a node is created
 			 * @event
@@ -3776,6 +3799,7 @@
 			 * @param {Number} position the position of the new node among the parent's children
 			 */
 			this.trigger('create_node', { "node" : this.get_node(node), "parent" : par.id, "position" : pos });
+			if(callback) { callback.call(this, this.get_node(node)); }
 			return node.id;
 		},
 		/**
@@ -4359,8 +4383,7 @@
 			var rtl, w, a, s, t, h1, h2, fn, tmp, cancel = false;
 			obj = this.get_node(obj);
 			if(!obj) { return false; }
-			if(this.settings.core.check_callback === false) {
-				this._data.core.last_error = { 'error' : 'check', 'plugin' : 'core', 'id' : 'core_07', 'reason' : 'Could not edit node because of check_callback' };
+			if(!this.check("edit", obj, this.get_parent(obj))) {
 				this.settings.core.error.call(this, this._data.core.last_error);
 				return false;
 			}
@@ -4915,7 +4938,21 @@
 		 * @name $.jstree.defaults.checkbox.tie_selection
 		 * @plugin checkbox
 		 */
-		tie_selection		: true
+		tie_selection		: true,
+
+		/**
+		 * This setting controls if cascading down affects disabled checkboxes
+		 * @name $.jstree.defaults.checkbox.cascade_to_disabled
+		 * @plugin checkbox
+		 */
+		cascade_to_disabled : true,
+
+		/**
+		 * This setting controls if cascading down affects hidden checkboxes
+		 * @name $.jstree.defaults.checkbox.cascade_to_hidden
+		 * @plugin checkbox
+		 */
+		cascade_to_hidden : true
 	};
 	$.jstree.plugins.checkbox = function (options, parent) {
 		this.bind = function () {
@@ -4976,6 +5013,7 @@
 									for(i = 0, j = dpc.length; i < j; i++) {
 										m[dpc[i]].state[ t ? 'selected' : 'checked' ] = true;
 									}
+
 									this._data[ t ? 'core' : 'checkbox' ].selected = this._data[ t ? 'core' : 'checkbox' ].selected.concat(dpc);
 								}
 								else {
@@ -5024,27 +5062,29 @@
 							this._data[ t ? 'core' : 'checkbox' ].selected = $.vakata.array_unique(this._data[ t ? 'core' : 'checkbox' ].selected);
 						}, this))
 					.on(this.settings.checkbox.tie_selection ? 'select_node.jstree' : 'check_node.jstree', $.proxy(function (e, data) {
-							var obj = data.node,
+							var self = this,
+								obj = data.node,
 								m = this._model.data,
 								par = this.get_node(obj.parent),
-								dom = this.get_node(obj, true),
 								i, j, c, tmp, s = this.settings.checkbox.cascade, t = this.settings.checkbox.tie_selection,
 								sel = {}, cur = this._data[ t ? 'core' : 'checkbox' ].selected;
 
 							for (i = 0, j = cur.length; i < j; i++) {
 								sel[cur[i]] = true;
 							}
+
 							// apply down
 							if(s.indexOf('down') !== -1) {
 								//this._data[ t ? 'core' : 'checkbox' ].selected = $.vakata.array_unique(this._data[ t ? 'core' : 'checkbox' ].selected.concat(obj.children_d));
-								for(i = 0, j = obj.children_d.length; i < j; i++) {
-									sel[obj.children_d[i]] = true;
-									tmp = m[obj.children_d[i]];
-									tmp.state[ t ? 'selected' : 'checked' ] = true;
-									if(tmp && tmp.original && tmp.original.state && tmp.original.state.undetermined) {
-										tmp.original.state.undetermined = false;
-									}
-								}
+								var selectedIds = this._cascade_new_checked_state(obj.id, true);
+                                obj.children_d.concat(obj.id).forEach(function(id) {
+                                    if (selectedIds.indexOf(id) > -1) {
+                                        sel[id] = true;
+                                    }
+                                    else {
+                                        delete sel[id];
+                                    }
+                                });
 							}
 
 							// apply up
@@ -5077,11 +5117,6 @@
 								}
 							}
 							this._data[ t ? 'core' : 'checkbox' ].selected = cur;
-
-							// apply down (process .children separately?)
-							if(s.indexOf('down') !== -1 && dom.length) {
-								dom.find('.jstree-anchor').addClass(t ? 'jstree-clicked' : 'jstree-checked').parent().attr('aria-selected', true);
-							}
 						}, this))
 					.on(this.settings.checkbox.tie_selection ? 'deselect_all.jstree' : 'uncheck_all.jstree', $.proxy(function (e, data) {
 							var obj = this.get_node($.jstree.root),
@@ -5095,27 +5130,26 @@
 							}
 						}, this))
 					.on(this.settings.checkbox.tie_selection ? 'deselect_node.jstree' : 'uncheck_node.jstree', $.proxy(function (e, data) {
-							var obj = data.node,
+							var self = this,
+								obj = data.node,
 								dom = this.get_node(obj, true),
 								i, j, tmp, s = this.settings.checkbox.cascade, t = this.settings.checkbox.tie_selection,
-								cur = this._data[ t ? 'core' : 'checkbox' ].selected, sel = {};
-							if(obj && obj.original && obj.original.state && obj.original.state.undetermined) {
-								obj.original.state.undetermined = false;
-							}
+								cur = this._data[ t ? 'core' : 'checkbox' ].selected, sel = {},
+								stillSelectedIds = [],
+								allIds = obj.children_d.concat(obj.id);
 
 							// apply down
 							if(s.indexOf('down') !== -1) {
-								for(i = 0, j = obj.children_d.length; i < j; i++) {
-									tmp = this._model.data[obj.children_d[i]];
-									tmp.state[ t ? 'selected' : 'checked' ] = false;
-									if(tmp && tmp.original && tmp.original.state && tmp.original.state.undetermined) {
-										tmp.original.state.undetermined = false;
-									}
-								}
+								var selectedIds = this._cascade_new_checked_state(obj.id, false);
+
+								cur = cur.filter(function(id) {
+									return allIds.indexOf(id) === -1 || selectedIds.indexOf(id) > -1;
+								});
 							}
 
-							// apply up
-							if(s.indexOf('up') !== -1) {
+							// only apply up if cascade up is enabled and if this node is not selected
+							// (if all child nodes are disabled and cascade_to_disabled === false then this node will till be selected).
+							if(s.indexOf('up') !== -1 && cur.indexOf(obj.id) === -1) {
 								for(i = 0, j = obj.parents.length; i < j; i++) {
 									tmp = this._model.data[obj.parents[i]];
 									tmp.state[ t ? 'selected' : 'checked' ] = false;
@@ -5127,29 +5161,13 @@
 										tmp.attr('aria-selected', false).children('.jstree-anchor').removeClass(t ? 'jstree-clicked' : 'jstree-checked');
 									}
 								}
-							}
-							sel = {};
-							for(i = 0, j = cur.length; i < j; i++) {
-								// apply down + apply up
-								if(
-									(s.indexOf('down') === -1 || $.inArray(cur[i], obj.children_d) === -1) &&
-									(s.indexOf('up') === -1 || $.inArray(cur[i], obj.parents) === -1)
-								) {
-									sel[cur[i]] = true;
-								}
-							}
-							cur = [];
-							for (i in sel) {
-								if (sel.hasOwnProperty(i)) {
-									cur.push(i);
-								}
-							}
-							this._data[ t ? 'core' : 'checkbox' ].selected = cur;
 
-							// apply down (process .children separately?)
-							if(s.indexOf('down') !== -1 && dom.length) {
-								dom.find('.jstree-anchor').removeClass(t ? 'jstree-clicked' : 'jstree-checked').parent().attr('aria-selected', false);
+								cur = cur.filter(function(id) {
+									return obj.parents.indexOf(id) === -1;
+								});
 							}
+
+							this._data[ t ? 'core' : 'checkbox' ].selected = cur;
 						}, this));
 			}
 			if(this.settings.checkbox.cascade.indexOf('up') !== -1) {
@@ -5240,6 +5258,7 @@
 						}, this));
 			}
 		};
+
 		/**
 		 * set the undetermined state where and if necessary. Used internally.
 		 * @private
@@ -5266,6 +5285,9 @@
 			this.element.find('.jstree-closed').not(':has(.jstree-children)')
 				.each(function () {
 					var tmp = tt.get_node(this), tmp2;
+					
+					if(!tmp) { return; }
+					
 					if(!tmp.state.loaded) {
 						if(tmp.original && tmp.original.state && tmp.original.state.undetermined && tmp.original.state.undetermined === true) {
 							if(o[tmp.id] === undefined && tmp.id !== $.jstree.root) {
@@ -5468,6 +5490,89 @@
 		};
 
 		/**
+		 * Unchecks a node and all its descendants. This function does NOT affect hidden and disabled nodes (or their descendants).
+		 * However if these unaffected nodes are already selected their ids will be included in the returned array.
+		 * @param id
+		 * @param checkedState
+		 * @returns {Array} Array of all node id's (in this tree branch) that are checked.
+		 */
+		this._cascade_new_checked_state = function(id, checkedState) {
+			var self = this;
+			var t = this.settings.checkbox.tie_selection;
+			var node = this._model.data[id];
+			var selectedNodeIds = [];
+			var selectedChildrenIds = [];
+
+			if (
+				(this.settings.checkbox.cascade_to_disabled || !node.state.disabled) &&
+				(this.settings.checkbox.cascade_to_hidden || !node.state.hidden)
+			) {
+                //First try and check/uncheck the children
+                if (node.children) {
+					node.children.forEach(function(childId) {
+						var selectedChildIds = self._cascade_new_checked_state(childId, checkedState);
+						selectedNodeIds = selectedNodeIds.concat(selectedChildIds);
+						if (selectedChildIds.indexOf(childId) > -1) {
+							selectedChildrenIds.push(childId);
+						}
+					});
+				}
+
+				var dom = self.get_node(node, true);
+
+                //A node's state is undetermined if some but not all of it's children are checked/selected .
+				var undetermined = selectedChildrenIds.length > 0 && selectedChildrenIds.length < node.children.length;
+
+				if(node.original && node.original.state && node.original.state.undetermined) {
+					node.original.state.undetermined = undetermined;
+				}
+
+                //If a node is undetermined then remove selected class
+				if (undetermined) {
+                    node.state[ t ? 'selected' : 'checked' ] = false;
+                    dom.attr('aria-selected', false).children('.jstree-anchor').removeClass(t ? 'jstree-clicked' : 'jstree-checked');
+				}
+                //Otherwise, if the checkedState === true (i.e. the node is being checked now) and all of the node's children are checked (if it has any children),
+                //check the node and style it correctly.
+				else if (checkedState && selectedChildrenIds.length === node.children.length) {
+                    node.state[ t ? 'selected' : 'checked' ] = checkedState;
+					selectedNodeIds.push(node.id);
+
+					dom.attr('aria-selected', true).children('.jstree-anchor').addClass(t ? 'jstree-clicked' : 'jstree-checked');
+				}
+				else {
+                    node.state[ t ? 'selected' : 'checked' ] = false;
+					dom.attr('aria-selected', false).children('.jstree-anchor').removeClass(t ? 'jstree-clicked' : 'jstree-checked');
+				}
+			}
+			else {
+				var selectedChildIds = this.get_checked_descendants(id);
+
+				if (node.state[ t ? 'selected' : 'checked' ]) {
+					selectedChildIds.push(node.id);
+				}
+
+				selectedNodeIds = selectedNodeIds.concat(selectedChildIds);
+			}
+
+			return selectedNodeIds;
+		};
+
+		/**
+		 * Gets ids of nodes selected in branch (of tree) specified by id (does not include the node specified by id)
+		 * @param id
+		 */
+		this.get_checked_descendants = function(id) {
+			var self = this;
+			var t = self.settings.checkbox.tie_selection;
+			var node = self._model.data[id];
+
+			return node.children_d.filter(function(_id) {
+				return self._model.data[_id].state[ t ? 'selected' : 'checked' ];
+			});
+		};
+
+		/**
 		 * check a node (only if tie_selection in checkbox settings is false, otherwise select_node will be called internally)
 		 * @name check_node(obj)
 		 * @param {mixed} obj an array can be used to check multiple nodes
@@ -5547,6 +5652,7 @@
 				this.trigger('uncheck_node', { 'node' : obj, 'selected' : this._data.checkbox.selected, 'event' : e });
 			}
 		};
+		
 		/**
 		 * checks all nodes in the tree (only if tie_selection in checkbox settings is false, otherwise select_all will be called internally)
 		 * @name check_all()
@@ -5717,6 +5823,7 @@
 	// include the checkbox plugin by default
 	// $.jstree.defaults.plugins.push("checkbox");
 
+
 /**
  * ### Conditionalselect plugin
  *
@@ -5773,7 +5880,7 @@
 		 * * `_disabled` - a boolean indicating if this action should be disabled
 		 * * `label` - a string - the name of the action (could be a function returning a string)
 		 * * `title` - a string - an optional tooltip for the item
-		 * * `action` - a function to be executed if this item is chosen, the function will receive
+		 * * `action` - a function to be executed if this item is chosen, the function will receive 
 		 * * `icon` - a string, can be a path to an icon or a className, if using an image that is in the current directory use a `./` prefix, otherwise it will be detected as a class
 		 * * `shortcut` - keyCode which will trigger the action if the menu is open (for example `113` for rename, which equals F2)
 		 * * `shortcut_label` - shortcut label (like for example `F2` for rename)
@@ -5793,7 +5900,11 @@
 						var inst = $.jstree.reference(data.reference),
 							obj = inst.get_node(data.reference);
 						inst.create_node(obj, {}, "last", function (new_node) {
-							setTimeout(function () { inst.edit(new_node); },0);
+							try {
+								inst.edit(new_node);
+							} catch (ex) {
+								setTimeout(function () { inst.edit(new_node); },0);
+							}
 						});
 					}
 				},
@@ -5894,6 +6005,9 @@
 
 			var last_ts = 0, cto = null, ex, ey;
 			this.element
+				.on("init.jstree loading.jstree ready.jstree", $.proxy(function () {
+						this.get_container_ul().addClass('jstree-contextmenu');
+					}, this))
 				.on("contextmenu.jstree", ".jstree-anchor", $.proxy(function (e, data) {
 						if (e.target.tagName.toLowerCase() === 'input') {
 							return;
@@ -6360,7 +6474,7 @@
 
 			$(document)
 				.on("mousedown.vakata.jstree", function (e) {
-					if(vakata_context.is_visible && !$.contains(vakata_context.element[0], e.target)) {
+					if(vakata_context.is_visible && vakata_context.element[0] !== e.target  && !$.contains(vakata_context.element[0], e.target)) {
 						$.vakata.context.hide();
 					}
 				})
@@ -6551,8 +6665,9 @@
 				marker.appendTo('body'); //.show();
 			})
 			.on('dnd_move.vakata.jstree', function (e, data) {
+				var isDifferentNode = data.event.target !== lastev.target;
 				if(opento) {
-					if (!data.event || data.event.type !== 'dragover' || data.event.target !== lastev.target) {
+					if (!data.event || data.event.type !== 'dragover' || isDifferentNode) {
 						clearTimeout(opento);
 					}
 				}
@@ -6651,7 +6766,10 @@
 									}
 								}
 								if(v === 'i' && ref.parent().is('.jstree-closed') && ins.settings.dnd.open_timeout) {
-									opento = setTimeout((function (x, z) { return function () { x.open_node(z); }; }(ins, ref)), ins.settings.dnd.open_timeout);
+									if (!data.event || data.event.type !== 'dragover' || isDifferentNode) {
+										if (opento) { clearTimeout(opento); }
+										opento = setTimeout((function (x, z) { return function () { x.open_node(z); }; }(ins, ref)), ins.settings.dnd.open_timeout);
+									}
 								}
 								if(ok) {
 									pn = ins.get_node(p, true);
@@ -7035,7 +7153,7 @@
 	 *		"id1" : [{ "text" : "Child of ID1", "id" : "c1" }, { "text" : "Another child of ID1", "id" : "c2" }],
 	 *		"id2" : [{ "text" : "Child of ID2", "id" : "c3" }]
 	 *	}
-	 *
+	 * 
 	 * @name $.jstree.defaults.massload
 	 * @plugin massload
 	 */
