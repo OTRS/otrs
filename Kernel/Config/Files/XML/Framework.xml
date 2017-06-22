@@ -8391,7 +8391,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/momentjs-2.17.1/moment.min.js</Item>
+                        <Item>thirdparty/momentjs-2.18.1/moment.min.js</Item>
                         <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</Item>
                         <Item>thirdparty/d3-3.5.6/d3.min.js</Item>
                         <Item>thirdparty/nvd3-1.7.1/nvd3.min.js</Item>

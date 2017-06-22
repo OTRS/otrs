@@ -56,7 +56,7 @@
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/momentjs-2.17.1/moment.min.js</Item>
+                        <Item>thirdparty/momentjs-2.18.1/moment.min.js</Item>
                         <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</Item>
                         <Item>thirdparty/fullcalendar-scheduler-1.6.2/scheduler.min.js</Item>
                         <Item>Core.Agent.AppointmentCalendar.js</Item>
@@ -847,7 +847,7 @@
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/momentjs-2.17.1/moment.min.js</Item>
+                        <Item>thirdparty/momentjs-2.18.1/moment.min.js</Item>
                         <Item>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</Item>
                         <Item>Core.Agent.AppointmentCalendar.js</Item>
                     </Array>

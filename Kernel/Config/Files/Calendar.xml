@@ -68,7 +68,7 @@
                     <CSS>thirdparty/fullcalendar-3.4.0/fullcalendar.min.css</CSS>
                     <CSS>thirdparty/fullcalendar-scheduler-1.6.2/scheduler.min.css</CSS>
                     <CSS>Core.AppointmentCalendar.css</CSS>
-                    <JavaScript>thirdparty/momentjs-2.17.1/moment.min.js</JavaScript>
+                    <JavaScript>thirdparty/momentjs-2.18.1/moment.min.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-scheduler-1.6.2/scheduler.min.js</JavaScript>
                     <JavaScript>Core.Agent.AppointmentCalendar.js</JavaScript>
@@ -657,7 +657,7 @@
                     <CSS>thirdparty/fullcalendar-3.4.0/fullcalendar.min.css</CSS>
                     <CSS>Core.AppointmentCalendar.css</CSS>
                     <CSS>Core.AppointmentCalendar.Agenda.css</CSS>
-                    <JavaScript>thirdparty/momentjs-2.17.1/moment.min.js</JavaScript>
+                    <JavaScript>thirdparty/momentjs-2.18.1/moment.min.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-3.4.0/fullcalendar.min.js</JavaScript>
                     <JavaScript>Core.Agent.AppointmentCalendar.js</JavaScript>
                 </Loader>
