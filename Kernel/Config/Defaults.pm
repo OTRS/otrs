@@ -1807,7 +1807,7 @@ via the Preferences button after logging in.
             'Core.Agent.Admin.SystemConfiguration.css',
         ],
         JavaScript => [
-            'thirdparty/clipboardjs-1.5.16/clipboard.min.js',
+            'thirdparty/clipboardjs-1.7.1/clipboard.min.js',
             'Core.SystemConfiguration.js',
             'Core.SystemConfiguration.Date.js',
             'Core.Agent.Admin.SystemConfiguration.js',

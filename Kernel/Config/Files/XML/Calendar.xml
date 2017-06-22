@@ -60,7 +60,7 @@
                         <Item>thirdparty/fullcalendar-3.2.0/fullcalendar.min.js</Item>
                         <Item>thirdparty/fullcalendar-scheduler-1.5.1/scheduler.min.js</Item>
                         <Item>Core.Agent.AppointmentCalendar.js</Item>
-                        <Item>thirdparty/clipboardjs-1.5.16/clipboard.min.js</Item>
+                        <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -264,7 +264,7 @@
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/clipboardjs-1.5.16/clipboard.min.js</Item>
+                        <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                         <Item>thirdparty/spectrum-1.8.0/spectrum.js</Item>
                         <Item>Core.Agent.Admin.AppointmentCalendar.Manage.js</Item>
                     </Array>

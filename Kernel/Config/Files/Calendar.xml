@@ -72,7 +72,7 @@
                     <JavaScript>thirdparty/fullcalendar-3.2.0/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-scheduler-1.5.1/scheduler.min.js</JavaScript>
                     <JavaScript>Core.Agent.AppointmentCalendar.js</JavaScript>
-                    <JavaScript>thirdparty/clipboardjs-1.5.16/clipboard.min.js</JavaScript>
+                    <JavaScript>thirdparty/clipboardjs-1.7.1/clipboard.min.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -145,7 +145,7 @@
                 <Loader>
                     <CSS>Core.AppointmentCalendar.Manage.css</CSS>
                     <CSS>thirdparty/spectrum-1.8.0/spectrum.css</CSS>
-                    <JavaScript>thirdparty/clipboardjs-1.5.16/clipboard.min.js</JavaScript>
+                    <JavaScript>thirdparty/clipboardjs-1.7.1/clipboard.min.js</JavaScript>
                     <JavaScript>thirdparty/spectrum-1.8.0/spectrum.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.AppointmentCalendar.Manage.js</JavaScript>
                 </Loader>

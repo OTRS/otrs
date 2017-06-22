@@ -12324,7 +12324,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/clipboardjs-1.5.16/clipboard.min.js</Item>
+                        <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                         <Item>Core.SystemConfiguration.js</Item>
                         <Item>Core.Agent.Admin.SystemConfiguration.js</Item>
                     </Array>
@@ -12366,7 +12366,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/clipboardjs-1.5.16/clipboard.min.js</Item>
+                        <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                         <Item>Core.SystemConfiguration.js</Item>
                         <Item>Core.SystemConfiguration.Date.js</Item>
                         <Item>Core.SystemConfiguration.DateTime.js</Item>
@@ -12438,7 +12438,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/clipboardjs-1.5.16/clipboard.min.js</Item>
+                        <Item>thirdparty/clipboardjs-1.7.1/clipboard.min.js</Item>
                         <Item>Core.SystemConfiguration.js</Item>
                         <Item>Core.SystemConfiguration.Date.js</Item>
                         <Item>Core.SystemConfiguration.DateTime.js</Item>

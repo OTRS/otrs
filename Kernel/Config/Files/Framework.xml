@@ -11504,7 +11504,7 @@ via the Preferences button after logging in.
                 <NavBarName>SystemConfiguration</NavBarName>
                  <Loader>
                     <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
-                    <JavaScript>thirdparty/clipboardjs-1.5.16/clipboard.min.js</JavaScript>
+                    <JavaScript>thirdparty/clipboardjs-1.7.1/clipboard.min.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.SystemConfiguration.js</JavaScript>
                 </Loader>
@@ -11532,7 +11532,7 @@ via the Preferences button after logging in.
                 </NavBarModule>
                  <Loader>
                     <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
-                    <JavaScript>thirdparty/clipboardjs-1.5.16/clipboard.min.js</JavaScript>
+                    <JavaScript>thirdparty/clipboardjs-1.7.1/clipboard.min.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.Date.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.DateTime.js</JavaScript>
@@ -11558,7 +11558,7 @@ via the Preferences button after logging in.
                 <NavBarName>Admin</NavBarName>
                  <Loader>
                     <CSS>Core.Agent.Admin.SystemConfiguration.css</CSS>
-                    <JavaScript>thirdparty/clipboardjs-1.5.16/clipboard.min.js</JavaScript>
+                    <JavaScript>thirdparty/clipboardjs-1.7.1/clipboard.min.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.Date.js</JavaScript>
                     <JavaScript>Core.SystemConfiguration.DateTime.js</JavaScript>
