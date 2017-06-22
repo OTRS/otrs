@@ -8049,7 +8049,7 @@
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/jquery-tablesorter-2.28.0/jquery.tablesorter.js</Item>
+                        <Item>thirdparty/jquery-tablesorter-2.28.14/jquery.tablesorter.js</Item>
                         <Item>Core.Agent.TicketZoom.js</Item>
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.UI.Table.Sort.js</Item>

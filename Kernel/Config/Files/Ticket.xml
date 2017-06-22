@@ -9037,7 +9037,7 @@
                     <CSS>Core.Agent.TicketProcess.css</CSS>
                     <CSS>Core.Agent.TicketMenuModuleCluster.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
-                    <JavaScript>thirdparty/jquery-tablesorter-2.28.0/jquery.tablesorter.js</JavaScript>
+                    <JavaScript>thirdparty/jquery-tablesorter-2.28.14/jquery.tablesorter.js</JavaScript>
                     <JavaScript>Core.Agent.TicketZoom.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.UI.Table.Sort.js</JavaScript>
