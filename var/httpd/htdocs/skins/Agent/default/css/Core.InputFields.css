@@ -181,13 +181,13 @@ div.InputField_ToolbarContainer {
     min-height: 21px;
 }
 
-.div.InputField_ToolbarContainer ul {
-    width:100%;
+div.InputField_ToolbarContainer ul {
+    width: 100%;
+    display: table;
 }
 
 div.InputField_ToolbarContainer ul li {
     display: table-cell;
-    width: 1%;
     text-align: center;
 }
 
@@ -197,7 +197,6 @@ div.InputField_ToolbarContainer ul li:after {
     display: inline-block;
     float: right;
     cursor: default;
-    width: 0;
 }
 
 div.InputField_ToolbarContainer ul li:last-child:after {
@@ -215,8 +214,7 @@ div.InputField_ToolbarContainer ul li:last-child:after {
 div.InputField_ToolbarContainer ul li a {
     color: #000;
     display: inline-block;
-    width: 100%;
-    margin: 2px 0;
+    margin: 2px 5px;
     font-size: 11px;
     line-height: 15px;
 }
@@ -254,7 +252,6 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .InputField_FiltersList span {
     margin-right: 5px;
-    vertical-align: 15%;
     cursor: default;
 }
 

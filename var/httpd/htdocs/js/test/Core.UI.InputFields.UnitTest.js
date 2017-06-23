@@ -264,7 +264,7 @@ Core.UI.InputFields = (function (Namespace) {
                 // Wait for everything to be closed and resettet
                 window.setTimeout(function () {
                     $InputContainerObj.find('.InputField_Selection .Remove a').click();
-                    Assert.equal($SelectObj.val(), '', 'Check if empty selection matches');
+                    Assert.equal($SelectObj.val(), null, 'Check if empty selection matches');
                     Done2();
                 }, 100);
             });
