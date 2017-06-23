@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-06-23 Fixed bug#[12850](https://bugs.otrs.org/show_bug.cgi?id=12850) - Pre-Selection for processes directly in the URL doesn't work any longer.
  - 2017-06-21 Added Generic Interface TicketGet operation response attribute 'TimeUnit', thanks to Thomas Wouters.
  - 2017-06-21 Fixed bug#[12869](https://bugs.otrs.org/show_bug.cgi?id=12869) - Queue highlighting is not possible to disable.
  - 2017-06-19 Added Generic Interface debug log cleanup console command and daemon task.
@@ -132,6 +133,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.21 2017-??-??
+ - 2017-06-23 Fixed bug#[12850](https://bugs.otrs.org/show_bug.cgi?id=12850) - Pre-Selection for processes directly in the URL doesn't work any longer.
  - 2017-06-16 Fixed byg#[12892](https://bugs.otrs.org/show_bug.cgi?id=12892) - CreatedBy-User: No real name in overview.
  - 2017-06-15 Fixed bug#[12703](https://bugs.otrs.org/show_bug.cgi?id=12703) - dynamic list and dynamic matrix interpret agent/user Userfirstname.
  - 2017-06-15 Fixed bug#[12829](https://bugs.otrs.org/show_bug.cgi?id=12829) - Scheduler Daemon sends mail account password in plain text via E-mail.

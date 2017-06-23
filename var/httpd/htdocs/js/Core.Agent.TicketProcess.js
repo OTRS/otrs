@@ -31,10 +31,6 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
         var ProcessID = Core.Config.Get('ProcessID');
 
-        if (typeof ProcessID !== 'undefined') {
-            $('#ProcessEntityID').val(ProcessID).trigger('change');
-        }
-
         if (typeof Core.Config.Get('ParentReload') !== 'undefined' && parseInt(Core.Config.Get('ParentReload'), 10) === 1){
             Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
                 if (WindowObject.Core.UI.Popup.GetWindowMode() !== 'Iframe') {
@@ -176,6 +172,11 @@ Core.Agent.TicketProcess = (function (TargetNS) {
             }
             return false;
         });
+
+        // If process is pre-selected trigger change event on ProcessEntityID field.
+        if (typeof ProcessID !== 'undefined') {
+            $('#ProcessEntityID').val(ProcessID).trigger('change');
+        }
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

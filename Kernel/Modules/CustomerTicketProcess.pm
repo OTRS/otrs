@@ -256,7 +256,7 @@ sub Run {
         return $Self->_DisplayProcessList(
             %Param,
             ProcessList     => $ProcessList,
-            ProcessEntityID => $ProcessEntityID
+            ProcessEntityID => $ProcessEntityID || $Param{ProcessID}
         );
     }
 
