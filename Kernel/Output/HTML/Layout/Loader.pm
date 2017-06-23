@@ -328,50 +328,73 @@ sub LoaderCreateJavaScriptTemplateData {
     my $JSHome               = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
     my $TargetFilenamePrefix = "TemplateJS";
 
-    my %ChecksumData;
     my $TemplateChecksum;
+
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    TEMPLATEFOLDER:
-    for my $TemplateFolder (@TemplateFolders) {
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheType   = 'Loader';
+    my $CacheKey    = "LoaderCreateJavaScriptTemplateData:${Theme}:" . $ConfigObject->ConfigChecksum();
 
-        next TEMPLATEFOLDER if !-e $TemplateFolder;
+    # Even getting the list of files recursively from the directories is expensive,
+    #   so cache the checksum to avoid that.
+    $TemplateChecksum = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    );
 
-        # get main object
-        my @Templates = $MainObject->DirectoryRead(
-            Directory => $TemplateFolder,
-            Filter    => '*.tmpl',
-            Recursive => 1,
-        );
+    if ( !$TemplateChecksum ) {
 
-        TEMPLATE:
-        for my $Template ( sort @Templates ) {
+        my %ChecksumData;
 
-            next TEMPLATE if !-e $Template;
+        TEMPLATEFOLDER:
+        for my $TemplateFolder (@TemplateFolders) {
 
-            my $Key = $Template;
-            $Key =~ s/^$TemplateFolder\///xmsg;
-            $Key =~ s/\.(\w+)\.tmpl$//xmsg;
+            next TEMPLATEFOLDER if !-e $TemplateFolder;
 
-            # check if a template with this name does already exist
-            next TEMPLATE if $ChecksumData{$Key};
+            # get main object
+            my @Templates = $MainObject->DirectoryRead(
+                Directory => $TemplateFolder,
+                Filter    => '*.tmpl',
+                Recursive => 1,
+            );
 
-            # get file metadata
-            my $Stat = stat($Template);
-            if ( !$Stat ) {
-                print STDERR "Error: cannot stat file '$Template': $!";
-                next TEMPLATE;
+            TEMPLATE:
+            for my $Template ( sort @Templates ) {
+
+                next TEMPLATE if !-e $Template;
+
+                my $Key = $Template;
+                $Key =~ s/^$TemplateFolder\///xmsg;
+                $Key =~ s/\.(\w+)\.tmpl$//xmsg;
+
+                # check if a template with this name does already exist
+                next TEMPLATE if $ChecksumData{$Key};
+
+                # get file metadata
+                my $Stat = stat($Template);
+                if ( !$Stat ) {
+                    print STDERR "Error: cannot stat file '$Template': $!";
+                    next TEMPLATE;
+                }
+
+                $ChecksumData{$Key} = $Template . $Stat->mtime();
             }
-
-            $ChecksumData{$Key} = $Template . $Stat->mtime();
         }
-    }
 
-    # generate a checksum only of the actual used files
-    for my $Checksum ( sort keys %ChecksumData ) {
-        $TemplateChecksum .= $ChecksumData{$Checksum};
+        # generate a checksum only of the actual used files
+        for my $Checksum ( sort keys %ChecksumData ) {
+            $TemplateChecksum .= $ChecksumData{$Checksum};
+        }
+        $TemplateChecksum = Digest::MD5::md5_hex($TemplateChecksum);
+
+        $CacheObject->Set(
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            TTL   => 60 * 60 * 24,
+            Value => $TemplateChecksum,
+        );
     }
-    $TemplateChecksum = Digest::MD5::md5_hex($TemplateChecksum);
 
     # Check if cache already exists.
     if ( -e "$JSHome/js-cache/${TargetFilenamePrefix}_$TemplateChecksum.js" ) {
