@@ -64,6 +64,8 @@ sub ArticleSearchIndexBuild {
         UserID    => $Param{UserID},
     );
 
+    return 1 if !%ArticleSearchableContent;
+
     # clear old data from search index table
     my $Success = $Self->ArticleSearchIndexDelete(
         ArticleID => $Param{ArticleID},
@@ -81,6 +83,10 @@ sub ArticleSearchIndexBuild {
     my $FilterStopWords = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::FilterStopWords') // 1;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my @Bind;
+    my @InsertValues;
+    my $SQL = 'INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value) VALUES ';
 
     for my $FieldKey ( sort keys %ArticleSearchableContent ) {
 
@@ -101,16 +107,22 @@ sub ArticleSearchIndexBuild {
             $ArticleSearchableContent{$FieldKey}->{String} = lc $ArticleSearchableContent{$FieldKey}->{String};
         }
 
-        my $Success = $DBObject->Do(
-            SQL => '
-                INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value)
-                VALUES (?, ?, ?, ?)',
-            Bind => [
-                \$Param{TicketID}, \$Param{ArticleID}, \$ArticleSearchableContent{$FieldKey}->{Key},
-                \$ArticleSearchableContent{$FieldKey}->{String},
-            ],
+        # save insert values and bind variables
+        push @InsertValues, '(?, ?, ?, ?)';
+        push @Bind,         (
+            \$Param{TicketID},
+            \$Param{ArticleID},
+            \$ArticleSearchableContent{$FieldKey}->{Key},
+            \$ArticleSearchableContent{$FieldKey}->{String},
         );
     }
+
+    $SQL .= join ',', @InsertValues;
+
+    return if !$DBObject->Do(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
 
     return 1;
 }
