@@ -1876,7 +1876,7 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketQueue###VisualAlarms" Required="0" Valid="1">
         <Description Translatable="1">Enable highlighting queues based on ticket age.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewQueue</Navigation>
+        <Navigation>Frontend::Agent::View::TicketQueue</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
