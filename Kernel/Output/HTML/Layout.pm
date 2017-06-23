@@ -2374,7 +2374,7 @@ sub Permission {
     }
 
     # Array access restriction.
-    elsif ( $Item && ref $Item eq 'ARRAY' ) {
+    elsif ( IsArrayRefWithData($Item) ) {
         for my $GroupName ( @{$Item} ) {
             return 1 if $GroupObject->PermissionCheck(
                 UserID    => $Self->{UserID},
@@ -2382,6 +2382,11 @@ sub Permission {
                 Type      => $Param{Type},
             );
         }
+    }
+
+    # Allow access if there is no configuration for module group permission.
+    elsif ( !IsArrayRefWithData( $Config->{GroupRo} ) && !IsArrayRefWithData( $Config->{Group} ) ) {
+        return 1;
     }
 
     return 0;
