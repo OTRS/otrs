@@ -39,7 +39,7 @@ BEGIN {
 }
 
 use Apache2::RequestRec ();
-use ModPerl::Util ();
+use ModPerl::Util       ();
 
 use lib "/opt/otrs/";
 use lib "/opt/otrs/Kernel/cpan-lib";

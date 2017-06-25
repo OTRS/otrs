@@ -25,8 +25,7 @@ my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Email' );
-my $CommandObject
-    = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuildWorker');
+my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::FulltextIndexRebuildWorker');
 
 my $RandomID = $Helper->GetRandomID();
 

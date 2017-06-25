@@ -515,7 +515,7 @@ $Self->IsDeeply(
 
 # Register a new communication channel.
 $Helper->ConfigSettingChange(
-    Valid => 1,                                # (optional) enable or disable setting
+    Valid => 1,                        # (optional) enable or disable setting
     Key   => 'CommunicationChannel',
     Value => {
         '100024-test' => {
@@ -536,7 +536,7 @@ $Self->IsDeeply(
 
 # Update registration - forward to another communication channel.
 $Helper->ConfigSettingChange(
-    Valid => 1,                                # (optional) enable or disable setting
+    Valid => 1,                        # (optional) enable or disable setting
     Key   => 'CommunicationChannel',
     Value => {
         '100024-test' => {
