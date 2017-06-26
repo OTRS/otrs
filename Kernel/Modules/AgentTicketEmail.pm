@@ -923,7 +923,7 @@ sub Run {
                 my %ExternalCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
                     User => $FromExternalCustomer{Customer},
                 );
-                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
+                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserMailString};
             }
             $Error{ExpandCustomerName} = 1;
         }

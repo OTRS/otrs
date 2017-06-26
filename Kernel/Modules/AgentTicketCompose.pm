@@ -1897,8 +1897,8 @@ sub _Mask {
     # set preselected values for Cc field
     if ( $Param{Cc} && $Param{Cc} ne '' && !$CustomerCounterCc ) {
 
-        # split To values
-        @EmailAddressesCc = map { $_->address() } ( Mail::Address->parse( $Param{Cc} ) );
+        # split Cc values
+        @EmailAddressesCc = map { $_->[0] ? "$_->[0] <$_->[1]>" : "$_->[1]" } ( Mail::Address->parse( $Param{Cc} ) );
 
         $LayoutObject->AddJSData(
             Key   => 'EmailAddressesCc',
@@ -1912,7 +1912,7 @@ sub _Mask {
     if ( defined $Param{To} && $Param{To} ne '' && !$CustomerCounter ) {
 
         # split To values
-        my @EmailAddressesTo = map { $_->address() } ( Mail::Address->parse( $Param{To} ) );
+        my @EmailAddressesTo = map { $_->[0] ? "$_->[0] <$_->[1]>" : "$_->[1]" } ( Mail::Address->parse( $Param{To} ) );
 
         $LayoutObject->AddJSData(
             Key   => 'EmailAddressesTo',

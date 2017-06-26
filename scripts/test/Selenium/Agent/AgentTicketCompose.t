@@ -322,6 +322,8 @@ $Selenium->RunTest(
             SenderType           => 'customer',
             Subject              => 'some short description',
             Body                 => 'the message text',
+            From                 => "\"$TestCustomer $TestCustomer\" <${CustomerEmail}>",
+            To                   => 'Some Customer A <customer-a@example.com>',
             Charset              => 'ISO-8859-15',
             MimeType             => 'text/plain',
             HistoryType          => 'EmailCustomer',
@@ -362,13 +364,28 @@ $Selenium->RunTest(
             "\$('#ResponseID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
         );
 
-        # switch to compose window
+        # Switch to compose window.
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
         # wait without jQuery because it might not be loaded yet
         $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");' );
+
+        # Input required field and select customer
+        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
+
+        $Self->Is(
+            $Selenium->execute_script('return $(".Dialog.Modal.Alert") > -1'),
+            0,
+            "Error message found.",
+        );
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal.Alert:visible").length' );
+
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
         # check AgentTicketCompose page
         for my $ID (
@@ -452,11 +469,6 @@ $Selenium->RunTest(
         }
 
         # input required fields and submit compose
-        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-
-        $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 

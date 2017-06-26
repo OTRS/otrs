@@ -75,8 +75,9 @@ $Selenium->RunTest(
         );
 
         my @CustomerUserIDs;
+        my @UserEmails;
         for my $Key ( 1 .. 5 ) {
-            my $UserRand = 'unittest-' . $Key . $Helper->GetRandomID();
+            my $UserEmail = 'unittest-' . $Key . $RandomID . '-Email@example.com';
 
             my $CustomerUserID = $CustomerUserObject->CustomerUserAdd(
                 Source         => 'CustomerUser',
@@ -84,7 +85,7 @@ $Selenium->RunTest(
                 UserLastname   => 'Lastname' . $Key,
                 UserCustomerID => $CustomerID,
                 UserLogin      => $RandomID . 'CustomerUser' . $Key,
-                UserEmail      => $UserRand . '-Email@example.com',
+                UserEmail      => $UserEmail,
                 UserPassword   => 'some_pass',
                 ValidID        => 1,
                 UserID         => 1,
@@ -96,6 +97,7 @@ $Selenium->RunTest(
             );
 
             push @CustomerUserIDs, $CustomerUserID;
+            push @UserEmails,      $UserEmail;
 
         }
 
@@ -157,7 +159,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length',
+                'return typeof($) === "function" && $("#AgentCustomerInformationCenterSearchCustomerID").length'
         );
 
         # input search parameters for CustomerUser
@@ -247,18 +249,65 @@ $Selenium->RunTest(
 
         }
 
-        # Click on the customer user link in the customer user list (go to the AgentCustomerUserInformationCenter).
+        # Create new Email ticket.
         $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentCustomerUserInformationCenter;CustomerUserID=$TestCustomerUserLogin' )]"
+            "//a[contains(\@href, \"Action=AgentTicketEmail;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$CustomerUserIDs[0]\" )]"
         )->VerifiedClick();
 
+        # Confirm I'm on New Email Ticket screen.
         $Self->True(
-            index( $Selenium->get_page_source(), "Customer User Information Center" ) > -1,
-            "Found title value on page",
+            index( $Selenium->get_page_source(), "Create New Email Ticket" ) > -1,
+            "Found looked value on page",
         );
+
+        # Select input field and type inside.
+        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys( $CustomerUserIDs[0] );
+
+        # Click on wanted element in dropdown menu.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->find_element("//*[text()='$CustomerUserIDs[0]']")->VerifiedClick();
+
+        # Error is expected.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
+
+        $Self->Is(
+            $Selenium->execute_script('return $(".Dialog.Modal .Header h1").text().trim();'),
+            'Duplicated entry',
+            "Warning dialog for entry duplication is found",
+        );
+
+        # Close error message.
+        $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+
+        # Go to previous.
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentCustomerInformationCenter;CustomerID=$TestCustomerUserLogin"
+        );
+
+        # Create new Phone ticket.
+        $Selenium->find_element(
+            "//a[contains(\@href, \"AgentTicketPhone;Subaction=StoreNew;ExpandCustomerName=2;CustomerUser=$CustomerUserIDs[0]\" )]"
+        )->VerifiedClick();
+
+        # Confirm I'm on New Phone Ticket screen.
         $Self->True(
-            index( $Selenium->get_page_source(), $TestCustomerUserLogin ) > -1,
-            "Found customer user login on page",
+            index( $Selenium->get_page_source(), "Create New Phone Ticket" ) > -1,
+            "Found looked value on page",
+        );
+
+        # Select input field and type inside.
+        $Selenium->find_element( "#FromCustomer", 'css' )->send_keys( $CustomerUserIDs[0] );
+
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->find_element("//*[text()='$CustomerUserIDs[0]']")->VerifiedClick();
+
+        # Error is expected.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
+
+        $Self->Is(
+            $Selenium->execute_script('return $(".Dialog.Modal .Header h1").text().trim();'),
+            'Duplicated entry',
+            "Warning dialog for entry duplication is found",
         );
 
         # delete created test tickets
