@@ -658,17 +658,6 @@ Core.UI.InputFields = (function (TargetNS) {
                 ValidateFormElement($SelectObj);
             }, 0);
         }
-
-        // Remove selection filter if button was used or selection is empty now.
-        if ($SelectObj.data('selection-filter') || $SelectObj.val().length === 0) {
-            $SelectObj.removeData('selection-filter');
-            setTimeout(function () {
-                $SelectObj.data('filtered', '0');
-
-                // Apply filter
-                ApplyFilter($SelectObj, null);
-            }, 0);
-        }
     }
 
     /**
@@ -1085,8 +1074,8 @@ Core.UI.InputFields = (function (TargetNS) {
             });
         }
 
-        // Check the selection
-        if (!$SelectObj.val()) {
+        // Check if the selection is empty.
+        if ($SelectObj.val().length === 0) {
             $SelectObj.data('filtered', '0');
             $SelectObj.data('selection', []);
             ApplyFilter($SelectObj, $ToolbarContainerObj);
