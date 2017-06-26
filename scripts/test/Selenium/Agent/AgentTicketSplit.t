@@ -116,17 +116,17 @@ $Selenium->RunTest(
         my @Tests = (
             {
                 ArticleID      => $ArticleIDs[0],
-                ToValueOnSplit => $FromCustomer,
+                ToValueOnSplit => "From Customer <$FromCustomer>",
                 ResultMessage  => 'From is Customer, To is Queue',
             },
             {
                 ArticleID      => $ArticleIDs[1],
-                ToValueOnSplit => $ToCustomer,
+                ToValueOnSplit => "To Customer <$ToCustomer>",
                 ResultMessage  => 'From is SystemAddress, To is Customer'
             },
             {
                 ArticleID      => $ArticleIDs[2],
-                ToValueOnSplit => $FromCustomer,
+                ToValueOnSplit => "From Customer <$FromCustomer>",
                 ResultMessage  => 'From is Customer, To is Customer'
             },
         );
