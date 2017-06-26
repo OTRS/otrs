@@ -316,11 +316,15 @@ $Selenium->RunTest(
             );
         }
 
+        my $FromCustomer = "\"$TestCustomer $TestCustomer\" <$CustomerEmail>";
+
         # create test email article
         my $ArticleID = $TicketObject->ArticleCreate(
             TicketID       => $TicketID,
             ArticleType    => 'email-external',
             SenderType     => 'customer',
+            From           => $FromCustomer,
+            To             => 'Some Customer A Some Customer A <customer-a@example.com>',
             Subject        => 'some short description',
             Body           => 'the message text',
             Charset        => 'ISO-8859-15',
@@ -354,7 +358,6 @@ $Selenium->RunTest(
 
         # navigate to created test ticket in AgentTicketZoom page
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
         # click on reply
@@ -440,13 +443,23 @@ $Selenium->RunTest(
             );
         }
 
-        # input required fields and submit compose
+        # Input required fields and submit compose.
         my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+
+        # Verify that error occurs.
+        $Self->Is(
+            $Selenium->execute_script("return \$('.Dialog.Modal.Alert').length"),
+            "1",
+            "Error message found.",
+        );
+
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 

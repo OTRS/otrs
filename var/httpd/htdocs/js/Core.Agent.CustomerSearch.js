@@ -328,7 +328,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     };
 
     function htmlDecode(Text){
-        return Text.replace(/&amp;/g, '&');
+        return Text.replace(/&amp;/g, '&')
+            .replace(/&quot;/g, '"')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>');
     }
 
     /**
@@ -347,6 +350,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
         if (CustomerValue === '') {
             return false;
+        }
+        else {
+            CustomerValue = htmlDecode(CustomerValue);
         }
 
         // clone customer entry
