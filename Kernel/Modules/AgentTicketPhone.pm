@@ -419,9 +419,14 @@ sub Run {
                 $CustomerKey = $Article{CustomerUserID};
             }
 
+            my $CustomerElement = $EmailAddress;
+            if ( $Email->phrase() ) {
+                $CustomerElement = $Email->phrase() . " <$EmailAddress>";
+            }
+
             push @MultipleCustomer, {
                 Count            => $CountAux,
-                CustomerElement  => $Email->address(),
+                CustomerElement  => $CustomerElement,
                 CustomerSelected => $CustomerSelected,
                 CustomerKey      => $CustomerKey,
                 CustomerError    => $CustomerError,
@@ -1037,7 +1042,8 @@ sub Run {
                 my %ExternalCustomerUserData = $CustomerUserObject->CustomerUserDataGet(
                     User => $FromExternalCustomer{Customer},
                 );
-                $FromExternalCustomer{Email} = $ExternalCustomerUserData{UserEmail};
+                $FromExternalCustomer{Email}
+                    = "\"$ExternalCustomerUserData{UserFirstname} $ExternalCustomerUserData{UserLastname}\" <$ExternalCustomerUserData{UserEmail}>";
             }
             $Error{ExpandCustomerName} = 1;
         }

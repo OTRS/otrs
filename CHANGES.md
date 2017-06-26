@@ -1,4 +1,5 @@
 #5.0.21 2017-??-??
+ - 2017-06-26 Fixed bug#[9731](https://bugs.otrs.org/show_bug.cgi?id=9731) - Reply screen uses only email instead of full customer details.
  - 2017-06-22 Fixed bug#[12817](https://bugs.otrs.org/show_bug.cgi?id=12817) - "Reply to note" action throws popup error message in Article Time Line view.
  - 2017-06-20 Fixed bug#[12820](https://bugs.otrs.org/show_bug.cgi?id=12820) - Problem paste or upload image on CustomerTicketMessage and CustomerTicketZoom.
  - 2017-06-16 Fixed bug#[12892](https://bugs.otrs.org/show_bug.cgi?id=12892) - CreatedBy-User: No real name in overview.

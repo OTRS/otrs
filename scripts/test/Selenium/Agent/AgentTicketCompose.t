@@ -447,12 +447,32 @@ $Selenium->RunTest(
 
         # input required fields and submit compose
         my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
+
+        # add TO recipient
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
 
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
-        $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
+        # add test text to body
+        my $ComposeText = "Selenium Compose Text";
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($ComposeText);
+
+        # try to add customer again, expecting server error for duplicated entry, see bug #9731
+        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
+
+        $Self->Is(
+            $Selenium->execute_script('return $(".Dialog.Modal .Header h1").text().trim();'),
+            'Duplicated entry',
+            "Warning dialog for entry duplication is found",
+        );
+
+        # click 'Ok' for modal dialog 'Duplicated entry'
+        $Selenium->find_element("//button[\@id='DialogButton1'][\@type='button']")->click();
+
+        # submit form
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         $Selenium->WaitFor( WindowCount => 1 );

@@ -1872,12 +1872,18 @@ sub _Mask {
             Name => 'PreFilledCc',
         );
 
-        # split To values
+        # split Cc values
         for my $Email ( Mail::Address->parse( $Param{Cc} ) ) {
+
+            my $DataEmail = $Email->address();
+            if ( $Email->phrase() ) {
+                $DataEmail = $Email->phrase() . " <$Email->address()>";
+            }
+
             $LayoutObject->Block(
                 Name => 'PreFilledCcRow',
                 Data => {
-                    Email => $Email->address(),
+                    Email => $DataEmail,
                 },
             );
         }
@@ -1892,10 +1898,16 @@ sub _Mask {
 
         # split To values
         for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+
+            my $DataEmail = $Email->address();
+            if ( $Email->phrase() ) {
+                $DataEmail = $Email->phrase() . " <$Email->address()>";
+            }
+
             $LayoutObject->Block(
                 Name => 'PreFilledToRow',
                 Data => {
-                    Email => $Email->address(),
+                    Email => $DataEmail,
                 },
             );
         }
