@@ -84,9 +84,39 @@ sub ArticleSearchIndexBuild {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # determine the insert type to use
+    my $DBType                 = $DBObject->GetDatabaseFunction('Type');
+    my $AllowMultiple          = 1;
+    my @SupportMultipleInserts = qw(mysql oracle postgresql);
+
+    if ( !grep( /$DBType/, @SupportMultipleInserts ) ) {
+        $AllowMultiple = 0;
+    }
+
+    my %MultiInsertStructure = (
+        Oracle => {
+            Start  => 'INSERT ALL ',
+            Insert => '
+                INTO article_search_index (
+                    ticket_id, article_id, article_key, article_value
+                )
+                (?, ?, ?, ?)',
+            End  => 'SELECT * FROM DUAL',
+            Join => ' ',
+        },
+        Other => {
+            Start  => 'INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value) VALUES ',
+            Insert => '(?, ?, ?, ?) ',
+            End    => '',
+            Join   => ', ',
+            }
+    );
+
+    my $MultiInsertStructureKey = $DBType eq 'oracle' ? 'Oracle' : 'Other';
+
+    my $SQL = $AllowMultiple ? $MultiInsertStructure{$MultiInsertStructureKey}->{Start} : '';
+    my $FirstRun = 1;
     my @Bind;
-    my @InsertValues;
-    my $SQL = 'INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value) VALUES ';
 
     for my $FieldKey ( sort keys %ArticleSearchableContent ) {
 
@@ -107,17 +137,41 @@ sub ArticleSearchIndexBuild {
             $ArticleSearchableContent{$FieldKey}->{String} = lc $ArticleSearchableContent{$FieldKey}->{String};
         }
 
-        # save insert values and bind variables
-        push @InsertValues, '(?, ?, ?, ?)';
-        push @Bind,         (
+        my @CurrentBind = (
             \$Param{TicketID},
             \$Param{ArticleID},
             \$ArticleSearchableContent{$FieldKey}->{Key},
             \$ArticleSearchableContent{$FieldKey}->{String},
         );
+
+        $SQL .= $MultiInsertStructure{$MultiInsertStructureKey}->{Join} if !$FirstRun;
+        $SQL .= $MultiInsertStructure{$MultiInsertStructureKey}->{Insert};
+
+        # explicitly avoid multiple inserts in case the query size limit was reached
+        $AllowMultiple = 0 if length $SQL > 3500 && $AllowMultiple;
+
+        # Check the length of the SQL string on every cycle
+        # (some databases only accept SQL strings up to 4k,
+        # so we want to stay safe here with just 3500 bytes).
+        if ( !$AllowMultiple ) {
+            return if !$DBObject->Do(
+                SQL => '
+                    INSERT INTO article_search_index (
+                        ticket_id, article_id, article_key, article_value
+                    )
+                    VALUES (?, ?, ?, ?)
+                ',
+                Bind => \@CurrentBind,
+            );
+        }
+        else {
+            push @Bind, @CurrentBind;
+        }
+
+        $FirstRun = 0 if $FirstRun;
     }
 
-    $SQL .= join ',', @InsertValues;
+    return 1 if !$AllowMultiple;
 
     return if !$DBObject->Do(
         SQL  => $SQL,
