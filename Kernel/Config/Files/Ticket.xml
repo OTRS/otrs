@@ -267,14 +267,6 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::CounterLog" Required="1" Valid="1">
-        <Description Translatable="1">Log file for the ticket counter.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/TicketCounter.log</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::IndexModule" Required="1" Valid="1">
         <Description Translatable="1">IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.</Description>
         <Group>Ticket</Group>
