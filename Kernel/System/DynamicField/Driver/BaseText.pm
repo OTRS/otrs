@@ -496,7 +496,7 @@ sub SearchFieldParameterBuild {
     my $Operator = 'Equals';
 
     # search for a wild card in the value
-    if ( $Value && $Value =~ m{\*} ) {
+    if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\|\|} ) ) {
 
         # change operator
         $Operator = 'Like';
