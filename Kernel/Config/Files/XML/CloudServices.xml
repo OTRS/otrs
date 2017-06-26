@@ -2,7 +2,7 @@
 <otrs_config version="2.0" init="Application">
     <Setting Name="CloudServices::Disabled" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>CloudService</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>

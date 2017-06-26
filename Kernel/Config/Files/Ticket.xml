@@ -287,7 +287,7 @@
     <ConfigItem Name="Ticket::Article::Backend::MIMEBase###ArticleStorage" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::CommunicationChannel::MIMEBase</SubGroup>
         <Setting>
             <Option Location="Kernel/System/Ticket/Article/Backend/MIMEBase/ArticleStorage*.pm" SelectedID="Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB">
             </Option>
@@ -296,7 +296,7 @@
     <ConfigItem Name="Ticket::Article::Backend::MIMEBase###CheckAllStorageBackends" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::CommunicationChannel::MIMEBase</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0" Translatable="1">No</Item>
@@ -307,7 +307,7 @@
     <ConfigItem Name="Ticket::Article::Backend::MIMEBase###ArticleDataDir" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::CommunicationChannel::MIMEBase</SubGroup>
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/article</String>
         </Setting>
@@ -315,7 +315,7 @@
     <ConfigItem Name="Ticket::Article::Backend::MIMEBase###IndexAttachmentNames" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies whether the (MIMEBase) article attachments will be indexed and searchable.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::CommunicationChannel::MIMEBase</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
@@ -334,7 +334,7 @@
     <ConfigItem Name="Ticket::EventModulePost###2300-ArchiveRestore" Required="0" Valid="1">
         <Description Translatable="1">Restores a ticket from the archive (only if the event is a state change to any open available state).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ArchiveRestore</Item>
@@ -345,7 +345,7 @@
     <ConfigItem Name="Ticket::EventModulePost###2600-AcceleratorUpdate" Required="0" Valid="1">
         <Description Translatable="1">Updates the ticket index accelerator.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketAcceleratorUpdate</Item>
@@ -356,7 +356,7 @@
     <ConfigItem Name="Ticket::EventModulePost###2700-ForceOwnerResetOnMove" Required="0" Valid="0">
         <Description Translatable="1">Resets and unlocks the owner of a ticket if it was moved to another queue.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ForceOwnerReset</Item>
@@ -367,7 +367,7 @@
     <ConfigItem Name="Ticket::EventModulePost###2800-ForceStateChangeOnLock" Required="0" Valid="0">
         <Description Translatable="1">Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ForceState</Item>
@@ -379,7 +379,7 @@
     <ConfigItem Name="Ticket::EventModulePost###3000-ResponsibleAutoSet" Required="0" Valid="1">
         <Description Translatable="1">Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ResponsibleAutoSet</Item>
@@ -390,7 +390,7 @@
     <ConfigItem Name="Ticket::EventModulePost###3300-TicketPendingTimeReset" Required="0" Valid="1">
         <Description Translatable="1">Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketPendingTimeReset</Item>
@@ -401,7 +401,7 @@
     <ConfigItem Name="Ticket::EventModulePost###7000-NotificationEvent" Required="0" Valid="1">
         <Description Translatable="1">Sends the notifications which are configured in the admin interface under "Notfication (Event)".</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent</Item>
@@ -413,7 +413,7 @@
     <ConfigItem Name="Ticket::EventModulePost###6000-EscalationIndex" Required="0" Valid="1">
         <Description Translatable="1">Updates the ticket escalation index after a ticket attribute got updated.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketEscalationIndex</Item>
@@ -425,7 +425,7 @@
     <ConfigItem Name="Ticket::EventModulePost###4300-EscalationStopEvents" Required="0" Valid="1">
         <Description Translatable="1">Ticket event module that triggers the escalation stop events.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TriggerEscalationStopEvents</Item>
@@ -437,7 +437,7 @@
     <ConfigItem Name="Ticket::EventModulePost###3600-ForceUnlockOnMove" Required="0" Valid="1">
         <Description Translatable="1">Forces to unlock tickets after being moved to another queue.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ForceUnlock</Item>
@@ -448,7 +448,7 @@
     <ConfigItem Name="Ticket::EventModulePost###4000-TicketArticleNewMessageUpdate" Required="0" Valid="1">
         <Description Translatable="1">Update Ticket "Seen" flag if every article got seen or a new Article got created.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketNewMessageUpdate</Item>
@@ -459,7 +459,7 @@
     <ConfigItem Name="CustomerCompany::EventModulePost###2300-UpdateTickets" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates tickets after an update of the Customer.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::CustomerCompany</SubGroup>
+        <SubGroup>Core::Event::CustomerCompany</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerCompany::Event::TicketUpdate</Item>
@@ -471,7 +471,7 @@
     <ConfigItem Name="CustomerUser::EventModulePost###2300-UpdateTickets" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates tickets after an update of the Customer User.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::CustomerCompany</SubGroup>
+        <SubGroup>Core::Event::CustomerUser</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::TicketUpdate</Item>
@@ -493,7 +493,7 @@
     <ConfigItem Name="Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser" Required="0" Valid="0">
         <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::DynamicFieldFromCustomerUser</Item>
@@ -1526,7 +1526,7 @@
     <ConfigItem Name="Ticket::EventModulePost###2000-ArticleSearchIndex" Required="0" Valid="1">
         <Description Translatable="1">Marks articles for index rebuild right after the article's update.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::FulltextSearch</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ArticleSearchIndex</Item>
@@ -6942,26 +6942,10 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Translatable="1">Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Array>
-                <Item>ro</Item>
-                <Item>move_into</Item>
-                <Item>create</Item>
-                <Item>note</Item>
-                <Item>owner</Item>
-                <Item>priority</Item>
-                <Item>rw</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access to the owner of a ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::OwnerCheck</Item>
@@ -6973,7 +6957,7 @@
     <ConfigItem Name="Ticket::Permission::OwnerCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -6985,7 +6969,7 @@
     <ConfigItem Name="Ticket::Permission###2-ResponsibleCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access to the agent responsible of a ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::ResponsibleCheck</Item>
@@ -6997,7 +6981,7 @@
     <ConfigItem Name="Ticket::Permission::ResponsibleCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -7009,7 +6993,7 @@
     <ConfigItem Name="Ticket::Permission###3-GroupCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to check the group permissions for the access to tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::GroupCheck</Item>
@@ -7021,7 +7005,7 @@
     <ConfigItem Name="Ticket::Permission###4-WatcherCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access to the watcher agents of a ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::WatcherCheck</Item>
@@ -7033,7 +7017,7 @@
     <ConfigItem Name="Ticket::Permission###5-CreatorCheck" Required="0" Valid="0">
         <Description Translatable="1">Module to grant access to the creator of a ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::CreatorCheck</Item>
@@ -7045,7 +7029,7 @@
     <ConfigItem Name="Ticket::Permission::CreatorCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -7057,7 +7041,7 @@
     <ConfigItem Name="Ticket::Permission###6-InvolvedCheck" Required="0" Valid="0">
         <Description Translatable="1">Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::InvolvedCheck</Item>
@@ -7069,7 +7053,7 @@
     <ConfigItem Name="Ticket::Permission::InvolvedCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -7081,7 +7065,7 @@
     <ConfigItem Name="CustomerTicket::Permission###1-GroupCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to check the group permissions for customer access to tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::GroupCheck</Item>
@@ -7093,7 +7077,7 @@
     <ConfigItem Name="CustomerTicket::Permission###2-CustomerUserIDCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck</Item>
@@ -7105,7 +7089,7 @@
     <ConfigItem Name="CustomerTicket::Permission###3-CustomerIDCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerIDCheck</Item>
@@ -7117,7 +7101,7 @@
     <ConfigItem Name="CustomerTicket::Permission###4-CustomerGroupCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access if the CustomerID of the customer has necessary group permissions.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Ticket::Permission</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerGroupCheck</Item>
@@ -9849,7 +9833,7 @@
         <ConfigItem Name="Ticket::EventModulePost###9700-GenericAgent" Required="0" Valid="1">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::GenericAgent</Item>
@@ -9994,7 +9978,7 @@
     <ConfigItem Name="Queue::EventModulePost###2300-UpdateQueue" Required="0" Valid="1">
         <Description Translatable="1">Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Queue</SubGroup>
+        <SubGroup>Core::Event::Queue</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Queue::Event::TicketAcceleratorUpdate</Item>
@@ -11714,7 +11698,7 @@ Thanks for your help!
     <ConfigItem Name="Ticket::EventModulePost###9600-TicketDynamicFieldDefault" Required="0" Valid="0">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate). This is only possible if all Ticket dynamic fields need the same event.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::TicketDynamicFieldDefault</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketDynamicFieldDefault</Item>

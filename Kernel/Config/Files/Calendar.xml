@@ -681,7 +681,7 @@
     <ConfigItem Name="Ticket::EventModulePost###950-TicketAppointments" Required="0" Valid="1">
         <Description Translatable="1">Triggers add or update of automatic calendar appointments based on certain ticket times.</Description>
         <Group>Calendar</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketAppointments</Item>

@@ -217,28 +217,28 @@
     </Setting>
     <Setting Name="Ticket::Article::Backend::MIMEBase###ArticleStorage" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Ticket/Article/Backend/MIMEBase/ArticleStorage*.pm">Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Article::Backend::MIMEBase###CheckAllStorageBackends" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Article::Backend::MIMEBase###ArticleDataDir" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Home&gt;/var/article</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Article::Backend::MIMEBase###IndexAttachmentNames" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies whether the (MIMEBase) article attachments will be indexed and searchable.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -252,7 +252,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###2300-ArchiveRestore" Required="0" Valid="1">
         <Description Translatable="1">Restores a ticket from the archive (only if the event is a state change to any open available state).</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ArchiveRestore</Item>
@@ -262,7 +262,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###2600-AcceleratorUpdate" Required="0" Valid="1">
         <Description Translatable="1">Updates the ticket index accelerator.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketAcceleratorUpdate</Item>
@@ -272,7 +272,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###2700-ForceOwnerResetOnMove" Required="0" Valid="0">
         <Description Translatable="1">Resets and unlocks the owner of a ticket if it was moved to another queue.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ForceOwnerReset</Item>
@@ -282,7 +282,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###2800-ForceStateChangeOnLock" Required="0" Valid="0">
         <Description Translatable="1">Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ForceState</Item>
@@ -293,7 +293,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###3000-ResponsibleAutoSet" Required="0" Valid="1">
         <Description Translatable="1">Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ResponsibleAutoSet</Item>
@@ -303,7 +303,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###3300-TicketPendingTimeReset" Required="0" Valid="1">
         <Description Translatable="1">Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketPendingTimeReset</Item>
@@ -313,7 +313,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###7000-NotificationEvent" Required="0" Valid="1">
         <Description Translatable="1">Sends the notifications which are configured in the admin interface under "Notfication (Event)".</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent</Item>
@@ -324,7 +324,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###6000-EscalationIndex" Required="0" Valid="1">
         <Description Translatable="1">Updates the ticket escalation index after a ticket attribute got updated.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketEscalationIndex</Item>
@@ -335,7 +335,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###4300-EscalationStopEvents" Required="0" Valid="1">
         <Description Translatable="1">Ticket event module that triggers the escalation stop events.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TriggerEscalationStopEvents</Item>
@@ -346,7 +346,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###3600-ForceUnlockOnMove" Required="0" Valid="1">
         <Description Translatable="1">Forces to unlock tickets after being moved to another queue.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ForceUnlock</Item>
@@ -356,7 +356,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###4000-TicketArticleNewMessageUpdate" Required="0" Valid="1">
         <Description Translatable="1">Update Ticket "Seen" flag if every article got seen or a new Article got created.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketNewMessageUpdate</Item>
@@ -366,7 +366,7 @@
     </Setting>
     <Setting Name="CustomerCompany::EventModulePost###2300-UpdateTickets" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates tickets after an update of the Customer.</Description>
-        <Navigation>Core::CustomerCompany</Navigation>
+        <Navigation>Core::Event::CustomerCompany</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerCompany::Event::TicketUpdate</Item>
@@ -377,7 +377,7 @@
     </Setting>
     <Setting Name="CustomerUser::EventModulePost###2300-UpdateTickets" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates tickets after an update of the Customer User.</Description>
-        <Navigation>Core::CustomerCompany</Navigation>
+        <Navigation>Core::Event::CustomerUser</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::TicketUpdate</Item>
@@ -397,7 +397,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser" Required="0" Valid="0">
         <Description Translatable="1">This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::DynamicFieldFromCustomerUser</Item>
@@ -414,35 +414,35 @@
     </Setting>
     <Setting Name="Ticket::SearchIndexModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Ticket/ArticleSearchIndex/*.pm">Kernel::System::Ticket::ArticleSearchIndex::DB</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::SearchIndex::IndexArchivedTickets" Required="1" Valid="1">
         <Description Translatable="1">Defines wether to index archived tickets for fulltext searches.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::SearchIndex::FilterStopWords" Required="1" Valid="1">
         <Description Translatable="1">Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::SearchIndex::WarnOnStopWordUsage" Required="1" Valid="1">
         <Description Translatable="1">Display a warning and prevent search when using stop words within fulltext search.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::SearchIndex::Attribute" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Hash>
                 <Item Key="WordCountMax">1000</Item>
@@ -453,7 +453,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::Filters" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Fulltext index regex filters to remove parts of the text.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item><![CDATA[[,\&\<\>\?"\!\*\|;\[\]\(\)\+\$\^=]]]></Item>
@@ -464,7 +464,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::StopWords###en" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">English stop words for fulltext index. These words will be removed from the search index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item>a</Item>
@@ -646,7 +646,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::StopWords###de" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">German stop words for fulltext index. These words will be removed from the search index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item>aber</Item>
@@ -783,7 +783,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::StopWords###nl" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Dutch stop words for fulltext index. These words will be removed from the search index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item>de</Item>
@@ -934,7 +934,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::StopWords###es" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Spanish stop words for fulltext index. These words will be removed from the search index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item>un</Item>
@@ -1120,7 +1120,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::StopWords###fr" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">French stop words for fulltext index. These words will be removed from the search index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item>alors</Item>
@@ -1254,7 +1254,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::StopWords###it" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Italian stop words for fulltext index. These words will be removed from the search index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item>a</Item>
@@ -1396,7 +1396,7 @@
     </Setting>
     <Setting Name="Ticket::SearchIndex::StopWords###Custom" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Customizable stop words for fulltext index. These words will be removed from the search index.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
             <Array>
                 <Item>MyStopWord</Item>
@@ -1405,7 +1405,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###2000-ArticleSearchIndex" Required="0" Valid="1">
         <Description Translatable="1">Marks articles for index rebuild right after the article's update.</Description>
-        <Navigation>Core::FulltextSearch</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ArticleSearchIndex</Item>
@@ -1538,14 +1538,14 @@
     </Setting>
     <Setting Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
         <Description Translatable="1">Enables ticket bulk action feature for the agent frontend to work on more than one ticket at a time.</Description>
-        <Navigation>Core::Ticket::BulkAction</Navigation>
+        <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::BulkFeatureGroup" Required="0" Valid="0">
         <Description Translatable="1">Enables ticket bulk action feature only for the listed groups.</Description>
-        <Navigation>Core::Ticket::BulkAction</Navigation>
+        <Navigation>Frontend::Agent::View::TicketBulk</Navigation>
         <Value>
             <Array>
                 <Item>admin</Item>
@@ -5654,24 +5654,9 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="System::Permission" Required="1" Valid="1">
-        <Description Translatable="1">Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.</Description>
-        <Navigation>Core::Ticket</Navigation>
-        <Value>
-            <Array>
-                <Item>ro</Item>
-                <Item>move_into</Item>
-                <Item>create</Item>
-                <Item>note</Item>
-                <Item>owner</Item>
-                <Item>priority</Item>
-                <Item>rw</Item>
-            </Array>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Permission###1-OwnerCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access to the owner of a ticket.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::OwnerCheck</Item>
@@ -5682,7 +5667,7 @@
     </Setting>
     <Setting Name="Ticket::Permission::OwnerCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the OwnerCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -5693,7 +5678,7 @@
     </Setting>
     <Setting Name="Ticket::Permission###2-ResponsibleCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access to the agent responsible of a ticket.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::ResponsibleCheck</Item>
@@ -5704,7 +5689,7 @@
     </Setting>
     <Setting Name="Ticket::Permission::ResponsibleCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -5715,7 +5700,7 @@
     </Setting>
     <Setting Name="Ticket::Permission###3-GroupCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to check the group permissions for the access to tickets.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::GroupCheck</Item>
@@ -5726,7 +5711,7 @@
     </Setting>
     <Setting Name="Ticket::Permission###4-WatcherCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access to the watcher agents of a ticket.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::WatcherCheck</Item>
@@ -5737,7 +5722,7 @@
     </Setting>
     <Setting Name="Ticket::Permission###5-CreatorCheck" Required="0" Valid="0">
         <Description Translatable="1">Module to grant access to the creator of a ticket.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::CreatorCheck</Item>
@@ -5748,7 +5733,7 @@
     </Setting>
     <Setting Name="Ticket::Permission::CreatorCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -5759,7 +5744,7 @@
     </Setting>
     <Setting Name="Ticket::Permission###6-InvolvedCheck" Required="0" Valid="0">
         <Description Translatable="1">Module to grant access to any agent that has been involved in a ticket in the past (based on ticket history entries).</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Permission::InvolvedCheck</Item>
@@ -5770,7 +5755,7 @@
     </Setting>
     <Setting Name="Ticket::Permission::InvolvedCheck::Queues" Required="0" Valid="0">
         <Description Translatable="1">Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Postmaster">ro, move, note</Item>
@@ -5781,7 +5766,7 @@
     </Setting>
     <Setting Name="CustomerTicket::Permission###1-GroupCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to check the group permissions for customer access to tickets.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::GroupCheck</Item>
@@ -5792,7 +5777,7 @@
     </Setting>
     <Setting Name="CustomerTicket::Permission###2-CustomerUserIDCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access if the CustomerUserID of the ticket matches the CustomerUserID of the customer.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck</Item>
@@ -5803,7 +5788,7 @@
     </Setting>
     <Setting Name="CustomerTicket::Permission###3-CustomerIDCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access if the CustomerID of the ticket matches the CustomerID of the customer.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerIDCheck</Item>
@@ -5814,7 +5799,7 @@
     </Setting>
     <Setting Name="CustomerTicket::Permission###4-CustomerGroupCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to grant access if the CustomerID of the customer has necessary group permissions.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Ticket::Permission</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerGroupCheck</Item>
@@ -9866,7 +9851,7 @@
     </Setting>
         <Setting Name="Ticket::EventModulePost###9700-GenericAgent" Required="0" Valid="1">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::GenericAgent</Item>
@@ -9994,7 +9979,7 @@
     </Setting>
     <Setting Name="Queue::EventModulePost###2300-UpdateQueue" Required="0" Valid="1">
         <Description Translatable="1">Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.</Description>
-        <Navigation>Core::Queue</Navigation>
+        <Navigation>Core::Event::Queue</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Queue::Event::TicketAcceleratorUpdate</Item>
@@ -10578,14 +10563,14 @@
     </Setting>
     <Setting Name="PostmasterMaxEmails" Required="1" Valid="1">
         <Description Translatable="1">Maximal auto email responses to own email-address a day (Loop-Protection).</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,3}$">40</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterMaxEmailsPerAddress" Required="0" Valid="1">
         <Description Translatable="1">Maximal auto email responses to own email-address a day, configurable by email address (Loop-Protection).</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
             </Hash>
@@ -10593,105 +10578,105 @@
     </Setting>
     <Setting Name="PostMasterMaxEmailSize" Required="1" Valid="1">
         <Description Translatable="1">Maximal size in KBytes for mails that can be fetched via POP3/POP3S/IMAP/IMAPS (KBytes).</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,6}$">16384</Item>
         </Value>
     </Setting>
     <Setting Name="PostMasterReconnectMessage" Required="1" Valid="1">
         <Description Translatable="1">The maximum number of mails fetched at once before reconnecting to the server.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,3}$">20</Item>
         </Value>
     </Setting>
     <Setting Name="LoopProtectionModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Default loop protection module.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/PostMaster/LoopProtection/*.pm">Kernel::System::PostMaster::LoopProtection::DB</Item>
         </Value>
     </Setting>
     <Setting Name="LoopProtectionLog" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Home&gt;/var/log/LoopProtection</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterAutoHTML2Text" Required="1" Valid="1">
         <Description Translatable="1">Converts HTML mails into text messages.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterUserID" Required="1" Valid="1">
         <Description Translatable="1">Specifies user id of the postmaster data base.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,3}$">1</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterDefaultQueue" Required="1" Valid="1">
         <Description Translatable="1">Defines the postmaster default queue.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Raw</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterDefaultPriority" Required="1" Valid="1">
         <Description Translatable="1">Defines the default priority of new tickets.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterDefaultState" Required="1" Valid="1">
         <Description Translatable="1">Defines the default state of new tickets.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">new</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterFollowUpState" Required="1" Valid="1">
         <Description Translatable="1">Defines the state of a ticket if it gets a follow-up.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterFollowUpStateClosed" Required="0" Valid="0">
         <Description Translatable="1">Defines the state of a ticket if it gets a follow-up and the ticket was already closed.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
     <Setting Name="KeepStateHeader" Required="0" Valid="1">
         <Description Translatable="1">Defines the PostMaster header to be used on the filter for keeping the current state of the ticket.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String">X-OTRS-FollowUp-State-Keep</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner" Required="1" Valid="1">
         <Description Translatable="1">Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterHeaderFieldCount" Required="1" Valid="1">
         <Description Translatable="1">Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^([1-9]|[1-9][0-9])$">12</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterX-Header" Required="1" Valid="1">
         <Description Translatable="1">Defines all the X-headers that should be scanned.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Array>
                 <Item Translatable="1">From</Item>
@@ -10769,7 +10754,7 @@
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
         <Description Translatable="1">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
@@ -10788,7 +10773,7 @@
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###2-Match" Required="0" Valid="0">
         <Description Translatable="1">Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From =&gt; '(.+?)@.+?', and use () as [***] in Set =&gt;.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
@@ -10808,7 +10793,7 @@
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###3-NewTicketReject" Required="0" Valid="0">
         <Description Translatable="1">Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::NewTicketReject</Item>
@@ -10827,21 +10812,21 @@
     </Setting>
     <Setting Name="PostMaster::PreFilterModule::NewTicketReject::Sender" Required="0" Valid="0">
         <Description Translatable="1">Defines the sender for rejected emails.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">noreply@example.com</Item>
         </Value>
     </Setting>
     <Setting Name="PostMaster::PreFilterModule::NewTicketReject::Subject" Required="1" Valid="1">
         <Description Translatable="1">Defines the subject for rejected emails.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Email Rejected</Item>
         </Value>
     </Setting>
     <Setting Name="PostMaster::PreFilterModule::NewTicketReject::Body" Required="1" Valid="1">
         <Description Translatable="1">Defines the body text for rejected emails.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Textarea" Translatable="1">
 Dear Customer,
@@ -10859,7 +10844,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###4-CMD" Required="0" Valid="0">
         <Description Translatable="1">CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::CMD</Item>
@@ -10874,7 +10859,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
         <Description Translatable="1">Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::CMD</Item>
@@ -10889,7 +10874,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###6-SpamAssassin" Required="0" Valid="0">
         <Description Translatable="1">Spam Assassin example setup. Moves marked mails to spam queue.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::CMD</Item>
@@ -10904,7 +10889,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###000-MatchDBSource" Required="1" Valid="1">
         <Description Translatable="1">Module to use database filter storage.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::MatchDBSource</Item>
@@ -10913,7 +10898,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreCreateFilterModule###000-FollowUpArticleVisibilityCheck" Required="0" Valid="1">
         <Description Translatable="1">Module to check if arrived emails should be marked as internal (because of original forwarded internal email). IsVisibleForCustomer and SenderType define the values for the arrived email/article.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleVisibilityCheck</Item>
@@ -10924,7 +10909,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition1" Required="0" Valid="0">
         <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
@@ -10942,7 +10927,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition2" Required="0" Valid="0">
         <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
@@ -10960,7 +10945,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition3" Required="0" Valid="0">
         <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
@@ -10978,7 +10963,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###000-ExternalTicketNumberRecognition4" Required="0" Valid="0">
         <Description Translatable="1">Recognize if a ticket is a follow-up to an existing ticket using an external ticket number.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition</Item>
@@ -10996,7 +10981,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###000-DecryptBody" Required="0" Valid="0">
         <Description Translatable="1">Module to filter encrypted bodies of incoming messages.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::Decrypt</Item>
@@ -11006,7 +10991,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::PreFilterModule###000-SMIMEFetchFromCustomer" Required="0" Valid="1">
         <Description Translatable="1">Module to fetch customer users SMIME certificates of incoming messages.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer</Item>
@@ -11015,7 +11000,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::CheckFollowUpModule###0100-Subject" Required="0" Valid="1">
         <Description Translatable="1">Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Subject</Item>
@@ -11024,7 +11009,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::CheckFollowUpModule###0200-References" Required="0" Valid="1">
         <Description Translatable="1">Executes follow-up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::References</Item>
@@ -11033,7 +11018,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::CheckFollowUpModule###0300-Body" Required="0" Valid="0">
         <Description Translatable="1">Executes follow-up checks on email body for mails that don't have a ticket number in the subject.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Body</Item>
@@ -11042,7 +11027,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::CheckFollowUpModule###0400-Attachments" Required="0" Valid="0">
         <Description Translatable="1">Executes follow-up checks on attachment contents for mails that don't have a ticket number in the subject.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::Attachments</Item>
@@ -11051,7 +11036,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::CheckFollowUpModule###0500-RawEmail" Required="0" Valid="0">
         <Description Translatable="1">Executes follow-up checks on the raw source email for mails that don't have a ticket number in the subject.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::RawEmail</Item>
@@ -11060,21 +11045,21 @@ Thanks for your help!
     </Setting>
     <Setting Name="PostMaster::NewTicket::AutoAssignCustomerIDForUnknownCustomers" Required="1" Valid="1">
         <Description Translatable="1">Controls if CustomerID is automatically copied from the sender address for unknown customers.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="SendNoAutoResponseRegExp" Required="1" Valid="1">
         <Description Translatable="1">If this regex matches, no message will be send by the autoresponder.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">(MAILER-DAEMON|postmaster|abuse)@.+?\..+?</Item>
         </Value>
     </Setting>
     <Setting Name="AutoResponseForWebTickets" Required="1" Valid="1">
         <Description Translatable="1">If this option is set to 'Yes', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to 'No', no autoresponses will be sent.</Description>
-        <Navigation>Core::PostMaster</Navigation>
+        <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -11994,7 +11979,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Ticket::EventModulePost###9600-TicketDynamicFieldDefault" Required="0" Valid="0">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate). This is only possible if all Ticket dynamic fields need the same event.</Description>
-        <Navigation>Core::Ticket::DynamicFieldDefault</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketDynamicFieldDefault</Item>

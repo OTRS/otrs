@@ -164,7 +164,7 @@
     <ConfigItem Name="Ticket::EventModulePost###9800-TicketProcessTransitions" Required="0" Valid="1">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketProcessTransitions</Item>
@@ -176,7 +176,7 @@
     <ConfigItem Name="Process::DynamicFieldProcessManagementProcessID" Required="1" Valid="1">
         <Description Translatable="1">This option defines the dynamic field in which a Process Management process entity id is stored.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <Setting>
             <String Regex="">ProcessManagementProcessID</String>
         </Setting>
@@ -184,7 +184,7 @@
     <ConfigItem Name="Process::DynamicFieldProcessManagementActivityID" Required="1" Valid="1">
         <Description Translatable="1">This option defines the dynamic field in which a Process Management activity entity id is stored.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <Setting>
             <String Regex="">ProcessManagementActivityID</String>
         </Setting>
@@ -192,7 +192,7 @@
     <ConfigItem Name="Process::DefaultQueue" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default queue.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <ValidateModule>Kernel::System::SysConfig::QueueValidate</ValidateModule>
         <Setting>
             <String Regex="">Raw</String>
@@ -201,7 +201,7 @@
     <ConfigItem Name="Process::DefaultState" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default state.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
         <Setting>
             <String Regex="">new</String>
@@ -210,7 +210,7 @@
     <ConfigItem Name="Process::DefaultLock" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default lock.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <Setting>
             <String Regex="">unlock</String>
         </Setting>
@@ -218,7 +218,7 @@
     <ConfigItem Name="Process::DefaultPriority" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default priority.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <ValidateModule>Kernel::System::SysConfig::PriorityValidate</ValidateModule>
         <Setting>
             <String Regex="">3 normal</String>
@@ -314,7 +314,7 @@
     <ConfigItem Name="Process::Entity::Prefix" Required="1" Valid="1">
         <Description Translatable="1">Default ProcessManagement entity prefixes for entity IDs that are automatically generated.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Process">P</Item>
@@ -328,7 +328,7 @@
     <ConfigItem Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <Setting>
             <String Regex="">3600</String><!-- default 1 hour -->
         </Setting>
@@ -336,7 +336,7 @@
     <ConfigItem Name="Process::NavBarOutput::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the ticket process navigation bar output module.</Description>
         <Group>ProcessManagement</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::ProcessManagement</SubGroup>
         <Setting>
             <String Regex="">900</String><!-- default 15 minutes -->
         </Setting>

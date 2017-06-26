@@ -14,7 +14,7 @@
     <ConfigItem Name="Frontend::DebugMode" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Enables or disables the debug mode over frontend interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0" Translatable="1">No</Item>
@@ -25,7 +25,7 @@
     <ConfigItem Name="Frontend::AjaxDebug" Required="1" Valid="1">
         <Description Translatable="1">Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0" Translatable="1">No</Item>
@@ -36,7 +36,7 @@
     <ConfigItem Name="Frontend::TemplateCache" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
@@ -47,23 +47,12 @@
     <ConfigItem Name="ConfigLevel" Required="1" Valid="1">
         <Description Translatable="1">Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Admin::View::SysConfig</SubGroup>
         <Setting>
             <Option SelectedID="100">
                 <Item Key="100" Translatable="1">100 (Expert)</Item>
                 <Item Key="200" Translatable="1">200 (Advanced)</Item>
                 <Item Key="300" Translatable="1">300 (Beginner)</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="ConfigImportAllowed" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Controls if the admin is allowed to import a saved system configuration in SysConfig.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -118,7 +107,7 @@
     <ConfigItem Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Option SelectedID="http">
                 <Item Key="http">http</Item>
@@ -129,7 +118,7 @@
     <ConfigItem Name="ScriptAlias" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <String Regex="">otrs/</String>
         </Setting>
@@ -137,7 +126,7 @@
     <ConfigItem Name="AdminEmail" Required="1" Valid="1">
         <Description Translatable="1">Defines the system administrator's email address. It will be displayed in the error screens of the application.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::Email</SubGroup>
         <Setting>
             <String Regex="">admin@example.com</String>
         </Setting>
@@ -153,7 +142,7 @@
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
         <Description Translatable="1">Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <String Regex="^(..|.._..)$">en</String>
         </Setting>
@@ -161,7 +150,7 @@
     <ConfigItem Name="DefaultUsedLanguages" Required="1" Valid="1">
         <Description Translatable="1">Defines all the languages that are available to the application. Specify only English names of languages here.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="ar_SA" Translatable="1">Arabic (Saudi Arabia)</Item>
@@ -217,7 +206,7 @@
     <ConfigItem Name="DefaultUsedLanguagesNative" Required="1" Valid="1">
 <Description Translatable="1">Defines all the languages that are available to the application. Specify only native names of languages here.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="ar_SA">العَرَبِية‎</Item>
@@ -273,7 +262,7 @@
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <String Regex="">Standard</String>
         </Setting>
@@ -281,7 +270,7 @@
     <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="host1\.example\.com">SomeTheme1</Item>
@@ -589,7 +578,7 @@
     <ConfigItem Name="CheckMXRecord" Required="1" Valid="1">
         <Description Translatable="1">Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::Email</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
@@ -600,7 +589,7 @@
     <ConfigItem Name="CheckMXRecord::Nameserver" Required="0" Valid="0">
         <Description Translatable="1">Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::Email</SubGroup>
         <Setting>
             <String Regex="">ns.example.com</String>
         </Setting>
@@ -608,7 +597,7 @@
     <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
         <Description Translatable="1">Makes the application check the syntax of email addresses.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::Email</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
@@ -619,7 +608,7 @@
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
         <Description Translatable="1">Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren't syntactically valid, but are necessary for the system (i.e. "root@localhost").</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::Email</SubGroup>
         <Setting>
             <String Regex="">^(root@localhost|admin@localhost)$</String>
         </Setting>
@@ -627,7 +616,7 @@
     <ConfigItem Name="CheckEmailInvalidAddress" Required="1" Valid="1">
         <Description Translatable="1">Defines a regular expression that filters all email addresses that should not be used in the application.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::Email</SubGroup>
         <Setting>
             <String Regex="">@(example)\.(..|...)$</String>
         </Setting>
@@ -7070,7 +7059,7 @@
     <ConfigItem Name="CGILogPrefix" Required="1" Valid="1">
         <Description Translatable="1">Specifies the text that should appear in the log file to denote a CGI script entry.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Core::Log</SubGroup>
         <Setting>
             <String Regex="">OTRS-CGI</String>
         </Setting>
@@ -7078,7 +7067,7 @@
     <ConfigItem Name="Frontend::Output::FilterText###AAAURL" Required="0" Valid="1">
         <Description Translatable="1">Defines the filter that processes the text in the articles, in order to highlight URLs.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::OutputFilter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::FilterText::URL</Item>
@@ -7300,7 +7289,7 @@
     <ConfigItem Name="Package::EventModulePost###8000-LinkObjectEventTypes" Required="0" Valid="1">
         <Description Translatable="1">Package event module to update configuration for link object event types.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Package</SubGroup>
+        <SubGroup>Core::Event::Package</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Package::Event::LinkObjectEventTypes</Item>
@@ -7312,7 +7301,7 @@
     <ConfigItem Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
         <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Package</SubGroup>
+        <SubGroup>Core::Event::Package</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Package::Event::SupportDataSend</Item>
@@ -7731,12 +7720,17 @@ You can log in via the following URL:
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Translatable="1">Defines the standard permissions available for agents within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
-        <Group>Framework</Group>
+        <Description Translatable="1">Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.</Description>
+        <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <Array>
                 <Item>ro</Item>
+                <Item>move_into</Item>
+                <Item>create</Item>
+                <Item>note</Item>
+                <Item>owner</Item>
+                <Item>priority</Item>
                 <Item>rw</Item>
             </Array>
         </Setting>
@@ -10512,7 +10506,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Output::FilterText###OutputFilterTextAutoLink" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter to process the text in the articles, in order to highlight predefined keywords.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::OutputFilter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::FilterText::AutoLink</Item>
@@ -10527,7 +10521,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###CVE" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::OutputFilter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="RegExp">
@@ -10570,7 +10564,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Bugtraq" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::OutputFilter</SubGroup>
         <!-- Example strings: BugTraq ID: 23862 | BugTraq ID: 8945 | Bugtraq ID 140 | BUGTRAQ:20070425 | BID 20799 -->
         <!-- Example URL: http://www.securityfocus.com/bid/23862/info  -->
         <Setting>
@@ -10612,7 +10606,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###MSBulletins" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::OutputFilter</SubGroup>
         <!-- Example strings: MS07-021 | MS04-028 | MS-07-002 -->
         <!-- Example URL: http://www.microsoft.com/technet/security/bulletin/MS07-021.mspx  -->
         <Setting>
@@ -10649,7 +10643,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Setting1" Required="0" Valid="0">
         <Description Translatable="1">Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::OutputFilter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="RegExp">
@@ -10684,7 +10678,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Setting2" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::OutputFilter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="RegExp">
@@ -10738,7 +10732,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Enabled::CSS" Required="1" Valid="1">
         <Description Translatable="1">If enabled, OTRS will deliver all CSS files in minified form.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="1" Translatable="1">Yes</Item>
@@ -10749,7 +10743,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Enabled::JS" Required="1" Valid="1">
         <Description Translatable="1">If enabled, OTRS will deliver all JavaScript files in minified form.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="1" Translatable="1">Yes</Item>
@@ -10760,7 +10754,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Agent::CommonCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of CSS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>Core.Reset.css</Item>
@@ -10789,7 +10783,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Agent::ResponsiveCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of responsive CSS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>Core.Responsive.css</Item>
@@ -10799,7 +10793,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Agent::CommonJS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>thirdparty/jquery-3.2.1/jquery.js</Item>
@@ -10854,7 +10848,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Agent::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
@@ -10864,7 +10858,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Agent::CommonJS###100-CKEditor" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>thirdparty/ckeditor-4.7.0/ckeditor.js</Item>
@@ -10874,7 +10868,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Customer::CommonCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of CSS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>Core.Reset.css</Item>
@@ -10895,7 +10889,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Customer::ResponsiveCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of responsive CSS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>Core.Responsive.css</Item>
@@ -10905,7 +10899,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Customer::CommonJS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>thirdparty/jquery-3.2.1/jquery.js</Item>
@@ -10948,7 +10942,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Customer::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
         <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
@@ -10958,7 +10952,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Loader::Customer::CommonJS###100-CKEditor" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
+        <SubGroup>Frontend::Base::Loader</SubGroup>
         <Setting>
             <Array>
                 <Item>thirdparty/ckeditor-4.7.0/ckeditor.js</Item>
@@ -11194,7 +11188,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="CustomerCompany::EventModulePost###2000-UpdateCustomerUsers" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer users after an update of the Customer.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::CustomerCompany</SubGroup>
+        <SubGroup>Core::Event::CustomerCompany</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerCompany::Event::CustomerUserUpdate</Item>
@@ -11206,7 +11200,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="CustomerCompany::EventModulePost###2100-UpdateDynamicFieldObjectName" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer company object name for dynamic fields.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::CustomerCompany</SubGroup>
+        <SubGroup>Core::Event::CustomerCompany</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerCompany::Event::DynamicFieldObjectNameUpdate</Item>
@@ -11218,7 +11212,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="CustomerUser::EventModulePost###2100-UpdateSearchProfiles" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user search profiles if login changes.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::CustomerUser</SubGroup>
+        <SubGroup>Core::Event::CustomerUser</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::SearchProfileUpdate</Item>
@@ -11230,7 +11224,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="CustomerUser::EventModulePost###2200-UpdateServiceMembership" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user service membership if login changes.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::CustomerUser</SubGroup>
+        <SubGroup>Core::Event::CustomerUser</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::ServiceMemberUpdate</Item>
@@ -11242,7 +11236,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="CustomerUser::EventModulePost###2000-UpdateDynamicFieldObjectName" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user object name for dynamic fields.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::CustomerUser</SubGroup>
+        <SubGroup>Core::Event::CustomerUser</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::DynamicFieldObjectNameUpdate</Item>
@@ -11396,7 +11390,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="1" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!</Description>
         <Group>Framework</Group>
-        <SubGroup>Core::OTRSBusiness</SubGroup>
+        <SubGroup>Core::Package</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0" Translatable="1">Development</Item>

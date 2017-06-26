@@ -9,41 +9,34 @@
     </Setting>
     <Setting Name="Frontend::DebugMode" Required="0" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Enables or disables the debug mode over frontend interface.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::AjaxDebug" Required="1" Valid="1">
         <Description Translatable="1">Delivers extended debugging information in the frontend in case any AJAX errors occur, if enabled.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::TemplateCache" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="ConfigLevel" Required="1" Valid="1">
         <Description Translatable="1">Sets the configuration level of the administrator. Depending on the config level, some sysconfig options will be not shown. The config levels are in in ascending order: Expert, Advanced, Beginner. The higher the config level is (e.g. Beginner is the highest), the less likely is it that the user can accidentally configure the system in a way that it is not usable any more.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Admin::View::SysConfig</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="100">
                 <Item ValueType="Option" Value="100" Translatable="1">100 (Expert)</Item>
                 <Item ValueType="Option" Value="200" Translatable="1">200 (Advanced)</Item>
                 <Item ValueType="Option" Value="300" Translatable="1">300 (Beginner)</Item>
             </Item>
-        </Value>
-    </Setting>
-    <Setting Name="ConfigImportAllowed" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Controls if the admin is allowed to import a saved system configuration in SysConfig.</Description>
-        <Navigation>Core</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="ProductName" Required="1" Valid="1" ConfigLevel="200">
@@ -90,7 +83,7 @@
     </Setting>
     <Setting Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="http">
                 <Item ValueType="Option" Value="http">http</Item>
@@ -100,14 +93,14 @@
     </Setting>
     <Setting Name="ScriptAlias" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">otrs/</Item>
         </Value>
     </Setting>
     <Setting Name="AdminEmail" Required="1" Valid="1">
         <Description Translatable="1">Defines the system administrator's email address. It will be displayed in the error screens of the application.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">admin@example.com</Item>
         </Value>
@@ -121,14 +114,14 @@
     </Setting>
     <Setting Name="DefaultLanguage" Required="1" Valid="1">
         <Description Translatable="1">Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^(..|.._..)$">en</Item>
         </Value>
     </Setting>
     <Setting Name="DefaultUsedLanguages" Required="1" Valid="1">
         <Description Translatable="1">Defines all the languages that are available to the application. Specify only English names of languages here.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Hash>
                 <Item Key="ar_SA" Translatable="1">Arabic (Saudi Arabia)</Item>
@@ -183,7 +176,7 @@
     </Setting>
     <Setting Name="DefaultUsedLanguagesNative" Required="1" Valid="1">
 <Description Translatable="1">Defines all the languages that are available to the application. Specify only native names of languages here.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Hash>
                 <Item Key="ar_SA">العَرَبِية‎</Item>
@@ -238,14 +231,14 @@
     </Setting>
     <Setting Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">Standard</Item>
         </Value>
     </Setting>
     <Setting Name="DefaultTheme::HostBased" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Hash>
                 <Item Key="host1\.example\.com">SomeTheme1</Item>
@@ -350,112 +343,112 @@
     </Setting>
     <Setting Name="Frontend::WebPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL base path of icons, CSS and Java Script.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">/otrs-web/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::ImagePath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL image path of icons for navigation.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;skins/Agent/default/img/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::CSSPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL CSS path.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;css/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::JavaScriptPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL java script path.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextPath" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the URL rich text editor path.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.7.0/</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextWidth" Required="1" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichTextHeight" Required="1" Valid="1">
         <Description Translatable="1">Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::DefaultCSS" Required="1" Valid="1">
         <Description Translatable="1">Defines the default CSS used in rich text editors.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
         <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode::Customer" Required="1" Valid="1">
         <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="DisableIFrameOriginRestricted" Required="0" Valid="1">
         <Description Translatable="1">Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="DisableContentSecurityPolicy" Required="0" Valid="1">
         <Description Translatable="1">Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="DefaultViewNewLine" Required="1" Valid="1">
         <Description Translatable="1">Automated line break in text messages after x number of chars.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,3}$">90</Item>
         </Value>
     </Setting>
     <Setting Name="DefaultViewLines" Required="1" Valid="1">
         <Description Translatable="1">Sets the number of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,5}$">6000</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::MenuDragDropEnabled" Required="1" Valid="1">
         <Description Translatable="1">Turns on drag and drop for the main navigation.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -493,7 +486,7 @@
     </Setting>
     <Setting Name="AttachmentDownloadType" Required="1" Valid="1">
         <Description Translatable="1">Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="attachment">
                 <Item ValueType="Option" Value="inline" Translatable="1">inline</Item>
@@ -503,35 +496,35 @@
     </Setting>
     <Setting Name="CheckMXRecord" Required="1" Valid="1">
         <Description Translatable="1">Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="CheckMXRecord::Nameserver" Required="0" Valid="0">
         <Description Translatable="1">Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">ns.example.com</Item>
         </Value>
     </Setting>
     <Setting Name="CheckEmailAddresses" Required="1" Valid="1">
         <Description Translatable="1">Makes the application check the syntax of email addresses.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="CheckEmailValidAddress" Required="1" Valid="1">
         <Description Translatable="1">Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren't syntactically valid, but are necessary for the system (i.e. "root@localhost").</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">^(root@localhost|admin@localhost)$</Item>
         </Value>
     </Setting>
     <Setting Name="CheckEmailInvalidAddress" Required="1" Valid="1">
         <Description Translatable="1">Defines a regular expression that filters all email addresses that should not be used in the application.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">@(example)\.(..|...)$</Item>
         </Value>
@@ -629,84 +622,84 @@
     </Setting>
     <Setting Name="SendmailModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn't send emails and it is useful for test systems.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Email/*.pm">Kernel::System::Email::Sendmail</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailModule::CMD" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "Sendmail" was selected as SendmailModule, the location of the sendmail binary and the needed options must be specified.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">/usr/sbin/sendmail -i -f</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailModule::Host" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, the mailhost that sends out the mails must be specified.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">mail.example.com</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailModule::Port" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, the port where your mailserver is listening for incoming connections must be specified.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,6}$">25</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailModule::AuthUser" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">MailserverLogin</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailModule::AuthPassword" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="Password">MailserverPassword</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailBcc" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="SendmailEnvelopeFrom" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set).</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="SendmailNotificationEnvelopeFrom::FallbackToEmailFrom" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email's from address instead of an empty envelope sender (required in certain mail server configurations).</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="SendmailEncodingForce" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">base64</Item>
         </Value>
     </Setting>
     <Setting Name="Sendmail::DefaultHeaders" Required="0" Valid="0">
         <Description Translatable="1">Defines default headers for outgoing emails.</Description>
-        <Navigation>Core::Sendmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Hash>
                 <Item Key="Precedence:">bulk</Item>
@@ -6808,28 +6801,28 @@
     </Setting>
     <Setting Name="WebMaxFileUpload" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[0-9]{1,11}$">24000000</Item>
         </Value>
     </Setting>
     <Setting Name="WebUploadCacheModule" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Web/UploadCache/*.pm">Kernel::System::Web::UploadCache::DB</Item>
         </Value>
     </Setting>
     <Setting Name="CGILogPrefix" Required="1" Valid="1">
         <Description Translatable="1">Specifies the text that should appear in the log file to denote a CGI script entry.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Log</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">OTRS-CGI</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Output::FilterText###AAAURL" Required="0" Valid="1">
         <Description Translatable="1">Defines the filter that processes the text in the articles, in order to highlight URLs.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::FilterText::URL</Item>
@@ -6892,28 +6885,28 @@
     </Setting>
     <Setting Name="MIME-Viewer###application/excel" Required="0" Valid="0">
         <Description Translatable="1">Specifies the path to the converter that allows the view of Microsoft Excel files, in the web interface.</Description>
-        <Navigation>Core::MIME-Viewer</Navigation>
+        <Navigation>Frontend::Agent::MIMEViewer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">xlhtml</Item>
         </Value>
     </Setting>
     <Setting Name="MIME-Viewer###application/msword" Required="0" Valid="0">
         <Description Translatable="1">Specifies the path to the converter that allows the view of Microsoft Word files, in the web interface.</Description>
-        <Navigation>Core::MIME-Viewer</Navigation>
+        <Navigation>Frontend::Agent::MIMEViewer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">wvWare</Item>
         </Value>
     </Setting>
     <Setting Name="MIME-Viewer###application/pdf" Required="0" Valid="0">
         <Description Translatable="1">Specifies the path to the converter that allows the view of PDF documents, in the web interface.</Description>
-        <Navigation>Core::MIME-Viewer</Navigation>
+        <Navigation>Frontend::Agent::MIMEViewer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">pdftohtml -stdout -i</Item>
         </Value>
     </Setting>
     <Setting Name="MIME-Viewer###text/xml" Required="0" Valid="0">
         <Description Translatable="1">Specifies the path to the converter that allows the view of XML files, in the web interface.</Description>
-        <Navigation>Core::MIME-Viewer</Navigation>
+        <Navigation>Frontend::Agent::MIMEViewer</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Home&gt;/scripts/tools/xml2html.pl</Item>
         </Value>
@@ -7001,7 +6994,7 @@
     </Setting>
     <Setting Name="Package::EventModulePost###8000-LinkObjectEventTypes" Required="0" Valid="1">
         <Description Translatable="1">Package event module to update configuration for link object event types.</Description>
-        <Navigation>Core::Package</Navigation>
+        <Navigation>Core::Event::Package</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Package::Event::LinkObjectEventTypes</Item>
@@ -7012,7 +7005,7 @@
     </Setting>
     <Setting Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
         <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
-        <Navigation>Core::Package</Navigation>
+        <Navigation>Core::Event::Package</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Package::Event::SupportDataSend</Item>
@@ -7377,11 +7370,16 @@ You can log in via the following URL:
         </Value>
     </Setting>
     <Setting Name="System::Permission" Required="1" Valid="1">
-        <Description Translatable="1">Defines the standard permissions available for agents within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
+        <Description Translatable="1">Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.</Description>
         <Navigation>Core</Navigation>
         <Value>
             <Array>
                 <Item>ro</Item>
+                <Item>move_into</Item>
+                <Item>create</Item>
+                <Item>note</Item>
+                <Item>owner</Item>
+                <Item>priority</Item>
                 <Item>rw</Item>
             </Array>
         </Value>
@@ -10801,7 +10799,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Themes" Required="0" Valid="1">
         <Description Translatable="1">Activates the available themes on the system. Value 1 means active, 0 means inactive.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Hash>
                 <Item Key="Standard">1</Item>
@@ -11172,28 +11170,28 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Core::MirrorDB::DSN" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
         </Value>
     </Setting>
     <Setting Name="Core::MirrorDB::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Specify the username to authenticate for the first mirror database.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">some_user</Item>
         </Value>
     </Setting>
     <Setting Name="Core::MirrorDB::Password" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Specify the password to authenticate for the first mirror database.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Item ValueType="Password">some_password</Item>
         </Value>
     </Setting>
     <Setting Name="Core::MirrorDB::AdditionalMirrors###1" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
                 <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
@@ -11204,7 +11202,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Core::MirrorDB::AdditionalMirrors###2" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
                 <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
@@ -11215,7 +11213,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Core::MirrorDB::AdditionalMirrors###3" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
                 <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
@@ -11226,7 +11224,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Core::MirrorDB::AdditionalMirrors###4" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
                 <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
@@ -11237,7 +11235,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Core::MirrorDB::AdditionalMirrors###5" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
-        <Navigation>Core::MirrorDB</Navigation>
+        <Navigation>Core::DB::Mirror</Navigation>
         <Value>
             <Hash>
                 <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
@@ -11418,7 +11416,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Output::FilterText###OutputFilterTextAutoLink" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter to process the text in the articles, in order to highlight predefined keywords.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::FilterText::AutoLink</Item>
@@ -11432,7 +11430,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Output::OutputFilterTextAutoLink###CVE" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
         <Value>
             <Hash>
                 <Item Key="RegExp">
@@ -11474,7 +11472,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Output::OutputFilterTextAutoLink###Bugtraq" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
         <!-- Example strings: BugTraq ID: 23862 | BugTraq ID: 8945 | Bugtraq ID 140 | BUGTRAQ:20070425 | BID 20799 -->
         <!-- Example URL: http://www.securityfocus.com/bid/23862/info  -->
         <Value>
@@ -11515,7 +11513,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Output::OutputFilterTextAutoLink###MSBulletins" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
         <!-- Example strings: MS07-021 | MS04-028 | MS-07-002 -->
         <!-- Example URL: http://www.microsoft.com/technet/security/bulletin/MS07-021.mspx  -->
         <Value>
@@ -11551,7 +11549,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Output::OutputFilterTextAutoLink###Setting1" Required="0" Valid="0">
         <Description Translatable="1">Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
         <Value>
             <Hash>
                 <Item Key="RegExp">
@@ -11585,7 +11583,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Output::OutputFilterTextAutoLink###Setting2" Required="0" Valid="0">
         <Description Translatable="1">Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::OutputFilter</Navigation>
         <Value>
             <Hash>
                 <Item Key="RegExp">
@@ -11634,21 +11632,21 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Enabled::CSS" Required="1" Valid="1">
         <Description Translatable="1">If enabled, OTRS will deliver all CSS files in minified form.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Loader::Enabled::JS" Required="1" Valid="1">
         <Description Translatable="1">If enabled, OTRS will deliver all JavaScript files in minified form.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Loader::Agent::CommonCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of CSS files to always be loaded for the agent interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>Core.Reset.css</Item>
@@ -11676,7 +11674,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Agent::ResponsiveCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of responsive CSS files to always be loaded for the agent interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>Core.Responsive.css</Item>
@@ -11685,7 +11683,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Agent::CommonJS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>thirdparty/jquery-3.2.1/jquery.js</Item>
@@ -11739,7 +11737,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Agent::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
@@ -11748,7 +11746,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Agent::CommonJS###100-CKEditor" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>thirdparty/ckeditor-4.7.0/ckeditor.js</Item>
@@ -11757,7 +11755,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Customer::CommonCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of CSS files to always be loaded for the customer interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>Core.Reset.css</Item>
@@ -11777,7 +11775,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Customer::ResponsiveCSS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of responsive CSS files to always be loaded for the customer interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>Core.Responsive.css</Item>
@@ -11786,7 +11784,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Customer::CommonJS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>thirdparty/jquery-3.2.1/jquery.js</Item>
@@ -11828,7 +11826,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Customer::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
         <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
@@ -11837,7 +11835,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Customer::CommonJS###100-CKEditor" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>thirdparty/ckeditor-4.7.0/ckeditor.js</Item>
@@ -12033,7 +12031,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerCompany::EventModulePost###2000-UpdateCustomerUsers" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer users after an update of the Customer.</Description>
-        <Navigation>Core::CustomerCompany</Navigation>
+        <Navigation>Core::Event::CustomerCompany</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerCompany::Event::CustomerUserUpdate</Item>
@@ -12044,7 +12042,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerCompany::EventModulePost###2100-UpdateDynamicFieldObjectName" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer company object name for dynamic fields.</Description>
-        <Navigation>Core::CustomerCompany</Navigation>
+        <Navigation>Core::Event::CustomerCompany</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerCompany::Event::DynamicFieldObjectNameUpdate</Item>
@@ -12055,7 +12053,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerUser::EventModulePost###2100-UpdateSearchProfiles" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user search profiles if login changes.</Description>
-        <Navigation>Core::CustomerUser</Navigation>
+        <Navigation>Core::Event::CustomerUser</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::SearchProfileUpdate</Item>
@@ -12066,7 +12064,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerUser::EventModulePost###2200-UpdateServiceMembership" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user service membership if login changes.</Description>
-        <Navigation>Core::CustomerUser</Navigation>
+        <Navigation>Core::Event::CustomerUser</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::ServiceMemberUpdate</Item>
@@ -12077,7 +12075,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="CustomerUser::EventModulePost###2000-UpdateDynamicFieldObjectName" Required="0" Valid="1">
         <Description Translatable="1">Event module that updates customer user object name for dynamic fields.</Description>
-        <Navigation>Core::CustomerUser</Navigation>
+        <Navigation>Core::Event::CustomerUser</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Event::DynamicFieldObjectNameUpdate</Item>
@@ -12210,7 +12208,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="OTRSBusiness::ReleaseChannel" Required="1" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!</Description>
-        <Navigation>Core::OTRSBusiness</Navigation>
+        <Navigation>Core::Package</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="1">
                 <Item ValueType="Option" Value="0" Translatable="1">Development</Item>
@@ -12234,7 +12232,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Fetchmail::Bin" Required="0" Valid="0">
         <Description Translatable="1">Defines the fall-back path to open fetchmail binary. Note: The name of the binary needs to be 'fetchmail', if it is different please use a symbolic link.</Description>
-        <Navigation>Core::Fetchmail</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueRegex="[/|\w]+fetchmail$" ValueType="File">/usr/bin/fetchmail</Item>
         </Value>

@@ -604,7 +604,7 @@
     </Setting>
     <Setting Name="AppointmentCalendar::EventModulePost###100-Notification" Required="0" Valid="1">
         <Description Translatable="1">Appointment calendar event module that prepares notification entries for appointments.</Description>
-        <Navigation>Core::AppointmentCalendar::Event</Navigation>
+        <Navigation>Core::Event::AppointmentCalendar</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Calendar::Event::Notification</Item>
@@ -765,7 +765,7 @@
     </Setting>
     <Setting Name="AppointmentCalendar::EventModulePost###200-TicketAppointments" Required="0" Valid="1">
         <Description Translatable="1">Appointment calendar event module that updates the ticket with data from ticket appointment.</Description>
-        <Navigation>Core::AppointmentCalendar::Event</Navigation>
+        <Navigation>Core::Event::AppointmentCalendar</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Calendar::Event::TicketAppointments</Item>
@@ -895,7 +895,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###950-TicketAppointments" Required="0" Valid="1">
         <Description Translatable="1">Triggers add or update of automatic calendar appointments based on certain ticket times.</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketAppointments</Item>

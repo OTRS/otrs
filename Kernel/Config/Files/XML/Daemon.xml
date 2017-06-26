@@ -33,7 +33,7 @@
     </Setting>
     <Setting Name="Loader::Agent::CommonCSS###001-Daemon" Required="1" Valid="1">
         <Description Translatable="1">List of CSS files to always be loaded for the agent interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>Core.Agent.Daemon.css</Item>
@@ -42,7 +42,7 @@
     </Setting>
     <Setting Name="Loader::Agent::CommonJS###001-Daemon" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
                 <Item>Core.Agent.Daemon.js</Item>
@@ -51,7 +51,7 @@
     </Setting>
     <Setting Name="Daemon::Log::RotationType" Required="1" Valid="1">
         <Description Translatable="1">Type of daemon log rotation to use: Choose 'OTRS' to let OTRS system to handle the file rotation, or choose 'External' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.</Description>
-        <Navigation>Core::Log</Navigation>
+        <Navigation>Daemon::Log</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="otrs"><!-- default OTRS -->
                 <Item ValueType="Option" Value="otrs" Translatable="1">OTRS</Item>
@@ -61,21 +61,21 @@
     </Setting>
     <Setting Name="Daemon::Log::DaysToKeep" Required="0" Valid="0">
         <Description Translatable="1">Defines the number of days to keep the daemon log files.</Description>
-        <Navigation>Core::Log</Navigation>
+        <Navigation>Daemon::Log</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[1-9]\d*">1</Item><!-- default 1 day -->
         </Value>
     </Setting>
     <Setting Name="Daemon::Log::STDOUT" Required="1" Valid="1">
         <Description Translatable="1">If enabled the daemon will redirect the standard output stream to a log file.</Description>
-        <Navigation>Core::Log</Navigation>
+        <Navigation>Daemon::Log</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Daemon::Log::STDERR" Required="1" Valid="1">
         <Description Translatable="1">If enabled the daemon will redirect the standard error stream to a log file.</Description>
-        <Navigation>Core::Log</Navigation>
+        <Navigation>Daemon::Log</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>

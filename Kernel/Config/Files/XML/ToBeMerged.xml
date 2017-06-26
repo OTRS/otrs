@@ -2,7 +2,7 @@
 <otrs_config version="2.0" init="Framework">
     <Setting Name="AgentPreferencesGroups" Required="1" Valid="1">
         <Description Translatable="1">Defines groups for preferences items.</Description>
-        <Navigation>Core::Web</Navigation>
+        <Navigation>Frontend::Agent::View::Preferences</Navigation>
         <Value>
             <Array>
                 <DefaultItem>

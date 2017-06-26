@@ -356,7 +356,7 @@
     </Setting>
     <Setting Name="Ticket::EventModulePost###9800-TicketProcessTransitions" Required="0" Valid="1">
         <Description Translatable="1">Event module registration. For more performance you can define a trigger event (e. g. Event =&gt; TicketCreate).</Description>
-        <Navigation>Core::Ticket</Navigation>
+        <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketProcessTransitions</Item>
@@ -367,42 +367,42 @@
     </Setting>
     <Setting Name="Process::DynamicFieldProcessManagementProcessID" Required="1" Valid="1">
         <Description Translatable="1">This option defines the dynamic field in which a Process Management process entity id is stored.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">ProcessManagementProcessID</Item>
         </Value>
     </Setting>
     <Setting Name="Process::DynamicFieldProcessManagementActivityID" Required="1" Valid="1">
         <Description Translatable="1">This option defines the dynamic field in which a Process Management activity entity id is stored.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">ProcessManagementActivityID</Item>
         </Value>
     </Setting>
     <Setting Name="Process::DefaultQueue" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default queue.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Raw</Item>
         </Value>
     </Setting>
     <Setting Name="Process::DefaultState" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default state.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">new</Item>
         </Value>
     </Setting>
     <Setting Name="Process::DefaultLock" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default lock.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">unlock</Item>
         </Value>
     </Setting>
     <Setting Name="Process::DefaultPriority" Required="1" Valid="1">
         <Description Translatable="1">This option defines the process tickets default priority.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="Entity" ValueEntityType="Priority" ValueRegex="">3 normal</Item>
         </Value>
@@ -531,7 +531,7 @@
     <!-- OTRSTicketProcesses Merged Settings End -->
     <Setting Name="Process::Entity::Prefix" Required="1" Valid="1">
         <Description Translatable="1">Default ProcessManagement entity prefixes for entity IDs that are automatically generated.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Hash>
                 <Item Key="Process">P</Item>
@@ -544,14 +544,14 @@
     </Setting>
     <Setting Name="Process::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the DB process backend.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">3600</Item><!-- default 1 hour -->
         </Value>
     </Setting>
     <Setting Name="Process::NavBarOutput::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the ticket process navigation bar output module.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+$">900</Item><!-- default 15 minutes -->
         </Value>
@@ -588,14 +588,14 @@
     </Setting>
     <Setting Name="ProcessManagement::Transition::Debug::Enabled" Required="1" Valid="1">
         <Description Translatable="1">If enabled debugging information for transitions is logged.</Description>
-        <Navigation>Core::Transition</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="ProcessManagement::Transition::Debug::LogPriority" Required="0" Valid="0">
         <Description Translatable="1">Defines the priority in which the information is logged and presented.</Description>
-        <Navigation>Core::Transition</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="debug">
                 <Item ValueType="Option" Value="debug" Translatable="1">Debug</Item>
@@ -607,7 +607,7 @@
     </Setting>
     <Setting Name="ProcessManagement::Transition::Debug::Filter###00-Default" Required="0" Valid="0">
         <Description Translatable="1">Filter for debugging Transitions. Note: More filters can be added in the format &lt;OTRS_TICKET_Attribute&gt; e.g. &lt;OTRS_TICKET_Priority&gt;.</Description>
-        <Navigation>Core::Transition</Navigation>
+        <Navigation>Core::ProcessManagement</Navigation>
         <Value>
             <Hash>
                 <Item Key="TransitionEntityID"></Item>
