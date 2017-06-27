@@ -614,6 +614,9 @@ sub Run {
         }
     }
 
+    # Set order for blocks.
+    $TicketSearch{OrderBy} = $TicketSearch{OrderBy} || 'Up';
+
     # Set previous sorting column parameter for all columns.
     $Param{SortingColumn} = $Self->{SortBy};
 
@@ -1025,9 +1028,6 @@ sub Run {
 
     # show non-labeled table headers
     my $CSS = '';
-
-    # Set order for blocks.
-    $TicketSearch{OrderBy} = $TicketSearch{OrderBy} || 'Up';
 
     # Send data to JS for init container.
     $LayoutObject->AddJSData(
