@@ -383,7 +383,8 @@ $Selenium->RunTest(
             "Error message found.",
         );
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal.Alert:visible").length' );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal.Alert:visible").length' );
 
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
