@@ -319,6 +319,8 @@ $Selenium->RunTest(
             SenderType     => 'customer',
             Subject        => 'some short description',
             Body           => 'the message text',
+            From           => "\"$TestCustomer $TestCustomer\" <${CustomerEmail}>",
+            To             => 'Some Customer A <customer-a@example.com>',
             Charset        => 'ISO-8859-15',
             MimeType       => 'text/plain',
             HistoryType    => 'EmailCustomer',
