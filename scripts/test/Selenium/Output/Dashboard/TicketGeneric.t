@@ -209,7 +209,7 @@ $Selenium->RunTest(
                 'Title'       => 'Escalated Tickets'
             },
             '0120-TicketNew' => {
-                'Attributes'     => 'StateType=new;',
+                'Attributes'     => 'StateType=new;OrderBy=Down;',
                 'Block'          => 'ContentLarge',
                 'CacheTTLLocal'  => '0.5',
                 'Default'        => '1',
@@ -248,7 +248,7 @@ $Selenium->RunTest(
                 'Title'       => 'New Tickets'
             },
             '0130-TicketOpen' => {
-                'Attributes'     => 'StateType=open;',
+                'Attributes'     => 'StateType=open;OrderBy=Down;',
                 'Block'          => 'ContentLarge',
                 'CacheTTLLocal'  => '0.5',
                 'Default'        => '1',
