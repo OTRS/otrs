@@ -1741,10 +1741,15 @@ sub _Mask {
         Class => 'Modernize',
     );
 
+    my $IsVisibleForCustomer = $Config->{IsVisibleForCustomerDefault};
+    if ( $Param{GetParam}->{IsVisibleForCustomerPresent} ) {
+        $IsVisibleForCustomer = $Param{GetParam}->{IsVisibleForCustomer} ? 1 : 0;
+    }
+
     $LayoutObject->Block(
         Name => 'IsVisibleForCustomer',
         Data => {
-            IsVisibleForCustomer => $Config->{IsVisibleForCustomerDefault},
+            IsVisibleForCustomer => $IsVisibleForCustomer,
         },
     );
 
