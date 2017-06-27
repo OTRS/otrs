@@ -1,4 +1,5 @@
 #5.0.21 2017-??-??
+ - 2017-06-27 Fixed bug#[10683](https://bugs.otrs.org/show_bug.cgi?id=10683) - Custom column order in dashboard gets mixed after changing the "shown tickets" value.
  - 2017-06-26 Fixed bug#[12560](https://bugs.otrs.org/show_bug.cgi?id=12560) - Search DynamicField or Condition.
  - 2017-06-26 Fixed bug#[9731](https://bugs.otrs.org/show_bug.cgi?id=9731) - Reply screen uses only email instead of full customer details.
  - 2017-06-22 Fixed bug#[12817](https://bugs.otrs.org/show_bug.cgi?id=12817) - "Reply to note" action throws popup error message in Article Time Line view.
