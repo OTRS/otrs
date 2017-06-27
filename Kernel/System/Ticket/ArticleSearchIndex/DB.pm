@@ -100,7 +100,7 @@ sub ArticleSearchIndexBuild {
                 INTO article_search_index (
                     ticket_id, article_id, article_key, article_value
                 )
-                (?, ?, ?, ?) ',
+                VALUES (?, ?, ?, ?) ',
             End  => 'SELECT * FROM DUAL',
             Join => ' ',
         },
