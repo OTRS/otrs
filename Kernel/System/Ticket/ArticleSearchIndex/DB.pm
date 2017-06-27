@@ -100,7 +100,7 @@ sub ArticleSearchIndexBuild {
                 INTO article_search_index (
                     ticket_id, article_id, article_key, article_value
                 )
-                (?, ?, ?, ?)',
+                (?, ?, ?, ?) ',
             End  => 'SELECT * FROM DUAL',
             Join => ' ',
         },
@@ -172,6 +172,8 @@ sub ArticleSearchIndexBuild {
     }
 
     return 1 if !$AllowMultiple;
+
+    $SQL .= $MultiInsertStructure{$MultiInsertStructureKey}->{End};
 
     return if !$DBObject->Do(
         SQL  => $SQL,
