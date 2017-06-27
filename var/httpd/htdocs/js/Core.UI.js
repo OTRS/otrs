@@ -221,12 +221,33 @@ Core.UI = (function (TargetNS) {
     TargetNS.RegisterToggleTwoContainer = function ($ClickedElement, $Element1, $Element2) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
             $ClickedElement.click(function () {
+                var $ContainerObj = $(this).closest('.WidgetSimple').find('.AllocationListContainer'),
+                    FieldName,
+                    Data = {};
+
                 if ($Element1.is(':visible')) {
                     TargetNS.ToggleTwoContainer($Element1, $Element2);
                 }
                 else {
                     TargetNS.ToggleTwoContainer($Element2, $Element1);
                 }
+
+                Data.Columns = {};
+                Data.Order = [];
+
+                // Get initial columns order (see bug#10683).
+                $ContainerObj.find('.AvailableFields').find('li').each(function() {
+                    FieldName = $(this).attr('data-fieldname');
+                    Data.Columns[FieldName] = 0;
+                });
+
+                $ContainerObj.find('.AssignedFields').find('li').each(function() {
+                    FieldName = $(this).attr('data-fieldname');
+                    Data.Columns[FieldName] = 1;
+                    Data.Order.push(FieldName);
+                });
+                $ContainerObj.closest('form').find('.ColumnsJSON').val(Core.JSON.Stringify(Data));
+
                 return false;
             });
         }
