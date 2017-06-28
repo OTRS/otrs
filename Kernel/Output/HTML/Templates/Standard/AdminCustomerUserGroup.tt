@@ -45,7 +45,7 @@
                         <h3>[% Translate("This feature is disabled!") | html %]</h3>
                         <fieldset>
                             <p class="FieldExplanation">
-                                [% Translate("Just use this feature if you want to define group permissions for customers.") | html %]
+                                [% Translate("Just use this feature if you want to define group permissions for customer users.") | html %]
                             </p>
                             <div class="Field SpacingTop">
                                 <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Enable it here!") | html %]">
@@ -130,10 +130,10 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Select the customer user:group permissions.") | html %]
+                    [% Translate("Select the customer user - group permissions.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    [% Translate("If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).") | html %]
+                    [% Translate("If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).") | html %]
                 </p>
 
             </div>

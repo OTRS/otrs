@@ -11,6 +11,8 @@ package Kernel::Modules::AdminCustomerUserGroup;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -356,10 +358,10 @@ sub _Change {
     my @ItemList = ();
 
     if ( $VisibleType{$NeType} eq 'Customer User' ) {
-        $Param{BreadcrumbTitle} = "Change Customer User Relations for Group";
+        $Param{BreadcrumbTitle} = Translatable("Change Customer User Relations for Group");
     }
     else {
-        $Param{BreadcrumbTitle} = "Change Group Relations for Customer User";
+        $Param{BreadcrumbTitle} = Translatable('Change Group Relations for Customer User');
     }
 
     # overview
