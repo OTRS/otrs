@@ -65,7 +65,7 @@ sub Run {
             Module  => 'ArticleTableChangesPostRename',
         },
         {
-            Message => 'Change the structure of ticket_history table and add new history type.',
+            Message => 'Add an index to the ticket_history.',
             Module  => 'TicketHistoryTableChanges',
         },
         {
