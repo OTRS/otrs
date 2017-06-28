@@ -67,7 +67,6 @@ sub Run {
         $Self->Rebuild();
     }
 
-    $Self->Print("<green>Done.</green>\n");
     return $Self->ExitCodeOk();
 }
 
@@ -86,8 +85,7 @@ sub Status {
         $Status{ArticlesTotal}
     );
 
-    $Self->Print("\nArticle index status:\n\n");
-    $Self->Print("$Output\n\n");
+    $Self->Print("$Output\n");
 
     return 1;
 }
@@ -95,28 +93,14 @@ sub Status {
 sub Rebuild {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Retrieving articles that needs to be marked for indexing...</yellow>\n");
+    $Self->Print("<yellow>Marking all articles for reindexing...</yellow>\n");
 
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-
-    my %ArticleTicketIDs = $ArticleObject->ArticleSearchIndexRebuildFlagList(
-        Value => 0,
+    $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchIndexRebuildFlagSet(
+        All   => 1,
+        Value => 1,
     );
 
-    if (%ArticleTicketIDs) {
-
-        my $ArticleCount = scalar keys %ArticleTicketIDs;
-
-        $Self->Print("<yellow>Prepare $ArticleCount articles to be indexed...</yellow>\n");
-
-        $ArticleObject->ArticleSearchIndexRebuildFlagSet(
-            All   => 1,
-            Value => 1,
-        );
-    }
-    else {
-        $Self->Print("<yellow>All articles are already marked for indexing!</yellow>\n");
-    }
+    $Self->Print("<green>Done.</green>\n");
 
     return 1;
 }
