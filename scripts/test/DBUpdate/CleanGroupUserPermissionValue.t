@@ -46,14 +46,12 @@ if ( !$Success ) {
     );
 }
 
-# load the upgrade XML file
-my $XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-    Location => "$Home/scripts/database/update/otrs-upgrade-to-6.xml",
-);
+my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::UpgradeDatabaseStructure')->Run();
 
-# execute the the upgrade XML file
-$Helper->DatabaseXMLExecute(
-    XML => ${$XMLString},
+$Self->Is(
+    1,
+    $UpgradeSuccess,
+    'Upgrade database structure to latest version.'
 );
 
 my $CleanGroupUserPermissionValueObject = $Kernel::OM->Get('scripts::DBUpdateTo6::CleanGroupUserPermissionValue');

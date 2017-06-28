@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package scripts::DBUpdateTo6::OCBIMigratePostMasterData;    ## no critic
+package scripts::DBUpdateTo6::MigratePostMasterData;    ## no critic
 
 use strict;
 use warnings;
@@ -17,12 +17,12 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::XML',
-    'Kernel::System::YAML'
+    'Kernel::System::YAML',
 );
 
 =head1 NAME
 
-scripts::DBUpdateTo6::OCBIMigratePostMasterData -  Migrate PostMaster data.
+scripts::DBUpdateTo6::MigratePostMasterData -  Migrate PostMaster data.
 
 =cut
 
@@ -30,41 +30,50 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
+    # get the needed ArticleTypeMapping from a YML file
+    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
 
     PFTABLE:
     for my $Field (qw(X-OTRS-ArticleType X-OTRS-FollowUp-ArticleType)) {
 
         next PFTABLE if !$DBObject->Prepare(
-            SQL => "
-                SELECT f_name, f_key, f_value
+            SQL => 'SELECT f_name, f_key, f_value
                 FROM postmaster_filter
                 WHERE f_key = ?
-                ORDER BY f_name ASC
-            ",
+                ORDER BY f_name ASC',
             Bind => [ \$Field ],
         );
 
-        my $NewKeyValue = (
-            $Field eq 'X-OTRS-ArticleType' ? 'X-OTRS-IsVisibleForCustomer' : 'X-OTRS-FollowUp-IsVisibleForCustomer'
-        );
+        my $NewKeyValue;
+        if ( $Field eq 'X-OTRS-ArticleType' ) {
+            $NewKeyValue = 'X-OTRS-IsVisibleForCustomer';
+        }
+        else {
+            $NewKeyValue = 'X-OTRS-FollowUp-IsVisibleForCustomer';
+        }
+
         my @Data;
 
         ROW:
         while ( my @Row = $DBObject->FetchrowArray() ) {
 
-            next ROW if !$Row[1];
+            my $FilterName  = $Row[0];
+            my $FilterKey   = $Row[1];
+            my $FilterValue = $Row[2];
+
+            next ROW if !$FilterKey;
 
             # Map visible for customer.
-            my $IsVisibleForCustomer = 0;
-            if ( $Row[2] =~ /(-ext|phone|fax|sms|webrequest)/i ) {
-                $IsVisibleForCustomer = 1;
-            }
+            my $IsVisibleForCustomer = $ArticleTypeMapping{ $FilterValue }->{Visible} || 0;
 
             my %CurrentRow = (
-                Name   => $Row[0],
+                Name   => $FilterName,
                 OldKey => $Field,
                 Key    => $NewKeyValue,
-                Value  => $IsVisibleForCustomer
+                Value  => $IsVisibleForCustomer,
             );
             push @Data, \%CurrentRow;
         }
@@ -132,16 +141,42 @@ sub _MigrateData {
     for my $Data ( @{ $Param{Data} } ) {
 
         return if !$DBObject->Do(
-            SQL => "
-                UPDATE postmaster_filter
-                SET f_key = ?, f_value = ?
-                WHERE f_name = ? and f_key = ?
-            ",
+            SQL => 'UPDATE postmaster_filter
+                SET f_key = ?,
+                    f_value = ?
+                WHERE f_name = ?
+                AND f_key = ?',
             Bind => [
-                \$Data->{Key}, \$Data->{Value}, \$Data->{Name}, \$Data->{OldKey},
+                \$Data->{Key},
+                \$Data->{Value},
+                \$Data->{Name},
+                \$Data->{OldKey},
             ],
         );
     }
+
+    return 1;
+}
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success
+
+    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+
+=cut
+
+sub CheckPreviousRequirement {
+    my ( $Self, %Param ) = @_;
+
+    # try to get the needed ArticleTypeMapping from a YML file
+    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    return if !$TaskConfig;
+
+    my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
+    return if !%ArticleTypeMapping;
 
     return 1;
 }

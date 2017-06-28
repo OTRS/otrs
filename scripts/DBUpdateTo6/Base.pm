@@ -79,7 +79,7 @@ sub RebuildConfig {
         }
     }
 
-    print "\nIf you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
+    print "\n  If you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
 
     # create common objects with new default config
     $Kernel::OM->ObjectsDiscard();
@@ -154,6 +154,125 @@ sub ExecuteXMLDBString {
     }
 
     return 1;
+}
+
+=head2 TableExists()
+
+Checks if the given table exists in the database.
+
+    my $Result = $DBUpdateTo6Object->TableExists(
+        Table => 'ticket',
+    );
+
+Returns true if the table exists, otherwise false.
+
+=cut
+
+sub TableExists {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Table} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Table!",
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my %TableNames = map { lc $_ => 1 } $DBObject->ListTables();
+
+    return if !$TableNames{ lc $Param{Table} };
+
+    return 1;
+}
+
+=head2 ColumnExists()
+
+Checks if the given column exists in the given table.
+
+    my $Result = $DBUpdateTo6Object->ColumnExists(
+        Table  => 'ticket',
+        Column =>  'id',
+    );
+
+Returns true if the column exists, otherwise false.
+
+=cut
+
+sub ColumnExists {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Table Column)) {
+        if ( !$Param{$Argument} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    $DBObject->Prepare(
+        SQL   => "SELECT * FROM $Param{Table}",
+        Limit => 1,
+    );
+
+    my %ColumnNames = map { lc $_ => 1 } $DBObject->GetColumnNames();
+
+    return if !$ColumnNames{ lc $Param{Column} };
+
+    return 1;
+}
+
+=head2 GetTaskConfig()
+
+Clean up the cache.
+
+    $DBUpdateTo6Object->GetTaskConfig( Module => "TaskModuleName");
+
+=cut
+
+sub GetTaskConfig {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !$Param{Module} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Module!',
+        );
+        return;
+    }
+
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $File = $Home . '/scripts/DBUpdateTo6/TaskConfig/' . $Param{Module} . '.yml';
+
+    if ( !-e $File ) {
+        $File .= '.dist';
+
+        if ( !-e $File ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Couldn't find $File!",
+            );
+            return;
+        }
+    }
+
+    my $FileRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => $File,
+    );
+
+    # Convert configuration to Perl data structure for easier handling.
+    my $ConfigData = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => ${$FileRef} );
+
+    return $ConfigData;
 }
 
 1;

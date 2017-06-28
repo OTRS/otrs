@@ -322,7 +322,7 @@ for my $Test (@Tests) {
         "Filter structure is HASH",
     );
 
-    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigratePostMasterData');
+    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigratePostMasterData');
     $Self->True(
         $DBUpdateObject,
         'Database update object successfully created!'

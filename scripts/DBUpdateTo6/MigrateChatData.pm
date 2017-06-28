@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package scripts::DBUpdateTo6::OCBIMigrateChatData;    ## no critic
+package scripts::DBUpdateTo6::MigrateChatData;    ## no critic
 
 use strict;
 use warnings;
@@ -22,7 +22,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo6::OCBIMigrateChatData -  Migrate Chat data.
+scripts::DBUpdateTo6::MigrateChatData -  Migrate Chat data.
 
 =cut
 
@@ -31,8 +31,11 @@ sub Run {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my %Tables = map { lc($_) => 1 } $DBObject->ListTables();
-    return 1 if !$Tables{article_data_otrs_chat};
+    my $TableExists = $Self->TableExists(
+        Table => 'article_data_otrs_chat',
+    );
+
+    return 1 if !$TableExists;
 
     return if !$DBObject->Prepare(
         SQL => 'SELECT id, name FROM communication_channel',
@@ -78,7 +81,7 @@ sub Run {
     # Chat info should be present in chat channel table
     # not in article table
     if ( $ChatCount && !$ArticleChatCount ) {
-        print STDERR "\n Chat data migration already executed \n";
+        print STDERR "\n  Chat data migration already executed. \n";
     }
 
     my $ArticleChatMin = 0;

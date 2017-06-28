@@ -435,8 +435,8 @@ sub TableAlter {
             # if there is an AutoIncrement column no other changes are needed
             next TAG if $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i;
 
-            # remove possible default
-            push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP DEFAULT";
+            # set default as null
+            push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP NOT NULL";
 
             # investigate the default value
             my $Default = '';

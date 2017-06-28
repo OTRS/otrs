@@ -74,9 +74,34 @@ sub Run {
             UserID => 1,
         );
         if ( !$Success ) {
-            print "\nCould not update calendar '$Calendar{CalendarName}'.\n";
+            print "\n  Could not update calendar '$Calendar{CalendarName}'.\n";
             return;
         }
+    }
+
+    return 1;
+}
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success
+
+    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+
+=cut
+
+sub CheckPreviousRequirement {
+    my ( $Self, %Param ) = @_;
+
+    # Check if possible create required object,
+    # that means the calendar module
+    # is in the system
+    my $AppointmentCalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
+    if ( !$AppointmentCalendarObject ) {
+        print "Error: Not possible to create calendar object!";
+        return;
     }
 
     return 1;

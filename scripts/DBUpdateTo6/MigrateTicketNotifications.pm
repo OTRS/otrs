@@ -29,9 +29,13 @@ sub Run {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # check if article_type table exists
+    my $TableExists = $Self->TableExists(
+        Table => 'article_type',
+    );
+
     # Skip execution if article_type table is missing.
-    my @Tables = $DBObject->ListTables();
-    if ( !grep { $_ eq 'article_type' } @Tables ) {
+    if ( !$TableExists ) {
         print "\nArticle types table missing, skipping... ";
         return 1;
     }

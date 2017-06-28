@@ -32,7 +32,7 @@ sub Run {
     my $FilePath = "$Home/Kernel/Config/Backups/ZZZAutoOTRS5.pm";
 
     if ( !-f $FilePath ) {
-        print "\nCould not find Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
+        print "\n  Could not find Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
         return 1;
     }
 
@@ -64,7 +64,7 @@ sub Run {
         );
 
         if ( !$Result{Success} ) {
-            print "\nUnable to migrate Ticket::StorageModule.\n";
+            print "\n  Unable to migrate Ticket::StorageModule. \n";
             return;
         }
     }
@@ -85,7 +85,7 @@ sub Run {
         );
 
         if ( !$Result{Success} ) {
-            print "\nUnable to migrate Ticket::StorageModule::CheckAllBackends.\n";
+            print "\n  Unable to migrate Ticket::StorageModule::CheckAllBackends. \n";
             return;
         }
     }
@@ -106,7 +106,7 @@ sub Run {
         );
 
         if ( !$Result{Success} ) {
-            print "\nUnable to migrate ArticleDir.\n";
+            print "\n  Unable to migrate ArticleDir. \n";
             return;
         }
     }

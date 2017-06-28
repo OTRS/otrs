@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package scripts::DBUpdateTo6::OCBIMigrateProcessManagementData;    ## no critic
+package scripts::DBUpdateTo6::MigrateProcessManagementData;    ## no critic
 
 use strict;
 use warnings;
@@ -17,32 +17,33 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::XML',
-    'Kernel::System::YAML'
+    'Kernel::System::YAML',
 );
 
 =head1 NAME
 
-scripts::DBUpdateTo6::OCBIMigrateProcessManagementData -  Create entries in new article table for OmniChannel base infrastructure.
+scripts::DBUpdateTo6::MigrateProcessManagementData -  Migrate process management data to set 'visible for customer' and  'communication channel' values.
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
+    # get the needed ArticleTypeMapping from a YML file
+    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
 
     PMTABLE:
     for my $Table (qw(pm_transition_action pm_activity_dialog)) {
 
         next PMTABLE if !$DBObject->Prepare(
-            SQL => "
-                SELECT id, config
+            SQL => "SELECT id, config
                 FROM $Table
-                ORDER BY id ASC
-            ",
+                ORDER BY id ASC",
         );
-
-        my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
         my @Data;
 
@@ -59,53 +60,26 @@ sub Run {
                 next ROW;
             }
 
-            # Map visible for customer / communication channel.
-            my $IsVisibleForCustomer = 0;
             if ( $Table eq 'pm_transition_action' ) {
-                if ( $Config->{Config}->{ArticleType} =~ /(-ext|phone|fax|sms|webrequest)/i ) {
-                    $IsVisibleForCustomer = 1;
-                }
-                $Config->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
 
-                my $CommunicationChannel;
-                if ( $Config->{Config}->{ArticleType} =~ /email-/i ) {
-                    $CommunicationChannel = 'Email';
-                }
-                elsif ( $Config->{Config}->{ArticleType} =~ /phone/i ) {
-                    $CommunicationChannel = 'Phone';
-                }
-                elsif ( $Config->{Config}->{ArticleType} =~ /chat-/i ) {
-                    $CommunicationChannel = 'Chat';
-                }
-                else {
-                    $CommunicationChannel = 'Internal';
-                }
-                delete $Config->{Config}->{ArticleType};
+                my $IsVisibleForCustomer = $ArticleTypeMapping{ $Config->{Config}->{ArticleType} }->{Visible} || 0;
+                my $CommunicationChannel = $ArticleTypeMapping{ $Config->{Config}->{ArticleType} }->{Channel} || 'Internal';;
+
+                $Config->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
                 $Config->{Config}->{CommunicationChannel} = $CommunicationChannel;
+
+                delete $Config->{Config}->{ArticleType};
             }
+
             elsif ( $Table eq 'pm_activity_dialog' ) {
 
-                if ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /(-ext|phone|fax|sms|webrequest)/i ) {
-                    $IsVisibleForCustomer = 1;
-                }
-                $Config->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
+                my $IsVisibleForCustomer = $ArticleTypeMapping{ $Config->{Fields}->{Article}->{Config}->{ArticleType} }->{Visible} || 0;
+                my $CommunicationChannel = $ArticleTypeMapping{ $Config->{Fields}->{Article}->{Config}->{ArticleType} }->{Channel} || 'Internal';
 
-                my $CommunicationChannel;
-                if ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /email-/i ) {
-                    $CommunicationChannel = 'Email';
-                }
-                elsif ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /phone/i ) {
-                    $CommunicationChannel = 'Phone';
-                }
-                elsif ( $Config->{Fields}->{Article}->{Config}->{ArticleType} =~ /chat-/i ) {
-                    $CommunicationChannel = 'Chat';
-                }
-                else {
-                    $CommunicationChannel = 'Internal';
-                }
+                $Config->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
+                $Config->{Fields}->{Article}->{CommunicationChannel} = $CommunicationChannel;
 
                 delete $Config->{Fields}->{Article}->{Config}->{ArticleType};
-                $Config->{Fields}->{Article}->{CommunicationChannel} = $CommunicationChannel;
             }
 
             my %CurrentRow = (
@@ -126,7 +100,7 @@ sub Run {
         if ( !$MigrationResult ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "An error occurs during data migration for: $Table!",
+                Message  => "An error occured during data migration for: $Table!",
             );
             return;
         }
@@ -137,10 +111,10 @@ sub Run {
 
 =head2 _MigrateData()
 
-Adds multiple article entries to the article table. Returns 1 on success
+Migrates the config for process management data.
 
     my $Result = $DBUpdateTo6Object->_MigrateData(
-        Data => \@OldArticleData, # Old structure content
+        Data => \@Data,
     );
 
 =cut
@@ -196,10 +170,34 @@ sub _MigrateData {
                 WHERE id = ?
             ",
             Bind => [
-                \$Config, \$Data->{ID},
+                \$Config,
+                \$Data->{ID},
             ],
         );
     }
+
+    return 1;
+}
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success
+
+    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+
+=cut
+
+sub CheckPreviousRequirement {
+    my ( $Self, %Param ) = @_;
+
+    # try to get the needed ArticleTypeMapping from a YML file
+    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
+    return if !$TaskConfig;
+
+    my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
+    return if !%ArticleTypeMapping;
 
     return 1;
 }

@@ -197,13 +197,13 @@ for my $Test (@Tests) {
         "Job structure is HASH",
     );
 
-    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigrateGenericAgentData');
+    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateGenericAgentJobs');
     $Self->True(
         $DBUpdateObject,
         'Database update object successfully created!'
     );
 
-    my $RunSuccess = $DBUpdateObject->Run();
+    my $RunSuccess = $DBUpdateObject->_MigrateArticleTypeToIsVisibleForCustomer();
 
     $Self->Is(
         1,

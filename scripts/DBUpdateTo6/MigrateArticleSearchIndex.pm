@@ -32,7 +32,7 @@ sub Run {
     my $FilePath = "$Home/Kernel/Config/Backups/ZZZAutoOTRS5.pm";
 
     if ( !-f $FilePath ) {
-        print "\nCould not find Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
+        print "\n  Could not find Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
         return 1;
     }
 
@@ -60,7 +60,7 @@ sub Run {
         );
 
         if ( !$Result{Success} ) {
-            print "\nUnable to migrate Ticket::SearchIndexModule.\n";
+            print "\n  Unable to migrate Ticket::SearchIndexModule.\n";
             return;
         }
 
@@ -82,7 +82,7 @@ sub Run {
             );
 
             if ( !$Result{Success} ) {
-                print "\nUnable to migrate Ticket::SearchIndex::FilterStopWords.\n";
+                print "\n  Unable to migrate Ticket::SearchIndex::FilterStopWords.\n";
                 return;
             }
         }

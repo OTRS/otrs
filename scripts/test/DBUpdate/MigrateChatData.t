@@ -94,14 +94,12 @@ for my $TableName (@NewTablesName) {
     );
 }
 
-# Load the upgrade XML file.
-$XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-    Location => "$Home/scripts/database/update/otrs-upgrade-to-6.xml",
-);
+my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::UpgradeDatabaseStructure')->Run();
 
-# Execute the the upgrade XML file.
-$Helper->DatabaseXMLExecute(
-    XML => ${$XMLString},
+$Self->Is(
+    1,
+    $UpgradeSuccess,
+    'Upgrade database structure to latest version.'
 );
 
 # Get new tables list.
@@ -116,7 +114,7 @@ for my $TableName (@NewTablesName) {
     );
 }
 
-my $ArticleMigrateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigrateArticleData');
+my $ArticleMigrateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateArticleData');
 $Self->True(
     $ArticleMigrateObject,
     'Article migrate object successfully created!'
@@ -128,6 +126,19 @@ $Self->Is(
     1,
     $MigrateSuccess,
     'ArticleMigrateObject ran without problems.'
+);
+
+my $PostArticleObject = $Kernel::OM->Create('scripts::DBUpdateTo6::PostArticleTableStructureChanges');
+$Self->True(
+    $PostArticleObject,
+    'Article migrate object successfully created!'
+);
+$MigrateSuccess = $PostArticleObject->Run();
+
+$Self->Is(
+    1,
+    $MigrateSuccess,
+    'Post changes to the article related tables.'
 );
 
 # Init real test.
@@ -228,7 +239,7 @@ $CheckData->(
     Test => 'IsNot',
 );
 
-my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigrateChatData');
+my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateChatData');
 $Self->True(
     $DBUpdateObject,
     'Database update object successfully created!'

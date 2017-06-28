@@ -130,14 +130,12 @@ $Self->True(
     'Delete some article entries for creating empty records in tha table!'
 );
 
-# Load the upgrade XML file.
-$XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-    Location => "$Home/scripts/database/update/otrs-upgrade-to-6.xml",
-);
+my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::UpgradeDatabaseStructure')->Run();
 
-# Execute the the upgrade XML file.
-$Helper->DatabaseXMLExecute(
-    XML => ${$XMLString},
+$Self->Is(
+    1,
+    $UpgradeSuccess,
+    'Upgrade database structure to latest version.'
 );
 
 # Get new tables list.
@@ -256,7 +254,7 @@ $CheckData->(
     Test => 'IsNot',
 );
 
-my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigrateArticleData');
+my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateArticleData');
 $Self->True(
     $DBUpdateObject,
     'Database update object successfully created!'

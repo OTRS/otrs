@@ -34,6 +34,31 @@ sub Run {
     return $Success;
 }
 
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success
+
+    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+
+=cut
+
+sub CheckPreviousRequirement {
+    my ( $Self, %Param ) = @_;
+
+    # Check if possible create required object,
+    # that means the appointment calendar module
+    # is in the system
+    my $AppointmentCalendarObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
+    if ( !$AppointmentCalendarObject ) {
+        print "Error: Not possible to create appointment calendar object!";
+        return;
+    }
+
+    return 1;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS

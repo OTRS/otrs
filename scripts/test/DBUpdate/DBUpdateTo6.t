@@ -41,50 +41,6 @@ my $DBUpdateTo6Object = $Kernel::OM->Get('scripts::DBUpdateTo6');
 # Run DB update script consecutively.
 for my $Count ( 1 .. 2 ) {
 
-    # TODO: Remove complete cleanup block below when upgrade checks are implemented.
-    # Clean test database on second run and fill it with OTRS 5 data again, for now. Otherwise, UpgradeDatabaseStructure
-    #   step will fail since tables are duplicated at this point.
-    if ( $Count == 2 ) {
-        $Helper->TestDatabaseCleanup();
-
-        my $Index     = 0;
-        my $Count     = scalar @DatabaseXMLFiles;
-        my $XMLString = '';
-
-        XMLFILE:
-        for my $XMLFile (@DatabaseXMLFiles) {
-
-            # Load XML contents.
-            my $XML = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                Location => $XMLFile,
-            );
-
-            # Concatenate the file contents, but make sure to remove duplicated XML tags first.
-            #   - First file should get only end tag removed.
-            #   - Last file should get only start tags removed.
-            #   - Any other file should get both start and end tags removed.
-            $XML = ${$XML};
-            if ( $Index != 0 ) {
-                $XML =~ s/<\?xml .*? \?>//xm;
-                $XML =~ s/<database .*? >//xm;
-            }
-            if ( $Index != $Count - 1 ) {
-                $XML =~ s/<\/database .*? >//xm;
-            }
-            $XMLString .= $XML;
-
-            $Index++;
-        }
-
-        my $Success = $Helper->DatabaseXMLExecute(
-            XML => $XMLString,
-        );
-        $Self->True(
-            $Success,
-            'Executed XML files again',
-        );
-    }
-
     $Success = $DBUpdateTo6Object->Run(
         CommandlineOptions => {
             NonInteractive => 1,

@@ -1379,9 +1379,6 @@ CREATE TABLE ticket_history (
     owner_id NUMBER (12, 0) NOT NULL,
     priority_id NUMBER (5, 0) NOT NULL,
     state_id NUMBER (5, 0) NOT NULL,
-    a_communication_channel_id NUMBER (20, 0) NULL,
-    a_sender_type_id NUMBER (5, 0) NULL,
-    a_is_visible_for_customer NUMBER (5, 0) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -1925,14 +1922,6 @@ BEGIN
         INTO :new.id
         FROM DUAL;
     END IF;
-END;
-/
---
-;
-BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX article_data_mime_article_id ON article_data_mime (article_id)';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
 END;
 /
 --

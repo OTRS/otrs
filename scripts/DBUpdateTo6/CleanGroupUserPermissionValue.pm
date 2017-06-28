@@ -28,23 +28,12 @@ scripts::DBUpdateTo6::CleanGroupUserPermissionValues - Delete from table group_u
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    my $SQL    = 'SELECT * FROM group_user';
-    my $Result = $DBObject->Prepare(
-        SQL   => $SQL,
-        Limit => 1,
+    my $ColumnExists = $Self->ColumnExists(
+        Table  => 'group_user',
+        Column => 'permission_value',
     );
-    if ( !$Result ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Error during execution of '$SQL'!",
-        );
-        return;
-    }
 
-    my %GroupUserColumns = map { ( lc $_ => 1 ) } $DBObject->GetColumnNames();
-    if ( $GroupUserColumns{'permission_value'} ) {
+    if ($ColumnExists) {
         return if !$Self->_DeleteInvalidRecords();
         return if !$Self->_DropPermissionValueColumn();
     }
@@ -65,8 +54,7 @@ Returns 1 if the delete went well.
 sub _DeleteInvalidRecords {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    return if !$DBObject->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'DELETE FROM group_user WHERE permission_value = 0',
     );
 
@@ -86,31 +74,13 @@ Returns 1 if the drop went well.
 sub _DropPermissionValueColumn {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
-
     my $XMLString = <<'END_XML';
     <TableAlter Name="group_user">
         <ColumnDrop Name="permission_value"/>
     </TableAlter>
 END_XML
 
-    # create database specific SQL and PostSQL commands
-    my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
-
-    # create database specific SQL
-    my ($SQL) = $DBObject->SQLProcessor(
-        Database => \@XMLARRAY,
-    );
-
-    my $Success = $DBObject->Do( SQL => $SQL );
-    if ( !$Success ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Error during execution of '$SQL'!",
-        );
-        return;
-    }
+    return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
 
     return 1;
 }

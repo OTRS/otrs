@@ -1,0 +1,41 @@
+---
+  ArticleTypeMapping:
+    email-external:
+      Visible: 1
+      Channel: Email
+    email-internal:
+      Visible: 0
+      Channel: Email
+    email-notification-ext:
+      Visible: 1
+      Channel: Email
+    email-notification-int:
+      Visible: 0
+      Channel: Email
+    phone:
+      Visible: 1
+      Channel: Phone
+    fax:
+      Visible: 1
+      Channel: Internal
+    sms:
+      Visible: 1
+      Channel: Internal
+    webrequest:
+      Visible: 1
+      Channel: Internal
+    note-internal:
+      Visible: 0
+      Channel: Internal
+    note-external:
+      Visible: 1
+      Channel: Internal
+    note-report:
+      Visible: 0
+      Channel: Internal
+    chat-internal:
+      Visible: 0
+      Channel: Chat
+    chat-external:
+      Visible: 1
+      Channel: Chat

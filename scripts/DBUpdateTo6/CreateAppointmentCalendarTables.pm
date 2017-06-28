@@ -59,7 +59,7 @@ sub Run {
     }
 
     if ($PackageVersion) {
-        print "\nFound package OTRSAppointmentCalendar $PackageVersion";
+        print "\n  Found package OTRSAppointmentCalendar $PackageVersion";
 
         # Database upgrade is needed, because current version is not the latest.
         if ($DBUpdateNeeded) {
@@ -77,31 +77,8 @@ sub Run {
                 ',
             );
 
-            # Create database specific SQL.
-            my @SQL;
-            my @SQLPost;
             for my $XMLString (@XMLStrings) {
-                my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
-
-                # Create database specific SQL.
-                push @SQL, $DBObject->SQLProcessor(
-                    Database => \@XMLARRAY,
-                );
-
-                # Create database specific PostSQL.
-                push @SQLPost, $DBObject->SQLProcessorPost();
-            }
-
-            # Execute SQL.
-            for my $SQL ( @SQL, @SQLPost ) {
-                my $Success = $DBObject->Do( SQL => $SQL );
-                if ( !$Success ) {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message  => "Error during execution of '$SQL'!",
-                    );
-                    return;
-                }
+                return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
             }
 
             return 1;
@@ -229,8 +206,6 @@ sub Run {
     );
 
     # Create database specific SQL and PostSQL commands out of XML.
-    my @SQL;
-    my @SQLPost;
     XML_STRING:
     for my $XMLString (@XMLStrings) {
 
@@ -238,32 +213,12 @@ sub Run {
         if ( $XMLString =~ /<TableCreate Name="([a-z_]+)">/ ) {
             my $TableName = $1;
             if ( grep { $_ eq $TableName } @OTRSTables ) {
-                print "\nTable '$TableName' already exists, skipping... ";
+                print "\n  Table '$TableName' already exists, skipping... ";
                 next XML_STRING;
             }
         }
 
-        my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
-
-        # Create database specific SQL.
-        push @SQL, $DBObject->SQLProcessor(
-            Database => \@XMLARRAY,
-        );
-
-        # Create database specific PostSQL.
-        push @SQLPost, $DBObject->SQLProcessorPost();
-    }
-
-    # Execute SQL.
-    for my $SQL ( @SQL, @SQLPost ) {
-        my $Success = $DBObject->Do( SQL => $SQL );
-        if ( !$Success ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Error during execution of '$SQL'!",
-            );
-            return;
-        }
+        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
     }
 
     return 1;

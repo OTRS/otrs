@@ -131,7 +131,7 @@ for my $Test (@Tests) {
         "TransitionAction structure is HASH",
     );
 
-    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigrateProcessManagementData');
+    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateProcessManagementData');
     $Self->True(
         $DBUpdateObject,
         'Database update object successfully created!'
@@ -353,7 +353,7 @@ for my $Test (@Tests) {
         "ActivityDialog structure is HASH",
     );
 
-    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::OCBIMigrateProcessManagementData');
+    my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateProcessManagementData');
     $Self->True(
         $DBUpdateObject,
         'Database update object successfully created!'

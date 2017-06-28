@@ -51,14 +51,9 @@ sub Run {
     }
 
     if ($PackageVersion) {
-        print "\nFound package OTRSTicketNumberCounterDatabase $PackageVersion, skipping database upgrade...\n";
+        print "\n  Found package OTRSTicketNumberCounterDatabase $PackageVersion, skipping database upgrade...\n";
         return 1;
     }
-
-    # Get list of existing OTRS tables, in order to check if ticket number counter already exist. This is needed because
-    #   update script might be executed multiple times, and by then OTRSTicketNumberCounterDatabase package has already
-    #   been merged so we cannot rely on its existence. Please see bug#12788 for more information.
-    my @OTRSTables = $DBObject->ListTables();
 
     # Define the XML data for the ticket number counter tables.
     my @XMLStrings = (
@@ -78,42 +73,28 @@ sub Run {
         ',
     );
 
-    # Create database specific SQL and PostSQL commands out of XML.
-    my @SQL;
-    my @SQLPost;
+    # execute XML DB string.
     XML_STRING:
     for my $XMLString (@XMLStrings) {
 
         # Skip existing tables.
         if ( $XMLString =~ /<TableCreate Name="([a-z_]+)">/ ) {
             my $TableName = $1;
-            if ( grep { $_ eq $TableName } @OTRSTables ) {
-                print "\nTable '$TableName' already exists, skipping... ";
+
+    # Get list of existing OTRS tables, in order to check if ticket number counter already exist. This is needed because
+    #   update script might be executed multiple times, and by then OTRSTicketNumberCounterDatabase package has already
+    #   been merged so we cannot rely on its existence. Please see bug#12788 for more information.
+            my $TableExists = $Self->TableExists(
+                Table => $TableName,
+            );
+
+            if ($TableExists) {
+                print "\n  Table '$TableName' already exists, skipping... ";
                 next XML_STRING;
             }
         }
 
-        my @XMLARRAY = $XMLObject->XMLParse( String => $XMLString );
-
-        # Create database specific SQL.
-        push @SQL, $DBObject->SQLProcessor(
-            Database => \@XMLARRAY,
-        );
-
-        # Create database specific PostSQL.
-        push @SQLPost, $DBObject->SQLProcessorPost();
-    }
-
-    # Execute SQL.
-    for my $SQL ( @SQL, @SQLPost ) {
-        my $Success = $DBObject->Do( SQL => $SQL );
-        if ( !$Success ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Error during execution of '$SQL'!",
-            );
-            return;
-        }
+        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
     }
 
     return 1;
