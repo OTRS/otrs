@@ -205,12 +205,11 @@ $Selenium->RunTest(
         # Set test queue as filter.
         $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active' )]")->click();
         $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("#ColumnFilterQueue0120-TicketNew:visible").length'
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$(\"#ColumnFilterQueue0120-TicketNew option[value='$QueueID']:visible\").length"
         );
-        $Selenium->find_element( "#ColumnFilterQueue0120-TicketNew", 'css' )->click();
-        $Selenium->execute_script(
-            "\$('#ColumnFilterQueue0120-TicketNew').val('$QueueID').trigger('redraw.ColumnFilter').trigger('change');"
-        );
+
+        $Selenium->find_element( "#ColumnFilterQueue0120-TicketNew option[value='$QueueID']", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Loading").length' );
 
      # Verify ticket with different priority is present on screen with filter, it's still on the first page.

@@ -232,7 +232,9 @@ Core.Agent.Dashboard = (function (TargetNS) {
                     return false;
                 }
 
-                URL += ';SortBy=' + InitContainer.SortBy + ';OrderBy=' + InitContainer.OrderBy;
+                if (typeof InitContainer !== 'undefined') {
+                    URL += ';SortBy=' + InitContainer.SortBy + ';OrderBy=' + InitContainer.OrderBy;
+                }
 
                 Core.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
                     Core.UI.ToggleTwoContainer($('#' + ElementID + '-setting'), $('#' + ElementID));
