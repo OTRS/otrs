@@ -569,6 +569,10 @@ $Self->True(
     'TicketCreate()',
 );
 
+my $TicketNumber = $TicketObject->TicketNumberLookup(
+    TicketID => $TicketID,
+);
+
 push @AddedTickets, $TicketID;
 
 for my $Test (@TestVariations) {
@@ -590,13 +594,43 @@ for my $Test (@TestVariations) {
         "$Test->{Name} - ArticleSend()",
     );
 
-    my %Article = $TicketObject->ArticleGet(
-        TicketID  => $TicketID,
+    # Read generated email and use it to create yet another article.
+    # This is necessary because otherwise reading the existing article will result in using the internal body
+    #   which doesn't contain signatures etc.
+    my $Email = $TicketObject->ArticlePlain(
         ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+
+    # Add ticket number to subject (to ensure mail will be attached to original ticket)
+    my @FollowUp;
+    for my $Line ( split "\n", $Email ) {
+        if ( $Line =~ /^Subject:/ ) {
+            $Line = 'Subject: ' . $TicketObject->TicketSubjectBuild(
+                TicketNumber => $TicketNumber,
+                Subject      => $Line,
+            );
+        }
+        push @FollowUp, $Line;
+    }
+    my $NewEmail = join "\n", @FollowUp;
+
+    my $PostMasterObject = Kernel::System::PostMaster->new(
+        Email => \$NewEmail,
+    );
+    my @Return = $PostMasterObject->Run();
+    $Self->IsDeeply(
+        \@Return,
+        [ 2, $TicketID ],
+        "$Test->{Name} - PostMaster()",
+    );
+
+    my %Article = $TicketObject->ArticleLastCustomerArticle(
+        TicketID => $TicketID,
     );
 
     my $CheckObject = Kernel::Output::HTML::ArticleCheckPGP->new(
-        ArticleID => $ArticleID,
+        ArticleID => $Article{ArticleID},
         UserID    => 1,
     );
 
@@ -629,7 +663,7 @@ for my $Test (@TestVariations) {
 
     my %FinalArticleData = $TicketObject->ArticleGet(
         TicketID  => $TicketID,
-        ArticleID => $ArticleID,
+        ArticleID => $Article{ArticleID},
     );
 
     my $TestBody = $Test->{ArticleData}->{Body};
@@ -650,7 +684,7 @@ for my $Test (@TestVariations) {
     if ( defined $Test->{ArticleData}->{Attachment} ) {
         my $Found;
         my %Index = $TicketObject->ArticleAttachmentIndex(
-            ArticleID                  => $ArticleID,
+            ArticleID                  => $Article{ArticleID},
             UserID                     => 1,
             Article                    => \%FinalArticleData,
             StripPlainBodyAsAttachment => 0,
