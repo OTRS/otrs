@@ -782,7 +782,7 @@ sub _Edit {
             AgentMyQueues             => Translatable('All agents subscribed to the ticket\'s queue'),
             AgentMyServices           => Translatable('All agents subscribed to the ticket\'s service'),
             AgentMyQueuesMyServices   => Translatable('All agents subscribed to both the ticket\'s queue and service'),
-            Customer                  => Translatable('Customer of the ticket'),
+            Customer                  => Translatable('Customer user of the ticket'),
             AllRecipientsFirstArticle => Translatable('All recipients of the first article'),
             AllRecipientsLastArticle  => Translatable('All recipients of the last article'),
         },
