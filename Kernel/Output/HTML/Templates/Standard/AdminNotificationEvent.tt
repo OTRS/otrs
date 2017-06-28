@@ -314,7 +314,7 @@
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="CustomerUserID">[% Translate("Customer") | html %]: </label>
+                        <label for="CustomerUserID">[% Translate("Customer User ID") | html %]: </label>
                         <div class="Field">
                             <input type="text" name="CustomerUserID" id="CustomerUserID" class="W75pc" value="[% Data.CustomerUserID | html %]"/>
                         </div>
