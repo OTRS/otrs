@@ -107,8 +107,9 @@ sub new {
         $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
     }
     else {
-        $Self->{ParserParts} = $Param{Entity};
-        $Self->{EntityMode}  = 1;
+        $Self->{ParserParts}  = $Param{Entity};
+        $Self->{HeaderObject} = $Param{Entity}->head();
+        $Self->{EntityMode}   = 1;
     }
 
     # get NoHTMLChecks param
@@ -150,11 +151,11 @@ sub GetParam {
 
     my $What = $Param{WHAT} || return;
 
-    if ( !$Self->{Email} || !$Self->{HeaderObject} ) {
+    if ( !$Self->{HeaderObject} ) {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Email and HeaderObject is needed!',
+            Message  => 'HeaderObject is needed!',
         );
         return;
     }
@@ -318,11 +319,11 @@ sub GetCharset {
         return $Self->{Charset};
     }
 
-    if ( !$Self->{Email} || !$Self->{HeaderObject} ) {
+    if ( !$Self->{HeaderObject} ) {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Email and HeaderObject is needed!',
+            Message  => 'HeaderObject is needed!',
         );
         return;
     }
