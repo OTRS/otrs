@@ -729,7 +729,8 @@ sub ArticleSearchIndexRebuildFlagSet {
     if ( $Param{All} ) {
 
         return if !$DBObject->Do(
-            SQL => "UPDATE article SET search_index_needs_rebuild = 1",
+            SQL => "UPDATE article SET search_index_needs_rebuild = ?",
+            Bind => [ \$Param{Value}, ],
         );
 
         return 1;

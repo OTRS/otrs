@@ -121,7 +121,7 @@ sub ArticleIndexRebuild {
 
     my @ArticleIDs = keys %{ $Param{ArticleTicketIDs} };
 
-    # destroy objects for the child processes
+    # Destroy objects for the child processes.
     $Kernel::OM->ObjectsDiscard(
         Objects => [
             'Kernel::System::DB',
@@ -129,7 +129,7 @@ sub ArticleIndexRebuild {
         ForcePackageReload => 0,
     );
 
-    # split ArticleIDs into equal arrays for the child processes
+    # Split ArticleIDs into equal arrays for the child processes.
     my @ArticleChunks;
     my $Count = 0;
 
@@ -146,10 +146,10 @@ sub ArticleIndexRebuild {
     ARTICLEIDCHUNK:
     for my $ArticleIDChunk (@ArticleChunks) {
 
-        # create a child process
+        # Create a child process.
         my $PID = fork;
 
-        # could not create child
+        # Could not create child.
         if ( $PID < 0 ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -159,10 +159,10 @@ sub ArticleIndexRebuild {
             last ARTICLEIDCHUNK;
         }
 
-        # in child process
+        # We're in the child process.
         if ( !$PID ) {
 
-            # add the chunk of article data to the index
+            # Add the chunk of article data to the index.
             for my $ArticleID ( @{$ArticleIDChunk} ) {
 
                 my $Success = 0;
@@ -200,7 +200,7 @@ sub ArticleIndexRebuild {
                 }
             }
 
-            # close child process at the end
+            # Close child process at the end.
             exit 0;
         }
 
