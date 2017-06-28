@@ -1877,7 +1877,7 @@ sub _Mask {
 
             my $DataEmail = $Email->address();
             if ( $Email->phrase() ) {
-                $DataEmail = $Email->phrase() . " <$Email->address()>";
+                $DataEmail = $Email->phrase() . ' <' . $Email->address() . '>';
             }
 
             $LayoutObject->Block(
@@ -1901,7 +1901,7 @@ sub _Mask {
 
             my $DataEmail = $Email->address();
             if ( $Email->phrase() ) {
-                $DataEmail = $Email->phrase() . " <$Email->address()>";
+                $DataEmail = $Email->phrase() . ' <' . $Email->address() . '>';
             }
 
             $LayoutObject->Block(
