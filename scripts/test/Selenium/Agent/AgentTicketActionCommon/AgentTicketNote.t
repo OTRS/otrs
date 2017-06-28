@@ -167,6 +167,10 @@ $Selenium->RunTest(
 
         # Expand article details.
         $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#ArticleItems .PopupType_TicketAction:visible").length;'
+        );
 
         # click 'Reply to note' in order to check for pre-loaded reply-to note subject, see bug #10931
         $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();
@@ -249,6 +253,10 @@ $Selenium->RunTest(
 
         # Expand article details.
         $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#ArticleItems .PopupType_TicketAction:visible").length;'
+        );
 
         # click 'Reply to note'
         $Selenium->find_element("//a[contains(\@href, \'ReplyToArticle' )]")->VerifiedClick();
