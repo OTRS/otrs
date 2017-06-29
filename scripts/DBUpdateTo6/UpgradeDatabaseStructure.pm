@@ -65,7 +65,7 @@ sub Run {
             Module  => 'ArticleTableChangesPostRename',
         },
         {
-            Message => 'Add an index to the ticket_history.',
+            Message => 'Add an index to the ticket_history table.',
             Module  => 'TicketHistoryTableChanges',
         },
         {
