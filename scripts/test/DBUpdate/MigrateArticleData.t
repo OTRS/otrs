@@ -28,13 +28,13 @@ my $Success = $Helper->ProvideTestDatabase(
 if ( !$Success ) {
     $Self->False(
         0,
-        'Test database could not be provided, skipping test'
+        'Test database could not be provided, skipping test',
     );
     return 1;
 }
 $Self->True(
     $Success,
-    'ProvideTestDatabase - Load and execute XML files'
+    'ProvideTestDatabase - Load and execute XML files',
 );
 
 # Run preparation for this test
@@ -127,7 +127,7 @@ $Success = $DBObject->Do(
 );
 $Self->True(
     $Success,
-    'Delete some article entries for creating empty records in tha table!'
+    'Delete some article entries for creating empty records in tha table!',
 );
 
 my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::UpgradeDatabaseStructure')->Run();
@@ -135,7 +135,7 @@ my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::UpgradeDatabaseS
 $Self->Is(
     1,
     $UpgradeSuccess,
-    'Upgrade database structure to latest version.'
+    'Upgrade database structure to latest version.',
 );
 
 # Get new tables list.
@@ -212,12 +212,12 @@ my $CheckData = sub {
         $Self->Is(
             $TablesData{article}->{Count},
             $TablesData{article_data_mime}->{Count},
-            'The same amount of rows should be present in article and article_data_mime tables.'
+            'The same amount of rows should be present in article and article_data_mime tables.',
         );
         $Self->Is(
             $TablesData{article}->{MaxID},
             $TablesData{article_data_mime}->{MaxID},
-            'The last included ID on each table (article and article_data_mime) should be the same.'
+            'The last included ID on each table (article and article_data_mime) should be the same.',
         );
 
         # TODO:OCBI: Insert a new record, ID should be the next after MAXID
@@ -228,22 +228,22 @@ my $CheckData = sub {
         $Self->IsNot(
             $TablesData{article}->{Count},
             $TablesData{article_data_mime}->{Count},
-            'In article and article_data_mime should not be the same amount of data.'
+            'In article and article_data_mime should not be the same amount of data.',
         );
         $Self->IsNot(
             $TablesData{article}->{MaxID},
             $TablesData{article_data_mime}->{MaxID},
-            'The last included ID on each table (article and article_data_mime) should not be the same.'
+            'The last included ID on each table (article and article_data_mime) should not be the same.',
         );
         $Self->Is(
             $TablesData{article}->{MaxID},
             0,
-            'The article table should be empty - MaxID'
+            'The article table should be empty - MaxID',
         );
         $Self->Is(
             $TablesData{article}->{Count},
             0,
-            'The article table should be empty - Count'
+            'The article table should be empty - Count',
         );
 
     }
@@ -257,7 +257,7 @@ $CheckData->(
 my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateArticleData');
 $Self->True(
     $DBUpdateObject,
-    'Database update object successfully created!'
+    'Database update object successfully created!',
 );
 
 my $RunSuccess = $DBUpdateObject->Run(
@@ -270,7 +270,7 @@ my $RunSuccess = $DBUpdateObject->Run(
 $Self->Is(
     1,
     $RunSuccess,
-    'DBUpdateObject ran without problems.'
+    'DBUpdateObject ran without problems.',
 );
 
 $CheckData->(

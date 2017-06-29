@@ -36,13 +36,13 @@ if ( !$Success ) {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     my $Result   = $DBObject->Prepare(
         SQL   => 'SELECT * FROM group_user',
-        Limit => 1
+        Limit => 1,
     );
     my %GroupUserColumns = map { ( lc $_ => 1 ) } $DBObject->GetColumnNames();
 
     $Self->True(
         $GroupUserColumns{'permission_value'},
-        'Column "permission_value" still exists in table group_user before update'
+        'Column "permission_value" still exists in table group_user before update',
     );
 }
 
@@ -51,7 +51,7 @@ my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::UpgradeDatabaseS
 $Self->Is(
     1,
     $UpgradeSuccess,
-    'Upgrade database structure to latest version.'
+    'Upgrade database structure to latest version.',
 );
 
 my $CleanGroupUserPermissionValueObject = $Kernel::OM->Get('scripts::DBUpdateTo6::CleanGroupUserPermissionValue');
@@ -80,13 +80,13 @@ for my $Count ( 1 .. 2 ) {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
     my $Result   = $DBObject->Prepare(
         SQL   => 'SELECT * FROM group_user',
-        Limit => 1
+        Limit => 1,
     );
     my %GroupUserColumns = map { ( lc $_ => 1 ) } $DBObject->GetColumnNames();
 
     $Self->False(
         $GroupUserColumns{'permission_value'},
-        'Column "permission_value" doesn\'t exists in table group_user'
+        'Column "permission_value" doesn\'t exists in table group_user',
     );
 }
 

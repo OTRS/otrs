@@ -134,7 +134,7 @@ for my $Test (@Tests) {
     my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateProcessManagementData');
     $Self->True(
         $DBUpdateObject,
-        'Database update object successfully created!'
+        'Database update object successfully created!',
     );
 
     my $RunSuccess = $DBUpdateObject->Run();
@@ -142,7 +142,7 @@ for my $Test (@Tests) {
     $Self->Is(
         1,
         $RunSuccess,
-        'DBUpdateObject ran without problems.'
+        'DBUpdateObject ran without problems.',
     );
 
     # Delete cache due we are using API functions.
@@ -356,7 +356,7 @@ for my $Test (@Tests) {
     my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateProcessManagementData');
     $Self->True(
         $DBUpdateObject,
-        'Database update object successfully created!'
+        'Database update object successfully created!',
     );
 
     my $RunSuccess = $DBUpdateObject->Run();
@@ -364,7 +364,7 @@ for my $Test (@Tests) {
     $Self->Is(
         1,
         $RunSuccess,
-        'DBUpdateObject ran without problems.'
+        'DBUpdateObject ran without problems.',
     );
 
     # Delete cache due we are using API functions.

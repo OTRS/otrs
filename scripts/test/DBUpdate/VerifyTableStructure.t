@@ -269,7 +269,7 @@ $Success = $Helper->ProvideTestDatabase(
 );
 $Self->True(
     $Success,
-    'ProvideTestDatabase - Load and execute OTRS 5 XML files'
+    'ProvideTestDatabase - Load and execute OTRS 5 XML files',
 );
 
 my $DBUpdateTo6Object = $Kernel::OM->Get('scripts::DBUpdateTo6');
@@ -283,13 +283,13 @@ $Success = $DBUpdateTo6Object->Run(
 $Self->Is(
     $Success,
     1,
-    'DBUpdateTo6 ran without problems'
+    'DBUpdateTo6 ran without problems',
 );
 
 my $StructureMigrated = $TableStructureGet->();
 $Self->True(
     IsHashRefWithData($StructureMigrated),
-    'Get structure for all tables in database'
+    'Get structure for all tables in database',
 );
 
 # Finally, compare two structures.
@@ -297,7 +297,7 @@ for my $Table ( sort keys %{$StructureFresh} ) {
     $Self->IsDeeply(
         $StructureMigrated->{$Table},
         $StructureFresh->{$Table},
-        "Structure for table '$Table'"
+        "Structure for table '$Table'",
     );
 }
 

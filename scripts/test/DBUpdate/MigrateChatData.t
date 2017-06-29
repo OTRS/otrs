@@ -28,13 +28,13 @@ my $Success = $Helper->ProvideTestDatabase(
 if ( !$Success ) {
     $Self->False(
         0,
-        'Test database could not be provided, skipping test'
+        'Test database could not be provided, skipping test',
     );
     return 1;
 }
 $Self->True(
     $Success,
-    'ProvideTestDatabase - Load and execute XML files'
+    'ProvideTestDatabase - Load and execute XML files',
 );
 
 # Run preparation for this test
@@ -99,7 +99,7 @@ my $UpgradeSuccess = $Kernel::OM->Create('scripts::DBUpdateTo6::UpgradeDatabaseS
 $Self->Is(
     1,
     $UpgradeSuccess,
-    'Upgrade database structure to latest version.'
+    'Upgrade database structure to latest version.',
 );
 
 # Get new tables list.
@@ -117,7 +117,7 @@ for my $TableName (@NewTablesName) {
 my $ArticleMigrateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateArticleData');
 $Self->True(
     $ArticleMigrateObject,
-    'Article migrate object successfully created!'
+    'Article migrate object successfully created!',
 );
 
 my $MigrateSuccess = $ArticleMigrateObject->Run();
@@ -125,20 +125,20 @@ my $MigrateSuccess = $ArticleMigrateObject->Run();
 $Self->Is(
     1,
     $MigrateSuccess,
-    'ArticleMigrateObject ran without problems.'
+    'ArticleMigrateObject ran without problems.',
 );
 
 my $PostArticleObject = $Kernel::OM->Create('scripts::DBUpdateTo6::PostArticleTableStructureChanges');
 $Self->True(
     $PostArticleObject,
-    'Article migrate object successfully created!'
+    'Article migrate object successfully created!',
 );
 $MigrateSuccess = $PostArticleObject->Run();
 
 $Self->Is(
     1,
     $MigrateSuccess,
-    'Post changes to the article related tables.'
+    'Post changes to the article related tables.',
 );
 
 # Init real test.
@@ -196,12 +196,12 @@ my $CheckData = sub {
         $Self->Is(
             $ArticleChatCount,
             0,
-            'The article table should be empty - Article Count'
+            'The article table should be empty - Article Count',
         );
         $Self->IsNot(
             $ChatCount,
             0,
-            'The chat table should not be empty - Count'
+            'The chat table should not be empty - Count',
         );
 
         $Self->IsNot(
@@ -211,24 +211,24 @@ my $CheckData = sub {
         );
         $Self->True(
             1,
-            'The article_data_mime and article_data_otrs_chat tables have not chat rows.'
+            'The article_data_mime and article_data_otrs_chat tables have not chat rows.',
         );
     }
     else {
         $Self->IsNot(
             $ArticleChatCount,
             $ChatCount,
-            'In article_data_mime and article_data_otrs_chat should not be the same amount of data.'
+            'In article_data_mime and article_data_otrs_chat should not be the same amount of data.',
         );
         $Self->IsNot(
             $ArticleChatCount,
             0,
-            'The article table should not be empty - Article Count'
+            'The article table should not be empty - Article Count',
         );
         $Self->Is(
             $ChatCount,
             0,
-            'The chat table should be empty - Count'
+            'The chat table should be empty - Count',
         );
 
     }
@@ -242,14 +242,14 @@ $CheckData->(
 my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigrateChatData');
 $Self->True(
     $DBUpdateObject,
-    'Database update object successfully created!'
+    'Database update object successfully created!',
 );
 
 my $RunSuccess = $DBUpdateObject->Run();
 
 $Self->True(
     $RunSuccess,
-    'DBUpdateObject ran with problems information present in tables.'
+    'DBUpdateObject ran with problems information present in tables.',
 );
 
 $CheckData->(
@@ -262,7 +262,7 @@ $RunSuccess = $DBUpdateObject->Run();
 
 $Self->True(
     $RunSuccess,
-    'DBUpdateObject ran a second time with problems information present in tables.'
+    'DBUpdateObject ran a second time with problems information present in tables.',
 );
 
 $CheckData->(

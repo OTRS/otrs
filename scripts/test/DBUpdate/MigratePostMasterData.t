@@ -59,7 +59,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -93,7 +93,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -126,7 +126,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -160,7 +160,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -193,7 +193,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -229,7 +229,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -264,7 +264,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -299,7 +299,7 @@ my @Tests = (
             },
             Not => {
                 Subject => undef,
-                To      => undef
+                To      => undef,
             },
         },
     },
@@ -325,7 +325,7 @@ for my $Test (@Tests) {
     my $DBUpdateObject = $Kernel::OM->Create('scripts::DBUpdateTo6::MigratePostMasterData');
     $Self->True(
         $DBUpdateObject,
-        'Database update object successfully created!'
+        'Database update object successfully created!',
     );
 
     my $RunSuccess = $DBUpdateObject->Run();
@@ -333,7 +333,7 @@ for my $Test (@Tests) {
     $Self->Is(
         1,
         $RunSuccess,
-        'DBUpdateObject ran without problems.'
+        'DBUpdateObject ran without problems.',
     );
 
     %Filter = $PostMasterFilter->FilterGet( %{ $Test->{Config} } );
