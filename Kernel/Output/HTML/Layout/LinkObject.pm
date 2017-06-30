@@ -90,6 +90,10 @@ sub LinkObjectTableCreateComplex {
     # get log object
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
+    # create new instance of the layout object
+    my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
+    my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
+
     # check needed stuff
     for my $Argument (qw(LinkListWithData ViewMode)) {
         if ( !$Param{$Argument} ) {
@@ -181,6 +185,9 @@ sub LinkObjectTableCreateComplex {
         }
     }
 
+    # get config option to show the link delete button
+    my $ShowDeleteButton = $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::ShowDeleteButton');
+
     # add "linked as" column to the table
     for my $Block (@OutputData) {
 
@@ -192,7 +199,63 @@ sub LinkObjectTableCreateComplex {
         # add new column to the headline
         push @{ $Block->{Headline} }, $Column;
 
+        # permission check
+        my $SourcePermission;
+        if ( $Param{SourceObject} && $Param{ObjectID} && $ShowDeleteButton ) {
+
+            # get source permission
+            $SourcePermission = $Kernel::OM->Get('Kernel::System::LinkObject')->ObjectPermission(
+                Object => $Param{SourceObject},
+                Key    => $Param{ObjectID},
+                UserID => $Self->{UserID},
+            );
+
+            # we show the column headline if we got source permission
+            if ($SourcePermission) {
+                $Column = {
+                    Content  => $Kernel::OM->Get('Kernel::Language')->Translate('Delete'),
+                    CssClass => 'Center Last',
+                };
+
+                # add new column to the headline
+                push @{ $Block->{Headline} }, $Column;
+            }
+
+        }
         for my $Item ( @{ $Block->{ItemList} } ) {
+
+            my %LinkDeleteData;
+            my $TargetPermission;
+            if ( $Param{SourceObject} && $Param{ObjectID} && $ShowDeleteButton ) {
+
+                for my $LinkType ( sort keys %{ $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} } } ) {
+
+                    # get target permission
+                    $TargetPermission = $Kernel::OM->Get('Kernel::System::LinkObject')->ObjectPermission(
+                        Object => $Block->{Object},
+                        Key    => $Item->[0]->{Key},
+                        UserID => $Self->{UserID},
+                    );
+
+                    # build the delete link only if we also got target permission
+                    if ( $TargetPermission ) {
+
+                        my %InstantLinkDeleteData;
+
+                        # depending on the link type direction source and target must be switched
+                        if ( $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} }->{$LinkType} eq 'Source' ) {
+                            $LinkDeleteData{SourceObject} = $Block->{Object};
+                            $LinkDeleteData{SourceKey} = $Item->[0]->{Key};
+                            $LinkDeleteData{TargetIdentifier} = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
+                        }
+                        else {
+                            $LinkDeleteData{SourceObject} = $Param{SourceObject};
+                            $LinkDeleteData{SourceKey} = $Param{ObjectID};
+                            $LinkDeleteData{TargetIdentifier} = $Block->{Object} . '::' . $Item->[0]->{Key} . '::' . $LinkType;
+                        }
+                    }
+                }
+            }
 
             # search for key
             my ($ItemWithKey) = grep { $_->{Key} } @{$Item};
@@ -207,6 +270,30 @@ sub LinkObjectTableCreateComplex {
 
             # add check-box cell to item
             push @{$Item}, $CheckboxCell;
+
+            # check if delete icon should be shown
+            if ( $Param{SourceObject} && $Param{ObjectID} && $SourcePermission && $ShowDeleteButton ) {
+
+                if ($TargetPermission) {
+
+                    # build delete link
+                    push @{$Item}, {
+                        Type         => 'DeleteLinkIcon',
+                        CssClass     => 'Center Last',
+                        Translate    => 1,
+                        %LinkDeleteData,
+                    };
+                }
+                else {
+                    # build no delete link, instead use empty values
+                    # to keep table formatting correct
+                    push @{$Item}, {
+                        Type     => 'Plain',
+                        CssClass => 'Center Last',
+                        Content  => '',
+                    };
+                }
+            }
         }
     }
 
@@ -275,9 +362,9 @@ sub LinkObjectTableCreateComplex {
         }
     }
 
-    # create new instance of the layout object
-    my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
-    my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
+    # # create new instance of the layout object
+    # my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
+    # my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
 
     # output the table complex block
     $LayoutObject->Block(
@@ -519,7 +606,7 @@ sub LinkObjectTableCreateSimple {
     if ( !$Param{LinkListWithData} || ref $Param{LinkListWithData} ne 'HASH' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need LinkListWithData!'
+            Message  => 'Need LinkListWithData!',
         );
         return;
     }

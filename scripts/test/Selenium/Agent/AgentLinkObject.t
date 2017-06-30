@@ -64,7 +64,7 @@ $Selenium->RunTest(
         # create test tickets
         my @TicketIDs;
         my @TicketNumbers;
-        for my $Ticket ( 1 .. 2 ) {
+        for my $Ticket ( 1 .. 3 ) {
             my $TicketNumber = $TicketObject->TicketCreateNumber();
             my $TicketID     = $TicketObject->TicketCreate(
                 TN           => $TicketNumber,
@@ -132,6 +132,18 @@ $Selenium->RunTest(
         );
         $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->click();
 
+        # search for third created test ticket
+        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->clear();;
+        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->send_keys( $TicketNumbers[2] );
+        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();
+
+        # link created test tickets
+        $Selenium->find_element("//input[\@value='$TicketIDs[2]'][\@type='checkbox']")->VerifiedClick();
+        $Selenium->execute_script(
+            "\$('#TypeIdentifier').val('Normal::Source').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->click();
+
         # close link object window and switch back to agent ticket zoom
         $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
@@ -150,6 +162,16 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), "T:" . $TicketNumbers[1] ) > -1,
             "TicketNumber $TicketNumbers[1] - found",
+        ) || die;
+
+        # verify that third test tickets is linked with the first ticket
+        $Self->True(
+            index( $Selenium->get_page_source(), 'Normal' ) > -1,
+            "Normal - found",
+        ) || die;
+        $Self->True(
+            index( $Selenium->get_page_source(), "T:" . $TicketNumbers[2] ) > -1,
+            "TicketNumber $TicketNumbers[2] - found",
         ) || die;
 
         # click on child ticket
@@ -242,6 +264,22 @@ $Selenium->RunTest(
             ' Linked as ',
             'Default 6th column name',
         );
+
+        # click on the delete link in the of the third test ticket
+        $Selenium->find_element( "a.InstantLinkDelete[data-delete-link-sourceobject='Ticket'][data-delete-link-sourcekey='$TicketIDs[2]']", 'css' )->click();
+        $Selenium->WaitFor(
+            AlertPresent => 1,
+        );
+        $Selenium->accept_alert();
+
+        # navigate to AgentTicketZoom screen again
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+
+        # check that link to third test ticket has been deleted
+        $Self->False(
+            index( $Selenium->get_page_source(), $TicketNumbers[2] ) > -1,
+            "TicketNumber $TicketNumbers[2] - found",
+        ) || die;
 
         # show ActionMenu - usually this is done when user hovers, however it's not possible to simulate this behaviour
         $Selenium->execute_script(
@@ -504,7 +542,7 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Delete ticket - $TicketID"
+                "Delete ticket - $TicketID",
             );
         }
     }

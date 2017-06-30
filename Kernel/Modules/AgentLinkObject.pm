@@ -336,6 +336,74 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # instant link delete (from the link table)
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'InstantLinkDelete') {
+
+        # challenge token check for write action
+        $LayoutObject->ChallengeTokenCheck();
+
+        # get target identifier and redirect URL
+        my $TargetIdentifier = $ParamObject->GetParam( Param => 'TargetIdentifier' );
+        my $Redirect         = $ParamObject->GetParam( Param => 'Redirect' );
+
+        # get target components
+        my @Target = $TargetIdentifier =~ m{^ ( [^:]+? ) :: (.+?) :: ( [^:]+? ) $}smx;
+
+        if ( $Target[0]       # TargetObject
+             && $Target[1]    # TargetKey
+             && $Target[2]    # LinkType
+        ) {
+
+            # check source permission
+            my $SourcePermission = $LinkObject->ObjectPermission(
+                Object => $Form{SourceObject},
+                Key    => $Form{SourceKey},
+                UserID => $Self->{UserID},
+            );
+
+            # check target permission
+            my $TargetPermission = $LinkObject->ObjectPermission(
+                Object => $Target[0],
+                Key    => $Target[1],
+                UserID => $Self->{UserID},
+            );
+
+            if ( !$SourcePermission || !$TargetPermission ) {
+                return $LayoutObject->NoPermission(
+                    Message    => Translatable('You need ro permission!'),
+                    WithHeader => 'yes',
+                );
+            }
+
+            # delete link from database
+            my $Success = $LinkObject->LinkDelete(
+                Object1 => $Form{SourceObject},
+                Key1    => $Form{SourceKey},
+                Object2 => $Target[0],
+                Key2    => $Target[1],
+                Type    => $Target[2],
+                UserID  => $Self->{UserID},
+            );
+        }
+
+        # build empty JSON output
+        my $JSON = $LayoutObject->JSONEncode(
+            Data => {
+                Success => 1,
+            },
+        );
+
+        # send JSON response
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
+    # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
     else {

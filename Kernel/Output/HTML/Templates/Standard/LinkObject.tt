@@ -22,6 +22,14 @@
 <a class="AsBlock LinkObjectLink" href="[% Data.Link %]" title="[% Data.Title | html %]" >[% Data.Content | truncate(Data.MaxLength) | html %]</a>
 [% RenderBlockEnd("Link") %]
 
+[% RenderBlockStart("DeleteLinkIcon") %]
+<a href="#" data-delete-link-sourceobject="[% Data.SourceObject | html %]" data-delete-link-sourcekey="[% Data.SourceKey | html %]" data-delete-link-targetidentifier="[% Data.TargetIdentifier | html %]" class="InstantLinkDelete" title="[% Translate("Delete link") | html %]">
+    <i class="fa fa-trash-o">
+        <span class="InvisibleText">[% Translate("Delete Link") | html %]</span>
+    </i>
+</a>
+[% RenderBlockEnd("DeleteLinkIcon") %]
+
 [% RenderBlockStart("TimeLong") %]
 [% Data.Content | Localize("TimeLong") %]
 [% RenderBlockEnd("TimeLong") %]
