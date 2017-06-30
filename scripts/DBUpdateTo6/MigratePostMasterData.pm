@@ -16,7 +16,6 @@ use parent qw(scripts::DBUpdateTo6::Base);
 our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
-    'Kernel::System::XML',
     'Kernel::System::YAML',
 );
 

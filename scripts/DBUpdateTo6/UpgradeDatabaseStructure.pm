@@ -18,7 +18,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::XML',
     'Kernel::System::Console::Command::Maint::Database::Check',
 );
 
@@ -37,51 +36,51 @@ sub Run {
     my @Tasks = (
         {
             Message =>
-                'Add table for dynamic field object names and add an index to speed up searching dynamic field text values.',
+                'Add table for dynamic field object names and add an index to speed up searching dynamic field text values',
             Module => 'DynamicFieldChanges',
         },
         {
-            Message => 'Add new sysconfig tables.',
+            Message => 'Add new sysconfig tables',
             Module  => 'NewSysconfigTables',
         },
         {
-            Message => 'Remove no longer needed MD5 columns from some tables.',
+            Message => 'Remove no longer needed MD5 columns from some tables',
             Module  => 'RemoveMD5Columns',
         },
         {
-            Message => 'Add new communication channel table and insert data.',
+            Message => 'Add new communication channel table and insert data',
             Module  => 'NewCommunicationChannelTable',
         },
         {
-            Message => 'Change article table structure and prepare renaming of article tables.',
+            Message => 'Change article table structure and prepare renaming of article tables',
             Module  => 'ArticleTableChangesPreRename',
         },
         {
-            Message => 'Rename article tables.',
+            Message => 'Rename article tables',
             Module  => 'ArticleTableChangesRename',
         },
         {
-            Message => 'Create new article table and change some table structures after renaming of article tables.',
+            Message => 'Create new article table and change some table structures after renaming of article tables',
             Module  => 'ArticleTableChangesPostRename',
         },
         {
-            Message => 'Add an index to the ticket_history table.',
+            Message => 'Add an index to the ticket_history table',
             Module  => 'TicketHistoryTableChanges',
         },
         {
-            Message => 'Add new tables for customer relations.',
+            Message => 'Add new tables for customer relations',
             Module  => 'NewCustomerRelationTables',
         },
         {
-            Message => 'Add new table for chat data.',
+            Message => 'Add new table for chat data',
             Module  => 'NewChatDataTable',
         },
         {
-            Message => 'Change the password columns in the user/customer user tables.',
+            Message => 'Change the password columns in the user/customer user tables',
             Module  => 'PasswordColumnChanges',
         },
         {
-            Message => 'Adds new table for article search index.',
+            Message => 'Add new table for article search index',
             Module  => 'NewArticleSearchIndexTable',
         },
     );
@@ -94,7 +93,7 @@ sub Run {
         next TASK if !$Task;
         next TASK if !$Task->{Module};
 
-        print "\n   $Task->{Message}";
+        print "\n   $Task->{Message} ...";
 
         my $ModuleName = "scripts::DBUpdateTo6::UpgradeDatabaseStructure::$Task->{Module}";
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName) ) {
@@ -116,10 +115,7 @@ sub Run {
 
         my $Success = $Object->Run(%Param);
 
-        if ($Success) {
-            print ".. done.\n";
-        }
-        else {
+        if (!$Success) {
             print ".. error.\n";
             die;
         }

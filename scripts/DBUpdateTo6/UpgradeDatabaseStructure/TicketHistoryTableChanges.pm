@@ -39,68 +39,9 @@ sub Run {
         </TableAlter>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string (for adding columns)
-        if ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # extract columns that should be dropped from XML string
-            if ( $XMLString =~ m{ <ColumnAdd \s+ Name="([^"]+)" }xms ) {
-                my $ColumnName = $1;
-
-                next XMLSTRING if !$ColumnName;
-
-                my $ColumnExists = $Self->ColumnExists(
-                    Table  => $TableName,
-                    Column => $ColumnName,
-                );
-
-                # skip creating the column if the column exists already
-                next XMLSTRING if $ColumnExists;
-            }
-        }
-
-        # extract table name from XML string (for insert statements)
-        elsif ( $XMLString =~ m{ <Insert \s+ Table="([^"]+)" }xms ) {
-
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # extract name column and value for name field
-            if ( $XMLString =~ m{ <Data \s+ Key="name" \s+ Type="Quote"> ([^<>]+) }xms ) {
-
-                my $ColumnName  = 'name';
-                my $ColumnValue = $1;
-
-                next XMLSTRING if !$ColumnName;
-                next XMLSTRING if !$ColumnValue;
-
-                my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-                # check if value exists already
-                return if !$DBObject->Prepare(
-                    SQL   => "SELECT $ColumnName FROM $TableName WHERE $ColumnName = ?",
-                    Bind  => [ \$ColumnValue ],
-                    Limit => 1,
-                );
-
-                my $Exists;
-                while ( my @Row = $DBObject->FetchrowArray() ) {
-                    $Exists = $Row[0];
-                }
-
-                # skip this entry if it exists already
-                next XMLSTRING if $Exists;
-            }
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }

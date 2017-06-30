@@ -80,47 +80,9 @@ sub Run {
         </TableAlter>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string (only for new tables)
-        if ( $XMLString =~ m{ <Table \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # check if table exists already
-            my $TableExists = $Self->TableExists(
-                Table => $TableName,
-            );
-
-            next XMLSTRING if $TableExists;
-        }
-
-        # extract table name from XML string (for adding columns)
-        elsif ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # extract columns that should be dropped from XML string
-            if ( $XMLString =~ m{ <ColumnAdd \s+ Name="([^"]+)" }xms ) {
-                my $ColumnName = $1;
-
-                next XMLSTRING if !$ColumnName;
-
-                my $ColumnExists = $Self->ColumnExists(
-                    Table  => $TableName,
-                    Column => $ColumnName,
-                );
-
-                # skip creating the column if the column exists already
-                next XMLSTRING if $ColumnExists;
-            }
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }

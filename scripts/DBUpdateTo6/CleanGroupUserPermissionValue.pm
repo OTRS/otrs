@@ -16,7 +16,6 @@ use parent qw(scripts::DBUpdateTo6::Base);
 our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
-    'Kernel::System::XML',
 );
 
 =head1 NAME
@@ -74,11 +73,11 @@ Returns 1 if the drop went well.
 sub _DropPermissionValueColumn {
     my ( $Self, %Param ) = @_;
 
-    my $XMLString = <<'END_XML';
-    <TableAlter Name="group_user">
-        <ColumnDrop Name="permission_value"/>
-    </TableAlter>
-END_XML
+    my $XMLString = '
+        <TableAlter Name="group_user">
+            <ColumnDrop Name="permission_value"/>
+        </TableAlter>
+    ';
 
     return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
 

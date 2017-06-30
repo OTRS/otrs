@@ -37,37 +37,9 @@ sub Run {
         '<TableAlter NameOld="article_attachment" NameNew="article_data_mime_attachment"/>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string
-        if ( $XMLString =~ m{ <TableAlter \s+ NameOld="([^"]+)" \s+ NameNew="([^"]+)" }xms ) {
-
-            my $OldTableName = $1;
-            my $NewTableName = $2;
-
-            next XMLSTRING if !$OldTableName;
-            next XMLSTRING if !$NewTableName;
-
-            # check if old table exists
-            my $OldTableExists = $Self->TableExists(
-                Table => $OldTableName,
-            );
-
-            # the old table must still exist
-            next XMLSTRING if !$OldTableExists;
-
-            # check if new table exists already
-            my $NewTableExists = $Self->TableExists(
-                Table => $NewTableName,
-            );
-
-            # the new table must not yet exist
-            next XMLSTRING if $NewTableExists;
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }

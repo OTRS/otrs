@@ -17,7 +17,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Package',
-    'Kernel::System::XML',
 );
 
 =head1 NAME
@@ -31,7 +30,6 @@ sub Run {
 
     my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-    my $XMLObject     = $Kernel::OM->Get('Kernel::System::XML');
 
     # Get list of all installed packages.
     my @RepositoryList = $PackageObject->RepositoryList();

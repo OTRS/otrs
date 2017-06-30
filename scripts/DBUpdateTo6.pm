@@ -112,7 +112,7 @@ sub _ExecuteComponent {
     my $SuccessfulMigration = 1;
 
     # Show initial message for current component
-    my $InitialMessage = "\n Executing tasks ... \n";
+    my $InitialMessage = "\n\n Executing tasks ... \n";
     if ( $Component ne 'Run' ) {
         $InitialMessage = "\n Checking requirements ... \n";
     }
@@ -166,7 +166,7 @@ sub _ExecuteComponent {
         elsif ( $TaskObject->can($Component) ) {
 
             # Show initial task message.
-            print "\n Requirement check for: $Task->{Message} ... ";
+            print "\n    Checking requirements for '$Task->{Message}' ... ";
 
             $Success = $TaskObject->$Component(%Param);
         }
@@ -277,11 +277,11 @@ sub _TasksGet {
             Module  => 'PostArticleTableStructureChanges',
         },
         {
-            Message => 'Migrates ArticleType in ProcessManagement Data',
+            Message => 'Migrate ArticleType in ProcessManagement Data',
             Module  => 'MigrateProcessManagementData',
         },
         {
-            Message => 'Migrates ArticleType in PostMaster filters',
+            Message => 'Migrate ArticleType in PostMaster filters',
             Module  => 'MigratePostMasterData',
         },
         {

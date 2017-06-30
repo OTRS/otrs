@@ -200,25 +200,9 @@ sub Run {
         </Table>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string (only for new tables)
-        if ( $XMLString =~ m{ <Table \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # check if table exists already
-            my $TableExists = $Self->TableExists(
-                Table => $TableName,
-            );
-
-            next XMLSTRING if $TableExists;
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }

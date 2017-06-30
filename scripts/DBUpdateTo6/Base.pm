@@ -11,6 +11,8 @@ package scripts::DBUpdateTo6::Base;    ## no critic
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME
@@ -103,11 +105,208 @@ sub CacheCleanup {
     return 1;
 }
 
+
+=head2 ExecuteXMLDBArray()
+
+Parse and execute an XML array.
+
+    $DBUpdateTo6Object->ExecuteXMLDBArray(
+        XMLArray          => \@XMLArray,
+        Old2NewTableNames => {                                        # optional
+            'article'            => 'article_data_mime',
+            'article_plain'      => 'article_data_mime_plain',
+            'article_attachment' => 'article_data_mime_attachment',
+        },
+    );
+
+=cut
+
+sub ExecuteXMLDBArray {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    if ( !IsArrayRefWithData($Param{XMLArray} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need XMLArray!",
+        );
+        return;
+    }
+
+    my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+
+    XMLSTRING:
+    for my $XMLString ( @{ $Param{XMLArray} } ) {
+
+        # new table
+        if ( $XMLString =~ m{ <(?:Table|TableCreate) \s+ Name="([^"]+)" }xms ) {
+
+            my $TableName = $1;
+            return if !$TableName;
+
+            # check if table exists already
+            my $TableExists = $Self->TableExists(
+                Table => $TableName,
+            );
+
+            next XMLSTRING if $TableExists;
+        }
+
+        # alter table (without renaming the table!)
+        elsif ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
+
+            my $TableName = $1;
+            return if !$TableName;
+
+            # check if table exists
+            my $TableExists = $Self->TableExists(
+                Table => $TableName,
+            );
+
+            # the table must still exist
+            next XMLSTRING if !$TableExists;
+
+            # check if there is a table mapping hash
+            if ( IsHashRefWithData( $Param{Old2NewTableNames} )  ) {
+
+                # check if there is a new table name in the mapping
+                my $NewTableName = $Param{Old2NewTableNames}->{$TableName} || '';
+                if ($NewTableName) {
+
+                    # check if new table exists already
+                    my $NewTableExists = $Self->TableExists(
+                        Table => $NewTableName,
+                    );
+
+                    # the new table must not yet exist
+                    next XMLSTRING if $NewTableExists;
+                }
+            }
+
+            # extract columns that should be added
+            if ( $XMLString =~ m{ <ColumnAdd \s+ Name="([^"]+)" }xms ) {
+
+                my $ColumnName = $1;
+                return if !$ColumnName;
+
+                my $ColumnExists = $Self->ColumnExists(
+                    Table  => $TableName,
+                    Column => $ColumnName,
+                );
+
+                # skip creating the column if the column exists already
+                next XMLSTRING if $ColumnExists;
+            }
+
+            # extract columns that should be dropped
+            if ( $XMLString =~ m{ <ColumnDrop \s+ Name="([^"]+)" }xms ) {
+
+                my $ColumnName = $1;
+                return if !$ColumnName;
+
+                my $ColumnExists = $Self->ColumnExists(
+                    Table  => $TableName,
+                    Column => $ColumnName,
+                );
+
+                # skip dropping the column if the column does not exist
+                next XMLSTRING if !$ColumnExists;
+            }
+        }
+
+        # rename table
+        elsif ( $XMLString =~ m{ <TableAlter \s+ NameOld="([^"]+)" \s+ NameNew="([^"]+)" }xms ) {
+
+            my $OldTableName = $1;
+            my $NewTableName = $2;
+
+            return if !$OldTableName;
+            return if !$NewTableName;
+
+            # check if old table exists
+            my $OldTableExists = $Self->TableExists(
+                Table => $OldTableName,
+            );
+
+            # the old table must still exist
+            next XMLSTRING if !$OldTableExists;
+
+            # check if new table exists already
+            my $NewTableExists = $Self->TableExists(
+                Table => $NewTableName,
+            );
+
+            # the new table must not yet exist
+            next XMLSTRING if $NewTableExists;
+        }
+
+        # drop table
+        elsif ( $XMLString =~ m{ <TableDrop \s+ Name="([^"]+)" }xms ) {
+
+            my $TableName = $1;
+            return if !$TableName;
+
+            # check if table still exists
+            my $TableExists = $Self->TableExists(
+                Table => $TableName,
+            );
+
+            # skip if table has already been deleted
+            next XMLSTRING if !$TableExists;
+        }
+
+        # insert data
+        elsif ( $XMLString =~ m{ <Insert \s+ Table="([^"]+)" }xms ) {
+
+            my $TableName = $1;
+            return if !$TableName;
+
+            # extract id column and value for auto increment fields
+            if ( $XMLString =~ m{ <Data \s+ Key="([^"]+)" \s+ Type="AutoIncrement"> (\d+) }xms ) {
+
+                my $ColumnName  = $1;
+                my $ColumnValue = $2;
+
+                return if !$ColumnName;
+                return if !$ColumnValue;
+
+                # check if value exists already
+                return if !$DBObject->Prepare(
+                    SQL   => "SELECT $ColumnName FROM $TableName WHERE $ColumnName = ?",
+                    Bind  => [ \$ColumnValue ],
+                    Limit => 1,
+                );
+
+                my $Exists;
+                while ( my @Row = $DBObject->FetchrowArray() ) {
+                    $Exists = $Row[0];
+                }
+
+                # skip this entry if it exists already
+                next XMLSTRING if $Exists;
+            }
+        }
+
+        # TODO: Add more special handling for other operations as needed!
+
+        # execute the XML string
+        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
+    }
+
+    return 1;
+}
+
 =head2 ExecuteXMLDBString()
 
 Parse and execute an XML string.
 
-    $DBUpdateTo6Object->ExecuteXMLDBString();
+    $DBUpdateTo6Object->ExecuteXMLDBString(
+        XMLString => '
+            <TableAlter Name="gi_webservice_config">
+                <ColumnDrop Name="config_md5"/>
+            </TableAlter>
+        ',
+    );
 
 =cut
 

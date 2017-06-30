@@ -134,60 +134,9 @@ ArticleDataTables:
         </Insert>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string (only for new tables)
-        if ( $XMLString =~ m{ <Table \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # check if table exists already
-            my $TableExists = $Self->TableExists(
-                Table => $TableName,
-            );
-
-            next XMLSTRING if $TableExists;
-        }
-
-        # extract table name from XML string (for insert statements)
-        elsif ( $XMLString =~ m{ <Insert \s+ Table="([^"]+)" }xms ) {
-
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # extract id column and value for auto increment fields
-            if ( $XMLString =~ m{ <Data \s+ Key="([^"]+)" \s+ Type="AutoIncrement"> (\d+) }xms ) {
-
-                my $ColumnName  = $1;
-                my $ColumnValue = $2;
-
-                next XMLSTRING if !$ColumnName;
-                next XMLSTRING if !$ColumnValue;
-
-                my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-                # check if value exists already
-                return if !$DBObject->Prepare(
-                    SQL   => "SELECT $ColumnName FROM $TableName WHERE $ColumnName = ?",
-                    Bind  => [ \$ColumnValue ],
-                    Limit => 1,
-                );
-
-                my $Exists;
-                while ( my @Row = $DBObject->FetchrowArray() ) {
-                    $Exists = $Row[0];
-                }
-
-                # skip this entry if it exists already
-                next XMLSTRING if $Exists;
-            }
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }

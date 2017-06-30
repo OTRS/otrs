@@ -46,33 +46,9 @@ sub Run {
         </TableAlter>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string
-        if ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
-            my $TableName = $1;
-
-            next XMLSTRING if !$TableName;
-
-            # extract columns that should be dropped from XML string
-            if ( $XMLString =~ m{ <ColumnDrop \s+ Name="([^"]+)" }xms ) {
-                my $ColumnName = $1;
-
-                next XMLSTRING if !$ColumnName;
-
-                my $ColumnExists = $Self->ColumnExists(
-                    Table  => $TableName,
-                    Column => $ColumnName,
-                );
-
-                # skip dropping the column if the column does not exist
-                next XMLSTRING if !$ColumnExists;
-            }
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }

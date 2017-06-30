@@ -130,40 +130,10 @@ sub Run {
         </TableAlter>',
     );
 
-    XMLSTRING:
-    for my $XMLString (@XMLStrings) {
-
-        # extract table name from XML string
-        if ( $XMLString =~ m{ <TableAlter \s+ Name="([^"]+)" }xms ) {
-
-            my $OldTableName = $1;
-
-            next XMLSTRING if !$OldTableName;
-
-            # check if table exists
-            my $OldTableExists = $Self->TableExists(
-                Table => $OldTableName,
-            );
-
-            # the old table must still exist
-            next XMLSTRING if !$OldTableExists;
-
-            # check if there is a new table name in the mapping
-            my $NewTableName = $Old2NewTableNames{$OldTableName} || '';
-            if ($NewTableName) {
-
-                # check if new table exists already
-                my $NewTableExists = $Self->TableExists(
-                    Table => $NewTableName,
-                );
-
-                # the new table must not yet exist
-                next XMLSTRING if $NewTableExists;
-            }
-        }
-
-        return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
-    }
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray          => \@XMLStrings,
+        Old2NewTableNames => \%Old2NewTableNames,
+    );
 
     return 1;
 }

@@ -16,7 +16,6 @@ use parent qw(scripts::DBUpdateTo6::Base);
 our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Log',
-    'Kernel::System::XML',
 );
 
 =head1 NAME
@@ -29,7 +28,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-    my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
     my $Verbose   = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $CheckPreviousRequirement = $Self->_CheckMigrationIsDone();
@@ -428,10 +426,7 @@ sub CheckPreviousRequirement {
         return;
     }
 
-    print " done.\n";
-
     return 1;
-
 }
 
 =head2 _CheckMigrationIsDone()
