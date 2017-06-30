@@ -2819,10 +2819,9 @@ sub _RenderCustomer {
 
     # show customer field as "FirstName Lastname" <MailAddress>
     if ( IsHashRefWithData( \%CustomerUserData ) ) {
-        $Data{CustomerUserID} = "\"$CustomerUserData{UserFirstname} " .
-            "$CustomerUserData{UserLastname}\" <$CustomerUserData{UserEmail}>";
+        $Data{CustomerUserID}       = "\"$CustomerUserData{UserFullname}" . "\" <$CustomerUserData{UserEmail}>";
         $Data{CustomerID}           = $CustomerUserData{UserCustomerID} || '';
-        $Data{SelectedCustomerUser} = $CustomerUserData{UserID}         || '';
+        $Data{SelectedCustomerUser} = $CustomerUserData{UserID} || '';
     }
 
     # When there is no Customer in the DB, it could be unknown Customer, set it from the ticket.
@@ -5004,7 +5003,7 @@ sub _StoreActivityDialog {
                     $HistoryComment = '%%'
                 }
 
-                my $From = "\"$Self->{UserFirstname} $Self->{UserLastname}\" <$Self->{UserEmail}>";
+                my $From = "\"$Self->{UserFullname}\" <$Self->{UserEmail}>";
                 $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID             => $TicketID,
                     SenderType           => 'agent',

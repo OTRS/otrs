@@ -1622,6 +1622,14 @@ sub Run {
                     $BlockType = 'Time';
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
                 }
+                elsif ( $TicketColumn eq 'Responsible' ) {
+
+                    my %ResponsibleInfo = $UserObject->GetUserData(
+                        UserID => $Article{ResponsibleID},
+                    );
+
+                    $DataValue = $ResponsibleInfo{'UserFullname'};
+                }
                 else {
                     $DataValue = $Article{$TicketColumn}
                         || $UserInfo{$TicketColumn}

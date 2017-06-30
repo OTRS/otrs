@@ -138,7 +138,7 @@
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;UserID=[% Data.UserID | uri %];Search=[% Data.Search | uri %]">[% Data.UserLogin | html %]</a>
                             </td>
-                            <td>[% Data.UserFirstname | html %] [% Data.UserLastname | html %]</td>
+                            <td>[% Data.UserFullname | html %]</td>
                             <td title="[% Data.UserEmail | html %]">[% Data.UserEmail | truncate(26) | html %]</td>
                             <td>[% Data.UserLastLoginTimestamp | Localize("TimeShort") %]</td>
 [% RenderBlockStart("OverviewResultRowSwitchToUser") %]

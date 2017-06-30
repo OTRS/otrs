@@ -63,7 +63,8 @@ sub Run {
             if ( $Table eq 'pm_transition_action' ) {
 
                 my $IsVisibleForCustomer = $ArticleTypeMapping{ $Config->{Config}->{ArticleType} }->{Visible} || 0;
-                my $CommunicationChannel = $ArticleTypeMapping{ $Config->{Config}->{ArticleType} }->{Channel} || 'Internal';;
+                my $CommunicationChannel
+                    = $ArticleTypeMapping{ $Config->{Config}->{ArticleType} }->{Channel} || 'Internal';
 
                 $Config->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
                 $Config->{Config}->{CommunicationChannel} = $CommunicationChannel;
@@ -73,8 +74,11 @@ sub Run {
 
             elsif ( $Table eq 'pm_activity_dialog' ) {
 
-                my $IsVisibleForCustomer = $ArticleTypeMapping{ $Config->{Fields}->{Article}->{Config}->{ArticleType} }->{Visible} || 0;
-                my $CommunicationChannel = $ArticleTypeMapping{ $Config->{Fields}->{Article}->{Config}->{ArticleType} }->{Channel} || 'Internal';
+                my $IsVisibleForCustomer
+                    = $ArticleTypeMapping{ $Config->{Fields}->{Article}->{Config}->{ArticleType} }->{Visible} || 0;
+                my $CommunicationChannel
+                    = $ArticleTypeMapping{ $Config->{Fields}->{Article}->{Config}->{ArticleType} }->{Channel}
+                    || 'Internal';
 
                 $Config->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} = $IsVisibleForCustomer;
                 $Config->{Fields}->{Article}->{CommunicationChannel} = $CommunicationChannel;

@@ -65,7 +65,7 @@ sub Run {
             %Types,
             Data => \%GroupData,
             ID   => $UserData{UserID},
-            Name => "$UserData{UserFirstname} $UserData{UserLastname} ($UserData{UserLogin})",
+            Name => "$UserData{UserFullname}",
             Type => 'User',
         );
         $Output .= $LayoutObject->Footer();

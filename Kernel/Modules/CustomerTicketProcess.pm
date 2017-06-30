@@ -2254,10 +2254,9 @@ sub _RenderCustomer {
 
     # show customer field as "FirstName Lastname" <MailAddress>
     if ( IsHashRefWithData( \%CustomerUserData ) ) {
-        $Data{CustomerUserID} = "\"$CustomerUserData{UserFirstname} " .
-            "$CustomerUserData{UserLastname}\" <$CustomerUserData{UserEmail}>";
+        $Data{CustomerUserID}       = "\"$CustomerUserData{UserFullname}" . "\" <$CustomerUserData{UserEmail}>";
         $Data{CustomerID}           = $CustomerUserData{UserCustomerID} || '';
-        $Data{SelectedCustomerUser} = $CustomerUserData{UserID}         || '';
+        $Data{SelectedCustomerUser} = $CustomerUserData{UserID} || '';
     }
 
     # set fields that will get an AJAX loader icon when this field changes
@@ -3798,7 +3797,7 @@ sub _StoreActivityDialog {
                     $HistoryType = 'FollowUp';
                 }
 
-                my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+                my $From = "$Self->{UserFullname} <$Self->{UserEmail}>";
                 $ArticleID = $ArticleBackendObject->ArticleCreate(
                     TicketID             => $TicketID,
                     SenderType           => 'customer',

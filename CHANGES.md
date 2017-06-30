@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-06-30 Added new FirstnameLastname configuration value for proper Chinese name formatting, thanks to Dian Tong Software.
  - 2017-06-28 Fixed bug#[11028](https://bugs.otrs.org/show_bug.cgi?id=11028) - Owner and responsible always pre-selected in initial process screen.
  - 2017-06-27 Fixed bug#[11422](https://bugs.otrs.org/show_bug.cgi?id=11422) - List in the Dashboard: standard priority is ignored if you use a filter.
  - 2017-06-23 Fixed bug#[12850](https://bugs.otrs.org/show_bug.cgi?id=12850) - Pre-Selection for processes directly in the URL doesn't work any longer.

@@ -6437,7 +6437,7 @@ sub TicketWatchSubscribe {
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
         HistoryType  => 'Subscribe',
-        Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
+        Name         => "\%\%$User{UserFullname}",
     );
 
     # trigger event
@@ -6514,7 +6514,7 @@ sub TicketWatchUnsubscribe {
                 TicketID     => $Param{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Unsubscribe',
-                Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
+                Name         => "\%\%$User{UserFullname}",
             );
 
             $Self->EventHandler(
@@ -6541,7 +6541,7 @@ sub TicketWatchUnsubscribe {
             TicketID     => $Param{TicketID},
             CreateUserID => $Param{UserID},
             HistoryType  => 'Unsubscribe',
-            Name         => "\%\%$User{UserFirstname} $User{UserLastname} ($User{UserLogin})",
+            Name         => "\%\%$User{UserFullname}",
         );
 
         $Self->EventHandler(

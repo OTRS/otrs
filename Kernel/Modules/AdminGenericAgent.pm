@@ -1385,7 +1385,7 @@ sub _MaskRun {
             );
             $Data{UserLastname}  = $UserInfo{UserLastname};
             $Data{UserFirstname} = $UserInfo{UserFirstname};
-
+            $Data{UserFullname}  = $UserInfo{UserFullname};
             $LayoutObject->Block(
                 Name => 'Ticket',
                 Data => \%Data,

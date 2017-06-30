@@ -10,7 +10,7 @@
 [% RenderBlockStart("CustomerImage") %]
 [% RenderBlockStart("CustomerImageRealname") %]
     <p>
-        [% Data.UserFirstname | truncate(200) | html %] [% Data.UserLastname | truncate(200) | html %]
+        [% Data.UserFullname | truncate(400) | html %]
     </p>
 [% RenderBlockEnd("CustomerImageRealname") %]
     <div>

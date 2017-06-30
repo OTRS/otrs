@@ -89,7 +89,7 @@ sub ArticleSearchIndexBuild {
     my $SQLStart  = 'INSERT INTO article_search_index (ticket_id, article_id, article_key, article_value) VALUES ';
     my $SQLInsert = '(?, ?, ?, ?) ';
     my $SQLInsertConnector = ', ';
-    my $SQLEnd    = '';
+    my $SQLEnd             = '';
 
     # Oracle has a special syntax:
     # INSERT ALL
@@ -97,7 +97,7 @@ sub ArticleSearchIndexBuild {
     #   INTO suppliers (supplier_id, supplier_name) VALUES (2000, 'Microsoft')
     #   INTO suppliers (supplier_id, supplier_name) VALUES (3000, 'Google')
     # SELECT * FROM dual;
-    if (lc $DBObject->GetDatabaseFunction('Type') eq 'oracle') {
+    if ( lc $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
         $SQLStart  = 'INSERT ALL ';
         $SQLInsert = '
             INTO article_search_index (
@@ -105,7 +105,7 @@ sub ArticleSearchIndexBuild {
             )
             VALUES (?, ?, ?, ?) ';
         $SQLInsertConnector = ' ';
-        $SQLEnd    = 'SELECT * FROM DUAL';
+        $SQLEnd             = 'SELECT * FROM DUAL';
     }
 
     my $SQL = $SQLStart;

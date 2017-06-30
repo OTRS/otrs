@@ -504,8 +504,7 @@ sub Run {
         $ContentBlockData{CustomerUserID} = $Self->{CustomerUserID};
 
         # H1 title
-        $ContentBlockData{CustomerUserIDTitle}
-            = "\"$CustomerUserData{UserFirstname} $CustomerUserData{UserLastname}\" <$CustomerUserData{UserEmail}>";
+        $ContentBlockData{CustomerUserIDTitle} = "\"$CustomerUserData{UserFullname}\" <$CustomerUserData{UserEmail}>";
 
     }
 

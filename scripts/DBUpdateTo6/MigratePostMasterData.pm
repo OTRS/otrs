@@ -29,7 +29,7 @@ scripts::DBUpdateTo6::MigratePostMasterData -  Migrate PostMaster data.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
     # get the needed ArticleTypeMapping from a YML file
@@ -67,7 +67,7 @@ sub Run {
             next ROW if !$FilterKey;
 
             # Map visible for customer.
-            my $IsVisibleForCustomer = $ArticleTypeMapping{ $FilterValue }->{Visible} || 0;
+            my $IsVisibleForCustomer = $ArticleTypeMapping{$FilterValue}->{Visible} || 0;
 
             my %CurrentRow = (
                 Name   => $FilterName,

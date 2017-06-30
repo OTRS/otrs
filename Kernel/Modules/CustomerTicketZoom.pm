@@ -626,7 +626,7 @@ sub Run {
             );
         }
 
-        my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+        my $From = "$Self->{UserFullname} <$Self->{UserEmail}>";
 
         my $MimeType = 'text/plain';
         if ( $LayoutObject->{BrowserRichText} ) {

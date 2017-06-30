@@ -988,7 +988,7 @@
                             <td>[% Data.From | truncate(30) | html %][% Data.Subject | truncate(30) | html %]</td>
                             <td>[% Translate(Data.State) | html %]</td>
                             <td>[% Data.Queue | truncate(30) | html %]</td>
-                            <td>[% Data.Owner | truncate(30) | html %] ([% Data.UserFirstname | html %] [% Data.UserLastname | html %])</td>
+                            <td>[% Data.Owner | truncate(30) | html %] ([% Data.UserFullname | html %])</td>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=AgentTicketCustomer;TicketID=[% Data.TicketID | uri %]">
                                     [% Data.CustomerID | truncate(15) | html %]

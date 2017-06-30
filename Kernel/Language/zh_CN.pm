@@ -5611,6 +5611,7 @@ Thanks for your help!
         'FirstResponseDiffInMin' => '首次响应时间差（分钟）',
         'FirstResponseInMin' => '首次响应时间（分钟）',
         'Firstname Lastname' => '名 姓',
+        'LastnameFirstname' => '姓名',
         'Firstname Lastname (UserLogin)' => '名 姓（登录用户名）',
         'FollowUp for [%s]. %s' => '[%s]. %s的跟进',
         'For these state types the ticket numbers are striked through in the link table.' =>

@@ -42,7 +42,7 @@ sub Run {
             && $Data{UserLastname}
             )
         {
-            $Online{ $Data{UserID} } = "$Data{UserFirstname} $Data{UserLastname}";
+            $Online{ $Data{UserID} } = "$Data{UserFullname}";
             if ( $Param{Config}->{ShowEmail} ) {
                 $Online{ $Data{UserID} } .= " ($Data{UserEmail})";
             }

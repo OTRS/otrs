@@ -594,6 +594,7 @@ sub _ShowEdit {
                 SessionID     => $SessionID,
                 UserFirstname => $Data{UserFirstname},
                 UserLastname  => $Data{UserLastname},
+                UserFullname  => $Data{UserFullname},
                 UserType      => $Data{UserType},
             };
         }

@@ -162,7 +162,7 @@
                                 <tr>
                                     <td>[% Data.SessionID | html %]</td>
                                     <td>[% Data.UserType | html %]</td>
-                                    <td>[% Data.UserFirstname | html %] [% Data.UserLastname %]</td>
+                                    <td>[% Data.UserFullname | html %]</td>
                                     <td>
                                         <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %];SystemMaintenanceID=[% Data.SystemMaintenanceID | html %]">[% Translate("Kill this session") | html %]</a>
                                     </td>
@@ -194,7 +194,7 @@
                                 <tr>
                                     <td>[% Data.SessionID | html %]</td>
                                     <td>[% Data.UserType | html %]</td>
-                                    <td>[% Data.UserFirstname | html %] [% Data.UserLastname %]</td>
+                                    <td>[% Data.UserFullname | html %]</td>
                                     <td>
                                         <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %];SystemMaintenanceID=[% Data.SystemMaintenanceID | html %]">[% Translate("Kill this session") | html %]</a>
                                     </td>

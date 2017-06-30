@@ -116,7 +116,7 @@
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSession;Subaction=Detail;WantSessionID=[% Data.SessionID | uri %]">[% Data.SessionID | html %]</a>
                             </td>
                             <td>[% Data.UserType | html %]</td>
-                            <td>[% Data.UserFirstname | html %] [% Data.UserLastname %]</td>
+                            <td>[% Data.UserFullname | html %]</td>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSession;Subaction=Kill;WantSessionID=[% Data.SessionID | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Kill this session") | html %]</a>
                             </td>
@@ -132,7 +132,7 @@
 
 [% RenderBlockStart("DetailView") %]
             <div class="Header">
-                <h2>[% Translate("Detail View for SessionID") | html %] : [% Data.SessionID | html %] - [% Data.UserFirstname | html %] [% Data.UserLastname | html %]</h2>
+                <h2>[% Translate("Detail View for SessionID") | html %] : [% Data.SessionID | html %] - [% Data.UserFullname | html %]</h2>
             </div>
             <div class="Content">
                 <table class="DataTable">

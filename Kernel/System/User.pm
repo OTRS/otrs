@@ -1483,6 +1483,9 @@ sub _UserFullname {
             . ') ' . $Param{UserLastname}
             . ' ' . $Param{UserFirstname};
     }
+    elsif ( $FirstnameLastNameOrder eq '9' ) {
+        $UserFullname = $Param{UserLastname} . $Param{UserFirstname};
+    }
     return $UserFullname;
 }
 

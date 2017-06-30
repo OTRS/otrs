@@ -697,10 +697,7 @@ sub Run {
 
                     # use data from customer user (if customer user is in database)
                     if ( IsHashRefWithData( \%CustomerUserData ) ) {
-                        $From = '"'
-                            . $CustomerUserData{UserFirstname} . ' '
-                            . $CustomerUserData{UserLastname} . '"'
-                            . ' <' . $CustomerUserData{UserEmail} . '>';
+                        $From = '"' . $CustomerUserData{UserFullname} . '"' . '<' . $CustomerUserData{UserEmail} . '>';
                     }
                 }
                 else {

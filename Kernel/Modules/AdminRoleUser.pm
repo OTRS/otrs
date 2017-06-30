@@ -54,7 +54,7 @@ sub Run {
             Selected => \%Member,
             Data     => \%RoleData,
             ID       => $UserData{UserID},
-            Name     => "$UserData{UserFirstname} $UserData{UserLastname} ($UserData{UserLogin})",
+            Name     => "$UserData{UserFullname}",
             Type     => 'User',
         );
         $Output .= $LayoutObject->Footer();

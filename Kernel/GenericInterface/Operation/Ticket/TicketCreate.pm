@@ -1404,7 +1404,7 @@ sub _TicketCreate {
 
     # use data from customer user (if customer user is in database)
     elsif ( IsHashRefWithData( \%CustomerUserData ) ) {
-        $From = '"' . $CustomerUserData{UserFirstname} . ' ' . $CustomerUserData{UserLastname} . '"'
+        $From = '"' . $CustomerUserData{UserFullname} . '"'
             . ' <' . $CustomerUserData{UserEmail} . '>';
     }
 

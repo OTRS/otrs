@@ -11865,6 +11865,7 @@ via the Preferences button after logging in.
                 <Item ValueType="Option" Value="7" Translatable="1">Lastname Firstname (UserLogin)</Item>
                 <Item ValueType="Option" Value="8" Translatable="1">(UserLogin) Lastname Firstname</Item>
                 <!-- End Hungarian -->
+                <Item ValueType="Option" Value="9" Translatable="1">LastnameFirstname</Item>
             </Item>
         </Value>
     </Setting>

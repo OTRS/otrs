@@ -114,7 +114,7 @@ Returns 1 on success.
 sub _MigrateArticleTypeToIsVisibleForCustomer {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
     # get the needed ArticleTypeMapping from a YML file
@@ -154,7 +154,7 @@ sub _MigrateArticleTypeToIsVisibleForCustomer {
             next ROW if !$JobKey;
 
             # Map visible for customer.
-            my $IsVisibleForCustomer = $ArticleTypeMapping{ $JobValue }->{Visible} || 0;
+            my $IsVisibleForCustomer = $ArticleTypeMapping{$JobValue}->{Visible} || 0;
 
             my %CurrentRow = (
                 Name   => $JobName,

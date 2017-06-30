@@ -724,7 +724,7 @@ sub OwnerFilterValuesGet {
                 UserID => $UserID,
             );
             if (%User) {
-                $Data{$UserID} = $User{UserFirstname} . ' ' . $User{UserLastname};
+                $Data{$UserID} = $User{UserFullname};
             }
         }
     }
@@ -812,7 +812,7 @@ sub ResponsibleFilterValuesGet {
                 UserID => $UserID,
             );
             if (%User) {
-                $Data{$UserID} = $User{UserFirstname} . ' ' . $User{UserLastname};
+                $Data{$UserID} = $User{UserFullname};
             }
         }
     }

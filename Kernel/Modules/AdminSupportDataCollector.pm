@@ -254,7 +254,7 @@ sub _SupportDataCollectorView {
     {
         $Param{SenderAddress} = $ConfigObject->Get('AdminEmail');
     }
-    $Param{SenderName} = $User{UserFirstname} . ' ' . $User{UserLastname};
+    $Param{SenderName} = $User{UserFullname};
 
     # verify if the email is valid, set it to empty string if not, this will be checked on client
     #    side
@@ -485,7 +485,7 @@ sub _SendSupportBundle {
                 $SenderAddress = $ConfigObject->Get('AdminEmail');
             }
 
-            my $SenderName = $User{UserFirstname} . ' ' . $User{UserLastname};
+            my $SenderName = $User{UserFullname};
 
             my $Body;
 

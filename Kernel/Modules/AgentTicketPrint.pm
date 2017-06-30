@@ -261,8 +261,7 @@ sub Run {
     # output "printed by"
     $PDFObject->Text(
         Text => $PrintedBy . ' '
-            . $Self->{UserFirstname} . ' '
-            . $Self->{UserLastname} . ' ('
+            . $Self->{UserFullname} . ' ('
             . $Self->{UserEmail} . ')'
             . ', ' . $Time,
         FontSize => 9,
@@ -384,9 +383,7 @@ sub _PDFOutputTicketInfos {
         },
         {
             Key   => $LayoutObject->{LanguageObject}->Translate('Owner'),
-            Value => $Ticket{Owner} . ' ('
-                . $UserInfo{UserFirstname} . ' '
-                . $UserInfo{UserLastname} . ')',
+            Value => $Ticket{Owner} . ' (' . $UserInfo{UserFullname} . ')',
         },
     ];
 
@@ -397,9 +394,7 @@ sub _PDFOutputTicketInfos {
     if ( $ConfigObject->Get('Ticket::Responsible') ) {
         my $Responsible = '-';
         if ( $Ticket{Responsible} ) {
-            $Responsible = $Ticket{Responsible} . ' ('
-                . $Param{ResponsibleData}->{UserFirstname} . ' '
-                . $Param{ResponsibleData}->{UserLastname} . ')';
+            $Responsible = $Ticket{Responsible} . ' (' . $Param{ResponsibleData}->{UserFullname} . ')';
         }
         my $Row = {
             Key   => $LayoutObject->{LanguageObject}->Translate('Responsible'),

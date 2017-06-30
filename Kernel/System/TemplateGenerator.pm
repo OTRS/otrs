@@ -329,10 +329,10 @@ sub Sender {
         if ( $UseAgentRealName eq 'AgentName' ) {
 
             # check for user data
-            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
+            if ( $UserData{UserFullname} ) {
 
                 # rewrite RealName
-                $Address{RealName} = "$UserData{UserFirstname} $UserData{UserLastname}";
+                $Address{RealName} = "$UserData{UserFullname}";
             }
         }
 
@@ -340,13 +340,12 @@ sub Sender {
         if ( $UseAgentRealName eq 'AgentNameSystemAddressName' ) {
 
             # check for user data
-            if ( $UserData{UserLastname} && $UserData{UserFirstname} ) {
+            if ( $UserData{UserFullname} ) {
 
                 # rewrite RealName
                 my $Separator = ' ' . $ConfigObject->Get('Ticket::DefineEmailFromSeparator')
                     || '';
-                $Address{RealName} = $UserData{UserFirstname} . ' ' . $UserData{UserLastname}
-                    . $Separator . ' ' . $Address{RealName};
+                $Address{RealName} = $UserData{UserFullname} . $Separator . ' ' . $Address{RealName};
             }
         }
     }

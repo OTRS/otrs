@@ -1392,7 +1392,7 @@ sub _ArticleToUpdate {
         if ($NewTo) {
             $NewTo .= ', ';
         }
-        $NewTo .= "$UserData{UserFirstname} $UserData{UserLastname} <$UserData{UserEmail}>";
+        $NewTo .= "$UserData{UserFullname} <$UserData{UserEmail}>";
     }
 
     # not update if To is the same

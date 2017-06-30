@@ -10988,6 +10988,7 @@ via the Preferences button after logging in.
                 <Item Key="7" Translatable="1">Lastname Firstname (UserLogin)</Item>
                 <Item Key="8" Translatable="1">(UserLogin) Lastname Firstname</Item>
                 <!-- End Hungarian -->
+                <Item Key="9" Translatable="1">LastnameFirstname</Item>
             </Option>
         </Setting>
     </ConfigItem>

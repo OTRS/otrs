@@ -109,8 +109,7 @@ sub Run {
             );
 
             my $UserValue = sprintf '"%s %s" <%s>',
-                $User{UserFirstname},
-                $User{UserLastname},
+                $User{UserFullname},
                 $User{UserEmail};
 
             push @Data, {
