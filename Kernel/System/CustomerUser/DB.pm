@@ -321,6 +321,10 @@ sub CustomerSearch {
         my @CustomerUserSearchFields = grep { !exists $Self->{ConfiguredDynamicFieldNames}->{$_} }
             @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} };
 
+        if ( $Param{CustomerUserOnly} ) {
+            @CustomerUserSearchFields = grep { $_ ne 'customer_id' } @CustomerUserSearchFields;
+        }
+
         my %QueryCondition = $Self->{DBObject}->QueryCondition(
             Key           => \@CustomerUserSearchFields,    #$Self->{CustomerUserMap}->{CustomerUserSearchFields},
             Value         => $Search,
