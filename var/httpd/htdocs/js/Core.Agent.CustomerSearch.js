@@ -344,6 +344,14 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      */
     TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey, SetAsTicketCustomer) {
 
+        // clone customer entry
+        var $Clone = $('.CustomerTicketTemplate' + Field).clone(),
+            CustomerTicketCounter = $('#CustomerTicketCounter' + Field).val(),
+            TicketCustomerIDs = 0,
+            IsDuplicated = false,
+            Suffix,
+            SignatureURL;
+
         if ( typeof CustomerKey !== 'undefined') {
             CustomerKey = htmlDecode(CustomerKey);
         }
@@ -354,13 +362,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         else {
             CustomerValue = htmlDecode(CustomerValue);
         }
-
-        // clone customer entry
-        var $Clone = $('.CustomerTicketTemplate' + Field).clone(),
-            CustomerTicketCounter = $('#CustomerTicketCounter' + Field).val(),
-            TicketCustomerIDs = 0,
-            IsDuplicated = false,
-            Suffix;
 
         // check for duplicated entries
         $('[class*=CustomerTicketText]').each(function(index) {
