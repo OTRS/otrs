@@ -27,13 +27,13 @@ my $Success = $Helper->ProvideTestDatabase(
 if ( !$Success ) {
     $Self->False(
         0,
-        'Test database could not be provided, skipping test'
+        'Test database could not be provided, skipping test',
     );
     return 1;
 }
 $Self->True(
     $Success,
-    'ProvideTestDatabase - Load and execute OTRS 6 XML files'
+    'ProvideTestDatabase - Load and execute OTRS 6 XML files',
 );
 
 # Retrieve table structure and store it in a lookup structure for easier comparison.
@@ -257,7 +257,7 @@ my $TableStructureGet = sub {
 my $StructureFresh = $TableStructureGet->();
 $Self->True(
     IsHashRefWithData($StructureFresh),
-    'Get structure for all tables in database'
+    'Get structure for all tables in database',
 );
 
 # Re-initialize test database based on fresh OTRS 5 schema.
