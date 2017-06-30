@@ -31,29 +31,29 @@ sub Run {
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     if ($Verbose) {
-        print STDERR "\n Reseting auto-incremental if needed for article table. \n";
+        print "\n Reseting auto-incremental if needed for article table. \n";
     }
-    $Self->_ResetAutoIncrementField();
+    return if !$Self->_ResetAutoIncrementField();
 
     if ($Verbose) {
-        print STDERR "\n Performing needed actions on article_data_mime table. \n";
+        print "\n Performing needed actions on article_data_mime table. \n";
     }
-    $Self->_UpdateArticleDataMimeTable();
+    return if !$Self->_UpdateArticleDataMimeTable();
 
     if ($Verbose) {
-        print STDERR "\n Performing needed actions on article_data_mime_plain table. \n";
+        print "\n Performing needed actions on article_data_mime_plain table. \n";
     }
-    $Self->_UpdateArticleDataMimePlainTable();
+    return if !$Self->_UpdateArticleDataMimePlainTable();
 
     if ($Verbose) {
-        print STDERR "\n Performing needed actions on article_data_mime_attachment table. \n";
+        print "\n Performing needed actions on article_data_mime_attachment table. \n";
     }
-    $Self->_UpdateArticleDataMimeAttachmentTable();
+    return if !$Self->_UpdateArticleDataMimeAttachmentTable();
 
     if ($Verbose) {
-        print STDERR "\n Re-create foreign keys pointing to the old article table. \n";
+        print "\n Re-create foreign keys pointing to the old article table. \n";
     }
-    $Self->_RecreateForeignKeysPointingToArticleTable();
+    return if !$Self->_RecreateForeignKeysPointingToArticleTable();
 
     return 1;
 }
