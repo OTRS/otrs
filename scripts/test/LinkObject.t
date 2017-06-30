@@ -3124,29 +3124,6 @@ for my $ObjectCount ( 0 .. 49 ) {
     }
 }
 
-#
-# EventTypeConfigUpdate tests
-#
-my @EventTypeConfigUpdate = (
-    {
-        Name    => 'Dummy link type',
-        Object  => 'Ticket',
-        Backend => 'Kernel::System::LinkObject::Ticket',
-        Config  => {
-            Dummy => {
-                SourceName => 'Dummy',
-                TargetName => 'Dummy',
-            },
-        },
-        Result => [
-            'TicketSourceLinkAddDummy',
-            'TicketSourceLinkDeleteDummy',
-            'TicketTargetLinkAddDummy',
-            'TicketTargetLinkDeleteDummy',
-        ],
-    },
-);
-
 # delete cache to consider manually added links
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
     Type => 'LinkObject',
@@ -3241,34 +3218,6 @@ $Self->IsDeeply(
     \%ExpectedLinkList,
     "LinkList() deep structure test for $NumberOfLinks links - cache validation 2",
 );
-
-for my $Test (@EventTypeConfigUpdate) {
-    my $Success = $ConfigObject->Set(
-        Key   => 'LinkObject::Type',
-        Value => $Test->{Config},
-    );
-    $Self->True(
-        $Success,
-        "EventTypeConfigUpdate - $Test->{Name} - Registered link type",
-    );
-
-    my $LinkObject = $Kernel::OM->Get( $Test->{Backend} );
-    $LinkObject->EventTypeConfigUpdate();
-
-    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Config'] );
-
-    my $EventConfig = $ConfigObject->Get('Events')->{ $Test->{Object} };
-
-    if ( @{ $Test->{Result} } ) {
-        for my $Event ( @{ $Test->{Result} } ) {
-            $Self->IsDeeply(
-                [ grep { $_ eq $Event } @{$EventConfig} ],
-                [$Event],
-                "EventTypeConfigUpdate - $Test->{Name} - Result event config",
-            );
-        }
-    }
-}
 
 # clean up link tests
 

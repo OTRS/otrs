@@ -11,6 +11,8 @@ package Kernel::System::LinkObject;
 use strict;
 use warnings;
 
+use parent qw( Kernel::System::EventHandler );
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
@@ -43,9 +45,13 @@ Don't use the constructor directly, use the ObjectManager instead:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # Initialize event handler.
+    $Self->EventHandlerInit(
+        Config => 'LinkObject::EventModulePost',
+    );
 
     $Self->{CacheType} = 'LinkObject';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -573,6 +579,20 @@ sub LinkAdd {
         UserID       => $Param{UserID},
     );
 
+    # Run event handlers.
+    $Self->EventHandler(
+        Event => 'LinkObjectLinkAdd',
+        Data  => {
+            SourceObject => $Param{SourceObject},
+            SourceKey    => $Param{SourceKey},
+            TargetObject => $Param{TargetObject},
+            TargetKey    => $Param{TargetKey},
+            Type         => $Param{Type},
+            State        => $Param{State},
+        },
+        UserID => $Param{UserID},
+    );
+
     return 1;
 }
 
@@ -767,7 +787,8 @@ sub LinkDelete {
 
     # run pre event module of source object
     $BackendSourceObject->LinkDeletePre(
-        Key          => $Existing{SourceKey},
+        SourceObject => $Existing{SourceObject},
+        SourceKey    => $Existing{SourceKey},
         TargetObject => $Existing{TargetObject},
         TargetKey    => $Existing{TargetKey},
         Type         => $Param{Type},
@@ -777,7 +798,8 @@ sub LinkDelete {
 
     # run pre event module of target object
     $BackendTargetObject->LinkDeletePre(
-        Key          => $Existing{TargetKey},
+        TargetObject => $Existing{TargetObject},
+        TargetKey    => $Existing{TargetKey},
         SourceObject => $Existing{SourceObject},
         SourceKey    => $Existing{SourceKey},
         Type         => $Param{Type},
@@ -843,6 +865,20 @@ sub LinkDelete {
         Type         => $Param{Type},
         State        => $Existing{State},
         UserID       => $Param{UserID},
+    );
+
+    # Run event handlers.
+    $Self->EventHandler(
+        Event => 'LinkObjectLinkDelete',
+        Data  => {
+            SourceObject => $Existing{SourceObject},
+            SourceKey    => $Existing{SourceKey},
+            TargetObject => $Existing{TargetObject},
+            TargetKey    => $Existing{TargetKey},
+            Type         => $Param{Type},
+            State        => $Existing{State},
+        },
+        UserID => $Param{UserID},
     );
 
     return 1;

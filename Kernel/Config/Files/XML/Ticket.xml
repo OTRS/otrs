@@ -9910,14 +9910,6 @@
                 <Item>TicketUnsubscribe</Item>
                 <Item>TicketFlagSet</Item>
                 <Item>TicketFlagDelete</Item>
-                <Item>TicketSourceLinkAddNormal</Item>
-                <Item>TicketSourceLinkDeleteNormal</Item>
-                <Item>TicketTargetLinkAddNormal</Item>
-                <Item>TicketTargetLinkDeleteNormal</Item>
-                <Item>TicketSourceLinkAddParentChild</Item>
-                <Item>TicketSourceLinkDeleteParentChild</Item>
-                <Item>TicketTargetLinkAddParentChild</Item>
-                <Item>TicketTargetLinkDeleteParentChild</Item>
                 <Item>EscalationResponseTimeNotifyBefore</Item>
                 <Item>EscalationUpdateTimeNotifyBefore</Item>
                 <Item>EscalationSolutionTimeNotifyBefore</Item>
