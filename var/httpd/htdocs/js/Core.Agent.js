@@ -570,7 +570,7 @@ Core.Agent = (function (TargetNS) {
             NavigationBarWidth += 1;
         }
 
-        $('#Navigation').css('width', NavigationBarWidth);
+        $('#Navigation').css('width', Math.ceil(NavigationBarWidth));
 
         if (NavigationBarWidth > $('#NavigationContainer').outerWidth()) {
             NavigationBarShowSlideButton('Right', parseInt($('#NavigationContainer').outerWidth(true) - NavigationBarWidth, 10));
