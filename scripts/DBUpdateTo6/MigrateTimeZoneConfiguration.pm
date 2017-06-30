@@ -48,16 +48,21 @@ sub Run {
         ],
     );
 
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
     #
     # Check for interactive mode
     #
     if ( $Param{CommandlineOptions}->{NonInteractive} || !is_interactive() ) {
-        print
-            "\n  Migration of time zone settings is being skipped because this script is being executed in non-interactive mode. \n";
-        print "  Please make sure to set the following SysConfig options after this script has been executed: \n";
-        print "  OTRSTimeZone \n";
-        print "  UserDefaultTimeZone \n";
-        print "  TimeZone::Calendar1 to TimeZone::Calendar9 (depending on the calendars in use) \n";
+
+        if ($Verbose) {
+            print
+                "\n  Migration of time zone settings is being skipped because this script is being executed in non-interactive mode. \n"
+                . "  Please make sure to set the following SysConfig options after this script has been executed: \n"
+                . "  OTRSTimeZone \n"
+                . "  UserDefaultTimeZone \n"
+                . "  TimeZone::Calendar1 to TimeZone::Calendar9 (depending on the calendars in use) \n";
+        }
         return 1;
     }
 

@@ -30,6 +30,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $TableExists = $Self->TableExists(
         Table => 'article_data_otrs_chat',
@@ -81,7 +82,7 @@ sub Run {
     # Chat info should be present in chat channel table
     # not in article table
     if ( $ChatCount && !$ArticleChatCount ) {
-        print STDERR "\n  Chat data migration already executed. \n";
+        print "\n  Chat data migration already executed. \n" if $Verbose;
     }
 
     my $ArticleChatMin = 0;

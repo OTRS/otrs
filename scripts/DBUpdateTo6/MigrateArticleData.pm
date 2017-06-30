@@ -27,8 +27,8 @@ scripts::DBUpdateTo6::MigrateArticleData -  Create entries in new article table 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-    my $Verbose   = $Param{CommandlineOptions}->{Verbose} || 0;
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my $CheckPreviousRequirement = $Self->_CheckMigrationIsDone();
 
@@ -65,7 +65,7 @@ sub Run {
 
     if ($Verbose) {
 
-        print STDERR
+        print
             "\n $ArticlesForMigration articles will be migrated \n";
     }
     my $AlreadyMigratedArticles = 0;
@@ -138,7 +138,7 @@ sub Run {
             # Add some meaningful information
             if ( $Verbose && ( $AlreadyMigratedArticles > $VerboseLoop * $VerboseRange ) ) {
 
-                print STDERR
+                print
                     "\n $AlreadyMigratedArticles of $ArticlesForMigration articles migrated. \n";
                 $VerboseLoop++;
             }

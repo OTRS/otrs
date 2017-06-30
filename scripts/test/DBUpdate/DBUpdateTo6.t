@@ -44,6 +44,8 @@ for my $Count ( 1 .. 2 ) {
     $Success = $DBUpdateTo6Object->Run(
         CommandlineOptions => {
             NonInteractive => 1,
+
+            # Verbose => 1,
         },
     );
 

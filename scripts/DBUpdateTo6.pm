@@ -76,11 +76,11 @@ sub Run {
     }
 
     if ($SuccessfulMigration) {
-        $ComplementaryMessage = "\n\n Migration completed! \n\n";
+        $ComplementaryMessage = "\n\n\n Migration completed! \n\n\n";
     }
     else {
         $ComplementaryMessage
-            = "\n\n Not possible to complete migration, check previous messages for more information. \n\n";
+            = "\n\n\n Not possible to complete migration, check previous messages for more information. \n\n\n";
     }
 
     print $ComplementaryMessage;
@@ -92,7 +92,7 @@ sub _ExecuteComponent {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Component} ) {
-        print " Need Component!";
+        print " Error:Need Component!";
         return;
     }
 
@@ -114,7 +114,7 @@ sub _ExecuteComponent {
     # Show initial message for current component
     my $InitialMessage = "\n\n Executing tasks ... \n";
     if ( $Component ne 'Run' ) {
-        $InitialMessage = "\n Checking requirements ... \n";
+        $InitialMessage = "\n\n Checking requirements ... \n";
     }
     print $InitialMessage;
 
@@ -147,7 +147,7 @@ sub _ExecuteComponent {
 
         my $TaskObject = $Kernel::OM->Create($ModuleName);
         if ( !$TaskObject ) {
-            print "\n Was not possible to create object for: $ModuleName.\n";
+            print "\n Error:Was not possible to create object for: $ModuleName.\n";
             $SuccessfulMigration = 0;
             last TASK;
         }
@@ -157,7 +157,7 @@ sub _ExecuteComponent {
         if ( $Component eq 'Run' ) {
 
             # Show initial task message.
-            print "\n\n Step $CurrentStep of $Steps: $Task->{Message} ... ";
+            print "\n\n    Step $CurrentStep of $Steps: $Task->{Message} ... ";
 
             $Success = $TaskObject->$Component(%Param);
         }
@@ -166,7 +166,7 @@ sub _ExecuteComponent {
         elsif ( $TaskObject->can($Component) ) {
 
             # Show initial task message.
-            print "\n    Checking requirements for '$Task->{Message}' ... ";
+            print "\n    Requirement check for: $Task->{Message} ... ";
 
             $Success = $TaskObject->$Component(%Param);
         }

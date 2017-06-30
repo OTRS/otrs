@@ -28,6 +28,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     # check if article_type table exists
     my $TableExists = $Self->TableExists(
@@ -36,7 +37,7 @@ sub Run {
 
     # Skip execution if article_type table is missing.
     if ( !$TableExists ) {
-        print "\nArticle types table missing, skipping... ";
+        print "\nArticle types table missing, skipping... " if $Verbose;
         return 1;
     }
 

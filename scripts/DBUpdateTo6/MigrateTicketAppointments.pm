@@ -74,7 +74,7 @@ sub Run {
             UserID => 1,
         );
         if ( !$Success ) {
-            print "\n  Could not update calendar '$Calendar{CalendarName}'.\n";
+            print "\n  Error:Could not update calendar '$Calendar{CalendarName}'.\n";
             return;
         }
     }

@@ -51,7 +51,7 @@ sub Run {
     # if there are some entries left, these must be deleted by other modules
     # so we give them a chance to be migrated from these modules
     if ($Count) {
-        print STDERR
+        print
             "\n  There are still entries in your gi_object_lock_state table, therefore it will not be deleted.\n";
         return 1;
     }

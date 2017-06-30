@@ -26,17 +26,22 @@ scripts::DBUpdateTo6::PerlModulesCheck - Checks required Perl modules before upd
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     my $ScriptPath = "$Home/bin/otrs.CheckModules.pl";
 
-    print "\n  Executing $ScriptPath to check for missing required modules. \n\n";
+    print "\n  Executing $ScriptPath to check for missing required modules. \n\n" if $Verbose;
+
+    print "\n";
 
     my $ExitCode = system($ScriptPath);
 
     if ( $ExitCode != 0 ) {
-        die
+        print
             "Error: not all required Perl modules are installed. Please follow the recommendations to install them, and then run the upgrade script again.\n";
+        return;
     }
 
     return 1;

@@ -33,6 +33,8 @@ sub Run {
     # enable auto-flushing of STDOUT
     $| = 1;    ## no critic
 
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
     my @Tasks = (
         {
             Message =>
@@ -85,7 +87,7 @@ sub Run {
         },
     );
 
-    print "\n";
+    print "\n" if $Verbose;
 
     TASK:
     for my $Task (@Tasks) {
@@ -93,7 +95,7 @@ sub Run {
         next TASK if !$Task;
         next TASK if !$Task->{Module};
 
-        print "\n   $Task->{Message} ...";
+        print "\n   $Task->{Message}" if $Verbose;
 
         my $ModuleName = "scripts::DBUpdateTo6::UpgradeDatabaseStructure::$Task->{Module}";
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName) ) {
@@ -103,21 +105,24 @@ sub Run {
         # Run module.
         $Kernel::OM->ObjectParamAdd(
             "scripts::DBUpdateTo6::UpgradeDatabaseStructure::$Task->{Module}" => {
-                Opts => $Self->{Opts},
+                Opts => $Param{CommandlineOptions},
             },
         );
 
         my $Object = $Kernel::OM->Create($ModuleName);
         if ( !$Object ) {
-            print "  Was not possible to create object for: $ModuleName.";
-            die;
+            print "  Error:Was not possible to create object for: $ModuleName.";
+            return;
         }
 
         my $Success = $Object->Run(%Param);
 
-        if (!$Success) {
-            print ".. error.\n";
-            die;
+        if ($Success) {
+            print "\n" if $Verbose;
+        }
+        else {
+            print ".. error.\n" if $Verbose;
+            return;
         }
     }
 
@@ -136,6 +141,8 @@ Returns 1 on success
 
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
+
+    print "\n";
 
     # check DB connection is possible
     my $ConnectionCheck = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Database::Check')->Execute();

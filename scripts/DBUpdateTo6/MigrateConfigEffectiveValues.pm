@@ -29,26 +29,31 @@ scripts::DBUpdateTo6::MigrateConfigEffectiveValues - Migrate config effective va
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
     # Move and rename ZZZAuto.pm from OTRS 5 away from Kernel/Config/Files
     my ( $FileClass, $FilePath ) = $Self->_MoveZZZAuto();
 
     # check error
     if ( !$FilePath ) {
-        print
-            "\n  Could not find Kernel/Config/Files/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
+        if ($Verbose) {
+            print
+                "\n  Could not find Kernel/Config/Files/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
+        }
         return 1;
     }
 
     # Rebuild config to read the xml config files from otrs 6 to write them
     # to the database and deploy them to ZZZAAuto.pm
     $Self->RebuildConfig();
-
-    print "\n  If you see errors about 'Setting ... is invalid', that's fine, no need to worry! \n"
-        . "  This could happen because some config settings are no longer needed for OTRS 6 \n"
-        . "  or you may have some packages installed, which will be migrated \n"
-        . "  in a later step (during the package upgrade). \n"
-        . "\n"
-        . "  The configuration migration can take some time, please be patient. \n";
+    if ($Verbose) {
+        print "\n  If you see errors about 'Setting ... is invalid', that's fine, no need to worry! \n"
+            . "  This could happen because some config settings are no longer needed for OTRS 6 \n"
+            . "  or you may have some packages installed, which will be migrated \n"
+            . "  in a later step (during the package upgrade). \n"
+            . "\n"
+            . "  The configuration migration can take some time, please be patient. \n";
+    }
 
     # migrate the effective values from modified settings in OTRS 5 to OTRS 6
     my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(

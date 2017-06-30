@@ -47,6 +47,7 @@ sub RebuildConfig {
     my ( $Self, %Param ) = @_;
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     # Convert XML files to entries in the database
     if (
@@ -57,7 +58,8 @@ sub RebuildConfig {
         )
         )
     {
-        die "There was a problem writing XML to DB.";
+        print "Error:There was a problem writing XML to DB.";
+        return;
     }
 
     # Rebuild ZZZAAuto.pm with current values
@@ -71,7 +73,8 @@ sub RebuildConfig {
         )
         )
     {
-        die "There was a problem writing ZZZAAuto.pm.";
+        print "Error:There was a problem writing ZZZAAuto.pm.";
+        return;
     }
 
     # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
@@ -81,7 +84,9 @@ sub RebuildConfig {
         }
     }
 
-    print "\n  If you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
+    if ($Verbose) {
+        print "\n  If you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
+    }
 
     # create common objects with new default config
     $Kernel::OM->ObjectsDiscard();
@@ -105,7 +110,6 @@ sub CacheCleanup {
     return 1;
 }
 
-
 =head2 ExecuteXMLDBArray()
 
 Parse and execute an XML array.
@@ -125,7 +129,7 @@ sub ExecuteXMLDBArray {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    if ( !IsArrayRefWithData($Param{XMLArray} ) ) {
+    if ( !IsArrayRefWithData( $Param{XMLArray} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need XMLArray!",
@@ -133,7 +137,7 @@ sub ExecuteXMLDBArray {
         return;
     }
 
-    my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     XMLSTRING:
     for my $XMLString ( @{ $Param{XMLArray} } ) {
@@ -167,7 +171,7 @@ sub ExecuteXMLDBArray {
             next XMLSTRING if !$TableExists;
 
             # check if there is a table mapping hash
-            if ( IsHashRefWithData( $Param{Old2NewTableNames} )  ) {
+            if ( IsHashRefWithData( $Param{Old2NewTableNames} ) ) {
 
                 # check if there is a new table name in the mapping
                 my $NewTableName = $Param{Old2NewTableNames}->{$TableName} || '';

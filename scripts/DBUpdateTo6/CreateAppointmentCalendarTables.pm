@@ -30,6 +30,7 @@ sub Run {
 
     my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my $Verbose       = $Param{CommandlineOptions}->{Verbose} || 0;
 
     # Get list of all installed packages.
     my @RepositoryList = $PackageObject->RepositoryList();
@@ -57,11 +58,12 @@ sub Run {
     }
 
     if ($PackageVersion) {
-        print "\n  Found package OTRSAppointmentCalendar $PackageVersion";
+
+        print "\n  Found package OTRSAppointmentCalendar $PackageVersion" if $Verbose;
 
         # Database upgrade is needed, because current version is not the latest.
         if ($DBUpdateNeeded) {
-            print ", executing database upgrade...\n";
+            print ", executing database upgrade...\n" if $Verbose;
 
             my @XMLStrings = (
                 '
@@ -83,7 +85,7 @@ sub Run {
         }
 
         # Appointment calendar tables exist and are up to date, so we do not have to create or upgrade them here.
-        print ", skipping database upgrade...\n";
+        print ", skipping database upgrade...\n" if $Verbose;
 
         return 1;
     }

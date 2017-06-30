@@ -30,6 +30,7 @@ sub Run {
 
     my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+    my $Verbose       = $Param{CommandlineOptions}->{Verbose} || 0;
 
     # Get list of all installed packages.
     my @RepositoryList = $PackageObject->RepositoryList();
@@ -49,7 +50,9 @@ sub Run {
     }
 
     if ($PackageVersion) {
-        print "\n  Found package OTRSTicketNumberCounterDatabase $PackageVersion, skipping database upgrade...\n";
+        if ($Verbose) {
+            print "\n  Found package OTRSTicketNumberCounterDatabase $PackageVersion, skipping database upgrade...\n";
+        }
         return 1;
     }
 
@@ -87,7 +90,7 @@ sub Run {
             );
 
             if ($TableExists) {
-                print "\n  Table '$TableName' already exists, skipping... ";
+                print "\n  Table '$TableName' already exists, skipping... " if $Verbose;
                 next XML_STRING;
             }
         }

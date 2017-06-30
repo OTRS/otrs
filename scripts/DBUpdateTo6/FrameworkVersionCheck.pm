@@ -27,10 +27,12 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     # load RELEASE file
     if ( -e !"$Home/RELEASE" ) {
-        die "Error: $Home/RELEASE does not exist!";
+        print "Error: $Home/RELEASE does not exist!";
+        return;
     }
     my $ProductName;
     my $Version;
@@ -50,15 +52,18 @@ sub Run {
         close($Product);
     }
     else {
-        die "Error: Can't read $Home/RELEASE: $!";
+        print "Error: Can't read $Home/RELEASE: $!";
+        return;
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        die "Error: No OTRS system found"
+        print "Error: No OTRS system found";
+        return;
     }
     if ( $Version !~ /^6\.0(.*)$/ ) {
 
-        die "Error: You are trying to run this script on the wrong framework version $Version!"
+        print "Error: You are trying to run this script on the wrong framework version $Version!";
+        return;
     }
 
     return 1;
