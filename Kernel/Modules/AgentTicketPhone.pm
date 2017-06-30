@@ -958,7 +958,8 @@ sub Run {
             # search customer
             my %CustomerUserList;
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                Search => $GetParam{From},
+                Search           => $GetParam{From},
+                CustomerUserOnly => 1,
             );
 
             # check if just one customer user exists

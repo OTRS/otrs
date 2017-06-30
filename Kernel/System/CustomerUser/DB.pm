@@ -235,6 +235,11 @@ sub CustomerSearch {
 
         my $Search = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Search} );
 
+        if ( $Param{CustomerUserOnly} ) {
+            @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} }
+                = grep { $_ ne 'customer_id' } @{ $Self->{CustomerUserMap}->{CustomerUserSearchFields} };
+        }
+
         my %QueryCondition = $Self->{DBObject}->QueryCondition(
             Key           => $Self->{CustomerUserMap}->{CustomerUserSearchFields},
             Value         => $Search,
