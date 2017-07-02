@@ -238,20 +238,22 @@ sub LinkObjectTableCreateComplex {
                     );
 
                     # build the delete link only if we also got target permission
-                    if ( $TargetPermission ) {
+                    if ($TargetPermission) {
 
                         my %InstantLinkDeleteData;
 
                         # depending on the link type direction source and target must be switched
                         if ( $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} }->{$LinkType} eq 'Source' ) {
                             $LinkDeleteData{SourceObject} = $Block->{Object};
-                            $LinkDeleteData{SourceKey} = $Item->[0]->{Key};
-                            $LinkDeleteData{TargetIdentifier} = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
+                            $LinkDeleteData{SourceKey}    = $Item->[0]->{Key};
+                            $LinkDeleteData{TargetIdentifier}
+                                = $Param{SourceObject} . '::' . $Param{ObjectID} . '::' . $LinkType;
                         }
                         else {
                             $LinkDeleteData{SourceObject} = $Param{SourceObject};
-                            $LinkDeleteData{SourceKey} = $Param{ObjectID};
-                            $LinkDeleteData{TargetIdentifier} = $Block->{Object} . '::' . $Item->[0]->{Key} . '::' . $LinkType;
+                            $LinkDeleteData{SourceKey}    = $Param{ObjectID};
+                            $LinkDeleteData{TargetIdentifier}
+                                = $Block->{Object} . '::' . $Item->[0]->{Key} . '::' . $LinkType;
                         }
                     }
                 }
@@ -278,9 +280,9 @@ sub LinkObjectTableCreateComplex {
 
                     # build delete link
                     push @{$Item}, {
-                        Type         => 'DeleteLinkIcon',
-                        CssClass     => 'Center Last',
-                        Translate    => 1,
+                        Type      => 'DeleteLinkIcon',
+                        CssClass  => 'Center Last',
+                        Translate => 1,
                         %LinkDeleteData,
                     };
                 }

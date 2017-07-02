@@ -133,7 +133,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->click();
 
         # search for third created test ticket
-        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->clear();;
+        $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->clear();
         $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->send_keys( $TicketNumbers[2] );
         $Selenium->find_element(".//*[\@id='SEARCH::TicketNumber']")->VerifiedSubmit();
 
@@ -266,7 +266,9 @@ $Selenium->RunTest(
         );
 
         # click on the delete link in the of the third test ticket
-        $Selenium->find_element( "a.InstantLinkDelete[data-delete-link-sourceobject='Ticket'][data-delete-link-sourcekey='$TicketIDs[2]']", 'css' )->click();
+        $Selenium->find_element(
+            "a.InstantLinkDelete[data-delete-link-sourceobject='Ticket'][data-delete-link-sourcekey='$TicketIDs[2]']",
+            'css' )->click();
         $Selenium->WaitFor(
             AlertPresent => 1,
         );

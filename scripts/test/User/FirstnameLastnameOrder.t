@@ -13,9 +13,9 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-my $CustomerUserObject   = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -30,7 +30,7 @@ $ConfigObject->Set(
 );
 
 my $UserRandom = 'unittest-' . $Helper->GetRandomID();
-my $UserID = $UserObject->UserAdd(
+my $UserID     = $UserObject->UserAdd(
     UserFirstname => 'John',
     UserLastname  => 'Doe',
     UserLogin     => $UserRandom,
@@ -44,7 +44,7 @@ $Self->True(
     'UserAdd()',
 );
 
-my $CustomerUserLogin= $CustomerUserObject->CustomerUserAdd(
+my $CustomerUserLogin = $CustomerUserObject->CustomerUserAdd(
     Source         => 'CustomerUser',
     UserFirstname  => 'John',
     UserLastname   => 'Doe',
@@ -60,7 +60,6 @@ $Self->True(
     'CustomerUserAdd()',
 );
 
-
 my %Tests = (
     0 => "John Doe",
     1 => "Doe, John",
@@ -71,7 +70,7 @@ my %Tests = (
     6 => "Doe John",
     7 => "Doe John ($UserRandom)",
     8 => "($UserRandom) Doe John",
-    9 => "DoeJohn", # chinese
+    9 => "DoeJohn",                   # chinese
 );
 
 for my $Order ( sort keys %Tests ) {

@@ -338,7 +338,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # instant link delete (from the link table)
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'InstantLinkDelete') {
+    elsif ( $Self->{Subaction} eq 'InstantLinkDelete' ) {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
@@ -350,10 +350,12 @@ sub Run {
         # get target components
         my @Target = $TargetIdentifier =~ m{^ ( [^:]+? ) :: (.+?) :: ( [^:]+? ) $}smx;
 
-        if ( $Target[0]       # TargetObject
-             && $Target[1]    # TargetKey
-             && $Target[2]    # LinkType
-        ) {
+        if (
+            $Target[0]       # TargetObject
+            && $Target[1]    # TargetKey
+            && $Target[2]    # LinkType
+            )
+        {
 
             # check source permission
             my $SourcePermission = $LinkObject->ObjectPermission(
