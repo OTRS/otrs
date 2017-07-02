@@ -268,7 +268,8 @@ $Selenium->RunTest(
         # click on the delete link in the of the third test ticket
         $Selenium->find_element(
             "a.InstantLinkDelete[data-delete-link-sourceobject='Ticket'][data-delete-link-sourcekey='$TicketIDs[2]']",
-            'css' )->click();
+            'css'
+        )->click();
         $Selenium->WaitFor(
             AlertPresent => 1,
         );
