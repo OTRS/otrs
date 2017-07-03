@@ -204,6 +204,7 @@ scripts/test/Selenium/Public/Chat.t
 scripts/test/StatsReport.t
 scripts/test/SysConfig/OTRSBusiness/*
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
+scripts/test/Ticket/Event/StoreHistoricalData.t
 scripts/test/VideoChat/Signalling.t
 var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*
