@@ -1,4 +1,5 @@
 #4.0.25 2017-??-??
+ - 2017-07-03 Fixed bug#[12865](https://bugs.otrs.org/show_bug.cgi?id=12865) - Send empty Mail reply without Quote.
  - 2017-07-03 Fixed bug#[12891](https://bugs.otrs.org/show_bug.cgi?id=12891) - Article Forward creates a wrong Time Stamp in Mail View.
  - 2017-06-30 Fixed bug#[12883](https://bugs.otrs.org/show_bug.cgi?id=12883) - From parameter in URL for preallocation of customer not working if customer user name is contained in customer ID.
  - 2017-06-27 Fixed bug#[12108](https://bugs.otrs.org/show_bug.cgi?id=12108) - Kernel::System::EmailParser not fully functional in Entity-Mode.

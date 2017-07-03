@@ -1404,32 +1404,27 @@ sub Run {
             UserID    => $Self->{UserID},
         );
 
-        my $ResponseFormat = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
-            || '[% Data.Salutation | html %]
-[% Data.StdResponse | html %]
-[% Data.Signature | html %]
-
-[% Data.Created | Localize("TimeShort") %] - [% Data.OrigFromName | html %] [% Translate("wrote") | html %]:
-[% Data.Body | html %]
-';
+        my $ResponseFormat = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat');
 
         # make sure body is rich text
         my %DataHTML = %Data;
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-            $ResponseFormat = $Self->{LayoutObject}->Ascii2RichText(
-                String => $ResponseFormat,
-            );
+            if ($ResponseFormat) {
+                $ResponseFormat = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $ResponseFormat,
+                );
 
-            # restore qdata formatting for Output replacement
-            $ResponseFormat =~ s/&quot;/"/gi;
+                # restore qdata formatting for Output replacement
+                $ResponseFormat =~ s/&quot;/"/gi;
 
-            # html quote to have it correct in edit area
-            $ResponseFormat = $Self->{LayoutObject}->Ascii2Html(
-                Text => $ResponseFormat,
-            );
+                # html quote to have it correct in edit area
+                $ResponseFormat = $Self->{LayoutObject}->Ascii2Html(
+                    Text => $ResponseFormat,
+                );
 
-            # restore qdata formatting for Output replacement
-            $ResponseFormat =~ s/&quot;/"/gi;
+                # restore qdata formatting for Output replacement
+                $ResponseFormat =~ s/&quot;/"/gi;
+            }
 
             # quote all non html content to have it correct in edit area
             KEY:
