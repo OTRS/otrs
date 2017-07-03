@@ -8,6 +8,15 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("System Log") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('System Log'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">

@@ -124,6 +124,9 @@ $Selenium->RunTest(
             #   modules have this sidebar column present.
             $Selenium->find_element( "div.SidebarColumn", 'css' );
 
+            # check if a breadcrumb is present
+            $Selenium->find_element( "ul.BreadCrumb", 'css' );
+
             # Also check if the navigation is present (this is not the case
             #   for error messages and has "Admin" highlighted
             $Selenium->find_element( "li#nav-Admin.Selected", 'css' );

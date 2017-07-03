@@ -8,9 +8,8 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <div class="Header">
-        <h1>[% Translate("Manage Customer-Services Relations") | html %]</h1>
-    </div>
+
+    <h1>[% Translate("Manage Customer-Services Relations") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
