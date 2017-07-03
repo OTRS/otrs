@@ -216,8 +216,7 @@ Extracts the effective value from a XML parsed setting.
 
     my $SettingHTML = $ValueTypeObject->SettingRender(
         Name           => 'SettingName',
-        DefaultID      =>  123,             # (required)
-        EffectiveValue => 'Product 6',
+        EffectiveValue => 'Product 6',      # (optional)
         DefaultValue   => 'Product 5',      # (optional)
         Class          => 'My class'        # (optional)
         Item           => [                 # (optional) XML parsed item
@@ -244,25 +243,24 @@ Returns:
 sub SettingRender {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Name EffectiveValue)) {
-        if ( !defined $Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed",
-            );
-            return;
-        }
+    if ( !defined $Param{Name} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Name",
+        );
+        return;
     }
 
-    $Param{Class}        //= '';
-    $Param{DefaultValue} //= '';
+    $Param{EffectiveValue} //= '';
+    $Param{Class}          //= '';
+    $Param{DefaultValue}   //= '';
     my $IDSuffix = $Param{IDSuffix} || '';
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     my $EffectiveValue = $Param{EffectiveValue};
     if (
-        !$EffectiveValue
+        !defined $EffectiveValue
         && $Param{Item}
         && $Param{Item}->[0]->{Content}
         )

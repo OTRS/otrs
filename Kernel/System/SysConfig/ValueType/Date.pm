@@ -188,8 +188,7 @@ Extracts the effective value from a XML parsed setting.
 
     my $SettingHTML = $ValueTypeObject->SettingRender(
         Name           => 'SettingName',
-        DefaultID      =>  123,             # (required)
-        EffectiveValue => '2016-02-02',
+        EffectiveValue => '2016-02-02',     # (optional)
         DefaultValue   => 'Product 5',      # (optional)
         Class          => 'My class'        # (optional)
         RW             => 1,                # (optional) Allow editing. Default 0.
@@ -217,7 +216,7 @@ Returns:
 sub SettingRender {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Name EffectiveValue UserID)) {
+    for my $Needed (qw(Name UserID)) {
         if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -237,7 +236,7 @@ sub SettingRender {
 
     my $EffectiveValue = $Param{EffectiveValue};
     if (
-        !$EffectiveValue
+        !defined $EffectiveValue
         && $Param{Item}
         && $Param{Item}->[0]->{Content}
         )

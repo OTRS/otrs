@@ -2685,10 +2685,47 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input',
+                Select => '.Setting input',
+            },
+            {
+                ElementValue => 'Ticket#45',
             },
         ],
         ExpectedResult => 'Ticket#45',
+    },
+    {
+        Name     => 'ExampleString',
+        Index    => 47,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Select => '.Setting input',
+            },
+            {
+                Clear => 1,
+            },
+            {
+                Write => '',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Select => '.Setting input',
+            },
+            {
+                ElementValue => '',
+            },
+        ],
+        ExpectedResult => '',
     },
     {
         Name     => 'ExampleTextarea',
@@ -2718,8 +2755,45 @@ my @Tests = (
             {
                 Select => 'textarea',
             },
+            {
+                ElementValue => 'Area text',
+            },
         ],
         ExpectedResult => 'Area text',
+    },
+    {
+        Name     => 'ExampleTextarea',
+        Index    => 48,
+        Commands => [
+            {
+                Hover => '.Content',
+            },
+            {
+                Click => '.SettingEdit',
+            },
+            {
+                Select => 'textarea',
+            },
+            {
+                Clear => 1,
+            },
+            {
+                Write => '',
+            },
+            {
+                Hover => '.Setting',
+            },
+            {
+                Click => '.Update',
+            },
+            {
+                Select => 'textarea',
+            },
+            {
+                ElementValue => '',
+            },
+        ],
+        ExpectedResult => '',
     },
     {
         Name     => 'ExampleTimeZone',

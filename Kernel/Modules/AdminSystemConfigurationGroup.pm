@@ -290,6 +290,9 @@ sub Run {
         {
             $EffectiveValue = 0;
         }
+        elsif ( $EffectiveValueJSON eq '""' ) {
+            $EffectiveValue = '';
+        }
         else {
             $EffectiveValue = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
                 Data => $EffectiveValueJSON,
