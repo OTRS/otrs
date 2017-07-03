@@ -24,7 +24,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Process Management</Name>
                     <Description Translatable="1">Configure Processes.</Description>
-                    <Block>System</Block>
+                    <Block>Automation</Block>
                     <Prio>750</Prio>
                     <IconBig>fa-sitemap</IconBig>
                 </NavBarModule>

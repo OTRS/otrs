@@ -138,6 +138,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Calendars</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">Create and manage calendars.</Description>
                     <IconBig>fa-calendar</IconBig>
                     <Prio>1500</Prio>
@@ -468,7 +469,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Appointment Notifications</Name>
                     <Description Translatable="1">Create and manage appointment notifications.</Description>
-                    <Block>System</Block>
+                    <Block>Communication</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
                 <Loader>

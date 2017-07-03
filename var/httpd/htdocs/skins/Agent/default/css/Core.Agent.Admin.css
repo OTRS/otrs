@@ -112,11 +112,11 @@
     color: green !important;
 }
 
-#ToggleView.Grid .fa:last-child {
+.ToggleView.Grid .fa:last-child {
     display: none !important;
 }
 
-#ToggleView.List .fa:first-child {
+.ToggleView.List .fa:first-child {
     display: none !important;
 }
 
@@ -126,38 +126,6 @@
 
 .FavouriteList table {
     margin-bottom: 7px;
-}
-
-.ListView .FavouriteButtons i {
-    font-size: 15px;
-}
-
-.ListView a.Favourite i.fa-star {
-    display: none;
-}
-
-.ListView a.Favourite i.fa-star-o {
-    display: inline-block;
-}
-
-.ListView a.Favourite:hover i.fa-star {
-    display: inline-block;
-}
-
-.ListView a.Favourite:hover i.fa-star-o {
-    display: none;
-}
-
-.ListView tr .FavouriteButtons span {
-    display: none;
-}
-
-.ListView tr.IsFavourite .FavouriteButtons a {
-    display: none;
-}
-
-.ListView tr.IsFavourite .FavouriteButtons span {
-    display: inline-block;
 }
 
 } /* end @media print*/

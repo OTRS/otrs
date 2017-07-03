@@ -146,7 +146,7 @@ $Selenium->RunTest(
 
         # Add AdminACL to favourites.
         $Selenium->execute_script(
-            "\$('a[href=\"/otrs/index.pl?Action=AdminACL\"] .AddAsFavourite').trigger('click')"
+            "\$('span[data-module=AdminACL]').trigger('click')"
         );
 
         # Wait until AdminACL gets class IsFavourite.
@@ -160,17 +160,9 @@ $Selenium->RunTest(
         # Checks if Add as Favourite star is visible again.
         $Self->True(
             $Selenium->execute_script(
-                "return \$('a[href=\"/otrs/index.pl?Action=AdminACL\"] .AddAsFavourite').length === 1"
+                "return \$('span[data-module=AdminACL]').length === 1"
             ),
             "AddAsFavourite (Star) button is displayed as expected.",
-        );
-
-        # Go to list view.
-        $Selenium->find_element( "#ToggleView", 'css' )->VerifiedClick();
-
-        # Adds AdminACL to favourites.
-        $Selenium->execute_script(
-            "\$('.FavouriteButtons a[data-module=\"AdminACL\"]').trigger('click')"
         );
 
         $Selenium->WaitFor( JavaScript => "return \$('.RemoveFromFavourites').length === 1;" );

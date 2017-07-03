@@ -9030,6 +9030,56 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::AdminModuleGroups###001-Framework" Required="1" Valid="1">
+        <Description Translatable="1">Defines available groups for the admin overview screen.</Description>
+        <Navigation>Frontend::Base::NavBarModule</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Ticket">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Ticket Settings</Item>
+                        <Item Key="Order">1000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Communication">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Communication &amp; Notifications</Item>
+                        <Item Key="Order">2000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Users">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Users, Groups &amp; Roles</Item>
+                        <Item Key="Order">3000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Automation">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Processes &amp; Automation</Item>
+                        <Item Key="Order">4000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="OTRSGroup">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">OTRS Group Services</Item>
+                        <Item Key="Order">5000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="System">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Administration</Item>
+                        <Item Key="Order">6000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Misc">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Miscellaneous</Item>
+                        <Item Key="Order">7000</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::NavBarModule###2-AdminFavourites" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (show personal favorites as sub navigation items of 'Admin').</Description>
         <Navigation>Frontend::Agent::NavBar</Navigation>
@@ -9099,7 +9149,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Agents</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Create and manage agents.</Item>
                 <Item Key="IconBig">fa-user</Item>
                 <Item Key="IconSmall"></Item>
@@ -9158,7 +9208,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Groups</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Create and manage groups.</Item>
                 <Item Key="IconBig">fa-users</Item>
                 <Item Key="IconSmall"></Item>
@@ -9217,7 +9267,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Agents ↔ Groups</Item>
-                <Item Key="Block">Agent</Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Link agents to groups.</Item>
                 <Item Key="IconBig">fa-user</Item>
                 <Item Key="IconSmall">fa-users</Item>
@@ -9306,7 +9356,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Customer User</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Create and manage customer users.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall"></Item>
@@ -9394,7 +9444,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Customers</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Create and manage customers.</Item>
                 <Item Key="IconBig">fa-building-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -9462,7 +9512,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Customer Users ↔ Groups</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Link customer users to groups.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall">fa-users</Item>
@@ -9521,7 +9571,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Customers ↔ Groups</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Link customers to groups.</Item>
                 <Item Key="IconBig">fa-building-o</Item>
                 <Item Key="IconSmall">fa-users</Item>
@@ -9580,7 +9630,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Customer Users ↔ Services</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Link customer users to services.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall">fa-wrench</Item>
@@ -9639,7 +9689,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Customer Users ↔ Customers</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Link customer users to customers.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall">fa-building-o</Item>
@@ -9698,7 +9748,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Roles</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Create and manage roles.</Item>
                 <Item Key="IconBig">fa-circle-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -9757,7 +9807,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Agents ↔ Roles</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Link agents to roles.</Item>
                 <Item Key="IconBig">fa-user</Item>
                 <Item Key="IconSmall">fa-circle-o</Item>
@@ -9816,7 +9866,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Roles ↔ Groups</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Users</Item>
                 <Item Key="Description" Translatable="1">Link roles to groups.</Item>
                 <Item Key="IconBig">fa-circle-o</Item>
                 <Item Key="IconSmall">fa-users</Item>
@@ -9875,7 +9925,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">S/MIME Certificates</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Manage S/MIME certificates for email encryption.</Item>
                 <Item Key="IconBig">fa-user-secret</Item>
                 <Item Key="IconSmall"></Item>
@@ -9921,7 +9971,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">PGP Keys</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Manage PGP keys for email encryption.</Item>
                 <Item Key="IconBig">fa-user-secret</Item>
                 <Item Key="IconSmall"></Item>
@@ -9980,7 +10030,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">PostMaster Mail Accounts</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Manage POP3 or IMAP accounts to fetch email from.</Item>
                 <Item Key="IconBig">fa-envelope-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -10044,7 +10094,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">PostMaster Filters</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Filter incoming emails.</Item>
                 <Item Key="IconBig">fa-envelope-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -10090,7 +10140,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Admin Notification</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Send notifications to users.</Item>
                 <Item Key="IconBig">fa-quote-right</Item>
                 <Item Key="IconSmall"></Item>
@@ -10149,7 +10199,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Session Management</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">System</Item>
                 <Item Key="Description" Translatable="1">Manage existing sessions.</Item>
                 <Item Key="IconBig">fa-clock-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -10208,7 +10258,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Performance Log</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">System</Item>
                 <Item Key="Description" Translatable="1">View performance benchmark results.</Item>
                 <Item Key="IconBig">fa-bar-chart</Item>
                 <Item Key="IconSmall"></Item>
@@ -10272,7 +10322,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Registration</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">OTRSGroup</Item>
                 <Item Key="Description" Translatable="1">Manage system registration.</Item>
                 <Item Key="IconBig">fa-edit</Item>
                 <Item Key="IconSmall"></Item>
@@ -10331,7 +10381,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name">OTRS Business Solution™</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">OTRSGroup</Item>
                 <Item Key="Description" Translatable="1">Deploy and manage OTRS Business Solution™.</Item>
                 <Item Key="IconBig">fa-angle-double-up</Item>
                 <Item Key="IconSmall"></Item>
@@ -10429,7 +10479,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Support Data Collector</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">OTRSGroup</Item>
                 <Item Key="Description" Translatable="1">Manage support data.</Item>
                 <Item Key="IconBig">fa-search</Item>
                 <Item Key="IconSmall"></Item>
@@ -10488,7 +10538,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Cloud Services</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">OTRSGroup</Item>
                 <Item Key="Description" Translatable="1">Manage OTRS Group cloud services.</Item>
                 <Item Key="IconBig">fa-cloud</Item>
                 <Item Key="IconSmall"></Item>
@@ -10547,7 +10597,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Log</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">System</Item>
                 <Item Key="Description" Translatable="1">View system log messages.</Item>
                 <Item Key="IconBig">fa-file-text-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -10606,7 +10656,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">SQL Box</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">System</Item>
                 <Item Key="Description" Translatable="1">Execute SQL statements.</Item>
                 <Item Key="IconBig">fa-terminal</Item>
                 <Item Key="IconSmall"></Item>
@@ -10652,7 +10702,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Package Manager</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">System</Item>
                 <Item Key="Description" Translatable="1">Update and extend your system with software packages.</Item>
                 <Item Key="IconBig">fa-plug</Item>
                 <Item Key="IconSmall"></Item>
@@ -10711,7 +10761,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Maintenance</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">System</Item>
                 <Item Key="Description" Translatable="1">Schedule a maintenance period.</Item>
                 <Item Key="IconBig">fa-wrench</Item>
                 <Item Key="IconSmall"></Item>
@@ -12401,7 +12451,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Configuration</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">System</Item>
                 <Item Key="Description" Translatable="1">Edit the system configuration settings.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>

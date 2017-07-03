@@ -1792,7 +1792,7 @@ via the Preferences button after logging in.
         Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Name        => Translatable('System Log'),
         Prio        => '600',
-        Block => '',
+        Block => 'System',
     };
 
     $Self->{'Frontend::Module'}->{AdminSystemConfiguration} = {
@@ -1823,7 +1823,7 @@ via the Preferences button after logging in.
         Prio        => 800,
         IconBig     => '',
         IconSmall    => '',
-        Block => '',
+        Block => 'System',
     };
 
     $Self->{'Frontend::Module'}->{AdminPackageManager} = {
@@ -1846,7 +1846,7 @@ via the Preferences button after logging in.
         Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Name        => Translatable('Package Manager'),
         Prio        => '1000',
-        Block => '',
+        Block => 'System',
     };
 
     # specify Loader settings for Login screens

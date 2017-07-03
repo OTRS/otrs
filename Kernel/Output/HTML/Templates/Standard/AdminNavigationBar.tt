@@ -8,7 +8,7 @@
 [% RenderBlockStart("AdminNavBar") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
 
-    <h1 class="ARIAAlertMessage">[% Translate("Admin") | html %]</h1>
+    <h1>[% Translate("Administration Overview") | html %]</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">
@@ -60,95 +60,52 @@
 
     <div class="ContentColumn">
 
+[% FOREACH Group IN Data.Groups; GroupKey = Group.Key %]
+    [% IF Data.Items.$GroupKey.size() %]
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Administration") | html %]</h2>
-                <div class="ActionMenu Visible">
-                    <div class="WidgetAction">
-                        <a title="[% Translate("Switch view") | html %]" id="ToggleView" class="[% IF Data.View == 'Grid' %]Grid[% ELSE %]List[% END %]" href="#">
-                            <i class="fa fa-list-ul"></i>
-                            <i class="fa fa-th"></i>
-                        </a>
-                    </div>
-                    <div class="Clear"></div>
-                </div>
+                <h2>[% Translate(Group.Title) | html %]</h2>
             </div>
             <div class="Content">
-
-                <div class="GridView" [% IF Data.View != 'Grid' %]style="display: none;"[% END %]>
-                    <ul class="ItemListGrid WithIcons Filterable">
-                    [% FOREACH Item IN Data.Items %]
-                        <li [% IF Item.IsFavourite %]class="IsFavourite"[% END %] data-module="[% Item.item("Frontend::Module") | html %]">
-                            <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]" title="[% Translate(Item.Name) | html %]
-    [% Translate(Item.Description) | html %]">
-                                <span class="Icons">
-                                [% IF Item.IconBig %]
-                                    <i class="fa [% Item.IconBig %]"></i>
-                                [% ELSE %]
-                                    <i class="fa fa-cog"></i>
-                                [% END %]
-                                [% IF Item.IconSmall %]
-                                    <i class="Icon2 fa [% Item.IconSmall %]"></i>
-                                [% END %]
-                                </span>
-                                <span class="Title">
-                                    [% Translate(Item.Name) | html %]
-                                    <span class="InvisibleText">[% Item.Name | html %]</span>
-                                </span>
-                                <span class="Description">
-                                    [% Translate(Item.Description) | html %]
-                                    <span class="InvisibleText">[% Item.Description | html %]</span>
-                                </span>
-                                <span class="Favourite AddAsFavourite" data-module="[% Item.item("Frontend::Module") | html %]" title="[% Translate("Set as favorite") | html %]">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </span>
-                            </a>
-                        </li>
-                    [% END %]
-                    </ul>
-                </div>
-
-                <div class="ListView" [% IF Data.View != 'List' %]style="display: none;"[% END %]>
-                    <table class="DataTable Filterable">
-                        <thead>
-                            <tr>
-                                <th class="W20pc">[% Translate("Name") %]</th>
-                                <th>[% Translate("Description") %]</th>
-                                <th class="W10pc Center">[% Translate("As Favorite") %]</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        [% FOREACH Item IN Data.Items %]
-                            <tr [% IF Item.IsFavourite %]class="IsFavourite"[% END %] data-module="[% Item.item("Frontend::Module") | html %]">
-                                <td class="W20pc">
-                                    <a class="AsBlock ModuleLink" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]">
-                                        [% Translate(Item.Name) | html %]
-                                        <span class="InvisibleText">[% Item.Name | html %]</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    [% Translate(Item.Description) | html %]
-                                    <span class="InvisibleText">[% Item.Description | html %]</span>
-                                </td>
-                                <td class="W10pc Center FavouriteButtons">
-                                    <span><i class="fa fa-star"></i></span>
-                                    <a href="#" class="Favourite AddAsFavourite" data-module="[% Item.item("Frontend::Module") | html %]" title="[% Translate("Set as favorite") | html %]">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        [% END %]
-                            <tr class="FilterMessage Hidden">
-                                <td colspan="3">[% Translate("No matches found.") | html %]</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
+                <ul class="ItemListGrid WithIcons Filterable">
+                [% FOREACH Item IN Data.Items.$GroupKey %]
+                    <li [% IF Item.IsFavourite %]class="IsFavourite"[% END %] data-module="[% Item.item("Frontend::Module") | html %]">
+                        <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]" title="[% Translate(Item.Name) | html %]
+[% Translate(Item.Description) | html %]">
+                            <span class="Icons">
+                            [% IF Item.IconBig %]
+                                <i class="fa [% Item.IconBig %]"></i>
+                            [% ELSE %]
+                                <i class="fa fa-cog"></i>
+                            [% END %]
+                            [% IF Item.IconSmall %]
+                                <i class="Icon2 fa [% Item.IconSmall %]"></i>
+                            [% END %]
+                            </span>
+                            <span class="Title">
+                                [% Translate(Item.Name) | html %]
+                                <span class="InvisibleText">[% Item.Name | html %]</span>
+                            </span>
+                            <span class="Description">
+                                [% Translate(Item.Description) | html %]
+                                <span class="InvisibleText">[% Item.Description | html %]</span>
+                            </span>
+                            <span class="Favourite AddAsFavourite" data-module="[% Item.item("Frontend::Module") | html %]" title="[% Translate("Set as favorite") | html %]">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </span>
+                        </a>
+                    </li>
+                [% END %]
+                    <li class="FilterMessage Hidden">
+                        [% Translate("No matches found.") | html %]
+                    </li>
+                </ul>
             </div>
         </div>
+    [% END %]
+[% END %]
+
     </div>
 </div>
 [% RenderBlockEnd("AdminNavBar") %]

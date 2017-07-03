@@ -62,7 +62,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Process Management</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Automation</Item>
                 <Item Key="Description" Translatable="1">Configure Processes.</Item>
                 <Item Key="IconBig">fa-sitemap</Item>
                 <Item Key="IconSmall"></Item>

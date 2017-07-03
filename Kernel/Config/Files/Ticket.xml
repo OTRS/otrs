@@ -9415,6 +9415,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Access Control Lists (ACL)</Name>
+                    <Block>Automation</Block>
                     <Description Translatable="1">Configure and manage ACLs.</Description>
                     <IconBig>fa-check-square-o</IconBig>
                     <Prio>750</Prio>
@@ -9435,6 +9436,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Queues</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage queues.</Description>
                     <IconBig>fa-folder</IconBig>
                     <Prio>100</Prio>
@@ -9459,6 +9461,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Templates</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage templates.</Description>
                     <IconBig>fa-folder</IconBig>
                     <Prio>200</Prio>
@@ -9482,6 +9485,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Templates ↔ Queues</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Link templates to queues.</Description>
                     <IconBig>fa-file-text-o</IconBig>
                     <IconSmall>fa-folder</IconSmall>
@@ -9506,6 +9510,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Auto Responses</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage responses that are automatically sent.</Description>
                     <IconBig>fa-reply</IconBig>
                     <Prio>400</Prio>
@@ -9529,6 +9534,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Auto Responses ↔ Queues</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Link queues to auto responses.</Description>
                     <IconBig>fa-reply</IconBig>
                     <IconSmall>fa-folder</IconSmall>
@@ -9553,6 +9559,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Attachments</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage attachments.</Description>
                     <IconBig>fa-paperclip</IconBig>
                     <Prio>600</Prio>
@@ -9576,6 +9583,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Attachments ↔ Templates</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Link attachments to templates.</Description>
                     <IconBig>fa-paperclip</IconBig>
                     <IconSmall>fa-file-text-o</IconSmall>
@@ -9600,6 +9608,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Salutations</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage salutations.</Description>
                     <IconBig>fa-comment-o</IconBig>
                     <Prio>800</Prio>
@@ -9623,6 +9632,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Signatures</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage signatures.</Description>
                     <IconBig>fa-folder</IconBig>
                     <Prio>900</Prio>
@@ -9647,7 +9657,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Email Addresses</Name>
                     <Description Translatable="1">Set sender email addresses for this system.</Description>
-                    <Block>Email</Block>
+                    <Block>Communication</Block>
                     <IconBig>fa-at</IconBig>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -9670,6 +9680,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Ticket Notifications</Name>
+                    <Block>Communication</Block>
                     <Description Translatable="1">Create and manage ticket notifications.</Description>
                     <IconBig>fa-bell-o</IconBig>
                     <Prio>400</Prio>
@@ -9694,6 +9705,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Services</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage services.</Description>
                     <IconBig>fa-wrench</IconBig>
                     <Prio>900</Prio>
@@ -9717,6 +9729,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Service Level Agreements</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage Service Level Agreements (SLAs).</Description>
                     <IconBig>fa-ticket</IconBig>
                     <Prio>1000</Prio>
@@ -9740,6 +9753,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Types</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage ticket types.</Description>
                     <IconBig>fa-ticket</IconBig>
                     <Prio>700</Prio>
@@ -9764,6 +9778,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">States</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage ticket states.</Description>
                     <IconBig>fa-ticket</IconBig>
                     <Prio>800</Prio>
@@ -9788,6 +9803,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Priorities</Name>
+                    <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage ticket priorities.</Description>
                     <IconBig>fa-list-ol</IconBig>
                     <Prio>850</Prio>
@@ -9812,6 +9828,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">GenericAgent</Name>
+                    <Block>Automation</Block>
                     <Description Translatable="1">Manage tasks triggered by event or time based execution.</Description>
                     <IconBig>fa-database</IconBig>
                     <Prio>300</Prio>
@@ -11125,6 +11142,7 @@ Thanks for your help!
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Dynamic Fields</Name>
+                    <Block>Automation</Block>
                     <Description Translatable="1">Create and manage dynamic fields.</Description>
                     <IconBig>fa-align-left</IconBig>
                     <Prio>1000</Prio>

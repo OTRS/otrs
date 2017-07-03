@@ -217,14 +217,26 @@
     line-height: 140%;
     width: 24%;
     min-width: 240px;
+    max-width: 320px;
     height: 80px;
     margin-left: 10px;
-    margin-bottom: 10px;   
+    margin-bottom: 10px;
     line-height: 140%;
 }
 
 .ItemListGrid.WithIcons > li {
-    height: 120px;
+    height: 102px;
+}
+
+.ItemListGrid > li.FilterMessage {
+    height: auto;
+    line-height: 90%;
+    margin: -7px 0px 3px 5px;
+    color: #777;
+}
+
+.ItemListGrid > li.FilterMessage.Hidden {
+    display: none;
 }
 
 .ItemListGrid > li > a {
@@ -240,7 +252,7 @@
 }
 
 .ItemListGrid.WithIcons > li > a {
-    padding-top: 65px;
+    padding-top: 56px;
     transition: all ease 0.4s;
 }
 
@@ -257,7 +269,7 @@
     margin-left: -20px;
     padding: 10px;
     position: absolute;
-    top: 15px;
+    top: 8px;
     width: 20px;
     transition: all ease 0.4s;
 }

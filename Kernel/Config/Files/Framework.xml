@@ -9213,6 +9213,57 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::AdminModuleGroups###001-Framework" Required="1" Valid="1">
+        <Description Translatable="1">Defines available groups for the admin overview screen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Base::NavBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Ticket">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Ticket Settings</Item>
+                        <Item Key="Order">1000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Communication">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Communication &amp; Notifications</Item>
+                        <Item Key="Order">2000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Users">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Users, Groups &amp; Roles</Item>
+                        <Item Key="Order">3000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Automation">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Processes &amp; Automation</Item>
+                        <Item Key="Order">4000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="OTRSGroup">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">OTRS Group Services</Item>
+                        <Item Key="Order">5000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="System">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Administration</Item>
+                        <Item Key="Order">6000</Item>
+                    </Hash>
+                </Item>
+                <Item Key="Misc">
+                    <Hash>
+                        <Item Key="Title" Translatable="1">Miscellaneous</Item>
+                        <Item Key="Order">7000</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###2-AdminFavourites" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (show personal favorites as sub navigation items of 'Admin').</Description>
         <Group>Framework</Group>
@@ -9249,6 +9300,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Agents</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Create and manage agents.</Description>
                     <IconBig>fa-user</IconBig>
                     <Prio>100</Prio>
@@ -9269,6 +9321,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Groups</Name>
+                    <Block>Users</Block>
                     <IconBig>fa-users</IconBig>
                     <Description Translatable="1">Create and manage groups.</Description>
                     <Prio>150</Prio>
@@ -9294,7 +9347,7 @@ via the Preferences button after logging in.
                     <IconBig>fa-user</IconBig>
                     <IconSmall>fa-users</IconSmall>
                     <Name Translatable="1">Agents ↔ Groups</Name>
-                    <Block>Agent</Block>
+                    <Block>Users</Block>
                     <Description Translatable="1">Link agents to groups.</Description>
                     <Prio>200</Prio>
                 </NavBarModule>
@@ -9330,6 +9383,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customer User</Name>
+                    <Block>Users</Block>
                     <IconBig>fa-male</IconBig>
                     <Description Translatable="1">Create and manage customer users.</Description>
                     <Prio>300</Prio>
@@ -9367,6 +9421,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customers</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Create and manage customers.</Description>
                     <IconBig>fa-building-o</IconBig>
                     <Prio>310</Prio>
@@ -9400,6 +9455,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customer Users ↔ Groups</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Link customer users to groups.</Description>
                     <IconBig>fa-male</IconBig>
                     <IconSmall>fa-users</IconSmall>
@@ -9424,6 +9480,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customers ↔ Groups</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Link customers to groups.</Description>
                     <IconBig>fa-building-o</IconBig>
                     <IconSmall>fa-users</IconSmall>
@@ -9448,6 +9505,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customer Users ↔ Services</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Link customer users to services.</Description>
                     <IconBig>fa-male</IconBig>
                     <IconSmall>fa-wrench</IconSmall>
@@ -9472,6 +9530,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customer Users ↔ Customers</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Link customer users to customers.</Description>
                     <IconBig>fa-male</IconBig>
                     <IconSmall>fa-building-o</IconSmall>
@@ -9496,6 +9555,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Roles</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Create and manage roles.</Description>
                     <IconBig>fa-circle-o</IconBig>
                     <Prio>600</Prio>
@@ -9519,6 +9579,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Agents ↔ Roles</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Link agents to roles.</Description>
                     <IconBig>fa-user</IconBig>
                     <IconSmall>fa-circle-o</IconSmall>
@@ -9543,6 +9604,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Roles ↔ Groups</Name>
+                    <Block>Users</Block>
                     <Description Translatable="1">Link roles to groups.</Description>
                     <IconBig>fa-circle-o</IconBig>
                     <IconSmall>fa-users</IconSmall>
@@ -9567,6 +9629,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">S/MIME Certificates</Name>
+                    <Block>Communication</Block>
                     <Description Translatable="1">Manage S/MIME certificates for email encryption.</Description>
                     <IconBig>fa-user-secret</IconBig>
                     <Prio>1100</Prio>
@@ -9590,6 +9653,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">PGP Keys</Name>
+                    <Block>Communication</Block>
                     <Description Translatable="1">Manage PGP keys for email encryption.</Description>
                     <IconBig>fa-user-secret</IconBig>
                     <Prio>1200</Prio>
@@ -9610,6 +9674,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">PostMaster Mail Accounts</Name>
+                    <Block>Communication</Block>
                     <Description Translatable="1">Manage POP3 or IMAP accounts to fetch email from.</Description>
                     <IconBig>fa-envelope-o</IconBig>
                     <Prio>100</Prio>
@@ -9633,6 +9698,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">PostMaster Filters</Name>
+                    <Block>Communication</Block>
                     <Description Translatable="1">Filter incoming emails.</Description>
                     <IconBig>fa-envelope-o</IconBig>
                     <Prio>200</Prio>
@@ -9657,6 +9723,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Admin Notification</Name>
+                    <Block>Communication</Block>
                     <Description Translatable="1">Send notifications to users.</Description>
                     <IconBig>fa-quote-right</IconBig>
                     <Prio>400</Prio>
@@ -9677,6 +9744,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Session Management</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">Manage existing sessions.</Description>
                     <IconBig>fa-clock-o</IconBig>
                     <Prio>500</Prio>
@@ -9700,6 +9768,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Performance Log</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">View performance benchmark results.</Description>
                     <IconBig>fa-bar-chart</IconBig>
                     <Prio>550</Prio>
@@ -9723,6 +9792,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Registration</Name>
+                    <Block>OTRSGroup</Block>
                     <Description Translatable="1">Manage system registration.</Description>
                     <IconBig>fa-edit</IconBig>
                     <Prio>350</Prio>
@@ -9747,6 +9817,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name>OTRS Business Solution™</Name>
+                    <Block>OTRSGroup</Block>
                     <Description Translatable="1">Deploy and manage OTRS Business Solution™.</Description>
                     <IconBig>fa-angle-double-up</IconBig>
                     <Prio>360</Prio>
@@ -9785,6 +9856,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Support Data Collector</Name>
+                    <Block>OTRSGroup</Block>
                     <Description Translatable="1">Manage support data.</Description>
                     <IconBig>fa-search</IconBig>
                     <Prio>370</Prio>
@@ -9809,6 +9881,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Cloud Services</Name>
+                    <Block>OTRSGroup</Block>
                     <Description Translatable="1">Manage OTRS Group cloud services.</Description>
                     <IconBig>fa-cloud</IconBig>
                     <Prio>380</Prio>
@@ -9832,6 +9905,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Log</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">View system log messages.</Description>
                     <IconBig>fa-file-text-o</IconBig>
                     <Prio>600</Prio>
@@ -9855,6 +9929,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">SQL Box</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">Execute SQL statements.</Description>
                     <IconBig>fa-terminal</IconBig>
                     <Prio>700</Prio>
@@ -9878,6 +9953,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Package Manager</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">Update and extend your system with software packages.</Description>
                     <IconBig>fa-plug</IconBig>
                     <Prio>1000</Prio>
@@ -9898,6 +9974,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Maintenance</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">Schedule a maintenance period.</Description>
                     <IconBig>fa-wrench</IconBig>
                     <Prio>501</Prio>
@@ -11530,6 +11607,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Configuration</Name>
+                    <Block>System</Block>
                     <Description Translatable="1">Edit the system configuration settings.</Description>
                     <IconBig></IconBig>
                     <IconSmall></IconSmall>

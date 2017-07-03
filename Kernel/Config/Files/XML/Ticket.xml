@@ -8825,7 +8825,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Access Control Lists (ACL)</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Automation</Item>
                 <Item Key="Description" Translatable="1">Configure and manage ACLs.</Item>
                 <Item Key="IconBig">fa-check-square-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -8885,7 +8885,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Queues</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage queues.</Item>
                 <Item Key="IconBig">fa-folder</Item>
                 <Item Key="IconSmall"></Item>
@@ -8944,7 +8944,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Templates</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage templates.</Item>
                 <Item Key="IconBig">fa-folder</Item>
                 <Item Key="IconSmall"></Item>
@@ -9003,7 +9003,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Templates ↔ Queues</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Link templates to queues.</Item>
                 <Item Key="IconBig">fa-file-text-o</Item>
                 <Item Key="IconSmall">fa-folder</Item>
@@ -9062,7 +9062,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Auto Responses</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage responses that are automatically sent.</Item>
                 <Item Key="IconBig">fa-reply</Item>
                 <Item Key="IconSmall"></Item>
@@ -9121,7 +9121,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Auto Responses ↔ Queues</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Link queues to auto responses.</Item>
                 <Item Key="IconBig">fa-reply</Item>
                 <Item Key="IconSmall">fa-folder</Item>
@@ -9180,7 +9180,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Attachments</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage attachments.</Item>
                 <Item Key="IconBig">fa-paperclip</Item>
                 <Item Key="IconSmall"></Item>
@@ -9239,7 +9239,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Attachments ↔ Templates</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Link attachments to templates.</Item>
                 <Item Key="IconBig">fa-paperclip</Item>
                 <Item Key="IconSmall">fa-file-text-o</Item>
@@ -9298,7 +9298,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Salutations</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage salutations.</Item>
                 <Item Key="IconBig">fa-comment-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -9357,7 +9357,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Signatures</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage signatures.</Item>
                 <Item Key="IconBig">fa-folder</Item>
                 <Item Key="IconSmall"></Item>
@@ -9416,7 +9416,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Email Addresses</Item>
-                <Item Key="Block">Email</Item>
+                <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Set sender email addresses for this system.</Item>
                 <Item Key="IconBig">fa-at</Item>
                 <Item Key="IconSmall"></Item>
@@ -9480,7 +9480,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Ticket Notifications</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Create and manage ticket notifications.</Item>
                 <Item Key="IconBig">fa-bell-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -9539,7 +9539,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Services</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage services.</Item>
                 <Item Key="IconBig">fa-wrench</Item>
                 <Item Key="IconSmall"></Item>
@@ -9598,7 +9598,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Service Level Agreements</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage Service Level Agreements (SLAs).</Item>
                 <Item Key="IconBig">fa-ticket</Item>
                 <Item Key="IconSmall"></Item>
@@ -9658,7 +9658,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Types</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage ticket types.</Item>
                 <Item Key="IconBig">fa-ticket</Item>
                 <Item Key="IconSmall"></Item>
@@ -9718,7 +9718,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">States</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage ticket states.</Item>
                 <Item Key="IconBig">fa-ticket</Item>
                 <Item Key="IconSmall"></Item>
@@ -9778,7 +9778,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Priorities</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage ticket priorities.</Item>
                 <Item Key="IconBig">fa-list-ol</Item>
                 <Item Key="IconSmall"></Item>
@@ -9837,7 +9837,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">GenericAgent</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Automation</Item>
                 <Item Key="Description" Translatable="1">Manage tasks triggered by event or time based execution.</Item>
                 <Item Key="IconBig">fa-database</Item>
                 <Item Key="IconSmall"></Item>
@@ -11224,7 +11224,7 @@ Thanks for your help!
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Dynamic Fields</Item>
-                <Item Key="Block"></Item>
+                <Item Key="Block">Automation</Item>
                 <Item Key="Description" Translatable="1">Create and manage dynamic fields.</Item>
                 <Item Key="IconBig">fa-align-left</Item>
                 <Item Key="IconSmall"></Item>

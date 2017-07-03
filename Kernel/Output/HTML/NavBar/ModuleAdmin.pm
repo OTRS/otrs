@@ -103,43 +103,65 @@ sub Run {
         }
     }
 
+    # get modules which were marked as favorite by the current user
     my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
         UserID => $Self->{UserID},
     );
-
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
-
     my @Favourites;
     my @FavouriteModules;
-    my $PrefFavourites = $JSONObject->Decode(
+    my $PrefFavourites = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
         Data => $UserPreferences{AdminNavigationBarFavourites},
     ) || [];
 
-    my @NavBarModule;
-    for my $Item ( sort keys %NavBarModule ) {
-        if ( grep { $_ eq $NavBarModule{$Item}->{'Frontend::Module'} } @{$PrefFavourites} ) {
-            push @Favourites,       $NavBarModule{$Item};
-            push @FavouriteModules, $NavBarModule{$Item}->{'Frontend::Module'};
-            $NavBarModule{$Item}->{IsFavourite} = 1;
-        }
-        push @NavBarModule, $NavBarModule{$Item};
-    }
-
-    @NavBarModule = sort {
-        $LayoutObject->{LanguageObject}->Translate( $a->{Name} )
-            cmp $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
-    } @NavBarModule;
     @Favourites = sort {
         $LayoutObject->{LanguageObject}->Translate( $a->{Name} )
             cmp $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
     } @Favourites;
 
+    my @ModuleGroups;
+    my $ModuleGroupsConfig = $ConfigObject->Get('Frontend::AdminModuleGroups');
+
+    # get all registered groups
+    for my $Group ( sort keys %{ $ModuleGroupsConfig } ) {
+        for my $Key ( sort keys %{ $ModuleGroupsConfig->{$Group} } ) {
+            push @ModuleGroups, {
+                'Key'   => $Key,
+                'Order' => $ModuleGroupsConfig->{$Group}->{$Key}->{Order},
+                'Title' => $ModuleGroupsConfig->{$Group}->{$Key}->{Title},
+            };
+        }
+    }
+
+    # sort groups by order number
+    @ModuleGroups = sort { $a->{Order} <=> $b->{Order} } @ModuleGroups;
+
+    my %Modules;
+    ITEMS:
+    for my $Item ( sort keys %NavBarModule ) {
+
+        # dont show the admin overview as a tile
+        next ITEMS if ( $NavBarModule{$Item}->{'Link'} && $NavBarModule{$Item}->{'Link'} eq 'Action=Admin' );
+
+        if ( grep { $_ eq $NavBarModule{$Item}->{'Frontend::Module'} } @{$PrefFavourites} ) {
+            push @Favourites,       $NavBarModule{$Item};
+            push @FavouriteModules, $NavBarModule{$Item}->{'Frontend::Module'};
+            $NavBarModule{$Item}->{IsFavourite} = 1;
+        }
+
+        # add the item to its Block
+        my $Block = $NavBarModule{$Item}->{'Block'} || 'Misc';
+        if ( !grep { $_->{Key} eq $Block } @ModuleGroups ) {
+            $Block = 'Misc';
+        }
+        push @{ $Modules{$Block} }, $NavBarModule{$Item};
+    }
+
     $LayoutObject->Block(
         Name => 'AdminNavBar',
         Data => {
             ManualVersion => $ManualVersion,
-            View          => $UserPreferences{AdminNavigationBarView} || 'Grid',
-            Items         => \@NavBarModule,
+            Items         => \%Modules,
+            Groups        => \@ModuleGroups,
             Favourites    => \@Favourites,
         },
     );
