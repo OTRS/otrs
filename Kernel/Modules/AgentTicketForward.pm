@@ -300,7 +300,8 @@ sub Form {
         # prepare body, subject, ReplyTo ...
         $Data{Body} = '<br/>' . $Data{Body};
         if ( $Data{Created} ) {
-            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
+            $Data{Created} = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString( $Data{Created} );
+            $Data{Body}    = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
                 ": $Data{Created}<br/>" . $Data{Body};
         }
         for my $Key (qw( Subject ReplyTo Reply-To Cc To From )) {
@@ -360,7 +361,8 @@ sub Form {
             $Data{Body} = "\n" . $Data{Body};
         }
         if ( $Data{Created} ) {
-            $Data{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
+            $Data{Created} = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString( $Data{Created} );
+            $Data{Body}    = $Self->{LayoutObject}->{LanguageObject}->Translate('Date') .
                 ": $Data{Created}\n" . $Data{Body};
         }
         for (qw(Subject ReplyTo Reply-To Cc To From)) {
