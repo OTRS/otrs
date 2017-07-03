@@ -547,16 +547,16 @@ sub MigrateXMLStructure {
         $Setting =~ s{
                 ^(\s+)                               # match space
                 <Option.*?SelectedID="(\d)"          # match SelectedID inside Option tag
-                .*?>No<                              # match No
-                .*?>Yes</Item>                       # match Yes
+                .*? Key="0" .*?>No<                  # match No
+                .*? Key="1" .*?>Yes</Item>           # match Yes
                 \s+?</Option>?                       # match end of option
             }
             {$1<Item ValueType="Checkbox">$2</Item>}gsmx;
         $Setting =~ s{
                 ^(\s+)                               # match space
                 <Option.*?SelectedID=""              # match empty SelectedID inside Option tag
-                .*?>No<                              # match No
-                .*?>Yes</Item>                       # match Yes
+                .*? Key="0" .*?>No<                  # match No
+                .*? Key="1" .*?>Yes</Item>           # match Yes
                 \s+?</Option>?                       # match end of option
             }
             {$1<Item ValueType="Checkbox">0</Item>}gsmx;
@@ -565,16 +565,16 @@ sub MigrateXMLStructure {
         $Setting =~ s{
                     ^(\s+)                               # match space
                     <Option.*?SelectedID="(\d)"          # match SelectedID inside Option tag
-                    .*?>Yes<                             # match Yes
-                    .*?>No</Item>                        # match No
+                    .*? Key="1" .*?>Yes<                 # match Yes
+                    .*? Key="0" .*?>No</Item>            # match No
                     \s+?</Option>                        # match end of option
                 }
                 {$1<Item ValueType="Checkbox">$2</Item>}gsmx;
         $Setting =~ s{
                     ^(\s+)                               # match space
                     <Option.*?SelectedID=""              # match empty SelectedID inside Option tag
-                    .*?>Yes<                             # match Yes
-                    .*?>No</Item>                        # match No
+                    .*? Key="1" .*?>Yes<                 # match Yes
+                    .*? Key="0" .*?>No</Item>            # match No
                     \s+?</Option>                        # match end of option
                 }
                 {$1<Item ValueType="Checkbox">0</Item>}gsmx;
@@ -588,7 +588,7 @@ sub MigrateXMLStructure {
                 # Set the ValueType 'Option' tag to the main item.
                 $Item =~ s{<Item\s+Key="(.*?)"(.*?)>(.*?)$}{<Item ValueType="Option" Value="$1"$2>$3}gsmx;
 
-                # Convert Options to chidren Item.
+                # Convert Options to children Item.
                 $Item =~ s{<Option(.*?)>}{<Item ValueType="Select"$1>}gsmx;
 
                 # Convert </Option> to </Item>

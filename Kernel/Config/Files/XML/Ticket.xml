@@ -1788,7 +1788,10 @@
         <Description Translatable="1">Controls if customers have the ability to sort their tickets.</Description>
         <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
         <Value>
-            <Item ValueType="Checkbox">0</Item>
+            <Item ValueType="Select" SelectedID="">
+                <Item ValueType="Option" Value="0" Translatable="1">No</Item>
+                <Item ValueType="Option" Value="Sortable" Translatable="1">Yes</Item>
+            </Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerDisableCompanyTicketAccess" Required="1" Valid="1">

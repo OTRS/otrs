@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-07-03 Fixed bug#[12884](https://bugs.otrs.org/show_bug.cgi?id=12884) - Wrong field type for migrated setting.
  - 2017-06-30 Fixed bug#[12491](https://bugs.otrs.org/show_bug.cgi?id=12491) - TicketSlaveLinkAdd, TicketSlaveLinkDelete, TicketMasterLinkDelete events are not triggered.
  - 2017-06-30 Added new FirstnameLastname configuration value for proper Chinese name formatting, thanks to Dian Tong Software.
  - 2017-06-28 Fixed bug#[11028](https://bugs.otrs.org/show_bug.cgi?id=11028) - Owner and responsible always pre-selected in initial process screen.
