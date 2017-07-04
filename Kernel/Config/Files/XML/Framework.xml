@@ -62,23 +62,16 @@
     </Setting>
     <Setting Name="SupportDataCollector::HTTPHostname" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the HTTP hostname for the support data collection with the public module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon).</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::SupportDataCollector</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex=""></Item>
         </Value>
     </Setting>
     <Setting Name="SupportDataCollector::WebUserAgent::Timeout" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon).</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::SupportDataCollector</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^[2-9][0-9]{1,}|[1-9][0-9]{2,}$">20</Item>
-        </Value>
-    </Setting>
-    <Setting Name="NodeID" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.</Description>
-        <Navigation>Core</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="^[1-9][\d]?$">1</Item>
         </Value>
     </Setting>
     <Setting Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
@@ -6864,28 +6857,28 @@
     </Setting>
     <Setting Name="OutOfOfficeMessageTemplate" Required="0" Valid="1">
         <Description Translatable="1">Defines out of office message template. Two string parameters (%s) available: end date and number of days left.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="String" Translatable="1">*** out of office until %s (%s d left) ***</Item>
         </Value>
     </Setting>
     <Setting Name="SwitchToUser" Required="1" Valid="1">
         <Description Translatable="1">Allows the administrators to login as other users, via the users administration panel.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Permission</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="SwitchToCustomer" Required="1" Valid="1">
         <Description Translatable="1">Allows the administrators to login as other customers, via the customer user administration panel.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Permission</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="SwitchToCustomer::PermissionGroup" Required="1" Valid="1">
         <Description Translatable="1">Specifies the group where the user needs rw permissions so that he can access the "SwitchToCustomer" feature.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Permission</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">admin</Item>
         </Value>
@@ -7315,14 +7308,14 @@
     </Setting>
     <Setting Name="NotificationSenderName" Required="1" Valid="1">
         <Description Translatable="1">Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com).</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">OTRS Notifications</Item>
         </Value>
     </Setting>
     <Setting Name="NotificationSenderEmail" Required="1" Valid="1">
         <Description Translatable="1">Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notifications" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Email</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">otrs@&lt;OTRS_CONFIG_FQDN&gt;</Item>
         </Value>
@@ -7377,7 +7370,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="System::Permission" Required="1" Valid="1">
         <Description Translatable="1">Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Permission</Navigation>
         <Value>
             <Array>
                 <Item>ro</Item>
@@ -7392,7 +7385,7 @@ You can log in via the following URL:
     </Setting>
     <Setting Name="System::Customer::Permission" Required="1" Valid="1">
         <Description Translatable="1">Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Permission</Navigation>
         <Value>
             <Array>
                 <Item>ro</Item>
@@ -12509,7 +12502,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="EditAnotherUsersPreferencesGroup" Required="1" Valid="1">
         <Description Translatable="1">Specifies the group where the user needs rw permissions so that they can edit other users preferences.</Description>
-        <Navigation>Core</Navigation>
+        <Navigation>Core::Permission</Navigation>
         <Value>
             <Item ValueType="String">admin</Item>
         </Value>

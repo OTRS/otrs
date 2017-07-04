@@ -1952,6 +1952,14 @@ sub NavigationLookupGet {
 
         # Packages
         'OutputFilter' => 'Frontend',
+
+        # OTRSBusiness
+        'Core::NotificationEvent'               => 'Frontend::Agent::View::NotificationView',
+        'Core::NotificationView'                => 'Frontend::Agent::View::NotificationView',
+        'Core::NotificationView::BulkAction'    => 'Frontend::Agent::View::NotificationView',
+        'Frontend::Agent::NotificationView'     => 'Frontend::Agent::View::NotificationView',
+        'Frontend'                              => 'Frontend::Base',
+        'Frontend::Admin::AdminContactWithData' => 'Frontend::Admin::View::ContactWithData',
     );
 }
 
