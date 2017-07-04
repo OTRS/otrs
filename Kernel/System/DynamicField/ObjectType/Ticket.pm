@@ -199,11 +199,14 @@ sub PostValueSet {
     $HistoryValue    //= '';
     $HistoryOldValue //= '';
 
-    # history insert
+    # Add history entry.
     $TicketObject->HistoryAdd(
         TicketID    => $Param{ObjectID},
         QueueID     => $Ticket{QueueID},
         HistoryType => 'TicketDynamicFieldUpdate',
+
+        # This insert is not optimal at all (not human readable), but will be kept due to backwards compatibility. The
+        #   value will be converted for use in a more speaking form directly in AgentTicketHistory.pm before display.
         Name =>
             "\%\%FieldName\%\%$FieldName"
             . "\%\%Value\%\%$HistoryValue"

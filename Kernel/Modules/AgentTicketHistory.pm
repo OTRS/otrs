@@ -112,6 +112,18 @@ sub Run {
         if ( $Data->{Name} && $Data->{Name} =~ m/^%%/x ) {
             $Data->{Name} =~ s/^%%//xg;
             my @Values = split( /%%/x, $Data->{Name} );
+
+            # Rebuild some of the values for history entries so they have more speaking form. This is necessary because
+            #   values stored previously in older format might not be compatible with new human readable form.
+            #   Please see bug#11520 for more information.
+            #
+            # HistoryType: TicketDynamicFieldUpdate
+            #   - Old: %%FieldName%%$FieldName%%Value%%$HistoryValue%%OldValue%%$HistoryOldValue
+            #   - New: %%$FieldName%%$HistoryOldValue%%$HistoryValue
+            if ( $Data->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
+                @Values = ( $Values[1], $Values[5] // '', $Values[3] // '' );
+            }
+
             $Data->{Name} = $LayoutObject->{LanguageObject}->Translate(
                 $HistoryTypes{ $Data->{HistoryType} },
                 @Values,
