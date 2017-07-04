@@ -1951,7 +1951,7 @@ sub NavigationLookupGet {
         'SystemMaintenance'                                   => 'Core::SystemMaintenance',
 
         # Packages
-        'OutputFilter' => 'Frontend',
+        'OutputFilter' => 'Frontend::Base::OutputFilter',
 
         # OTRSBusiness
         'Core::NotificationEvent'               => 'Frontend::Agent::View::NotificationView',
