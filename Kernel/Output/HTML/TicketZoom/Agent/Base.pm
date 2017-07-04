@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketZoom::Article::Base;
+package Kernel::Output::HTML::TicketZoom::Agent::Base;
 
 use strict;
 use warnings;
@@ -211,7 +211,7 @@ sub _ArticleSenderImage {
                 Address => $Email,
             );
             if ( !$IsLocal ) {
-                $Result = 'https://www.gravatar.com/avatar/' . md5_hex( lc $Email ) . '?s=' . $Size;
+                $Result = 'https://www.gravatar.com/avatar/' . md5_hex( lc $Email ) . '?s=' . $Size . '&d=identicon';
             }
         }
     }

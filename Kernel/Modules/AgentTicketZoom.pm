@@ -483,14 +483,6 @@ sub Run {
         );
         $Article{Count} = $Count;
 
-        # TODO: Make handling article fields more generic and agnostic to different article backends.
-
-        # Add generic subject field to chat articles.
-        if ( $ArticleBackendObject->ChannelNameGet() eq 'Chat' ) {
-            $Article{Subject}      = $LayoutObject->{LanguageObject}->Translate('Chat');
-            $Article{FromRealname} = $LayoutObject->{LanguageObject}->Translate('OTRS');
-        }
-
         # Get attachment index (excluding body attachments).
         my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $Self->{ArticleID},
@@ -1728,7 +1720,7 @@ sub MaskAgentZoom {
                 ValidID => 1,
             );
 
-            my %Channels = map { $_->{ChannelID} => $_->{ChannelName} } @CommunicationChannels;
+            my %Channels = map { $_->{ChannelID} => $_->{DisplayName} } @CommunicationChannels;
 
             # build article type list for filter dialog
             $Param{Channels} = $LayoutObject->BuildSelection(
@@ -1743,9 +1735,9 @@ sub MaskAgentZoom {
 
             $Param{CustomerVisibility} = $LayoutObject->BuildSelection(
                 Data => {
-                    0 => "Invisible only",
-                    1 => "Visible only",
-                    2 => "Visible and invisible",
+                    0 => Translatable('Invisible only'),
+                    1 => Translatable('Visible only'),
+                    2 => Translatable('Visible and invisible'),
                 },
                 SelectedID => $Self->{ArticleFilter}->{CustomerVisibility} // 2,
                 Translation => 1,
@@ -2451,6 +2443,18 @@ sub _ArticleTree {
                 );
                 $Item->{ArticleData}->{ArticleFields} = \%ArticleFields;
 
+                # Get dynamic fields and accounted time
+                my $Backend = $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend};
+
+                # Get dynamic fields and accounted time
+                my %ArticleMetaFields
+                    = $Kernel::OM->Get("Kernel::Output::HTML::TicketZoom::Agent::$Backend")->ArticleMetaFields(
+                    TicketID  => $Item->{ArticleData}->{TicketID},
+                    ArticleID => $Item->{ArticleData}->{ArticleID},
+                    UserID    => $Self->{UserID},
+                    );
+                $Item->{ArticleData}->{ArticleMetaFields} = \%ArticleMetaFields;
+
                 my @ArticleActions = $LayoutObject->ArticleActions(
                     TicketID  => $Item->{ArticleData}->{TicketID},
                     ArticleID => $Item->{ArticleData}->{ArticleID},
@@ -2463,7 +2467,6 @@ sub _ArticleTree {
                     ResultType => 'plain',
                 );
 
-                my $Backend = $ArticlesByArticleID->{ $Item->{ArticleID} }->{Backend};
                 $Item->{ArticleData}->{ArticleHTML}
                     = $Kernel::OM->Get("Kernel::Output::HTML::TimelineView::$Backend")->ArticleRender(
                     TicketID       => $Item->{ArticleData}->{TicketID},
@@ -2588,6 +2591,9 @@ sub _ArticleTree {
             }
         }
 
+        # Include current article ID only if it's selected.
+        $Param{CurrentArticleID} //= $Self->{ArticleID};
+
         # send data to JS
         $LayoutObject->AddJSData(
             Key   => 'TimelineView',
@@ -2614,24 +2620,6 @@ sub _ArticleTree {
 
         # render action menu for all articles
         for my $ArticleID ( sort keys %{$ArticlesByArticleID} ) {
-
-            my @MenuItems = $Self->_ArticleMenu(
-                Ticket            => $Param{Ticket},
-                AclAction         => $Param{AclAction},
-                Article           => $ArticlesByArticleID->{$ArticleID},
-                StandardResponses => $Param{StandardResponses},
-                StandardForwards  => $Param{StandardForwards},
-                Type              => 'Static',
-            );
-
-            $LayoutObject->Block(
-                Name => 'TimelineViewTicketActions',
-                Data => {
-                    ArticleID => $ArticleID,
-                    TicketID  => $Self->{TicketID},
-                    MenuItems => \@MenuItems,
-                },
-            );
 
             # show attachments box
             if ( IsHashRefWithData( $ArticlesByArticleID->{$ArticleID}->{Atms} ) ) {
@@ -2724,451 +2712,7 @@ sub _ArticleItem {
         MenuItems              => \@MenuItems,
     );
 
-    # # show created by if different from User ID 1
-    # if ( $Article{CreateBy} > 1 ) {
-    #     $Article{CreateByUser} = $Kernel::OM->Get('Kernel::System::User')->UserName(
-    #         UserID => $Article{CreateBy},
-    #     );
-    #     $LayoutObject->Block(
-    #         Name => 'ArticleCreatedBy',
-    #         Data => {%Article},
-    #     );
-    # }
-
     return 1;
-}
-
-sub _ArticleMenu {
-
-    my ( $Self, %Param ) = @_;
-
-    my %Ticket    = %{ $Param{Ticket} };
-    my %Article   = %{ $Param{Article} };
-    my %AclAction = %{ $Param{AclAction} };
-
-    my @MenuItems;
-
-    my %AclActionLookup = reverse %AclAction;
-
-    # get needed objects
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
-        TicketID  => $Ticket{TicketID},
-        ArticleID => $Article{ArticleID},
-    );
-
-    my $ChannelName = $ArticleBackendObject->ChannelNameGet();
-
-    # select the output template
-    if (
-        $ChannelName ne 'Chat' &&
-        (
-            $ChannelName ne 'Internal' ||
-            ( $ChannelName eq 'Internal' && $Article{SenderType} ne 'agent' )
-        ) &&
-        (
-            $ChannelName ne 'Email' ||
-            ( $ChannelName eq 'Email' && $Article{SenderType} ne 'system' )
-        )
-        )
-    {
-
-        # check if compose link should be shown
-        if (
-            $ConfigObject->Get('Frontend::Module')->{AgentTicketCompose}
-            && ( $AclActionLookup{AgentTicketCompose} )
-            )
-        {
-            my $Access = 1;
-            my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketCompose');
-            if ( $Config->{Permission} ) {
-                my $Ok = $TicketObject->TicketPermission(
-                    Type     => $Config->{Permission},
-                    TicketID => $Ticket{TicketID},
-                    UserID   => $Self->{UserID},
-                    LogNo    => 1,
-                );
-                if ( !$Ok ) {
-                    $Access = 0;
-                }
-            }
-            if ( $Config->{RequiredLock} ) {
-                my $Locked = $TicketObject->TicketLockGet(
-                    TicketID => $Ticket{TicketID}
-                );
-                if ($Locked) {
-                    my $AccessOk = $TicketObject->OwnerCheck(
-                        TicketID => $Ticket{TicketID},
-                        OwnerID  => $Self->{UserID},
-                    );
-                    if ( !$AccessOk ) {
-                        $Access = 0;
-                    }
-                }
-            }
-
-            if ($Access) {
-
-                # get StandardResponsesStrg
-                my %StandardResponseHash = %{ $Param{StandardResponses} || {} };
-
-                # get revers StandardResponseHash because we need to sort by Values
-                # from %ReverseStandardResponseHash we get value of Key by %StandardResponseHash Value
-                # and @StandardResponseArray is created as array of hashes with elements Key and Value
-
-                my %ReverseStandardResponseHash = reverse %StandardResponseHash;
-                my @StandardResponseArray       = map {
-                    {
-                        Key   => $ReverseStandardResponseHash{$_},
-                        Value => $_
-                    }
-                } sort values %StandardResponseHash;
-
-                # use this array twice (also for Reply All), so copy it first
-                my @StandardResponseArrayReplyAll = @StandardResponseArray;
-
-                # build HTML string
-                my $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                    Name         => 'ResponseID',
-                    ID           => 'ResponseID',
-                    Class        => 'Modernize Small',
-                    Data         => \@StandardResponseArray,
-                    PossibleNone => 1,
-                );
-
-                push @MenuItems, {
-                    ItemType              => 'Dropdown',
-                    DropdownType          => 'Reply',
-                    StandardResponsesStrg => $StandardResponsesStrg,
-                    Name                  => Translatable('Reply'),
-                    Class                 => 'AsPopup PopupType_TicketAction',
-                    Action                => 'AgentTicketCompose',
-                    FormID                => 'Reply' . $Article{ArticleID},
-                    ResponseElementID     => 'ResponseID',
-                    Type                  => $Param{Type},
-                };
-
-                # check if reply all is needed
-                my $Recipients = '';
-                KEY:
-                for my $Key (qw(From To Cc)) {
-                    next KEY if !$Article{$Key};
-                    if ($Recipients) {
-                        $Recipients .= ', ';
-                    }
-                    $Recipients .= $Article{$Key};
-                }
-                my $RecipientCount = 0;
-                if ($Recipients) {
-                    my $EmailParser = Kernel::System::EmailParser->new(
-                        %{$Self},
-                        Mode => 'Standalone',
-                    );
-                    my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
-                    ADDRESS:
-                    for my $Address (@Addresses) {
-                        my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-                        next ADDRESS if !$Email;
-                        my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                            Address => $Email,
-                        );
-                        next ADDRESS if $IsLocal;
-                        $RecipientCount++;
-                    }
-                }
-                if ( $RecipientCount > 1 ) {
-
-                    $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                        Name         => 'ResponseID',
-                        ID           => 'ResponseIDAll' . $Article{ArticleID},
-                        Class        => 'Modernize Small',
-                        Data         => \@StandardResponseArrayReplyAll,
-                        PossibleNone => 1
-                    );
-
-                    push @MenuItems, {
-                        ItemType              => 'Dropdown',
-                        DropdownType          => 'Reply',
-                        StandardResponsesStrg => $StandardResponsesStrg,
-                        Name                  => Translatable('Reply All'),
-                        Class                 => 'AsPopup PopupType_TicketAction',
-                        Action                => 'AgentTicketCompose',
-                        FormID                => 'ReplyAll' . $Article{ArticleID},
-                        ReplyAll              => 1,
-                        ResponseElementID     => 'ResponseIDAll' . $Article{ArticleID},
-                        Type                  => $Param{Type},
-                    };
-                }
-            }
-        }
-
-        # check if forward link should be shown
-        # (only show forward on email-external, email-internal, phone, webrequest and fax
-        if (
-            $ConfigObject->Get('Frontend::Module')->{AgentTicketForward}
-            && $AclActionLookup{AgentTicketForward}
-            && (
-                # ( $ChannelName eq 'Email' && $Article{SenderType} ne 'system' ) ||
-                $ChannelName eq 'Phone' ||
-                ( $ChannelName eq 'Internal' && $Article{SenderType} ne 'system' )
-            )
-            )
-        {
-            my $Access = 1;
-            my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketForward');
-            if ( $Config->{Permission} ) {
-                my $OK = $TicketObject->TicketPermission(
-                    Type     => $Config->{Permission},
-                    TicketID => $Ticket{TicketID},
-                    UserID   => $Self->{UserID},
-                    LogNo    => 1,
-                );
-                if ( !$OK ) {
-                    $Access = 0;
-                }
-            }
-            if ( $Config->{RequiredLock} ) {
-                if ( $TicketObject->TicketLockGet( TicketID => $Ticket{TicketID} ) )
-                {
-                    my $AccessOk = $TicketObject->OwnerCheck(
-                        TicketID => $Ticket{TicketID},
-                        OwnerID  => $Self->{UserID},
-                    );
-                    if ( !$AccessOk ) {
-                        $Access = 0;
-                    }
-                }
-            }
-            if ($Access) {
-
-                if ( IsHashRefWithData( $Param{StandardForwards} ) ) {
-
-                    # get StandardForwardsStrg
-                    my %StandardForwardHash = %{ $Param{StandardForwards} };
-
-                    # get revers @StandardForwardHash because we need to sort by Values
-                    # from %ReverseStandarForward we get value of Key by %StandardForwardHash Value
-                    # and @StandardForwardArray is created as array of hashes with elements Key and Value
-                    my %ReverseStandarForward = reverse %StandardForwardHash;
-                    my @StandardForwardArray  = map {
-                        {
-                            Key   => $ReverseStandarForward{$_},
-                            Value => $_
-                        }
-                    } sort values %StandardForwardHash;
-
-                    # build HTML string
-                    my $StandardForwardsStrg = $LayoutObject->BuildSelection(
-                        Name         => 'ForwardTemplateID',
-                        ID           => 'ForwardTemplateID',
-                        Class        => 'Modernize Small',
-                        Data         => \@StandardForwardArray,
-                        PossibleNone => 1
-                    );
-
-                    push @MenuItems, {
-                        ItemType             => 'Dropdown',
-                        DropdownType         => 'Forward',
-                        StandardForwardsStrg => $StandardForwardsStrg,
-                        Name                 => Translatable('Forward'),
-                        Class                => 'AsPopup PopupType_TicketAction',
-                        Action               => 'AgentTicketForward',
-                        FormID               => 'Forward' . $Article{ArticleID},
-                        ForwardElementID     => 'ForwardTemplateID',
-                        Type                 => $Param{Type},
-                    };
-
-                }
-                else {
-
-                    push @MenuItems, {
-                        ItemType    => 'Link',
-                        Description => Translatable('Forward article via mail'),
-                        Name        => Translatable('Forward'),
-                        Class       => 'AsPopup PopupType_TicketAction',
-                        Link =>
-                            "Action=AgentTicketForward;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
-                    };
-                }
-            }
-        }
-
-        # check if bounce link should be shown
-        # (only show bounce on email-external and email-internal
-        if (
-            $ConfigObject->Get('Frontend::Module')->{AgentTicketBounce}
-            && $AclActionLookup{AgentTicketBounce}
-            && $ChannelName eq 'Email'
-            && $Article{SenderType} ne 'system'
-            )
-        {
-            my $Access = 1;
-            my $Config = $ConfigObject->Get('Ticket::Frontend::AgentTicketBounce');
-            if ( $Config->{Permission} ) {
-                my $OK = $TicketObject->TicketPermission(
-                    Type     => $Config->{Permission},
-                    TicketID => $Ticket{TicketID},
-                    UserID   => $Self->{UserID},
-                    LogNo    => 1,
-                );
-                if ( !$OK ) {
-                    $Access = 0;
-                }
-            }
-            if ( $Config->{RequiredLock} ) {
-                if ( $TicketObject->TicketLockGet( TicketID => $Ticket{TicketID} ) )
-                {
-                    my $AccessOk = $TicketObject->OwnerCheck(
-                        TicketID => $Ticket{TicketID},
-                        OwnerID  => $Self->{UserID},
-                    );
-                    if ( !$AccessOk ) {
-                        $Access = 0;
-                    }
-                }
-            }
-            if ($Access) {
-
-                push @MenuItems, {
-                    ItemType    => 'Link',
-                    Description => Translatable('Bounce Article to a different mail address'),
-                    Name        => Translatable('Bounce'),
-                    Class       => 'AsPopup PopupType_TicketAction',
-                    Link =>
-                        "Action=AgentTicketBounce;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
-                };
-            }
-        }
-    }
-
-    # check if split link should be shown
-    if (
-        $ConfigObject->Get('Frontend::Module')->{AgentTicketPhone}
-        && $AclActionLookup{AgentTicketPhone}
-        && $ChannelName ne 'Chat'
-        )
-    {
-
-        push @MenuItems, {
-            ItemType    => 'Link',
-            Description => Translatable('Split this article'),
-            Name        => Translatable('Split'),
-            Link =>
-                "Action=AgentTicketPhone;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};LinkTicketID=$Ticket{TicketID}"
-        };
-    }
-
-    # check if print link should be shown
-    if (
-        $ConfigObject->Get('Frontend::Module')->{AgentTicketPrint}
-        && $AclActionLookup{AgentTicketPrint}
-        )
-    {
-        my $OK = $TicketObject->TicketPermission(
-            Type     => 'ro',
-            TicketID => $Ticket{TicketID},
-            UserID   => $Self->{UserID},
-            LogNo    => 1,
-        );
-        if ($OK) {
-
-            push @MenuItems, {
-                ItemType    => 'Link',
-                Description => Translatable('Print this article'),
-                Name        => Translatable('Print'),
-                Class       => 'AsPopup PopupType_TicketAction',
-                Link =>
-                    "Action=AgentTicketPrint;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID};ArticleNumber=$Article{ArticleNumber}"
-            };
-        }
-    }
-
-    # check if plain link should be shown
-    if (
-        $ConfigObject->Get('Frontend::Module')->{AgentTicketPlain}
-        && $ConfigObject->Get('Ticket::Frontend::PlainView')
-        && $AclActionLookup{AgentTicketPlain}
-        && $ChannelName eq 'Email'
-        )
-    {
-        my $OK = $TicketObject->TicketPermission(
-            Type     => 'ro',
-            TicketID => $Ticket{TicketID},
-            UserID   => $Self->{UserID},
-            LogNo    => 1,
-        );
-        if ($OK) {
-
-            push @MenuItems, {
-                ItemType    => 'Link',
-                Description => Translatable('View the source for this Article'),
-                Name        => Translatable('Plain Format'),
-                Class       => 'AsPopup PopupType_TicketAction',
-                Link =>
-                    "Action=AgentTicketPlain;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}",
-            };
-        }
-    }
-
-    # Owner and Responsible can mark articles as important or remove mark
-    if (
-        $Self->{UserID} == $Ticket{OwnerID}
-        || (
-            $ConfigObject->Get('Ticket::Responsible')
-            && $Self->{UserID} == $Ticket{ResponsibleID}
-        )
-        )
-    {
-
-        # Always use user id 1 because other users also have to see the important flag
-        my %ArticleFlags = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
-            ArticleID => $Article{ArticleID},
-            UserID    => 1,
-        );
-
-        my $ArticleIsImportant = $ArticleFlags{Important};
-
-        my $Link
-            = "Action=AgentTicketZoom;Subaction=MarkAsImportant;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}";
-        my $Description = Translatable('Mark');
-        if ($ArticleIsImportant) {
-            $Description = Translatable('Unmark');
-        }
-
-        # set important menu item
-        push @MenuItems, {
-            ItemType    => 'Link',
-            Description => $Description,
-            Name        => $Description,
-            Link        => $Link,
-        };
-    }
-
-    # check if internal reply link should be shown
-    if (
-        $ConfigObject->Get('Frontend::Module')->{AgentTicketNote}
-        && $AclActionLookup{AgentTicketNote}
-        && $ChannelName eq 'Internal'
-        )
-    {
-
-        my $Link        = "Action=AgentTicketNote;TicketID=$Ticket{TicketID};ReplyToArticle=$Article{ArticleID}";
-        my $Description = Translatable('Reply to note');
-
-        # set important menu item
-        push @MenuItems, {
-            ItemType    => 'Link',
-            Description => $Description,
-            Name        => $Description,
-            Class       => 'AsPopup PopupType_TicketAction',
-            Link        => $Link,
-        };
-    }
-
-    return @MenuItems;
 }
 
 sub _CollectArticleAttachments {
@@ -3250,7 +2794,10 @@ sub _ArticleBoxGet {
             UserID        => $Self->{UserID},
         );
 
-        $Article{Channel} = $ArticleBackendObject->ChannelNameGet();
+        my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
+            ChannelID => $Article{CommunicationChannelID},
+        );
+        $Article{Channel} = $CommunicationChannel{DisplayName};
 
         push @ArticleBox, \%Article;
     }
@@ -3295,11 +2842,11 @@ sub _ArticleRender {
     my $ChannelName = $ArticleBackendObject->ChannelNameGet();
 
     my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
-        "Kernel::Output::HTML::TicketZoom::Article::$ChannelName",
+        "Kernel::Output::HTML::TicketZoom::Agent::$ChannelName",
     );
     return if !$Loaded;
 
-    return $Kernel::OM->Get("Kernel::Output::HTML::TicketZoom::Article::$ChannelName")->ArticleRender(
+    return $Kernel::OM->Get("Kernel::Output::HTML::TicketZoom::Agent::$ChannelName")->ArticleRender(
         %Param,
         ArticleActions => $Param{MenuItems},
         UserID         => $Self->{UserID},

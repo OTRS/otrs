@@ -6,12 +6,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketZoom::Article::Phone;
+package Kernel::Output::HTML::TicketZoom::Customer::Internal;
 
 use strict;
 use warnings;
 
-use parent 'Kernel::Output::HTML::TicketZoom::Article::MIMEBase';
+use parent 'Kernel::Output::HTML::TicketZoom::Customer::MIMEBase';
 
 our @ObjectDependencies = (
 

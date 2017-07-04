@@ -97,7 +97,7 @@ for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
     # For the search it is enough to change the config, the TicketObject does not
     #   have to be recreated to use the different base class.
     $ConfigObject->Set(
-        Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+        Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         Value => "Kernel::System::Ticket::Article::Backend::MIMEBase::$StorageBackend",
     );
 

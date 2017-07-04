@@ -6,9 +6,9 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketZoom::Article::MIMEBase;
+package Kernel::Output::HTML::TicketZoom::Customer::MIMEBase;
 
-use parent 'Kernel::Output::HTML::TicketZoom::Article::Base';
+use parent 'Kernel::Output::HTML::TicketZoom::Customer::Base';
 
 use strict;
 use warnings;
@@ -35,6 +35,7 @@ Returns article html.
         UserID                      => 123,         # (required)
         ShowBrowserLinkMessage      => 1,           # (optional) Default: 0.
         ArticleActions              => [],          # (optional)
+        Class                       => 'Visible',   # (optional)
     );
 
 Result:
@@ -79,9 +80,6 @@ sub ArticleRender {
     # Get dynamic fields and accounted time
     my %ArticleMetaFields = $Self->ArticleMetaFields(%Param);
 
-    # Get data from modules like Google CVE search
-    my @ArticleModuleMeta = $Self->_ArticleModuleMeta(%Param);
-
     my $RichTextEnabled = $ConfigObject->Get('Ticket::Frontend::ZoomRichTextForce')
         || $LayoutObject->{BrowserRichText}
         || 0;
@@ -97,70 +95,26 @@ sub ArticleRender {
 
     my @ArticleAttachments;
 
-    # Add block for attachments.
+    # Include attachments.
     if (%AtmIndex) {
 
-        my $Config = $ConfigObject->Get('Ticket::Frontend::ArticleAttachmentModule');
+        my $Type = $ConfigObject->Get('AttachmentDownloadType') || 'attachment';
+
+        # If attachment will be downloaded, don't open the link in new window!
+        my $Target = '';
+        if ( $Type =~ /inline/i ) {
+            $Target = 'target="attachment" ';
+        }
 
         ATTACHMENT:
         for my $FileID ( sort keys %AtmIndex ) {
-
-            my $Attachment;
-
-            # Run article attachment modules.
-            next ATTACHMENT if ref $Config ne 'HASH';
-            my %Jobs = %{$Config};
-
-            JOB:
-            for my $Job ( sort keys %Jobs ) {
-                my %File = %{ $AtmIndex{$FileID} };
-
-                # load module
-                next JOB if !$MainObject->Require( $Jobs{$Job}->{Module} );
-                my $Object = $Jobs{$Job}->{Module}->new(
-                    %{$Self},
-                    TicketID  => $Param{TicketID},
-                    ArticleID => $Param{ArticleID},
-                    UserID    => $Param{UserID},
-                );
-
-                # run module
-                my %Data = $Object->Run(
-                    File => {
-                        %File,
-                        FileID => $FileID,
-                    },
-                    TicketID => $Param{TicketID},
-                    Article  => \%Article,
-                );
-
-                if (%Data) {
-                    %File = %Data;
-                }
-
-                $File{Links} = [
-                    {
-                        Action => $File{Action},
-                        Class  => $File{Class},
-                        Link   => $File{Link},
-                        Target => $File{Target},
-                    },
-                ];
-                if ( $File{Action} && $File{Action} ne 'Download' ) {
-                    delete $File{Action};
-                    delete $File{Class};
-                    delete $File{Link};
-                    delete $File{Target};
-                }
-
-                if ($Attachment) {
-                    push @{ $Attachment->{Links} }, $File{Links}->[0];
-                }
-                else {
-                    $Attachment = \%File;
-                }
-            }
-            push @ArticleAttachments, $Attachment;
+            push @ArticleAttachments, {
+                %{ $AtmIndex{$FileID} },
+                Action => 'Download',
+                Link   => $LayoutObject->{Baselink} .
+                    "Action=CustomerTicketAttachment;TicketID=$Param{TicketID};ArticleID=$Param{ArticleID};FileID=$FileID",
+                Target => $Target,
+            };
         }
     }
 
@@ -176,14 +130,8 @@ sub ArticleRender {
 
     my $ArticleContent;
 
-    if ($ShowHTML) {
-        if ( $Param{ShowBrowserLinkMessage} ) {
-            $LayoutObject->Block(
-                Name => 'BrowserLinkMessage',
-            );
-        }
-    }
-    else {
+    if ( !$ShowHTML ) {
+
         $ArticleContent = $LayoutObject->ArticlePreview(
             %Param,
             ResultType => 'plain',
@@ -199,29 +147,25 @@ sub ArticleRender {
         );
     }
 
-    my $ChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelObjectGet(
+    my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
         ChannelID => $Article{CommunicationChannelID},
     );
 
     my $Content = $LayoutObject->Output(
-        TemplateFile => 'Article/MIMEBase',
+        TemplateFile => 'CustomerTicketZoom/MIMEBase',
         Data         => {
             %Article,
             ArticleFields        => \%ArticleFields,
             ArticleMetaFields    => \%ArticleMetaFields,
-            ArticleModuleMeta    => \@ArticleModuleMeta,
+            Class                => $Param{Class},
             Attachments          => \@ArticleAttachments,
             MenuItems            => $Param{ArticleActions},
             Body                 => $ArticleContent,
             HTML                 => $ShowHTML,
-            CommunicationChannel => $ArticleBackendObject->ChannelNameGet(),
-            ChannelIcon          => $ChannelObject->ChannelIconGet(),
-            SenderImage          => $Self->_ArticleSenderImage(
-                Sender => $Article{From},
-            ),
-            SenderInitials => $Self->_ArticleSenderInitials(
-                Sender => $Article{FromRealname},
-            ),
+            CommunicationChannel => $CommunicationChannel{DisplayName},
+            ChannelIcon          => $CommunicationChannel{DisplayIcon},
+            BrowserLinkMessage   => $Param{ShowBrowserLinkMessage} && $ShowHTML,
+            BodyHTMLLoad         => $Param{ArticleExpanded},
         },
     );
 

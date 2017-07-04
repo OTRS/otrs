@@ -43,7 +43,7 @@ sub Run {
         }
         $Self->AddResultInformation(
             Identifier => $Channel->{ChannelName},
-            Label      => $Channel->{ChannelName},
+            Label      => $Channel->{DisplayName},
             Value      => $Count,
         );
     }

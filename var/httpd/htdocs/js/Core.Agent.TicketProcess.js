@@ -31,6 +31,10 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
         var ProcessID = Core.Config.Get('ProcessID');
 
+        if (typeof ProcessID !== 'undefined') {
+            $('#ProcessEntityID').val(ProcessID);
+        }
+
         if (typeof Core.Config.Get('ParentReload') !== 'undefined' && parseInt(Core.Config.Get('ParentReload'), 10) === 1){
             Core.UI.Popup.ExecuteInParentWindow(function(WindowObject) {
                 if (WindowObject.Core.UI.Popup.GetWindowMode() !== 'Iframe') {
@@ -44,6 +48,8 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                 Action: 'AgentTicketProcess',
                 Subaction: 'DisplayActivityDialogAJAX',
                 ProcessEntityID: $('#ProcessEntityID').val(),
+                LinkTicketID: $('#LinkTicketID').val(),
+                ArticleID: $('#ArticleID').val(),
                 FormID: $(this).closest('form').find('input:hidden[name=FormID]').val(),
                 IsAjaxRequest: 1,
                 IsMainWindow: 1
@@ -174,8 +180,8 @@ Core.Agent.TicketProcess = (function (TargetNS) {
         });
 
         // If process is pre-selected trigger change event on ProcessEntityID field.
-        if (typeof ProcessID !== 'undefined') {
-            $('#ProcessEntityID').val(ProcessID).trigger('change');
+        if ($('#ProcessEntityID').val() !== "") {
+            $('#ProcessEntityID').trigger('change');
         }
     };
 

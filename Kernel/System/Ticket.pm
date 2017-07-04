@@ -7167,7 +7167,7 @@ sub TicketArticleStorageSwitch {
 
     # Restore previous behavior.
     $Self->{CheckAllBackends} =
-        $ConfigObject->Get('Ticket::Article::Backend::MIMEBase')->{'CheckAllStorageBackends'}
+        $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends')
         // 0;
 
     return 1;

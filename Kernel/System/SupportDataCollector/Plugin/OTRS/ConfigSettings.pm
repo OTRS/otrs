@@ -37,7 +37,7 @@ sub Run {
         'Organization',
         'Ticket::IndexModule',
         'Ticket::SearchIndexModule',
-        'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+        'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         'SendmailModule',
         'Frontend::RichText',
     );

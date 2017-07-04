@@ -767,7 +767,6 @@ input[type=text].ArticleFreeKey {
     padding: 2px 5px;
     font-size: 11px;
     max-height: 100px;
-    overflow: auto;
     background: #FFF;
     min-height: 70px;
 }

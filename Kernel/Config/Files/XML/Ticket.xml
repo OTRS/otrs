@@ -208,28 +208,28 @@
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Ticket/IndexAccelerator/*.pm">Kernel::System::Ticket::IndexAccelerator::RuntimeDB</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Article::Backend::MIMEBase###ArticleStorage" Required="1" Valid="1" ConfigLevel="200">
+    <Setting Name="Ticket::Article::Backend::MIMEBase::ArticleStorage" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.</Description>
         <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
             <Item ValueType="PerlModule" ValueFilter="Kernel/System/Ticket/Article/Backend/MIMEBase/ArticleStorage*.pm">Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Article::Backend::MIMEBase###CheckAllStorageBackends" Required="1" Valid="1" ConfigLevel="200">
+    <Setting Name="Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies whether all storage backends should be checked when looking for attachments. This is only required for installations where some attachments are in the file system, and others in the database.</Description>
         <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Article::Backend::MIMEBase###ArticleDataDir" Required="1" Valid="1" ConfigLevel="200">
+    <Setting Name="Ticket::Article::Backend::MIMEBase::ArticleDataDir" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies the directory to store the data in, if "FS" was selected for ArticleStorage.</Description>
         <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">&lt;OTRS_CONFIG_Home&gt;/var/article</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Article::Backend::MIMEBase###IndexAttachmentNames" Required="1" Valid="1" ConfigLevel="200">
+    <Setting Name="Ticket::Article::Backend::MIMEBase::IndexAttachmentNames" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Specifies whether the (MIMEBase) article attachments will be indexed and searchable.</Description>
         <Navigation>Core::CommunicationChannel::MIMEBase</Navigation>
         <Value>
@@ -1419,16 +1419,6 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::OverviewSmall###ColumnHeader" Required="0" Valid="1">
-        <Description Translatable="1">Shows either the last customer article's subject or the ticket title in the small format overview.</Description>
-        <Navigation>Frontend::Agent::TicketOverview</Navigation>
-        <Value>
-            <Item ValueType="Select" SelectedID="LastCustomerSubject">
-                <Item ValueType="Option" Value="LastCustomerSubject" Translatable="1">Last customer subject</Item>
-                <Item ValueType="Option" Value="TicketTitle" Translatable="1">Ticket title</Item>
-            </Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::Overview###Medium" Required="0" Valid="1">
         <Description Translatable="1">Allows having a medium format ticket overview (CustomerInfo =&gt; 1 - shows also the customer information).</Description>
         <Navigation>Frontend::Agent::TicketOverview</Navigation>
@@ -1788,7 +1778,7 @@
         <Description Translatable="1">Controls if customers have the ability to sort their tickets.</Description>
         <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="">
+            <Item ValueType="Select" SelectedID="0">
                 <Item ValueType="Option" Value="0" Translatable="1">No</Item>
                 <Item ValueType="Option" Value="Sortable" Translatable="1">Yes</Item>
             </Item>
@@ -7295,6 +7285,7 @@
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7387,6 +7378,7 @@
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7449,6 +7441,7 @@
                         <Item>Core.Agent.CustomerSearchAutoComplete.js</Item>
                         <Item>Core.Agent.TicketAction.js</Item>
                         <Item>Core.Agent.TicketPhone.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7581,6 +7574,7 @@
                         <Item>Core.Agent.CustomerSearchAutoComplete.js</Item>
                         <Item>Core.Agent.TicketAction.js</Item>
                         <Item>Core.Agent.TicketEmail.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7647,6 +7641,7 @@
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7754,6 +7749,7 @@
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7878,6 +7874,7 @@
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -7944,6 +7941,7 @@
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.Agent.TableFilters.js</Item>
                         <Item>Core.Agent.Overview.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -8031,6 +8029,7 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>thirdparty/jquery-tablesorter-2.28.14/jquery.tablesorter.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                         <Item>Core.Agent.TicketZoom.js</Item>
                         <Item>Core.UI.AllocationList.js</Item>
                         <Item>Core.UI.Table.Sort.js</Item>
@@ -8638,6 +8637,7 @@
                         <Item>Core.Agent.CustomerSearch.js</Item>
                         <Item>Core.Agent.CustomerSearchAutoComplete.js</Item>
                         <Item>Core.Agent.TicketAction.js</Item>
+                        <Item>Core.Agent.TicketSplit.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -10289,6 +10289,27 @@
                     <Item Key="Description" Translatable="1">To download attachments.</Item>
                     <Item Key="NavBarName"></Item>
                     <Item Key="Title"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Module###CustomerTicketArticleContent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Title"></Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                    <Item Key="Description" Translatable="1">To view HTML attachments.</Item>
                 </Hash>
             </Item>
         </Value>
@@ -12396,9 +12417,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12432,9 +12455,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12468,9 +12493,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12504,9 +12531,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12540,9 +12569,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12576,9 +12607,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12612,9 +12645,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12648,9 +12683,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="1"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12684,9 +12721,11 @@ Thanks for your help!
                 <Item Key="Queue" SelectedID="2"></Item>
                 <Item Key="Responsible" SelectedID="1"></Item>
                 <Item Key="Priority" SelectedID="1"></Item>
+                <Item Key="Sender" SelectedID="2"></Item>
                 <Item Key="Service" SelectedID="2"></Item>
                 <Item Key="State" SelectedID="2"></Item>
                 <Item Key="SLA" SelectedID="1"></Item>
+                <Item Key="Subject" SelectedID="1"></Item>
                 <Item Key="Title" SelectedID="2"></Item>
                 <Item Key="Type" SelectedID="1"></Item>
             </Hash>
@@ -12845,6 +12884,47 @@ Thanks for your help!
                         <Item Key="Target">_blank</Item>
                     </Hash>
                 </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AgentSplitSelection" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Ticket split dialog.</Item>
+                    <Item Key="Title"></Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketEmail###SplitLinkType" Required="0" Valid="1">
+        <Description Translatable="1">Sets the default link type of split tickets in the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketEmailNew</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="LinkType">ParentChild</Item>
+                <Item Key="Direction">Target</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketProcess###SplitLinkType" Required="0" Valid="1">
+        <Description Translatable="1">Sets the default link type of split tickets in the agent interface.</Description>
+        <Navigation>Frontend::Agent::View::TicketProcess</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="LinkType">ParentChild</Item>
+                <Item Key="Direction">Target</Item>
             </Hash>
         </Value>
     </Setting>

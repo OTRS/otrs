@@ -369,6 +369,14 @@ sub _Show {
         );
         %ArticleData = ( %ArticleData, %Ticket );
 
+        my %ArticleFields = $LayoutObject->ArticleFields(
+            TicketID  => $Param{TicketID},
+            ArticleID => $Article->{ArticleID},
+            UserID    => $Self->{UserID},
+        );
+
+        $ArticleData{ArticleFields} = \%ArticleFields;
+
         push @ArticleBody, \%ArticleData;
 
         if ( !%Article ) {
@@ -1076,38 +1084,37 @@ sub _Show {
     # show inline article
     for my $ArticleItem ( reverse @ArticleBody ) {
 
-        # check if just a only html email
-        my $MimeTypeText = $LayoutObject->CheckMimeType(
-            %{$ArticleItem},
-            Action => 'AgentTicketZoom',
+        $ArticleItem->{Body} = $LayoutObject->ArticlePreview(
+            TicketID   => $ArticleItem->{TicketID},
+            ArticleID  => $ArticleItem->{ArticleID},
+            ResultType => 'plain',
         );
-        if ($MimeTypeText) {
-            $ArticleItem->{BodyNote} = $MimeTypeText;
-            $ArticleItem->{Body}     = '';
-        }
-        else {
 
-            # html quoting
-            $ArticleItem->{Body} = $LayoutObject->Ascii2Html(
-                NewLine => $Param{Config}->{DefaultViewNewLine}  || 90,
-                Text    => $ArticleItem->{Body},
-                VMax    => $Param{Config}->{DefaultPreViewLines} || 25,
-                LinkFeature     => 1,
-                HTMLResultMode  => 1,
-                StripEmptyLines => $Param{Config}->{StripEmptyLines},
-            );
-        }
-
-        $ArticleItem->{Subject} = $TicketObject->TicketSubjectClean(
-            TicketNumber => $ArticleItem->{TicketNumber},
-            Subject      => $ArticleItem->{Subject} || '',
+        # html quoting
+        $ArticleItem->{Body} = $LayoutObject->Ascii2Html(
+            NewLine => $Param{Config}->{DefaultViewNewLine}  || 90,
+            Text    => $ArticleItem->{Body},
+            VMax    => $Param{Config}->{DefaultPreViewLines} || 25,
+            LinkFeature     => 1,
+            HTMLResultMode  => 1,
+            StripEmptyLines => $Param{Config}->{StripEmptyLines},
         );
+
+        my @ArticleActions = $LayoutObject->ArticleActions(
+            TicketID  => $ArticleItem->{TicketID},
+            ArticleID => $ArticleItem->{ArticleID},
+            UserID    => $Self->{UserID},
+            Type      => 'Static',
+        );
+
+        # Remove the 'Mark' action, which is implemented only in AgentTicketZoom.
+        @ArticleActions = grep { $_->{Name} ne 'Mark' } @ArticleActions;
 
         $LayoutObject->Block(
             Name => 'ArticlePreview',
             Data => {
                 %{$ArticleItem},
-                Class => $ArticleItem->{Class},
+                MenuItems => \@ArticleActions,
             },
         );
 
@@ -1145,136 +1152,6 @@ sub _Show {
                     if ( !$AccessOk ) {
                         $Access = 0;
                     }
-                }
-            }
-
-            if ($Access) {
-                $LayoutObject->Block(
-                    Name => 'ArticlePreviewActionRow',
-                    Data => {
-                        %{$ArticleItem}, %AclAction,
-                    },
-                );
-
-                # fetch all std. responses
-                my %StandardTemplates = $QueueObject->QueueStandardTemplateMemberList(
-                    QueueID       => $Article{QueueID},
-                    TemplateTypes => 1,
-                );
-
-                my %StandardResponses;
-                if ( IsHashRefWithData( $StandardTemplates{Answer} ) ) {
-                    %StandardResponses = %{ $StandardTemplates{Answer} };
-                }
-
-                # get StandardResponsesStrg
-                # get revers StandardResponse because we need to sort by Values
-                # from %ReverseStandardResponseHash we get value of Key by %StandardResponse Value
-                # and @StandardResponseArray is created as array of hashes with elements Key and Value
-
-                my %ReverseStandardResponseHash = reverse %StandardResponses;
-                my @StandardResponseArray       = map {
-                    {
-                        Key   => $ReverseStandardResponseHash{$_},
-                        Value => $_
-                    }
-                } sort values %StandardResponses;
-
-                unshift(
-                    @StandardResponseArray,
-                    {
-                        Key   => '0',
-                        Value => '- '
-                            . $LayoutObject->{LanguageObject}->Translate('Reply')
-                            . ' -',
-                        Selected => 1,
-                    }
-                );
-
-                # build html string
-                my $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                    Name  => 'ResponseID',
-                    Class => 'Modernize',
-                    ID    => 'ResponseID' . $ArticleItem->{ArticleID},
-                    Data  => \@StandardResponseArray,
-                );
-
-                $LayoutObject->Block(
-                    Name => 'ArticlePreviewActionRowItem',
-                    Data => {
-                        %{$ArticleItem},
-                        StandardResponsesStrg => $StandardResponsesStrg,
-                        Name                  => Translatable('Reply'),
-                        Class                 => 'AsPopup',
-                        Action                => 'AgentTicketCompose',
-                        FormID                => 'Reply' . $ArticleItem->{ArticleID},
-                    },
-                );
-
-                push @{ $Self->{ReplyFieldsFormID} }, 'Reply' . $ArticleItem->{ArticleID};
-
-                # check if reply all is needed
-                my $Recipients = '';
-                KEY:
-                for my $Key (qw(From To Cc)) {
-                    next KEY if !$ArticleItem->{$Key};
-                    if ($Recipients) {
-                        $Recipients .= ', ';
-                    }
-                    $Recipients .= $ArticleItem->{$Key};
-                }
-                my $RecipientCount = 0;
-                if ($Recipients) {
-                    my $EmailParser = Kernel::System::EmailParser->new(
-                        %{$Self},
-                        Mode => 'Standalone',
-                    );
-                    my @Addresses = $EmailParser->SplitAddressLine( Line => $Recipients );
-                    ADDRESS:
-                    for my $Address (@Addresses) {
-                        my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-                        next ADDRESS if !$Email;
-                        my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                            Address => $Email,
-                        );
-                        next ADDRESS if $IsLocal;
-                        $RecipientCount++;
-                    }
-                }
-                if ( $RecipientCount > 1 ) {
-
-                    # get StandardResponsesStrg
-                    shift(@StandardResponseArray);
-                    unshift(
-                        @StandardResponseArray,
-                        {
-                            Key   => '0',
-                            Value => '- '
-                                . $LayoutObject->{LanguageObject}->Translate('Reply All')
-                                . ' -',
-                            Selected => 1,
-                        }
-                    );
-                    $StandardResponsesStrg = $LayoutObject->BuildSelection(
-                        Name => 'ResponseID',
-                        ID   => 'ResponseIDAll' . $ArticleItem->{ArticleID},
-                        Data => \@StandardResponseArray,
-                    );
-
-                    $LayoutObject->Block(
-                        Name => 'ArticlePreviewActionRowItem',
-                        Data => {
-                            %{$ArticleItem},
-                            StandardResponsesStrg => $StandardResponsesStrg,
-                            Name                  => Translatable('Reply All'),
-                            Class                 => 'AsPopup',
-                            Action                => 'AgentTicketCompose',
-                            FormID                => 'ReplyAll' . $ArticleItem->{ArticleID},
-                            ReplyAll              => 1,
-                        },
-                    );
-
-                    push @{ $Self->{ReplyFieldsFormID} }, 'ReplyAll' . $ArticleItem->{ArticleID};
                 }
             }
         }

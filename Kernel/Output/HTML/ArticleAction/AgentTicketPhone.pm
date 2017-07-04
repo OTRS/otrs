@@ -78,6 +78,7 @@ sub GetConfig {
         ItemType    => 'Link',
         Description => Translatable('Split this article'),
         Name        => Translatable('Split'),
+        Class       => 'SplitSelection',
         Link =>
             "Action=AgentTicketPhone;TicketID=$Param{Ticket}->{TicketID};ArticleID=$Param{Article}->{ArticleID};LinkTicketID=$Param{Ticket}->{TicketID}",
     );

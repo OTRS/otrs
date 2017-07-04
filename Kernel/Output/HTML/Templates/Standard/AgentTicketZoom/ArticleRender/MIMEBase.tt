@@ -9,7 +9,7 @@
 
 <div>
     <a name="Article[% Data.ArticleID | html %]"></a>
-    <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %]">
+    <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %]">
         <div class="Header">
             <h2>
                 [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %]
@@ -27,8 +27,6 @@
         </div>
 
         <div class="WidgetMenu Hidden">
-
-[% PROCESS ArticleActionMenu.tt %]
 
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabelSmall">
@@ -98,19 +96,18 @@
                 </div>
 [% RenderBlockEnd("BrowserLinkMessage") %]
 
-                <div class="ArticleSender[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]">
+                <div class="Avatar">
 [% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
                     <div class="ArticleSenderImage">
                         <img src="[% Data.SenderImage | url %]" title="[% Data.From | html %]" />
-                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>
                     </div>
 [% ELSE %]
                     <div class="ArticleSenderInitials">
                         <span>[% Data.SenderInitials | html %]</span>
-                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>
                     </div>
 [% END %]
-                    <div class="ArticleSenderTongue[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]"></div>
                 </div>
 
 [% IF Data.HTML %]
@@ -147,55 +144,54 @@ function CheckIFrameHeight(IFrameID) {
                 </div>
 [% END %]
 
-[% IF Data.Attachments %]
-                <div class="ArticleAttachments">
-     [% FOREACH Attachment IN Data.Attachments %]
-                    <a class="[% Attachment.Class %]" href="[% Attachment.Link %]" title="[% Translate("Download") | html %] [% Attachment.Filename | html %]" [% Attachment.Target %]>
-                        <div class="Attachment">
-                            <span class="FileName">
-                                [% Attachment.Filename | truncate(20) | html %]
-                            </span>
-                            [% FOREACH Item IN Attachment.Links %]
-                                [% IF Item.Action == "Download" %]
-                                    <a class="[% Item.Class %]" href="[% Item.Link %]" title="[% Translate("Download") | html %] [% Attachment.Filename | html %]" [% Item.Target %]>
-                                        <i class="fa fa-download"></i>
-                                    </a>
-                                [% ELSE %]
-                                    <a class="[% Item.Class %]" href="[% Item.Link %]" title="[% Translate("View") | html %] [% Attachment.Filename | html %]" [% Item.Target %]>
-                                        <i class="fa fa-search-plus"></i>
-                                    </a>
-                                [% END %]
-                            [% END %]
-                            <span class="ContentType">
-                            [% IF Attachment.ContentType.match('image') %]
-                                [% Translate("Image") %]
-                            [% ELSIF Attachment.ContentType == "application/pdf" %]
-                                [% Translate("PDF") %]
-                            [% ELSE %]
-                                [% Translate("Unknown") %]
-                            [% END %]
-                            &ndash;&nbsp;
-                            </span>
-                            <span class="FileSize">[% Attachment.FilesizeRaw | Localize("Filesize") %]</span>
-                        </div>
-                    </a>
-     [% END %]
-                </div>
-                <div class="Clear"></div>
-[% END %]
-            [% IF Data.ArticleModuleMeta && Data.ArticleModuleMeta.size() %]
+                [% IF Data.ArticleModuleMeta && Data.ArticleModuleMeta.size() %]
                 <div class="ArticleMeta">
-                [% FOREACH Entry IN Data.ArticleModuleMeta %]
-                    <h2>[% Entry.Name | html %]</h2>
-                    <ul>
-                    [% FOREACH Item IN Entry.Matches %]
-                        <li><a href="[% Item.URL | html %]"[% IF Item.URLPreview %] data-trigger="floater" data-floater-url="[% Item.URLPreview | html %]"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                    [% FOREACH Entry IN Data.ArticleModuleMeta %]
+                    <div>
+                        <h2>[% Entry.Name | html %]</h2>
+                        <ul>
+                            [% FOREACH Item IN Entry.Matches %]
+                            <li><a href="[% Item.URL | html %]"[% IF Item.URLPreview %] data-trigger="floater" data-floater-url="[% Item.URLPreview | html %]"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                            [% END %]
+                        </ul>
+                    </div>
                     [% END %]
-                    </ul>
-                [% END %]
                 </div>
-            [% END %]
+                [% END %]
 
+                [% PROCESS ArticleActionMenu.tt %]
+
+[% IF Data.Attachments && Data.Attachments.size() %]
+                <ul class="ArticleAttachments">
+                [% FOREACH Attachment IN Data.Attachments %]
+                    <li>
+                        <h5>[% Attachment.Filename | truncate(20) | html %]</h5>
+                        [% IF Attachment.ContentType.match('image') %]
+                            [% Translate("Image") | html %]
+                        [% ELSIF Attachment.ContentType == "application/pdf" %]
+                            [% Translate("PDF") | html %]
+                        [% ELSE %]
+                            [% Translate("Unknown") | html %]
+                        [% END %]
+                        &ndash;
+                        [% Attachment.FilesizeRaw | Localize("Filesize") %]
+                        <div>
+                        [% FOREACH Item IN Attachment.Links %]
+                            [% IF Item.Action == "Download" %]
+                            <a class="[% Item.Class %]" href="[% Item.Link %]" title="[% Translate("Download") | html %] [% Attachment.Filename | html %]" [% Item.Target %]>
+                                <i class="fa fa-download"></i>
+                            </a>
+                            [% ELSIF Item.Link %]
+                            <a class="[% Item.Class %]" href="[% Item.Link %]" title="[% Translate("View") | html %] [% Attachment.Filename | html %]" [% Item.Target %]>
+                                <i class="fa fa-search"></i>
+                            </a>
+                            [% END %]
+                        [% END %]
+                        </div>
+                    </li>
+                [% END %]
+                </ul>
+[% END %]
             </div>
         </div>
     </div>

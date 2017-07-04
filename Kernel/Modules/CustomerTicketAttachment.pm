@@ -124,64 +124,6 @@ sub Run {
         return $Output;
     }
 
-    # view attachment for html email
-    if ( $Self->{Subaction} eq 'HTMLView' ) {
-
-        # set download type to inline
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key   => 'AttachmentDownloadType',
-            Value => 'inline'
-        );
-
-        # just return for non-html attachment (e. g. images)
-        if ( $Data{ContentType} !~ /text\/html/i ) {
-            return $LayoutObject->Attachment(
-                %Data,
-                Sandbox => 1,
-            );
-        }
-
-        my $TicketNumber = $Kernel::OM->Get('Kernel::System::Ticket')->TicketNumberLookup(
-            TicketID => $TicketID,
-        );
-
-        # unset filename for inline viewing
-        $Data{Filename} = "Ticket-$TicketNumber-ArticleID-$Article{ArticleID}.html";
-
-        # safety check only on customer article
-        my $LoadExternalImages = $ParamObject->GetParam(
-            Param => 'LoadExternalImages'
-        ) || 0;
-        if ( !$LoadExternalImages && $Article{SenderType} ne 'customer' ) {
-            $LoadExternalImages = 1;
-        }
-
-        # generate base url
-        my $URL = 'Action=CustomerTicketAttachment;Subaction=HTMLView'
-            . ";ArticleID=$ArticleID;FileID=";
-
-        # replace links to inline images in html content
-        my %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
-            ArticleID => $ArticleID,
-            UserID    => $Self->{UserID},
-        );
-
-        # reformat rich text document to have correct charset and links to
-        # inline documents
-        %Data = $LayoutObject->RichTextDocumentServe(
-            Data               => \%Data,
-            URL                => $URL,
-            Attachments        => \%AtmBox,
-            LoadExternalImages => $LoadExternalImages,
-        );
-
-        # return html attachment
-        return $LayoutObject->Attachment(
-            %Data,
-            Sandbox => 1,
-        );
-    }
-
     # download it AttachmentDownloadType is configured
     return $LayoutObject->Attachment(
         %Data,

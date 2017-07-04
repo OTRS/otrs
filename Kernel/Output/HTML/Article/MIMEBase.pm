@@ -192,7 +192,8 @@ sub ArticleFields {
                 Value                => $Article{From},
                 Realname             => $Article{FromRealname},
                 $HiddenType . Hidden => 'Hidden',
-                }
+                HideInTimelineView   => 1,
+            };
         }
     }
 

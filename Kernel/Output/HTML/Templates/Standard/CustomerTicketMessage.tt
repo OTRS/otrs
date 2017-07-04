@@ -113,7 +113,7 @@
                     <label>[% Translate("Chat protocol") | html %]:</label>
                     <div class="Field">
                         <div class="ChatProtocol">
-[% INCLUDE "Article/Content/Chat.tt" %]
+[% INCLUDE "ArticleContent/Chat.tt" %]
                         </div>
                         <p class="FieldExplanation">[% Translate('The chat will be appended as a separate article.') | html %]
                         </div>

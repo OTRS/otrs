@@ -143,6 +143,8 @@ for my $Test (@TestChannelAdd) {
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ChannelData => $Test->{Params}->{ChannelData} || '',
+            DisplayName => $Test->{Params}->{ChannelName},
+            DisplayIcon => 'fa-exchange',
             ValidID     => $Test->{Params}->{ValidID} // 1,
             CreateBy    => 1,
             ChangeBy    => 1,
@@ -173,6 +175,8 @@ my @TestChannelGet = (
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ChannelData => '',
+            DisplayName => "TEßt channel namé$RandomID1",
+            DisplayIcon => 'fa-exchange',
             ValidID     => 1,
             CreateBy    => 1,
             ChangeBy    => 1,
@@ -189,6 +193,8 @@ my @TestChannelGet = (
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ChannelData => '',
+            DisplayName => "TEßt channel namé$RandomID1",
+            DisplayIcon => 'fa-exchange',
             ValidID     => 1,
             CreateBy    => 1,
             ChangeBy    => 1,
@@ -208,9 +214,11 @@ my @TestChannelGet = (
                 '1',
                 '2'
             ],
-            ValidID  => 1,
-            CreateBy => 1,
-            ChangeBy => 1,
+            DisplayName => "Channel name $RandomID3",
+            DisplayIcon => 'fa-exchange',
+            ValidID     => 1,
+            CreateBy    => 1,
+            ChangeBy    => 1,
         },
     },
     {
@@ -227,9 +235,11 @@ my @TestChannelGet = (
                 'One' => '1',
                 'Two' => '2'
             },
-            ValidID  => 1,
-            CreateBy => 1,
-            ChangeBy => 1,
+            DisplayName => "Channel name $RandomID4",
+            DisplayIcon => 'fa-exchange',
+            ValidID     => 1,
+            CreateBy    => 1,
+            ChangeBy    => 1,
         },
     },
     {
@@ -243,6 +253,8 @@ my @TestChannelGet = (
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ChannelData => '',
+            DisplayName => "Channel name $RandomID5",
+            DisplayIcon => 'fa-exchange',
             ValidID     => 2,
             CreateBy    => 1,
             ChangeBy    => 1,
@@ -356,6 +368,8 @@ my @TestChannelGet2 = (
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ChannelData => '',
+            DisplayName => "Updated channel name $RandomID1",
+            DisplayIcon => 'fa-exchange',
             ValidID     => 1,
             CreateBy    => 1,
             ChangeBy    => 1,
@@ -372,6 +386,8 @@ my @TestChannelGet2 = (
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ChannelData => '',
+            DisplayName => "Updated channel name $RandomID1",
+            DisplayIcon => 'fa-exchange',
             ValidID     => 1,
             CreateBy    => 1,
             ChangeBy    => 1,
@@ -391,6 +407,15 @@ for my $Test (@TestChannelGet2) {
             $Test->{ExpectedResult},
             "ChannelGet() - 2 Check expected value for $Test->{Title} (deeply).",
         );
+
+        # Update locally stored data for later comparison.
+        if ( $Test->{Params}->{ChannelID} ) {
+            CHANNEL:
+            for my $Channel (@Channels) {
+                next CHANNEL if $Channel->{ChannelID} != $Test->{Params}->{ChannelID};
+                $Channel = \%CommunicationChannel;
+            }
+        }
     }
     else {
         $Self->False(
@@ -518,8 +543,9 @@ $Helper->ConfigSettingChange(
     Valid => 1,                        # (optional) enable or disable setting
     Key   => 'CommunicationChannel',
     Value => {
-        '100024-test' => {
+        TestChannelName1 => {
             Name   => "TestChannelName$RandomID1",
+            Icon   => 'fa-font-awesome',
             Module => 'scripts::test::CommunicationChannel::Test',
         },
     },
@@ -530,8 +556,39 @@ my @AddedChannels2 = $CommunicationChannelObject->ChannelSync(
 );
 $Self->IsDeeply(
     \@AddedChannels2,
-    ["TestChannelName$RandomID1"],
-    "ChannelSync() - with sync.",
+    ['TestChannelName1'],
+    'ChannelSync() - with sync.'
+);
+
+my %ChannelSynced1 = $CommunicationChannelObject->ChannelGet(
+    ChannelName => 'TestChannelName1',
+);
+
+# remove keys
+delete @ChannelSynced1{ 'ChannelID', 'CreateTime', 'ChangeTime' };
+
+$Self->IsDeeply(
+    \%ChannelSynced1,
+    {
+        ChangeBy    => '1',
+        ChannelData => {
+            ArticleDataArticleIDField => 'article_id',
+            ArticleDataIsDroppable    => '1',
+            ArticleDataTables         => [
+                'article_data_mime',
+                'article_data_mime_plain',
+                'article_data_mime_attachment',
+            ],
+        },
+        ChannelName => 'TestChannelName1',
+        DisplayName => "TestChannelName$RandomID1",
+        DisplayIcon => 'fa-font-awesome',
+        CreateBy    => '1',
+        Module      => 'scripts::test::CommunicationChannel::Test',
+        PackageName => 'TestPackage',
+        ValidID     => '1'
+    },
+    'ChannelGet() - Check synced value.'
 );
 
 # Update registration - forward to another communication channel.
@@ -539,8 +596,9 @@ $Helper->ConfigSettingChange(
     Valid => 1,                        # (optional) enable or disable setting
     Key   => 'CommunicationChannel',
     Value => {
-        '100024-test' => {
-            Name   => "TestChannelName$RandomID1",
+        TestChannelName2 => {
+            Name   => "TestChannelName$RandomID2",
+            Icon   => 'fa-fort-awesome',
             Module => 'scripts::test::CommunicationChannel::TestTwo',
         },
     },
@@ -551,19 +609,19 @@ my @AddedChannels3 = $CommunicationChannelObject->ChannelSync(
 );
 $Self->IsDeeply(
     \@AddedChannels3,
-    ["TestChannelName$RandomID1"],
-    "ChannelSync() - with sync.",
+    ['TestChannelName2'],
+    'ChannelSync() - with sync.'
 );
 
-my %ChannelSynced = $CommunicationChannelObject->ChannelGet(
-    ChannelName => "TestChannelName$RandomID1",
+my %ChannelSynced2 = $CommunicationChannelObject->ChannelGet(
+    ChannelName => 'TestChannelName2',
 );
 
 # remove keys
-delete @ChannelSynced{ 'ChannelID', 'CreateTime', 'ChangeTime' };
+delete @ChannelSynced2{ 'ChannelID', 'CreateTime', 'ChangeTime' };
 
 $Self->IsDeeply(
-    \%ChannelSynced,
+    \%ChannelSynced2,
     {
         ChangeBy    => '1',
         ChannelData => {
@@ -575,66 +633,53 @@ $Self->IsDeeply(
                 'article_data_mime_attachment',
             ],
         },
-        ChannelName => "TestChannelName$RandomID1",
+        ChannelName => 'TestChannelName2',
+        DisplayName => "TestChannelName$RandomID2",
+        DisplayIcon => 'fa-fort-awesome',
         CreateBy    => '1',
         Module      => 'scripts::test::CommunicationChannel::TestTwo',
         PackageName => 'TestPackage',
         ValidID     => '1'
     },
-    "ChannelGet() - Check synced value.",
+    'ChannelGet() - Check synced value.'
 );
 
 my $DropSuccess1 = $CommunicationChannelObject->ChannelDrop(
-    ChannelName => "TestChannelName$RandomID1",
+    ChannelName => 'TestChannelName2',
 );
 
 $Self->False(
     $DropSuccess1,
-    "ChannelDrop() - IsDroppable => 0",
+    'ChannelDrop() - IsDroppable => 0'
 );
 
 # get object
 my $Object1 = $CommunicationChannelObject->ChannelObjectGet(
-    ChannelName => "TestChannelName$RandomID1",
+    ChannelName => 'TestChannelName2',
 );
 
 $Self->True(
     $Object1,
-    "Object created."
-);
-
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'CommunicationChannel',
-    Value => {
-        '100024-test' => {
-            Name   => "TestChannelName$RandomID1",
-            Module => 'scripts::test::CommunicationChannel::Test',
-        },
-    },
-);
-
-$CommunicationChannelObject->ChannelSync(
-    UserID => 1,
+    'Object created.'
 );
 
 my $DropSuccess2 = $CommunicationChannelObject->ChannelDrop(
-    ChannelName => "TestChannelName$RandomID1",
+    ChannelName => 'TestChannelName1',
 );
 
 $Self->True(
     $DropSuccess2,
-    "ChannelDrop() - IsDroppable => 1",
+    'ChannelDrop() - IsDroppable => 1'
 );
 
 # get object
 my $Object2 = $CommunicationChannelObject->ChannelObjectGet(
-    ChannelName => "TestChannelName$RandomID1",
+    ChannelName => 'TestChannelName1',
 );
 
 $Self->False(
     $Object2,
-    "Object created."
+    'Object created.'
 );
 
 1;

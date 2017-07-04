@@ -917,7 +917,7 @@ sub LoadDefaults {
     $Self->{TempDir} = '<OTRS_CONFIG_Home>/var/tmp';
 
     # article dir
-    $Self->{'Ticket::Article::Backend::MIMEBase'}->{'ArticleDataDir'} = '<OTRS_CONFIG_Home>/var/article';
+    $Self->{'Ticket::Article::Backend::MIMEBase::ArticleDataDir'} = '<OTRS_CONFIG_Home>/var/article';
 
     # html template dirs
     $Self->{TemplateDir}       = '<OTRS_CONFIG_Home>/Kernel/Output';

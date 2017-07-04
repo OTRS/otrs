@@ -359,6 +359,13 @@ sub _Show {
             DynamicFields => 0,
             UserID        => $Self->{UserID},
         );
+
+        my %ArticleFields = $LayoutObject->ArticleFields(
+            %{$Article},
+            UserID => $Self->{UserID},
+        );
+
+        $Article{ArticleFields} = \%ArticleFields;
     }
 
     # Get ticket data.

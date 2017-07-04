@@ -38,6 +38,7 @@
                 <input type="hidden" name="PreSelectedCustomerUser" id="PreSelectedCustomerUser" value=""/>
                 <input type="hidden" name="SelectedCustomerUser" id="SelectedCustomerUser" value="[% Data.CustomerUser | html %]"/>
                 <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                <input type="hidden" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
                 <fieldset class="TableLike">
 
 # example template for customizations, see hidden form at the end of the file

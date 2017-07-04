@@ -71,7 +71,7 @@ for my $Backend (qw(DB FS)) {
     $Kernel::OM->ObjectsDiscard( Objects => [ ref $ArticleBackendObject ] );
 
     $ConfigObject->Set(
-        Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+        Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorage' . $Backend,
     );
 
@@ -186,7 +186,7 @@ for my $Backend (qw(DB FS)) {
     $Kernel::OM->ObjectsDiscard( Objects => [ ref $ArticleBackendObject ] );
 
     $ConfigObject->Set(
-        Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+        Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorage' . $Backend,
     );
 

@@ -125,13 +125,6 @@ $Selenium->RunTest(
         # navigate to created test ticket in AgentTicketZoom page
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Expand article details.
-        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#ArticleItems .PopupType_TicketAction:visible").length;'
-        );
-
         # click on forward
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketForward;TicketID=$TicketID;' )]")
             ->VerifiedClick();

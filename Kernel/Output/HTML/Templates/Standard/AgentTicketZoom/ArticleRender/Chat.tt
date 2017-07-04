@@ -8,7 +8,7 @@
 
 <div>
     <a name="Article[% Data.ArticleID | html %]"></a>
-    <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %]">
+    <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %]">
         <div class="Header">
             <h2>
                 [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %]
@@ -26,8 +26,6 @@
         </div>
 
         <div class="WidgetMenu Hidden">
-
-[% PROCESS ArticleActionMenu.tt %]
 
             <div class="ArticleMailHeader">
                 <fieldset class="TableLike FixedLabelSmall">
@@ -68,19 +66,18 @@
         <div class="Content">
             <div class="ArticleMailContent">
 
-                <div class="ArticleSender[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]">
+                <div class="Avatar">
 [% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
                     <div class="ArticleSenderImage">
                         <img src="[% Data.SenderImage | url %]" title="[% Data.From | html %]" />
-                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>
                     </div>
 [% ELSE %]
                     <div class="ArticleSenderInitials">
                         <span>[% Data.SenderInitials | html %]</span>
-                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %] fa-2x"></i>
+                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>
                     </div>
 [% END %]
-                    <div class="ArticleSenderTongue[% IF Data.SenderType == 'customer' %]Right[% ELSE %]Left[% END %]"></div>
                 </div>
 
 [% IF !Data.HTML %]
@@ -91,18 +88,23 @@
                 </div>
 [% END %]
 
-            [% IF Data.ArticleModuleMeta && Data.ArticleModuleMeta.size() %]
+                [% IF Data.ArticleModuleMeta && Data.ArticleModuleMeta.size() %]
                 <div class="ArticleMeta">
-                [% FOREACH Entry IN Data.ArticleModuleMeta %]
-                    <h2>[% Entry.Name | html %]</h2>
-                    <ul>
-                    [% FOREACH Item IN Entry.Matches %]
-                        <li><a href="[% Item.URL | html %]"[% IF Item.URLPreview %] data-trigger="floater" data-floater-url="[% Item.URLPreview | html %]"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                    [% FOREACH Entry IN Data.ArticleModuleMeta %]
+                    <div>
+                        <h2>[% Entry.Name | html %]</h2>
+                        <ul>
+                            [% FOREACH Item IN Entry.Matches %]
+                            <li><a href="[% Item.URL | html %]"[% IF Item.URLPreview %] data-trigger="floater" data-floater-url="[% Item.URLPreview | html %]"[% END %] target="[% Item.Target | html %]">[% Item.Text | truncate(100) | html %]</a></li>
+                            [% END %]
+                        </ul>
+                    </div>
                     [% END %]
-                    </ul>
-                [% END %]
                 </div>
-            [% END %]
+                [% END %]
+
+                [% PROCESS ArticleActionMenu.tt %]
+
             </div>
         </div>
     </div>

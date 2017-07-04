@@ -73,13 +73,19 @@ sub Run {
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
-    my %Data;
-
     # Render article content.
     my $ArticleContent = $LayoutObject->ArticlePreview(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
     );
+
+    if ( !$ArticleContent ) {
+        $LogObject->Log(
+            Message  => "No such attacment! May be an attack!!!",
+            Priority => 'error',
+        );
+        return $LayoutObject->ErrorScreen();
+    }
 
     my $Content = $LayoutObject->Output(
         Template => '[% Data.HTML %]',
@@ -88,7 +94,7 @@ sub Run {
         },
     );
 
-    %Data = (
+    my %Data = (
         Content            => $Content,
         ContentAlternative => "",
         ContentID          => "",
@@ -96,14 +102,6 @@ sub Run {
         Disposition        => "inline",
         FilesizeRaw        => bytes::length($Content),
     );
-
-    if ( !%Data ) {
-        $LogObject->Log(
-            Message  => "No such attacment! May be an attack!!!",
-            Priority => 'error',
-        );
-        return $LayoutObject->ErrorScreen();
-    }
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');

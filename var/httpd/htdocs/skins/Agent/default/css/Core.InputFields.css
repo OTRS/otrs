@@ -143,6 +143,7 @@ div.InputField_Selection div.Remove a {
     color: #fff;
     padding: 2px 4px;
     display: block;
+    border-bottom: none;
 }
 
 div.InputField_More {

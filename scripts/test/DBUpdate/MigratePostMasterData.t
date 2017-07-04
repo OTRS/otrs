@@ -23,7 +23,7 @@ my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
 $ConfigObject->Set(
-    Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+    Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
     Value => "Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB",
 );
 

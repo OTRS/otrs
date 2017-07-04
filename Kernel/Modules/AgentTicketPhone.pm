@@ -234,6 +234,10 @@ sub Run {
     }
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
+        my %Ticket;
+        if ( $Self->{TicketID} ) {
+            %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
+        }
 
         # header
         my $Output = $LayoutObject->Header();
@@ -243,7 +247,6 @@ sub Run {
         if ( $Self->{TicketID} && $Self->{Subaction} eq 'Created' ) {
 
             # notify info
-            my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
             $Output .= $LayoutObject->Notify(
                 Info => $LayoutObject->{LanguageObject}->Translate(
                     'Ticket "%s" created!',
@@ -302,10 +305,9 @@ sub Run {
             );
 
             %Article = $ArticleBackendObject->ArticleGet(
-                TicketID      => $Self->{TicketID},
-                ArticleID     => $GetParam{ArticleID},
-                DynamicFields => 0,
-                UserID        => $Self->{UserID},
+                TicketID  => $Self->{TicketID},
+                ArticleID => $GetParam{ArticleID},
+                UserID    => $Self->{UserID},
             );
 
             # check if article is from the same TicketID as we checked permissions for.
@@ -317,8 +319,8 @@ sub Run {
             }
 
             $Article{Subject} = $TicketObject->TicketSubjectClean(
-                TicketNumber => $Article{TicketNumber} || '',
-                Subject      => $Article{Subject}      || '',
+                TicketNumber => $Ticket{TicketNumber},
+                Subject      => $Article{Subject} || '',
             );
 
             # save article from for addresses list

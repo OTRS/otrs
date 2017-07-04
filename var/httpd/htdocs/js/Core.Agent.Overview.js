@@ -32,6 +32,23 @@ Core.Agent.Overview = (function (TargetNS) {
             View = Core.Config.Get('View'),
             TicketID, ActionRowTickets = Core.Config.Get('ActionRowTickets') || {};
 
+        // Disable any event handlers on the "label" elements.
+        $('ul.Actions form > label').off("click").on("click", function() {
+            return false;
+        });
+
+        // create open popup event for dropdown actions
+        $('ul.Actions form > select').on("change", function() {
+            var URL;
+            if ($(this).val() > 0) {
+                URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+                Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+
+                // reset the select box so that it can be used again from the same window
+                $(this).val('0');
+            }
+        });
+
         // open ticket search modal dialog
         $('#TicketSearch').on('click', function () {
             Core.Agent.Search.OpenSearchDialog('AgentTicketSearch', Profile);
@@ -91,6 +108,10 @@ Core.Agent.Overview = (function (TargetNS) {
             TargetNS.InitViewPreview();
         }
 
+        $('a.SplitSelection').off('click').on('click', function() {
+            Core.Agent.TicketSplit.OpenSplitSelection($(this).attr('href'));
+            return false;
+        });
     };
 
     /**
@@ -414,6 +435,10 @@ Core.Agent.Overview = (function (TargetNS) {
 
         // initializes the accordion effect on the specified list
         Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
+
+        Core.App.Subscribe('Event.UI.Accordion.OpenElement', function($Element) {
+            Core.UI.InputFields.Activate($Element);
+        });
 
         // Stop propagation on click on a part of the InlienActionRow without a link
         // Otherwise that would trigger the li-wide link to the ticketzoom

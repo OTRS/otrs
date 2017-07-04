@@ -161,6 +161,8 @@ Core.UI.Accordion = (function (TargetNS) {
             $ListElement.addClass('Active');
             $ActiveListElement.removeClass('Active');
         }
+
+        Core.App.Publish('Event.UI.Accordion.OpenElement', [$ListElement]);
     };
 
     return TargetNS;

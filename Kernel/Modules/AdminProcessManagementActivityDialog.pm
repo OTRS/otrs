@@ -878,13 +878,17 @@ sub _ShowEdit {
         Class       => 'Modernize',
     );
 
-    # create Communication Channel selection (this has to be hard coded at the moment)
+    my @ChannelList = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList();
+
+    # Allow only Internal and Phone communication channels, this has to be hard coded at the moment.
+    my %Channels = map { $_->{ChannelName} => $_->{DisplayName} }
+        grep { $_->{ChannelName} eq 'Internal' || $_->{ChannelName} eq 'Phone' }
+        @ChannelList;
+
+    # create Communication Channel selection ()
     $Param{CommunicationChannelSelection} = $LayoutObject->BuildSelection(
-        Data => [
-            Translatable('Internal'),
-            Translatable('Phone'),
-        ],
-        SelectedValue => Translatable('Internal'),
+        Data          => \%Channels,
+        SelectedValue => 'Internal',
         Name          => 'CommunicationChannel',
         ID            => 'CommunicationChannel',
         Sort          => 'Alphanumeric',

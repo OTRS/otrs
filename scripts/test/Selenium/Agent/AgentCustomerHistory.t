@@ -241,7 +241,7 @@ $Selenium->RunTest(
 
                 # Reply action.
                 $Selenium->execute_script(
-                    "\$('#ResponseID$ArticleID').val('1').trigger('redraw.InputField').trigger('change');"
+                    "\$('#Reply$ArticleID #ResponseID').val('1').trigger('redraw.InputField').trigger('change');"
                 );
 
                 # Switch to compose window.

@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="LightRow Bottom">
+<div class="ItemActions">
     <ul class="Actions">
 
 [% FOREACH Item IN Data.MenuItems.reverse %]

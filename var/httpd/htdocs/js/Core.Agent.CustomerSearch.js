@@ -229,6 +229,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
             // Activate Modernize fields.
             Core.UI.InputFields.Activate();
+            Core.App.Subscribe('Event.UI.Accordion.OpenElement', function($Element) {
+                Core.UI.InputFields.Activate($Element);
+            });
         }
 
         /**
@@ -256,6 +259,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     if ($('#CustomerTickets').length) {
                         $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
                         ReplaceCustomerTicketLinks();
+
+                        $('#CustomerTickets a.SplitSelection').off('click').on('click', function() {
+                            Core.Agent.TicketSplit.OpenSplitSelection($(this).attr('href'));
+                            return false;
+                        });
                     }
                 });
                 return false;
@@ -283,6 +291,17 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             if ($('#CustomerTickets').length) {
                 $('#CustomerTickets').html(Response.CustomerTicketsHTMLString);
                 ReplaceCustomerTicketLinks();
+
+                // click event for opening popup
+                $('#CustomerTickets a.AsPopup').off('click').on('click', function () {
+                    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+                    return false;
+                });
+
+                $('#CustomerTickets a.SplitSelection').off('click').on('click', function() {
+                    Core.Agent.TicketSplit.OpenSplitSelection($(this).attr('href'));
+                    return false;
+                });
             }
         });
     }

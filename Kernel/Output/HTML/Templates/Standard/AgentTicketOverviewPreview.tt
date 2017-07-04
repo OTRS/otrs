@@ -221,35 +221,17 @@
 [% RenderBlockStart("ArticlePreview") %]
                     <li class="[% Data.Class | html %]">
                         <h3>
-                            <a href="#" title="[% Data.From | html %] &ndash; [% Data.Subject | html %] &ndash; [% Data.Created | Localize("TimeShort") %]">
+                            <a href="#" title="[% Data.ArticleFields.Sender.Value | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %] &ndash; [% Data.Created | Localize("TimeShort") %]">
                                 <span class="Headline">
-                                    [% Data.FromRealname | truncate(50) | html %] &ndash;
-                                    <span class="Subject">[% Data.Subject | truncate(70) | html %]</span>
+                                    [% Data.ArticleFields.Sender.Value | truncate(50) | html %] &ndash;
+                                    <span class="Subject">[% Data.ArticleFields.Subject.Value | truncate(70) | html %]</span>
                                 </span>
                                 <span class="DateTime">[% Data.Created | Localize("TimeShort") %]</span>
                                 <span class="Clear"></span>
                             </a>
                         </h3>
                         <div class="HiddenBlock">
-[% RenderBlockStart("ArticlePreviewActionRow") %]
-                            <div class="ActionRow">
-                                <ul class="Actions">
-[% RenderBlockStart("ArticlePreviewActionRowItem") %]
-                                    <li class="[% Data.Class | html %]">
-                                        <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") %]" method="post" id="[% Data.FormID | html %]">
-                                            <input type="hidden" name="Action" value="[% Data.Action | html %]"/>
-                                            <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
-                                            <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
-                                            <input type="hidden" name="ReplyAll" value="[% Data.ReplyAll | html %]"/>
-                                            <label for="ResponseID[% Data.ArticleID | html %]" class="InvisibleText">[% Translate(Data.Name) | html %]:</label>
-                                            [% Data.StandardResponsesStrg %]
-                                        </form>
-                                    </li>
-[% RenderBlockEnd("ArticlePreviewActionRowItem") %]
-                                </ul>
-                                <div class="ClearLeft"></div>
-                            </div>
-[% RenderBlockEnd("ArticlePreviewActionRow") %]
+[% PROCESS ArticleActionMenu.tt %]
                             <div class="Content ArticleBody">
 [% Data.BodyNote %]
 [% Data.Body %]

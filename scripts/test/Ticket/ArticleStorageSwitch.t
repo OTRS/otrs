@@ -32,7 +32,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
     my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
     $ConfigObject->Set(
-        Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+        Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::' . $SourceBackend,
     );
 

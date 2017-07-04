@@ -7,7 +7,6 @@
 # --
 
 package Kernel::Modules::AgentTicketProcess;
-## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
 
 use strict;
 use warnings;
@@ -70,6 +69,42 @@ sub Run {
     my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
     my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    $Self->{FirstActivityDialog} = $ParamObject->GetParam( Param => 'FirstActivityDialog' );
+    $Self->{LinkTicketID}        = $ParamObject->GetParam( Param => 'LinkTicketID' ) || '';
+    $Self->{ArticleID}           = $ParamObject->GetParam( Param => 'ArticleID' ) || '';
+
+    # get the ticket information on link actions
+    if ( $Self->{LinkTicketID} ) {
+        my %TicketData = $TicketObject->TicketGet(
+            TicketID => $Self->{LinkTicketID},
+            UserID   => $Self->{UserID},
+            Extended => 1,
+        );
+        $Self->{LinkTicketData} = \%TicketData;
+
+        # set LinkTicketID param for showing on main form
+        $Param{LinkTicketID} = $Self->{LinkTicketID}
+    }
+
+    # get the article information on link actions
+    if ( $Self->{ArticleID} ) {
+        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
+            TicketID  => $Self->{LinkTicketID},
+            ArticleID => $Self->{ArticleID},
+        );
+
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $Self->{LinkTicketID},
+            ArticleID => $Self->{ArticleID},
+            UserID    => $Self->{UserID},
+        );
+
+        $Self->{LinkArticleData} = \%Article;
+
+        # set ArticleID param for showing on main form
+        $Param{ArticleID} = $Self->{ArticleID};
+    }
 
     if ($TicketID) {
 
@@ -1573,6 +1608,7 @@ sub _OutputActivityDialog {
             FormID                 => $Self->{FormID},
             Subaction              => 'StoreActivityDialog',
             TicketID               => $Ticket{TicketID} || '',
+            LinkTicketID           => $Self->{LinkTicketID},
             ActivityDialogEntityID => $ActivityActivityDialog->{ActivityDialog},
             ProcessEntityID        => $Param{ProcessEntityID}
                 || $Ticket{
@@ -2413,6 +2449,17 @@ sub _RenderDynamicField {
             $ServerError = 1;
         }
     }
+
+    # get stored dynamic field value (split)
+    if ( $Self->{LinkTicketID} ) {
+
+        my $Value = $DynamicFieldBackendObject->ValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $Self->{LinkTicketID},
+        );
+
+        $Param{GetParam}->{ 'DynamicField_' . $Param{FieldName} } = $Value;
+    }
     my $ErrorMessage = '';
     if ( IsHashRefWithData( $Param{ErrorMessages} ) ) {
         if (
@@ -2495,11 +2542,23 @@ sub _RenderTitle {
         };
     }
 
+    my $Title = $Param{Ticket}->{Title} // '';
+
+    if ( !$Title && $Self->{LinkArticleData} ) {
+        my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+            TicketID => $Self->{LinkArticleData}->{TicketID},
+            UserID   => $Self->{UserID},
+        );
+        $Title = $Ticket{Title};
+    }
+
+    $Param{GetParam}->{Title} = $Title;
+
     my %Data = (
         Label            => $LayoutObject->{LanguageObject}->Translate("Title"),
         FieldID          => 'Title',
         FormID           => $Param{FormID},
-        Value            => $Param{GetParam}{Title},
+        Value            => $Param{GetParam}->{Title},
         Name             => 'Title',
         MandatoryClass   => '',
         ValidateRequired => '',
@@ -2576,6 +2635,28 @@ sub _RenderArticle {
             Message => $LayoutObject->{LanguageObject}
                 ->Translate( 'Parameter %s is missing in %s.', 'ActivityDialogField', '_RenderArticle' ),
         };
+    }
+
+    if ( $Self->{LinkArticleData} ) {
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketNumber = $TicketObject->TicketNumberLookup(
+            TicketID => $Self->{LinkArticleData}->{TicketID},
+        );
+
+        # prepare subject
+        $Param{GetParam}->{Subject} = $TicketObject->TicketSubjectClean(
+            TicketNumber => $TicketNumber,
+            Subject      => $Self->{LinkArticleData}->{Subject} || '',
+        );
+
+        # body preparation for plain text processing
+        $Param{GetParam}->{Body} = $LayoutObject->ArticleQuote(
+            TicketID           => $Self->{LinkArticleData}->{TicketID},
+            ArticleID          => $Self->{LinkArticleData}->{ArticleID},
+            FormID             => $Self->{FormID},
+            UploadCacheObject  => $Kernel::OM->Get('Kernel::System::Web::UploadCache'),
+            AttachmentsInclude => 1,
+        );
     }
 
     my %Data = (
@@ -2719,6 +2800,7 @@ sub _RenderArticle {
         && $Param{ActivityDialogField}->{Config}->{TimeUnits}
         )
     {
+
         if ( $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime') ) {
 
             $LayoutObject->Block(
@@ -2804,6 +2886,12 @@ sub _RenderCustomer {
     }
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerID} ) {
         $Data{CustomerIDServerError} = 'ServerError';
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            User => $Self->{LinkTicketData}->{CustomerUserID},
+        );
     }
 
     if (
@@ -2897,6 +2985,10 @@ sub _RenderResponsible {
         };
     }
 
+    if ( $Self->{LinkTicketData} ) {
+        $Param{GetParam}->{ResponsibleAll} = 1;
+    }
+
     my $Responsibles = $Self->_GetResponsibles( %{ $Param{GetParam} } );
 
     my %Data = (
@@ -2985,6 +3077,10 @@ sub _RenderResponsible {
         );
     }
 
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedID = $Self->{LinkTicketData}->{ResponsibleID};
+    }
+
     # build Responsible string
     $Data{Content} = $LayoutObject->BuildSelection(
         Data        => $Responsibles,
@@ -3059,6 +3155,10 @@ sub _RenderOwner {
             Message => $LayoutObject->{LanguageObject}
                 ->Translate( 'Parameter %s is missing in %s.', 'ActivityDialogField', '_RenderOwner' ),
         };
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        $Param{GetParam}->{OwnerAll} = 1;
     }
 
     my $Owners = $Self->_GetOwners( %{ $Param{GetParam} } );
@@ -3144,6 +3244,10 @@ sub _RenderOwner {
         $ServerError = 'ServerError';
     }
 
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedValue = $Self->{LinkTicketData}->{OwnerID};
+    }
+
     # look up $SelectedID
     my $SelectedID;
     if ($SelectedValue) {
@@ -3227,6 +3331,12 @@ sub _RenderSLA {
         };
     }
 
+    if ( $Self->{LinkTicketData} ) {
+        $Param{GetParam}->{QueueID}        = $Self->{LinkTicketData}->{QueueID};
+        $Param{GetParam}->{TicketID}       = $Self->{LinkTicketData}->{TicketID};
+        $Param{GetParam}->{CustomerUserID} = $Self->{LinkTicketData}->{CustomerUserID};
+    }
+
     # create a local copy of the GetParam
     my %GetServicesParam = %{ $Param{GetParam} };
 
@@ -3239,6 +3349,11 @@ sub _RenderSLA {
     my $Services = $Self->_GetServices(
         %GetServicesParam,
     );
+
+    if ( $Self->{LinkTicketData} ) {
+        $Param{GetParam}->{Services}  = $Services;
+        $Param{GetParam}->{ServiceID} = $Self->{LinkTicketData}->{ServiceID};
+    }
 
     my $SLAs = $Self->_GetSLAs(
         %{ $Param{GetParam} },
@@ -3313,6 +3428,10 @@ sub _RenderSLA {
     my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'SLAID'} ) {
         $ServerError = 'ServerError';
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedValue = $Self->{LinkTicketData}->{SLA};
     }
 
     # build SLA string
@@ -3391,6 +3510,12 @@ sub _RenderService {
             Message => $LayoutObject->{LanguageObject}
                 ->Translate( 'Parameter %s is missing in %s.', 'ActivityDialogField', '_RenderService' ),
         };
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        $Param{GetParam}->{QueueID}        = $Self->{LinkTicketData}->{QueueID};
+        $Param{GetParam}->{TicketID}       = $Self->{LinkTicketData}->{TicketID};
+        $Param{GetParam}->{CustomerUserID} = $Self->{LinkTicketData}->{CustomerUserID};
     }
 
     # create a local copy of the GetParam
@@ -3481,6 +3606,10 @@ sub _RenderService {
     my $TreeView = 0;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ListType') eq 'tree' ) {
         $TreeView = 1;
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedValue = $Self->{LinkTicketData}->{Service};
     }
 
     # build Service string
@@ -3625,6 +3754,10 @@ sub _RenderLock {
         $ServerError = 'ServerError';
     }
 
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedValue = $Self->{LinkTicketData}->{Lock};
+    }
+
     # build lock string
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Locks,
@@ -3761,6 +3894,10 @@ sub _RenderPriority {
     my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'PriorityID'} ) {
         $ServerError = 'ServerError';
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedValue = $Self->{LinkTicketData}->{Priority};
     }
 
     # build next Priorities string
@@ -3905,6 +4042,10 @@ sub _RenderQueue {
     my $TreeView = 0;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ListType') eq 'tree' ) {
         $TreeView = 1;
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedValue = $Self->{LinkTicketData}->{Queue};
     }
 
     # build next queues string
@@ -4191,6 +4332,10 @@ sub _RenderType {
     my $ServerError = '';
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{'TypeID'} ) {
         $ServerError = 'ServerError';
+    }
+
+    if ( $Self->{LinkTicketData} ) {
+        $SelectedValue = $Self->{LinkTicketData}->{Type};
     }
 
     # build Service string
@@ -5074,6 +5219,54 @@ sub _StoreActivityDialog {
 
                 # remove pre submitted attachments
                 $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+
+                # get the link ticket id if given
+                my $LinkTicketID = $ParamObject->GetParam( Param => 'LinkTicketID' ) || '';
+
+                # get screen config
+                my $Config = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+
+                # link tickets
+                if (
+                    $LinkTicketID
+                    && $Config->{SplitLinkType}
+                    && $Config->{SplitLinkType}->{LinkType}
+                    && $Config->{SplitLinkType}->{Direction}
+                    )
+                {
+
+                    my $Access = $TicketObject->TicketPermission(
+                        Type     => 'ro',
+                        TicketID => $LinkTicketID,
+                        UserID   => $Self->{UserID}
+                    );
+
+                    if ( !$Access ) {
+                        return $LayoutObject->NoPermission(
+                            Message    => "You need ro permission!",
+                            WithHeader => 'yes',
+                        );
+                    }
+
+                    my $SourceKey = $LinkTicketID;
+                    my $TargetKey = $TicketID;
+
+                    if ( $Config->{SplitLinkType}->{Direction} eq 'Source' ) {
+                        $SourceKey = $TicketID;
+                        $TargetKey = $LinkTicketID;
+                    }
+
+                    # link the tickets
+                    $Kernel::OM->Get('Kernel::System::LinkObject')->LinkAdd(
+                        SourceObject => 'Ticket',
+                        SourceKey    => $SourceKey,
+                        TargetObject => 'Ticket',
+                        TargetKey    => $TargetKey,
+                        Type         => $Config->{SplitLinkType}->{LinkType} || 'Normal',
+                        State        => 'Valid',
+                        UserID       => $Self->{UserID},
+                    );
+                }
 
                 # time accounting
                 if ( $Param{GetParam}->{TimeUnits} ) {

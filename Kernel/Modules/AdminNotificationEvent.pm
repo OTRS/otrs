@@ -1213,7 +1213,7 @@ sub _Edit {
     );
 
     my @CommunicationChannelList = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList();
-    my %CommunicationChannels = map { $_->{ChannelID} => $_->{ChannelName} } @CommunicationChannelList;
+    my %CommunicationChannels = map { $_->{ChannelID} => $_->{DisplayName} } @CommunicationChannelList;
 
     $Param{ArticleCommunicationChannelStrg} = $LayoutObject->BuildSelection(
         Data        => \%CommunicationChannels,

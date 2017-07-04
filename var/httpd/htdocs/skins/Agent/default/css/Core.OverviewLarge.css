@@ -294,6 +294,14 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
     font-weight: bold;
 }
 
+.OverviewLarge .ItemActions {
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+    background: #EEEEEE;
+    border-bottom: 1px solid #CCC;
+}
+
 .OverviewLarge .Preview {
     width: 60%;
     float: right;
@@ -429,6 +437,5 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
 .OverviewLarge .Preview .ArticleCount1 li div.HiddenBlock div.ActionRow + div.Content {
     height: 177px;
 }
-
 
 } /* end @media */

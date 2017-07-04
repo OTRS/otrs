@@ -135,9 +135,11 @@ Returns:
     %CommunicationChannel = (
         ChannelID   => 1,
         ChannelName => 'Email',
-        Module      => 'Kernel::System::CommunicationChannel::Internal',
+        Module      => 'Kernel::System::CommunicationChannel::Email',
         PackageName => 'Framework',
         ChannelData => {...},                                               # Additional channel data (can be array, hash, scalar).
+        DisplayName => 'Email',                                             # Configurable
+        DisplayIcon => 'fa-envelope',                                       # Configurable
         ValidID     => 1,
         CreateTime  => '2017-01-01 00:00:00',
         CreateBy    => 1,
@@ -159,7 +161,8 @@ sub ChannelGet {
         return;
     }
 
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $CacheType = 'CommunicationChannel';
     my $CacheKey  = 'ChannelGet::';
@@ -176,7 +179,15 @@ sub ChannelGet {
         Key  => $CacheKey,
     );
 
-    return %{$Cache} if ref $Cache eq 'HASH';
+    if ( ref $Cache eq 'HASH' ) {
+        my $Config = $ConfigObject->Get('CommunicationChannel')->{ $Cache->{ChannelName} } || {};
+
+        # Add some runtime values from config.
+        $Cache->{DisplayName} = $Config->{Name} || $Cache->{ChannelName};
+        $Cache->{DisplayIcon} = $Config->{Icon} || 'fa-exchange';
+
+        return %{$Cache};
+    }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -231,6 +242,12 @@ sub ChannelGet {
         Value => \%Result,
         TTL   => $Self->{CacheTTL},
     );
+
+    my $Config = $ConfigObject->Get('CommunicationChannel')->{ $Result{ChannelName} } || {};
+
+    # Add some runtime values from config (do not cache).
+    $Result{DisplayName} = $Config->{Name} || $Result{ChannelName};
+    $Result{DisplayIcon} = $Config->{Icon} || 'fa-exchange';
 
     return %Result;
 }
@@ -355,6 +372,8 @@ Returns:
             Module      => 'Kernel::System::CommunicationChannel::Email',
             PackageName => 'Framework',
             ChannelData => {...},
+            DisplayName => 'Email',
+            DisplayIcon => 'fa-envelope',
             ValidID     => 1,
             CreateTime  => '2017-01-01 00:00:00',
             CreateBy    => 1,
@@ -367,6 +386,8 @@ Returns:
             Module      => 'Kernel::System::CommunicationChannel::Phone',
             PackageName => 'Framework',
             ChannelData => {...},
+            DisplayName => 'Phone',
+            DisplayIcon => 'fa-phone',
             ValidID     => 1,
             CreateTime  => '2017-01-01 00:00:00',
             CreateBy    => 1,
@@ -381,7 +402,8 @@ Returns:
 sub ChannelList {
     my ( $Self, %Param ) = @_;
 
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $CacheType = 'CommunicationChannel';
     my $CacheKey  = 'ChannelList';
@@ -397,7 +419,17 @@ sub ChannelList {
         Key  => $CacheKey,
     );
 
-    return @{$Cache} if ref $Cache eq 'ARRAY';
+    if ( ref $Cache eq 'ARRAY' ) {
+        for my $Channel ( @{$Cache} ) {
+            my $Config = $ConfigObject->Get('CommunicationChannel')->{ $Channel->{ChannelName} } || {};
+
+            # Add some runtime values from config.
+            $Channel->{DisplayName} = $Config->{Name} || $Channel->{ChannelName};
+            $Channel->{DisplayIcon} = $Config->{Icon} || 'fa-exchange';
+        }
+
+        return @{$Cache};
+    }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -443,6 +475,14 @@ sub ChannelList {
         TTL   => $Self->{CacheTTL},
     );
 
+    for my $Channel (@Result) {
+        my $Config = $ConfigObject->Get('CommunicationChannel')->{ $Channel->{ChannelName} } || {};
+
+        # Add some runtime values from config (do not cache).
+        $Channel->{DisplayName} = $Config->{Name} || $Channel->{ChannelName};
+        $Channel->{DisplayIcon} = $Config->{Icon} || 'fa-exchange';
+    }
+
     return @Result;
 }
 
@@ -481,11 +521,6 @@ sub ChannelSync {
 
     CHANNEL:
     for my $Channel ( sort keys %{$ChannelsRegistered} ) {
-        my $ChannelName = $ChannelsRegistered->{$Channel}->{Name};
-
-        my %CommunicationChannel = $Self->ChannelGet(
-            ChannelName => $ChannelName,
-        );
 
         my $Module = $ChannelsRegistered->{$Channel}->{Module};
         if ( !$Module ) {
@@ -527,6 +562,10 @@ sub ChannelSync {
             ArticleDataIsDroppable    => $Object->ArticleDataIsDroppable(),
         );
 
+        my %CommunicationChannel = $Self->ChannelGet(
+            ChannelName => $Channel,
+        );
+
         # Update existing communication channel.
         if (%CommunicationChannel) {
             if (
@@ -540,7 +579,7 @@ sub ChannelSync {
             {
                 my $Success = $Self->ChannelUpdate(
                     ChannelID   => $CommunicationChannel{ChannelID},
-                    ChannelName => $ChannelName,
+                    ChannelName => $Channel,
                     Module      => $ChannelsRegistered->{$Channel}->{Module},
                     PackageName => $PackageName,
                     ChannelData => \%ChannelData,
@@ -551,20 +590,20 @@ sub ChannelSync {
                 if ( !$Success ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message  => "System was not able to update communication channel ($ChannelName)!",
+                        Message  => "System was not able to update communication channel ($Channel)!",
                     );
 
                     next CHANNEL;
                 }
 
-                push @Result, $ChannelName;
+                push @Result, $Channel;
             }
         }
 
         # Create communication channel if it's missing.
         else {
             my $ChannelID = $Self->ChannelAdd(
-                ChannelName => $ChannelName,
+                ChannelName => $Channel,
                 ChannelData => \%ChannelData,
                 Module      => $Module,
                 PackageName => $PackageName,
@@ -574,13 +613,13 @@ sub ChannelSync {
             if ( !$ChannelID ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "System was not able to add communication channel ($ChannelName)!",
+                    Message  => "System was not able to add communication channel ($Channel)!",
                 );
 
                 next CHANNEL;
             }
 
-            push @Result, $ChannelName;
+            push @Result, $Channel;
         }
     }
 

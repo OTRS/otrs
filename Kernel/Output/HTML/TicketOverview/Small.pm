@@ -44,8 +44,6 @@ sub new {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    $Self->{SmallViewColumnHeader} = $ConfigObject->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
-
     # set pref for columns key
     $Self->{PrefKeyColumns} = 'UserFilterColumnsEnabled' . '-' . $Self->{Action};
 
@@ -509,6 +507,8 @@ sub Run {
                 Space => ' ',
             );
 
+            $Article{Sender} = $Article{From} // '';
+
             # get ACL restrictions
             my %PossibleActions;
             my $Counter = 0;
@@ -652,7 +652,6 @@ sub Run {
         Owner        => 1,
         Responsible  => 1,
         CustomerID   => 1,
-        Title        => 1,
     );
 
     # get dynamic field backend object
@@ -775,24 +774,7 @@ sub Run {
                 }
 
                 # translate the column name to write it in the current language
-                my $TranslatedWord;
-
-                if ( $Column eq 'Title' ) {
-
-                    $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('From') . ' / ';
-
-                    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
-                        $TranslatedWord
-                            .= $LayoutObject->{LanguageObject}->Translate('Subject');
-                    }
-                    elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
-                        $TranslatedWord
-                            .= $LayoutObject->{LanguageObject}->Translate('Title');
-                    }
-                }
-                else {
-                    $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($Column);
-                }
+                my $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($Column);
 
                 my $FilterTitle     = $TranslatedWord;
                 my $FilterTitleDesc = Translatable('filter not active');
@@ -1492,28 +1474,11 @@ sub Run {
                 );
 
                 if ( $SpecialColumns{$TicketColumn} ) {
-                    if ( $TicketColumn eq 'Title' ) {
+                    $LayoutObject->Block(
+                        Name => 'Record' . $TicketColumn,
+                        Data => { %Article, %UserInfo },
+                    );
 
-                        # check if last customer subject or ticket title should be shown
-                        if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
-                            $LayoutObject->Block(
-                                Name => 'RecordLastCustomerSubject',
-                                Data => { %Article, %UserInfo },
-                            );
-                        }
-                        elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
-                            $LayoutObject->Block(
-                                Name => 'RecordTicketTitle',
-                                Data => { %Article, %UserInfo },
-                            );
-                        }
-                    }
-                    else {
-                        $LayoutObject->Block(
-                            Name => 'Record' . $TicketColumn,
-                            Data => { %Article, %UserInfo },
-                        );
-                    }
                     next TICKETCOLUMN;
                 }
 
@@ -2070,7 +2035,9 @@ sub _DefaultColumnSort {
         EscalationSolutionTime => 114,
         EscalationResponseTime => 115,
         EscalationUpdateTime   => 116,
-        Title                  => 120,
+        Sender                 => 120,
+        Title                  => 122,
+        Subject                => 124,
         State                  => 130,
         Lock                   => 140,
         Queue                  => 150,

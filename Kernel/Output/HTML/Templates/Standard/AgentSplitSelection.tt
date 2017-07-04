@@ -1,0 +1,34 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="InnerContent">
+    <form action="[% Env("CGIHandle") %]" method="post" id="AgentSplitSelection">
+        <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+        <input type="hidden" name="Subaction" value="ProcessSelection"/>
+        <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+        <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
+        <input type="hidden" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
+        <fieldset class="TableLike">
+            <label for="SplitSelection">[% Translate("Target") | html %]:</label>
+            <div class="Field">
+                [% Data.SplitSelectionStrg %]
+            </div>
+            <div class="Clear"></div>
+
+            <label for="ProcessSelection" id="ProcessSelectionLabel" style="display: none;">[% Translate("Process") | html %]:</label>
+            <div id="ProcessSelection" class="Field Hidden">
+                [% Data.ProcessListStrg %]
+            </div>
+            <div class="Clear"></div>
+        </fieldset>
+    </form>
+</div>
+
+<div class="ContentFooter Center">
+    <button id="SplitSubmit" class="Primary CallForAction" value="[% Translate("Split") | html %]" type="submit"><span>[% Translate("Split") | html %]</span></button>
+</div>

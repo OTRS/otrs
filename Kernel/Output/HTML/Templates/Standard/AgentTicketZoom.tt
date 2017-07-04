@@ -316,7 +316,7 @@
                         </thead>
                         <tbody>
 [% RenderBlockStart("TreeItem") %]
-                            <tr class="[% Data.SenderType | html %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %] [% Data.ClassRow | html %]" id="Row[% Data.ArticleNumber | uri %]">
+                            <tr class="[% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %] [% Data.ClassRow | html %]" id="Row[% Data.ArticleNumber | uri %]">
                                 <td class="No">
                                     [% Data.ArticleNumber | html %]
                                     <input type="hidden" class="ArticleInfo" name="Link[% Data.ArticleNumber | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.ArticleNumber | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>

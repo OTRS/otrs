@@ -23,7 +23,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # Make sure ticket is created in ArticleStorageDB.
 $Kernel::OM->Get('Kernel::Config')->Set(
     Valid => 1,
-    Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+    Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
     Value => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB',
 );
 

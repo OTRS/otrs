@@ -116,13 +116,6 @@ $Selenium->RunTest(
         # navigate to zoom view of created test ticket
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # Expand article details.
-        $Selenium->find_element( '.WidgetAction.Expand', 'css' )->click();
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#ArticleItems .PopupType_TicketAction:visible").length;'
-        );
-
         # click to show ticket in plain view
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPlain' )]")->VerifiedClick();
 

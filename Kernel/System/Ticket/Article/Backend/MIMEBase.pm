@@ -73,7 +73,7 @@ sub new {
 
     # Persistent for this object's lifetime so that we can have article objects with different storage modules.
     $Self->{ArticleStorageModule} = $Param{ArticleStorageModule}
-        || $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{'ArticleStorage'}
+        || $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleStorage')
         || 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB';
 
     return $Self;
@@ -1496,10 +1496,7 @@ sub BackendSearchableFieldsGet {
         },
     );
 
-    if (
-        $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase')->{IndexAttachmentNames}
-        )
-    {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::IndexAttachmentNames') ) {
         $SearchableFields{'MIMEBase_AttachmentName'} = {
             Label      => 'Attachment Name',
             Key        => 'MIMEBase_AttachmentName',

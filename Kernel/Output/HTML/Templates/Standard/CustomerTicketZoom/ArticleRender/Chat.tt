@@ -1,0 +1,82 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<li class="[% Data.SenderType | html %]-[% Data.IsVisibleForCustomer | html %] [% Data.Class | html %]">
+    <div class="MessageHeader">
+        <h3>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]">
+                [% IF Data.ArticleFields.Sender.Realname %]
+                    [% Data.ArticleFields.Sender.Realname | html %] &ndash;
+                [% ELSE %]
+                    [% Data.ArticleFields.Sender.Value | html %] &ndash;
+                [% END %]
+
+                [% IF Data.ArticleExpanded %]
+                    <span title="[% Data.ArticleFields.Subject.Value | html %]">
+                        [% Data.ArticleFields.Subject.Value | html %]
+                    </span>
+                [% ELSE %]
+                    <span title="[% Translate("Expand article") | html %]...">
+                        [% Data.ArticleFields.Subject.Value | html %]
+                    </span>
+                [% END %]
+            </a>
+        </h3>
+
+        <span class="Age" title="[% Data.CreateTime | Localize("TimeLong") | html %]">[% Data.Age %]</span>
+        <div class="Clear"></div>
+    </div>
+    <input type="hidden" name="ArticleState" value="untouched" />
+    <div class="MessageBody">
+        <div class="Details SeperatorRow">
+        [% FOREACH ArticleField IN Data.ArticleFields.values.nsort("Prio") %]
+            [% IF ArticleField.Label == "From" || ArticleField.Label == "To" || ArticleField.Label == "Cc"  || ArticleField.key == "Bcc" %]
+            <div>
+                <div class="Label">[% Translate(ArticleField.Label) | html %]:</div>
+                <span title="[% ArticleField.Realname | html %]">[% ArticleField.Realname | html %]</span>
+                <div class="Clear"></div>
+            </div>
+            [% ELSIF ArticleField.Label == "Subject" %]
+                <div>
+                    <div class="Label">[% Translate("Subject") | html %]:</div>
+                    <span title="[% ArticleField.Value | html %]">[% ArticleField.Value | html %]</span>
+                    <div class="Clear"></div>
+                </div>
+            [% END %]
+        [% END %]
+
+        [% FOREACH ArticleField IN Data.ArticleMetaFields %]
+            <div>
+                <!-- show accounted time and dynamic fields -->
+                <div class="Label">[% Translate(ArticleField.value.Label) | html %]:</div>
+                [% IF ArticleField.value.Link %]
+                    <span class="Value" title="[% ArticleField.value.Title %]">
+                        <a href="[% ArticleField.value.Link | Interpolate %]"
+                            [% IF ArticleField.value.LinkPreview %] data-trigger="floater" data-floater-url="[% ArticleField.value.LinkPreview | Interpolate %]"[% END %]
+                            target="_blank" class="DynamicFieldLink">
+                                [% ArticleField.value.Value %]
+                        </a>
+                    </span>
+                [% ELSE %]
+                    <span class="Value" title="[% ArticleField.value.Title %]">[% ArticleField.value.Value %]</span>
+                [% END %]
+                <div class="Clear"></div>
+            </div>
+        [% END %]
+        </div>
+        <div class="MessageContent">
+            [% IF !Data.HTML %]
+                <div class="ArticleChat">
+            [% END %]
+            [% Data.Body %]
+            [% IF !Data.HTML %]
+                </div>
+            [% END %]
+        </div>
+    </div>
+</li>

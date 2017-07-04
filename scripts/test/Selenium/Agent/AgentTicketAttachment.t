@@ -88,12 +88,10 @@ $Selenium->RunTest(
         my @TestAttachments = (
             {
                 Name            => 'StdAttachment-Test1.txt',
-                ExpectedName    => 'StdAttachment-Tes...',
                 ExpectedContent => 'Some German Text with Umlaut: ÄÖÜß',
             },
             {
                 Name            => 'file-1.html',
-                ExpectedName    => 'file-1.html',
                 ExpectedContent => 'This is file-1.html content.',
             }
         );
@@ -156,9 +154,9 @@ $Selenium->RunTest(
             # Check if attachment exists.
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('.ArticleAttachments a[href*=\"Action=AgentTicketAttachment;TicketID=$TicketID;ArticleID=$ArticleID\"]:contains($TestAttachment->{ExpectedName})').length;"
+                    "return \$('.ArticleAttachments a[href*=\"Action=AgentTicketAttachment;TicketID=$TicketID;ArticleID=$ArticleID;FileID=1\"][title*=\"$TestAttachment->{Name}\"]').length;"
                 ),
-                "'$TestAttachment->{ExpectedName}' is found on page",
+                "'$TestAttachment->{Name}' is found on page"
             );
 
             # Check if there is replaced links for CVE number.

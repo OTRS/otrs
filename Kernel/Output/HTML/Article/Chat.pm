@@ -13,7 +13,7 @@ use warnings;
 
 use parent 'Kernel::Output::HTML::Article::Base';
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -186,7 +186,7 @@ sub ArticlePreview {
     );
 
     my $Result = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
-        TemplateFile => 'Article/Content/Chat',
+        TemplateFile => 'ArticleContent/Chat',
         Data         => {
             ChatMessages => $Article{ChatMessageList},
         },

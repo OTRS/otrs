@@ -33,7 +33,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 for my $Backend (qw(DB FS)) {
 
     $ConfigObject->Set(
-        Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+        Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         Value => 'Kernel::System::Ticket::ArticleStorage' . $Backend,
     );
 

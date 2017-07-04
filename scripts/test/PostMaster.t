@@ -177,7 +177,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
         # use different storage back-ends
         for my $StorageModule (qw(ArticleStorageDB ArticleStorageFS)) {
             $ConfigObject->Set(
-                Key   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+                Key   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
                 Value => "Kernel::System::Ticket::Article::Backend::MIMEBase::$StorageModule",
             );
 

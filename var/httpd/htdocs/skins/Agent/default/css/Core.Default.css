@@ -1051,7 +1051,6 @@ iframe.TextOption.CustomerUserAddressBook {
     word-wrap: break-word;
     background: #FFF;
     padding: 10px;
-    overflow: auto;
     min-height: 70px;
 }
 

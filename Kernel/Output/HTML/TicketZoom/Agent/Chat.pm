@@ -6,9 +6,9 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketZoom::Article::Chat;
+package Kernel::Output::HTML::TicketZoom::Agent::Chat;
 
-use parent 'Kernel::Output::HTML::TicketZoom::Article::Base';
+use parent 'Kernel::Output::HTML::TicketZoom::Agent::Base';
 
 use strict;
 use warnings;
@@ -98,12 +98,12 @@ sub ArticleRender {
         );
     }
 
-    my $ChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelObjectGet(
-        ChannelName => 'Chat',
+    my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
+        ChannelID => $Article{CommunicationChannelID},
     );
 
     my $Content = $LayoutObject->Output(
-        TemplateFile => 'Article/Chat',
+        TemplateFile => 'AgentTicketZoom/ArticleRender/Chat',
         Data         => {
             %Article,
             ArticleFields        => \%ArticleFields,
@@ -112,8 +112,8 @@ sub ArticleRender {
             MenuItems            => $Param{ArticleActions},
             Body                 => $ArticleContent,
             HTML                 => $ShowHTML,
-            CommunicationChannel => $ArticleBackendObject->ChannelNameGet(),
-            ChannelIcon          => $ChannelObject->ChannelIconGet(),
+            CommunicationChannel => $CommunicationChannel{DisplayName},
+            ChannelIcon          => $CommunicationChannel{DisplayIcon},
             SenderImage          => $Self->_ArticleSenderImage(
                 Sender => $ArticleFields{Sender}->{Value},
             ),

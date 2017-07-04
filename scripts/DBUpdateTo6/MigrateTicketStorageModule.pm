@@ -51,13 +51,13 @@ sub Run {
         )
     {
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+            Name   => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
             Force  => 1,
             UserID => 1,
         );
 
         my %Result = $SysConfigObject->SettingUpdate(
-            Name              => 'Ticket::Article::Backend::MIMEBase###ArticleStorage',
+            Name              => 'Ticket::Article::Backend::MIMEBase::ArticleStorage',
             IsValid           => 1,
             EffectiveValue    => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS',
             ExclusiveLockGUID => $ExclusiveLockGUID,
@@ -72,13 +72,13 @@ sub Run {
 
     if ( $OTRS5Config{'Ticket::StorageModule::CheckAllBackends'} ) {
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => 'Ticket::Article::Backend::MIMEBase###CheckAllStorageBackends',
+            Name   => 'Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends',
             Force  => 1,
             UserID => 1,
         );
 
         my %Result = $SysConfigObject->SettingUpdate(
-            Name              => 'Ticket::Article::Backend::MIMEBase###CheckAllStorageBackends',
+            Name              => 'Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends',
             IsValid           => 1,
             EffectiveValue    => 1,
             ExclusiveLockGUID => $ExclusiveLockGUID,
@@ -93,13 +93,13 @@ sub Run {
 
     if ( $OTRS5Config{'ArticleDir'} ) {
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-            Name   => 'Ticket::Article::Backend::MIMEBase###ArticleDataDir',
+            Name   => 'Ticket::Article::Backend::MIMEBase::ArticleDataDir',
             Force  => 1,
             UserID => 1,
         );
 
         my %Result = $SysConfigObject->SettingUpdate(
-            Name              => 'Ticket::Article::Backend::MIMEBase###ArticleDataDir',
+            Name              => 'Ticket::Article::Backend::MIMEBase::ArticleDataDir',
             IsValid           => 1,
             EffectiveValue    => $OTRS5Config{'ArticleDir'},
             ExclusiveLockGUID => $ExclusiveLockGUID,

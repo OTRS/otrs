@@ -14,6 +14,8 @@
             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="DisplayActivityDialog"/>
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+            <input type="hidden" id="LinkTicketID" name="LinkTicketID" value="[% Data.LinkTicketID | html %]"/>
+            <input type="hidden" id="ArticleID" name="ArticleID" value="[% Data.ArticleID | html %]"/>
             <fieldset class="TableLike">
 [% RenderBlockStart("ProcessList") %]
                 <label class="Mandatory" for="ProcessEntityID"><span class="Marker">*</span>[% Translate("Process") | html %]:</label>

@@ -93,7 +93,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 .filter(':first'),
             $FocusField;
 
-        if (!$FirstElement) {
+        if (!$FirstElement || !$FirstElement.length) {
             return;
         }
 

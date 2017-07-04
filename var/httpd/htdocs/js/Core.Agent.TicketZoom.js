@@ -119,9 +119,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         var NewHeight;
 
         if (isJQueryObject($Iframe)) {
-            // slightly change the width of the iframe to not be exactly 100% width anymore
-            // this prevents a double horizontal scrollbar (from iframe and surrounding div)
-            $Iframe.width($Iframe.width() - 2);
 
             NewHeight = $Iframe.contents().height();
             if (!NewHeight || isNaN(NewHeight)) {
@@ -242,6 +239,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                     }
                 }
             }
+
+            // Initialize modern input fields in article actions.
+            Core.UI.InputFields.Activate($('#ArticleItems'));
         });
     }
 
@@ -550,7 +550,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             else {
                 $WidgetObj.find('.WidgetMenu').slideDown('fast');
                 $WidgetObj.addClass('MenuExpanded');
-                Core.UI.InputFields.Activate($WidgetObj.find('.WidgetMenu'));
             }
             return false;
         });
@@ -772,6 +771,18 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         if (typeof ProcessWidget !== 'undefined' && parseInt(ProcessWidget, 10) === 1) {
             InitProcessWidget();
         }
+
+        Core.App.Subscribe('Event.AJAX.ContentUpdate.Callback', function() {
+            $('a.SplitSelection').unbind('click.SplitSelection').bind('click.SplitSelection', function() {
+                Core.Agent.TicketSplit.OpenSplitSelection($(this).attr('href'));
+                return false;
+            });
+        });
+
+        $('a.SplitSelection').unbind('click.SplitSelection').bind('click.SplitSelection', function() {
+            Core.Agent.TicketSplit.OpenSplitSelection($(this).attr('href'));
+            return false;
+        });
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
