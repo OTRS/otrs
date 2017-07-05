@@ -85,6 +85,10 @@ sub Run {
             Message => 'Add new table for article search index',
             Module  => 'NewArticleSearchIndexTable',
         },
+        {
+            Message => 'Drop no longer needed notifications table',
+            Module  => 'DropNotificationsTable',
+        },
     );
 
     print "\n" if $Verbose;
