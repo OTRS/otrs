@@ -19,17 +19,14 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
-    'Kernel::System::CustomerUser',
     'Kernel::System::DB',
     'Kernel::System::Email',
     'Kernel::System::HTMLUtils',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::PostMaster::LoopProtection',
-    'Kernel::System::State',
-    'Kernel::System::TemplateGenerator',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::Ticket::Article::Backend::Email',
     'Kernel::System::User',
 );
 
@@ -529,14 +526,29 @@ sub ArticleCreate {
 
     # send auto response
     if ( $Param{AutoResponseType} ) {
-        $Self->SendAutoResponse(
-            OrigHeader           => $Param{OrigHeader},
-            TicketID             => $Param{TicketID},
-            UserID               => $Param{UserID},
-            AutoResponseType     => $Param{AutoResponseType},
-            SenderTypeID         => $Param{SenderTypeID},
-            IsVisibleForCustomer => $Param{IsVisibleForCustomer},
-        );
+
+        # Check if SendAutoResponse() method exists, before calling it. If it doesn't, get an instance of an additional
+        #   email backend first.
+        if ( $Self->can('SendAutoResponse') ) {
+            $Self->SendAutoResponse(
+                OrigHeader           => $Param{OrigHeader},
+                TicketID             => $Param{TicketID},
+                UserID               => $Param{UserID},
+                AutoResponseType     => $Param{AutoResponseType},
+                SenderTypeID         => $Param{SenderTypeID},
+                IsVisibleForCustomer => $Param{IsVisibleForCustomer},
+            );
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email')->SendAutoResponse(
+                OrigHeader           => $Param{OrigHeader},
+                TicketID             => $Param{TicketID},
+                UserID               => $Param{UserID},
+                AutoResponseType     => $Param{AutoResponseType},
+                SenderTypeID         => $Param{SenderTypeID},
+                IsVisibleForCustomer => $Param{IsVisibleForCustomer},
+            );
+        }
     }
 
     # send no agent notification!?
@@ -924,274 +936,6 @@ sub ArticleUpdate {
         Data  => {
             TicketID  => $Param{TicketID},
             ArticleID => $Param{ArticleID},
-        },
-        UserID => $Param{UserID},
-    );
-
-    return 1;
-}
-
-=head2 SendAutoResponse()
-
-Send an auto response to a customer via email.
-
-    my $ArticleID = $ArticleBackendObject->SendAutoResponse(
-        TicketID         => 123,
-        AutoResponseType => 'auto reply',
-        OrigHeader       => {
-            From    => 'some@example.com',
-            Subject => 'For the message!',
-        },
-        UserID => 123,
-    );
-
-Events:
-    ArticleAutoResponse
-
-=cut
-
-sub SendAutoResponse {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID UserID OrigHeader AutoResponseType)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!",
-            );
-            return;
-        }
-    }
-
-    # return if no notification is active
-    return 1 if $Self->{SendNoNotification};
-
-    # get orig email header
-    my %OrigHeader = %{ $Param{OrigHeader} };
-
-    # get ticket
-    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,                  # not needed here, TemplateGenerator will fetch the ticket on its own
-    );
-
-    # get auto default responses
-    my %AutoResponse = $Kernel::OM->Get('Kernel::System::TemplateGenerator')->AutoResponse(
-        TicketID         => $Param{TicketID},
-        AutoResponseType => $Param{AutoResponseType},
-        OrigHeader       => $Param{OrigHeader},
-        UserID           => $Param{UserID},
-    );
-
-    # return if no valid auto response exists
-    return if !$AutoResponse{Text};
-    return if !$AutoResponse{SenderRealname};
-    return if !$AutoResponse{SenderAddress};
-
-    # send if notification should be sent (not for closed tickets)!?
-    my %State = $Kernel::OM->Get('Kernel::System::State')->StateGet( ID => $Ticket{StateID} );
-    if (
-        $Param{AutoResponseType} eq 'auto reply'
-        && ( $State{TypeName} eq 'closed' || $State{TypeName} eq 'removed' )
-        )
-    {
-
-        # add history row
-        $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
-            TicketID    => $Param{TicketID},
-            HistoryType => 'Misc',
-            Name        => "Sent no auto response or agent notification because ticket is "
-                . "state-type '$State{TypeName}'!",
-            CreateUserID => $Param{UserID},
-        );
-
-        # return
-        return;
-    }
-
-    # log that no auto response was sent!
-    if ( $OrigHeader{'X-OTRS-Loop'} && $OrigHeader{'X-OTRS-Loop'} !~ /^(false|no)$/i ) {
-
-        # add history row
-        $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
-            TicketID    => $Param{TicketID},
-            HistoryType => 'Misc',
-            Name        => "Sent no auto-response because the sender doesn't want "
-                . "an auto-response (e. g. loop or precedence header)",
-            CreateUserID => $Param{UserID},
-        );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'info',
-            Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
-                . "$Ticket{TicketNumber}] ($OrigHeader{From}) because the "
-                . "sender doesn't want an auto-response (e. g. loop or precedence header)"
-        );
-        return;
-    }
-
-    # check reply to for auto response recipient
-    if ( $OrigHeader{ReplyTo} ) {
-        $OrigHeader{From} = $OrigHeader{ReplyTo};
-    }
-
-    # get loop protection object
-    my $LoopProtectionObject = $Kernel::OM->Get('Kernel::System::PostMaster::LoopProtection');
-
-    # create email parser object
-    my $EmailParser = Kernel::System::EmailParser->new(
-        Mode => 'Standalone',
-    );
-
-    my @AutoReplyAddresses;
-    my @Addresses = $EmailParser->SplitAddressLine( Line => $OrigHeader{From} );
-    ADDRESS:
-    for my $Address (@Addresses) {
-        my $Email = $EmailParser->GetEmailAddress( Email => $Address );
-        if ( !$Email ) {
-
-            # add it to ticket history
-            $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
-                TicketID     => $Param{TicketID},
-                CreateUserID => $Param{UserID},
-                HistoryType  => 'Misc',
-                Name         => "Sent no auto response to '$Address' - no valid email address.",
-            );
-
-            # log
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
-                Message  => "Sent no auto response to '$Address' because of invalid address.",
-            );
-            next ADDRESS;
-
-        }
-        if ( !$LoopProtectionObject->Check( To => $Email ) ) {
-
-            # add history row
-            $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
-                TicketID     => $Param{TicketID},
-                HistoryType  => 'LoopProtection',
-                Name         => "\%\%$Email",
-                CreateUserID => $Param{UserID},
-            );
-
-            # log
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
-                Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
-                    . "$Ticket{TicketNumber}] ($Email) because of loop protection."
-            );
-            next ADDRESS;
-        }
-        else {
-
-            # increase loop count
-            return if !$LoopProtectionObject->SendEmail( To => $Email );
-        }
-
-        # check if sender is e. g. MAILER-DAEMON or Postmaster
-        my $NoAutoRegExp = $Kernel::OM->Get('Kernel::Config')->Get('SendNoAutoResponseRegExp');
-        if ( $Email =~ /$NoAutoRegExp/i ) {
-
-            # add it to ticket history
-            $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
-                TicketID     => $Param{TicketID},
-                CreateUserID => $Param{UserID},
-                HistoryType  => 'Misc',
-                Name         => "Sent no auto response to '$Email', SendNoAutoResponseRegExp matched.",
-            );
-
-            # log
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'info',
-                Message  => "Sent no auto response to '$Email' because config"
-                    . " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) matched.",
-            );
-            next ADDRESS;
-        }
-
-        push @AutoReplyAddresses, $Address;
-    }
-
-    my $AutoReplyAddresses = join( ', ', @AutoReplyAddresses );
-    my $Cc;
-
-    # also send CC to customer user if customer user id is used and addresses do not match
-    if ( $Ticket{CustomerUserID} ) {
-
-        my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-            User => $Ticket{CustomerUserID},
-        );
-
-        if (
-            $CustomerUser{UserEmail}
-            && $OrigHeader{From} !~ /\Q$CustomerUser{UserEmail}\E/i
-            && $Param{IsVisibleForCustomer}
-            )
-        {
-            $Cc = $CustomerUser{UserEmail};
-        }
-    }
-
-    # get history type
-    my $HistoryType;
-    if ( $Param{AutoResponseType} =~ /^auto follow up$/i ) {
-        $HistoryType = 'SendAutoFollowUp';
-    }
-    elsif ( $Param{AutoResponseType} =~ /^auto reply$/i ) {
-        $HistoryType = 'SendAutoReply';
-    }
-    elsif ( $Param{AutoResponseType} =~ /^auto reply\/new ticket$/i ) {
-        $HistoryType = 'SendAutoReply';
-    }
-    elsif ( $Param{AutoResponseType} =~ /^auto reject$/i ) {
-        $HistoryType = 'SendAutoReject';
-    }
-    else {
-        $HistoryType = 'Misc';
-    }
-
-    if ( !@AutoReplyAddresses && !$Cc ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'info',
-            Message  => "No auto response addresses for Ticket [$Ticket{TicketNumber}]"
-                . " (TicketID=$Param{TicketID})."
-        );
-        return;
-    }
-
-    # send email
-    my $ArticleID = $Self->ArticleSend(
-        IsVisibleForCustomer => 1,
-        SenderType           => 'system',
-        TicketID             => $Param{TicketID},
-        HistoryType          => $HistoryType,
-        HistoryComment       => "\%\%$AutoReplyAddresses",
-        From                 => "$AutoResponse{SenderRealname} <$AutoResponse{SenderAddress}>",
-        To                   => $AutoReplyAddresses,
-        Cc                   => $Cc,
-        Charset              => 'utf-8',
-        MimeType             => $AutoResponse{ContentType},
-        Subject              => $AutoResponse{Subject},
-        Body                 => $AutoResponse{Text},
-        InReplyTo            => $OrigHeader{'Message-ID'},
-        Loop                 => 1,
-        UserID               => $Param{UserID},
-    );
-
-    # log
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'info',
-        Message  => "Sent auto response ($HistoryType) for Ticket [$Ticket{TicketNumber}]"
-            . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$AutoReplyAddresses'."
-    );
-
-    # event
-    $Self->EventHandler(
-        Event => 'ArticleAutoResponse',
-        Data  => {
-            TicketID => $Param{TicketID},
         },
         UserID => $Param{UserID},
     );
