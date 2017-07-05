@@ -31,11 +31,6 @@ sub Run {
 
     my @OutdatedTables;
 
-    # This table was removed with OTRS 5 (if empty).
-    if ( $ExistingTables{notifications} ) {
-        push @OutdatedTables, 'notifications';
-    }
-
     # This table was removed with OTRS 6 (if empty).
     if ( $ExistingTables{gi_object_lock_state} ) {
         my $SolManConnectorInstalled;
