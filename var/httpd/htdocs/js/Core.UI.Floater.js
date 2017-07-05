@@ -228,7 +228,7 @@ Core.UI.Floater = (function (TargetNS) {
                 // calculate available height to top of page
                 AvailableHeightTop = parseInt(TriggerOffset.top - $(window).scrollTop(), 10);
 
-                // decide wether list should be positioned on top or at the bottom of the input field
+                // decide whether list should be positioned on top or at the bottom of the input field
                 if (AvailableHeightTop > AvailableHeightBottom) {
                     $FloaterObj.addClass('Bottom').css({
                         top: 'auto',

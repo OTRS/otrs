@@ -662,7 +662,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
             if (LastLevel) {
 
-                // get contents of the 'prefixes' selectbox to decide wether or not we
+                // get contents of the 'prefixes' selectbox to decide whether or not we
                 // are dealing with a special type of string
                 $SelectObj.find('option').each(function() {
 

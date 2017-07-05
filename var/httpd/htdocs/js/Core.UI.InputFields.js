@@ -1394,7 +1394,7 @@ Core.UI.InputFields = (function (TargetNS) {
                                 left: $InputContainerObj.offset().left
                             });
 
-                        // decide wether list should be positioned on top or at the bottom of the input field
+                        // decide whether list should be positioned on top or at the bottom of the input field
                         if (AvailableHeightTop > AvailableHeightBottom) {
                             AvailableMaxHeight = AvailableHeightTop;
 
@@ -1729,7 +1729,7 @@ Core.UI.InputFields = (function (TargetNS) {
                             HoveredValue = $HoveredNode.closest('li').data('id');
 
                             // at this point, the jstree events have already selected the new value and processed the event
-                            // but we need to know, if the hovered element was selected before or not to decide wether to
+                            // but we need to know, if the hovered element was selected before or not to decide whether to
                             // select or deselect it now. therefor we check for OldSelectedID
                             if (!Multiple) {
                                 if (HoveredValue !== OldSelectedID) {

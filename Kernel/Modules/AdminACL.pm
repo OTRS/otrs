@@ -635,7 +635,7 @@ sub _ShowEdit {
     # get ACL information
     my $ACLData = $Param{ACLData} || {};
 
-    # decide wether to show delete button
+    # decide whether to show delete button
     if ( $Param{Action} eq 'Edit' && $ACLData && $ACLData->{ValidID} ne '1' ) {
         $LayoutObject->Block(
             Name => 'ACLDeleteAction',

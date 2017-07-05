@@ -7177,7 +7177,7 @@ sub TicketArticleStorageSwitch {
 
 =head2 TicketCheckForProcessType()
 
-    checks wether or not the ticket is of a process type.
+    checks whether or not the ticket is of a process type.
 
     $TicketObject->TicketCheckForProcessType(
         TicketID => 123,
