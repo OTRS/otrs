@@ -131,10 +131,10 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
         # confirm pending change action
-        my $PendingMsg = "Old: \"new\" New: \"pending reminder\"";
+        my $PendingMsg = "Changed state from \"new\" to \"pending reminder\".";
         $Self->True(
             index( $Selenium->get_page_source(), $PendingMsg ) > -1,
-            "Ticket pending action completed",
+            'Ticket pending action completed'
         );
 
         # delete created test tickets

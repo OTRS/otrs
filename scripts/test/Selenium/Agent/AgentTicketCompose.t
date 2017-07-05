@@ -487,11 +487,10 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
         # verify that compose worked as expected
-        my $HistoryText = "Email sent to \"\"$TestCustomer $TestCustomer\"";
-
+        my $HistoryText = "Sent email to \"\"$TestCustomer $TestCustomer\"";
         $Self->True(
             index( $Selenium->get_page_source(), $HistoryText ) > -1,
-            "Compose executed correctly",
+            'Compose executed correctly'
         );
 
         # delete created test ticket

@@ -341,8 +341,8 @@ $Selenium->RunTest(
         #   previous process step.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID[1]");
         $Self->True(
-            index( $Selenium->get_page_source(), 'FieldName=TestTextZeroProcess;Value=0;' ) > -1,
-            'Dynamic field set to correct value by process',
+            index( $Selenium->get_page_source(), 'Changed dynamic field TestTextZeroProcess from "" to "0".' ) > -1,
+            'Dynamic field set to correct value by process'
         );
 
         # Create second scenario for test agent ticket process.

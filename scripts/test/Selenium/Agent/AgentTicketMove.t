@@ -201,10 +201,10 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
         # confirm ticket move action
-        my $MoveMsg = "Ticket moved into Queue \"Misc\" (4) from Queue \"Raw\" (2).";
+        my $MoveMsg = "Changed queue to \"Misc\" (4) from \"Raw\" (2).";
         $Self->True(
             index( $Selenium->get_page_source(), $MoveMsg ) > -1,
-            "Ticket move action completed",
+            'Ticket move action completed'
         );
 
         # click on close window and switch back screen

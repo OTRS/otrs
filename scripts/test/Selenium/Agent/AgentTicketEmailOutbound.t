@@ -201,9 +201,9 @@ $Selenium->RunTest(
 
         # confirm email outbound action
         $Self->True(
-            index( $Selenium->get_page_source(), "Email sent to customer." ) > -1,
-            "Ticket email outbound completed",
-        ) || die "Ticket email outbound not completed";
+            index( $Selenium->get_page_source(), 'Sent email to customer.' ) > -1,
+            'Ticket email outbound completed'
+        );
 
         # delete created test tickets
         my $Success = $TicketObject->TicketDelete(
