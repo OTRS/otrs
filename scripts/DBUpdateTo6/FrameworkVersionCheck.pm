@@ -26,14 +26,31 @@ scripts::DBUpdateTo6::FrameworkVersionCheck - Checks required framework version 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    return 1;
+}
+
+=head2 CheckPreviousRequirement()
+
+check for initial conditions for running this migration step.
+
+Returns 1 on success
+
+    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
+
+=cut
+
+sub CheckPreviousRequirement {
+    my ( $Self, %Param ) = @_;
+
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # load RELEASE file
-    if ( -e !"$Home/RELEASE" ) {
-        print "Error: $Home/RELEASE does not exist!";
+    if ( !-e "$Home/RELEASE" ) {
+        print "\n\nError: $Home/RELEASE does not exist!";
         return;
     }
+
     my $ProductName;
     my $Version;
     if ( open( my $Product, '<', "$Home/RELEASE" ) ) {    ## no critic
@@ -52,7 +69,7 @@ sub Run {
         close($Product);
     }
     else {
-        print "Error: Can't read $Home/RELEASE: $!";
+        print "\n\nError: Can't read $Home/RELEASE: $!";
         return;
     }
 
@@ -62,31 +79,7 @@ sub Run {
     }
     if ( $Version !~ /^6\.0(.*)$/ ) {
 
-        print "Error: You are trying to run this script on the wrong framework version $Version!";
-        return;
-    }
-
-    return 1;
-}
-
-=head2 CheckPreviousRequirement()
-
-check for initial conditions for running this migration step.
-
-Returns 1 on success
-
-    my $Result = $DBUpdateTo6Object->CheckPreviousRequirement();
-
-=cut
-
-sub CheckPreviousRequirement {
-    my ( $Self, %Param ) = @_;
-
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
-    # load RELEASE file
-    if ( -e !"$Home/RELEASE" ) {
-        print "Error: $Home/RELEASE does not exist!";
+        print "\n\nError: You are trying to run this script on the wrong framework version $Version!";
         return;
     }
 

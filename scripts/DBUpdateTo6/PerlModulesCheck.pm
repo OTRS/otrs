@@ -26,24 +26,6 @@ scripts::DBUpdateTo6::PerlModulesCheck - Checks required Perl modules before upd
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
-
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
-    my $ScriptPath = "$Home/bin/otrs.CheckModules.pl";
-
-    print "\n  Executing $ScriptPath to check for missing required modules. \n\n" if $Verbose;
-
-    print "\n";
-
-    my $ExitCode = system($ScriptPath);
-
-    if ( $ExitCode != 0 ) {
-        print
-            "Error: not all required Perl modules are installed. Please follow the recommendations to install them, and then run the upgrade script again.\n";
-        return;
-    }
-
     return 1;
 }
 
@@ -60,13 +42,28 @@ Returns 1 on success
 sub CheckPreviousRequirement {
     my ( $Self, %Param ) = @_;
 
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     my $ScriptPath = "$Home/bin/otrs.CheckModules.pl";
 
     # verify check modules script exist
-    if ( -e !$ScriptPath ) {
-        print "Error: $ScriptPath script does not exist!";
+    if ( !-e $ScriptPath ) {
+        print "\n\nError: $ScriptPath script does not exist!";
+        return;
+    }
+
+    print "\n";
+
+    print "  Executing $ScriptPath to check for missing required modules. \n\n" if $Verbose;
+
+    print "\n";
+
+    my $ExitCode = system($ScriptPath);
+
+    if ( $ExitCode != 0 ) {
+        print
+            "Error: not all required Perl modules are installed. Please follow the recommendations to install them, and then run the upgrade script again.\n";
         return;
     }
 
