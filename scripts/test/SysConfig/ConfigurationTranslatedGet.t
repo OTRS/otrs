@@ -109,55 +109,55 @@ bestimmt den standard-linktyp für geteilte tickets im agentenbereich.'
             'Category'    => 'OTRSFree',
             'IsInvisible' => 0,
             'Metadata'    => 'ticket::frontend::historytypes###000-framework---
-addnote: added note (%s)
-archiveflagupdate: \'archive state changed: "%s"\'
+addnote: added note (%s).
+archiveflagupdate: changed archive state to "%s".
 bounce: bounced to "%s".
-customerupdate: \'updated: %s\'
-emailagent: email sent to customer.
+customerupdate: changed customer to "%s".
+emailagent: sent email to customer.
 emailcustomer: added email. %s
-escalationresponsetimenotifybefore: escalation response time forewarned
-escalationresponsetimestart: escalation response time in effect
-escalationresponsetimestop: escalation response time finished
-escalationsolutiontimenotifybefore: escalation solution time forewarned
-escalationsolutiontimestart: escalation solution time in effect
-escalationsolutiontimestop: escalation solution time finished
-escalationupdatetimenotifybefore: escalation update time forewarned
-escalationupdatetimestart: escalation update time in effect
-escalationupdatetimestop: escalation update time finished
-followup: followup for [%s]. %s
+escalationresponsetimenotifybefore: notified about response time escalation.
+escalationresponsetimestart: started response time escalation.
+escalationresponsetimestop: stopped response time escalation.
+escalationsolutiontimenotifybefore: notified about solution time escalation.
+escalationsolutiontimestart: started solution time escalation.
+escalationsolutiontimestop: stopped solution time escalation.
+escalationupdatetimenotifybefore: notified about update time escalation.
+escalationupdatetimestart: started update time escalation.
+escalationupdatetimestop: stopped update time escalation.
+followup: added follow-up to ticket [%s]. %s
 forward: forwarded to "%s".
 lock: locked ticket.
-loopprotection: loop-protection! no auto-response sent to "%s".
+loopprotection: \'loop protection: no auto-response sent to "%s".\'
 misc: \'%s\'
-move: ticket moved into queue "%s" (%s) from queue "%s" (%s).
-newticket: new ticket [%s] created (q=%s;p=%s;s=%s).
-ownerupdate: new owner is "%s" (id=%s).
-phonecallagent: agent called customer.
-phonecallcustomer: customer called us.
+move: changed queue to "%s" (%s) from "%s" (%s).
+newticket: created ticket [%s] in "%s" with priority "%s" and state "%s".
+ownerupdate: changed owner to "%s" (%s).
+phonecallagent: added phone call to customer.
+phonecallcustomer: added phone call from customer.
 priorityupdate: changed priority from "%s" (%s) to "%s" (%s).
 remove: \'%s\'
-responsibleupdate: new responsible is "%s" (id=%s).
-slaupdate: updated sla to %s (id=%s).
-sendagentnotification: \'"%s" notification was sent to "%s" by "%s".\'
-sendanswer: email sent to "%s".
-sendautofollowup: autofollowup sent to "%s".
-sendautoreject: autoreject sent to "%s".
-sendautoreply: autoreply sent to "%s".
-sendcustomernotification: notification sent to "%s".
-serviceupdate: updated service to %s (id=%s).
-setpendingtime: \'updated: %s\'
-stateupdate: \'old: "%s" new: "%s"\'
+responsibleupdate: changed responsible to "%s" (%s).
+slaupdate: changed sla to "%s" (%s).
+sendagentnotification: sent "%s" notification to "%s" via "%s".
+sendanswer: sent email to "%s".
+sendautofollowup: sent auto follow-up to "%s".
+sendautoreject: sent auto reject to "%s".
+sendautoreply: sent auto reply to "%s".
+sendcustomernotification: sent notification to "%s".
+serviceupdate: changed service to "%s" (%s).
+setpendingtime: changed pending time to "%s".
+stateupdate: changed state from "%s" to "%s".
 subscribe: added subscription for user "%s".
-systemrequest: system request (%s).
-ticketdynamicfieldupdate: \'updated: %s=%s;%s=%s;%s=%s;\'
+systemrequest: added system request (%s).
+ticketdynamicfieldupdate: changed dynamic field %s from "%s" to "%s".
 ticketlinkadd: added link to ticket "%s".
 ticketlinkdelete: deleted link to ticket "%s".
-timeaccounting: \'%s time unit(s) accounted. now total %s time unit(s).\'
-titleupdate: \'title updated: old: "%s", new: "%s"\'
-typeupdate: updated type to %s (id=%s).
+timeaccounting: added %s time unit(s), for a total of %s time unit(s).
+titleupdate: changed title from "%s" to "%s".
+typeupdate: changed type to "%s" (%s).
 unlock: unlocked ticket.
 unsubscribe: removed subscription for user "%s".
-webrequestcustomer: customer request via web.
+webrequestcustomer: added web request from customer.
 kontrolliert wie die ticket-historie in lesbaren werten dargestellt wird.'
         },
     },
