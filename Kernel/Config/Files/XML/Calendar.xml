@@ -44,7 +44,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentAppointmentCalendarOverview###002-Calendar" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -68,7 +68,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -93,7 +93,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###2" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -118,7 +118,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###3" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -143,7 +143,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentAppointmentCalendarOverview###4" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -253,7 +253,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminAppointmentCalendarManage###002-Calendar" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -274,7 +274,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AdminAppointmentCalendarManage###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -637,7 +637,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminAppointmentNotificationEvent###002-Calendar" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -835,7 +835,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentAppointmentAgendaOverview###002-Calendar" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -857,7 +857,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentAppointmentAgendaOverview###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">

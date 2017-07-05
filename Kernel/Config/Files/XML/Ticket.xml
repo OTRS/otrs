@@ -7271,7 +7271,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketQueue###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7293,7 +7293,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketQueue###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -7318,7 +7318,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketQueue###2" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -7364,7 +7364,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketService###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7386,7 +7386,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketService###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -7432,7 +7432,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketPhone###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -7449,7 +7449,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketPhone###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -7495,7 +7495,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketPhoneOutbound###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -7530,7 +7530,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketPhoneInbound###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -7565,7 +7565,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketEmail###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -7582,7 +7582,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketEmail###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -7628,7 +7628,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketSearch###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7649,7 +7649,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketSearch###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -7695,7 +7695,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketLockedView###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7736,7 +7736,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketResponsibleView###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7778,7 +7778,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketWatchView###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7861,7 +7861,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketStatusView###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7882,7 +7882,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketStatusView###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -7928,7 +7928,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketEscalationView###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -7949,7 +7949,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketEscalationView###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8016,7 +8016,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketZoom###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8126,7 +8126,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketNote###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8161,7 +8161,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketMerge###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8195,7 +8195,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketPending###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8251,7 +8251,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketPriority###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8307,7 +8307,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketMove###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8380,7 +8380,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketHistory###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8414,7 +8414,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketOwner###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8449,7 +8449,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketResponsible###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8484,7 +8484,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketCompose###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8521,7 +8521,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketBounce###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8555,7 +8555,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketForward###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8592,7 +8592,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketEmailOutbound###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8629,7 +8629,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketCustomer###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8666,7 +8666,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketClose###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8701,7 +8701,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketFreeText###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8757,7 +8757,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketBulk###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8793,7 +8793,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminACL###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8857,7 +8857,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminQueue###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8917,7 +8917,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminTemplate###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8976,7 +8976,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminQueueTemplates###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9035,7 +9035,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminAutoResponse###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9094,7 +9094,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminQueueAutoResponse###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9153,7 +9153,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminAttachment###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9212,7 +9212,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminTemplateAttachment###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9271,7 +9271,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminSalutation###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9330,7 +9330,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminSignature###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9389,7 +9389,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminSystemAddress###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9448,7 +9448,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminNotificationEvent###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -9512,7 +9512,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminService###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9571,7 +9571,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminSLA###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9630,7 +9630,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminType###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9690,7 +9690,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminState###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9750,7 +9750,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminPriority###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9810,7 +9810,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericAgent###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10084,7 +10084,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketOverview###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10109,7 +10109,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketOverview###2" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10134,7 +10134,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketOverview###3" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10180,7 +10180,7 @@
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketMessage###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10193,7 +10193,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketMessage###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10239,7 +10239,7 @@
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketZoom###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10337,7 +10337,7 @@
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketSearch###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10350,7 +10350,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketSearch###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -11212,7 +11212,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Loader::Module::AdminDynamicField###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -11303,7 +11303,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Loader::Module::AdminDynamicFieldText###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -11340,7 +11340,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Loader::Module::AdminDynamicFieldCheckbox###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -11377,7 +11377,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Loader::Module::AdminDynamicFieldDropdown###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -11419,7 +11419,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Loader::Module::AdminDynamicFieldDateTime###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -11461,7 +11461,7 @@ Thanks for your help!
     </Setting>
     <Setting Name="Loader::Module::AdminDynamicFieldMultiselect###002-Ticket" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">

@@ -8375,7 +8375,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentDashboard###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8411,7 +8411,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentDashboard###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8457,7 +8457,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentCustomerInformationCenter###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8478,7 +8478,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentCustomerInformationCenter###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8503,7 +8503,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentCustomerInformationCenter###2" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8613,7 +8613,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentCustomerUserInformationCenter###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8634,7 +8634,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentCustomerUserInformationCenter###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8749,7 +8749,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentPreferences###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8814,7 +8814,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentCustomerUserAddressBook###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8853,7 +8853,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentLinkObject###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -8955,7 +8955,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::Admin###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -8975,7 +8975,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###Admin###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9174,7 +9174,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminGroup###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9233,7 +9233,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminUserGroup###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9293,7 +9293,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminCustomerUser###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9307,7 +9307,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AdminCustomerUser###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9382,7 +9382,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminCustomerCompany###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9395,7 +9395,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AdminCustomerCompany###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9478,7 +9478,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminCustomerUserGroup###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9537,7 +9537,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminCustomerGroup###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9596,7 +9596,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminCustomerUserService###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9655,7 +9655,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminCustomerUserCustomer###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9714,7 +9714,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminRole###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9773,7 +9773,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminRoleUser###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9832,7 +9832,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminRoleGroup###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9891,7 +9891,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSMIME###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -9996,7 +9996,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminMailAccount###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10055,7 +10055,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminPostMasterFilter###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10165,7 +10165,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSession###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10224,7 +10224,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminPerformanceLog###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10283,7 +10283,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminRegistration###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10347,7 +10347,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminOTRSBusiness###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10405,7 +10405,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentOTRSBusiness###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10440,7 +10440,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSupportDataCollector###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10504,7 +10504,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminCloudServices###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10563,7 +10563,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminLog###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10622,7 +10622,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSelectBox###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10727,7 +10727,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSystemMaintenance###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="JavaScript">
@@ -10958,7 +10958,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentHTMLReference###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -10994,7 +10994,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AgentStatistics###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -11024,7 +11024,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentStatistics###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -11051,7 +11051,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentStatistics###2" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -11078,7 +11078,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentStatistics###3" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -12362,7 +12362,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSystemConfigurationDeployment###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -12404,7 +12404,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSystemConfiguration###001-Framework" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -12476,7 +12476,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSystemConfigurationGroup###001-Framework" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">

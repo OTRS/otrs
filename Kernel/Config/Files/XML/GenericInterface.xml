@@ -111,7 +111,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceDebugger###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -151,7 +151,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceWebservice###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -215,7 +215,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceTransportHTTPSOAP###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -257,7 +257,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceTransportHTTPREST###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -297,7 +297,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceWebserviceHistory###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -337,7 +337,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceOperationDefault###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -377,7 +377,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceInvokerDefault###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -492,7 +492,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceMappingSimple###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -541,7 +541,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminGenericInterfaceMappingXSLT###002-GenericInterface" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">

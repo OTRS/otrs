@@ -24,7 +24,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminProcessManagement###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -94,7 +94,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminProcessManagementActivity###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -136,7 +136,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminProcessManagementActivityDialog###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -178,7 +178,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminProcessManagementTransition###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -218,7 +218,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminProcessManagementTransitionAction###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -258,7 +258,7 @@
     </Setting>
     <Setting Name="Loader::Module::AdminProcessManagementPath###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -309,7 +309,7 @@
     </Setting>
     <Setting Name="Loader::Module::AgentTicketProcess###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -331,7 +331,7 @@
     </Setting>
     <Setting Name="Frontend::Navigation###AgentTicketProcess###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -476,7 +476,7 @@
     </Setting>
     <Setting Name="Loader::Module::CustomerTicketProcess###002-ProcessManagement" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -496,7 +496,7 @@
     </Setting>
     <Setting Name="CustomerFrontend::Navigation###CustomerTicketProcess###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Customer::ModuleRegistration::Navigation</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">

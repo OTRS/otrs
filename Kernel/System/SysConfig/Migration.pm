@@ -292,6 +292,8 @@ sub MigrateXMLStructure {
 
                 if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
                     my $NavigationStr = $NavigationLookup{$1} || $1;
+
+                    $NavigationStr .= "::Loader";
                     $LoaderSetting .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
                 }
 
@@ -366,6 +368,7 @@ sub MigrateXMLStructure {
 
                     if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
                         my $NavigationStr = $NavigationLookup{$1} || $1;
+                        $NavigationStr .= "::Navigation";
                         $Navigation .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
                     }
 
@@ -820,7 +823,17 @@ sub MigrateXMLStructure {
 
         if ( $Setting =~ m{<Navigation>(.*?)</Navigation>} ) {
             my $NavigationStr = $NavigationLookup{$1} || $1;
-            $Setting =~ s{<Navigation>.*?</Navigation>}{<Navigation>$NavigationStr</Navigation>}gsmx;
+
+            if (
+                !grep { $NavigationStr eq $_ } (
+                    'Frontend::Admin::ModuleRegistration',
+                    'Frontend::Agent::ModuleRegistration',
+                    'Frontend::Customer::ModuleRegistration',
+                    )
+                )
+            {
+                $Setting =~ s{<Navigation>.*?</Navigation>}{<Navigation>$NavigationStr</Navigation>}gsmx;
+            }
         }
 
         # Update Setting to the Value.
@@ -1874,7 +1887,6 @@ sub NavigationLookupGet {
         'Frontend::Agent::LinkObject'                      => 'Frontend::Agent::LinkObject',
         'Frontend::Agent::ModuleMetaHead'                  => 'Frontend::Agent',
         'Frontend::Agent::ModuleNotify'                    => 'Frontend::Agent::FrontendNotification',
-        'Frontend::Agent::ModuleRegistration'              => 'Frontend::Agent::ModuleRegistration',
         'Frontend::Agent::NavBarModule'                    => 'Frontend::Agent::NavBar',
         'Frontend::Agent::Preferences'                     => 'Frontend::Agent::View::Preferences',
         'Frontend::Agent::SearchRouter'                    => 'Frontend::Agent::NavBar::Search',
