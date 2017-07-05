@@ -21,7 +21,7 @@ Core.Agent = Core.Agent || {};
 Core.Agent.TicketMerge = (function (TargetNS) {
 
     /**
-     * @name Init
+     * @name SwitchMandatoryFields
      * @private
      * @memberof Core.Agent.TicketMerge
      * @function
@@ -47,6 +47,29 @@ Core.Agent.TicketMerge = (function (TargetNS) {
     }
 
     /**
+     * @name GetTicketSearchFilter
+     * @private
+     * @memberof Core.Agent.TicketMerge
+     * @function
+     * @description
+     *      This function determines search filter for the ticket number field based on the checkbox state.
+     */
+    function GetTicketSearchFilter() {
+        var $TicketSearchFilterObj = $('#TicketSearchFilter'),
+            TicketSearchFilter = new Object(),
+            FilterName = $TicketSearchFilterObj.is(':checked') ? $TicketSearchFilterObj.data('ticket-search-filter') : null,
+            FilterValue = $TicketSearchFilterObj.is(':checked') ? $TicketSearchFilterObj.val() : null;
+
+        if (FilterName && FilterValue) {
+            TicketSearchFilter[FilterName] = FilterValue;
+            Core.Config.Set('TicketSearchFilter', TicketSearchFilter);
+            return;
+        }
+
+        Core.Config.Set('TicketSearchFilter', null);
+    }
+
+    /**
      * @name Init
      * @memberof Core.Agent.TicketMerge
      * @function
@@ -54,6 +77,54 @@ Core.Agent.TicketMerge = (function (TargetNS) {
      *      This function initializes the functionality for the TicketMerge screen.
      */
     TargetNS.Init = function () {
+        var $TicketNumberObj = $('#MainTicketNumber'),
+            $TicketSearchFilterObj = $('#TicketSearchFilter');
+
+        $TicketSearchFilterObj.off('change.TicketMerge').on('change.TicketMerge', GetTicketSearchFilter)
+            .trigger('change.TicketMerge');
+
+        // Initialize autocomplete feature on ticket number field.
+        Core.UI.Autocomplete.Init($TicketNumberObj, function (Request, Response) {
+            var URL = Core.Config.Get('Baselink'),
+                Data = {
+                    Action: 'AgentTicketSearch',
+                    Subaction: 'AJAXAutocomplete',
+                    Filter: Core.JSON.Stringify(Core.Config.Get('TicketSearchFilter')),
+                    Skip: $('[name="TicketID"]').val(),
+                    Term: Request.term,
+                    MaxResults: Core.UI.Autocomplete.GetConfig('MaxResultsDisplayed')
+                };
+
+            $TicketNumberObj.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
+                var ValueData = [];
+                $TicketNumberObj.removeData('AutoCompleteXHR');
+                $.each(Result, function () {
+                    ValueData.push({
+                        label: this.Value,
+                        key:  this.Key,
+                        value: this.Value
+                    });
+                });
+                Response(ValueData);
+            }));
+        }, function (Event, UI) {
+            $TicketNumberObj.val(UI.item.key).trigger('select.Autocomplete');
+
+            Event.preventDefault();
+            Event.stopPropagation();
+
+            return false;
+        }, 'TicketSearch');
+
+        // Make sure on focus handler also returns ticket number value only.
+        $TicketNumberObj.on('autocompletefocus', function (Event, UI) {
+            $TicketNumberObj.val(UI.item.key);
+
+            Event.preventDefault();
+            Event.stopPropagation();
+
+            return false;
+        });
 
         // initial setting for to/subject/body
         SwitchMandatoryFields();

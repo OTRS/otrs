@@ -87,6 +87,95 @@ sub Run {
         );
     }
 
+    # Autocomplete is executed via AJAX request.
+    if ( $Self->{Subaction} eq 'AJAXAutocomplete' ) {
+        $LayoutObject->ChallengeTokenCheck();
+
+        my $Skip   = $ParamObject->GetParam( Param => 'Skip' )   || '';
+        my $Search = $ParamObject->GetParam( Param => 'Term' )   || '';
+        my $Filter = $ParamObject->GetParam( Param => 'Filter' ) || '{}';
+        my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
+
+        # Remove leading and trailing spaces from search term.
+        $Search =~ s{ \A \s* ( [^\s]+ ) \s* \z }{$1}xms;
+
+        # Parse passed search filter.
+        my $SearchFilter = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+            Data => $Filter,
+        );
+
+        # Workaround, all auto completion requests get posted by UTF8 anyway.
+        #   Convert any to 8bit string if application is not running in UTF8.
+        $Search = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+            Text => $Search,
+            From => 'utf-8',
+        );
+
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+        my @TicketIDs;
+
+        # Search for tickets by:
+        #   - Ticket Number
+        #   - Ticket Title
+        if ($Search) {
+
+            @TicketIDs = $TicketObject->TicketSearch(
+                %{$SearchFilter},
+                TicketNumber => '%' . $Search . '%',
+                Limit        => $MaxResults,
+                Result       => 'ARRAY',
+                ArchiveFlags => ['n'],
+                UserID       => $Self->{UserID},
+            );
+
+            if ( !@TicketIDs ) {
+                @TicketIDs = $TicketObject->TicketSearch(
+                    %{$SearchFilter},
+                    Title        => '%' . $Search . '%',
+                    Limit        => $MaxResults,
+                    Result       => 'ARRAY',
+                    ArchiveFlags => ['n'],
+                    UserID       => $Self->{UserID},
+                );
+            }
+        }
+
+        my @Results;
+
+        # Include additional ticket information in results.
+        TICKET:
+        for my $TicketID (@TicketIDs) {
+            next TICKET if !$TicketID;
+            next TICKET if $TicketID eq $Skip;
+
+            my %Ticket = $TicketObject->TicketGet(
+                TicketID      => $TicketID,
+                DynamicFields => 0,
+                UserID        => $Self->{UserID},
+            );
+
+            next TICKET if !%Ticket;
+
+            push @Results, {
+                Key   => $Ticket{TicketNumber},
+                Value => $Ticket{TicketNumber} . ' ' . $Ticket{Title},
+            };
+        }
+
+        my $JSON = $LayoutObject->JSONEncode(
+            Data => \@Results || [],
+        );
+
+        # Send JSON response.
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $JSON || '',
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # check request
     if ( $ParamObject->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
         my $Profile = $LayoutObject->LinkEncode( $Self->{Profile} );

@@ -28,8 +28,49 @@ Core.Agent.TicketBulk = (function (TargetNS) {
      *      This function initializes the functionality for the TicketBulk screen.
      */
     TargetNS.Init = function () {
+        var TicketBulkURL = Core.Config.Get('TicketBulkURL'),
+            $TicketNumberObj = $('#MergeTo');
 
-        var TicketBulkURL = Core.Config.Get('TicketBulkURL');
+        // Initialize autocomplete feature on ticket number field.
+        Core.UI.Autocomplete.Init($TicketNumberObj, function (Request, Response) {
+            var URL = Core.Config.Get('Baselink'),
+                Data = {
+                    Action: 'AgentTicketSearch',
+                    Subaction: 'AJAXAutocomplete',
+                    Term: Request.term,
+                    MaxResults: Core.UI.Autocomplete.GetConfig('MaxResultsDisplayed')
+                };
+
+            $TicketNumberObj.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
+                var ValueData = [];
+                $TicketNumberObj.removeData('AutoCompleteXHR');
+                $.each(Result, function () {
+                    ValueData.push({
+                        label: this.Value,
+                        key:  this.Key,
+                        value: this.Value
+                    });
+                });
+                Response(ValueData);
+            }));
+        }, function (Event, UI) {
+            $TicketNumberObj.val(UI.item.key).trigger('select.Autocomplete');
+
+            Event.preventDefault();
+            Event.stopPropagation();
+
+            return false;
+        }, 'TicketSearch');
+
+        // Make sure on focus handler also returns ticket number value only.
+        $TicketNumberObj.on('autocompletefocus', function (Event, UI) {
+            $TicketNumberObj.val(UI.item.key);
+
+            Event.preventDefault();
+            Event.stopPropagation();
+
+            return false;
+        });
 
         // bind radio and text input fields
         $('#MergeTo').on('blur', function() {

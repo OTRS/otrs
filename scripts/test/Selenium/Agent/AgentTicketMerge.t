@@ -47,7 +47,7 @@ $Selenium->RunTest(
                 Lock         => 'unlock',
                 Priority     => '3 normal',
                 State        => 'new',
-                CustomerID   => 'SeleniumCustomer',
+                CustomerID   => $Ticket == 1 ? 'SeleniumCustomer' : undef,    # no CustomerID for second test ticket
                 CustomerUser => "SeleniumCustomer\@localhost.com",
                 OwnerID      => 1,
                 UserID       => 1,
@@ -208,12 +208,37 @@ $Selenium->RunTest(
         # wait until page has loaded, if necessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#MainTicketNumber").length' );
 
-        # go back to merge screen and clear ticket number input
-        $Selenium->find_element( "#MainTicketNumber", 'css' )->clear();
+        # Go back to merge screen and clear ticket number input.
+        $Selenium->find_element( '#MainTicketNumber', 'css' )->clear();
 
-        # merge with second test ticket
-        $Selenium->find_element( "#MainTicketNumber", 'css' )->send_keys( $TicketNumbers[1] );
-        $Selenium->find_element( "#submitRichText",   'css' )->click();
+        # Try to merge with second test ticket.
+        $Selenium->find_element( '#MainTicketNumber', 'css' )->send_keys( $TicketNumbers[1] );
+
+        sleep 1;
+
+        $Self->False(
+            $Selenium->execute_script("return \$('li.ui-menu-item:visible').length;"),
+            'Ticket with undefined CustomerID correctly filtered'
+        );
+
+        # Clear the Customer ID filter.
+        $Selenium->find_element( '#TicketSearchFilter', 'css' )->click();
+
+        # Try again to merge with second test ticket.
+        $Selenium->find_element( '#MainTicketNumber', 'css' )->clear();
+        $Selenium->find_element( '#MainTicketNumber', 'css' )->send_keys( $TicketNumbers[1] );
+
+        # Wait for autocomplete to load.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+        );
+
+        # Select the ticket.
+        $Selenium->execute_script(
+            "return \$('li.ui-menu-item').click();"
+        );
+
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->WaitFor( WindowCount => 1 );
