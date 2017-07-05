@@ -197,6 +197,15 @@ sub _TasksGet {
             Module  => 'FrameworkVersionCheck',
         },
         {
+            Message => 'Check required Perl version',
+            Module  => 'PerlVersionCheck',
+        },
+        {
+            Message => 'Check required database version.',
+            Module  => 'DatabaseVersionCheck',
+        },
+
+        {
             Message => 'Check required Perl modules',
             Module  => 'PerlModulesCheck',
         },
