@@ -68,7 +68,7 @@ sub CheckPreviousRequirement {
     }
 
     if ($Verbose) {
-        print "\n    Installed database version: $VersionString. Minimum required database version: $MinimumDatabaseVersion{ $DatabaseType }.\n";
+        print "\n    Installed database version: $VersionString. Minimum required database version: $MinimumDatabaseVersion{ $DatabaseType }.";
     }
 
     # prepend 'v' to the comparison to make it easier to compare version numbers

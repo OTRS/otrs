@@ -54,13 +54,11 @@ sub Run {
     my $TimingEnabled = $Param{CommandlineOptions}->{Timing} || 0;
 
     my $GeneralStartTime;
-    my $ComplementaryMessage = '';
     if ($TimingEnabled) {
-        $GeneralStartTime     = Time::HiRes::time();
-        $ComplementaryMessage = "at $GeneralStartTime";
+        $GeneralStartTime = Time::HiRes::time();
     }
 
-    print "\n Migration started $ComplementaryMessage... \n";
+    print "\n Migration started ... \n";
 
     my $SuccessfulMigration = 1;
     my @Components = ( 'CheckPreviousRequirement', 'Run' );
@@ -76,14 +74,17 @@ sub Run {
     }
 
     if ($SuccessfulMigration) {
-        $ComplementaryMessage = "\n\n\n Migration completed! \n\n\n";
+        print "\n\n\n Migration completed! \n\n";
     }
     else {
-        $ComplementaryMessage
-            = "\n\n\n Not possible to complete migration, check previous messages for more information. \n\n\n";
+        print "\n\n\n Not possible to complete migration, check previous messages for more information. \n\n";
     }
 
-    print $ComplementaryMessage;
+    if ($TimingEnabled) {
+        my $GeneralStopTime = Time::HiRes::time();
+        my $GeneralExecutionTime = sprintf( "%.6f", $GeneralStopTime - $GeneralStartTime);
+        print " Migration took $GeneralExecutionTime seconds.\n\n";
+    }
 
     return $SuccessfulMigration;
 }
@@ -101,8 +102,6 @@ sub _ExecuteComponent {
     # Enable timing feature in case it is call.
     my $TimingEnabled = $Param{CommandlineOptions}->{Timing} || 0;
 
-    my $ComplementaryMessage = '';
-
     # Get migration tasks.
     my @Tasks = $Self->_TasksGet();
 
@@ -112,11 +111,12 @@ sub _ExecuteComponent {
     my $SuccessfulMigration = 1;
 
     # Show initial message for current component
-    my $InitialMessage = "\n\n Executing tasks ... \n";
-    if ( $Component ne 'Run' ) {
-        $InitialMessage = "\n\n Checking requirements ... \n";
+    if ( $Component eq 'Run' ) {
+        print "\n\n Executing tasks ... \n";
     }
-    print $InitialMessage;
+    else {
+        print "\n\n Checking requirements ... \n";
+    }
 
     TASK:
     for my $Task (@Tasks) {
@@ -130,12 +130,9 @@ sub _ExecuteComponent {
             last TASK;
         }
 
-        $ComplementaryMessage = '';
-
         my $TaskStartTime;
         if ($TimingEnabled) {
-            $TaskStartTime        = Time::HiRes::time();
-            $ComplementaryMessage = "\n  Started at $TaskStartTime";
+            $TaskStartTime = Time::HiRes::time();
         }
 
         # Run module.
@@ -154,28 +151,30 @@ sub _ExecuteComponent {
 
         my $Success = 1;
 
+        # Execute Run-Component
         if ( $Component eq 'Run' ) {
-
-            # Show initial task message.
             print "\n\n    Step $CurrentStep of $Steps: $Task->{Message} ... ";
-
             $Success = $TaskObject->$Component(%Param);
         }
 
         # Execute previous check, printing a different message
         elsif ( $TaskObject->can($Component) ) {
-
-            # Show initial task message.
-            print "\n    Requirement check for: $Task->{Message} ... ";
-
+            print "\n\n    Requirement check for: $Task->{Message} ... ";
             $Success = $TaskObject->$Component(%Param);
+        }
+
+        # Do not handle timing if task has no appropriate component.
+        else {
+            next TASK;
         }
 
         if ($TimingEnabled) {
             my $StopTaskTime      = Time::HiRes::time();
-            my $ExecutionTaskTime = $StopTaskTime - $TaskStartTime;
-            print "$ComplementaryMessage, finished at $StopTaskTime, it took $ExecutionTaskTime seconds.";
+            my $ExecutionTaskTime = sprintf( "%.6f", $StopTaskTime - $TaskStartTime);
+            print " ($ExecutionTaskTime seconds).";
         }
+
+        # print "\n";
 
         if ( !$Success ) {
             $SuccessfulMigration = 0;
@@ -204,7 +203,6 @@ sub _TasksGet {
             Message => 'Check required database version.',
             Module  => 'DatabaseVersionCheck',
         },
-
         {
             Message => 'Check required Perl modules',
             Module  => 'PerlModulesCheck',

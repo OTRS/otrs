@@ -48,7 +48,7 @@ sub CheckPreviousRequirement {
     my $InstalledPerlVersion = $^V;
 
     if ($Verbose) {
-        print "\n    Installed Perl version: $InstalledPerlVersion. Minimum required Perl version: $RequiredPerlVersion.\n";
+        print "\n    Installed Perl version: $InstalledPerlVersion. Minimum required Perl version: $RequiredPerlVersion.";
     }
 
     if ( $InstalledPerlVersion lt $RequiredPerlVersion ) {
