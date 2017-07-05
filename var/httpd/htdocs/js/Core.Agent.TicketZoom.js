@@ -594,8 +594,12 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         }
 
         // Check, if ZoomExpand is active or not.
-        // Only active on tickets with less than 400 articles (see bug#8424).
-        ZoomExpand = Core.Config.Get('ZoomExpand');
+        //   Only active on tickets with less than 400 articles (see bug#8424).
+        //   Since passed value is a regular 0/1 string, make sure it's a boolean first. To do this, convert it to
+        //   integer by performing addition on it (+) and then use double not (!!) for casting it to boolean.
+        //   !! + "1" === false;
+        //   !! + "0" === true;
+        ZoomExpand = !! + Core.Config.Get('ZoomExpand');
 
         Core.UI.Resizable.Init($('#ArticleTableBody'), ArticleTableHeight, function (Event, UI, Height) {
             // remember new height for next reload
