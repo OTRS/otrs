@@ -111,7 +111,7 @@ sub ArticleRender {
     );
 
     my $Content = $LayoutObject->Output(
-        TemplateFile => 'CustomerTicketZoom/Chat',
+        TemplateFile => 'CustomerTicketZoom/ArticleRender/Chat',
         Data         => {
             %Article,
             ArticleFields        => \%ArticleFields,

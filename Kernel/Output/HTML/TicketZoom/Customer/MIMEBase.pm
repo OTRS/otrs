@@ -152,7 +152,7 @@ sub ArticleRender {
     );
 
     my $Content = $LayoutObject->Output(
-        TemplateFile => 'CustomerTicketZoom/MIMEBase',
+        TemplateFile => 'CustomerTicketZoom/ArticleRender/MIMEBase',
         Data         => {
             %Article,
             ArticleFields        => \%ArticleFields,
