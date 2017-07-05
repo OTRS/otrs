@@ -288,6 +288,10 @@ sub _TasksGet {
             Message => 'Migrate chat articles',
             Module  => 'MigrateChatData',
         },
+        {
+            Message => 'Initialize default cron jobs',
+            Module  => 'InitializeDefaultCronjobs',
+        },
 
         # ...
 
