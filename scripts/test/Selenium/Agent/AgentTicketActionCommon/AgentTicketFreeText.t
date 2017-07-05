@@ -449,12 +449,12 @@ $Selenium->RunTest(
 
         # define messages in ticket history screen
         my %FreeFieldMessages = (
-            ServiceUpdate     => "Updated Service to $ServiceName (ID=$ServiceID).",
-            SLAUpdate         => "Updated SLA to $SLAName (ID=$SLAID).",
-            OwnerUpdate       => "New owner is \"$TestUserLogin\" (ID=$TestUserID).",
-            ResponsibleUpdate => "New responsible is \"$TestUserLogin\" (ID=$TestUserID).",
-            QueueUpdate       => "Ticket moved into Queue \"$QueueName\" ($QueueID) from Queue \"Raw\" (2).",
-            StateUpdate       => "Old: \"new\" New: \"$StateName\""
+            ServiceUpdate     => "Changed service to \"$ServiceName\" ($ServiceID).",
+            SLAUpdate         => "Changed SLA to \"$SLAName\" ($SLAID).",
+            OwnerUpdate       => "Changed owner to \"$TestUserLogin\" ($TestUserID).",
+            ResponsibleUpdate => "Changed responsible to \"$TestUserLogin\" ($TestUserID).",
+            QueueUpdate       => "Changed queue to \"$QueueName\" ($QueueID) from \"Raw\" (2).",
+            StateUpdate       => "Changed state from \"new\" to \"$StateName\"."
         );
 
         # navigate to zoom view of created test ticket
