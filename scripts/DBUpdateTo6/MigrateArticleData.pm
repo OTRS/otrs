@@ -34,6 +34,17 @@ sub Run {
 
     return 1 if $CheckPreviousRequirement->{MigrationDone};
 
+    # check if article_type table exists
+    my $TableExists = $Self->TableExists(
+        Table => 'article_type',
+    );
+
+    # Skip execution if article_type table is missing.
+    if ( !$TableExists ) {
+        print "\nArticle types table missing, skipping... " if $Verbose;
+        return 1;
+    }
+
     my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
 
     my %ArticleTypeMapping = %{ $TaskConfig->{ArticleTypeMapping} };
@@ -392,38 +403,46 @@ sub CheckPreviousRequirement {
         }
     }
 
-    # Check for unknown article types.
-    my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
-
-    my @ArticleTypes = sort keys %{ $TaskConfig->{ArticleTypeMapping} };
-
-    my $ArticleTypesString = "'" . ${ \( join "', '", @ArticleTypes ) } . "'";
-
-    $DBObject->Prepare(
-        SQL => "
-            SELECT id, name
-            FROM article_type
-            WHERE name NOT IN ( $ArticleTypesString )
-        ",
+    # Check if article_type table still exist.
+    my $ArticleTypeTableExists = $Self->TableExists(
+        Table => 'article_type',
     );
 
-    my @UnknownArticleTypes;
+    # Check for unknown article types.
+    if ($ArticleTypeTableExists) {
 
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        push @UnknownArticleTypes, $Row[1];
-    }
+        my $TaskConfig = $Self->GetTaskConfig( Module => 'MigrateArticleData' );
 
-    # If unknown article types are encountered, do not continue with the migration.
-    if (@UnknownArticleTypes) {
+        my @ArticleTypes = sort keys %{ $TaskConfig->{ArticleTypeMapping} };
 
-        print " error.\n"
-            . "  There are some unknown article types: ${\(join ', ', @UnknownArticleTypes)}. \n"
-            . "  Please provide additional migration matrix entries in following file: \n\n"
-            . "  scripts/DBUpdateTo6/TaskConfig/MigrateArticleData.yml \n\n"
-            . "  Tip: Create a copy of .dist file with the same name and edit it instead, \n"
-            . "  before starting migration again. \n\n";
+        my $ArticleTypesString = "'" . ${ \( join "', '", @ArticleTypes ) } . "'";
 
-        return;
+        $DBObject->Prepare(
+            SQL => "
+                SELECT id, name
+                FROM article_type
+                WHERE name NOT IN ( $ArticleTypesString )
+            ",
+        );
+
+        my @UnknownArticleTypes;
+
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            push @UnknownArticleTypes, $Row[1];
+        }
+
+        # If unknown article types are encountered, do not continue with the migration.
+        if (@UnknownArticleTypes) {
+
+            print " error.\n"
+                . "  There are some unknown article types: ${\(join ', ', @UnknownArticleTypes)}. \n"
+                . "  Please provide additional migration matrix entries in following file: \n\n"
+                . "  scripts/DBUpdateTo6/TaskConfig/MigrateArticleData.yml \n\n"
+                . "  Tip: Create a copy of .dist file with the same name and edit it instead, \n"
+                . "  before starting migration again. \n\n";
+
+            return;
+        }
     }
 
     return 1;

@@ -54,6 +54,11 @@ sub Run {
     }
     return if !$Self->_RecreateForeignKeysPointingToArticleTable();
 
+    if ($Verbose) {
+        print "\n Dropping no longer needed article_type table. \n";
+    }
+    return if !$Self->_DropArticleTypeTable();
+
     return 1;
 }
 
@@ -415,6 +420,20 @@ sub _RecreateForeignKeysPointingToArticleTable {
 
         return if !$Self->ExecuteXMLDBString( XMLString => $XMLString );
     }
+
+    return 1;
+}
+
+sub _DropArticleTypeTable {
+    my ( $Self, %Param ) = @_;
+
+    my @XMLStrings = (
+        '<TableDrop Name="article_type"/>',
+    );
+
+    return if !$Self->ExecuteXMLDBArray(
+        XMLArray => \@XMLStrings,
+    );
 
     return 1;
 }
