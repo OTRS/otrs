@@ -46,15 +46,27 @@ sub CheckPreviousRequirement {
 
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
-    my $RequiredPerlVersion  = version->parse('5.16.0');
-    my $InstalledPerlVersion = version->parse($^V);
+    # Use dotted-decimal version formats, since version->parse() might not work as you expect it to.
+    #
+    #   $Version   version->parse($Version)
+    #   ---------   -----------------------
+    #   1.23        v1.230.0
+    #   "1.23"      v1.230.0
+    #   v1.23       v1.23.0
+    #   "v1.23"     v1.23.0
+    #   "1.2.3"     v1.2.3
+    #   "v1.2.3"    v1.2.3
+    my $RequiredPerlVersion  = 'v5.16.0';
+    my $InstalledPerlVersion = $^V;
 
     if ($Verbose) {
-        print "\n    Installed Perl version: $InstalledPerlVersion. Minimum required Perl version: $RequiredPerlVersion.";
+        print "\n    Installed Perl version: $InstalledPerlVersion. "
+            . "Minimum required Perl version: $RequiredPerlVersion.";
     }
 
-    if ( $InstalledPerlVersion < $RequiredPerlVersion ) {
-        print "\n\nError: You have the wrong Perl version installed ($InstalledPerlVersion). You need at least $RequiredPerlVersion!";
+    if ( version->parse($InstalledPerlVersion) < version->parse($RequiredPerlVersion) ) {
+        print "\n\nError: You have the wrong Perl version installed ($InstalledPerlVersion). "
+            . "You need at least $RequiredPerlVersion!";
         return;
     }
 
