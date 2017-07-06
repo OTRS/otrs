@@ -13,6 +13,8 @@ use warnings;
 
 use parent qw(scripts::DBUpdateTo6::Base);
 
+use version;
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
@@ -46,10 +48,10 @@ sub CheckPreviousRequirement {
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
     my %MinimumDatabaseVersion = (
-        MySQL      => '5',
-        MariaDB    => '5',
-        PostgreSQL => '9.2',
-        Oracle     => '10',
+        MySQL      => version->parse('5'),
+        MariaDB    => version->parse('5'),
+        PostgreSQL => version->parse('9.2'),
+        Oracle     => version->parse('10'),
     );
 
     # get version string from database
@@ -59,7 +61,7 @@ sub CheckPreviousRequirement {
     my $DatabaseVersion;
     if ( $VersionString =~ m{ \A (MySQL|MariaDB|Oracle|PostgreSQL) \s+ ([0-9.]+) \z }xms ) {
         $DatabaseType    = $1;
-        $DatabaseVersion = $2;
+        $DatabaseVersion = version->parse($2);
     }
 
     if ( !$DatabaseType || !$DatabaseVersion ) {
@@ -71,8 +73,7 @@ sub CheckPreviousRequirement {
         print "\n    Installed database version: $VersionString. Minimum required database version: $MinimumDatabaseVersion{ $DatabaseType }.";
     }
 
-    # prepend 'v' to the comparison to make it easier to compare version numbers
-    if ( 'v' . $DatabaseVersion lt 'v' . $MinimumDatabaseVersion{ $DatabaseType } ) {
+    if ( $DatabaseVersion < $MinimumDatabaseVersion{$DatabaseType} ) {
         print "\n\nError: You have the wrong database version installed ($VersionString). You need at least $MinimumDatabaseVersion{ $DatabaseType }!";
         return;
     }

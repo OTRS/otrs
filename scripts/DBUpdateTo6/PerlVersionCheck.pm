@@ -13,6 +13,8 @@ use warnings;
 
 use parent qw(scripts::DBUpdateTo6::Base);
 
+use version;
+
 our @ObjectDependencies = (
     'Kernel::Config',
 );
@@ -44,14 +46,14 @@ sub CheckPreviousRequirement {
 
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
-    my $RequiredPerlVersion = 'v5.16.0';
-    my $InstalledPerlVersion = $^V;
+    my $RequiredPerlVersion  = version->parse('5.16.0');
+    my $InstalledPerlVersion = version->parse($^V);
 
     if ($Verbose) {
         print "\n    Installed Perl version: $InstalledPerlVersion. Minimum required Perl version: $RequiredPerlVersion.";
     }
 
-    if ( $InstalledPerlVersion lt $RequiredPerlVersion ) {
+    if ( $InstalledPerlVersion < $RequiredPerlVersion ) {
         print "\n\nError: You have the wrong Perl version installed ($InstalledPerlVersion). You need at least $RequiredPerlVersion!";
         return;
     }
