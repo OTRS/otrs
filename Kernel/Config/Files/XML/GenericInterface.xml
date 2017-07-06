@@ -169,7 +169,7 @@
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminGenericInterfaceWebservice" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">

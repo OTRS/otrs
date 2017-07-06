@@ -9155,7 +9155,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Search###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
+        <SubGroup>Frontend::Admin::SearchRouter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Action=AdminSystemConfiguration;Subaction=SearchDialog</Item>
@@ -9165,7 +9165,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Search::JavaScript###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::SearchRouter</SubGroup>
+        <SubGroup>Frontend::Admin::SearchRouter</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Core.Agent.Admin.SystemConfiguration.OpenSearchDialog()</Item>
@@ -11567,7 +11567,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Module###AdminSystemConfigurationDeployment" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <GroupRo></GroupRo>
@@ -11588,7 +11588,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Module###AdminSystemConfiguration" Required="1" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <GroupRo></GroupRo>
@@ -11623,7 +11623,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="Frontend::Module###AdminSystemConfigurationGroup" Required="1" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <GroupRo></GroupRo>

@@ -116,7 +116,7 @@
     <ConfigItem Name="Frontend::Module###AdminAppointmentCalendarManage" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Calendar</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>

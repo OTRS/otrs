@@ -8411,7 +8411,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentDashboard###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8478,7 +8478,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentCustomerInformationCenter###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8503,7 +8503,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentCustomerInformationCenter###2" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8549,7 +8549,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search###AgentCustomerInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerInformationCenter">Action=AgentCustomerInformationCenterSearch</Item>
@@ -8558,7 +8558,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AgentCustomerInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerInformationCenter">Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog()</Item>
@@ -8634,7 +8634,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentCustomerUserInformationCenter###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -8680,7 +8680,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search###AgentCustomerUserInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerUserInformationCenter">Action=AgentCustomerUserInformationCenterSearch</Item>
@@ -8689,7 +8689,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AgentCustomerUserInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerUserInformationCenter">Core.Agent.CustomerUserInformationCenterSearch.OpenSearchDialog()</Item>
@@ -8908,14 +8908,14 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::SearchDefault" Required="0" Valid="1">
         <Description Translatable="1">Search backend default router.</Description>
-        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
         <Value>
             <Item ValueType="String">Action=AgentTicketSearch;Subaction=AJAX</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Search###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Action=AdminSystemConfiguration;Subaction=SearchDialog</Item>
@@ -8924,7 +8924,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::NavBar::Search</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Core.Agent.Admin.SystemConfiguration.OpenSearchDialog()</Item>
@@ -8975,7 +8975,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###Admin###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9001,7 +9001,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###Admin" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9075,7 +9075,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavBarModule###2-AdminFavourites" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (show personal favorites as sub navigation items of 'Admin').</Description>
-        <Navigation>Frontend::Agent::NavBar</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::AdminFavourites</Item>
@@ -9128,7 +9128,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminUser" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9187,7 +9187,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminGroup" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9246,7 +9246,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminUserGroup" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9307,7 +9307,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AdminCustomerUser###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9334,7 +9334,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminCustomerUser" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9395,7 +9395,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AdminCustomerCompany###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9422,7 +9422,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminCustomerCompany" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9447,7 +9447,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavBarModule###6-CustomerCompany" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration (disable company link if no company feature is used).</Description>
-        <Navigation>Frontend::Agent::NavBar</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::CustomerCompany</Item>
@@ -9491,7 +9491,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminCustomerUserGroup" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9550,7 +9550,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminCustomerGroup" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9609,7 +9609,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminCustomerUserService" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9668,7 +9668,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminCustomerUserCustomer" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9727,7 +9727,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminRole" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9786,7 +9786,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminRoleUser" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9845,7 +9845,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminRoleGroup" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9904,7 +9904,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminSMIME" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -9950,7 +9950,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminPGP" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10009,7 +10009,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminMailAccount" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10073,7 +10073,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminPostMasterFilter" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10119,7 +10119,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminEmail" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10178,7 +10178,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminSession" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10237,7 +10237,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminPerformanceLog" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10301,7 +10301,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminRegistration" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10360,7 +10360,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminOTRSBusiness" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10458,7 +10458,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminSupportDataCollector" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10517,7 +10517,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminCloudServices" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10576,7 +10576,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminLog" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10635,7 +10635,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminSelectBox" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10681,7 +10681,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminPackageManager" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -10740,7 +10740,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminSystemMaintenance" Required="0" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -11024,7 +11024,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentStatistics###1" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -11051,7 +11051,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentStatistics###2" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -11078,7 +11078,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Navigation###AgentStatistics###3" Required="0" Valid="1">
         <Description Translatable="1">Main menu for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Navigation</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -12339,7 +12339,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Module###AdminSystemConfigurationDeployment" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
             <Item ValueType="FrontendRegistration">
                 <Hash>
@@ -12362,7 +12362,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSystemConfigurationDeployment###001-Framework" Required="0" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -12382,7 +12382,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Module###AdminSystemConfiguration" Required="1" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
             <Item ValueType="FrontendRegistration">
                 <Hash>
@@ -12404,7 +12404,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSystemConfiguration###001-Framework" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">
@@ -12430,7 +12430,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::NavigationModule###AdminSystemConfiguration" Required="1" Valid="1">
         <Description Translatable="1">Admin area navigation for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
         <Value>
             <Hash>
                 <Item Key="Group">
@@ -12454,7 +12454,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Module###AdminSystemConfigurationGroup" Required="1" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
         <Value>
             <Item ValueType="FrontendRegistration">
                 <Hash>
@@ -12476,7 +12476,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Loader::Module::AdminSystemConfigurationGroup###001-Framework" Required="1" Valid="1">
         <Description Translatable="1">Loader module registration for the agent interface.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
         <Value>
             <Hash>
                 <Item Key="CSS">

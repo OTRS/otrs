@@ -368,7 +368,7 @@ sub MigrateXMLStructure {
 
                     if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
                         my $NavigationStr = $NavigationLookup{$1} || $1;
-                        $NavigationStr .= "::Navigation";
+                        $NavigationStr .= "::MainMenu";
                         $Navigation .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
                     }
 
@@ -448,6 +448,8 @@ sub MigrateXMLStructure {
 
                 if ( $Setting =~ m{<SubGroup>(.*?)</SubGroup>} ) {
                     my $NavigationStr = $NavigationLookup{$1} || $1;
+
+                    $NavigationStr .= '::AdminOverview';
                     $NavigationModule .= sprintf( "\n%-*s%s", 8, "", "<Navigation>$NavigationStr</Navigation>" );
                 }
 
@@ -821,11 +823,14 @@ sub MigrateXMLStructure {
         # Update SubGroup to the Navigation.
         $Setting =~ s{SubGroup>}{Navigation>}gsmx;
 
-        if ( $Setting =~ m{<Navigation>(.*?)</Navigation>} ) {
-            my $NavigationStr = $NavigationLookup{$1} || $1;
+        my @NavigationValues = $Setting =~ m{<Navigation>(.*?)</Navigation>}g;
+        if ( scalar @NavigationValues ) {
+            my $NavigationValue = $NavigationValues[0];
+            my $NavigationStr = $NavigationLookup{$NavigationValue} || $NavigationValue;
 
             if (
-                !grep { $NavigationStr eq $_ } (
+                scalar @NavigationValues < 2
+                || !grep { $NavigationStr eq $_ } (
                     'Frontend::Admin::ModuleRegistration',
                     'Frontend::Agent::ModuleRegistration',
                     'Frontend::Customer::ModuleRegistration',
@@ -1819,66 +1824,69 @@ sub NavigationLookupGet {
     my ( $Self, %Param ) = @_;
 
     return (
-        'CloudService::Admin::ModuleRegistration'          => 'CloudService::Admin::ModuleRegistration',
-        'ConfigLog'                                        => 'ConfigLog',
-        'ConfigSwitch'                                     => 'ConfigSwitch',
-        'Core'                                             => 'Core',
-        'Core::AppointmentCalendar::Event'                 => 'Core::Event::AppointmentCalendar',
-        'Core::Cache'                                      => 'Core::Cache',
-        'Core::CustomerCompany'                            => 'Core::CustomerCompany',
-        'Core::CustomerUser'                               => 'Core::CustomerUser',
-        'Core::Daemon::ModuleRegistration'                 => 'Daemon::ModuleRegistration',
-        'Core::DynamicField'                               => 'Core::DynamicFields',
-        'Core::Fetchmail'                                  => 'Core::Email',
-        'Core::FulltextSearch'                             => 'Core::Ticket::FulltextSearch',
-        'Core::LinkObject'                                 => 'Core::LinkObject',
-        'Core::Log'                                        => 'Core::Log',
-        'Core::MIME-Viewer'                                => 'Frontend::Agent::MIMEViewer',
-        'Core::MirrorDB'                                   => 'Core::DB::Mirror',
-        'Core::OTRSBusiness'                               => 'Core::OTRSBusiness',
-        'Core::Package'                                    => 'Core::Package',
-        'Core::PDF'                                        => 'Core::PDF',
-        'Core::PerformanceLog'                             => 'Core::PerformanceLog',
-        'Core::PostMaster'                                 => 'Core::Email::PostMaster',
-        'Core::Queue'                                      => 'Core::Queue',
-        'Core::ReferenceData'                              => 'Core::ReferenceData',
-        'Core::Sendmail'                                   => 'Core::Email',
-        'Core::Session'                                    => 'Core::Session',
-        'Core::SOAP'                                       => 'Core::SOAP',
-        'Core::Stats'                                      => 'Core::Stats',
-        'Core::Ticket'                                     => 'Core::Ticket',
-        'Core::TicketACL'                                  => 'Core::Ticket::ACL',
-        'Core::TicketBulkAction'                           => 'Frontend::Agent::View::TicketBulk',
-        'Core::TicketDynamicFieldDefault'                  => 'Core::Ticket::DynamicFieldDefault',
-        'Core::TicketWatcher'                              => 'Core::Ticket',
-        'Core::Time'                                       => 'Core::Time',
-        'Core::Time::Calendar1'                            => 'Core::Time::Calendar1',
-        'Core::Time::Calendar2'                            => 'Core::Time::Calendar2',
-        'Core::Time::Calendar3'                            => 'Core::Time::Calendar3',
-        'Core::Time::Calendar4'                            => 'Core::Time::Calendar4',
-        'Core::Time::Calendar5'                            => 'Core::Time::Calendar5',
-        'Core::Time::Calendar6'                            => 'Core::Time::Calendar6',
-        'Core::Time::Calendar7'                            => 'Core::Time::Calendar7',
-        'Core::Time::Calendar8'                            => 'Core::Time::Calendar8',
-        'Core::Time::Calendar9'                            => 'Core::Time::Calendar9',
-        'Core::Transition'                                 => 'Core::ProcessManagement',
-        'Core::Web'                                        => 'Frontend::Base',
-        'Core::WebUserAgent'                               => 'Core::WebUserAgent',
-        'Crypt::PGP'                                       => 'Core::Crypt::PGP',
-        'Crypt::SMIME'                                     => 'Core::Crypt::SMIME',
-        'CustomerInformationCenter'                        => 'Frontend::Agent::View::CustomerInformationCenter',
-        'Daemon::SchedulerCronTaskManager::Task'           => 'Daemon::SchedulerCronTaskManager::Task',
-        'Daemon::SchedulerGenericAgentTaskManager'         => 'Daemon::SchedulerGenericAgentTaskManager',
-        'Daemon::SchedulerGenericInterfaceTaskManager'     => 'Daemon::SchedulerGenericInterfaceTaskManager',
-        'Daemon::SchedulerTaskWorker'                      => 'Daemon::SchedulerTaskWorker',
-        'DynamicFields::Driver::Registration'              => 'Core::DynamicFields::DriverRegistration',
-        'DynamicFields::ObjectType::Registration'          => 'Core::DynamicFields::ObjectTypeRegistration',
-        'Frontend::Admin'                                  => 'Frontend::Admin',
-        'Frontend::Admin::AdminCustomerCompany'            => 'Frontend::Admin::View::CustomerCompany',
-        'Frontend::Admin::AdminCustomerUser'               => 'Frontend::Admin::View::CustomerUser',
-        'Frontend::Admin::AdminNotificationEvent'          => 'Frontend::Admin::View::NotificationEvent',
-        'Frontend::Admin::AdminSelectBox'                  => 'Frontend::Admin::View::SelectBox',
-        'Frontend::Admin::ModuleRegistration'              => 'Frontend::Admin::ModuleRegistration',
+        'CloudService::Admin::ModuleRegistration'      => 'CloudService::Admin::ModuleRegistration',
+        'ConfigLog'                                    => 'ConfigLog',
+        'ConfigSwitch'                                 => 'ConfigSwitch',
+        'Core'                                         => 'Core',
+        'Core::AppointmentCalendar::Event'             => 'Core::Event::AppointmentCalendar',
+        'Core::Cache'                                  => 'Core::Cache',
+        'Core::CustomerCompany'                        => 'Core::CustomerCompany',
+        'Core::CustomerUser'                           => 'Core::CustomerUser',
+        'Core::Daemon::ModuleRegistration'             => 'Daemon::ModuleRegistration',
+        'Core::DynamicField'                           => 'Core::DynamicFields',
+        'Core::Fetchmail'                              => 'Core::Email',
+        'Core::FulltextSearch'                         => 'Core::Ticket::FulltextSearch',
+        'Core::LinkObject'                             => 'Core::LinkObject',
+        'Core::Log'                                    => 'Core::Log',
+        'Core::MIME-Viewer'                            => 'Frontend::Agent::MIMEViewer',
+        'Core::MirrorDB'                               => 'Core::DB::Mirror',
+        'Core::OTRSBusiness'                           => 'Core::OTRSBusiness',
+        'Core::Package'                                => 'Core::Package',
+        'Core::PDF'                                    => 'Core::PDF',
+        'Core::PerformanceLog'                         => 'Core::PerformanceLog',
+        'Core::PostMaster'                             => 'Core::Email::PostMaster',
+        'Core::Queue'                                  => 'Core::Queue',
+        'Core::ReferenceData'                          => 'Core::ReferenceData',
+        'Core::Sendmail'                               => 'Core::Email',
+        'Core::Session'                                => 'Core::Session',
+        'Core::SOAP'                                   => 'Core::SOAP',
+        'Core::Stats'                                  => 'Core::Stats',
+        'Core::Ticket'                                 => 'Core::Ticket',
+        'Core::TicketACL'                              => 'Core::Ticket::ACL',
+        'Core::TicketBulkAction'                       => 'Frontend::Agent::View::TicketBulk',
+        'Core::TicketDynamicFieldDefault'              => 'Core::Ticket::DynamicFieldDefault',
+        'Core::TicketWatcher'                          => 'Core::Ticket',
+        'Core::Time'                                   => 'Core::Time',
+        'Core::Time::Calendar1'                        => 'Core::Time::Calendar1',
+        'Core::Time::Calendar2'                        => 'Core::Time::Calendar2',
+        'Core::Time::Calendar3'                        => 'Core::Time::Calendar3',
+        'Core::Time::Calendar4'                        => 'Core::Time::Calendar4',
+        'Core::Time::Calendar5'                        => 'Core::Time::Calendar5',
+        'Core::Time::Calendar6'                        => 'Core::Time::Calendar6',
+        'Core::Time::Calendar7'                        => 'Core::Time::Calendar7',
+        'Core::Time::Calendar8'                        => 'Core::Time::Calendar8',
+        'Core::Time::Calendar9'                        => 'Core::Time::Calendar9',
+        'Core::Transition'                             => 'Core::ProcessManagement',
+        'Core::Web'                                    => 'Frontend::Base',
+        'Core::WebUserAgent'                           => 'Core::WebUserAgent',
+        'Crypt::PGP'                                   => 'Core::Crypt::PGP',
+        'Crypt::SMIME'                                 => 'Core::Crypt::SMIME',
+        'CustomerInformationCenter'                    => 'Frontend::Agent::View::CustomerInformationCenter',
+        'Daemon::SchedulerCronTaskManager::Task'       => 'Daemon::SchedulerCronTaskManager::Task',
+        'Daemon::SchedulerGenericAgentTaskManager'     => 'Daemon::SchedulerGenericAgentTaskManager',
+        'Daemon::SchedulerGenericInterfaceTaskManager' => 'Daemon::SchedulerGenericInterfaceTaskManager',
+        'Daemon::SchedulerTaskWorker'                  => 'Daemon::SchedulerTaskWorker',
+        'DynamicFields::Driver::Registration'          => 'Core::DynamicFields::DriverRegistration',
+        'DynamicFields::ObjectType::Registration'      => 'Core::DynamicFields::ObjectTypeRegistration',
+
+        # 'Frontend::Admin'                                  => 'Frontend::Admin',
+        'Frontend::Admin::AdminCustomerCompany'   => 'Frontend::Admin::View::CustomerCompany',
+        'Frontend::Admin::AdminCustomerUser'      => 'Frontend::Admin::View::CustomerUser',
+        'Frontend::Admin::AdminNotificationEvent' => 'Frontend::Admin::View::NotificationEvent',
+        'Frontend::Admin::AdminSelectBox'         => 'Frontend::Admin::View::SelectBox',
+
+        # 'Frontend::Admin::ModuleRegistration'              => 'Frontend::Admin::ModuleRegistration',
+        'Frontend::Admin::SearchRouter'                    => 'Frontend::Admin::ModuleRegistration::Search',
         'Frontend::Agent'                                  => 'Frontend::Agent',
         'Frontend::Agent::Auth::TwoFactor'                 => 'Core::Auth::Agent::TwoFactor',
         'Frontend::Agent::Dashboard'                       => 'Frontend::Agent::View::Dashboard',
@@ -1887,9 +1895,9 @@ sub NavigationLookupGet {
         'Frontend::Agent::LinkObject'                      => 'Frontend::Agent::LinkObject',
         'Frontend::Agent::ModuleMetaHead'                  => 'Frontend::Agent',
         'Frontend::Agent::ModuleNotify'                    => 'Frontend::Agent::FrontendNotification',
-        'Frontend::Agent::NavBarModule'                    => 'Frontend::Agent::NavBar',
+        'Frontend::Agent::NavBarModule'                    => 'Frontend::Agent::ModuleRegistration',
         'Frontend::Agent::Preferences'                     => 'Frontend::Agent::View::Preferences',
-        'Frontend::Agent::SearchRouter'                    => 'Frontend::Agent::NavBar::Search',
+        'Frontend::Agent::SearchRouter'                    => 'Frontend::Agent::ModuleRegistration::Search',
         'Frontend::Agent::Stats'                           => 'Frontend::Agent::Stats',
         'Frontend::Agent::Ticket::ArticleAttachmentModule' => 'Frontend::Agent::View::TicketZoom',
         'Frontend::Agent::Ticket::ArticleComposeModule'    => 'Frontend::Agent::ArticleComposeModule',
@@ -1939,7 +1947,7 @@ sub NavigationLookupGet {
         'Frontend::Customer::ModuleMetaHead'               => 'Frontend::Customer',
         'Frontend::Customer::ModuleNotify'                 => 'Frontend::Customer::FrontendNotification',
         'Frontend::Customer::ModuleRegistration'           => 'Frontend::Customer::ModuleRegistration',
-        'Frontend::Customer::NavBarModule'                 => 'Frontend::Customer::NavBar',
+        'Frontend::Customer::NavBarModule'                 => 'Frontend::Customer::ModuleRegistration',
         'Frontend::Customer::Preferences'                  => 'Frontend::Customer::View::Preferences',
         'Frontend::Customer::Ticket::ViewNew'              => 'Frontend::Customer::View::TicketMessage',
         'Frontend::Customer::Ticket::ViewPrint'            => 'Frontend::Customer::View::TicketPrint',
