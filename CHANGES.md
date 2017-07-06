@@ -139,6 +139,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.21 2017-??-??
+ - 2017-07-06 Reverted fix for bug#[7811](https://bugs.otrs.org/show_bug.cgi?id=7811) - GenericAgent Search produces inconsistent results.
  - 2017-07-03 Fixed bug#[12865](https://bugs.otrs.org/show_bug.cgi?id=12865) - Send empty Mail reply without Quote.
  - 2017-07-03 Fixed bug#[12891](https://bugs.otrs.org/show_bug.cgi?id=12891) - Article Forward creates a wrong Time Stamp in Mail View.
  - 2017-06-30 Fixed bug#[12883](https://bugs.otrs.org/show_bug.cgi?id=12883) - From parameter in URL for preallocation of customer not working if customer user name is contained in customer ID.
