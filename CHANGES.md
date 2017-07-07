@@ -1,4 +1,5 @@
 #5.0.21 2017-??-??
+ - 2017-07-07 Fixed bug#[12904](https://bugs.otrs.org/show_bug.cgi?id=12904) - Ticket::Frontend::CustomerSearchAutoComplete used in CustomerTicketProcess but not in SysConfig available.
  - 2017-07-06 Reverted fix for bug#[7811](https://bugs.otrs.org/show_bug.cgi?id=7811) - GenericAgent Search produces inconsistent results.
  - 2017-07-03 Fixed bug#[12865](https://bugs.otrs.org/show_bug.cgi?id=12865) - Send empty Mail reply without Quote.
  - 2017-07-03 Fixed bug#[12891](https://bugs.otrs.org/show_bug.cgi?id=12891) - Article Forward creates a wrong Time Stamp in Mail View.
