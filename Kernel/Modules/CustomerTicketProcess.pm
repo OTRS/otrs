@@ -2201,8 +2201,6 @@ sub _RenderCustomer {
         };
     }
 
-    my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::CustomerSearchAutoComplete');
-
     my %CustomerUserData = ();
 
     my $SubmittedCustomerUserID = $Param{GetParam}{CustomerUserID};
@@ -2229,17 +2227,6 @@ sub _RenderCustomer {
     if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerID} ) {
         $Data{CustomerIDServerError} = 'ServerError';
     }
-
-    # set some customer search autocomplete properties
-    $LayoutObject->Block(
-        Name => 'CustomerSearchAutoComplete',
-        Data => {
-            minQueryLength      => $AutoCompleteConfig->{MinQueryLength}      || 2,
-            queryDelay          => $AutoCompleteConfig->{QueryDelay}          || 100,
-            maxResultsDisplayed => $AutoCompleteConfig->{MaxResultsDisplayed} || 20,
-            ActiveAutoComplete  => $AutoCompleteConfig->{Active},
-        },
-    );
 
     if (
         ( IsHashRefWithData( $Param{Ticket} ) && $Param{Ticket}->{CustomerUserID} )
