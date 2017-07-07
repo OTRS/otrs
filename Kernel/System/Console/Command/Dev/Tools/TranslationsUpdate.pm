@@ -353,7 +353,7 @@ sub HandleLanguage {
             }egx;
         }
 
-        # add translatable strings from XB XML
+        # add translatable strings from DB XML
         my @DBXMLFiles = "$Home/scripts/database/otrs-initial_insert.xml";
         if ($IsSubTranslation) {
             @DBXMLFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
@@ -386,6 +386,10 @@ sub HandleLanguage {
                 my $Word = $1 // '';
 
                 if ($Word && !$UsedWords{$Word}++) {
+
+                    if ($IsSubTranslation) {
+                        $File =~ s{^.*/(.+\.sopm)}{$1}smx;
+                    }
 
                     push @OriginalTranslationStrings, {
                         Location => "Database XML Definition: $File",
