@@ -25,6 +25,10 @@ $Selenium->RunTest(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
+        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $TestUserLogin,
+        );
+
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
@@ -99,11 +103,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
-
-        # give full read and write access to the tickets in test group for test user
-        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
 
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->VerifiedClick();
         $Selenium->find_element("//button[\@value='Save'][\@type='submit']")->VerifiedClick();
@@ -212,6 +211,109 @@ $Selenium->RunTest(
                 "return \$('tr.Invalid td a:contains($GroupName)').length"
             ),
             "There is a class 'Invalid' for test Group",
+        );
+
+        # Navigate to Admin User Group page.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUserGroup");
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
+        # Select test agent.
+        $Selenium->find_element("//a[contains(\@href, \'ID=$UserID' )]")->VerifiedClick();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
+        # Test checkboxes...
+        if ( $Selenium->execute_script("return \$('#SelectAllrw:checked').length") ) {
+
+            # Check if top level inputs are disabled.
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                1,
+                "Top row inputs are disabled.",
+            );
+
+            # Check if bottom level inputs are disabled.
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                1,
+                "Table inputs are disabled.",
+            );
+
+            # Click on Master Switch.
+            $Selenium->find_element( "#SelectAllrw", 'css' )->VerifiedClick();
+
+            # Check if top level inputs are enabled.
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                0,
+                "Top row inputs are enabled.",
+            );
+
+            # Check if bottom level inputs are enabled.
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                0,
+                "Table inputs are enabled.",
+            );
+
+        }
+        else {
+
+            # Click on Master Switch.
+            $Selenium->find_element( "#SelectAllrw", 'css' )->VerifiedClick();
+
+            # Check if top level inputs are disabled.
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                1,
+                "Top row inputs are disabled.",
+            );
+
+            # Check if bottom level inputs are disabled.
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                1,
+                "Table inputs are disabled.",
+            );
+        }
+
+        # Find first group in the table and pass its value to filter.
+        my $FirstRowName = $Selenium->execute_script("return \$('table td:first-child').first().text()");
+        $Selenium->find_element( "#Filter", 'css' )->send_keys($FirstRowName);
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(\'input[name="rw"]:visible\').length !== $(\'input[name="rw"]\').length;'
+        );
+
+        # Click on Master check if not already checked.
+        if ( !$Selenium->execute_script("return \$('#SelectAllrw:checked').length") ) {
+            $Selenium->find_element( "#SelectAllrw", 'css' )->VerifiedClick();
+        }
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".FilterRemove:visible").length === 1;'
+        );
+
+        # Remove selected filter.
+        $Selenium->find_element( ".FilterRemove", 'css' )->VerifiedClick();
+
+        # Check if first line is disabled.
+        $Self->Is(
+            $Selenium->execute_script("return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+            1,
+            "First line is disabled.",
         );
 
         # since there are no tickets that rely on our test group, we can remove them again

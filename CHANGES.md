@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-07-07 Fixed bug#[6682](https://bugs.otrs.org/show_bug.cgi?id=6682) - Line filled for permissions when selecting "rw".
  - 2017-07-04 Fixed bug#[11520](https://bugs.otrs.org/show_bug.cgi?id=11520) - Human readable history entry for dynamic fields.
  - 2017-07-03 Fixed bug#[12896](https://bugs.otrs.org/show_bug.cgi?id=12896) - SysConfig not possible to save empty value.
  - 2017-07-03 Fixed bug#[12884](https://bugs.otrs.org/show_bug.cgi?id=12884) - Wrong field type for migrated setting.

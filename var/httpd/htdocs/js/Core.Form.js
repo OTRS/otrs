@@ -26,6 +26,25 @@ Core.Form = (function (TargetNS) {
         return false;
     }
 
+    /*
+     * Find checked rw inputs and disable thair row, and add class 'Disabled'.
+     */
+    $('input[type="checkbox"][name="rw"]').each(function () {
+        if($(this).attr('checked') === 'checked'){
+            $(this).parent().siblings().children().prop('checked', true).prop('disabled', true);
+            $(this).addClass('Disabled');
+        }
+    });
+
+    /*
+     * Disable top row if all rw elements are checked.
+     */
+    if($('input[type="checkbox"][name="rw"]').not('#SelectAllrw').filter(':checked').length === $('input[type="checkbox"][name="rw"]').not('#SelectAllrw').length){
+        $('table th input:not([name="rw"]:visible)').prop('disabled', true);
+        $('#SelectAllrw').addClass('Disabled');
+    }
+
+
     /**
      * @name DisableForm
      * @memberof Core.Form
@@ -125,22 +144,73 @@ Core.Form = (function (TargetNS) {
      */
     TargetNS.SelectAllCheckboxes = function ($ClickedBox, $SelectAllCheckbox) {
         var ElementName, SelectAllID, $Elements,
-            Status, CountCheckboxes, CountSelectedCheckboxes;
+            Status, CountCheckboxes, CountSelectedCheckboxes,RWMasterSwitch, RowInputs, HeadElements, CheckAll;
 
         if (isJQueryObject($ClickedBox, $SelectAllCheckbox)) {
             ElementName = $ClickedBox.attr('name');
             SelectAllID = $SelectAllCheckbox.attr('id');
             $Elements = $('input[type="checkbox"][name="' + Core.App.EscapeSelector(ElementName) + '"]').filter('[id!="' + Core.App.EscapeSelector(SelectAllID) + '"]:visible');
             Status = $ClickedBox.prop('checked');
+            RWMasterSwitch = $('#SelectAllrw');
+            HeadElements = $('table th input:not([name="rw"]:visible)');
+            CheckAll = $('input[type="checkbox"]:visible');
+
+            if(ElementName === 'rw'){
+
+                if($ClickedBox.attr('id') === 'SelectAllrw'){
+
+                    if(RWMasterSwitch.hasClass('Disabled')){
+                        CheckAll.prop('disabled', false);
+                        RWMasterSwitch.removeClass('Disabled');
+                        $Elements.prop('checked', false).removeClass('Disabled');
+                        return;
+                    } else {
+                        CheckAll.prop('checked', true);
+                        $('input[type="checkbox"]:visible:not([name="rw"])').not(RWMasterSwitch).prop('disabled', true);
+                        $Elements.addClass('Disabled');
+                        RWMasterSwitch.addClass('Disabled');
+                        return;
+                    }
+
+                } else {
+                    RWMasterSwitch.removeClass('Disabled');
+                    HeadElements.prop('disabled', false);
+
+                    if($ClickedBox.hasClass('Disabled')){
+                        $ClickedBox.parent().siblings().children().prop('disabled', false);
+                        $ClickedBox.removeClass('Disabled');
+                    }else{
+                        RowInputs = $ClickedBox.parent().siblings().children('input');
+                        RowInputs.each(function(){
+                            if(!$(this)[0].checked){
+                                $(this).trigger('click');
+                            }
+                            $(this).prop('checked', true).prop('disabled', true);
+                        })
+                        $ClickedBox.addClass('Disabled');
+                    }
+                }
+            }
 
             if ($ClickedBox.attr('id') && $ClickedBox.attr('id') === SelectAllID) {
-                $Elements.prop('checked', Status).triggerHandler('click');
+
+                // If $Elements are disabled don't remove check.
+                if (!$Elements.filter(':enabled').length) {
+                    $ClickedBox.prop('checked', true);
+                    return;
+                }
+                $Elements.not(":disabled").prop('checked', Status).triggerHandler('click');
             }
             else {
                 CountCheckboxes = $Elements.length;
                 CountSelectedCheckboxes = $Elements.filter(':checked').length;
                 if (CountCheckboxes === CountSelectedCheckboxes) {
                     $SelectAllCheckbox.prop('checked', true);
+                    if(ElementName === 'rw'){
+                        CheckAll.prop('checked', true).not(RWMasterSwitch);
+                        RWMasterSwitch.addClass('Disabled');
+                        HeadElements.prop('disabled', true);
+                    }
                 }
                 else {
                     $SelectAllCheckbox.prop('checked', false);

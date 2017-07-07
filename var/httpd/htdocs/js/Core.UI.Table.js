@@ -108,6 +108,17 @@ Core.UI.Table = (function (TargetNS) {
                         $(this).remove();
                     });
                     $Elements.show();
+                    $('#SelectAllrw').removeClass('Disabled');
+                    $('table th input:not([name="rw"]:visible)').prop('disabled', false);
+                    if($('input[type="checkbox"][name="rw"]').not('#SelectAllrw').filter(':checked').length === $('input[type="checkbox"][name="rw"]').not('#SelectAllrw').length){
+                        $('table th input:not([name="rw"]:visible)').prop('disabled', true);
+                    }
+
+                    //Disable top row if all rw elements are checked.
+                    if($('input[type="checkbox"][name="rw"]').not('#SelectAllrw').filter(':checked').length === $('input[type="checkbox"][name="rw"]').not('#SelectAllrw').length){
+                        $('table th input:not([name="rw"]:visible)').prop('disabled', true);
+                        $('#SelectAllrw').addClass('Disabled');
+                    }
                 }
 
                 // handle multiple containers correctly

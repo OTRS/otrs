@@ -224,6 +224,82 @@ $Selenium->RunTest(
             );
         }
 
+        # Check if top level inputs are enabled.
+        $Self->Is(
+            $Selenium->execute_script("return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+            0,
+            "Top row inputs are enabled.",
+        );
+
+        # Click on Master Switch.
+        $Selenium->find_element( "#SelectAllrw", 'css' )->VerifiedClick();
+
+        # Check if top level inputs are disabled.
+        $Self->Is(
+            $Selenium->execute_script("return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+            1,
+            "Top row inputs are disabled.",
+        );
+
+        # Check if bottom level inputs are disabled.
+        $Self->Is(
+            $Selenium->execute_script("return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+            1,
+            "Table inputs are disabled.",
+        );
+
+        # Check if test row is disabled and checked.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('disabled');"),
+            1,
+            "Selected row is disabled.",
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('checked');"),
+            1,
+            "Selected row is checked.",
+        );
+
+        $Selenium->find_element( "#SelectAllrw", 'css' )->VerifiedClick();
+
+        # Find test group in the table and pass its value to filter.
+        $Selenium->find_element( "#Filter", 'css' )->send_keys($GroupName);
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(\'input[name="rw"]:visible\').length !== $(\'input[name="rw"]\').length;'
+        );
+
+        # Click on Master check if not already checked.
+        if ( !$Selenium->execute_script("return \$('#SelectAllrw:checked').length") ) {
+            $Selenium->find_element( "#SelectAllrw", 'css' )->VerifiedClick();
+        }
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".FilterRemove:visible").length === 1;'
+        );
+
+        # Remove selected filter.
+        $Selenium->find_element( ".FilterRemove", 'css' )->VerifiedClick();
+
+        # Check if test row is disabled and checked.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('disabled');"),
+            1,
+            "Selected row is disabled.",
+        );
+
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('checked');"),
+            1,
+            "Selected row is checked.",
+        );
+
         # since there are no tickets that rely on our test group, we can remove them again
         # from the DB
         if ($GroupName) {
