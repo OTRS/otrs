@@ -35,6 +35,12 @@ $Selenium->RunTest(
 
         $Helper->ConfigSettingChange(
             Valid => 1,
+            Key   => 'Frontend::RichText',
+            Value => 0,
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###Service',
             Value => 1,
         );
@@ -53,12 +59,18 @@ $Selenium->RunTest(
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
         my $DynamicFieldID     = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'Field' . $RandomID,
-            Label      => 'a description',
+            Label      => 'Field' . $RandomID,
             FieldOrder => 99999,
-            FieldType  => 'Text',
+            FieldType  => 'Dropdown',
             ObjectType => 'Ticket',
             Config     => {
-                DefaultValue => 'Default',
+                DefaultValue   => '',
+                PossibleNone   => 1,
+                PossibleValues => {
+                    0 => 'No',
+                    1 => 'Yes',
+                },
+                TranslatableValues => 1,
             },
             Reorder => 0,
             ValidID => 1,
@@ -72,6 +84,14 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###DynamicField',
+            Value => {
+                'Field' . $RandomID => 1,
+            },
+        );
+
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketClose###DynamicField',
             Value => {
                 'Field' . $RandomID => 1,
             },
@@ -141,6 +161,26 @@ $Selenium->RunTest(
   Description: ''
   ID: '3'
   Name: ThisIsAUnitTestACL-3
+  StopAfterMatch: 0
+  ValidID: '1'
+- ChangeBy: root\@localhost
+  ChangeTime: 2017-07-07 09:46:38
+  Comment: ''
+  ConfigChange:
+    PossibleNot:
+      Ticket:
+        State:
+        - closed successful
+  ConfigMatch:
+    Properties:
+      DynamicField:
+        DynamicField_Field$RandomID:
+        - '0'
+  CreateBy: root\@localhost
+  CreateTime: 2017-07-07 09:45:38
+  Description: ''
+  ID: '4'
+  Name: CustomerDocumentation
   StopAfterMatch: 0
   ValidID: '1'
 EOF
@@ -320,6 +360,64 @@ EOF
         $Self->False(
             $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0"),
             "Junk queue is not available in selection after ACL trigger"
+        );
+
+        # Close the new note popup.
+        $Selenium->find_element( '.CancelClosePopup', 'css' )->click();
+
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Click on 'Close' action and switch to it.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")
+            ->VerifiedClick();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # Wait until page has loaded.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
+        # At this point, state field should be missing 'closed successful' state because of ACL.
+        #   Change the dynamic field property to '1' and wait until 'closed successful' is available again.
+        #   Then, close the ticket and verify it was actually closed.
+        #   Please see bug#12671 for more information.
+        $Self->True(
+            $Selenium->execute_script("return \$('#NewStateID option:contains(\"closed successful\")').length == 0"),
+            "State 'closed successful' not available in new state selection before DF update"
+        );
+
+        # Set dynamic field value to non-zero, and wait for AJAX to complete.
+        $Selenium->execute_script(
+            "return \$('#DynamicField_Field$RandomID').val('1').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+
+        $Self->True(
+            $Selenium->execute_script("return \$('#NewStateID option:contains(\"closed successful\")').length == 1"),
+            "State 'closed successful' available in new state selection after DF update"
+        );
+
+        # Close the ticket.
+        $Selenium->execute_script(
+            "return \$('#NewStateID').val('2').trigger('redraw.InputField').trigger('change');"
+        );
+        $Selenium->find_element( '#Subject',  'css' )->send_keys('Close');
+        $Selenium->find_element( '#RichText', 'css' )->send_keys('Closing...');
+        $Selenium->find_element( '#submitRichText', 'css'  )->click();
+
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Navigate to ticket history screen of test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
+
+        # Verify that the ticket was indeed closed successfully.
+        my $CloseMsg = 'Old: "new" New: "closed successful"';
+        $Self->True(
+            index( $Selenium->get_page_source(), $CloseMsg ) > -1,
+            'Ticket closed successfully'
         );
 
         # Cleanup

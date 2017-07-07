@@ -744,9 +744,10 @@ sub Run {
         # set state
         if ( $Config->{State} && $GetParam{NewStateID} ) {
             $TicketObject->TicketStateSet(
-                TicketID => $Self->{TicketID},
-                StateID  => $GetParam{NewStateID},
-                UserID   => $Self->{UserID},
+                TicketID     => $Self->{TicketID},
+                StateID      => $GetParam{NewStateID},
+                UserID       => $Self->{UserID},
+                DynamicField => $GetParam{DynamicField},
             );
 
             # unlock the ticket after close
