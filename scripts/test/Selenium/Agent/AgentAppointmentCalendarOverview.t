@@ -221,11 +221,27 @@ $Selenium->RunTest(
             'All three calendars visible',
         );
 
+        # Verify copy-to-clipboard link.
+        my $URL = $Selenium->find_element( '.CopyToClipboard', 'css' )->get_attribute('data-clipboard-text');
+
+        $Self->True(
+            $URL,
+            'CopyToClipboard URL present'
+        );
+
+        # URL should not contain OTRS specific URL delimiter of semicolon (;).
+        #   For better compatibility, use standard ampersand (&) instead.
+        #   Please see bug#12667 for more information.
+        $Self->False(
+            ( $URL =~ /[;]/ ) ? 1 : 0,
+            'CopyToClipboard URL does not contain forbidden characters'
+        );
+
         # click on the timeline view for an appointment dialog
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
             ->VerifiedClick();
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
         # elements that are not allowed in dialog
@@ -298,7 +314,7 @@ $Selenium->RunTest(
         # find link to the appointment on page
         $Selenium->find_element( 'a.LinkObjectLink', 'css' )->VerifiedClick();
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
         # check data
@@ -344,7 +360,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
             ->VerifiedClick();
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
         # enter some data
@@ -390,7 +406,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
             ->VerifiedClick();
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
         # enter some data
@@ -429,7 +445,7 @@ $Selenium->RunTest(
         # click on an appointment
         $Selenium->find_element( '.fc-timeline-event', 'css' )->VerifiedClick();
 
-        # wait until form and overlay has loaded, if neccessary
+        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
         # click on Delete

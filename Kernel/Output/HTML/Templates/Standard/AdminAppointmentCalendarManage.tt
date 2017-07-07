@@ -192,13 +192,16 @@
                                 </a>
                             </td>
                             <td class="Center">
-                                <a class="DownloadLink" href="[% Config("HttpType") %]://[% Config("FQDN") %]/[% Config("ScriptAlias") %]public.pl?Action=PublicCalendar;CalendarID=[% Data.CalendarID | uri %];User=[% Env("UserLogin") | uri %];Token=[% Data.AccessToken | uri %]" title="[% Translate("Download calendar") | html %]">
+# Use ampersands (&) instead of semicolons (;) for URL parameter delimiter. This has better compatibility with different
+#   calendar implementations and will prevent them from re-encoding the query string and essentially strip the data.
+#   Please see bug#12667 for more information.
+                                <a class="DownloadLink" href="[% Config("HttpType") %]://[% Config("FQDN") %]/[% Config("ScriptAlias") %]public.pl?Action=PublicCalendar&CalendarID=[% Data.CalendarID | uri %]&User=[% Env("UserLogin") | uri %]&Token=[% Data.AccessToken | uri %]" title="[% Translate("Download calendar") | html %]">
                                     <i class="fa fa-cloud-download"></i>
                                     <span class="InvisibleText">[% Translate("Download calendar") | html %]</span>
                                 </a>
                             </td>
                             <td class="Center">
-                                <button class="InlineButton CopyToClipboard" data-clipboard-text="[% Config("HttpType") %]://[% Config("FQDN") %]/[% Config("ScriptAlias") %]public.pl?Action=PublicCalendar;CalendarID=[% Data.CalendarID | uri %];User=[% Env("UserLogin") | uri %];Token=[% Data.AccessToken | uri %]" title="[% Translate("Copy public calendar URL") | html %]">
+                                <button class="InlineButton CopyToClipboard" data-clipboard-text="[% Config("HttpType") %]://[% Config("FQDN") %]/[% Config("ScriptAlias") %]public.pl?Action=PublicCalendar&CalendarID=[% Data.CalendarID | uri %]&User=[% Env("UserLogin") | uri %]&Token=[% Data.AccessToken | uri %]" title="[% Translate("Copy public calendar URL") | html %]">
                                     <i class="fa fa-clipboard"></i>
                                     <span class="InvisibleText">[% Translate("Copy public calendar URL") | html %]</span>
                                 </button>
