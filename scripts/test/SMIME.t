@@ -12,6 +12,7 @@ use vars (qw($Self));
 use utf8;
 
 use File::Path();
+use Kernel::System::VariableCheck qw(:all);
 
 use Kernel::System::Crypt;
 
@@ -161,15 +162,19 @@ my %Check = (
     1 => {
         Modulus =>
             'B686AD697981A5A387792F3F301062EF520F6966AE21421995C1AB63BF4AB974D250E8764F9B341364B0842FA59C9FFECCB0243ABF802FAF28DFDCE3C2315FC74D6BA81F09AB5F333A0EDAFFDDCB941792F4C0E57AC0413E205E89D4E61D39B0F144FAF3E7064FD97131DC1E723044E4B0DEAA17E83C0B0697C1BB65B11D997C6A3EAB148FFAB3ECF60CB9E17BE0DABAE087F488BCA29C14D597DE024F1A0EBA6F435EFA03B1EBCBBB5D1107CBBD72CC8B0202AE76BEA0672B24A75C82031BC2DE9B82CDC25316F7DDEC9D32BF9C4FF2858424AA371D2E96F71170AAB3167ED9FA5A2C525C53B8ECE725034339DC3DAC32D3840D1D3ACFB42DB67C9817142019',
-        Subject =>
+        Subject => [
             'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest, emailAddress =  unittest@example.org',
+        ],
         Hash        => $CheckHash1,
         Private     => 'No',
         Serial      => 'F20143205EFC76E9',
         Type        => 'cert',
         Fingerprint => 'E9:F9:8D:54:74:35:E6:AC:9F:81:E5:D5:82:0E:6C:27:B2:B0:D4:18',
-        Issuer =>
+        Issuer      => [
             '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest, emailAddress =  unittest@example.org',
+        ],
         Email          => 'unittest@example.org',
         ShortEndDate   => '2026-01-15',
         EndDate        => 'Jan 15 13:11:32 2026 GMT',
@@ -179,15 +184,19 @@ my %Check = (
     2 => {
         Modulus =>
             'CFAF52AC9AD837F66289E6BAB9BBF96BD3173FE26EA06E72939E921528AFA6197C1FF941BEBEE1FD424353E725531A5521BA8BE7A796C0668E3FBFBEC9926D6B972E0513EDF12A81299328B62C132BB63D0B3942A2A194DE46814E84E2E959437DC5FC36F2F51E3B6913A0AF9DC1275495DE10EB2DA57913D725CAFBBCB8A2A476EF71B70A66AD7BFD9A2E37EB9C26BE41D5C5F9207C4CBA24AC0CE97367622CC14D717ACF54FF6111EA0BD62EB2D73D684FF8119AFDFA196233EF8DD2F31001F86621146A187236F30677E4639377AE53B7FAFE7B2C497832F736E566D86260DBC0E4720FE267E61646462CECF8A8353034CD6F8C9D617B86E3EB2EC3477237',
-        Subject =>
+        Subject => [
             'C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest2, emailAddress =  unittest2@example.org',
+        ],
         Hash        => $CheckHash2,
         Private     => 'No',
         Serial      => 'F510FC0C8A46E2A1',
         Fingerprint => 'AD:E4:99:93:45:CB:82:E3:1E:4B:0F:92:12:8D:21:26:3D:16:77:87',
         Type        => 'cert',
-        Issuer =>
+        Issuer      => [
             '/C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
+            'C =  DE, ST =  Bayern, L =  Straubing, O =  OTRS AG, CN =  unittest2, emailAddress =  unittest2@example.org',
+        ],
         Email          => 'unittest2@example.org',
         EndDate        => 'Jan 15 13:29:18 2026 GMT',
         ShortEndDate   => '2026-01-15',
@@ -260,6 +269,7 @@ my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
     my @Certs = $CryptObject->Search( Search => $Search{$Count} );
+
     $Self->False(
         $Certs[0] || '',
         "#$Count Search()",
@@ -296,11 +306,27 @@ for my $Count ( 1 .. 2 ) {
     );
 
     for my $ID ( sort keys %{ $Check{$Count} } ) {
-        $Self->Is(
-            $Certs[0]->{$ID} || '',
-            $Check{$Count}->{$ID},
-            "#$Count CertificateSearch() - $ID",
-        );
+
+        if ( IsArrayRefWithData( $Check{$Count}->{$ID} ) ) {
+
+            my $Success = 0;
+
+            for my $String ( @{ $Check{$Count}->{$ID} } ) {
+                $Success = 1 if $Certs[0]->{$ID} eq $String;
+            }
+
+            $Self->True(
+                $Success,
+                "#$Count CertificateSearch() - $ID",
+            );
+        }
+        else {
+            $Self->Is(
+                $Certs[0]->{$ID} || '',
+                $Check{$Count}->{$ID},
+                "#$Count CertificateSearch() - $ID",
+            );
+        }
     }
 
     # and private key
