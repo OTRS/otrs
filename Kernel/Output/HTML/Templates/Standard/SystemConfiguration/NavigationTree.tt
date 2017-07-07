@@ -13,7 +13,6 @@
         <li id="[% Item | html %]">
             [% Matches.0 | html %]
             [% IF RecursionData.$Item.size %]
-             ([% RecursionData.$Item.size %])
                 [% INCLUDE Recurse RecursionData = RecursionData.$Item %]
             [% END %]
         </li>
