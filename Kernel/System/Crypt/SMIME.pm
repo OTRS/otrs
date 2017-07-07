@@ -1934,7 +1934,7 @@ sub _FetchAttributesFromCert {
         Issuer      => 'issuer=\s*(.*)',
         Fingerprint => 'SHA1\sFingerprint=(.*)',
         Serial      => 'serial=(.*)',
-        Subject     => 'subject=\s*/(.*)',
+        Subject     => 'subject=[ ]*(?:\/)?(.+?)',
         StartDate   => 'notBefore=(.*)',
         EndDate     => 'notAfter=(.*)',
         Email       => '([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})',
