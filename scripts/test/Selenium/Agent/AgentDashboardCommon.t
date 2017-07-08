@@ -56,7 +56,7 @@ $Selenium->RunTest(
             "Escalated Tickets widget found on page",
         );
         $Self->True(
-            index( $Selenium->get_page_source(), "Open Tickets / Need to be answered" ) > -1,
+            index( $Selenium->get_page_source(), "Open Tickets" ) > -1,
             "Open Tickets / Need to be answered widget found on page",
         );
         $Self->True(
