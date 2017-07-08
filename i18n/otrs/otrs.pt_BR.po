@@ -23,17 +23,18 @@
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2015
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2016
 # Marcos Aurélio Silvério <marcos.aurelio@infracerta.com.br>, 2014
-# MBaeta <matheus.baeta@otrs.com>, 2014-2015
+# MBaeta <matheus.baeta@otrs.com>, 2014-2015,2017
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2016
 # Rangel Perez Sardinha <rangel@hsg.com.br>, 2016
 # Ronaldo Richieri <ronaldo@complemento.net.br>, 2015,2017
 # Samuel Diniz Casimiro <nedmaj@yahoo.com>, 2015-2017
+# Thales Horta <tph@otrs.com.br>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-31 17:16+0000\n"
-"PO-Revision-Date: 2017-05-31 22:17+0000\n"
+"POT-Creation-Date: 2017-07-08 09:42+0000\n"
+"PO-Revision-Date: 2017-07-08 14:56+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -112,7 +113,7 @@ msgstr "nos próximos ..."
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr "Criado nos últimos"
+msgstr "Criado no(s) último(s)"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
@@ -468,7 +469,7 @@ msgstr "Usuário"
 
 #. Template: AAABase
 msgid "Username"
-msgstr "Login"
+msgstr "Usuário"
 
 #. Template: AAABase
 msgid "Language"
@@ -516,15 +517,15 @@ msgstr "IDs do Cliente"
 
 #. Template: AAABase
 msgid "customer"
-msgstr "Cliente"
+msgstr "cliente"
 
 #. Template: AAABase
 msgid "agent"
-msgstr "Atendente"
+msgstr "atendente"
 
 #. Template: AAABase
 msgid "system"
-msgstr "Sistema"
+msgstr "sistema"
 
 #. Template: AAABase
 msgid "Customer Info"
@@ -612,11 +613,11 @@ msgstr "Comentário"
 
 #. Template: AAABase
 msgid "Invalid Option!"
-msgstr "Opção Inválida"
+msgstr "Opção Inválida!"
 
 #. Template: AAABase
 msgid "Invalid time!"
-msgstr "Hora Inválida"
+msgstr "Horário Inválido"
 
 #. Template: AAABase
 msgid "Invalid date!"
@@ -636,7 +637,7 @@ msgstr "Descrição"
 
 #. Template: AAABase
 msgid "description"
-msgstr "Descrição"
+msgstr "descrição"
 
 #. Template: AAABase
 msgid "Theme"
@@ -867,23 +868,23 @@ msgstr "Sair"
 
 #. Template: AAABase
 msgid "Logout successful. Thank you for using %s!"
-msgstr "Saiu com sucesso. Obrigado por utilizar o %s!"
+msgstr "Logout com sucesso. Obrigado por utilizar %s!"
 
 #. Template: AAABase
 msgid "Feature not active!"
-msgstr "Funcionalidade não ativada!"
+msgstr "Funcionalidade não inativa!"
 
 #. Template: AAABase
 msgid "Agent updated!"
-msgstr "Atendente atualizado!"
+msgstr "Agent atualizado!"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr "Seleção de Banco de Dados"
+msgstr "Seleção de banco de dados"
 
 #. Template: AAABase
 msgid "Create Database"
-msgstr "Criar Banco de Dados"
+msgstr "Criar banco de dados"
 
 #. Template: AAABase
 msgid "System Settings"
@@ -899,7 +900,7 @@ msgstr "Finalizado"
 
 #. Template: AAABase
 msgid "Install OTRS"
-msgstr "Instalar OTRS"
+msgstr "Instalar o OTRS"
 
 #. Template: AAABase
 msgid "Intro"
@@ -933,7 +934,7 @@ msgstr "Digite uma senha para o usuário do banco de dados."
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Se você tiver configurado uma senha root paro seu banco de dados, ela deve ser digitada aqui. Se não, deixe o campo em branco."
+msgstr "Se você tiver configurado uma senha root paro seu banco de dados, ela deve ser introduzida aqui. Se não, deixe o campo em branco."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
@@ -974,11 +975,11 @@ msgstr "reverso"
 
 #. Template: AAABase
 msgid "Facility"
-msgstr "Facilidade"
+msgstr "Instalação"
 
 #. Template: AAABase
 msgid "Time Zone"
-msgstr "Zona horária"
+msgstr "Fuso Horário"
 
 #. Template: AAABase
 msgid "Pending till"
@@ -992,11 +993,11 @@ msgstr "Por favor, não trabalhe com a conta de superusuário no OTRS! Crie novo
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
-msgstr "Distribuição de Acordo Com o Campo de E-mail \"Para:\""
+msgstr "Distribuição por e-mail por campo: \"Para:\""
 
 #. Template: AAABase
 msgid "Dispatching by selected Queue."
-msgstr "Distribuição de Acordo Com a Fila Selecionada"
+msgstr "Distribuição por Fila selecionada"
 
 #. Template: AAABase
 msgid "No entry found!"
@@ -1004,11 +1005,11 @@ msgstr "Nenhuma entrada encontrada!"
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr "Sessão inválida. Por favor, autentique novamente."
+msgstr "Sessão inválida. Por favor, entre novamente."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
-msgstr "A sessão expirou. Por favor, autentique novamente."
+msgstr "A sessão expirou. Por favor, entre novamente."
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
@@ -1024,7 +1025,7 @@ msgstr "(Clique aqui para adicionar)"
 
 #. Template: AAABase
 msgid "Preview"
-msgstr "Pré-Visualizar"
+msgstr "Pré-visualizar"
 
 #. Template: AAABase
 msgid "Package not correctly deployed! Please reinstall the package."
@@ -6079,11 +6080,11 @@ msgstr "informação do pacote"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
-msgstr ""
+msgstr "Pacote de Instalação requer atualização do OTRS"
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
-msgstr ""
+msgstr "Atualização do pacote requer atualização de nível do OTRS"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6098,19 +6099,19 @@ msgstr "Por favor note que a sua versão do OTRS instalada é %s."
 #. Template: AdminPackageManager
 msgid ""
 "To install this package, you need to update OTRS to version %s or newer."
-msgstr ""
+msgstr "Para instalar este pacote, você precisa atualizar seu OTRS para versão %s ou superior."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or older."
-msgstr ""
+msgstr "Este pacote smente pode ser instalado na versão %s ou inferior do OTRS."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or newer."
-msgstr ""
+msgstr "Este pacote smente pode ser instalado na versão %s ou superior do OTRS."
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTRS issues."
-msgstr ""
+msgstr "Você receberá atualizações para todos os outros problemas relevantes do OTRS."
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
@@ -6120,7 +6121,7 @@ msgstr "Como eu posso fazer uma atualização de nível de patch se eu não tenh
 msgid ""
 "Please find all relevant information within the upgrading instructions at "
 "%s."
-msgstr ""
+msgstr "Encontre todas as informações relevantes nas instruções de atualização disponível em %s "
 
 #. Template: AdminPackageManager
 msgid ""
@@ -7876,7 +7877,7 @@ msgstr "Alterar Serviço"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
-msgstr ""
+msgstr "Tamanho máximo do nome do Serviço é de 200 caracteres (incluindo Sub-Serviços)"
 
 #. Template: AdminService
 msgid "Sub-service of"
@@ -8310,7 +8311,7 @@ msgstr "Alterar Endereço de e-mail de Sistema"
 
 #. Template: AdminSystemAddress
 msgid "This email address is already used as system email address."
-msgstr ""
+msgstr "Este endereço de e-mail já está sendo usado como Endereço de E-mail do Sistema."
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
@@ -8320,7 +8321,7 @@ msgstr "O nome de exibição e endereço de e-mail serão mostrados no e-mail en
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
 "more queue(s)."
-msgstr ""
+msgstr "Este Endereço de E-mail do Sistema não pode ser definido como inválido, por ele já estar sendo usado em uma ou mais Filas."
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -9562,7 +9563,7 @@ msgstr "Tempo de Criação do Artigo (entre)"
 
 #. Template: AgentTicketSearch
 msgid "Invalid date"
-msgstr ""
+msgstr "Data Inválida"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
@@ -12020,15 +12021,15 @@ msgstr "Não é possível criar associação com %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
-msgstr ""
+msgstr "O Objeto %snão pode ser linkado com outro objeto!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
-msgstr ""
+msgstr "Parametro Grupo é obrigatório. "
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Parameter %s is missing."
-msgstr ""
+msgstr "Parametro %sestá vazio."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
@@ -12036,19 +12037,19 @@ msgstr "Subaction Inválida."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Statistic could not be imported."
-msgstr ""
+msgstr "Estatísticas não podem ser importadas."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Please upload a valid statistic file."
-msgstr ""
+msgstr "Por Favor, envie um arquivo de estatísticas válido."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Export: Need StatID!"
-msgstr ""
+msgstr "Exportar: StatID é necessário"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Delete: Get no StatID!"
-msgstr ""
+msgstr "Deletar: Nenhum StatID obtido!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Need StatID!"
@@ -12060,23 +12061,23 @@ msgstr "Não é possível carregar a estatística."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not create statistic."
-msgstr ""
+msgstr "Não foi possível criar estatísticas."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Run: Get no %s!"
-msgstr ""
+msgstr "Executar: %s não obtido."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
-msgstr ""
+msgstr "Nenhum TicketID informado."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
-msgstr ""
+msgstr "Você precisa %spermissões!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
-msgstr ""
+msgstr "Não é possível realizar validações no campo %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
@@ -12092,15 +12093,15 @@ msgstr "%s é necessário!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Plain article not found for article %s!"
-msgstr ""
+msgstr "Artigo simples não encontrado para o artigo %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Article does not belong to ticket %s!"
-msgstr ""
+msgstr "Artigo não pertence ao ticket %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't bounce email!"
-msgstr ""
+msgstr "Impossível devolver o e-mail."
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't send email!"
@@ -12108,47 +12109,47 @@ msgstr "Não é possível enviar o email!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
-msgstr ""
+msgstr "Subação incorreta."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
-msgstr ""
+msgstr "Impossível bloquear o Chamado, nenhum TicketIDs foi informado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
-msgstr ""
+msgstr "Ticket (%s) não está desbloqueado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
-msgstr ""
+msgstr "Recurso 'em massa' não está habilitado. "
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "No selectable TicketID is given!"
-msgstr ""
+msgstr "Nenhum TicketID selecionável foi informado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
-msgstr ""
+msgstr "Você selecionou nenhum Ticket ou somente ticket os quais estão bloqueados por outro Agente."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr ""
+msgstr "Você precisa selecionar ao menos um Ticket."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to these tickets: %s."
-msgstr ""
+msgstr "Os Tickets a seguir serão ignorados porque eles estão bloquados por outro Agente ou você não tem permissão de escrita para estes Tickets: %s"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
-msgstr ""
+msgstr "Os Tickets a seguir foram bloqueados: %s"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Can not determine the ArticleType!"
-msgstr ""
+msgstr "Não é possĩvel determinar o ArticleType!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
@@ -12156,47 +12157,47 @@ msgstr "Nenhuma Subaction!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "Got no TicketID!"
-msgstr ""
+msgstr "Nenhum TicketID obtido."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
-msgstr ""
+msgstr "Erro de sistema!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Invalid Filter: %s!"
-msgstr ""
+msgstr "Filtro Inválido: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketHistory.pm
 msgid "Can't show history, no TicketID is given!"
-msgstr ""
+msgstr "Não foi possível exibir o histórico, nenhum TicketID informado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Can't lock Ticket, no TicketID is given!"
-msgstr ""
+msgstr "Não foi possível bloquear o Ticket, nenhum TicketID informado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Sorry, the current owner is %s!"
-msgstr ""
+msgstr "Desculpe, o proprietário atual é %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Please become the owner first."
-msgstr ""
+msgstr "Por favor, torne-se o primeiro proprietário!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Ticket (ID=%s) is locked by %s!"
-msgstr ""
+msgstr "Ticket(ID=%s) está bloqueado por %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Change the owner!"
-msgstr ""
+msgstr "Alterar o proprietário!"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
-msgstr ""
+msgstr "Não é possível mesclar um Ticket com ele mesmo."
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
-msgstr ""
+msgstr "Você precisa da permissão: mover!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "Chat is not active."
@@ -12208,7 +12209,7 @@ msgstr "Sem permissão."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
-msgstr ""
+msgstr "%ssaiu do chat."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "This chat has been closed and will be removed in %s hours."
@@ -12222,11 +12223,11 @@ msgstr "Nenhum ArticleID!"
 msgid ""
 "Can't read plain article! Maybe there is no plain email in backend! Read "
 "backend message."
-msgstr ""
+msgstr "Não foi possível ler o artigo em texto simples."
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Need TicketID!"
-msgstr ""
+msgstr "TicketID necessário!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "printed by"
@@ -12238,7 +12239,7 @@ msgstr "Campos Dinâmicos de Chamado"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "Não foi possĩvel pegar ActivityDialogEntityID \"%s\""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No Process configured!"
@@ -12258,63 +12259,63 @@ msgstr "Parâmetro %s está faltando em %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
-msgstr ""
+msgstr "Nenhum ActivityDialog configurado para %s em _RenderAjax!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: "
 "%s in _GetParam!"
-msgstr ""
+msgstr "Nenhum início de ActivityEntityID ou ActivityDialogEntityID para o Processo: %sem _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Ticket for TicketID: %s in _GetParam!"
-msgstr ""
+msgstr "Não foi possível identificar o Ticket para TicketID %s em _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr ""
+msgstr "Não foi possível determinar ActivityEntityID. DynamicField ou a Configuração não está correta."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
-msgstr ""
+msgstr "Process::Default %s Faltando Valor de Configuração!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Got no ProcessEntityID or TicketID and ActivityDialogEntityID!"
-msgstr ""
+msgstr "Nenhum ProcessEntityID ou TicketID e ActivityDialogEntityID identificados!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Can't get StartActivityDialog and StartActivityDialog for the "
 "ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "Não foi possível identificar  StartActivityDialog e StartActivityDialog para o  ProcessEntityID \"%s\""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Ticket \"%s\"!"
-msgstr ""
+msgstr "Não foi possível obter Ticket \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
-msgstr ""
+msgstr "Não foi possível obter ProcessEntityID ou ActivityEntityID para o ticket \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Activity configuration for ActivityEntityID \"%s\"!"
-msgstr ""
+msgstr "Não foi possível obter as configurações da Atividade para ActivityEntityID \"%s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ActivityDialog configuration for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "Não foi possível obter configuração da Janela de Atividade para ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get data for Field \"%s\" of ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Não foi possĩvel obter o campo \"%s\" para ActivityDialog \"%s\""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "PendingTime can just be used if State or StateID is configured for the same "
 "ActivityDialog. ActivityDialog: %s!"
-msgstr ""
+msgstr "PendingTime só pode ser usado se State ou StateID está configurado para a mesma ActivityDialog. ActivityDialog: %s !"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Pending Date"
@@ -12326,88 +12327,88 @@ msgstr "em estado pendente*"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
-msgstr ""
+msgstr "ActivityDialogEntityID faltando!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "Não foi possível obter Config para ActivityDialogEntityID \" %s\""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
-msgstr ""
+msgstr "Não é possível usar CustomerID como um campo invisível."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
-msgstr ""
+msgstr "ProcessEntityID não encontrado, verifique seu ActivityDialogHeader.tt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "No StartActivityDialog or StartActivityDialog for Process \"%s\" configured!"
-msgstr ""
+msgstr "Nenhum StartActivityDialog ou StartActivityDialog para o processo: \"%s\" configurado."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't create ticket for Process with ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "Não é possĩvel criar Ticket para o Processo com o ProcessEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "Não é possível definir ProcessEntityID \"%s\" on TicketID \"%s\""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ActivityEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "Não é possivel definir ActivityEntityID \"%s\" no TicketID \"%s\""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not store ActivityDialog, invalid TicketID: %s!"
-msgstr ""
+msgstr "Não foi possível gravar ActivityDialog, inválido TicketID: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Invalid TicketID: %s!"
-msgstr ""
+msgstr "inválido TicketID: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
-msgstr ""
+msgstr "ActivityEntityID não encontrado no Ticket %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "This step does not belong anymore to the current activity in process for "
 "ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
 "close this window and reload the ticket."
-msgstr ""
+msgstr "Esse passo não pertence mais à atividade atual no processo para o Ticket '%s%s%s'! Outro usuário alterou este ticket enquanto isso. Por favor, feche esta janela e recarregue o Ticket"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
-msgstr ""
+msgstr "Não encontrado ProcessEntityId no Ticket %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Could not set DynamicField value for %s of Ticket with ID \"%s\" in "
 "ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Não foi possível definir valor para o Campo Dinâmico %sdo Ticket com ID \"%s\" na Janela de Atividade \"%s\""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set PendingTime for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Não foi possível definir Tempo de Pendência para o Ticket com ID \"%s\" na Janela de Atividade \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Wrong ActivityDialog Field config: %s can't be Display => 1 / Show field "
 "(Please change its configuration to be Display => 0 / Do not show field or "
 "Display => 2 / Show field as mandatory)!"
-msgstr ""
+msgstr "Configuração incorreta para Janela de Dialogo: %snão foi possível exibir => 1 / Mostrar campo (Favor alterar esta configurar para Exibir => 0 / Não exibir o campo ou Exibir => 2 / Exibir campo como obrigatório."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "Não foi possível setar %spara o Ticket com ID \"%s\" na Janela de Atividade \"%s\" !"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s missing!"
-msgstr ""
+msgstr "Configuração padrão para Process::Default%s não encontrada!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s invalid!"
-msgstr ""
+msgstr "Configuração padrão para Process::Default%sinválida!"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
@@ -12415,7 +12416,7 @@ msgstr "Sem título"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Customer Name"
-msgstr ""
+msgstr "Nome do Cliente"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
@@ -12427,7 +12428,7 @@ msgstr "CSV"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Excel"
-msgstr ""
+msgstr "Excel"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
@@ -12439,7 +12440,7 @@ msgstr "Recurso não está ativo"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Deleted"
-msgstr ""
+msgstr "Associação deletada"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Locked"
@@ -12447,7 +12448,7 @@ msgstr "Chamado bloqueado"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Pending Time Set"
-msgstr ""
+msgstr "Tempo de Pendência definido."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Dynamic Field Updated"
@@ -12455,7 +12456,7 @@ msgstr "Campo dinâmico atualizado"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email (internal)"
-msgstr ""
+msgstr "E-mail de Saĩda (interno)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
@@ -12467,15 +12468,15 @@ msgstr "Tipo atualizado"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time In Effect"
-msgstr ""
+msgstr "Escalonamento por tempo de Atualização em efeito"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time Stopped"
-msgstr ""
+msgstr "Escalonamento por tempo de Atualização parado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation First Response Time Stopped"
-msgstr ""
+msgstr "Escalonamento por Tempo de Primeira Resposta parado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Customer Updated"
@@ -12483,11 +12484,11 @@ msgstr "Cliente Atualizado"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Internal Chat"
-msgstr ""
+msgstr "Chat Interno"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Follow-Up Sent"
-msgstr ""
+msgstr "Acompanhamento automático enviado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
@@ -12503,7 +12504,7 @@ msgstr "Estado Atualizado"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
-msgstr ""
+msgstr "Resposta de saída"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
@@ -12519,7 +12520,7 @@ msgstr "E-mail de entrada do cliente"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
-msgstr ""
+msgstr "Requisição Web recebida."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Priority Updated"
@@ -12539,7 +12540,7 @@ msgstr "Título atualizado"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Merged"
-msgstr ""
+msgstr "Ticket mesclado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
@@ -12547,51 +12548,51 @@ msgstr "Chamada telefônica recebida"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forwarded Message"
-msgstr ""
+msgstr "Mensagem encaminhada."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Removed User Subscription"
-msgstr ""
+msgstr "Subscrição de usuário removida."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
-msgstr ""
+msgstr "Tempo contabilizado"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Phone Call"
-msgstr ""
+msgstr "Chamada telefônica recebida."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "System Request."
-msgstr ""
+msgstr "Requisição do Sistema."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Follow-Up"
-msgstr ""
+msgstr "Acompanhamento recebido."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reply Sent"
-msgstr ""
+msgstr "Resposta automática enviada."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reject Sent"
-msgstr ""
+msgstr "Rejeição automática enviada."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time In Effect"
-msgstr ""
+msgstr "Escalonamento por Tempo de Solução aplicado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time Stopped"
-msgstr ""
+msgstr "Escalonamento por tempo de Solução parado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time In Effect"
-msgstr ""
+msgstr "Escalonamento por tempo de resposta em vigor."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time Stopped"
-msgstr ""
+msgstr "Escalonamento por tempo de Resposta parado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SLA Updated"
@@ -12607,11 +12608,11 @@ msgstr "Chat Externo"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Queue Changed"
-msgstr ""
+msgstr "Fila alterada."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Notification Was Sent"
-msgstr ""
+msgstr "Notificação enviada."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
@@ -12621,83 +12622,83 @@ msgstr "Lamentamos, mas você não tem mais permissão para acessar este chamado
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
-msgstr ""
+msgstr "Não foi possível obter o ID da Nota %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article filter settings were saved."
-msgstr ""
+msgstr "Configuraçãoes de filtro de notas, salvo."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Event type filter settings were saved."
-msgstr ""
+msgstr "Configurações de filtro por Tipo de Evento, salvo."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Need ArticleID!"
-msgstr ""
+msgstr "O ID do Artigo é necessário."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Invalid ArticleID!"
-msgstr ""
+msgstr "ID do Artigo é inválido."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Offline"
-msgstr ""
+msgstr "Desconectado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "User is currently offline."
-msgstr ""
+msgstr "No momento o usuário está desconectado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "User is currently active."
-msgstr ""
+msgstr "Atualmente o usuário está conectado."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Away"
-msgstr ""
+msgstr "Ausente."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "User was inactive for a while."
-msgstr ""
+msgstr "Usuário está temporariamente inativo."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Unavailable"
-msgstr ""
+msgstr "Indisponível."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "User set their status to unavailable."
-msgstr ""
+msgstr "Usuário definei seus status como indisponível."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
-msgstr ""
+msgstr "Campo sem grupo."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "View the source for this Article"
-msgstr ""
+msgstr "Ver código fonte da Nota."
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "FileID and ArticleID are needed!"
-msgstr ""
+msgstr "ID fo campo e ID da Nota são necessários."
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No TicketID for ArticleID (%s)!"
-msgstr ""
+msgstr "Nenhum ID do Ticket para o ID da Nota (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No such attachment (%s)!"
-msgstr ""
+msgstr "Nenhum anexo (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::QueueDefault."
-msgstr ""
+msgstr "Valide configuração no SysConfig para %s::QueueDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
-msgstr ""
+msgstr "Valide configuração no SysConfig para %s::TicketTypeDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
-msgstr ""
+msgstr "ID do Cliente é necessário."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "My Tickets"
@@ -12709,221 +12710,221 @@ msgstr "Chamados da Empresa"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Untitled!"
-msgstr ""
+msgstr "Sem Título."
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
 "Please remove the following words because they cannot be used for the "
 "search:"
-msgstr ""
+msgstr "Por Favor, remova a palavras a seguir, visto que elas não podem ser usadas para pesquisa:"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
-msgstr ""
+msgstr "Não foi possível reabrir o Ticket nesta fila."
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
-msgstr ""
+msgstr "Criar novo Ticket!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "SecureMode active!"
-msgstr ""
+msgstr "Modo Seguro ativdado!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the "
 "SysConfig."
-msgstr ""
+msgstr "Se você deseja executar novamente o Instalador, desabilite o Modo Seguro no SysConfig."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
-msgstr ""
+msgstr "Diretório \"%s\" não existe!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure \"Home\" in Kernel/Config.pm first!"
-msgstr ""
+msgstr "Configure \"Home\" em Kernel/Config.pm primeiro!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/Kernel/Config.pm\" not found!"
-msgstr ""
+msgstr "Arquivo \"%s /Kernel/Config.pm não encontrado!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" not found!"
-msgstr ""
+msgstr "Diretõrio \"%s\" não encontrado."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Kernel/Config.pm isn't writable!"
-msgstr ""
+msgstr "Kernel/Config.pm não está gravável."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to use the installer, set the Kernel/Config.pm writable for the "
 "webserver user!"
-msgstr ""
+msgstr "Se você deseje usar o Instalador, defina Kernel/Config.pm como gravável para o usuário do servidor Web."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
-msgstr ""
+msgstr "Verificação desconhecida."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "The check \"%s\" doesn't exist!"
-msgstr ""
+msgstr "A verificação \"%s\" não existe."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "Banco de Dados %s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
-msgstr ""
+msgstr "Configurar MySQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure PostgreSQL"
-msgstr ""
+msgstr "Configurar PostgreSQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Oracle"
-msgstr ""
+msgstr "Configurar Oracle"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
-msgstr ""
+msgstr "Tipo da Banco de Dados \"%s\" desconhecido."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back."
-msgstr ""
+msgstr "Favor retornar."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTRS - Error"
-msgstr ""
+msgstr "Erro ao Installar OTRS"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
-msgstr ""
+msgstr "Arquivo \"%s/%s.xml\" não encontrado."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Contact your Admin!"
-msgstr ""
+msgstr "Entre em contato com o seu Administrador."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Syslog"
-msgstr ""
+msgstr "Syslog"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't write Config file!"
-msgstr ""
+msgstr "Não foi possível gravar no arquivo de Configurações."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Subaction %s!"
-msgstr ""
+msgstr "Ação secundária %s desconhecida!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, Perl module DBD::%s not installed!"
-msgstr ""
+msgstr "Não foi possível conectar ao Banco de Dados, Múdlo Perl DBD::%s não instalado!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, read comment!"
-msgstr ""
+msgstr "Não foi possível connectar ao banco de dados, leia os comentários!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "Error: Please make sure your database accepts packages over %s MB in size "
 "(it currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
-msgstr ""
+msgstr "Error: Certifique-se que seu banco da dados aceita pacotes com tamanho acima de %s MB (atualmente ele aceita somente até %sMB). Por Favor, ajuste o parametro max_allowed_packet do seu banco de dados, a fim de previnir erros."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "Error: Please set the value for innodb_log_file_size on your database to at "
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
-msgstr ""
+msgstr "Error: Defina o valor para innodb_log_file_size no seu banco de dados para, ao menos %s MB (atualmente %sMB, recomendado: %sMB). Para mais informações verifique em %s."
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Need config Package::RepositoryAccessRegExp"
-msgstr ""
+msgstr "Configuração Package::RepositoryAccessRegExp necessária."
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Authentication failed from %s!"
-msgstr ""
+msgstr "Falha de autenticação à partir de %s!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Sent message crypted to recipient!"
-msgstr ""
+msgstr "Enviar mensagem criptografada paro o destinatário."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "Cabeçalho \"PGP SIGNED MESSAGE\" encontrado porém, inválido!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "\"S/MIME SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "Cabeçalho \"S/MIME SIGNED MESSAGE\" encontrado porém, inválido"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Ticket decrypted before"
-msgstr ""
+msgstr "Descriptografar Ticket antes."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
-msgstr ""
+msgstr "Impossível descriptografar: Chave privrada para o e-mail não foi encontrada!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Successful decryption"
-msgstr ""
+msgstr "Descritografado com sucesso."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
-msgstr ""
+msgstr "O tempo inicial do Ticket foi definido antes do tempo final."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't connect to OTRS News server!"
-msgstr ""
+msgstr "Não foi possível conectar ao servidor de Notícias do OTRS."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't get OTRS News from server!"
-msgstr ""
+msgstr "Não foi possível obter Notícias do servidor OTRS."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
-msgstr ""
+msgstr "Não foi possĩvel conectar ao servidor de Novidades do Produto OTRS"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't get Product News from server!"
-msgstr ""
+msgstr "Não foi possível obter Novidades dos Produtos do servidor OTRS."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
 msgid "Can't connect to %s!"
-msgstr ""
+msgstr "Não foi possível coectar em %s"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted ascending"
-msgstr ""
+msgstr "Classificar Ascendente"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "sorted descending"
-msgstr ""
+msgstr "Classificar Descendente"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter not active"
-msgstr ""
+msgstr "Filtro não ativo."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter active"
-msgstr ""
+msgstr "Filtro ativo."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
-msgstr ""
+msgstr "O Ticket não tem título ou assunto."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "We are sorry, you do not have permissions anymore to access this ticket in "
 "its current state. You can take one of the following actions:"
-msgstr ""
+msgstr "Lamentamos, voçê não tem permissões para acessar este Ticket no estado atual. você pode tomar algumas das ações:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
-msgstr ""
+msgstr "Sem Permissão."
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
@@ -12931,11 +12932,11 @@ msgstr "Associado como"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Search Result"
-msgstr ""
+msgstr "Resultados da pesquisa"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "Pesquisar arquivamento."
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
 msgid "%s Upgrade to %s now! %s"
@@ -12944,7 +12945,7 @@ msgstr "%s Atualize para %s agora! %s"
 #. Perl Module:
 #. Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "A system maintenance period will start at: "
-msgstr ""
+msgstr "Uma janela de manutenção de sistema será iniciada em: "
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -12954,7 +12955,7 @@ msgstr "(em progresso)"
 msgid ""
 "Please make sure you've chosen at least one transport method for mandatory "
 "notifications."
-msgstr ""
+msgstr "Favor, certifique-se de ter escolhido ao menos um meio de transporte para notificações obrigatórias."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
@@ -12962,7 +12963,7 @@ msgstr "Por favor especifique uma data final posterior à data de início."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
+msgstr "Favor, forneça sua senha!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "No (not supported)"
@@ -12976,72 +12977,72 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
+msgstr "O período de tempo selecionado é maior que o período de tempo permitido."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
-msgstr ""
+msgstr "Nenhum valor para escala de tempo disponĩvel para a escala de tempo selecionado no eixo X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
-msgstr ""
+msgstr "A data selecionado não é válida."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
-msgstr ""
+msgstr "O Tempo final é anterior ao tempo inicial."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "There is something wrong with your time selection."
-msgstr ""
+msgstr "Algo errado com a sua seleção de tempo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select only one element or allow modification at stat generation "
 "time."
-msgstr ""
+msgstr "Favor, selecione apenas um elemento ou permita modificações em \"stat Generation Time\"."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select at least one value of this field or allow modification at stat"
 " generation time."
-msgstr ""
+msgstr "Favor, selecionar ao menos um valor par ao campo, ou permitir modificações em \"stat generation time\""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
-msgstr ""
+msgstr "Favor selecionar um elemento para o Eixo-X"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one time element for the Y axis."
-msgstr ""
+msgstr "Vocẽ só pode usar um elemento para o Exito Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
+msgstr "Você pode usar um ou dois elementos para o Eixo-Y"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
-msgstr ""
+msgstr "Favor selecionar ao menos um valor para o campo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please provide a value or allow modification at stat generation time."
-msgstr ""
+msgstr "Favor preenchar um valor ou permita modificações em \"Stat Generations time\""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
-msgstr ""
+msgstr "Por favor, selecione um período de tempo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale."
-msgstr ""
+msgstr "O  período  de tempo do seu Relatõrio  é muito pequeno, favor use um período de tempo maior,"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please remove the following words because they cannot be used for the ticket"
 " restrictions: %s."
-msgstr ""
+msgstr "Favor remover as seguintes palavras, um vez que elas não podem ser usadas para restrições de Ticket %s"
 
 #. Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
 msgid "Order by"
@@ -15565,6 +15566,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Czech"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"DEPRECATED: This config setting will be removed in further versions of OTRS."
+" Sets the time (in seconds) a user is marked as active (minimum active time "
+"is 300 seconds)."
 msgstr ""
 
 #. SysConfig
@@ -19389,6 +19397,10 @@ msgid "Log file for the ticket counter."
 msgstr ""
 
 #. SysConfig
+msgid "Logged-In Users"
+msgstr ""
+
+#. SysConfig
 msgid "Logout of customer panel."
 msgstr ""
 
@@ -19769,10 +19781,6 @@ msgstr ""
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
 msgstr "Ant.: \"%s\" Novo: \"%s\"."
-
-#. SysConfig
-msgid "Online"
-msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -20817,32 +20825,32 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime before a prior warning will be visible for the logged in "
+"SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
-"defined in SessionActiveTime."
+"defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
-" defined in SessionActiveTime."
+" defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
@@ -21165,12 +21173,6 @@ msgstr ""
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be activated)."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Sets the time (in seconds) a user is marked as active (minimum active time "
-"is 300 seconds)."
 msgstr ""
 
 #. SysConfig

@@ -1,12 +1,12 @@
 # 
 # Translators:
 # Lauri Jesmin <lauri.jesmin@gmail.com>, 2014
-# Uve Lokk <uvelokk@gmail.com>, 2015-2016
+# Uve Lokk <uvelokk@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-31 17:16+0000\n"
-"PO-Revision-Date: 2017-05-31 22:17+0000\n"
+"POT-Creation-Date: 2017-07-08 09:42+0000\n"
+"PO-Revision-Date: 2017-07-08 14:56+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/otrs/OTRS/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -840,7 +840,7 @@ msgstr "logi välja"
 
 #. Template: AAABase
 msgid "Logout successful. Thank you for using %s!"
-msgstr ""
+msgstr "Väljalogimine õnnestus. Täname kasutamast!"
 
 #. Template: AAABase
 msgid "Feature not active!"
@@ -9217,7 +9217,7 @@ msgstr ""
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
-msgstr ""
+msgstr "Loo uus e-postiga saadetud intsident"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
@@ -9385,7 +9385,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
-msgstr ""
+msgstr "Loo uus telefoni teel edastatud intsident"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
@@ -9393,7 +9393,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr ""
+msgstr "Järjekord"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
@@ -9966,7 +9966,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Log In"
-msgstr "Sisselogimine"
+msgstr "Sisene"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
@@ -12696,7 +12696,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
-msgstr ""
+msgstr "Loo uus intsident!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "SecureMode active!"
@@ -14097,7 +14097,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Väljalogimine õnnestus."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Panic! Invalid Session!!!"
@@ -14175,7 +14175,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "New ticket created by customer."
-msgstr ""
+msgstr "Uus kasutaja loodud intsident."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket is closed successful."
@@ -14291,7 +14291,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "vaikevastus (pärast uue intsidendi loomist)"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
@@ -15400,7 +15400,7 @@ msgstr "Veebiteenuste loomine ja haldamine."
 
 #. SysConfig
 msgid "Create new Ticket."
-msgstr ""
+msgstr "Loo uus intsident."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
@@ -15408,7 +15408,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create new email ticket."
-msgstr ""
+msgstr "Loo uus e-postiga saadetud intsident."
 
 #. SysConfig
 msgid "Create new phone ticket (inbound)."
@@ -15416,7 +15416,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create new phone ticket."
-msgstr ""
+msgstr "Loo uus telefoni teel edastatud intsident"
 
 #. SysConfig
 msgid "Create new process ticket."
@@ -15539,6 +15539,13 @@ msgstr ""
 #. SysConfig
 msgid "Czech"
 msgstr "Tšehhi"
+
+#. SysConfig
+msgid ""
+"DEPRECATED: This config setting will be removed in further versions of OTRS."
+" Sets the time (in seconds) a user is marked as active (minimum active time "
+"is 300 seconds)."
+msgstr ""
 
 #. SysConfig
 msgid "Danish"
@@ -19362,6 +19369,10 @@ msgid "Log file for the ticket counter."
 msgstr ""
 
 #. SysConfig
+msgid "Logged-In Users"
+msgstr ""
+
+#. SysConfig
 msgid "Logout of customer panel."
 msgstr ""
 
@@ -19742,10 +19753,6 @@ msgstr ""
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
 msgstr "Vana: \"%s\" Uus: \"%s\""
-
-#. SysConfig
-msgid "Online"
-msgstr "Hetkel siin"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -20790,32 +20797,32 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime before a prior warning will be visible for the logged in "
+"SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
-"defined in SessionActiveTime."
+"defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
-" defined in SessionActiveTime."
+" defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
@@ -21138,12 +21145,6 @@ msgstr ""
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be activated)."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Sets the time (in seconds) a user is marked as active (minimum active time "
-"is 300 seconds)."
 msgstr ""
 
 #. SysConfig

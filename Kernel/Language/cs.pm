@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.293844601412714;
+    $Self->{Completeness}        = 0.3029263370333;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -223,7 +223,7 @@ sub Data {
         'Date picker' => 'Výběr data',
         'Show Tree Selection' => 'Ukázat stromový výběr',
         'The field content is too long!' => 'Obsah pole je příliš dlouhý!',
-        'Maximum size is %s characters.' => 'Maximální velikost je s% znaků.',
+        'Maximum size is %s characters.' => 'Maximální délka je %s znaků.',
         'This field is required or' => 'Toto pole je povinné nebo',
         'New message' => 'Nová zpráva',
         'New message!' => 'Nová zpráva!',
@@ -438,7 +438,7 @@ sub Data {
         'There was a problem during the upgrade of %s.' => 'Objevil se problém během aktualizace na %s.',
         '%s was correctly uninstalled.' => '%s byl korektně odinstalován.',
         'There was a problem uninstalling %s.' => 'Objevil se problém při odinstalaci %s.',
-        'Enable cloud services to unleash all OTRS features!' => '',
+        'Enable cloud services to unleash all OTRS features!' => 'Povolit cloudové služby pro využití všech možností OTRS!',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nový rok',
@@ -449,8 +449,8 @@ sub Data {
         'New Year\'s Eve' => 'Silvestr',
 
         # Template: AAAGenericInterface
-        'OTRS as requester' => '',
-        'OTRS as provider' => '',
+        'OTRS as requester' => 'OTRS jako žadatel',
+        'OTRS as provider' => 'OTRS jako poskytovatel',
         'Webservice "%s" created!' => 'Webová služba "%s"  vytvořena!',
         'Webservice "%s" updated!' => 'Webová služba "%s" aktualizována!',
 
@@ -507,7 +507,7 @@ sub Data {
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
             'Nelze zaktualizovat heslo, protože toto heslo bylo již jednou použito. Zvolte prosím nové!',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
-            '',
+            'Zvolte oddělovací znak použitý v CSV souborech (stavy a vyhledávání). Pokud nebude zvolen, použije se výchozí pro váš jazyk.',
         'CSV Separator' => 'CSV oddělovač',
 
         # Template: AAATicket
@@ -576,18 +576,18 @@ sub Data {
         'closed successful' => 'uzavřeno - vyřešeno',
         'closed unsuccessful' => 'uzavřeno - nevyřešeno',
         'Locked Tickets Total' => 'Zamčené Tikety - Všechny',
-        'Locked Tickets Reminder Reached' => '',
+        'Locked Tickets Reminder Reached' => 'Dosažen čas pro upomínku zamčeného ticketu',
         'Locked Tickets New' => 'Zamčené Tikety - Nové',
         'Responsible Tickets Total' => '',
         'Responsible Tickets New' => '',
-        'Responsible Tickets Reminder Reached' => '',
-        'Watched Tickets Total' => '',
-        'Watched Tickets New' => '',
-        'Watched Tickets Reminder Reached' => '',
+        'Responsible Tickets Reminder Reached' => 'Dosažen čas pro upomínku odpovědného ticketu',
+        'Watched Tickets Total' => 'Celkově sledovaných ticketů',
+        'Watched Tickets New' => 'Nových sledovaných ticketů',
+        'Watched Tickets Reminder Reached' => 'Dosažen čas pro upomínku sledovaného ticketu',
         'All tickets' => 'Všechny tikety',
         'Available tickets' => 'Tiketů k dispozici',
         'Escalation' => 'Eskalace',
-        'last-search' => '',
+        'last-search' => 'posledni-hledani',
         'QueueView' => 'Náhled fronty',
         'Ticket Escalation View' => 'Zobrazit eskalaci tiketu',
         'Message from' => 'Zpráva od',
@@ -639,10 +639,10 @@ sub Data {
         'Ticket "%s" created!' => 'Tiket "%s" vytvořen!',
         'Ticket Number' => 'číslo tiketu',
         'Ticket Object' => 'Tiket Objekt',
-        'No such Ticket Number "%s"! Can\'t link it!' => '',
-        'You don\'t have write access to this ticket.' => '',
+        'No such Ticket Number "%s"! Can\'t link it!' => 'Nenalezen ticket číslo "%s"! Nelze spárovat!',
+        'You don\'t have write access to this ticket.' => 'Nemáte povolení pro úpravy tohoto ticketu.',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            '',
+            'Musíte být majitel ticketu pro provedení této operace.',
         'Please change the owner first.' => 'Nejdříve prosím změňte vlastníka.',
         'Ticket selected.' => 'Tiket vybrán',
         'Ticket is locked by another agent.' => 'Tiket je zamčen jiným operátorem.',
@@ -650,14 +650,14 @@ sub Data {
         'Don\'t show closed Tickets' => 'Nezobrazovat uzavřené tikety',
         'Show closed Tickets' => 'Zobrazit zavřené tikety',
         'New Article' => 'Nová položka',
-        'Unread article(s) available' => '',
-        'Remove from list of watched tickets' => '',
-        'Add to list of watched tickets' => '',
+        'Unread article(s) available' => 'Jsou dostupné nepřečtené články',
+        'Remove from list of watched tickets' => 'Odebrat ze seznamu sledovaných ticketů',
+        'Add to list of watched tickets' => 'Přidat do seznamu sledovaných ticketů',
         'Email-Ticket' => 'Email Tiket',
         'Create new Email Ticket' => 'Vytvořit nový Email Tiket',
         'Phone-Ticket' => 'Telefonní Tiket',
         'Search Tickets' => 'Vyhledávání Tiketů',
-        'Customer Realname' => '',
+        'Customer Realname' => 'Jméno zákazníka',
         'Customer History' => 'Historie zákazníka',
         'Edit Customer Users' => 'Editace uživatelů zákazníka',
         'Edit Customer' => 'Upravit zákazníka',
@@ -666,8 +666,8 @@ sub Data {
         'Send Email and create a new Ticket' => 'Zaslat Email a vytvořit nový tiket',
         'Create new Email Ticket and send this out (Outbound)' => 'Vytvořit nový Email Tiket a odeslat jej (Odchozí)',
         'Create new Phone Ticket (Inbound)' => 'Vytvořit nový Telefonní Tiket (Příchozí)',
-        'Address %s replaced with registered customer address.' => '',
-        'Customer user automatically added in Cc.' => '',
+        'Address %s replaced with registered customer address.' => 'Adresa %snahrazena registrovanou adresou zákazníka',
+        'Customer user automatically added in Cc.' => 'Zákazník automaticky přidán do kopie',
         'Overview of all open Tickets' => 'Přehled všech otevřených tiketů',
         'Locked Tickets' => 'Uzamčené tikety',
         'My Locked Tickets' => 'Moje zamčené tikety',
@@ -711,7 +711,7 @@ sub Data {
         'There are more escalated tickets!' => 'Je zde více Eskalovaných Tiketů',
         'Plain Format' => 'Zdrojový formát',
         'Reply All' => 'Odpovědět všem',
-        'Direction' => '',
+        'Direction' => 'adresa',
         'New ticket notification' => 'Oznámení o novém Tiketu',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'Pošli mi oznámení o novém Tiketu v mých frontách.',
@@ -729,11 +729,11 @@ sub Data {
             'Pošli mi oznámení pokud je Tiket přesunut do mých Front.',
         'Send ticket move notifications' => 'Poslat oznámení o přesunu tiketu',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Vaše selekce oblíbených front. Pokud jsou povolena, budete dostávat emailová upozornění o dění v těchto frontách',
         'Custom Queue' => 'Vlastní fronta',
         'QueueView refresh time' => 'Doba obnovení náhledu fronty',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
-            '',
+            'Pokud je povoleno, náhled fronty se automaticky aktualizace po jednou za zvolenou dobu',
         'Refresh QueueView after' => 'Obnovit zobrazení front po',
         'Screen after new ticket' => 'Zobrazení po Novém Tiketu',
         'Show this screen after I created a new ticket' => 'Zobraz tento pohled, když vytvořím nový tiket',
@@ -796,7 +796,7 @@ sub Data {
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'Toto pole musí být vyplněno.',
-        'Overwrite existing ACLs?' => '',
+        'Overwrite existing ACLs?' => 'Přepsat existující ACL?',
         'Upload ACL configuration' => '',
         'Import ACL configuration(s)' => '',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
@@ -828,12 +828,12 @@ sub Data {
         'Edit ACL information' => '',
         'Stop after match' => 'Stop po shodě',
         'Edit ACL structure' => '',
-        'Save settings' => '',
-        'Save ACL' => '',
+        'Save settings' => 'Uložit nastavení',
+        'Save ACL' => 'Uložit ACL',
         'Save' => 'Uložit',
         'or' => 'nebo',
-        'Save and finish' => '',
-        'Do you really want to delete this ACL?' => '',
+        'Save and finish' => 'Uložit a dokončit',
+        'Do you really want to delete this ACL?' => 'Opravdu chcete smazat toto ACL?',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
@@ -850,7 +850,7 @@ sub Data {
         'List' => 'Pořadí',
         'Download file' => 'Stáhnout soubor',
         'Delete this attachment' => 'Smazat tuto přílohu',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Opravdu chcete odstranit tuto přílohu?',
         'Add Attachment' => 'Přidat přílohu',
         'Edit Attachment' => 'Upravit přílohu',
 
@@ -1081,9 +1081,9 @@ sub Data {
         'With this module, administrators can send messages to agents, group or role members.' =>
             '',
         'Create Administrative Message' => '',
-        'Your message was sent to' => '',
-        'Send message to users' => '',
-        'Send message to group members' => '',
+        'Your message was sent to' => 'Vaše zpráva byla odeslána',
+        'Send message to users' => 'Odeslat zprávu uživatelům',
+        'Send message to group members' => 'Odeslat zprávu členům skupiny',
         'Group members need to have permission' => '',
         'Send message to role members' => '',
         'Also send to customers in groups' => '',
@@ -1264,7 +1264,7 @@ sub Data {
             '',
         'Synchronous event triggers would be processed directly during the web request.' =>
             '',
-        'Save and continue' => '',
+        'Save and continue' => 'Uložit a pokračovat',
         'Delete this Invoker' => '',
 
         # Template: AdminGenericInterfaceMappingSimple
@@ -1550,7 +1550,7 @@ sub Data {
         'Configuration Import' => '',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
+        'Overwrite existing notifications?' => 'Přepsat existující notifikace?',
         'Upload Notification configuration' => '',
         'Import Notification configuration' => '',
         'Delete this notification' => 'Smazat toto oznámení',
@@ -1599,7 +1599,7 @@ sub Data {
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
         'Remove Notification Language' => '',
-        'Message body' => '',
+        'Message body' => 'Tělo zprávy',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
         'Tag Reference' => '',
@@ -2295,14 +2295,14 @@ sub Data {
         'There is at least one parameter missing for the binding. Please check it.' =>
             '',
         'Result format' => '',
-        'Run Query' => '',
-        'Query is executed.' => '',
+        'Run Query' => 'Spustit Dotaz',
+        'Query is executed.' => 'Dotaz byl spuštěn.',
 
         # Template: AdminService
         'Service Management' => 'Správa Služeb',
-        'Add service' => '',
+        'Add service' => 'Přidat službu',
         'Add Service' => 'Přidat Službu',
-        'Edit Service' => '',
+        'Edit Service' => 'Upravit Službu',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             '',
         'Sub-service of' => '',
@@ -2377,17 +2377,17 @@ sub Data {
         'Navigate by searching in %s settings' => '',
         'Navigate by selecting config groups' => '',
         'Download all system config changes' => '',
-        'Export settings' => '',
+        'Export settings' => 'Exportovat nastavení',
         'Load SysConfig settings from file' => '',
-        'Import settings' => '',
-        'Import Settings' => '',
+        'Import settings' => 'Importovat nastavení',
+        'Import Settings' => 'Importovat Nastavení',
         'Please enter a search term to look for settings.' => '',
         'Subgroup' => 'Podskupina',
         'Elements' => 'Prvky',
 
         # Template: AdminSysConfigEdit
         'Edit Config Settings in %s → %s' => '',
-        'This setting is read only.' => '',
+        'This setting is read only.' => 'Nastavení je pouze ke čtení.',
         'This config item is only available in a higher config level!' =>
             '',
         'Reset this setting' => '',
@@ -2875,7 +2875,7 @@ sub Data {
         'Watcher' => '',
         'Article Create Time (before/after)' => 'Čas Vytvoření zprávy (poslední/před)',
         'Article Create Time (between)' => 'Čas Vytvoření zprávy (mezi)',
-        'Invalid date' => '',
+        'Invalid date' => 'Neplatné datum',
         'Ticket Create Time (before/after)' => 'Čas Vytvoření Tiketu (poslední/před)',
         'Ticket Create Time (between)' => 'Čas Vytvoření Tiketu (mezi)',
         'Ticket Change Time (before/after)' => 'Čas Změny Tiketu (poslední/před)',
@@ -2908,7 +2908,7 @@ sub Data {
             '',
         'This item has no articles yet.' => '',
         'Ticket Timeline View' => '',
-        'Article Overview' => '',
+        'Article Overview' => 'Přehled položek',
         'Article(s)' => 'Zpráva(y)',
         'Page' => 'Strana',
         'Add Filter' => 'Přidej Filtr',
@@ -3565,7 +3565,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Need ExampleProcesses!' => '',
         'Need ProcessID!' => '',
-        'Yes (mandatory)' => '',
+        'Yes (mandatory)' => 'Ano (vyžadováno)',
         'Unknown Process %s!' => '',
         'There was an error generating a new EntityID for this Process' =>
             '',
@@ -4152,8 +4152,8 @@ sub Data {
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
         'State Type' => '',
         'Created Priority' => 'Nastavená Priorita',
-        'Created State' => 'Nastavený Stav',
-        'Create Time' => 'Nastavený Čas',
+        'Created State' => 'Stav při vytvoření',
+        'Create Time' => 'Čas vytvoření',
         'Close Time' => 'Čas uzavření',
         'Escalation - First Response Time' => '',
         'Escalation - Update Time' => '',
@@ -4936,6 +4936,8 @@ Thanks for your help!
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Czech' => '',
+        'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Danish' => '',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
@@ -6100,6 +6102,7 @@ Thanks for your help!
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Zamknutý Tiket.',
         'Log file for the ticket counter.' => '',
+        'Logged-In Users' => '',
         'Logout of customer panel.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => 'Přeposlání nepovoleno! Nebyla odeslána automatická odpověď na "%s".',
         'Mail Accounts' => '',
@@ -6217,7 +6220,6 @@ Thanks for your help!
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'Old: "%s" New: "%s"' => 'Starý: "%s" Nový: "%s"',
-        'Online' => '',
         'Open tickets (customer user)' => 'Otevřené tikety (uživatel)',
         'Open tickets (customer)' => 'Otevřené tikety (zákazník)',
         'Option' => '',
@@ -6522,15 +6524,15 @@ Thanks for your help!
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             '',
@@ -6640,8 +6642,6 @@ Thanks for your help!
         'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '',
-        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
             '',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

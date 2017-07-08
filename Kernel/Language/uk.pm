@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.599394550958628;
+    $Self->{Completeness}        = 0.657921291624622;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1742,23 +1742,23 @@ sub Data {
             'Ви дійсно хочете перевстановити цей пакунок? Аби-які ручні зміни буде втрачено!',
         'Go to upgrading instructions' => 'Перейти до інструкцій з модернізації',
         'package information' => 'інформація про пакет',
-        'Package installation requires a patch level update of OTRS.' => '',
-        'Package update requires a patch level update of OTRS.' => '',
+        'Package installation requires a patch level update of OTRS.' => 'Установка пакунку потребує оновлення рівня виправлень OTRS.',
+        'Package update requires a patch level update of OTRS.' => 'Оновлення пакунку потребує оновлення рівня оновлень OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             'Якщо ви є клієнтом OTRS Business Solution™, будь ласка, відвідайте наш портал клієнтів та подайте заявку.',
         'Please note that your installed OTRS version is %s.' => 'Зверніть увагу, що версія встановленого OTRS %s.',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            'Щоб встановити цей пакунок, ви маєте оновити OTRS до версії %s або новіше.',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            'Цей пакунок можна встановити на OTRS версії %s або старше.',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            'Цей пакунок можна встановити на OTRS версії %s або новіше.',
         'You will receive updates for all other relevant OTRS issues.' =>
-            '',
+            'Ви будете отримувати оновлення для всіх інших питань стосовно OTRS.',
         'How can I do a patch level update if I don’t have a contract?' =>
             'Як я можу оновити рівень виправлень якщо у мене немає угоди?',
         'Please find all relevant information within the upgrading instructions at %s.' =>
-            '',
+            'Будь ласка, знайдіть відповідну інформацію в інструкції по оновленню в %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'У разі, якщо ви маєте додаткові запитання, ми будемо раді відповісти на них.',
         'Continue' => 'Продовжити',
@@ -2297,7 +2297,7 @@ sub Data {
         'Add Service' => 'Додати Сервіс',
         'Edit Service' => 'Змінити Сервіс',
         'Service name maximum length is 200 characters (with Sub-service).' =>
-            '',
+            'Максимальна довжина імені служби 200 символів (з під-службами).',
         'Sub-service of' => 'Підсервіс сервісу',
 
         # Template: AdminSession
@@ -2425,11 +2425,11 @@ sub Data {
         'Display name' => 'Відображуване ім\'я',
         'Add System Email Address' => 'Додати системну Email адресу',
         'Edit System Email Address' => 'Коригувати системну Email адресу',
-        'This email address is already used as system email address.' => '',
+        'This email address is already used as system email address.' => 'Ця поштова скринька вже використовується як системна.',
         'The display name and email address will be shown on mail you send.' =>
             'Це ім\'я та email адреса будуть показані у ваших відправлених лістах',
         'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            '',
+            'Цю адресу системи не можна зробити нечинною, тому що вона вже використовується, принаймні, в одній з черг.',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Керування Обслуговуванням Системи',
@@ -2868,7 +2868,7 @@ sub Data {
         'Watcher' => 'Спостерігач',
         'Article Create Time (before/after)' => 'Час Створення Статті (до/після)',
         'Article Create Time (between)' => 'Час Створення Статті (поміж)',
-        'Invalid date' => '',
+        'Invalid date' => 'Нечинна дата',
         'Ticket Create Time (before/after)' => 'Час Створення Квитка (до/після)',
         'Ticket Create Time (between)' => 'Час Створення Квитка (поміж)',
         'Ticket Change Time (before/after)' => 'Час Змінення Квитка (до/після)',
@@ -3750,412 +3750,412 @@ sub Data {
         'Can\'t lock Tickets, no TicketIDs are given!' => 'Не можу заблокувати квиток, не надано TicketID!',
         'Ticket (%s) is not unlocked!' => 'Квиток (%s) не разблоковано!',
         'Bulk feature is not enabled!' => 'Масову функцію не увімкнено!',
-        'No selectable TicketID is given!' => '',
+        'No selectable TicketID is given!' => 'Не надано TicketID, який можна вибрати!',
         'You either selected no ticket or only tickets which are locked by other agents.' =>
-            '',
-        'You need to select at least one ticket.' => '',
+            'Ви або не вибрали квитка, або вибрали квиток, що заблокований іншим агентом.',
+        'You need to select at least one ticket.' => 'Ви маєте вибрати принаймні один квиток.',
         'The following tickets were ignored because they are locked by another agent or you don\'t have write access to these tickets: %s.' =>
-            '',
-        'The following tickets were locked: %s.' => '',
+            'Наступні квитки було знехтувано тому що їх або заблоковано іншим агентом або ви не маєте дозволу на запис до цих квитків: %s',
+        'The following tickets were locked: %s.' => 'Наступні квитки були заблоковані: %s.',
 
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
-        'Can not determine the ArticleType!' => '',
+        'Can not determine the ArticleType!' => 'Не можу визначити Тип Статті!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'No Subaction!' => '',
+        'No Subaction!' => 'Немає Піддії!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
-        'Got no TicketID!' => '',
-        'System Error!' => '',
+        'Got no TicketID!' => 'Не отримав TicketID!',
+        'System Error!' => 'Системна помилка!',
 
         # Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
-        'Invalid Filter: %s!' => '',
+        'Invalid Filter: %s!' => 'Нечинний фільтр: %s!',
 
         # Perl Module: Kernel/Modules/AgentTicketHistory.pm
-        'Can\'t show history, no TicketID is given!' => '',
+        'Can\'t show history, no TicketID is given!' => 'Не можу показати історію - не наданий TicketID!',
 
         # Perl Module: Kernel/Modules/AgentTicketLock.pm
-        'Can\'t lock Ticket, no TicketID is given!' => '',
-        'Sorry, the current owner is %s!' => '',
-        'Please become the owner first.' => '',
-        'Ticket (ID=%s) is locked by %s!' => '',
-        'Change the owner!' => '',
+        'Can\'t lock Ticket, no TicketID is given!' => 'Не можу заблокувати Квиток - не наданий TicketID!',
+        'Sorry, the current owner is %s!' => 'Вибачте, але зараз власником є %s!',
+        'Please become the owner first.' => 'Спочатку станьте власником, будь ласка.',
+        'Ticket (ID=%s) is locked by %s!' => 'Квиток (ID = %s) заблокований %s!',
+        'Change the owner!' => 'Зміна власника!',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
-        'Can\'t merge ticket with itself!' => '',
+        'Can\'t merge ticket with itself!' => 'Неможливо об\'єднати квиток із собою!',
 
         # Perl Module: Kernel/Modules/AgentTicketMove.pm
-        'You need move permissions!' => '',
+        'You need move permissions!' => 'Вам потрібно перемістити дозволи!',
 
         # Perl Module: Kernel/Modules/AgentTicketPhone.pm
-        'Chat is not active.' => '',
-        'No permission.' => '',
-        '%s has left the chat.' => '',
-        'This chat has been closed and will be removed in %s hours.' => '',
+        'Chat is not active.' => 'Чат не активний.',
+        'No permission.' => 'Немає дозволу.',
+        '%s has left the chat.' => '%s залишив чат.',
+        'This chat has been closed and will be removed in %s hours.' => 'Цей чат закрито та буде вилучена за %s годин.',
 
         # Perl Module: Kernel/Modules/AgentTicketPlain.pm
-        'No ArticleID!' => '',
+        'No ArticleID!' => 'Немає ArticleID!',
         'Can\'t read plain article! Maybe there is no plain email in backend! Read backend message.' =>
-            '',
+            'Неможливо прочитати просту статтю. Можливо немає простого поштового листа в сервері! Читайте повідомлення від сервера.',
 
         # Perl Module: Kernel/Modules/AgentTicketPrint.pm
-        'Need TicketID!' => '',
+        'Need TicketID!' => 'Потрібний TicketID!',
         'printed by' => 'надруковане',
-        'Ticket Dynamic Fields' => '',
+        'Ticket Dynamic Fields' => 'Динамічні Поля Квитка',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
-        'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
-        'No Process configured!' => '',
-        'Process %s is invalid!' => '',
-        'Subaction is invalid!' => '',
-        'Parameter %s is missing in %s.' => '',
-        'No ActivityDialog configured for %s in _RenderAjax!' => '',
+        'Couldn\'t get ActivityDialogEntityID "%s"!' => 'Неможливо отримати ActivityDialogEntityID "%s"!',
+        'No Process configured!' => 'Не налаштовано Процес!',
+        'Process %s is invalid!' => 'Процес %s не є чинним!',
+        'Subaction is invalid!' => 'Піддія не є чинною!',
+        'Parameter %s is missing in %s.' => 'Параметр %s пропущений в %s.',
+        'No ActivityDialog configured for %s in _RenderAjax!' => 'Не налаштовано Діалога Активності для %s в _RenderAjax!',
         'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!' =>
-            '',
-        'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => '',
+            'Не отримано Початкову ActivityEntityID  або Початкову ActivityDialogEntityID для процеса: %s в ',
+        'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'Неможливо визначити квиток за TicketID: %s в ',
         'Couldn\'t determine ActivityEntityID. DynamicField or Config isn\'t set properly!' =>
-            '',
-        'Process::Default%s Config Value missing!' => '',
+            'Не можу визначити ActivityEntityID. Динамічне поле або Налаштування не встановлене належним чином!',
+        'Process::Default%s Config Value missing!' => 'Process::Default%s Config Value пропущено!',
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
-            '',
+            'Неможливо визначити ProcessEntityID або TicketID та ActivityDialogEntityID!',
         'Can\'t get StartActivityDialog and StartActivityDialog for the ProcessEntityID "%s"!' =>
-            '',
-        'Can\'t get Ticket "%s"!' => '',
+            'Неможливо отримати StartActivityDialog та StartActivityDialog для ',
+        'Can\'t get Ticket "%s"!' => 'Неможливо отримати Квиток "%s"!',
         'Can\'t get ProcessEntityID or ActivityEntityID for Ticket "%s"!' =>
-            '',
+            'Неможливо отримати ProcessEntityID або ActivityEntityID для Квитка "%s"!',
         'Can\'t get Activity configuration for ActivityEntityID "%s"!' =>
-            '',
+            'Неможливо отримати налаштування Активності для ActivityEntityID "%s"!',
         'Can\'t get ActivityDialog configuration for ActivityDialogEntityID "%s"!' =>
-            '',
-        'Can\'t get data for Field "%s" of ActivityDialog "%s"!' => '',
+            'Неможливо отримати налаштування Діалогу Активності для ActivityDialogEntityID "%s"!',
+        'Can\'t get data for Field "%s" of ActivityDialog "%s"!' => 'Не можу отримати дані для поля "%s" Діалогу Активності "%s"!',
         'PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!' =>
-            '',
+            'Час очікування може бути використаний якщо Стан, або StateID налаштовані на такий самий Діалог Активності. Діалог Активності: %s!',
         'Pending Date' => 'Наступна дата',
         'for pending* states' => ' для наступних станів* ',
-        'ActivityDialogEntityID missing!' => '',
-        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
-        'Couldn\'t use CustomerID as an invisible field.' => '',
+        'ActivityDialogEntityID missing!' => 'Пропущено ActivityDialogEntityID!',
+        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Неможливо отримати налаштування для ',
+        'Couldn\'t use CustomerID as an invisible field.' => 'Неможливо використати CustomerID у якості невидимого поля.',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
-            '',
+            'Пропущено ProcessEntityID, перевірте ',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
-            '',
+            'Не налаштований Початковий Діалог Активності або Початковий Діалог Активності для Процесу "%s"!',
         'Couldn\'t create ticket for Process with ProcessEntityID "%s"!' =>
-            '',
-        'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => '',
-        'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => '',
-        'Could not store ActivityDialog, invalid TicketID: %s!' => '',
-        'Invalid TicketID: %s!' => '',
-        'Missing ActivityEntityID in Ticket %s!' => '',
+            'Неможливо створити квиток для Процесу з ProcessEntityID "%s"!',
+        'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => 'Неможливо встановити ProcessEntityID "%s" в TicketID "%s"!',
+        'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => 'Неможливо встановити ActivityEntityID "%s" в TicketID "%s"!',
+        'Could not store ActivityDialog, invalid TicketID: %s!' => 'Неможливо зберегти Діалог Активності, нечинний TicketID: %s!',
+        'Invalid TicketID: %s!' => 'Нечинний ',
+        'Missing ActivityEntityID in Ticket %s!' => 'Пропущено ActivityEntityID у Квитку %s!',
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
-            '',
-        'Missing ProcessEntityID in Ticket %s!' => '',
+            'Цей крок більше не належить до поточної активності в процесі для цього квитка \'%s%s%s\'! Інший користувач тим часом змінив цей квиток. Будь ласка закрийте це вікно та перезавантажте квиток.',
+        'Missing ProcessEntityID in Ticket %s!' => 'Пропущено ProcessEntityID в Квитку %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
+            'Неможливо встановити Динамічне Поле для %s Квитка з ID "%s" в Діалозі Активності "%s"!',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
+            'Неможливо встановити Час Очікування для Квитка з ID "%s" в Діалозі Активності "%s"!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
-            '',
+            'Неправильне налаштування поля Діалогу Активності: %s не може бути Display => 1 / Показати поле (Будь ласка змініть налаштування так, щоб Display => 0 / Не показувати поле або Display => 2 /  Показати поле як обов\'язкове)!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            '',
-        'Default Config for Process::Default%s missing!' => '',
-        'Default Config for Process::Default%s invalid!' => '',
+            'Не можу встановити %s для Квитка з ID "%s" в Діалозі Активності "%s"!',
+        'Default Config for Process::Default%s missing!' => 'Пропущено типове налаштування для Process::Default%s!',
+        'Default Config for Process::Default%s invalid!' => 'Нечинне типове налаштування для  Process::Default%s!',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
-        'Untitled' => '',
-        'Customer Name' => '',
-        'Invalid Users' => '',
-        'CSV' => '',
-        'Excel' => '',
+        'Untitled' => 'Без назви',
+        'Customer Name' => 'Ім\'я Клієнта',
+        'Invalid Users' => 'Нечинний Користувач',
+        'CSV' => 'CSV',
+        'Excel' => 'Excel',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
-        'Feature not enabled!' => '',
+        'Feature not enabled!' => 'Функцію не увімкнено!',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
-        'Feature is not active' => '',
+        'Feature is not active' => 'Функція не активна',
 
         # Perl Module: Kernel/Modules/AgentTicketZoom.pm
-        'Link Deleted' => '',
-        'Ticket Locked' => '',
-        'Pending Time Set' => '',
-        'Dynamic Field Updated' => '',
-        'Outgoing Email (internal)' => '',
+        'Link Deleted' => 'Зв\'язок Вилучений',
+        'Ticket Locked' => 'Квиток Заблоковано',
+        'Pending Time Set' => 'Встановлення часу очікування',
+        'Dynamic Field Updated' => 'Динамічне поле оновлено',
+        'Outgoing Email (internal)' => 'Вихідна Пошта (внутрішня)',
         'Ticket Created' => 'Заявка створена',
-        'Type Updated' => '',
-        'Escalation Update Time In Effect' => '',
-        'Escalation Update Time Stopped' => '',
-        'Escalation First Response Time Stopped' => '',
-        'Customer Updated' => '',
-        'Internal Chat' => '',
-        'Automatic Follow-Up Sent' => '',
+        'Type Updated' => 'Тип оновлено',
+        'Escalation Update Time In Effect' => 'Час Оновлення Підвищення задіяно',
+        'Escalation Update Time Stopped' => 'Час Оновлення Підвищення Зупинено',
+        'Escalation First Response Time Stopped' => 'Час Першої Відповіді Підвищення зупинено',
+        'Customer Updated' => 'Клієнта оновлено',
+        'Internal Chat' => 'Внутрішній Чат',
+        'Automatic Follow-Up Sent' => 'Автоматичне Відстеження відправлене',
         'Note Added' => 'Нотатку додано',
         'Note Added (Customer)' => 'Нотатку додано (клієнт)',
-        'State Updated' => '',
-        'Outgoing Answer' => '',
-        'Service Updated' => '',
-        'Link Added' => '',
-        'Incoming Customer Email' => '',
-        'Incoming Web Request' => '',
-        'Priority Updated' => '',
-        'Ticket Unlocked' => '',
-        'Outgoing Email' => '',
-        'Title Updated' => '',
-        'Ticket Merged' => '',
-        'Outgoing Phone Call' => '',
-        'Forwarded Message' => '',
-        'Removed User Subscription' => '',
-        'Time Accounted' => '',
-        'Incoming Phone Call' => '',
-        'System Request.' => '',
-        'Incoming Follow-Up' => '',
-        'Automatic Reply Sent' => '',
-        'Automatic Reject Sent' => '',
-        'Escalation Solution Time In Effect' => '',
-        'Escalation Solution Time Stopped' => '',
-        'Escalation Response Time In Effect' => '',
-        'Escalation Response Time Stopped' => '',
-        'SLA Updated' => '',
-        'Queue Updated' => '',
-        'External Chat' => '',
-        'Queue Changed' => '',
-        'Notification Was Sent' => '',
+        'State Updated' => 'Стан оновлений',
+        'Outgoing Answer' => 'Вихідна Відповідь',
+        'Service Updated' => 'Служба Оновлена',
+        'Link Added' => 'Зв\'язок доданий',
+        'Incoming Customer Email' => 'Вхідний електронний лист від клієнта',
+        'Incoming Web Request' => 'Вхідний Веб-запит',
+        'Priority Updated' => 'Приоритет поновлено',
+        'Ticket Unlocked' => 'Квиток разблоковано',
+        'Outgoing Email' => 'Вихідне Поштове Повідомлення',
+        'Title Updated' => 'Заголовок поновлено',
+        'Ticket Merged' => 'Квиток Поєднано',
+        'Outgoing Phone Call' => 'Вихідний Телефонний Виклик',
+        'Forwarded Message' => 'Перенаправлене повідомлення',
+        'Removed User Subscription' => 'Вилучений Опис Користувача',
+        'Time Accounted' => 'Час Враховано',
+        'Incoming Phone Call' => 'Вхідний Телефонний Виклик',
+        'System Request.' => 'Системний Запит.',
+        'Incoming Follow-Up' => 'Вхідне Відстеження',
+        'Automatic Reply Sent' => 'Автоматичну Відповідь Відправлено',
+        'Automatic Reject Sent' => 'Автоматичну Відмову Відправлено',
+        'Escalation Solution Time In Effect' => 'Час Розв\'язання Підвищення задіяно',
+        'Escalation Solution Time Stopped' => 'Час Розв\'язання Підвищення зупинено',
+        'Escalation Response Time In Effect' => 'Час Відповіді Підвищення задіяно',
+        'Escalation Response Time Stopped' => 'Час Відповіді на Підвищення зупинено',
+        'SLA Updated' => 'SLA оновлено',
+        'Queue Updated' => 'Чергу оновлено',
+        'External Chat' => 'Зовнішній чат',
+        'Queue Changed' => 'Чергу змінено',
+        'Notification Was Sent' => 'Сповіщення надіслано',
         'We are sorry, you do not have permissions anymore to access this ticket in its current state.' =>
-            '',
-        'Can\'t get for ArticleID %s!' => '',
-        'Article filter settings were saved.' => '',
-        'Event type filter settings were saved.' => '',
-        'Need ArticleID!' => '',
-        'Invalid ArticleID!' => '',
-        'Offline' => '',
-        'User is currently offline.' => '',
-        'User is currently active.' => '',
-        'Away' => '',
-        'User was inactive for a while.' => '',
-        'Unavailable' => '',
-        'User set their status to unavailable.' => '',
-        'Fields with no group' => '',
-        'View the source for this Article' => '',
+            'На жаль, у вас більше немає прав доступу до цього квитка в його поточному стані.',
+        'Can\'t get for ArticleID %s!' => 'Неможливо отримати для ArticleID %s!',
+        'Article filter settings were saved.' => 'Налаштування фільтра статей було збережено.',
+        'Event type filter settings were saved.' => 'Налаштування фільтру типів подій було збережено.',
+        'Need ArticleID!' => 'Потрібний ArticleID!',
+        'Invalid ArticleID!' => 'Нечинний ArticleID!',
+        'Offline' => 'Офлайн',
+        'User is currently offline.' => 'Наразі користувач не в мережі.',
+        'User is currently active.' => 'Наразі користувач активний.',
+        'Away' => 'Відсутній',
+        'User was inactive for a while.' => 'Користувач деякий час неактивний.',
+        'Unavailable' => 'Недоступний',
+        'User set their status to unavailable.' => 'Користувач встановив свій статус як недосяжний.',
+        'Fields with no group' => 'Поля, що не мають груп',
+        'View the source for this Article' => 'Переглянути джерело цієї Статті',
 
         # Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
-        'FileID and ArticleID are needed!' => '',
-        'No TicketID for ArticleID (%s)!' => '',
-        'No such attachment (%s)!' => '',
+        'FileID and ArticleID are needed!' => 'Потрібні FileID та ArticleID!',
+        'No TicketID for ArticleID (%s)!' => 'Немає TicketID та ArticleID (%s)!',
+        'No such attachment (%s)!' => 'Немає такого долучення (%s)!',
 
         # Perl Module: Kernel/Modules/CustomerTicketMessage.pm
-        'Check SysConfig setting for %s::QueueDefault.' => '',
-        'Check SysConfig setting for %s::TicketTypeDefault.' => '',
+        'Check SysConfig setting for %s::QueueDefault.' => 'Перевірте налаштування SysConfig для %s::QueueDefault.',
+        'Check SysConfig setting for %s::TicketTypeDefault.' => 'Перевірте налаштування SysConfig для %s::TicketTypeDefault.',
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
-        'Need CustomerID!' => '',
+        'Need CustomerID!' => 'Потрібний CustomerID!',
         'My Tickets' => 'Мої заявки',
         'Company Tickets' => 'Заявки компанії',
-        'Untitled!' => '',
+        'Untitled!' => 'Без назви!',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
         'Please remove the following words because they cannot be used for the search:' =>
-            '',
+            'Будь ласка, вилучіть наступні слова, тому що їх не можна використовувати для пошуку:',
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
-        'Can\'t reopen ticket, not possible in this queue!' => '',
-        'Create a new ticket!' => '',
+        'Can\'t reopen ticket, not possible in this queue!' => 'Неможливо перевідкрити квиток, неможливо для цієї черги!',
+        'Create a new ticket!' => 'Створіть новий квиток!',
 
         # Perl Module: Kernel/Modules/Installer.pm
-        'SecureMode active!' => '',
+        'SecureMode active!' => 'SecureMode активований!',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
-            '',
-        'Directory "%s" doesn\'t exist!' => '',
-        'Configure "Home" in Kernel/Config.pm first!' => '',
-        'File "%s/Kernel/Config.pm" not found!' => '',
-        'Directory "%s" not found!' => '',
-        'Kernel/Config.pm isn\'t writable!' => '',
+            'Якщо вам треба перезапустити інсталятор, вимкніть SecureMode в SysConfig.',
+        'Directory "%s" doesn\'t exist!' => 'Тека "%s" не існує!',
+        'Configure "Home" in Kernel/Config.pm first!' => 'Спочатку налаштуйте "Home" в Kernel/Config.pm!',
+        'File "%s/Kernel/Config.pm" not found!' => 'Файл "%s/Kernel/Config.pm" не знайдено!',
+        'Directory "%s" not found!' => 'Теку "%s" не знайдено!',
+        'Kernel/Config.pm isn\'t writable!' => 'Kernel/Config.pm не записний!',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
-            '',
-        'Unknown Check!' => '',
-        'The check "%s" doesn\'t exist!' => '',
-        'Database %s' => '',
-        'Configure MySQL' => '',
-        'Configure PostgreSQL' => '',
-        'Configure Oracle' => '',
-        'Unknown database type "%s".' => '',
-        'Please go back.' => '',
-        'Install OTRS - Error' => '',
-        'File "%s/%s.xml" not found!' => '',
-        'Contact your Admin!' => '',
-        'Syslog' => '',
-        'Can\'t write Config file!' => '',
-        'Unknown Subaction %s!' => '',
+            'Якщо ви бажаєте використати інсталятор, встановіть Kernel/Config.pm записним для користувача webserver!',
+        'Unknown Check!' => 'Невідома Перевірка!',
+        'The check "%s" doesn\'t exist!' => 'Перевірка "%s" не існує!',
+        'Database %s' => 'База даний %s',
+        'Configure MySQL' => 'Налаштувати MySQL',
+        'Configure PostgreSQL' => 'Налаштувати PostgreSQL',
+        'Configure Oracle' => 'Налаштувати Oracle',
+        'Unknown database type "%s".' => 'Невідомий тип бази даний "%s".',
+        'Please go back.' => 'Будь ласка, поверніться.',
+        'Install OTRS - Error' => 'Встановлення OTRS - Помилка',
+        'File "%s/%s.xml" not found!' => 'Файлу "%s/%s.xml" не знайдено!',
+        'Contact your Admin!' => 'Зв\'яжіться з вашим Адміністратором!',
+        'Syslog' => 'Системний журнал',
+        'Can\'t write Config file!' => 'Не можу записати до файлу Налаштування!',
+        'Unknown Subaction %s!' => 'Невідома Піддія %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
-            '',
-        'Can\'t connect to database, read comment!' => '',
+            'Неможливо під\'єднатися до бази даних, не встановлено Perl-модуль DBD::%s!',
+        'Can\'t connect to database, read comment!' => 'Неможливо під\'єднатися до бази даних, читай коментар!',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            '',
+            'Помилка: Будь ласка, переконайтеся в тому. що ваша база даних приймає пакунки розміром завбільшки %s МБ (в даний час приймаються пакунки за розміром до %s МБ). Будь ласка адаптуйте установку max_allowed_packet вашої бази даних, щоб уникнути помилок.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
-            '',
+            'Помилка: Будь ласка, встановіть значення для innodb_log_file_size вашої бази даних, принаймні %s МБ (зараз: %s МБ, рекомендовано: %s МБ). Для отримання додаткової інформації, будь ласка, перегляньте %s.',
 
         # Perl Module: Kernel/Modules/PublicRepository.pm
-        'Need config Package::RepositoryAccessRegExp' => '',
-        'Authentication failed from %s!' => '',
+        'Need config Package::RepositoryAccessRegExp' => 'Потрібне налаштування ',
+        'Authentication failed from %s!' => 'Невдала автентифікація з %s!',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
-        'Sent message crypted to recipient!' => '',
-        '"PGP SIGNED MESSAGE" header found, but invalid!' => '',
+        'Sent message crypted to recipient!' => 'Відправлене шифроване повідомлення до отримувача!',
+        '"PGP SIGNED MESSAGE" header found, but invalid!' => '"PGP SIGNED MESSAGE" заголово знайдено, але він нечинний!',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
-        '"S/MIME SIGNED MESSAGE" header found, but invalid!' => '',
-        'Ticket decrypted before' => '',
-        'Impossible to decrypt: private key for email was not found!' => '',
-        'Successful decryption' => '',
+        '"S/MIME SIGNED MESSAGE" header found, but invalid!' => '"S/MIME SIGNED MESSAGE" заголовок знайдено, але він нечинний!',
+        'Ticket decrypted before' => 'Попереднє розшифрування квитка',
+        'Impossible to decrypt: private key for email was not found!' => 'Неможливо дешифрувати: не знайдено приватного ключа для адреси електронної пошти!',
+        'Successful decryption' => 'Вдале дешифрування',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
-        'The start time of a ticket has been set after the end time!' => '',
+        'The start time of a ticket has been set after the end time!' => 'Початковий час квитка було встановлено після кінцевого!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/News.pm
-        'Can\'t connect to OTRS News server!' => '',
-        'Can\'t get OTRS News from server!' => '',
+        'Can\'t connect to OTRS News server!' => 'Не можу з\'єднатись з сервером новин OTRS!',
+        'Can\'t get OTRS News from server!' => 'Неможливо отримати новини OTRS від сервера!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
-        'Can\'t connect to Product News server!' => '',
-        'Can\'t get Product News from server!' => '',
+        'Can\'t connect to Product News server!' => 'Неможливо з\'єднатись з сервером новин продукту!',
+        'Can\'t get Product News from server!' => 'Неможливо отримати новини продукту з серверу!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
-        'Can\'t connect to %s!' => '',
+        'Can\'t connect to %s!' => 'Неможливо з\'єднатись із %s!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'sorted ascending' => '',
-        'sorted descending' => '',
-        'filter not active' => '',
-        'filter active' => '',
-        'This ticket has no title or subject' => '',
+        'sorted ascending' => 'відсортоване за зростанням',
+        'sorted descending' => 'відсортований за спаданням',
+        'filter not active' => 'фільтр не активний',
+        'filter active' => 'фільтр активний',
+        'This ticket has no title or subject' => 'Цей квиток не має заголовка або теми',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'We are sorry, you do not have permissions anymore to access this ticket in its current state. You can take one of the following actions:' =>
-            '',
-        'No Permission' => '',
+            'На жаль, у вас більше немає прав доступу до цього квитка в його поточному стані. Ви можете вжити наступні дії:',
+        'No Permission' => 'Немає прав доступу',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
-        'Search Result' => '',
+        'Linked as' => 'Пов\'язаний, як',
+        'Search Result' => 'Результат Пошуку',
 
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
-        'Archive search' => '',
+        'Archive search' => 'Пошук в архіві',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
-        '%s Upgrade to %s now! %s' => '',
+        '%s Upgrade to %s now! %s' => '%s Оновіться до %s зараз! %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'A system maintenance period will start at: ' => '',
+        'A system maintenance period will start at: ' => 'Період обслуговування системи почнеться:',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
+        '(in process)' => '(В процесі)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/NotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
-            '',
+            'Будь ласка, переконайтеся в тому, що ви вибрали принаймні один транспортний метод для обов\'язкових сповіщень.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
-        'Please specify an end date that is after the start date.' => '',
+        'Please specify an end date that is after the start date.' => 'Будь ласка виберіть кінцеву дату, що йде після початкової.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Please supply your new password!' => '',
+        'Please supply your new password!' => 'Будь ласка вкажіть ваш новий пароль!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
-        'No (not supported)' => '',
+        'No (not supported)' => 'Ні (не підтримується)',
         'No past complete or the current+upcoming complete relative time value selected.' =>
-            '',
+            'Не вибрано величину завершеного минулого або поточного + відносного майбутнього часу.',
         'The selected time period is larger than the allowed time period.' =>
-            '',
+            'Вибраний період часу триваліший ніж це дозволено.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
-            '',
-        'The selected date is not valid.' => '',
-        'The selected end time is before the start time.' => '',
-        'There is something wrong with your time selection.' => '',
+            'Немає значення масштабу часу для поточного обраного значення шкали часу на осі Х.',
+        'The selected date is not valid.' => 'Вибрана дата нечинна.',
+        'The selected end time is before the start time.' => 'Вибрана кінцева дата передує початковій.',
+        'There is something wrong with your time selection.' => 'Щось не так із вашим вибором часу.',
         'Please select only one element or allow modification at stat generation time.' =>
-            '',
+            'Будь ласка виберіть тільки один елемент або дозвольте зміну часу формування статистики.',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
-            '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
-        'You can only use one or two elements for the Y axis.' => '',
-        'Please select at least one value of this field.' => '',
+            'Будь ласка виберіть, принаймні, одне значення цього поля або дозвольте зміну часу формування статистики.',
+        'Please select one element for the X-axis.' => 'Будь ласка, виберіть один елемент для Х-осі.',
+        'You can only use one time element for the Y axis.' => 'Ви можете використати тільки один елемент для осі Y.',
+        'You can only use one or two elements for the Y axis.' => 'Ви можете використати один або два елементи для осі Y.',
+        'Please select at least one value of this field.' => 'Будь ласка оберіть, принаймні, одне значення для цього поля.',
         'Please provide a value or allow modification at stat generation time.' =>
-            '',
-        'Please select a time scale.' => '',
+            'Будь ласка, вкажіть значення або дозвольте зміну часу формування статистики.',
+        'Please select a time scale.' => 'Будь ласка, виберіть масштаб часу.',
         'Your reporting time interval is too small, please use a larger time scale.' =>
-            '',
+            'Період звітності занадто малий, будь ласка, вкажіть більший масштаб.',
         'Please remove the following words because they cannot be used for the ticket restrictions: %s.' =>
-            '',
+            'Будь ласка. вилучіть наступні слова, тому що їх не можна використовувати для обмежень доступу квитків: %s',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
         'Order by' => 'Сортування',
 
         # Perl Module: Kernel/System/ACL/DB/ACL.pm
         'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
-            '',
+            'Не можу прочитати файл налаштувань ACL. Будь ласка, переконайтеся в чинності файлу.',
 
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
-            '',
-        'Please note that the session limit is almost reached.' => '',
+            'Ви перевищили кількість одночасних агентів - зверніться за адресою sales@otrs.com',
+        'Please note that the session limit is almost reached.' => 'Зверніть увагу будь ласка, що обмеження сеансу майже досягнуто.',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
-            '',
-        'Session per user limit reached!' => '',
+            'У вході відмовлено! Ви перевищили максимальну кількість одночасно підключених Агентів! Негайно зверніться за адресою sales@otrs.com!',
+        'Session per user limit reached!' => 'Досягнуто максимальну кількість користувачів сесії!',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
-        'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
-        'This setting can not be deactivated.' => '',
+        'Configuration Options Reference' => 'Посилання на параметри налаштування',
+        'This setting can not be changed.' => 'Це налаштування не може бути змінено.',
+        'This setting is not active by default.' => 'Це налаштування типово не активне.',
+        'This setting can not be deactivated.' => 'Це налаштування не може бути деактивоване.',
 
         # Perl Module: Kernel/System/CustomerUser.pm
-        'Customer user "%s" already exists.' => '',
+        'Customer user "%s" already exists.' => 'Клієнт "%s" вже існує.',
 
         # Perl Module: Kernel/System/CustomerUser/DB.pm
         'This email address is already in use for another customer user.' =>
-            '',
+            'Ця адреса поштової скриньки вже використана іншим клієнтом.',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
-        'e.g. Text or Te*t' => '',
+        'e.g. Text or Te*t' => 'наприклад Text або Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
-        'Ignore this field.' => '',
+        'Ignore this field.' => 'Пропустити це поле.',
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
-            '',
+            'Не можу прочитати файл налаштування Сповіщень. Будь ласка, переконайтесь у чинності файлу.',
 
         # Perl Module: Kernel/System/Package.pm
-        'not installed' => '',
-        'File is not installed!' => '',
-        'File is different!' => '',
-        'Can\'t read file!' => '',
+        'not installed' => 'не встановлено',
+        'File is not installed!' => 'Файл не встановлено!',
+        'File is different!' => 'Файл інакший!',
+        'Can\'t read file!' => 'Не можу прочитати файла!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
-            '',
+            'Процес "%s" та всі його дані вдало імпортовано!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
-        'FadeAway' => '',
+        'Inactive' => 'Неактивний',
+        'FadeAway' => 'Заникання',
 
         # Perl Module: Kernel/System/Registration.pm
-        'Can\'t get Token from sever' => '',
+        'Can\'t get Token from sever' => 'Неможливо отримати Токен від сервера',
 
         # Perl Module: Kernel/System/Stats.pm
-        'Sum' => '',
+        'Sum' => 'Сума',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-        'State Type' => '',
+        'State Type' => 'Тип Стану',
         'Created Priority' => 'Пріоритет',
         'Created State' => 'Стан',
         'Create Time' => 'Час створення',
         'Close Time' => 'Час закриття',
-        'Escalation - First Response Time' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
+        'Escalation - First Response Time' => 'Підвищення - Час Першої Відповіді',
+        'Escalation - Update Time' => 'Підвищення - Час оновлення',
+        'Escalation - Solution Time' => 'Підвищення - Час Розв\'язання',
         'Agent/Owner' => 'Агент (власник)',
         'Created by Agent/Owner' => 'Створене агентом (власником)',
-        'CustomerUserLogin' => '',
-        'CustomerUserLogin (complex search)' => '',
-        'CustomerUserLogin (exact match)' => '',
+        'CustomerUserLogin' => 'ім\'я користувача-клієнта',
+        'CustomerUserLogin (complex search)' => 'Ім\'я користувача-клієнта (комплексний пошук)',
+        'CustomerUserLogin (exact match)' => 'Ім\'я користувача-клієнта (точний збіг)',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
         'Evaluation by' => 'Заблоковане',
@@ -4174,76 +4174,76 @@ sub Data {
         'Number of Articles' => 'Кількість повідомлень',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '',
+        'unlimited' => 'необмежений',
         'ascending' => ' По зростанню',
         'descending' => ' По убуванню',
         'Attributes to be printed' => 'Атрибути для печатки',
         'Sort sequence' => 'Порядок сортування',
-        'State Historic' => '',
-        'State Type Historic' => '',
-        'Historic Time Range' => '',
+        'State Historic' => 'Історія Стану',
+        'State Type Historic' => 'Історія Типу Стану',
+        'Historic Time Range' => 'Межі часу історії',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-        'Solution Average' => '',
-        'Solution Min Time' => '',
-        'Solution Max Time' => '',
-        'Solution Average (affected by escalation configuration)' => '',
-        'Solution Min Time (affected by escalation configuration)' => '',
-        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Average' => 'Середній час розв\'язання',
+        'Solution Min Time' => 'Мінімальний час розв\'язання',
+        'Solution Max Time' => 'Максимальний час розв\'язання',
+        'Solution Average (affected by escalation configuration)' => 'Середній час розв\'язання (залежить від налаштування підвищення)',
+        'Solution Min Time (affected by escalation configuration)' => 'Мінімальний час розв\'язання (залежить від налаштування підвищення)',
+        'Solution Max Time (affected by escalation configuration)' => 'Максимальний час розв\'язання (залежить від налаштування підвищення)',
         'Solution Working Time Average (affected by escalation configuration)' =>
-            '',
+            'Середній час роботи над розв\'язанням (залежить від налаштувань підвищення)',
         'Solution Min Working Time (affected by escalation configuration)' =>
-            '',
+            'Мінімальний час роботи над розв\'язанням (залежить від налаштування підвищення)',
         'Solution Max Working Time (affected by escalation configuration)' =>
-            '',
+            'Максимальний час роботи над розв\'язанням (залежить від налаштування підвищення)',
         'First Response Average (affected by escalation configuration)' =>
-            '',
+            'Середній час першої відповіді (залежить від налаштування підвищення)',
         'First Response Min Time (affected by escalation configuration)' =>
-            '',
+            'Мінімальний час першої відповіді (залежить від налаштування підвищення)',
         'First Response Max Time (affected by escalation configuration)' =>
-            '',
+            'Максимальний час першої відповіді (залежить від налаштування підвищення)',
         'First Response Working Time Average (affected by escalation configuration)' =>
-            '',
+            'Середній час роботи над першою відповіддю (залежить від налаштування підвищення)',
         'First Response Min Working Time (affected by escalation configuration)' =>
-            '',
+            'Мінімальний час роботи над першою відповіддю (залежить від налаштування підвищення)',
         'First Response Max Working Time (affected by escalation configuration)' =>
-            '',
-        'Number of Tickets (affected by escalation configuration)' => '',
+            'Максимальний час роботи над першою відповіддю (залежить від налаштування підвищення)',
+        'Number of Tickets (affected by escalation configuration)' => 'Кількість квитків (залежить від налаштування підвищення)',
 
         # Perl Module: Kernel/System/Stats/Static/StateAction.pm
-        'Days' => '',
+        'Days' => 'Дні',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
-        'Table Presence' => '',
-        'Internal Error: Could not open file.' => '',
-        'Table Check' => '',
-        'Internal Error: Could not read file.' => '',
-        'Tables found which are not present in the database.' => '',
+        'Table Presence' => 'Таблиця наявності',
+        'Internal Error: Could not open file.' => 'Внутрішня помилка: неможливо відкрити файл',
+        'Table Check' => 'Таблиця перевірки',
+        'Internal Error: Could not read file.' => 'Внутрішня помилка: неможливо прочитати файл.',
+        'Tables found which are not present in the database.' => 'Знайдено таблицю, якої немає в базі даних.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
-        'Database Size' => '',
-        'Could not determine database size.' => '',
+        'Database Size' => 'Розмір бази даних',
+        'Could not determine database size.' => 'Не можу визначити розмір бази даних.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Version.pm
-        'Database Version' => '',
-        'Could not determine database version.' => '',
+        'Database Version' => 'Версія бази даних',
+        'Could not determine database version.' => 'Не можу визначити версію бази даних.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-        'Client Connection Charset' => '',
-        'Setting character_set_client needs to be utf8.' => '',
-        'Server Database Charset' => '',
-        'Setting character_set_database needs to be UNICODE or UTF8.' => '',
-        'Table Charset' => '',
-        'There were tables found which do not have utf8 as charset.' => '',
+        'Client Connection Charset' => 'Набір символів клієнтського зв\'язку',
+        'Setting character_set_client needs to be utf8.' => 'Налаштування character_set_client має бути utf8.',
+        'Server Database Charset' => 'Набір символів бази даних сервера',
+        'Setting character_set_database needs to be UNICODE or UTF8.' => 'Налаштування character_set_database має бути UNICODE або UTF8.',
+        'Table Charset' => 'Таблиця набору символів',
+        'There were tables found which do not have utf8 as charset.' => 'Знайдено таблицю з набором символів не utfi8.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
-        'InnoDB Log File Size' => '',
-        'The setting innodb_log_file_size must be at least 256 MB.' => '',
+        'InnoDB Log File Size' => 'Розмір файлу журналу InnoDB',
+        'The setting innodb_log_file_size must be at least 256 MB.' => 'Налаштування innodb_log_file_size має бути, принаймні, 256 МБ.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-        'Maximum Query Size' => '',
+        'Maximum Query Size' => 'Максимальний розмір вибірки',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
-            '',
+            'Пункт max_allowed_packet має бути більше 20 МБ.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => '',
@@ -4929,6 +4929,8 @@ Thanks for your help!
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Czech' => '',
+        'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Danish' => '',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
@@ -6093,6 +6095,7 @@ Thanks for your help!
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Заблокована заявка.',
         'Log file for the ticket counter.' => '',
+        'Logged-In Users' => '',
         'Logout of customer panel.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => '',
         'Mail Accounts' => '',
@@ -6210,7 +6213,6 @@ Thanks for your help!
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'Old: "%s" New: "%s"' => '',
-        'Online' => '',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Option' => '',
@@ -6515,15 +6517,15 @@ Thanks for your help!
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             '',
@@ -6633,8 +6635,6 @@ Thanks for your help!
         'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '',
-        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
             '',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

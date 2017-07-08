@@ -7,6 +7,7 @@
 # Jerry Du <jerry.du@athub.com>, 2016
 # 文浩坚 <never.min@gmail.com>, 2015
 # 文浩坚 <never.min@gmail.com>, 2015
+# pan jia <jia.pan@dian-tong.com>, 2017
 # shizhao <shizhao@gmail.com>, 2015
 # shizhao <shizhao@gmail.com>, 2015
 # Spiros Georgaras <sng@hellug.gr>, 2016
@@ -14,12 +15,13 @@
 # 文浩坚 <never.min@gmail.com>, 2015-2016
 # 汇民 王 <whuim@163.com>, 2016-2017
 # 汇民 王 <whuim@qq.com>, 2016
+# 洋 王 <fkaxc2002@gmail.com>, 2017
 # 陈德文 <sggggy@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-31 17:16+0000\n"
-"PO-Revision-Date: 2017-05-31 22:17+0000\n"
+"POT-Creation-Date: 2017-07-08 09:42+0000\n"
+"PO-Revision-Date: 2017-07-08 14:56+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -758,7 +760,7 @@ msgstr "日期选择器"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr "显示树状选择"
+msgstr "显示树状选项"
 
 #. Template: AAABase
 msgid "The field content is too long!"
@@ -6065,11 +6067,11 @@ msgstr "软件包信息"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
-msgstr ""
+msgstr "安装软件包需要将OTRS补丁级别更新"
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
-msgstr ""
+msgstr "升级软件包需要将OTRS补丁级别更新"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6084,19 +6086,19 @@ msgstr "请注意，您安装的OTRS版本是%s。"
 #. Template: AdminPackageManager
 msgid ""
 "To install this package, you need to update OTRS to version %s or newer."
-msgstr ""
+msgstr "安装这个软件包，你需要升级OTRS版本到%s或者更高"
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or older."
-msgstr ""
+msgstr "这个软件包只能安装在OTRS版本%s或者更低 "
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or newer."
-msgstr ""
+msgstr "这个软件包只能安装在OTRS版本%s或者更高"
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTRS issues."
-msgstr ""
+msgstr "你将收到所有其他有关OTRS问题的更新"
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
@@ -6106,7 +6108,7 @@ msgstr "如果没有合约，我怎么更新补丁级别？"
 msgid ""
 "Please find all relevant information within the upgrading instructions at "
 "%s."
-msgstr ""
+msgstr "请在升级说明%s中找到所有相关信息。"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -7862,7 +7864,7 @@ msgstr "编辑服务"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
-msgstr ""
+msgstr "服务名最大长度为200字符(和子服务一致)"
 
 #. Template: AdminService
 msgid "Sub-service of"
@@ -8296,7 +8298,7 @@ msgstr "编辑统邮件地址"
 
 #. Template: AdminSystemAddress
 msgid "This email address is already used as system email address."
-msgstr ""
+msgstr "此电子邮件地址已经用于系统电子邮件"
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
@@ -8306,7 +8308,7 @@ msgstr "邮件地址和显示名称将在发送的邮件中显示。"
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
 "more queue(s)."
-msgstr ""
+msgstr "该系统地址不能设置为无效，因为它已在一个或多个队列中使用。"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
@@ -9548,7 +9550,7 @@ msgstr "信件创建时间（在...之间）"
 
 #. Template: AgentTicketSearch
 msgid "Invalid date"
-msgstr ""
+msgstr "无效日期"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
@@ -12360,7 +12362,7 @@ msgid ""
 "This step does not belong anymore to the current activity in process for "
 "ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
 "close this window and reload the ticket."
-msgstr ""
+msgstr "此步骤不再属于工单“%s%s%s”流程的当前活动！ 另一位用户在此期间改变了这个工单。请关闭此工单，再重新加载这个工单。"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -14256,7 +14258,7 @@ msgstr "新建工单"
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be "
 "created."
-msgstr ""
+msgstr "不能跟进已关闭工单，这将会创建一个新的工单。"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
@@ -15552,6 +15554,13 @@ msgstr "全文索引可定制的停用词，这些词将从搜索索引中移除
 #. SysConfig
 msgid "Czech"
 msgstr "捷克语"
+
+#. SysConfig
+msgid ""
+"DEPRECATED: This config setting will be removed in further versions of OTRS."
+" Sets the time (in seconds) a user is marked as active (minimum active time "
+"is 300 seconds)."
+msgstr ""
 
 #. SysConfig
 msgid "Danish"
@@ -18557,7 +18566,7 @@ msgstr "前端"
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Service feature is not used)."
-msgstr ""
+msgstr "前端模块注册（如果没有使用工单服务功能，禁用服务人员工单服务链接）。"
 
 #. SysConfig
 msgid ""
@@ -18591,7 +18600,7 @@ msgstr "前端界面主题"
 
 #. SysConfig
 msgid "Frontend theme."
-msgstr ""
+msgstr "前端界面主题。"
 
 #. SysConfig
 msgid "Full value"
@@ -19078,7 +19087,7 @@ msgid ""
 " stored in the database. Please note that this also means no decryption will"
 " take place and the articles will be shown in ticket zoom in their original "
 "(encrypted) form."
-msgstr ""
+msgstr "如果禁用此选项，则信件将不会自动解密并存储在数据库中。 请注意，这也意味着不会发生解密，文章会以原始（加密）形式显示在工单详情窗口。"
 
 #. SysConfig
 msgid ""
@@ -19375,6 +19384,10 @@ msgid "Log file for the ticket counter."
 msgstr "工单计数器的日志文件。"
 
 #. SysConfig
+msgid "Logged-In Users"
+msgstr ""
+
+#. SysConfig
 msgid "Logout of customer panel."
 msgstr "退出客户面板。"
 
@@ -19518,7 +19531,7 @@ msgstr "工单详情视图客户信息表格的最大尺寸（单位：字符）
 
 #. SysConfig
 msgid "Merge this ticket and all articles into another ticket"
-msgstr ""
+msgstr "将这个工单和所有的信件合并到另一工单"
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
@@ -19757,10 +19770,6 @@ msgid "Old: \"%s\" New: \"%s\""
 msgstr "旧的: “%s” 新的: “%s”"
 
 #. SysConfig
-msgid "Online"
-msgstr "在线"
-
-#. SysConfig
 msgid "Open tickets (customer user)"
 msgstr "处理中的工单（客户联系人）"
 
@@ -19873,7 +19882,7 @@ msgid ""
 "(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
 " enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr ""
+msgstr "服务人员界面客户单位信息的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。"
 
 #. SysConfig
 msgid ""
@@ -20322,7 +20331,7 @@ msgstr "角色 <-> 组"
 msgid ""
 "Run file based generic agent jobs (Note: module name needs to be specified "
 "in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
-msgstr ""
+msgstr "运行基于文件的自动任务(注意：需要在-configuration-module参数中指定模块名，如\"Kernel::System::GenericAgent\")。"
 
 #. SysConfig
 msgid "Running Process Tickets"
@@ -20429,7 +20438,7 @@ msgstr "选择主界面语言。"
 
 #. SysConfig
 msgid "Select your default spelling dictionary."
-msgstr ""
+msgstr "选择默认的拼写检查字典。"
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
@@ -20437,7 +20446,7 @@ msgstr "选择你喜欢的OTRS布局。"
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
-msgstr ""
+msgstr "选择你喜欢的OTRS界面主题。"
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -20803,33 +20812,33 @@ msgstr "设置一个会话被终止且用户登出前的非活动时间（单位
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime before a prior warning will be visible for the logged in "
+"SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
-msgstr "设置在定义的会话活动时间内最大的活动服务人员数的预警值（达到此数后服务人员登录时会显示警告信息）。"
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime."
-msgstr "设置在定义的会话活动时间内最大的活动服务人员数。"
+"SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
-"SessionActiveTime."
-msgstr "设置在定义的会话活动时间内最大的活动客户联系人数。"
+"SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
-"defined in SessionActiveTime."
-msgstr "设置在定义的会话活动时间内每个服务人员最大的会话数。"
+"defined in SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
-" defined in SessionActiveTime."
-msgstr "设置在定义的会话活动时间内每个客户联系人最大的会话数。"
+" defined in SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21152,12 +21161,6 @@ msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be activated)."
 msgstr "设置服务人员界面工单负责人窗口的工单类型（需要激活工单::类型）。"
-
-#. SysConfig
-msgid ""
-"Sets the time (in seconds) a user is marked as active (minimum active time "
-"is 300 seconds)."
-msgstr "设置一个用户被标记为活动的时间（单位：秒），最小活动时间是300秒。"
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
@@ -22576,11 +22579,11 @@ msgstr "更新工单索引加速器。"
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "上传你的PGP密钥。"
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "上传你的S/MIME证书。"
 
 #. SysConfig
 msgid ""

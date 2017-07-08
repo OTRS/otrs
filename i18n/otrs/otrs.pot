@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-05-31 17:28+0000\n"
+"POT-Creation-Date: 2017-07-08 09:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14574,6 +14574,10 @@ msgid "Czech"
 msgstr ""
 
 #. SysConfig
+msgid "DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds)."
+msgstr ""
+
+#. SysConfig
 msgid "Danish"
 msgstr ""
 
@@ -17326,6 +17330,10 @@ msgid "Log file for the ticket counter."
 msgstr ""
 
 #. SysConfig
+msgid "Logged-In Users"
+msgstr ""
+
+#. SysConfig
 msgid "Logout of customer panel."
 msgstr ""
 
@@ -17643,10 +17651,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
-msgstr ""
-
-#. SysConfig
-msgid "Online"
 msgstr ""
 
 #. SysConfig
@@ -18422,23 +18426,23 @@ msgid "Sets the inactivity time (in seconds) to pass before a session is killed 
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents."
+msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active customers within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
@@ -18663,10 +18667,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated)."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds)."
 msgstr ""
 
 #. SysConfig

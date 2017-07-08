@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.97941473259334;
+    $Self->{Completeness}        = 0.978002018163471;
 
     # csv separator
     $Self->{Separator} = '';
@@ -4945,6 +4945,8 @@ Thanks for your help!
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             'کلمات توقف قابل تنظیم برای صفحه اول متن. این کلمات از صفحه اول جستجو حذف خواهند شد.',
         'Czech' => 'چک',
+        'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Danish' => 'دانمارکی',
         'Data used to export the search result in CSV format.' => 'داده استفاده شده برای ارسال نتایج جستجو به قالب CSV',
         'Date / Time' => 'زمان تاریخ',
@@ -6109,6 +6111,7 @@ Thanks for your help!
         'Locked Tickets.' => 'درخواست قفل شده است.',
         'Locked ticket.' => 'سابقه::تحویل گرفتن درخواست',
         'Log file for the ticket counter.' => 'فایل ثبت وقایع برای شمارنده درخواست',
+        'Logged-In Users' => '',
         'Logout of customer panel.' => 'خروج از پنل مشتری.',
         'Loop-Protection! No auto-response sent to "%s".' => 'حلقه حفاظت! بدون پاسخ خودکار ارسال به \ " %s ".',
         'Mail Accounts' => 'حساب های پست الکترونیکی',
@@ -6226,7 +6229,6 @@ Thanks for your help!
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTRS می توانید یک یا چند پایگاه داده آینه فقط خواندنی برای عملیات گران قیمت مانند جستجو و یا آمار نسل متن استفاده کنید. در اینجا شما می توانید DSN برای پایگاه داده آینه اول را مشخص کنید.',
         'Old: "%s" New: "%s"' => 'قدیمی: \ " %s " جدید: \ " %s "',
-        'Online' => 'آنلاین',
         'Open tickets (customer user)' => 'درخواست باز (کاربران مشتری)',
         'Open tickets (customer)' => 'درخواست گسترش (مشتری)',
         'Option' => 'انتخاب',
@@ -6531,16 +6533,16 @@ Thanks for your help!
             'مجموعه سفارش صفحه نمایش از آیتم های مختلف در نمایش تنظیمات.',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             'مجموعه زمان عدم فعالیت (در ثانیه) به تصویب قبل از یک جلسه کشته و یک کاربر وارد شده است است.',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
-            'حداکثر تعداد از عوامل فعال در بازه زمانی در SessionActiveTime قبل یک هشدار قبل تعریف شده قابل دیدن خواهد بود برای در عوامل وارد سایت شوید.',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
-            'مجموعه حداکثر تعداد عوامل فعال در بازه زمانی تعریف شده در SessionActiveTime.',
-        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
-            'حداکثر تعداد مشتریان فعال در بازه زمانی تعریف شده در SessionActiveTime.',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
-            'مجموعه حداکثر تعداد جلسات فعال در هر عامل در بازه زمانی تعریف شده در SessionActiveTime.',
-        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
-            'مجموعه حداکثر تعداد جلسات فعال در هر مشتریان در بازه زمانی تعریف شده در SessionActiveTime.',
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
+            '',
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
+            '',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             'مجموعه حداقل اندازه بلیط ضد اگر \ "AUTOINCREMENT " به عنوان TicketNumberGenerator انتخاب شد. به طور پیش فرض 5 است، این به معنای ضد از 10،000 شروع می شود.',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
@@ -6650,8 +6652,6 @@ Thanks for your help!
             'مجموعه نوع بلیط در صفحه نمایش اولویت بلیط یک بلیط بزرگنمایی در رابط عامل از (بلیط :: نوع نیاز به فعال شود).',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             'مجموعه نوع بلیط در بلیط صفحه نمایش مسئول رابط عامل (بلیط :: نوع نیاز به فعال شود).',
-        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            'مجموعه زمان (در ثانیه) یک کاربر به عنوان فعال مشخص شده (حداقل زمان فعال 300 ثانیه است).',
         'Sets the timeout (in seconds) for http/ftp downloads.' => 'ایست (در ثانیه) برای دریافت HTTP / FTP تنظیم می کند.',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             'ایست (در ثانیه) برای دریافت بسته را تنظیم میکند. رونویسی \ "WebUserAgent :: اتمام مهلت ".',

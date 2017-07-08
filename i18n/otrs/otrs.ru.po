@@ -22,13 +22,14 @@
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014-2016
 # Владислав Тырышкин, 2016
 # Дмитрий Сериков <dserikov@onlinetours.ru>, 2016
+# Дмитрий Тимофеевич Белетков <beletkov_dt@bdtex.ru>, 2017
 # Иван Ладыгин <ladygin@srt-auto.com>, 2016
 # Илья Сапунов <ilya.sapunov@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-31 17:16+0000\n"
-"PO-Revision-Date: 2017-05-31 22:17+0000\n"
+"POT-Creation-Date: 2017-07-08 09:42+0000\n"
+"PO-Revision-Date: 2017-07-08 14:56+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -5830,7 +5831,7 @@ msgstr ""
 msgid ""
 "To install the current version of OTRS Business Solution™, the Maximum OTRS "
 "Version is %s."
-msgstr ""
+msgstr "Чтобы установить текущую версию OTRS Business Solution™, версия OTRS должна быть не выше %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
@@ -5838,7 +5839,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Why should I keep OTRS up to date?"
-msgstr ""
+msgstr "Почему я должен постоянно обновлять OTRS?"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates about relevant security issues."
@@ -15563,6 +15564,13 @@ msgid "Czech"
 msgstr "Чешский"
 
 #. SysConfig
+msgid ""
+"DEPRECATED: This config setting will be removed in further versions of OTRS."
+" Sets the time (in seconds) a user is marked as active (minimum active time "
+"is 300 seconds)."
+msgstr ""
+
+#. SysConfig
 msgid "Danish"
 msgstr "Датский"
 
@@ -19384,6 +19392,10 @@ msgid "Log file for the ticket counter."
 msgstr "Файл для счетчика заявок"
 
 #. SysConfig
+msgid "Logged-In Users"
+msgstr ""
+
+#. SysConfig
 msgid "Logout of customer panel."
 msgstr "Панель выхода для клиента."
 
@@ -19621,7 +19633,7 @@ msgstr ""
 msgid ""
 "Module to grant access if the CustomerUserID of the ticket matches the "
 "CustomerUserID of the customer."
-msgstr ""
+msgstr "Модуль, который дает доступ, если CustomerUserID  Заявки соответствует CustomerUserID  текущего пользователя ."
 
 #. SysConfig
 msgid ""
@@ -19764,10 +19776,6 @@ msgstr "OTRS может использовать одну или более зе
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
 msgstr "Прежнее состояние: %s, новое состояние: %s"
-
-#. SysConfig
-msgid "Online"
-msgstr "Online"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -20807,38 +20815,38 @@ msgstr "Задает порядок отображения различных а
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
 " a user is logged out."
-msgstr ""
+msgstr "Установить время отсутствия активности (в секундах), которое должно пройти, прежде чем сессия будет закрыта и пользователь будет отключен"
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime before a prior warning will be visible for the logged in "
+"SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime."
-msgstr "Задает макс. число активных анкетов в интервале заданном в SessionActiveTime."
+"SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
-"SessionActiveTime."
-msgstr "Задает макс. число активных клиентов в интервале заданном в SessionActiveTime."
+"SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
-"defined in SessionActiveTime."
-msgstr "Задает макс. число активных сеансов на агента в интервале времени, заданном в SessionActiveTime."
+"defined in SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
-" defined in SessionActiveTime."
-msgstr "Задает макс. число активных сеансов на клиента в интервале времени, заданном в SessionActiveTime."
+" defined in SessionMaxIdleTime."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -21161,12 +21169,6 @@ msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be activated)."
 msgstr "Задает Тип заявки при назначении Ответственного за заявку в интерфейсе агента. (Ticket::Type должен быть активирован)."
-
-#. SysConfig
-msgid ""
-"Sets the time (in seconds) a user is marked as active (minimum active time "
-"is 300 seconds)."
-msgstr ""
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
@@ -22585,7 +22587,7 @@ msgstr "Обновляет ticket index accelerator."
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Загрузите ваш PGP-ключ"
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."

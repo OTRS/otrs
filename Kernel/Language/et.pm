@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.264984863773966;
+    $Self->{Completeness}        = 0.266801210898083;
 
     # csv separator
     $Self->{Separator} = '';
@@ -2758,7 +2758,7 @@ sub Data {
         'Change Customer of %s%s%s' => '',
 
         # Template: AgentTicketEmail
-        'Create New Email Ticket' => '',
+        'Create New Email Ticket' => 'Loo uus e-postiga saadetud intsident',
         'Example Template' => 'Näidismall',
         'From queue' => '',
         'To customer user' => '',
@@ -2820,9 +2820,9 @@ sub Data {
         # Template: AgentTicketPhone
         'Split Into New Phone Ticket' => '',
         'Save Chat Into New Phone Ticket' => '',
-        'Create New Phone Ticket' => '',
+        'Create New Phone Ticket' => 'Loo uus telefoni teel edastatud intsident',
         'Please include at least one customer for the ticket.' => '',
-        'To queue' => '',
+        'To queue' => 'Järjekord',
         'Chat protocol' => '',
         'The chat will be appended as a separate article.' => '',
 
@@ -2999,7 +2999,7 @@ sub Data {
         'Forgot password?' => 'Kas unustasid parooli?',
         '2 Factor Token' => '',
         'Your 2 Factor Token' => '',
-        'Log In' => 'Sisselogimine',
+        'Log In' => 'Sisene',
         'Not yet registered?' => '',
         'Request new password' => 'Telli uus parool',
         'Your User Name' => 'Kasutajanimi',
@@ -3956,7 +3956,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
         'Can\'t reopen ticket, not possible in this queue!' => '',
-        'Create a new ticket!' => '',
+        'Create a new ticket!' => 'Loo uus intsident!',
 
         # Perl Module: Kernel/Modules/Installer.pm
         'SecureMode active!' => '',
@@ -4495,7 +4495,7 @@ sub Data {
         'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
             '',
         'Can`t remove SessionID.' => '',
-        'Logout successful.' => '',
+        'Logout successful.' => 'Väljalogimine õnnestus.',
         'Panic! Invalid Session!!!' => '',
         'No Permission to use this frontend module!' => '',
 
@@ -4522,7 +4522,7 @@ sub Data {
         'All \'pending auto *\' state types (default: viewable).' => '',
         'All \'removed\' state types (default: not viewable).' => '',
         'State type for merged tickets (default: not viewable).' => '',
-        'New ticket created by customer.' => '',
+        'New ticket created by customer.' => 'Uus kasutaja loodud intsident.',
         'Ticket is closed successful.' => '',
         'Ticket is closed unsuccessful.' => '',
         'Open tickets.' => '',
@@ -4556,7 +4556,7 @@ sub Data {
             '',
         'Auto remove will be sent out after a customer removed the request.' =>
             '',
-        'default reply (after new ticket has been created)' => '',
+        'default reply (after new ticket has been created)' => 'vaikevastus (pärast uue intsidendi loomist)',
         'default reject (after follow-up and rejected of a closed ticket)' =>
             '',
         'default follow-up (after a ticket follow-up has been added)' => '',
@@ -4892,11 +4892,11 @@ Thanks for your help!
         'Create and manage ticket states.' => 'Intsidentide olekute loomine ja haldamine.',
         'Create and manage ticket types.' => 'Intsidentide tüüpide loomine ja haldamine.',
         'Create and manage web services.' => 'Veebiteenuste loomine ja haldamine.',
-        'Create new Ticket.' => '',
+        'Create new Ticket.' => 'Loo uus intsident.',
         'Create new email ticket and send this out (outbound).' => '',
-        'Create new email ticket.' => '',
+        'Create new email ticket.' => 'Loo uus e-postiga saadetud intsident.',
         'Create new phone ticket (inbound).' => '',
-        'Create new phone ticket.' => '',
+        'Create new phone ticket.' => 'Loo uus telefoni teel edastatud intsident',
         'Create new process ticket.' => '',
         'Create tickets.' => '',
         'Croatian' => 'Horvaadi',
@@ -4929,6 +4929,8 @@ Thanks for your help!
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Czech' => 'Tšehhi',
+        'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Danish' => 'Taani',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => 'Kuupäev / Kellaaeg',
@@ -6093,6 +6095,7 @@ Thanks for your help!
         'Locked Tickets.' => '',
         'Locked ticket.' => 'Intsident lukustati.',
         'Log file for the ticket counter.' => '',
+        'Logged-In Users' => '',
         'Logout of customer panel.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => 'Vältimaks korduste tekkimist ei saadetu teavitust "%s".',
         'Mail Accounts' => 'E-posti kontod',
@@ -6210,7 +6213,6 @@ Thanks for your help!
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
         'Old: "%s" New: "%s"' => 'Vana: "%s" Uus: "%s"',
-        'Online' => 'Hetkel siin',
         'Open tickets (customer user)' => 'Avatud piletid (klientkasutaja)',
         'Open tickets (customer)' => '',
         'Option' => '',
@@ -6515,15 +6517,15 @@ Thanks for your help!
             '',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
             '',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
             '',
-        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
             '',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             '',
@@ -6633,8 +6635,6 @@ Thanks for your help!
         'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).' =>
             '',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
-            '',
-        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
             '',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.995358224016145;
+    $Self->{Completeness}        = 0.998587285570131;
 
     # csv separator
     $Self->{Separator} = '';
@@ -220,7 +220,7 @@ sub Data {
         'Medium' => '基本',
         'Large' => '详细',
         'Date picker' => '日期选择器',
-        'Show Tree Selection' => '显示树状选择',
+        'Show Tree Selection' => '显示树状选项',
         'The field content is too long!' => '字段值太长了！',
         'Maximum size is %s characters.' => '最多%s个字符。',
         'This field is required or' => '这个字段是必填的',
@@ -1748,23 +1748,23 @@ sub Data {
             '您真的想要重新安装该软包吗? 所有该模块的手工设置将丢失.',
         'Go to upgrading instructions' => '转到升级说明',
         'package information' => '软件包信息',
-        'Package installation requires a patch level update of OTRS.' => '',
-        'Package update requires a patch level update of OTRS.' => '',
+        'Package installation requires a patch level update of OTRS.' => '安装软件包需要将OTRS补丁级别更新',
+        'Package update requires a patch level update of OTRS.' => '升级软件包需要将OTRS补丁级别更新',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             '如果您是OTRS Business Solution™客户，请访问我们的客户门户并提交请求。',
         'Please note that your installed OTRS version is %s.' => '请注意，您安装的OTRS版本是%s。',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            '安装这个软件包，你需要升级OTRS版本到%s或者更高',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            '这个软件包只能安装在OTRS版本%s或者更低 ',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            '这个软件包只能安装在OTRS版本%s或者更高',
         'You will receive updates for all other relevant OTRS issues.' =>
-            '',
+            '你将收到所有其他有关OTRS问题的更新',
         'How can I do a patch level update if I don’t have a contract?' =>
             '如果没有合约，我怎么更新补丁级别？',
         'Please find all relevant information within the upgrading instructions at %s.' =>
-            '',
+            '请在升级说明%s中找到所有相关信息。',
         'In case you would have further questions we would be glad to answer them.' =>
             '如果您还有其它问题，我们非常愿意答复您。',
         'Continue' => '继续',
@@ -2303,7 +2303,7 @@ sub Data {
         'Add Service' => '添加服务',
         'Edit Service' => '编辑服务',
         'Service name maximum length is 200 characters (with Sub-service).' =>
-            '',
+            '服务名最大长度为200字符(和子服务一致)',
         'Sub-service of' => '上一级服务',
 
         # Template: AdminSession
@@ -2431,11 +2431,11 @@ sub Data {
         'Display name' => '显示名称',
         'Add System Email Address' => '添加统邮件地址',
         'Edit System Email Address' => '编辑统邮件地址',
-        'This email address is already used as system email address.' => '',
+        'This email address is already used as system email address.' => '此电子邮件地址已经用于系统电子邮件',
         'The display name and email address will be shown on mail you send.' =>
             '邮件地址和显示名称将在发送的邮件中显示。',
         'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            '',
+            '该系统地址不能设置为无效，因为它已在一个或多个队列中使用。',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => '系统维护管理',
@@ -2874,7 +2874,7 @@ sub Data {
         'Watcher' => '关注人',
         'Article Create Time (before/after)' => '信件创建时间（在...之前/之后）',
         'Article Create Time (between)' => '信件创建时间（在...之间）',
-        'Invalid date' => '',
+        'Invalid date' => '无效日期',
         'Ticket Create Time (before/after)' => '工单创建时间（在...之前/之后）',
         'Ticket Create Time (between)' => '工单创建时间（在...之间）',
         'Ticket Change Time (before/after)' => '工单修改时间（在...之前/之后）',
@@ -3853,7 +3853,7 @@ sub Data {
         'Invalid TicketID: %s!' => '无效的工单ID： “%s”！',
         'Missing ActivityEntityID in Ticket %s!' => '在工单 “%s”中缺少活动实体ID！',
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
-            '',
+            '此步骤不再属于工单“%s%s%s”流程的当前活动！ 另一位用户在此期间改变了这个工单。请关闭此工单，再重新加载这个工单。',
         'Missing ProcessEntityID in Ticket %s!' => '在工单 “%s”中缺少流程实体ID！',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             '不能设置动态字段“%s”的值，工单ID为“%s”，活动对话框 “%s”！',
@@ -4547,7 +4547,7 @@ sub Data {
             '跟进已关闭工单是不可能的，不会创建新工单。',
         'new ticket' => '新建工单',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
-            '',
+            '不能跟进已关闭工单，这将会创建一个新的工单。',
         'Postmaster queue.' => '邮箱管理员队列。',
         'All default incoming tickets.' => '所有默认进入的工单。',
         'All junk tickets.' => '所有的垃圾工单。',
@@ -4944,6 +4944,8 @@ Thanks for your help!
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '全文索引可定制的停用词，这些词将从搜索索引中移除。',
         'Czech' => '捷克语',
+        'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
+            '',
         'Danish' => '丹麦语',
         'Data used to export the search result in CSV format.' => '用于将搜索结果输出为CSV格式的数据。',
         'Date / Time' => '日期 / 时间',
@@ -5868,7 +5870,7 @@ Thanks for your help!
             '全文索引的法语停止词，这些词将从搜索索引中移除。',
         'Frontend' => '前端',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
-            '',
+            '前端模块注册（如果没有使用工单服务功能，禁用服务人员工单服务链接）。',
         'Frontend module registration (disable company link if no company feature is used).' =>
             '前端模块注册（如果没有使用客户单位功能，禁用客户单位链接）。',
         'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
@@ -5878,7 +5880,7 @@ Thanks for your help!
         'Frontend module registration for the agent interface.' => '服务人员界面的前端模块注册。',
         'Frontend module registration for the customer interface.' => '客户界面的前端模块注册。',
         'Frontend theme' => '前端界面主题',
-        'Frontend theme.' => '',
+        'Frontend theme.' => '前端界面主题。',
         'Full value' => '全值',
         'Fulltext index regex filters to remove parts of the text.' => '用于移除部分文本的全文索引正则表达式',
         'Fulltext search' => '全文搜索',
@@ -6024,7 +6026,7 @@ Thanks for your help!
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             '如果设置了此参数，这个地址将用于外发消息（不是通知-通知在下面查看）的信件发件人头。如果不指定地址，信件发件人头就为空。',
         'If this option is disabled, articles will not automatically be decrypted and stored in the database. Please note that this also means no decryption will take place and the articles will be shown in ticket zoom in their original (encrypted) form.' =>
-            '',
+            '如果禁用此选项，则信件将不会自动解密并存储在数据库中。 请注意，这也意味着不会发生解密，文章会以原始（加密）形式显示在工单详情窗口。',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             '如果这个选项设置为“是”，服务人员或客户通过WEB界面创建的工单将收到自动响应（如果配置了自动响应）。如果这个选项设置为“否”，则不会发送自动响应。',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -6108,6 +6110,7 @@ Thanks for your help!
         'Locked Tickets.' => '锁定的工单。',
         'Locked ticket.' => '锁定的工单。',
         'Log file for the ticket counter.' => '工单计数器的日志文件。',
+        'Logged-In Users' => '',
         'Logout of customer panel.' => '退出客户面板。',
         'Loop-Protection! No auto-response sent to "%s".' => '邮件循环保护! 没有自动响应发送给“%s”.',
         'Mail Accounts' => '邮件帐户',
@@ -6152,7 +6155,7 @@ Thanks for your help!
             '本次操作结果显示的最大工单数。',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             '工单详情视图客户信息表格的最大尺寸（单位：字符）。',
-        'Merge this ticket and all articles into another ticket' => '',
+        'Merge this ticket and all articles into another ticket' => '将这个工单和所有的信件合并到另一工单',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => '合并工单<OTRS_TICKET>到 <OTRS_MERGE_TO_TICKET>。',
         'Miscellaneous' => '杂项',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -6225,7 +6228,6 @@ Thanks for your help!
         'OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTRS能够使用一个或多个只读镜像数据库以扩展操作（如全文搜索或生成统计报表）。您可以在这里指定第一个镜像数据库的DSN（数据源名称）。',
         'Old: "%s" New: "%s"' => '旧的: “%s” 新的: “%s”',
-        'Online' => '在线',
         'Open tickets (customer user)' => '处理中的工单（客户联系人）',
         'Open tickets (customer)' => '处理中的工单（客户）',
         'Option' => '选项',
@@ -6260,7 +6262,7 @@ Thanks for your help!
         'Parameters for the column filters of the small ticket overview.' =>
             '工单概览简洁模式的字段过滤器参数。',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
-            '',
+            '服务人员界面客户单位信息的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTL”表明本插件的缓存过期时间（单位：分钟）。',
         'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '服务人员界面客户ID状态小部件的仪表板后端的参数。“GROUP（组）用于到本插件的访问权限限制（如 Group:admin;group1;group2）。“Default（默认）”代表这个插件是默认启用还是需要用户手动启用。“CacheTTLLocal”表明本插件的缓存过期时间（单位：分钟）。',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -6382,7 +6384,7 @@ Thanks for your help!
         'Right' => '右',
         'Roles <-> Groups' => '角色 <-> 组',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
-            '',
+            '运行基于文件的自动任务(注意：需要在-configuration-module参数中指定模块名，如"Kernel::System::GenericAgent")。',
         'Running Process Tickets' => '运行中的流程工单',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '访问管理客户单位模块时执行一个初始的已有全部客户单位的搜索。',
@@ -6411,9 +6413,9 @@ Thanks for your help!
         'Select how many tickets should be shown in overviews by default.' =>
             '选择概览视图中默认显示的工单数。',
         'Select the main interface language.' => '选择主界面语言。',
-        'Select your default spelling dictionary.' => '',
+        'Select your default spelling dictionary.' => '选择默认的拼写检查字典。',
         'Select your preferred layout for OTRS.' => '选择你喜欢的OTRS布局。',
-        'Select your preferred theme for OTRS.' => '',
+        'Select your preferred theme for OTRS.' => '选择你喜欢的OTRS界面主题。',
         'Selects the cache backend to use.' => '选择使用的缓存后端。',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '选择处理WEB界面上传文件的模块。“数据库”存储所有上传文件到数据库中，“文件系统”存储所有上传文件到文件系统中。',
@@ -6530,16 +6532,16 @@ Thanks for your help!
             '设置在偏好设置视图显示不同条目的顺序。',
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '设置一个会话被终止且用户登出前的非活动时间（单位：秒）。',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
-            '设置在定义的会话活动时间内最大的活动服务人员数的预警值（达到此数后服务人员登录时会显示警告信息）。',
-        'Sets the maximum number of active agents within the timespan defined in SessionActiveTime.' =>
-            '设置在定义的会话活动时间内最大的活动服务人员数。',
-        'Sets the maximum number of active customers within the timespan defined in SessionActiveTime.' =>
-            '设置在定义的会话活动时间内最大的活动客户联系人数。',
-        'Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime.' =>
-            '设置在定义的会话活动时间内每个服务人员最大的会话数。',
-        'Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime.' =>
-            '设置在定义的会话活动时间内每个客户联系人最大的会话数。',
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
+            '',
+        'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
+            '',
+        'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
+            '',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             '设置最小的工单计数器大小（如果工单编号生成器选用“自动增量”）。默认是5（位数），意味着计数器从10000开始。',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
@@ -6649,8 +6651,6 @@ Thanks for your help!
             '设置服务人员界面工单优先级窗口的工单类型（需要激活工单::类型）。',
         'Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated).' =>
             '设置服务人员界面工单负责人窗口的工单类型（需要激活工单::类型）。',
-        'Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            '设置一个用户被标记为活动的时间（单位：秒），最小活动时间是300秒。',
         'Sets the timeout (in seconds) for http/ftp downloads.' => '设置http/ftp下载的超时时间（单位：秒）。',
         'Sets the timeout (in seconds) for package downloads. Overwrites "WebUserAgent::Timeout".' =>
             '设置软件下载的超时时间（单位：秒），覆盖参数“WebUserAgent::Timeout”。',
@@ -7065,8 +7065,8 @@ Thanks for your help!
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '在工单属性更新后更新工单升级指标。',
         'Updates the ticket index accelerator.' => '更新工单索引加速器。',
-        'Upload your PGP key.' => '',
-        'Upload your S/MIME certificate.' => '',
+        'Upload your PGP key.' => '上传你的PGP密钥。',
+        'Upload your S/MIME certificate.' => '上传你的S/MIME证书。',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '服务人员界面在合适的地方（输入字段）使用新式选择和自动完成字段。',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>

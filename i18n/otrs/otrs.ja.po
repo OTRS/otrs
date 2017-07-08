@@ -1,6 +1,6 @@
 # 
 # Translators:
-# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015-2016
+# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015-2017
 # Tomy1984, 2015
 # Kentaro Hori <kentaro0919@gmail.com>, 2014-2016
 # Kozo Sakurai <sakurai@io-architect.com>, 2014,2017
@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-31 17:16+0000\n"
-"PO-Revision-Date: 2017-05-31 22:17+0000\n"
+"POT-Creation-Date: 2017-07-08 09:42+0000\n"
+"PO-Revision-Date: 2017-07-08 14:56+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -3154,13 +3154,13 @@ msgstr "チケットデータのオプション"
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields internal key values"
-msgstr "チケットのダイナミックフィールドの内部キー値のオプション"
+msgstr "チケットのダイナミック・フィールドの内部キー値のオプション"
 
 #. Template: AdminAutoResponse
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
-msgstr "チケットのダイナミックフィールドの表示値のオプション。ドロップダウンまたは複数選択領域で利用可能"
+msgstr "チケットのダイナミック・フィールドの表示値のオプション。ドロップダウンまたは複数選択領域で利用可能・"
 
 #. Template: AdminAutoResponse
 msgid "Config options"
@@ -3494,7 +3494,7 @@ msgstr "有効な状態 %s を切り替え"
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields Management"
-msgstr "ダイナミックフィールドの管理"
+msgstr "ダイナミック・フィールド の管理"
 
 #. Template: AdminDynamicField
 msgid "Add new field for object"
@@ -3509,11 +3509,11 @@ msgstr "新しいフィールドを追加するには、オブジェクトのリ
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
-msgstr "ダイナミックフィールド一覧"
+msgstr "ダイナミック・フィールド 一覧"
 
 #. Template: AdminDynamicField
 msgid "Dynamic fields per page"
-msgstr "ページ毎のダイナミックフィールド"
+msgstr "ページ毎の ダイナミック・フィールド"
 
 #. Template: AdminDynamicField
 msgid "Label"
@@ -3535,11 +3535,11 @@ msgstr "この領域を削除"
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr "このダイナミックフィールドを本当に削除しますか？全てのデータが失われます。"
+msgstr "このダイナミック・フィールドを本当に削除しますか？全てのデータが失われます。"
 
 #. Template: AdminDynamicField
 msgid "Delete field"
-msgstr "動的フィールド"
+msgstr "ダイナミックフィールド"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
@@ -3547,7 +3547,7 @@ msgstr "フィールドとそれに属するデータを削除します。これ
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
-msgstr "ダイナミックフィールド"
+msgstr "ダイナミック・フィールド"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field"
@@ -4204,7 +4204,7 @@ msgstr "新しいタイプ"
 
 #. Template: AdminGenericAgent
 msgid "New Dynamic Field Values"
-msgstr "ダイナミックフィールドの値を設定"
+msgstr "ダイナミック・フィールドの値を設定"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
@@ -5660,13 +5660,13 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
-msgstr "チケットのダイナミックフィールドの内部用キー値"
+msgstr "チケットのダイナミック・フィールドの内部用キー値"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
-msgstr "チケットのダイナミックフィールドの表示値。ドロップダウンまたは複数選択領域で利用可能"
+msgstr "チケットのダイナミック・フィールドの表示値。ドロップダウンまたは複数選択領域で利用可能"
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
@@ -5932,11 +5932,11 @@ msgstr "チケット・ズームにおけるタイムライン"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
-msgstr "ダイナミックフィールド日付でコンタクトする"
+msgstr "ダイナミック・フィールド日付でコンタクトする"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField Database"
-msgstr "ダイナミックフィールド用データベース"
+msgstr "ダイナミック・フィールド用データベース"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "SLA Selection Dialog"
@@ -8846,7 +8846,7 @@ msgstr "対象を選択"
 
 #. Template: AgentLinkObject
 msgid "Link object %s with"
-msgstr "オブジェクト％sをリンク"
+msgstr "オブジェクト%sをリンク"
 
 #. Template: AgentLinkObject
 msgid "Unlink Object: %s"
@@ -10242,7 +10242,7 @@ msgstr "チケット・フィールド"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr "ダイナミックフィールド"
+msgstr "ダイナミック・フィールド"
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
@@ -11148,7 +11148,7 @@ msgstr ""
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
-msgstr "ダイナミックフィールドのオーダー定義を初期化できませんでした。詳細はエラーログを参照願います。"
+msgstr "ダイナミック・フィールドのオーダー定義を初期化できませんでした。詳細はエラーログを参照願います。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
@@ -11184,7 +11184,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
-msgstr "ダイナミックフィールド %s の値を取得できませんでした"
+msgstr "ダイナミック・フィールド %s の値を取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
@@ -12215,7 +12215,7 @@ msgstr "printed by"
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Ticket Dynamic Fields"
-msgstr "チケットのダイナミックフィールド"
+msgstr "チケットのダイナミック・フィールド"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
@@ -12255,7 +12255,7 @@ msgstr ""
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr "ActivityEntityIDを特定できませんでした。 ダイナミックフィールドまたはコンフィグが正しく設定されていません。"
+msgstr "ActivityEntityIDを特定できませんでした。 ダイナミック・フィールドまたはコンフィグが正しく設定されていません。"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
@@ -12365,7 +12365,7 @@ msgstr ""
 msgid ""
 "Could not set DynamicField value for %s of Ticket with ID \"%s\" in "
 "ActivityDialog \"%s\"!"
-msgstr "ActivityDialog \"％s\"のID \"％s\"を持つチケットの％sのダイナミックフィールドの値を設定できませんでした！"
+msgstr "ActivityDialog \"％s\"のID \"％s\"を持つチケットの％sのダイナミック・フィールドの値を設定できませんでした！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set PendingTime for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
@@ -12432,7 +12432,7 @@ msgstr "保留時間を設定"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Dynamic Field Updated"
-msgstr "ダイナミックフィールドを更新しました"
+msgstr "ダイナミック・フィールドを更新しました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email (internal)"
@@ -13648,17 +13648,17 @@ msgstr "一つ以上のチケットがある顧客"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Dynamic Field Values"
-msgstr "ダイナミックフィールドの値"
+msgstr "ダイナミック・フィールドの値"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Invalid Dynamic Fields"
-msgstr "不正なダイナミックフィールドです"
+msgstr "不正なダイナミック・フィールドです"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
 msgid "Invalid Dynamic Field Values"
-msgstr "ダイナミックフィールドの値は不正です"
+msgstr "ダイナミック・フィールドの値は不正です"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DatabaseRecords.pm
@@ -14491,7 +14491,7 @@ msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge"
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
-msgstr "マージ操作中にメインチケットにマージされる動的フィールドの一覧。 メインチケットで空のダイナミックフィールドのみが設定されます。"
+msgstr "マージ操作中にメインチケットにマージされるダイナミック・フィールドの一覧。 メインチケットで空のダイナミック・フィールドのみが設定されます。"
 
 #. SysConfig
 msgid "A picture"
@@ -14562,11 +14562,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
-msgstr ""
+msgstr "受電の記録を追加します。"
 
 #. SysConfig
 msgid "Add an outbound phone call to this ticket"
-msgstr ""
+msgstr "架電の記録を追加します。"
 
 #. SysConfig
 msgid "Added email. %s"
@@ -15149,7 +15149,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "担当者インターフェイスのエスカレーション・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスのエスカレーション・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid ""
@@ -15158,7 +15158,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "担当者インターフェイスのロック・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスのロック・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid ""
@@ -15167,7 +15167,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "担当者インターフェイスのキュー・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスのキュー・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid ""
@@ -15176,7 +15176,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "担当者インターフェイスの解答待ち一覧でこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスの解答待ち一覧でこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid ""
@@ -15185,7 +15185,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "担当者インターフェイスのサービス・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスのサービス・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid ""
@@ -15194,7 +15194,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "担当者インターフェイスのステータス・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスのステータス・ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid ""
@@ -15203,7 +15203,7 @@ msgid ""
 "default. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) "
 "and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) "
 "are allowed."
-msgstr "担当者インターフェイスの結果ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスの結果ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid ""
@@ -15212,7 +15212,7 @@ msgid ""
 "Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and "
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
-msgstr "担当者インターフェイスの監視ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミックフィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
+msgstr "担当者インターフェイスの監視ビューでこの項目をフィルタリングする（設定可能な値：0=無効, 1=有効, 2=デフォルトで有効）\n注意：チケット属性、ダイナミック・フィールド（DynamicField_NameX）、顧客属性（顧客ユーザー電話番号、顧客企業名など）のみが許可されます。"
 
 #. SysConfig
 msgid "Comment for new history entries in the customer interface."
@@ -15352,7 +15352,7 @@ msgstr "顧客の作成と管理"
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
-msgstr "ダイナミックフィールドの作成と管理"
+msgstr "ダイナミック・フィールドの作成と管理"
 
 #. SysConfig
 msgid "Create and manage groups."
@@ -15546,6 +15546,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Czech"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"DEPRECATED: This config setting will be removed in further versions of OTRS."
+" Sets the time (in seconds) a user is marked as active (minimum active time "
+"is 300 seconds)."
 msgstr ""
 
 #. SysConfig
@@ -16459,7 +16466,7 @@ msgid ""
 "'Search_DynamicField_XTimePointFormat=week; "
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7';."
-msgstr "デフォルトで表示するチケット検索条件を定義します。\nKeyはダイナミックフィールドの名前（この例の場合は\"X\"）を指定します。\nContentはダイナミックフィールドの形式によって設定内容が異なります。\n例）\n[テキスト]\n’文字列’ （任意の文字列）\n[ドロップダウン]\n'1' （項目の順番）\n[日時]\n'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';"
+msgstr "デフォルトで表示するチケット検索条件を定義します。\nKeyはダイナミック・フィールドの名前（この例の場合は\"X\"）を指定します。\nContentはダイナミック・フィールドの形式によって設定内容が異なります。\n例）\n[テキスト]\n’文字列’ （任意の文字列）\n[ドロップダウン]\n'1' （項目の順番）\n[日時]\n'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';"
 
 #. SysConfig
 msgid ""
@@ -16806,7 +16813,7 @@ msgstr "チケットについて視認できる、デフォルトの送信者タ
 #. SysConfig
 msgid ""
 "Defines the dynamic fields that are used for displaying on calendar events."
-msgstr ""
+msgstr "カレンダ・イベントで表示するダイナミック・フィールドを定義します。"
 
 #. SysConfig
 msgid ""
@@ -17090,7 +17097,7 @@ msgid ""
 "Warning: Setting this option to a value which is too low could cause many "
 "masks in your OTRS instance to stop working (probably any mask which takes "
 "input from the user)."
-msgstr ""
+msgstr "ブラウザからOTRSへファイルアップロードする最大サイズ（バイト単位）を定義します。 警告：このオプションを低すぎる値に設定すると、OTRSインスタンス内の多くのインプット機能が機能しなくなる可能性があります。"
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -17925,11 +17932,11 @@ msgstr "ダイナミックフィールド・チェックボックス・バック
 
 #. SysConfig
 msgid "Dynamic Fields Date Time Backend GUI"
-msgstr "ダイナミックフィールド・日時バックエンドGUI"
+msgstr "ダイナミック・フィールド・日時バックエンドGUI"
 
 #. SysConfig
 msgid "Dynamic Fields Drop-down Backend GUI"
-msgstr "ダイナミックフィールド・ドロップダウン・バックエンドGUI"
+msgstr "ダイナミック・フィールド・ドロップダウン・バックエンドGUI"
 
 #. SysConfig
 msgid "Dynamic Fields GUI"
@@ -17937,11 +17944,11 @@ msgstr "ダイナミックフィーールドのGUI"
 
 #. SysConfig
 msgid "Dynamic Fields Multiselect Backend GUI"
-msgstr "ダイナミックフィールド複数選択バックエンドGUI"
+msgstr "ダイナミック・フィールド複数選択バックエンドGUI"
 
 #. SysConfig
 msgid "Dynamic Fields Overview Limit"
-msgstr "ダイナミックフィールド一覧制限"
+msgstr "ダイナミック・フィールド一覧の表示数"
 
 #. SysConfig
 msgid "Dynamic Fields Text Backend GUI"
@@ -17949,7 +17956,7 @@ msgstr "ダイナミックフィールド・テキストバックエンドGUI"
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
-msgstr ""
+msgstr "検索結果をCSVフォーマットでエクスポートする際に利用するダイナミック・フィールドです。"
 
 #. SysConfig
 msgid ""
@@ -17994,7 +18001,7 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the sidebar of the ticket zoom screen of the agent "
 "interface. Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr "担当者インターフェイスのチケットズーム画面にあるサイドバーで表示されるダイナミックフィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
+msgstr "担当者インターフェイスのチケットズーム画面にあるサイドバーで表示されるダイナミック・フィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
 
 #. SysConfig
 msgid ""
@@ -18093,13 +18100,13 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the ticket print screen of the agent interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr "担当者インターフェイスのチケット印刷画面で表示される動的フィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
+msgstr "担当者インターフェイスのチケット印刷画面で表示されるダイナミック・フィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket print screen of the customer interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr "顧客インターフェイスのチケット印刷画面で表示される動的フィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
+msgstr "顧客インターフェイスのチケット印刷画面で表示されるダイナミック・フィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
 
 #. SysConfig
 msgid ""
@@ -18144,15 +18151,15 @@ msgstr ""
 msgid ""
 "Dynamic fields shown in the ticket zoom screen of the customer interface. "
 "Possible settings: 0 = Disabled, 1 = Enabled."
-msgstr "顧客インターフェイスのチケット・ズーム画面で表示される動的フィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
+msgstr "顧客インターフェイスのチケット・ズーム画面で表示されるダイナミック・フィールド。 選択可能な設定値: 0 = 無効, 1 = 有効"
 
 #. SysConfig
 msgid "DynamicField"
-msgstr "ダイナミックフィールド"
+msgstr "ダイナミック・フィールド"
 
 #. SysConfig
 msgid "DynamicField backend registration."
-msgstr "ダイナミックフィールドのバックエンド登録"
+msgstr "ダイナミック・フィールドのバックエンド登録"
 
 #. SysConfig
 msgid "DynamicField object registration."
@@ -19370,6 +19377,10 @@ msgid "Log file for the ticket counter."
 msgstr "チケット・カウンターのためのログ・ファイルです。"
 
 #. SysConfig
+msgid "Logged-In Users"
+msgstr ""
+
+#. SysConfig
 msgid "Logout of customer panel."
 msgstr ""
 
@@ -19513,7 +19524,7 @@ msgstr "チケットズームビューにおける、顧客情報テーブルの
 
 #. SysConfig
 msgid "Merge this ticket and all articles into another ticket"
-msgstr ""
+msgstr "別のチケットの全ての記事とこのチケットを結合"
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
@@ -19750,10 +19761,6 @@ msgstr ""
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
 msgstr "Old: \"%s\" New: \"%s\""
-
-#. SysConfig
-msgid "Online"
-msgstr "オンライン"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -20798,32 +20805,32 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime before a prior warning will be visible for the logged in "
+"SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
-"defined in SessionActiveTime."
+"defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
-" defined in SessionActiveTime."
+" defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
@@ -21149,12 +21156,6 @@ msgid ""
 msgstr "担当者インタフェースのチケット責任者画面で、チケット・タイプを設定します（Ticket::Typeを有効とする必要があります)。"
 
 #. SysConfig
-msgid ""
-"Sets the time (in seconds) a user is marked as active (minimum active time "
-"is 300 seconds)."
-msgstr ""
-
-#. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
 msgstr "http/ftp downloadsのためのタイムアウト（秒）を設定します。"
 
@@ -21212,7 +21213,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Show the history for this ticket"
-msgstr ""
+msgstr "このチケットの履歴を表示"
 
 #. SysConfig
 msgid ""

@@ -1,8 +1,9 @@
 # 
 # Translators:
+# Adam Ježek <jezek.adamek@gmail.com>, 2017
 # David Krotil <david.krotil@krotilovi.cz>, 2015
 # JanPolnicky <jan.polnicky@gmail.com>, 2016
-# Jan Řežab <honza@rezab.eu>, 2015
+# Jan Řežab <honza@rezab.eu>, 2015,2017
 # Marek Pinc <mmap@post.cz>, 2015
 # M Š <Transifex@sikuda.eu>, 2016
 # Pavel Dvořák <pavel@pavel-dvorak.cz>, 2017
@@ -10,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-05-31 17:16+0000\n"
-"PO-Revision-Date: 2017-05-31 22:17+0000\n"
+"POT-Creation-Date: 2017-07-08 09:42+0000\n"
+"PO-Revision-Date: 2017-07-08 14:56+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Czech (http://www.transifex.com/otrs/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -758,7 +759,7 @@ msgstr "Obsah pole je příliš dlouhý!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "Maximální délka je %s znaků."
 
 #. Template: AAABase
 msgid "This field is required or"
@@ -1527,7 +1528,7 @@ msgstr "Vaše %s license právě vyprší. Prosím kontaktujte %s , aby jste moh
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "Je dostupná aktualizace pro váš s%, ale je v konfliktu s vaší verzi frameworku! Prosím aktualizujte nejdříve framework!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
@@ -1563,7 +1564,7 @@ msgstr "Objevil se problém při odinstalaci %s."
 
 #. Template: AAABase
 msgid "Enable cloud services to unleash all OTRS features!"
-msgstr ""
+msgstr "Povolit cloudové služby pro využití všech možností OTRS!"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -1591,11 +1592,11 @@ msgstr "Silvestr"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
-msgstr ""
+msgstr "OTRS jako žadatel"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as provider"
-msgstr ""
+msgstr "OTRS jako poskytovatel"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
@@ -1791,7 +1792,7 @@ msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr ""
+msgstr "Zvolte oddělovací znak použitý v CSV souborech (stavy a vyhledávání). Pokud nebude zvolen, použije se výchozí pro váš jazyk."
 
 #. Template: AAAPreferences
 msgid "CSV Separator"
@@ -2055,7 +2056,7 @@ msgstr "Zamčené Tikety - Všechny"
 
 #. Template: AAATicket
 msgid "Locked Tickets Reminder Reached"
-msgstr ""
+msgstr "Dosažen čas pro upomínku zamčeného ticketu"
 
 #. Template: AAATicket
 msgid "Locked Tickets New"
@@ -2071,19 +2072,19 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
-msgstr ""
+msgstr "Dosažen čas pro upomínku odpovědného ticketu"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
-msgstr ""
+msgstr "Celkově sledovaných ticketů"
 
 #. Template: AAATicket
 msgid "Watched Tickets New"
-msgstr ""
+msgstr "Nových sledovaných ticketů"
 
 #. Template: AAATicket
 msgid "Watched Tickets Reminder Reached"
-msgstr ""
+msgstr "Dosažen čas pro upomínku sledovaného ticketu"
 
 #. Template: AAATicket
 msgid "All tickets"
@@ -2099,7 +2100,7 @@ msgstr "Eskalace"
 
 #. Template: AAATicket
 msgid "last-search"
-msgstr ""
+msgstr "posledni-hledani"
 
 #. Template: AAATicket
 msgid "QueueView"
@@ -2307,15 +2308,15 @@ msgstr "Tiket Objekt"
 
 #. Template: AAATicket
 msgid "No such Ticket Number \"%s\"! Can't link it!"
-msgstr ""
+msgstr "Nenalezen ticket číslo \"%s\"! Nelze spárovat!"
 
 #. Template: AAATicket
 msgid "You don't have write access to this ticket."
-msgstr ""
+msgstr "Nemáte povolení pro úpravy tohoto ticketu."
 
 #. Template: AAATicket
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
+msgstr "Musíte být majitel ticketu pro provedení této operace."
 
 #. Template: AAATicket
 msgid "Please change the owner first."
@@ -2347,15 +2348,15 @@ msgstr "Nová položka"
 
 #. Template: AAATicket
 msgid "Unread article(s) available"
-msgstr ""
+msgstr "Jsou dostupné nepřečtené články"
 
 #. Template: AAATicket
 msgid "Remove from list of watched tickets"
-msgstr ""
+msgstr "Odebrat ze seznamu sledovaných ticketů"
 
 #. Template: AAATicket
 msgid "Add to list of watched tickets"
-msgstr ""
+msgstr "Přidat do seznamu sledovaných ticketů"
 
 #. Template: AAATicket
 msgid "Email-Ticket"
@@ -2375,7 +2376,7 @@ msgstr "Vyhledávání Tiketů"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Jméno zákazníka"
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -2411,11 +2412,11 @@ msgstr "Vytvořit nový Telefonní Tiket (Příchozí)"
 
 #. Template: AAATicket
 msgid "Address %s replaced with registered customer address."
-msgstr ""
+msgstr "Adresa %snahrazena registrovanou adresou zákazníka"
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr ""
+msgstr "Zákazník automaticky přidán do kopie"
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
@@ -2589,7 +2590,7 @@ msgstr "Odpovědět všem"
 
 #. Template: AAATicket
 msgid "Direction"
-msgstr ""
+msgstr "adresa"
 
 #. Template: AAATicket
 msgid "New ticket notification"
@@ -2645,7 +2646,7 @@ msgstr "Poslat oznámení o přesunu tiketu"
 msgid ""
 "Your queue selection of your favourite queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Vaše selekce oblíbených front. Pokud jsou povolena, budete dostávat emailová upozornění o dění v těchto frontách"
 
 #. Template: AAATicket
 msgid "Custom Queue"
@@ -2659,7 +2660,7 @@ msgstr "Doba obnovení náhledu fronty"
 msgid ""
 "If enabled, the QueueView will automatically refresh after the specified "
 "time."
-msgstr ""
+msgstr "Pokud je povoleno, náhled fronty se automaticky aktualizace po jednou za zvolenou dobu"
 
 #. Template: AAATicket
 msgid "Refresh QueueView after"
@@ -2886,7 +2887,7 @@ msgstr "Toto pole musí být vyplněno."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "Přepsat existující ACL?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
@@ -2999,11 +3000,11 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Save settings"
-msgstr ""
+msgstr "Uložit nastavení"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "Uložit ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -3015,11 +3016,11 @@ msgstr "nebo"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Uložit a dokončit"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "Opravdu chcete smazat toto ACL?"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -3067,7 +3068,7 @@ msgstr "Smazat tuto přílohu"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "Opravdu chcete odstranit tuto přílohu?"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
@@ -3805,15 +3806,15 @@ msgstr ""
 
 #. Template: AdminEmail
 msgid "Your message was sent to"
-msgstr ""
+msgstr "Vaše zpráva byla odeslána"
 
 #. Template: AdminEmail
 msgid "Send message to users"
-msgstr ""
+msgstr "Odeslat zprávu uživatelům"
 
 #. Template: AdminEmail
 msgid "Send message to group members"
-msgstr ""
+msgstr "Odeslat zprávu členům skupiny"
 
 #. Template: AdminEmail
 msgid "Group members need to have permission"
@@ -4470,7 +4471,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
-msgstr ""
+msgstr "Uložit a pokračovat"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Delete this Invoker"
@@ -5409,7 +5410,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "Přepsat existující notifikace?"
 
 #. Template: AdminNotificationEvent
 msgid "Upload Notification configuration"
@@ -5594,7 +5595,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Tělo zprávy"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -7830,11 +7831,11 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Run Query"
-msgstr ""
+msgstr "Spustit Dotaz"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
-msgstr ""
+msgstr "Dotaz byl spuštěn."
 
 #. Template: AdminService
 msgid "Service Management"
@@ -7842,7 +7843,7 @@ msgstr "Správa Služeb"
 
 #. Template: AdminService
 msgid "Add service"
-msgstr ""
+msgstr "Přidat službu"
 
 #. Template: AdminService
 msgid "Add Service"
@@ -7850,7 +7851,7 @@ msgstr "Přidat Službu"
 
 #. Template: AdminService
 msgid "Edit Service"
-msgstr ""
+msgstr "Upravit Službu"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
@@ -8090,7 +8091,7 @@ msgstr ""
 
 #. Template: AdminSysConfig
 msgid "Export settings"
-msgstr ""
+msgstr "Exportovat nastavení"
 
 #. Template: AdminSysConfig
 msgid "Load SysConfig settings from file"
@@ -8098,11 +8099,11 @@ msgstr ""
 
 #. Template: AdminSysConfig
 msgid "Import settings"
-msgstr ""
+msgstr "Importovat nastavení"
 
 #. Template: AdminSysConfig
 msgid "Import Settings"
-msgstr ""
+msgstr "Importovat Nastavení"
 
 #. Template: AdminSysConfig
 msgid "Please enter a search term to look for settings."
@@ -8122,7 +8123,7 @@ msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "This setting is read only."
-msgstr ""
+msgstr "Nastavení je pouze ke čtení."
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
@@ -9540,7 +9541,7 @@ msgstr "Čas Vytvoření zprávy (mezi)"
 
 #. Template: AgentTicketSearch
 msgid "Invalid date"
-msgstr ""
+msgstr "Neplatné datum"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
@@ -9660,7 +9661,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
-msgstr ""
+msgstr "Přehled položek"
 
 #. Template: AgentTicketZoom
 msgid "Article(s)"
@@ -11545,7 +11546,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "Ano (vyžadováno)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
@@ -13133,11 +13134,11 @@ msgstr "Nastavená Priorita"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Created State"
-msgstr "Nastavený Stav"
+msgstr "Stav při vytvoření"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Create Time"
-msgstr "Nastavený Čas"
+msgstr "Čas vytvoření"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Close Time"
@@ -15543,6 +15544,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Czech"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"DEPRECATED: This config setting will be removed in further versions of OTRS."
+" Sets the time (in seconds) a user is marked as active (minimum active time "
+"is 300 seconds)."
 msgstr ""
 
 #. SysConfig
@@ -19367,6 +19375,10 @@ msgid "Log file for the ticket counter."
 msgstr ""
 
 #. SysConfig
+msgid "Logged-In Users"
+msgstr ""
+
+#. SysConfig
 msgid "Logout of customer panel."
 msgstr ""
 
@@ -19747,10 +19759,6 @@ msgstr ""
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
 msgstr "Starý: \"%s\" Nový: \"%s\""
-
-#. SysConfig
-msgid "Online"
-msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -20795,32 +20803,32 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime before a prior warning will be visible for the logged in "
+"SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
-"SessionActiveTime."
+"SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
-"defined in SessionActiveTime."
+"defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
-" defined in SessionActiveTime."
+" defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
@@ -21143,12 +21151,6 @@ msgstr ""
 msgid ""
 "Sets the ticket type in the ticket responsible screen of the agent interface"
 " (Ticket::Type needs to be activated)."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Sets the time (in seconds) a user is marked as active (minimum active time "
-"is 300 seconds)."
 msgstr ""
 
 #. SysConfig
