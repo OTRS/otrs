@@ -136,7 +136,7 @@
                                 [% Data.ColumnFilterStrg %]
                             </div>
                         </div>
-                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Translate(Data.Title) | html %]">[% Data.Label | html %]</a>
+                        <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.LinkSort %];SortBy=DynamicField_[% Data.DynamicFieldName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Translate(Data.Title) | html %]">[% Translate(Data.Label) | html %]</a>
 [% RenderBlockEnd("OverviewNavBarPageDynamicFieldFiltrableSortable") %]
 
 [% RenderBlockStart("OverviewNavBarPageDynamicFieldFiltrableNotSortable") %]
