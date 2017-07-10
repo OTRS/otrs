@@ -8,6 +8,7 @@
 
 package Kernel::System::TemplateGenerator;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 use strict;
 use warnings;
@@ -32,6 +33,8 @@ our @ObjectDependencies = (
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
     'Kernel::System::User',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -1274,6 +1277,35 @@ sub _Replace {
             next ATTRIBUTE if !$Ticket{$Attribute};
             $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
                 String => $Ticket{$Attribute},
+            );
+        }
+    }
+
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    # Replace time tags.
+    for my $UnixFormatTime (
+        qw(RealTillTimeNotUsed EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+        )
+    {
+        if ( $Ticket{$UnixFormatTime} ) {
+            $Ticket{$UnixFormatTime} = $TimeObject->SystemTime2TimeStamp(
+                SystemTime => $Ticket{$UnixFormatTime},
+            );
+        }
+    }
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    for my $TimeInSeconds (
+        qw(UntilTime EscalationTimeWorkingTime EscalationTime FirstResponseTimeWorkingTime FirstResponseTime UpdateTimeWorkingTime
+        UpdateTime SolutionTimeWorkingTime SolutionTime)
+        )
+    {
+        if ( $Ticket{$TimeInSeconds} ) {
+            $Ticket{$TimeInSeconds} = $LayoutObject->CustomerAge(
+                Age   => $Ticket{$TimeInSeconds},
+                Space => ' '
             );
         }
     }

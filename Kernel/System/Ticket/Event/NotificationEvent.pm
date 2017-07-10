@@ -7,6 +7,7 @@
 # --
 
 package Kernel::System::Ticket::Event::NotificationEvent;
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 use strict;
 use warnings;
@@ -28,6 +29,8 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::User',
     'Kernel::System::CheckItem',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Time',
 );
 
 sub new {
@@ -782,9 +785,10 @@ sub _SendNotification {
         $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_REALNAME${End}/$RealName/g;
     }
 
-    # get dynamic field objects
     my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $TimeObject                = $Kernel::OM->Get('Kernel::System::Time');
+    my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     KEY:
     for my $Key ( sort keys %Ticket ) {
@@ -823,6 +827,40 @@ sub _SendNotification {
                 Value              => $DisplayKeyValue,
             );
             $DisplayKeyValue = $KeyValueStrg->{Value};
+        }
+
+        elsif (
+            $Key eq 'UntilTime'
+            || $Key eq 'EscalationTimeWorkingTime'
+            || $Key eq 'EscalationTime'
+            || $Key eq 'FirstResponseTimeWorkingTime'
+            || $Key eq 'FirstResponseTime'
+            || $Key eq 'UpdateTimeWorkingTime'
+            || $Key eq 'UpdateTime'
+            || $Key eq 'SolutionTimeWorkingTime'
+            || $Key eq 'SolutionTime'
+            )
+        {
+            if ( $Ticket{$Key} ) {
+                $DisplayKeyValue = $LayoutObject->CustomerAge(
+                    Age   => $Ticket{$Key},
+                    Space => ' ',
+                );
+            }
+        }
+
+        elsif (
+            $Key eq 'RealTillTimeNotUsed'    ||
+            $Key eq 'EscalationResponseTime' ||
+            $Key eq 'EscalationUpdateTime'   ||
+            $Key eq 'EscalationSolutionTime'
+            )
+        {
+            if ( $Ticket{$Key} ) {
+                $DisplayKeyValue = $TimeObject->SystemTime2TimeStamp(
+                    SystemTime => $Ticket{$Key},
+                );
+            }
         }
 
         $Notification{Body} =~ s/${Start}OTRS_TICKET_${Key}${End}/$DisplayKeyValue/gi;
