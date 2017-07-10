@@ -193,6 +193,7 @@ sub ArticleFields {
                 Realname             => $Article{FromRealname},
                 $HiddenType . Hidden => 'Hidden',
                 HideInTimelineView   => 1,
+                HideInTicketPrint    => 1,
             };
         }
     }

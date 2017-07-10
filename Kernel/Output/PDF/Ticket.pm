@@ -1066,19 +1066,22 @@ sub _PDFOutputArticles {
         my %ArticleFields = $LayoutObject->ArticleFields(%Article);
 
         # Display article fields.
+        ARTICLE_FIELD:
         for my $ArticleFieldKey (
             sort { $ArticleFields{$a}->{Prio} <=> $ArticleFields{$b}->{Prio} }
             keys %ArticleFields
             )
         {
             my %ArticleField = %{ $ArticleFields{$ArticleFieldKey} // {} };
-            if ( $ArticleField{Value} ) {
-                $TableParam1{CellData}[$Row][0]{Content}
-                    = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
-                $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-                $TableParam1{CellData}[$Row][1]{Content} = $ArticleField{Value};
-                $Row++;
-            }
+
+            next ARTICLE_FIELD if $ArticleField{HideInTicketPrint};
+            next ARTICLE_FIELD if !$ArticleField{Value};
+
+            $TableParam1{CellData}[$Row][0]{Content}
+                = $LayoutObject->{LanguageObject}->Translate( $ArticleField{Label} ) . ':';
+            $TableParam1{CellData}[$Row][0]{Font}    = 'ProportionalBold';
+            $TableParam1{CellData}[$Row][1]{Content} = $ArticleField{Value};
+            $Row++;
         }
 
         # Display article accounted time.
