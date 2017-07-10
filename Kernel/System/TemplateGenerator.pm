@@ -8,6 +8,7 @@
 
 package Kernel::System::TemplateGenerator;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 use strict;
 use warnings;
@@ -34,7 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::JSON',
-
+    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -1242,6 +1243,35 @@ sub _Replace {
         }
     }
 
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    # Replace time tags.
+    for my $UnixFormatTime (
+        qw(RealTillTimeNotUsed EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+        )
+    {
+        if ( $Ticket{$UnixFormatTime} ) {
+            $Ticket{$UnixFormatTime} = $TimeObject->SystemTime2TimeStamp(
+                SystemTime => $Ticket{$UnixFormatTime},
+            );
+        }
+    }
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    for my $TimeInSeconds (
+        qw(UntilTime EscalationTimeWorkingTime EscalationTime FirstResponseTimeWorkingTime FirstResponseTime UpdateTimeWorkingTime
+        UpdateTime SolutionTimeWorkingTime SolutionTime)
+        )
+    {
+        if ( $Ticket{$TimeInSeconds} ) {
+            $Ticket{$TimeInSeconds} = $LayoutObject->CustomerAge(
+                Age   => $Ticket{$TimeInSeconds},
+                Space => ' '
+            );
+        }
+    }
+
     # Dropdown, Checkbox and MultipleSelect DynamicFields, can store values (keys) that are
     # different from the the values to display
     # <OTRS_TICKET_DynamicField_NameX> returns the stored key
@@ -1376,7 +1406,7 @@ sub _Replace {
                     );
 
                     # replace body with HTML text
-                    $Data{Body} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
+                    $Data{Body} = $LayoutObject->Output(
                         TemplateFile => "ChatDisplay",
                         Data         => {
                             ChatMessages => $Body,
