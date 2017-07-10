@@ -8549,7 +8549,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search###AgentCustomerInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerInformationCenter">Action=AgentCustomerInformationCenterSearch</Item>
@@ -8558,7 +8558,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AgentCustomerInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerInformationCenter">Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog()</Item>
@@ -8680,7 +8680,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search###AgentCustomerUserInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerUserInformationCenter">Action=AgentCustomerUserInformationCenterSearch</Item>
@@ -8689,7 +8689,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AgentCustomerUserInformationCenter" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentCustomerUserInformationCenter">Core.Agent.CustomerUserInformationCenterSearch.OpenSearchDialog()</Item>
@@ -8908,14 +8908,14 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::SearchDefault" Required="0" Valid="1">
         <Description Translatable="1">Search backend default router.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Item ValueType="String">Action=AgentTicketSearch;Subaction=AJAX</Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::Search###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Action=AdminSystemConfiguration;Subaction=SearchDialog</Item>
@@ -8924,7 +8924,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="Frontend::Search::JavaScript###AdminSystemConfiguration" Required="0" Valid="1">
         <Description Translatable="1">JavaScript function for the search frontend.</Description>
-        <Navigation>Frontend::Admin::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AdminSystemConfiguration">Core.Agent.Admin.SystemConfiguration.OpenSearchDialog()</Item>

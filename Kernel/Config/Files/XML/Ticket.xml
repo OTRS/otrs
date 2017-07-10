@@ -2363,7 +2363,7 @@
     </Setting>
     <Setting Name="Frontend::Search###Ticket" Required="0" Valid="1">
         <Description Translatable="1">Search backend router.</Description>
-        <Navigation>Frontend::Agent::ModuleRegistration::Search</Navigation>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu::Search</Navigation>
         <Value>
             <Hash>
                 <Item Key="^AgentTicket">Action=AgentTicketSearch;Subaction=AJAX</Item>

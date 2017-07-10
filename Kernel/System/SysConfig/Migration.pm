@@ -1886,7 +1886,7 @@ sub NavigationLookupGet {
         'Frontend::Admin::AdminSelectBox'         => 'Frontend::Admin::View::SelectBox',
 
         # 'Frontend::Admin::ModuleRegistration'              => 'Frontend::Admin::ModuleRegistration',
-        'Frontend::Admin::SearchRouter'                    => 'Frontend::Admin::ModuleRegistration::Search',
+        'Frontend::Admin::SearchRouter'                    => 'Frontend::Admin::ModuleRegistration::MainMenu::Search',
         'Frontend::Agent'                                  => 'Frontend::Agent',
         'Frontend::Agent::Auth::TwoFactor'                 => 'Core::Auth::Agent::TwoFactor',
         'Frontend::Agent::Dashboard'                       => 'Frontend::Agent::View::Dashboard',
@@ -1897,7 +1897,7 @@ sub NavigationLookupGet {
         'Frontend::Agent::ModuleNotify'                    => 'Frontend::Agent::FrontendNotification',
         'Frontend::Agent::NavBarModule'                    => 'Frontend::Agent::ModuleRegistration',
         'Frontend::Agent::Preferences'                     => 'Frontend::Agent::View::Preferences',
-        'Frontend::Agent::SearchRouter'                    => 'Frontend::Agent::ModuleRegistration::Search',
+        'Frontend::Agent::SearchRouter'                    => 'Frontend::Agent::ModuleRegistration::MainMenu::Search',
         'Frontend::Agent::Stats'                           => 'Frontend::Agent::Stats',
         'Frontend::Agent::Ticket::ArticleAttachmentModule' => 'Frontend::Agent::View::TicketZoom',
         'Frontend::Agent::Ticket::ArticleComposeModule'    => 'Frontend::Agent::ArticleComposeModule',
