@@ -787,8 +787,7 @@ sub LinkDelete {
 
     # run pre event module of source object
     $BackendSourceObject->LinkDeletePre(
-        SourceObject => $Existing{SourceObject},
-        SourceKey    => $Existing{SourceKey},
+        Key          => $Existing{SourceKey},
         TargetObject => $Existing{TargetObject},
         TargetKey    => $Existing{TargetKey},
         Type         => $Param{Type},
@@ -798,8 +797,7 @@ sub LinkDelete {
 
     # run pre event module of target object
     $BackendTargetObject->LinkDeletePre(
-        TargetObject => $Existing{TargetObject},
-        TargetKey    => $Existing{TargetKey},
+        Key          => $Existing{TargetKey},
         SourceObject => $Existing{SourceObject},
         SourceKey    => $Existing{SourceKey},
         Type         => $Param{Type},
