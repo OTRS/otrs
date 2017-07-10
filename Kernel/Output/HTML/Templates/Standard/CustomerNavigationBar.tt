@@ -35,7 +35,7 @@
         <li class="[% Data.Class | html %]"><a href="[% Env("Baselink") %]Action=CustomerPreferences" title="[% Translate("Edit personal preferences") | html %]">[% Translate("Preferences") | html %]</a></li>
 [% RenderBlockEnd("Preferences") %]
 [% RenderBlockStart("Logout") %]
-        <li class="Last"><a id="LogoutButton" href="[% Env("Baselink") %]Action=Logout">[% Translate("Logout %s %s", Env("UserFullname")) | html %]</a></li>
+        <li class="Last"><a id="LogoutButton" href="[% Env("Baselink") %]Action=Logout">[% Translate("Logout %s", Env("UserFullname")) | html %]</a></li>
 [% RenderBlockEnd("Logout") %]
     </ul>
 </div>
