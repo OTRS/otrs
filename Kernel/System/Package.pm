@@ -2822,7 +2822,7 @@ Compare a framework array with the current framework.
     );
 
     %CheckOK = (
-        Success                     => 1,           # 1 || 0
+        Success                     => 1,           # 1 || 0
         RequiredFramework           => '5.0.x',
         RequiredFrameworkMinimum    => '5.0.10',
         RequiredFrameworkMaximum    => '5.0.16',
