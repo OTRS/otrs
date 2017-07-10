@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-07-08 09:42+0000\n"
-"PO-Revision-Date: 2017-07-08 14:56+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-07-08 20:40+0000\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15553,7 +15553,7 @@ msgid ""
 "DEPRECATED: This config setting will be removed in further versions of OTRS."
 " Sets the time (in seconds) a user is marked as active (minimum active time "
 "is 300 seconds)."
-msgstr ""
+msgstr "ELAVULT: ez a konfigurációs beállítás el lesz távolítva az OTRS további verzióiból. Beállítja az időt (másodpercben), ami után a felhasználó aktívként van megjelölve (a legkisebb aktív idő 300 másodperc)."
 
 #. SysConfig
 msgid "Danish"
@@ -19378,7 +19378,7 @@ msgstr "Naplófájl a jegyszámlálóhoz."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Bejelentkezett felhasználók"
 
 #. SysConfig
 msgid "Logout of customer panel."
@@ -20807,31 +20807,31 @@ msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
-msgstr ""
+msgstr "Beállítja az aktív ügyintézők legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül, mielőtt egy előzetes figyelmeztetés lesz látható a bejelentkezett ügyintézőnél."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionMaxIdleTime."
-msgstr ""
+msgstr "Beállítja az aktív ügyintézők legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
 "SessionMaxIdleTime."
-msgstr ""
+msgstr "Beállítja az aktív ügyfelek legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
 "defined in SessionMaxIdleTime."
-msgstr ""
+msgstr "Beállítja az ügyintézőnkénti aktív munkamenetek legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
 " defined in SessionMaxIdleTime."
-msgstr ""
+msgstr "Beállítja az ügyfelenkénti aktív munkamenetek legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül."
 
 #. SysConfig
 msgid ""

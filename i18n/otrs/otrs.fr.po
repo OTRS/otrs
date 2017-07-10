@@ -7,6 +7,7 @@
 # EricLF44 <E.lefoll@cdg44.fr>, 2016
 # En Feng Wu <wuen320@gmail.com>, 2016
 # EricLF44 <E.lefoll@cdg44.fr>, 2016
+# François Delgrange, 2017
 # Gaudin vincent <vincent.gaudin@cprpsncf.fr>, 2015
 # Guillaume MIGNOTTE <accrocom@gmail.com>, 2016
 # laborie stephane <stephane.laborie@gmail.com>, 2017
@@ -29,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2017-07-08 09:42+0000\n"
-"PO-Revision-Date: 2017-07-08 14:56+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2017-07-10 08:25+0000\n"
+"Last-Translator: Patrick Lentz\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -484,11 +485,11 @@ msgstr "Préférences"
 
 #. Template: AAABase
 msgid "Salutation"
-msgstr "En-tête"
+msgstr "Salutation"
 
 #. Template: AAABase
 msgid "Salutations"
-msgstr "En-têtes"
+msgstr "Salutations"
 
 #. Template: AAABase
 msgid "Signature"
@@ -11892,11 +11893,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation updated!"
-msgstr ""
+msgstr "Salutation mise à jour !"
 
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
-msgstr ""
+msgstr "Salutation ajoutée !"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
@@ -14234,7 +14235,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Standard Salutation."
-msgstr ""
+msgstr "Salutation standard"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "system standard signature (en)"
@@ -15387,7 +15388,7 @@ msgstr "Créer et gérer les rôles."
 
 #. SysConfig
 msgid "Create and manage salutations."
-msgstr "Créer et gérer les en-têtes."
+msgstr "Créer et gérer les salutations."
 
 #. SysConfig
 msgid "Create and manage services."

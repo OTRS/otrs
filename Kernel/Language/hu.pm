@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.998587285570131;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4946,7 +4946,7 @@ Az Ön segélyszolgálat csapata
             'Személyre szabható kiszűrendő szavak a szabad-szavas indexnél. Ezek a szavak el lesznek távolítva a keresési indexből.',
         'Czech' => 'Cseh',
         'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            '',
+            'ELAVULT: ez a konfigurációs beállítás el lesz távolítva az OTRS további verzióiból. Beállítja az időt (másodpercben), ami után a felhasználó aktívként van megjelölve (a legkisebb aktív idő 300 másodperc).',
         'Danish' => 'Dán',
         'Data used to export the search result in CSV format.' => 'A keresési eredmény CSV formátumba való exportálásához használt adat.',
         'Date / Time' => 'Dátum / Idő',
@@ -6111,7 +6111,7 @@ Az Ön segélyszolgálat csapata
         'Locked Tickets.' => 'Zárolt jegyek.',
         'Locked ticket.' => 'Zárolt jegy.',
         'Log file for the ticket counter.' => 'Naplófájl a jegyszámlálóhoz.',
-        'Logged-In Users' => '',
+        'Logged-In Users' => 'Bejelentkezett felhasználók',
         'Logout of customer panel.' => 'Az ügyfélpanel kijelentkezése.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Hurokvédelem! Nem lett automatikus válasz elküldve ide: „%s”.',
         'Mail Accounts' => 'Levelezőfiókok',
@@ -6534,15 +6534,15 @@ Az Ön segélyszolgálat csapata
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             'Beállítja az inaktivitás idejét (másodpercben) átadásra, mielőtt egy munkamenetet kilő és egy felhasználót kijelentkeztet.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            'Beállítja az aktív ügyintézők legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül, mielőtt egy előzetes figyelmeztetés lesz látható a bejelentkezett ügyintézőnél.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Beállítja az aktív ügyintézők legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül.',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Beállítja az aktív ügyfelek legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül.',
         'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Beállítja az ügyintézőnkénti aktív munkamenetek legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül.',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Beállítja az ügyfelenkénti aktív munkamenetek legnagyobb számát a SessionMaxIdleTime modulon meghatározott időtartamon belül.',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             'Beállítja a legkisebb jegyszámlálóméretet, ha „Automatikus növelés” lett kiválasztva jegyszám-előállítóként. Alapértelmezetten 5, amely azt jelenti, hogy a számláló 10000-től indul.',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>

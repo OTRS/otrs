@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.471846619576186;
+    $Self->{Completeness}        = 0.472452068617558;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -151,8 +151,8 @@ sub Data {
         'Languages' => 'Langues',
         'Password' => 'Mot de Passe',
         'Preferences' => 'Préférences',
-        'Salutation' => 'En-tête',
-        'Salutations' => 'En-têtes',
+        'Salutation' => 'Salutation',
+        'Salutations' => 'Salutations',
         'Signature' => 'Signature',
         'Signatures' => 'Signatures',
         'Customer' => 'Client',
@@ -3677,8 +3677,8 @@ sub Data {
         'Needed Fingerprint' => '',
 
         # Perl Module: Kernel/Modules/AdminSalutation.pm
-        'Salutation updated!' => '',
-        'Salutation added!' => '',
+        'Salutation updated!' => 'Salutation mise à jour !',
+        'Salutation added!' => 'Salutation ajoutée !',
 
         # Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
         'File %s could not be read!' => '',
@@ -4539,7 +4539,7 @@ sub Data {
         'Ticket is pending for automatic close.' => '',
         'State for merged tickets.' => '',
         'system standard salutation (en)' => '',
-        'Standard Salutation.' => '',
+        'Standard Salutation.' => 'Salutation standard',
         'system standard signature (en)' => '',
         'Standard Signature.' => '',
         'Standard Address.' => '',
@@ -4891,7 +4891,7 @@ Thanks for your help!
         'Create and manage queues.' => 'Créer et gérer les files.',
         'Create and manage responses that are automatically sent.' => 'Créer et gérer  les réponses envoyées automatiquement.',
         'Create and manage roles.' => 'Créer et gérer les rôles.',
-        'Create and manage salutations.' => 'Créer et gérer les en-têtes.',
+        'Create and manage salutations.' => 'Créer et gérer les salutations.',
         'Create and manage services.' => 'Créer et gérer les services.',
         'Create and manage signatures.' => 'Créer et gérer les signatures.',
         'Create and manage templates.' => 'Créer et gérer les modèles.',
