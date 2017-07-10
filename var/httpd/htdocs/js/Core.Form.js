@@ -27,7 +27,7 @@ Core.Form = (function (TargetNS) {
     }
 
     /*
-     * Find checked rw inputs and disable thair row, and add class 'Disabled'.
+     * Find checked rw inputs and disable their row, and add class 'Disabled'.
      */
     $('input[type="checkbox"][name="rw"]').each(function () {
         if($(this).attr('checked') === 'checked'){
@@ -39,11 +39,12 @@ Core.Form = (function (TargetNS) {
     /*
      * Disable top row if all rw elements are checked.
      */
-    if($('input[type="checkbox"][name="rw"]').not('#SelectAllrw').filter(':checked').length === $('input[type="checkbox"][name="rw"]').not('#SelectAllrw').length){
+    if($('input[type="checkbox"][name="rw"]').length !== 0 &&
+        $('input[type="checkbox"][name="rw"]').not('#SelectAllrw').filter(':checked').length ===
+        $('input[type="checkbox"][name="rw"]').not('#SelectAllrw').length){
         $('table th input:not([name="rw"]:visible)').prop('disabled', true);
         $('#SelectAllrw').addClass('Disabled');
     }
-
 
     /**
      * @name DisableForm
