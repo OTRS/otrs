@@ -29,6 +29,7 @@ our @ObjectDependencies = (
     'Kernel::System::CloudService::Backend::Run',
     'Kernel::System::DB',
     'Kernel::System::Encode',
+    'Kernel::System::Environment',
     'Kernel::System::JSON',
     'Kernel::System::Loader',
     'Kernel::System::Log',
@@ -3319,21 +3320,24 @@ sub _CheckModuleRequired {
     # check required perl modules
     if ( $Param{ModuleRequired} && ref $Param{ModuleRequired} eq 'ARRAY' ) {
 
+        my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
+
         MODULE:
         for my $Module ( @{ $Param{ModuleRequired} } ) {
 
             next MODULE if !$Module;
 
+            # Check if module is installed by querying its version number via environment object.
+            #   Some required modules might already be loaded by existing process, and might not support reloading.
+            #   Because of this, opt not to use the main object an its Require() method at this point.
             my $Installed        = 0;
-            my $InstalledVersion = 0;
-
-            # check if module is installed
-            if ( $Self->{MainObject}->Require( $Module->{Content} ) ) {
+            my $InstalledVersion = $EnvironmentObject->ModuleVersionGet(
+                Module => $Module->{Content},
+            );
+            if ($InstalledVersion) {
                 $Installed = 1;
-
-                # check version if installed module
-                $InstalledVersion = $Module->{Content}->VERSION;    ## no critic
             }
+
             if ( !$Installed ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
