@@ -41,7 +41,7 @@ sub Run {
     # only show the escalations on ticket overviews
     return ''
         if $LayoutObject->{Action}
-        !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
+        !~ /^AgentTicket(Queue|Service|(Status|Locked|Watch|Responsible)View)/;
 
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
