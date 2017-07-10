@@ -181,7 +181,7 @@ sub Run {
             }
             elsif ( $Ticket{SolutionTimeNotification} ) {
                 $LayoutObject->Block(
-                    Name => 'TicketEscalationSolutionTimeOver',
+                    Name => 'TicketEscalationSolutionTimeWillBeOver',
                     Data => \%Ticket,
                 );
                 my $Data = $LayoutObject->Output(
