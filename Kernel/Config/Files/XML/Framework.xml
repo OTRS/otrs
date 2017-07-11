@@ -84,6 +84,13 @@
             </Item>
         </Value>
     </Setting>
+    <Setting Name="HTTPSForceRedirect" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before activating this option.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="ScriptAlias" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Sets the prefix to the scripts folder on the server, as configured on the web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within the system.</Description>
         <Navigation>Frontend::Base</Navigation>
