@@ -156,6 +156,14 @@ sub Run {
         push @{ $Modules{$Block} }, $NavBarModule{$Item};
     }
 
+    # Sort the items within the groups.
+    for my $Block (sort keys %Modules) {
+        for my $Entry ( @{$Modules{$Block}}) {
+            $Entry->{NameTranslated} = $LayoutObject->{LanguageObject}->Translate( $Entry->{Name} );
+        }
+        @{ $Modules{$Block} } = sort { $a->{NameTranslated} cmp $b->{NameTranslated} } @{ $Modules{$Block} };
+    }
+
     $LayoutObject->Block(
         Name => 'AdminNavBar',
         Data => {

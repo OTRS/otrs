@@ -487,7 +487,8 @@ sub MigrateXMLStructure {
                     $NavigationModule .= sprintf( "\n%-*s%s", 16, "", "</Item>" );
                 }
 
-                for my $NavBarTag (qw(Module Name Block Description IconBig IconSmall Prio)) {
+                NAVBARTAG:
+                for my $NavBarTag (qw(Module Name Block Description IconBig IconSmall Prio CssClass)) {
                     my $Value      = '';
                     my $Attributes = '';
 
@@ -498,11 +499,19 @@ sub MigrateXMLStructure {
                         $Attributes = " $1";
                         $Value      = $2;
                     }
+
+                    # special treatment for OTRSBusiness tile CssClass
+                    if ($NavBarTag eq 'CssClass') {
+                        next NAVBARTAG if $Name ne 'Frontend::NavigationModule###AdminOTRSBusiness';
+                        $Value = 'OTRSBusiness';
+                    }
+
                     $NavigationModule .= sprintf(
                         "\n%-*s%s", 16, "",
                         "<Item Key=\"$NavBarTag\"$Attributes>$Value</Item>",
                     );
                 }
+
 
                 $NavigationModule .= sprintf( "\n%-*s%s", 12, "", "</Hash>" );
                 $NavigationModule .= sprintf( "\n%-*s%s", 8,  "", "</Value>" );

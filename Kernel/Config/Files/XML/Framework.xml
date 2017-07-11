@@ -10379,6 +10379,7 @@ via the Preferences button after logging in.
                 <Item Key="IconBig">fa-angle-double-up</Item>
                 <Item Key="IconSmall"></Item>
                 <Item Key="Prio">360</Item>
+                <Item Key="CssClass">OTRSBusiness</Item>
             </Hash>
         </Value>
     </Setting>

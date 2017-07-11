@@ -58,6 +58,12 @@
 
 .ItemListGrid > li.IsFavourite > a {
     box-shadow: 0px 0px 3px #f92;
+    border-color: #f92;
+}
+
+.ItemListGrid > li.OTRSBusiness > a {
+    box-shadow: 0px 0px 3px #75c0d0;
+    border-color: #75c0d0;
 }
 
 .ItemListGrid > li > a {

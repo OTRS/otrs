@@ -60,6 +60,15 @@
 
     <div class="ContentColumn">
 
+    <div class="WidgetSimple FilterMessageWidget Hidden">
+        <div class="Header">
+            <h2>[% Translate("No Matches") | html %]</h2>
+        </div>
+        <div class="Content">
+            <p>[% Translate("Sorry, your search didn't match any items.") | html %]</p>
+        </div>
+    </div>
+
 [% FOREACH Group IN Data.Groups; GroupKey = Group.Key %]
     [% IF Data.Items.$GroupKey.size() %]
         <div class="WidgetSimple">
@@ -69,9 +78,8 @@
             <div class="Content">
                 <ul class="ItemListGrid WithIcons Filterable">
                 [% FOREACH Item IN Data.Items.$GroupKey %]
-                    <li [% IF Item.IsFavourite %]class="IsFavourite"[% END %] data-module="[% Item.item("Frontend::Module") | html %]">
-                        <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]" title="[% Translate(Item.Name) | html %]
-[% Translate(Item.Description) | html %]">
+                    <li class="[% IF Item.IsFavourite %]IsFavourite[% END %] [% Item.CssClass | html %]" data-module="[% Item.item("Frontend::Module") | html %]">
+                        <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Item.item("Frontend::Module") | uri %]" title="[% Translate(Item.Description) | html %]">
                             <span class="Icons">
                             [% IF Item.IconBig %]
                                 <i class="fa [% Item.IconBig %]"></i>
@@ -97,9 +105,6 @@
                         </a>
                     </li>
                 [% END %]
-                    <li class="FilterMessage Hidden">
-                        [% Translate("No matches found.") | html %]
-                    </li>
                 </ul>
             </div>
         </div>

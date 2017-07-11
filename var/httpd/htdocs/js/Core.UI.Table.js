@@ -26,11 +26,12 @@ Core.UI.Table = (function (TargetNS) {
      * @param {jQueryObject} $FilterInput - Filter input element.
      * @param {jQueryObject} $Container - Table or list to be filtered.
      * @param {Number|String} ColumnNumber - Only search in thsi special column of the table (counting starts with 0).
+     * @param {Boolean} HideEmptyContainers - hide containers of type .WidgetSimple which don't contain any search results.
      * @description
      *      This function initializes a filter input field which can be used to
      *      dynamically filter a table or a list with the class TableLike (e.g. in the admin area overviews).
      */
-    TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
+    TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber, HideEmptyContainers) {
         var Timeout;
 
         $FilterInput.wrap('<span class="TableFilterContainer" />');
@@ -123,20 +124,41 @@ Core.UI.Table = (function (TargetNS) {
                 // handle multiple containers correctly
                 if ($Container.length > 1) {
                     $Container.each(function() {
+                        $(this).closest('.WidgetSimple').show();
                         if ($(this).find('tbody tr:visible:not(.FilterMessage), li:visible:not(.Header):not(.FilterMessage)').length) {
                             $(this).find('.FilterMessage').hide();
+
+                            if (HideEmptyContainers) {
+                                $(this).closest('.WidgetSimple').show();
+                            }
                         }
                         else {
                             $(this).find('.FilterMessage').show();
+                            if (HideEmptyContainers) {
+                                $(this).closest('.WidgetSimple').hide();
+                            }
                         }
                     });
+
+                    if (!$Container.filter(':visible').length) {
+                        $('.FilterMessageWidget').show();
+                    }
+                    else {
+                        $('.FilterMessageWidget').hide();
+                    }
                 }
                 else {
                     if ($Rows.filter(':visible').length) {
                         $Container.find('.FilterMessage').hide();
+                        if (HideEmptyContainers) {
+                            $Container.closest('.WidgetSimple').show();
+                        }
                     }
                     else {
                         $Container.find('.FilterMessage').show();
+                        if (HideEmptyContainers) {
+                            $Container.closest('.WidgetSimple').hide();
+                        }
                     }
                 }
 

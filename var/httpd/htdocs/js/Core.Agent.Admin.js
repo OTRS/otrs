@@ -106,7 +106,7 @@ Core.Agent.Admin = (function (TargetNS) {
             return false;
         });
 
-        Core.UI.Table.InitTableFilter($('#Filter'), $('.Filterable'));
+        Core.UI.Table.InitTableFilter($('#Filter'), $('.Filterable'), undefined, true);
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
