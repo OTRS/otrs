@@ -1120,7 +1120,7 @@ my @Tests = (
                 Select => '.HashItem:nth-of-type(2) .Entry',
             },
             {
-                Write => 'Street #, City',
+                Write => '0',                       # check if value can be 0
             },
             {
                 Hover => '.Setting',
@@ -1129,12 +1129,15 @@ my @Tests = (
                 Click => '.Update',
             },
             {
-                Select => 'input',
+                Select => '.HashItem:nth-of-type(1) .Content',
+            },
+            {
+                ElementValue => '0',
             },
         ],
         ExpectedResult => {
             'First name'           => 'John',
-            'DynamicField_Address' => 'Street #, City',
+            'DynamicField_Address' => '0',
         },
     },
     {

@@ -738,13 +738,11 @@ sub _SettingRender {
 
                 my $ValueAttribute = $Objects{$ValueType}->ValueAttributeGet();
 
-                my $EffectiveValue = $Item->{$ValueAttribute} || '';
-
                 # Output item.
                 $HashItem .= $Objects{$ValueType}->SettingRender(
                     %Param,
                     Name           => $Param{Name},
-                    EffectiveValue => $EffectiveValue,
+                    EffectiveValue => $Item->{$ValueAttribute} // '',
                     Class          => 'Content',
                     Item           => [$Item],
                     IsAjax         => $Param{IsAjax},
