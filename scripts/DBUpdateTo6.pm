@@ -82,7 +82,7 @@ sub Run {
 
     if ($TimingEnabled) {
         my $GeneralStopTime = Time::HiRes::time();
-        my $GeneralExecutionTime = sprintf( "%.6f", $GeneralStopTime - $GeneralStartTime);
+        my $GeneralExecutionTime = sprintf( "%.6f", $GeneralStopTime - $GeneralStartTime );
         print " Migration took $GeneralExecutionTime seconds.\n\n";
     }
 
@@ -169,8 +169,8 @@ sub _ExecuteComponent {
         }
 
         if ($TimingEnabled) {
-            my $StopTaskTime      = Time::HiRes::time();
-            my $ExecutionTaskTime = sprintf( "%.6f", $StopTaskTime - $TaskStartTime);
+            my $StopTaskTime = Time::HiRes::time();
+            my $ExecutionTaskTime = sprintf( "%.6f", $StopTaskTime - $TaskStartTime );
             print " ($ExecutionTaskTime seconds).";
         }
 

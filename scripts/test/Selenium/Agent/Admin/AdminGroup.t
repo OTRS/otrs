@@ -233,7 +233,8 @@ $Selenium->RunTest(
             # Check if top level inputs are disabled.
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"
+                ),
                 1,
                 "Top row inputs are disabled.",
             );
@@ -241,7 +242,8 @@ $Selenium->RunTest(
             # Check if bottom level inputs are disabled.
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"
+                ),
                 1,
                 "Table inputs are disabled.",
             );
@@ -252,7 +254,8 @@ $Selenium->RunTest(
             # Check if top level inputs are enabled.
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"
+                ),
                 0,
                 "Top row inputs are enabled.",
             );
@@ -260,7 +263,8 @@ $Selenium->RunTest(
             # Check if bottom level inputs are enabled.
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"
+                ),
                 0,
                 "Table inputs are enabled.",
             );
@@ -274,7 +278,8 @@ $Selenium->RunTest(
             # Check if top level inputs are disabled.
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                    "return \$('table th:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"
+                ),
                 1,
                 "Top row inputs are disabled.",
             );
@@ -282,7 +287,8 @@ $Selenium->RunTest(
             # Check if bottom level inputs are disabled.
             $Self->Is(
                 $Selenium->execute_script(
-                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"),
+                    "return \$('table td:nth-child(2) input:not([name=\"rw\"])').prop('disabled')"
+                ),
                 1,
                 "Table inputs are disabled.",
             );

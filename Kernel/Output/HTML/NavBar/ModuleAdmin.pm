@@ -122,7 +122,7 @@ sub Run {
     my $ModuleGroupsConfig = $ConfigObject->Get('Frontend::AdminModuleGroups');
 
     # get all registered groups
-    for my $Group ( sort keys %{ $ModuleGroupsConfig } ) {
+    for my $Group ( sort keys %{$ModuleGroupsConfig} ) {
         for my $Key ( sort keys %{ $ModuleGroupsConfig->{$Group} } ) {
             push @ModuleGroups, {
                 'Key'   => $Key,

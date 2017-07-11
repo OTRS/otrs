@@ -403,9 +403,9 @@ EOF
         $Selenium->execute_script(
             "return \$('#NewStateID').val('2').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( '#Subject',  'css' )->send_keys('Close');
-        $Selenium->find_element( '#RichText', 'css' )->send_keys('Closing...');
-        $Selenium->find_element( '#submitRichText', 'css'  )->click();
+        $Selenium->find_element( '#Subject',        'css' )->send_keys('Close');
+        $Selenium->find_element( '#RichText',       'css' )->send_keys('Closing...');
+        $Selenium->find_element( '#submitRichText', 'css' )->click();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );

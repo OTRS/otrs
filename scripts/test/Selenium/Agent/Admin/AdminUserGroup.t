@@ -251,14 +251,16 @@ $Selenium->RunTest(
         # Check if test row is disabled and checked.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('disabled');"),
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('disabled');"
+            ),
             1,
             "Selected row is disabled.",
         );
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('checked');"),
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('checked');"
+            ),
             1,
             "Selected row is checked.",
         );
@@ -288,14 +290,16 @@ $Selenium->RunTest(
         # Check if test row is disabled and checked.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('disabled');"),
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('disabled');"
+            ),
             1,
             "Selected row is disabled.",
         );
 
         $Self->Is(
             $Selenium->execute_script(
-                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('checked');"),
+                "return \$(\"a[href*='ID=$GroupID']\").parent().next().children('input').prop('checked');"
+            ),
             1,
             "Selected row is checked.",
         );

@@ -28,7 +28,7 @@ sub Run {
 
     # drop table no longer needed since OTRS 5
     my @XMLStrings = (
-       '<TableDrop Name="notifications"/>',
+        '<TableDrop Name="notifications"/>',
     );
 
     return if !$Self->ExecuteXMLDBArray(
