@@ -257,6 +257,7 @@ sub ActivityDialogCompletedCheck {
 
     return 1;
 }
+
 1;
 
 =head1 TERMS AND CONDITIONS

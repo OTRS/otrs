@@ -998,6 +998,7 @@ sub _CreateMimeEntity {
 
     return $Entity;
 }
+
 1;
 
 =end Internal:

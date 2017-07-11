@@ -45,14 +45,16 @@ sub Run {
     my $Access = $TicketObject->TicketPermission(
         Type     => 'ro',
         TicketID => $Self->{TicketID},
-        UserID   => $Self->{UserID}
+        UserID   => $Self->{UserID},
     );
 
     # No permission, do not show ticket.
     return $LayoutObject->NoPermission( WithHeader => 'yes' ) if !$Access;
 
     # Get ACL restrictions.
-    my %PossibleActions = ( 1 => $Self->{Action} );
+    my %PossibleActions = (
+        1 => $Self->{Action},
+    );
 
     my $ACL = $TicketObject->TicketAcl(
         Data          => \%PossibleActions,
@@ -83,6 +85,7 @@ sub Run {
 
     # Assemble file name.
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     if ( $Self->{UserTimeZone} ) {
         $DateTimeObject->ToTimeZone( TimeZone => $Self->{UserTimeZone} );
     }

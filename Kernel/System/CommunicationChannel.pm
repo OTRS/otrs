@@ -213,13 +213,15 @@ sub ChannelGet {
         Bind => \@Bind,
     );
 
+    my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+
     my %Result;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Result{ChannelID}   = $Row[0];
         $Result{ChannelName} = $Row[1];
         $Result{Module}      = $Row[2];
         $Result{PackageName} = $Row[3];
-        $Result{ChannelData} = $Kernel::OM->Get('Kernel::System::YAML')->Load( Data => $Row[4] );
+        $Result{ChannelData} = $YAMLObject->Load( Data => $Row[4] );
         $Result{ValidID}     = $Row[5];
         $Result{CreateTime}  = $Row[6];
         $Result{CreateBy}    = $Row[7];

@@ -192,11 +192,11 @@ sub ArticleCreate {
 
     # check ContentType vs. Charset & MimeType
     if ( !$Param{ContentType} ) {
-        for (qw(Charset MimeType)) {
-            if ( !$Param{$_} ) {
+        for my $Item (qw(Charset MimeType)) {
+            if ( !$Param{$Item} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "Need $_!"
+                    Message  => "Need $Item!"
                 );
                 return;
             }
@@ -204,11 +204,11 @@ sub ArticleCreate {
         $Param{ContentType} = "$Param{MimeType}; charset=$Param{Charset}";
     }
     else {
-        for (qw(ContentType)) {
-            if ( !$Param{$_} ) {
+        for my $Item (qw(ContentType)) {
+            if ( !$Param{$Item} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "Need $_!"
+                    Message  => "Need $Item!"
                 );
                 return;
             }
@@ -228,8 +228,10 @@ sub ArticleCreate {
         }
     }
 
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # for the event handler, before any actions have taken place
-    my %OldTicketData = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    my %OldTicketData = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 1,
     );
@@ -311,14 +313,16 @@ sub ArticleCreate {
     my @Articles = $ArticleObject->ArticleList( TicketID => $Param{TicketID} );
     my $FirstArticle = scalar @Articles ? 0 : 1;
 
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # calculate MD5 of Message ID
     if ( $Param{MessageID} ) {
-        $Param{MD5} = $Kernel::OM->Get('Kernel::System::Main')->MD5sum( String => $Param{MessageID} );
+        $Param{MD5} = $MainObject->MD5sum( String => $Param{MessageID} );
     }
 
     # Generate unique fingerprint for searching created article in database to prevent race conditions
     #   (see https://bugs.otrs.org/show_bug.cgi?id=12438).
-    my $RandomString = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
+    my $RandomString = $MainObject->GenerateRandomString(
         Length => 32,
     );
     my $ArticleInsertFingerprint = $$ . '-' . $RandomString . '-' . ( $Param{MessageID} // '' );
@@ -435,7 +439,7 @@ sub ArticleCreate {
     );
 
     # add history row
-    $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+    $TicketObject->HistoryAdd(
         ArticleID    => $ArticleID,
         TicketID     => $Param{TicketID},
         CreateUserID => $Param{UserID},
@@ -458,7 +462,7 @@ sub ArticleCreate {
         );
 
         if ( $OwnerInfo{OutOfOfficeMessage} ) {
-            $Kernel::OM->Get('Kernel::System::Ticket')->TicketLockSet(
+            $TicketObject->TicketLockSet(
                 TicketID => $Param{TicketID},
                 Lock     => 'unlock',
                 UserID   => $Param{UserID},
@@ -507,7 +511,7 @@ sub ArticleCreate {
         }
 
         if ( $LastSenderTypeID && $LastSenderTypeID == $AgentSenderTypeID ) {
-            $Kernel::OM->Get('Kernel::System::Ticket')->TicketUnlockTimeoutUpdate(
+            $TicketObject->TicketUnlockTimeoutUpdate(
                 UnlockTimeout => $IncomingTime,
                 TicketID      => $Param{TicketID},
                 UserID        => $Param{UserID},
@@ -517,7 +521,7 @@ sub ArticleCreate {
 
     # check if latest article is sent to customer
     elsif ( $Param{SenderType} eq 'agent' ) {
-        $Kernel::OM->Get('Kernel::System::Ticket')->TicketUnlockTimeoutUpdate(
+        $TicketObject->TicketUnlockTimeoutUpdate(
             UnlockTimeout => $IncomingTime,
             TicketID      => $Param{TicketID},
             UserID        => $Param{UserID},
@@ -554,7 +558,7 @@ sub ArticleCreate {
     # send no agent notification!?
     return $ArticleID if $Param{NoAgentNotify};
 
-    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,
     );
@@ -703,11 +707,11 @@ Returns:
 sub ArticleGet {
     my ( $Self, %Param ) = @_;
 
-    for (qw(TicketID ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(TicketID ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
@@ -876,11 +880,11 @@ Events:
 sub ArticleUpdate {
     my ( $Self, %Param ) = @_;
 
-    for (qw(TicketID ArticleID UserID Key)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(TicketID ArticleID UserID Key)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -894,10 +898,12 @@ sub ArticleUpdate {
         return;
     }
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
     # Lookup for sender type ID.
     if ( $Param{Key} eq 'SenderType' ) {
         $Param{Key}   = 'SenderTypeID';
-        $Param{Value} = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSenderTypeLookup(
+        $Param{Value} = $ArticleObject->ArticleSenderTypeLookup(
             SenderType => $Param{Value},
         );
     }
@@ -927,7 +933,7 @@ sub ArticleUpdate {
         );
     }
 
-    $Kernel::OM->Get('Kernel::System::Ticket::Article')->_ArticleCacheClear(
+    ArticleObject->_ArticleCacheClear(
         TicketID => $Param{TicketID},
     );
 
@@ -1304,11 +1310,11 @@ Returns:
 sub ArticleSearchableContentGet {
     my ( $Self, %Param ) = @_;
 
-    for (qw(TicketID ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(TicketID ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }

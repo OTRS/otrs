@@ -87,11 +87,11 @@ sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -129,11 +129,11 @@ sub ArticleDeletePlain {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -175,11 +175,11 @@ sub ArticleDeleteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -234,11 +234,11 @@ sub ArticleWritePlain {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID Email UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID Email UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -283,6 +283,7 @@ sub ArticleWritePlain {
     }
 
     return if !$Success;
+
     return 1;
 }
 
@@ -290,11 +291,11 @@ sub ArticleWriteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Filename ContentType ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(Filename ContentType ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -336,8 +337,8 @@ sub ArticleWriteAttachment {
     # Normalize filenames to find file names which are identical but in a different unicode form.
     #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
     #   Without this, the same file might be overwritten because the strings are not equal.
-    for ( sort keys %Index ) {
-        $UsedFile{ Unicode::Normalize::NFC( $Index{$_}->{Filename} ) } = 1;
+    for my $Position ( sort keys %Index ) {
+        $UsedFile{ Unicode::Normalize::NFC( $Index{$Position}->{Filename} ) } = 1;
     }
     for ( my $i = 1; $i <= 50; $i++ ) {
         if ( exists $UsedFile{ Unicode::Normalize::NFC($NewFileName) } ) {
@@ -709,11 +710,11 @@ sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID FileID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID FileID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }

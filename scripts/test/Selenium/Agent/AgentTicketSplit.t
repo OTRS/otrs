@@ -124,12 +124,12 @@ $Selenium->RunTest(
             {
                 ArticleID      => $ArticleIDs[1],
                 ToValueOnSplit => "To Customer <$ToCustomer>",
-                ResultMessage  => 'From is SystemAddress, To is Customer'
+                ResultMessage  => 'From is SystemAddress, To is Customer',
             },
             {
                 ArticleID      => $ArticleIDs[2],
                 ToValueOnSplit => "From Customer <$FromCustomer>",
-                ResultMessage  => 'From is Customer, To is Customer'
+                ResultMessage  => 'From is Customer, To is Customer',
             },
         );
 
@@ -138,7 +138,7 @@ $Selenium->RunTest(
 
             # navigate to split ticket of test ticket first article
             $Selenium->VerifiedGet(
-                "${ScriptAlias}index.pl?Action=AgentTicketPhone;TicketID=$TicketID;ArticleID=$Test->{ArticleID};LinkTicketID=$TicketID"
+                "${ScriptAlias}index.pl?Action=AgentTicketPhone;TicketID=$TicketID;ArticleID=$Test->{ArticleID};LinkTicketID=$TicketID",
             );
 
             $Self->Is(
@@ -151,7 +151,7 @@ $Selenium->RunTest(
         # delete test system address
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my $Success  = $DBObject->Do(
-            SQL => "DELETE FROM system_address WHERE id= $SystemAddressID",
+            SQL => "DELETE FROM system_address WHERE id = $SystemAddressID",
         );
         $Self->True(
             $Success,

@@ -72,7 +72,7 @@ sub Run {
     my $Access = $TicketObject->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => $Self->{TicketID},
-        UserID   => $Self->{UserID}
+        UserID   => $Self->{UserID},
     );
 
     # error screen, don't show ticket
@@ -225,12 +225,11 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value from the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
-            $BackendObject->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $ParamObject,
             LayoutObject       => $LayoutObject,
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -311,16 +310,13 @@ sub Run {
             ) || $PossibleValues;
 
             # add dynamic field to the list of fields to update
-            push(
-                @DynamicFieldAJAX,
-                {
-                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data        => $DataValues,
-                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
-                    Max         => 100,
-                }
-            );
+            push @DynamicFieldAJAX, {
+                Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                Data        => $DataValues,
+                SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                Max         => 100,
+            };
         }
 
         my $JSON = $LayoutObject->BuildSelectionJSON(
@@ -536,9 +532,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory =>
-                        $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
-                        == 2,
+                    Mandatory            => $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
@@ -562,8 +556,7 @@ sub Run {
             }
 
             # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-                $BackendObject->EditFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory =>
@@ -574,7 +567,7 @@ sub Run {
                 ParamObject  => $ParamObject,
                 AJAXUpdate   => 1,
                 UpdatableFields => $Self->_GetFieldsToUpdate(),
-                );
+            );
         }
 
         # show edit again
@@ -886,8 +879,7 @@ sub Run {
         }
 
         # get field html
-        $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-            $BackendObject->EditFieldRender(
+        $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldRender(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
             Mandatory =>
@@ -897,8 +889,7 @@ sub Run {
             AJAXUpdate      => 1,
             UpdatableFields => $Self->_GetFieldsToUpdate(),
             Value           => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-
-            );
+        );
     }
 
     # generate output
@@ -1151,7 +1142,9 @@ sub _Mask {
         );
         $LayoutObject->Block(
             Name => 'Responsible',
-            Data => { ResponsibleName => $ResponsibleName },
+            Data => {
+                ResponsibleName => $ResponsibleName,
+            },
         );
     }
 
@@ -1159,7 +1152,7 @@ sub _Mask {
 
     # check if ticket is normal or process ticket
     my $IsProcessTicket = $TicketObject->TicketCheckForProcessType(
-        'TicketID' => $Self->{TicketID}
+        'TicketID' => $Self->{TicketID},
     );
 
     # show process widget  and activity dialogs on process tickets
@@ -1447,7 +1440,7 @@ sub _Mask {
                             Name => 'Chat',
                             Data => {
                                 %Param,
-                                }
+                            },
                         );
                     }
                     else {
@@ -1489,7 +1482,7 @@ sub _Mask {
                                     Name => 'Chat',
                                     Data => {
                                         %Param,
-                                        }
+                                    },
                                 );
                             }
                         }
@@ -1670,7 +1663,7 @@ sub _Mask {
         $TicketObject->TicketCustomerPermission(
             Type     => 'update',
             TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
+            UserID   => $Self->{UserID},
         )
         && (
             ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )

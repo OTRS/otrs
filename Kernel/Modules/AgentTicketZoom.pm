@@ -405,7 +405,7 @@ sub Run {
                     NoCache     => 1,
                 );
             }
-            my $Module = eval { $Config->{Module}->new(%$Self) };
+            my $Module = eval { $Config->{Module}->new( %{$Self} ) };
             if ( !$Module ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
@@ -2746,7 +2746,7 @@ sub _CollectArticleAttachments {
             %{ $Article{Atms}->{$FileID} },
             FileID => $FileID,
             Target => $Target,
-            }
+        };
     }
 
     return \%Attachments;

@@ -47,11 +47,11 @@ sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
@@ -82,11 +82,11 @@ sub ArticleDeletePlain {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
@@ -114,11 +114,11 @@ sub ArticleDeleteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
@@ -147,11 +147,11 @@ sub ArticleWritePlain {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID Email UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID Email UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
@@ -183,11 +183,11 @@ sub ArticleWriteAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Filename ContentType ArticleID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(Filename ContentType ArticleID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
@@ -200,8 +200,8 @@ sub ArticleWriteAttachment {
         UserID    => $Param{UserID},
     );
 
-    for ( sort keys %Index ) {
-        $UsedFile{ $Index{$_}->{Filename} } = 1;
+    for my $IndexFile ( sort keys %Index ) {
+        $UsedFile{ $Index{$IndexFile}->{Filename} } = 1;
     }
     for ( my $i = 1; $i <= 50; $i++ ) {
         if ( exists $UsedFile{$NewFileName} ) {
@@ -393,11 +393,11 @@ sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ArticleID FileID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(ArticleID FileID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }

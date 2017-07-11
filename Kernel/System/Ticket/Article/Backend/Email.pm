@@ -64,11 +64,11 @@ Return article data by supplied message ID.
 sub ArticleGetByMessageID {
     my ( $Self, %Param ) = @_;
 
-    for (qw(MessageID UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(MessageID UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!"
             );
             return;
         }
@@ -347,11 +347,11 @@ Events:
 sub ArticleBounce {
     my ( $Self, %Param ) = @_;
 
-    for (qw(TicketID ArticleID From To UserID)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(TicketID ArticleID From To UserID)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -429,11 +429,11 @@ sub SendAutoResponse {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID UserID OrigHeader AutoResponseType)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(TicketID UserID OrigHeader AutoResponseType)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!",
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -445,8 +445,10 @@ sub SendAutoResponse {
     # get orig email header
     my %OrigHeader = %{ $Param{OrigHeader} };
 
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # get ticket
-    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,                  # not needed here, TemplateGenerator will fetch the ticket on its own
     );
@@ -473,7 +475,7 @@ sub SendAutoResponse {
     {
 
         # add history row
-        $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+        $TicketObject->HistoryAdd(
             TicketID    => $Param{TicketID},
             HistoryType => 'Misc',
             Name        => "Sent no auto response or agent notification because ticket is "
@@ -489,7 +491,7 @@ sub SendAutoResponse {
     if ( $OrigHeader{'X-OTRS-Loop'} && $OrigHeader{'X-OTRS-Loop'} !~ /^(false|no)$/i ) {
 
         # add history row
-        $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+        $TicketObject->HistoryAdd(
             TicketID    => $Param{TicketID},
             HistoryType => 'Misc',
             Name        => "Sent no auto-response because the sender doesn't want "
@@ -526,7 +528,7 @@ sub SendAutoResponse {
         if ( !$Email ) {
 
             # add it to ticket history
-            $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+            $TicketObject->HistoryAdd(
                 TicketID     => $Param{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
@@ -544,7 +546,7 @@ sub SendAutoResponse {
         if ( !$LoopProtectionObject->Check( To => $Email ) ) {
 
             # add history row
-            $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+            $TicketObject->HistoryAdd(
                 TicketID     => $Param{TicketID},
                 HistoryType  => 'LoopProtection',
                 Name         => "\%\%$Email",
@@ -570,7 +572,7 @@ sub SendAutoResponse {
         if ( $Email =~ /$NoAutoRegExp/i ) {
 
             # add it to ticket history
-            $Kernel::OM->Get('Kernel::System::Ticket')->HistoryAdd(
+            $TicketObject->HistoryAdd(
                 TicketID     => $Param{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',

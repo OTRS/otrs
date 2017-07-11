@@ -660,7 +660,7 @@ sub SendEmail {
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $ParamObject,
             LayoutObject       => $LayoutObject,
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -818,8 +818,7 @@ sub SendEmail {
         }
 
         # get field html
-        $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-            $DynamicFieldBackendObject->EditFieldRender(
+        $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldRender(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
             Mandatory =>
@@ -830,7 +829,7 @@ sub SendEmail {
             ParamObject  => $ParamObject,
             AJAXUpdate   => 1,
             UpdatableFields => $Self->_GetFieldsToUpdate(),
-            );
+        );
     }
 
     # transform pending time, time stamp based on user time zone
@@ -860,7 +859,7 @@ sub SendEmail {
                 $Error{ $Line . 'Invalid' }   = 'ServerError';
             }
             my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                Address => $Email->address()
+                Address => $Email->address(),
             );
 
             if ($IsLocal) {
@@ -902,7 +901,7 @@ sub SendEmail {
             $Object->Run(
                 %GetParam,
                 StoreNew => 1,
-                Config   => $Jobs{$Job}
+                Config   => $Jobs{$Job},
             );
 
             # get options that have been removed from the selection
@@ -927,13 +926,20 @@ sub SendEmail {
             # ticket params
             %ArticleParam = (
                 %ArticleParam,
-                $Object->ArticleOption( %GetParam, %ArticleParam, Config => $Jobs{$Job} ),
+                $Object->ArticleOption(
+                    %GetParam,
+                    %ArticleParam,
+                    Config => $Jobs{$Job},
+                ),
             );
 
             # get errors
             %Error = (
                 %Error,
-                $Object->Error( %GetParam, Config => $Jobs{$Job} ),
+                $Object->Error(
+                    %GetParam,
+                    Config => $Jobs{$Job},
+                ),
             );
         }
     }
@@ -1253,9 +1259,7 @@ sub AjaxUpdate {
             my $Key = $Object->Option( %GetParam, Config => $Jobs{$Job} );
 
             if ($Key) {
-                push(
-                    @ExtendedData,
-                    {
+                push @ExtendedData, {
                         Name         => $Key,
                         Data         => \%Data,
                         SelectedID   => $GetParam{$Key},
@@ -1263,8 +1267,7 @@ sub AjaxUpdate {
                         PossibleNone => 1,
                         Multiple     => $Multiple,
                         Max          => 100,
-                    }
-                );
+                };
             }
         }
     }
@@ -1296,7 +1299,7 @@ sub AjaxUpdate {
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $ParamObject,
             LayoutObject       => $LayoutObject,
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -1319,6 +1322,9 @@ sub AjaxUpdate {
     # update Dynamic Fields Possible Values via AJAX
     my @DynamicFieldAJAX;
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
     for my $DynamicFieldConfig ( @{$DynamicField} ) {
@@ -1337,9 +1343,6 @@ sub AjaxUpdate {
         # convert possible values key => value to key => key for ACLs using a Hash slice
         my %AclData = %{$PossibleValues};
         @AclData{ keys %AclData } = keys %AclData;
-
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # set possible values filter from ACLs
         my $ACL = $TicketObject->TicketAcl(
@@ -1367,16 +1370,13 @@ sub AjaxUpdate {
         ) || $PossibleValues;
 
         # add dynamic field to the list of fields to update
-        push(
-            @DynamicFieldAJAX,
-            {
-                Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data        => $DataValues,
-                SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
-                Max         => 100,
-            }
-        );
+        push @DynamicFieldAJAX, {
+            Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            Data        => $DataValues,
+            SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
+            Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+            Max         => 100,
+        };
     }
 
     my $JSON = $LayoutObject->BuildSelectionJSON(

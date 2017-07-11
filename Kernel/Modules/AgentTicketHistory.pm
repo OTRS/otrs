@@ -148,7 +148,6 @@ sub Run {
             $LayoutObject->Block(
                 Name => 'NoLinkZoom',
             );
-
         }
     }
 

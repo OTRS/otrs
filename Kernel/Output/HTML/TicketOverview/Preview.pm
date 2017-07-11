@@ -184,11 +184,11 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketIDs PageShown StartHit)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(TicketIDs PageShown StartHit)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -664,7 +664,8 @@ sub _Show {
                 # run module
                 my @Data = $Object->Check(
                     Article => \%Article,
-                    %Param, Config => $Jobs{$Job}
+                    %Param,
+                    Config => $Jobs{$Job},
                 );
 
                 for my $DataRef (@Data) {
@@ -684,7 +685,8 @@ sub _Show {
                 # filter option
                 $Object->Filter(
                     Article => \%Article,
-                    %Param, Config => $Jobs{$Job}
+                    %Param,
+                    Config => $Jobs{$Job},
                 );
             }
         }
@@ -693,7 +695,11 @@ sub _Show {
     # create output
     $LayoutObject->Block(
         Name => 'AgentAnswer',
-        Data => { %Param, %Article, %AclAction },
+        Data => {
+            %Param,
+            %Article,
+            %AclAction,
+        },
     );
     if (
         $ConfigObject->Get('Frontend::Module')->{AgentTicketCompose}
@@ -715,7 +721,11 @@ sub _Show {
             if ($Access) {
                 $LayoutObject->Block(
                     Name => 'AgentAnswerCompose',
-                    Data => { %Param, %Article, %AclAction },
+                    Data => {
+                        %Param,
+                        %Article,
+                        %AclAction,
+                    },
                 );
             }
         }
@@ -744,7 +754,11 @@ sub _Show {
         if ($Access) {
             $LayoutObject->Block(
                 Name => 'AgentAnswerPhoneOutbound',
-                Data => { %Param, %Article, %AclAction },
+                Data => {
+                    %Param,
+                    %Article,
+                    %AclAction,
+                },
             );
         }
     }
@@ -753,7 +767,10 @@ sub _Show {
     if ( $ConfigObject->Get('Ticket::Type') ) {
         $LayoutObject->Block(
             Name => 'Type',
-            Data => { %Param, %Article },
+            Data => {
+                %Param,
+                %Article,
+            },
         );
     }
 
@@ -761,12 +778,18 @@ sub _Show {
     if ( $ConfigObject->Get('Ticket::Service') && $Article{Service} ) {
         $LayoutObject->Block(
             Name => 'Service',
-            Data => { %Param, %Article },
+            Data => {
+                %Param,
+                %Article,
+            },
         );
         if ( $Article{SLA} ) {
             $LayoutObject->Block(
                 Name => 'SLA',
-                Data => { %Param, %Article },
+                Data => {
+                    %Param,
+                    %Article,
+                },
             );
         }
     }
@@ -775,7 +798,10 @@ sub _Show {
     if ( defined $Article{CustomerID} ) {
         $LayoutObject->Block(
             Name => 'CustomerID',
-            Data => { %Param, %Article },
+            Data => {
+                %Param,
+                %Article,
+            },
         );
 
         # test access to frontend module
@@ -805,13 +831,19 @@ sub _Show {
 
         $LayoutObject->Block(
             Name => $CustomerIDBlock,
-            Data => { %Param, %Article },
+            Data => {
+                %Param,
+                %Article,
+            },
         );
 
         if ( defined $Article{CustomerName} ) {
             $LayoutObject->Block(
                 Name => 'CustomerName',
-                Data => { %Param, %Article },
+                Data => {
+                    %Param,
+                    %Article,
+                },
             );
         }
     }
@@ -833,7 +865,10 @@ sub _Show {
         }
         $LayoutObject->Block(
             Name => 'FirstResponseTime',
-            Data => { %Param, %Article },
+            Data => {
+                %Param,
+                %Article,
+            },
         );
     }
 
@@ -854,7 +889,10 @@ sub _Show {
         }
         $LayoutObject->Block(
             Name => 'UpdateTime',
-            Data => { %Param, %Article },
+            Data => {
+                %Param,
+                %Article,
+            },
         );
     }
 
@@ -871,11 +909,14 @@ sub _Show {
             Space              => ' ',
         );
         if ( 60 * 60 * 1 > $Article{SolutionTime} ) {
-            $Article{SolutionTimeClass} = 'Warning'
+            $Article{SolutionTimeClass} = 'Warning';
         }
         $LayoutObject->Block(
             Name => 'SolutionTime',
-            Data => { %Param, %Article },
+            Data => {
+                %Param,
+                %Article,
+            },
         );
     }
 
@@ -907,7 +948,7 @@ sub _Show {
             ObjectID           => $Param{TicketID},
         );
 
-        next DYNAMICFIELD if ( !defined $Value );
+        next DYNAMICFIELD if !defined $Value;
 
         $Counter++;
 
@@ -1077,7 +1118,11 @@ sub _Show {
 
         $LayoutObject->Block(
             Name => 'ArticlesPreviewArea',
-            Data => { %Param, %Article, %AclAction },
+            Data => {
+                %Param,
+                %Article,
+                %AclAction,
+            },
         );
     }
 
@@ -1184,4 +1229,5 @@ sub _Show {
     );
     return \$Output;
 }
+
 1;

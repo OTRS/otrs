@@ -45,7 +45,7 @@ sub Run {
     my $Access = $TicketObject->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => $Self->{TicketID},
-        UserID   => $Self->{UserID}
+        UserID   => $Self->{UserID},
     );
 
     # No permission, do not show ticket.

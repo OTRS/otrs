@@ -1021,4 +1021,5 @@ sub _CheckActivityUsage {
 
     return \@Usage;
 }
+
 1;

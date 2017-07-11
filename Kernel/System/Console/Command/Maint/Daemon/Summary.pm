@@ -230,4 +230,5 @@ sub _DaemonSort {
     # otherwise do a numerical comparison with the framework daemons
     return $DefaultDaemons{$a} <=> $DefaultDaemons{$b};
 }
+
 1;

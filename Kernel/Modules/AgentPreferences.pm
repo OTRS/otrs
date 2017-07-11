@@ -338,7 +338,9 @@ sub Run {
 
         # get groups
         my @PreferencesGroups = @{ $Kernel::OM->Get('Kernel::Config')->Get('AgentPreferencesGroups') };
-        @PreferencesGroups = sort { $a->{Priority} <=> $b->{Priority} } @PreferencesGroups;
+        if (@PreferencesGroups) {
+            @PreferencesGroups = sort { $a->{Prio} <=> $b->{Prio} } @PreferencesGroups;
+        }
 
         my %UserPreferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
             UserID => $Self->{CurrentUserID},

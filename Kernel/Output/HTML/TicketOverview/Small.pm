@@ -379,11 +379,11 @@ sub Run {
         $Self->{AvailableFilterableColumns} = {};    # disable all column filters
     }
 
-    for (qw(TicketIDs PageShown StartHit)) {
-        if ( !$Param{$_} ) {
+    for my $Item (qw(TicketIDs PageShown StartHit)) {
+        if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Item!",
             );
             return;
         }
@@ -1988,7 +1988,7 @@ sub _ColumnFilterJSON {
         for my $ValueKey ( sort { lc $Values{$a} cmp lc $Values{$b} } keys %Values ) {
             push @{$Data}, {
                 Key   => $ValueKey,
-                Value => $Values{$ValueKey}
+                Value => $Values{$ValueKey},
             };
         }
     }

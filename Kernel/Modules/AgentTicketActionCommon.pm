@@ -25,8 +25,8 @@ sub new {
     bless( $Self, $Type );
 
     # get article for whom this should be a reply, if available
-    my $ReplyToArticle = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ReplyToArticle' ) || "";
-    my $TicketID       = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'TicketID' )       || "";
+    my $ReplyToArticle = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ReplyToArticle' ) || '';
+    my $TicketID       = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'TicketID' )       || '';
 
     # check if ReplyToArticle really belongs to the ticket
     my %ReplyToArticleContent;
@@ -1951,7 +1951,7 @@ sub _Mask {
             Data => {
                 ResponsibleMandatory => $Config->{ResponsibleMandatory} || 0,
                 %Param,
-                }
+            },
         );
 
     }

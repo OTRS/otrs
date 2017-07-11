@@ -260,7 +260,7 @@ sub _ArticleDeleteDirectory {
         if ( !rmdir $Path ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Can't remove: $Path: $!!",
+                Message  => "Can't remove '$Path': $!.",
             );
             return;
         }
@@ -292,8 +292,10 @@ sub _ArticleContentPathGet {
     # check key
     my $CacheKey = '_ArticleContentPathGet::' . $Param{ArticleID};
 
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # check cache
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $Cache = $CacheObject->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
@@ -314,7 +316,7 @@ sub _ArticleContentPathGet {
     }
 
     # set cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+    $CacheObject->Set(
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
