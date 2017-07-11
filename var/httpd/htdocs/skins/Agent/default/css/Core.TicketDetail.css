@@ -131,18 +131,16 @@ div.Headline .Flag {
     float: left;
 }
 
-.Outgoing .ItemActions {
-    margin-left: 109px;
-    margin-top: 5px;
+#ArticleItems .ItemActions {
+    background: #eee;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    margin-right: 115px;
 }
 
-.Outgoing .ItemActions + .ArticleAttachments,
-.ArticleMeta + .ItemActions {
-    margin-top: 7px;
-}
-
-.Incoming .ItemActions {
-    margin-left: -6px;
+#ArticleItems .Outgoing .ItemActions {
+    margin-left: 115px;
+    margin-right: 0px;
 }
 
 #ArticleItems .ArticleMailHeader label,
@@ -163,8 +161,9 @@ div.Headline .Flag {
 }
 
 .ArticleMailContent {
-    padding: 11px 12px 0px 12px;
+    padding: 11px 12px;
     line-height: 1.3;
+    position: relative;
 }
 
 .ArticleMailContent .ArticleMeta {
@@ -211,7 +210,8 @@ div.Headline .Flag {
 
 .Avatar {
     border: 1px solid #eee;
-    position: relative;
+    position: absolute;
+    top: 10px;
     background: #fff;
     padding: 5px;
     width: 80px;
@@ -229,11 +229,11 @@ div.Headline .Flag {
 }
 
 .Outgoing .Avatar {
-    float: left;
+    left: 10px;
 }
 
 .Incoming .Avatar {
-    float: right;
+    right: 10px;
 }
 
 #ArticleItems .ArticleMailContentHTMLWrapper,
@@ -258,7 +258,7 @@ div.Headline .Flag {
 .Outgoing .ArticleBody:after,
 .Incoming .ArticleBody:after {
 	border-color: rgba(255, 255, 255, 0);
-	top: 45px;
+	top: 15px;
 	border: solid transparent;
 	content: " ";
 	height: 0;
@@ -1139,7 +1139,7 @@ div.Headline .Flag {
 
 .ArticleAttachments {
     clear: both;
-    margin: 4px 0px 0px 114px;
+    margin: 10px 0px -15px 115px;
     overflow: hidden;
 }
 

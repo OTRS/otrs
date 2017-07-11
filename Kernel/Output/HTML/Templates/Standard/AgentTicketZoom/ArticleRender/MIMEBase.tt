@@ -110,6 +110,9 @@
 [% END %]
                 </div>
 
+
+                [% PROCESS ArticleActionMenu.tt %]
+
 [% IF Data.HTML %]
                 <div class="ArticleMailContentHTMLWrapper">
 # execute IFrame JS asynchronously. Otherwise it could happen before our API was loaded
@@ -158,8 +161,6 @@ function CheckIFrameHeight(IFrameID) {
                     [% END %]
                 </div>
                 [% END %]
-
-                [% PROCESS ArticleActionMenu.tt %]
 
 [% IF Data.Attachments && Data.Attachments.size() %]
                 <ul class="ArticleAttachments">

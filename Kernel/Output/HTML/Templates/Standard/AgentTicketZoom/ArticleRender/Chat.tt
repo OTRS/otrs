@@ -66,6 +66,8 @@
         <div class="Content">
             <div class="ArticleMailContent">
 
+                [% PROCESS ArticleActionMenu.tt %]
+
                 <div class="Avatar">
 [% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
                     <div class="ArticleSenderImage">
@@ -102,8 +104,6 @@
                     [% END %]
                 </div>
                 [% END %]
-
-                [% PROCESS ArticleActionMenu.tt %]
 
             </div>
         </div>
