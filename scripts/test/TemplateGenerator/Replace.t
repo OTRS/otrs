@@ -12,15 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-# Get needed objects.
+# get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $TimeObject         = $Kernel::OM->Get('Kernel::System::Time');
-my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
 
-# Get helper object.
+# get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -80,7 +78,7 @@ for my $DynamicField (@DynamicFieldsToAdd) {
         'DynamicFieldAdd()',
     );
 
-    # Remember added DynamicFields.
+    # remember added DynamicFields
     $AddedDynamicFieldIds{$DynamicFieldID} = $DynamicField->{Name};
 
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
@@ -92,12 +90,12 @@ for my $DynamicField (@DynamicFieldsToAdd) {
         'DynamicFieldConfig must be a hash reference',
     );
 
-    # Remember the DF config.
+    # remember the DF config
     $DynamicFieldConfigs{ $DynamicField->{FieldType} } = $DynamicFieldConfig;
 }
 
-# Create template generator after the dynamic field are created as it gathers all DF in the
-# constructor.
+# create template generator after the dynamic field are created as it gathers all DF in the
+# constructor
 my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
 my $TestCustomerLogin = $Helper->TestCustomerUserCreate(
@@ -108,55 +106,49 @@ my %TestCustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->Custome
     User => $TestCustomerLogin,
 );
 
-my @TestUsers;
-for ( 1 .. 4 ) {
-    my $TestUserLogin = $Helper->TestUserCreate(
-        Language => 'en',
-    );
-    my %TestUser = $UserObject->GetUserData(
-        User => $TestUserLogin,
-    );
-    push @TestUsers, \%TestUser;
-}
-
-# Set the fixed time.
-$Helper->FixedTimeSet(
-    $TimeObject->TimeStamp2SystemTime( String => '2017-07-05 11:00:00' ),
+my $TestUserLogin = $Helper->TestUserCreate(
+    Language => 'en',
 );
 
-# Create test queue with escalation times.
-my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
-    Name                => 'Queue' . $RandomID,
-    Comment             => "Test Queue",
-    ValidID             => 1,
-    GroupID             => 1,
-    FirstResponseTime   => 30,
-    FirstResponseNotify => 80,
-    UpdateTime          => 40,
-    UpdateNotify        => 80,
-    SolutionTime        => 50,
-    SolutionNotify      => 80,
-    SystemAddressID     => 1,
-    SalutationID        => 1,
-    SignatureID         => 1,
-    UserID              => 1,
+my %TestUser = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+    User => $TestUserLogin,
 );
-$Self->True(
-    $QueueID,
-    "QueueID $QueueID - created"
+
+my $TestUser2Login = $Helper->TestUserCreate(
+    Language => 'en',
+);
+
+my %TestUser2 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+    User => $TestUserLogin,
+);
+
+my $TestUser3Login = $Helper->TestUserCreate(
+    Language => 'en',
+);
+
+my %TestUser3 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+    User => $TestUserLogin,
+);
+
+my $TestUser4Login = $Helper->TestUserCreate(
+    Language => 'en',
+);
+
+my %TestUser4 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+    User => $TestUserLogin,
 );
 
 my $TicketID = $TicketObject->TicketCreate(
     Title         => 'Some Ticket_Title',
-    QueueID       => $QueueID,
+    Queue         => 'Raw',
     Lock          => 'unlock',
     Priority      => '3 normal',
-    State         => 'open',
+    State         => 'closed successful',
     CustomerNo    => '123465',
     CustomerUser  => $TestCustomerLogin,
-    OwnerID       => $TestUsers[0]->{UserID},
-    ResponsibleID => $TestUsers[1]->{UserID},
-    UserID        => $TestUsers[2]->{UserID},
+    OwnerID       => $TestUser{UserID},
+    ResponsibleID => $TestUser2{UserID},
+    UserID        => $TestUser3{UserID},
 );
 $Self->IsNot(
     $TicketID,
@@ -186,9 +178,6 @@ $Self->True(
     'DynamicField ValueSet() Dynamic Field Dropdown - with true',
 );
 
-# Add 5 minutes for escalation times evaluation.
-$Helper->FixedTimeAddSeconds(300);
-
 my $ArticleID = $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'email-external',
@@ -208,10 +197,6 @@ $Self->IsNot(
     undef,
     'ArticleCreate() ArticleID',
 );
-
-# Renew object because of transaction.
-$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-$TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @Tests = (
     {
@@ -278,7 +263,7 @@ my @Tests = (
         },
         RichText => 0,
         Template => 'Test <OTRS_RESPONSIBLE_UserFirstname> <OTRS_RESPONSIBLE_nonexisting>',
-        Result   => "Test $TestUsers[1]->{UserFirstname} -",
+        Result   => "Test $TestUser2{UserFirstname} -",
     },
     {
         Name => 'OTRS_TICKET_RESPONSIBLE firstname',              # <OTRS_RESPONSIBLE_UserFirstname>
@@ -287,7 +272,7 @@ my @Tests = (
         },
         RichText => 0,
         Template => 'Test <OTRS_TICKET_RESPONSIBLE_UserFirstname> <OTRS_TICKET_RESPONSIBLE_nonexisting>',
-        Result   => "Test $TestUsers[1]->{UserFirstname} -",
+        Result   => "Test $TestUser2{UserFirstname} -",
     },
     {
         Name => 'OTRS owner firstname',                           # <OTRS_OWNER_*>
@@ -296,7 +281,7 @@ my @Tests = (
         },
         RichText => 0,
         Template => 'Test <OTRS_OWNER_UserFirstname> <OTRS_OWNER_nonexisting>',
-        Result   => "Test $TestUsers[0]->{UserFirstname} -",
+        Result   => "Test $TestUser{UserFirstname} -",
     },
     {
         Name => 'OTRS_TICKET_OWNER firstname',                    # <OTRS_OWNER_*>
@@ -305,7 +290,7 @@ my @Tests = (
         },
         RichText => 0,
         Template => 'Test <OTRS_TICKET_OWNER_UserFirstname> <OTRS_TICKET_OWNER_nonexisting>',
-        Result   => "Test $TestUsers[0]->{UserFirstname} -",
+        Result   => "Test $TestUser{UserFirstname} -",
     },
     {
         Name => 'OTRS current firstname',                         # <OTRS_CURRENT_*>
@@ -314,7 +299,7 @@ my @Tests = (
         },
         RichText => 0,
         Template => 'Test <OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_nonexisting>',
-        Result   => "Test $TestUsers[2]->{UserFirstname} -",
+        Result   => "Test $TestUser3{UserFirstname} -",
     },
     {
         Name => 'OTRS ticket ticketid',                           # <OTRS_TICKET_*>
@@ -572,84 +557,7 @@ Line7</div>',
         Data     => {},
         RichText => 0,
         Template => 'Test <OTRS_NOTIFICATION_RECIPIENT_UserFullname> <OTRS_NOTIFICATION_RECIPIENT_nonexisting>',
-        Result   => "Test $TestUsers[3]->{UserFullname} -",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationResponseTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationResponseTime>',
-        Result   => "Test 2017-07-05 11:30:00",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationUpdateTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationUpdateTime>',
-        Result   => "Test 2017-07-05 11:45:00",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationSolutionTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationSolutionTime>',
-        Result   => "Test 2017-07-05 11:50:00",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationTimeWorkingTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_FirstResponseTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_FirstResponseTimeWorkingTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_FirstResponseTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_FirstResponseTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_UpdateTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_UpdateTimeWorkingTime>',
-        Result   => "Test 40 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_UpdateTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_UpdateTime>',
-        Result   => "Test 40 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_SolutionTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_SolutionTimeWorkingTime>',
-        Result   => "Test 45 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_SolutionTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_SolutionTime>',
-        Result   => "Test 45 m",
+        Result   => "Test $TestUser4{UserFullname} -",
     },
 );
 
@@ -660,64 +568,8 @@ for my $Test (@Tests) {
         DataAgent   => $Test->{DataAgent},
         RichText    => $Test->{RichText},
         TicketID    => $TicketID,
-        UserID      => $TestUsers[2]->{UserID},
-        RecipientID => $TestUsers[3]->{UserID},
-    );
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        "$Test->{Name} - _Replace()",
-    );
-}
-
-# Set state to 'pending reminder'.
-$Success = $TicketObject->TicketStateSet(
-    State    => 'pending reminder',
-    TicketID => $TicketID,
-    UserID   => $TestUsers[2]->{UserID},
-);
-$Self->True(
-    $Success,
-    "TicketID $TicketID - set to pending reminder state successfully",
-);
-
-$Success = $TicketObject->TicketPendingTimeSet(
-    String   => '2017-07-06 10:00:00',
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Success,
-    "Set pending time successfully",
-);
-
-# Check 'UntilTime' and 'RealTillTimeNotUsed' tags (see bug#8301).
-@Tests = (
-    {
-        Name     => 'OTRS <OTRS_TICKET_UntilTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_UntilTime>',
-        Result   => "Test 22 h 55 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_RealTillTimeNotUsed>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_RealTillTimeNotUsed>',
-        Result   => "Test 2017-07-06 10:00:00",
-    }
-);
-
-for my $Test (@Tests) {
-    my $Result = $TemplateGeneratorObject->_Replace(
-        Text        => $Test->{Template},
-        Data        => $Test->{Data},
-        DataAgent   => $Test->{DataAgent},
-        RichText    => $Test->{RichText},
-        TicketID    => $TicketID,
-        UserID      => $TestUsers[2]->{UserID},
-        RecipientID => $TestUsers[3]->{UserID},
+        UserID      => $TestUser3{UserID},
+        RecipientID => $TestUser4{UserID},
     );
     $Self->Is(
         $Result,
