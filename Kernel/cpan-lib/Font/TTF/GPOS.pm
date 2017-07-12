@@ -319,10 +319,11 @@ sub read_sub
     {
         my (@offs, $mloc, $thisloc, $ncomp, $k);
 
-        $lookup->{'MATCH'} = [$lookup->{'COVERAGE'}];
-        $lookup->{'COVERAGE'} = $self->read_cover($count, $loc, $lookup, $fh, 1);
+        $lookup->{'MATCH'} = [$lookup->{'COVERAGE'}];	# Attaching mark
+        $lookup->{'COVERAGE'} = $self->read_cover($count, $loc, $lookup, $fh, 1);	# base/lig/mark being attached to
         $fh->read($dat, 6);
         ($mcount, $moff, $boff) = TTF_Unpack('S*', $dat);
+        # Read MarkArray
         $fh->seek($loc + $moff, 0);
         $fh->read($dat, 2);
         $count = TTF_Unpack('S', $dat);
@@ -333,6 +334,7 @@ sub read_sub
                     $self->read_anchor(TTF_Unpack('S', substr($dat, 2, 2)) + $moff,
                             $loc, $lookup, $fh)]);
         }
+        # Read BaseArray/LigatureArray/Mark2Array
         $fh->seek($loc + $boff, 0);
         $fh->read($dat, 2);
         $count = TTF_Unpack('S', $dat);
@@ -358,8 +360,8 @@ sub read_sub
                 $subst = [];
                 $fh->read($dat, $mcount << 1);
                 for ($k = 0; $k < $mcount; $k++)
-                { push (@$subst, $self->read_anchor(TTF_Unpack('S', substr($dat, $k << 1, 2)) + $thisloc - $loc,
-                        $loc, $lookup, $fh)); }
+                { push (@$subst, $self->read_anchor(TTF_Unpack('S', substr($dat, $k << 1, 2)), 
+                        $thisloc, $lookup, $fh)); }
 
                 push (@{$lookup->{'RULES'}[$i]}, {'ACTION' => $subst});
             }
@@ -698,7 +700,7 @@ Martin Hosken L<http://scripts.sil.org/FontUtils>.
 
 =head1 LICENSING
 
-Copyright (c) 1998-2014, SIL International (http://www.sil.org) 
+Copyright (c) 1998-2016, SIL International (http://www.sil.org) 
 
 This module is released under the terms of the Artistic License 2.0. 
 For details, see the full text of the license in the file LICENSE.

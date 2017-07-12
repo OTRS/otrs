@@ -267,8 +267,8 @@ sub read
     return $self if (defined $self->{' read'} && $self->{' read'} > 0);
     $self->{' read'} = 1;
     $fh->seek($self->{' LOC'} + $self->{' BASE'}, 0);
-    $fh->read($self->{' DAT'}, $self->{' LEN'});
-    TTF_Read_Fields($self, $self->{' DAT'}, \%fields);
+    $fh->read($dat, $self->{' LEN'});
+    TTF_Read_Fields($self, $self->{' DAT'} = $dat, \%fields);
     $self;
 }
 
@@ -842,9 +842,9 @@ Returns an array of all the glyph ids that are used to make up this glyph. That
 is all the compounds and their references and so on. If this glyph is not a
 compound, then returns an empty array.
 
-Please note the warning about bad fonts that reference nonexistant glyphs
+Please note the warning about bad fonts that reference nonexistent glyphs
 under INSTANCE VARIABLES above.  This function will not attempt to 
-filter out nonexistant glyph numbers.
+filter out nonexistent glyph numbers.
 
 =cut
 
@@ -891,7 +891,7 @@ Martin Hosken L<http://scripts.sil.org/FontUtils>.
 
 =head1 LICENSING
 
-Copyright (c) 1998-2014, SIL International (http://www.sil.org) 
+Copyright (c) 1998-2016, SIL International (http://www.sil.org) 
 
 This module is released under the terms of the Artistic License 2.0. 
 For details, see the full text of the license in the file LICENSE.

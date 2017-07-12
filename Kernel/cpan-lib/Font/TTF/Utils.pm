@@ -140,8 +140,7 @@ sub TTF_Unpack
             {
                 ($res, $frac) = unpack("nn", $dat);
                 substr($dat, 0, 4) = "";
-                $res -= 65536 if $res > 32767;
-                $res = sprintf("%d.%X", $res, $frac);
+                $res = sprintf("%d.%04X", $res, $frac);
             }
             elsif ($type eq "F")
             {
@@ -240,7 +239,7 @@ sub TTF_Pack
             }
             elsif ($type eq "v")
             {
-                if ($res =~ s/\.(\d+)$//o)
+                if ($res =~ s/\.([0-9a-f]+)$//oi)
                 {
                     $frac = $1;
                     $frac .= "0" x (4 - length($frac));
@@ -628,7 +627,7 @@ Martin Hosken L<http://scripts.sil.org/FontUtils>.
 
 =head1 LICENSING
 
-Copyright (c) 1998-2014, SIL International (http://www.sil.org) 
+Copyright (c) 1998-2016, SIL International (http://www.sil.org) 
 
 This module is released under the terms of the Artistic License 2.0. 
 For details, see the full text of the license in the file LICENSE.

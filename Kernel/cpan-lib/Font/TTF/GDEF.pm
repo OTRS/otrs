@@ -291,7 +291,7 @@ sub out
     $loc = $fh->tell();
     if (defined $self->{'MARKSETS'} && @{$self->{'MARKSETS'}} > 0)
     {
-        $self->{'Version'} = 0x00010002;
+        $self->{'Version'} = 0x00010002 if ($self->{'Version'} < 0x00010002);
         $fh->print(TTF_Pack('LSSSSS', $self->{'Version'}, 0, 0, 0, 0, 0));
     }
     else
@@ -466,7 +466,7 @@ Martin Hosken L<http://scripts.sil.org/FontUtils>.
 
 =head1 LICENSING
 
-Copyright (c) 1998-2014, SIL International (http://www.sil.org) 
+Copyright (c) 1998-2016, SIL International (http://www.sil.org) 
 
 This module is released under the terms of the Artistic License 2.0. 
 For details, see the full text of the license in the file LICENSE.

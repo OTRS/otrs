@@ -1,6 +1,7 @@
 package Font::TTF;
 
-$VERSION = '1.05';   # MJPH    19-Jan-2015      Bug fixes; updated OT tags; GSUB Lookup Type 8 support
+$VERSION = '1.06';   # RMH     02-Aug-2016      Bug fixes; updated OT tags;
+# $VERSION = '1.05';   # MJPH    19-Jan-2015      Bug fixes; updated OT tags; GSUB Lookup Type 8 support
 # $VERSION = '1.04';    # MJPH     8-Jan-2014      License, POD, and perl -w tidying; bug fixes
 # $VERSION = '1.03';    # MJPH     5-Sep-2013      Add $t->minsize()
 # $VERSION = '1.02';    # MJPH    30-Aug-2012      Fix case typo in Useall
@@ -35,13 +36,24 @@ including modify and inspect nearly all tables.
 Martin Hosken L<http://scripts.sil.org/FontUtils>.
 (see CONTRIBUTORS for other authors).
 
+Repository available at L<https://github.com/silnrsi/font-ttf.git>
+
+=head1 HISTORY
+
+See F<Changes> file for a change log.
+
 =head1 LICENSING
 
-Copyright (c) 1998-2015, SIL International (http://www.sil.org) 
+Copyright (c) 1998-2016, SIL International (http://www.sil.org) 
 
 This module is released under the terms of the Artistic License 2.0. 
 For details, see the full text of the license in the file LICENSE.
 
-.
+The fonts in the test suite are released under the Open Font License 1.1, see F<t/OFL.txt>.
+
+
+=head1 SEE ALSO
+
+L<Font::TTF::Font>
 
 =cut

@@ -299,7 +299,7 @@ This was written at the CodeFest Akihabara 2006 hosted by FSIJ.
 
 =head1 LICENSING
 
-Copyright (c) 1998-2014, SIL International (http://www.sil.org) 
+Copyright (c) 1998-2016, SIL International (http://www.sil.org) 
 
 This module is released under the terms of the Artistic License 2.0. 
 For details, see the full text of the license in the file LICENSE.

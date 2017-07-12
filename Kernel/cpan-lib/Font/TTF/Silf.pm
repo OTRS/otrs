@@ -301,7 +301,8 @@ our @opcodes = ( ["nop", 0, ""], ["push_byte", 1, "n"], ["push_byte_u", 1, "n"],
              ["pop_ret", 0, ""], ["ret_zero", 0, ""], ["ret_true", 0, ""], ["iattr_set", 2, "Sn"],                          # 48
              ["iattr_add", 2, "Sn"], ["iattr_sub", 2, "Sn"], ["push_proc_state", 1, "n"], ["push_version", 0, ""],
              ["put_subs", 5, "sCcCc"], ["put_subs2", 4, "cscc"], ["put_subs3", 7, "scscscc"], ["put_glyph", 2, "Cc"],
-             ["push_glyph_attr", 3, "Ggs"], ["push_att_to_glyph_attr", 3, "Ggs"] );
+             ["push_glyph_attr", 3, "Ggs"], ["push_att_to_glyph_attr", 3, "Ggs"], ["bitand", 0, ""], ["bitor", 0, ""],
+             ["bitnot", 0, ""], ["setbits", 4, "NnNn"], ["setfeat", 2, "fs"] );                                             # 64
 
 my ($i) = 0;
 our %opnames = map {$_->[0] => $i++} @opcodes;
@@ -366,7 +367,7 @@ sub read
         }
         $fh->read($dat, 10);
         ($silf->{'numLigComp'}, $silf->{'numUserAttr'}, $silf->{'maxCompPerLig'}, $silf->{'direction'},
-         $d, $d, $d, $d, $numCritFeatures) = TTF_Unpack("SCCCCCCCC", $dat);
+         $silf->{'attCollisions'}, $d, $d, $d, $numCritFeatures) = TTF_Unpack("SCCCCCCCC", $dat);
         if ($numCritFeatures)
         {
             $fh->read($dat, $numCritFeatures * 2);
@@ -399,8 +400,8 @@ sub read
         $fh->read($dat, 4);
         my ($numClasses, $numLinearClasses) = TTF_Unpack("SS", $dat);
         $silf->{'numLinearClasses'} = $numLinearClasses;
-        $fh->read($dat, $numClasses * 2 + 2);
-        @classo = unpack("n*", $dat);
+        $fh->read($dat, ($numClasses + 1) * ($self->{'Version'} >= 4 ? 4 : 2));
+        @classo = unpack($self->{'Version'} >= 4 ? "N*" : "n*", $dat);
         $fh->read($dat, $classo[-1] - $classo[0]);
         for ($i = 0; $i < $numLinearClasses; $i++)
         {
@@ -423,13 +424,13 @@ sub read
 
 sub chopcode
 {
-    my ($dest, $dat, $offsets) = @_;
+    my ($dest, $dat, $offsets, $isconstraint) = @_;
     my ($last) = $offsets->[-1];
     my ($i);
 
     for ($i = $#{$offsets} - 1; $i >= 0; $i--)
     {
-        if ($offsets->[$i] or $i == 0)
+        if ((!$isconstraint || $offsets->[$i]) && $offsets->[$i] != $last)
         {
             unshift(@{$dest}, substr($dat, $offsets->[$i], $last - $offsets->[$i]));
             $last = $offsets->[$i];
@@ -447,6 +448,7 @@ sub read_pass
     my ($d, $dat, $i, @orulemap, @oconstraints, @oactions, $numRanges);
 
     $fh->seek($offset + $base, 0);
+    # printf "pass base = %04X\n", $offset;
     push (@{$silf->{'PASS'}}, $pass);
     $fh->read($dat, 40);
     ($pass->{'flags'}, $pass->{'maxRuleLoop'}, $pass->{'maxRuleContext'}, $pass->{'maxBackup'},
@@ -474,7 +476,7 @@ sub read_pass
     $fh->read($dat, $pass->{'numRules'});
     $pass->{'rulePreContexts'} = [unpack('C*', $dat)];
     $fh->read($dat, 3);
-    ($d, $pass->{'passConstraintLen'}) = TTF_Unpack("CS", $dat);
+    ($pass->{'collisionThreshold'}, $pass->{'passConstraintLen'}) = TTF_Unpack("CS", $dat);
     $fh->read($dat, ($pass->{'numRules'} + 1) * 2);
     @oconstraints = unpack('n*', $dat);
     $fh->read($dat, ($pass->{'numRules'} + 1) * 2);
@@ -489,10 +491,10 @@ sub read_pass
     { $fh->read($pass->{'passConstraintCode'}, $pass->{'passConstraintLen'}); }
     $fh->read($dat, $oconstraints[-1]);
     $pass->{'constraintCode'} = [];
-    chopcode($pass->{'constraintCode'}, $dat, \@oconstraints);
+    chopcode($pass->{'constraintCode'}, $dat, \@oconstraints, 1);
     $fh->read($dat, $oactions[-1]);
     $pass->{'actionCode'} = [];
-    chopcode($pass->{'actionCode'}, $dat, \@oactions);
+    chopcode($pass->{'actionCode'}, $dat, \@oactions, 0);
     return $pass;
 }
 
@@ -605,9 +607,11 @@ sub pack_code
 
 sub packcode
 {
-    my ($code) = @_;
+    my ($code, $isconstraint) = @_;
     my ($dat, $c, $res);
 
+    $c = 1;
+    $dat = "\000";
     foreach (@{$code})
     {
         if ($_)
@@ -617,7 +621,7 @@ sub packcode
             $c += length($_);
         }
         else
-        { push(@{$res}, 0); }
+        { push(@{$res}, $isconstraint ? 0 : $c); }
     }
     push(@{$res}, $c);
     return ($res, $dat);
@@ -630,7 +634,7 @@ sub out_pass
     my (@offsets, $res, $pbase);
 
     $pbase = $fh->tell();
-#    printf "pass base = %04X, ", $pbase - $subbase;
+    # printf "pass base = %04X, ", $pbase - $subbase;
     $fh->print(TTF_Pack("CCCCSSLLLLSSSS", $pass->{'flags'}, $pass->{'maxRuleLoop'}, $pass->{'maxRuleContext'},
                 $pass->{'maxBackup'}, $pass->{'numRules'}, 24, 0, 0, 0, 0, $pass->{'numRows'},
                 $pass->{'numTransitional'}, $pass->{'numSuccess'}, $pass->{'numColumns'}));
@@ -667,8 +671,8 @@ sub out_pass
     $fh->print(pack("C*", @{$pass->{'rulePreContexts'}}));
     $fh->print(TTF_Pack("CS", 0, $pass->{'passConstraintLen'}));
     my ($oconstraints, $oactions);
-    ($oconstraints, $dat) = packcode($pass->{'constraintCode'});
-    ($oactions, $actiondat) = packcode($pass->{'actionCode'});
+    ($oconstraints, $dat) = packcode($pass->{'constraintCode'}, 1);
+    ($oactions, $actiondat) = packcode($pass->{'actionCode'}, 0);
 #    printf "constraint offsets @ %X\n", $fh->tell();
     $fh->print(pack("n*", @{$oconstraints}));
 #    printf "action offsets @ %X\n", $fh->tell();
@@ -677,7 +681,7 @@ sub out_pass
     foreach (@{$pass->{'fsm'}})
     { $fh->print(pack("n*", @{$_})); }
 #    printf "end of fsm @ %X\n", $fh->tell();
-    $fh->print(pack("C", 0));
+    $fh->print(pack("C", $pass->{'collisionThreshold'}));
     push(@offsets, $fh->tell() - $subbase);
     $fh->print($pass->{'passConstraintCode'});
     push(@offsets, $fh->tell() - $subbase);
@@ -685,6 +689,7 @@ sub out_pass
     push(@offsets, $fh->tell() - $subbase);
     $fh->print($actiondat);
     push(@offsets, 0);
+    print join(", ", @offsets) . "\n";
     $res = $fh->tell();
     $fh->seek($pbase + 8, 0);
     $fh->print(pack("N*", @offsets));
@@ -715,12 +720,12 @@ sub out
     {
         my ($subbase) = $fh->tell();
         my ($numlin, $i, @opasses, $oPasses, $oPseudo, $ooPasses);
-        if ($self->{'Version'} > 3)
+        if ($self->{'Version'} >= 3)
         {
             $fh->seek($base + 12 + $silfc * 4, 0);
             $fh->print(pack('N', $subbase - $base));
             $fh->seek($subbase, 0);
-            $fh->print(TTF_Pack("vSS", $silf->{'Version'}, $oPasses, $oPseudo));
+            $fh->print(TTF_Pack("vSS", $silf->{'Version'}, $ooPasses, $oPseudo));
         }
         else
         {
@@ -738,7 +743,7 @@ sub out
                         $_->{'attrWeight'}, $_->{'runto'}, 0, 0, 0)); }
         
         $fh->print(TTF_Pack("SCCCCCCCC", $silf->{'numLigComp'}, $silf->{'numUserAttr'}, $silf->{'maxCompPerLig'},
-                        $silf->{'direction'}, 0, 0, 0, 0, $#{$silf->{'CRIT_FEATURE'}} + 1));
+                        $silf->{'direction'}, $silf->{'attCollisions'}, 0, 0, 0, $#{$silf->{'CRIT_FEATURE'}} + 1));
         $fh->print(pack("n*", @{$silf->{'CRIT_FEATURE'}}));
         $fh->print(TTF_Pack("CC", 0, $#{$silf->{'scripts'}} + 1));
         foreach (@{$self->{'scripts'}})
@@ -746,39 +751,46 @@ sub out
         $fh->print(TTF_Pack("S", $silf->{'lbGID'}));
         $ooPasses = $fh->tell();
         if ($silf->{'PASS'}) { $fh->print(pack("N*", (0) x (@{$silf->{'PASS'}} + 1)));}
+        $oPseudo = $fh->tell() - $subbase;
         my (@pskeys) = keys %{$silf->{'pseudos'}};
         $fh->print(TTF_Pack("SSSS", TTF_bininfo(scalar @pskeys, 6)));
-        $oPseudo = $fh->tell() - $subbase;
         foreach my $k (sort {$a <=> $b} @pskeys)
         { $fh->print(TTF_Pack("Ls", $k, $silf->{'pseudos'}{$k})); }
         $numlin = $silf->{'numLinearClasses'};
         $fh->print(TTF_Pack("SS", scalar @{$silf->{'classes'}}, $numlin));
         my (@coffsets);
+        # printf "%X, ", $fh->tell() - $base;
         my ($cbase) = (scalar @{$silf->{'classes'}} + 1) * ($self->{'Version'} >= 4 ? 4 : 2) + 4;
         for ($i = 0; $i < $numlin; $i++)
         {
             push (@coffsets, $cbase);
             $cbase += 2 * scalar @{$silf->{'classes'}[$i]};
         }
+        my (@nonlinclasses);
         for ($i = $numlin; $i < @{$silf->{'classes'}}; $i++)
         {
+            my (@c, $d, @d);
+            my $c = $silf->{'classes'}[$i];
             push (@coffsets, $cbase);
-            my ($len) = scalar @{$silf->{'classes'}[$i]};
-            $cbase += 8 + 4 * $len;
+            @c = sort {$c->[$a] <=> $c->[$b]} (0 .. $#{$c});
+            foreach $d (@c)
+            { push (@d, $c->[$d], $d); }
+            push (@nonlinclasses, [@d]);
+            my ($len) = scalar @d;
+            $cbase += 8 + 2 * $len;
         }
         push (@coffsets, $cbase);
         $fh->print(pack(($self->{'Version'} >= 4 ? 'N*' : 'n*'), @coffsets));
         for ($i = 0; $i < $numlin; $i++)
         { $fh->print(pack("n*", @{$silf->{'classes'}[$i]})); }
+        # printf "%X, ", $fh->tell() - $base;
         for ($i = $numlin; $i < @{$silf->{'classes'}}; $i++)
         {
-            my ($num) = scalar @{$silf->{'classes'}[$i]};
-            my (@bin) = TTF_bininfo($num, 1);
+            
+            my ($num) = scalar @{$nonlinclasses[$i-$numlin]};
+            my (@bin) = TTF_bininfo($num/2, 1);
             $fh->print(TTF_Pack("SSSS", @bin));
-            my ($j) = 0;
-            my (@dat) = map {[$_, $j++]} @{$silf->{'classes'}[$i]};
-            foreach (sort {$a->[0] <=> $b->[0] || $a->[1] <=> $b->[1]} @dat)
-            { $fh->print(TTF_Pack("SS", $_->[0], $_->[1])); }
+            $fh->print(pack("n*", @{$nonlinclasses[$i-$numlin]}));
         }
         $oPasses = $fh->tell() - $subbase;
 #        printf "original pass = %04X\n", $oPasses;
@@ -791,7 +803,7 @@ sub out
         if ($self->{'Version'} >= 3)
         {
             $fh->seek($subbase + 4, 0);
-            $fh->print(TTF_Pack("SS", $oPasses, $oPseudo));
+            $fh->print(TTF_Pack("SS", $ooPasses - $subbase, $oPseudo));
         }
         $fh->seek($end, 0);
         $silfc++;
@@ -878,7 +890,7 @@ Martin Hosken L<http://scripts.sil.org/FontUtils>.
 
 =head1 LICENSING
 
-Copyright (c) 1998-2014, SIL International (http://www.sil.org) 
+Copyright (c) 1998-2016, SIL International (http://www.sil.org) 
 
 This module is released under the terms of the Artistic License 2.0. 
 For details, see the full text of the license in the file LICENSE.
