@@ -1,11 +1,9 @@
 package IO::Interactive;
 
-use version; $VERSION = qv('0.0.6');
-
-use warnings;
 use strict;
-use Carp;
-use Scalar::Util qw( openhandle );
+use warnings;
+
+$IO::Interactive::VERSION = '1.022';
 
 sub is_interactive {
     my ($out_handle) = (@_, select);    # Default to default output handle
@@ -14,18 +12,19 @@ sub is_interactive {
     return 0 if not -t $out_handle;
 
     # If *ARGV is opened, we're interactive if...
-    if (openhandle *ARGV) {
+    if ( tied(*ARGV) or defined(fileno(ARGV)) ) { # this is what 'Scalar::Util::openhandle *ARGV' boils down to
+
         # ...it's currently opened to the magic '-' file
         return -t *STDIN if defined $ARGV && $ARGV eq '-';
 
         # ...it's at end-of-file and the next file is the magic '-' file
         return @ARGV>0 && $ARGV[0] eq '-' && -t *STDIN if eof *ARGV;
 
-        # ...it's directly attached to the terminal 
+        # ...it's directly attached to the terminal
         return -t *ARGV;
     }
 
-    # If *ARGV isn't opened, it will be interactive if *STDIN is attached 
+    # If *ARGV isn't opened, it will be interactive if *STDIN is attached
     # to a terminal.
     else {
         return -t *STDIN;
@@ -61,7 +60,7 @@ sub busy (&) {
     # Non-interactive busy-ness is easy...just do it
     if (!is_interactive()) {
         $block_ref->();
-        open my $fh, '<', \"";
+        open my $fh, '<', \ "";
         return $fh;
     }
 
@@ -99,7 +98,7 @@ sub busy (&) {
 
     # Temporarily close the input...
     local *ARGV;
-    open *ARGV, '<', \"";
+    open *ARGV, '<', \ "";
 
     # Do the job...
     $block_ref->();
@@ -112,8 +111,6 @@ sub busy (&) {
     return $read;
 }
 
-use Carp;
-
 sub import {
     my ($package) = shift;
     my $caller = caller;
@@ -122,15 +119,18 @@ sub import {
     for my $request ( @_ ) {
         no strict 'refs';
         my $impl = *{$package.'::'.$request}{CODE};
-        croak "Unknown subroutine ($request()) requested"
-            if !$impl || $request =~ m/\A _/xms;
+        if(!$impl || $request =~ m/\A _/xms) {
+            require Carp;
+            Carp::croak("Unknown subroutine ($request()) requested");
+        }
         *{$caller.'::'.$request} = $impl;
     }
 }
 
-
 1; # Magic true value required at end of module
 __END__
+
+=encoding utf8
 
 =head1 NAME
 
@@ -138,8 +138,7 @@ IO::Interactive - Utilities for interactive I/O
 
 =head1 VERSION
 
-This document describes IO::Interactive version 0.0.6
-
+This document describes IO::Interactive version 1.02
 
 =head1 SYNOPSIS
 
@@ -169,7 +168,7 @@ develop interactive applications...
 =item C<is_interactive()>
 
 This subroutine returns true if C<*ARGV> and the currently selected
-filehandle (usually C<*STDOUT>) are connected to the terminal. The 
+filehandle (usually C<*STDOUT>) are connected to the terminal. The
 test is considerably more sophisticated than:
 
     -t *ARGV && -t *STDOUT
@@ -198,11 +197,10 @@ application is interactive:
     my $value = <>;
 
 You can also pass C<interactive> a writable filehandle, in which case it
-writes to that filehandle if it is connected to a terminal (instead of 
-writinbg to C<*STDOUT>). Once again, the usual suspect is C<*STDERR>:
+writes to that filehandle if it is connected to a terminal (instead of
+writing to C<*STDOUT>). Once again, the usual suspect is C<*STDERR>:
 
     print {interactive(*STDERR)} $warning;
-
 
 =item C<busy {...}>
 
@@ -233,7 +231,6 @@ You asked for something else. Maybe you misspelled the subroutine you wanted.
 
 IO::Interactive requires no configuration files or environment variables.
 
-
 =head1 DEPENDENCIES
 
 This module requires the C<openhandle()> subroutine from the
@@ -248,16 +245,22 @@ None reported.
 
 No bugs have been reported.
 
-Please report any bugs or feature requests to
-C<bug-io-interactive@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org>.
+Please report any bugs or feature requests to Github
+L<https://github.com/briandfoy/io-interactive/issues>.
 
+=head1 SOURCE AVAILABILITY
+
+This code is in GitHub:
+
+	https://github.com/briandfoy/io-interactive
 
 =head1 AUTHOR
 
 Damian Conway  C<< <DCONWAY@cpan.org> >>
 
-Currently maintained by brian d foy C<< <bdfoy@cpan.org> >>
+Currently maintained by brian d foy C<< <bdfoy@cpan.org> >>.
+
+1.01 patch DMUEY C<< dmuey@cpan.org >>
 
 =head1 LICENCE AND COPYRIGHT
 
