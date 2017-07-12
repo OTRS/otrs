@@ -83,7 +83,7 @@ sub Run {
     if ($TimingEnabled) {
         my $GeneralStopTime = Time::HiRes::time();
         my $GeneralExecutionTime = sprintf( "%.6f", $GeneralStopTime - $GeneralStartTime );
-        print " Migration took $GeneralExecutionTime seconds.\n\n";
+        print "    Migration took $GeneralExecutionTime seconds.\n\n";
     }
 
     return $SuccessfulMigration;
@@ -93,7 +93,7 @@ sub _ExecuteComponent {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Component} ) {
-        print " Error:Need Component!";
+        print " Error: Need Component!\n\n";
         return;
     }
 
@@ -112,10 +112,10 @@ sub _ExecuteComponent {
 
     # Show initial message for current component
     if ( $Component eq 'Run' ) {
-        print "\n\n Executing tasks ... \n";
+        print "\n Executing tasks ... \n\n";
     }
     else {
-        print "\n\n Checking requirements ... \n";
+        print "\n Checking requirements ... \n\n";
     }
 
     TASK:
@@ -144,7 +144,7 @@ sub _ExecuteComponent {
 
         my $TaskObject = $Kernel::OM->Create($ModuleName);
         if ( !$TaskObject ) {
-            print "\n Error:Was not possible to create object for: $ModuleName.\n";
+            print "\n    Error:Was not possible to create object for: $ModuleName.\n\n";
             $SuccessfulMigration = 0;
             last TASK;
         }
@@ -153,13 +153,13 @@ sub _ExecuteComponent {
 
         # Execute Run-Component
         if ( $Component eq 'Run' ) {
-            print "\n\n    Step $CurrentStep of $Steps: $Task->{Message} ... ";
+            print "    Step $CurrentStep of $Steps: $Task->{Message} ...\n";
             $Success = $TaskObject->$Component(%Param);
         }
 
         # Execute previous check, printing a different message
         elsif ( $TaskObject->can($Component) ) {
-            print "\n\n    Requirement check for: $Task->{Message} ... ";
+            print "    Requirement check for: $Task->{Message} ...\n";
             $Success = $TaskObject->$Component(%Param);
         }
 
@@ -173,8 +173,6 @@ sub _ExecuteComponent {
             my $ExecutionTaskTime = sprintf( "%.6f", $StopTaskTime - $TaskStartTime );
             print " ($ExecutionTaskTime seconds).";
         }
-
-        # print "\n";
 
         if ( !$Success ) {
             $SuccessfulMigration = 0;

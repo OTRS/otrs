@@ -41,7 +41,7 @@ sub Run {
 
     # Skip execution if article_type table is missing.
     if ( !$TableExists ) {
-        print "\nArticle types table missing, skipping... " if $Verbose;
+        print "        - Article types table missing, skipping...\n" if $Verbose;
         return 1;
     }
 
@@ -77,7 +77,7 @@ sub Run {
     if ($Verbose) {
 
         print
-            "\n $ArticlesForMigration articles will be migrated \n";
+            "\n        - $ArticlesForMigration articles will be migrated\n";
     }
     my $AlreadyMigratedArticles = 0;
     my $VerboseLoop             = 1;
@@ -141,6 +141,7 @@ sub Run {
                     Priority => 'error',
                     Message  => "An error occurs during article data migration!",
                 );
+                print "\n    An error occurs during article data migration!\n";
                 return;
             }
 
@@ -150,13 +151,15 @@ sub Run {
             if ( $Verbose && ( $AlreadyMigratedArticles > $VerboseLoop * $VerboseRange ) ) {
 
                 print
-                    "\n $AlreadyMigratedArticles of $ArticlesForMigration articles migrated. \n";
+                    "        - $AlreadyMigratedArticles of $ArticlesForMigration articles migrated. \n";
                 $VerboseLoop++;
             }
         }
 
         $StartInEntry += $RowsPerLoop;
     }
+
+    print "\n";
 
     return 1;
 }
@@ -393,11 +396,11 @@ sub CheckPreviousRequirement {
         if ( $EffectiveCount < $GeneralCount ) {
             my $OrphanedArticlesCount = $GeneralCount - $EffectiveCount;
 
-            print "error.\n"
-                . "  $OrphanedArticlesCount orphaned article(s) found! \n"
-                . "  Please make sure that all articles have a corresponding ticket. \n"
-                . "  If you are sure these are leftover from prior removal, \n"
-                . "  please delete them manually before starting migration again. \n\n";
+            print "\n    Error:\n"
+                . "    $OrphanedArticlesCount orphaned article(s) found! \n"
+                . "    Please make sure that all articles have a corresponding ticket. \n"
+                . "    If you are sure these are leftover from prior removal, \n"
+                . "    please delete them manually before starting migration again. \n\n";
 
             return;
         }
@@ -434,12 +437,12 @@ sub CheckPreviousRequirement {
         # If unknown article types are encountered, do not continue with the migration.
         if (@UnknownArticleTypes) {
 
-            print " error.\n"
-                . "  There are some unknown article types: ${\(join ', ', @UnknownArticleTypes)}. \n"
-                . "  Please provide additional migration matrix entries in following file: \n\n"
-                . "  scripts/DBUpdateTo6/TaskConfig/MigrateArticleData.yml \n\n"
-                . "  Tip: Create a copy of .dist file with the same name and edit it instead, \n"
-                . "  before starting migration again. \n\n";
+            print "    \nError.\n"
+                . "    There are some unknown article types: ${\(join ', ', @UnknownArticleTypes)}. \n"
+                . "    Please provide additional migration matrix entries in following file: \n\n"
+                . "    scripts/DBUpdateTo6/TaskConfig/MigrateArticleData.yml \n\n"
+                . "    Tip: Create a copy of .dist file with the same name and edit it instead, \n"
+                . "    before starting migration again. \n\n";
 
             return;
         }

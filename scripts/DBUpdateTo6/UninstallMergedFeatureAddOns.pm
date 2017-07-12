@@ -52,7 +52,7 @@ sub Run {
             Name => $PackageName,
         );
         if ( !$Success ) {
-            print "  Error:There was an error uninstalling package $PackageName\n";
+            print "\n    Error:There was an error uninstalling package $PackageName\n\n";
             return;
         }
     }

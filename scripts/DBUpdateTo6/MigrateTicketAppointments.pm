@@ -74,7 +74,7 @@ sub Run {
             UserID => 1,
         );
         if ( !$Success ) {
-            print "\n  Error:Could not update calendar '$Calendar{CalendarName}'.\n";
+            print "\n    Error:Could not update calendar '$Calendar{CalendarName}'.\n\n";
             return;
         }
     }
@@ -100,7 +100,7 @@ sub CheckPreviousRequirement {
     # is in the system
     my $AppointmentCalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
     if ( !$AppointmentCalendarObject ) {
-        print "Error: Not possible to create calendar object!";
+        print "\n    Error: System was unable to create calendar object!\n\n";
         return;
     }
 

@@ -51,7 +51,7 @@ sub Run {
 
     if ($PackageVersion) {
         if ($Verbose) {
-            print "\n  Found package OTRSTicketNumberCounterDatabase $PackageVersion, skipping database upgrade...\n";
+            print "\n    Found package OTRSTicketNumberCounterDatabase $PackageVersion, skipping database upgrade...\n";
         }
         return 1;
     }
@@ -90,7 +90,7 @@ sub Run {
             );
 
             if ($TableExists) {
-                print "\n  Table '$TableName' already exists, skipping... " if $Verbose;
+                print "\n        - Table '$TableName' already exists, skipping...\n\n" if $Verbose;
                 next XML_STRING;
             }
         }

@@ -38,7 +38,7 @@ sub Run {
     if ( !$FilePath ) {
         if ($Verbose) {
             print
-                "\n  Could not find Kernel/Config/Files/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... ";
+                "    Could not find Kernel/Config/Files/ZZZAuto.pm or Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping...\n";
         }
         return 1;
     }
@@ -47,12 +47,12 @@ sub Run {
     # to the database and deploy them to ZZZAAuto.pm
     $Self->RebuildConfig();
     if ($Verbose) {
-        print "\n  If you see errors about 'Setting ... is invalid', that's fine, no need to worry! \n"
-            . "  This could happen because some config settings are no longer needed for OTRS 6 \n"
-            . "  or you may have some packages installed, which will be migrated \n"
-            . "  in a later step (during the package upgrade). \n"
+        print "\n    If you see errors about 'Setting ... is invalid', that's fine, no need to worry! \n"
+            . "    This could happen because some config settings are no longer needed for OTRS 6 \n"
+            . "    or you may have some packages installed, which will be migrated \n"
+            . "    in a later step (during the package upgrade). \n"
             . "\n"
-            . "  The configuration migration can take some time, please be patient. \n";
+            . "    The configuration migration can take some time, please be patient.\n";
     }
 
     # migrate the effective values from modified settings in OTRS 5 to OTRS 6

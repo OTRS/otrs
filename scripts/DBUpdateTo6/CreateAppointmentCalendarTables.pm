@@ -59,7 +59,7 @@ sub Run {
 
     if ($PackageVersion) {
 
-        print "\n  Found package OTRSAppointmentCalendar $PackageVersion" if $Verbose;
+        print "\n    Found package OTRSAppointmentCalendar $PackageVersion" if $Verbose;
 
         # Database upgrade is needed, because current version is not the latest.
         if ($DBUpdateNeeded) {

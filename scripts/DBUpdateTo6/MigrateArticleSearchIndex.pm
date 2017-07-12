@@ -33,7 +33,7 @@ sub Run {
     my $Verbose  = $Param{CommandlineOptions}->{Verbose} || 0;
 
     if ( !-f $FilePath ) {
-        print "\n  Could not find Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping... " if $Verbose;
+        print "    Could not find Kernel/Config/Backups/ZZZAutoOTRS5.pm, skipping...\n" if $Verbose;
         return 1;
     }
 
@@ -61,7 +61,7 @@ sub Run {
         );
 
         if ( !$Result{Success} ) {
-            print "\n  Error:Unable to migrate Ticket::SearchIndexModule.\n";
+            print "\n    Error:Unable to migrate Ticket::SearchIndexModule.\n\n";
             return;
         }
 
@@ -83,7 +83,7 @@ sub Run {
             );
 
             if ( !$Result{Success} ) {
-                print "\n  Error: Unable to migrate Ticket::SearchIndex::FilterStopWords.\n";
+                print "\n    Error: Unable to migrate Ticket::SearchIndex::FilterStopWords.\n\n";
                 return;
             }
         }

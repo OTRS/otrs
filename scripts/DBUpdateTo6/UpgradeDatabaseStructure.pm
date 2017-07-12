@@ -99,7 +99,7 @@ sub Run {
         next TASK if !$Task;
         next TASK if !$Task->{Module};
 
-        print "\n   $Task->{Message}" if $Verbose;
+        print "       - $Task->{Message}\n" if $Verbose;
 
         my $ModuleName = "scripts::DBUpdateTo6::UpgradeDatabaseStructure::$Task->{Module}";
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName) ) {
@@ -115,20 +115,19 @@ sub Run {
 
         my $Object = $Kernel::OM->Create($ModuleName);
         if ( !$Object ) {
-            print "  Error:Was not possible to create object for: $ModuleName.";
+            print "\n    Error: System was unable to create object for: $ModuleName.\n\n";
             return;
         }
 
         my $Success = $Object->Run(%Param);
 
-        if ($Success) {
-            print "\n" if $Verbose;
-        }
-        else {
-            print ".. error.\n" if $Verbose;
+        if ( !$Success ) {
+            print "    Error.\n" if $Verbose;
             return;
         }
     }
+
+    print "\n" if $Verbose;
 
     return 1;
 }
@@ -152,7 +151,7 @@ sub CheckPreviousRequirement {
     my $ConnectionCheck = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Database::Check')->Execute();
 
     if ( !defined $ConnectionCheck || $ConnectionCheck ne 0 ) {
-        print "Error: Not possible to perform DB connection!";
+        print "\n    Error: Not possible to perform DB connection!\n\n";
         return;
     }
 

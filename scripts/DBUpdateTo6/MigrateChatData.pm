@@ -82,7 +82,7 @@ sub Run {
     # Chat info should be present in chat channel table
     # not in article table
     if ( $ChatCount && !$ArticleChatCount ) {
-        print "\n  Chat data migration already executed. \n" if $Verbose;
+        print "    Chat data migration already executed.\n" if $Verbose;
     }
 
     my $ArticleChatMin = 0;
@@ -155,20 +155,20 @@ sub Run {
             }
         }
 
-        # Finish silently in case no data
-        last ENTRIES if !@Data;
-
-        my $MigrationResult = $Self->_MigrateData(
-            Data              => \@Data,
-            LastArticleDataID => $Data[-1]->{ID},
-        );
-
-        if ( !$MigrationResult ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "An error occurs during chat data migration!",
+        if (@Data) {
+            my $MigrationResult = $Self->_MigrateData(
+                Data              => \@Data,
+                LastArticleDataID => $Data[-1]->{ID},
             );
-            return;
+
+            if ( !$MigrationResult ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "An error occurs during chat data migration!",
+                );
+                print "\n    An error occurs during chat data migration!\n";
+                return;
+            }
         }
 
         $StartInEntry += $RowsPerLoop;
@@ -184,6 +184,7 @@ sub Run {
             Priority => 'error',
             Message  => "An error occurs during article chat data cleanup!",
         );
+        print "\n    An error occurs during article chat data cleanup!\n";
         return;
     }
 

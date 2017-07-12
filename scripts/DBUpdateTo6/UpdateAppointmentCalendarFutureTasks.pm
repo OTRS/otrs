@@ -52,7 +52,7 @@ sub CheckPreviousRequirement {
     # is in the system
     my $AppointmentCalendarObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
     if ( !$AppointmentCalendarObject ) {
-        print "Error: Not possible to create appointment calendar object!";
+        print "\n    Error: Not possible to create appointment calendar object!\n\n";
         return;
     }
 

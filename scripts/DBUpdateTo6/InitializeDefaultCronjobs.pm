@@ -33,13 +33,13 @@ sub Run {
     for my $DistFile ( glob "$Home/var/cron/*.dist" ) {
         my $TargetFile = $DistFile =~ s{.dist$}{}r;
         if ( !-e $TargetFile ) {
-            print "\nCopying $DistFile to $TargetFile... ";
+            print "    Copying $DistFile to $TargetFile...\n";
             my $Success = File::Copy::copy( $DistFile, $TargetFile );
             if ( !$Success ) {
-                print "Error: Could not copy $DistFile to $TargetFile: $!";
+                print "\n    Error: Could not copy $DistFile to $TargetFile: $!\n";
                 return;
             }
-            print "done.";
+            print "    done.\n";
         }
     }
 

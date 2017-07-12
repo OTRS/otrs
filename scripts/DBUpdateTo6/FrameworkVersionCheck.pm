@@ -47,7 +47,7 @@ sub CheckPreviousRequirement {
 
     # load RELEASE file
     if ( !-e "$Home/RELEASE" ) {
-        print "\n\nError: $Home/RELEASE does not exist!";
+        print "\n    Error: $Home/RELEASE does not exist!\n";
         return;
     }
 
@@ -69,17 +69,17 @@ sub CheckPreviousRequirement {
         close($Product);
     }
     else {
-        print "\n\nError: Can't read $Home/RELEASE: $!";
+        print "\n    Error: Can't read $Home/RELEASE: $!\n";
         return;
     }
 
     if ( $ProductName ne 'OTRS' ) {
-        print "Error: No OTRS system found";
+        print "    Error:    No OTRS system found.\n";
         return;
     }
     if ( $Version !~ /^6\.0(.*)$/ ) {
 
-        print "\n\nError: You are trying to run this script on the wrong framework version $Version!";
+        print "\n    Error: You are trying to run this script on the wrong framework version $Version!\n";
         return;
     }
 

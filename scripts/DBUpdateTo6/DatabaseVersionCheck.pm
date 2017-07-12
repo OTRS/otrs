@@ -75,18 +75,18 @@ sub CheckPreviousRequirement {
     }
 
     if ( !$DatabaseType || !$DatabaseVersion ) {
-        print "\n\nError: Not able to detect database version!";
+        print "\n    Error: Not able to detect database version!\n\n";
         return;
     }
 
     if ($Verbose) {
-        print "\n    Installed database version: $VersionString. "
-            . "Minimum required database version: $MinimumDatabaseVersion{ $DatabaseType }.";
+        print "    Installed database version: $VersionString. "
+            . "Minimum required database version: $MinimumDatabaseVersion{ $DatabaseType }.\n";
     }
 
     if ( version->parse($DatabaseVersion) < version->parse( $MinimumDatabaseVersion{$DatabaseType} ) ) {
-        print "\n\nError: You have the wrong database version installed ($VersionString). "
-            . "You need at least $MinimumDatabaseVersion{ $DatabaseType }!";
+        print "\n    Error: You have the wrong database version installed ($VersionString). "
+            . "You need at least $MinimumDatabaseVersion{ $DatabaseType }!\n";
         return;
     }
 

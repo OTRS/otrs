@@ -58,7 +58,7 @@ sub RebuildConfig {
         )
         )
     {
-        print "Error:There was a problem writing XML to DB.";
+        print "\n\n    Error:There was a problem writing XML to DB.\n";
         return;
     }
 
@@ -73,7 +73,7 @@ sub RebuildConfig {
         )
         )
     {
-        print "Error:There was a problem writing ZZZAAuto.pm.";
+        print "\n\n    Error:There was a problem writing ZZZAAuto.pm.\n";
         return;
     }
 
@@ -85,7 +85,7 @@ sub RebuildConfig {
     }
 
     if ($Verbose) {
-        print "\n  If you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
+        print "\n    If you see warnings about 'Subroutine Load redefined', that's fine, no need to worry!\n";
     }
 
     # create common objects with new default config
@@ -348,6 +348,7 @@ sub ExecuteXMLDBString {
     for my $SQL ( @SQL, @SQLPost ) {
         my $Success = $DBObject->Do( SQL => $SQL );
         if ( !$Success ) {
+            print "\n";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Error during execution of '$SQL'!",

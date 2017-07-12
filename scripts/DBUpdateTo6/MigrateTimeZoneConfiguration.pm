@@ -57,11 +57,11 @@ sub Run {
 
         if ($Verbose) {
             print
-                "\n  Migration of time zone settings is being skipped because this script is being executed in non-interactive mode. \n"
-                . "  Please make sure to set the following SysConfig options after this script has been executed: \n"
-                . "  OTRSTimeZone \n"
-                . "  UserDefaultTimeZone \n"
-                . "  TimeZone::Calendar1 to TimeZone::Calendar9 (depending on the calendars in use) \n";
+                "\n        - Migration of time zone settings is being skipped because this script is being executed in non-interactive mode. \n"
+                . "        Please make sure to set the following SysConfig options after this script has been executed: \n"
+                . "        OTRSTimeZone \n"
+                . "        UserDefaultTimeZone \n"
+                . "        TimeZone::Calendar1 to TimeZone::Calendar9 (depending on the calendars in use) \n\n";
         }
         return 1;
     }
@@ -93,13 +93,13 @@ sub Run {
     my $TimeZoneByOffset = $DateTimeObject->TimeZoneByOffsetList();
     if ( exists $TimeZoneByOffset->{$TimeOffset} ) {
         print
-            "\n  The currently configured time offset is $TimeOffset hours, these are the suggestions for a corresponding OTRS time zone: \n\n";
+            "\n\n        The currently configured time offset is $TimeOffset hours, these are the suggestions for a corresponding OTRS time zone: \n\n";
 
-        print join( "\n  ", sort @{ $TimeZoneByOffset->{$TimeOffset} } ) . "\n";
+        print "        " . join( "\n        ", sort @{ $TimeZoneByOffset->{$TimeOffset} } ) . "\n";
     }
 
     if ( $SuggestedTimeZone && $TimeZones{$SuggestedTimeZone} ) {
-        print "\n  It seems that $SuggestedTimeZone should be the correct time zone to set for your OTRS. \n";
+        print "\n\n        It seems that $SuggestedTimeZone should be the correct time zone to set for your OTRS. \n";
     }
 
     my $Success = $Self->_ConfigureTimeZone(
@@ -135,6 +135,8 @@ sub Run {
 
         return if !$Success;
     }
+
+    print "\n";
 
     return 1;
 }
@@ -173,7 +175,7 @@ sub _AskForTimeZone {
     print "\n";
     while ( !defined $TimeZone || !$Param{TimeZones}->{$TimeZone} ) {
         print
-            "  Enter the time zone to use for $Param{ConfigKey} (leave empty to show a list of all available time zones): ";
+            "        Enter the time zone to use for $Param{ConfigKey} (leave empty to show a list of all available time zones): ";
         $TimeZone = <>;
 
         # Remove white space
@@ -181,12 +183,12 @@ sub _AskForTimeZone {
 
         if ( length $TimeZone ) {
             if ( !$Param{TimeZones}->{$TimeZone} ) {
-                print "  Invalid time zone. \n";
+                print "        Invalid time zone. \n";
             }
         }
         else {
             # Show list of all available time zones
-            print join( "\n  ", sort keys %{ $Param{TimeZones} } ) . " \n";
+            print "        " . join( "\n        ", sort keys %{ $Param{TimeZones} } ) . " \n";
         }
     }
 

@@ -37,7 +37,7 @@ sub Run {
 
     # Skip execution if article_type table is missing.
     if ( !$TableExists ) {
-        print "\nArticle types table missing, skipping... " if $Verbose;
+        print "\n        - Article types table missing, skipping...\n\n" if $Verbose;
         return 1;
     }
 

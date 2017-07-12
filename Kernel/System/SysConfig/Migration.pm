@@ -1781,9 +1781,10 @@ sub MigrateConfigEffectiveValues {
     my $AllSettingsCount = scalar keys %OTRS5Config;
 
     # TODO: Add explanation for the following output values
-    print "AllSettingsCount: " . $AllSettingsCount . "\n";
-    print "MissingCount: " . scalar @MissingSettings . "\n";
-    print "UnsuccessfullCount: " . scalar @UnsuccessfullSettings . "\n\n";
+    print "\n";
+    print "        - AllSettingsCount: " . $AllSettingsCount . "\n";
+    print "        - MissingCount: " . scalar @MissingSettings . "\n";
+    print "        - UnsuccessfullCount: " . scalar @UnsuccessfullSettings . "\n\n";
 
     # TODO: Maybe do not show the missing settings in the final version, just the Missing count above.
     if (@MissingSettings) {
@@ -1799,8 +1800,6 @@ sub MigrateConfigEffectiveValues {
             print $Setting . "\n";
         }
     }
-
-    print "\n\n";
 
     if ( $Param{ReturnMigratedSettingsCounts} ) {
         return {

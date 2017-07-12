@@ -49,21 +49,23 @@ sub CheckPreviousRequirement {
 
     # verify check modules script exist
     if ( !-e $ScriptPath ) {
-        print "\n\nError: $ScriptPath script does not exist!";
+        print "\n    Error: $ScriptPath script does not exist!\n\n";
         return;
     }
 
-    print "\n";
+    print "\n" if $Verbose;
 
-    print "  Executing $ScriptPath to check for missing required modules. \n\n" if $Verbose;
+    print "    Executing $ScriptPath to check for missing required modules. \n\n" if $Verbose;
 
-    print "\n";
+    if ( !$Verbose ) {
+        $ScriptPath .= ' >/dev/null';
+    }
 
     my $ExitCode = system($ScriptPath);
 
     if ( $ExitCode != 0 ) {
         print
-            "Error: not all required Perl modules are installed. Please follow the recommendations to install them, and then run the upgrade script again.\n";
+            "\n    Error: not all required Perl modules are installed. Please follow the recommendations to install them, and then run the upgrade script again.\n\n";
         return;
     }
 

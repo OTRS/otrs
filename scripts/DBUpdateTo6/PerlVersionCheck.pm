@@ -60,13 +60,13 @@ sub CheckPreviousRequirement {
     my $InstalledPerlVersion = $^V;
 
     if ($Verbose) {
-        print "\n    Installed Perl version: $InstalledPerlVersion. "
-            . "Minimum required Perl version: $RequiredPerlVersion.";
+        print "    Installed Perl version: $InstalledPerlVersion. "
+            . "Minimum required Perl version: $RequiredPerlVersion.\n";
     }
 
     if ( version->parse($InstalledPerlVersion) < version->parse($RequiredPerlVersion) ) {
-        print "\n\nError: You have the wrong Perl version installed ($InstalledPerlVersion). "
-            . "You need at least $RequiredPerlVersion!";
+        print "\n    Error: You have the wrong Perl version installed ($InstalledPerlVersion). "
+            . "You need at least $RequiredPerlVersion!\n\n";
         return;
     }
 
