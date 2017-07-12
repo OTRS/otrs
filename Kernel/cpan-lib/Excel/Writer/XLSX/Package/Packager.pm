@@ -6,7 +6,7 @@ package Excel::Writer::XLSX::Package::Packager;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2016, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -23,6 +23,7 @@ use Excel::Writer::XLSX::Package::App;
 use Excel::Writer::XLSX::Package::Comments;
 use Excel::Writer::XLSX::Package::ContentTypes;
 use Excel::Writer::XLSX::Package::Core;
+use Excel::Writer::XLSX::Package::Custom;
 use Excel::Writer::XLSX::Package::Relationships;
 use Excel::Writer::XLSX::Package::SharedStrings;
 use Excel::Writer::XLSX::Package::Styles;
@@ -31,7 +32,7 @@ use Excel::Writer::XLSX::Package::Theme;
 use Excel::Writer::XLSX::Package::VML;
 
 our @ISA     = qw(Exporter);
-our $VERSION = '0.85';
+our $VERSION = '0.95';
 
 
 ###############################################################################
@@ -55,7 +56,6 @@ sub new {
 
     $self->{_package_dir}      = '';
     $self->{_workbook}         = undef;
-    $self->{_sheet_names}      = [];
     $self->{_worksheet_count}  = 0;
     $self->{_chartsheet_count} = 0;
     $self->{_chart_count}      = 0;
@@ -94,10 +94,8 @@ sub _add_workbook {
 
     my $self        = shift;
     my $workbook    = shift;
-    my @sheet_names = @{ $workbook->{_sheetnames} };
 
     $self->{_workbook}          = $workbook;
-    $self->{_sheet_names}       = \@sheet_names;
     $self->{_chart_count}       = scalar @{ $workbook->{_charts} };
     $self->{_drawing_count}     = scalar @{ $workbook->{_drawings} };
     $self->{_num_vml_files}     = $workbook->{_num_vml_files};
@@ -136,6 +134,7 @@ sub _create_package {
     $self->_write_shared_strings_file();
     $self->_write_app_file();
     $self->_write_core_file();
+    $self->_write_custom_file();
     $self->_write_content_types_file();
     $self->_write_styles_file();
     $self->_write_theme_file();
@@ -451,6 +450,29 @@ sub _write_core_file {
 
 ###############################################################################
 #
+# _write_custom_file()
+#
+# Write the custom.xml file.
+#
+sub _write_custom_file {
+
+    my $self       = shift;
+    my $dir        = $self->{_package_dir};
+    my $properties = $self->{_workbook}->{_custom_properties};
+    my $custom     = Excel::Writer::XLSX::Package::Custom->new();
+
+    return if !@$properties;
+
+    _mkdir( $dir . '/docProps' );
+
+    $custom->_set_properties( $properties );
+    $custom->_set_xml_writer( $dir . '/docProps/custom.xml' );
+    $custom->_assemble_xml_file();
+}
+
+
+###############################################################################
+#
 # _write_content_types_file()
 #
 # Write the ContentTypes.xml file.
@@ -502,6 +524,11 @@ sub _write_content_types_file {
     # Add vbaProject if present.
     if ( $self->{_workbook}->{_vba_project} ) {
         $content->_add_vba_project();
+    }
+
+    # Add the custom properties if present.
+    if ( @{ $self->{_workbook}->{_custom_properties} } ) {
+        $content->_add_custom_properties();
     }
 
     $content->_set_xml_writer( $dir . '/[Content_Types].xml' );
@@ -621,10 +648,17 @@ sub _write_root_rels_file {
     _mkdir( $dir . '/_rels' );
 
     $rels->_add_document_relationship( '/officeDocument', 'xl/workbook.xml' );
+
     $rels->_add_package_relationship( '/metadata/core-properties',
         'docProps/core.xml' );
+
     $rels->_add_document_relationship( '/extended-properties',
         'docProps/app.xml' );
+
+    if ( @{ $self->{_workbook}->{_custom_properties} } ) {
+        $rels->_add_document_relationship( '/custom-properties',
+            'docProps/custom.xml' );
+    }
 
     $rels->_set_xml_writer( $dir . '/_rels/.rels' );
     $rels->_assemble_xml_file();
@@ -962,7 +996,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXV, John McNamara.
+(c) MM-MMXVI, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 

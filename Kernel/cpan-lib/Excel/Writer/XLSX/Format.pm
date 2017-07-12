@@ -7,7 +7,7 @@ package Excel::Writer::XLSX::Format;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2016, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -20,7 +20,7 @@ use Carp;
 
 
 our @ISA     = qw(Exporter);
-our $VERSION = '0.85';
+our $VERSION = '0.95';
 our $AUTOLOAD;
 
 
@@ -662,7 +662,7 @@ sub set_rotation {
     if ( $rotation == 270 ) {
         $rotation = 255;
     }
-    elsif ( $rotation >= -90 or $rotation <= 90 ) {
+    elsif ( $rotation >= -90 and $rotation <= 90 ) {
         $rotation = -$rotation + 90 if $rotation < 0;
     }
     else {
@@ -809,6 +809,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXV, John McNamara.
+(c) MM-MMXVI, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

@@ -6,7 +6,7 @@ package Excel::Writer::XLSX::Package::Core;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2016, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -20,7 +20,7 @@ use Carp;
 use Excel::Writer::XLSX::Package::XMLwriter;
 
 our @ISA     = qw(Excel::Writer::XLSX::Package::XMLwriter);
-our $VERSION = '0.85';
+our $VERSION = '0.95';
 
 
 ###############################################################################
@@ -43,7 +43,7 @@ sub new {
     my $self  = Excel::Writer::XLSX::Package::XMLwriter->new( $fh );
 
     $self->{_properties} = {};
-    $self->{_localtime}  = [ localtime() ];
+    $self->{_createtime}  = [ gmtime() ];
 
     bless $self, $class;
 
@@ -105,16 +105,17 @@ sub _set_properties {
 
 ###############################################################################
 #
-# _localtime_to_iso8601_date()
+# _datetime_to_iso8601_date()
 #
-# Convert a localtime() date to a ISO 8601 style "2010-01-01T00:00:00Z" date.
+# Convert a gmtime/localtime() date to a ISO 8601 style "2010-01-01T00:00:00Z"
+# date. Excel always treats this as a utc date/time.
 #
-sub _localtime_to_iso8601_date {
+sub _datetime_to_iso8601_date {
 
     my $self = shift;
-    my $localtime = shift || $self->{_localtime};
+    my $gmtime = shift || $self->{_createtime};
 
-    my ( $seconds, $minutes, $hours, $day, $month, $year ) = @$localtime;
+    my ( $seconds, $minutes, $hours, $day, $month, $year ) = @$gmtime;
 
     $month++;
     $year += 1900;
@@ -201,7 +202,7 @@ sub _write_dcterms_created {
     my $date     = $self->{_properties}->{created};
     my $xsi_type = 'dcterms:W3CDTF';
 
-    $date = $self->_localtime_to_iso8601_date( $date );
+    $date = $self->_datetime_to_iso8601_date( $date );
 
     my @attributes = ( 'xsi:type' => $xsi_type, );
 
@@ -221,7 +222,7 @@ sub _write_dcterms_modified {
     my $date     = $self->{_properties}->{created};
     my $xsi_type = 'dcterms:W3CDTF';
 
-    $date = $self->_localtime_to_iso8601_date( $date );
+    $date = $self->_datetime_to_iso8601_date( $date );
 
     my @attributes = ( 'xsi:type' => $xsi_type, );
 
@@ -356,7 +357,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXV, John McNamara.
+(c) MM-MMXVI, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 

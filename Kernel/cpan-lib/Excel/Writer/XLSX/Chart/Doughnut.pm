@@ -8,7 +8,7 @@ package Excel::Writer::XLSX::Chart::Doughnut;
 #
 # See formatting note in Excel::Writer::XLSX::Chart.
 #
-# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2016, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -22,7 +22,7 @@ use Carp;
 use Excel::Writer::XLSX::Chart::Pie;
 
 our @ISA     = qw(Excel::Writer::XLSX::Chart::Pie);
-our $VERSION = '0.85';
+our $VERSION = '0.95';
 
 
 ###############################################################################
@@ -300,6 +300,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-Copyright MM-MMXV, John McNamara.
+Copyright MM-MMXVI, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.

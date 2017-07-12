@@ -6,7 +6,7 @@ package Excel::Writer::XLSX::Package::Comments;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2016, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -22,7 +22,7 @@ use Excel::Writer::XLSX::Utility qw(xl_rowcol_to_cell);
 
 
 our @ISA     = qw(Excel::Writer::XLSX::Package::XMLwriter);
-our $VERSION = '0.85';
+our $VERSION = '0.95';
 
 
 ###############################################################################
@@ -404,7 +404,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXV, John McNamara.
+(c) MM-MMXVI, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 

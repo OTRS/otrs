@@ -6,7 +6,7 @@ package Excel::Writer::XLSX::Package::XMLwriter;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2016, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -21,7 +21,7 @@ use Carp;
 use IO::File;
 
 our @ISA     = qw(Exporter);
-our $VERSION = '0.85';
+our $VERSION = '0.95';
 
 #
 # NOTE: this module is a light weight re-implementation of XML::Writer. See
@@ -455,13 +455,14 @@ sub _escape_attributes {
 
     my $str = $_[0];
 
-    return $str if $str !~ m/["&<>]/;
+    return $str if $str !~ m/["&<>\n]/;
 
     for ( $str ) {
         s/&/&amp;/g;
         s/"/&quot;/g;
         s/</&lt;/g;
         s/>/&gt;/g;
+        s/\n/&#xA;/g;
     }
 
     return $str;
@@ -518,7 +519,7 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXV, John McNamara.
+(c) MM-MMXVI, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
 

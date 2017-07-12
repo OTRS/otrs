@@ -7,7 +7,7 @@ package Excel::Writer::XLSX::Worksheet;
 #
 # Used in conjunction with Excel::Writer::XLSX
 #
-# Copyright 2000-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2000-2016, John McNamara, jmcnamara@cpan.org
 #
 # Documentation after __END__
 #
@@ -30,7 +30,7 @@ use Excel::Writer::XLSX::Utility qw(xl_cell_to_rowcol
                                     quote_sheetname);
 
 our @ISA     = qw(Excel::Writer::XLSX::Package::XMLwriter);
-our $VERSION = '0.85';
+our $VERSION = '0.95';
 
 
 ###############################################################################
@@ -1984,7 +1984,7 @@ sub write {
     }
 
     # Match number
-    elsif ( $token =~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/ ) {
+    elsif ( $token =~ /^([+-]?)(?=[0-9]|\.[0-9])[0-9]*(\.[0-9]*)?([Ee]([+-]?[0-9]+))?$/ ) {
         return $self->write_number( @_ );
     }
 
@@ -2599,6 +2599,44 @@ sub write_array_formula {
 
 ###############################################################################
 #
+# write_blank($row, $col, $format)
+#
+# Write a boolean value to the specified row and column (zero indexed).
+#
+# Returns  0 : normal termination (including no format)
+#         -2 : row or column out of range
+#
+sub write_boolean {
+
+    my $self = shift;
+
+    # Check for a cell reference in A1 notation and substitute row and column
+    if ( $_[0] =~ /^\D/ ) {
+        @_ = $self->_substitute_cellref( @_ );
+    }
+
+    my $row  = $_[0];            # Zero indexed row
+    my $col  = $_[1];            # Zero indexed column
+    my $val  = $_[2] ? 1 : 0;    # Boolean value.
+    my $xf   = $_[3];            # The cell format
+    my $type = 'l';              # The data type
+
+    # Check that row and col are valid and store max and min values
+    return -2 if $self->_check_dimensions( $row, $col );
+
+    # Write previous row if in in-line string optimization mode.
+    if ( $self->{_optimization} == 1 && $row > $self->{_previous_row} ) {
+        $self->_write_single_row( $row );
+    }
+
+    $self->{_table}->{$row}->{$col} = [ $type, $val, $xf ];
+
+    return 0;
+}
+
+
+###############################################################################
+#
 # outline_settings($visible, $symbols_below, $symbols_right, $auto_style)
 #
 # This method sets the properties for outlining and grouping. The defaults
@@ -2614,6 +2652,30 @@ sub outline_settings {
     $self->{_outline_style} = $_[3] || 0;
 
     $self->{_outline_changed} = 1;
+}
+
+
+###############################################################################
+#
+# Escape urls like Excel.
+#
+sub _escape_url {
+
+    my $url = shift;
+
+    # Don't escape URL if it looks already escaped.
+    return $url if $url =~ /%[0-9a-fA-F]{2}/;
+
+    # Escape the URL escape symbol.
+    $url =~ s/%/%25/g;
+
+    # Escape whitespace in URL.
+    $url =~ s/[\s\x00]/%20/g;
+
+    # Escape other special characters in URL.
+    $url =~ s/(["<>[\]`^{}])/sprintf '%%%x', ord $1/eg;
+
+    return $url;
 }
 
 
@@ -2664,25 +2726,24 @@ sub write_url {
     my $tip       = $args[5];    # Tool tip
     my $type      = 'l';         # XML data type
     my $link_type = 1;
-
-
-    # Remove the URI scheme from internal links.
-    if ( $url =~ s/^internal:// ) {
-        $link_type = 2;
-    }
-
-    # Remove the URI scheme from external links.
-    if ( $url =~ s/^external:// ) {
-        $link_type = 3;
-    }
+    my $external  = 0;
 
     # The displayed string defaults to the url string.
     $str = $url unless defined $str;
 
-    # For external links change the directory separator from Unix to Dos.
-    if ( $link_type == 3 ) {
+    # Remove the URI scheme from internal links.
+    if ( $url =~ s/^internal:// ) {
+        $str =~ s/^internal://;
+        $link_type = 2;
+    }
+
+    # Remove the URI scheme from external links and change the directory
+    # separator from Unix to Dos.
+    if ( $url =~ s/^external:// ) {
+        $str =~ s/^external://;
         $url =~ s[/][\\]g;
         $str =~ s[/][\\]g;
+        $external = 1;
     }
 
     # Strip the mailto header.
@@ -2703,54 +2764,35 @@ sub write_url {
 
     # External links to URLs and to other Excel workbooks have slightly
     # different characteristics that we have to account for.
-    if ( $link_type == 1 || $link_type == 3) {
+    if ( $link_type == 1 ) {
 
-        # Escape URL unless it looks already escaped.
-        if ( $url !~ /%[0-9a-fA-F]{2}/ ) {
+        # Split url into the link and optional anchor/location.
+        ( $url, $url_str ) = split /#/, $url, 2;
 
-            # Escape the URL escape symbol.
-            $url =~ s/%/%25/g;
+        $url = _escape_url( $url );
 
-            # Escape whitespace in URL.
-            $url =~ s/[\s\x00]/%20/g;
-
-            # Escape other special characters in URL.
-            $url =~ s/(["<>[\]`^{}])/sprintf '%%%x', ord $1/eg;
+        # Escape the anchor for hyperlink style urls only.
+        if ( $url_str && !$external ) {
+            $url_str = _escape_url( $url_str );
         }
 
-        # Ordinary URL style external links don't have a "location" string.
-        $url_str = undef;
-    }
-
-    if ( $link_type == 3 ) {
-
-        # External Workbook links need to be modified into the right format.
-        # The URL will look something like 'c:\temp\file.xlsx#Sheet!A1'.
-        # We need the part to the left of the # as the URL and the part to
-        # the right as the "location" string (if it exists).
-        ( $url, $url_str ) = split /#/, $url;
-
-        # Add the file:/// URI to the $url if non-local.
-        if (
-            $url =~ m{[:]}         # Windows style "C:/" link.
-            || $url =~ m{^\\\\}    # Network share.
-          )
-        {
+        # Add the file:/// URI to the url for Windows style "C:/" link and
+        # Network shares.
+        if ( $url =~ m{^\w:} || $url =~ m{^\\\\} ) {
             $url = 'file:///' . $url;
         }
 
         # Convert a ./dir/file.xlsx link to dir/file.xlsx.
         $url =~ s{^.\\}{};
-
-        # Treat as a default external link now that the data has been modified.
-        $link_type = 1;
     }
 
-    # Excel limits escaped URL to 255 characters.
-    if ( length $url > 255 ) {
-        carp "Ignoring URL '$url' > 255 characters since it exceeds Excel's "
-          . "limit for URLS. See LIMITATIONS section of the "
-          . "Excel::Writer::XLSX documentation.";
+    # Excel limits the escaped URL and location/anchor to 255 characters.
+    my $tmp_url_str = $url_str || '';
+
+    if ( length $url > 255 || length $tmp_url_str > 255 ) {
+        carp "Ignoring URL '$url' where link or anchor > 255 characters "
+          . "since it exceeds Excel's limit for URLS. See LIMITATIONS "
+          . "section of the Excel::Writer::XLSX documentation.";
         return -4;
     }
 
@@ -3333,15 +3375,21 @@ sub data_validation {
         $param->{validate} = $valid_type{ lc( $param->{validate} ) };
     }
 
+    # No action is required for validation type 'any'
+    # unless there are input messages.
+    if (   $param->{validate} eq 'none'
+        && !defined $param->{input_message}
+        && !defined $param->{input_title} )
+    {
+        return 0;
+    }
 
-    # No action is required for validation type 'any'.
-    # TODO: we should perhaps store 'any' for message only validations.
-    return 0 if $param->{validate} eq 'none';
-
-
-    # The list and custom validations don't have a criteria so we use a default
-    # of 'between'.
-    if ( $param->{validate} eq 'list' || $param->{validate} eq 'custom' ) {
+    # The any, list and custom validations don't have a criteria
+    # so we use a default of 'between'.
+    if (   $param->{validate} eq 'none'
+        || $param->{validate} eq 'list'
+        || $param->{validate} eq 'custom' )
+    {
         $param->{criteria} = 'between';
         $param->{maximum}  = undef;
     }
@@ -3575,22 +3623,23 @@ sub conditional_formatting {
 
     # List of valid input parameters.
     my %valid_parameter = (
-        type      => 1,
-        format    => 1,
-        criteria  => 1,
-        value     => 1,
-        minimum   => 1,
-        maximum   => 1,
-        min_type  => 1,
-        mid_type  => 1,
-        max_type  => 1,
-        min_value => 1,
-        mid_value => 1,
-        max_value => 1,
-        min_color => 1,
-        mid_color => 1,
-        max_color => 1,
-        bar_color => 1,
+        type         => 1,
+        format       => 1,
+        criteria     => 1,
+        value        => 1,
+        minimum      => 1,
+        maximum      => 1,
+        stop_if_true => 1,
+        min_type     => 1,
+        mid_type     => 1,
+        max_type     => 1,
+        min_value    => 1,
+        mid_value    => 1,
+        max_value    => 1,
+        min_color    => 1,
+        mid_color    => 1,
+        max_color    => 1,
+        bar_color    => 1,
     );
 
     # Check for valid input parameters.
@@ -4026,6 +4075,26 @@ sub add_table {
 
     # Set the table name.
     if ( defined $param->{name} ) {
+        my $name = $param->{name};
+
+        # Warn if the name contains invalid chars as defined by Excel help.
+        if ( $name !~ m/^[\w\\][\w\\.]*$/ || $name =~ m/^\d/ ) {
+            carp "Invalid character in name '$name' used in add_table()";
+            return -3;
+        }
+
+        # Warn if the name looks like a cell name.
+        if ( $name =~ m/^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$/ ) {
+            carp "Invalid name '$name' looks like a cell name in add_table()";
+            return -3;
+        }
+
+        # Warn if the name looks like a R1C1.
+        if ( $name =~ m/^[rcRC]$/ || $name =~ m/^[rcRC]\d+[rcRC]\d+$/ ) {
+            carp "Invalid name '$name' like a RC cell ref in add_table()";
+            return -3;
+        }
+
         $table{_name} = $param->{name};
     }
 
@@ -4085,6 +4154,7 @@ sub add_table {
             _total_function => '',
             _formula        => '',
             _format         => undef,
+            _name_format    => undef,
         };
 
         # Overwrite the defaults with any use defined values.
@@ -4096,6 +4166,9 @@ sub add_table {
                 # Map user defined values to internal values.
                 $col_data->{_name} = $user_data->{header}
                   if $user_data->{header};
+
+                # Get the header format if defined.
+                $col_data->{_name_format} = $user_data->{header_format};
 
                 # Handle the column formula.
                 if ( $user_data->{formula} ) {
@@ -4169,7 +4242,8 @@ sub add_table {
 
         # Write the column headers to the worksheet.
         if ( $param->{header_row} ) {
-            $self->write_string( $row1, $col_num, $col_data->{_name} );
+            $self->write_string( $row1, $col_num, $col_data->{_name},
+                $col_data->{_name_format} );
         }
 
         $col_id++;
@@ -4789,6 +4863,22 @@ sub _position_object_pixels {
 
     ( $col_start, $row_start, $x1, $y1, $width, $height ) = @_;
 
+    # Adjust start column for negative offsets.
+    while ( $x1 < 0 && $col_start > 0) {
+        $x1 += $self->_size_col( $col_start  - 1);
+        $col_start--;
+    }
+
+    # Adjust start row for negative offsets.
+    while ( $y1 < 0 && $row_start > 0) {
+        $y1 += $self->_size_row( $row_start - 1);
+        $row_start--;
+    }
+
+    # Ensure that the image isn't shifted off the page at top left.
+    $x1 = 0 if $x1 < 0;
+    $y1 = 0 if $y1 < 0;
+
     # Calculate the absolute x offset of the top-left vertex.
     if ( $self->{_col_size_changed} ) {
         for my $col_id ( 0 .. $col_start -1 ) {
@@ -4828,7 +4918,6 @@ sub _position_object_pixels {
         $y1 -= $self->_size_row( $row_start );
         $row_start++;
     }
-
 
     # Initialise end cell to the same as the start cell.
     $col_end = $col_start;
@@ -5755,6 +5844,7 @@ sub _prepare_tables {
 
     my $self     = shift;
     my $table_id = shift;
+    my $seen     = shift;
 
 
     for my $table ( @{ $self->{_tables} } ) {
@@ -5766,6 +5856,16 @@ sub _prepare_tables {
 
             # Set a default name.
             $table->{_name} = 'Table' . $table_id;
+        }
+
+        # Check for duplicate table names.
+        my $name = lc $table->{_name};
+
+        if ( exists $seen->{$name} ) {
+            die "error: invalid duplicate table name '$table->{_name}' found";
+        }
+        else {
+            $seen->{$name} = 1;
         }
 
         # Store the link used for the rels file.
@@ -5833,7 +5933,10 @@ sub _comment_params {
     my $color    = $params{color};
     my $color_id = &Excel::Writer::XLSX::Format::_get_color( $color );
 
-    if ( $color_id == 0 ) {
+    if ( $color_id =~ m/^#[0-9A-F]{6}$/i ) {
+        $params{color} = $color_id;
+    }
+    elsif ( $color_id == 0 ) {
         $params{color} = '#ffffe1';
     }
     else {
@@ -5847,7 +5950,7 @@ sub _comment_params {
         # from long format, ffcc00 to short format fc0 used by VML.
         $rgb_color =~ s/^([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3$/$1$2$3/;
 
-        $params{color} = sprintf "#%s [%d]\n", $rgb_color, $color_id;
+        $params{color} = sprintf "#%s [%d]", $rgb_color, $color_id;
     }
 
 
@@ -7028,6 +7131,15 @@ sub _write_cell {
         $self->xml_start_tag( 'c', @attributes );
         $self->_write_cell_array_formula( $token, $cell->[3] );
         $self->_write_cell_value( $cell->[4] );
+        $self->xml_end_tag( 'c' );
+    }
+    elsif ( $type eq 'l' ) {
+
+        # Write a boolean value.
+        push @attributes, ( 't' => 'b' );
+
+        $self->xml_start_tag( 'c', @attributes );
+        $self->_write_cell_value( $cell->[1] );
         $self->xml_end_tag( 'c' );
     }
     elsif ( $type eq 'b' ) {
@@ -8423,10 +8535,14 @@ sub _write_data_validation {
     }
 
 
-    push @attributes, ( 'type' => $param->{validate} );
+    if ( $param->{validate} ne 'none' ) {
 
-    if ( $param->{criteria} ne 'between' ) {
-        push @attributes, ( 'operator' => $param->{criteria} );
+        push @attributes, ( 'type' => $param->{validate} );
+
+        if ( $param->{criteria} ne 'between' ) {
+            push @attributes, ( 'operator' => $param->{criteria} );
+        }
+
     }
 
     if ( $param->{error_type} ) {
@@ -8455,15 +8571,21 @@ sub _write_data_validation {
 
     push @attributes, ( 'sqref' => $sqref );
 
-    $self->xml_start_tag( 'dataValidation', @attributes );
+    if ( $param->{validate} eq 'none' ) {
+        $self->xml_empty_tag( 'dataValidation', @attributes );
+    }
+    else {
+        $self->xml_start_tag( 'dataValidation', @attributes );
 
-    # Write the formula1 element.
-    $self->_write_formula_1( $param->{value} );
+        # Write the formula1 element.
+        $self->_write_formula_1( $param->{value} );
 
-    # Write the formula2 element.
-    $self->_write_formula_2( $param->{maximum} ) if defined $param->{maximum};
+        # Write the formula2 element.
+        $self->_write_formula_2( $param->{maximum} )
+          if defined $param->{maximum};
 
-    $self->xml_end_tag( 'dataValidation' );
+        $self->xml_end_tag( 'dataValidation' );
+    }
 }
 
 
@@ -8569,6 +8691,9 @@ sub _write_cf_rule {
       if defined $param->{format};
 
     push @attributes, ( 'priority' => $param->{priority} );
+
+    push @attributes, ( 'stopIfTrue' => 1 )
+      if defined $param->{stop_if_true};
 
     if ( $param->{type} eq 'cellIs' ) {
         push @attributes, ( 'operator' => $param->{criteria} );
@@ -9210,6 +9335,6 @@ John McNamara jmcnamara@cpan.org
 
 =head1 COPYRIGHT
 
-(c) MM-MMXV, John McNamara.
+(c) MM-MMXVI, John McNamara.
 
 All Rights Reserved. This module is free software. It may be used, redistributed and/or modified under the same terms as Perl itself.
