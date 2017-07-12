@@ -1,12 +1,12 @@
-# Copyrights 1995-2014 by [Mark Overmeer <perl@overmeer.net>].
+# Copyrights 1995-2016 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.01.
+# Pod stripped from pm file by OODoc 2.02.
 use strict;
 
 package Mail::Mailer;
 use vars '$VERSION';
-$VERSION = '2.14';
+$VERSION = '2.18';
 
 use base 'IO::Handle';
 
@@ -155,8 +155,9 @@ sub open($)
         }
     }
     else
-    {   $self->exec($exe, $args, \@to, $sender)
-            or die $!;
+    {   # Sending is handled by a subclass
+        $self->exec(undef, $args, \@to)
+            or die $!;    
     }
 
     $self->set_headers($hdrs);

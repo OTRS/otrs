@@ -1,10 +1,10 @@
-# Copyrights 1995-2014 by [Mark Overmeer <perl@overmeer.net>].
+# Copyrights 1995-2016 by [Mark Overmeer <perl@overmeer.net>].
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 2.01.
+# Pod stripped from pm file by OODoc 2.02.
 package Mail::Header;
 use vars '$VERSION';
-$VERSION = '2.14';
+$VERSION = '2.18';
 
 
 use strict;
@@ -282,20 +282,21 @@ sub extract
 {   my ($self, $lines) = @_;
     $self->empty;
 
-    while(@$lines && $lines->[0] =~ /^($FIELD_NAME|From )/o)
-    {    my $tag  = $1;
-         my $line = shift @$lines;
-         $line   .= shift @$lines
-             while @$lines && $lines->[0] =~ /^[ \t]+/o;
+    while(@$lines)
+    {   my $line = shift @$lines;
+        last if $line =~ /^\r?$/;
 
-         ($tag, $line) = _fmt_line $self, $tag, $line;
+        $line    =~ /^($FIELD_NAME|From )/o or next;
+        my $tag  = $1;
 
-         _insert $self, $tag, $line, -1
-             if defined $line;
+        $line   .= shift @$lines
+            while @$lines && $lines->[0] =~ /^[ \t]+/;
+
+        ($tag, $line) = _fmt_line $self, $tag, $line;
+
+        _insert $self, $tag, $line, -1
+            if defined $line;
     }
-
-    shift @$lines
-        if @$lines && $lines->[0] =~ /^\s*$/o;
 
     $self;
 }
@@ -303,16 +304,14 @@ sub extract
 
 sub read
 {   my ($self, $fd) = @_;
-
     $self->empty;
 
-    my ($tag, $line);
-    my $ln = '';
+    my ($ln, $tag, $line);
     while(1)
     {   $ln = <$fd>;
 
-        if(defined $ln && defined $line && $ln =~ /\A[ \t]+/o)
-        {   $line .= $ln;
+        if(defined $ln && defined $line && $ln =~ /^[ \t]+/)
+        {   $line .= $ln;  # folded line
             next;
         }
 
@@ -320,11 +319,12 @@ sub read
         {   ($tag, $line) = _fmt_line $self, $tag, $line;
             _insert $self, $tag, $line, -1
 	        if defined $line;
+            ($tag, $line) = ();
         }
 
-        defined $ln && $ln =~ /^($FIELD_NAME|From )/o
-            or last;
+        last if !defined $ln || $ln =~ m/^\r?$/;
 
+        $ln =~ /^($FIELD_NAME|From )/o or next;
         ($tag, $line) = ($1, $ln);
     }
 
@@ -352,11 +352,6 @@ sub header
     [ @{$self->{mail_hdr_list}} ];
 }
 
-
-### text kept, for educational purpose... originates from 2000/03
-# This can probably be optimized. I didn't want to mess much around with
-# the internal implementation as for now...
-# -- Tobias Brox <tobix@cpan.org>
 
 sub header_hashref
 {   my ($self, $hashref) = @_;
