@@ -1,11 +1,9 @@
 package HTTP::Headers;
-
+$HTTP::Headers::VERSION = '6.13';
 use strict;
 use warnings;
 
 use Carp ();
-
-our $VERSION = "6.11";
 
 # The $TRANSLATE_UNDERSCORE variable controls whether '_' can be used
 # as a replacement for '-' in header field names.
@@ -465,11 +463,17 @@ sub _basic_auth {
 
 1;
 
-__END__
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 HTTP::Headers - Class encapsulating HTTP Message headers
+
+=head1 VERSION
+
+version 6.13
 
 =head1 SYNOPSIS
 
@@ -864,10 +868,21 @@ These field names are returned with the ':' intact for
 $h->header_field_names and the $h->scan callback, but the colons do
 not show in $h->as_string.
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 1995-2005 Gisle Aas.
+Gisle Aas <gisle@activestate.com>
 
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 1994-2017 by Gisle Aas.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+__END__
+
+
+#ABSTRACT: Class encapsulating HTTP Message headers
 

@@ -1,11 +1,9 @@
 package HTTP::Request;
-
+$HTTP::Request::VERSION = '6.13';
 use strict;
 use warnings;
 
 use base 'HTTP::Message';
-
-our $VERSION = "6.11";
 
 sub new
 {
@@ -67,7 +65,7 @@ sub uri
 	    Carp::croak("A URI can't be a " . ref($uri) . " reference")
 		if ref($uri) eq 'HASH' or ref($uri) eq 'ARRAY';
 	    Carp::croak("Can't use a " . ref($uri) . " object as a URI")
-		unless $uri->can('scheme');
+		unless $uri->can('scheme') && $uri->can('canonical');
 	    $uri = $uri->clone;
 	    unless ($HTTP::URI_CLASS eq "URI") {
 		# Argh!! Hate this... old LWP legacy!
@@ -132,11 +130,17 @@ sub dump
 
 1;
 
-__END__
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 HTTP::Request - HTTP style request message
+
+=head1 VERSION
+
+version 6.13
 
 =head1 SYNOPSIS
 
@@ -183,7 +187,7 @@ This constructs a new request object by parsing the given string.
 =item $r->method( $val )
 
 This is used to get/set the method attribute.  The method should be a
-short string like "GET", "HEAD", "PUT" or "POST".
+short string like "GET", "HEAD", "PUT", "PATCH" or "POST".
 
 =item $r->uri
 
@@ -232,10 +236,21 @@ Method returning a textual representation of the request.
 L<HTTP::Headers>, L<HTTP::Message>, L<HTTP::Request::Common>,
 L<HTTP::Response>
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 1995-2004 Gisle Aas.
+Gisle Aas <gisle@activestate.com>
 
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 1994-2017 by Gisle Aas.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+__END__
+
+
+#ABSTRACT: HTTP style request message
 

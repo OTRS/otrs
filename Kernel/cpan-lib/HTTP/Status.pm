@@ -1,5 +1,5 @@
 package HTTP::Status;
-
+$HTTP::Status::VERSION = '6.13';
 use strict;
 use warnings;
 
@@ -8,8 +8,6 @@ require 5.002;   # because we use prototypes
 use base 'Exporter';
 our @EXPORT = qw(is_info is_success is_redirect is_error status_message);
 our @EXPORT_OK = qw(is_client_error is_server_error);
-
-our $VERSION = "6.11";
 
 # Note also addition of mnemonics to @EXPORT below
 
@@ -104,21 +102,26 @@ our %EXPORT_TAGS = (
 
 sub status_message  ($) { $StatusCode{$_[0]}; }
 
-sub is_info         ($) { $_[0] >= 100 && $_[0] < 200; }
-sub is_success      ($) { $_[0] >= 200 && $_[0] < 300; }
-sub is_redirect     ($) { $_[0] >= 300 && $_[0] < 400; }
-sub is_error        ($) { $_[0] >= 400 && $_[0] < 600; }
-sub is_client_error ($) { $_[0] >= 400 && $_[0] < 500; }
-sub is_server_error ($) { $_[0] >= 500 && $_[0] < 600; }
+sub is_info         ($) { $_[0] && $_[0] >= 100 && $_[0] < 200; }
+sub is_success      ($) { $_[0] && $_[0] >= 200 && $_[0] < 300; }
+sub is_redirect     ($) { $_[0] && $_[0] >= 300 && $_[0] < 400; }
+sub is_error        ($) { $_[0] && $_[0] >= 400 && $_[0] < 600; }
+sub is_client_error ($) { $_[0] && $_[0] >= 400 && $_[0] < 500; }
+sub is_server_error ($) { $_[0] && $_[0] >= 500 && $_[0] < 600; }
 
 1;
 
+=pod
 
-__END__
+=encoding UTF-8
 
 =head1 NAME
 
 HTTP::Status - HTTP Status code processing
+
+=head1 VERSION
+
+version 6.13
 
 =head1 SYNOPSIS
 
@@ -267,3 +270,21 @@ This function is B<not> exported by default.
 For legacy reasons all the C<HTTP_> constants are exported by default
 with the prefix C<RC_>.  It's recommended to use explicit imports and
 the C<:constants> tag instead of relying on this.
+
+=head1 AUTHOR
+
+Gisle Aas <gisle@activestate.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 1994-2017 by Gisle Aas.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
+__END__
+
+
+#ABSTRACT: HTTP Status code processing

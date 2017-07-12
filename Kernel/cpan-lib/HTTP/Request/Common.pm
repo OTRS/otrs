@@ -1,5 +1,5 @@
 package HTTP::Request::Common;
-
+$HTTP::Request::Common::VERSION = '6.13';
 use strict;
 use warnings;
 
@@ -7,26 +7,20 @@ our $DYNAMIC_FILE_UPLOAD ||= 0;  # make it defined (don't know why)
 
 use Exporter 5.57 'import';
 
-our @EXPORT =qw(GET HEAD PUT POST);
+our @EXPORT =qw(GET HEAD PUT PATCH POST);
 our @EXPORT_OK = qw($DYNAMIC_FILE_UPLOAD DELETE);
 
 require HTTP::Request;
 use Carp();
-
-our $VERSION = "6.11";
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
 sub GET  { _simple_req('GET',  @_); }
 sub HEAD { _simple_req('HEAD', @_); }
 sub DELETE { _simple_req('DELETE', @_); }
-
-for my $type (qw(PUT POST)) {
-    no strict 'refs';
-    *{ __PACKAGE__ . "::" . $type } = sub {
-        return request_type_with_data($type, @_);
-    };
-}
+sub PATCH { request_type_with_data('PATCH', @_); }
+sub POST { request_type_with_data('POST', @_); }
+sub PUT { request_type_with_data('PUT', @_); }
 
 sub request_type_with_data
 {
@@ -306,11 +300,17 @@ sub boundary
 
 1;
 
-__END__
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 HTTP::Request::Common - Construct common HTTP::Request objects
+
+=head1 VERSION
+
+version 6.13
 
 =head1 SYNOPSIS
 
@@ -344,8 +344,8 @@ following call
 but is less cluttered.  What is different is that a header named
 C<Content> will initialize the content part of the request instead of
 setting a header field.  Note that GET requests should normally not
-have a content, so this hack makes more sense for the PUT() and POST()
-functions described below.
+have a content, so this hack makes more sense for the PUT(), PATCH()
+ and POST() functions described below.
 
 The get(...) method of C<LWP::UserAgent> exists as a shortcut for
 $ua->request(GET ...).
@@ -372,6 +372,14 @@ pseudo-header.  This steals a bit of the header field namespace as
 there is no way to directly specify a header that is actually called
 "Content".  If you really need this you must update the request
 returned in a separate statement.
+
+=item PATCH $url
+
+=item PATCH $url, Header => Value,...
+
+=item PATCH $url, Header => Value,..., Content => $content
+
+Like PUT() but the method in the request is "PATCH".
 
 =item DELETE $url
 
@@ -509,13 +517,21 @@ $ua->request(POST ...).
 
 L<HTTP::Request>, L<LWP::UserAgent>
 
+=head1 AUTHOR
 
-=head1 COPYRIGHT
+Gisle Aas <gisle@activestate.com>
 
-Copyright 1997-2004, Gisle Aas
+=head1 COPYRIGHT AND LICENSE
 
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+This software is copyright (c) 1994-2017 by Gisle Aas.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+
+__END__
+
+
+#ABSTRACT: Construct common HTTP::Request objects
 
