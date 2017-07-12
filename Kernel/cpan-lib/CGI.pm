@@ -8,7 +8,7 @@ use strict;
 use warnings;
 #/;
 
-$CGI::VERSION='4.32';
+$CGI::VERSION='4.36';
 
 use CGI::Util qw(rearrange rearrange_header make_attributes unescape escape expires ebcdic2ascii ascii2ebcdic);
 
@@ -442,7 +442,7 @@ sub param {
 
     my @result = @{$self->{param}{$name}};
 
-    if ($PARAM_UTF8 && $name ne 'PUTDATA' && $name ne 'POSTDATA') {
+    if ($PARAM_UTF8 && $name ne 'PUTDATA' && $name ne 'POSTDATA' && $name ne 'PATCHDATA') {
       eval "require Encode; 1;" unless Encode->can('decode'); # bring in these functions
       @result = map {ref $_ ? $_ : $self->_decode_utf8($_) } @result;
     }
@@ -638,9 +638,9 @@ sub init {
 	      last METHOD;
       }
 
-      if ($meth eq 'POST' || $meth eq 'PUT') {
+      if ($meth eq 'POST' || $meth eq 'PUT' || $meth eq 'PATCH') {
 	  if ( $content_length > 0 ) {
-        if ( ( $PUTDATA_UPLOAD || $self->{'.upload_hook'} ) && !$is_xforms && ($meth eq 'POST' || $meth eq 'PUT')
+        if ( ( $PUTDATA_UPLOAD || $self->{'.upload_hook'} ) && !$is_xforms && ($meth eq 'POST' || $meth eq 'PUT' || $meth eq 'PATCH')
             && defined($ENV{'CONTENT_TYPE'})
             && $ENV{'CONTENT_TYPE'} !~ m|^application/x-www-form-urlencoded|
         && $ENV{'CONTENT_TYPE'} !~ m|^multipart/form-data| ){
@@ -676,7 +676,7 @@ sub init {
   }
 
 # YL: Begin Change for XML handler 10/19/2001
-    if (!$is_xforms && ($meth eq 'POST' || $meth eq 'PUT')
+    if (!$is_xforms && ($meth eq 'POST' || $meth eq 'PUT' || $meth eq 'PATCH')
         && defined($ENV{'CONTENT_TYPE'})
         && $ENV{'CONTENT_TYPE'} !~ m|^application/x-www-form-urlencoded|
 	&& $ENV{'CONTENT_TYPE'} !~ m|^multipart/form-data| ) {
@@ -941,7 +941,7 @@ sub _setup_symbols {
 	$DEBUG=0,                next if /^[:-]no_?[Dd]ebug$/;
 	$DEBUG=2,                next if /^[:-][Dd]ebug$/;
 	$USE_PARAM_SEMICOLONS++, next if /^[:-]newstyle_urls$/;
-	$PUTDATA_UPLOAD++,       next if /^[:-](?:putdata_upload|postdata_upload)$/;
+	$PUTDATA_UPLOAD++,       next if /^[:-](?:putdata_upload|postdata_upload|patchdata_upload)$/;
 	$PARAM_UTF8++,           next if /^[:-]utf8$/;
 	$XHTML++,                next if /^[:-]xhtml$/;
 	$XHTML=0,                next if /^[:-]no_?xhtml$/;
@@ -1225,6 +1225,10 @@ sub SplitParam {
 
 sub MethGet {
     return request_method() eq 'GET';
+}
+
+sub MethPatch {
+    return request_method() eq 'PATCH';
 }
 
 sub MethPost {
@@ -2751,8 +2755,8 @@ sub url {
 ####
 sub cookie {
     my($self,@p) = self_or_default(@_);
-    my($name,$value,$path,$domain,$secure,$expires,$httponly) =
-	rearrange([NAME,[VALUE,VALUES],PATH,DOMAIN,SECURE,EXPIRES,HTTPONLY],@p);
+    my($name,$value,$path,$domain,$secure,$expires,$httponly,$max_age,$samesite) =
+	rearrange([NAME,[VALUE,VALUES],PATH,DOMAIN,SECURE,EXPIRES,HTTPONLY,'MAX-AGE',SAMESITE],@p);
 
     require CGI::Cookie;
 
@@ -2780,6 +2784,8 @@ sub cookie {
     push(@param,'-expires'=>$expires) if $expires;
     push(@param,'-secure'=>$secure) if $secure;
     push(@param,'-httponly'=>$httponly) if $httponly;
+    push(@param,'-max_age'=>$max_age) if $max_age;
+    push(@param,'-samesite'=>$samesite) if $samesite;
 
     return CGI::Cookie->new(@param);
 }
@@ -2885,7 +2891,7 @@ sub _name_and_path_from_env {
 }
 
 #### Method: request_method
-# Returns 'POST', 'GET', 'PUT' or 'HEAD'
+# Returns 'POST', 'GET', 'PUT', 'PATCH' or 'HEAD'
 ####
 sub request_method {
     return (defined $ENV{'REQUEST_METHOD'}) ? $ENV{'REQUEST_METHOD'} : undef;
