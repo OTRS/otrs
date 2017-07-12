@@ -48,7 +48,7 @@ use MIME::Tools qw(whine);
 @ISA = qw(MIME::Decoder);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.507";
+$VERSION = "5.509";
 
 
 #------------------------------
@@ -106,9 +106,10 @@ sub encode_it {
     my $fname = (($self->head && 
 		  $self->head->mime_attr('content-disposition.filename')) ||
 		 '');
-    $out->print("begin 644 $fname\n");
+    my $nl = $MIME::Entity::BOUNDARY_DELIMITER || "\n";
+    $out->print("begin 644 $fname$nl");
     while ($in->read($buf, 45)) { $out->print(pack('u', $buf)) }
-    $out->print("end\n");
+    $out->print("end$nl");
     1;
 }
 

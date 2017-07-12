@@ -138,7 +138,7 @@ use MIME::Field::ContType;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.507";
+$VERSION = "5.509";
 
 ### Sanity (we put this test after our own version, for CPAN::):
 use Mail::Header 1.06 ();
@@ -555,12 +555,17 @@ sub set {
 I<Instance method.>
 Return the header as a string.  You can also invoke it as C<as_string>.
 
+If you set the variable $MIME::Entity::BOUNDARY_DELIMITER to a string,
+that string will be used as line-end delimiter.  If it is not set,
+the line ending will be a newline character (\n)
+
 =cut
 
 sub stringify {
     my $self = shift;          ### build clean header, and output...
     my @header = grep {defined($_) ? $_ : ()} @{$self->header};
-    join "", map { /\n$/ ? $_ : "$_\n" } @header;
+    my $header_delimiter = $MIME::Entity::BOUNDARY_DELIMITER || "\n";
+    join "", map { /\n$/ ? substr($_, 0, -1) . $header_delimiter : $_ . $header_delimiter } @header;
 }
 sub as_string { shift->stringify(@_) }
 

@@ -153,7 +153,7 @@ use MIME::Parser::Results;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.507";
+$VERSION = "5.509";
 
 ### How to catenate:
 $CAT = '/bin/cat';
@@ -1109,6 +1109,10 @@ Returns the parsed MIME::Entity on success.
 sub parse_data {
     my ($self, $data) = @_;
 
+    if (!defined($data)) {
+	    croak "parse_data: No data passed";
+    }
+
     ### Get data as a scalar:
     my $io;
 
@@ -1124,6 +1128,10 @@ sub parse_data {
 	$io = IO::File->new(\$tmp_data, '<:');
     } else {
         croak "parse_data: wrong argument ref type: ", ref($data);
+    }
+
+    if (!$io) {
+	    croak "parse_data: unable to open in-memory file handle";
     }
 
     ### Parse!
