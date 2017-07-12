@@ -4,20 +4,19 @@ package LWP::Protocol::nogo;
 #   LWP::Protocol::implementor(that_scheme, 'LWP::Protocol::nogo');
 # For then on, attempts to access URLs with that scheme will generate
 # a 500 error.
-
+$LWP::Protocol::nogo::VERSION = '6.26';
 use strict;
-use vars qw(@ISA);
+
 require HTTP::Response;
 require HTTP::Status;
-require LWP::Protocol;
-@ISA = qw(LWP::Protocol);
+use base qw(LWP::Protocol);
 
 sub request {
     my($self, $request) = @_;
     my $scheme = $request->uri->scheme;
-    
+
     return HTTP::Response->new(
-      &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+      HTTP::Status::RC_INTERNAL_SERVER_ERROR,
       "Access to \'$scheme\' URIs has been disabled"
     );
 }

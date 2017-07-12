@@ -1,7 +1,6 @@
 package LWP::Protocol::file;
-
-require LWP::Protocol;
-@ISA = qw(LWP::Protocol);
+$LWP::Protocol::file::VERSION = '6.26';
+use base qw(LWP::Protocol);
 
 use strict;
 
@@ -21,14 +20,14 @@ sub request
     # check proxy
     if (defined $proxy)
     {
-	return HTTP::Response->new( &HTTP::Status::RC_BAD_REQUEST,
+	return HTTP::Response->new( HTTP::Status::RC_BAD_REQUEST,
 				  'You can not proxy through the filesystem');
     }
 
     # check method
     my $method = $request->method;
     unless ($method eq 'GET' || $method eq 'HEAD') {
-	return HTTP::Response->new( &HTTP::Status::RC_BAD_REQUEST,
+	return HTTP::Response->new( HTTP::Status::RC_BAD_REQUEST,
 				  'Library does not allow method ' .
 				  "$method for 'file:' URLs");
     }
@@ -38,7 +37,7 @@ sub request
 
     my $scheme = $url->scheme;
     if ($scheme ne 'file') {
-	return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 			   "LWP::Protocol::file::request called for '$scheme'");
     }
 
@@ -47,11 +46,11 @@ sub request
 
     # test file exists and is readable
     unless (-e $path) {
-	return HTTP::Response->new( &HTTP::Status::RC_NOT_FOUND,
+	return HTTP::Response->new( HTTP::Status::RC_NOT_FOUND,
 				  "File `$path' does not exist");
     }
     unless (-r _) {
-	return HTTP::Response->new( &HTTP::Status::RC_FORBIDDEN,
+	return HTTP::Response->new( HTTP::Status::RC_FORBIDDEN,
 				  'User does not have read permission');
     }
 
@@ -67,13 +66,13 @@ sub request
     if (defined $ims) {
 	my $time = HTTP::Date::str2time($ims);
 	if (defined $time and $time >= $mtime) {
-	    return HTTP::Response->new( &HTTP::Status::RC_NOT_MODIFIED,
+	    return HTTP::Response->new( HTTP::Status::RC_NOT_MODIFIED,
 				      "$method $path");
 	}
     }
 
     # Ok, should be an OK response by now...
-    my $response = HTTP::Response->new( &HTTP::Status::RC_OK );
+    my $response = HTTP::Response->new( HTTP::Status::RC_OK );
 
     # fill in response headers
     $response->header('Last-Modified', HTTP::Date::time2str($mtime));
@@ -81,7 +80,7 @@ sub request
     if (-d _) {         # If the path is a directory, process it
 	# generate the HTML for directory
 	opendir(D, $path) or
-	   return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	   return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 				     "Cannot read directory '$path': $!");
 	my(@files) = sort readdir(D);
 	closedir(D);
@@ -128,7 +127,7 @@ sub request
     # read the file
     if ($method ne "HEAD") {
 	open(F, $path) or return new
-	    HTTP::Response(&HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    HTTP::Response(HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 			   "Cannot read file '$path': $!");
 	binmode(F);
 	$response =  $self->collect($arg, $response, sub {

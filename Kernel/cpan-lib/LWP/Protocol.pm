@@ -1,17 +1,16 @@
 package LWP::Protocol;
 
-require LWP::MemberMixin;
-@ISA = qw(LWP::MemberMixin);
-$VERSION = "6.13";
+use base 'LWP::MemberMixin';
+
+our $VERSION = '6.26';
 
 use strict;
 use Carp ();
 use HTTP::Status ();
-use HTTP::Response;
+use HTTP::Response ();
+use Try::Tiny qw(try catch);
 
 my %ImplementedBy = (); # scheme => classname
-
-
 
 sub new
 {
@@ -62,16 +61,21 @@ sub implementor
     no strict 'refs';
     # check we actually have one for the scheme:
     unless (@{"${ic}::ISA"}) {
-	# try to autoload it
-	eval "require $ic";
-	if ($@) {
-	    if ($@ =~ /Can't locate/) { #' #emacs get confused by '
-		$ic = '';
-	    }
-	    else {
-		die "$@\n";
-	    }
-	}
+        # try to autoload it
+        try {
+            (my $class = $ic) =~ s{::}{/}g;
+            $class .= '.pm' unless $class =~ /\.pm$/;
+            require $class;
+        }
+        catch {
+            my $error = $_;
+            if ($error =~ /Can't locate/) {
+                $ic = '';
+            }
+            else {
+                die "$error\n";
+            }
+        };
     }
     $ImplementedBy{$scheme} = $ic if $ic;
     $ic;
@@ -96,8 +100,8 @@ sub collect
     my $content;
     my($ua, $max_size) = @{$self}{qw(ua max_size)};
 
-    eval {
-	local $\; # protect the print below from surprises
+    try {
+        local $\; # protect the print below from surprises
         if (!defined($arg) || !$response->is_success) {
             $response->{default_add_content} = 1;
         }
@@ -160,17 +164,15 @@ sub collect
                 last;
             }
         }
+    }
+    catch {
+        my $error = $_;
+        chomp($error);
+        $response->push_header('X-Died' => $error);
+        $response->push_header("Client-Aborted", "die");
     };
-    my $err = $@;
     delete $response->{handlers}{response_data};
     delete $response->{handlers} unless %{$response->{handlers}};
-    if ($err) {
-        chomp($err);
-        $response->push_header('X-Died' => $err);
-        $response->push_header("Client-Aborted", "die");
-        return $response;
-    }
-
     return $response;
 }
 
@@ -191,6 +193,8 @@ sub collect_once
 
 __END__
 
+=pod
+
 =head1 NAME
 
 LWP::Protocol - Base class for LWP protocols
@@ -198,85 +202,93 @@ LWP::Protocol - Base class for LWP protocols
 =head1 SYNOPSIS
 
  package LWP::Protocol::foo;
- require LWP::Protocol;
- @ISA=qw(LWP::Protocol);
+ use base qw(LWP::Protocol);
 
 =head1 DESCRIPTION
 
-This class is used a the base class for all protocol implementations
+This class is used as the base class for all protocol implementations
 supported by the LWP library.
 
 When creating an instance of this class using
 C<LWP::Protocol::create($url)>, and you get an initialized subclass
 appropriate for that access method. In other words, the
-LWP::Protocol::create() function calls the constructor for one of its
+L<LWP::Protocol/create> function calls the constructor for one of its
 subclasses.
 
-All derived LWP::Protocol classes need to override the request()
+All derived C<LWP::Protocol> classes need to override the request()
 method which is used to service a request. The overridden method can
 make use of the collect() function to collect together chunks of data
 as it is received.
 
+=head1 METHODS
+
 The following methods and functions are provided:
 
-=over 4
+=head2 new
 
-=item $prot = LWP::Protocol->new()
+    my $prot = LWP::Protocol->new();
 
 The LWP::Protocol constructor is inherited by subclasses. As this is a
 virtual base class this method should B<not> be called directly.
 
-=item $prot = LWP::Protocol::create($scheme)
+=head2 create
+
+    my $prot = LWP::Protocol::create($scheme)
 
 Create an object of the class implementing the protocol to handle the
 given scheme. This is a function, not a method. It is more an object
 factory than a constructor. This is the function user agents should
 use to access protocols.
 
-=item $class = LWP::Protocol::implementor($scheme, [$class])
+=head2 implementor
 
-Get and/or set implementor class for a scheme.  Returns '' if the
+    my $class = LWP::Protocol::implementor($scheme, [$class])
+
+Get and/or set implementor class for a scheme.  Returns C<''> if the
 specified scheme is not supported.
 
-=item $prot->request(...)
+=head2 request
 
- $response = $protocol->request($request, $proxy, undef);
- $response = $protocol->request($request, $proxy, '/tmp/sss');
- $response = $protocol->request($request, $proxy, \&callback, 1024);
+    $response = $protocol->request($request, $proxy, undef);
+    $response = $protocol->request($request, $proxy, '/tmp/sss');
+    $response = $protocol->request($request, $proxy, \&callback, 1024);
 
 Dispatches a request over the protocol, and returns a response
 object. This method needs to be overridden in subclasses.  Refer to
 L<LWP::UserAgent> for description of the arguments.
 
-=item $prot->collect($arg, $response, $collector)
+=head2 collect
 
-Called to collect the content of a request, and process it
-appropriately into a scalar, file, or by calling a callback.  If $arg
-is undefined, then the content is stored within the $response.  If
-$arg is a simple scalar, then $arg is interpreted as a file name and
-the content is written to this file.  If $arg is a reference to a
-routine, then content is passed to this routine.
+    my $res = $prot->collect(undef, $response, $collector); # stored in $response
+    my $res = $prot->collect($filename, $response, $collector);
+    my $res = $prot->collect(sub { ... }, $response, $collector);
 
-The $collector is a routine that will be called and which is
+Collect the content of a request, and process it appropriately into a scalar,
+file, or by calling a callback. If the first parameter is undefined, then the
+content is stored within the C<$response>. If it's a simple scalar, then it's
+interpreted as a file name and the content is written to this file.  If it's a
+code reference, then content is passed to this routine.
+
+The collector is a routine that will be called and which is
 responsible for returning pieces (as ref to scalar) of the content to
-process.  The $collector signals EOF by returning a reference to an
+process.  The C<$collector> signals C<EOF> by returning a reference to an
 empty string.
 
-The return value from collect() is the $response object reference.
+The return value is the L<HTTP::Response> object reference.
 
 B<Note:> We will only use the callback or file argument if
-$response->is_success().  This avoids sending content data for
+C<< $response->is_success() >>.  This avoids sending content data for
 redirects and authentication responses to the callback which would be
 confusing.
 
-=item $prot->collect_once($arg, $response, $content)
+=head2 collect_once
 
-Can be called when the whole response content is available as
-$content.  This will invoke collect() with a collector callback that
-returns a reference to $content the first time and an empty string the
+    $prot->collect_once($arg, $response, $content)
+
+Can be called when the whole response content is available as content. This
+will invoke L<LWP::Protocol/collect> with a collector callback that
+returns a reference to C<$content> the first time and an empty string the
 next.
-
-=back
 
 =head1 SEE ALSO
 
@@ -289,3 +301,5 @@ Copyright 1995-2001 Gisle Aas.
 
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
+
+=cut

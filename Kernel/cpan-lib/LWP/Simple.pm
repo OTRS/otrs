@@ -1,20 +1,19 @@
 package LWP::Simple;
 
 use strict;
-use vars qw($ua %loop_check $FULL_LWP @EXPORT @EXPORT_OK $VERSION);
+
+our $VERSION = '6.26';
 
 require Exporter;
 
-@EXPORT = qw(get head getprint getstore mirror);
-@EXPORT_OK = qw($ua);
+our @EXPORT = qw(get head getprint getstore mirror);
+our @EXPORT_OK = qw($ua);
 
-# I really hate this.  I was a bad idea to do it in the first place.
+# I really hate this.  It was a bad idea to do it in the first place.
 # Wonder how to get rid of it???  (It even makes LWP::Simple 7% slower
 # for trivial tests)
 use HTTP::Status;
 push(@EXPORT, @HTTP::Status::EXPORT);
-
-$VERSION = "6.13";
 
 sub import
 {
@@ -24,12 +23,11 @@ sub import
 }
 
 use LWP::UserAgent ();
-use HTTP::Status ();
 use HTTP::Date ();
-$ua = LWP::UserAgent->new;  # we create a global UserAgent object
+
+our $ua = LWP::UserAgent->new;  # we create a global UserAgent object
 $ua->agent("LWP::Simple/$VERSION ");
 $ua->env_proxy;
-
 
 sub get ($)
 {
@@ -97,6 +95,8 @@ sub mirror ($$)
 
 __END__
 
+=pod
+
 =head1 NAME
 
 LWP::Simple - simple procedural interface to LWP
@@ -123,24 +123,36 @@ This module is meant for people who want a simplified view of the
 libwww-perl library.  It should also be suitable for one-liners.  If
 you need more control or access to the header fields in the requests
 sent and responses received, then you should use the full object-oriented
-interface provided by the C<LWP::UserAgent> module.
+interface provided by the L<LWP::UserAgent> module.
+
+The module will also export the L<LWP::UserAgent> object as C<$ua> if you
+ask for it explicitly.
+
+The user agent created by this module will identify itself as
+C<LWP::Simple/#.##>
+and will initialize its proxy defaults from the environment (by
+calling C<< $ua->env_proxy >>).
+
+=head1 FUNCTIONS
 
 The following functions are provided (and exported) by this module:
 
-=over 3
+=head2 get
 
-=item get($url)
+    my $res = get($url);
 
 The get() function will fetch the document identified by the given URL
-and return it.  It returns C<undef> if it fails.  The $url argument can
-be either a string or a reference to a URI object.
+and return it.  It returns C<undef> if it fails.  The C<$url> argument can
+be either a string or a reference to a L<URI> object.
 
 You will not be able to examine the response code or response headers
-(like 'Content-Type') when you are accessing the web using this
+(like C<Content-Type>) when you are accessing the web using this
 function.  If you need that information you should use the full OO
 interface (see L<LWP::UserAgent>).
 
-=item head($url)
+=head2 head
+
+    my $res = head($url);
 
 Get document headers. Returns the following 5 values if successful:
 ($content_type, $document_length, $modified_time, $expires, $server)
@@ -148,7 +160,9 @@ Get document headers. Returns the following 5 values if successful:
 Returns an empty list if it fails.  In scalar context returns TRUE if
 successful.
 
-=item getprint($url)
+=head2 getprint
+
+    my $code = getprint($url);
 
 Get and print a document identified by a URL. The document is printed
 to the selected default filehandle for output (normally STDOUT) as
@@ -156,22 +170,26 @@ data is received from the network.  If the request fails, then the
 status code and message are printed on STDERR.  The return value is
 the HTTP response code.
 
-=item getstore($url, $file)
+=head2 getstore
+
+    my $code = getstore($url, $file)
 
 Gets a document identified by a URL and stores it in the file. The
 return value is the HTTP response code.
 
-=item mirror($url, $file)
+=head2 mirror
+
+    my $code = mirror($url, $file);
 
 Get and store a document identified by a URL, using
 I<If-modified-since>, and checking the I<Content-Length>.  Returns
 the HTTP response code.
 
-=back
+=head1 STATUS CONSTANTS
 
-This module also exports the HTTP::Status constants and procedures.
-You can use them when you check the response code from getprint(),
-getstore() or mirror().  The constants are:
+This module also exports the L<HTTP::Status> constants and procedures.
+You can use them when you check the response code from L<LWP::Simple/getprint>,
+L<LWP::Simple/getstore> or L<LWP::Simple/mirror>.  The constants are:
 
    RC_CONTINUE
    RC_SWITCHING_PROTOCOLS
@@ -211,34 +229,28 @@ getstore() or mirror().  The constants are:
    RC_GATEWAY_TIMEOUT
    RC_HTTP_VERSION_NOT_SUPPORTED
 
-The HTTP::Status classification functions are:
+=head1 CLASSIFICATION FUNCTIONS
 
-=over 3
+The L<HTTP::Status> classification functions are:
 
-=item is_success($rc)
+=head2 is_success
+
+    my $bool = is_success($rc);
 
 True if response code indicated a successful request.
 
-=item is_error($rc)
+=head2 is_error
+
+    my $bool = is_error($rc)
 
 True if response code indicated that an error occurred.
 
-=back
-
-The module will also export the LWP::UserAgent object as C<$ua> if you
-ask for it explicitly.
-
-The user agent created by this module will identify itself as
-"LWP::Simple/#.##"
-and will initialize its proxy defaults from the environment (by
-calling $ua->env_proxy).
-
 =head1 CAVEAT
 
-Note that if you are using both LWP::Simple and the very popular CGI.pm
+Note that if you are using both LWP::Simple and the very popular L<CGI>
 module, you may be importing a C<head> function from each module,
-producing a warning like "Prototype mismatch: sub main::head ($) vs
-none". Get around this problem by just not importing LWP::Simple's
+producing a warning like C<Prototype mismatch: sub main::head ($) vs none>.
+Get around this problem by just not importing LWP::Simple's
 C<head> function, like so:
 
         use LWP::Simple qw(!head);
@@ -251,3 +263,5 @@ it as C<LWP::Simple::head($url)>.
 
 L<LWP>, L<lwpcook>, L<LWP::UserAgent>, L<HTTP::Status>, L<lwp-request>,
 L<lwp-mirror>
+
+=cut

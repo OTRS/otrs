@@ -1,8 +1,8 @@
 package LWP::RobotUA;
 
-require LWP::UserAgent;
-@ISA = qw(LWP::UserAgent);
-$VERSION = "6.13";
+use base qw(LWP::UserAgent);
+
+our $VERSION = '6.26';
 
 require WWW::RobotRules;
 require HTTP::Request;
@@ -72,7 +72,7 @@ sub agent
     my $old = $self->SUPER::agent(@_);
     if (@_) {
 	# Changing our name means to start fresh
-	$self->{'rules'}->agent($self->{'agent'}); 
+	$self->{'rules'}->agent($self->{'agent'});
     }
     $old;
 }
@@ -123,7 +123,7 @@ sub simple_request
 	$robot_url->query(undef);
 
 	# make access to robot.txt legal since this will be a recursive call
-	$self->{'rules'}->parse($robot_url, ""); 
+	$self->{'rules'}->parse($robot_url, "");
 
 	my $robot_req = HTTP::Request->new('GET', $robot_url);
 	my $parse_head = $self->parse_head(0);
@@ -144,7 +144,7 @@ sub simple_request
     # Check rules
     unless ($allowed) {
 	my $res = HTTP::Response->new(
-	  &HTTP::Status::RC_FORBIDDEN, 'Forbidden by robots.txt');
+	  HTTP::Status::RC_FORBIDDEN, 'Forbidden by robots.txt');
 	$res->request( $request ); # bind it to that request
 	return $res;
     }
@@ -158,7 +158,7 @@ sub simple_request
 	}
 	else {
 	    my $res = HTTP::Response->new(
-	      &HTTP::Status::RC_SERVICE_UNAVAILABLE, 'Please, slow down');
+	      HTTP::Status::RC_SERVICE_UNAVAILABLE, 'Please, slow down');
 	    $res->header('Retry-After', time2str(time + $wait));
 	    $res->request( $request ); # bind it to that request
 	    return $res;
@@ -190,6 +190,8 @@ sub as_string
 
 __END__
 
+=pod
+
 =head1 NAME
 
 LWP::RobotUA - a class for well-behaved Web robots
@@ -213,7 +215,7 @@ should consult the F</robots.txt> file to ensure that they are welcomed
 and they should not make requests too frequently.
 
 But before you consider writing a robot, take a look at
-<URL:http://www.robotstxt.org/>.
+L<URL:http://www.robotstxt.org/>.
 
 When you use an I<LWP::RobotUA> object as your user agent, then you do not
 really have to think about these things yourself; C<robots.txt> files
@@ -226,16 +228,14 @@ special agent will make sure you are nice.
 
 =head1 METHODS
 
-The LWP::RobotUA is a sub-class of LWP::UserAgent and implements the
+The LWP::RobotUA is a sub-class of L<LWP::UserAgent> and implements the
 same methods. In addition the following methods are provided:
 
-=over 4
+=head2 new
 
-=item $ua = LWP::RobotUA->new( %options )
-
-=item $ua = LWP::RobotUA->new( $agent, $from )
-
-=item $ua = LWP::RobotUA->new( $agent, $from, $rules )
+    my $ua = LWP::RobotUA->new( %options )
+    my $ua = LWP::RobotUA->new( $agent, $from )
+    my $ua = LWP::RobotUA->new( $agent, $from, $rules )
 
 The LWP::UserAgent options C<agent> and C<from> are mandatory.  The
 options C<delay>, C<use_sleep> and C<rules> initialize attributes
@@ -246,50 +246,57 @@ F<robots.txt>.
 It is also possible to just pass the value of C<agent>, C<from> and
 optionally C<rules> as plain positional arguments.
 
-=item $ua->delay
+=head2 delay
 
-=item $ua->delay( $minutes )
+    my $delay = $ua->delay;
+    $ua->delay( $minutes );
 
 Get/set the minimum delay between requests to the same server, in
-I<minutes>.  The default is 1 minute.  Note that this number doesn't
-have to be an integer; for example, this sets the delay to 10 seconds:
+I<minutes>.  The default is C<1> minute.  Note that this number doesn't
+have to be an integer; for example, this sets the delay to C<10> seconds:
 
     $ua->delay(10/60);
 
-=item $ua->use_sleep
+=head2 use_sleep
 
-=item $ua->use_sleep( $boolean )
+    my $bool = $ua->use_sleep;
+    $ua->use_sleep( $boolean );
 
-Get/set a value indicating whether the UA should sleep() if requests
-arrive too fast, defined as $ua->delay minutes not passed since
-last request to the given server.  The default is TRUE.  If this value is
-FALSE then an internal SERVICE_UNAVAILABLE response will be generated.
-It will have a Retry-After header that indicates when it is OK to
+Get/set a value indicating whether the UA should L<LWP::RobotUA/sleep> if
+requests arrive too fast, defined as C<< $ua->delay >> minutes not passed since
+last request to the given server.  The default is true.  If this value is
+false then an internal C<SERVICE_UNAVAILABLE> response will be generated.
+It will have a C<Retry-After> header that indicates when it is OK to
 send another request to this server.
 
-=item $ua->rules
+=head2 rules
 
-=item $ua->rules( $rules )
+    my $rules = $ua->rules;
+    $ua->rules( $rules );
 
 Set/get which I<WWW::RobotRules> object to use.
 
-=item $ua->no_visits( $netloc )
+=head2 no_visits
+
+    my $num = $ua->no_visits( $netloc )
 
 Returns the number of documents fetched from this server host. Yeah I
-know, this method should probably have been named num_visits() or
+know, this method should probably have been named C<num_visits> or
 something like that. :-(
 
-=item $ua->host_wait( $netloc )
+=head2 host_wait
+
+    my $num = $ua->host_wait( $netloc )
 
 Returns the number of I<seconds> (from now) you must wait before you can
 make a new request to this host.
 
-=item $ua->as_string
+=head2 as_string
+
+    my $string = $ua->as_string;
 
 Returns a string that describes the state of the UA.
 Mainly useful for debugging.
-
-=back
 
 =head1 SEE ALSO
 
@@ -301,3 +308,5 @@ Copyright 1996-2004 Gisle Aas.
 
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
+
+=cut

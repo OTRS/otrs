@@ -1,4 +1,5 @@
 package LWP::Authen::Basic;
+$LWP::Authen::Basic::VERSION = '6.26';
 use strict;
 
 require MIME::Base64;

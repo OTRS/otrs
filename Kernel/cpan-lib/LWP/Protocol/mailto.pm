@@ -1,19 +1,18 @@
 package LWP::Protocol::mailto;
-
+$LWP::Protocol::mailto::VERSION = '6.26';
 # This module implements the mailto protocol.  It is just a simple
 # frontend to the Unix sendmail program except on MacOS, where it uses
 # Mail::Internet.
 
-require LWP::Protocol;
 require HTTP::Request;
 require HTTP::Response;
 require HTTP::Status;
 
 use Carp;
 use strict;
-use vars qw(@ISA $SENDMAIL);
 
-@ISA = qw(LWP::Protocol);
+use base qw(LWP::Protocol);
+our $SENDMAIL;
 
 unless ($SENDMAIL = $ENV{SENDMAIL}) {
     for my $sm (qw(/usr/sbin/sendmail
@@ -39,7 +38,7 @@ sub request
     # check proxy
     if (defined $proxy)
     {
-	return HTTP::Response->new(&HTTP::Status::RC_BAD_REQUEST,
+	return HTTP::Response->new(HTTP::Status::RC_BAD_REQUEST,
 				  'You can not proxy with mail');
     }
 
@@ -47,7 +46,7 @@ sub request
     my $method = $request->method;
 
     if ($method ne 'POST') {
-	return HTTP::Response->new( &HTTP::Status::RC_BAD_REQUEST,
+	return HTTP::Response->new( HTTP::Status::RC_BAD_REQUEST,
 				  'Library does not allow method ' .
 				  "$method for 'mailto:' URLs");
     }
@@ -57,7 +56,7 @@ sub request
 
     my $scheme = $url->scheme;
     if ($scheme ne 'mailto') {
-	return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 			 "LWP::Protocol::mailto::request called for '$scheme'");
     }
     if ($^O eq "MacOS") {
@@ -65,28 +64,28 @@ sub request
 	    require Mail::Internet;
 	};
 	if($@) {
-	    return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 	               "You don't have MailTools installed");
 	}
 	unless ($ENV{SMTPHOSTS}) {
-	    return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 	               "You don't have SMTPHOSTS defined");
 	}
     }
     else {
 	unless (-x $SENDMAIL) {
-	    return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 	               "You don't have $SENDMAIL");
     }
     }
     if ($^O eq "MacOS") {
 	    $mail = Mail::Internet->new or
-	    return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 	    "Can't get a Mail::Internet object");
     }
     else {
 	open(SENDMAIL, "| $SENDMAIL -oi -t") or
-	    return HTTP::Response->new( &HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    return HTTP::Response->new( HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 	               "Can't run $SENDMAIL: $!");
     }
     if ($^O eq "MacOS") {
@@ -151,20 +150,20 @@ sub request
     if ($^O eq "MacOS") {
 	$mail->body(\@text);
 	unless ($mail->smtpsend) {
-	    return HTTP::Response->new(&HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    return HTTP::Response->new(HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 				       "Mail::Internet->smtpsend unable to send message to <$addr>");
 	}
     }
     else {
 	unless (close(SENDMAIL)) {
 	    my $err = $! ? "$!" : "Exit status $?";
-	    return HTTP::Response->new(&HTTP::Status::RC_INTERNAL_SERVER_ERROR,
+	    return HTTP::Response->new(HTTP::Status::RC_INTERNAL_SERVER_ERROR,
 				       "$SENDMAIL: $err");
 	}
     }
 
 
-    my $response = HTTP::Response->new(&HTTP::Status::RC_ACCEPTED,
+    my $response = HTTP::Response->new(HTTP::Status::RC_ACCEPTED,
 				       "Mail accepted");
     $response->header('Content-Type', 'text/plain');
     if ($^O eq "MacOS") {

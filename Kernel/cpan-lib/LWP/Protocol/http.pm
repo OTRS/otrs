@@ -1,16 +1,14 @@
 package LWP::Protocol::http;
-
+$LWP::Protocol::http::VERSION = '6.26';
 use strict;
 
 require HTTP::Response;
 require HTTP::Status;
 require Net::HTTP;
 
-use vars qw(@ISA @EXTRA_SOCK_OPTS);
+use base qw(LWP::Protocol);
 
-require LWP::Protocol;
-@ISA = qw(LWP::Protocol);
-
+our @EXTRA_SOCK_OPTS;
 my $CRLF = "\015\012";
 
 sub _new_socket
@@ -39,6 +37,7 @@ sub _new_socket
 	my $status = "Can't connect to $host:$port";
 	if ($@ =~ /\bconnect: (.*)/ ||
 	    $@ =~ /\b(Bad hostname)\b/ ||
+	    $@ =~ /\b(nodename nor servname provided, or not known)\b/ ||
 	    $@ =~ /\b(certificate verify failed)\b/ ||
 	    $@ =~ /\b(Crypt-SSLeay can't verify hostnames)\b/
 	) {
@@ -131,7 +130,7 @@ sub request
     # check method
     my $method = $request->method;
     unless ($method =~ /^[A-Za-z0-9_!\#\$%&\'*+\-.^\`|~]+$/) {  # HTTP token
-	return HTTP::Response->new( &HTTP::Status::RC_BAD_REQUEST,
+	return HTTP::Response->new( HTTP::Status::RC_BAD_REQUEST,
 				  'Library does not allow method ' .
 				  "$method for 'http:' URLs");
     }
@@ -168,7 +167,7 @@ sub request
     my $cache_key;
     if ( $conn_cache ) {
 	$cache_key = "$host:$port";
-	# For https we reuse the socket immediatly only if it has an established
+	# For https we reuse the socket immediately only if it has an established
 	# tunnel to the target. Otherwise a CONNECT request followed by an SSL
 	# upgrade need to be done first. The request itself might reuse an
 	# existing non-ssl connection to the proxy
@@ -181,6 +180,9 @@ sub request
 		$socket->close;
 		$socket = undef;
 	    } # else use $socket
+	    else {
+		$socket->timeout($timeout);
+	    }
 	}
     }
 
@@ -496,7 +498,7 @@ sub request
 
 #-----------------------------------------------------------
 package LWP::Protocol::http::SocketMethods;
-
+$LWP::Protocol::http::SocketMethods::VERSION = '6.26';
 sub ping {
     my $self = shift;
     !$self->can_read(0);
@@ -509,7 +511,7 @@ sub increment_response_count {
 
 #-----------------------------------------------------------
 package LWP::Protocol::http::Socket;
-use vars qw(@ISA);
-@ISA = qw(LWP::Protocol::http::SocketMethods Net::HTTP);
+$LWP::Protocol::http::Socket::VERSION = '6.26';
+use base qw(LWP::Protocol::http::SocketMethods Net::HTTP);
 
 1;

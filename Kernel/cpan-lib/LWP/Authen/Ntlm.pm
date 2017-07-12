@@ -1,9 +1,8 @@
 package LWP::Authen::Ntlm;
 
 use strict;
-use vars qw/$VERSION/;
 
-$VERSION = "6.13";
+our $VERSION = '6.26';
 
 use Authen::NTLM "1.02";
 use MIME::Base64 "2.12";
@@ -32,9 +31,9 @@ sub authenticate {
 
     my $auth_header = $proxy ? "Proxy-Authorization" : "Authorization";
 
-	# my ($challenge) = $response->header('WWW-Authenticate'); 
+	# my ($challenge) = $response->header('WWW-Authenticate');
 	my $challenge;
-	foreach ($response->header('WWW-Authenticate')) { 
+	foreach ($response->header('WWW-Authenticate')) {
 		last if /^NTLM/ && ($challenge=$_);
 	}
 
@@ -62,7 +61,7 @@ sub authenticate {
 	    $referral->header($auth_header => $auth_value);
 	    return $ua->request($referral, $arg, $size, $response);
 	}
-	
+
 	else {
 		# Second phase, use the response challenge (unless non-401 code
 		#  was returned, in which case, we just send back the response
@@ -73,7 +72,7 @@ sub authenticate {
 		}
 		else {
 			my $challenge;
-			foreach ($response->header('WWW-Authenticate')) { 
+			foreach ($response->header('WWW-Authenticate')) {
 				last if /^NTLM/ && ($challenge=$_);
 			}
 			$challenge =~ s/^NTLM //;
@@ -90,7 +89,9 @@ sub authenticate {
 }
 
 1;
+__END__
 
+=pod
 
 =head1 NAME
 
@@ -116,26 +117,26 @@ LWP::Authen::Ntlm - Library for enabling NTLM authentication (Microsoft) in LWP
 
 =head1 DESCRIPTION
 
-C<LWP::Authen::Ntlm> allows LWP to authenticate against servers that are using the 
-NTLM authentication scheme popularized by Microsoft.  This type of authentication is 
+L<LWP::Authen::Ntlm> allows LWP to authenticate against servers that are using the
+NTLM authentication scheme popularized by Microsoft.  This type of authentication is
 common on intranets of Microsoft-centric organizations.
 
-The module takes advantage of the Authen::NTLM module by Mark Bush.  Since there 
-is also another Authen::NTLM module available from CPAN by Yee Man Chan with an 
-entirely different interface, it is necessary to ensure that you have the correct 
+The module takes advantage of the Authen::NTLM module by Mark Bush.  Since there
+is also another Authen::NTLM module available from CPAN by Yee Man Chan with an
+entirely different interface, it is necessary to ensure that you have the correct
 NTLM module.
 
-In addition, there have been problems with incompatibilities between different 
-versions of Mime::Base64, which Bush's Authen::NTLM makes use of.  Therefore, it is 
-necessary to ensure that your Mime::Base64 module supports exporting of the 
+In addition, there have been problems with incompatibilities between different
+versions of Mime::Base64, which Bush's Authen::NTLM makes use of.  Therefore, it is
+necessary to ensure that your Mime::Base64 module supports exporting of the
 encode_base64 and decode_base64 functions.
 
 =head1 USAGE
 
-The module is used indirectly through LWP, rather than including it directly in your 
-code.  The LWP system will invoke the NTLM authentication when it encounters the 
-authentication scheme while attempting to retrieve a URL from a server.  In order 
-for the NTLM authentication to work, you must have a few things set up in your 
+The module is used indirectly through LWP, rather than including it directly in your
+code.  The LWP system will invoke the NTLM authentication when it encounters the
+authentication scheme while attempting to retrieve a URL from a server.  In order
+for the NTLM authentication to work, you must have a few things set up in your
 code prior to attempting to retrieve the URL:
 
 =over 4
@@ -156,9 +157,9 @@ The credentials must be set like this:
 
    $ua->credentials('www.company.com:80', '', "MyDomain\\MyUserCode", 'MyPassword');
 
-Note that you cannot use the HTTP::Request object's authorization_basic() method to set 
-the credentials.  Note, too, that the 'www.company.com:80' portion only sets credentials 
-on the specified port AND it is case-sensitive (this is due to the way LWP is coded, and 
+Note that you cannot use the HTTP::Request object's authorization_basic() method to set
+the credentials.  Note, too, that the 'www.company.com:80' portion only sets credentials
+on the specified port AND it is case-sensitive (this is due to the way LWP is coded, and
 has nothing to do with LWP::Authen::Ntlm)
 
 =back
@@ -178,3 +179,5 @@ under the same terms as Perl itself.
 =head1 SEE ALSO
 
 L<LWP>, L<LWP::UserAgent>, L<lwpcook>.
+
+=cut
