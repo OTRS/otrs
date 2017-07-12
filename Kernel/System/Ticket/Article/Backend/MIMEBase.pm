@@ -933,7 +933,7 @@ sub ArticleUpdate {
         );
     }
 
-    ArticleObject->_ArticleCacheClear(
+    $ArticleObject->_ArticleCacheClear(
         TicketID => $Param{TicketID},
     );
 
