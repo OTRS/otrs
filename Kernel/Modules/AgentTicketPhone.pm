@@ -2218,7 +2218,7 @@ sub _GetTos {
         );
 
         my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
-        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+        my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
 
         # build selection string
         QUEUEID:
@@ -2239,7 +2239,7 @@ sub _GetTos {
                 $String =~ s{\s+\z}{};
             }
 
-            if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType' ) ne 'Queue' ) {
+            if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' ) {
                 my %SystemAddressData = $SystemAddressObject->SystemAddressGet(
                     ID => $Tos{$QueueID},
                 );

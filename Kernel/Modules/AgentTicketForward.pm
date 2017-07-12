@@ -660,7 +660,7 @@ sub SendEmail {
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $ParamObject,
             LayoutObject       => $LayoutObject,
-        );
+            );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -1260,13 +1260,13 @@ sub AjaxUpdate {
 
             if ($Key) {
                 push @ExtendedData, {
-                        Name         => $Key,
-                        Data         => \%Data,
-                        SelectedID   => $GetParam{$Key},
-                        Translation  => 1,
-                        PossibleNone => 1,
-                        Multiple     => $Multiple,
-                        Max          => 100,
+                    Name         => $Key,
+                    Data         => \%Data,
+                    SelectedID   => $GetParam{$Key},
+                    Translation  => 1,
+                    PossibleNone => 1,
+                    Multiple     => $Multiple,
+                    Max          => 100,
                 };
             }
         }
@@ -1299,7 +1299,7 @@ sub AjaxUpdate {
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $ParamObject,
             LayoutObject       => $LayoutObject,
-        );
+            );
     }
 
     # convert dynamic field values into a structure for ACLs
