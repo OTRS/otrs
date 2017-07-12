@@ -8,7 +8,8 @@ use parent qw(URI URI::_query);
 use URI::Escape qw(uri_unescape);
 use Carp ();
 
-our $VERSION = "1.69";
+our $VERSION = '1.71';
+$VERSION = eval $VERSION;
 
 my $ACHAR = $URI::uric;  $ACHAR =~ s,\\[/?],,g;
 my $PCHAR = $URI::uric;  $PCHAR =~ s,\\[?],,g;

@@ -3,7 +3,8 @@ package URI;
 use strict;
 use warnings;
 
-our $VERSION = "1.69";
+our $VERSION = '1.71';
+$VERSION = eval $VERSION;
 
 our ($ABS_REMOTE_LEADING_DOTS, $ABS_ALLOW_RELATIVE_SCHEME, $DEFAULT_QUERY_FORM_DELIMITER);
 
@@ -94,6 +95,7 @@ sub _uric_escape
     return $str;
 }
 
+my %require_attempted;
 
 sub implementor
 {
@@ -128,9 +130,13 @@ sub implementor
     no strict 'refs';
     # check we actually have one for the scheme:
     unless (@{"${ic}::ISA"}) {
-        # Try to load it
-        eval "require $ic";
-        die $@ if $@ && $@ !~ /Can\'t locate.*in \@INC/;
+        if (not exists $require_attempted{$ic}) {
+            # Try to load it
+            my $_old_error = $@;
+            eval "require $ic";
+            die $@ if $@ && $@ !~ /Can\'t locate.*in \@INC/;
+            $@ = $_old_error;
+        }
         return undef unless @{"${ic}::ISA"};
     }
 

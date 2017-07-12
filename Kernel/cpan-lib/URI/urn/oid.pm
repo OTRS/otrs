@@ -3,7 +3,8 @@ package URI::urn::oid;  # RFC 2061
 use strict;
 use warnings;
 
-our $VERSION = "1.69";
+our $VERSION = '1.71';
+$VERSION = eval $VERSION;
 
 use parent 'URI::urn';
 

@@ -3,7 +3,8 @@ package URI::_punycode;
 use strict;
 use warnings;
 
-our $VERSION = "1.69";
+our $VERSION = '1.71';
+$VERSION = eval $VERSION;
 
 use Exporter 'import';
 our @EXPORT = qw(encode_punycode decode_punycode);
