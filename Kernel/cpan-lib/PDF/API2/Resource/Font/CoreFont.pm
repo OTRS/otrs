@@ -1,15 +1,16 @@
 package PDF::API2::Resource::Font::CoreFont;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::Font';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use File::Basename;
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 our $fonts;
 our $alias;
@@ -48,28 +49,27 @@ See I<perl's Encode> for the supported values.
 
 I<-pdfname> ... changes the reference-name of the font from its default.
 The reference-name is normally generated automatically and can be
-retrived via $pdfname=$font->name.
+retrieved via $pdfname=$font->name.
 
 =cut
 
-sub _look_for_font ($) 
+sub _look_for_font
 {
     my $fname=shift;
     ## return(%{$fonts->{$fname}}) if(defined $fonts->{$fname});
     eval "require PDF::API2::Resource::Font::CoreFont::$fname; ";
     unless($@)
     {
-    no strict 'refs';
-        my $obj = "PDF::API2::Resource::Font::CoreFont::".$fname;
-    $fonts->{$fname} = deep_copy(${$obj."::FONTDATA"});
+        my $class = "PDF::API2::Resource::Font::CoreFont::$fname";
+        $fonts->{$fname} = deep_copy($class->data());
         $fonts->{$fname}->{uni}||=[];
-        foreach my $n (0..255) 
+        foreach my $n (0..255)
         {
             $fonts->{$fname}->{uni}->[$n]=uniByName($fonts->{$fname}->{char}->[$n]) unless(defined $fonts->{$fname}->{uni}->[$n]);
         }
         return(%{$fonts->{$fname}});
-    } 
-    else 
+    }
+    else
     {
         die "requested font '$fname' not installed ";
     }
@@ -82,35 +82,35 @@ sub _look_for_font ($)
 sub deep_copy
 {
     my $this = shift;
-    if (not ref $this) 
+    if (not ref $this)
     {
     $this;
-    } 
-    elsif (ref $this eq "ARRAY") 
+    }
+    elsif (ref $this eq "ARRAY")
     {
     [map &deep_copy($_), @$this];
-    } 
-    elsif (ref $this eq "HASH") 
+    }
+    elsif (ref $this eq "HASH")
     {
     +{map { $_ => &deep_copy($this->{$_}) } keys %$this};
-    } 
-    elsif (ref $this eq "CODE") 
+    }
+    elsif (ref $this eq "CODE")
     {
     # Can't deep copy code refs
     return $this;
-    } 
-    else 
-    { 
+    }
+    else
+    {
     die "what type is $_?";
     }
 }
 
-sub new 
+sub new
 {
     my ($class,$pdf,$name,@opts) = @_;
     my ($self,$data);
     my %opts=();
-    if(-f $name) 
+    if(-f $name)
     {
         eval "require '$name'; ";
         $name=basename($name,'.pm');
@@ -122,22 +122,22 @@ sub new
 
     $lookname = defined($alias->{$lookname}) ? $alias->{$lookname} : $lookname ;
 
-    if(defined $subs->{$lookname}) 
+    if(defined $subs->{$lookname})
     {
         $data={_look_for_font($subs->{$lookname}->{-alias})};
-        foreach my $k (keys %{$subs->{$lookname}}) 
+        foreach my $k (keys %{$subs->{$lookname}})
         {
             next if($k=~/^\-/);
             $data->{$k}=$subs->{$lookname}->{$k};
         }
-    } 
-    else 
+    }
+    else
     {
-        unless(defined $opts{-metrics}) 
+        unless(defined $opts{-metrics})
         {
             $data={_look_for_font($lookname)};
-        } 
-        else 
+        }
+        else
         {
             $data={%{$opts{-metrics}}};
         }
@@ -149,20 +149,20 @@ sub new
     # there is a -ttfile or -afmfile/-pfmfile/-pfbfile
     # and proxy the call to the relevant modules
     #
-    #if(defined $data->{-ttfile} && $data->{-ttfile}=_look_for_fontfile($data->{-ttfile})) 
+    #if(defined $data->{-ttfile} && $data->{-ttfile}=_look_for_fontfile($data->{-ttfile}))
     #{
     #    return(PDF::API2::Resource::CIDFont::TrueType->new($pdf,$data->{-ttfile},@opts));
-    #} 
-    #elsif(defined $data->{-pfbfile} && $data->{-pfbfile}=_look_for_fontfile($data->{-pfbfile})) 
+    #}
+    #elsif(defined $data->{-pfbfile} && $data->{-pfbfile}=_look_for_fontfile($data->{-pfbfile}))
     #{
     #    $data->{-afmfile}=_look_for_fontfile($data->{-afmfile});
     #    return(PDF::API2::Resource::Font::Postscript->new($pdf,$data->{-pfbfile},$data->{-afmfile},@opts));
     #}
-    #elsif(defined $data->{-gfx}) 
+    #elsif(defined $data->{-gfx})
     #{ # to be written and tested in 'Maki' first!
     #    return(PDF::API2::Resource::Font::gFont->new($pdf,$data,@opts);
     #}
-    
+
     $class = ref $class if ref $class;
     $self = $class->SUPER::new($pdf, $data->{apiname}.pdfkey().'~'.time());
     $pdf->new_obj($self) unless($self->is_obj($pdf));
@@ -171,12 +171,12 @@ sub new
 
     $self->{'Subtype'} = PDFName($self->data->{type});
     $self->{'BaseFont'} = PDFName($self->fontname);
-    if($opts{-pdfname}) 
+    if($opts{-pdfname})
     {
         $self->name($opts{-pdfname});
     }
 
-    unless($self->data->{iscore}) 
+    unless($self->data->{iscore})
     {
         $self->{'FontDescriptor'}=$self->descrByData();
     }
@@ -186,36 +186,15 @@ sub new
     return($self);
 }
 
-=item $font = PDF::API2::Resource::Font::CoreFont->new_api $api, $fontname, %options
-
-Returns a corefont object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a PDF::API2::PDF::File-object.
-
-=cut
-
-sub new_api 
-{
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-
-    $api->{pdf}->new_obj($obj) unless($obj->is_obj($api->{pdf}));
-
-##  $api->resource('Font',$obj->name,$obj);
-
-    $api->{pdf}->out_obj($api->{pages});
-    return($obj);
-}
-
 =item PDF::API2::Resource::Font::CoreFont->loadallfonts()
 
 "Requires in" all fonts available as corefonts.
 
 =cut
 
-sub loadallfonts 
+sub loadallfonts
 {
-    foreach my $f (qw[ 
+    foreach my $f (qw[
         courier courierbold courierboldoblique courieroblique
         georgia georgiabold georgiabolditalic georgiaitalic
         helveticaboldoblique helveticaoblique helveticabold helvetica
@@ -241,7 +220,7 @@ sub loadallfonts
 #    trebuchetbolditalic
 #    trebuchetitalic
 
-BEGIN 
+BEGIN
 {
 
     $alias = {

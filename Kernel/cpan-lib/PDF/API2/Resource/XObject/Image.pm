@@ -1,11 +1,11 @@
 package PDF::API2::Resource::XObject::Image;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::XObject';
 
 use strict;
 use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 
@@ -31,9 +31,6 @@ sub new {
 
     return $self;
 }
-
-# Deprecated (rolled into new)
-sub new_api { my $self = shift(); return $self->new(@_); }
 
 =item $width = $image->width($width)
 

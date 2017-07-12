@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::bankgothic;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'BankGothicMediumBT',
     'type' => 'TrueType',
     'apiname' => 'BaGo',
@@ -507,4 +510,6 @@ $FONTDATA = {
         'fi' => '841',                           # U+0xFB01
         'fl' => '1103',                          # U+0xFB02
     }, # HORIZ. WIDTH TABLE
-};
+} };
+
+1;

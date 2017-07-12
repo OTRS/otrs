@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::zapfdingbats;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'ZapfDingbats',
     'type' => 'Type1',
     'apiname' => 'Zapf',
@@ -484,4 +487,6 @@ $FONTDATA = {
         'a98'                => 392,
         'a99'                => 668,
     }, # HORIZ. WIDTH TABLE
-};
+} };
+
+1;

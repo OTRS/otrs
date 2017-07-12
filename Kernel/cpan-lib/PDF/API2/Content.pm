@@ -1,8 +1,11 @@
 package PDF::API2::Content;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Dict';
+
+use strict;
+no warnings qw( deprecated recursion uninitialized );
+
+our $VERSION = '2.033'; # VERSION
 
 use Carp;
 use Compress::Zlib qw();
@@ -13,8 +16,6 @@ use PDF::API2::Matrix;
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
 
-no warnings qw( deprecated recursion uninitialized );
-
 =head1 NAME
 
 PDF::API2::Content - Methods for adding graphics and text to a PDF
@@ -24,11 +25,11 @@ PDF::API2::Content - Methods for adding graphics and text to a PDF
     # Start with a PDF page (new or opened)
     my $pdf = PDF::API2->new();
     my $page = $pdf->page();
-    
+
     # Add a new content object
     my $content = $page->gfx();
     my $content = $page->text();
-    
+
     # Then call the methods below add graphics and text to the page.
 
 =head1 METHODS
@@ -44,7 +45,7 @@ sub new {
     $self->{' fontset'}=0;
     $self->{' fontsize'}=0;
     $self->{' charspace'}=0;
-    $self->{' hspace'}=100;
+    $self->{' hscale'}=100;
     $self->{' wordspace'}=0;
     $self->{' lead'}=0;
     $self->{' rise'}=0;
@@ -65,8 +66,8 @@ sub new {
 sub outobjdeep {
     my $self = shift @_;
     $self->textend;
-    foreach my $k (qw[ api apipdf apiistext apipage font fontset fontsize 
-                       charspace hspace wordspace lead rise render matrix
+    foreach my $k (qw[ api apipdf apiistext apipage font fontset fontsize
+                       charspace hscale wordspace lead rise render matrix
                        textmatrix textlinematrix fillcolor strokecolor
                        translate scale skew rotate ]) {
         $self->{" $k"}=undef;
@@ -320,14 +321,14 @@ sub matrix {
             $self->add(_matrix_text($a,$b,$c,$d,$e,$f));
             @{$self->{' textmatrix'}}=($a,$b,$c,$d,$e,$f);
             @{$self->{' textlinematrix'}}=(0,0);
-        } 
+        }
         else {
             $self->add(_matrix_gfx($a,$b,$c,$d,$e,$f));
         }
     }
     if ($self->_in_text_object()) {
         return @{$self->{' textmatrix'}};
-    } 
+    }
     else {
         return $self;
     }
@@ -463,61 +464,73 @@ sub linejoin {
     $this->add(_linejoin($linejoin));
 }
 
-=item $content->meterlimit($ratio)
+=item $content->miterlimit($ratio)
 
-Note: This method is named incorrectly, and will be renamed in a
-future release.
+Sets the miter limit when the line join style is a miter join.
 
-Sets the miter (not meter) limit when the line join style is a miter
-join.
+The C<$ratio> is the maximum length of the miter (inner to outer
+corner) divided by the line width. Any miter above this ratio will be
+converted to a bevel join. The practical effect is that lines meeting
+at shallow angles are chopped off instead of producing long pointed
+corners.
 
-The ratio is the maximum length of the miter divided by the line
-width.  Any miter above this ratio will be converted to a bevel join.
+There is no documented default miter limit.
 
 =cut
 
-sub _meterlimit {
-    my ($limit)=@_;
+sub miterlimit {
+    my ($self, $limit) = @_;
+    $self->add(_miterlimit($limit));
+}
+
+sub _miterlimit {
+    my ($limit) = @_;
     return ($limit, 'M');
 }
-sub meterlimit {
-    my ($this, $limit)=@_;
-    $this->add(_meterlimit($limit));
-}
+
+# Deprecated: miterlimit was originally named incorrectly
+sub  meterlimit { return  miterlimit(@_) }
+sub _meterlimit { return _miterlimit(@_) }
 
 =item $content->linedash()
 
 =item $content->linedash($length)
 
-=item $content->linedash($on, $off)
+=item $content->linedash($dash_length, $gap_length, ...)
+
+=item $content->linedash(-pattern => [$dash_length, $gap_length, ...], -shift => $offset)
 
 Sets the line dash pattern.
 
-If passed without any arguments, a solid line will be drawn.
+If called without any arguments, a solid line will be drawn.
 
-If passed with one argument, the strokes and spaces will have equal
+If called with one argument, the dashes and gaps will have equal
 lengths.
 
-If passed with two arguments, the strokes will have length C<$on>, and
-the spaces will have length C<$off>.
+If called with two or more arguments, the arguments represent
+alternating dash and gap lengths.
+
+If called with a hash of arguments, a dash phase may be set, which
+specifies the distance into the pattern at which to start the dash.
 
 =cut
 
 sub _linedash {
-    my (@a)=@_;
-    if (scalar @a < 1) {
-        return ('[',']','0','d');
-    } 
+    my @a = @_;
+    unless (scalar @a) {
+        return ('[', ']', '0', 'd');
+    }
     else {
-        if ($a[0]=~/^\-/) {
-            # Note: This is undocumented, and will probably go away in
-            # the future.
-            my %a=@a;
-            $a{-pattern}=[$a{-full}||0,$a{-clear}||0] unless(ref $a{-pattern});
-            return ('[',floats(@{$a{-pattern}}),']',($a{-shift}||0),'d');
-        } 
+        if ($a[0] =~ /^\-/) {
+            my %a = @a;
+
+            # Deprecated: the -full and -clear options will be removed in a future release
+            $a{'-pattern'} = [$a{'-full'} || 0, $a{'-clear'} || 0] unless exists $a{'-pattern'};
+
+            return ('[', floats(@{$a{'-pattern'}}), ']', ($a{'-shift'} || 0), 'd');
+        }
         else {
-            return ('[',floats(@a),'] 0 d');
+            return ('[', floats(@a), '] 0 d');
         }
     }
 }
@@ -586,7 +599,7 @@ sub move {
         $self->{' my'}=$y;
         if ($self->_in_text_object()) {
             $self->add_post(floats($x,$y), 'm');
-        } 
+        }
         else {
             $self->add(floats($x,$y), 'm');
         }
@@ -618,7 +631,7 @@ sub line {
         $self->{' y'}=$y;
         if ($self->_in_text_object()) {
             $self->add_post(floats($x,$y), 'l');
-        } 
+        }
         else {
             $self->add(floats($x,$y), 'l');
         }
@@ -639,7 +652,7 @@ sub hline {
     my ($self, $x) = @_;
     if ($self->_in_text_object()) {
         $self->add_post(floats($x,$self->{' y'}),'l');
-    } 
+    }
     else {
         $self->add(floats($x,$self->{' y'}),'l');
     }
@@ -651,7 +664,7 @@ sub vline {
     my ($self, $y) = @_;
     if ($self->_in_text_object()) {
         $self->add_post(floats($self->{' x'},$y),'l');
-    } 
+    }
     else {
         $self->add(floats($self->{' x'},$y),'l');
     }
@@ -696,7 +709,7 @@ sub curve {
         $y3 = shift;
         if ($self->_in_text_object()) {
             $self->add_post(floats($x1,$y1,$x2,$y2,$x3,$y3),'c');
-        } 
+        }
         else {
             $self->add(floats($x1,$y1,$x2,$y2,$x3,$y3),'c');
         }
@@ -718,7 +731,7 @@ Note: The curve will not appear until you call C<stroke>.
 
 sub spline {
     my $self = shift;
-    
+
     while(scalar @_ >= 4) {
         my $cx = shift;
         my $cy = shift;
@@ -752,7 +765,7 @@ sub arctocurve {
             arctocurve($a,$b,$alpha,($beta+$alpha)/2),
             arctocurve($a,$b,($beta+$alpha)/2,$beta)
         );
-    } 
+    }
     else {
         $alpha = ($alpha * pi / 180);
         $beta  = ($beta * pi / 180);
@@ -834,7 +847,7 @@ sub bogen {
 
     $alpha_rad+=pi/2 if($x<0 and $y>0);
     $alpha_rad-=pi/2 if($x<0 and $y<0);
- 
+
     my $alpha=rad2deg($alpha_rad);
     # use the complement angle for span
     $alpha -= 180 if($spf>0);
@@ -1106,60 +1119,61 @@ C<%F000> or C<%FFFF000000000000>.
 # legacy greylevel
 #   ... only one value
 #
-# 
+#
 
 sub _makecolor {
-    my ($self,$sf,@clr)=@_;
-    if ($clr[0]=~/^[a-z\#\!]+/) {
+    my ($self, $sf, @clr) = @_;
+
+    if ($clr[0] =~ /^[a-z\#\!]+/) {
         # colorname or #! specifier
         # with rgb target colorspace
         # namecolor returns always a RGB
-        return(namecolor($clr[0]),($sf?'rg':'RG'));
+        return namecolor($clr[0]), ($sf ? 'rg' : 'RG');
     }
-    elsif($clr[0]=~/^[\%]+/) {
+    elsif ($clr[0] =~ /^[\%]+/) {
         # % specifier
         # with cmyk target colorspace
-        return(namecolor_cmyk($clr[0]),($sf?'k':'K'));
+        return namecolor_cmyk($clr[0]), ($sf ? 'k' : 'K');
     }
-    elsif($clr[0]=~/^[\$\&]/) {
+    elsif ($clr[0] =~ /^[\$\&]/) {
         # &$ specifier
         # with L*a*b target colorspace
-        if (!defined $self->resource('ColorSpace','LabS')) {
-            my $dc=PDFDict();
-            my $cs=PDFArray(PDFName('Lab'),$dc);
-            $dc->{WhitePoint}=PDFArray(map { PDFNum($_) } qw(1 1 1));
-            $dc->{Range}=PDFArray(map { PDFNum($_) } qw(-128 127 -128 127));
-            $dc->{Gamma}=PDFArray(map { PDFNum($_) } qw(2.2 2.2 2.2));
-            $self->resource('ColorSpace','LabS',$cs);
+        if (!defined $self->resource('ColorSpace', 'LabS')) {
+            my $dc = PDFDict();
+            my $cs = PDFArray(PDFName('Lab'), $dc);
+            $dc->{'WhitePoint'} = PDFArray(map { PDFNum($_) } qw(1 1 1));
+            $dc->{'Range'} = PDFArray(map { PDFNum($_) } qw(-128 127 -128 127));
+            $dc->{'Gamma'} = PDFArray(map { PDFNum($_) } qw(2.2 2.2 2.2));
+            $self->resource('ColorSpace', 'LabS', $cs);
         }
-        return('/LabS',($sf?'cs':'CS'),namecolor_lab($clr[0]),($sf?'sc':'SC'));
+        return '/LabS', ($sf ? 'cs' : 'CS'), namecolor_lab($clr[0]), ($sf ? 'sc' : 'SC');
     }
-    elsif((scalar @clr == 1) && ref($clr[0])) {
+    elsif (scalar @clr == 1 and ref($clr[0])) {
         # pattern or shading space
-        return('/Pattern',($sf?'cs':'CS'),'/'.($clr[0]->name),($sf?'scn':'SCN'));
+        return '/Pattern', ($sf ? 'cs' : 'CS'), '/' . ($clr[0]->name()), ($sf ? 'scn' : 'SCN');
     }
-    elsif(scalar @clr == 1) {
+    elsif (scalar @clr == 1) {
         # grey color spec.
-        return($clr[0],($sf?'g':'G'));
+        return $clr[0], $sf ? 'g' : 'G';
     }
-    elsif(scalar @clr > 1 && ref($clr[0])) {
+    elsif (scalar @clr > 1 and ref($clr[0])) {
         # indexed colorspace plus color-index
         # or custom colorspace plus param
-        my $cs=shift @clr;
-        return('/'.($cs->name),($sf?'cs':'CS'),$cs->param(@clr),($sf?'sc':'SC'));
+        my $cs = shift(@clr);
+        return '/' . $cs->name(), ($sf ? 'cs' : 'CS'), $cs->param(@clr), ($sf ? 'sc' : 'SC');
     }
-    elsif(scalar @clr == 2) {
+    elsif (scalar @clr == 2) {
         # indexed colorspace plus color-index
         # or custom colorspace plus param
-        return('/'.($clr[0]->name),($sf?'cs':'CS'),$clr[0]->param($clr[1]),($sf?'sc':'SC'));
+        return '/' . $clr[0]->name(), ($sf ? 'cs' : 'CS'), $clr[0]->param($clr[1]), ($sf ? 'sc' : 'SC');
     }
-    elsif(scalar @clr == 3) {
+    elsif (scalar @clr == 3) {
         # legacy rgb color-spec (0 <= x <= 1)
-        return(floats($clr[0],$clr[1],$clr[2]),($sf?'rg':'RG'));
+        return floats($clr[0], $clr[1], $clr[2]), ($sf ? 'rg' : 'RG');
     }
-    elsif(scalar @clr == 4) {
+    elsif (scalar @clr == 4) {
         # legacy cmyk color-spec (0 <= x <= 1)
-        return(floats($clr[0],$clr[1],$clr[2],$clr[3]),($sf?'k':'K'));
+        return floats($clr[0], $clr[1], $clr[2], $clr[3]), ($sf ? 'k' : 'K');
     }
     else {
         die 'invalid color specification.';
@@ -1170,7 +1184,7 @@ sub _fillcolor {
     my ($self,@clrs)=@_;
     if (ref($clrs[0]) =~ m|^PDF::API2::Resource::ColorSpace|) {
         $self->resource('ColorSpace',$clrs[0]->name,$clrs[0]);
-    } 
+    }
     elsif (ref($clrs[0]) =~ m|^PDF::API2::Resource::Pattern|) {
         $self->resource('Pattern',$clrs[0]->name,$clrs[0]);
     }
@@ -1191,7 +1205,7 @@ sub _strokecolor {
     my ($self,@clrs)=@_;
     if (ref($clrs[0]) =~ m|^PDF::API2::Resource::ColorSpace|) {
         $self->resource('ColorSpace',$clrs[0]->name,$clrs[0]);
-    } 
+    }
     elsif (ref($clrs[0]) =~ m|^PDF::API2::Resource::Pattern|) {
         $self->resource('Pattern',$clrs[0]->name,$clrs[0]);
     }
@@ -1267,7 +1281,7 @@ sub image {
     if (!defined $w) {
         $h=$img->height;
         $w=$img->width;
-    } 
+    }
     elsif (!defined $h) {
         $h=$img->height*$w;
         $w=$img->width*$w;
@@ -1299,7 +1313,7 @@ sub formimage {
     $self->save;
     if (!defined $s) {
         $self->matrix(1,0,0,1,$x,$y);
-    } 
+    }
     else {
         $self->matrix($s,0,0,$s,$x,$y);
     }
@@ -1343,6 +1357,12 @@ sub charspace {
 Sets the spacing between words.  This is initially zero (or, in other
 words, just the width of the space).
 
+Word spacing might only affect simple fonts and composite fonts where
+the space character is a single-byte code.  This is a limitation of
+the PDF specification at least as of version 1.7 (see section 9.3.3).
+It's possible that a later version of the specification will support
+word spacing in fonts that use multi-byte codes.
+
 =cut
 
 sub _wordspace {
@@ -1359,28 +1379,31 @@ sub wordspace {
     return $self->{' wordspace'};
 }
 
-=item $scale = $content->hspace($scale)
+=item $scale = $content->hscale($scale)
 
-Note: This method is named incorrectly, and will be renamed in a
-future release.
-
-Sets the percentage of horizontal text scaling (not spacing).  This is
-initially 100 (i.e. no scaling), and must be passed as an integer.
+Sets and returns the percentage of horizontal text scaling.  Enter a
+scale greater than 100 to stretch text, less than 100 to squeeze
+text, or 100 to disable any existing scaling.
 
 =cut
 
-sub _hspace {
-    my ($para) = @_;
-    return float($para, 6) . ' Tz';
+sub _hscale {
+    my ($scale) = @_;
+    return float($scale, 6) . ' Tz';
 }
-sub hspace {
-    my ($self,$para)=@_;
-    if (defined $para) {
-        $self->{' hspace'}=$para;
-        $self->add(_hspace($para));
+
+sub hscale {
+    my ($self, $scale) = @_;
+    if (defined $scale) {
+        $self->{' hscale'} = $scale;
+        $self->add(_hscale($scale));
     }
-    return $self->{' hspace'};
+    return $self->{' hscale'};
 }
+
+# Deprecated: hscale was originally named incorrectly (as hspace)
+sub  hspace { return  hscale(@_) }
+sub _hspace { return _hscale(@_) }
 
 =item $leading = $content->lead($leading)
 
@@ -1483,7 +1506,7 @@ sub textstate {
     my %state;
     if (scalar @_) {
         %state = @_;
-        foreach my $k (qw( charspace hspace wordspace lead rise render )) {
+        foreach my $k (qw( charspace hscale wordspace lead rise render )) {
             next unless($state{$k});
             $self->can($k)->($self, $state{$k});
         }
@@ -1504,9 +1527,9 @@ sub textstate {
             $self->strokecolor(@{$state{strokecolor}});
         }
         %state = ();
-    } 
+    }
     else {
-        foreach my $k (qw( font fontsize charspace hspace wordspace lead rise render )) {
+        foreach my $k (qw( font fontsize charspace hscale wordspace lead rise render )) {
             $state{$k}=$self->{" $k"};
         }
         $state{matrix}=[@{$self->{" matrix"}}];
@@ -1594,42 +1617,47 @@ sub distance {
     $self->{' textlinematrix'}->[0]=$dx;
 }
 
+=item $content->cr()
+
 =item $content->cr($vertical_offset)
 
-If passed with an argument, moves to the start of the next line,
-offset by the given value.
+Moves the cursor to the start of the line when called without an
+argument.  If leading has been set, the cursor will move to the next
+line instead.
 
-If passed without an argument, moves to the start of the next line.
+An offset can be passed as an argument to override the leading value.
+A positive offset will move the cursor up, and a negative offset will
+move the cursor down.
 
-Note that this is equivalent to a carriage return plus line feed.  To
-get just a carriage return, pass zero as the argument.
+Pass zero as the argument to ignore the leading and get just a
+carriage return.
 
 =cut
 
 sub cr {
-    my ($self, $para) = @_;
-    if (defined($para)) {
-        $self->add(0,float($para),'Td');
-        $self->matrix_update(0,$para);
+    my ($self, $offset) = @_;
+    if (defined $offset) {
+        $self->add(0, float($offset), 'Td');
+        $self->matrix_update(0, $offset);
     }
     else {
         $self->add('T*');
-        $self->matrix_update(0,$self->lead);
+        $self->matrix_update(0, $self->lead() * -1);
     }
-    $self->{' textlinematrix'}->[0]=0;
+    $self->{' textlinematrix'}->[0] = 0;
 }
 
-=item $content->nl
+=item $content->nl()
 
 Moves to the start of the next line.
 
 =cut
 
 sub nl {
-    my ($self, $width) = @_;
+    my $self = shift();
     $self->add('T*');
-    $self->matrix_update(-($width||0),-$self->lead);
-    $self->{' textlinematrix'}->[0]=0;
+    $self->matrix_update(0, $self->lead() * -1);
+    $self->{' textlinematrix'}->[0] = 0;
 }
 
 =item ($tx, $ty) = $content->textpos()
@@ -1711,7 +1739,7 @@ sub _text_underline {
     my $underlineposition=(-$self->{' font'}->underlineposition()*$self->{' fontsize'}/1000||1);
     my $underlinethickness=($self->{' font'}->underlinethickness()*$self->{' fontsize'}/1000||1);
     my $pos=1;
-    
+
     while(@underline) {
         $self->add_post(_save);
 
@@ -1761,8 +1789,8 @@ sub text {
 
     if (defined $opt{-indent}) {
     # changed fot acrobat 8 and possible others
-    #    $self->add('[',(-$opt{-indent}*(1000/$self->{' fontsize'})*(100/$self->hspace)),']','TJ');
-        $self->add($self->{' font'}->text($text, $self->{' fontsize'}, (-$opt{-indent}*(1000/$self->{' fontsize'})*(100/$self->hspace))));
+    #    $self->add('[',(-$opt{-indent}*(1000/$self->{' fontsize'})*(100/$self->hscale())),']','TJ');
+        $self->add($self->{' font'}->text($text, $self->{' fontsize'}, (-$opt{-indent}*(1000/$self->{' fontsize'})*(100/$self->hscale()))));
     }
     else {
         $self->add($self->{' font'}->text($text,$self->{' fontsize'}));
@@ -1813,17 +1841,18 @@ attributes.  These can optionally be overridden.
 
 sub advancewidth {
     my ($self,$text,@opts) = @_;
+    return 0 unless defined($text) and length($text);
     if(scalar @opts > 1) {
         my %opts=@opts;
-        foreach my $k (qw[ font fontsize wordspace charspace hspace]) {
+        foreach my $k (qw[ font fontsize wordspace charspace hscale]) {
             $opts{$k}=$self->{" $k"} unless(defined $opts{$k});
         }
         my $glyph_width = $opts{font}->width($text)*$opts{fontsize};
         my $num_space = $text =~ y/\x20/\x20/;
         my $num_char = length($text);
         my $word_spaces = $opts{wordspace}*$num_space;
-        my $char_spaces = $opts{charspace}*$num_char;
-        my $advance = ($glyph_width+$word_spaces+$char_spaces)*$opts{hspace}/100;
+        my $char_spaces = $opts{charspace}*($num_char - 1);
+        my $advance = ($glyph_width+$word_spaces+$char_spaces)*$opts{hscale}/100;
         return $advance;
     }
     else {
@@ -1831,8 +1860,8 @@ sub advancewidth {
         my $num_space = $text =~ y/\x20/\x20/;
         my $num_char = length($text);
         my $word_spaces = $self->wordspace*$num_space;
-        my $char_spaces = $self->charspace*$num_char;
-        my $advance = ($glyph_width+$word_spaces+$char_spaces)*$self->hspace/100;
+        my $char_spaces = $self->charspace*($num_char - 1);
+        my $advance = ($glyph_width+$word_spaces+$char_spaces)*$self->hscale()/100;
         return $advance;
     }
 }
@@ -1843,10 +1872,12 @@ sub advancewidth {
 
 sub text_justified {
     my ($self,$text,$width,%opts) = @_;
-    my $hs = $self->hspace;
-    $self->hspace($hs*($width/$self->advancewidth($text)));
+    my $initial_width = $self->advancewidth($text);
+    my $space_count = scalar split /\s/, $text;
+    my $ws = $self->wordspace();
+    $self->wordspace(($width - $initial_width) / $space_count) if $space_count > 0;
     $self->text($text,%opts);
-    $self->hspace($hs);
+    $self->wordspace($ws);
     return $width;
 }
 
@@ -1896,56 +1927,57 @@ sub text_fill_justified {
     my ($self,$text,$width,%opts) = @_;
     my $over=(not(defined($opts{-spillover}) and $opts{-spillover} == 0));
     my ($line,$ret)=$self->_text_fill_line($text,$width,$over);
-    my $hs=$self->hspace;
+    my $ws=$self->wordspace();
     my $w=$self->advancewidth($line);
-    if ($ret||$w>=$width) {
-        $self->hspace($hs*($width/$w));
+    my $space_count = scalar split /\s/, $line;
+    if (($ret||$w>=$width) and $space_count) {
+        $self->wordspace(($width - $w) / $space_count);
     }
     $width=$self->text($line,%opts);
-    $self->hspace($hs);
+    $self->wordspace($ws);
     return($width,$ret);
 }
 
 # =item $overflow_text = $txt->paragraph $text, $width, $height, %options
-# 
+#
 # ** DEVELOPER METHOD **
-# 
+#
 # Apply the text within the rectangle and return any leftover text.
-# 
+#
 # B<Options>
-# 
+#
 # =over 4
-# 
+#
 # =item -align => $choice
-# 
+#
 # Choice is 'justified', 'right', 'center', 'left'
 # Default is 'left'
-# 
+#
 # =item -underline => $distance
-# 
+#
 # =item -underline => [ $distance, $thickness, ... ]
-# 
+#
 # If a scalar, distance below baseline,
 # else array reference with pairs of distance and line thickness.
-# 
+#
 # =item -spillover => $over
-# 
+#
 # Controls if words in a line which exceed the given width should be "spilled over" the bounds or if a new line should be used for this word.
-# 
+#
 # Over is 1 or 0
 # Default is 1
-# 
+#
 # =back
-# 
+#
 # B<Example:>
-# 
+#
 #     $txt->font($font,$fontsize);
 #     $txt->lead($lead);
 #     $txt->translate($x,$y);
 #     $overflow = $txt->paragraph( 'long paragraph here ...',
 #                                  $width,
 #                                  $y+$lead-$bottom_margin );
-# 
+#
 # =cut
 
 sub paragraph {
@@ -1976,20 +2008,20 @@ sub paragraph {
 }
 
 # =item $overflow_text = $txt->section $text, $width, $height, %options
-# 
+#
 # ** DEVELOPER METHOD **
-# 
-# Split paragraphs by newline and loop over them, reassemble leftovers 
-# when box is full and apply the text within the rectangle and return 
+#
+# Split paragraphs by newline and loop over them, reassemble leftovers
+# when box is full and apply the text within the rectangle and return
 # any leftover text.
-# 
+#
 # =cut
 
 sub section {
     my ($self,$text,$width,$height,%opts)=@_;
-    my ($para,$overflow) = ("","");
+    my $overflow = '';
 
-    foreach $para (split(/\n/,$text)) {
+    foreach my $para (split(/\n/,$text)) {
         if(length($overflow) > 0) {
             $overflow .= "\n" . $para;
             next;
@@ -2016,32 +2048,32 @@ sub textlabel {
     }
     $self->save;
     $self->textstart;
-    
+
     $self->transform(%trans_opts);
-    
+
     $self->fillcolor(ref($opts{-color}) ? @{$opts{-color}} : $opts{-color}) if($opts{-color});
     $self->strokecolor(ref($opts{-strokecolor}) ? @{$opts{-strokecolor}} : $opts{-strokecolor}) if($opts{-strokecolor});
 
     $self->font($font,$size);
 
     $self->charspace($opts{-charspace})     if($opts{-charspace});
-    $self->hspace($opts{-hspace})           if($opts{-hspace});
+    $self->hscale($opts{-hscale})           if($opts{-hscale});
     $self->wordspace($opts{-wordspace})     if($opts{-wordspace});
     $self->render($opts{-render})           if($opts{-render});
 
     if ($opts{-right} || $opts{-align}=~/^r/i) {
         $wht = $self->text_right($text,%opts);
-    } 
+    }
     elsif ($opts{-center} || $opts{-align}=~/^c/i) {
         $wht = $self->text_center($text,%opts);
-    } 
+    }
     else {
         $wht = $self->text($text,%opts);
     }
-    
+
     $self->textend;
     $self->restore;
-    
+
     if ($wastext) {
         $self->textstart;
         $self->textstate(%text_state);
@@ -2057,7 +2089,7 @@ sub metaStart {
     if (defined $obj) {
         my $dict=PDFDict();
         $dict->{Metadata}=$obj;
-        $self->resource('Properties',$obj->name,$dict);        
+        $self->resource('Properties',$obj->name,$dict);
         $self->add('/'.($obj->name));
         $self->add('BDC');
     }
@@ -2136,7 +2168,7 @@ sub textstart {
         $self->{' fontset'}=0;
         $self->{' fontsize'}=0;
         $self->{' charspace'}=0;
-        $self->{' hspace'}=100;
+        $self->{' hscale'}=100;
         $self->{' wordspace'}=0;
         $self->{' lead'}=0;
         $self->{' rise'}=0;
@@ -2179,7 +2211,7 @@ sub resource {
     if ($self->{' apipage'}) {
         # we are a content stream on a page.
         return $self->{' apipage'}->resource($type, $key, $obj, $force);
-    } 
+    }
     else {
         # we are a self-contained content stream.
         $self->{Resources}||=PDFDict();
@@ -2191,11 +2223,11 @@ sub resource {
         $dict->{$type}->realise if(ref($dict->{$type})=~/Objind$/);
         unless (defined $obj) {
             return($dict->{$type}->{$key} || undef);
-        } 
+        }
         else {
             if ($force) {
                 $dict->{$type}->{$key}=$obj;
-            } 
+            }
             else {
                 $dict->{$type}->{$key}||=$obj;
             }

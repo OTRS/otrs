@@ -1,8 +1,11 @@
 package PDF::API2::Resource::XObject::Image::PNG;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::XObject::Image';
+
+use strict;
+use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 use Compress::Zlib;
 use POSIX qw(ceil floor);
@@ -10,305 +13,312 @@ use POSIX qw(ceil floor);
 use IO::File;
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ deprecated recursion uninitialized ];
+use Scalar::Util qw(weaken);
 
 sub new {
-    my ($class,$pdf,$file,$name,%opts) = @_;
+    my ($class, $pdf, $file, $name, %opts) = @_;
     my $self;
 
-    $class = ref $class if ref $class;
+    $class = ref($class) if ref($class);
 
-    $self=$class->SUPER::new($pdf,$name || 'Px'.pdfkey());
-    $pdf->new_obj($self) unless($self->is_obj($pdf));
+    $self = $class->SUPER::new($pdf, $name || 'Px' . pdfkey());
+    $pdf->new_obj($self) unless $self->is_obj($pdf);
 
-    $self->{' apipdf'}=$pdf;
+    $self->{' apipdf'} = $pdf;
+    weaken $self->{' apipdf'};
 
-    my $fh = IO::File->new;
-    open($fh,$file);
-    binmode($fh,':raw');
-
-    my ($buf,$l,$crc,$w,$h,$bpc,$cs,$cm,$fm,$im,$palete,$trns);
-    open($fh,$file);
-    binmode($fh);
-    seek($fh,8,0);
-    $self->{' stream'}='';
-    $self->{' nofilt'}=1;
-    while(!eof($fh)) {
-        read($fh,$buf,4);
-        $l=unpack('N',$buf);
-        read($fh,$buf,4);
-        if($buf eq 'IHDR') {
-            read($fh,$buf,$l);
-            ($w,$h,$bpc,$cs,$cm,$fm,$im)=unpack('NNCCCCC',$buf);
-            die "Unsupported Compression($cm) Method" if($cm);
-            die "Unsupported Interlace($im) Method" if($im);
-            die "Unsupported Filter($fm) Method" if($fm);
-        } elsif($buf eq 'PLTE') {
-            read($fh,$buf,$l);
-            $palete=$buf;
-        } elsif($buf eq 'IDAT') {
-            read($fh,$buf,$l);
-            $self->{' stream'}.=$buf;
-        } elsif($buf eq 'tRNS') {
-            read($fh,$buf,$l);
-            $trns=$buf;
-        } elsif($buf eq 'IEND') {
-            last;
-        } else {
-            # skip ahead
-            seek($fh,$l,1);
-        }
-        read($fh,$buf,4);
-        $crc=$buf;
+    my $fh = IO::File->new();
+    if (ref($file)) {
+        $fh = $file;
     }
-    close($fh);
+    else {
+        open $fh, '<', $file or die "$!: $file";
+    }
+    binmode $fh, ':raw';
+
+    my ($buf, $l, $crc, $w, $h, $bpc, $cs, $cm, $fm, $im, $palete, $trns);
+    seek($fh, 8, 0);
+    $self->{' stream'} = '';
+    $self->{' nofilt'} = 1;
+    while (!eof($fh)) {
+        read($fh, $buf, 4);
+        $l = unpack('N', $buf);
+        read($fh, $buf, 4);
+        if ($buf eq 'IHDR') {
+            read($fh, $buf, $l);
+            ($w, $h, $bpc, $cs, $cm, $fm, $im) = unpack('NNCCCCC', $buf);
+            die "Unsupported Compression($cm) Method" if $cm;
+            die "Unsupported Interlace($im) Method"   if $im;
+            die "Unsupported Filter($fm) Method"      if $fm;
+        }
+        elsif ($buf eq 'PLTE') {
+            read($fh, $buf, $l);
+            $palete = $buf;
+        }
+        elsif($buf eq 'IDAT') {
+            read($fh, $buf, $l);
+            $self->{' stream'} .= $buf;
+        }
+        elsif($buf eq 'tRNS') {
+            read($fh, $buf, $l);
+            $trns = $buf;
+        }
+        elsif($buf eq 'IEND') {
+            last;
+        }
+        else {
+            # skip ahead
+            seek($fh, $l, 1);
+        }
+        read($fh, $buf, 4);
+        $crc = $buf;
+    }
+    close $fh;
 
     $self->width($w);
     $self->height($h);
 
-    if($cs==0){     # greyscale
+    if ($cs == 0) {     # greyscale
         # scanline = ceil(bpc * comp / 8)+1
-        if($bpc>8) {
+        if ($bpc > 8) {
             die "16-bits of greylevel in png not supported.";
-        } else {
+        }
+        else {
             $self->filters('FlateDecode');
             $self->colorspace('DeviceGray');
             $self->bpc($bpc);
-            my $dict=PDFDict();
-            $self->{DecodeParms}=PDFArray($dict);
-            $dict->{Predictor}=PDFNum(15);
-            $dict->{BitsPerComponent}=PDFNum($bpc);
-            $dict->{Colors}=PDFNum(1);
-            $dict->{Columns}=PDFNum($w);
-            if(defined $trns && !$opts{-notrans}) {
-                my $m=mMax(unpack('n*',$trns));
-                my $n=mMin(unpack('n*',$trns));
-                $self->{Mask}=PDFArray(PDFNum($n),PDFNum($m));
+            my $dict = PDFDict();
+            $self->{'DecodeParms'} = PDFArray($dict);
+            $dict->{'Predictor'} = PDFNum(15);
+            $dict->{'BitsPerComponent'} = PDFNum($bpc);
+            $dict->{'Colors'} = PDFNum(1);
+            $dict->{'Columns'} = PDFNum($w);
+            if (defined $trns && !$opts{-notrans}) {
+                my $m = mMax(unpack('n*', $trns));
+                my $n = mMin(unpack('n*', $trns));
+                $self->{'Mask'} = PDFArray(PDFNum($n), PDFNum($m));
             }
         }
-    } elsif($cs==2){  # rgb 8/16 bits
-        if($bpc>8) {
+    }
+    elsif ($cs == 2) {  # rgb 8/16 bits
+        if ($bpc > 8) {
             die "16-bits of rgb in png not supported.";
-        } else {
+        }
+        else {
             $self->filters('FlateDecode');
             $self->colorspace('DeviceRGB');
             $self->bpc($bpc);
-            my $dict=PDFDict();
-            $self->{DecodeParms}=PDFArray($dict);
-            $dict->{Predictor}=PDFNum(15);
-            $dict->{BitsPerComponent}=PDFNum($bpc);
-            $dict->{Colors}=PDFNum(3);
-            $dict->{Columns}=PDFNum($w);
-            if(defined $trns && !$opts{-notrans}) {
-                my @v=unpack('n*',$trns);
-                my (@cr,@cg,@cb,$m,$n);
-                while(scalar @v > 0) {
-                    push(@cr,shift(@v));
-                    push(@cg,shift(@v));
-                    push(@cb,shift(@v));
+            my $dict = PDFDict();
+            $self->{'DecodeParms'} = PDFArray($dict);
+            $dict->{'Predictor'} = PDFNum(15);
+            $dict->{'BitsPerComponent'} = PDFNum($bpc);
+            $dict->{'Colors'} = PDFNum(3);
+            $dict->{'Columns'} = PDFNum($w);
+            if (defined $trns && !$opts{-notrans}) {
+                my @v = unpack('n*', $trns);
+                my (@cr, @cg, @cb, $m, $n);
+                while (scalar @v > 0) {
+                    push @cr, shift(@v);
+                    push @cg, shift(@v);
+                    push @cb, shift(@v);
                 }
-                @v=();
-                $m=mMax(@cr);
-                $n=mMin(@cr);
-                push @v,$n,$m;
-                $m=mMax(@cg);
-                $n=mMin(@cg);
-                push @v,$n,$m;
-                $m=mMax(@cb);
-                $n=mMin(@cb);
-                push @v,$n,$m;
-                $self->{Mask}=PDFArray(map { PDFNum($_) } @v);
+                @v = ();
+                $m = mMax(@cr);
+                $n = mMin(@cr);
+                push @v, $n, $m;
+                $m = mMax(@cg);
+                $n = mMin(@cg);
+                push @v, $n, $m;
+                $m = mMax(@cb);
+                $n = mMin(@cb);
+                push @v, $n, $m;
+                $self->{'Mask'} = PDFArray(map { PDFNum($_) } @v);
             }
         }
-    } elsif($cs==3){  # palette
-        if($bpc>8) {
-            die "bits>8 of palette in png not supported.";
-        } else {
-            my $dict=PDFDict();
+    }
+    elsif ($cs == 3){  # palette
+        if ($bpc > 8) {
+            die 'bits>8 of palette in png not supported.';
+        }
+        else {
+            my $dict = PDFDict();
             $pdf->new_obj($dict);
-            $dict->{Filter}=PDFArray(PDFName('FlateDecode'));
-            $dict->{' stream'}=$palete;
-            $palete="";
+            $dict->{'Filter'} = PDFArray(PDFName('FlateDecode'));
+            $dict->{' stream'} = $palete;
+            $palete = '';
             $self->filters('FlateDecode');
-            $self->colorspace(PDFArray(PDFName('Indexed'),PDFName('DeviceRGB'),PDFNum(int(length($dict->{' stream'})/3)-1),$dict));
+            $self->colorspace(PDFArray(PDFName('Indexed'), PDFName('DeviceRGB'), PDFNum(int(length($dict->{' stream'}) / 3) - 1), $dict));
             $self->bpc($bpc);
-            $dict=PDFDict();
-            $self->{DecodeParms}=PDFArray($dict);
-            $dict->{Predictor}=PDFNum(15);
-            $dict->{BitsPerComponent}=PDFNum($bpc);
-            $dict->{Colors}=PDFNum(1);
-            $dict->{Columns}=PDFNum($w);
-            if(defined $trns && !$opts{-notrans}) {
-                $trns.="\xFF" x 256;
-                $dict=PDFDict();
+            $dict = PDFDict();
+            $self->{'DecodeParms'} = PDFArray($dict);
+            $dict->{'Predictor'} = PDFNum(15);
+            $dict->{'BitsPerComponent'} = PDFNum($bpc);
+            $dict->{'Colors'} = PDFNum(1);
+            $dict->{'Columns'} = PDFNum($w);
+            if (defined $trns && !$opts{-notrans}) {
+                $trns .= "\xFF" x 256;
+                $dict = PDFDict();
                 $pdf->new_obj($dict);
-                $dict->{Type}=PDFName('XObject');
-                $dict->{Subtype}=PDFName('Image');
-                $dict->{Width}=PDFNum($w);
-                $dict->{Height}=PDFNum($h);
-                $dict->{ColorSpace}=PDFName('DeviceGray');
-                $dict->{Filter}=PDFArray(PDFName('FlateDecode'));
-                # $dict->{Filter}=PDFArray(PDFName('ASCIIHexDecode'));
-                $dict->{BitsPerComponent}=PDFNum(8);
-                $self->{SMask}=$dict;
-                my $scanline=1+ceil($bpc*$w/8);
-                my $bpp=ceil($bpc/8);
-                my $clearstream=unprocess($bpc,$bpp,1,$w,$h,$scanline,\$self->{' stream'});
-                foreach my $n (0..($h*$w)-1) {
-                    vec($dict->{' stream'},$n,8)=vec($trns,vec($clearstream,$n,$bpc),8);
-                #    print STDERR vec($trns,vec($clearstream,$n,$bpc),8)."=".vec($clearstream,$n,$bpc).",";
+                $dict->{'Type'} = PDFName('XObject');
+                $dict->{'Subtype'} = PDFName('Image');
+                $dict->{'Width'} = PDFNum($w);
+                $dict->{'Height'} = PDFNum($h);
+                $dict->{'ColorSpace'} = PDFName('DeviceGray');
+                $dict->{'Filter'} = PDFArray(PDFName('FlateDecode'));
+                $dict->{'BitsPerComponent'} = PDFNum(8);
+                $self->{'SMask'} = $dict;
+                my $scanline = 1 + ceil($bpc * $w / 8);
+                my $bpp = ceil($bpc / 8);
+                my $clearstream = unprocess($bpc, $bpp, 1, $w, $h, $scanline, \$self->{' stream'});
+                foreach my $n (0 .. ($h * $w) - 1) {
+                    vec($dict->{' stream'}, $n, 8) = vec($trns, vec($clearstream, $n, $bpc), 8);
                 }
-                # print STDERR "\n";
             }
         }
-    } elsif($cs==4){        # greyscale+alpha
-        # die "greylevel+alpha in png not supported.";
-        if($bpc>8) {
-            die "16-bits of greylevel+alpha in png not supported.";
-        } else {
+    }
+    elsif ($cs == 4) {        # greyscale+alpha
+        if ($bpc > 8) {
+            die '16-bits of greylevel+alpha in png not supported.';
+        }
+        else {
             $self->filters('FlateDecode');
             $self->colorspace('DeviceGray');
             $self->bpc($bpc);
-            my $dict=PDFDict();
-            $self->{DecodeParms}=PDFArray($dict);
-            # $dict->{Predictor}=PDFNum(15);
-            $dict->{BitsPerComponent}=PDFNum($bpc);
-            $dict->{Colors}=PDFNum(1);
-            $dict->{Columns}=PDFNum($w);
+            my $dict = PDFDict();
+            $self->{'DecodeParms'} = PDFArray($dict);
+            # $dict->{'Predictor'} = PDFNum(15);
+            $dict->{'BitsPerComponent'} = PDFNum($bpc);
+            $dict->{'Colors'} = PDFNum(1);
+            $dict->{'Columns'} = PDFNum($w);
 
-            $dict=PDFDict();
-            unless($opts{-notrans}) {
+            $dict = PDFDict();
+            unless ($opts{-notrans}) {
                 $pdf->new_obj($dict);
-                $dict->{Type}=PDFName('XObject');
-                $dict->{Subtype}=PDFName('Image');
-                $dict->{Width}=PDFNum($w);
-                $dict->{Height}=PDFNum($h);
-                $dict->{ColorSpace}=PDFName('DeviceGray');
-                $dict->{Filter}=PDFArray(PDFName('FlateDecode'));
-                $dict->{BitsPerComponent}=PDFNum($bpc);
-                $self->{SMask}=$dict;
+                $dict->{'Type'}             = PDFName('XObject');
+                $dict->{'Subtype'}          = PDFName('Image');
+                $dict->{'Width'}            = PDFNum($w);
+                $dict->{'Height'}           = PDFNum($h);
+                $dict->{'ColorSpace'}       = PDFName('DeviceGray');
+                $dict->{'Filter'}           = PDFArray(PDFName('FlateDecode'));
+                $dict->{'BitsPerComponent'} = PDFNum($bpc);
+                $self->{'SMask'}            = $dict;
             }
-            my $scanline=1+ceil($bpc*2*$w/8);
-            my $bpp=ceil($bpc*2/8);
-            my $clearstream=unprocess($bpc,$bpp,2,$w,$h,$scanline,\$self->{' stream'});
+            my $scanline = 1 + ceil($bpc * 2 * $w / 8);
+            my $bpp = ceil($bpc * 2 / 8);
+            my $clearstream = unprocess($bpc, $bpp, 2, $w, $h, $scanline, \$self->{' stream'});
             delete $self->{' nofilt'};
             delete $self->{' stream'};
-            foreach my $n (0..($h*$w)-1) {
-                vec($dict->{' stream'},$n,$bpc)=vec($clearstream,($n*2)+1,$bpc);
-                vec($self->{' stream'},$n,$bpc)=vec($clearstream,$n*2,$bpc);
+            foreach my $n (0 .. ($h * $w) - 1) {
+                vec($dict->{' stream'}, $n, $bpc) = vec($clearstream, ($n * 2) + 1, $bpc);
+                vec($self->{' stream'}, $n, $bpc) = vec($clearstream, $n * 2, $bpc);
             }
         }
-    } elsif($cs==6){  # rgb+alpha
-        # die "rgb+alpha in png not supported.";
-        if($bpc>8) {
-            die "16-bits of rgb+alpha in png not supported.";
-        } else {
+    }
+    elsif ($cs == 6) {  # rgb+alpha
+        if ($bpc > 8) {
+            die '16-bits of rgb+alpha in png not supported.';
+        }
+        else {
             $self->filters('FlateDecode');
             $self->colorspace('DeviceRGB');
             $self->bpc($bpc);
-            my $dict=PDFDict();
-            $self->{DecodeParms}=PDFArray($dict);
-            # $dict->{Predictor}=PDFNum(15);
-            $dict->{BitsPerComponent}=PDFNum($bpc);
-            $dict->{Colors}=PDFNum(3);
-            $dict->{Columns}=PDFNum($w);
+            my $dict = PDFDict();
+            $self->{'DecodeParms'} = PDFArray($dict);
+            # $dict->{'Predictor'} = PDFNum(15);
+            $dict->{'BitsPerComponent'} = PDFNum($bpc);
+            $dict->{'Colors'} = PDFNum(3);
+            $dict->{'Columns'} = PDFNum($w);
 
-            $dict=PDFDict();
+            $dict = PDFDict();
             unless($opts{-notrans}) {
                 $pdf->new_obj($dict);
-                $dict->{Type}=PDFName('XObject');
-                $dict->{Subtype}=PDFName('Image');
-                $dict->{Width}=PDFNum($w);
-                $dict->{Height}=PDFNum($h);
-                $dict->{ColorSpace}=PDFName('DeviceGray');
-                $dict->{Filter}=PDFArray(PDFName('FlateDecode'));
-                $dict->{BitsPerComponent}=PDFNum($bpc);
-                $self->{SMask}=$dict;
+                $dict->{'Type'}             = PDFName('XObject');
+                $dict->{'Subtype'}          = PDFName('Image');
+                $dict->{'Width'}            = PDFNum($w);
+                $dict->{'Height'}           = PDFNum($h);
+                $dict->{'ColorSpace'}       = PDFName('DeviceGray');
+                $dict->{'Filter'}           = PDFArray(PDFName('FlateDecode'));
+                $dict->{'BitsPerComponent'} = PDFNum($bpc);
+                $self->{'SMask'}            = $dict;
             }
-            my $scanline=1+ceil($bpc*4*$w/8);
-            my $bpp=ceil($bpc*4/8);
-            my $clearstream=unprocess($bpc,$bpp,4,$w,$h,$scanline,\$self->{' stream'});
+            my $scanline = 1 + ceil($bpc * 4 * $w / 8);
+            my $bpp = ceil($bpc * 4 / 8);
+            my $clearstream = unprocess($bpc, $bpp, 4, $w, $h, $scanline, \$self->{' stream'});
             delete $self->{' nofilt'};
             delete $self->{' stream'};
-            foreach my $n (0..($h*$w)-1) {
-                vec($dict->{' stream'},$n,$bpc)=vec($clearstream,($n*4)+3,$bpc);
-                vec($self->{' stream'},($n*3),$bpc)=vec($clearstream,($n*4),$bpc);
-                vec($self->{' stream'},($n*3)+1,$bpc)=vec($clearstream,($n*4)+1,$bpc);
-                vec($self->{' stream'},($n*3)+2,$bpc)=vec($clearstream,($n*4)+2,$bpc);
+            foreach my $n (0 .. ($h * $w) - 1) {
+                vec($dict->{' stream'}, $n, $bpc) = vec($clearstream, ($n * 4) + 3, $bpc);
+                vec($self->{' stream'}, ($n * 3), $bpc) = vec($clearstream, ($n * 4), $bpc);
+                vec($self->{' stream'}, ($n * 3) + 1, $bpc) = vec($clearstream, ($n * 4) + 1, $bpc);
+                vec($self->{' stream'}, ($n * 3) + 2, $bpc) = vec($clearstream, ($n * 4) + 2, $bpc);
             }
         }
-    } else {
+    }
+    else {
         die "unsupported png-type ($cs).";
     }
 
-    return($self);
-}
-
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-    $obj->{' api'}=$api;
-
-    return($obj);
+    return $self;
 }
 
 sub PaethPredictor {
-    my ($a, $b, $c)=@_;
+    my ($a, $b, $c) = @_;
     my $p = $a + $b - $c;
     my $pa = abs($p - $a);
     my $pb = abs($p - $b);
     my $pc = abs($p - $c);
-    if(($pa <= $pb) && ($pa <= $pc)) {
+    if (($pa <= $pb) && ($pa <= $pc)) {
         return $a;
-    } elsif($pb <= $pc) {
+    }
+    elsif ($pb <= $pc) {
         return $b;
-    } else {
+    }
+    else {
         return $c;
     }
 }
 
 sub unprocess {
-    my ($bpc,$bpp,$comp,$width,$height,$scanline,$sstream)=@_;
-    my $stream=uncompress($$sstream);
-    my $prev='';
-    my $clearstream='';
-    foreach my $n (0..$height-1) {
+    my ($bpc, $bpp, $comp, $width, $height, $scanline, $sstream) = @_;
+    my $stream = uncompress($$sstream);
+    my $prev = '';
+    my $clearstream = '';
+    foreach my $n (0 .. $height - 1) {
         # print STDERR "line $n:";
-        my $line=substr($stream,$n*$scanline,$scanline);
-        my $filter=vec($line,0,8);
-        my $clear='';
-        $line=substr($line,1);
+        my $line = substr($stream, $n * $scanline, $scanline);
+        my $filter = vec($line, 0, 8);
+        my $clear = '';
+        $line = substr($line, 1);
         # print STDERR " filter=$filter";
-        if($filter==0) {
-            $clear=$line;
-        } elsif($filter==1) {
-            foreach my $x (0..length($line)-1) {
-                vec($clear,$x,8)=(vec($line,$x,8)+vec($clear,$x-$bpp,8))%256;
-            }
-        } elsif($filter==2) {
-            foreach my $x (0..length($line)-1) {
-                vec($clear,$x,8)=(vec($line,$x,8)+vec($prev,$x,8))%256;
-            }
-        } elsif($filter==3) {
-            foreach my $x (0..length($line)-1) {
-                vec($clear,$x,8)=(vec($line,$x,8)+floor((vec($clear,$x-$bpp,8)+vec($prev,$x,8))/2))%256;
-            }
-        } elsif($filter==4) {
-            # die "paeth/png filter not supported.";
-            foreach my $x (0..length($line)-1) {
-                vec($clear,$x,8)=(vec($line,$x,8)+PaethPredictor(vec($clear,$x-$bpp,8),vec($prev,$x,8),vec($prev,$x-$bpp,8)))%256;
+        if ($filter == 0) {
+            $clear = $line;
+        }
+        elsif ($filter == 1) {
+            foreach my $x (0 .. length($line) - 1) {
+                vec($clear, $x, 8) = (vec($line, $x, 8) + vec($clear, $x - $bpp, 8)) % 256;
             }
         }
-        $prev=$clear;
-        foreach my $x (0..($width*$comp)-1) {
-            vec($clearstream,($n*$width*$comp)+$x,$bpc)=vec($clear,$x,$bpc);
-        #    print STDERR "".vec($clear,$x,$bpc).",";
+        elsif ($filter == 2) {
+            foreach my $x (0 .. length($line) - 1) {
+                vec($clear, $x, 8) = (vec($line, $x, 8) + vec($prev, $x, 8)) % 256;
+            }
         }
-        # print STDERR "\n";
+        elsif ($filter == 3) {
+            foreach my $x (0 .. length($line) - 1) {
+                vec($clear, $x, 8) = (vec($line, $x, 8) + floor((vec($clear, $x - $bpp, 8) + vec($prev, $x, 8)) / 2)) % 256;
+            }
+        }
+        elsif ($filter == 4) {
+            foreach my $x (0 .. length($line) - 1) {
+                vec($clear,$x,8) = (vec($line, $x, 8) + PaethPredictor(vec($clear, $x - $bpp, 8), vec($prev, $x, 8), vec($prev, $x - $bpp, 8))) % 256;
+            }
+        }
+        $prev = $clear;
+        foreach my $x (0 .. ($width * $comp) - 1) {
+            vec($clearstream, ($n * $width * $comp) + $x, $bpc) = vec($clear, $x, $bpc);
+        }
     }
-    return($clearstream);
+    return $clearstream;
 }
 
 1;

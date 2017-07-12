@@ -1,16 +1,17 @@
 package PDF::API2::Resource::Font::SynFont;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::Font';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use Math::Trig;
 use Unicode::UCD 'charinfo';
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 =head1 NAME
 
@@ -45,10 +46,10 @@ I<-encode>
 ... changes the encoding of the font from its default.
 See I<perl's Encode> for the supported values.
 
-I<-pdfname> 
+I<-pdfname>
 ... changes the reference-name of the font from its default.
 The reference-name is normally generated automatically and can be
-retrived via $pdfname=$font->name.
+retrieved via $pdfname=$font->name.
 
 I<-slant>
 ... slant/expansion factor (0.1-0.9 = slant, 1.1+ = expansion).
@@ -65,9 +66,11 @@ I<-space>
 I<-caps>
 ... create synthetic small-caps.
 
+=back
+
 =cut
 
-sub new 
+sub new
 {
     my ($class,$pdf,$font,@opts) = @_;
     my ($self,$data);
@@ -86,7 +89,7 @@ sub new
     $self->{' space'}=$space;
 
     $class = ref $class if ref $class;
-    $self = $class->SUPER::new($pdf, 
+    $self = $class->SUPER::new($pdf,
         pdfkey()
         .'+'.($font->name)
         .($opts{-caps} ? '+Caps' : '')
@@ -115,11 +118,11 @@ sub new
         'wx' => { 'space' => '600' },
     };
 
-    if(ref($font->fontbbox)) 
+    if(ref($font->fontbbox))
     {
         $self->data->{fontbbox}=[ @{$font->fontbbox} ];
-    } 
-    else 
+    }
+    else
     {
         $self->data->{fontbbox}=[ $font->fontbbox ];
     }
@@ -141,7 +144,7 @@ sub new
     my $xo=PDFDict();
     $self->{Resources}->{Font}=$xo;
     $self->{Resources}->{Font}->{FSN}=$font;
-    foreach my $w ($first..$last) 
+    foreach my $w ($first..$last)
     {
         $self->data->{char}->[$w]=$font->glyphByEnc($w);
         $self->data->{uni}->[$w]=uniByName($self->data->{char}->[$w]);
@@ -153,7 +156,7 @@ sub new
       $self->{'Encoding'}=PDFDict();
       $self->{'Encoding'}->{Type}=PDFName('Encoding');
       $self->{'Encoding'}->{Differences}=PDFArray();
-      foreach my $w ($first..$last) 
+      foreach my $w ($first..$last)
       {
           if(defined $self->data->{char}->[$w] && $self->data->{char}->[$w] ne '.notdef')
           {
@@ -167,9 +170,9 @@ sub new
     }
 
     my @widths=();
-    foreach my $w ($first..$last) 
+    foreach my $w ($first..$last)
     {
-        if($self->data->{char}->[$w] eq '.notdef') 
+        if($self->data->{char}->[$w] eq '.notdef')
         {
             push @widths,$self->missingwidth;
             next;
@@ -188,7 +191,7 @@ sub new
   		{
     		$ci = charinfo($self->data->{uni}->[$w]);
   		}
-        if($opts{-caps} && $ci->{upper}) 
+        if($opts{-caps} && $ci->{upper})
         {
             $char->{' stream'}.="/FSN 800 Tf\n";
             $char->{' stream'}.=($slant*110)." Tz\n";
@@ -196,8 +199,8 @@ sub new
             my $ch=$self->encByUni(hex($ci->{upper}));
             $wth=int($font->width(chr($ch))*800*$slant*1.1+2*$space);
             $char->{' stream'}.=$font->text(chr($ch));
-        } 
-        else 
+        }
+        else
         {
             $char->{' stream'}.="/FSN 1000 Tf\n";
             $char->{' stream'}.=($slant*100)." Tz\n" if($slant!=1);
@@ -222,7 +225,7 @@ sub new
     $self->data->{n2e}={};
     $self->data->{n2u}={};
 
-    foreach my $n (reverse 0..255) 
+    foreach my $n (reverse 0..255)
     {
         $self->data->{n2c}->{$self->data->{char}->[$n] || '.notdef'}=$n unless(defined $self->data->{n2c}->{$self->data->{char}->[$n] || '.notdef'});
         $self->data->{n2e}->{$self->data->{e2n}->[$n] || '.notdef'}=$n unless(defined $self->data->{n2e}->{$self->data->{e2n}->[$n] || '.notdef'});
@@ -240,35 +243,4 @@ sub new
     return($self);
 }
 
-
-=item $font = PDF::API2::Resource::Font::SynFont->new_api $api, $fontobj, %options
-
-Returns a synfont object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a PDF::API2::PDF::File-object.
-
-=cut
-
-sub new_api 
-{
-  my ($class,$api,@opts)=@_;
-
-  my $obj=$class->new($api->{pdf},@opts);
-
-  $api->{pdf}->new_obj($obj) unless($obj->is_obj($api->{pdf}));
-
-  $api->{pdf}->out_obj($api->{pages});
-  return($obj);
-}
-
 1;
-
-__END__
-
-=back
-
-=head1 AUTHOR
-
-alfred reibenschuh
-
-=cut
-

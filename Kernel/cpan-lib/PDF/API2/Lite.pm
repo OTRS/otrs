@@ -1,6 +1,9 @@
 package PDF::API2::Lite;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 BEGIN {
 
@@ -15,9 +18,7 @@ BEGIN {
 
 }
 
-no warnings qw[ deprecated recursion uninitialized ];
-
-=head1 NAME 
+=head1 NAME
 
 PDF::API2::Lite - lite pdf creation
 
@@ -109,7 +110,7 @@ sub saveas {
         $self->{$k}=undef;
         delete($self->{$k});
     }
-    return undef;
+    return;
 }
 
 
@@ -570,7 +571,7 @@ sub textlead {
 
 =item $pdf->text $string
 
-Applys the given text.
+Applies the given text.
 
 =cut
 

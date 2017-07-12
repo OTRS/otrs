@@ -1,9 +1,9 @@
 package PDF::API2::Resource::Colors;
 
-our $VERSION = '2.025'; # VERSION
-
 use strict;
 use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 sub get_colors {
     return (

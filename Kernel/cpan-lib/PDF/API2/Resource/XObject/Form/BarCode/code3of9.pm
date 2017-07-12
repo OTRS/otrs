@@ -1,11 +1,11 @@
 package PDF::API2::Resource::XObject::Form::BarCode::code3of9;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::XObject::Form::BarCode';
 
 use strict;
 use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 sub new {
     my ($class, $pdf, %options) = @_;

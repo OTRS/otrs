@@ -10,14 +10,16 @@
 #=======================================================================
 package PDF::API2::Matrix;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+
+our $VERSION = '2.033'; # VERSION
 
 sub new {
     my $type = shift;
     my $self = [];
     my $len = scalar(@{$_[0]});
     for (@_) {
-        return undef if scalar(@{$_}) != $len;
+        return if scalar(@{$_}) != $len;
         push(@{$self}, [@{$_}]);
     }
     bless $self, $type;
@@ -56,7 +58,7 @@ sub multiply {
     my @result;
     my $m;
 
-    return undef if $#{$self->[0]} != $#{$other->[0]};
+    return if $#{$self->[0]} != $#{$other->[0]};
     for my $row (@{$self}) {
         my $rescol = [];
         for my $col (@{$other}) {

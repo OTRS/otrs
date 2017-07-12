@@ -1,13 +1,14 @@
 package PDF::API2::Resource::ExtGState;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 =head1 NAME
 
@@ -19,7 +20,7 @@ PDF::API2::Resource::ExtGState - Graphics state dictionary support
 
 =item $egs = PDF::API2::Resource::ExtGState->new @parameters
 
-Returns a new extgstate object (called from $pdf->extgstate).
+Returns a new extgstate object (called from $pdf->egstate).
 
 =cut
 
@@ -28,22 +29,6 @@ sub new {
     my $self = $class->SUPER::new($pdf,$key);
     $self->{Type}=PDFName('ExtGState');
     return($self);
-}
-
-=item $font = PDF::API2::Resource::ExtGState->new_api $api, $name
-
-Returns a egstate-font object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a Text::PDF::File-object.
-
-=cut
-
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-    $self->{' api'}=$api;
-
-    return($obj);
 }
 
 =item $egs->strokeadjust $boolean
@@ -160,6 +145,8 @@ sub halftone {
 
 =cut
 
+# Per RT #113514, this was last present in version 1.2 of the PDF
+# spec, so it can probably be removed.
 sub halftonephase {
     my ($self,$obj)=@_;
     $self->{HTP}=$obj;
@@ -216,15 +203,18 @@ sub linejoin {
     return($self);
 }
 
-=item $egs->meterlimit $limit
+=item $egs->miterlimit $limit
 
 =cut
 
-sub meterlimit {
+sub miterlimit {
     my ($self,$var)=@_;
     $self->{ML}=PDFNum($var);
     return($self);
 }
+
+# Deprecated: miterlimit was originally named incorrectly
+sub meterlimit { return miterlimit(@_) }
 
 =item $egs->dash @dash
 
@@ -232,7 +222,7 @@ sub meterlimit {
 
 sub dash {
     my ($self,@dash)=@_;
-    $self->{ML}=PDFArray( map { PDFNum($_); } @dash );
+    $self->{D}=PDFArray(PDFArray( map { PDFNum($_); } @dash), PDFNum(0));
     return($self);
 }
 
@@ -252,7 +242,7 @@ sub flatness {
 
 sub renderingintent {
     my ($self,$var)=@_;
-    $self->{FL}=PDFName($var);
+    $self->{RI}=PDFName($var);
     return($self);
 }
 
@@ -332,8 +322,8 @@ sub textknockout {
 
 =item $egs->transparency $t
 
-The graphics tranparency , with 0 being fully opaque and 1 being fully transparent.
-This is a convenience method setting proper values for strokeaplha and fillalpha.
+The graphics transparency, with 0 being fully opaque and 1 being fully transparent.
+This is a convenience method setting proper values for strokealpha and fillalpha.
 
 =cut
 
@@ -347,7 +337,7 @@ sub transparency {
 =item $egs->opacity $op
 
 The graphics opacity , with 1 being fully opaque and 0 being fully transparent.
-This is a convenience method setting proper values for strokeaplha and fillalpha.
+This is a convenience method setting proper values for strokealpha and fillalpha.
 
 =cut
 

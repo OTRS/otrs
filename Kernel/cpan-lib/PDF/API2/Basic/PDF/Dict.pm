@@ -12,25 +12,19 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::Dict;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Objind';
 
 use strict;
 no warnings qw[ deprecated recursion uninitialized ];
 
-our $mincache;
-our $tempbase;
+our $VERSION = '2.033'; # VERSION
 
+our $mincache = 16 * 1024 * 1024;
+
+use File::Temp;
 use PDF::API2::Basic::PDF::Array;
 use PDF::API2::Basic::PDF::Filter;
 use PDF::API2::Basic::PDF::Name;
-
-BEGIN {
-    my $temp_dir = -d '/tmp' ? '/tmp' : $ENV{TMP} || $ENV{TEMP};
-    $tempbase = sprintf("%s/%d-%d-0000", $temp_dir, $$, time());
-    $mincache = 32768;
-}
 
 =head1 NAME
 
@@ -134,7 +128,7 @@ sub outobjdeep {
         elsif ($self->{'Filter'} or not defined $self->{' stream'}) {
             $self->{'Length'} = PDF::API2::Basic::PDF::Number->new(0) unless defined $self->{'Length'};
             $pdf->new_obj($self->{'Length'}) unless $self->{'Length'}->is_obj($pdf);
-        } 
+        }
         else {
             $self->{'Length'} = PDF::API2::Basic::PDF::Number->new(length($self->{' stream'}));
             ## $self->{'Length'} = PDF::API2::Basic::PDF::Number->new(length($self->{' stream'}) + 1);
@@ -201,13 +195,13 @@ sub outobjdeep {
 
     }
     elsif (defined $self->{' streamfile'}) {
-        open(DICTFH, $self->{' streamfile'}) || die "Unable to open $self->{' streamfile'}";
-        binmode(DICTFH, ':raw');
+        open(my $dictfh, "<", $self->{' streamfile'}) || die "Unable to open $self->{' streamfile'}";
+        binmode($dictfh, ':raw');
 
         $fh->print(" stream\n");
         $loc = $fh->tell();
         my $stream;
-        while (read(DICTFH, $stream, 4096)) {
+        while (read($dictfh, $stream, 4096)) {
             unless ($self->{' nofilt'}) {
                 foreach my $filter (reverse @filters) {
                     $stream = $filter->outfilt($stream, 0);
@@ -215,7 +209,7 @@ sub outobjdeep {
             }
             $fh->print($stream);
         }
-        close DICTFH;
+        close $dictfh;
         unless ($self->{' nofilt'}) {
             $stream = '';
             foreach my $filter (reverse @filters) {
@@ -258,9 +252,23 @@ sub read_stream {
 
     my @filters;
     if (defined $self->{'Filter'}) {
+        my $i = 0;
         foreach my $filter ($self->{'Filter'}->elementsof()) {
             my $filter_class = "PDF::API2::Basic::PDF::Filter::" . $filter->val();
-            push(@filters, $filter_class->new());
+            unless ($self->{'DecodeParms'}) {
+                push(@filters, $filter_class->new());
+            }
+            elsif ($self->{'Filter'}->isa('PDF::API2::Basic::PDF::Name') and $self->{'DecodeParms'}->isa('PDF::API2::Basic::PDF::Dict')) {
+                push(@filters, $filter_class->new($self->{'DecodeParms'}));
+            }
+            elsif ($self->{'DecodeParms'}->isa('PDF::API2::Basic::PDF::Array')) {
+                my $parms = $self->{'DecodeParms'}->val->[$i];
+                push(@filters, $filter_class->new($parms));
+            }
+            else {
+                push(@filters, $filter_class->new());
+            }
+            $i++;
         }
     }
 
@@ -270,10 +278,13 @@ sub read_stream {
         $self->{' streamfile'} = undef;
     }
     seek $fh, $self->{' streamloc'}, 0;
-    my ($i, $data);
-    for ($i = 0; $i < $len; $i += 4096) {
-        unless ($i + 4096 > $len) {
-            read $fh, $data, 4096;
+
+    my $dictfh;
+    my $readlen = 4096;
+    for (my $i = 0; $i < $len; $i += $readlen) {
+        my $data;
+        unless ($i + $readlen > $len) {
+            read $fh, $data, $readlen;
         }
         else {
             $last = 1;
@@ -284,27 +295,23 @@ sub read_stream {
             $data = $filter->infilt($data, $last);
         }
 
-        # Maintainer's Note: There are a couple of issues here:
-        # 1) File::Temp should be used for creating temporary files
-        # 2) The length check should be looking at $self->{' stream'}
-        #    rather than $data (which just contains the latest chunk)
-        if (not $force_memory and not defined $self->{' streamfile'} and ((length($data) * 2) > $mincache)) {
-            open(DICTFH, '>', $tempbase) or next;
-            binmode DICTFH, ':raw';
-            $self->{' streamfile'} = $tempbase;
-            $tempbase =~ s/-(\d+)$/'-' . ($1 + 1)/oe;        # prepare for next use
-            print DICTFH $self->{' stream'};
+        # Start using a temporary file if the stream gets too big
+        if (not $force_memory and not defined $self->{' streamfile'} and (length($self->{' stream'}) + length($data)) > $mincache) {
+            $dictfh = File::Temp->new(TEMPLATE => 'pdfXXXXX', SUFFIX => 'dat', TMPDIR => 1);
+            $self->{' streamfile'} = $dictfh->filename();
+            print $dictfh $self->{' stream'};
             undef $self->{' stream'};
         }
+
         if (defined $self->{' streamfile'}) {
-            print DICTFH $data;
+            print $dictfh $data;
         }
         else {
             $self->{' stream'} .= $data;
         }
     }
 
-    close DICTFH if defined $self->{' streamfile'};
+    close $dictfh if defined $self->{' streamfile'};
     $self->{' nofilt'} = 0;
     return $self;
 }

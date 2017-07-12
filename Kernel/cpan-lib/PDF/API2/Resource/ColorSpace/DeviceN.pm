@@ -1,24 +1,27 @@
 package PDF::API2::Resource::ColorSpace::DeviceN;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::ColorSpace';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
-
-no warnings qw[ deprecated recursion uninitialized ];
+use Scalar::Util qw(weaken);
 
 sub new {
     my ($class,$pdf,$key,@opts)=@_;
     my ($clrs,$sampled)=@opts;
-    
+
     $sampled=2;
-    
+
     $class = ref $class if ref $class;
-    $self=$class->SUPER::new($pdf,$key);
+    my $self=$class->SUPER::new($pdf,$key);
     $pdf->new_obj($self) unless($self->is_obj($pdf));
     $self->{' apipdf'}=$pdf;
+    weaken $self->{' apipdf'};
 
     my $fct=PDFDict();
 
@@ -53,7 +56,7 @@ sub new {
                 @{$spec[$n]}=map { $_>1?1:$_ } @{$spec[$n]};
                 # $self->{' comments'}.="--> (@{$spec[$n]})\n";
                 # $self->{' comments'}.="\n";
-            }                
+            }
         }
         my @b=();
         foreach my $s (@spec) {
@@ -73,15 +76,6 @@ sub new {
     $self->add_elements(PDFName('DeviceN'), PDFArray(map { PDFName($_) } @xnam), PDFName($csname), $fct);
 
     return($self);
-}
-
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},pdfkey(),@opts);
-    $self->{' api'}=$api;
-
-    return($obj);
 }
 
 sub param {

@@ -12,11 +12,11 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::Name;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::String';
 
 use strict;
+
+our $VERSION = '2.033'; # VERSION
 
 =head1 NAME
 
@@ -82,12 +82,12 @@ Suitably encode the string $string for output in the File object $pdf
 
 =cut
 
-sub string_to_name ($;$) {
+sub string_to_name {
     my ($string, $pdf) = @_;
 
     # PDF 1.0 and 1.1 didn't treat the # symbol as an escape character
-    unless ($pdf and $pdf->{' version'} and $pdf->{' version'} < 2) { 
-        $string =~ s|([\x00-\x20\x7f-\xff%()\[\]{}<>#/])|'#' . sprintf('%02X', ord($1))|oge; 
+    unless ($pdf and $pdf->{' version'} and $pdf->{' version'} < 2) {
+        $string =~ s|([\x00-\x20\x7f-\xff%()\[\]{}<>#/])|'#' . sprintf('%02X', ord($1))|oge;
     }
 
     return $string;
@@ -101,7 +101,7 @@ undo the hex encoding for PDF versions > 1.1.
 
 =cut
 
-sub name_to_string ($;$) {
+sub name_to_string {
     my ($string, $pdf) = @_;
     $string =~ s|^/||o;
 

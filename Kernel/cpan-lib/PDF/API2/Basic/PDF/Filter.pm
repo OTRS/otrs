@@ -12,7 +12,10 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::Filter;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Filter::ASCII85Decode;
 use PDF::API2::Basic::PDF::Filter::ASCIIHexDecode;
@@ -20,8 +23,6 @@ use PDF::API2::Basic::PDF::Filter::FlateDecode;
 use PDF::API2::Basic::PDF::Filter::LZWDecode;
 use PDF::API2::Basic::PDF::Filter::RunLengthDecode;
 use Scalar::Util qw(blessed reftype);
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 =head1 NAME
 
@@ -73,39 +74,40 @@ Filter stored data ready for output. Parallels C<infilt>.
 
 =cut
 
-sub new
-{
-    my ($class) = @_;
-    my ($self) = {};
+sub new {
+    my $class = shift();
+    my $self = {};
 
     bless $self, $class;
+
+    return $self;
 }
 
-sub release
-{
-    my ($self) = @_;
+sub release {
+    my $self = shift();
+    return $self unless ref($self);
 
-    return($self) unless(ref $self);
-# delete stuff that we know we can, here
+    # delete stuff that we know we can, here
+    my @tofree = map { delete $self->{$_} } keys %$self;
 
-    my @tofree = map { delete $self->{$_} } keys %{$self};
-
-    while (my $item = shift @tofree)
-    {
+    while (my $item = shift @tofree) {
         my $ref = ref($item);
-        if (blessed($item) and $item->can('release'))
-        { $item->release(); }
-        elsif ($ref eq 'ARRAY')
-        { push( @tofree, @{$item} ); }
-        elsif (defined(reftype($ref)) and reftype($ref) eq 'HASH')
-        { release($item); }
+        if (blessed($item) and $item->can('release')) {
+            $item->release();
+        }
+        elsif ($ref eq 'ARRAY') {
+            push @tofree, @$item;
+        }
+        elsif (defined(reftype($ref)) and reftype($ref) eq 'HASH') {
+            release($item);
+        }
     }
 
-# check that everything has gone - it better had!
-    foreach my $key (keys %{$self})
-    { # warn ref($self) . " still has '$key' key left after release.\n";
-        $self->{$key}=undef;
-        delete($self->{$key});
+    # check that everything has gone
+    foreach my $key (keys %$self) {
+        # warn ref($self) . " still has '$key' key left after release.\n";
+        $self->{$key} = undef;
+        delete $self->{$key};
     }
 }
 

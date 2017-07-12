@@ -1,11 +1,11 @@
 package PDF::API2::Resource::XObject::Form::Hybrid;
 
-our $VERSION = '2.025'; # VERSION
-
 use base qw(PDF::API2::Content PDF::API2::Resource::XObject::Form);
 
 use strict;
 use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Dict;
 use PDF::API2::Basic::PDF::Utils;
@@ -19,7 +19,7 @@ sub new {
     $self->{' font'} = undef;
     $self->{' fontsize'} = 0;
     $self->{' charspace'} = 0;
-    $self->{' hspace'} = 100;
+    $self->{' hscale'} = 100;
     $self->{' wordspace'} = 0;
     $self->{' lead'} = 0;
     $self->{' rise'} = 0;
@@ -41,16 +41,13 @@ sub new {
     return $self;
 }
 
-# Deprecated (rolled into new)
-sub new_api { my $self = shift(); return $self->new(@_); }
-
 sub outobjdeep {
     my ($self, @options) = @_;
     $self->textend() unless $self->{' nofilt'};
 
     # Maintainer's Note: This list of keys isn't the same as the list
     # in new().  Should it be?
-    foreach my $key (qw(api apipdf apipage font fontsize charspace hspace
+    foreach my $key (qw(api apipdf apipage font fontsize charspace hscale
                         wordspace lead rise render matrix fillcolor
                         strokecolor translate scale skew rotate)) {
         delete $self->{" $key"};

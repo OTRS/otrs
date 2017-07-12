@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::webdings;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'Webdings',
     'type' => 'TrueType',
     'apiname' => 'Web',
@@ -760,4 +763,6 @@ $FONTDATA = {
         0xF0FE,
         0xF0FF,
     ],
-};
+} };
+
+1;

@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::trebuchetbolditalic;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'TrebuchetMS,BoldItalic',
     'type' => 'TrueType',
     'apiname' => 'TrBoIt',
@@ -625,4 +628,6 @@ $FONTDATA = {
         'fi' => '668',                           # U+0xFB01
         'fl' => '644',                           # U+0xFB02
     }, # HORIZ. WIDTH TABLE
-};
+} };
+
+1;

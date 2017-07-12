@@ -1,15 +1,16 @@
 package PDF::API2::Resource::Font;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::BaseFont';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use Encode qw(:all);
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 sub encodeByData {
     my ($self,$encoding)=@_;
@@ -21,24 +22,24 @@ sub encodeByData {
         $encoding=undef;
     }
 
-    if(defined $encoding && $encoding=~m|^uni(\d+)$|o) 
+    if(defined $encoding && $encoding=~m|^uni(\d+)$|o)
     {
         my $blk=$1;
         $data->{e2u}=[ map { $blk*256+$_ } (0..255) ];
         $data->{e2n}=[ map { nameByUni($_) || '.notdef' } @{$data->{e2u}} ];
         $data->{firstchar} = 0;
     }
-    elsif(defined $encoding) 
+    elsif(defined $encoding)
     {
         $data->{e2u}=[ unpack('U*',decode($encoding,pack('C*',(0..255)))) ];
         $data->{e2n}=[ map { nameByUni($_) || '.notdef' } @{$data->{e2u}} ];
-    } 
-    elsif(defined $data->{uni}) 
+    }
+    elsif(defined $data->{uni})
     {
         $data->{e2u}=[ @{$data->{uni}} ];
         $data->{e2n}=[ map { $_ || '.notdef' } @{$data->{char}} ];
-    } 
-    else 
+    }
+    else
     {
         $data->{e2u}=[ map { uniByName($_) } @{$data->{char}} ];
         $data->{e2n}=[ map { $_ || '.notdef' } @{$data->{char}} ];
@@ -83,7 +84,7 @@ sub encodeByData {
         $data->{n2u}->{$xchar}=$xuni unless(defined $data->{n2u}->{$xchar});
 
         $data->{u2c}->{$xuni}||=$n unless(defined $data->{u2c}->{$xuni});
-        
+
         if(defined $data->{e2u}->[$n]) {
             $xuni=$data->{e2u}->[$n];
         } else {
@@ -136,16 +137,16 @@ sub encodeByData {
 sub automap {
     my ($self)=@_;
 	my $data=$self->data;
-	
+
     my %gl=map { $_=>defineName($_) } keys %{$data->{wx}};
 
     foreach my $n (0..255) {
         delete $gl{$data->{e2n}->[$n]};
     }
-    
+
     if(defined $data->{comps} && !$self->{-nocomps})
     {
-        foreach my $n (keys %{$data->{comps}}) 
+        foreach my $n (keys %{$data->{comps}})
         {
             delete $gl{$n};
         }
@@ -155,32 +156,32 @@ sub automap {
 
     my @fnts=();
     my $count=0;
-    while(@glyphs=splice(@nm,0,223)) 
+    while(my @glyphs=splice(@nm,0,223))
     {
         my $obj=$self->SUPER::new($self->{' apipdf'},$self->name.'am'.$count);
         $obj->{' data'}={ %{$data} };
         $obj->data->{firstchar}=32;
         $obj->data->{lastchar}=32+scalar(@glyphs);
         push @fnts,$obj;
-        foreach my $key (qw( Subtype BaseFont FontDescriptor )) 
+        foreach my $key (qw( Subtype BaseFont FontDescriptor ))
         {
             $obj->{$key}=$self->{$key} if(defined $self->{$key});
         }
         $obj->data->{char}=[];
         $obj->data->{uni}=[];
-        foreach my $n (0..31) 
+        foreach my $n (0..31)
         {
             $obj->data->{char}->[$n]='.notdef';
             $obj->data->{uni}->[$n]=0;
         }
         $obj->data->{char}->[32]='space';
         $obj->data->{uni}->[32]=32;
-        foreach my $n (33..$obj->data->{lastchar}) 
+        foreach my $n (33..$obj->data->{lastchar})
         {
             $obj->data->{char}->[$n]=$glyphs[$n-33];
             $obj->data->{uni}->[$n]=$gl{$glyphs[$n-33]};
         }
-        foreach my $n (($obj->data->{lastchar}+1)..255) 
+        foreach my $n (($obj->data->{lastchar}+1)..255)
         {
             $obj->data->{char}->[$n]='.notdef';
             $obj->data->{uni}->[$n]=0;

@@ -14,7 +14,9 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::File;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+
+our $VERSION = '2.033'; # VERSION
 
 =head1 NAME
 
@@ -82,7 +84,7 @@ have been made to the memory representation.
 
 =item maxobj (R)
 
-Contains the first useable object number above any that have already appeared
+Contains the first usable object number above any that have already appeared
 in the file so far.
 
 =item outlist (P)
@@ -138,10 +140,7 @@ is in PDF which contains the location of the previous cross-reference table.
 
 =cut
 
-use strict;
-no strict "refs";
-
-use Scalar::Util qw(blessed);
+use Scalar::Util qw(blessed weaken);
 
 use vars qw($cr $irreg_char $reg_char $ws_char $delim_char %types);
 
@@ -151,6 +150,9 @@ $reg_char = '[^][<>{}()/% \t\r\n\f\0]';
 $irreg_char = '[][<>{}()/% \t\r\n\f\0]';
 $cr = '\s*(?:\015|\012|(?:\015\012))';
 
+my $re_comment = qr/(?:\%[^\r\n]*)/;
+my $re_whitespace = qr/(?:[ \t\r\n\f\0]|$re_comment)/;
+
 %types = (
     'Page'  => 'PDF::API2::Basic::PDF::Page',
     'Pages' => 'PDF::API2::Basic::PDF::Pages',
@@ -158,6 +160,7 @@ $cr = '\s*(?:\015|\012|(?:\015\012))';
 
 my $readDebug = 0;
 
+use Carp;
 use IO::File;
 
 # Now for the basic PDF types
@@ -173,6 +176,7 @@ use PDF::API2::Basic::PDF::String;
 use PDF::API2::Basic::PDF::Page;
 use PDF::API2::Basic::PDF::Pages;
 use PDF::API2::Basic::PDF::Null;
+use POSIX qw(ceil floor);
 
 no warnings qw[ deprecated recursion uninitialized ];
 
@@ -226,7 +230,7 @@ sub open {
     }
     else {
         die "File '$filename' does not exist !" unless -f $filename;
-        $fh = IO::File->new(($update ? '+' : '') . "<$filename") || return undef;
+        $fh = IO::File->new(($update ? '+' : '') . "<$filename") || return;
         $self->{' INFILE'} = $fh;
         if ($update) {
             $self->{' update'} = 1;
@@ -254,6 +258,7 @@ sub open {
         die "Malformed PDF file $filename";
     }
     my $xpos = $1;
+    $self->{' xref_position'} = $xpos;
 
     my $tdict = $self->readxrtr($xpos, $self);
     foreach my $key (keys %$tdict) {
@@ -322,7 +327,7 @@ Appends the objects for output to the read file and then appends the appropriate
 
 sub append_file {
     my $self = shift();
-    return undef unless $self->{' update'};
+    return unless $self->{' update'};
 
     my $fh = $self->{' INFILE'};
 
@@ -453,40 +458,51 @@ sub readval {
     my $fh = $self->{' INFILE'};
     my ($result, $value);
 
-    $str = update($fh, $str);
+    my $update = defined($opts{update}) ? $opts{update} : 1;
+    $str = update($fh, $str) if $update;
+
+    $str =~ s/^$ws_char+//;               # Ignore initial white space
+    $str =~ s/^\%[^\015\012]*$ws_char+//; # Ignore comments
 
     # Dictionary
     if ($str =~ m/^<</s) {
         $str = substr ($str, 2);
-        $str = update($fh, $str);
+        $str = update($fh, $str) if $update;
         $result = PDFDict();
 
         while ($str !~ m/^>>/) {
+            $str =~ s/^$ws_char+//;               # Ignore initial white space
+            $str =~ s/^\%[^\015\012]*$ws_char+//; # Ignore comments
+
             if ($str =~ s|^/($reg_char+)||) {
                 my $key = PDF::API2::Basic::PDF::Name::name_to_string($1, $self);
                 ($value, $str) = $self->readval($str, %opts);
                 $result->{$key} = $value;
-            } 
-            elsif ($str =~ s|^/$ws_char+||) { 
+            }
+            elsif ($str =~ s|^/$ws_char+||) {
                 # fixes a broken key problem of acrobat. -- fredo
                 ($value, $str) = $self->readval($str, %opts);
                 $result->{'null'} = $value;
-            } 
-            elsif ($str =~ s|^//|/|) { 
+            }
+            elsif ($str =~ s|^//|/|) {
                 # fixes again a broken key problem of illustrator/enfocus. -- fredo
                 ($value, $str) = $self->readval($str, %opts);
                 $result->{'null'} = $value;
             }
-            $str = update($fh, $str); # thanks gareth.jones@stud.man.ac.uk
+            else {
+                die "Invalid dictionary key";
+            }
+            $str = update($fh, $str) if $update; # thanks gareth.jones@stud.man.ac.uk
         }
         $str =~ s/^>>//;
-        $str = update($fh, $str);
+        $str = update($fh, $str) if $update;
         # streams can't be followed by a lone carriage-return.
         # fredo: yes they can !!! -- use the MacOS Luke.
         if (($str =~ s/^stream(?:(?:\015\012)|\012|\015)//) and ($result->{'Length'}->val != 0)) {   # stream
             my $length = $result->{'Length'}->val;
             $result->{' streamsrc'} = $fh;
             $result->{' streamloc'} = $fh->tell - length($str);
+
             unless ($opts{'nostreams'}) {
                 if ($length > length($str)) {
                     $value = $str;
@@ -499,7 +515,7 @@ sub readval {
                 $value .= substr($str, 0, $length);
                 $result->{' stream'} = $value;
                 $result->{' nofilt'} = 1;
-                $str = update($fh, $str, 1);  # tell update we are in-stream and only need an endstream 
+                $str = update($fh, $str, 1) if $update;  # tell update we are in-stream and only need an endstream
                 $str = substr($str, index($str, 'endstream') + 9);
             }
         }
@@ -512,10 +528,10 @@ sub readval {
     }
 
     # Indirect Object
-    elsif ($str =~ m/^([0-9]+)$ws_char+([0-9]+)$ws_char+R/s) {
+    elsif ($str =~ m/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+R/s) {
         my $num = $1;
         $value = $2;
-        $str =~ s/^([0-9]+)$ws_char+([0-9]+)$ws_char+R//s;
+        $str =~ s/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+R//s;
         unless ($result = $self->test_obj($num, $value)) {
             $result = PDF::API2::Basic::PDF::Objind->new();
             $result->{' objnum'} = $num;
@@ -523,18 +539,19 @@ sub readval {
             $self->add_obj($result, $num, $value);
         }
         $result->{' parent'} = $self;
+        weaken $result->{' parent'};
         $result->{' realised'} = 0;
         # gdj: FIXME: if any of the ws chars were crs, then the whole
         # string might not have been read.
-    } 
+    }
 
     # Object
-    elsif ($str =~ m/^([0-9]+)$ws_char+([0-9]+)$ws_char+obj/s) {
+    elsif ($str =~ m/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+obj/s) {
         my $obj;
         my $num = $1;
         $value = $2;
-        $str =~ s/^([0-9]+)$ws_char+([0-9]+)$ws_char+obj//s;
-        ($obj, $str) = $self->readval($str, %opts, 'objnum' => $num, 'objgen' => $value);
+        $str =~ s/^([0-9]+)(?:$ws_char|$re_comment)+([0-9]+)(?:$ws_char|$re_comment)+obj//s;
+        ($obj, $str) = $self->readval($str, %opts);
         if ($result = $self->test_obj($num, $value)) {
             $result->merge($obj);
         }
@@ -543,16 +560,16 @@ sub readval {
             $self->add_obj($result, $num, $value);
             $result->{' realised'} = 1;
         }
-        $str = update($fh, $str);       # thanks to kundrat@kundrat.sk
+        $str = update($fh, $str) if $update;       # thanks to kundrat@kundrat.sk
         $str =~ s/^endobj//;
     }
 
     # Name
-    elsif ($str =~ m|^/($reg_char+)|s) {
+    elsif ($str =~ m|^/($reg_char*)|s) {
         $value = $1;
-        $str =~ s|^/($reg_char+)||s;
+        $str =~ s|^/($reg_char*)||s;
         $result = PDF::API2::Basic::PDF::Name->from_pdf($value, $self);
-    } 
+    }
 
     # Literal String
     elsif ($str =~ m/^\(/) {
@@ -606,54 +623,69 @@ sub readval {
         }
 
         $result = PDF::API2::Basic::PDF::String->from_pdf($value);
-    } 
+    }
 
     # Hex String
     elsif ($str =~ m/^</) {
         $str =~ s/^<//;
         $fh->read($str, 255, length($str)) while (0 > index($str, '>'));
-        ($value, $str) = ($str =~ /^(.*?)>(.*?)$/s);
+        ($value, $str) = ($str =~ /^(.*?)>(.*)/s);
         $result = PDF::API2::Basic::PDF::String->from_pdf('<' . $value . '>');
-    } 
+    }
 
     # Array
     elsif ($str =~ m/^\[/) {
         $str =~ s/^\[//;
-        $str = update($fh, $str);
+        $str = update($fh, $str) if $update;
         $result = PDFArray();
         while ($str !~ m/^\]/) {
+            $str =~ s/^$ws_char+//;               # Ignore initial white space
+            $str =~ s/^\%[^\015\012]*$ws_char+//; # Ignore comments
+
             ($value, $str) = $self->readval($str, %opts);
             $result->add_elements($value);
-            $str = update($fh, $str);   # str might just be exhausted!
+            $str = update($fh, $str) if $update;   # str might just be exhausted!
         }
         $str =~ s/^\]//;
-    } 
+    }
 
     # Boolean
-    elsif ($str =~ m/^(true|false)$irreg_char/) {
+    elsif ($str =~ m/^(true|false)($irreg_char|$)/) {
         $value = $1;
         $str =~ s/^(?:true|false)//;
         $result = PDF::API2::Basic::PDF::Bool->from_pdf($value);
-    } 
+    }
 
     # Number
-    elsif ($str =~ m/^([+-.0-9]+)$irreg_char/) {
+    elsif ($str =~ m/^([+-.0-9]+)($irreg_char|$)/) {
         $value = $1;
         $str =~ s/^([+-.0-9]+)//;
+
+        # If $str only consists of whitespace (or is empty), call update to
+        # see if this is the beginning of an indirect object or reference
+        if ($update and ($str =~ /^$re_whitespace*$/s or $str =~ /^$re_whitespace+[0-9]+$re_whitespace*$/s)) {
+            $str =~ s/^$re_whitespace+/ /s;
+            $str =~ s/$re_whitespace+$/ /s;
+            $str = update($fh, $str);
+            if ($str =~ m/^$re_whitespace*([0-9]+)$re_whitespace+(?:R|obj)/s) {
+                return $self->readval("$value $str", %opts);
+            }
+        }
+
         $result = PDF::API2::Basic::PDF::Number->from_pdf($value);
-    } 
+    }
 
     # Null
-    elsif ($str =~ m/^null$irreg_char/) {
+    elsif ($str =~ m/^null($irreg_char|$)/) {
         $str =~ s/^null//;
         $result = PDF::API2::Basic::PDF::Null->new;
-    } 
+    }
 
     else {
         die "Can't parse `$str' near " . ($fh->tell()) . " length " . length($str) . ".";
     }
 
-    $str =~ s/^$ws_char*//s;
+    $str =~ s/^$ws_char+//s;
     return ($result, $str);
 }
 
@@ -668,7 +700,7 @@ the read in object.
 sub read_obj {
     my ($self, $objind, %opts) = @_;
 
-    my $res = $self->read_objnum($objind->{' objnum'}, $objind->{' objgen'}, %opts) || return undef;
+    my $res = $self->read_objnum($objind->{' objnum'}, $objind->{' objgen'}, %opts) || return;
     $objind->merge($res) unless $objind eq $res;
     return $objind;
 }
@@ -682,11 +714,76 @@ Returns a fully read object of given number and generation in this file
 
 sub read_objnum {
     my ($self, $num, $gen, %opts) = @_;
+    croak 'Undefined object number in call to read_objnum($num, $gen)' unless defined $num;
+    croak 'Undefined object generation in call to read_objnum($num, $gen)' unless defined $gen;
+    croak "Invalid object number '$num' in call to read_objnum" unless $num =~ /^[0-9]+$/;
+    croak "Invalid object generation '$gen' in call to read_objnum" unless $gen =~ /^[0-9]+$/;
 
-    my $object_location = $self->locate_obj($num, $gen) || return undef;
+    my $object_location = $self->locate_obj($num, $gen) || return;
+    my $object;
+
+    # Compressed object
+    if (ref($object_location)) {
+        my ($object_stream_num, $object_stream_pos) = @{$object_location};
+
+        my $object_stream = $self->read_objnum($object_stream_num, 0, %opts);
+        die 'Cannot find the compressed object stream' unless $object_stream;
+
+        $object_stream->read_stream() if $object_stream->{' nofilt'};
+
+        # An object stream starts with pairs of integers containing object numbers and
+        # stream offsets relative to the First key
+        my $fh;
+        my $pairs;
+        unless ($object_stream->{' streamfile'}) {
+            $pairs = substr($object_stream->{' stream'}, 0, $object_stream->{'First'}->val);
+        }
+        else {
+            CORE::open($fh, '<', $object_stream->{' streamfile'});
+            read($fh, $pairs, $object_stream->{'First'}->val());
+        }
+        my @map = split /\s+/, $pairs;
+
+        # Find the offset of the object in the stream
+        my $index = $object_stream_pos * 2;
+        die "Objind $num does not exist at index $index" unless $map[$index] == $num;
+        my $start = $map[$index + 1];
+
+        # Unless this is the last object in the stream, its length is determined by the
+        # offset of the next object
+        my $last_object_in_stream = $map[-2];
+        my $length;
+        if ($last_object_in_stream == $num) {
+            if ($object_stream->{' stream'}) {
+                $length = length($object_stream->{' stream'}) - $object_stream->{'First'}->val() - $start;
+            }
+            else {
+                $length = (-s $object_stream->{' streamfile'}) - $object_stream->{'First'}->val() - $start;
+            }
+        }
+        else {
+            my $next_start = $map[$index + 3];
+            $length = $next_start - $start;
+        }
+
+        # Read the object from the stream
+        my $stream = "$num 0 obj ";
+        unless ($object_stream->{' streamfile'}) {
+            $stream .= substr($object_stream->{' stream'}, $object_stream->{'First'}->val() + $start, $length);
+        }
+        else {
+            seek($fh, $object_stream->{'First'}->val() + $start, 0);
+            read($fh, $stream, $length, length($stream));
+            close $fh;
+        }
+
+        ($object) = $self->readval($stream, %opts, update => 0);
+        return $object;
+    }
+
     my $current_location = $self->{' INFILE'}->tell;
     $self->{' INFILE'}->seek($object_location, 0);
-    my ($object) = $self->readval('', %opts, 'objnum' => $num, 'objgen' => $gen);
+    ($object) = $self->readval('', %opts);
     $self->{' INFILE'}->seek($current_location, 0);
     return $object;
 }
@@ -731,7 +828,6 @@ sub new_obj {
                 }
                 else {
                     $res = $self->test_obj($i, $ng) || $self->add_obj(PDF::API2::Basic::PDF::Objind->new(), $i, $ng);
-                    $tdict->{' xref'}{$i}[0] = $tdict->{' xref'}{$i}[0];
                     $self->out_obj($res);
                     return $res;
                 }
@@ -771,7 +867,8 @@ sub out_obj {
     # in the hash) (which is super-fast).
     unless (exists $self->{' outlist_cache'}{$obj}) {
         push @{$self->{' outlist'}}, $obj;
-        $self->{' outlist_cache'}{$obj}++;
+        # weaken $self->{' outlist'}->[-1];
+        $self->{' outlist_cache'}{$obj} = 1;
     }
     return $obj;
 }
@@ -895,6 +992,7 @@ sub copy {
                 $obj->{' objgen'} = $ng;
                 $self->add_obj($obj, $i, $ng);
                 $obj->{' parent'} = $self;
+                weaken $obj->{' parent'};
                 $obj->{' realised'} = 0;
             }
             $obj->realise;
@@ -934,14 +1032,16 @@ sub locate_obj {
     while (defined $tdict) {
         if (ref $tdict->{' xref'}{$num}) {
             my $ref = $tdict->{' xref'}{$num};
+            return $ref unless scalar(@$ref) == 3;
+
             if ($ref->[1] == $gen) {
-                return $ref->[0] if ($ref->[2] eq 'n');
-                return undef; # if $ref->[2] eq 'f'
+                return $ref->[0] if $ref->[2] eq 'n';
+                return;        # if $ref->[2] eq 'f';
             }
         }
-        $tdict = $tdict->{' prev'}
+        $tdict = $tdict->{' prev'};
     }
-    return undef;
+    return;
 }
 
 
@@ -975,7 +1075,7 @@ sub update {
         while ($str =~ m/^\%/) { # restructured by fredo/2003-03-23
             print STDERR 'fpos=' . tell($fh) . ' strlen=' . length($str) . "\n" if $readDebug;
             $fh->read($str, 314, length($str)) while ($str !~ m/$cr/ and not $fh->eof());
-            $str =~ s/^\%[^\015\012]+$ws_char*//so; # fixed for reportlab -- fredo
+            $str =~ s/^\%[^\015\012]*$ws_char*//so; # fixed for reportlab -- fredo
         }
     }
 
@@ -1006,6 +1106,7 @@ sub add_obj {
 
     $self->{' objcache'}{$num, $gen} = $obj;
     $self->{' objects'}{$obj->uid()} = [$num, $gen];
+    # weaken $self->{' objcache'}{$num, $gen};
     return $obj;
 }
 
@@ -1026,6 +1127,17 @@ for details.
 
 =cut
 
+sub _unpack_xref_stream {
+    my ($self, $width, $data) = @_;
+
+    return unpack('C', $data)       if $width == 1;
+    return unpack('n', $data)       if $width == 2;
+    return unpack('N', "\x00$data") if $width == 3;
+    return unpack('N', $data)       if $width == 4;
+
+    die "Invalid column width: $width";
+}
+
 sub readxrtr {
     my ($self, $xpos) = @_;
     my ($tdict, $buf, $xmin, $xnum, $xdiff);
@@ -1034,7 +1146,9 @@ sub readxrtr {
     $fh->seek($xpos, 0);
     $fh->read($buf, 22);
     $buf = update($fh, $buf); # fix for broken JAWS xref calculation.
-    
+
+    my $xlist = {};
+
     ## seams that some products calculate wrong prev entries (short)
     ## so we seek ahead to find one -- fredo; save for now
     #while($buf !~ m/^xref$cr/i && !eof($fh))
@@ -1042,46 +1156,99 @@ sub readxrtr {
     #    $buf =~ s/^(\s+|\S+|.)//i;
     #    $buf=update($fh,$buf);
     #}
-    
-    unless ($buf =~ m/^xref$cr/i) { 
-        if ($buf =~ m/^\d+\s+\d+\s+obj/i) {
-            die "The PDF file uses a cross-reference stream, which is not yet supported (see Known Issues in the PDF::API2 documentation)";
+
+    if ($buf =~ s/^xref$cr//i) {
+        # Plain XRef tables.
+        while ($buf =~ m/^$ws_char*([0-9]+)$ws_char+([0-9]+)$ws_char*$cr(.*?)$/s) {
+            my $old_buf = $buf;
+            $xmin = $1;
+            $xnum = $2;
+            $buf  = $3;
+            unless ($old_buf =~ /^[0-9]+ [0-9]+$cr/) {
+                # See PDF 1.7 section 7.5.4: Cross-Reference Table
+                warn q{Malformed xref in PDF file: subsection shall begin with a line containing two numbers separated by a SPACE (20h)};
+            }
+            $xdiff = length($buf);
+
+            $fh->read($buf, 20 * $xnum - $xdiff + 15, $xdiff);
+            while ($xnum-- > 0 and $buf =~ s/^0*([0-9]*)$ws_char+0*([0-9]+)$ws_char+([nf])$cr//) {
+                $xlist->{$xmin} = [$1, $2, $3] unless exists $xlist->{$xmin};
+                $xmin++;
+            }
+        }
+
+        if ($buf !~ /^\s*trailer\b/i) {
+            die "Malformed trailer in PDF file $self->{' fname'} at " . ($fh->tell - length($buf));
+        }
+
+        $buf =~ s/^\s*trailer\b//i;
+
+        ($tdict, $buf) = $self->readval($buf);
+    }
+    elsif ($buf =~ m/^(\d+)\s+(\d+)\s+obj/i) {
+        my ($xref_obj, $xref_gen) = ($1, $2);
+
+        # XRef streams.
+        ($tdict, $buf) = $self->readval($buf);
+
+        unless ($tdict->{' stream'}) {
+            die "Malformed XRefStm at $xref_obj $xref_gen obj in PDF file $self->{' fname'}";
+        }
+        $tdict->read_stream(1);
+
+        my $stream = $tdict->{' stream'};
+        my @widths = map { $_->val } @{$tdict->{W}->val};
+
+        my $start = 0;
+        my $last;
+
+        my @index;
+        if (defined $tdict->{Index}) {
+            @index = map { $_->val() } @{$tdict->{Index}->val};
         }
         else {
-            die "Malformed xref in PDF file $self->{' fname'}";
+            @index = (0, $tdict->{Size}->val);
+        }
+
+        while (scalar @index) {
+            $start = shift(@index);
+            $last = $start + shift(@index) - 1;
+
+            for my $i ($start...$last) {
+                # Replaced "for $xmin" because it creates a loop-specific local variable, and we
+                # need $xmin to be correct for maxobj below.
+                $xmin = $i;
+
+                my @cols;
+
+                for my $w (@widths) {
+                    my $data;
+                    $data = $self->_unpack_xref_stream($w, substr($stream, 0, $w, '')) if $w;
+
+                    push @cols, $data;
+                }
+
+                $cols[0] = 1 unless defined $cols[0];
+                if ($cols[0] > 2) {
+                    die "Invalid XRefStm entry type ($cols[0]) at $xref_obj $xref_gen obj";
+                }
+
+                next if exists $xlist->{$xmin};
+
+                my @objind = ($cols[1], defined($cols[2]) ? $cols[2] : ($xmin ? 0 : 65535));
+                push @objind, ($cols[0] == 0 ? 'f' : 'n') if $cols[0] < 2;
+
+                $xlist->{$xmin} = \@objind;
+            }
         }
     }
-    $buf =~ s/^xref$cr//i;
-
-    my $xlist = {};
-    while ($buf =~ m/^$ws_char*([0-9]+)$ws_char+([0-9]+)$ws_char*$cr(.*?)$/s) {
-        my $old_buf = $buf;
-        $xmin = $1;
-        $xnum = $2;
-        $buf  = $3;
-        unless ($old_buf =~ /^[0-9]+ [0-9]+$cr/) {
-            # See PDF 1.7 section 7.5.4: Cross-Reference Table
-            warn q{Malformed xref in PDF file: subsection shall begin with a line containing two numbers separated by a SPACE (20h)};
-        }
-        $xdiff = length($buf);
-
-        $fh->read($buf, 20 * $xnum - $xdiff + 15, $xdiff);
-        while ($xnum-- > 0 and $buf =~ s/^0*([0-9]*)$ws_char+0*([0-9]+)$ws_char+([nf])$cr//) { 
-            $xlist->{$xmin} = [$1, $2, $3] unless exists $xlist->{$xmin};
-            $xmin++;
-        }
+    else {
+        die "Malformed xref in PDF file $self->{' fname'}";
     }
 
-    if ($buf !~ /^\s*trailer\b/i) {
-        die "Malformed trailer in PDF file $self->{' fname'} at " . ($fh->tell - length($buf));
-    }
-
-    $buf =~ s/^\s*trailer\b//i;
-
-    ($tdict, $buf) = $self->readval($buf);
     $tdict->{' loc'} = $xpos;
     $tdict->{' xref'} = $xlist;
-    $self->{' maxobj'} = $xmin if $xmin > $self->{' maxobj'};
+    $self->{' maxobj'} = $xmin + 1 if $xmin + 1 > $self->{' maxobj'};
     $tdict->{' prev'} = $self->readxrtr($tdict->{'Prev'}->val)
         if (defined $tdict->{'Prev'} and $tdict->{'Prev'}->val != 0);
     delete $tdict->{' prev'} unless defined $tdict->{' prev'};
@@ -1117,7 +1284,7 @@ sub out_trailer {
     my $tloc = $fh->tell();
     $fh->print("xref\n");
 
-    my @xreflist = sort { $self->{' objects'}{$a->uid}[0] <=> $self->{' objects'}{$b->uid}[0] } (@{$self->{' printed'}}, @{$self->{' free'}});
+    my @xreflist = sort { $self->{' objects'}{$a->uid}[0] <=> $self->{' objects'}{$b->uid}[0] } (@{$self->{' printed'} || []}, @{$self->{' free'} || []});
 
     my ($i, $j, $k);
     unless ($update) {
@@ -1138,7 +1305,7 @@ sub out_trailer {
         }
     }
 
-    my @freelist = sort { $self->{' objects'}{$a->uid}[0] <=> $self->{' objects'}{$b->uid}[0] } @{$self->{' free'}};
+    my @freelist = sort { $self->{' objects'}{$a->uid}[0] <=> $self->{' objects'}{$b->uid}[0] } @{$self->{' free'} || []};
 
     $j = 0; my $first = -1; $k = 0;
     for ($i = 0; $i <= $#xreflist + 1; $i++) {

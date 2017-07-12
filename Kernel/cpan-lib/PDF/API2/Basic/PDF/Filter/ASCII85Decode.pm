@@ -1,21 +1,21 @@
 package PDF::API2::Basic::PDF::Filter::ASCII85Decode;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Filter';
 
 use strict;
 use warnings;
 
+our $VERSION = '2.033'; # VERSION
+
 sub outfilt {
     my ($self, $str, $isend) = @_;
     my ($res, $i, $j, $b, @c);
 
-    if ($self->{'outcache'} ne "") {
+    if (exists $self->{'outcache'} and $self->{'outcache'} ne "") {
         $str = $self->{'outcache'} . $str;
         $self->{'outcache'} = "";
     }
-    for ($i = 0; $i < length($str); $i += 4) {
+    for ($i = 0; $i + 4 <= length($str); $i += 4) {
         $b = unpack("N", substr($str, $i, 4));
         if ($b == 0) {
             $res .= "z";
@@ -24,18 +24,23 @@ sub outfilt {
         for ($j = 0; $j < 4; $j++) {
             $c[$j] = $b - int($b / 85) * 85 + 33; $b /= 85;
         }
-        $res .= pack("C5", @c, $b + 33);
+        $res .= pack("C5", $b + 33, reverse @c);
         $res .= "\n" if ($i % 60 == 56);
     }
-    if ($isend && $i > length($str)) {
-        $b = unpack("N", substr($str, $i - 4) . "\000\000\000");
+    if ($isend && $i < length($str)) {
+        $str = substr($str, $i);
+        $b = unpack("N", $str . ("\000" x (4 - length($str))));
         for ($j = 0; $j < 4; $j++) {
             $c[$j] = $b - int($b / 85) * 85 + 33; $b /= 85;
         }
-        $res .= substr(pack("C5", @c, $b), 0, $i - length($str) + 1) . "->";
+        push @c, $b + 33;
+        $res .= substr(pack("C5", reverse @c), 0, length($str) + 1) . '~>';
     }
-    elsif ($i > length($str)) {
-        $self->{'outcache'} = substr($str, $i - 4);
+    elsif ($isend) {
+        $res .= '~>';
+    }
+    elsif ($i + 4 > length($str)) {
+        $self->{'outcache'} = substr($str, $i);
     }
 
     return $res;
@@ -51,6 +56,7 @@ sub infilt {
     }
     $str =~ s/(\r|\n)\n?//og;
     for ($i = 0; $i < length($str); $i += 5) {
+        last if $isend and substr($str, $i, 6) eq '~>';
         $b = 0;
         if (substr($str, $i, 1) eq "z") {
             $i -= 4;

@@ -1,11 +1,11 @@
 package PDF::API2::Resource::XObject::Form::BarCode::int2of5;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::XObject::Form::BarCode';
 
 use strict;
 use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 # Interleaved 2 of 5 Barcodes
 

@@ -1,13 +1,14 @@
 package PDF::API2::Resource::Font::BdFont;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::Font';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 our $BmpNum = 0;
 
@@ -46,7 +47,7 @@ See I<perl's Encode> for the supported values.
 
 I<-pdfname> ... changes the reference-name of the font from its default.
 The reference-name is normally generated automatically and can be
-retrived via $pdfname=$font->name.
+retrieved via $pdfname=$font->name.
 
 =cut
 
@@ -61,7 +62,7 @@ sub new {
 
     # adobe bitmap distribution font
     $self->{' data'}=$self->readBDF($file);
-    
+
     my $first=1;
     my $last=255;
 
@@ -76,7 +77,7 @@ sub new {
     $xo->{Type}=PDFName('Encoding');
     $xo->{BaseEncoding}=PDFName('WinAnsiEncoding');
     $xo->{Differences}=PDFArray(PDFNum('0'),(map { PDFName($_||'.notdef') } @{$self->data->{char}}));
-   
+
     my $procs=PDFDict();
     $pdf->new_obj($procs);
     $self->{'CharProcs'} = $procs;
@@ -140,25 +141,6 @@ sub new {
     return($self);
 }
 
-
-=item $font = PDF::API2::Resource::Font::BdFont->new_api $api, %options
-
-Returns a BdFont object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a PDF::API2::PDF::File-object.
-
-=cut
-
-sub new_api {
-  my ($class,$api,@opts)=@_;
-
-  my $obj=$class->new($api->{pdf},@opts);
-
-  $api->{pdf}->new_obj($obj) unless($obj->is_obj($api->{pdf}));
-
-  $api->{pdf}->out_obj($api->{pages});
-  return($obj);
-}
-
 sub readBDF {
     my ($self,$file)=@_;
     my $data={};
@@ -167,9 +149,9 @@ sub readBDF {
     $data->{wx}={};
 
     if(! -e $file) {die "file='$file' not existant.";}
-    open(AFMF, $file) or die "Can't find the BDF file for $file";
+    open(my $afmf, "<", $file) or die "Can't find the BDF file for $file";
     local($/, $_) = ("\n", undef);  # ensure correct $INPUT_RECORD_SEPARATOR
-    while ($_=<AFMF>) {
+    while ($_=<$afmf>) {
         chomp($_);
         if (/^STARTCHAR/ .. /^ENDCHAR/) {
             if (/^STARTCHAR\s+(\S+)/) {
@@ -196,7 +178,7 @@ sub readBDF {
                 $data->{uc($1)}.=$2;
         }
     }
-    close(AFMF);
+    close($afmf);
     unless (exists $data->{wx}->{'.notdef'}) {
         $data->{wx}->{'.notdef'} = 0;
         $data->{bbox}{'.notdef'} = [0, 0, 0, 0];
@@ -213,14 +195,14 @@ sub readBDF {
         $data->{char}->[$n]||='.notdef';
     #    $data->{wx}->{$data->{char}->[$n]}=int($data->{wx}->{$data->{char}->[$n]}*1000/$data->{upm});
     }
-    
+
     $data->{uni}||=[];
     foreach my $n (0..255) {
         $data->{uni}->[$n]=uniByName($data->{char}->[$n] || '.notdef') || 0;
     }
-    $data->{ascender}=$data->{RAW_ASCENT} 
+    $data->{ascender}=$data->{RAW_ASCENT}
         || int($data->{FONT_ASCENT}*1000/$data->{upm});
-    $data->{descender}=$data->{RAW_DESCENT} 
+    $data->{descender}=$data->{RAW_DESCENT}
         || int($data->{FONT_DESCENT}*1000/$data->{upm});
 
     $data->{type}='Type3';
@@ -229,14 +211,14 @@ sub readBDF {
     $data->{issymbol} = 0;
     $data->{isfixedpitch}=0;
     $data->{italicangle}=0;
-    $data->{missingwidth}=$data->{AVERAGE_WIDTH} 
-        || int($data->{FONT_AVERAGE_WIDTH}*1000/$data->{upm}) 
-        || $data->{RAW_AVERAGE_WIDTH} 
+    $data->{missingwidth}=$data->{AVERAGE_WIDTH}
+        || int($data->{FONT_AVERAGE_WIDTH}*1000/$data->{upm})
+        || $data->{RAW_AVERAGE_WIDTH}
         || 500;
     $data->{underlineposition}=-200;
     $data->{underlinethickness}=10;
-    $data->{xheight}=$data->{RAW_XHEIGHT} 
-        || int($data->{FONT_XHEIGHT}*1000/$data->{upm}) 
+    $data->{xheight}=$data->{RAW_XHEIGHT}
+        || int($data->{FONT_XHEIGHT}*1000/$data->{upm})
         || int($data->{ascender}/2);
     $data->{firstchar}=1;
     $data->{lastchar}=255;

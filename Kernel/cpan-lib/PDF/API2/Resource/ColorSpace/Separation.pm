@@ -1,13 +1,15 @@
 package PDF::API2::Resource::ColorSpace::Separation;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::ColorSpace';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
-
-no warnings qw[ deprecated recursion uninitialized ];
+use Scalar::Util qw(weaken);
 
 =head1 NAME
 
@@ -26,11 +28,12 @@ Returns a new colorspace object.
 sub new {
     my ($class,$pdf,$key,@opts)=@_;
     my ($name,@clr)=@opts;
-    
+
     $class = ref $class if ref $class;
-    $self=$class->SUPER::new($pdf,$key,@opts);
+    my $self=$class->SUPER::new($pdf,$key,@opts);
     $pdf->new_obj($self) unless($self->is_obj($pdf));
     $self->{' apipdf'}=$pdf;
+    weaken $self->{' apipdf'};
 
     my $fct=PDFDict();
 
@@ -103,22 +106,6 @@ sub new {
     $self->add_elements(PDFName('Separation'), PDFName($name), PDFName($csname), $fct);
     $self->tintname($name);
     return($self);
-}
-
-=item $cs = PDF::API2::Resource::ColorSpace::Separation->new_api $api, $name
-
-Returns a separation color-space object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a Text::PDF::File-object.
-
-=cut
-
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},pdfkey(),@opts);
-    $self->{' api'}=$api;
-
-    return($obj);
 }
 
 =item @color = $res->color

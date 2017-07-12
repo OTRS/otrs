@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::symbol;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'Symbol',
     'type' => 'Type1',
     'apiname' => 'Sym',
@@ -471,4 +474,6 @@ $FONTDATA = {
         'bracerightbt' => '494',                 # C+0xFE # U+0xF0FE
         'apple' => '790',                        # C+0xFF # U+0xF0FF
     }, # HORIZ. WIDTH TABLE
-};
+} };
+
+1;

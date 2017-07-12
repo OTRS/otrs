@@ -1,15 +1,16 @@
 package PDF::API2::NamedDestination;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Dict';
+
+use strict;
+no warnings qw[ recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use Encode qw(:all);
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ recursion uninitialized ];
 
 =head1 NAME
 
@@ -23,36 +24,26 @@ PDF::API2::NamedDestination - Add named destination shortcuts to a PDF
 
 =cut
 
-sub new 
+sub new
 {
     my ($class,$pdf) = @_;
     my ($self);
- 
+
     $class = ref $class if ref $class;
     $self = $class->SUPER::new($pdf);
-    
+
     $pdf->new_obj($self) unless($self->is_obj($pdf));
-    
+
     return($self);
 }
 
-=item $dest = PDF::API2::NamedDestination->new_api $api
-
-Returns a destination object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a PDF::API2::PDF::File-object.
-
-=cut
-
+# Deprecated (warning added in 2.031)
 sub new_api {
-  my ($class,$api,@opts)=@_;
+    my ($class, $api2, @options) = @_;
+    warnings::warnif('deprecated', q{Call to deprecated method "new_api($api2, ...)".  Replace with "new($api2->{'pdf'}, ...)"});
 
-  my $obj=$class->new($api->{pdf},@opts);
-
-  $api->{pdf}->new_obj($obj) unless($obj->is_obj($api->{pdf}));
-
-  $api->{pdf}->out_obj($api->{pages});
-
-  return($obj);
+    my $destination = $class->new($api2->{'pdf'}, @options);
+    return $destination;
 }
 
 =item $dest->link $page, %opts
@@ -62,13 +53,13 @@ options %opts (-rect, -border or 'dest-options').
 
 =cut
 
-sub link 
+sub link
 {
     my ($self,$page,%opts)=@_;
 
     $self->{S}=PDFName('GoTo');
     $self->dest($page,%opts);
-    
+
     return($self);
 }
 
@@ -79,18 +70,18 @@ options %opts (-rect and/or -border).
 
 =cut
 
-sub url 
+sub url
 {
     my ($self,$url,%opts)=@_;
 
     $self->{S}=PDFName('URI');
-    if(is_utf8($url)) 
+    if(is_utf8($url))
     {
         # URI must be 7-bit ascii
         utf8::downgrade($url);
     }
     $self->{URI}=PDFStr($url);
-    
+
     # this will come again -- since the utf8 urls are coming !
     # -- fredo
     #if(is_utf8($url) || utf8::valid($url)) {
@@ -108,18 +99,18 @@ options %opts (-rect and/or -border).
 
 =cut
 
-sub file 
+sub file
 {
     my ($self,$url,%opts)=@_;
 
     $self->{S}=PDFName('Launch');
-    if(is_utf8($url)) 
+    if(is_utf8($url))
     {
         # URI must be 7-bit ascii
         utf8::downgrade($url);
     }
     $self->{F}=PDFStr($url);
-    
+
     # this will come again -- since the utf8 urls are coming !
     # -- fredo
     #if(is_utf8($url) || utf8::valid($url)) {
@@ -137,18 +128,18 @@ and options %opts (same as dest).
 
 =cut
 
-sub pdfile 
+sub pdfile
 {
     my ($self,$url,$pnum,%opts)=@_;
 
     $self->{S}=PDFName('GoToR');
-    if(is_utf8($url)) 
+    if(is_utf8($url))
     {
         # URI must be 7-bit ascii
         utf8::downgrade($url);
     }
     $self->{F}=PDFStr($url);
-    
+
     # this will come again -- since the utf8 urls are coming !
     # -- fredo
     #if(is_utf8($url) || utf8::valid($url)) {
@@ -219,7 +210,7 @@ specifies that the current value of that parameter is to be retained unchanged.
 
 =cut
 
-sub dest 
+sub dest
 {
     my ($self,$page,%opts)=@_;
 
@@ -227,36 +218,36 @@ sub dest
     {
         $opts{-xyz}=[undef,undef,undef] if(scalar(keys %opts)<1);
 
-        if(defined $opts{-fit}) 
+        if(defined $opts{-fit})
         {
             $self->{D}=PDFArray($page,PDFName('Fit'));
-        } 
-        elsif(defined $opts{-fith}) 
+        }
+        elsif(defined $opts{-fith})
         {
             $self->{D}=PDFArray($page,PDFName('FitH'),PDFNum($opts{-fith}));
-        } 
-        elsif(defined $opts{-fitb}) 
+        }
+        elsif(defined $opts{-fitb})
         {
             $self->{D}=PDFArray($page,PDFName('FitB'));
-        } 
-        elsif(defined $opts{-fitbh}) 
+        }
+        elsif(defined $opts{-fitbh})
         {
             $self->{D}=PDFArray($page,PDFName('FitBH'),PDFNum($opts{-fitbh}));
-        } 
-        elsif(defined $opts{-fitv}) 
+        }
+        elsif(defined $opts{-fitv})
         {
             $self->{D}=PDFArray($page,PDFName('FitV'),PDFNum($opts{-fitv}));
-        } 
-        elsif(defined $opts{-fitbv}) 
+        }
+        elsif(defined $opts{-fitbv})
         {
             $self->{D}=PDFArray($page,PDFName('FitBV'),PDFNum($opts{-fitbv}));
-        } 
-        elsif(defined $opts{-fitr}) 
+        }
+        elsif(defined $opts{-fitr})
         {
             die "insufficient parameters to ->dest( page, -fitr => [] ) " unless(scalar @{$opts{-fitr}} == 4);
             $self->{D}=PDFArray($page,PDFName('FitR'),map {PDFNum($_)} @{$opts{-fitr}});
-        } 
-        elsif(defined $opts{-xyz}) 
+        }
+        elsif(defined $opts{-xyz})
         {
             die "insufficient parameters to ->dest( page, -xyz => [] ) " unless(scalar @{$opts{-xyz}} == 3);
             $self->{D}=PDFArray($page,PDFName('XYZ'),map {defined $_ ? PDFNum($_) : PDFNull()} @{$opts{-xyz}});

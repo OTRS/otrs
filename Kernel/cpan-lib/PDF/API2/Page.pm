@@ -1,19 +1,21 @@
 package PDF::API2::Page;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Pages';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use POSIX qw(floor);
 
-use PDF::API2::Annotation;
 use PDF::API2::Content;
 use PDF::API2::Content::Text;
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
 
-no warnings qw[ deprecated recursion uninitialized ];
+use Scalar::Util qw(weaken);
 
 =head1 NAME
 
@@ -54,6 +56,7 @@ sub coerce {
     my $self = $page;
     bless($self,$class);
     $self->{' apipdf'}=$pdf;
+    weaken $self->{' apipdf'};
     return($self);
 }
 
@@ -76,8 +79,8 @@ sub update {
 =item $page->mediabox $alias
 
 Sets the mediabox.  This method supports the following aliases:
-'4A', '2A', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6',
-'4B', '2B', 'B0', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6',
+'4A0', '2A0', 'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6',
+'4B0', '2B0', 'B0', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6',
 'LETTER', 'BROADSHEET', 'LEDGER', 'TABLOID', 'LEGAL',
 'EXECUTIVE', and '36X36'.
 
@@ -268,6 +271,11 @@ sub content {
     $obj->{' apipdf'}=$self->{' apipdf'};
     $obj->{' api'}=$self->{' api'};
     $obj->{' apipage'}=$self;
+
+    weaken $obj->{' apipdf'};
+    weaken $obj->{' api'};
+    weaken $obj->{' apipage'};
+
     return($obj);
 }
 
@@ -312,31 +320,30 @@ Returns a new annotation object.
 =cut
 
 sub annotation {
-    my ($self, $type, $key, $obj) = @_;
+    my $self = shift();
 
-    $self->{'Annots'}||=PDFArray();
-    $self->{'Annots'}->realise if(ref($self->{'Annots'})=~/Objind/);
-    if($self->{'Annots'}->is_obj($self->{' apipdf'}))
-    {
-        $self->{'Annots'}->update();
-    }
-    else
-    {
+    unless (exists $self->{'Annots'}) {
+        $self->{'Annots'} = PDFArray();
         $self->update();
     }
+    elsif (ref($self->{'Annots'}) =~ /Objind/) {
+        $self->{'Annots'}->realise();
+    }
 
-    my $ant=PDF::API2::Annotation->new;
+    require PDF::API2::Annotation;
+    my $ant = PDF::API2::Annotation->new();
     $self->{'Annots'}->add_elements($ant);
     $self->{' apipdf'}->new_obj($ant);
-    $ant->{' apipdf'}=$self->{' apipdf'};
-    $ant->{' apipage'}=$self;
+    $ant->{' apipdf'} = $self->{' apipdf'};
+    $ant->{' apipage'} = $self;
+    weaken $ant->{' apipdf'};
+    weaken $ant->{' apipage'};
 
-    if($self->{'Annots'}->is_obj($self->{' apipdf'}))
-    {
+    if ($self->{'Annots'}->is_obj($self->{' apipdf'})) {
         $self->{' apipdf'}->out_obj($self->{'Annots'});
     }
 
-    return($ant);
+    return $ant;
 }
 
 =item $page->resource $type, $key, $obj

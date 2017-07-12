@@ -1,14 +1,15 @@
 package PDF::API2::Resource::CIDFont::TrueType;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::CIDFont';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Resource::CIDFont::TrueType::FontFile;
 use PDF::API2::Util;
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 =head1 NAME
 
@@ -81,36 +82,18 @@ sub new {
 sub fontfile { return( $_[0]->{' ff'} ); }
 sub fontobj { return( $_[0]->data->{obj} ); }
 
-=item $font = PDF::API2::Resource::CIDFont::TrueType->new_api $api, $file, %options
-
-Returns a truetype-font object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a Text::PDF::File-object.
-
-=cut
-
-sub new_api 
-{
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-    $self->{' api'}=$api;
-
-    $api->{pdf}->out_obj($api->{pages});
-    return($obj);
-}
-
-sub wxByCId 
+sub wxByCId
 {
     my $self=shift @_;
     my $g=shift @_;
     my $t = $self->fontobj->{'hmtx'}->read->{'advance'}[$g];
     my $w;
 
-    if(defined $t) 
+    if(defined $t)
     {
         $w = int($t*1000/$self->data->{upem});
-    } 
-    else 
+    }
+    else
     {
         $w = $self->missingwidth;
     }
@@ -118,7 +101,7 @@ sub wxByCId
     return($w);
 }
 
-sub haveKernPairs 
+sub haveKernPairs
 {
     my $self = shift @_;
     return($self->fontfile->haveKernPairs(@_));
@@ -130,14 +113,14 @@ sub kernPairCid
     return($self->fontfile->kernPairCid(@_));
 }
 
-sub subsetByCId 
+sub subsetByCId
 {
     my $self = shift @_;
     return if($self->iscff);
     my $g = shift @_;
     $self->fontfile->subsetByCId($g);
 }
-sub subvec 
+sub subvec
 {
     my $self = shift @_;
     return(1) if($self->iscff);
@@ -147,7 +130,7 @@ sub subvec
 
 sub glyphNum { return ( $_[0]->fontfile->glyphNum ); }
 
-sub outobjdeep 
+sub outobjdeep
 {
     my ($self, $fh, $pdf, %opts) = @_;
 
@@ -157,23 +140,23 @@ sub outobjdeep
     $self->{' de'}->{'W'} = $wx;
     my $ml;
 
-    foreach my $w (0..(scalar @{$self->data->{g2u}} - 1 )) 
+    foreach my $w (0..(scalar @{$self->data->{g2u}} - 1 ))
     {
-        if($self->subvec($w) && $notdefbefore==1) 
+        if($self->subvec($w) && $notdefbefore==1)
         {
             $notdefbefore=0;
             $ml=PDFArray();
             $wx->add_elements(PDFNum($w),$ml);
         #    $ml->add_elements(PDFNum($self->data->{wx}->[$w]));
             $ml->add_elements(PDFNum($self->wxByCId($w)));
-        } 
-        elsif($self->subvec($w) && $notdefbefore==0) 
+        }
+        elsif($self->subvec($w) && $notdefbefore==0)
         {
             $notdefbefore=0;
         #    $ml->add_elements(PDFNum($self->data->{wx}->[$w]));
             $ml->add_elements(PDFNum($self->wxByCId($w)));
-        } 
-        else 
+        }
+        else
         {
             $notdefbefore=1;
         }

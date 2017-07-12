@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::timesitalic;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'Times-Italic',
     'type' => 'Type1',
     'apiname' => 'TiIt',
@@ -511,4 +514,6 @@ $FONTDATA = {
         'fi' => '500',                           # U+0xFB01
         'fl' => '500',                           # U+0xFB02
     }, # HORIZ. WIDTH TABLE
-};
+} };
+
+1;

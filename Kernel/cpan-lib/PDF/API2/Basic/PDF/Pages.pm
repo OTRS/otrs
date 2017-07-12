@@ -12,16 +12,18 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::Pages;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
 
 use base 'PDF::API2::Basic::PDF::Dict';
 
-use strict;
-no warnings qw[ deprecated recursion uninitialized ];
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Array;
 use PDF::API2::Basic::PDF::Dict;
 use PDF::API2::Basic::PDF::Utils;
+
+use Scalar::Util qw(weaken);
 
 our %inst = map {$_ => 1} qw(Parent Type);
 
@@ -61,6 +63,9 @@ sub new
     $self->{' outto'} = ref $pdfs eq 'ARRAY' ? $pdfs : [$pdfs];
     $self->out_obj(1);
 
+    weaken $_ for @{$self->{' outto'}};
+    weaken $self->{'Parent'} if defined $parent;
+
     $self;
 }
 
@@ -69,6 +74,7 @@ sub init
 {
     my ($self, $pdf) = @_;
     $self->{' outto'} = [$pdf];
+    weaken $self->{' outto'}->[0] if defined $pdf;
     $self;
 }
 
@@ -92,7 +98,7 @@ sub out_obj
         { $_->new_obj($self); }
         else
         { $_->out_obj($self); }
-        
+
         unless (defined $self->{'Parent'})
         {
             $_->{'Root'}{'Pages'} = $self;
@@ -101,7 +107,7 @@ sub out_obj
     }
     $self;
 }
-        
+
 
 =head2 $p->find_page($pnum)
 
@@ -114,7 +120,7 @@ sub find_page
 {
     my ($self, $pnum) = @_;
     my ($top) = $self->get_top;
-    
+
     $top->find_page_recurse(\$pnum);
 }
 
@@ -122,15 +128,15 @@ sub find_page
 sub find_page_recurse
 {
     my ($self, $rpnum) = @_;
-    my ($res, $k);
-    
+    my $res;
+
     if ($self->{'Count'}->realise->val <= $$rpnum)
-    { 
-        $$rpnum -= $self->{'Count'}->val; 
-        return undef;
+    {
+        $$rpnum -= $self->{'Count'}->val;
+        return;
     }
 
-    foreach $k ($self->{'Kids'}->realise->elementsof)
+    foreach my $k ($self->{'Kids'}->realise->elementsof)
     {
         if ($k->{'Type'}->realise->val eq 'Page')
         {
@@ -140,9 +146,9 @@ sub find_page_recurse
         elsif ($res = $k->realise->find_page_recurse($rpnum))
         { return $res; }
     }
-    return undef;
+    return;
 }
-        
+
 =head2 $p->add_page($page, $pnum)
 
 Inserts the page before the given $pnum. $pnum can be -ve to count from the END
@@ -162,7 +168,7 @@ sub add_page
     my ($self, $page, $pnum) = @_;
     my ($top) = $self->get_top;
     my ($ppage, $ppages, $pindex, $ppnum);
-    
+
     $pnum = -1 unless (defined $pnum && $pnum <= $top->{'Count'}->val);
     if ($pnum == -1)
     { $ppage = $top->find_page($top->{'Count'}->val - 1); }
@@ -171,14 +177,14 @@ sub add_page
         $pnum = $top->{'Count'}->val + $pnum + 1 if ($pnum < 0);
         $ppage = $top->find_page($pnum);
     }
-    
+
     if (defined $ppage->{'Parent'})
     { $ppages = $ppage->{'Parent'}->realise; }
     else
     { $ppages = $self; }
-    
+
     $ppnum = scalar $ppages->{'Kids'}->realise->elementsof;
-    
+
     if ($pnum == -1)
     { $pindex = -1; }
     else
@@ -187,20 +193,20 @@ sub add_page
         { last if ($ppages->{'Kids'}{' val'}[$pindex] eq $ppage); }
         $pindex = -1 if ($pindex == $ppnum);
     }
-    
+
     $ppages->add_page_recurse($page->realise, $pindex);
     for ($ppages = $page->{'Parent'}; defined $ppages->{'Parent'}; $ppages = $ppages->{'Parent'}->realise)
     { $ppages->out_obj->{'Count'}->realise->{'val'}++; }
     $ppages->out_obj->{'Count'}->realise->{'val'}++;
     $page;
-}    
+}
 
 
 sub add_page_recurse
 {
     my ($self, $page, $index) = @_;
     my ($newpages, $ppages, $pindex, $ppnum);
-    
+
     if (scalar $self->{'Kids'}->elementsof >= 8 && $self->{'Parent'} && $index < 1)
     {
         $ppages = $self->{'Parent'}->realise;
@@ -216,12 +222,13 @@ sub add_page_recurse
     }
     else
     { $newpages = $self->out_obj; }
-    
+
     if ($index < 0)
     { push (@{$newpages->{'Kids'}->realise->{' val'}}, $page); }
     else
     { splice (@{$newpages->{'Kids'}{' val'}}, $index, 0, $page); }
     $page->{'Parent'} = $newpages;
+    weaken $page->{'Parent'};
 }
 
 
@@ -229,7 +236,7 @@ sub add_page_recurse
 
 Rebuilds the pages tree to make a nice balanced tree that conforms to Adobe
 recommendations. If passed a pglist then the tree is built for that list of
-pages. No check is made of whether the pglist contains pages.  
+pages. No check is made of whether the pglist contains pages.
 
 Returns the top of the tree for insertion in the root object.
 
@@ -250,7 +257,7 @@ Returns a list of page objects in the document in page order
 sub get_pages
 {
     my ($self) = @_;
-    
+
     return $self->get_top->get_kids;
 }
 
@@ -259,9 +266,9 @@ sub get_pages
 sub get_kids
 {
     my ($self) = @_;
-    my ($pgref, @pglist);
+    my @pglist;
 
-    foreach $pgref ($self->{'Kids'}->elementsof)
+    foreach my $pgref ($self->{'Kids'}->elementsof)
     {
         $pgref->realise;
         if ($pgref->{'Type'}->val =~ m/^Pages$/oi)
@@ -271,6 +278,7 @@ sub get_kids
     }
     @pglist;
 }
+
 =head2 $p->find_prop($key)
 
 Searches up through the inheritance tree to find a property.
@@ -289,7 +297,7 @@ sub find_prop
         { return $self->{$prop}; }
     } elsif (defined $self->{'Parent'})
     { return $self->{'Parent'}->find_prop($prop); }
-    return undef;
+    return;
 }
 
 
@@ -339,18 +347,18 @@ sub bbox
     my ($self, @bbox) = @_;
     my ($str) = $bbox[4] || 'MediaBox';
     my ($inh) = $self->find_prop($str);
-    my ($test, $i, $e);
+    my ($test, $i);
 
     if ($inh ne "")
     {
         $test = 1; $i = 0;
-        foreach $e ($inh->elementsof)
+        foreach my $e ($inh->elementsof)
         { $test &= $e->val == $bbox[$i++]; }
         return $self if $test && $i == 4;
     }
 
     $inh = PDF::API2::Basic::PDF::Array->new;
-    foreach $e (@bbox[0..3])
+    foreach my $e (@bbox[0..3])
     { $inh->add_elements(PDFNum($e)); }
     $self->{$str} = $inh;
     $self;
@@ -368,12 +376,12 @@ sub proc_set
 {
     my ($self, @entries) = @_;
     my (@temp) = @entries;
-    my ($dict, $e);
+    my $dict;
 
     $dict = $self->find_prop('Resource');
     if ($dict ne "" && defined $dict->{'ProcSet'})
     {
-        foreach $e ($dict->{'ProcSet'}->elementsof)
+        foreach my $e ($dict->{'ProcSet'}->elementsof)
         { @temp = grep($_ ne $e, @temp); }
         return $self if (scalar @temp == 0);
         @entries = @temp if defined $self->{'Resources'};
@@ -384,7 +392,7 @@ sub proc_set
 
     $self->{'Resources'}{'ProcSet'} = PDFArray() unless defined $self->{'ProcSet'};
 
-    foreach $e (@entries)
+    foreach my $e (@entries)
     { $self->{'Resources'}{'ProcSet'}->add_elements(PDFName($e)); }
     $self;
 }
@@ -392,10 +400,14 @@ sub proc_set
 sub empty
 {
     my ($self) = @_;
-    my ($parent) = $self->{'Parent'} if defined ($self->{'Parent'});
+    my $parent = $self->{'Parent'};
 
     $self->SUPER::empty;
-    $self->{'Parent'} = $parent if defined $parent;
+    if (defined $parent) {
+        $self->{'Parent'} = $parent;
+        weaken $self->{'Parent'};
+    }
+
     $self;
 }
 
@@ -413,10 +425,10 @@ sub get_top
 {
     my ($self) = @_;
     my ($p);
-    
+
     for ($p = $self; defined $p->{'Parent'}; $p = $p->{'Parent'})
     { }
-    
+
     $p->realise;
 }
 

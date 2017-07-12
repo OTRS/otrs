@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::timesroman;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'Times-Roman',
     'type' => 'Type1',
     'apiname' => 'TiRo',
@@ -596,4 +599,6 @@ $FONTDATA = {
         'zdotaccent'         => 444,
         'zero'               => 500,
     },
-};
+} };
+
+1;

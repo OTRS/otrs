@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::courierbold;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'Courier-Bold',
     'type' => 'Type1',
     'apiname' => 'CoBo',
@@ -510,4 +513,6 @@ $FONTDATA = {
         'fi' => '600',                           # U+0xFB01
         'fl' => '600',                           # U+0xFB02
     }, # HORIZ. WIDTH TABLE
-};
+} };
+
+1;

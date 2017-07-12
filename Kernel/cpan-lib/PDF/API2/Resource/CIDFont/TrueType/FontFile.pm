@@ -1,8 +1,11 @@
 package PDF::API2::Resource::CIDFont::TrueType::FontFile;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Dict';
+
+use strict;
+no warnings qw[ recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use Encode qw(:all);
 use Font::TTF::Font;
@@ -11,15 +14,13 @@ use POSIX qw(ceil floor);
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
 
-no warnings qw[ recursion uninitialized ];
-
 our $cmap = {};
 
-sub _look_for_cmap ($) {
+sub _look_for_cmap {
     my $fname=lc(shift);
     $fname=~s/[^a-z0-9]+//gi;
     return({%{$cmap->{$fname}}}) if(defined $cmap->{$fname});
-    eval "require \"PDF/API2/Resource/CIDFont/CMap/$fname.cmap\"";
+    eval "require 'PDF/API2/Resource/CIDFont/CMap/$fname.cmap'";
     unless($@){
         return({%{$cmap->{$fname}}});
     } else {
@@ -236,11 +237,11 @@ sub readcffdict
         }
         elsif($b0==30) # float
         {
-            $e=1;
+            my $e=1;
             while($e)
             {
                 read($fh,$buf,1);
-                $v0=unpack('C',$buf);
+                my $v0=unpack('C',$buf);
                 foreach my $m ($v0>>8,$v0&0xf)
                 {
                     if($m<10)
@@ -293,8 +294,8 @@ sub readcffdict
             $v=-($b0-251)*256-$v-108;
         }
         push @st,$v;
-    }   
-    
+    }
+
     return($dict);
 }
 
@@ -356,6 +357,7 @@ sub readcffstructs
     my $data={};
     # read CFF table
     seek($fh,$font->{'CFF '}->{' OFFSET'},0);
+    my $buf;
     read($fh,$buf, 4);
     my ($cffmajor,$cffminor,$cffheadsize,$cffglobaloffsize)=unpack('C4',$buf);
 
@@ -426,7 +428,7 @@ sub new {
     $data->{obj}=$font;
 
     $class = ref $class if ref $class;
-    $self=$class->SUPER::new();
+    my $self=$class->SUPER::new();
 
     $self->{Filter}=PDFArray(PDFName('FlateDecode'));
     $self->{' font'}=$font;
@@ -435,7 +437,7 @@ sub new {
 	$data->{noembed} = $opts{-noembed}==1 ? 1 : 0;
     $data->{iscff} = (defined $font->{'CFF '}) ? 1 : 0;
 
-    $self->{Subtype}=PDFName('Type1C') if($data->{iscff});
+    $self->{Subtype}=PDFName('CIDFontType0C') if($data->{iscff});
 
     $data->{fontfamily}=$font->{'name'}->read->find_name(1);
     $data->{fontname}=$font->{'name'}->read->find_name(4);
@@ -456,17 +458,15 @@ sub new {
     $data->{fontstretch}=$stretch[$font->{'OS/2'}->{usWidthClass}] || 'Normal';
 
     $data->{fontweight}=$font->{'OS/2'}->{usWeightClass};
-    
+
     $data->{panose}=pack('n',$font->{'OS/2'}->{sFamilyClass});
 
     foreach my $p (qw[bFamilyType bSerifStyle bWeight bProportion bContrast bStrokeVariation bArmStyle bLetterform bMidline bXheight])
     {
         $data->{panose}.=pack('C',$font->{'OS/2'}->{$p});
     }
-    
-    $data->{apiname}=$data->{fontname};
-	$data->{apiname}=~s/[^A-Za-z0-9]+/ /og;
-    $data->{apiname}=join('',map { $_=~s/[^A-Za-z0-9]+//og; $_=ucfirst(lc(substr($_,0,2))); $_; } split(/\s+/,$data->{apiname}));
+
+    $data->{apiname}=join('', map { ucfirst(lc(substr($_, 0, 2))) } split m/[^A-Za-z0-9\s]+/, $data->{fontname});
     $data->{fontname}=~s/[\x00-\x1f\s]//og;
 
     $data->{altname}=$font->{'name'}->find_name(1);
@@ -476,11 +476,11 @@ sub new {
     $data->{subname}=~s/[\x00-\x1f\s]//og;
 
     $font->{cmap}->read->find_ms($opts{-isocmap}||0);
-    if(defined $font->{cmap}->find_ms) 
+    if(defined $font->{cmap}->find_ms)
     {
         $data->{issymbol} = ($font->{cmap}->find_ms->{'Platform'} == 3 && $font->{cmap}->read->find_ms->{'Encoding'} == 0) || 0;
-    } 
-    else 
+    }
+    else
     {
         $data->{issymbol} = 0;
     }
@@ -512,25 +512,25 @@ sub new {
     $data->{capheight}=$font->{'OS/2'}->{CapHeight} || int($data->{fontbbox}->[3]*0.8);
     $data->{xheight}=$font->{'OS/2'}->{xHeight} || int($data->{fontbbox}->[3]*0.4);
 
-    if($data->{issymbol}) 
+    if($data->{issymbol})
     {
         $data->{e2u}=[0xf000 .. 0xf0ff];
-    } 
-    else 
+    }
+    else
     {
         $data->{e2u}=[ unpack('U*',decode('cp1252', pack('C*',0..255))) ];
     }
 
-    if(($font->{'post'}->read->{FormatType} == 3) && defined($font->{cmap}->read->find_ms)) 
+    if(($font->{'post'}->read->{FormatType} == 3) && defined($font->{cmap}->read->find_ms))
     {
         $data->{g2n} = [];
-        foreach my $u (sort {$a<=>$b} keys %{$font->{cmap}->read->find_ms->{val}}) 
+        foreach my $u (sort {$a<=>$b} keys %{$font->{cmap}->read->find_ms->{val}})
         {
             my $n=nameByUni($u);
             $data->{g2n}->[$font->{cmap}->read->find_ms->{val}->{$u}]=$n;
         }
-    } 
-    else 
+    }
+    else
     {
         $data->{g2n} = [ map { $_ || '.notdef' } @{$font->{'post'}->read->{'VAL'}} ];
     }
@@ -547,7 +547,7 @@ sub new {
 
     if(defined $data->{cff}->{ROS})
     {
-        my %cffcmap=( 
+        my %cffcmap=(
             'Adobe:Japan1'=>'japanese',
             'Adobe:Korea1'=>'korean',
             'Adobe:CNS1'=>'traditional',
@@ -562,7 +562,7 @@ sub new {
         $data->{u2g} = {};
 
         my $gmap=$font->{cmap}->read->find_ms->{val};
-        foreach my $u (sort {$a<=>$b} keys %{$gmap}) 
+        foreach my $u (sort {$a<=>$b} keys %{$gmap})
         {
             my $uni=$u||0;
             $data->{u2g}->{$uni}=$gmap->{$uni};
@@ -570,7 +570,7 @@ sub new {
         $data->{g2u}=[ map { $_ || 0 } $font->{'cmap'}->read->reverse ];
     }
 
-    if($data->{issymbol}) 
+    if($data->{issymbol})
     {
         map { $data->{u2g}->{$_} ||= $font->{'cmap'}->read->ms_lookup($_) } (0xf000 .. 0xf0ff);
         map { $data->{u2g}->{$_ & 0xff} ||= $font->{'cmap'}->read->ms_lookup($_) } (0xf000 .. 0xf0ff);
@@ -580,7 +580,7 @@ sub new {
 
     $data->{e2g}=[ map { $data->{u2g}->{$_ || 0} || 0 } @{$data->{e2u}} ];
     $data->{u2e}={};
-    foreach my $n (reverse 0..255) 
+    foreach my $n (reverse 0..255)
     {
         $data->{u2e}->{$data->{e2u}->[$n]}=$n unless(defined $data->{u2e}->{$data->{e2u}->[$n]});
     }
@@ -588,12 +588,12 @@ sub new {
     $data->{u2n}={ map { $data->{g2u}->[$_] => $data->{g2n}->[$_] } (0 .. (scalar @{$data->{g2u}} -1)) };
 
     $data->{wx}=[];
-    foreach my $w (0..(scalar @{$data->{g2u}}-1)) 
+    foreach my $w (0..(scalar @{$data->{g2u}}-1))
     {
         $data->{wx}->[$w]=int($font->{'hmtx'}->read->{'advance'}[$w]*1000/$data->{upem})
             || $data->{missingwidth};
     }
-    
+
     $data->{kern}=read_kern_table($font,$data->{upem},$self);
     delete $data->{kern} unless(defined $data->{kern});
 
@@ -604,7 +604,7 @@ sub new {
     $data->{subname}=~s/\s+//og;
 
     $self->subsetByCId(0);
-    
+
     return($self,$data);
 }
 
@@ -621,7 +621,7 @@ sub kernPairCid
     return($self->data->{kern}->{"$i1:$i2"} || 0);
 }
 
-sub subsetByCId 
+sub subsetByCId
 {
     my $self = shift @_;
     my $g = shift @_;

@@ -1,13 +1,15 @@
 package PDF::API2::Resource::XObject::Image::GD;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::XObject::Image';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ deprecated recursion uninitialized ];
+use Scalar::Util qw(weaken);
 
 sub new {
     my ($class,$pdf,$obj,$name,@opts) = @_;
@@ -19,26 +21,18 @@ sub new {
     $pdf->new_obj($self) unless($self->is_obj($pdf));
 
     $self->{' apipdf'}=$pdf;
+    weaken $self->{' apipdf'};
 
     $self->read_gd($obj,@opts);
 
     return($self);
 }
 
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-    $obj->{' api'}=$api;
-
-    return($obj);
-}
-
 sub read_gd {
     my $self = shift @_;
     my $gd = shift @_;
     my %opts = @_;
-    
+
     my ($w,$h) = $gd->getBounds();
     my $c = $gd->colorsTotal();
 

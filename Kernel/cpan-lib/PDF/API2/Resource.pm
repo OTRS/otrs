@@ -1,14 +1,16 @@
 package PDF::API2::Resource;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Dict';
 
 use strict;
 use warnings;
 
+our $VERSION = '2.033'; # VERSION
+
 use PDF::API2::Util qw(pdfkey);
 use PDF::API2::Basic::PDF::Utils; # PDFName
+
+use Scalar::Util qw(weaken);
 
 =head1 NAME
 
@@ -30,23 +32,24 @@ sub new {
 
     my $self = $class->SUPER::new();
 
-    # Instead of having a separate new_api call, check the type here.
-    if ($pdf->isa('PDF::API2')) {
-        $self->{' api'} = $pdf;
-        $pdf = $pdf->{'pdf'};
-    }
-
     $pdf->new_obj($self) unless $self->is_obj($pdf);
 
     $self->name($name or pdfkey());
 
     $self->{' apipdf'} = $pdf;
+    weaken $self->{' apipdf'};
 
     return $self;
 }
 
-# Deprecated (rolled into new)
-sub new_api { my $self = shift(); return $self->new(@_); }
+# Deprecated (warning added in 2.031)
+sub new_api {
+    my ($class, $api2, @options) = @_;
+    warnings::warnif('deprecated', q{Call to deprecated method "new_api($api2, ...)".  Replace with "new($api2->{'pdf'}, ...)"});
+
+    my $resource = $class->new($api2->{'pdf'}, @options);
+    return $resource;
+}
 
 =item $name = $resource->name()
 

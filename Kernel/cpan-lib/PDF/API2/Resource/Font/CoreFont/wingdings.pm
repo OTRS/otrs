@@ -1,8 +1,11 @@
 package PDF::API2::Resource::Font::CoreFont::wingdings;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
 
-$FONTDATA = {
+our $VERSION = '2.033'; # VERSION
+
+sub data { return {
     'fontname' => 'Wingdings',
     'type' => 'TrueType',
     'apiname' => 'WiDi',
@@ -502,4 +505,6 @@ $FONTDATA = {
         'boxcheckbld' => '891',                  # C+0xFE # U+0xF0FE
         'windowslogo' => '1034',                 # C+0xFF # U+0xF0FF
     }, # HORIZ. WIDTH TABLE
-};
+} };
+
+1;

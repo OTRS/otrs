@@ -1,7 +1,7 @@
 $cmap->{korean}={
-    'ccs' => [ 
-        'Adobe',    # registry 
-        'Korea1',   # ordering 
+    'ccs' => [
+        'Adobe',    # registry
+        'Korea1',   # ordering
         2,          # supplement
     ],
     'cmap' => { # perl unicode maps to adobe cmap (TBD)

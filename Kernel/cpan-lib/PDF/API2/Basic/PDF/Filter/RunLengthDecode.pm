@@ -1,11 +1,11 @@
 package PDF::API2::Basic::PDF::Filter::RunLengthDecode;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Filter';
 
 use strict;
 use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 # Maintainer's Note: RunLengthDecode is described in the PDF 1.7 spec
 # in section 7.4.5.
@@ -26,6 +26,7 @@ sub outfilt {
         }
         else {
             $unrepeated = $input;
+            $input = '';
         }
 
         # Print any non-repeating bytes at the beginning of the input

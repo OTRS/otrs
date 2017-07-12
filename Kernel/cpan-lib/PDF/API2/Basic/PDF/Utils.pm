@@ -12,7 +12,9 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::Utils;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+
+our $VERSION = '2.033'; # VERSION
 
 =head1 NAME
 
@@ -25,8 +27,6 @@ A set of utility functions to save the fingers of the PDF library users!
 =head1 FUNCTIONS
 
 =cut
-
-use strict;
 
 use PDF::API2::Basic::PDF::Array;
 use PDF::API2::Basic::PDF::Bool;

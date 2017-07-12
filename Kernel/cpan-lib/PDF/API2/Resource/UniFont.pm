@@ -1,10 +1,11 @@
 package PDF::API2::Resource::UniFont;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use Encode qw(:all);
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 =head1 NAME
 
@@ -30,23 +31,22 @@ B<FONTSPECS:> fonts can be registered using the following hash-ref:
         codes  => $codespec,    # the unicode codepoints, -"-
     }
 
-B<BLOCKSPECS:> 
+B<BLOCKSPECS:>
 
     [
         $block1, $block3,    # register font for block 1 + 3
         [$blockA,$blockZ],   # register font for blocks A .. Z
     ]
-    
-B<CODESPECS:> 
+
+B<CODESPECS:>
 
     [
         $cp1, $cp3,          # register font for codepoint 1 + 3
         [$cpA,$cpZ],         # register font for codepoints A .. Z
     ]
-    
-B<NOTE:> if you want to register a font for the entire unicode space 
-(ie. U+0000 .. U+FFFF), then simply specify a font-object without the hash-ref.
 
+B<NOTE:> if you want to register a font for the entire unicode space
+(ie. U+0000 .. U+FFFF), then simply specify a font-object without the hash-ref.
 
 Valid %options are:
 
@@ -67,7 +67,7 @@ sub new {
     bless $self,$class;
 
     $self->{pdf}=$pdf;
-    
+
     # look at all fonts
     my $fn=0;
     while (ref $fonts[0])
@@ -96,7 +96,7 @@ sub new {
         elsif(ref($font) eq 'HASH')
         {
             push @{$self->{fonts}},$font->{font};
-            
+
             if(defined $font->{blocks} && ref($font->{blocks}) eq 'ARRAY')
             {
                 foreach my $r0 (@{$font->{blocks}})
@@ -114,7 +114,7 @@ sub new {
                     }
                 }
             }
-            
+
             if(defined $font->{codes} && ref($font->{codes}) eq 'ARRAY')
             {
                 foreach my $r0 (@{$font->{codes}})
@@ -143,28 +143,12 @@ sub new {
         }
         $fn++;
     }
-    
+
     my %opts=@fonts;
-    
+
     $self->{encode}=$opts{-encode} if(defined $opts{-encode});
-    
+
     return($self);
-}
-
-=item $font = PDF::API2::Resource::UniFont->new_api $api, $name, %options
-
-Returns a uni-font object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a Text::PDF::File-object.
-
-=cut
-
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-    $obj->{api}=$api;
-
-    return($obj);
 }
 
 sub isvirtual { return(1); }
@@ -233,15 +217,15 @@ sub width {
     return($width);
 }
 
-sub text 
-{ 
+sub text
+{
     my ($self,$text,$size,$ident)=@_;
     $text=decode($self->{encode},$text) unless(is_utf8($text));
     die 'textsize not specified' unless(defined $size);
     my $newtext='';
     my $lastfont=-1;
     my @codes=();
-    
+
     foreach my $u (unpack('U*',$text))
     {
         my $thisfont=0;
@@ -253,7 +237,7 @@ sub text
         {
             $thisfont=$self->{block}->{($u>>8)};
         }
-        
+
         if($thisfont!=$lastfont && $lastfont!=-1)
         {
             my $f=$self->fontlist->[$lastfont];
@@ -268,7 +252,7 @@ sub text
             }
             @codes=();
         }
-        
+
         push(@codes,$u);
         $lastfont=$thisfont;
     }

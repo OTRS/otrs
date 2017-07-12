@@ -1,11 +1,11 @@
 package PDF::API2::Content::Text;
 
-our $VERSION = '2.025'; # VERSION
-
-use warnings;
-use strict;
-
 use base 'PDF::API2::Content';
+
+use strict;
+use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 sub new {
     my ($class) = @_;

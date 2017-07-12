@@ -1,13 +1,15 @@
 package PDF::API2::Resource::ColorSpace;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Array';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Basic::PDF::Utils;
 use PDF::API2::Util;
-
-no warnings qw[ deprecated recursion uninitialized ];
+use Scalar::Util qw(weaken);
 
 =head1 NAME
 
@@ -27,28 +29,13 @@ sub new {
     my ($class,$pdf,$key,%opts)=@_;
 
     $class = ref $class if ref $class;
-    $self=$class->SUPER::new();
+    my $self=$class->SUPER::new();
     $pdf->new_obj($self) unless($self->is_obj($pdf));
     $self->name($key || pdfkey());
     $self->{' apipdf'}=$pdf;
+    weaken $self->{' apipdf'};
 
     return($self);
-}
-
-=item $cs = PDF::API2::Resource::ColorSpace->new_api $api, $name
-
-Returns a color-space object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a Text::PDF::File-object.
-
-=cut
-
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-    $self->{' api'}=$api;
-
-    return($obj);
 }
 
 =item $name = $res->name $name

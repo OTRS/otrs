@@ -12,11 +12,11 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::String;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Basic::PDF::Objind';
 
 use strict;
+
+our $VERSION = '2.033'; # VERSION
 
 =head1 NAME
 
@@ -96,7 +96,7 @@ sub convert {
     my $output = '';
 
     # Hexadecimal Strings (PDF 1.7 section 7.3.4.3)
-    if ($input =~ m|^\s*\<|o) { 
+    if ($input =~ m|^\s*\<|o) {
         $self->{' ishex'} = 1;
         $output = $input;
 

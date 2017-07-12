@@ -12,7 +12,10 @@
 #=======================================================================
 package PDF::API2::Basic::PDF::Objind;
 
-our $VERSION = '2.025'; # VERSION
+use strict;
+use warnings;
+
+our $VERSION = '2.033'; # VERSION
 
 =head1 NAME
 
@@ -57,10 +60,7 @@ Holds a direct reference to the next free object in the free list.
 
 =cut
 
-use strict;
-use warnings;
-
-use Scalar::Util qw(blessed reftype);
+use Scalar::Util qw(blessed reftype weaken);
 
 use vars qw($uidc @inst %inst);
 $uidc = "pdfuid000";
@@ -121,10 +121,10 @@ sub release {
 
         if (blessed($item) and $item->can('release')) {
             $item->release();
-        } 
+        }
         elsif ($ref eq 'ARRAY') {
             push @tofree, @$item;
-        } 
+        }
         elsif (defined(reftype($ref)) and reftype($ref) eq 'HASH') {
             release($item);
         }
@@ -154,7 +154,7 @@ Makes sure that the object is fully read in, etc.
 =cut
 
 sub realise {
-    $_[0]->{' realised'} ? $_[0] : $_[0]->{' parent'}->read_obj(@_);
+    $_[0]->{' realised'} ? $_[0] : $_[0]->{' objnum'} ? $_[0]->{' parent'}->read_obj(@_) : $_[0];
 }
 
 =head2 $r->outobjdeep($fh, $pdf)
@@ -239,7 +239,12 @@ sub merge {
     my ($self, $other) = @_;
 
     for my $k (keys %$other) {
-        $self->{$k} = $other->{$k} unless $inst{$k};
+        next if $inst{$k};
+        $self->{$k} = $other->{$k};
+
+        # This doesn't seem like the right place to do this, but I haven't
+        # yet found all of the places where Parent is being set
+        weaken $self->{$k} if $k eq 'Parent';
     }
     $self->{' realised'} = 1;
     bless $self, ref($other);

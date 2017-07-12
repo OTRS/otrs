@@ -1,13 +1,14 @@
 package PDF::API2::Resource::CIDFont::CJKFont;
 
-our $VERSION = '2.025'; # VERSION
-
 use base 'PDF::API2::Resource::CIDFont';
+
+use strict;
+no warnings qw[ deprecated recursion uninitialized ];
+
+our $VERSION = '2.033'; # VERSION
 
 use PDF::API2::Util;
 use PDF::API2::Basic::PDF::Utils;
-
-no warnings qw[ deprecated recursion uninitialized ];
 
 our $fonts = {};
 our $cmap  = {};
@@ -49,7 +50,7 @@ sub _look_for_font {
     return({%{$fonts->{$fname}}}) if(defined $fonts->{$fname});
 
     if(defined $subs->{$fname}) {
-        $data=_look_for_font($subs->{$fname}->{-alias});
+        my $data=_look_for_font($subs->{$fname}->{-alias});
         foreach my $k (keys %{$subs->{$fname}}) {
           next if($k=~/^\-/);
           if(substr($k,0,1) eq '+')
@@ -73,7 +74,7 @@ sub _look_for_font {
     }
 }
 
-sub _look_for_cmap ($) {
+sub _look_for_cmap {
     my $fname=lc(shift);
     $fname=~s/[^a-z0-9]+//gi;
     return({%{$cmap->{$fname}}}) if(defined $cmap->{$fname});
@@ -89,7 +90,7 @@ sub new {
     my %opts=();
     %opts=@opts if((scalar @opts)%2 == 0);
     $opts{-encode}||='ident';
-    
+
     my $data = _look_for_font($name);
 
     my $cmap = _look_for_cmap($data->{cmap});
@@ -119,7 +120,7 @@ sub new {
         'dir'=>'H',
         'dec'=>'ident',
     };
-    
+
     if(defined $cmap->{ccs}) {
         $emap->{reg}=$cmap->{ccs}->[0];
         $emap->{ord}=$cmap->{ccs}->[1];
@@ -151,23 +152,6 @@ sub new {
     return($self);
 }
 
-=item $font = PDF::API2::Resource::CIDFont::CJKFont->new_api $api, $cjkname, %options
-
-Returns a cjk-font object. This method is different from 'new' that
-it needs an PDF::API2-object rather than a Text::PDF::File-object.
-
-=cut
-
-sub new_api {
-    my ($class,$api,@opts)=@_;
-
-    my $obj=$class->new($api->{pdf},@opts);
-    $self->{' api'}=$api;
-
-    $api->{pdf}->out_obj($api->{pages});
-    return($obj);
-}
-
 sub tounicodemap {
     my $self=shift @_;
     # noop since pdf knows its char-collection
@@ -175,10 +159,10 @@ sub tounicodemap {
 }
 
 sub glyphByCId
-{ 
+{
     my ($self,$cid)=@_;
     my $uni = $self->uniByCId($cid);
-    return( nameByUni($uni) ); 
+    return( nameByUni($uni) );
 }
 
 sub outobjdeep {
@@ -191,43 +175,43 @@ sub outobjdeep {
     my $ml;
 
     foreach my $w (0..(scalar @{$self->data->{g2u}} - 1 )) {
-        if(ref($self->data->{wx}) eq 'ARRAY' 
+        if(ref($self->data->{wx}) eq 'ARRAY'
             && (defined $self->data->{wx}->[$w])
             && ($self->data->{wx}->[$w] != $self->missingwidth)
-            && $notdefbefore==1) 
+            && $notdefbefore==1)
         {
             $notdefbefore=0;
             $ml=PDFArray();
             $wx->add_elements(PDFNum($w),$ml);
             $ml->add_elements(PDFNum($self->data->{wx}->[$w]));
-        } 
-        elsif(ref($self->data->{wx}) eq 'HASH' 
-            && (defined $self->data->{wx}->{$w}) 
+        }
+        elsif(ref($self->data->{wx}) eq 'HASH'
+            && (defined $self->data->{wx}->{$w})
             && ($self->data->{wx}->{$w} != $self->missingwidth)
-            && $notdefbefore==1) 
+            && $notdefbefore==1)
         {
             $notdefbefore=0;
             $ml=PDFArray();
             $wx->add_elements(PDFNum($w),$ml);
             $ml->add_elements(PDFNum($self->data->{wx}->{$w}));
-        } 
-        elsif(ref($self->data->{wx}) eq 'ARRAY' 
-            && (defined $self->data->{wx}->[$w]) 
+        }
+        elsif(ref($self->data->{wx}) eq 'ARRAY'
+            && (defined $self->data->{wx}->[$w])
             && ($self->data->{wx}->[$w] != $self->missingwidth)
-            && $notdefbefore==0) 
+            && $notdefbefore==0)
         {
             $notdefbefore=0;
             $ml->add_elements(PDFNum($self->data->{wx}->[$w]));
-        } 
-        elsif(ref($self->data->{wx}) eq 'HASH' 
-            && (defined $self->data->{wx}->{$w}) 
+        }
+        elsif(ref($self->data->{wx}) eq 'HASH'
+            && (defined $self->data->{wx}->{$w})
             && ($self->data->{wx}->{$w} != $self->missingwidth)
-            && $notdefbefore==0) 
+            && $notdefbefore==0)
         {
             $notdefbefore=0;
             $ml->add_elements(PDFNum($self->data->{wx}->{$w}));
-        } 
-        else 
+        }
+        else
         {
             $notdefbefore=1;
         }
@@ -244,7 +228,7 @@ BEGIN {
         'traditionalitalic'     => 'mingitalic',
         'traditionalbolditalic' => 'mingbolditalic',
         'ming'                  => 'adobemingstdlightacro',
-        
+
         'simplified'            => 'adobesongstdlightacro',
         'simplifiedbold'        => 'songbold',
         'simplifieditalic'      => 'songitalic',
@@ -252,8 +236,8 @@ BEGIN {
         'song'                  => 'adobesongstdlightacro',
 
         'korean'                => 'adobemyungjostdmediumacro',
-        'koreanbold'            => 'myungjobold',      
-        'koreanitalic'          => 'myungjoitalic',    
+        'koreanbold'            => 'myungjobold',
+        'koreanitalic'          => 'myungjoitalic',
         'koreanbolditalic'      => 'myungjobolditalic',
         'myungjo'               => 'adobemyungjostdmediumacro',
 
@@ -269,67 +253,67 @@ BEGIN {
     # Chinese Traditional (ie. Taiwan) Fonts
         'mingitalic' => {
             '-alias'            => 'adobemingstdlightacro',
-            '+fontname'          => ',Italic', 
+            '+fontname'          => ',Italic',
         },
         'mingbold' => {
             '-alias'            => 'adobemingstdlightacro',
-            '+fontname'          => ',Bold', 
+            '+fontname'          => ',Bold',
         },
         'mingbolditalic' => {
             '-alias'            => 'adobemingstdlightacro',
-            '+fontname'          => ',BoldItalic', 
+            '+fontname'          => ',BoldItalic',
         },
     # Chinese Simplified (ie. Mainland China) Fonts
         'songitalic' => {
             '-alias'            => 'adobesongstdlightacro',
-            '+fontname'          => ',Italic', 
+            '+fontname'          => ',Italic',
         },
         'songbold' => {
             '-alias'            => 'adobesongstdlightacro',
-            '+fontname'          => ',Bold', 
+            '+fontname'          => ',Bold',
         },
         'songbolditalic' => {
             '-alias'            => 'adobesongstdlightacro',
-            '+fontname'          => ',BoldItalic', 
+            '+fontname'          => ',BoldItalic',
         },
     # Japanese Gothic (ie. sans) Fonts
         'kozgoitalic' => {
             '-alias'            => 'kozgopromediumacro',
-            '+fontname'          => ',Italic', 
+            '+fontname'          => ',Italic',
         },
         'kozgobold' => {
             '-alias'            => 'kozgopromediumacro',
-            '+fontname'          => ',Bold', 
+            '+fontname'          => ',Bold',
         },
         'kozgobolditalic' => {
             '-alias'            => 'kozgopromediumacro',
-            '+fontname'          => ',BoldItalic', 
+            '+fontname'          => ',BoldItalic',
         },
     # Japanese Mincho (ie. serif) Fonts
         'kozminitalic' => {
             '-alias'            => 'kozminproregularacro',
-            '+fontname'          => ',Italic', 
+            '+fontname'          => ',Italic',
         },
         'kozminbold' => {
             '-alias'            => 'kozminproregularacro',
-            '+fontname'          => ',Bold', 
+            '+fontname'          => ',Bold',
         },
         'kozminbolditalic' => {
             '-alias'            => 'kozminproregularacro',
-            '+fontname'          => ',BoldItalic', 
+            '+fontname'          => ',BoldItalic',
         },
     # Korean Fonts
         'myungjoitalic' => {
             '-alias'            => 'adobemyungjostdmediumacro',
-            '+fontname'          => ',Italic', 
+            '+fontname'          => ',Italic',
         },
         'myungjobold' => {
             '-alias'            => 'adobemyungjostdmediumacro',
-            '+fontname'          => ',Bold', 
+            '+fontname'          => ',Bold',
         },
         'myungjobolditalic' => {
             '-alias'            => 'adobemyungjostdmediumacro',
-            '+fontname'          => ',BoldItalic', 
+            '+fontname'          => ',BoldItalic',
         },
     };
 
