@@ -8,7 +8,7 @@ use SelectSaver;
 use Carp qw(croak);
 use 5.008001;
 
-our $VERSION = '0.20';
+our $VERSION = '0.23';
 
 sub handler {
     my ($class, $code, ) = @_;
@@ -19,14 +19,16 @@ sub handler {
         my $stdout  = IO::File->new_tmpfile;
 
         {
-            local %ENV = (%ENV, $class->emulate_environment($env));
-
-            local *STDIN  = $env->{'psgi.input'};
-            local *STDOUT = $stdout;
-            local *STDERR = $env->{'psgi.errors'};
-
             my $saver = SelectSaver->new("::STDOUT");
-            $code->();
+            {
+                local %ENV = (%ENV, $class->emulate_environment($env));
+
+                local *STDIN  = $env->{'psgi.input'};
+                local *STDOUT = $stdout;
+                local *STDERR = $env->{'psgi.errors'};
+
+                $code->();
+            }
         }
 
         seek( $stdout, 0, SEEK_SET )
@@ -48,7 +50,7 @@ sub emulate_environment {
         REMOTE_HOST     => 'localhost',
         REMOTE_PORT     => int( rand(64000) + 1000 ),    # not in RFC 3875
         # REQUEST_URI     => $uri->path_query,                 # not in RFC 3875
-        ( map { $_ => $env->{$_} } grep !/^psgix?\./, keys %$env )
+        ( map { $_ => $env->{$_} } grep { !/^psgix?\./ && $_ ne "HTTP_PROXY" } keys %$env )
     };
 
     return wantarray ? %$environment : $environment;
@@ -171,3 +173,4 @@ LICENSE file included with this module.
 L<PSGI> L<CGI::Compile> L<CGI::PSGI> L<Plack> L<CGI::Parse::PSGI>
 
 =cut
+

@@ -6,8 +6,16 @@ our @EXPORT_OK = qw( parse_cgi_output );
 use IO::File; # perl bug: should be loaded to call ->getline etc. on filehandle/PerlIO
 use HTTP::Response;
 
+our %DEFAULT_OPTS = (
+    ignore_status_line => 0,
+);
+
 sub parse_cgi_output {
     my $output = shift;
+    my $options = \%DEFAULT_OPTS;
+    if (ref $_[0] eq 'HASH') {
+        $options = { %DEFAULT_OPTS, %{ +shift } }; # Use default opts where none supplied
+    }
 
     my $length;
     if (ref $output eq 'SCALAR') {
@@ -40,8 +48,18 @@ sub parse_cgi_output {
         $response->header('Status', 302);
     }
 
-    my $status = $response->header('Status') || 200;
-    $status =~ s/\s+.*$//; # remove ' OK' in '200 OK'
+    my $status = $options->{ignore_status_line}?
+        200 : ($response->code || 200);
+
+    my $status_header = $response->header('Status');
+    if ($status_header) {
+        # Use the header status preferentially, if present and well formed
+
+        # Extract the code from the header (should be 3 digits, non zero)
+        my ($code) = ($status_header =~ /^ \s* (\d+) /x);
+
+        $status = $code || $status;
+    }
 
     $response->remove_header('Status'); # PSGI doesn't allow having Status header in the response
 
@@ -101,6 +119,10 @@ CGI::Parse::PSGI - Parses CGI output and creates PSGI response out of it
   my $output = YourApp->run;
   my $psgi_res = parse_cgi_output(\$output);
 
+An option hash can also be passed:
+
+  my $psgi_res = parse_cgi_output(\$output, \%options);
+
 =head1 SYNOPSIS
 
 CGI::Parse::PSGI exports one function C<parse_cgi_output> that takes a
@@ -111,6 +133,39 @@ headers and a body) by reading the output.
 Use L<CGI::Emulate::PSGI> if you have a CGI I<code> not the I<output>,
 which takes care of automatically parsing the output, using this
 module, from your callback code.
+
+=head1 OPTIONS
+
+As mentioned above, C<parse_cgi_output> can accept an options hash as
+the second argument.
+
+Currently the options available are:
+
+=over 4
+
+=item C<ignore_status_line>
+
+A boolean value, defaulting to 0 (false). If true, the status in the
+HTTP protocol line is not used to set the default status in absence of
+a status header.
+
+=back
+
+The options can be supplied to earlier versions, and will be ignored
+without error.  Hence you can preserve legacy behaviour like this:
+
+    parse_cgi_output(\$output, {ignore_status_line => 1});
+
+This will ensure that if the script output includes an edge case
+like this:
+
+    HTTP/1.1 666 SNAFU
+    Content-Type: text/plain
+
+    This should be OK!
+
+then the old behaviour of ignoring the status line and returning 200
+is preserved.
 
 =head1 AUTHOR
 
