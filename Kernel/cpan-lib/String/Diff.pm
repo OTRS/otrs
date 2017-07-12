@@ -18,7 +18,7 @@ BEGIN {
     }
 }
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 our %DEFAULT_MARKS = (
     remove_open  => '[',
@@ -202,7 +202,7 @@ sub _list_gc {
         $escape = $opts{escape};
     }
     while (scalar(@{ $diff }) > $c) {
-        my $_str = $opts{regexp} ? $escape->($diff->[$c]->[1]) : $diff->[$c]->[1];
+        my $_str = $escape ? $escape->($diff->[$c]->[1]) : $diff->[$c]->[1];
         if ($diff->[$c]->[0] eq '-') {
             $str .= "$opts{remove_open}$_str$opts{remove_close}";
         } elsif ($diff->[$c]->[0] eq '+') {
@@ -316,12 +316,12 @@ after the line is divided, diff is taken when 'linebreak' option is specified.
 
 In diff and diff_merge methods the mark of the difference can be changed.
 
-  my $diff = String::Diff::diff('this is Perl', 'this is Ruby',{
+  my $diff = String::Diff::diff('this is Perl', 'this is Ruby',
       remove_open => '<del>',
       remove_close => '</del>',
       append_open => '<ins>',
       append_close => '</ins>',
-  });
+  );
 
 You can escape callback set to diff function and diff_merge function.
 
@@ -365,13 +365,15 @@ You can escape callback set to diff function and diff_merge function.
 
 =head1 AUTHOR
 
-Kazuhiro Osawa E<lt>ko@yappo.ne.jpE<gt>
+Kazuhiro Osawa E<lt>yappo {@} shibuya {dot} plE<gt>
 
 =head1 SEE ALSO
 
 L<Algorithm::Diff>
 
 =head1 LICENSE
+
+Copyright 2008 (C) Kazuhiro Osawa
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
