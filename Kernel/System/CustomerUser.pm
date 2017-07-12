@@ -869,7 +869,7 @@ sub CustomerUserDataGet {
 
         next SOURCE if !$Self->{"CustomerUser$Count"};
 
-        my %Customer = $Self->{"CustomerUser$Count"}->CustomerUserDataGet( %Param );
+        my %Customer = $Self->{"CustomerUser$Count"}->CustomerUserDataGet(%Param);
         next SOURCE if !%Customer;
 
         # generate the full name and save it in the hash

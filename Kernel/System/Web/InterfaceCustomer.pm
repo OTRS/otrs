@@ -114,7 +114,7 @@ sub Run {
         if (
             (
                 !defined $ENV{HTTPS}
-                && !grep { /^HTTPS(?:_|$)/ } keys %ENV
+                && !grep {/^HTTPS(?:_|$)/} keys %ENV
             )
             || $ENV{HTTPS} ne 'on'
             )

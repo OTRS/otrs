@@ -501,7 +501,7 @@ sub MigrateXMLStructure {
                     }
 
                     # special treatment for OTRSBusiness tile CssClass
-                    if ($NavBarTag eq 'CssClass') {
+                    if ( $NavBarTag eq 'CssClass' ) {
                         next NAVBARTAG if $Name ne 'Frontend::NavigationModule###AdminOTRSBusiness';
                         $Value = 'OTRSBusiness';
                     }
@@ -511,7 +511,6 @@ sub MigrateXMLStructure {
                         "<Item Key=\"$NavBarTag\"$Attributes>$Value</Item>",
                     );
                 }
-
 
                 $NavigationModule .= sprintf( "\n%-*s%s", 12, "", "</Hash>" );
                 $NavigationModule .= sprintf( "\n%-*s%s", 8,  "", "</Value>" );
