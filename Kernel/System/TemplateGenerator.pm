@@ -7,7 +7,6 @@
 # --
 
 package Kernel::System::TemplateGenerator;
-## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 use strict;
 use warnings;
@@ -35,7 +34,6 @@ our @ObjectDependencies = (
     'Kernel::System::User',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::JSON',
-    'Kernel::System::DateTime',
 
 );
 
@@ -927,15 +925,13 @@ sub NotificationEvent {
         );
     }
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
     ARTICLE:
     for my $ArticleData ( \%CustomerArticle, \%AgentArticle ) {
         next ARTICLE if !$ArticleData->{TicketID};
         next ARTICLE if !$ArticleData->{ArticleID};
 
         # Get article preview in plain text and store it as Body key.
-        $ArticleData->{Body} = $LayoutObject->ArticlePreview(
+        $ArticleData->{Body} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ArticlePreview(
             TicketID  => $ArticleData->{TicketID},
             ArticleID => $ArticleData->{ArticleID},
             Result    => 'plain',
@@ -978,7 +974,7 @@ sub NotificationEvent {
     }
 
     # Get customer article fields.
-    my %CustomerArticleFields = $LayoutObject->ArticleFields(
+    my %CustomerArticleFields = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ArticleFields(
         TicketID  => $CustomerArticle{TicketID},
         ArticleID => $CustomerArticle{ArticleID},
     );
@@ -1378,36 +1374,6 @@ sub _Replace {
             next ATTRIBUTE if !$Ticket{$Attribute};
             $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToHTML(
                 String => $Ticket{$Attribute},
-            );
-        }
-    }
-
-    # Replace time tags.
-    for my $UnixFormatTime (
-        qw(RealTillTimeNotUsed EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
-        )
-    {
-        if ( $Ticket{$UnixFormatTime} ) {
-            $Ticket{$UnixFormatTime} = $Kernel::OM->Create(
-                'Kernel::System::DateTime',
-                ObjectParams => {
-                    Epoch => $Ticket{$UnixFormatTime},
-                    }
-            )->ToString();
-        }
-    }
-
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    for my $TimeInSeconds (
-        qw(UntilTime EscalationTimeWorkingTime EscalationTime FirstResponseTimeWorkingTime FirstResponseTime UpdateTimeWorkingTime
-        UpdateTime SolutionTimeWorkingTime SolutionTime)
-        )
-    {
-        if ( $Ticket{$TimeInSeconds} ) {
-            $Ticket{$TimeInSeconds} = $LayoutObject->CustomerAge(
-                Age   => $Ticket{$TimeInSeconds},
-                Space => ' '
             );
         }
     }
