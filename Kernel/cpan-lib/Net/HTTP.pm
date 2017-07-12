@@ -1,11 +1,9 @@
 package Net::HTTP;
-
+$Net::HTTP::VERSION = '6.16';
 use strict;
-use vars qw($VERSION @ISA $SOCKET_CLASS);
+use warnings;
 
-$VERSION = "6.09";
-$VERSION = eval $VERSION;
-
+use vars qw($SOCKET_CLASS);
 unless ($SOCKET_CLASS) {
     # Try several, in order of capability and preference
     if (eval { require IO::Socket::IP }) {
@@ -22,7 +20,7 @@ unless ($SOCKET_CLASS) {
 require Net::HTTP::Methods;
 require Carp;
 
-@ISA = ($SOCKET_CLASS, 'Net::HTTP::Methods');
+our @ISA = ($SOCKET_CLASS, 'Net::HTTP::Methods');
 
 sub new {
     my $class = shift;
@@ -42,11 +40,17 @@ sub http_connect {
 
 1;
 
-__END__
+=pod
+
+=encoding UTF-8
 
 =head1 NAME
 
 Net::HTTP - Low-level HTTP connection (client)
+
+=head1 VERSION
+
+version 6.16
 
 =head1 SYNOPSIS
 
@@ -284,11 +288,20 @@ names prefixed with C<http_> and C<io_>.
 
 L<LWP>, L<IO::Socket::INET>, L<Net::HTTP::NB>
 
-=head1 COPYRIGHT
+=head1 AUTHOR
 
-Copyright 2001-2003 Gisle Aas.
+Gisle Aas <gisle@activestate.com>
 
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2001-2017 by Gisle Aas.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+
+__END__
+
+# ABSTRACT: Low-level HTTP connection (client)
+
