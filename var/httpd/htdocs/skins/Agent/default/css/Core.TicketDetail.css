@@ -463,7 +463,7 @@ div.Headline .Flag {
  * @note        styles for article body
  */
 .MessageBrowser {
-    margin-bottom: 7px;
+    margin: 11px 11px 6px 11px;
     position: relative;
 }
 
