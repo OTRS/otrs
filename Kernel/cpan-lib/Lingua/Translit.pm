@@ -4,7 +4,8 @@ package Lingua::Translit;
 # Copyright (C) 2007-2008 ...
 #   Alex Linke <alinke@lingua-systems.com>
 #   Rona Linke <rlinke@lingua-systems.com>
-# Copyright (C) 2009-2015 Lingua-Systems Software GmbH
+# Copyright (C) 2009-2016 Lingua-Systems Software GmbH
+# Copyright (C) 2016-2017 Netzum Sorglos, Lingua-Systems Software GmbH
 #
 
 use strict;
@@ -17,9 +18,11 @@ use Encode qw/encode decode/;
 
 use Lingua::Translit::Tables;
 
-our $VERSION = '0.22';
+our $VERSION = '0.27';
 
 =pod
+
+=encoding utf8
 
 =head1 NAME
 
@@ -48,7 +51,7 @@ writing system or alphabet to another one.
 The conversion is ideally unique, mapping one character to exactly one
 character, so the original spelling can be reconstructed.
 Practically this is not always the case and one single letter of the
-original alpabet can be transcribed as two, three or even more letters.
+original alphabet can be transcribed as two, three or even more letters.
 
 Furthermore there is more than one transliteration scheme for one writing
 system.
@@ -58,11 +61,11 @@ reconstruct the original data.
 
 Reconstruction is a problem though for non-unique transliterations, if no
 language specific knowledge is available as the resulting clusters of
-letters may be ambigous.
+letters may be ambiguous.
 For example, the Greek character "PSI" maps to "ps", but "ps" could also
 result from the sequence "PI", "SIGMA" since "PI" maps to "p" and "SIGMA"
 maps to s.
-If a transliteration table leads to ambigous conversions, the provided
+If a transliteration table leads to ambiguous conversions, the provided
 table cannot be used reverse.
 
 Otherwise the table can be used in both directions, if appreciated.
@@ -299,6 +302,12 @@ Latin with support for Old Russian (pre 1918), Russian
 I<GOST 7.79 UKR>, reversible, GOST 7.79:2000 (table B), Cyrillic to Latin,
 Ukrainian
 
+I<BGN/PCGN RUS Standard>, not reversible, BGN/PCGN:1947 (Standard Variant),
+Cyrillic to Latin, Russian
+
+I<BGN/PCGN RUS Strict>, not reversible, BGN/PCGN:1947 (Strict Variant),
+Cyrillic to Latin, Russian
+
 =item Greek
 
 I<ISO 843>, not reversible, ISO 843:1997, Greek to Latin
@@ -321,19 +330,25 @@ I<Common SLK>, not reversible, Slovak without diacritics
 
 I<Common SLV>, not reversible, Slovenian without diacritics
 
+I<ISO 8859-16 RON>, reversible, Romanian with appropriate diacritics
+
 =item Arabic
 
 I<Common ARA>, not reversible, Common Romanization of Arabic
+
+=item Sanskrit
+
+I<IAST Devanagari>, not reversible, IAST Romanization to Devanāgarī
+
+I<Devanagari IAST>, not reversible, Devanāgarī to IAST Romanization
 
 =back
 
 =head1 ADDING NEW TRANSLITERATIONS
 
 In case you want to add your own transliteration tables to
-L<Lingua::Translit>, have a look at the developer manual included in the
-distribution.
-An online version is available at
-L<http://www.lingua-systems.com/translit/downloads/>.
+L<Lingua::Translit>, have a look at the developer documentation at
+L<http://www.netzum-sorglos.de/software/lingua-translit/developer-documentation.html>.
 
 A template of a transliteration table is provided as well
 (F<xml/template.xml>) so you can easily start developing.
@@ -354,15 +369,16 @@ converted internally.
 
 None known.
 
-Please report bugs to perl@lingua-systems.com.
+Please report bugs using CPAN's request tracker at
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=Lingua-Translit>.
 
 =head1 SEE ALSO
 
 L<Lingua::Translit::Tables>, L<Encode>, L<perlunicode>
 
-L<translit(1)>
+C<translit>'s manpage
 
-L<http://www.lingua-systems.com/translit/>
+L<http://www.netzum-sorglos.de/software/lingua-translit/>
 
 =head1 CREDITS
 
@@ -377,24 +393,34 @@ transliteration.
 
 Thanks to Dusan Vuckovic for contributing the "ISO/R 9" transliteration table.
 
+Thanks to Ștefan Suciu for contributing the "ISO 8859-16 RON" transliteration
+table.
+
+Thanks to Philip Kime for contributing the "IAST Devanagari" and "Devanagari
+IAST" transliteration tables.
+
+Thanks to Nikola Lečić for contributing the "BGN/PCGN RUS Standard" and
+"BGN/PCGN RUS Strict" transliteration tables.
+
 =head1 AUTHORS
 
-Alex Linke <alinke@lingua-systems.com>
+Alex Linke <alinke@netzum-sorglos.de>
 
-Rona Linke <rlinke@lingua-systems.com>
+Rona Linke <rlinke@netzum-sorglos.de>
 
 =head1 LICENSE AND COPYRIGHT
 
 Copyright (C) 2007-2008 Alex Linke and Rona Linke
 
-Copyright (C) 2009-2015 Lingua-Systems Software GmbH
+Copyright (C) 2009-2016 Lingua-Systems Software GmbH
 
-This module is free software. It may be used, redistributed
-and/or modified under the terms of either the GPL v2 or the
-Artistic license.
+Copyright (C) 2016-2017 Netzum Sorglos, Lingua-Systems Software GmbH
+
+This module is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =cut
 
 1;
 
-# vim: sts=4 sw=4 ts=4 ai et
+# vim: set ft=perl sts=4 sw=4 ts=4 ai et:
