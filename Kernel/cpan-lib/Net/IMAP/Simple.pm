@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2206";
+our $VERSION = "1.2209";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -676,6 +676,12 @@ sub search_body    { my $self = shift; my $t = _process_qstring(shift); return $
 sub get {
     my ( $self, $number, $part ) = @_;
     my $arg = $part ? "BODY[$part]" : 'RFC822';
+	return $self->fetch( $number, $part );
+}
+
+sub fetch {
+    my ( $self, $number, $part ) = @_;
+    my $arg = $part || 'RFC822';
 
     my @lines;
     my $fetching;
@@ -753,6 +759,49 @@ sub put {
 
     return $self->_process_cmd(
         cmd   => [ APPEND => _escape($mailbox_name) ." (@flags) {$size}" ],
+        final => sub { $self->_clear_cache; 1 },
+        process => sub {
+            if( $_[0] =~ m/^\+\s+/ ) { # + continue (or go ahead, or whatever)
+                if ($size) {
+                    my $sock = $self->_sock;
+                    if ( ref $msg eq "ARRAY" ) {
+                        print $sock $_ for @$msg;
+
+                    } else {
+                        print $sock $msg;
+                    }
+                    $size = undef;
+                    print $sock "\r\n";
+                }
+            }
+        },
+
+    );
+}
+
+# This supports supplying a date per IMAP RFC 3501
+# APPEND Command - Section 6.3.11
+# Implemented here as a new method so when calling the put above
+# older code will not break
+sub put_with_date {
+    my ( $self, $mailbox_name, $msg, $date, @flags ) = @_;
+
+    croak "usage: \$imap->put_with_date(mailbox, message, date, \@flags)" unless defined $msg and defined $mailbox_name;
+
+    my $size = length $msg;
+    if ( ref $msg eq "ARRAY" ) {
+        $size = 0;
+        $size += length $_ for @$msg;
+    }
+
+    @flags = $self->_process_flags(@flags);
+
+    my $cmd_str = _escape($mailbox_name) . " (@flags)";
+    $cmd_str .= " " . _escape($date) if $date ne "";
+    $cmd_str .= " {$size}";
+
+    return $self->_process_cmd(
+        cmd   => [ APPEND => $cmd_str ],
         final => sub { $self->_clear_cache; 1 },
         process => sub {
             if( $_[0] =~ m/^\+\s+/ ) { # + continue (or go ahead, or whatever)
