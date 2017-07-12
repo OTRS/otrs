@@ -30,7 +30,6 @@
  - 2017-06-14 Fixed bug#[12781](https://bugs.otrs.org/show_bug.cgi?id=12781) - AdminCustomerCompany allows only one customer company backend.
  - 2017-06-14 Fixed bug#[12742](https://bugs.otrs.org/show_bug.cgi?id=12742) - IE 11: magnifying glass isn't visible.
  - 2017-06-13 Fixed bug#[12890](https://bugs.otrs.org/show_bug.cgi?id=12890) - Mask New Mail Ticket - signature frame require login.
- - 2017-06-13 Fixed bug#[12726](https://bugs.otrs.org/show_bug.cgi?id=12726) - Automatic links to CVE numbers don't work in TicketViewZoom.
  - 2017-06-13 Fixed bug#[12854](https://bugs.otrs.org/show_bug.cgi?id=12854) - ACL Editor shows wrong values.
  - 2017-06-12 Fixed bug#[12824](https://bugs.otrs.org/show_bug.cgi?id=12824) - AjaxErrorDialog visible when printing Ticket via Browser.
  - 2017-06-12 Fixed bug#[12808](https://bugs.otrs.org/show_bug.cgi?id=12808) - Wrong counting in Dashlets for "Ticket in My Queues".
