@@ -12532,8 +12532,8 @@ via the Preferences button after logging in.
         <Navigation>Core::CommunicationChannel</Navigation>
         <Value>
             <Hash>
-                <Item Key="Name" Translatable="1">Internal</Item>
-                <Item Key="Icon">fa-globe</Item>
+                <Item Key="Name" Translatable="1">OTRS</Item>
+                <Item Key="Icon">fa-cloud</Item>
                 <Item Key="Description" Translatable="1">Internal communication channel.</Item>
                 <Item Key="Module">Kernel::System::CommunicationChannel::Internal</Item>
             </Hash>
