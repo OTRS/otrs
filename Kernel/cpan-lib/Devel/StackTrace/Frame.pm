@@ -3,7 +3,7 @@ package Devel::StackTrace::Frame;
 use strict;
 use warnings;
 
-our $VERSION = '2.01';
+our $VERSION = '2.02';
 
 # Create accessor routines
 BEGIN {
@@ -62,7 +62,7 @@ sub as_string {
 
     my $sub = $self->subroutine;
 
-    # This code stolen straight from Carp.pm and then tweaked.  All
+    # This code stolen straight from Carp.pm and then tweaked. All
     # errors are probably my fault  -dave
     if ($first) {
         $sub
@@ -162,13 +162,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Devel::StackTrace::Frame - A single frame in a stack trace
 
 =head1 VERSION
 
-version 2.01
+version 2.02
 
 =head1 DESCRIPTION
 
@@ -178,41 +180,47 @@ See L<Devel::StackTrace> for details.
 
 =head1 METHODS
 
-See Perl's C<caller()> documentation for more information on what these
+See Perl's C<caller> documentation for more information on what these
 methods return.
 
-=head2 $frame->package()
+=head2 $frame->package
 
-=head2 $frame->filename()
+=head2 $frame->filename
 
-=head2 $frame->line()
+=head2 $frame->line
 
-=head2 $frame->subroutine()
+=head2 $frame->subroutine
 
-=head2 $frame->hasargs()
+=head2 $frame->hasargs
 
-=head2 $frame->wantarray()
+=head2 $frame->wantarray
 
-=head2 $frame->evaltext()
+=head2 $frame->evaltext
 
 Returns undef if the frame was not part of an eval.
 
-=head2 $frame->is_require()
+=head2 $frame->is_require
 
 Returns undef if the frame was not part of a require.
 
-=head2 $frame->args()
+=head2 $frame->args
 
-Returns the arguments passed to the frame.  Note that any arguments that are
+Returns the arguments passed to the frame. Note that any arguments that are
 references are returned as references, not copies.
 
-=head2 $frame->hints()
+=head2 $frame->hints
 
-=head2 $frame->bitmask()
+=head2 $frame->bitmask
 
-=head2 $frame->as_string()
+=head2 $frame->as_string
 
 Returns a string containing a description of the frame.
+
+=head1 SUPPORT
+
+Bugs may be submitted through L<https://github.com/houseabsolute/Devel-StackTrace/issues>.
+
+I am also usually active on IRC as 'autarch' on C<irc://irc.perl.org>.
 
 =head1 AUTHOR
 

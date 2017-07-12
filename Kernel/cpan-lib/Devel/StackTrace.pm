@@ -5,7 +5,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '2.01';
+our $VERSION = '2.02';
 
 use Devel::StackTrace::Frame;
 use File::Spec;
@@ -29,7 +29,7 @@ sub new {
         %p,
     }, $class;
 
-    $self->_record_caller_data();
+    $self->_record_caller_data;
 
     return $self;
 }
@@ -37,7 +37,7 @@ sub new {
 sub _record_caller_data {
     my $self = shift;
 
-    my $filter = $self->{filter_frames_early} && $self->_make_frame_filter();
+    my $filter = $self->{filter_frames_early} && $self->_make_frame_filter;
 
     # We exclude this method by starting at least one frame back.
     my $x = 1 + ( $self->{skip_frames} || 0 );
@@ -99,7 +99,7 @@ sub _ref_to_string {
 sub _make_frames {
     my $self = shift;
 
-    my $filter = !$self->{filter_frames_early} && $self->_make_frame_filter();
+    my $filter = !$self->{filter_frames_early} && $self->_make_frame_filter;
 
     my $raw = delete $self->{raw};
     for my $r ( @{$raw} ) {
@@ -176,7 +176,7 @@ sub next_frame {
     # reset to top if necessary.
     $self->{index} = -1 unless defined $self->{index};
 
-    my @f = $self->frames();
+    my @f = $self->frames;
     if ( defined $f[ $self->{index} + 1 ] ) {
         return $f[ ++$self->{index} ];
     }
@@ -190,7 +190,7 @@ sub next_frame {
 sub prev_frame {
     my $self = shift;
 
-    my @f = $self->frames();
+    my @f = $self->frames;
 
     # reset to top if necessary.
     $self->{index} = scalar @f unless defined $self->{index};
@@ -218,14 +218,14 @@ sub frames {
 
     if (@_) {
         die
-            "Devel::StackTrace->frames() can only take Devel::StackTrace::Frame args\n"
+            "Devel::StackTrace->frames can only take Devel::StackTrace::Frame args\n"
             if grep { !$_->isa('Devel::StackTrace::Frame') } @_;
 
         $self->{frames} = \@_;
         delete $self->{raw};
     }
     else {
-        $self->_make_frames() if $self->{raw};
+        $self->_make_frames if $self->{raw};
     }
 
     return @{ $self->{frames} };
@@ -237,13 +237,13 @@ sub frame {
 
     return unless defined $i;
 
-    return ( $self->frames() )[$i];
+    return ( $self->frames )[$i];
 }
 
 sub frame_count {
     my $self = shift;
 
-    return scalar( $self->frames() );
+    return scalar( $self->frames );
 }
 
 sub as_string {
@@ -252,7 +252,7 @@ sub as_string {
 
     my $st    = q{};
     my $first = 1;
-    foreach my $f ( $self->frames() ) {
+    foreach my $f ( $self->frames ) {
         $st .= $f->as_string( $first, $p ) . "\n";
         $first = 0;
     }
@@ -276,47 +276,47 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Devel::StackTrace - An object representing a stack trace
 
 =head1 VERSION
 
-version 2.01
+version 2.02
 
 =head1 SYNOPSIS
 
   use Devel::StackTrace;
 
-  my $trace = Devel::StackTrace->new();
+  my $trace = Devel::StackTrace->new;
 
-  print $trace->as_string(); # like carp
+  print $trace->as_string; # like carp
 
   # from top (most recent) of stack to bottom.
-  while ( my $frame = $trace->next_frame() ) {
-      print "Has args\n" if $frame->hasargs();
+  while ( my $frame = $trace->next_frame ) {
+      print "Has args\n" if $frame->hasargs;
   }
 
   # from bottom (least recent) of stack to top.
-  while ( my $frame = $trace->prev_frame() ) {
-      print "Sub: ", $frame->subroutine(), "\n";
+  while ( my $frame = $trace->prev_frame ) {
+      print "Sub: ", $frame->subroutine, "\n";
   }
 
 =head1 DESCRIPTION
 
-The C<Devel::StackTrace> module contains two classes, C,Devel::StackTrace> and
+The C<Devel::StackTrace> module contains two classes, C<Devel::StackTrace> and
 L<Devel::StackTrace::Frame>. These objects encapsulate the information that
-can retrieved via Perl's C<caller()> function, as well as providing a simple
+can retrieved via Perl's C<caller> function, as well as providing a simple
 interface to this data.
 
 The C<Devel::StackTrace> object contains a set of C<Devel::StackTrace::Frame>
 objects, one for each level of the stack. The frames contain all the data
-available from C<caller()>.
+available from C<caller>.
 
 This code was created to support my L<Exception::Class::Base> class (part of
 L<Exception::Class>) but may be useful in other contexts.
-
-=encoding UTF-8
 
 =head1 'TOP' AND 'BOTTOM' OF THE STACK
 
@@ -333,7 +333,7 @@ Here's an example:
   }
 
   sub bar {
-     Devel::StackTrace->new();  # top frame is here.
+     Devel::StackTrace->new;  # top frame is here.
   }
 
 =head1 METHODS
@@ -350,20 +350,20 @@ Takes the following parameters:
 
 =item * frame_filter => $sub
 
-By default, Devel::StackTrace will include all stack frames before the
-call to its constructor.
+By default, Devel::StackTrace will include all stack frames before the call to
+its constructor.
 
-However, you may want to filter out some frames with more granularity
-than 'ignore_package' or 'ignore_class' allow.
+However, you may want to filter out some frames with more granularity than
+'ignore_package' or 'ignore_class' allow.
 
-You can provide a subroutine which is called with the raw frame data
-for each frame. This is a hash reference with two keys, "caller", and
-"args", both of which are array references. The "caller" key is the
-raw data as returned by Perl's C<caller()> function, and the "args"
-key are the subroutine arguments found in C<@DB::args>.
+You can provide a subroutine which is called with the raw frame data for each
+frame. This is a hash reference with two keys, "caller", and "args", both of
+which are array references. The "caller" key is the raw data as returned by
+Perl's C<caller> function, and the "args" key are the subroutine arguments
+found in C<@DB::args>.
 
-The filter should return true if the frame should be included, or
-false if it should be skipped.
+The filter should return true if the frame should be included, or false if it
+should be skipped.
 
 =item * filter_frames_early => $boolean
 
@@ -377,18 +377,17 @@ to be able to examine object properties, for example.
 
 =item * ignore_package => $package_name OR \@package_names
 
-Any frames where the package is one of these packages will not be on
-the stack.
+Any frames where the package is one of these packages will not be on the
+stack.
 
 =item * ignore_class => $package_name OR \@package_names
 
-Any frames where the package is a subclass of one of these packages
-(or is the same package) will not be on the stack.
+Any frames where the package is a subclass of one of these packages (or is the
+same package) will not be on the stack.
 
-Devel::StackTrace internally adds itself to the 'ignore_package'
-parameter, meaning that the Devel::StackTrace package is B<ALWAYS>
-ignored. However, if you create a subclass of Devel::StackTrace it
-will not be ignored.
+Devel::StackTrace internally adds itself to the 'ignore_package' parameter,
+meaning that the Devel::StackTrace package is B<ALWAYS> ignored. However, if
+you create a subclass of Devel::StackTrace it will not be ignored.
 
 =item * skip_frames => $integer
 
@@ -399,8 +398,8 @@ even with C<filter_frames_early>.
 
 =item * unsafe_ref_capture => $boolean
 
-If this parameter is true, then Devel::StackTrace will store
-references internally when generating stacktrace frames.
+If this parameter is true, then Devel::StackTrace will store references
+internally when generating stacktrace frames.
 
 B<This option is very dangerous, and should never be used with exception
 objects>. Using this option will keep any objects or references alive past
@@ -418,11 +417,11 @@ arguments in stack trace frames at all.
 
 =item * respect_overload => $boolean
 
-By default, Devel::StackTrace will call C<overload::AddrRef()> to get
-the underlying string representation of an object, instead of
-respecting the object's stringification overloading. If you would
-prefer to see the overloaded representation of objects in stack
-traces, then set this parameter to true.
+By default, Devel::StackTrace will call C<overload::AddrRef> to get the
+underlying string representation of an object, instead of respecting the
+object's stringification overloading. If you would prefer to see the
+overloaded representation of objects in stack traces, then set this parameter
+to true.
 
 =item * max_arg_length => $integer
 
@@ -440,33 +439,33 @@ message using this option.
 =item * indent => $boolean
 
 If this parameter is true, each stack frame after the first will start with a
-tab character, just like C<Carp::confess()>.
+tab character, just like C<Carp::confess>.
 
 =back
 
-=head2 $trace->next_frame()
+=head2 $trace->next_frame
 
 Returns the next L<Devel::StackTrace::Frame> object on the stack, going
 down. If this method hasn't been called before it returns the first frame. It
 returns C<undef> when it reaches the bottom of the stack and then resets its
-pointer so the next call to C<< $trace->next_frame() >> or C<<
-$trace->prev_frame() >> will work properly.
+pointer so the next call to C<< $trace->next_frame >> or C<<
+$trace->prev_frame >> will work properly.
 
-=head2 $trace->prev_frame()
+=head2 $trace->prev_frame
 
 Returns the next L<Devel::StackTrace::Frame> object on the stack, going up. If
 this method hasn't been called before it returns the last frame. It returns
 undef when it reaches the top of the stack and then resets its pointer so the
-next call to C<< $trace->next_frame() >> or C<< $trace->prev_frame() >> will
-work properly.
+next call to C<< $trace->next_frame >> or C<< $trace->prev_frame >> will work
+properly.
 
 =head2 $trace->reset_pointer
 
-Resets the pointer so that the next call to C<< $trace->next_frame() >> or C<<
-$trace->prev_frame() >> will start at the top or bottom of the stack, as
+Resets the pointer so that the next call to C<< $trace->next_frame >> or C<<
+$trace->prev_frame >> will start at the top or bottom of the stack, as
 appropriate.
 
-=head2 $trace->frames()
+=head2 $trace->frames
 
 When this method is called with no arguments, it returns a list of
 L<Devel::StackTrace::Frame> objects. They are returned in order from top (most
@@ -476,9 +475,9 @@ This method can also be used to set the object's frames if you pass it a list
 of L<Devel::StackTrace::Frame> objects.
 
 This is useful if you want to filter the list of frames in ways that are more
-complex than can be handled by the C<< $trace->filter_frames() >> method:
+complex than can be handled by the C<< $trace->filter_frames >> method:
 
-  $stacktrace->frames( my_filter( $stacktrace->frames() ) );
+  $stacktrace->frames( my_filter( $stacktrace->frames ) );
 
 =head2 $trace->frame($index)
 
@@ -486,13 +485,13 @@ Given an index, this method returns the relevant frame, or undef if there is
 no frame at that index. The index is exactly like a Perl array. The first
 frame is 0 and negative indexes are allowed.
 
-=head2 $trace->frame_count()
+=head2 $trace->frame_count
 
 Returns the number of frames in the trace object.
 
 =head2 $trace->as_string(\%p)
 
-Calls C<< $frame->as_string() >> on each frame from top to bottom, producing
+Calls C<< $frame->as_string >> on each frame from top to bottom, producing
 output quite similar to the Carp module's cluck/confess methods.
 
 The optional C<\%p> parameter only has one option. The C<max_arg_length>
@@ -501,9 +500,26 @@ longer than this number of characters.
 
 =head1 SUPPORT
 
-Please submit bugs to the CPAN RT system at
-http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Devel%3A%3AStackTrace
-or via email at bug-devel-stacktrace@rt.cpan.org.
+Bugs may be submitted through L<https://github.com/houseabsolute/Devel-StackTrace/issues>.
+
+I am also usually active on IRC as 'autarch' on C<irc://irc.perl.org>.
+
+=head1 DONATIONS
+
+If you'd like to thank me for the work I've done on this module, please
+consider making a "donation" to me via PayPal. I spend a lot of free time
+creating free software, and would appreciate any support you'd care to offer.
+
+Please note that B<I am not suggesting that you must do this> in order for me
+to continue working on this particular software. I will continue to do so,
+inasmuch as I have in the past, for as long as it interests me.
+
+Similarly, a donation made in this way will probably not make me work on this
+software much more, unless I get so many donations that I can consider working
+on free software full time (let's all have a chuckle at that together).
+
+To donate, log into PayPal and send money to autarch@urth.org, or use the
+button at L<http://www.urth.org/~autarch/fs-donation.html>.
 
 =head1 AUTHOR
 
@@ -511,7 +527,7 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 CONTRIBUTORS
 
-=for stopwords Dagfinn Ilmari Mannsåker David Cantrell Graham Knop Mark Fowler Ricardo Signes
+=for stopwords Dagfinn Ilmari Mannsåker David Cantrell Graham Knop Ivan Bessarabov Mark Fowler Ricardo Signes
 
 =over 4
 
@@ -526,6 +542,10 @@ David Cantrell <david@cantrell.org.uk>
 =item *
 
 Graham Knop <haarg@haarg.org>
+
+=item *
+
+Ivan Bessarabov <ivan@bessarabov.ru>
 
 =item *
 
