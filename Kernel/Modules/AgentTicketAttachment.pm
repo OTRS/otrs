@@ -188,13 +188,6 @@ sub Run {
             LoadExternalImages => $Self->{LoadExternalImages},
         );
 
-        # Format links if FilterText is enabled.
-        if ( $Self->{ConfigObject}->Get('Frontend::Output::FilterText') ) {
-            $Data{Content} = $Self->{LayoutObject}->LinkQuote(
-                Text => $Data{Content},
-            );
-        }
-
         # if there is unexpectedly pgp decrypted content in the html email (OE),
         # we will use the article body (plain text) from the database as fall back
         # see bug#9672
