@@ -6,7 +6,7 @@ use Set::Crontab;
 use Time::Local;
 use vars qw($VERSION @monthlens);
 
-($VERSION) = ('$Revision: 1.93 $' =~ /([\d\.]+)/ );
+($VERSION) = ('$Revision: 1.95 $' =~ /([\d\.]+)/ );
 @monthlens = ( 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
 
 ## PUBLIC INTERFACE
@@ -79,6 +79,7 @@ sub new {
     'pyear' => 0, # the 'current' year
     'initdate' => \@date,
     'initline' => $cronline,
+    'set_e_checked_years' => [],
   };
   
   # now fill the static sets with the sets from Set::Crontab
@@ -124,7 +125,7 @@ sub setCounterToDate {
   $theMon++;
   $self->{'pyear'} += 1900;
 
-  # nested ifs... to set the next occurence time
+  # nested ifs... to set the next occurrence time
   my ($exact, $pos) = contains($theMon, @{ $self->{'e'} });
   $self->{'pa'} = $pos;
   if ($exact) {
@@ -257,6 +258,7 @@ sub getdate {
   return (0, $self->{'h'}[$self->{'pd'}], $self->{'g'}[$self->{'pc'}], $self->{'f'}[$self->{'pb'}], $self->{'e'}[$self->{'pa'}]-1, $self->{'pyear'}-1900);
 }
 
+# returns a list of days during which next event is possible
 sub set_f {
   my $self = shift || confess "Must be called as a method";
 
@@ -274,7 +276,7 @@ sub set_f {
   my $startday = _DayOfWeek($monthnum, 1, $self->{'pyear'});
   # add in, if needed, the selected weekdays
   foreach my $daynum (@{ $self->{'ranges'}{'weekdays'} }) {
-    my $offset = $daynum - $startday; # 0 - 6 = -6; start on saturday, want a sunday 
+    my $offset = $daynum - $startday; # 0 - 6 = -6; start on Saturday, want a Sunday 
     for my $week (1, 8, 15, 22, 29, 36) {
       my $monthday = $week + $offset;
       next if $monthday < 1;
@@ -282,6 +284,7 @@ sub set_f {
       $days{$monthday} = 1;
     }
   }
+
   @{ $self->{'f'} } = sort { $a <=> $b } keys %days;
   return scalar @{ $self->{'f'} };
 }
@@ -314,17 +317,33 @@ sub inc_f {
   }
 }
 
+# increments currents month, skips to the next year
+# when no months left during the current year
+#
+# if there're no possible months during 5 years in a row, bails out:
+# https://rt.cpan.org/Public/Bug/Display.html?id=109246
+#
 sub inc_e {
   my $self = shift || confess "Must be called as a method";
   $self->{'pa'}++;
   if ($self->{'pa'} == 0 || $self->{'pa'} > $#{$self->{'e'}}) {
     $self->{'pa'} = 0;
     $self->{'pyear'}++;
+
+    # https://rt.cpan.org/Public/Bug/Display.html?id=109246
+    push (@{$self->{'set_e_checked_years'}}, $self->{'pyear'});
+    if (scalar(@{$self->{'set_e_checked_years'}} > 5)) {
+      confess("Cron line [" . $self->{'initline'} . "] does not define any valid point in time, checked years: [" .
+          join(",", @{$self->{'set_e_checked_years'}}) .
+          "] (ex, 31th of February) ");
+    }
   }
   my $rv = $self->set_f();
   unless ($rv) { ###
     $self->inc_e;
   }
+
+  $self->{'set_e_checked_years'} = [];
 }
 
 
@@ -510,7 +529,7 @@ the desired year number *minus 1900*
 
 Returns a new object for the specified line from the crontab. The first 5 fields of the line
 are actually parsed by Set::Crontab, which should be able to handle the original crontab(5) ranges
-aswell as Vixie cron ranges and the like. It's up to you to supply a valid line - if you supply
+as well as Vixie cron ranges and the like. It's up to you to supply a valid line - if you supply
 a comment line, an environment variable setting line, or a line which does not seem to begin with
 5 fields (e.g. a blank line), this method returns undef.
 
