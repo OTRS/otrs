@@ -106,7 +106,7 @@ YAML_DUMP_ERR_BAD_REGEXP
 YAML_LOAD_ERR_BAD_MAP_ELEMENT
   Invalid element in map
 YAML_LOAD_WARN_DUPLICATE_KEY
-  Duplicate map key found. Ignoring.
+  Duplicate map key '%s' found. Ignoring.
 YAML_LOAD_ERR_BAD_SEQ_ELEMENT
   Invalid element in sequence
 YAML_PARSE_ERR_INLINE_MAP

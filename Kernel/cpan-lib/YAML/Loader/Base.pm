@@ -20,12 +20,14 @@ has indent        => default => sub {0};
 has major_version => default => sub {0};
 has minor_version => default => sub {0};
 has inline        => default => sub {''};
+has numify        => default => sub {0};
 
 sub set_global_options {
     my $self = shift;
     $self->load_code($YAML::LoadCode || $YAML::UseCode)
       if defined $YAML::LoadCode or defined $YAML::UseCode;
-    $self->preserve($YAML::Preserve) if defined $YAML::Preserve
+    $self->preserve($YAML::Preserve) if defined $YAML::Preserve;
+    $self->numify($YAML::Numify) if defined $YAML::Numify;
 }
 
 sub load {

@@ -355,7 +355,7 @@ sub _parse_mapping {
         $self->_parse_next_line(COLLECTION);
         my $value = $self->_parse_node();
         if (exists $mapping->{$key}) {
-            $self->warn('YAML_LOAD_WARN_DUPLICATE_KEY');
+            $self->warn('YAML_LOAD_WARN_DUPLICATE_KEY', $key);
         }
         else {
             $mapping->{$key} = $value;
@@ -454,6 +454,11 @@ sub _parse_inline {
             $node = $self->_parse_inline_simple();
         }
         $node = $self->_parse_implicit($node) unless $explicit;
+
+        if ($self->numify and defined $node and not ref $node and length $node
+            and $node =~ m/\A-?(?:0|[1-9][0-9]*)?(?:\.[0-9]*)?(?:[eE][+-]?[0-9]+)?\z/) {
+            $node += 0;
+        }
     }
     if ($explicit) {
         $node = $self->_parse_explicit($node, $explicit);
@@ -486,7 +491,7 @@ sub _parse_inline_mapping {
           unless $self->{inline} =~ s/^\: \s*//;
         my $value = $self->_parse_inline();
         if (exists $node->{$key}) {
-            $self->warn('YAML_LOAD_WARN_DUPLICATE_KEY');
+            $self->warn('YAML_LOAD_WARN_DUPLICATE_KEY', $key);
         }
         else {
             $node->{$key} = $value;
@@ -638,7 +643,10 @@ sub _parse_next_line {
     $self->die('YAML_EMIT_ERR_BAD_LEVEL') unless defined $offset;
     shift @{$self->lines};
     $self->eos($self->{done} = not @{$self->lines});
-    return if $self->eos;
+    if ($self->eos) {
+        $self->offset->[$level + 1] = $offset + 1;
+        return;
+    }
     $self->{line}++;
 
     # Determine the offset for a new leaf node
