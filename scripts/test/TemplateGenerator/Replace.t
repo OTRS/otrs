@@ -12,22 +12,14 @@ use utf8;
 
 use vars (qw($Self));
 
-# Get needed objects.
+# get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
-# Get helper object.
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase  => 1,
-        UseTmpArticleDir => 1,
-    },
-);
-my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $RandomID = $Helper->GetRandomID();
+my $RandomID = $HelperObject->GetRandomID();
 
 my @DynamicFieldsToAdd = (
     {
@@ -78,7 +70,7 @@ for my $DynamicField (@DynamicFieldsToAdd) {
         'DynamicFieldAdd()',
     );
 
-    # Remember added DynamicFields.
+    # remember added DynamicFields
     $AddedDynamicFieldIds{$DynamicFieldID} = $DynamicField->{Name};
 
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
@@ -90,47 +82,20 @@ for my $DynamicField (@DynamicFieldsToAdd) {
         'DynamicFieldConfig must be a hash reference',
     );
 
-    # Remember the DF config.
+    # remember the DF config
     $DynamicFieldConfigs{ $DynamicField->{FieldType} } = $DynamicFieldConfig;
 }
 
-# Create template generator after the dynamic field are created as it gathers all DF in the
-# constructor.
+# create template generator after the dynamic field are created as it gathers all DF in the
+# constructor
 my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
-
-# Set the fixed time.
-$Helper->FixedTimeSet(
-    $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => '2017-07-05 11:00:00' ),
-);
-
-# Create test queue with escalation times.
-my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
-    Name                => 'Queue' . $RandomID,
-    Comment             => "Test Queue",
-    ValidID             => 1,
-    GroupID             => 1,
-    FirstResponseTime   => 30,
-    FirstResponseNotify => 80,
-    UpdateTime          => 40,
-    UpdateNotify        => 80,
-    SolutionTime        => 50,
-    SolutionNotify      => 80,
-    SystemAddressID     => 1,
-    SalutationID        => 1,
-    SignatureID         => 1,
-    UserID              => 1,
-);
-$Self->True(
-    $QueueID,
-    "QueueID $QueueID - created"
-);
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',
-    QueueID      => $QueueID,
+    Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
-    State        => 'open',
+    State        => 'closed successful',
     CustomerNo   => '123465',
     CustomerUser => 'customer@example.com',
     OwnerID      => 1,
@@ -164,9 +129,6 @@ $Self->True(
     'DynamicField ValueSet() Dynamic Field Dropdown - with true',
 );
 
-# Add 5 minutes for escalation times evaluation.
-$Helper->FixedTimeAddSeconds(300);
-
 my $ArticleID = $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
     ArticleType    => 'note-internal',
@@ -186,10 +148,6 @@ $Self->IsNot(
     undef,
     'ArticleCreate() ArticleID',
 );
-
-# Renew object because of transaction.
-$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
-$TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @Tests = (
     {
@@ -366,83 +324,6 @@ mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20%3COTRS_CUSTOMER_F
         Result =>
             'mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com&amp;body=From%3A%20test%40home.com">E-Mail mit Subject und Body</a><br /><br />mailto-Link <a href="mailto:skywalker@otrs.org?subject=From%3A%20test%40home.com">E-Mail mit Subject</a><br /><br />mailto-Link <a href="mailto:skywalker@otrs.org?body=From%3A%20test%40home.com">E-Mail mit Body</a><br />',
     },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationResponseTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationResponseTime>',
-        Result   => "Test 2017-07-05 11:30:00",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationUpdateTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationUpdateTime>',
-        Result   => "Test 2017-07-05 11:45:00",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationSolutionTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationSolutionTime>',
-        Result   => "Test 2017-07-05 11:50:00",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationTimeWorkingTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_EscalationTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_EscalationTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_FirstResponseTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_FirstResponseTimeWorkingTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_FirstResponseTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_FirstResponseTime>',
-        Result   => "Test 25 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_UpdateTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_UpdateTimeWorkingTime>',
-        Result   => "Test 40 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_UpdateTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_UpdateTime>',
-        Result   => "Test 40 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_SolutionTimeWorkingTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_SolutionTimeWorkingTime>',
-        Result   => "Test 45 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_SolutionTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_SolutionTime>',
-        Result   => "Test 45 m",
-    },
 );
 
 for my $Test (@Tests) {
@@ -460,60 +341,31 @@ for my $Test (@Tests) {
     );
 }
 
-# Set state to 'pending reminder'.
-$Success = $TicketObject->TicketStateSet(
-    State    => 'pending reminder',
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Success,
-    "TicketID $TicketID - set to pending reminder state successfully",
-);
+# cleanup the system
+for my $DynamicFieldID ( sort keys %AddedDynamicFieldIds ) {
 
-$Success = $TicketObject->TicketPendingTimeSet(
-    String   => '2017-07-06 10:00:00',
-    TicketID => $TicketID,
-    UserID   => 1,
-);
-$Self->True(
-    $Success,
-    "Set pending time successfully",
-);
-
-# Check 'UntilTime' and 'RealTillTimeNotUsed' tags (see bug#8301).
-@Tests = (
-    {
-        Name     => 'OTRS <OTRS_TICKET_UntilTime>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_UntilTime>',
-        Result   => "Test 22 h 55 m",
-    },
-    {
-        Name     => 'OTRS <OTRS_TICKET_RealTillTimeNotUsed>',
-        Data     => {},
-        RichText => 0,
-        Template => 'Test <OTRS_TICKET_RealTillTimeNotUsed>',
-        Result   => "Test 2017-07-06 10:00:00",
-    }
-);
-
-for my $Test (@Tests) {
-    my $Result = $TemplateGeneratorObject->_Replace(
-        Text     => $Test->{Template},
-        Data     => $Test->{Data},
-        RichText => $Test->{RichText},
-        TicketID => $TicketID,
-        UserID   => 1,
+    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $AddedDynamicFieldIds{$DynamicFieldID},
     );
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        "$Test->{Name} - _Replace()",
+
+    my $Success = $BackendObject->AllValuesDelete(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        UserID             => 1,
+    );
+    $Self->True(
+        $Success,
+        "DynamicField AllValuesDelete() - for DynamicFieldID '$DynamicFieldID' with true",
     );
 }
 
-# Cleanup is done by RestoreDatabase.
+# the ticket is no longer needed
+$Success = $TicketObject->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+$Self->True(
+    $Success,
+    "TicketDelete() - fort TicketID '$TicketID' with true",
+);
 
 1;

@@ -1,7 +1,6 @@
 #4.0.25 2017-??-??
  - 2017-07-10 Fixed bug#[12918](https://bugs.otrs.org/show_bug.cgi?id=12918) - Wrong ticket escalation solution time notification.
  - 2017-07-10 Fixed bug#[12930](https://bugs.otrs.org/show_bug.cgi?id=12930) - Dynamic field headers are not translated in Small overview.
- - 2017-07-10 Fixed bug#[8301](https://bugs.otrs.org/show_bug.cgi?id=8301) - Unable to use Pending UntilTime in notifications.
  - 2017-07-10 Fixed bug#[12931](https://bugs.otrs.org/show_bug.cgi?id=12931) - Notification of escalated tickets is not displayed in service view.
  - 2017-06-21 Fixed bug#[12881](https://bugs.otrs.org/show_bug.cgi?id=12881) - Cache FileStorable race conditions provokes "Magic number checking on storable string failed" messages.
  - 2017-07-07 Fixed bug#[12671](https://bugs.otrs.org/show_bug.cgi?id=12671) - ACL to restrict Status based on InputFields (TicketProperties) not working as expected.
