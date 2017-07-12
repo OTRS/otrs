@@ -18,11 +18,11 @@ Text::Diff::FormattedHTML - Generate a colorful HTML diff of strings/files.
 
 =head1 VERSION
 
-Version 0.07
+Version 0.08
 
 =cut
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 
 =head1 SYNOPSIS
@@ -55,9 +55,21 @@ Inspired on GitHub diff view.
    my $html = diff_files("filename1", "filename2");
 
 C<diff_files> and C<diff_strings> support a first optional argument
-(an hash reference) where options can be set. At the moment the only
-valid option is C<vertical> that can be set to a true value, for a
-more compact table.
+(an hash reference) where options can be set.
+
+Valid options are:
+
+=over 4
+
+=item C<vertical>
+
+Can be set to a true value, for a more compact table.
+
+=item C<limit_onesided>
+
+Makes tables look nicer when there is a side with too many new lines.
+
+=back
 
 =cut
 
@@ -192,6 +204,48 @@ sub _internal_diff {
         sprintf("<tr class='%s'><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n", @_);
     };
 
+     if ($settings->{limit_onesided}) {
+         # Prevent really long lists where we just go on showing
+         # all of the values that one side does not have
+         if($settings->{vertical}){
+             die "Option: [vertical] is incompatible with [limit_empty]";
+         }
+         my ($am_skipping, $num_since_lc, $num_since_rc) = (0, 0, 0);
+         $line = sub {
+             my ($class, $ln, $rn, $l, $r) = @_;
+ 
+             my $out = '';
+             if(
+                 ($class ne 'disc_a') &&
+                 ($class ne 'disc_b')
+             ){
+                 if($am_skipping){
+                     $out .= "($num_since_lc, $num_since_rc)</td></tr>\n";
+                 }
+                 ($am_skipping, $num_since_lc, $num_since_rc) = (0, 0, 0);
+             }elsif($class ne 'disc_a'){
+                 $num_since_lc++;
+             }elsif($class ne 'disc_b'){
+                 $num_since_rc++;
+             }
+             if(
+                 ($num_since_lc > $settings->{limit_onesided}) ||
+                 ($num_since_rc > $settings->{limit_onesided})
+             ){
+                 if(!$am_skipping){
+                     $out = '<tr><td colspan=4>';
+                     $am_skipping = 1;
+                 }
+                 $out .= '. ';
+                 return $out;
+             }
+ 
+             $out .= sprintf("<tr class='%s'><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n", @_);
+             return $out;
+         };
+     }
+
+    
     if ($settings->{vertical}) {
         $line = sub {
             my $out = "";
