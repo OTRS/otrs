@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-07-11 Fixed bug#[12893](https://bugs.otrs.org/show_bug.cgi?id=12893) - Missing documentation about SSL. Added new configuration setting HTTPSForceRedirect that can be used to ensure HTTPS-only GUI usage.
  - 2017-07-11 Fixed bug#[12870](https://bugs.otrs.org/show_bug.cgi?id=12870) - Display of zero values in SysConfig.
  - 2017-07-07 Fixed bug#[6682](https://bugs.otrs.org/show_bug.cgi?id=6682) - Line filled for permissions when selecting "rw".
  - 2017-07-04 Fixed bug#[11520](https://bugs.otrs.org/show_bug.cgi?id=11520) - Human readable history entry for dynamic fields.
@@ -141,7 +142,6 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.22 2017-??-??
-- 2017-07-11 Fixed bug#[12893](https://bugs.otrs.org/show_bug.cgi?id=12893) - Missing documentation about SSL. Added new configuration setting HTTPSForceRedirect that can be used to ensure HTTPS-only GUI usage.
 
 #5.0.21 2017-07-18
  - 2017-07-10 Updated translations, thanks to all translators.
