@@ -2,7 +2,7 @@ require 5.006;
 use strict;
 use warnings;
 package Email::Valid;
-$Email::Valid::VERSION = '1.196';
+$Email::Valid::VERSION = '1.202';
 # ABSTRACT: Check validity of Internet email addresses
 our (
   $RFC822PAT,
@@ -75,7 +75,7 @@ sub _rearrange {
   ref $self ? %args = %$self : _initialize( \%args );
   return %args unless @params;
 
-  unless ($params[0] =~ /^-/ and @params > 1) {
+  unless (@params > 1 and $params[0] =~ /^-/) {
     while(@params) {
       croak 'unexpected number of parameters' unless @names;
       $args{ lc shift @names } = shift @params;
@@ -144,22 +144,31 @@ sub _net_dns_query {
 
   $Resolver = Net::DNS::Resolver->new unless defined $Resolver;
 
-  my $packet = $Resolver->send($host, 'MX') or croak $Resolver->errorstring;
-  if ($packet->header->ancount) {
-    my @mx_entries = grep { $_->type eq 'MX' } $packet->answer;
-    if(@mx_entries) {
-        my $mx = ($mx_entries[0])->exchange;
-        if ($mx eq '.' or $mx eq '') {
-          return $self->details('mx'); # Null MX
-        } else {
-          return 1;
-        }
+  my @mx_entries = Net::DNS::mx($Resolver, $host);
+
+  # Check for valid MX records for $host
+  if (@mx_entries) {
+    foreach my $mx (@mx_entries) {
+      my $mxhost = $mx->exchange;
+      my $query  = $Resolver->search($mxhost);
+      next unless ($query);
+      foreach my $a_rr ($query->answer) {
+        return 1 unless $a_rr->type ne 'A';
+      }
     }
   }
 
-  $packet = $Resolver->send($host, 'A') or croak $Resolver->errorstring;
-  return 1 if $packet->header->ancount;
+  # Check for A record for $host
+  my $ans   = $Resolver->query($host, 'A');
+  my @a_rrs = $ans ? $ans->answer : ();
 
+  if (@a_rrs) {
+    foreach my $a_rr (@a_rrs) {
+      return 1 unless $a_rr->type ne 'A';
+    }
+  }
+
+  # MX Check failed
   return $self->details('mx');
 }
 
@@ -219,7 +228,10 @@ sub tld {
 
   my $host = $self->_host( $args{address} or return $self->details('tld') );
   my ($tld) = $host =~ m#\.(\w+)$#;
-  return Net::Domain::TLD::tld_exists($tld);
+
+  my %invalid_tlds = map { $_ => 1 } qw(invalid test example localhost);
+
+  return defined $invalid_tlds{$tld} ? 0 : Net::Domain::TLD::tld_exists($tld);
 }
 
 # Purpose: Check whether a DNS record (A or MX) exists for a domain.
@@ -502,21 +514,21 @@ $RFC822PAT =~ s/\n//g;
 #pod optionally, whether a mail host exists for the domain.
 #pod
 #pod Please note that there is no way to determine whether an
-#pod address is deliverable without attempting delivery (for details, see
-#pod perlfaq 9).
+#pod address is deliverable without attempting delivery
+#pod (for details, see L<perlfaq 9|http://perldoc.perl.org/perlfaq9.html#How-do-I-check-a-valid-mail-address>).
 #pod
 #pod =head1 PREREQUISITES
 #pod
-#pod This module requires perl 5.004 or later and the Mail::Address module.
-#pod Either the Net::DNS module or the nslookup utility is required
-#pod for DNS checks.  The Net::Domain::TLD module is required to check the
+#pod This module requires perl 5.004 or later and the L<Mail::Address> module.
+#pod Either the L<Net::DNS> module or the nslookup utility is required
+#pod for DNS checks.  The L<Net::Domain::TLD> module is required to check the
 #pod validity of top level domains.
 #pod
 #pod =head1 METHODS
 #pod
-#pod   Every method which accepts an <ADDRESS> parameter may
-#pod   be passed either a string or an instance of the Mail::Address
-#pod   class.  All errors raise an exception.
+#pod Every method which accepts an C<< <ADDRESS> >> parameter may
+#pod be passed either a string or an instance of the Mail::Address
+#pod class.  All errors raise an exception.
 #pod
 #pod =over 4
 #pod
@@ -527,7 +539,7 @@ $RFC822PAT =~ s/\n//g;
 #pod control the behavior of the object at instantiation.
 #pod
 #pod The following named parameters are allowed.  See the
-#pod individual methods below of details.
+#pod individual methods below for details.
 #pod
 #pod  -mxcheck
 #pod  -tldcheck
@@ -547,8 +559,8 @@ $RFC822PAT =~ s/\n//g;
 #pod DNS checks.  Using Net::DNS is the preferred method since error
 #pod handling is improved.  If Net::DNS is available, you can modify
 #pod the behavior of the resolver (e.g. change the default tcp_timeout
-#pod value) by manipulating the global Net::DNS::Resolver instance stored in
-#pod $Email::Valid::Resolver.
+#pod value) by manipulating the global L<Net::DNS::Resolver> instance stored in
+#pod C<$Email::Valid::Resolver>.
 #pod
 #pod =item rfc822 ( <ADDRESS> )
 #pod
@@ -575,7 +587,7 @@ $RFC822PAT =~ s/\n//g;
 #pod
 #pod =item fqdn ( <TRUE>|<FALSE> )
 #pod
-#pod Species whether addresses passed to address() must contain a fully
+#pod Specifies whether addresses passed to address() must contain a fully
 #pod qualified domain name (FQDN).  The default is true.
 #pod
 #pod B<Please note!>  FQDN checks only occur for non-domain-literals.  In other
@@ -610,10 +622,10 @@ $RFC822PAT =~ s/\n//g;
 #pod =item address ( <ADDRESS> )
 #pod
 #pod This is the primary method which determines whether an email
-#pod address is valid.  It's behavior is modified by the values of
+#pod address is valid.  Its behavior is modified by the values of
 #pod mxcheck(), tldcheck(), local_rules(), fqdn(), and fudge().  If the address
 #pod passes all checks, the (possibly modified) address is returned as
-#pod a string.  Otherwise, the undefined value is returned.
+#pod a string.  Otherwise, undef is returned.
 #pod In a list context, the method also returns an instance of the
 #pod Mail::Address class representing the email address.
 #pod
@@ -630,7 +642,7 @@ $RFC822PAT =~ s/\n//g;
 #pod  tldcheck
 #pod
 #pod If the class is not instantiated, you can get the same information
-#pod from the global $Email::Valid::Details.
+#pod from the global C<$Email::Valid::Details>.
 #pod
 #pod =back
 #pod
@@ -693,7 +705,11 @@ $RFC822PAT =~ s/\n//g;
 #pod
 #pod =head1 SEE ALSO
 #pod
-#pod Mail::Address, Net::DNS, Net::Domain::TLD, perlfaq9
+#pod L<Mail::Address>, L<Net::DNS>, L<Net::Domain::TLD>, L<perlfaq9|https://metacpan.org/pod/distribution/perlfaq/lib/perlfaq9.pod>
+#pod
+#pod L<RFC822|https://www.ietf.org/rfc/rfc0822.txt> -
+#pod standard for the format of ARPA internet text messages.
+#pod Superseded by L<RFC2822|https://www.ietf.org/rfc/rfc2822.txt>.
 #pod
 #pod =cut
 
@@ -709,7 +725,7 @@ Email::Valid - Check validity of Internet email addresses
 
 =head1 VERSION
 
-version 1.196
+version 1.202
 
 =head1 SYNOPSIS
 
@@ -723,21 +739,21 @@ This module determines whether an email address is well-formed, and
 optionally, whether a mail host exists for the domain.
 
 Please note that there is no way to determine whether an
-address is deliverable without attempting delivery (for details, see
-perlfaq 9).
+address is deliverable without attempting delivery
+(for details, see L<perlfaq 9|http://perldoc.perl.org/perlfaq9.html#How-do-I-check-a-valid-mail-address>).
 
 =head1 PREREQUISITES
 
-This module requires perl 5.004 or later and the Mail::Address module.
-Either the Net::DNS module or the nslookup utility is required
-for DNS checks.  The Net::Domain::TLD module is required to check the
+This module requires perl 5.004 or later and the L<Mail::Address> module.
+Either the L<Net::DNS> module or the nslookup utility is required
+for DNS checks.  The L<Net::Domain::TLD> module is required to check the
 validity of top level domains.
 
 =head1 METHODS
 
-  Every method which accepts an <ADDRESS> parameter may
-  be passed either a string or an instance of the Mail::Address
-  class.  All errors raise an exception.
+Every method which accepts an C<< <ADDRESS> >> parameter may
+be passed either a string or an instance of the Mail::Address
+class.  All errors raise an exception.
 
 =over 4
 
@@ -748,7 +764,7 @@ It accepts an optional list of named parameters to
 control the behavior of the object at instantiation.
 
 The following named parameters are allowed.  See the
-individual methods below of details.
+individual methods below for details.
 
  -mxcheck
  -tldcheck
@@ -768,8 +784,8 @@ Either the Net::DNS module or the nslookup utility is required for
 DNS checks.  Using Net::DNS is the preferred method since error
 handling is improved.  If Net::DNS is available, you can modify
 the behavior of the resolver (e.g. change the default tcp_timeout
-value) by manipulating the global Net::DNS::Resolver instance stored in
-$Email::Valid::Resolver.
+value) by manipulating the global L<Net::DNS::Resolver> instance stored in
+C<$Email::Valid::Resolver>.
 
 =item rfc822 ( <ADDRESS> )
 
@@ -796,7 +812,7 @@ The default is true.
 
 =item fqdn ( <TRUE>|<FALSE> )
 
-Species whether addresses passed to address() must contain a fully
+Specifies whether addresses passed to address() must contain a fully
 qualified domain name (FQDN).  The default is true.
 
 B<Please note!>  FQDN checks only occur for non-domain-literals.  In other
@@ -831,10 +847,10 @@ for a valid top level domains.  The default is false.
 =item address ( <ADDRESS> )
 
 This is the primary method which determines whether an email
-address is valid.  It's behavior is modified by the values of
+address is valid.  Its behavior is modified by the values of
 mxcheck(), tldcheck(), local_rules(), fqdn(), and fudge().  If the address
 passes all checks, the (possibly modified) address is returned as
-a string.  Otherwise, the undefined value is returned.
+a string.  Otherwise, undef is returned.
 In a list context, the method also returns an instance of the
 Mail::Address class representing the email address.
 
@@ -851,7 +867,7 @@ method to determine why it failed.  Possible values are:
  tldcheck
 
 If the class is not instantiated, you can get the same information
-from the global $Email::Valid::Details.
+from the global C<$Email::Valid::Details>.
 
 =back
 
@@ -914,11 +930,63 @@ bug fixes:
 
 =head1 SEE ALSO
 
-Mail::Address, Net::DNS, Net::Domain::TLD, perlfaq9
+L<Mail::Address>, L<Net::DNS>, L<Net::Domain::TLD>, L<perlfaq9|https://metacpan.org/pod/distribution/perlfaq/lib/perlfaq9.pod>
+
+L<RFC822|https://www.ietf.org/rfc/rfc0822.txt> -
+standard for the format of ARPA internet text messages.
+Superseded by L<RFC2822|https://www.ietf.org/rfc/rfc2822.txt>.
 
 =head1 AUTHOR
 
 Maurice Aubrey <maurice@hevanet.com>
+
+=head1 CONTRIBUTORS
+
+=for stopwords Alexandr Ciornii Karel Miko McA Michael Schout Mohammad S Anwar Neil Bowers Ricardo SIGNES Steve Bertrand Svetlana Troy Morehouse
+
+=over 4
+
+=item *
+
+Alexandr Ciornii <alexchorny@gmail.com>
+
+=item *
+
+Karel Miko <karel.miko@gmail.com>
+
+=item *
+
+McA <McA@github.com>
+
+=item *
+
+Michael Schout <mschout@gkg.net>
+
+=item *
+
+Mohammad S Anwar <mohammad.anwar@yahoo.com>
+
+=item *
+
+Neil Bowers <neil@bowers.com>
+
+=item *
+
+Ricardo SIGNES <rjbs@cpan.org>
+
+=item *
+
+Steve Bertrand <steveb@cpan.org>
+
+=item *
+
+Svetlana <svetlana.wiczer@gmail.com>
+
+=item *
+
+Troy Morehouse <troymore@nbnet.nb.ca>
+
+=back
 
 =head1 COPYRIGHT AND LICENSE
 
