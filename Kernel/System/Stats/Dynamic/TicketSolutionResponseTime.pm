@@ -980,7 +980,7 @@ sub _ReportingValues {
         if ( $Attribute =~ m{ \A DynamicField_ }xms ) {
             SEARCHATTRIBUTE:
             for my $SearchAttribute ( sort keys %{$SearchAttributes} ) {
-                next SEARCHATTRIBUTE if $SearchAttribute !~ m{ \A \Q$Attribute\E _ }xms;
+                next SEARCHATTRIBUTE if $SearchAttribute !~ m{ \A \Q$Attribute\E }xms;
                 $TicketSearch{$SearchAttribute} = $SearchAttributes->{$SearchAttribute};
 
                 # don't exist loop
@@ -1314,7 +1314,7 @@ sub _GetAverage {
 
     my $Sum = 0;
     for my $Value ( values %{ $Param{Content} } ) {
-        $Sum += $Value;
+        $Sum += $Value || 0;
     }
     return $Sum / $Param{Count};
 }

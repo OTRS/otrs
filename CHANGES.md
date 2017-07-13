@@ -1,4 +1,5 @@
 #5.0.22 2017-??-??
+ - 2017-07-13 Fixed bug#[12734](https://bugs.otrs.org/show_bug.cgi?id=12734) - Dropdown not considered into TicketSolutionResponseTime Statistic.
 
 #5.0.21 2017-07-18
  - 2017-07-10 Updated translations, thanks to all translators.
