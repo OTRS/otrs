@@ -27,6 +27,12 @@ my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
 my $ServiceObject        = $Kernel::OM->Get('Kernel::System::Service');
 
+# Enable Service.
+$Helper->ConfigSettingChange(
+    Key   => 'Ticket::Service',
+    Value => 1,
+);
+
 # Set fixed time.
 $Helper->FixedTimeSet();
 
