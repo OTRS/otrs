@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-07-13 Updated all bundled CPAN modules to their current versions.
  - 2017-07-11 Fixed bug#[12893](https://bugs.otrs.org/show_bug.cgi?id=12893) - Missing documentation about SSL. Added new configuration setting HTTPSForceRedirect that can be used to ensure HTTPS-only GUI usage.
  - 2017-07-11 Fixed bug#[12870](https://bugs.otrs.org/show_bug.cgi?id=12870) - Display of zero values in SysConfig.
  - 2017-07-07 Fixed bug#[6682](https://bugs.otrs.org/show_bug.cgi?id=6682) - Line filled for permissions when selecting "rw".
