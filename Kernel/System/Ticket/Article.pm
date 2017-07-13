@@ -286,6 +286,54 @@ sub ArticleList {
     return @MetaArticleList;
 }
 
+=head2 TicketIDLookup()
+
+Get a ticket ID for supplied article ID.
+
+    my $TicketID = $ArticleObject->TicketIDLookup(
+        ArticleID => 123,   # required
+    );
+
+Returns ID of a ticket that article belongs to:
+
+    $TicketID = 123;
+
+NOTE: Usage of this lookup function is strongly discouraged, since its result is not cached.
+Where possible, use C<ArticleList()> instead.
+
+=cut
+
+sub TicketIDLookup {
+    my ( $Self, %Param ) = @_;
+
+    if ( !$Param{ArticleID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!',
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT ticket_id
+            FROM article
+            WHERE id = ?
+        ',
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => 1,
+    );
+
+    my $TicketID;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $TicketID = $Row[0];
+    }
+
+    return $TicketID;
+}
+
 =head2 ArticleFlagSet()
 
 Set article flags.

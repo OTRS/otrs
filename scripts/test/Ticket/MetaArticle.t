@@ -110,6 +110,35 @@ $Self->IsDeeply(
     'MetaArticleIndex()',
 );
 
+my $TicketIDLookup = $ArticleObject->TicketIDLookup(
+    ArticleID => $ArticleID,
+);
+
+$Self->Is(
+    $TicketIDLookup,
+    $TicketID,
+    'TicketIDLookup() - First article'
+);
+
+my $TicketIDLookup2 = $ArticleObject->TicketIDLookup(
+    ArticleID => $ArticleID2,
+);
+
+$Self->Is(
+    $TicketIDLookup2,
+    $TicketID,
+    'TicketIDLookup() - Second article'
+);
+
+my $TicketIDLookup3 = $ArticleObject->TicketIDLookup(
+    ArticleID => 999_999_999,
+);
+
+$Self->False(
+    $TicketIDLookup3,
+    'TicketIDLookup() - Non-existent article'
+);
+
 #
 # ArticleList tests
 #
