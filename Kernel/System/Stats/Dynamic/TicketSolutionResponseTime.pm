@@ -711,7 +711,7 @@ sub GetStatElement {
 
             SEARCHATTRIBUTE:
             for my $SearchAttribute ( sort keys %Param ) {
-                next SEARCHATTRIBUTE if $SearchAttribute !~ m{ \A \Q$Attribute\E _ }xms;
+                next SEARCHATTRIBUTE if $SearchAttribute !~ m{ \A \Q$Attribute\E }xms;
                 $TicketSearch{$SearchAttribute} = $Param{$SearchAttribute};
 
                 # Don't exist loop , there can be more than one attribute param per allowed attribute.
@@ -1211,7 +1211,7 @@ sub _GetAverage {
 
     my $Sum = 0;
     for my $Value ( values %{ $Param{Content} } ) {
-        $Sum += $Value;
+        $Sum += $Value || 0;
     }
     return $Sum / $Param{Count};
 }
