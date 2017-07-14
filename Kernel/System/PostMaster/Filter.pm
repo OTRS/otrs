@@ -77,13 +77,27 @@ add a filter
     $PMFilterObject->FilterAdd(
         Name           => 'some name',
         StopAfterMatch => 0,
-        Match = {
-            From => 'email@example.com',
-            Subject => '^ADV: 123',
+        Match = [
+            {
+                Key   => 'Subject',
+                Value => '^ADV: 123',
         },
-        Set {
-            'X-OTRS-Queue' => 'Some::Queue',
+            ...
+        ],
+        Not = [
+            {
+                Key   => 'Subject',
+                Value => '1',
         },
+            ...
+        ],
+        Set = [
+            {
+                Key   => 'X-OTRS-Queue',
+                Value => 'Some::Queue',
+            },
+            ...
+        ],
     );
 
 =cut
@@ -105,13 +119,13 @@ sub FilterAdd {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my %Not = %{ $Param{Not} || {} };
+    my @Not = @{ $Param{Not} || [] };
 
     for my $Type (qw(Match Set)) {
 
-        my %Data = %{ $Param{$Type} };
+        my @Data = @{ $Param{$Type} };
 
-        for my $Key ( sort keys %Data ) {
+        for my $Index ( 0 .. ( scalar @Data ) - 1 ) {
 
             return if !$DBObject->Do(
                 SQL =>
@@ -119,7 +133,7 @@ sub FilterAdd {
                     . ' VALUES (?, ?, ?, ?, ?, ?)',
                 Bind => [
                     \$Param{Name}, \$Param{StopAfterMatch}, \$Type,
-                    \$Key, \$Data{$Key}, \$Not{$Key}
+                    \$Data[$Index]->{Key}, \$Data[$Index]->{Value}, \$Not[$Index]->{Value},
                 ],
             );
         }
@@ -192,18 +206,27 @@ sub FilterGet {
 
     return if !$DBObject->Prepare(
         SQL =>
-            'SELECT f_type, f_key, f_value, f_name, f_stop, f_not FROM postmaster_filter WHERE f_name = ?',
+            'SELECT f_type, f_key, f_value, f_name, f_stop, f_not'
+            . ' FROM postmaster_filter'
+            . ' WHERE f_name = ?'
+            . ' ORDER BY f_key, f_value',
         Bind => [ \$Param{Name} ],
     );
 
     my %Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Data{ $Row[0] }->{ $Row[1] } = $Row[2];
-        $Data{Name}                   = $Row[3];
-        $Data{StopAfterMatch}         = $Row[4];
+        push @{ $Data{ $Row[0] } }, {
+            Key   => $Row[1],
+            Value => $Row[2],
+        };
+        $Data{Name}           = $Row[3];
+        $Data{StopAfterMatch} = $Row[4];
 
         if ( $Row[0] eq 'Match' ) {
-            $Data{Not}->{ $Row[1] } = $Row[5];
+            push @{ $Data{Not} }, {
+                Key   => $Row[1],
+                Value => $Row[5],
+            };
         }
     }
 

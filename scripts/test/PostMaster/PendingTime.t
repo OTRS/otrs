@@ -50,15 +50,30 @@ $ConfigObject->Set(
 my @Tests = (
     {
         Name  => 'Regular pending time test',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '2021-01-01 00:00:00',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '2022-01-01 00:00:00',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '2021-01-01 00:00:00',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '2022-01-01 00:00:00',
+            },
+        ],
         CheckNewTicket => {
             RealTillTimeNotUsed => $Kernel::OM->Create(
                 'Kernel::System::DateTime',
@@ -78,15 +93,30 @@ my @Tests = (
     },
     {
         Name  => 'Regular pending time test, wrong date',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '2022-01- 00:00:00',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '2022-01- 00:00:00',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '2022-01- 00:00:00',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '2022-01- 00:00:00',
+            },
+        ],
         CheckNewTicket => {
             RealTillTimeNotUsed => 0,
         },
@@ -96,15 +126,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test seconds',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+60s',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30s',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+60s',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30s',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 60,
         },
@@ -114,15 +159,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test implicit seconds',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+60',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+60s',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30s',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 60,
         },
@@ -132,15 +192,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test implicit seconds no sign',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '60',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '30',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '60',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '30',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 60,
         },
@@ -150,15 +225,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test minutes',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+60m',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30m',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+60m',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30m',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 60 * 60,
         },
@@ -168,15 +258,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test hours',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+60h',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30h',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+60h',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30h',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 60 * 60 * 60,
         },
@@ -186,15 +291,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test days',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+60d',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30d',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+60d',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30d',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 60 * 60 * 60 * 24,
         },
@@ -204,15 +324,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test, invalid unit',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+30y',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30y',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+60y',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30y',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 0,
         },
@@ -222,15 +357,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test, invalid unit',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+30y',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30y',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+30y',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30y',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 0,
         },
@@ -240,15 +390,30 @@ my @Tests = (
     },
     {
         Name  => 'Relative pending time test, invalid combination',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-State'                      => 'pending reminder',
-            'X-OTRS-State-PendingTime'          => '+30s +30m',
-            'X-OTRS-FollowUp-State'             => 'pending reminder',
-            'X-OTRS-FollowUp-State-PendingTime' => '+30s +30m',
-        },
+        Match => [
+            {
+                Key   => 'From',
+                Value => 'sender@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-State-PendingTime',
+                Value => '+30s +30m',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State',
+                Value => 'pending reminder',
+            },
+            {
+                Key   => 'X-OTRS-FollowUp-State-PendingTime',
+                Value => '+30s +30m',
+            },
+        ],
         CheckNewTicket => {
             UntilTime => 0,
         },

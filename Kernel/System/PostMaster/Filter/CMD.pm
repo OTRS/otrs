@@ -34,11 +34,11 @@ sub Run {
 
     # get config options
     my %Config;
-    my %Set;
+    my @Set;
     if ( $Param{JobConfig} && ref( $Param{JobConfig} ) eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
         if ( $Config{Set} ) {
-            %Set = %{ $Config{Set} };
+            @Set = @{ $Config{Set} };
         }
     }
 
@@ -67,12 +67,15 @@ sub Run {
         close $In;
 
         # set new params
-        for ( sort keys %Set ) {
-            $Param{GetParam}->{$_} = $Set{$_};
+        for my $SetItem (@Set) {
+            my $Key   = $SetItem->{Key};
+            my $Value = $SetItem->{Value};
+
+            $Param{GetParam}->{$Key} = $Value;
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message =>
-                    "Set param '$_' to '$Set{$_}' because of '$Ret' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+                    "Set param '$Key' to '$Value' because of '$Ret' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
     }

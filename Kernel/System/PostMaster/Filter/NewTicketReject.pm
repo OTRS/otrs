@@ -46,29 +46,31 @@ sub Run {
 
     # get config options
     my %Config;
-    my %Match;
-    my %Set;
+    my @Match;
+    my @Set;
     if ( $Param{JobConfig} && ref $Param{JobConfig} eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
         if ( $Config{Match} ) {
-            %Match = %{ $Config{Match} };
+            @Match = @{ $Config{Match} };
         }
         if ( $Config{Set} ) {
-            %Set = %{ $Config{Set} };
+            @Set = @{ $Config{Set} };
         }
     }
 
     # match 'Match => ???' stuff
     my $Matched    = '';
     my $MatchedNot = 0;
-    for ( sort keys %Match ) {
+    for my $Index ( 0 .. ( scalar @Match ) - 1 ) {
+        my $Key   = $Match[$Index]->{Key};
+        my $Value = $Match[$Index]->{Value};
 
-        if ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
+        if ( $Param{GetParam}->{$Key} && $Param{GetParam}->{$Key} =~ /$Value/i ) {
             $Matched = $1 || '1';
             if ( $Self->{Debug} > 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message  => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                    Message  => "'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
                 );
             }
         }
@@ -77,7 +79,7 @@ sub Run {
             if ( $Self->{Debug} > 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message  => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
+                    Message  => "'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
                 );
             }
         }
@@ -93,12 +95,15 @@ sub Run {
         return 1 if $Tn && $TicketObject->TicketCheckNumber( Tn => $Tn );
 
         # set attributes if ticket is created
-        for ( sort keys %Set ) {
-            $Param{GetParam}->{$_} = $Set{$_};
+        for my $SetItem (@Set) {
+            my $Key   = $SetItem->{Key};
+            my $Value = $SetItem->{Value};
+
+            $Param{GetParam}->{$Key} = $Value;
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message =>
-                    "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+                    "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
 

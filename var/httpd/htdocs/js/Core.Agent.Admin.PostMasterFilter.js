@@ -54,8 +54,6 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             }
         });
 
-        InitSelectableOptions("MatchHeader");
-        InitSelectableOptions("SetHeader");
     };
 
     /**
@@ -105,50 +103,6 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             return false;
         });
     };
-
-    /**
-     * @private
-     * @name PostMasterFilterDelete
-     * @memberof Core.Agent.Admin.PostMasterFilter
-     * @function
-     * @param {String} IDPrefix - IDPrefix of the select items.
-     * @description
-     *      This function handles disabling of options that are already selected in other selects.
-     */
-    function InitSelectableOptions(IDPrefix) {
-        // set data-old attribute
-        $(".FilterFields select[id^='" + IDPrefix + "']").each(function() {
-            var SelectedValue = $(this).val();
-
-            $(this).attr("data-old", SelectedValue);
-
-            // disable option on other selects
-            $(".FilterFields select[id^='" + IDPrefix + "']:not([id='" + $(this).attr("id") + "'])").each(function() {
-                $(this).find("option[value='" + SelectedValue + "']").attr('disabled','disabled');
-            });
-        });
-
-        $(".FilterFields select[id^='" + IDPrefix + "']").on("change", function() {
-            var SelectedValue = $(this).val(),
-                OldValue = $(this).attr("data-old");
-
-            // disable option on other selects
-            $(".FilterFields select[id^='" + IDPrefix + "']:not([id='" + $(this).attr("id") + "'])").each(function() {
-                $(this).find("option[value='" + SelectedValue + "']").attr('disabled','disabled');
-            });
-
-            // enable old value for all selects
-            if (OldValue != "") {
-                $(".FilterFields select[id^='" + IDPrefix + "'] option[value='" + OldValue + "']").removeAttr("disabled");
-            }
-
-            // Update old value
-            $(this).attr("data-old", $(this).val());
-
-            // initialize all modern input fields
-            $(".FilterFields select.Modernize[id^='" + IDPrefix + "']").trigger('redraw.InputField');
-        });
-    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

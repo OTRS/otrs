@@ -185,62 +185,158 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
             $Kernel::OM->Get('Kernel::System::Ticket');
 
-            # add rand postmaster filter
-            my $FilterRand1 = 'filter' . $Helper->GetRandomID();
-            my $FilterRand2 = 'filter' . $Helper->GetRandomID();
-            my $FilterRand3 = 'filter' . $Helper->GetRandomID();
-            my $FilterRand4 = 'filter' . $Helper->GetRandomID();
-            $PostMasterFilter->FilterAdd(
-                Name           => $FilterRand1,
-                StopAfterMatch => 0,
-                Match          => {
-                    Subject => 'test',
-                    To      => 'EMAILADDRESS:darthvader@otrs.org',
+            # add and check rand postmaster filters
+            my $FilterRandConfig = [
+                {
+                    Name  => 'filter' . $Helper->GetRandomID(),
+                    Match => [
+                        {
+                            Key   => 'Subject',
+                            Value => 'test',
+                        },
+                        {
+                            Key   => 'To',
+                            Value => 'EMAILADDRESS:darthvader@otrs.org',
+                        },
+                    ],
+                    Not => [
+                        {
+                            Key   => 'Subject',
+                            Value => undef,
+                        },
+                        {
+                            Key   => 'To',
+                            Value => undef,
+                        },
+                    ],
+                    Set => [
+                        {
+                            Key   => 'X-OTRS-Queue',
+                            Value => 'Misc',
+                        },
+                        {
+                            Key   => 'X-OTRS-TicketKey1',
+                            Value => 'Key1',
+                        },
+                        {
+                            Key   => 'X-OTRS-TicketValue1',
+                            Value => 'Text1',
+                        },
+                    ],
+                    StopAfterMatch => 0,
                 },
-                Set => {
-                    'X-OTRS-Queue'        => 'Misc',
-                    'X-OTRS-TicketKey1'   => 'Key1',
-                    'X-OTRS-TicketValue1' => 'Text1',
+                {
+                    Name  => 'filter' . $Helper->GetRandomID(),
+                    Match => [
+                        {
+                            Key   => 'Subject',
+                            Value => 'test',
+                        },
+                        {
+                            Key   => 'To',
+                            Value => 'EMAILADDRESS:darthvader2@otrs.org',
+                        },
+                    ],
+                    Not => [
+                        {
+                            Key   => 'Subject',
+                            Value => undef,
+                        },
+                        {
+                            Key   => 'To',
+                            Value => undef,
+                        },
+                    ],
+                    Set => [
+                        {
+                            Key   => 'X-OTRS-TicketKey2',
+                            Value => 'Key2',
+                        },
+                        {
+                            Key   => 'X-OTRS-TicketValue2',
+                            Value => 'Text2',
+                        },
+                    ],
+                    StopAfterMatch => 0,
                 },
-            );
-            $PostMasterFilter->FilterAdd(
-                Name           => $FilterRand2,
-                StopAfterMatch => 0,
-                Match          => {
-                    Subject => 'test',
-                    To      => 'EMAILADDRESS:darthvader2@otrs.org',
+                {
+                    Name  => 'filter' . $Helper->GetRandomID(),
+                    Match => [
+                        {
+                            Key   => 'Subject',
+                            Value => 'test 1',
+                        },
+                        {
+                            Key   => 'To',
+                            Value => 'otrs.org',
+                        },
+                    ],
+                    Not => [
+                        {
+                            Key   => 'Subject',
+                            Value => undef,
+                        },
+                        {
+                            Key   => 'To',
+                            Value => undef,
+                        },
+                    ],
+                    Set => [
+                        {
+                            Key   => 'X-OTRS-TicketKey3',
+                            Value => 'Key3',
+                        },
+                        {
+                            Key   => 'X-OTRS-TicketValue3',
+                            Value => 'Text3',
+                        },
+                    ],
+                    StopAfterMatch => 0,
                 },
-                Set => {
-                    'X-OTRS-TicketKey2'   => 'Key2',
-                    'X-OTRS-TicketValue2' => 'Text2',
+                {
+                    Name  => 'filter' . $Helper->GetRandomID(),
+                    Match => [
+                        {
+                            Key   => 'Subject',
+                            Value => 'NOT REGEX',
+                        },
+                        {
+                            Key   => 'To',
+                            Value => 'darthvader@otrs.org',
+                        },
+                    ],
+                    Not => [
+                        {
+                            Key   => 'Subject',
+                            Value => undef,
+                        },
+                        {
+                            Key   => 'To',
+                            Value => 1,
+                        },
+                    ],
+                    Set => [
+                        {
+                            Key   => 'X-OTRS-Ignore',
+                            Value => 'yes',
+                        },
+                    ],
+                    StopAfterMatch => 0,
                 },
-            );
-            $PostMasterFilter->FilterAdd(
-                Name           => $FilterRand3,
-                StopAfterMatch => 0,
-                Match          => {
-                    Subject => 'test 1',
-                    To      => 'otrs.org',
-                },
-                Set => {
-                    'X-OTRS-TicketKey3'   => 'Key3',
-                    'X-OTRS-TicketValue3' => 'Text3',
-                },
-            );
-            $PostMasterFilter->FilterAdd(
-                Name           => $FilterRand4,
-                StopAfterMatch => 0,
-                Match          => {
-                    Subject => 'NOT REGEX',
-                    To      => 'darthvader@otrs.org',
-                },
-                Not => {
-                    To => 1,
-                },
-                Set => {
-                    'X-OTRS-Ignore' => 'yes',
-                },
-            );
+            ];
+            for my $Filter ( @{$FilterRandConfig} ) {
+                $PostMasterFilter->FilterAdd(
+                    %{$Filter},
+                );
+                my %FilterData = $PostMasterFilter->FilterGet(
+                    Name => $Filter->{Name},
+                );
+                $Self->IsDeeply(
+                    \%FilterData,
+                    $Filter,
+                    "Added filter $Filter->{Name}",
+                );
+            }
 
             # get rand sender address
             my $UserRand1 = 'example-user' . $Helper->GetRandomID() . '@example.com';
@@ -751,10 +847,11 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     $NamePrefix . ' TicketDelete()',
                 );
             }
-            $PostMasterFilter->FilterDelete( Name => $FilterRand1 );
-            $PostMasterFilter->FilterDelete( Name => $FilterRand2 );
-            $PostMasterFilter->FilterDelete( Name => $FilterRand3 );
-            $PostMasterFilter->FilterDelete( Name => $FilterRand4 );
+            for my $Filter ( @{$FilterRandConfig} ) {
+                $PostMasterFilter->FilterDelete(
+                    Name => $Filter->{Name},
+                );
+            }
         }
     }
 }
@@ -763,75 +860,269 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 my @Tests = (
     {
         Name  => '#1 - From Test',
-        Match => {
-            From => 'sender@example.com',
-        },
-        Set => {
-            'X-OTRS-Queue'        => 'Misc',
-            'X-OTRS-TicketKey1'   => 'Key1',
-            'X-OTRS-TicketValue1' => 'Text1',
-            'X-OTRS-TicketKey3'   => 'Key3',
-            'X-OTRS-TicketValue3' => 'Text3',
-        },
         Check => {
             Queue                        => 'Misc',
             DynamicField_TicketFreeKey3  => 'Key3',
             DynamicField_TicketFreeText3 => 'Text3',
         },
+        Config => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'sender@example.com',
+                }
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey3',
+                    Value => 'Key3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue3',
+                    Value => 'Text3',
+                },
+            ],
+        },
+        DB => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'sender@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey3',
+                    Value => 'Key3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue3',
+                    Value => 'Text3',
+                },
+            ],
+        },
     },
     {
         Name  => '#2 - From Test',
-        Match => {
-            From => 'EMAILADDRESS:sender@example.com',
-        },
-        Set => {
-            'X-OTRS-Queue'        => 'Misc',
-            'X-OTRS-TicketKey1'   => 'Key1#2',
-            'X-OTRS-TicketValue1' => 'Text1#2',
-            'X-OTRS-TicketKey4'   => 'Key4#2',
-            'X-OTRS-TicketValue4' => 'Text4#2',
-        },
         Check => {
             Queue                        => 'Misc',
             DynamicField_TicketFreeKey1  => 'Key1#2',
             DynamicField_TicketFreeText1 => 'Text1#2',
         },
+        Config => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'EMAILADDRESS:sender@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1#2',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1#2',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey4',
+                    Value => 'Key4#2',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue4',
+                    Value => 'Text4#2',
+                },
+            ],
+        },
+        DB => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'EMAILADDRESS:sender@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1#2',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1#2',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey4',
+                    Value => 'Key4#2',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue4',
+                    Value => 'Text4#2',
+                },
+            ],
+        },
     },
     {
-        Name  => '#3 - From Test',
-        Match => {
-            From => 'EMAILADDRESS:not_this_sender@example.com',
+        Name   => '#3 - From Test',
+        Config => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'EMAILADDRESS:not_this_sender@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1#3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1#3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey3',
+                    Value => 'Key3#3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue3',
+                    Value => 'Text3#3',
+                },
+            ],
         },
-        Set => {
-            'X-OTRS-Queue'        => 'Misc',
-            'X-OTRS-TicketKey1'   => 'Key1#3',
-            'X-OTRS-TicketValue1' => 'Text1#3',
-            'X-OTRS-TicketKey3'   => 'Key3#3',
-            'X-OTRS-TicketValue3' => 'Text3#3',
+        DB => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'EMAILADDRESS:not_this_sender@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1#3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1#3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey3',
+                    Value => 'Key3#3',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue3',
+                    Value => 'Text3#3',
+                },
+            ],
         },
     },
     {
         Name  => '#4 - Regular Expressions - match',
-        Match => {
-            From => '(\w+)@example.com',
-        },
-        Set => {
-            'X-OTRS-TicketKey4' => '[***]',
-        },
         Check => {
             DynamicField_TicketFreeKey4 => 'sender',
+        },
+        Config => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => '(\w+)@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-TicketKey4',
+                    Value => '[***]',
+                },
+            ],
+        },
+        DB => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => '(\w+)@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-TicketKey4',
+                    Value => '[***]',
+                },
+            ],
         },
     },
     {
         Name  => '#5 - Regular Expressions - match but no optional match result',
-        Match => {
-            From => 'sender([f][o][o])?@example.com',
-        },
-        Set => {
-            'X-OTRS-TicketKey5' => '[***]',
-        },
         Check => {
             DynamicField_TicketFreeKey5 => undef,
+        },
+        Config => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'sender([f][o][o])?@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-TicketKey5',
+                    Value => '[***]',
+                },
+            ],
+        },
+        DB => {
+            Match => [
+                {
+                    Key   => 'From',
+                    Value => 'sender([f][o][o])?@example.com',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-TicketKey5',
+                    Value => '[***]',
+                },
+            ],
         },
     },
 );
@@ -845,14 +1136,15 @@ for my $Type (qw(Config DB)) {
             $PostMasterFilter->FilterAdd(
                 Name           => $Test->{Name},
                 StopAfterMatch => 0,
-                %{$Test},
+                %{ $Test->{DB} },
             );
         }
         else {
+            print STDERR "\n Name: $Test->{Name} \n";
             $ConfigObject->Set(
                 Key   => 'PostMaster::PreFilterModule###' . $Test->{Name},
                 Value => {
-                    %{$Test},
+                    %{ $Test->{Config} },
                     Module => 'Kernel::System::PostMaster::Filter::Match',
                 },
             );
@@ -940,14 +1232,26 @@ Subject: some subject
 
 Some Content in Body
 ',
-        Match => {
-            'Envelope-To' => 'envelopeto@example.com',
-        },
-        Set => {
-            'X-OTRS-Queue'        => 'Junk',
-            'X-OTRS-TicketKey5'   => 'Key5#1',
-            'X-OTRS-TicketValue5' => 'Text5#1',
-        },
+        Match => [
+            {
+                Key   => 'Envelope-To',
+                Value => 'envelopeto@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-Queue',
+                Value => 'Junk',
+            },
+            {
+                Key   => 'X-OTRS-TicketKey5',
+                Value => 'Key5#1',
+            },
+            {
+                Key   => 'X-OTRS-TicketValue5',
+                Value => 'Text5#1',
+            },
+        ],
         Check => {
             Queue                        => 'Junk',
             DynamicField_TicketFreeKey5  => 'Key5#1',
@@ -963,14 +1267,26 @@ Subject: some subject
 
 Some Content in Body
 ',
-        Match => {
-            'X-Envelope-To' => 'xenvelopeto@example.com',
-        },
-        Set => {
-            'X-OTRS-Queue'        => 'Misc',
-            'X-OTRS-TicketKey6'   => 'Key6#1',
-            'X-OTRS-TicketValue6' => 'Text6#1',
-        },
+        Match => [
+            {
+                Key   => 'X-Envelope-To',
+                Value => 'xenvelopeto@example.com',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-Queue',
+                Value => 'Misc',
+            },
+            {
+                Key   => 'X-OTRS-TicketKey6',
+                Value => 'Key6#1',
+            },
+            {
+                Key   => 'X-OTRS-TicketValue6',
+                Value => 'Text6#1',
+            },
+        ],
         Check => {
             Queue                        => 'Misc',
             DynamicField_TicketFreeKey6  => 'Key6#1',

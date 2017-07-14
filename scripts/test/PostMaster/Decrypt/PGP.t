@@ -120,6 +120,7 @@ for my $Count ( 1 .. 2 ) {
     my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
+
     $Self->False(
         $Keys[0] || '',
         "Key:$Count - KeySearch()",
@@ -178,12 +179,18 @@ my $FilterRand1      = 'filter' . $Helper->GetRandomID();
 $PostMasterFilter->FilterAdd(
     Name           => $FilterRand1,
     StopAfterMatch => 0,
-    Match          => {
-        'X-OTRS-BodyDecrypted' => 'test',
-    },
-    Set => {
-        'X-OTRS-Queue' => 'Junk',
-    },
+    Match          => [
+        {
+            Key   => 'X-OTRS-BodyDecrypted',
+            Value => 'test',
+        },
+    ],
+    Set => [
+        {
+            Key   => 'X-OTRS-Queue',
+            Value => 'Junk',
+        },
+    ],
 );
 
 # Read email content (from a file).

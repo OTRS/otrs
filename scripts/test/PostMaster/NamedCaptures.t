@@ -115,13 +115,22 @@ $ConfigObject->Set(
 my @Tests = (
     {
         Name  => '#1 - Body Test',
-        Match => {
-            Body => '(?s:server:\s+(?<server>[a-z.]+).*?IP\s+address:\s+(?<ip>\d+\.\d+\.\d+\.\d+))',
-        },
-        Set => {
-            'X-OTRS-DynamicField-TicketFreeText1' => '[**\server**]',
-            'X-OTRS-DynamicField-TicketFreeText2' => '[**\ip**]',
-        },
+        Match => [
+            {
+                Key   => 'Body',
+                Value => '(?s:server:\s+(?<server>[a-z.]+).*?IP\s+address:\s+(?<ip>\d+\.\d+\.\d+\.\d+))',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-DynamicField-TicketFreeText1',
+                Value => '[**\server**]',
+            },
+            {
+                Key   => 'X-OTRS-DynamicField-TicketFreeText2',
+                Value => '[**\ip**]',
+            },
+        ],
         Check => {
             DynamicField_TicketFreeText1 => 'example.tld',
             DynamicField_TicketFreeText2 => '192.168.0.1',
@@ -129,14 +138,26 @@ my @Tests = (
     },
     {
         Name  => '#2 - Body+Subject Test',
-        Match => {
-            Subject => 'Server:\s+(?<server>[a-z.]+)',
-            Body    => 'IP\s+address:\s+(?<ip>\d+\.\d+\.\d+\.\d+)',
-        },
-        Set => {
-            'X-OTRS-DynamicField-TicketFreeText1' => '[**\server**]',
-            'X-OTRS-DynamicField-TicketFreeText2' => '[**\ip**]',
-        },
+        Match => [
+            {
+                Key   => 'Subject',
+                Value => 'Server:\s+(?<server>[a-z.]+)',
+            },
+            {
+                Key   => 'Body',
+                Value => 'IP\s+address:\s+(?<ip>\d+\.\d+\.\d+\.\d+)',
+            },
+        ],
+        Set => [
+            {
+                Key   => 'X-OTRS-DynamicField-TicketFreeText1',
+                Value => '[**\server**]',
+            },
+            {
+                Key   => 'X-OTRS-DynamicField-TicketFreeText2',
+                Value => '[**\ip**]',
+            },
+        ],
         Check => {
             DynamicField_TicketFreeText1 => 'example.tld',
             DynamicField_TicketFreeText2 => '192.168.0.1',

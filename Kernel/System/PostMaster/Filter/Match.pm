@@ -46,16 +46,17 @@ sub Run {
 
     # get config options
     my %Config;
-    my %Match;
-    my %Set;
+    my @Match;
+    my @Set;
     my $StopAfterMatch;
     if ( $Param{JobConfig} && ref $Param{JobConfig} eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
+
         if ( $Config{Match} ) {
-            %Match = %{ $Config{Match} };
+            @Match = @{ $Config{Match} };
         }
         if ( $Config{Set} ) {
-            %Set = %{ $Config{Set} };
+            @Set = @{ $Config{Set} };
         }
         $StopAfterMatch = $Config{StopAfterMatch} || 0;
     }
@@ -69,13 +70,15 @@ sub Run {
     my $Matched       = '';
     my $MatchedNot    = 0;
     my $MatchedResult = '';
-    for ( sort keys %Match ) {
+    for my $Index ( 0 .. ( scalar @Match ) - 1 ) {
+        my $Key   = $Match[$Index]->{Key};
+        my $Value = $Match[$Index]->{Value};
 
         # match only email addresses
-        if ( $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
+        if ( $Param{GetParam}->{$Key} && $Value =~ /^EMAILADDRESS:(.*)$/ ) {
             my $SearchEmail    = $1;
             my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
-                Line => $Param{GetParam}->{$_},
+                Line => $Param{GetParam}->{$Key},
             );
             my $LocalMatched;
             RECIPIENTS:
@@ -89,7 +92,7 @@ sub Run {
                     if ( $Self->{Debug} > 1 ) {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'debug',
-                            Message  => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                            Message  => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
                         );
                     }
                     last RECIPIENTS;
@@ -104,7 +107,7 @@ sub Run {
         }
 
         # match string
-        elsif ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
+        elsif ( $Param{GetParam}->{$Key} && $Param{GetParam}->{$Key} =~ /$Value/i ) {
 
             # don't lose older match values if more than one header is
             # used for matching.
@@ -115,7 +118,7 @@ sub Run {
             if ( $Self->{Debug} > 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message  => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                    Message  => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
                 );
             }
         }
@@ -124,7 +127,7 @@ sub Run {
             if ( $Self->{Debug} > 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message  => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
+                    Message  => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
                 );
             }
         }
@@ -132,13 +135,17 @@ sub Run {
 
     # should I ignore the incoming mail?
     if ( $Matched && !$MatchedNot ) {
-        for ( sort keys %Set ) {
-            $Set{$_} =~ s/\[\*\*\*\]/$MatchedResult/;
-            $Param{GetParam}->{$_} = $Set{$_};
+
+        for my $SetItem (@Set) {
+            my $Key   = $SetItem->{Key};
+            my $Value = $SetItem->{Value};
+            $Value =~ s/\[\*\*\*\]/$MatchedResult/;
+            $Param{GetParam}->{$Key} = $Value;
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => $Prefix
-                    . "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+                    . "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
 

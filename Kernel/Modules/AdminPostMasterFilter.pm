@@ -99,26 +99,35 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my %Match = ();
-        my %Set   = ();
-        my %Not;
+        my @Match;
+        my @Set;
+        my @Not;
 
         for my $Number ( 1 .. $ConfigObject->Get('PostmasterHeaderFieldCount') ) {
-            if ( $GetParam{"MatchHeader$Number"} && length $GetParam{"MatchValue$Number"} ) {
-                $Match{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchValue$Number"};
-                $Not{ $GetParam{"MatchHeader$Number"} }   = $GetParam{"MatchNot$Number"};
+            if ( $GetParam{"MatchHeader$Number"} && $GetParam{"MatchValue$Number"} ) {
+                push @Match, {
+                    Key   => $GetParam{"MatchHeader$Number"},
+                    Value => $GetParam{"MatchValue$Number"},
+                };
+                push @Not, {
+                    Key   => $GetParam{"MatchHeader$Number"},
+                    Value => $GetParam{"MatchNot$Number"},
+                };
             }
 
-            if ( $GetParam{"SetHeader$Number"} && length $GetParam{"SetValue$Number"} ) {
-                $Set{ $GetParam{"SetHeader$Number"} } = $GetParam{"SetValue$Number"};
+            if ( $GetParam{"SetHeader$Number"} && $GetParam{"SetValue$Number"} ) {
+                push @Set, {
+                    Key   => $GetParam{"SetHeader$Number"},
+                    Value => $GetParam{"SetValue$Number"},
+                };
             }
         }
         my %Errors = ();
-        if (%Match) {
+        if (@Match) {
             my $InvalidCount = 0;
-            for my $MatchKey ( sort keys %Match ) {
+            for my $MatchItem (@Match) {
                 $InvalidCount++;
-                my $MatchValue = $Match{$MatchKey};
+                my $MatchValue = $MatchItem->{Value};
                 if ( !eval { my $Regex = qr/$MatchValue/; 1; } ) {
                     $Errors{"MatchHeader${InvalidCount}Invalid"} = 'ServerError';
                     $Errors{"MatchValue${InvalidCount}Invalid"}  = 'ServerError';
@@ -130,11 +139,11 @@ sub Run {
             $Errors{"MatchValue1Invalid"}  = 'ServerError';
         }
 
-        if (%Set) {
+        if (@Set) {
             my $InvalidCount = 0;
-            for my $SetKey ( sort keys %Set ) {
+            for my $SetItem (@Set) {
                 $InvalidCount++;
-                if ( !length $Set{$SetKey} ) {
+                if ( !defined $SetItem->{Value} ) {
                     $Errors{"SetHeader${InvalidCount}Invalid"} = 'ServerError';
                     $Errors{"SetValue${InvalidCount}Invalid"}  = 'ServerError';
                 }
@@ -165,20 +174,20 @@ sub Run {
                     %Errors,
                     OldName        => $OldName,
                     Name           => $Name,
-                    Set            => \%Set,
-                    Match          => \%Match,
+                    Set            => \@Set,
+                    Match          => \@Match,
                     StopAfterMatch => $StopAfterMatch,
-                    Not            => \%Not,
+                    Not            => \@Not,
                 },
             );
         }
         $PostMasterFilter->FilterDelete( Name => $OldName );
         $PostMasterFilter->FilterAdd(
             Name           => $Name,
-            Match          => \%Match,
-            Set            => \%Set,
+            Match          => \@Match,
+            Set            => \@Set,
             StopAfterMatch => $StopAfterMatch,
-            Not            => \%Not,
+            Not            => \@Not,
         );
 
         # if the user would like to continue editing the postmaster filter, just redirect to the update screen
@@ -250,22 +259,22 @@ sub _MaskUpdate {
     my %Data    = %{ $Param{Data} };
     my $Counter = 0;
     if ( $Data{Match} ) {
-        for my $MatchKey ( sort keys %{ $Data{Match} } ) {
-            if ( $MatchKey && length $Data{Match}->{$MatchKey} ) {
+        for my $Index ( 0 .. ( scalar @{ $Data{Match} } ) - 1 ) {
+            if ( $Data{Match}->[$Index]->{Key} && $Data{Match}->[$Index]->{Value} ) {
                 $Counter++;
-                $Data{"MatchValue$Counter"}  = $Data{Match}->{$MatchKey};
-                $Data{"MatchHeader$Counter"} = $MatchKey;
-                $Data{"MatchNot$Counter"}    = $Data{Not}->{$MatchKey} ? ' checked="checked"' : '';
+                $Data{"MatchValue$Counter"}  = $Data{Match}->[$Index]->{Value};
+                $Data{"MatchHeader$Counter"} = $Data{Match}->[$Index]->{Key};
+                $Data{"MatchNot$Counter"}    = $Data{Not}->[$Index]->{Value} ? ' checked="checked"' : '';
             }
         }
     }
     $Counter = 0;
     if ( $Data{Set} ) {
-        for my $SetKey ( sort keys %{ $Data{Set} } ) {
-            if ( $SetKey && length $Data{Set}->{$SetKey} ) {
+        for my $Item ( @{ $Data{Set} } ) {
+            if ( $Item->{Key} && $Item->{Value} ) {
                 $Counter++;
-                $Data{"SetValue$Counter"}  = $Data{Set}->{$SetKey};
-                $Data{"SetHeader$Counter"} = $SetKey;
+                $Data{"SetValue$Counter"}  = $Item->{Value};
+                $Data{"SetHeader$Counter"} = $Item->{Key};
             }
         }
     }
