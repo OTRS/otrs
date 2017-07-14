@@ -10096,8 +10096,8 @@ via the Preferences button after logging in.
                 <Item Key="Name" Translatable="1">PostMaster Filters</Item>
                 <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Filter incoming emails.</Item>
-                <Item Key="IconBig">fa-envelope-o</Item>
-                <Item Key="IconSmall">fa-filter</Item>
+                <Item Key="IconBig">fa-filter</Item>
+                <Item Key="IconSmall"></Item>
                 <Item Key="Prio">200</Item>
             </Hash>
         </Value>

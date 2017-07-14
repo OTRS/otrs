@@ -471,7 +471,6 @@
                     <Description Translatable="1">Create and manage appointment notifications.</Description>
                     <Block>Communication</Block>
                     <IconBig>fa-bell-o</IconBig>
-                    <IconSmall>fa-calendar</IconSmall>
                     <Prio>400</Prio>
                 </NavBarModule>
                 <Loader>

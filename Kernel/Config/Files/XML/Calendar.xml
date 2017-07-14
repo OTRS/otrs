@@ -672,7 +672,7 @@
                 <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Create and manage appointment notifications.</Item>
                 <Item Key="IconBig">fa-bell-o</Item>
-                <Item Key="IconSmall">fa-calendar</Item>
+                <Item Key="IconSmall"></Item>
                 <Item Key="Prio">400</Item>
             </Hash>
         </Value>

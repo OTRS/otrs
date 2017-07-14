@@ -9703,8 +9703,7 @@ via the Preferences button after logging in.
                     <Name Translatable="1">PostMaster Filters</Name>
                     <Block>Communication</Block>
                     <Description Translatable="1">Filter incoming emails.</Description>
-                    <IconBig>fa-envelope-o</IconBig>
-                    <IconSmall>fa-filter</IconSmall>
+                    <IconBig>fa-filter</IconBig>
                     <Prio>200</Prio>
                 </NavBarModule>
                 <Loader>
