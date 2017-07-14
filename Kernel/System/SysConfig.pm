@@ -10,6 +10,7 @@ package Kernel::System::SysConfig;
 
 use strict;
 use warnings;
+use utf8;
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
@@ -3961,6 +3962,12 @@ sub ConfigurationCategoriesGet {
 
         my $PackageName = $Package->{Name}->{Content};
         my $DisplayName = $ConfigObject->Get("SystemConfiguration::Category::Name::$PackageName") || $PackageName;
+
+        # special treatment for OTRS Business Solution™
+        if ($DisplayName eq 'OTRSBusiness') {
+            $DisplayName = 'OTRS Business Solution™';
+        }
+
         $Result{$PackageName} = {
             DisplayName => $DisplayName,
             Files       => \@XMLFiles,

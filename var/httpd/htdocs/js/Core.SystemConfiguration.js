@@ -200,6 +200,7 @@ var Core = Core || {};
                 $('#ConfigTree')
                     .jstree({
                         core: {
+                            multiple: false,
                             animation: 70,
                             themes: {
                                 name: 'InputField',

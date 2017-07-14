@@ -782,6 +782,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             window.history.back();
             return false;
         });
+
+        Core.UI.Table.InitTableFilter($('#FilterDeployments'), $('#Deployments'));
     };
 
     /**

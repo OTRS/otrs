@@ -844,7 +844,8 @@ h2.SearchResults {
     display: inline-block;
 }
 
-.IsLockedByMe .Array > .ArrayItem {
+.IsLockedByMe .Array > .ArrayItem,
+.Comparing .Array > .ArrayItem {
     display: block;
 }
 

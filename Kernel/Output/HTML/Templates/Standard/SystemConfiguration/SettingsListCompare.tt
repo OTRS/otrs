@@ -15,7 +15,7 @@
                     <div class="Header">
                         <h2>
                             [% Setting.PreviousName | html %]
-                            <span class="Label">[% Translate("Old") | html %]</span>
+                            <span class="Label">[% Translate("Now") | html %]</span>
                         </h2>
                     </div>
                     <div class="Content">
