@@ -149,9 +149,9 @@ sub Run {
         }
 
         # add the item to its Block
-        my $Block = $NavBarModule{$Item}->{'Block'} || 'Misc';
+        my $Block = $NavBarModule{$Item}->{'Block'} || 'Miscellaneous';
         if ( !grep { $_->{Key} eq $Block } @ModuleGroups ) {
-            $Block = 'Misc';
+            $Block = 'Miscellaneous';
         }
         push @{ $Modules{$Block} }, $NavBarModule{$Item};
     }

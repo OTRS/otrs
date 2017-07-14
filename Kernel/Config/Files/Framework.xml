@@ -9252,13 +9252,13 @@ via the Preferences button after logging in.
                         <Item Key="Order">5000</Item>
                     </Hash>
                 </Item>
-                <Item Key="System">
+                <Item Key="Administration">
                     <Hash>
                         <Item Key="Title" Translatable="1">Administration</Item>
                         <Item Key="Order">6000</Item>
                     </Hash>
                 </Item>
-                <Item Key="Misc">
+                <Item Key="Miscellaneous">
                     <Hash>
                         <Item Key="Title" Translatable="1">Miscellaneous</Item>
                         <Item Key="Order">7000</Item>
@@ -9747,7 +9747,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Session Management</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">Manage existing sessions.</Description>
                     <IconBig>fa-clock-o</IconBig>
                     <Prio>500</Prio>
@@ -9771,7 +9771,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Performance Log</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">View performance benchmark results.</Description>
                     <IconBig>fa-bar-chart</IconBig>
                     <Prio>550</Prio>
@@ -9908,7 +9908,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Log</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">View system log messages.</Description>
                     <IconBig>fa-file-text-o</IconBig>
                     <Prio>600</Prio>
@@ -9932,7 +9932,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">SQL Box</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">Execute SQL statements.</Description>
                     <IconBig>fa-terminal</IconBig>
                     <Prio>700</Prio>
@@ -9956,7 +9956,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Package Manager</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">Update and extend your system with software packages.</Description>
                     <IconBig>fa-plug</IconBig>
                     <Prio>1000</Prio>
@@ -9977,7 +9977,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Maintenance</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">Schedule a maintenance period.</Description>
                     <IconBig>fa-wrench</IconBig>
                     <Prio>501</Prio>
@@ -11610,7 +11610,7 @@ via the Preferences button after logging in.
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Configuration</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">Edit the system configuration settings.</Description>
                     <IconBig></IconBig>
                     <IconSmall></IconSmall>

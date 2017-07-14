@@ -9065,13 +9065,13 @@ via the Preferences button after logging in.
                         <Item Key="Order">5000</Item>
                     </Hash>
                 </Item>
-                <Item Key="System">
+                <Item Key="Administration">
                     <Hash>
                         <Item Key="Title" Translatable="1">Administration</Item>
                         <Item Key="Order">6000</Item>
                     </Hash>
                 </Item>
-                <Item Key="Misc">
+                <Item Key="Miscellaneous">
                     <Hash>
                         <Item Key="Title" Translatable="1">Miscellaneous</Item>
                         <Item Key="Order">7000</Item>
@@ -10199,7 +10199,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Session Management</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">Manage existing sessions.</Item>
                 <Item Key="IconBig">fa-clock-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -10258,7 +10258,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Performance Log</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">View performance benchmark results.</Item>
                 <Item Key="IconBig">fa-bar-chart</Item>
                 <Item Key="IconSmall"></Item>
@@ -10598,7 +10598,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Log</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">View system log messages.</Item>
                 <Item Key="IconBig">fa-file-text-o</Item>
                 <Item Key="IconSmall"></Item>
@@ -10657,7 +10657,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">SQL Box</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">Execute SQL statements.</Item>
                 <Item Key="IconBig">fa-terminal</Item>
                 <Item Key="IconSmall"></Item>
@@ -10703,7 +10703,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Package Manager</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">Update and extend your system with software packages.</Item>
                 <Item Key="IconBig">fa-plug</Item>
                 <Item Key="IconSmall"></Item>
@@ -10762,7 +10762,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Maintenance</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">Schedule a maintenance period.</Item>
                 <Item Key="IconBig">fa-wrench</Item>
                 <Item Key="IconSmall"></Item>
@@ -12452,7 +12452,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">System Configuration</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">Edit the system configuration settings.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>

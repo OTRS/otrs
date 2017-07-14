@@ -314,7 +314,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Calendars</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Administration</Item>
                 <Item Key="Description" Translatable="1">Create and manage calendars.</Item>
                 <Item Key="IconBig">fa-calendar</Item>
                 <Item Key="IconSmall"></Item>

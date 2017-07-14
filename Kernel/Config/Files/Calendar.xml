@@ -138,7 +138,7 @@
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Calendars</Name>
-                    <Block>System</Block>
+                    <Block>Administration</Block>
                     <Description Translatable="1">Create and manage calendars.</Description>
                     <IconBig>fa-calendar</IconBig>
                     <Prio>1500</Prio>
