@@ -34,7 +34,9 @@
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
     <div class="SidebarColumn">
         [% INCLUDE "SystemConfiguration/Sidebar/Actions.tt" %]
+        [% IF Data.SettingCount %]
         [% INCLUDE "SystemConfiguration/Sidebar/Navigation.tt" %]
+        [% END %]
         [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
         [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
     </div>
@@ -42,6 +44,7 @@
     <div class="ContentColumn">
         <div class="WidgetSimple">
             <div class="Content">
+                [% IF Data.SettingCount %]
                 <ul class="GettingStarted">
                     <li>
                         <i class="fa fa-code-fork"></i>
@@ -73,6 +76,12 @@
                         </button>
                     </span>
                 </form>
+                [% ELSE %]
+                    <p class="Center NoItemsInfo">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        [% Translate("There are currently no settings available. Please make sure to run 'otrs.Console.pl Maint::Config::Rebuild' before using the software.") | html %]
+                    </p>
+                [% END %]
             </div>
         </div>
     </div>

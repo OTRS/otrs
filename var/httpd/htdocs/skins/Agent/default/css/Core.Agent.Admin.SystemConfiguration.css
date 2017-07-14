@@ -125,6 +125,17 @@ textarea:focus, input:focus{
  * @subsection      General
  */
 
+p.NoItemsInfo {
+    padding-bottom: 10px;
+}
+
+p.NoItemsInfo i {
+    display: block;
+    font-size: 30px;
+    margin: 10px 0px 15px 0px;
+    color: #aaa;
+}
+
 .SearchBox input[type=text] {
     width: 218px;
     margin-bottom: 2px;

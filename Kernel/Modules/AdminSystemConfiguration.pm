@@ -555,6 +555,8 @@ sub Run {
     # Just show the overview.
     else {
 
+        my @SettingList = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationList();
+
         # secure mode message (don't allow this action till secure mode is enabled)
         if ( !$Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
             return $LayoutObject->SecureMode();
@@ -570,6 +572,7 @@ sub Run {
             TemplateFile => 'AdminSystemConfiguration',
             Data         => {
                 ManualVersion => $ManualVersion,
+                SettingCount  => scalar @SettingList,
                 %OutputData,
             },
         );
