@@ -92,15 +92,16 @@ sub Run {
         my @Data;
 
         if ($Search) {
-            my @Results = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationSearch(
-                Search   => $Search,
-                Category => 'All',
-            );
+            my @SettingList = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationList();
 
-            RESULT:
-            for my $Result ( sort @Results ) {
-                push @Data, $Result;
-                last RESULT if scalar @Data >= $MaxResults;
+            SETTING:
+            for my $Setting ( sort @SettingList ) {
+
+                # Skip setting if search term doesn't match.
+                next SETTING if $Setting->{Name} !~ m{\Q$Search\E}msi;
+
+                push @Data, $Setting->{Name};
+                last SETTING if scalar @Data >= $MaxResults;
             }
         }
 
