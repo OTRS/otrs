@@ -33,6 +33,21 @@ $Helper->ConfigSettingChange(
     Value => 1,
 );
 
+# Use a calendar with the same business hours for every day so that the UT runs correctly
+#   on every day of the week and outside usual business hours.
+$Helper->ConfigSettingChange(
+    Key   => 'TimeWorkingHours::Calendar1',
+    Value => {
+        map { $_ => [ 0 .. 23 ], } qw( Mon Tue Wed Thu Fri Sat Sun ),
+    },
+);
+
+# Disable default Vacation days.
+$Helper->ConfigSettingChange(
+    Key   => 'TimeVacationDays',
+    Value => {},
+);
+
 # Set fixed time.
 $Helper->FixedTimeSet();
 
