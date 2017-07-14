@@ -1503,13 +1503,22 @@ sub Run {
                 my $CSSClass  = '';
                 if ( $TicketColumn eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
+
+                    # Article SolutionTime is taken into consideration only when there is EscalationSolutionTime.
+                    # See bug#12912 (https://bugs.otrs.org/show_bug.cgi?id=12912).
+                    my $SolutionTime = 0;
+                    if ( $Article{EscalationSolutionTime} ) {
+                        $SolutionTime = $Article{SolutionTime};
+
+                        if ( $SolutionTime < 60 * 60 * 1 ) {
+                            $CSSClass = 'Warning';
+                        }
+                    }
+
                     $DataValue = $LayoutObject->CustomerAgeInHours(
-                        Age => $Article{SolutionTime} || 0,
+                        Age   => $SolutionTime,
                         Space => ' ',
                     );
-                    if ( defined $Article{SolutionTime} && $Article{SolutionTime} < 60 * 60 * 1 ) {
-                        $CSSClass = 'Warning';
-                    }
                 }
                 elsif ( $TicketColumn eq 'EscalationResponseTime' ) {
                     $BlockType = 'Escalation';

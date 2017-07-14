@@ -1,4 +1,5 @@
 #5.0.22 2017-??-??
+ - 2017-07-14 Fixed bug#[12912](https://bugs.otrs.org/show_bug.cgi?id=12912) - Solution Time shows 33 Minutes - even though nothing is configured.
  - 2017-07-13 Fixed bug#[12734](https://bugs.otrs.org/show_bug.cgi?id=12734) - Dropdown not considered into TicketSolutionResponseTime Statistic.
 
 #5.0.21 2017-07-18
