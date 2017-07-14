@@ -126,7 +126,7 @@
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Web Services</Name>
                     <Description Translatable="1">Create and manage web services.</Description>
-                    <Block>System</Block>
+                    <Block>Automation</Block>
                     <Prio>1000</Prio>
                 </NavBarModule>
                 <Loader>

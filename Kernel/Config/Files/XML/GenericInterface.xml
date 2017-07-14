@@ -183,7 +183,7 @@
                 </Item>
                 <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
                 <Item Key="Name" Translatable="1">Web Services</Item>
-                <Item Key="Block">System</Item>
+                <Item Key="Block">Automation</Item>
                 <Item Key="Description" Translatable="1">Create and manage web services.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>
