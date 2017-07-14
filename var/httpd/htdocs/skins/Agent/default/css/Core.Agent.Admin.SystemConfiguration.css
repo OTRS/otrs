@@ -447,11 +447,22 @@ h2.SearchResults {
 
 .WidgetSimple.Setting .Header .HeaderMessage a {
     color: #999;
-    transition: all ease 0.2s;
+    transition: color ease 0.2s;
 }
 
 .WidgetSimple.Setting .Header .HeaderMessage a:hover {
     color: #333;
+}
+
+.WidgetSimple.Setting .Header .HeaderMessage a,
+.WidgetSimple.Setting .Header .HeaderMessage span {
+    opacity: 0;
+    transition: opacity ease 0.2s;
+}
+
+.WidgetSimple.Setting:hover .Header .HeaderMessage a,
+.WidgetSimple.Setting:hover .Header .HeaderMessage span {
+    opacity: 1;
 }
 
 .WidgetSimple.Setting .Header .HeaderMessage span {
