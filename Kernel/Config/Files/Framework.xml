@@ -9704,6 +9704,7 @@ via the Preferences button after logging in.
                     <Block>Communication</Block>
                     <Description Translatable="1">Filter incoming emails.</Description>
                     <IconBig>fa-envelope-o</IconBig>
+                    <IconSmall>fa-filter</IconSmall>
                     <Prio>200</Prio>
                 </NavBarModule>
                 <Loader>

@@ -8946,8 +8946,8 @@
                 <Item Key="Name" Translatable="1">Templates</Item>
                 <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage templates.</Item>
-                <Item Key="IconBig">fa-folder</Item>
-                <Item Key="IconSmall"></Item>
+                <Item Key="IconBig">fa-file-text-o</Item>
+                <Item Key="IconSmall">fa-envelope-o</Item>
                 <Item Key="Prio">200</Item>
             </Hash>
         </Value>
@@ -9359,8 +9359,8 @@
                 <Item Key="Name" Translatable="1">Signatures</Item>
                 <Item Key="Block">Ticket</Item>
                 <Item Key="Description" Translatable="1">Create and manage signatures.</Item>
-                <Item Key="IconBig">fa-folder</Item>
-                <Item Key="IconSmall"></Item>
+                <Item Key="IconBig">fa-file-text-o</Item>
+                <Item Key="IconSmall">fa-envelope-o</Item>
                 <Item Key="Prio">900</Item>
             </Hash>
         </Value>

@@ -10097,7 +10097,7 @@ via the Preferences button after logging in.
                 <Item Key="Block">Communication</Item>
                 <Item Key="Description" Translatable="1">Filter incoming emails.</Item>
                 <Item Key="IconBig">fa-envelope-o</Item>
-                <Item Key="IconSmall"></Item>
+                <Item Key="IconSmall">fa-filter</Item>
                 <Item Key="Prio">200</Item>
             </Hash>
         </Value>

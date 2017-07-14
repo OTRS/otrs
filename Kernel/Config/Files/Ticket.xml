@@ -9462,7 +9462,8 @@
                     <Name Translatable="1">Templates</Name>
                     <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage templates.</Description>
-                    <IconBig>fa-folder</IconBig>
+                    <IconBig>fa-file-text-o</IconBig>
+                    <IconSmall>fa-envelope-o</IconSmall>
                     <Prio>200</Prio>
                 </NavBarModule>
                 <Loader>
@@ -9633,7 +9634,8 @@
                     <Name Translatable="1">Signatures</Name>
                     <Block>Ticket</Block>
                     <Description Translatable="1">Create and manage signatures.</Description>
-                    <IconBig>fa-folder</IconBig>
+                    <IconBig>fa-file-text-o</IconBig>
+                    <IconSmall>fa-envelope-o</IconSmall>
                     <Prio>900</Prio>
                 </NavBarModule>
                 <Loader>
