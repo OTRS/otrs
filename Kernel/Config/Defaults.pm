@@ -1504,27 +1504,27 @@ via the Preferences button after logging in.
 
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-            [ 'UserTitle',      Translatable('Title or salutation'), 'title',  1, 0, 'var', '', 0 ],
-            [ 'UserFirstname',  Translatable('Firstname'),  'first_name', 1, 1, 'var', '', 0 ],
-            [ 'UserLastname',   Translatable('Lastname'),   'last_name',  1, 1, 'var', '', 0 ],
-            [ 'UserLogin',      Translatable('Username'),   'login',      1, 1, 'var', '', 0 ],
-            [ 'UserPassword',   Translatable('Password'),   'pw',         0, 0, 'var', '', 0 ],
-            [ 'UserEmail',      Translatable('Email'),      'email',      1, 1, 'var', '', 0 ],
-#            [ 'UserEmail',      Translatable('Email'), 'email',           1, 1, 'var', '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
-            [ 'UserCustomerID', Translatable('CustomerID'), 'customer_id', 0, 1, 'var', '', 0 ],
-#            [ 'UserCustomerIDs', Translatable('CustomerIDs'), 'customer_ids', 1, 0, 'var', '', 0 ],
-            [ 'UserPhone',        Translatable('Phone'),       'phone',        1, 0, 'var', '', 0 ],
-            [ 'UserFax',          Translatable('Fax'),         'fax',          1, 0, 'var', '', 0 ],
-            [ 'UserMobile',       Translatable('Mobile'),      'mobile',       1, 0, 'var', '', 0 ],
-            [ 'UserStreet',       Translatable('Street'),      'street',       1, 0, 'var', '', 0 ],
-            [ 'UserZip',          Translatable('Zip'),         'zip',          1, 0, 'var', '', 0 ],
-            [ 'UserCity',         Translatable('City'),        'city',         1, 0, 'var', '', 0 ],
-            [ 'UserCountry',      Translatable('Country'),     'country',      1, 0, 'var', '', 0 ],
-            [ 'UserComment',      Translatable('Comment'),     'comments',     1, 0, 'var', '', 0 ],
-            [ 'ValidID',          Translatable('Valid'),       'valid_id',     0, 1, 'int', '', 0 ],
+            [ 'UserTitle',        Translatable('Title or salutation'), 'title',          1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserFirstname',    Translatable('Firstname'),           'first_name',     1, 1, 'var', '', 0, undef, undef ],
+            [ 'UserLastname',     Translatable('Lastname'),            'last_name',      1, 1, 'var', '', 0, undef, undef ],
+            [ 'UserLogin',        Translatable('Username'),            'login',          1, 1, 'var', '', 0, undef, undef ],
+            [ 'UserPassword',     Translatable('Password'),            'pw',             0, 0, 'var', '', 0, undef, undef ],
+            [ 'UserEmail',        Translatable('Email'),               'email',          1, 1, 'var', '', 0, undef, undef ],
+#            [ 'UserEmail',        Translatable('Email'),               'email',          1, 1, 'var', '[% Env("CGIHandle") %]?Action=AgentTicketCompose;ResponseID=1;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]', 0, '', 'AsPopup OTRSPopup_TicketAction' ],
+            [ 'UserCustomerID',   Translatable('CustomerID'),          'customer_id',    0, 1, 'var', '', 0, undef, undef ],
+#            [ 'UserCustomerIDs',  Translatable('CustomerIDs'),         'customer_ids',   1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserPhone',        Translatable('Phone'),               'phone',          1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserFax',          Translatable('Fax'),                 'fax',            1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserMobile',       Translatable('Mobile'),              'mobile',         1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserStreet',       Translatable('Street'),              'street',         1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserZip',          Translatable('Zip'),                 'zip',            1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserCity',         Translatable('City'),                'city',           1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserCountry',      Translatable('Country'),             'country',        1, 0, 'var', '', 0, undef, undef ],
+            [ 'UserComment',      Translatable('Comment'),             'comments',       1, 0, 'var', '', 0, undef, undef ],
+            [ 'ValidID',          Translatable('Valid'),               'valid_id',       0, 1, 'int', '', 0, undef, undef ],
 
             # Dynamic field example
-#            [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef, ],
+#            [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef ],
         ],
 
         # default selections
@@ -1579,7 +1579,7 @@ via the Preferences button after logging in.
 #        CustomerUserSearchListLimit => 250,
 #        CustomerUserPostMasterSearchFields => ['mail'],
 #        CustomerUserNameFields => ['givenname', 'sn'],
-#        # show now own tickets in customer panel, CompanyTickets
+#        # show customer user and customer tickets in customer interface
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # add a ldap filter for valid users (expert setting)
 #        # CustomerUserValidFilter => '(!(description=gesperrt))',
@@ -1592,18 +1592,22 @@ via the Preferences button after logging in.
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
 #            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-#            [ 'UserTitle',       'Title',       'title',               1, 0, 'var', '', 1 ],
-#            [ 'UserFirstname',   'Firstname',   'givenname',           1, 1, 'var', '', 1 ],
-#            [ 'UserLastname',    'Lastname',    'sn',                  1, 1, 'var', '', 1 ],
-#            [ 'UserLogin',       'Username',    'uid',                 1, 1, 'var', '', 1 ],
-#            [ 'UserEmail',       'Email',       'mail',                1, 1, 'var', '', 1 ],
-#            [ 'UserCustomerID',  'CustomerID',  'mail',                0, 1, 'var', '', 1 ],
-#            # [ 'UserCustomerIDs', 'CustomerIDs', 'second_customer_ids', 1, 0, 'var', '', 1 ],
-#            [ 'UserPhone',       'Phone',       'telephonenumber',     1, 0, 'var', '', 1 ],
-#            [ 'UserAddress',     'Address',     'postaladdress',       1, 0, 'var', '', 1 ],
-#            [ 'UserComment',     'Comment',     'description',         1, 0, 'var', '', 1 ],
+#            [ 'UserTitle',       Translatable('Title or salutation)', 'title',               1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserFirstname',   Translatable('Firstname)',           'givenname',           1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserLastname',    Translatable('Lastname)',            'sn',                  1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserLogin',       Translatable('Username)',            'uid',                 1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserEmail',       Translatable('Email)',               'mail',                1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserCustomerID',  Translatable('CustomerID)',          'mail',                0, 1, 'var', '', 1, undef, undef ],
+#            # [ 'UserCustomerIDs', Translatable('CustomerIDs)',         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserPhone',       Translatable('Phone)',               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserAddress',     Translatable('Address)',             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserComment',     Translatable('Comment)',             'description',         1, 0, 'var', '', 1, undef, undef ],
+
 #            # this is needed, if "SMIME::FetchFromCustomer" is active
-#            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate', 0, 1, 'var', '', 1 ],
+#            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
+
+             # Dynamic field example
+#             [ 'DynamicField_Name_X', undef, 'Name_X', 0, 0, 'dynamic_field', undef, 0, undef, undef ],
 #        ],
 #    };
 
@@ -1666,7 +1670,7 @@ via the Preferences button after logging in.
             [ 'ValidID',                'Valid',      'valid_id',    0, 1, 'int', '', 0 ],
 
             # Dynamic field example
-#            [ 'DynamicField_Name_Y', undef, 'Name_Y', 0, 0, 'dynamic_field', undef, 0,],
+#            [ 'DynamicField_Name_Y', undef, 'Name_Y', 0, 0, 'dynamic_field', undef, 0 ],
         ],
     };
 
