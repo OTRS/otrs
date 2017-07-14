@@ -2688,6 +2688,7 @@ Returns:
             UserPreferencesGroup     => 'Advanced', # optional
             XMLContentRaw            => "The XML structure as it is on the config file",
             XMLContentParsed         => "XML parsed to Perl",
+            XMLFilename              => "Daemon.xml",
             EffectiveValue           => "Product 6",
             DefaultValue             => "Product 5",
             IsModified               => 1,       # 1 or 0
@@ -3964,7 +3965,7 @@ sub ConfigurationCategoriesGet {
         my $DisplayName = $ConfigObject->Get("SystemConfiguration::Category::Name::$PackageName") || $PackageName;
 
         # special treatment for OTRS Business Solution™
-        if ($DisplayName eq 'OTRSBusiness') {
+        if ( $DisplayName eq 'OTRSBusiness' ) {
             $DisplayName = 'OTRS Business Solution™';
         }
 

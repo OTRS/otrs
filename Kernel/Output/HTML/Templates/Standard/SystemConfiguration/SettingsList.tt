@@ -26,6 +26,7 @@
                     [% Setting.Name | html %]
                 </h2>
                 <p class="HeaderMessage">
+                <span class="Right">[% Setting.XMLFilename %]</span>&nbsp;&nbsp;
                 [% IF Env("Action") != 'AdminSystemConfigurationGroup' %]
                     <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=[% Setting.Navigation | uri %]">[% Setting.Navigation | html %]</a>
                 [% END %]
