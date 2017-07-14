@@ -190,8 +190,9 @@ sub Run {
                     UserID      => 1,
                 );
                 $Count++;
-                print
-                    "    Removing ticket watcher entries of ticket <yellow>$TicketID</yellow> for user <yellow>$User{UserLogin}</yellow>\n";
+                $Self->Print(
+                    "    Removing ticket watcher entries of ticket <yellow>$TicketID</yellow> for user <yellow>$User{UserLogin}</yellow>\n"
+                );
                 Time::HiRes::usleep($MicroSleep) if $MicroSleep;
             }
 
