@@ -314,7 +314,7 @@ sub Run {
             # show need user data error message
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title   => 'Panic!',
+                    Title   => 'Error',
                     Message => Translatable(
                         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.'
                     ),
@@ -1037,8 +1037,8 @@ sub Run {
             # show login screen
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title   => 'Panic!',
-                    Message => Translatable('Panic! Invalid Session!!!'),
+                    Title   => 'Error',
+                    Message => Translatable('Error: invalid session.'),
                     %Param,
                 ),
             );

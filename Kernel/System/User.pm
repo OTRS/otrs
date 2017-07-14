@@ -197,14 +197,14 @@ sub GetUserData {
         if ( $Param{User} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => "Panic! No UserData for user: '$Param{User}'!!!",
+                Message  => "No UserData for user: '$Param{User}'.",
             );
             return;
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message  => "Panic! No UserData for user id: '$Param{UserID}'!!!",
+                Message  => "No UserData for user id: '$Param{UserID}'.",
             );
             return;
         }
