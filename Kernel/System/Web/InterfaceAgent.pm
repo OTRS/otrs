@@ -319,7 +319,7 @@ sub Run {
                     Title => 'Error',
                     Message =>
                         Translatable(
-                            'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.'
+                        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.'
                         ),
                     %Param,
                     MessageType => 'Error',
