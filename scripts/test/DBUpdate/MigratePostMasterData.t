@@ -35,32 +35,68 @@ my @Tests = (
         Config => {
             Name           => "Filter-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-Queue'        => 'Misc',
-                'X-OTRS-TicketKey1'   => 'Key1',
-                'X-OTRS-TicketValue1' => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "Filter-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-Queue'        => 'Misc',
-                'X-OTRS-TicketKey1'   => 'Key1',
-                'X-OTRS-TicketValue1' => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-Queue',
+                    Value => 'Misc',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
 
@@ -69,32 +105,68 @@ my @Tests = (
         Config => {
             Name           => "FilterATN-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-ArticleType'  => 'email',
-                'X-OTRS-TicketKey1'   => 'Key1',
-                'X-OTRS-TicketValue1' => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-ArticleType',
+                    Value => 'email',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "FilterATN-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-IsVisibleForCustomer' => 0,
-                'X-OTRS-TicketKey1'           => 'Key1',
-                'X-OTRS-TicketValue1'         => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-IsVisibleForCustomer',
+                    Value => 0,
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
     {
@@ -102,32 +174,68 @@ my @Tests = (
         Config => {
             Name           => "FilterAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-ArticleType'  => 'phone',
-                'X-OTRS-TicketKey1'   => 'Key1',
-                'X-OTRS-TicketValue1' => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-ArticleType',
+                    Value => 'phone',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "FilterAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-IsVisibleForCustomer' => 1,
-                'X-OTRS-TicketKey1'           => 'Key1',
-                'X-OTRS-TicketValue1'         => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-IsVisibleForCustomer',
+                    Value => 1,
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
 
@@ -136,32 +244,68 @@ my @Tests = (
         Config => {
             Name           => "FilterFATN-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-FollowUp-ArticleType' => 'email',
-                'X-OTRS-TicketKey1'           => 'Key1',
-                'X-OTRS-TicketValue1'         => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-FollowUp-ArticleType',
+                    Value => 'email',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "FilterFATN-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-FollowUp-IsVisibleForCustomer' => 0,
-                'X-OTRS-TicketKey1'                    => 'Key1',
-                'X-OTRS-TicketValue1'                  => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-FollowUp-IsVisibleForCustomer',
+                    Value => 0,
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
     {
@@ -169,32 +313,68 @@ my @Tests = (
         Config => {
             Name           => "FilterFAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-FollowUp-ArticleType' => 'phone',
-                'X-OTRS-TicketKey1'           => 'Key1',
-                'X-OTRS-TicketValue1'         => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-FollowUp-ArticleType',
+                    Value => 'phone',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "FilterFAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-FollowUp-IsVisibleForCustomer' => 1,
-                'X-OTRS-TicketKey1'                    => 'Key1',
-                'X-OTRS-TicketValue1'                  => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-FollowUp-IsVisibleForCustomer',
+                    Value => 1,
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
 
@@ -203,34 +383,76 @@ my @Tests = (
         Config => {
             Name           => "FilterBATN-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-ArticleType'          => 'email',
-                'X-OTRS-FollowUp-ArticleType' => 'email',
-                'X-OTRS-TicketKey1'           => 'Key1',
-                'X-OTRS-TicketValue1'         => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-ArticleType',
+                    Value => 'email',
+                },
+                {
+                    Key   => 'X-OTRS-FollowUp-ArticleType',
+                    Value => 'email',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "FilterBATN-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-IsVisibleForCustomer'          => 0,
-                'X-OTRS-FollowUp-IsVisibleForCustomer' => 0,
-                'X-OTRS-TicketKey1'                    => 'Key1',
-                'X-OTRS-TicketValue1'                  => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-FollowUp-IsVisibleForCustomer',
+                    Value => 0,
+                },
+                {
+                    Key   => 'X-OTRS-IsVisibleForCustomer',
+                    Value => 0,
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
     {
@@ -238,34 +460,76 @@ my @Tests = (
         Config => {
             Name           => "FilterBAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-ArticleType'          => 'phone',
-                'X-OTRS-FollowUp-ArticleType' => 'phone',
-                'X-OTRS-TicketKey1'           => 'Key1',
-                'X-OTRS-TicketValue1'         => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-ArticleType',
+                    Value => 'phone',
+                },
+                {
+                    Key   => 'X-OTRS-FollowUp-ArticleType',
+                    Value => 'phone',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "FilterBAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-IsVisibleForCustomer'          => 1,
-                'X-OTRS-FollowUp-IsVisibleForCustomer' => 1,
-                'X-OTRS-TicketKey1'                    => 'Key1',
-                'X-OTRS-TicketValue1'                  => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-FollowUp-IsVisibleForCustomer',
+                    Value => 1,
+                },
+                {
+                    Key   => 'X-OTRS-IsVisibleForCustomer',
+                    Value => 1,
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
     {
@@ -273,34 +537,76 @@ my @Tests = (
         Config => {
             Name           => "FilterBBAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-ArticleType'          => 'email',
-                'X-OTRS-FollowUp-ArticleType' => 'phone',
-                'X-OTRS-TicketKey1'           => 'Key1',
-                'X-OTRS-TicketValue1'         => 'Text1',
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-ArticleType',
+                    Value => 'email',
+                },
+                {
+                    Key   => 'X-OTRS-FollowUp-ArticleType',
+                    Value => 'phone',
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
         },
         ExpectedConfigResult => {
             Name           => "FilterBBAT-$RandomID",
             StopAfterMatch => 0,
-            Match          => {
-                Subject => 'test',
-                To      => 'EMAILADDRESS:darthvader@otrs.org',
-            },
-            Set => {
-                'X-OTRS-IsVisibleForCustomer'          => 0,
-                'X-OTRS-FollowUp-IsVisibleForCustomer' => 1,
-                'X-OTRS-TicketKey1'                    => 'Key1',
-                'X-OTRS-TicketValue1'                  => 'Text1',
-            },
-            Not => {
-                Subject => undef,
-                To      => undef,
-            },
+            Match          => [
+                {
+                    Key   => 'Subject',
+                    Value => 'test',
+                },
+                {
+                    Key   => 'To',
+                    Value => 'EMAILADDRESS:darthvader@otrs.org',
+                },
+            ],
+            Set => [
+                {
+                    Key   => 'X-OTRS-FollowUp-IsVisibleForCustomer',
+                    Value => 1,
+                },
+                {
+                    Key   => 'X-OTRS-IsVisibleForCustomer',
+                    Value => 0,
+                },
+                {
+                    Key   => 'X-OTRS-TicketKey1',
+                    Value => 'Key1',
+                },
+                {
+                    Key   => 'X-OTRS-TicketValue1',
+                    Value => 'Text1',
+                },
+            ],
+            Not => [
+                {
+                    Key   => 'Subject',
+                    Value => undef,
+                },
+                {
+                    Key   => 'To',
+                    Value => undef,
+                },
+            ],
         },
     },
 );
