@@ -1243,11 +1243,18 @@ sub MaskAgentZoom {
 
         # display all items
         for my $Item ( sort keys %ZoomMenuItems ) {
-
-            $LayoutObject->Block(
-                Name => 'TicketMenu',
-                Data => $ZoomMenuItems{$Item},
-            );
+            if ( $ZoomMenuItems{$Item}->{ExternalLink} && $ZoomMenuItems{$Item}->{ExternalLink} == 1 ) {
+                $LayoutObject->Block(
+                    Name => 'TicketMenuExternalLink',
+                    Data => $ZoomMenuItems{$Item},
+                );
+            }
+            else {
+                $LayoutObject->Block(
+                    Name => 'TicketMenu',
+                    Data => $ZoomMenuItems{$Item},
+                );
+            }
 
             if ( $ZoomMenuItems{$Item}->{Type} eq 'Cluster' ) {
 

@@ -112,7 +112,7 @@
                                 <ul id="nav-[% Data.Name | replace(' ', '-') | html %]-container">
 [% RenderBlockStart("TicketMenuSubContainerItem") %]
                                     <li id="nav-[% Data.Name | replace(' ', '-') | html %]">
-                                        <a href="[% Env("Baselink") %][% Data.Link | Interpolate %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
+                                        <a href="[% IF !Data.ExternalLink %][% Env("Baselink") %][% END %][% Data.Link | Interpolate %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
                                     </li>
 [% RenderBlockEnd("TicketMenuSubContainerItem") %]
                                 </ul>
@@ -145,6 +145,11 @@
                                 <a href="[% Env("Baselink") %]Action=AgentTicketMove;TicketID=[% Data.TicketID | uri %];" class="AsPopup PopupType_TicketAction" title="[% Translate("Change Queue") | html %]">[% Translate("Queue") | html %]</a>
                             </li>
 [% RenderBlockEnd("MoveForm") %]
+[% RenderBlockStart("TicketMenuExternalLink") %]
+                            <li>
+                                <a href="[% Data.Link | Interpolate %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]" target="[% Data.Target %]">[% Translate(Data.Name) | html %]</a>
+                            </li>
+[% RenderBlockEnd("TicketMenuExternalLink") %]
                         </ul>
                         <div class="Clear"></div>
                     </div>
