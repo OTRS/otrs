@@ -124,24 +124,6 @@ $Selenium->RunTest(
             "\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');"
         );
 
-        # Make sure that "Body" is disabled on other condition selects.
-        my $BodyDisabled
-            = $Selenium->execute_script("return \$('#MatchHeader2 option[Value=\"Body\"]').attr('disabled');");
-        $Self->Is(
-            $BodyDisabled,
-            "disabled",
-            "Body is disabled in #MatchHeader2."
-        );
-
-        # Make sure that "X-OTRS-Priority" is disabled on other selects.
-        my $XOTRSPriorityDisabled
-            = $Selenium->execute_script("return \$('#SetHeader2 option[Value=\"X-OTRS-Priority\"]').attr('disabled');");
-        $Self->Is(
-            $XOTRSPriorityDisabled,
-            "disabled",
-            "X-OTRS-Priority is disabled in #SetHeader2."
-        );
-
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
         $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
 
@@ -232,21 +214,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SetValue1",   'css' )->clear();
         $Selenium->find_element( "#SetValue1",   'css' )->send_keys('0');
         $Selenium->find_element( "#EditName",    'css' )->VerifiedSubmit();
-
-        # Check edited test PostMasterFilter values.
-        $Selenium->find_element( $PostMasterName, 'link_text' )->VerifiedClick();
-
-        $Self->Is(
-            $Selenium->find_element( '#MatchValue1', 'css' )->get_value(),
-            0,
-            "#SetValue1 updated value",
-        );
-
-        $Self->Is(
-            $Selenium->find_element( '#SetValue1', 'css' )->get_value(),
-            0,
-            "#SetValue1 updated value",
-        );
 
         # Go back to AdminPostMasterFilter screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
