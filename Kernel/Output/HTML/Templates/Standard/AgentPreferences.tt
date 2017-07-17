@@ -60,7 +60,7 @@
                                     <div class="Clear"></div>
 [% RenderBlockStart("InputSingleBlock") %]
                                     <div class="Field ButtonOnly">
-                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
                                     </div>
 [% RenderBlockEnd("InputSingleBlock") %]
 [% RenderBlockEnd("Input") %]
