@@ -7,6 +7,7 @@
 # --
 
 package Kernel::System::Console::Command::Dev::Code::Generate::ConsoleCommand;
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 use strict;
 use warnings;

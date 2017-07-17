@@ -7,6 +7,7 @@
 # --
 
 package Kernel::System::TemplateGenerator;
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;
