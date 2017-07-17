@@ -172,7 +172,10 @@ sub Run {
             for my $SetItem (@Set) {
                 my $Key   = $SetItem->{Key};
                 my $Value = $SetItem->{Value};
+
                 $Value =~ s/\[\*\*\*\]/$MatchedResult/;
+                $Value =~ s/\[\*\* \\(\w+) \*\*\]/$NamedCaptures{$1}/xmsg;
+
                 $Param{GetParam}->{$Key} = $Value;
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'notice',
