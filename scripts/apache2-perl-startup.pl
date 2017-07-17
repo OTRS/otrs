@@ -193,6 +193,7 @@ use Kernel::Modules::CustomerTicketOverview;
 use Kernel::Modules::CustomerTicketZoom;
 
 # frontend modules
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 use Kernel::Output::HTML::Layout;
 use Kernel::Output::HTML::LayoutTicket;
 use Kernel::Output::HTML::PreferencesGeneric;
