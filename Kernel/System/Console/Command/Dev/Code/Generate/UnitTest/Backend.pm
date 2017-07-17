@@ -7,6 +7,7 @@
 # --
 
 package Kernel::System::Console::Command::Dev::Code::Generate::UnitTest::Backend;
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 use strict;
 use warnings;

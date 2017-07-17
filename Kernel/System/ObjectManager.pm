@@ -7,6 +7,7 @@
 # --
 
 package Kernel::System::ObjectManager;
+## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 ## nofilter(TidyAll::Plugin::OTRS::Perl::PodSpelling)
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
