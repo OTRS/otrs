@@ -10395,6 +10395,7 @@
                 <Item>AgentTicketCompose</Item>
                 <Item>AgentTicketCustomer</Item>
                 <Item>AgentTicketForward</Item>
+                <Item>AgentTicketEmail</Item>
                 <Item>AgentTicketEmailOutbound</Item>
                 <Item>AgentTicketFreeText</Item>
                 <Item>AgentTicketHistory</Item>
