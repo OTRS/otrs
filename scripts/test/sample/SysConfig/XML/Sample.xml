@@ -7,6 +7,14 @@
             <Item ValueType="String" ValueRegex="">Ticket#</Item>
         </Value>
     </Setting>
+    <!-- 
+    <Setting Name="Ticket::Hook2" Required="1" Valid="1">
+        <Description>Make sure that comments in the XML are removed when parsing is executed.</Description>
+        <Navigation>Core::Ticket</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Ticket#</Item>
+        </Value>
+    </Setting> -->
     <Setting Name="Ticket::SubjectFormat" Required="1" Valid="1" UserPreferencesGroup="Test">
         <Description Translatable="1">The format of the subject.</Description>
         <Navigation>Core::Ticket</Navigation>
@@ -180,6 +188,15 @@
             </Hash>
         </Value>
     </Setting>
+    <!-- 
+    <Setting Name="EmptyHash2" Required="0" Valid="1">
+        <Description>Make sure that multiple comments in the XML are removed when parsing is executed.</Description>
+        <Navigation>Core::CustomerUser</Navigation>
+        <Value>
+            <Hash>
+            </Hash>
+        </Value>
+    </Setting> -->
     <Setting Name="EmptyArray" Required="0" Valid="1">
         <Description>Test.</Description>
         <Navigation>Core::CustomerUser</Navigation>
