@@ -301,7 +301,7 @@ my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Em
 my $ArticleID1 = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,
     IsVisibleForCustomer => 1,
-    SenderType           => 'customer',
+    SenderType           => 'agent',
     Subject              => 'Article 1',
     Body                 => 'This is the first article',
     Charset              => 'ISO-8859-15',
@@ -339,6 +339,46 @@ my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
 $Self->True(
     $ArticleID2,
     "Article is created - ID $ArticleID2",
+);
+
+my $CustomerTicketID = $TicketObject->TicketCreate(
+    Title         => 'Ticket One Title',
+    QueueID       => 1,
+    Lock          => 'unlock',
+    Priority      => '3 normal',
+    State         => 'new',
+    CustomerID    => 'example.com',
+    CustomerUser  => $CustomerUserLogin,
+    OwnerID       => $UserID,
+    ResponsibleID => $UserID,
+    UserID        => $UserID,
+);
+
+$Self->True(
+    $CustomerTicketID,
+    "TicketCreate() successful for Ticket ID $CustomerTicketID",
+);
+
+# create first customer article
+my $CustomerArticleID1 = $ArticleBackendObject->ArticleCreate(
+    TicketID             => $CustomerTicketID,
+    IsVisibleForCustomer => 1,
+    SenderType           => 'customer',
+    Subject              => 'Article 1',
+    Body                 => 'This is the first article',
+    Charset              => 'ISO-8859-15',
+    MimeType             => 'text/plain',
+    HistoryType          => 'EmailCustomer',
+    HistoryComment       => 'Some free text!',
+    UserID               => 1,
+    From                 => "$CustomerUserLogin\@localunittest.com",
+    To                   => 'test1@otrsexample.com',
+    Cc                   => 'test2@otrsexample.com',
+);
+
+$Self->True(
+    $CustomerArticleID1,
+    "Article is created - ID $ArticleID1",
 );
 
 my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
@@ -736,6 +776,45 @@ my @Tests = (
             UserID => 1,
         },
         ExpectedResults => [],
+        Success         => 1,
+    },
+    {
+        Name => 'Recipients agent creator for agent ticket - sent',
+        Data => {
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => ['AgentCreateBy'],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $TicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [
+            {
+                ToArray => [ $UserData{UserEmail} ],
+                Body    => "JobName $TicketID Kernel::System::Email::Test $UserData{UserFirstname}=\n",
+            },
+        ],
+        Success => 1,
+    },
+    {
+        Name => 'Recipients agent creator for customer ticket - not sent',
+        Data => {
+            Events     => [ 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update' ],
+            Recipients => ['AgentCreateBy'],
+        },
+        Config => {
+            Event => 'TicketDynamicFieldUpdate_DFT1' . $RandomID . 'Update',
+            Data  => {
+                TicketID => $CustomerTicketID,
+            },
+            Config => {},
+            UserID => 1,
+        },
+        ExpectedResults => [],    # no notification, because ticket was not created by an agent
         Success         => 1,
     },
     {
@@ -1569,15 +1648,17 @@ continue {
 # code too to remove data if the FS backend is used
 
 # delete the ticket
-my $TicketDelete = $TicketObject->TicketDelete(
-    TicketID => $TicketID,
-    UserID   => $UserID,
-);
+for my $ID ( $TicketID, $CustomerTicketID ) {
 
-# sanity check
-$Self->True(
-    $TicketDelete,
-    "TicketDelete() successful for Ticket ID $TicketID",
-);
+    my $TicketDelete = $TicketObject->TicketDelete(
+        TicketID => $ID,
+        UserID   => $UserID,
+    );
+
+    $Self->True(
+        $TicketDelete,
+        "TicketDelete() successful for Ticket ID $ID",
+    );
+}
 
 1;

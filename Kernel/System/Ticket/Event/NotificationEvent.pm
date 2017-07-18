@@ -625,10 +625,9 @@ sub _RecipientsGet {
 
             if (
                 $Recipient
-                =~ /^Agent(Owner|Responsible|Watcher|WritePermissions|MyQueues|MyServices|MyQueuesMyServices)$/
+                =~ /^Agent(Owner|Responsible|Watcher|WritePermissions|MyQueues|MyServices|MyQueuesMyServices|CreateBy)$/
                 )
             {
-
                 if ( $Recipient eq 'AgentOwner' ) {
                     push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{OwnerID};
                 }
@@ -729,6 +728,20 @@ sub _RecipientsGet {
                     my @UserIDs = sort keys %SubscribedUserIDs;
 
                     push @{ $Notification{Data}->{RecipientAgents} }, @UserIDs;
+                }
+                elsif ( $Recipient eq 'AgentCreateBy' ) {
+
+                    # Check if the first article was created by an agent.
+                    my @Articles = $ArticleObject->ArticleList(
+                        TicketID   => $Param{Data}->{TicketID},
+                        SenderType => 'agent',
+                        OnlyFirst  => 1,
+                    );
+
+                    if ( $Articles[0] && $Articles[0]->{ArticleNumber} == 1 ) {
+                        push @{ $Notification{Data}->{RecipientAgents} }, $Ticket{CreateBy};
+                    }
+
                 }
             }
 
