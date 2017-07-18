@@ -26,7 +26,7 @@ sub Data {
     #        %{$Self->{Translation}},
     #        # own translations
     #        'Lock' => 'Lala',
-    #        'UnLock' => 'Lulu',
+    #        'Unlock' => 'Lulu',
     #    };
 
     # $$STOP$$
