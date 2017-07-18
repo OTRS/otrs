@@ -11,7 +11,6 @@ package Kernel::Modules::AgentAppointmentCalendarOverview;
 use strict;
 use warnings;
 
-use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -162,7 +161,8 @@ sub Run {
             # display notify line
             $Param{NotifyLine} = {
                 Priority => 'Warning',
-                Data     => Translatable('Showing only appointments assigned to you! Change settings'),
+                Data     => $LayoutObject->{LanguageObject}
+                    ->Translate('Showing only appointments assigned to you! Change settings'),
                 Link =>
                     $LayoutObject->{Baselink}
                     . 'Action=AgentAppointmentCalendarOverview;Subaction=CalendarSettingsShow',

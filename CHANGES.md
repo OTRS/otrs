@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-07-18 Fixed bug#[12945](https://bugs.otrs.org/show_bug.cgi?id=12945) - Assigned appointments notification is not translated.
  - 2017-07-18 Added possibility to send notifications to agent who created a ticket, thanks to Dian Tong Software.
  - 2017-07-18 Fixed bug#[12929](https://bugs.otrs.org/show_bug.cgi?id=12929) - Commented SysConfig settings are still set in the DB.
  - 2017-07-17 Added the possibility to add an external link to the action menu in AgentTicketZoom, thanks to Paweł Bogusławski.
