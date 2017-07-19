@@ -11,6 +11,11 @@ use utf8;
 
 use vars (qw($Self));
 
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::DoNotSendEmail',
+);
+
 local $ENV{TZ} = 'UTC';
 my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
