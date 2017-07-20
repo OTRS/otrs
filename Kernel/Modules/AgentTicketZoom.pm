@@ -1785,23 +1785,11 @@ sub _ArticleTree {
         );
     }
 
-    # check if expand/collapse view is usable (not available for too many
-    # articles)
-    if ( $Self->{ZoomExpand} && $#ArticleBox < $ArticleMaxLimit ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Collapse',
-            Data => {
-                %Ticket,
-                ArticleID      => $ArticleID,
-                ZoomExpand     => $Self->{ZoomExpand},
-                ZoomExpandSort => $Self->{ZoomExpandSort},
-                Page           => $Param{Page},
-            },
-        );
-    }
-    elsif ( $Self->{ZoomTimeline} ) {
+    # Check first if chronical view is in use.
+    # If expand/collapse view is for use, check number of articles (not available for too many articles).
+    if ( $Self->{ZoomTimeline} ) {
 
-        # show trigger for chronical view
+        # Show trigger for chronical view.
         $Self->{LayoutObject}->Block(
             Name => 'Chronical',
             Data => {
@@ -1814,8 +1802,9 @@ sub _ArticleTree {
         );
     }
     elsif ( $#ArticleBox < $ArticleMaxLimit ) {
+        my $BlockName = $Self->{ZoomExpand} ? 'Collapse' : 'Expand';
         $Self->{LayoutObject}->Block(
-            Name => 'Expand',
+            Name => $BlockName,
             Data => {
                 %Ticket,
                 ArticleID      => $ArticleID,
