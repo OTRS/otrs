@@ -22,16 +22,6 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
 
     /**
-     * @private
-     * @name DialogData
-     * @memberof Core.Agent.Admin.GenericInterfaceWebservice
-     * @member {Array}
-     * @description
-     *     This variable stores the parameters that are passed from the TT and contain all the data that the dialog needs.
-     */
-    var DialogData = [];
-
-    /**
      * @name HideElements
      * @memberof Core.Agent.Admin.GenericInterfaceWebservice
      * @function
@@ -53,8 +43,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         var Action = Core.Config.Get('Subaction'),
-            JSData = Core.Config.Get('JSData'),
-            ActionName, ActionType, ElementSelector, ElementID, Webservice;
+            Webservice;
 
         TargetNS.WebserviceID = parseInt($('#WebserviceID').val(), 10);
 
@@ -93,19 +82,12 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         });
 
         // Initialize delete action dialog events
-        for (ActionName in JSData) {
-
-            ActionType = JSData[ActionName];
-            ElementSelector = '#Delete' + ActionType + ActionName;
-            ElementID = 'Delete' + ActionType + ActionName;
-
-            TargetNS.BindDeleteActionDialog({
-                ElementID: ElementID,
-                ActionName: ActionName,
-                ActionType: ActionType,
-                ElementSelector: ElementSelector
-            });
-        }
+        $('.DeleteOperation').each(function() {
+            $(this).on('click', TargetNS.ShowDeleteActionDialog);
+        });
+        $('.DeleteInvoker').each(function() {
+            $(this).on('click', TargetNS.ShowDeleteActionDialog);
+        });
     };
 
     /**
@@ -289,16 +271,24 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      *      Shows a dialog to delete operation or invoker.
      */
     TargetNS.ShowDeleteActionDialog = function(Event){
-        var LocalDialogData, ActionType, DialogTitle;
+        var ActionType, ActionName, DialogTitle, Target;
 
-        // get global saved DialogData for this function
-        LocalDialogData = DialogData[$(Event.target).attr('id')];
-        if ($(Event.target).hasClass('DeleteOperation')) {
+        // If event target is trash can, change it to parent instead.
+        if ($(Event.target).hasClass('fa')) {
+            Target = $(Event.target).parent();
+        }
+        else {
+            Target = $(Event.target);
+        }
+
+        if (Target.hasClass('DeleteOperation')) {
             ActionType = 'Operation';
+            ActionName = Target.attr('id').substring(15);
             DialogTitle = Core.Language.Translate('Delete operation');
         }
         else {
             ActionType = 'Invoker';
+            ActionName = Target.attr('id').substring(13);
             DialogTitle = Core.Language.Translate('Delete invoker');
         }
 
@@ -323,8 +313,8 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
                             Action: 'AdminGenericInterfaceWebservice',
                             Subaction: 'DeleteAction',
                             WebserviceID: TargetNS.WebserviceID,
-                            ActionType: LocalDialogData.ActionType,
-                            ActionName: LocalDialogData.ActionName
+                            ActionType: ActionType,
+                            ActionName: ActionName
                         };
                         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
                             if (!Response || !Response.Success) {
@@ -348,22 +338,6 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
 
         Event.stopPropagation();
         Event.preventDefault();
-    };
-
-    /**
-     * @name BindDeleteActionDialog
-     * @memberof Core.Agent.Admin.GenericInterfaceWebservice
-     * @function
-     * @param {Object} Data - A control structure that contains the jQueryObjectID, jQueryObjectSelector the ActionType and the ActionName.
-     * @description
-     *      This function binds a "trash can" link from the action table to the
-     *      function that opens a dialog to delete the action
-     */
-    TargetNS.BindDeleteActionDialog = function (Data) {
-        DialogData[Data.ElementID] = Data;
-
-        // binding a click event to the defined element
-        $(DialogData[Data.ElementID].ElementSelector).on('click', TargetNS.ShowDeleteActionDialog);
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
