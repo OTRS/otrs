@@ -128,6 +128,7 @@ followup: added follow-up to ticket [%s]. %s
 forward: forwarded to "%s".
 lock: locked ticket.
 loopprotection: \'loop protection: no auto-response sent to "%s".\'
+merged: merged ticket (%s/%s) to (%s/%s).
 misc: \'%s\'
 move: changed queue to "%s" (%s) from "%s" (%s).
 newticket: created ticket [%s] in "%s" with priority "%s" and state "%s".

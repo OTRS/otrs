@@ -346,7 +346,7 @@ sub TicketCheckNumber {
         HISTORYLINE:
         for my $Data ( reverse @Lines ) {
             next HISTORYLINE if $Data->{HistoryType} ne 'Merged';
-            if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
+            if ( $Data->{Name} =~ /^.*%%\d+?%%(\d+?)$/ ) {
                 $TicketID = $1;
                 $Count++;
                 next MERGELOOP if ( $Count <= $Limit );
