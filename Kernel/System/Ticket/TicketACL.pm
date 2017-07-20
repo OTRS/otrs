@@ -1672,8 +1672,8 @@ sub _GetChecks {
 
     # use state data (if given)
     if ( $CheckAll || $RequiredChecks{State} ) {
-        if ( $Param{NextStateID} && !$Param{StateID} ) {
-            $Param{StateID} = $Param{NextStateID}
+        if ( !$Param{StateID} ) {
+            $Param{StateID} = $Param{NextStateID} || $Param{NewStateID};
         }
         if ( $Param{StateID} ) {
             my %State = $StateObject->StateGet(
