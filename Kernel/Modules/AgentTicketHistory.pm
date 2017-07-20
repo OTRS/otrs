@@ -132,6 +132,11 @@ sub Run {
             # remove not needed place holder
             $Data->{Name} =~ s/\%s//xg;
         }
+        else {
+            $Data->{Name} = $LayoutObject->{LanguageObject}->Translate(
+                $Data->{Name}
+            );
+        }
 
         $LayoutObject->Block(
             Name => 'Row',

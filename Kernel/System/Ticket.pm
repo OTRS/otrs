@@ -5995,8 +5995,8 @@ sub TicketMerge {
     $Self->HistoryAdd(
         TicketID    => $Param{MergeTicketID},
         HistoryType => 'Merged',
-        Name =>
-            "Merged Ticket ($MergeTicket{TicketNumber}/$Param{MergeTicketID}) to ($MainTicket{TicketNumber}/$Param{MainTicketID})",
+        Name        => "\%\%$MergeTicket{TicketNumber}\%\%$Param{MergeTicketID}"
+            . "\%\%$MainTicket{TicketNumber}\%\%$Param{MainTicketID}",
         CreateUserID => $Param{UserID},
     );
 
@@ -6004,8 +6004,8 @@ sub TicketMerge {
     $Self->HistoryAdd(
         TicketID    => $Param{MainTicketID},
         HistoryType => 'Merged',
-        Name =>
-            "Merged Ticket ($MergeTicket{TicketNumber}/$Param{MergeTicketID}) to ($MainTicket{TicketNumber}/$Param{MainTicketID})",
+        Name        => "\%\%$MergeTicket{TicketNumber}\%\%$Param{MergeTicketID}"
+            . "\%\%$MainTicket{TicketNumber}\%\%$Param{MainTicketID}",
         CreateUserID => $Param{UserID},
     );
 

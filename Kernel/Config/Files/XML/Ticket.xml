@@ -1655,6 +1655,7 @@
                 <Item Key="Forward" Translatable="1">Forwarded to "%s".</Item>
                 <Item Key="Lock" Translatable="1">Locked ticket.</Item>
                 <Item Key="LoopProtection" Translatable="1">Loop protection: no auto-response sent to "%s".</Item>
+                <Item Key="Merged" Translatable="1">Merged Ticket (%s/%s) to (%s/%s).</Item>
                 <Item Key="Misc">%s</Item>
                 <Item Key="Move" Translatable="1">Changed queue to "%s" (%s) from "%s" (%s).</Item>
                 <Item Key="NewTicket" Translatable="1">Created ticket [%s] in "%s" with priority "%s" and state "%s".</Item>

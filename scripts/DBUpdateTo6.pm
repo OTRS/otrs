@@ -266,6 +266,10 @@ sub _TasksGet {
             Module  => 'MigrateTicketAppointments',
         },
         {
+            Message => 'Migrate Merged Ticket history name values',
+            Module  => 'MigrateTicketMergedHistory',
+        },
+        {
             Message => 'Migrate ticket statistics',
             Module  => 'MigrateTicketStats',
         },
