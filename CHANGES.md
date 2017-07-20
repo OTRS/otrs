@@ -1,4 +1,5 @@
 #4.0.25 2017-??-??
+ - 2017-07-20 Fixed bug#[12962](https://bugs.otrs.org/show_bug.cgi?id=12962) - Dynamic fields list values are not update when state is changed in AgentTicketActionCommon.
  - 2017-07-20 Fixed bug#[12932](https://bugs.otrs.org/show_bug.cgi?id=12932) - Timeline view collides with Ticket::Frontend::ZoomExpand.
  - 2017-07-14 Fixed bug#[12912](https://bugs.otrs.org/show_bug.cgi?id=12912) - Solution Time shows 33 Minutes - even though nothing is configured.
  - 2017-07-13 Fixed bug#[12734](https://bugs.otrs.org/show_bug.cgi?id=12734) - Dropdown not considered into TicketSolutionResponseTime Statistic.
