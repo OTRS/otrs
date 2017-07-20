@@ -7904,6 +7904,8 @@ You can log in via the following URL:
                 <Item Key="Key" Translatable="1">Shared Secret</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
+                <Item Key="ValidateRegex">^([A-Z2-7]{16}|)$</Item>
+                <Item Key="ValidateRegexMessage" Translatable="1">The secret you supplied is invalid. The secret must only contain letters (A-Z, uppercase) and numbers (2-7) and must consist of 16 characters.</Item>
                 <Item Key="Prio">0600</Item>
                 <Item Key="Active">0</Item>
             </Hash>
@@ -8727,6 +8729,8 @@ via the Preferences button after logging in.
                 <Item Key="Desc" Translatable="1">Enter your shared secret to enable two factor authentication.</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="PrefKey">UserGoogleAuthenticatorSecretKey</Item>
+                <Item Key="ValidateRegex">^([A-Z2-7]{16}|)$</Item>
+                <Item Key="ValidateRegexMessage" Translatable="1">The secret you supplied is invalid. The secret must only contain letters (A-Z, uppercase) and numbers (2-7) and must consist of 16 characters.</Item>
                 <Item Key="Prio">1100</Item>
                 <Item Key="Active">0</Item>
             </Hash>

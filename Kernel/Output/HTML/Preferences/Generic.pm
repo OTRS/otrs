@@ -62,6 +62,12 @@ sub Run {
         my @Array = @{ $Param{GetParam}->{$Key} };
         for (@Array) {
 
+            # check if the value needs to be validated
+            if ($Self->{ConfigItem}->{ValidateRegex} && $Self->{ConfigItem}->{ValidateRegexMessage} && $_ !~ m{$Self->{ConfigItem}->{ValidateRegex}}) {
+                $Self->{Error} = $Self->{ConfigItem}->{ValidateRegexMessage};
+                return;
+            }
+
             # pref update db
             if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(

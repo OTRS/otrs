@@ -23,6 +23,15 @@ $Selenium->RunTest(
         # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # enable google authenticator shared secret preference
+        my $SharedSecretConfig = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{'GoogleAuthenticatorSecretKey'};
+        $SharedSecretConfig->{Active} = 1;
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => "PreferencesGroups###GoogleAuthenticatorSecretKey",
+            Value => $SharedSecretConfig,
+        );
+
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
@@ -89,7 +98,7 @@ $Selenium->RunTest(
 
         # check for some settings
         for my $ID (
-            qw(CurPw NewPw NewPw1 UserLanguage OutOfOfficeOn OutOfOfficeOff)
+            qw(CurPw NewPw NewPw1 UserLanguage OutOfOfficeOn OutOfOfficeOff UserGoogleAuthenticatorSecretKey)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -151,6 +160,40 @@ $Selenium->RunTest(
                 ) || die;
             }
         }
+
+        # try updating the UserGoogleAuthenticatorSecret (which has a regex validation configured)
+        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->send_keys('Invalid Key');
+        $Selenium->execute_script(
+            "\$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+        );
+        # wait for the message to disappear again
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+        );
+
+        # clear the field and then use a valid secret
+        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->clear();
+        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->send_keys('ABCABCABCABCABC2');
+        $Selenium->execute_script(
+            "\$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple.HasOverlay').find('.fa-check:visible').length"
+        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return !\$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
 
         # Inject malicious code in user language variable.
         my $MaliciousCode = 'en\\\'});window.iShouldNotExist=true;Core.Config.AddConfig({a:\\\'';
