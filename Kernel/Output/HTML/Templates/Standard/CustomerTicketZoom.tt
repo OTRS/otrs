@@ -76,7 +76,7 @@
                         <span class="Age" title="[% Data.Created | Localize("TimeLong") | html %]">[% Data.Age %]</span>
                         <div class="Clear"></div>
                     </div>
-                    <input type="hidden" name="ArticleState" value="untouched" />
+                    <input type="hidden" name="ArticleState" value="" />
                     <div class="MessageBody">
                         <div class="Details SeperatorRow">
 [% RenderBlockStart("ArticleRow") %]

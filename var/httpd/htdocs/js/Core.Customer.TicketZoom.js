@@ -189,7 +189,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      */
     TargetNS.Init = function(){
         var $Messages = $('#Messages > li'),
-            $VisibleMessage = $Messages.last(),
             $VisibleIframe = $('.VisibleFrame'),
             $MessageHeaders = $('.MessageHeader', $Messages),
             $FollowUp = $('#FollowUp'),
@@ -211,14 +210,15 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $FollowUp.removeClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
         });
-        /* correct the status saved in the hidden field for all visible messages if ZoomExpand is present*/
+        /* Set statuses saved in the hidden fields for all visible messages if ZoomExpand is present */
         if (!ZoomExpand || isNaN(ZoomExpand)) {
             $('> input[name=ArticleState]', $Messages).val("true");
             ResizeIframe($VisibleIframe);
         }
         else {
-            /* correct the status saved in the hidden field of the initial visible message */
-            $('> input[name=ArticleState]', $VisibleMessage).val("true");
+            /* Set statuses saved in the hidden fields for all messages */
+            $('#Messages > li:not(:last)').find('input[name=ArticleState]').val("untouched");
+            $('#Messages > li:last').find('input[name=ArticleState]').val("true");
             ResizeIframe($VisibleIframe.get(0));
         }
 
