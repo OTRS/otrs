@@ -31,7 +31,7 @@
         <span class="Age" title="[% Data.CreateTime | Localize("TimeLong") | html %]">[% Data.Age %]</span>
         <div class="Clear"></div>
     </div>
-    <input type="hidden" name="ArticleState" value="untouched" />
+    <input type="hidden" name="ArticleState" />
     <div class="MessageBody">
         <div class="Details SeperatorRow">
         [% FOREACH ArticleField IN Data.ArticleFields.values.nsort("Prio") %]

@@ -111,13 +111,12 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * @memberof Core.Customer.TicketZoom
      * @function
      * @param {jQueryObject} $Message
-     * @param {jQueryObject} $Status
      * @description
      *      This function is called when an articles should be loaded. Our trick is, to hide the
      *      url of a containing iframe in the title attribute of the iframe so that it doesn't load
      *      immediately when the site loads. So we set the url in this function.
      */
-    function LoadMessage($Message, $Status){
+    function LoadMessage($Message){
         var $SubjectHolder = $('h3 span', $Message),
             Subject = $SubjectHolder.text(),
             LoadingString = $SubjectHolder.attr('title'),
@@ -133,11 +132,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         }
 
         function Callback(){
-            /*  Set StateStorage to true */
-            $Status.val('true');
-
-            /*  Show MessageContent -> add class Visible */
-            $Message.addClass('Visible');
+            /*  Set data-articlestate to true and add class Visible */
+            $Message.attr('data-articlestate', "true").addClass('Visible');
 
             /*  Change Subject back from Loading */
             $SubjectHolder.text(Subject).attr('title', Subject);
@@ -158,7 +154,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * @function
      * @param {jQueryObject} $Message
      * @description
-     *      This function checks the value of a hidden input field containing the state of the article:
+     *      This function checks the value of data-articlestate attribute containing the state of the article:
      *      untouched (= not yet loaded), true or false. If the article is already loaded (-> true), and
      *      user calls this function by clicking on the message head, the article gets hidden by removing
      *      the class 'Visible' and the status changes to false. If the message head is clicked while the
@@ -166,18 +162,17 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      *      the status gets changed to true.
      */
     function ToggleMessage($Message){
-        var $Status = $('> input[name=ArticleState]', $Message);
-        switch ($Status.val()){
+        switch ($Message.attr('data-articlestate')) {
             case "untouched":
-                LoadMessage($Message, $Status);
+                LoadMessage($Message);
             break;
             case "true":
                 $Message.removeClass('Visible');
-                $Status.val("false");
+                $Message.attr('data-articlestate', "false");
             break;
             case "false":
                 $Message.addClass('Visible');
-                $Status.val("true");
+                $Message.attr('data-articlestate', "true");
             break;
         }
     }
@@ -194,10 +189,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      *      Furthermore it execute field updates, add and remove of attachments.
      */
     TargetNS.Init = function(){
-        var $Messages = $('#Messages > li'),
-            $VisibleMessage = $Messages.last(),
-            $VisibleIframe = $('.VisibleFrame'),
-            $MessageHeaders = $('.MessageHeader', $Messages),
+        var $VisibleIframe = $('.VisibleFrame'),
             $FollowUp = $('#FollowUp'),
             $RTE = $('#RichText'),
             ZoomExpand = $('#ZoomExpand').val(),
@@ -205,29 +197,30 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             FieldID,
             DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
-        $MessageHeaders.click(function(Event){
+        $('#Messages > li > .MessageHeader').on('click', function(Event){
             ToggleMessage($(this).parent());
             Event.preventDefault();
         });
-        $('#ReplyButton').click(function(Event){
+        $('#ReplyButton').on('click', function(Event){
             Event.preventDefault();
             $FollowUp.addClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
             Core.UI.RichTextEditor.Focus($RTE);
         });
-        $('#CloseButton').click(function(Event){
+        $('#CloseButton').on('click', function(Event){
             Event.preventDefault();
             $FollowUp.removeClass('Visible');
             $('html').css({scrollTop: $('#Body').height()});
         });
-        /* correct the status saved in the hidden field for all visible messages if ZoomExpand is present*/
+        /* Set statuses saved in the hidden fields for all visible messages if ZoomExpand is present */
         if (!ZoomExpand || isNaN(ZoomExpand)) {
-            $('> input[name=ArticleState]', $Messages).val("true");
+            $('#Messages > li').attr('data-articlestate', "true");
             ResizeIframe($VisibleIframe);
         }
         else {
-            /* correct the status saved in the hidden field of the initial visible message */
-            $('> input[name=ArticleState]', $VisibleMessage).val("true");
+            /* Set statuses saved in the hidden fields for all messages */
+            $('#Messages > li:not(:last)').attr('data-articlestate', "untouched");
+            $('#Messages > li:last').attr('data-articlestate', "true");
             ResizeIframe($VisibleIframe.get(0));
         }
 

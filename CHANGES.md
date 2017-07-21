@@ -152,6 +152,7 @@
 #5.0.22 2017-??-??
  - 2017-07-20 Fixed bug#[12962](https://bugs.otrs.org/show_bug.cgi?id=12962) - Dynamic fields list values are not update when state is changed in AgentTicketActionCommon.
  - 2017-07-20 Fixed bug#[12928](https://bugs.otrs.org/show_bug.cgi?id=12928) - Web Service configuration does not let to delete invalid Operations or Invokers.
+ - 2017-07-17 Fixed bug#[12913](https://bugs.otrs.org/show_bug.cgi?id=12913) - Articles do not load in IFRAME.
  - 2017-07-13 Fixed bug#[12734](https://bugs.otrs.org/show_bug.cgi?id=12734) - Dropdown not considered into TicketSolutionResponseTime Statistic.
 
 #5.0.21 2017-07-18
