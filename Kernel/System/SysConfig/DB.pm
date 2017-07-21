@@ -408,9 +408,8 @@ Default setting lookup.
 Returns:
 
     %Result = (
-        DefaultID      => 1,
+        DefaultID      => 4,
         Name           => 'TheName',
-        XMLContentRaw  => '',           # XML Data
     );
 
 =cut
@@ -430,7 +429,7 @@ sub DefaultSettingLookup {
     my @Bind;
 
     my $SQL = '
-        SELECT id, name, xml_content_raw
+        SELECT id, name
         FROM sysconfig_default
         WHERE
     ';
@@ -448,17 +447,17 @@ sub DefaultSettingLookup {
 
     # db query
     return if !$DBObject->Prepare(
-        SQL  => $SQL,
-        Bind => \@Bind,
+        SQL   => $SQL,
+        Bind  => \@Bind,
+        Limit => 1,
     );
 
     my %Result;
 
     ROW:
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Result{DefaultID}     = $Row[0];
-        $Result{Name}          = $Row[1];
-        $Result{XMLContentRaw} = $Row[2];
+        $Result{DefaultID} = $Row[0];
+        $Result{Name}      = $Row[1];
         last ROW;
     }
 
