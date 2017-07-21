@@ -137,7 +137,7 @@ sub GetConfig {
     # build HTML string
     my $StandardResponsesStrg = $LayoutObject->BuildSelection(
         Name         => 'ResponseID',
-        ID           => 'ResponseID',
+        ID           => 'ResponseID' . $Param{Article}->{ArticleID},
         Class        => 'Modernize Small',
         Data         => \@StandardResponseArray,
         PossibleNone => 1,
@@ -153,7 +153,7 @@ sub GetConfig {
         Class                 => 'AsPopup PopupType_TicketAction',
         Action                => 'AgentTicketCompose',
         FormID                => 'Reply' . $Param{Article}->{ArticleID},
-        ResponseElementID     => 'ResponseID',
+        ResponseElementID     => 'ResponseID' . $Param{Article}->{ArticleID},
         Type                  => $Param{Type},
     };
 
