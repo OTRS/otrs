@@ -1556,7 +1556,8 @@ CREATE TABLE sysconfig_default_version (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    INDEX scfv_sysconfig_default_id_name (sysconfig_default_id, name)
 );
 # ----------------------------------------------------------
 #  create table sysconfig_modified

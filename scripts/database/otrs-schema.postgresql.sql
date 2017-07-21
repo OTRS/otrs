@@ -2659,6 +2659,17 @@ CREATE TABLE sysconfig_default_version (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('scfv_sysconfig_default_id_name')
+    ) THEN
+    CREATE INDEX scfv_sysconfig_default_id_name ON sysconfig_default_version (sysconfig_default_id, name);
+END IF;
+END$$;
+;
 -- ----------------------------------------------------------
 --  create table sysconfig_modified
 -- ----------------------------------------------------------

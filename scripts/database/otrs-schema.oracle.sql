@@ -4772,6 +4772,14 @@ END;
 /
 --
 ;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX scfv_sysconfig_default_id_name ON sysconfig_default_version (sysconfig_default_id, name)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
 -- ----------------------------------------------------------
 --  create table sysconfig_modified
 -- ----------------------------------------------------------
