@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-07-21 Fixed bug#[12958](https://bugs.otrs.org/show_bug.cgi?id=12958) - OTRSAppointmentCalendar Module sends an update notification when an event is deleted.
  - 2017-07-20 Fixed bug#[11643](https://bugs.otrs.org/show_bug.cgi?id=11643) - No validity check for GoogleAuthenticator shared secret.
  - 2017-07-20 Fixed bug#[12610](https://bugs.otrs.org/show_bug.cgi?id=12610) - Ticket history comments are not translated.
  - 2017-07-18 Fixed bug#[12945](https://bugs.otrs.org/show_bug.cgi?id=12945) - Assigned appointments notification is not translated.

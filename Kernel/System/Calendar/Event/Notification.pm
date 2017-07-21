@@ -87,7 +87,7 @@ sub Run {
             AppointmentID => $Param{Data}->{AppointmentID},
         );
         %Calendar = $CalendarObject->CalendarGet(
-            CalendarID => $Appointment{CalendarID},
+            CalendarID => $Appointment{CalendarID} || $Param{Data}->{CalendarID},
         );
     }
     elsif ( $Param{Data}->{CalendarID} ) {
@@ -385,7 +385,7 @@ sub _NotificationFilter {
             }
             else {
 
-                if ( $Value eq $Param{Appointment}->{$Key} ) {
+                if ( defined $Param{Appointment}->{$Key} && $Value eq $Param{Appointment}->{$Key} ) {
                     $Match = 1;
                     last VALUE;
                 }
@@ -452,8 +452,8 @@ sub _RecipientsGet {
 
                     # get calendar information
                     my %Calendar = $CalendarObject->CalendarGet(
-                        CalendarID => $Appointment{CalendarID},
-                        UserID     => 1,
+                        CalendarID => $Appointment{CalendarID} || $Param{Calendar}->{CalendarID},
+                        UserID => 1,
                     );
 
                     # get a list of read access users for the related calendar
