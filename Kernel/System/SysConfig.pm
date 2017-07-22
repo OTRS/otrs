@@ -1309,18 +1309,25 @@ sub SettingEffectiveValueCheck {
             return %Result;
         }
 
-        my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
-            "Kernel::System::SysConfig::ValueType::$ValueType",
-        );
+        my $BackendObject = $Self->{ValueTypeBackendObject}->{$ValueType} || '';
 
-        if ( !$Loaded ) {
-            $Result{Error} = "Kernel::System::SysConfig::ValueType::$ValueType";
-            return %Result;
+        if ( !$BackendObject ) {
+
+            my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
+                "Kernel::System::SysConfig::ValueType::$ValueType",
+            );
+
+            if ( !$Loaded ) {
+                $Result{Error} = "Kernel::System::SysConfig::ValueType::$ValueType";
+                return %Result;
+            }
+
+            $BackendObject = $Kernel::OM->Get(
+                "Kernel::System::SysConfig::ValueType::$ValueType",
+            );
+
+            $Self->{ValueTypeBackendObject}->{$ValueType} = $BackendObject;
         }
-
-        my $BackendObject = $Kernel::OM->Get(
-            "Kernel::System::SysConfig::ValueType::$ValueType",
-        );
 
         %Result = $BackendObject->SettingEffectiveValueCheck(%Param);
         $Param{EffectiveValue} = $Result{EffectiveValue} if $Result{Success};
