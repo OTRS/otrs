@@ -297,7 +297,16 @@ for my $Table ( sort keys %{$StructureFresh} ) {
     $Self->IsDeeply(
         $StructureMigrated->{$Table},
         $StructureFresh->{$Table},
-        "Structure for table '$Table'",
+        "Structure for table '$Table', direction A",
+    );
+}
+
+# Make sure to do it in both directions.
+for my $Table ( sort keys %{$StructureMigrated} ) {
+    $Self->IsDeeply(
+        $StructureMigrated->{$Table},
+        $StructureFresh->{$Table},
+        "Structure for table '$Table', direction B",
     );
 }
 

@@ -106,6 +106,11 @@ sub Run {
             <ForeignKey ForeignTable="sysconfig_default">
                 <Reference Local="sysconfig_default_id" Foreign="id"/>
             </ForeignKey>
+
+            <Index Name="scfv_sysconfig_default_id_name">
+                <IndexColumn Name="sysconfig_default_id" />
+                <IndexColumn Name="name" />
+            </Index>
         </Table>',
 
         '<Table Name="sysconfig_modified">
