@@ -14,7 +14,10 @@ use warnings;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DynamicField',
     'Kernel::System::Log',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -93,6 +96,106 @@ sub PostValueSet {
 
     # Nothing to do here
     return 1
+}
+
+=head2 ObjectDataGet()
+
+retrieves the data of the current object.
+
+    my %ObjectData = $DynamicFieldTicketHandlerObject->ObjectDataGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        UserID             => 123,
+    );
+
+returns:
+
+    %ObjectData = (
+        ObjectID => 123,
+        Data     => {
+            UserLogin     => 'jdoe',
+            UserFirstname => 'John',
+            UserLastname  => 'Dome',
+            UserEmail     => 'j.doe@example.com',
+            # ...
+        }
+    );
+
+=cut
+
+sub ObjectDataGet {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(DynamicFieldConfig UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # Check DynamicFieldConfig (general).
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # Check DynamicFieldConfig (internally).
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+            return;
+        }
+    }
+
+    my $UserID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' ) || '';
+
+    my $ObjectID;
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+    my $ObjectIDs = $DynamicFieldObject->ObjectMappingGet(
+        ObjectName => $UserID,
+        ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
+    );
+
+    if ( IsHashRefWithData($ObjectIDs) && $ObjectIDs->{$UserID} ) {
+        $ObjectID = $ObjectIDs->{$UserID};
+    }
+    else {
+        $ObjectID = $DynamicFieldObject->ObjectMappingCreate(
+            ObjectName => $UserID,
+            ObjectType => $Param{DynamicFieldConfig}->{ObjectType},
+        );
+    }
+
+    if ( !$ObjectID ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message =>
+                "Unable to determine object id for object name $UserID and type $Param{DynamicFieldConfig}->{ObjectType}!"
+        );
+        return;
+    }
+
+    my %UserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+        User  => $UserID,
+        Valid => 1,
+    );
+
+    return (
+        ObjectID => $ObjectID,
+        Data     => \%UserData,
+    );
+
 }
 
 1;

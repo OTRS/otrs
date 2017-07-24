@@ -20,6 +20,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -154,6 +155,111 @@ sub PostValueSet {
     );
 
     return 1
+}
+
+=head2 ObjectDataGet()
+
+retrieves the data of the current object.
+
+    my %ObjectData = $DynamicFieldTicketHandlerObject->ObjectDataGet(
+        DynamicFieldConfig => $DynamicFieldConfig,      # complete config of the DynamicField
+        UserID             => 123,
+    );
+
+returns:
+
+    %ObjectData = (
+        ObjectID => 123,
+        Data     => {
+            ArticleID              => 123,
+            TicketID               => 2,
+            CommunicationChannelID => 1,
+            SenderTypeID           => 1,
+            IsVisibleForCustomer   => 0,
+            # ...
+        }
+    );
+
+=cut
+
+sub ObjectDataGet {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(DynamicFieldConfig UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # Check DynamicFieldConfig (general).
+    if ( !IsHashRefWithData( $Param{DynamicFieldConfig} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "The field configuration is invalid",
+        );
+        return;
+    }
+
+    # Check DynamicFieldConfig (internally).
+    for my $Needed (qw(ID FieldType ObjectType)) {
+        if ( !$Param{DynamicFieldConfig}->{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in DynamicFieldConfig!",
+            );
+            return;
+        }
+    }
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    my $ArticleID = $ParamObject->GetParam(
+        Param => 'ArticleID',
+    );
+
+    return if !$ArticleID;
+
+    my $TicketID = $ParamObject->GetParam(
+        Param => 'TicketID',
+    );
+
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+    # In case TicketID is not in the web request, look for it using the article.
+    if ( !$TicketID ) {
+        $TicketID = $ArticleObject->TicketIDLookup(
+            ArticleID => $ArticleID,
+        );
+    }
+
+    if ( !$TicketID ) {
+        return (
+            ObjectID => $ArticleID,
+            Data     => {},
+        );
+    }
+
+    my $ArticleBackendObject = $ArticleObject->BackendForArticle(
+        ArticleID => $ArticleID,
+        TicketID  => $TicketID
+    );
+
+    my %ArticleData = $ArticleBackendObject->ArticleGet(
+        ArticleID     => $ArticleID,
+        DynamicFields => 1,
+        TicketID      => $TicketID,
+        UserID        => $Param{UserID},
+    );
+
+    return (
+        ObjectID => $ArticleID,
+        Data     => \%ArticleData,
+    );
 }
 
 1;
