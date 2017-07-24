@@ -174,9 +174,72 @@ Core.Agent.Preferences = (function (TargetNS) {
             }
         });
 
+        TargetNS.InitSysConfig();
 
         Core.UI.Table.InitTableFilter($("#FilterSettings"), $(".SettingsList"));
     };
+
+    function SettingReset($Widget) {
+        var SettingName = $Widget.find("input[name='SettingName']").val(),
+            Data = "Action=AgentPreferences;Subaction=SettingReset;";
+
+        Data += 'SettingName=' + encodeURIComponent(SettingName) + ';';
+
+        // show loader
+        Core.UI.WidgetOverlayShow($Widget, 'Loading');
+
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('Baselink'),
+            Data,
+            function(Response) {
+
+                if (Response.Error != null) {
+                    alert(Response.Error);
+                    // hide loader
+                    Core.UI.WidgetOverlayHide($Widget);
+                    return;
+                }
+
+                Core.SystemConfiguration.SettingRender(Response, $Widget);
+
+                // hide loader
+                Core.UI.WidgetOverlayHide($Widget);
+            }
+        );
+    }
+
+    TargetNS.InitSysConfig = function() {
+
+        // save all
+        $('#SaveAll').on('click', function() {
+            $('.Setting').find('button.Update').trigger('click');
+            return false;
+        });
+
+        // update sysconfig settings
+        $('.WidgetSimple:not(.PreferenceClassic) button.Update').on('click', function() {
+            Core.SystemConfiguration.Update($(this), 0, 0);
+            return false;
+        });
+
+        // reset setting
+        $('.WidgetSimple .ResetUserSetting a').on('click', function() {
+            SettingReset($(this).closest(".WidgetSimple"));
+            return false;
+        });
+
+        // Category update
+        $('#Category').on('change', function() {
+            var ParagraphHeight = $('#ConfigTree').height(),
+                SelectedCategory = $(this).val();
+
+            Core.Agent.PreferencesUpdate('UserSystemConfigurationCategory', SelectedCategory);
+
+            $('#ConfigTree').html('<p class="Center"><i class="fa fa-spinner fa-spin"></i></p>');
+            $('#ConfigTree > p').css('line-height', ParagraphHeight + 'px');
+            Core.SystemConfiguration.InitConfigurationTree('AgentPreferences', SelectedCategory, 1);
+        });
+    }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 

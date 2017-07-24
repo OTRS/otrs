@@ -78,6 +78,13 @@
                             <p class="FieldExplanation">
                                 [% Translate("Download current configuration settings of your system in a .yml file.") | html %]
                             </p>
+
+                            [% IF Data.OTRSBusinessIsInstalled %]
+                            <input type="checkbox" id="SkipUserSettings" name="SkipUserSettings" value="1" checked="checked" />
+                            <label for="SkipUserSettings">[% Translate("Include user settings") | html %]</label>
+                            <div class="Clear"> </div>
+                            [% END %]
+
                             <button class="CallForAction" type="submit" value="[% Translate("Upload system configuration") | html %]">
                                 <span><i class="fa fa-download"></i>&nbsp; [% Translate("Export current configuration") | html %]</span>
                             </button>

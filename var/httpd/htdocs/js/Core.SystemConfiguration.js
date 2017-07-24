@@ -1565,6 +1565,7 @@ var Core = Core || {};
                 TargetNS.Init();
                 if (Core.Config.Get('Action') == 'AgentPreferences') {
                     Core.Agent.Preferences.InitSysConfig();
+                    Core.UI.Table.InitTableFilter($("#FilterSettings"), $(".SettingsList"));
                 }
                 else {
                     Core.Agent.Admin.SystemConfiguration.InitGroupView(true);
@@ -1587,9 +1588,11 @@ var Core = Core || {};
             }, 'html'
         );
 
-        window.setTimeout(function() {
-            Core.Agent.Admin.SystemConfiguration.InitFavourites();
-        }, 1000);
+        if ($('#SysConfigFavourites').length) {
+            window.setTimeout(function() {
+                Core.Agent.Admin.SystemConfiguration.InitFavourites();
+            }, 1000);
+        }
     }
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

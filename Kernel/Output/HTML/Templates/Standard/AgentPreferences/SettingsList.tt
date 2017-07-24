@@ -8,7 +8,7 @@
 
 [% FOREACH Setting IN Data.SettingList %]
     <li>
-        <div class="WidgetSimple Expanded Setting IsLockedByMe" id="Setting[% Setting.DefaultID %]">
+        <div class="WidgetSimple Expanded Setting [% IF Setting.IsModified == 1 %]IsModified[% END %] IsLockedByMe" id="Setting[% Setting.DefaultID %]">
             <div class="Header">
                 <h2>
                     [% Setting.Name | html %]
@@ -38,4 +38,11 @@
             </div>
         </div>
     </li>
+[% END %]
+[% IF !Data.SettingList.size() %]
+    <div class="WidgetSimple">
+        <div class="Content">
+            <p class="Center">[% Translate("This group doesn't contain any settings. Please try navigating to one of its sub groups.") | html %]</p>
+        </div>
+    </div>
 [% END %]

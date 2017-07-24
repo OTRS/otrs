@@ -51,11 +51,20 @@
                 <p class="FieldExplanation">
                     [% Translate("Set up your personal preferences. Save each setting by clicking the checkmark on the right.") | html %]
                 </p>
+                    [% IF Data.Navigation %]
+                    <p class="FieldExplanation">
+                        [% Translate("You can use the navigation tree below to only show settings from certain groups.") | html %]
+                    </p>
+                    [% END %]
                 [% END %]
             </div>
         </div>
 
-        <div class="WidgetSimple StickyElement [% IF Env("UserWidgetState_SystemConfiguration_Sticky") == 0 %]Collapsed[% END %]" id="UserWidgetState_SystemConfiguration_Sticky">
+        [% IF Data.Navigation %]
+        [% INCLUDE "SystemConfiguration/Sidebar/Navigation.tt" %]
+        [% END %]
+
+        <div class="WidgetSimple StickyElement [% IF Env("UserWidgetState_SystemConfiguration_Sticky") == 0 %]Collapsed[% END %] Hidden" id="UserWidgetState_SystemConfiguration_Sticky">
             <div class="Header">
                 <div class="WidgetAction Toggle">
                     <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>

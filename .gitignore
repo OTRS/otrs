@@ -87,6 +87,7 @@ doc/*/OTRSBusiness.*
 i18n/OTRSBusiness
 Kernel/Config/Files/OTRSBusiness.xml
 Kernel/Config/Files/XML/OTRSBusiness.xml
+Kernel/Config/Files/XML/ToBeMergedOTRSBusiness.xml
 Kernel/Language/*OTRSBusiness.pm
 Kernel/Modules/AdminCloudServiceSMS.pm
 Kernel/Modules/*Chat*
@@ -94,6 +95,7 @@ Kernel/Modules/*ContactWithData*
 Kernel/Modules/*DynamicFieldDatabase*
 Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
+Kernel/Modules/AdminSystemConfigurationUser.pm
 Kernel/Modules/AgentAppointmentResourceOverview.pm
 Kernel/Modules/AgentAppointmentTeam.pm
 Kernel/Modules/AgentAppointmentTeamList.pm
@@ -128,6 +130,7 @@ Kernel/Output/HTML/Templates/Standard/AdminNotificationEventTransportSMSSettings
 Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationDeploymentHistory.tt
 Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationDeploymentHistoryDetails.tt
 Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationSettingHistoryDetails.tt
+Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationUserModifiedDetails.tt
 Kernel/Output/HTML/Templates/Standard/AgentAppointmentResourceOverview.tt
 Kernel/Output/HTML/Templates/Standard/AgentAppointmentTeam.tt
 Kernel/Output/HTML/Templates/Standard/AgentAppointmentTeamUser.tt
@@ -142,6 +145,7 @@ Kernel/Output/HTML/Templates/Standard/AgentVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerChat.tt
 Kernel/Output/HTML/Templates/Standard/CustomerVideoChat.tt
 Kernel/Output/HTML/Templates/Standard/SystemConfiguration/SettingHistoryListCompare.tt
+Kernel/Output/HTML/Templates/Standard/SystemConfiguration/UsersSettingListCompare.tt
 Kernel/Output/HTML/Templates/Standard/TimelineView/*
 Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/Business.tt
 Kernel/Output/HTML/Templates/Standard/PublicChat.tt
@@ -212,6 +216,7 @@ var/httpd/htdocs/js/*TimelineView*
 var/httpd/htdocs/js/*StatisticsReports*
 var/httpd/htdocs/js/Core.Agent.Admin.CloudServiceSMS.js
 var/httpd/htdocs/js/Core.Agent.Admin.DynamicFieldDatabase.js
+var/httpd/htdocs/js/Core.Agent.Admin.SystemConfigurationUser.js
 var/httpd/htdocs/js/Core.Agent.AppointmentTeam.js
 var/httpd/htdocs/js/Core.Agent.DynamicFieldContactWithDataSearch.js
 var/httpd/htdocs/js/Core.Agent.DynamicField.ContactWithData.js

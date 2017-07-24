@@ -76,22 +76,22 @@ sub new {
 
     # Load base files.
     my $BaseDir = $Self->{Home} . '/Kernel/System/SysConfig/Base/';
-    if ( -e $BaseDir ) {
-        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-        my @BaseFiles  = $MainObject->DirectoryRead(
-            Directory => $BaseDir,
-            Filter    => '*.pm',
-        );
-        BASEFILE:
-        for my $BaseFile (@BaseFiles) {
-            $BaseFile =~ s{\A.*\/(.+?).pm\z}{$1}xms;
-            my $BaseClassName = "Kernel::System::SysConfig::Base::$BaseFile";
-            if ( !$MainObject->RequireBaseClass($BaseClassName) ) {
-                $Self->FatalDie(
-                    Message => "Could not load class $BaseClassName.",
-                );
-            }
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    FILENAME:
+    for my $Filename (qw(Framework.pm OTRSBusiness.pm)) {
+        my $BaseFile = $BaseDir . $Filename;
+        next FILENAME if !-e $BaseFile;
+
+        $BaseFile =~ s{\A.*\/(.+?).pm\z}{$1}xms;
+        my $BaseClassName = "Kernel::System::SysConfig::Base::$BaseFile";
+        if ( !$MainObject->RequireBaseClass($BaseClassName) ) {
+            $Self->FatalDie(
+                Message => "Could not load class $BaseClassName.",
+            );
         }
+
     }
 
     return $Self;
@@ -105,6 +105,7 @@ Get SysConfig setting attributes.
         Name            => 'Setting::Name',  # (required) Setting name
         Default         => 1,                # (optional) Returns the default setting attributes only
         ModifiedID      => '123',            # (optional) Get setting value for given ModifiedID.
+        TargetUserID    => 1,                # (optional) Get setting value for specific user.
         Deployed        => 1,                # (optional) Get deployed setting value. Default 0.
         Translate       => 1,                # (optional) Translate translatable strings in EffectiveValue. Default 0.
         NoLog           => 1,                # (optional) Do not log error if a setting does not exist.
@@ -200,15 +201,45 @@ sub SettingGet {
         );
 
         # prevent using both parameters.
-        $Param{Deployed} = undef;
+        $Param{Deployed}     = undef;
+        $Param{TargetUserID} = undef;
     }
     else {
-        # Get latest modified settings.
+
+        # Get latest modified setting.
         %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
             Name     => $Param{Name},
             IsGlobal => 1,
             NoCache  => $Param{NoCache},
         );
+    }
+
+    if ( $Param{TargetUserID} ) {
+
+        if ( IsHashRefWithData( \%ModifiedSetting ) ) {
+
+            # There is modified setting, but we need last deployed version.
+            %ModifiedSetting = $SysConfigDBObject->ModifiedSettingVersionGetLast(
+                Name => $ModifiedSetting{Name},
+            );
+
+            # Use global (deployed) modified settings as "default" (if any)
+            if ( IsHashRefWithData( \%ModifiedSetting ) ) {
+                %Setting = (
+                    %Setting,
+                    %ModifiedSetting,
+                );
+            }
+        }
+
+        # get user specific settings
+        %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
+            Name         => $Param{Name},
+            TargetUserID => $Param{TargetUserID},
+        );
+
+        # prevent using both parameters.
+        $Param{Deployed} = undef;
     }
 
     if ( $Param{Deployed} ) {
@@ -306,6 +337,8 @@ Update an existing SysConfig Setting.
         IsValid                => 1,                         # (optional) 1 or 0, modified 0
         EffectiveValue         => $SettingEffectiveValue,    # (optional)
         UserModificationActive => 0,                         # (optional) 1 or 0, modified 0
+        TargetUserID           => 2,                         # (optional) ID of the user for which the modified setting is meant,
+                                                             #   leave it undef for global changes.
         ExclusiveLockGUID      => $LockingString,            # the GUID used to locking the setting
         UserID                 => 1,                         # (required) UserID
         NoValidation           => 1,                         # (optional) no value type validation.
@@ -323,7 +356,7 @@ Returns:
 sub SettingUpdate {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Name ExclusiveLockGUID UserID)) {
+    for my $Needed (qw(Name UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -332,6 +365,13 @@ sub SettingUpdate {
 
             return;
         }
+    }
+
+    if ( !$Param{TargetUserID} && !$Param{ExclusiveLockGUID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TargetUserID or ExclusiveLockGUID!",
+        );
     }
 
     my %Result = (
@@ -367,27 +407,30 @@ sub SettingUpdate {
         return %Result;
     }
 
-    # Default should be locked.
-    my $LockedByUser = $SysConfigDBObject->DefaultSettingIsLockedByUser(
-        DefaultID           => $Setting{DefaultID},
-        ExclusiveLockUserID => $Param{UserID},
-        ExclusiveLockGUID   => $Param{ExclusiveLockGUID},
-    );
-
-    if ( !$LockedByUser ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Setting $Param{Name} is not locked to this user!",
+    # Default should be locked (for global updates).
+    my $LockedByUser;
+    if ( !$Param{TargetUserID} ) {
+        $LockedByUser = $SysConfigDBObject->DefaultSettingIsLockedByUser(
+            DefaultID           => $Setting{DefaultID},
+            ExclusiveLockUserID => $Param{UserID},
+            ExclusiveLockGUID   => $Param{ExclusiveLockGUID},
         );
 
-        %Result = (
-            Success => 0,
-            Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
-                "Setting %s is not locked to this user!",
-                $Param{Name},
-            ),
-        );
-        return %Result;
+        if ( !$LockedByUser ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Setting $Param{Name} is not locked to this user!",
+            );
+
+            %Result = (
+                Success => 0,
+                Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                    "Setting %s is not locked to this user!",
+                    $Param{Name},
+                ),
+            );
+            return %Result;
+        }
     }
 
     # Do not perform EffectiveValueCheck if user wants to disable the setting.
@@ -433,7 +476,25 @@ sub SettingUpdate {
         $Param{EffectiveValue} = $ModifiedSetting{EffectiveValue} // $Setting{EffectiveValue};
     }
 
-    my $UserModificationActive = $Setting{UserModificationActive};
+    my $UserModificationActive = $Param{UserModificationActive} //= $Setting{UserModificationActive};
+
+    if ( $Param{TargetUserID} ) {
+        if ( IsHashRefWithData( \%ModifiedSetting ) ) {
+
+            # override default setting with global modified setting
+            %Setting = (
+                %Setting,
+                %ModifiedSetting,
+            );
+        }
+
+        %ModifiedSetting = $SysConfigDBObject->ModifiedSettingGet(
+            Name         => $Param{Name},
+            TargetUserID => $Param{TargetUserID},
+        );
+
+        $UserModificationActive = undef;    # prevent setting this value
+    }
 
     # Add new modified setting (if there wasn't).
     if ( !%ModifiedSetting ) {
@@ -447,6 +508,9 @@ sub SettingUpdate {
         if ( defined $Param{IsValid} ) {
             $IsDifferent ||= $Setting{IsValid} != $Param{IsValid};
         }
+
+        $IsDifferent ||= $Setting{UserModificationActive} != $Param{UserModificationActive};
+
         if ($IsDifferent) {
 
             my $ModifiedID = $SysConfigDBObject->ModifiedSettingAdd(
@@ -455,6 +519,7 @@ sub SettingUpdate {
                 IsValid                => $Param{IsValid} //= $Setting{IsValid},
                 EffectiveValue         => $Param{EffectiveValue},
                 UserModificationActive => $UserModificationActive,
+                TargetUserID           => $Param{TargetUserID},
                 ExclusiveLockGUID      => $Param{ExclusiveLockGUID},
                 UserID                 => $Param{UserID},
             );
@@ -485,6 +550,8 @@ sub SettingUpdate {
             $IsDifferent ||= $ModifiedSetting{IsValid} != $Param{IsValid};
         }
 
+        $IsDifferent ||= $ModifiedSetting{UserModificationActive} != $Param{UserModificationActive};
+
         if ($IsDifferent) {
 
             my %ModifiedSettingVersion = $SysConfigDBObject->ModifiedSettingVersionGetLast(
@@ -507,6 +574,9 @@ sub SettingUpdate {
                     $EffectiveValueModifiedSinceDeployment ||= $ModifiedSettingLastDeployed{IsValid} != $Param{IsValid};
                 }
 
+                $EffectiveValueModifiedSinceDeployment
+                    ||= $ModifiedSettingLastDeployed{UserModificationActive} != $Param{UserModificationActive};
+
             }
             elsif ( !IsHashRefWithData( \%ModifiedSettingVersion ) ) {
                 $EffectiveValueModifiedSinceDeployment = DataIsDifferent(
@@ -517,6 +587,9 @@ sub SettingUpdate {
                 if ( defined $Param{IsValid} ) {
                     $EffectiveValueModifiedSinceDeployment ||= $Setting{IsValid} != $Param{IsValid};
                 }
+
+                $EffectiveValueModifiedSinceDeployment
+                    ||= $Setting{UserModificationActive} != $Param{UserModificationActive};
             }
 
             # Update the existing modified setting.
@@ -527,6 +600,7 @@ sub SettingUpdate {
                 IsValid                => $Param{IsValid} //= $ModifiedSetting{IsValid},
                 EffectiveValue         => $Param{EffectiveValue},
                 UserModificationActive => $UserModificationActive,
+                TargetUserID           => $Param{TargetUserID} //= $ModifiedSetting{TargetUserID},
                 ExclusiveLockGUID      => $Param{ExclusiveLockGUID},
                 UserID                 => $Param{UserID},
                 IsDirty                => $EffectiveValueModifiedSinceDeployment ? 1 : 0,
@@ -547,22 +621,39 @@ sub SettingUpdate {
         }
     }
 
-    # Unlock setting so it can be locked again afterwards.
-    my $Success = $SysConfigDBObject->DefaultSettingUnlock(
-        DefaultID => $Setting{DefaultID},
-    );
-    if ( !$Success ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Setting could not be unlocked!",
+    # When a setting is set to invalid all modified settings for users has to be removed.
+    if (
+        !$Param{IsValid}
+        && !$Param{TargetUserID}
+        && $Self->can('UserSettingValueDelete')    # OTRS Business Solution™
+        )
+    {
+        $Self->UserSettingValueDelete(
+            Name       => $Setting{Name},
+            ModifiedID => 'All',
+            UserID     => $Param{UserID},
         );
-        %Result = (
-            Success => 0,
-            Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
-                "Setting could not be unlocked!",
-            ),
+    }
+
+    if ( !$Param{TargetUserID} ) {
+
+        # Unlock setting so it can be locked again afterwards.
+        my $Success = $SysConfigDBObject->DefaultSettingUnlock(
+            DefaultID => $Setting{DefaultID},
         );
-        return %Result;
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Setting could not be unlocked!",
+            );
+            %Result = (
+                Success => 0,
+                Error   => $Kernel::OM->Get('Kernel::Language')->Translate(
+                    "Setting could not be unlocked!",
+                ),
+            );
+            return %Result;
+        }
     }
 
     return %Result;
@@ -2526,6 +2617,7 @@ Returns navigation tree in the hash format.
 
     my %Result = $SysConfigObject->ConfigurationNavigationTree(
         RootNavigation         => 'Parent',     # (optional) If provided only sub groups of the root navigation are returned.
+        UserModificationActive => 1,            # (optional) Return settings that can be modified on user level only.
         IsValid                => 1,            # (optional) By default, display all settings.
         Category               => 'OTRSFree'    # (optional)
     );
@@ -2552,10 +2644,11 @@ Returns:
 sub ConfigurationNavigationTree {
     my ( $Self, %Param ) = @_;
 
-    $Param{RootNavigation} //= '';
+    $Param{RootNavigation}         //= '';
+    $Param{UserModificationActive} //= '0';
 
     my $CacheType = 'SysConfigNavigation';
-    my $CacheKey  = "NavigationTree::$Param{RootNavigation}";
+    my $CacheKey  = "NavigationTree::$Param{RootNavigation}::$Param{UserModificationActive}";
     if ( defined $Param{IsValid} ) {
         if ( $Param{IsValid} ) {
             $CacheKey .= '::Valid';
@@ -2598,6 +2691,7 @@ sub ConfigurationNavigationTree {
     # Get all default settings
     my @SettingsRaw = $SysConfigDBObject->DefaultSettingListGet(
         %CategoryOptions,
+        UserModificationActive => $Param{UserModificationActive} || undef,
         IsValid => $Param{IsValid},
     );
 
@@ -2673,6 +2767,8 @@ Returns list of settings that matches provided parameters.
 
     my @List = $SysConfigObject->ConfigurationListGet(
         Navigation           => 'SomeNavigationGroup',  # (optional) limit to the settings that have provided navigation
+        TargetUserID         => 2,                      # (optional) if provided, system returns setting for particular user only,
+                                                        #       otherwise, returns global setting list
         IsValid              => 1,                      # (optional) by default returns valid and invalid settings.
         Invisible            => 0,                      # (optional) Include Invisible settings. By default, not included.
         UserPreferencesGroup => 'Advanced',             # (optional) filter list by group.
@@ -2754,6 +2850,46 @@ sub ConfigurationListGet {
     SETTING:
     for my $Setting (@ConfigurationList) {
 
+        if ( $Param{TargetUserID} ) {
+            my %SettingGlobal = $Self->SettingGet(
+                Name      => $Setting->{Name},
+                IsGlobal  => 1,
+                Translate => $Param{Translate},
+            );
+
+            if ( %SettingGlobal && $SettingGlobal{ModifiedID} ) {
+
+                # There is modified setting, but we need last deployed version.
+                my %SettingDeployed = $SysConfigDBObject->ModifiedSettingVersionGetLast(
+                    Name => $Setting->{Name},
+                );
+
+                if ( !IsHashRefWithData( \%SettingDeployed ) ) {
+                    %SettingDeployed = $Self->SettingGet(
+                        Name      => $Setting->{Name},
+                        Default   => 1,
+                        Translate => $Param{Translate},
+                    );
+                }
+
+                $Setting = {
+                    %SettingGlobal,
+                    %SettingDeployed,
+                };
+            }
+            else {
+
+                # Use default value.
+                my %SettingDefault = $Self->SettingGet(
+                    Name      => $Setting->{Name},
+                    Default   => 1,
+                    Translate => $Param{Translate},
+                );
+
+                $Setting = \%SettingDefault;
+            }
+        }
+
         # Remember default value.
         $Setting->{DefaultValue} = $Setting->{EffectiveValue};
         if ( ref $Setting->{EffectiveValue} ) {
@@ -2763,8 +2899,9 @@ sub ConfigurationListGet {
         }
 
         my %ModifiedSetting = $Self->SettingGet(
-            Name      => $Setting->{Name},
-            Translate => $Param{Translate},
+            Name         => $Setting->{Name},
+            TargetUserID => $Param{TargetUserID} // undef,
+            Translate    => $Param{Translate},
         );
 
         # Skip if setting is invalid.
@@ -2796,6 +2933,12 @@ sub ConfigurationListGet {
 
     if ( defined $Param{IsValid} ) {
         @ConfigurationList = grep { $_->{IsValid} == $Param{IsValid} } @ConfigurationList;
+    }
+
+    if ( $Param{TargetUserID} ) {
+
+        # List contains all settings that can be activated. Get only those that are really activated.
+        @ConfigurationList = grep { $_->{UserModificationActive} } @ConfigurationList;
     }
 
     return @ConfigurationList;
@@ -3160,6 +3303,28 @@ sub ConfigurationDeploy {
             return;
         }
 
+        # If setting is updated on global level, check all user specific settings, maybe it's needed
+        #   to remove duplicates.
+        if ( $Self->can('UserConfigurationResetToGlobal') ) {    # OTRS Business Solution™
+
+            my @DeployedSettings;
+            if ( $Param{DirtySettings} ) {
+                @DeployedSettings = @{ $Param{DirtySettings} };
+            }
+            else {
+                for my $Setting (@Settings) {
+                    push @DeployedSettings, $Setting->{Name};
+                }
+            }
+
+            if ( scalar @DeployedSettings ) {
+                $Self->UserConfigurationResetToGlobal(
+                    Settings => \@DeployedSettings,
+                    UserID   => $Param{UserID},
+                );
+            }
+        }
+
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
         # Delete categories cache.
@@ -3275,6 +3440,11 @@ sub ConfigurationDeploySync {
 
         return if !$Success;
     }
+
+    # Sync also user specific settings (if available).
+    return 1 if !$Self->can('UserConfigurationDeploySync');    # OTRS Business Solution™
+    $Self->UserConfigurationDeploySync();
+
     return 1;
 }
 
@@ -3558,10 +3728,6 @@ JDoe:
 sub ConfigurationDump {
     my ( $Self, %Param ) = @_;
 
-    my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList(
-        Valid => 1,
-    );
-
     my $Result = {};
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
@@ -3609,16 +3775,27 @@ sub ConfigurationDump {
             }
         }
 
-        SETTING:
-        for my $Setting (@SettingsList) {
-            next SETTING if $Setting->{TargetUserID};
-            next SETTING if $Param{SkipModifiedSettings} && !$Setting->{TargetUserID};
+        if ( !$Param{SkipModifiedSettings} ) {
+            SETTING:
+            for my $Setting (@SettingsList) {
+                next SETTING if $Setting->{TargetUserID};
 
-            if ( $Param{OnlyValues} ) {
-                $Result->{'Modified'}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
-                next SETTING;
+                if ( $Param{OnlyValues} ) {
+                    $Result->{'Modified'}->{ $Setting->{Name} } = $Setting->{EffectiveValue};
+                    next SETTING;
+                }
+                $Result->{'Modified'}->{ $Setting->{Name} } = $Setting;
             }
-            $Result->{'Modified'}->{ $Setting->{Name} } = $Setting;
+        }
+
+        if ( !$Param{SkipUserSettings} && $Self->can('UserConfigurationDump') ) {    # OTRS Business Solution™
+            my %UserSettings = $Self->UserConfigurationDump(
+                SettingList => \@SettingsList,
+                OnlyValues  => $Param{OnlyValues},
+            );
+            if ( scalar keys %UserSettings ) {
+                %{$Result} = ( %{$Result}, %UserSettings );
+            }
         }
     }
 
@@ -3680,6 +3857,22 @@ sub ConfigurationLoad {
             $Configuration{$Section} = $ConfigurationRaw{$Section};
             next SECTION;
         }
+
+        my $UserID = $UserObject->UserLookup(
+            UserLogin => $Section,
+            Silent    => 1,
+        );
+
+        if ( !$UserID ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "Settings for user $Section could not be added! User does not exists.",
+            );
+            next SECTION;
+        }
+
+        $Configuration{$UserID} = $ConfigurationRaw{$Section};
+
     }
 
     # Early return if there is nothing to update.
@@ -3693,6 +3886,13 @@ sub ConfigurationLoad {
 
         my $UserID      = '';
         my $ScopeString = '(global)';
+
+        my $TargetUserID = undef;
+        if ( lc $Section ne lc 'Modified' ) {
+            $TargetUserID = $Section;
+            $UserID       = $Section;
+            $ScopeString  = "(for user $Section)";
+        }
 
         SETTINGNAME:
         for my $SettingName ( sort keys %{ $Configuration{$Section} } ) {
@@ -3713,12 +3913,16 @@ sub ConfigurationLoad {
                 UserID => $UserID || $Param{UserID},
             );
 
+            my $UserModificationActive = $TargetUserID ? undef : $CurrentSetting{UserModificationActive};
+
             my %Result = $Self->SettingUpdate(
-                Name              => $SettingName,
-                IsValid           => $CurrentSetting{IsValid},
-                EffectiveValue    => $Configuration{$Section}->{$SettingName}->{EffectiveValue},
-                ExclusiveLockGUID => $ExclusiveLockGUID,
-                UserID            => $UserID || $Param{UserID},
+                Name                   => $SettingName,
+                IsValid                => $CurrentSetting{IsValid},
+                EffectiveValue         => $Configuration{$Section}->{$SettingName}->{EffectiveValue},
+                UserModificationActive => $UserModificationActive,
+                TargetUserID           => $TargetUserID,
+                ExclusiveLockGUID      => $ExclusiveLockGUID,
+                UserID                 => $UserID || $Param{UserID},
             );
             if ( !$Result{Success} ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -3729,6 +3933,17 @@ sub ConfigurationLoad {
                 $Result = '-1';
             }
         }
+
+        # Only deploy user specific settings;
+        next SECTION if !$TargetUserID;
+        next SECTION if !$Self->can('UserConfigurationDeploy');    # OTRS Business Solution™
+
+        # Deploy user configuration requires another package to be installed.
+        my $Success = $Self->UserConfigurationDeploy(
+            TargetUserID => $TargetUserID,
+            UserID       => $Param{UserID},
+        );
+
     }
 
     return $Result;

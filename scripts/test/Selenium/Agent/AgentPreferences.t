@@ -24,7 +24,8 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # enable google authenticator shared secret preference
-        my $SharedSecretConfig = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{'GoogleAuthenticatorSecretKey'};
+        my $SharedSecretConfig
+            = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{'GoogleAuthenticatorSecretKey'};
         $SharedSecretConfig->{Active} = 1;
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -83,11 +84,12 @@ $Selenium->RunTest(
         # navigate to AgentPreferences screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences");
 
+        my $PreferencesGroups = $Kernel::OM->Get('Kernel::Config')->Get('AgentPreferencesGroups');
+
+        my @GroupNames = map { $_->{Key} } @{$PreferencesGroups};
+
         # check if the default groups are present (UserProfile)
-        for my $Group (
-            qw(UserProfile NotificationSettings Miscellaneous)
-            )
-        {
+        for my $Group (@GroupNames) {
             my $Element = $Selenium->find_element("//a[contains(\@href, \'Group=$Group')]");
             $Element->is_enabled();
             $Element->is_displayed();
@@ -170,6 +172,7 @@ $Selenium->RunTest(
             JavaScript =>
                 "return \$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
         );
+
         # wait for the message to disappear again
         $Selenium->WaitFor(
             JavaScript =>

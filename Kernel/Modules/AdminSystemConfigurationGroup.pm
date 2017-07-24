@@ -237,11 +237,33 @@ sub Run {
             );
         }
 
+        if (
+            grep { $_ eq 'reset-locally' } @Options
+            && $SysConfigObject->can('UserSettingValueDelete')    # OTRS Business Solution™
+            )
+        {
+
+            # Remove user's value
+            my $UserValueDeleted = $SysConfigObject->UserSettingValueDelete(
+                Name       => $SettingName,
+                ModifiedID => 'All',
+                UserID     => $Self->{UserID},
+            );
+
+            if ( !$UserValueDeleted ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message =>
+                        "System was not able to delete setting values for users!"
+                );
+            }
+        }
+
         %Setting = $SysConfigObject->SettingGet(
             Name => $SettingName,
         );
 
-        # Send only useful setting attributes to reduce ammount of data transfered in the AJAX call.
+        # Send only useful setting attributes to reduce amount of data transfered in the AJAX call.
         for my $Key (qw(IsModified IsDirty IsLocked ExclusiveLockGUID IsValid UserModificationActive)) {
             $Result{Data}->{SettingData}->{$Key} = $Setting{$Key};
         }
@@ -445,7 +467,8 @@ sub Run {
         my $Output = $LayoutObject->Output(
             TemplateFile => 'SystemConfiguration/SettingsList',
             Data         => {
-                SettingList => \@SettingList,
+                SettingList             => \@SettingList,
+                OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
             },
         );
 
@@ -681,12 +704,13 @@ sub Run {
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminSystemConfigurationGroup',
         Data         => {
-            Tree            => \%Tree,
-            Path            => \@Path,
-            RootNavigation  => $RootNavigation,
-            SettingList     => \@SettingList,
-            CategoriesStrg  => $Self->_GetCategoriesStrg(),
-            InvalidSettings => $Self->_CheckInvalidSettings(),
+            Tree                    => \%Tree,
+            Path                    => \@Path,
+            RootNavigation          => $RootNavigation,
+            SettingList             => \@SettingList,
+            CategoriesStrg          => $Self->_GetCategoriesStrg(),
+            InvalidSettings         => $Self->_CheckInvalidSettings(),
+            OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
         },
     );
     $Output .= $LayoutObject->Footer();
