@@ -57,13 +57,6 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
             $Form.trigger('submit');
         });
 
-        // Bind event to FileUpload button.
-        $('#FileUpload').on('change', function () {
-            $Form = $('#FileUpload').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
         // Initialize the ticket action popup.
         Core.Agent.TicketAction.Init();
     };

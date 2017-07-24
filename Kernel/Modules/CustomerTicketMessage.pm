@@ -292,42 +292,7 @@ sub Run {
             }
         }
 
-        # If is an action about attachments
-        my $IsUpload = 0;
-
-        # attachment delete
-        my @AttachmentIDs = map {
-            my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
-            $ID ? $ID : ();
-        } $ParamObject->GetParamNames();
-
         my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-
-        COUNT:
-        for my $Count ( reverse sort @AttachmentIDs ) {
-            my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
-            next COUNT if !$Delete;
-            $Error{AttachmentDelete} = 1;
-            $UploadCacheObject->FormIDRemoveFile(
-                FormID => $Self->{FormID},
-                FileID => $Count,
-            );
-            $IsUpload = 1;
-        }
-
-        # attachment upload
-        if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
-            $IsUpload = 1;
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $ParamObject->GetUploadAll(
-                Param => 'file_upload',
-            );
-            $UploadCacheObject->FormIDAddFile(
-                FormID      => $Self->{FormID},
-                Disposition => 'attachment',
-                %UploadStuff,
-            );
-        }
 
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
@@ -386,7 +351,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on attachment upload or GetParam Expand
-            if ( !$IsUpload && !$GetParam{Expand} ) {
+            if ( !$GetParam{Expand} ) {
 
                 $ValidationResult = $BackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -453,12 +418,12 @@ sub Run {
         }
 
         # check queue
-        if ( !$NewQueueID && !$IsUpload && !$GetParam{Expand} ) {
+        if ( !$NewQueueID && !$GetParam{Expand} ) {
             $Error{QueueInvalid} = 'ServerError';
         }
 
         # prevent tamper with (Queue/Dest), see bug#9408
-        if ( $NewQueueID && !$IsUpload ) {
+        if ($NewQueueID) {
 
             # get the original list of queues to display
             my $Tos = $Self->_GetTos(
@@ -480,12 +445,12 @@ sub Run {
         }
 
         # check subject
-        if ( !$GetParam{Subject} && !$IsUpload ) {
+        if ( !$GetParam{Subject} ) {
             $Error{SubjectInvalid} = 'ServerError';
         }
 
         # check body
-        if ( !$GetParam{Body} && !$IsUpload ) {
+        if ( !$GetParam{Body} ) {
             $Error{BodyInvalid} = 'ServerError';
         }
         if ( $GetParam{Expand} ) {
@@ -499,7 +464,6 @@ sub Run {
             && $Config->{Service}
             && $Config->{ServiceMandatory}
             && !$GetParam{ServiceID}
-            && !$IsUpload
             )
         {
             $Error{'ServiceIDInvalid'} = 'ServerError';
@@ -511,7 +475,6 @@ sub Run {
             && $Config->{SLA}
             && $Config->{SLAMandatory}
             && !$GetParam{SLAID}
-            && !$IsUpload
             )
         {
             $Error{'SLAIDInvalid'} = 'ServerError';
@@ -521,7 +484,6 @@ sub Run {
         if (
             $ConfigObject->Get('Ticket::Type')
             && !$GetParam{TypeID}
-            && !$IsUpload
             && !$GetParam{Expand}
             )
         {
@@ -1318,10 +1280,8 @@ sub _MaskNew {
         {
             next ATTACHMENT;
         }
-        $LayoutObject->Block(
-            Name => 'Attachment',
-            Data => $Attachment,
-        );
+
+        push @{ $Param{AttachmentList} }, $Attachment;
     }
 
     # add rich text editor

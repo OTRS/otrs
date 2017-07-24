@@ -1,0 +1,16 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<tr style="display: none;">
+    <td class="Filename">{{ Filename | safe }}</td>
+    <td class="Filetype">{{ Filetype | safe }}</td>
+    <td class="Filesize">{{ Filesize | safe }}</td>
+    <td class="Center">
+        <a href="#" data-file-id="{{ FileID | safe }}" class="AttachmentDelete"><i class="fa fa-trash"></i></a>
+    </td>
+</tr>

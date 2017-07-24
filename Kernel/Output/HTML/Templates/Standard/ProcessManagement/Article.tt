@@ -52,22 +52,15 @@
     <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 </div>
 <div class="Clear"></div>
-<label>[% Translate("Attachment") | html %]:</label>
-<div class="Field">
-    <ul>
-[% RenderBlockStart("Attachment") %]
-        <li>
-            <button type="submit" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="CallForAction Inline Small SpacingRight"><span>[% Translate("Delete") | html %]</span></button>
-            [% Data.Filename | html %] ([% Data.Filesize | Localize('Filesize') | html %])
-        </li>
-[% RenderBlockEnd("Attachment") %]
-        <li>
-            <input name="FileUpload" id="FileUpload" type="file" size="40"/>
-            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
-        </li>
-    </ul>
-</div>
+
+<label>[% Translate("Attachments") | html %]:</label>
+    <div class="Field">
+        <div class="DnDUploadBox">
+[% INCLUDE "FormElements/AttachmentList.tt" %]
+        </div>
+    </div>
 <div class="Clear"></div>
+
 [% RenderBlockStart("TimeUnitsLabel") %]
 <label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
 [% RenderBlockEnd("TimeUnitsLabel") %]

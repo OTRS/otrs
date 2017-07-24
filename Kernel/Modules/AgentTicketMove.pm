@@ -227,9 +227,6 @@ sub Run {
     # error handling
     my %Error;
 
-    # distinguish between action concerning attachments and the move action
-    my $IsUpload = 0;
-
     # DestQueueID lookup
     if ( !$GetParam{DestQueueID} && $GetParam{DestQueue} ) {
         $GetParam{DestQueueID}
@@ -474,39 +471,6 @@ sub Run {
         );
     }
 
-    # attachment delete
-    my @AttachmentIDs = map {
-        my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
-        $ID ? $ID : ();
-    } $ParamObject->GetParamNames();
-
-    COUNT:
-    for my $Count ( reverse sort @AttachmentIDs ) {
-        my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
-        next COUNT if !$Delete;
-        $Error{AttachmentDelete} = 1;
-        $UploadCacheObject->FormIDRemoveFile(
-            FormID => $Self->{FormID},
-            FileID => $Count,
-        );
-        $IsUpload = 1;
-    }
-
-    # attachment upload
-    if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
-        $IsUpload                = 1;
-        %Error                   = ();
-        $Error{AttachmentUpload} = 1;
-        my %UploadStuff = $ParamObject->GetUploadAll(
-            Param => 'FileUpload',
-        );
-        $UploadCacheObject->FormIDAddFile(
-            FormID      => $Self->{FormID},
-            Disposition => 'attachment',
-            %UploadStuff,
-        );
-    }
-
     # create HTML strings for all dynamic fields
     my %DynamicFieldHTML;
 
@@ -587,7 +551,7 @@ sub Run {
     my $StateObject = $Kernel::OM->Get('Kernel::System::State');
 
     # move action
-    if ( ( $Self->{Subaction} eq 'MoveTicket' ) && ( !$IsUpload ) ) {
+    if ( $Self->{Subaction} eq 'MoveTicket' ) {
 
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
@@ -645,25 +609,23 @@ sub Run {
             }
         }
 
-        if ( !$IsUpload ) {
-            if ( $Config->{Note} && $Config->{NoteMandatory} ) {
+        if ( $Config->{Note} && $Config->{NoteMandatory} ) {
 
-                # check subject
-                if ( !$GetParam{Subject} ) {
-                    $Error{'SubjectInvalid'} = 'ServerError';
-                }
-
-                # check body
-                if ( !$GetParam{Body} ) {
-                    $Error{'BodyInvalid'} = 'ServerError';
-                }
+            # check subject
+            if ( !$GetParam{Subject} ) {
+                $Error{'SubjectInvalid'} = 'ServerError';
             }
 
-            # check mandatory state
-            if ( $Config->{State} && $Config->{StateMandatory} ) {
-                if ( !$GetParam{NewStateID} ) {
-                    $Error{'NewStateInvalid'} = 'ServerError';
-                }
+            # check body
+            if ( !$GetParam{Body} ) {
+                $Error{'BodyInvalid'} = 'ServerError';
+            }
+        }
+
+        # check mandatory state
+        if ( $Config->{State} && $Config->{StateMandatory} ) {
+            if ( !$GetParam{NewStateID} ) {
+                $Error{'NewStateInvalid'} = 'ServerError';
             }
         }
 
@@ -717,33 +679,27 @@ sub Run {
                 }
             }
 
-            my $ValidationResult;
+            my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+                DynamicFieldConfig   => $DynamicFieldConfig,
+                PossibleValuesFilter => $PossibleValuesFilter,
+                ParamObject          => $ParamObject,
+                Mandatory =>
+                    $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+            );
 
-            # do not validate on attachment upload
-            if ( !$IsUpload ) {
-
-                $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
-                    DynamicFieldConfig   => $DynamicFieldConfig,
-                    PossibleValuesFilter => $PossibleValuesFilter,
-                    ParamObject          => $ParamObject,
-                    Mandatory =>
-                        $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+            if ( !IsHashRefWithData($ValidationResult) ) {
+                return $LayoutObject->ErrorScreen(
+                    Message => $LayoutObject->{LanguageObject}->Translate(
+                        'Could not perform validation on field %s!',
+                        $DynamicFieldConfig->{Label},
+                    ),
+                    Comment => Translatable('Please contact the administrator.'),
                 );
+            }
 
-                if ( !IsHashRefWithData($ValidationResult) ) {
-                    return $LayoutObject->ErrorScreen(
-                        Message => $LayoutObject->{LanguageObject}->Translate(
-                            'Could not perform validation on field %s!',
-                            $DynamicFieldConfig->{Label},
-                        ),
-                        Comment => Translatable('Please contact the administrator.'),
-                    );
-                }
-
-                # propagate validation error to the Error variable to be detected by the frontend
-                if ( $ValidationResult->{ServerError} ) {
-                    $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
-                }
+            # propagate validation error to the Error variable to be detected by the frontend
+            if ( $ValidationResult->{ServerError} ) {
+                $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
             }
 
             # get field html
@@ -895,7 +851,7 @@ sub Run {
             TicketUnlock   => $TicketUnlock,
             TimeUnits      => $GetParam{TimeUnits},
             FormID         => $Self->{FormID},
-            IsUpload       => $IsUpload,
+
             %Ticket,
             DynamicFieldHTML => \%DynamicFieldHTML,
             %GetParam,
@@ -1385,7 +1341,6 @@ sub AgentMove {
         if (
             $Config->{NoteMandatory}
             || $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-            || $Param{IsUpload}
             )
         {
             $Param{WidgetStatus} = 'Expanded';
@@ -1494,10 +1449,8 @@ sub AgentMove {
             {
                 next ATTACHMENT;
             }
-            $LayoutObject->Block(
-                Name => 'Attachment',
-                Data => $Attachment,
-            );
+
+            push @{ $Param{AttachmentList} }, $Attachment;
         }
 
         # add rich text editor

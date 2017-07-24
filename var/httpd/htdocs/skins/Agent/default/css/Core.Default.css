@@ -325,6 +325,109 @@ dd {
 }
 
 /**
+ * @subsection  Drag & drop upload
+ */
+
+div.DnDUploadBox {
+    overflow-y: hidden;
+    width: 622px;
+    padding: 0 !important;
+}
+
+div.DnDUpload {
+    border: 1px solid #ccc;
+    color: #aaa;
+    height: 60px;
+    line-height: 85px;
+    text-align: center;
+    position: relative;
+    margin-bottom: 5px;
+    max-width: 622px;
+    box-sizing: border-box;
+}
+
+div.DnDUpload.DragOver {
+    border-style: dashed;
+    background: #eee;
+    color: #444;
+}
+
+div.DnDUpload i {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    margin-left: -20px;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+div.DnDUpload i.fa-spinner {
+    display: none;
+}
+
+div.DnDUpload.Uploading i.fa-download {
+    display: none;
+}
+
+div.DnDUpload.Uploading i.fa-spinner {
+    display: block;
+}
+
+div.DnDUpload .UploadRunning {
+    display: none;
+}
+
+div.DnDUpload.Uploading .ReadyForUpload {
+    display: none;
+}
+
+div.DnDUpload.Uploading .UploadRunning {
+    display: block;
+}
+
+table.AttachmentList {
+    clear: none;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    max-width: 622px;
+    table-layout: fixed;
+}
+
+table.AttachmentList .Filename {
+    width: 40%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+table.AttachmentList .Progress {
+    display: block;
+    height: 4px;
+    margin: 3px 0px;
+    background: #f92;
+    width: 0px;
+}
+
+table.AttachmentList .Filetype {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.AttachmentList .Filesize {
+    width: 15%;
+}
+
+table.AttachmentList .Delete {
+    width: 10px;
+    text-align: center;
+}
+
+table.AttachmentList.DataTable thead th {
+    line-height: 12px;
+}
+
+/**
  * @note    Use the class InvisibleText to hide text from the screen,
  *          while it is still recognized and read by screen readers.
  */

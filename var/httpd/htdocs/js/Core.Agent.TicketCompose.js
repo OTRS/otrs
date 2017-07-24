@@ -52,13 +52,6 @@ Core.Agent.TicketCompose = (function (TargetNS) {
             $Form.trigger('submit');
         });
 
-        // choose attachment
-        $('#FileUpload').on('change', function () {
-            $Form = $('#FileUpload').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
         // change next ticket state
         $('#StateID').on('change', function () {
             Core.AJAX.FormUpdate($('#ComposeTicket'), 'AJAXUpdate', 'StateID', Core.Config.Get('DynamicFieldNames'));

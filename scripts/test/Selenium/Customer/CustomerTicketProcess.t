@@ -274,8 +274,18 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
+        # Hide DnDUpload and show input field.
+        $Selenium->execute_script(
+            "\$('.DnDUpload').css('display', 'none')"
+        );
+        $Selenium->execute_script(
+            "\$('#FileUpload').css('display', 'block')"
+        );
+
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($AttachmentLocation);
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("[id^=\'AttachmentDelete\']").length' );
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("[class^=\'AttachmentDelete\']").length'
+        );
 
         # Check if the header is visible on the page (bug#12543).
         my $Element = $Selenium->find_element(

@@ -60,13 +60,17 @@ $Selenium->RunTest(
 
         # check CustomerTicketMessage overview screen
         for my $ID (
-            qw(Dest Subject RichText Attachment PriorityID submitRichText)
+            qw(Dest Subject RichText PriorityID submitRichText)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
         }
+
+        my $Element = $Selenium->find_element( ".DnDUpload", 'css' );
+        $Element->is_enabled();
+        $Element->is_displayed();
 
         # check client side validation
         $Selenium->find_element( "#Subject", 'css' )->clear();

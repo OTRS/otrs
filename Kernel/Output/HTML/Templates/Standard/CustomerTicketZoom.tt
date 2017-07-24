@@ -186,17 +186,14 @@
                     <fieldset class="DontPrint">
 
                         <div id="AttachmentHolder">
-                            <label for="Attachment">[% Translate("Attachment") | html %]:</label>
-                            <input name="file_upload" title="[% Translate("Attachment") | html %]" id="Attachment" type="file" size="30" />
-                            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
 
-[% RenderBlockStart("FollowUpAttachment") %]
-                            <div class="Attachment" title="[% Data.Filename | html %] - [% Data.Filesize | Localize('Filesize') | html %]">
-                                [% Data.Filename | html %] ([% Data.Filesize | Localize('Filesize') | html %])
-                                <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]">[% Translate("Delete") | html %]</button>
-                                <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
+                    <label>[% Translate("Attachments") | html %]:</label>
+                        <div class="Field">
+                            <div class="DnDUploadBox">
+[% INCLUDE "FormElements/AttachmentList.tt" %]
                             </div>
-[% RenderBlockEnd("FollowUpAttachment") %]
+                        </div>
+                        <div class="Clear"></div>
 
                         </div>
 [% RenderBlockStart("FollowUpState") %]

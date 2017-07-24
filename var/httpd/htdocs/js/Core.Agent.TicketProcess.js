@@ -134,6 +134,9 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         // Register event for tree selection dialog
                         Core.UI.TreeSelection.InitTreeSelection();
 
+                        // initialize ajax dnd upload
+                        Core.UI.InitAjaxDnDUpload();
+
                         // move help triggers into field rows for dynamic fields
                         $('.Row > .FieldHelpContainer').each(function () {
                             if (!$(this).next('label').find('.Marker').length) {

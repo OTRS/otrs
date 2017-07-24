@@ -66,12 +66,20 @@ $Selenium->RunTest(
         my $Location       = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . "/scripts/test/sample/StdAttachment/$AttachmentName";
 
+        # Hide DnDUpload and show input field.
+        $Selenium->execute_script(
+            "\$('.DnDUpload').css('display', 'none')"
+        );
+        $Selenium->execute_script(
+            "\$('#FileUpload').css('display', 'block')"
+        );
+
         # input fields and create ticket
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Subject",    'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",   'css' )->send_keys($TextRandom);
-        $Selenium->find_element( "#Attachment", 'css' )->send_keys($Location);
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Attachment").length' );
+        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".AttachmentList").length' );
         $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # get ticket object

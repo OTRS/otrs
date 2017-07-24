@@ -49,13 +49,6 @@ Core.Agent.TicketForward = (function (TargetNS) {
             $Form.trigger('submit');
         });
 
-        // choose attachment
-        $('#FileUpload').on('change', function () {
-            $Form = $(this).closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
         // update dynamic fields in form
         $('#ComposeStateID').on('change', function () {
             Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ComposeStateID', DynamicFieldNames);

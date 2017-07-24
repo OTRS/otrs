@@ -88,13 +88,6 @@ Core.Agent.TicketEmail = (function (TargetNS) {
             return false;
         });
 
-        // choose attachment
-        $('#FileUpload').on('change', function () {
-            $Form = $('#FileUpload').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
         // delete attachment
         $('button[id*=AttachmentDeleteButton]').on('click', function () {
             $Form = $(this).closest('form');

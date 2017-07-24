@@ -325,21 +325,9 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label>[% Translate("Attachment") | html %]:</label>
+                <label>[% Translate("Attachments") | html %]:</label>
                 <div class="Field">
-                    <ul>
-[% RenderBlockStart("Attachment") %]
-                        <li>
-                            <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="CallForAction Inline Small SpacingRight"><span>[% Translate("Delete") | html %]</span></button>
-                            <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
-                            [% Data.Filename | html %] ([% Data.Filesize | Localize('Filesize') | html %])
-                        </li>
-[% RenderBlockEnd("Attachment") %]
-                        <li>
-                            <input id="FileUpload" name="FileUpload" type="file" size="40" />
-                            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
-                        </li>
-                    </ul>
+[% INCLUDE "FormElements/AttachmentList.tt" %]
                 </div>
                 <div class="Clear"></div>
 

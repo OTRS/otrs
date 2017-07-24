@@ -1470,7 +1470,7 @@ sub _OutputActivityDialog {
     }
     elsif (
         ( $Self->{IsMainWindow} || $Self->{IsProcessEnroll} )
-        && ( IsHashRefWithData( \%Error ) || $Param{IsUpload} )
+        && IsHashRefWithData( \%Error )
         )
     {
 
@@ -2780,10 +2780,8 @@ sub _RenderArticle {
         {
             next ATTACHMENT;
         }
-        $LayoutObject->Block(
-            Name => 'Attachment',
-            Data => $Attachment,
-        );
+
+        push @{ $Param{AttachmentList} }, $Attachment;
     }
 
     # output server errors
@@ -4432,46 +4430,11 @@ sub _StoreActivityDialog {
         );
     }
 
-    # If is an action about attachments
-    my $IsUpload = 0;
-
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # attachment delete
-    my @AttachmentIDs = map {
-        my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
-        $ID ? $ID : ();
-    } $ParamObject->GetParamNames();
-
     # get upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-
-    COUNT:
-    for my $Count ( reverse sort @AttachmentIDs ) {
-        my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
-        next COUNT if !$Delete;
-        $UploadCacheObject->FormIDRemoveFile(
-            FormID => $Self->{FormID},
-            FileID => $Count,
-        );
-        $IsUpload = 1;
-        $Error{AttachmentDelete} = 1;
-    }
-
-    # attachment upload
-    if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
-        my %UploadStuff = $ParamObject->GetUploadAll(
-            Param => 'FileUpload',
-        );
-        $UploadCacheObject->FormIDAddFile(
-            FormID      => $Self->{FormID},
-            Disposition => 'attachment',
-            %UploadStuff,
-        );
-        $IsUpload = 1;
-        $Error{AttachmentUpload} = 1;
-    }
 
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -4481,206 +4444,203 @@ sub _StoreActivityDialog {
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
-    if ( !$IsUpload ) {
+    # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
+    my %CheckedFields;
+    DIALOGFIELD:
+    for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
+        if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
+            my $DynamicFieldName = $1;
 
-        # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
-        my %CheckedFields;
-        DIALOGFIELD:
-        for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
-            if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-                my $DynamicFieldName = $1;
+            # Get the Config of the current DynamicField (the first element of the grep result array)
+            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
 
-                # Get the Config of the current DynamicField (the first element of the grep result array)
-                my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
+            if ( !IsHashRefWithData($DynamicFieldConfig) ) {
 
-                if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+                my $Message
+                    = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
 
-                    my $Message
-                        = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
+                # log error but does not stop the execution as it could be an old Article
+                # DynamicField, see bug#11666
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $Message,
+                );
 
-                    # log error but does not stop the execution as it could be an old Article
-                    # DynamicField, see bug#11666
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message  => $Message,
-                    );
-
-                    next DIALOGFIELD;
-                }
-
-                # Will be extended later on for ACL Checking:
-                my $PossibleValuesFilter;
-
-                # if we have an invisible field, use config's default value
-                if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
-                    if (
-                        defined $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
-                        && length $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
-                        )
-                    {
-                        $TicketParam{$CurrentField} = $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue};
-                    }
-                    else {
-                        $TicketParam{$CurrentField} = '';
-                    }
-                }
-
-                # only validate visible fields
-                else {
-                    # Check DynamicField Values
-                    my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
-                        DynamicFieldConfig   => $DynamicFieldConfig,
-                        PossibleValuesFilter => $PossibleValuesFilter,
-                        ParamObject          => $ParamObject,
-                        Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
-                    );
-
-                    if ( !IsHashRefWithData($ValidationResult) ) {
-                        $LayoutObject->FatalError(
-                            Message => $LayoutObject->{LanguageObject}->Translate(
-                                'Could not perform validation on field %s!',
-                                $DynamicFieldConfig->{Label},
-                            ),
-                        );
-                    }
-
-                    if ( $ValidationResult->{ServerError} ) {
-                        $Error{ $DynamicFieldConfig->{Name} }         = 1;
-                        $ErrorMessages{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage};
-                    }
-
-                    $TicketParam{$CurrentField} =
-                        $DynamicFieldBackendObject->EditFieldValueGet(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        ParamObject        => $ParamObject,
-                        LayoutObject       => $LayoutObject,
-                        );
-                }
-
-                # In case of DynamicFields there is no NameToID translation
-                # so just take the DynamicField name
-                $CheckedFields{$CurrentField} = 1;
+                next DIALOGFIELD;
             }
-            elsif (
-                $Self->{NameToID}->{$CurrentField} eq 'CustomerID'
-                || $Self->{NameToID}->{$CurrentField} eq 'CustomerUserID'
-                )
-            {
 
-                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{'CustomerID'} };
+            # Will be extended later on for ACL Checking:
+            my $PossibleValuesFilter;
 
-                # is not possible to a have an invisible field for this particular value
-                # on agent interface
-                if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
-                    $LayoutObject->FatalError(
-                        Message => Translatable('Couldn\'t use CustomerID as an invisible field.'),
-                        Comment => Translatable('Please contact the administrator.'),
-                    );
-                }
-
-                # CustomerID should not be mandatory as in other screens
-                $TicketParam{CustomerID} = $Param{GetParam}->{CustomerID} || '';
-
-                # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
-                my $CustomerUserID = $ParamObject->GetParam( Param => 'SelectedCustomerUser' );
-
-                # fall-back, if customer auto-complete does not shown any results, then try to use
-                # the content of the original field as customer user id
-                if ( !$CustomerUserID ) {
-
-                    $CustomerUserID = $ParamObject->GetParam( Param => 'CustomerUserID' );
-
-                    # check email address
-                    for my $Email ( Mail::Address->parse($CustomerUserID) ) {
-                        if (
-                            !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Email->address() )
-                            )
-                        {
-                            $Error{'CustomerUserID'} = 1;
-                        }
-                    }
-                }
-
-                if ( !$CustomerUserID ) {
-                    $Error{'CustomerUserID'} = 1;
-                }
-                else {
-                    $TicketParam{CustomerUser} = $CustomerUserID;
-                }
-                $CheckedFields{ $Self->{NameToID}->{'CustomerID'} }     = 1;
-                $CheckedFields{ $Self->{NameToID}->{'CustomerUserID'} } = 1;
-
-            }
-            elsif ( $CurrentField eq 'PendingTime' ) {
-                my $Prefix = 'PendingTime';
-
-                # Make sure we have Values otherwise take an empty string
+            # if we have an invisible field, use config's default value
+            if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
                 if (
-                    IsHashRefWithData( $Param{GetParam}->{PendingTime} )
-                    && defined $Param{GetParam}->{PendingTime}->{Year}
-                    && defined $Param{GetParam}->{PendingTime}->{Month}
-                    && defined $Param{GetParam}->{PendingTime}->{Day}
-                    && defined $Param{GetParam}->{PendingTime}->{Hour}
-                    && defined $Param{GetParam}->{PendingTime}->{Minute}
+                    defined $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
+                    && length $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
                     )
                 {
-                    $TicketParam{$CurrentField} = $Param{GetParam}->{PendingTime};
+                    $TicketParam{$CurrentField} = $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue};
                 }
-
-                # if we have no Pending status we have no time to set
                 else {
                     $TicketParam{$CurrentField} = '';
                 }
-                $CheckedFields{'PendingTime'} = 1;
             }
 
+            # only validate visible fields
             else {
-
-                # skip if we've already checked ID or Name
-                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
-
-                my $Result = $Self->_CheckField(
-                    Field => $Self->{NameToID}->{$CurrentField},
-                    %{ $ActivityDialog->{Fields}{$CurrentField} },
+                # Check DynamicField Values
+                my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    ParamObject          => $ParamObject,
+                    Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
                 );
 
-                if ( !$Result && $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
+                if ( !IsHashRefWithData($ValidationResult) ) {
+                    $LayoutObject->FatalError(
+                        Message => $LayoutObject->{LanguageObject}->Translate(
+                            'Could not perform validation on field %s!',
+                            $DynamicFieldConfig->{Label},
+                        ),
+                    );
+                }
 
-                    # special case for Article (Subject & Body)
-                    if ( $CurrentField eq 'Article' ) {
-                        for my $ArticlePart (qw(Subject Body)) {
-                            if ( !$Param{GetParam}->{$ArticlePart} ) {
+                if ( $ValidationResult->{ServerError} ) {
+                    $Error{ $DynamicFieldConfig->{Name} }         = 1;
+                    $ErrorMessages{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage};
+                }
 
-                                # set error for each part (if any)
-                                $Error{ 'Article' . $ArticlePart } = 1;
-                            }
+                $TicketParam{$CurrentField} =
+                    $DynamicFieldBackendObject->EditFieldValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ParamObject        => $ParamObject,
+                    LayoutObject       => $LayoutObject,
+                    );
+            }
+
+            # In case of DynamicFields there is no NameToID translation
+            # so just take the DynamicField name
+            $CheckedFields{$CurrentField} = 1;
+        }
+        elsif (
+            $Self->{NameToID}->{$CurrentField} eq 'CustomerID'
+            || $Self->{NameToID}->{$CurrentField} eq 'CustomerUserID'
+            )
+        {
+
+            next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{'CustomerID'} };
+
+            # is not possible to a have an invisible field for this particular value
+            # on agent interface
+            if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
+                $LayoutObject->FatalError(
+                    Message => Translatable('Couldn\'t use CustomerID as an invisible field.'),
+                    Comment => Translatable('Please contact the administrator.'),
+                );
+            }
+
+            # CustomerID should not be mandatory as in other screens
+            $TicketParam{CustomerID} = $Param{GetParam}->{CustomerID} || '';
+
+            # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
+            my $CustomerUserID = $ParamObject->GetParam( Param => 'SelectedCustomerUser' );
+
+            # fall-back, if customer auto-complete does not shown any results, then try to use
+            # the content of the original field as customer user id
+            if ( !$CustomerUserID ) {
+
+                $CustomerUserID = $ParamObject->GetParam( Param => 'CustomerUserID' );
+
+                # check email address
+                for my $Email ( Mail::Address->parse($CustomerUserID) ) {
+                    if (
+                        !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Email->address() )
+                        )
+                    {
+                        $Error{'CustomerUserID'} = 1;
+                    }
+                }
+            }
+
+            if ( !$CustomerUserID ) {
+                $Error{'CustomerUserID'} = 1;
+            }
+            else {
+                $TicketParam{CustomerUser} = $CustomerUserID;
+            }
+            $CheckedFields{ $Self->{NameToID}->{'CustomerID'} }     = 1;
+            $CheckedFields{ $Self->{NameToID}->{'CustomerUserID'} } = 1;
+
+        }
+        elsif ( $CurrentField eq 'PendingTime' ) {
+            my $Prefix = 'PendingTime';
+
+            # Make sure we have Values otherwise take an empty string
+            if (
+                IsHashRefWithData( $Param{GetParam}->{PendingTime} )
+                && defined $Param{GetParam}->{PendingTime}->{Year}
+                && defined $Param{GetParam}->{PendingTime}->{Month}
+                && defined $Param{GetParam}->{PendingTime}->{Day}
+                && defined $Param{GetParam}->{PendingTime}->{Hour}
+                && defined $Param{GetParam}->{PendingTime}->{Minute}
+                )
+            {
+                $TicketParam{$CurrentField} = $Param{GetParam}->{PendingTime};
+            }
+
+            # if we have no Pending status we have no time to set
+            else {
+                $TicketParam{$CurrentField} = '';
+            }
+            $CheckedFields{'PendingTime'} = 1;
+        }
+
+        else {
+
+            # skip if we've already checked ID or Name
+            next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
+
+            my $Result = $Self->_CheckField(
+                Field => $Self->{NameToID}->{$CurrentField},
+                %{ $ActivityDialog->{Fields}{$CurrentField} },
+            );
+
+            if ( !$Result && $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
+
+                # special case for Article (Subject & Body)
+                if ( $CurrentField eq 'Article' ) {
+                    for my $ArticlePart (qw(Subject Body)) {
+                        if ( !$Param{GetParam}->{$ArticlePart} ) {
+
+                            # set error for each part (if any)
+                            $Error{ 'Article' . $ArticlePart } = 1;
                         }
                     }
-
-                    # all other fields
-                    else {
-                        $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
-                    }
                 }
 
-                if (
-                    $CurrentField eq 'Article'
-                    && $ActivityDialog->{Fields}->{$CurrentField}->{Config}->{TimeUnits}
-                    && $ActivityDialog->{Fields}->{$CurrentField}->{Config}->{TimeUnits} == 2
-                    )
-                {
-                    if ( !$Param{GetParam}->{TimeUnits} ) {
-
-                        # set error for the time-units (if any)
-                        $Error{'TimeUnits'} = 1;
-                    }
+                # all other fields
+                else {
+                    $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                 }
-
-                elsif ($Result) {
-                    $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
-                }
-                $CheckedFields{ $Self->{NameToID}->{$CurrentField} } = 1;
             }
+
+            if (
+                $CurrentField eq 'Article'
+                && $ActivityDialog->{Fields}->{$CurrentField}->{Config}->{TimeUnits}
+                && $ActivityDialog->{Fields}->{$CurrentField}->{Config}->{TimeUnits} == 2
+                )
+            {
+                if ( !$Param{GetParam}->{TimeUnits} ) {
+
+                    # set error for the time-units (if any)
+                    $Error{'TimeUnits'} = 1;
+                }
+            }
+
+            elsif ($Result) {
+                $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
+            }
+            $CheckedFields{ $Self->{NameToID}->{$CurrentField} } = 1;
         }
     }
 
@@ -5024,7 +4984,7 @@ sub _StoreActivityDialog {
     }
 
     # if we got errors go back to displaying the ActivityDialog
-    if ( $IsUpload || IsHashRefWithData( \%Error ) ) {
+    if ( IsHashRefWithData( \%Error ) ) {
         return $Self->_OutputActivityDialog(
             ProcessEntityID        => $ProcessEntityID,
             TicketID               => $TicketID || undef,
@@ -5032,7 +4992,6 @@ sub _StoreActivityDialog {
             Error                  => \%Error,
             ErrorMessages          => \%ErrorMessages,
             GetParam               => $Param{GetParam},
-            IsUpload               => $IsUpload,
             Notify                 => \@Notify,
         );
     }

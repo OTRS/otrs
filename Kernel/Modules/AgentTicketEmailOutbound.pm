@@ -888,44 +888,8 @@ sub SendEmail {
         DynamicFields => 1,
     );
 
-    # If is an action about attachments
-    my $IsUpload = 0;
-
-    # attachment delete
-    my @AttachmentIDs = map {
-        my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
-        $ID ? $ID : ();
-    } $ParamObject->GetParamNames();
-
     # get upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-
-    COUNT:
-    for my $Count ( reverse sort @AttachmentIDs ) {
-        my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
-        next COUNT if !$Delete;
-        %Error = ();
-        $Error{AttachmentDelete} = 1;
-        $UploadCacheObject->FormIDRemoveFile(
-            FormID => $GetParam{FormID},
-            FileID => $Count,
-        );
-        $IsUpload = 1;
-    }
-
-    # attachment upload
-    if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
-        $IsUpload                = 1;
-        %Error                   = ();
-        $Error{AttachmentUpload} = 1;
-        my %UploadStuff = $ParamObject->GetUploadAll(
-            Param => 'FileUpload',
-        );
-        $UploadCacheObject->FormIDAddFile(
-            FormID => $GetParam{FormID},
-            %UploadStuff,
-        );
-    }
 
     # get all attachments meta data
     my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
@@ -982,33 +946,27 @@ sub SendEmail {
             }
         }
 
-        my $ValidationResult;
+        my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+            DynamicFieldConfig   => $DynamicFieldConfig,
+            PossibleValuesFilter => $PossibleValuesFilter,
+            ParamObject          => $ParamObject,
+            Mandatory =>
+                $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+        );
 
-        # do not validate on attachment upload
-        if ( !$IsUpload ) {
+        if ( !IsHashRefWithData($ValidationResult) ) {
 
-            $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                ParamObject          => $ParamObject,
-                Mandatory =>
-                    $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+            return $LayoutObject->ErrorScreen(
+                Message =>
+                    $LayoutObject->{LanguageObject}
+                    ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
+                Comment => Translatable('Please contact the administrator.'),
             );
+        }
 
-            if ( !IsHashRefWithData($ValidationResult) ) {
-
-                return $LayoutObject->ErrorScreen(
-                    Message =>
-                        $LayoutObject->{LanguageObject}
-                        ->Translate( 'Could not perform validation on field %s!', $DynamicFieldConfig->{Label} ),
-                    Comment => Translatable('Please contact the administrator.'),
-                );
-            }
-
-            # propagate validation error to the Error variable to be detected by the frontend
-            if ( $ValidationResult->{ServerError} ) {
-                $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
-            }
+        # propagate validation error to the Error variable to be detected by the frontend
+        if ( $ValidationResult->{ServerError} ) {
+            $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
         }
 
         # get field HTML
@@ -1879,10 +1837,7 @@ sub _Mask {
             next ATTACHMENT;
         }
 
-        $LayoutObject->Block(
-            Name => 'Attachment',
-            Data => $Attachment,
-        );
+        push @{ $Param{AttachmentList} }, $Attachment;
     }
 
     # add rich text editor

@@ -65,13 +65,6 @@ Core.Agent.TicketActionCommon = (function (TargetNS) {
             $Form.trigger('submit');
         });
 
-        // Bind event to FileUpload button.
-        $('#FileUpload').on('change', function () {
-            $Form = $('#FileUpload').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
         // Bind click event to CreateArticle checkbox and toggle widget.
         $('#CreateArticle, #WidgetArticle .WidgetAction.Toggle').on('click', function () {
             $('#WidgetArticle .Validate_DependingRequiredAND.Validate_Depending_CreateArticle').each(function (Index, Element) {

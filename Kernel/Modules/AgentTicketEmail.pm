@@ -91,9 +91,6 @@ sub Run {
     my %ACLCompatGetParam;
     $ACLCompatGetParam{OwnerID} = $GetParam{NewUserID};
 
-    # If is an action about attachments
-    my $IsUpload = ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ? 1 : 0 );
-
     # hash for check duplicated entries
     my %AddressesList;
 
@@ -127,28 +124,25 @@ sub Run {
                 my $CustomerDisabled = '';
                 my $CountAux         = $CustomerCounter++;
 
-                if ( !$IsUpload ) {
-
-                    # check email address
-                    for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                        if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
-                        {
-                            $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
-                                . 'ServerErrorMsg';
-                            $CustomerError = 'ServerError';
-                        }
+                # check email address
+                for my $Email ( Mail::Address->parse($CustomerElement) ) {
+                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
+                    {
+                        $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $CustomerError = 'ServerError';
                     }
+                }
 
-                    # check for duplicated entries
-                    if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
-                        $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
-                        $CustomerError    = 'ServerError';
-                    }
+                # check for duplicated entries
+                if ( defined $AddressesList{$CustomerElement} && $CustomerError eq '' ) {
+                    $CustomerErrorMsg = 'IsDuplicatedServerErrorMsg';
+                    $CustomerError    = 'ServerError';
+                }
 
-                    if ( $CustomerError ne '' ) {
-                        $CustomerDisabled = 'disabled="disabled"';
-                        $CountAux         = $Count . 'Error';
-                    }
+                if ( $CustomerError ne '' ) {
+                    $CustomerDisabled = 'disabled="disabled"';
+                    $CountAux         = $Count . 'Error';
                 }
 
                 push @MultipleCustomer, {
@@ -182,35 +176,32 @@ sub Run {
                 my $CustomerDisabledCc = '';
                 my $CountAuxCc         = $CustomerCounterCc++;
 
-                if ( !$IsUpload ) {
+                if ( $GetParam{Cc} ) {
+                    $GetParam{Cc} .= ', ' . $CustomerElementCc;
+                }
+                else {
+                    $GetParam{Cc} = $CustomerElementCc;
+                }
 
-                    if ( $GetParam{Cc} ) {
-                        $GetParam{Cc} .= ', ' . $CustomerElementCc;
+                # check email address
+                for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
+                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
+                    {
+                        $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $CustomerErrorCc = 'ServerError';
                     }
-                    else {
-                        $GetParam{Cc} = $CustomerElementCc;
-                    }
+                }
 
-                    # check email address
-                    for my $Email ( Mail::Address->parse($CustomerElementCc) ) {
-                        if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
-                        {
-                            $CustomerErrorMsgCc = $CheckItemObject->CheckErrorType()
-                                . 'ServerErrorMsg';
-                            $CustomerErrorCc = 'ServerError';
-                        }
-                    }
+                # check for duplicated entries
+                if ( defined $AddressesList{$CustomerElementCc} && $CustomerErrorCc eq '' ) {
+                    $CustomerErrorMsgCc = 'IsDuplicatedServerErrorMsg';
+                    $CustomerErrorCc    = 'ServerError';
+                }
 
-                    # check for duplicated entries
-                    if ( defined $AddressesList{$CustomerElementCc} && $CustomerErrorCc eq '' ) {
-                        $CustomerErrorMsgCc = 'IsDuplicatedServerErrorMsg';
-                        $CustomerErrorCc    = 'ServerError';
-                    }
-
-                    if ( $CustomerErrorCc ne '' ) {
-                        $CustomerDisabledCc = 'disabled="disabled"';
-                        $CountAuxCc         = $Count . 'Error';
-                    }
+                if ( $CustomerErrorCc ne '' ) {
+                    $CustomerDisabledCc = 'disabled="disabled"';
+                    $CountAuxCc         = $Count . 'Error';
                 }
 
                 push @MultipleCustomerCc, {
@@ -243,35 +234,33 @@ sub Run {
                 my $CountAuxBcc         = $CustomerCounterBcc++;
                 my $CustomerErrorMsgBcc = 'CustomerGenericServerErrorMsg';
                 my $CustomerErrorBcc    = '';
-                if ( !$IsUpload ) {
 
-                    if ( $GetParam{Bcc} ) {
-                        $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
-                    }
-                    else {
-                        $GetParam{Bcc} = $CustomerElementBcc;
-                    }
+                if ( $GetParam{Bcc} ) {
+                    $GetParam{Bcc} .= ', ' . $CustomerElementBcc;
+                }
+                else {
+                    $GetParam{Bcc} = $CustomerElementBcc;
+                }
 
-                    # check email address
-                    for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
-                        if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
-                        {
-                            $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
-                                . 'ServerErrorMsg';
-                            $CustomerErrorBcc = 'ServerError';
-                        }
+                # check email address
+                for my $Email ( Mail::Address->parse($CustomerElementBcc) ) {
+                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
+                    {
+                        $CustomerErrorMsgBcc = $CheckItemObject->CheckErrorType()
+                            . 'ServerErrorMsg';
+                        $CustomerErrorBcc = 'ServerError';
                     }
+                }
 
-                    # check for duplicated entries
-                    if ( defined $AddressesList{$CustomerElementBcc} && $CustomerErrorBcc eq '' ) {
-                        $CustomerErrorMsgBcc = 'IsDuplicatedServerErrorMsg';
-                        $CustomerErrorBcc    = 'ServerError';
-                    }
+                # check for duplicated entries
+                if ( defined $AddressesList{$CustomerElementBcc} && $CustomerErrorBcc eq '' ) {
+                    $CustomerErrorMsgBcc = 'IsDuplicatedServerErrorMsg';
+                    $CustomerErrorBcc    = 'ServerError';
+                }
 
-                    if ( $CustomerErrorBcc ne '' ) {
-                        $CustomerDisabledBcc = 'disabled="disabled"';
-                        $CountAuxBcc         = $Count . 'Error';
-                    }
+                if ( $CustomerErrorBcc ne '' ) {
+                    $CustomerDisabledBcc = 'disabled="disabled"';
+                    $CountAuxBcc         = $Count . 'Error';
                 }
 
                 push @MultipleCustomerBcc, {
@@ -926,39 +915,6 @@ sub Run {
             }
         }
 
-        # attachment delete
-        my @AttachmentIDs = map {
-            my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
-            $ID ? $ID : ();
-        } $ParamObject->GetParamNames();
-
-        COUNT:
-        for my $Count ( reverse sort @AttachmentIDs ) {
-            my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
-            next COUNT if !$Delete;
-            $Error{AttachmentDelete} = 1;
-            $UploadCacheObject->FormIDRemoveFile(
-                FormID => $Self->{FormID},
-                FileID => $Count,
-            );
-            $IsUpload = 1;
-        }
-
-        # attachment upload
-        if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
-            $IsUpload                = 1;
-            %Error                   = ();
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $ParamObject->GetUploadAll(
-                Param => 'FileUpload',
-            );
-            $UploadCacheObject->FormIDAddFile(
-                FormID      => $Self->{FormID},
-                Disposition => 'attachment',
-                %UploadStuff,
-            );
-        }
-
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
@@ -1012,7 +968,7 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on attachment upload
-            if ( !$IsUpload && !$ExpandCustomerName ) {
+            if ( !$ExpandCustomerName ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
@@ -1179,7 +1135,7 @@ sub Run {
         }
 
         # if it is not a subaction about attachments, check for server errors
-        if ( !$IsUpload && !$ExpandCustomerName ) {
+        if ( !$ExpandCustomerName ) {
             if ( !$GetParam{To} ) {
                 $Error{'ToInvalid'} = 'ServerError';
             }
@@ -2999,10 +2955,8 @@ sub _MaskEmailNew {
         {
             next ATTACHMENT;
         }
-        $LayoutObject->Block(
-            Name => 'Attachment',
-            Data => $Attachment,
-        );
+
+        push @{ $Param{AttachmentList} }, $Attachment;
     }
 
     # add rich text editor

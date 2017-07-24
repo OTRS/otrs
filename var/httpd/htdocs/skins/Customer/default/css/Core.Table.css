@@ -203,4 +203,485 @@ table.Overview {
     background-position: bottom;
 }
 
+/**
+ * @subsection  General stuff
+ */
+
+/*
+ * FF3.6 has a problem with setting the position:relative only on :hover state.
+ * As a workaround it is set always and a special z-index on hover.
+ */
+.DataTable tbody tr,
+.TableSmall tbody tr {
+    position: relative;
+}
+
+.DataTable tbody tr:hover,
+.TableSmall tbody tr:hover {
+    z-index: 10;
+}
+
+.DataTable tbody td:last-child,
+.TableSmall tbody td:last-child {
+    border-right: none;
+}
+
+.DataTable tbody tr:hover td,
+.TableSmall tbody tr:hover td,
+.DataTable tbody tr:active td.Clickable,
+.TableSmall tbody tr:active td.Clickable,
+.DataTable tr:nth-child(even):hover td.Highlight {
+    background: #FCB24B;
+}
+
+/**
+ * @subsection  Generic table elements
+ */
+tbody tr.UnreadArticles td {
+    font-weight: bold !important;
+}
+
+.DataTable td,
+.TableSmall td {
+    line-height: 15px;
+    vertical-align: middle;
+}
+
+.DataTable tr:hover,
+.TableSmall tr:hover {
+    color: #000;
+}
+
+table tr.MasterAction {
+    cursor: pointer;
+}
+
+/**
+ * @subsection  Standard DataTable
+ */
+.DataTable {
+    width: 100%;
+    background-color: #FDFDFD;
+    border: 1px solid #ddd;
+    clear: both;
+    border-collapse: separate;
+}
+
+.DataTable.FixedLayout {
+    table-layout: fixed;
+}
+
+.DataTable.VariableWidth {
+    width: auto;
+}
+
+.DataTable thead {
+    background: #eeeeee;
+}
+
+.DataTable thead th {
+    padding: 4px 10px 3px;
+    color: #4B4B4B;
+    font-size: 11px;
+    text-transform: uppercase;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #CCC;
+    vertical-align: bottom;
+    white-space: nowrap;
+}
+
+.DataTable thead th.UnreadArticles {
+    padding: 4px 0px 3px 0px;
+    text-align: center;
+}
+
+.RTL .DataTable thead th {
+    border-left: 1px solid #CCC;
+    border-right:none;
+}
+
+.DataTable thead th label {
+    color: #4B4B4B !important;
+}
+
+.DataTable thead th:last-child {
+    border-right: none;
+}
+
+.RTL .DataTable thead th:last-child {
+    border-left: none;
+}
+
+.DataTable thead th a {
+    background-image: none;
+    color: #444;
+    font-size: 11px;
+    height: 12px;
+    line-height: 12px;
+    display: block;
+}
+
+.DataTable thead .SortAscending a,
+.DataTable thead .SortDescending a {
+    color: #2A2A2A;
+    padding-right: 15px;
+    background: #ccc;
+}
+
+.DataTable thead .SortDescending > a:after,
+.TableSmall thead .SortDescending > a:after {
+    content: "\25BC";
+    display: block;
+    position: absolute;
+    left: 2px;
+    top: 3px;
+}
+
+.DataTable thead .SortAscending > a:after,
+.TableSmall thead .SortAscending > a:after {
+    content: "\25B2";
+    display: block;
+    position: absolute;
+    left: 2px;
+    top: 3px;
+}
+
+.DataTable tbody tr.Invalid {
+    color: #CCC;
+}
+
+.DataTable tbody td {
+    padding: 0 10px;
+    border-right: 1px dotted #CCC;
+}
+
+.DataTable.FixedLayout tbody td a.AsBlock {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.DataTable tbody td.UnreadArticles {
+    padding: 0px;
+}
+
+.RTL .DataTable tbody td {
+    border-left: 1px dotted #CCC;
+    border-right: none;
+}
+
+.DataTable tbody tr:hover td {
+    border-right-color: #fff;
+}
+
+.DataTable tbody td:last-child {
+    border-right: none;
+}
+
+.RTL .DataTable tbody td:last-child {
+    border-left: none;
+}
+
+.DataTable tr td {
+    line-height: 20px;
+}
+
+.DataTable tr:first td {
+    border-top: 1px solid #EEE;
+}
+
+.DataTable tr td.Highlight {
+    background-color: #EEE;
+}
+
+.DataTable tr:nth-child(even) td {
+    background-color: #F5F5F5;
+}
+
+.DataTable tr:nth-child(even) td.Highlight {
+    background-color: #E5E5E5;
+}
+
+.DataTable tr td.Highlight {
+    border-right: 1px solid #CCC;
+}
+
+.DataTable tr td.Highlight:last-child {
+    border-right: none;
+}
+
+.DataTable tr:hover td a {
+    color: #000;
+}
+
+.DataTable td:first-child input {
+    margin: 0;
+}
+
+/**
+ * @subsection  Overview Small View Table
+ */
+.TableSmall {
+    width: 100%;
+    font-size: 12px;
+    color: #303030;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background: #FFF;
+}
+
+.TableSmall thead {
+    border-bottom: none;
+}
+
+.TableSmall .Checkbox {
+    margin-left: 7px;
+}
+
+th.Checkbox,
+td.Checkbox {
+    width: 30px;
+}
+
+th.Flags {
+    width: 34px;
+}
+
+td.Flags {
+    width: 29px;
+}
+
+th.UnreadArticles,
+td.UnreadArticles {
+    width: 30px;
+}
+
+th.Direction,
+td.Direction {
+    width: 30px;
+    text-align: center;
+}
+
+th.Attachment,
+td.Attachment {
+    width: 40px;
+    padding-left: 5px !important;
+}
+
+.TableSmall thead th {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    vertical-align: bottom;
+    background: #EEEEEE;
+}
+
+.TableSmall thead th:last-child {
+    border-right: 0px;
+}
+
+.TableSmall thead th a {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.RTL .TableSmall thead th {
+    background-position: left bottom;
+}
+
+.TableSmall thead a,
+.TableSmall thead span {
+    margin: 0 2px 1px 1px;
+    padding: 0 10px;
+    color: #4A4A4A;
+    font-size: 11px;
+    line-height: 15px;
+    height: 15px;
+    text-transform: uppercase;
+    display: block;
+    white-space: nowrap;
+}
+
+.RTL .TableSmall thead a,
+.RTL .TableSmall thead span {
+    margin: 0 1px 1px 2px;
+}
+
+.TableSmall thead span {
+    color: #000;
+}
+
+.TableSmall thead .UnreadArticles a {
+    padding: 0 0 0 5px;
+}
+
+.RTL .TableSmall thead .UnreadArticles a {
+    padding: 0 5px 0 0;
+}
+
+.TableSmall thead span.UnreadArticles a i {
+    font-size: 12px;
+}
+
+.TableSmall thead span.UnreadArticles i:first-child {
+    font-size: 16px !important;
+}
+
+thead .SortAscending a,
+thead .headerSortUp a,
+thead .SortDescending a,
+thead .headerSortDown a {
+    color: #000;
+}
+
+.TableSmall thead a span,
+.DataTable thead a span {
+    height: 15px;
+    width: 16px;
+    display: block;
+    text-align: center;
+}
+
+.TableSmall thead a span.Flag {
+    height: 9px;
+    width: 16px;
+    background-color: #999;
+    margin-top: 6px;
+}
+
+.TableSmall td {
+    padding: 0 10px;
+    background-color: #FDFDFD;
+    border-right: 1px dotted #CCC;
+}
+
+.RTL .TableSmall td {
+    border-right:none;
+    border-left: 1px dotted #CCC;
+}
+
+.TableSmall td.NonTextContent {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.TableSmall tbody tr.Active td,
+.DataTable tbody tr.Active td {
+    color: #1A1A1A;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.DataTable tbody tr.Active td {
+    background-color: #e5e5e5;
+}
+
+.TableSmall tbody tr td:last-child {
+    border-right: 1px solid transparent;
+}
+
+.RTL .TableSmall tbody tr td:last-child {
+    border-left: none;
+}
+
+.TableSmall tbody tr.Active td:last-child {
+    border-right: 1px solid #000;
+}
+
+.RTL .TableSmall tbody tr td:first-child {
+    border-left: 1px dotted #CCC;
+}
+
+.TableSmall tbody tr.Active td:first-child {
+    border-left: 1px solid #000;
+}
+
+.TableSmall td a {
+    color: #303030;
+}
+
+.TableSmall tr:hover td a,
+.TableSmall tr.Active td a {
+    color: #000;
+}
+
+.TableSmall td a.DynamicFieldLink {
+    color: #FF7722;
+}
+
+.TableSmall tr:hover td a.DynamicFieldLink,
+.TableSmall tr.Active td a.DynamicFieldLink {
+    color: #FFFFFF;
+}
+
+.TableSmall tr:nth-child(even) td {
+    background-color: #F5F5F5;
+}
+
+.TableSmall td:first-child {
+    padding-top: 1px;
+}
+
+.TableSmall tbody .Flags {
+    line-height: 11px;
+    padding-top: 2px;
+    padding-left: 5px;
+}
+
+.TableSmall tbody td span.Direction,
+.DataTable tbody td span.Direction {
+    text-align: center;
+    display: block;
+    position: relative;
+    font-size: 14px;
+    width: 30px;
+}
+
+.TableSmall tbody td span.Direction i,
+.DataTable tbody td span.Direction i {
+    color: #555;
+}
+
+.TableSmall tbody td span.Direction.Incoming .fa-long-arrow-left,
+.DataTable tbody td span.Direction.Incoming .fa-long-arrow-left {
+    position: absolute;
+    left: auto;
+    right: 4px;
+    top: 4px;
+    color: #000;
+    font-size: 12px;
+}
+
+.TableSmall tbody td span.Direction.Outgoing .fa-long-arrow-right,
+.DataTable tbody td span.Direction.Outgoing .fa-long-arrow-right {
+    position: absolute;
+    right: 2px;
+    top: 4px;
+    color: #000;
+    font-size: 12px;
+}
+
+.TableSmall tbody td.Attachment,
+.DataTable tbody td.Attachment {
+    text-align: center;
+}
+
+.TableSmall tbody td a.Attachment,
+.DataTable tbody td a.Attachment {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.TableSmall tbody td a.Attachment i,
+.DataTable tbody td a.Attachment i {
+    color: #000;
+}
+
+.TableSmall td h2 {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
 } /* end @media */

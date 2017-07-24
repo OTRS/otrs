@@ -43,13 +43,6 @@ Core.Customer.TicketMessage = (function (TargetNS) {
             FieldUpdate(Value, ModifiedFields);
         });
 
-        // choose attachment
-        $('#Attachment').on('change', function () {
-            $Form = $('#Attachment').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
         // delete attachment
         $('button[id*=AttachmentDeleteButton]').on('click', function () {
             $Form = $(this).closest('form');

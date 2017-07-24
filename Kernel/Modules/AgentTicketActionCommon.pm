@@ -333,43 +333,6 @@ sub Run {
         # store action
         my %Error;
 
-        # If is an action about attachments
-        my $IsUpload = 0;
-
-        # attachment delete
-        my @AttachmentIDs = map {
-            my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
-            $ID ? $ID : ();
-        } $ParamObject->GetParamNames();
-
-        COUNT:
-        for my $Count ( reverse sort @AttachmentIDs ) {
-            my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
-            next COUNT if !$Delete;
-            %Error = ();
-            $Error{AttachmentDelete} = 1;
-            $UploadCacheObject->FormIDRemoveFile(
-                FormID => $Self->{FormID},
-                FileID => $Count,
-            );
-            $IsUpload = 1;
-        }
-
-        # attachment upload
-        if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
-            $IsUpload                = 1;
-            %Error                   = ();
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $ParamObject->GetUploadAll(
-                Param => 'FileUpload',
-            );
-            $UploadCacheObject->FormIDAddFile(
-                FormID      => $Self->{FormID},
-                Disposition => 'attachment',
-                %UploadStuff,
-            );
-        }
-
         # get all attachments meta data
         my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
             FormID => $Self->{FormID},
@@ -384,143 +347,138 @@ sub Run {
                 ID => $GetParam{NewStateID},
             );
 
-            if ( !$IsUpload ) {
+            # check state type
+            if ( $StateData{TypeName} =~ /^pending/i ) {
 
-                # check state type
-                if ( $StateData{TypeName} =~ /^pending/i ) {
-
-                    # check needed stuff
-                    for my $Needed (qw(Year Month Day Hour Minute)) {
-                        if ( !defined $GetParam{$Needed} ) {
-                            $Error{'DateInvalid'} = 'ServerError';
-                        }
-                    }
-
-                    # create datetime object
-                    my $PendingDateTimeObject = $Kernel::OM->Create(
-                        'Kernel::System::DateTime',
-                        ObjectParams => {
-                            %GetParam,
-                            Second => 0,
-                        },
-                    );
-
-                    # get current system epoch
-                    my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
-                    # check date
-                    if (
-                        !$PendingDateTimeObject
-                        || $PendingDateTimeObject < $CurSystemDateTimeObject
-                        )
-                    {
+                # check needed stuff
+                for my $Needed (qw(Year Month Day Hour Minute)) {
+                    if ( !defined $GetParam{$Needed} ) {
                         $Error{'DateInvalid'} = 'ServerError';
                     }
+                }
+
+                # create datetime object
+                my $PendingDateTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        %GetParam,
+                        Second => 0,
+                    },
+                );
+
+                # get current system epoch
+                my $CurSystemDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
+                # check date
+                if (
+                    !$PendingDateTimeObject
+                    || $PendingDateTimeObject < $CurSystemDateTimeObject
+                    )
+                {
+                    $Error{'DateInvalid'} = 'ServerError';
                 }
             }
         }
 
-        if ( !$IsUpload ) {
-            if ( $Config->{Note} && $Config->{NoteMandatory} ) {
+        if ( $Config->{Note} && $Config->{NoteMandatory} ) {
 
-                # check subject
-                if ( !$GetParam{Subject} ) {
-                    $Error{'SubjectInvalid'} = 'ServerError';
-                }
-
-                # check body
-                if ( !$GetParam{Body} ) {
-                    $Error{'BodyInvalid'} = 'ServerError';
-                }
+            # check subject
+            if ( !$GetParam{Subject} ) {
+                $Error{'SubjectInvalid'} = 'ServerError';
             }
 
-            # check owner
-            if ( $Config->{Owner} && $Config->{OwnerMandatory} ) {
-                if ( !$GetParam{NewOwnerID} ) {
-                    $Error{'NewOwnerInvalid'} = 'ServerError';
-                }
+            # check body
+            if ( !$GetParam{Body} ) {
+                $Error{'BodyInvalid'} = 'ServerError';
             }
+        }
 
-            # check responsible
-            if ( $Config->{Responsible} && $Config->{ResponsibleMandatory} ) {
-                if ( !$GetParam{NewResponsibleID} ) {
-                    $Error{'NewResponsibleInvalid'} = 'ServerError';
-                }
+        # check owner
+        if ( $Config->{Owner} && $Config->{OwnerMandatory} ) {
+            if ( !$GetParam{NewOwnerID} ) {
+                $Error{'NewOwnerInvalid'} = 'ServerError';
             }
+        }
 
-            # check title
-            if ( $Config->{Title} && !$GetParam{Title} ) {
-                $Error{'TitleInvalid'} = 'ServerError';
+        # check responsible
+        if ( $Config->{Responsible} && $Config->{ResponsibleMandatory} ) {
+            if ( !$GetParam{NewResponsibleID} ) {
+                $Error{'NewResponsibleInvalid'} = 'ServerError';
             }
+        }
 
-            # check type
-            if (
-                ( $ConfigObject->Get('Ticket::Type') )
-                &&
-                ( $Config->{TicketType} ) &&
-                ( !$GetParam{TypeID} )
-                )
-            {
-                $Error{'TypeIDInvalid'} = ' ServerError';
-            }
+        # check title
+        if ( $Config->{Title} && !$GetParam{Title} ) {
+            $Error{'TitleInvalid'} = 'ServerError';
+        }
 
-            # check service
-            if (
-                $ConfigObject->Get('Ticket::Service')
-                && $Config->{Service}
-                && $GetParam{SLAID}
-                && !$GetParam{ServiceID}
-                )
-            {
-                $Error{'ServiceInvalid'} = ' ServerError';
-            }
+        # check type
+        if (
+            ( $ConfigObject->Get('Ticket::Type') )
+            &&
+            ( $Config->{TicketType} ) &&
+            ( !$GetParam{TypeID} )
+            )
+        {
+            $Error{'TypeIDInvalid'} = ' ServerError';
+        }
 
-            # check mandatory service
-            if (
-                $ConfigObject->Get('Ticket::Service')
-                && $Config->{Service}
-                && $Config->{ServiceMandatory}
-                && !$GetParam{ServiceID}
-                )
-            {
-                $Error{'ServiceInvalid'} = ' ServerError';
-            }
+        # check service
+        if (
+            $ConfigObject->Get('Ticket::Service')
+            && $Config->{Service}
+            && $GetParam{SLAID}
+            && !$GetParam{ServiceID}
+            )
+        {
+            $Error{'ServiceInvalid'} = ' ServerError';
+        }
 
-            # check mandatory sla
-            if (
-                $ConfigObject->Get('Ticket::Service')
-                && $Config->{Service}
-                && $Config->{SLAMandatory}
-                && !$GetParam{SLAID}
-                )
-            {
-                $Error{'SLAInvalid'} = ' ServerError';
-            }
+        # check mandatory service
+        if (
+            $ConfigObject->Get('Ticket::Service')
+            && $Config->{Service}
+            && $Config->{ServiceMandatory}
+            && !$GetParam{ServiceID}
+            )
+        {
+            $Error{'ServiceInvalid'} = ' ServerError';
+        }
 
-            # check mandatory queue
-            if ( $Config->{Queue} && $Config->{QueueMandatory} ) {
-                if ( !$GetParam{NewQueueID} ) {
-                    $Error{'NewQueueInvalid'} = 'ServerError';
-                }
-            }
+        # check mandatory sla
+        if (
+            $ConfigObject->Get('Ticket::Service')
+            && $Config->{Service}
+            && $Config->{SLAMandatory}
+            && !$GetParam{SLAID}
+            )
+        {
+            $Error{'SLAInvalid'} = ' ServerError';
+        }
 
-            # check mandatory state
-            if ( $Config->{State} && $Config->{StateMandatory} ) {
-                if ( !$GetParam{NewStateID} ) {
-                    $Error{'NewStateInvalid'} = 'ServerError';
-                }
+        # check mandatory queue
+        if ( $Config->{Queue} && $Config->{QueueMandatory} ) {
+            if ( !$GetParam{NewQueueID} ) {
+                $Error{'NewQueueInvalid'} = 'ServerError';
             }
+        }
 
-            # check time units, but only if the current screen has a note
-            #   (accounted time can only be stored if and article is generated)
-            if (
-                $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-                && $Config->{Note}
-                && $GetParam{TimeUnits} eq ''
-                )
-            {
-                $Error{'TimeUnitsInvalid'} = ' ServerError';
+        # check mandatory state
+        if ( $Config->{State} && $Config->{StateMandatory} ) {
+            if ( !$GetParam{NewStateID} ) {
+                $Error{'NewStateInvalid'} = 'ServerError';
             }
+        }
+
+        # check time units, but only if the current screen has a note
+        #   (accounted time can only be stored if and article is generated)
+        if (
+            $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
+            && $Config->{Note}
+            && $GetParam{TimeUnits} eq ''
+            )
+        {
+            $Error{'TimeUnitsInvalid'} = ' ServerError';
         }
 
         # check expand
@@ -581,35 +539,31 @@ sub Run {
 
             my $ValidationResult;
 
-            # do not validate on attachment upload
-            if ( !$IsUpload ) {
+            # Do not validate only if object type is Article and CreateArticle value is not defined.
+            if ( !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} ) ) {
 
-                # Do not validate only if object type is Article and CreateArticle value is not defined.
-                if ( !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} ) ) {
+                $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    ParamObject          => $ParamObject,
+                    Mandatory =>
+                        $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                );
 
-                    $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
-                        DynamicFieldConfig   => $DynamicFieldConfig,
-                        PossibleValuesFilter => $PossibleValuesFilter,
-                        ParamObject          => $ParamObject,
-                        Mandatory =>
-                            $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                if ( !IsHashRefWithData($ValidationResult) ) {
+                    return $LayoutObject->ErrorScreen(
+                        Message =>
+                            $LayoutObject->{LanguageObject}->Translate(
+                            'Could not perform validation on field %s!', $DynamicFieldConfig->{Label}
+                            ),
+                        Comment => Translatable('Please contact the administrator.'),
                     );
+                }
 
-                    if ( !IsHashRefWithData($ValidationResult) ) {
-                        return $LayoutObject->ErrorScreen(
-                            Message =>
-                                $LayoutObject->{LanguageObject}->Translate(
-                                'Could not perform validation on field %s!', $DynamicFieldConfig->{Label}
-                                ),
-                            Comment => Translatable('Please contact the administrator.'),
-                        );
-                    }
-
-                    # Propagate validation error to the Error variable to be detected by the frontend.
-                    if ( $ValidationResult->{ServerError} )
-                    {
-                        $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
-                    }
+                # Propagate validation error to the Error variable to be detected by the frontend.
+                if ( $ValidationResult->{ServerError} )
+                {
+                    $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
                 }
             }
 
@@ -693,7 +647,7 @@ sub Run {
                 %Ticket,
                 TicketTypeDynamicFields  => \@TicketTypeDynamicFields,
                 ArticleTypeDynamicFields => \@ArticleTypeDynamicFields,
-                IsUpload                 => $IsUpload,
+
                 %GetParam,
                 %Error,
             );
@@ -2077,7 +2031,6 @@ sub _Mask {
         if (
             $Config->{NoteMandatory}
             || $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
-            || $Param{IsUpload}
             || $Self->{ReplyToArticle}
             )
         {
@@ -2395,10 +2348,8 @@ sub _Mask {
             {
                 next ATTACHMENT;
             }
-            $LayoutObject->Block(
-                Name => 'Attachment',
-                Data => $Attachment,
-            );
+
+            push @{ $Param{AttachmentList} }, $Attachment;
         }
 
         # show time accounting box

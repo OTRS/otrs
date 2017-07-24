@@ -1559,6 +1559,7 @@ sub Footer {
         ChallengeToken                 => $Self->{UserChallengeToken},
         CustomerPanelSessionName       => $ConfigObject->Get('CustomerPanelSessionName'),
         UserLanguage                   => $Self->{UserLanguage},
+        WebMaxFileUpload               => $ConfigObject->Get('WebMaxFileUpload'),
         RichTextSet                    => $ConfigObject->Get('Frontend::RichText'),
         CheckEmailAddresses            => $ConfigObject->Get('CheckEmailAddresses'),
         MenuDragDropEnabled            => $ConfigObject->Get('Frontend::MenuDragDropEnabled'),
@@ -3994,6 +3995,7 @@ sub CustomerFooter {
         InputFieldsActivated     => $ConfigObject->Get('ModernizeCustomerFormFields'),
         Autocomplete             => $AutocompleteConfigJSON,
         VideoChatEnabled         => $Param{VideoChatEnabled},
+        WebMaxFileUpload         => $ConfigObject->Get('WebMaxFileUpload'),
     );
 
     for my $Config ( sort keys %JSConfig ) {
