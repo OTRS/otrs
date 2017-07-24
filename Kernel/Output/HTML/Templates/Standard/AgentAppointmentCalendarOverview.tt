@@ -86,16 +86,6 @@
             </div>
         </div>
 [% RenderBlockEnd("CalendarWidget") %]
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>[% Translate("Description") | html %]</h2>
-            </div>
-            <div class="Content">
-                <p class="FieldExplanation">
-                    [% Translate("This is an overview page for the Appointment Calendar.") | html %]
-                </p>
-            </div>
-        </div>
     </div>
 
     <div class="ContentColumn">
