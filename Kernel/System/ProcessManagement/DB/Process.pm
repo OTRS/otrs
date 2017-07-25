@@ -902,6 +902,86 @@ sub ProcessListGet {
     return \@Data;
 }
 
+=head2 ProcessSearch()
+
+search processes by process name
+
+    my $ProcessEntityIDs = $ProcessObject->ProcessSearch(
+        ProcessName => 'SomeText',       # e. g. "SomeText*", "Some*ext" or ['*SomeTest1*', '*SomeTest2*']
+    );
+
+    Returns:
+
+    $ProcessEntityIDs = [ 'Process-e11e2e9aa83344a235279d4f6babc6ec', 'Process-f8194a25ab0ccddefeb4240c281c1f56' ];
+
+=cut
+
+sub ProcessSearch {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ProcessName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ProcessName!',
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my $SQL = 'SELECT DISTINCT entity_id
+               FROM pm_process ';
+
+    # if it's no ref, put it to array ref
+    if ( ref $Param{ProcessName} eq '' ) {
+        $Param{ProcessName} = [ $Param{ProcessName} ];
+    }
+
+    if ( IsArrayRefWithData( $Param{ProcessName} ) ) {
+        $SQL .= ' WHERE' if IsArrayRefWithData( $Param{ProcessName} );
+    }
+
+    my @QuotedSearch;
+    my $SQLOR = 0;
+
+    VALUE:
+    for my $Value ( @{ $Param{ProcessName} } ) {
+
+        next VALUE if !defined $Value || !length $Value;
+
+        $Value = '%' . $DBObject->Quote( $Value, 'Like' ) . '%';
+        $Value =~ s/\*/%/g;
+        $Value =~ s/%%/%/gi;
+
+        if ($SQLOR) {
+            $SQL .= ' OR';
+        }
+
+        $SQL .= ' name LIKE ?';
+
+        push @QuotedSearch, $Value;
+        $SQLOR = 1;
+
+    }
+
+    if ( IsArrayRefWithData( $Param{ProcessName} ) ) {
+        $SQL .= $DBObject->GetDatabaseFunction('LikeEscapeString');
+    }
+
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => [ \(@QuotedSearch) ]
+    );
+
+    my @Data;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        push @Data, $Row[0];
+    }
+
+    return \@Data;
+}
+
 =head2 ProcessDump()
 
 gets a complete processes information dump from the DB including: Process State, Activities,

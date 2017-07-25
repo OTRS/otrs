@@ -267,7 +267,7 @@ my @Tests = (
         Name   => 'ProcessAdd Test 13: Correct UTF8',
         Config => {
             EntityID      => "$RandomID-1",
-            Name          => "Process-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+            Name          => "Process-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
             StateEntityID => 'S1',
             Layout        => {},
             Config        => {
@@ -342,11 +342,75 @@ for my $Test (@Tests) {
     }
 }
 
+my @AddedProcessList = map {$_} sort keys %AddedProcess;
+
+#
+# ProcessSearch() tests
+#
+
+@Tests = (
+    {
+        Name        => "ProcessSearch Test1 - Correct ASCII",
+        ProcessName => $RandomID,
+        Result      => [
+            $RandomID,
+            "$RandomID-1",
+            "$RandomID-2",
+        ],
+        Count => 3,
+    },
+    {
+        Name        => "ProcessSearch Test1 - Correct ASCII with asterisk",
+        ProcessName => $RandomID,
+        Result      => [
+            $RandomID,
+            "$RandomID-1",
+            "$RandomID-2",
+        ],
+        Count => 3,
+    },
+    {
+        Name        => "ProcessSearch Test2 - Correct UTF8 1",
+        ProcessName => "Process-$RandomID-!Â§\$%&/()=?Ã*ÃÃL:L@,.-",
+        Result      => ["$RandomID-1"],
+        Count       => 1,
+    },
+    {
+        Name        => "ProcessSearch Test3 - - Correct UTF8 1",
+        ProcessName => "Process-$RandomID-äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
+        Result      => ["$RandomID-2"],
+        Count       => 1,
+    },
+    {
+        Name        => "ProcessSearch Test4 - EntityID Full Length",
+        ProcessName => $EntityID,
+        Result      => [$EntityID],
+        Count       => 1,
+    },
+);
+
+for my $Test (@Tests) {
+
+    my $ProcessList = $ProcessObject->ProcessSearch( ProcessName => $Test->{ProcessName} );
+
+    $Self->Is(
+        scalar keys @{$ProcessList},
+        $Test->{Count},
+        "$Test->{Name} | Number of processes List is as expected: $Test->{Count}.",
+    );
+
+    $Self->IsDeeply(
+        $ProcessList,
+        $Test->{Result},
+        "$Test->{Name} | Result of process search is as expected.",
+    );
+
+}
+
 #
 # ProcessGet()
 #
 
-my @AddedProcessList = map {$_} sort keys %AddedProcess;
 @Tests = (
     {
         Name    => 'ProcessGet Test 1: No params',
@@ -1093,6 +1157,15 @@ for my $Index ( 1, 2 ) {
         },
         AllProcess => 1,
     },
+    {
+        Name   => 'ProcessList Test6: Empty list',
+        Config => {
+            UseEntities    => 0,
+            StateEntityIDs => [$RandomID],
+            UserID         => $UserID,
+        },
+        EmptyList => 1,
+    },
 );
 
 for my $Test (@Tests) {
@@ -1109,9 +1182,9 @@ for my $Test (@Tests) {
     }
 
     # special case for empty list
-    if ( $Test->{Config} == 3 ) {
-        $Self->Flase(
-            IsHashRefWithData( \%ProcessListCopy ),
+    if ( $Test->{EmptyList} ) {
+        $Self->False(
+            scalar keys %ProcessListCopy,
             "$Test->{Name} | List is empty",
         );
     }

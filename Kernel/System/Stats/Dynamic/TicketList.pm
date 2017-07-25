@@ -35,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::Type',
     'Kernel::System::User',
+    'Kernel::Output::HTML::Layout',
 );
 
 sub new {
@@ -1369,6 +1370,19 @@ sub GetStatTable {
 
                         # change raw value from ticket to a plain text value
                         $Ticket{$ParameterName} = $ValueStrg->{Value};
+
+                        ## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
+                        if ( $DynamicFieldConfig->{Name} =~ /ProcessManagementProcessID|ProcessManagementActivityID/ ) {
+                            my $DisplayValue = $DynamicFieldBackendObject->DisplayValueRender(
+                                DynamicFieldConfig => $DynamicFieldConfig,
+                                Value              => $ValueStrg->{Value},
+                                ValueMaxChars      => 20,
+                                LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+                                HTMLOutput         => 0,
+                            );
+                            $Ticket{$ParameterName} = $DisplayValue->{Value};
+                        }
+
                     }
                 }
             }

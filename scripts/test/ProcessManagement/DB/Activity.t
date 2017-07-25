@@ -265,6 +265,69 @@ for my $Test (@Tests) {
 }
 
 #
+# ActivitySearch() tests
+#
+
+@Tests = (
+    {
+        Name         => "ActivitySearch Test1 - Correct ASCII",
+        ActivityName => $RandomID,
+        Result       => [
+            $RandomID,
+            "$RandomID-1",
+            "$RandomID-2",
+        ],
+        Count => 3,
+    },
+    {
+        Name         => "ActivitySearch Test1 - Correct ASCII with asterisk",
+        ActivityName => '*' . $RandomID . '*',
+        Result       => [
+            $RandomID,
+            "$RandomID-1",
+            "$RandomID-2",
+        ],
+        Count => 3,
+    },
+    {
+        Name         => "ActivitySearch Test2 - Correct UTF8 1",
+        ActivityName => "Activity-$RandomID-!Â§$%&/()=?Ã*ÃÃL:L@,.-",
+        ,
+        Result => ["$RandomID-1"],
+        Count  => 1,
+    },
+    {
+        Name         => "ActivitySearch Test3 - - Correct UTF8 1",
+        ActivityName => "Activity-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
+        Result       => ["$RandomID-2"],
+        Count        => 1,
+    },
+    {
+        Name         => "ActivitySearch Test4 - EntityID Full Length",
+        ActivityName => $EntityID,
+        Result       => [$EntityID],
+        Count        => 1,
+    },
+);
+
+for my $Test (@Tests) {
+
+    my $ActivityList = $ActivityObject->ActivitySearch( ActivityName => $Test->{ActivityName} );
+
+    $Self->Is(
+        scalar keys @{$ActivityList},
+        $Test->{Count},
+        "$Test->{Name} | Number of activities is as expected: $Test->{Count}.",
+    );
+
+    $Self->IsDeeply(
+        $ActivityList,
+        $Test->{Result},
+        "$Test->{Name} | Result of activity search is as expected.",
+    );
+}
+
+#
 # ActivityGet()
 #
 my @AddedActivityList = map {$_} sort keys %AddedActivities;

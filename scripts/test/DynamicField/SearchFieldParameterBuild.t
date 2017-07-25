@@ -18,11 +18,19 @@ use Kernel::System::Web::Request;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# get dynamic field backend object
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $ActivityObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $ProcessObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # Use a fixed year to compare the time selection results
-$Kernel::OM->Get('Kernel::System::UnitTest::Helper')->FixedTimeSet(
+$Helper->FixedTimeSet(
     $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
@@ -31,9 +39,72 @@ $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->FixedTimeSet(
         )->ToEpoch()
 );
 
-my $UserID = 1;
+my $UserID   = 1;
+my $RandomID = $Helper->GetRandomID();
 
-# theres is not really needed to add the dynamic fields for this test, we can define a static
+my %ProcessLookup = (
+    'EntityID-1' . $RandomID => 'Process-1' . $RandomID,
+    'EntityID-2' . $RandomID => 'Process-2' . $RandomID,
+    'EntityID-3' . $RandomID => 'Process-3' . $RandomID,
+);
+my $ActivityEntityID       = 'A1-' . $RandomID;
+my $ActivityDialogEntityID = 'AD1-' . $RandomID;
+
+for my $Process ( sort keys %ProcessLookup ) {
+    my $ProcessID = $ProcessObject->ProcessAdd(
+        EntityID      => $Process,
+        Name          => $ProcessLookup{$Process},
+        StateEntityID => 'S1',
+        Layout        => {},
+        Config        => {
+            Description => 'a Description',
+            Path        => {
+                $ActivityEntityID => {},
+                }
+        },
+        UserID => $UserID,
+    );
+
+    $Self->True(
+        $ProcessID,
+        "Process is created - $ProcessID.",
+    );
+
+}
+
+my %ActivityLookup = (
+    'EntityID-1' . $RandomID => 'Activity-1' . $RandomID,
+    'EntityID-2' . $RandomID => 'Activity-2' . $RandomID,
+    'EntityID-3' . $RandomID => 'Activity-3' . $RandomID,
+);
+
+for my $Activity ( sort keys %ActivityLookup ) {
+    my $ActivityID = $ActivityObject->ActivityAdd(
+        EntityID => $Activity,
+        Name     => $ActivityLookup{$Activity},
+        Config   => {
+            ActivityDialog => {
+                1 => $ActivityDialogEntityID,
+            },
+        },
+        UserID => $UserID,
+    );
+
+    $Self->True(
+        $ActivityID,
+        "Activity is created - $ActivityID.",
+    );
+}
+
+my $DynamicFieldProcessID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    Name => 'ProcessManagementProcessID',
+);
+
+my $DynamicFieldActivityID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+    Name => 'ProcessManagementActivityID',
+);
+
+# there is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations
 my %DynamicFieldConfigs = (
     Text => {
@@ -1168,7 +1239,198 @@ my @Tests = (
         },
         Success => 1,
     },
+    {
+        Name   => 'ProcessManagementProcessID DF test 1',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldProcessID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementProcessID => $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementProcessID => $RandomID,
+            },
+        },
+        ExpectedResults => {
+            Display   => $RandomID,
+            Parameter => {
+                Equals => [ sort keys %ProcessLookup, $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementProcessID DF test2',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldProcessID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementProcessID => 'Process-1' . $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementProcessID => 'Process-1' . $RandomID,
+            },
+        },
+        ExpectedResults => {
+            Display   => 'Process-1' . $RandomID,
+            Parameter => {
+                Equals => [ 'EntityID-1' . $RandomID, 'Process-1' . $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementProcessID DF test3',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldProcessID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementProcessID => 'Process-2' . $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementProcessID => 'Process-2' . $RandomID,
+            },
+        },
+        ExpectedResults => {
+            Display   => 'Process-2' . $RandomID,
+            Parameter => {
+                Equals => [ 'EntityID-2' . $RandomID, 'Process-2' . $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementProcessID DF test4',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldProcessID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementProcessID => 'Process-3' . $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementProcessID => 'Process-3' . $RandomID,
+            },
+        },
+        ExpectedResults => {
+            Display   => 'Process-3' . $RandomID,
+            Parameter => {
+                Equals => [ 'EntityID-3' . $RandomID, 'Process-3' . $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementProcessID DF test5',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldProcessID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementProcessID => "*$RandomID",
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementProcessID => "*$RandomID",
+            },
+        },
+        ExpectedResults => {
+            Display   => "*$RandomID",
+            Parameter => {
+                Like => [ ( sort keys %ProcessLookup ), "*$RandomID" ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementActivityID DF test1',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldActivityID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementActivityID => $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementActivityID => $RandomID,
+            },
+        },
 
+        ExpectedResults => {
+            Display   => $RandomID,
+            Parameter => {
+                Equals => [ sort keys %ActivityLookup, $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementActivityID DF test2',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldActivityID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementActivityID => 'Activity-1' . $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementActivityID => 'Activity-1' . $RandomID,
+            },
+        },
+        ExpectedResults => {
+            Display   => 'Activity-1' . $RandomID,
+            Parameter => {
+                Equals => [ 'EntityID-1' . $RandomID, 'Activity-1' . $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementActivityID DF test3',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldActivityID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementActivityID => 'Activity-2' . $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementActivityID => 'Activity-2' . $RandomID,
+            },
+        },
+        ExpectedResults => {
+            Display   => 'Activity-2' . $RandomID,
+            Parameter => {
+                Equals => [ 'EntityID-2' . $RandomID, 'Activity-2' . $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementActivityID DF test4',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldActivityID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementActivityID => 'Activity-3' . $RandomID,
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementActivityID => 'Activity-3' . $RandomID,
+            },
+        },
+        ExpectedResults => {
+            Display   => 'Activity-3' . $RandomID,
+            Parameter => {
+                Equals => [ 'EntityID-3' . $RandomID, 'Activity-3' . $RandomID ],
+            },
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ProcessManagementActivityID DF test5',
+        Config => {
+            DynamicFieldConfig => $DynamicFieldActivityID,
+            Profile            => {
+                Search_DynamicField_ProcessManagementActivityID => "*$RandomID",
+            },
+            CGIParam => {
+                Search_DynamicField_ProcessManagementActivityID => "*$RandomID",
+            },
+        },
+
+        ExpectedResults => {
+            Display   => "*$RandomID",
+            Parameter => {
+                Like => [ ( sort keys %ActivityLookup ), "*$RandomID" ],
+            },
+        },
+        Success => 1,
+    },
 );
 
 # execute tests

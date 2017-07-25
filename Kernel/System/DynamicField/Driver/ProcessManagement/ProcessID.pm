@@ -20,6 +20,7 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicFieldValue',
     'Kernel::System::Main',
     'Kernel::System::ProcessManagement::Process',
+    'Kernel::System::ProcessManagement::DB::Process',
     'Kernel::System::Ticket::ColumnFilter',
 );
 
@@ -181,6 +182,93 @@ sub ColumnFilterValuesGet {
     }
 
     return $ColumnFilterValues;
+}
+
+sub SearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    # Get field value.
+    my $Value = $Self->SearchFieldValueGet(%Param);
+
+    # Set operator.
+    my $Operator = 'Equals';
+
+    # Search for a wild card in the value.
+    if ( $Value && ( $Value =~ m{\*} || $Value =~ m{\|\|} ) ) {
+
+        # Change operator.
+        $Operator = 'Like';
+    }
+
+    if ( $Param{DynamicFieldConfig}->{Name} eq 'ProcessManagementProcessID' && $Value ) {
+
+        my $ProcessEntityIDs = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessSearch(
+            ProcessName => $Value,
+        );
+
+        if ( IsArrayRefWithData($ProcessEntityIDs) ) {
+
+            # Add search term from input field.
+            push @{$ProcessEntityIDs}, $Value;
+
+            # Return search parameter structure.
+            return {
+                Parameter => {
+                    $Operator => $ProcessEntityIDs,
+                },
+                Display => $Value,
+            };
+        }
+
+    }
+
+    # Return search parameter structure.
+    return {
+        Parameter => {
+            $Operator => $Value,
+        },
+        Display => $Value,
+    };
+
+}
+
+sub StatsSearchFieldParameterBuild {
+    my ( $Self, %Param ) = @_;
+
+    my $Value = $Param{Value};
+
+    # set operator
+    my $Operator = 'Equals';
+
+    # search for a wild card in the value
+    if ( $Value && $Value =~ m{\*} ) {
+
+        # change operator
+        $Operator = 'Like';
+    }
+
+    if ( $Param{DynamicFieldConfig}->{Name} eq 'ProcessManagementProcessID' && $Value ) {
+
+        my $ProcessEntityIDs = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessSearch(
+            ProcessName => $Value,
+        );
+
+        if ( IsArrayRefWithData($ProcessEntityIDs) ) {
+
+            # Add search term from input field.
+            push @{$ProcessEntityIDs}, $Value;
+
+            # Return search parameter structure.
+            return {
+                $Operator => $ProcessEntityIDs,
+
+            };
+        }
+    }
+
+    return {
+        $Operator => $Value,
+    };
 }
 
 1;

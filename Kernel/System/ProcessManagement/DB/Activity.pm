@@ -683,6 +683,86 @@ sub ActivityListGet {
     return \@Data;
 }
 
+=head2 ActivitySearch()
+
+search activities by process name
+
+    my $ActivityEntityIDs = $ActivityObject->ActivitySearch(
+        ActivityName => 'SomeText',       # e. g. "SomeText*", "Some*ext" or ['*SomeTest1*', '*SomeTest2*']
+    );
+
+    Returns:
+
+    $ActivityEntityIDs = [ 'Activity-e11e2e9aa83344a235279d4f6babc6ec', 'Activity-f8194a25ab0ccddefeb4240c281c1f56' ];
+
+=cut
+
+sub ActivitySearch {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ActivityName} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ActivityName!',
+        );
+        return;
+    }
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my $SQL = 'SELECT DISTINCT entity_id
+               FROM pm_activity ';
+
+    # if it's no ref, put it to array ref
+    if ( ref $Param{ActivityName} eq '' ) {
+        $Param{ActivityName} = [ $Param{ActivityName} ];
+    }
+
+    if ( IsArrayRefWithData( $Param{ActivityName} ) ) {
+        $SQL .= ' WHERE' if IsArrayRefWithData( $Param{ActivityName} );
+    }
+
+    my @QuotedSearch;
+    my $SQLOR = 0;
+
+    VALUE:
+    for my $Value ( @{ $Param{ActivityName} } ) {
+
+        next VALUE if !defined $Value || !length $Value;
+
+        $Value = '%' . $DBObject->Quote( $Value, 'Like' ) . '%';
+        $Value =~ s/\*/%/g;
+        $Value =~ s/%%/%/gi;
+
+        if ($SQLOR) {
+            $SQL .= ' OR';
+        }
+
+        $SQL .= ' name LIKE ?';
+
+        push @QuotedSearch, $Value;
+        $SQLOR = 1;
+
+    }
+
+    if ( IsArrayRefWithData( $Param{ActivityName} ) ) {
+        $SQL .= $DBObject->GetDatabaseFunction('LikeEscapeString');
+    }
+
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => [ \(@QuotedSearch) ]
+    );
+
+    my @Data;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        push @Data, $Row[0];
+    }
+
+    return \@Data;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
