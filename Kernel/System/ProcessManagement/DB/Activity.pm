@@ -739,7 +739,7 @@ sub ActivitySearch {
             $SQL .= ' OR';
         }
 
-        $SQL .= ' name LIKE ?';
+        $SQL .= ' name LIKE ? ';
 
         push @QuotedSearch, $Value;
         $SQLOR = 1;
@@ -749,6 +749,7 @@ sub ActivitySearch {
     if ( IsArrayRefWithData( $Param{ActivityName} ) ) {
         $SQL .= $DBObject->GetDatabaseFunction('LikeEscapeString');
     }
+    $SQL .= ' ORDER BY entity_id';
 
     return if !$DBObject->Prepare(
         SQL  => $SQL,
