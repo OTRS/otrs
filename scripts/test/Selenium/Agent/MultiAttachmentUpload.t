@@ -44,6 +44,11 @@ $Selenium->RunTest(
             Key   => 'Ticket::Frontend::AgentTicketMove###NoteMandatory',
             Value => 1
         );
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketOwner###NoteMandatory',
+            Value => 1
+        );
 
         # Get ticket object.
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
