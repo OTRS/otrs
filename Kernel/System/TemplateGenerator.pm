@@ -915,9 +915,9 @@ sub NotificationEvent {
 
     my %AgentArticle;
 
-    ARTICLE:
+    AGENTARTICLE:
     for my $Article (@AgentArticles) {
-        next ARTICLE if !$Article->{ArticleID};
+        next AGENTARTICLE if !$Article->{ArticleID};
 
         %AgentArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
             %{$Article},
@@ -926,16 +926,18 @@ sub NotificationEvent {
         );
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     ARTICLE:
     for my $ArticleData ( \%CustomerArticle, \%AgentArticle ) {
         next ARTICLE if !$ArticleData->{TicketID};
         next ARTICLE if !$ArticleData->{ArticleID};
 
         # Get article preview in plain text and store it as Body key.
-        $ArticleData->{Body} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ArticlePreview(
+        $ArticleData->{Body} = $LayoutObject->ArticlePreview(
             TicketID  => $ArticleData->{TicketID},
             ArticleID => $ArticleData->{ArticleID},
-            Result    => 'plain',
+            ResultType    => 'plain',
         );
 
         # get accounted time
@@ -975,7 +977,7 @@ sub NotificationEvent {
     }
 
     # Get customer article fields.
-    my %CustomerArticleFields = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ArticleFields(
+    my %CustomerArticleFields = $LayoutObject->ArticleFields(
         TicketID  => $CustomerArticle{TicketID},
         ArticleID => $CustomerArticle{ArticleID},
     );
