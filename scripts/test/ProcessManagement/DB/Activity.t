@@ -911,7 +911,7 @@ $Self->Is(
 );
 
 my $Counter = 0;
-for my $ActivityID ( sort { $a <=> $b } keys %TestActivityListCopy ) {
+for my $ActivityID ( sort { $a cmp $b } keys %TestActivityListCopy ) {
     $Self->Is(
         $ActivityID,
         $AddedActivityList[$Counter],

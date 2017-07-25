@@ -1076,7 +1076,7 @@ $Self->Is(
 );
 
 my $Counter = 0;
-for my $ProcessID ( sort { $a <=> $b } keys %TestProcessListCopy ) {
+for my $ProcessID ( sort { $a cmp $b } keys %TestProcessListCopy ) {
     $Self->Is(
         $ProcessID,
         $AddedProcessList[$Counter],
