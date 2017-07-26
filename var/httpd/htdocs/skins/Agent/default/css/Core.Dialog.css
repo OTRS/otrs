@@ -91,6 +91,12 @@
     position: relative;
 }
 
+#TimeLineOverflow {
+    overflow-y: hidden;
+    max-height: 1173px;
+    padding: 10px;
+}
+
 .RTL .Dialog > .Content > .InnerContent {
     padding: 10px 10px 10px 25px;
 }
