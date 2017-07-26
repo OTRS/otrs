@@ -124,8 +124,9 @@ for my $Test (@Tests) {
 
     # add salutation
     my $SalutationID = $SalutationObject->SalutationAdd(
-        Name        => $Helper->GetRandomID() . '-Salutation',
-        Text        => $Test->{Salutation},
+        Name => $Helper->GetRandomID() . '-Salutation',
+        Text => $Test->{Salutation},
+        ,
         ContentType => 'text/plain; charset=utf-8',
         Comment     => 'some comment',
         ValidID     => 1,
@@ -178,7 +179,6 @@ for my $Test (@Tests) {
         SenderType     => 'customer',
         Subject        => 'some short description',
         Body           => 'the message text',
-        From           => $CustomerEmail,
         Charset        => 'ISO-8859-15',
         MimeType       => 'text/plain',
         HistoryType    => 'EmailCustomer',

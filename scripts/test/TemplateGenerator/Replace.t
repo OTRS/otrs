@@ -102,10 +102,6 @@ my $TestCustomerLogin = $Helper->TestCustomerUserCreate(
     Language => 'en',
 );
 
-my %TestCustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-    User => $TestCustomerLogin,
-);
-
 my $TestUserLogin = $Helper->TestUserCreate(
     Language => 'en',
 );
@@ -180,17 +176,17 @@ $Self->True(
 
 my $ArticleID = $TicketObject->ArticleCreate(
     TicketID       => $TicketID,
-    ArticleType    => 'email-external',
-    SenderType     => 'customer',
+    ArticleType    => 'note-internal',
+    SenderType     => 'agent',
+    From           => 'Some Agent <email@example.com>',
+    To             => 'Some Customer <customer-a@example.com>',
     Subject        => 'some short description',
     Body           => 'the message text',
-    From           => $TestCustomerData{UserEmail},
-    Charset        => 'ISO-8859-15',
-    MimeType       => 'text/plain',
-    HistoryType    => 'EmailCustomer',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify  => 1,                              # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
 );
 $Self->IsNot(
     $ArticleID,
@@ -537,10 +533,8 @@ Line7</div>',
         Result   => "Test 98 [...] - 01 [...]",
     },
     {
-        Name => 'OTRS CUSTOMER REALNAME',
-        Data => {
-            From => $TestCustomerData{UserEmail},
-        },
+        Name     => 'OTRS CUSTOMER REALNAME',
+        Data     => {},
         RichText => 0,
         Template => 'Test <OTRS_CUSTOMER_REALNAME>',
         Result   => "Test $TestCustomerLogin $TestCustomerLogin",
