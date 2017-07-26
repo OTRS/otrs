@@ -6,22 +6,27 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<table class="Hidden Small DataTable AttachmentList" id="AttachmentList">
-    <thead>
-        <th class="Filename">Filename</th>
-        <th class="Filetype">Type</th>
-        <th class="Filesize">Size</th>
-        <th class="Delete"></th>
-    </thead>
-    <tbody>
-[% FOREACH Data IN Data.AttachmentList %]
-        <tr>
-            <td class="Filename">[% Data.Filename | html %]</td>
-            <td class="Filetype">[% Data.ContentType | html %]</td>
-            <td class="Filesize" data-file-size="[% Data.Filesize | html %]">[% Data.Filesize | Localize('Filesize') | html %]</td>
-            <td class="Delete"><a href="#" class="AttachmentDelete" data-file-id="[% Data.FileID | html %]"><i class="fa fa-trash"></i></a></td>
-        </tr>
-[% END %]
-    </tbody>
-</table>
+<div id="AttachmentListContainer">
+    <table class="Hidden Small DataTable AttachmentList" id="AttachmentList">
+        <thead>
+            <th class="Filename">Filename</th>
+            <th class="Filetype">Type</th>
+            <th class="Filesize">Size</th>
+            <th class="Delete"></th>
+        </thead>
+        <tbody>
+    [% FOREACH Data IN Data.AttachmentList %]
+            <tr>
+                <td class="Filename">[% Data.Filename | html %]</td>
+                <td class="Filetype">[% Data.ContentType | html %]</td>
+                <td class="Filesize" data-file-size="[% Data.Filesize | html %]">[% Data.Filesize | Localize('Filesize') | html %]</td>
+                <td class="Delete"><a href="#" class="AttachmentDelete" data-file-id="[% Data.FileID | html %]"><i class="fa fa-trash"></i></a></td>
+            </tr>
+    [% END %]
+        </tbody>
+    </table>
+    <span class="Busy">
+        <i class="fa fa-spinner fa-spin"></i>
+    </span>
+</div>
 <input class="AjaxDnDUpload" multiple="multiple" id="FileUpload" name="FileUpload" type="file" size="40" />

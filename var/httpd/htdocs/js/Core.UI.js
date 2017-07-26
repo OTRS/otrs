@@ -595,17 +595,17 @@ Core.UI = (function (TargetNS) {
             });
 
             if (NoSpaceLeft.length || AttemptedToUploadAgain.length) {
-                    AttemptedToUploadAgainText = '';
-                    NoSpaceLeftText = '';
+                AttemptedToUploadAgainText = '';
+                NoSpaceLeftText = '';
 
-                    if (AttemptedToUploadAgain.length) {
-                        AttemptedToUploadAgainText = Core.Language.Translate('The following files were already uploaded and have not been uploaded again: %s', [ AttemptedToUploadAgain.join(', ') ] + "<br><br>");
-                    }
+                if (AttemptedToUploadAgain.length) {
+                    AttemptedToUploadAgainText = Core.Language.Translate('The following files were already uploaded and have not been uploaded again: %s', [ AttemptedToUploadAgain.join(', ') ] + "<br><br>");
+                }
 
-                    if (NoSpaceLeft.length) {
-                        NoSpaceLeftText = Core.Language.Translate('No space left for the following files: %s', [ NoSpaceLeft.join(', ') ]);
-                    }
-                    Core.UI.Dialog.ShowAlert(Core.Language.Translate('Upload information'), AttemptedToUploadAgainText + NoSpaceLeftText);
+                if (NoSpaceLeft.length) {
+                    NoSpaceLeftText = Core.Language.Translate('No space left for the following files: %s', [ NoSpaceLeft.join(', ') ]);
+                }
+                Core.UI.Dialog.ShowAlert(Core.Language.Translate('Upload information'), AttemptedToUploadAgainText + NoSpaceLeftText);
             }
         }
 
@@ -624,14 +624,31 @@ Core.UI = (function (TargetNS) {
                     FormID: $(this).closest('form').find('input[name=FormID]').val()
                 };
 
+            $TriggerObj.closest('#AttachmentListContainer').find('.Busy').fadeIn();
+
             Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-                if (Response === 'Success') {
+                if (Response && Response.Message && Response.Message == 'Success') {
                     $TriggerObj.closest('tr').fadeOut(function() {
+
                         $(this).remove();
-                        if (!$('#AttachmentList tbody tr').length) {
+
+                        if (Response.Data && Response.Data.length) {
+
+                            // go through all attachments and update the FileIDs
+                            $.each(Response.Data, function(index, Attachment) {
+                                $('#AttachmentList td:contains(' + Attachment.Filename + ')').closest('tr').find('a').data('file-id', Attachment.FileID);
+                            });
+                            $('#AttachmentListContainer').find('.Busy').fadeOut();
+                        }
+                        else {
                             $('#AttachmentList').hide();
+                            $('#AttachmentListContainer').find('.Busy').hide();
                         }
                     });
+                }
+                else {
+                    alert(Core.Language.Translate('An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.'));
+                    $TriggerObj.closest('#AttachmentListContainer').find('.Busy').hide();
                 }
             });
 

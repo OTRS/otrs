@@ -84,21 +84,38 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
+        my $Return;
         my $AttachmentFileID = $ParamObject->GetParam( Param => 'FileID' ) || '';
-        $UploadCacheObject->FormIDRemoveFile(
-            FormID => $Self->{FormID},
-            FileID => $AttachmentFileID,
-        );
 
-        # get all remaining attachments
-        my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
-        );
+        if ( !$AttachmentFileID ) {
+            $Return->{Message} = $LayoutObject->{LanguageObject}->Translate(
+                'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).'
+            );
+        }
+        else {
+
+            my $DeleteAttachment = $UploadCacheObject->FormIDRemoveFile(
+                FormID => $Self->{FormID},
+                FileID => $AttachmentFileID,
+            );
+
+            if ($DeleteAttachment) {
+
+                my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
+                    FormID => $Self->{FormID},
+                );
+
+                $Return = {
+                    Message => 'Success',
+                    Data    => \@Attachments,
+                };
+            }
+        }
 
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $Kernel::OM->Get('Kernel::System::JSON')->Encode(
-                Data => 'Success',
+                Data => $Return,
             ),
             Type    => 'inline',
             NoCache => 1,
