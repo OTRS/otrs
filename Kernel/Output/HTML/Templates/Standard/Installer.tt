@@ -88,7 +88,7 @@
                 <div class="Size1of2">
                     <h4>Mexico</h4>
                     <p>OTRS S.A. de C.V.</p>
-                    <p>Av. Insurgentes Sur 863, Piso 7, Col. Nápoles</p>
+                    <p>Av. Insurgentes Sur 863, Piso 7 Of 01, Col. Nápoles</p>
                     <p>03810 Mexico, D.F.</p>
                     <p>[% Translate("Phone") | html %]: <a href="tel:+525511689664">+52 55 1168 9664</a></p>
                 </div>
