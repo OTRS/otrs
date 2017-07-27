@@ -106,7 +106,36 @@ sub Run {
         );
     }
 
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
+    my $Time;
+
     for my $Data (@Lines) {
+        $Data->{Class} = '';
+
+        my $HistoryArticleTime = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Data->{CreateTime},
+                }
+        )->ToEpoch();
+
+        my $IsNewWidget;
+
+        # Create a new widget if article create time difference is more then 5 sec.
+        if ( !$Time || abs( $Time - $HistoryArticleTime ) > 5 ) {
+
+            $LayoutObject->Block(
+                Name => 'HistoryWidget',
+                Data => {
+                    CreateTime => $Data->{CreateTime},
+                },
+            );
+
+            $Time        = $HistoryArticleTime;
+            $IsNewWidget = 1;
+
+        }
 
         # replace text
         if ( $Data->{Name} && $Data->{Name} =~ m/^%%/x ) {
@@ -142,18 +171,6 @@ sub Run {
             Name => 'Row',
             Data => $Data,
         );
-
-        if ( $Data->{ArticleID} ne "0" ) {
-            $LayoutObject->Block(
-                Name => 'ShowLinkZoom',
-                Data => $Data,
-            );
-        }
-        else {
-            $LayoutObject->Block(
-                Name => 'NoLinkZoom',
-            );
-        }
     }
 
     # build page

@@ -18,53 +18,58 @@
     </div>
 
     <div class="Content">
-        <div class="WidgetSimple">
+
+        <div class="WidgetSimple HistoryActions">
+            <div class="Content">
+                <span class="FloatRight">
+                    <input type="text" id="FilterHistory" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterHistory" value="" title="[% Translate("Filter for history items") | html %]">
+                    <a href="" class="CallForAction Collapsed" id="ExpandCollapseAll"><span><i class="fa fa-bars"></i> Expand/collapse all</span></a>
+                </span>
+            </div>
+        </div>
+
+        <div class="WidgetSimple FilterMessageWidget Hidden">
             <div class="Header">
+                <h2>[% Translate("No Matches") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>[% Translate("Sorry, your search didn't match any items.") | html %]</p>
+            </div>
+        </div>
+
+        [% RenderBlockStart("HistoryWidget") %]
+        <div class="WidgetSimple Expanded">
+            <div class="Header">
+                <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
                 <h2>
-                    [% Translate("History Content") | html %]
+                    [% Data.CreateTime | Localize("RelativeTime") %] - [% Data.CreateTime | html %]
                 </h2>
             </div>
             <div class="Content">
                 <table class="DataTable">
                     <thead>
                         <tr>
-                            <th>[% Translate("Action") | html %]</th>
-                            <th>[% Translate("Comment") | html %]</th>
-                            <th>[% Translate("Zoom") | html %]</th>
-                            <th>[% Translate("User") | html %]</th>
-                            <th>[% Translate("Createtime") | html %]</th>
+                            <th>[% Translate("Content") | html %]</th>
+                            <th class="Center">[% Translate("Article") | html %]</th>
                         </tr>
                     </thead>
                     <tbody>
-
-[% RenderBlockStart("Row") %]
-                        <tr>
-                            <td>
-                                [% Data.HistoryType | html %]
+                [% RenderBlockStart("Row") %]
+                        <tr class="[% Data.Class | html %]">
+                            <td title="[% Data.HistoryType | html %]">
+                                [% Data.Name | html %]
                             </td>
-                            <td title="[% Data.Name | html %]">
-                                [% Data.Name | truncate(100) | html %]
-                            </td>
-                            <td>
-[% RenderBlockStart("NoLinkZoom") %]
-                                -
-[% RenderBlockEnd("NoLinkZoom") %]
-[% RenderBlockStart("ShowLinkZoom") %]
-                                <a class="LinkZoomView AsBlock" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]">[% Translate("Zoom view") | html %]</a>
-[% RenderBlockEnd("ShowLinkZoom") %]
-                            </td>
-                            <td>
-                                [% Data.UserFullname | html %]
-                            </td>
-                            <td>
-                                [% Data.CreateTime | Localize("TimeLong") %]
+                            <td class="Center">
+                            [% IF Data.ArticleID != '0' %]
+                                <a class="LinkZoomView AsBlock" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]"><i class="fa fa-search"></i></a>
+                            [% END %]
                             </td>
                         </tr>
-[% RenderBlockEnd("Row") %]
-
+                [% RenderBlockEnd("Row") %]
                     </tbody>
                 </table>
             </div>
         </div>
+        [% RenderBlockEnd("HistoryWidget") %]
     </div>
 </div>

@@ -1,0 +1,30 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     AgentTicketHistory
+ */
+
+@media screen,projection,tv,handheld {
+
+.HistoryActions label {
+    line-height: 26px;
+    margin-left: 10px;
+}
+
+.HistoryActions input[type=text] {
+    padding: 5px 10px;
+    position: relative;
+    top: 1px;
+    width: 250px;
+}
+
+.DataTable th:last-child {
+    width: 30px;
+}
+
+} /* end @media */

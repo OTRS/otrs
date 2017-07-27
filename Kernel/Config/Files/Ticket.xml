@@ -9234,6 +9234,7 @@
                 <NavBarName>Ticket</NavBarName>
                 <Loader>
                     <JavaScript>Core.Agent.TicketHistory.js</JavaScript>
+                    <CSS>Core.Agent.TicketHistory.css</CSS>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
