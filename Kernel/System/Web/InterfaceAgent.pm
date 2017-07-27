@@ -354,6 +354,7 @@ sub Run {
             %UserData,
             UserLastRequest => $DateTimeObj->ToEpoch(),
             UserType        => 'User',
+            SessionSource   => 'AgentInterface',
         );
 
         # show error message if no session id has been created

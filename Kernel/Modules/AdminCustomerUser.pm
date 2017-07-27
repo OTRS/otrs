@@ -110,6 +110,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
             UserType        => 'Customer',
+            SessionSource   => 'CustomerInterface',
         );
 
         # get customer interface session name

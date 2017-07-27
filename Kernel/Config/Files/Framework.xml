@@ -1092,7 +1092,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,8}$">21600</String>
+            <String Regex="^[0-9]{1,8}$">7200</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">

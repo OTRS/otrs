@@ -398,6 +398,7 @@ sub GetActiveSessions {
             WHERE data_key = 'UserType'
                 OR data_key = 'UserLastRequest'
                 OR data_key = 'UserLogin'
+                OR data_key = 'SessionSource'
             ORDER BY id ASC",
     );
 
@@ -418,6 +419,11 @@ sub GetActiveSessions {
 
         next SESSIONID if !$SessionID;
         next SESSIONID if !$SessionData{$SessionID};
+
+        # Don't count session from source 'GenericInterface'
+        my $SessionSource = $SessionData{$SessionID}->{SessionSource} || '';
+
+        next SESSIONID if $SessionSource eq 'GenericInterface';
 
         # get needed data
         my $UserType        = $SessionData{$SessionID}->{UserType}        || '';

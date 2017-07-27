@@ -91,6 +91,7 @@ sub CreateSessionID {
         %UserData,
         UserLastRequest => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
         UserType        => $UserType,
+        SessionSource   => 'GenericInterface',
     );
 
     return $NewSessionID if ($NewSessionID);

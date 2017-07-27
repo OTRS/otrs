@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::GenericInterface::Operation::Session::Common;
+
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -116,6 +118,22 @@ $Selenium->RunTest(
             push @SessionIDs, $NewSessionID;
         }
 
+        # Create also two webservice session, to check that the sessions are not influence the active sessions and limit check.
+        for my $Counter ( 1 .. 2 ) {
+
+            my $NewSessionID = Kernel::GenericInterface::Operation::Session::Common->CreateSessionID(
+                Data => {
+                    UserLogin => $TestUserLogins[$Counter],
+                    Password  => $TestUserLogins[$Counter],
+                },
+            );
+
+            $Self->True(
+                $NewSessionID,
+                "Create webservice SessionID for user '$TestUserLogins[$Counter]'",
+            );
+        }
+
         $Helper->ConfigSettingChange(
             Key   => 'AgentSessionLimitPriorWarning',
             Value => 1,
@@ -184,6 +202,27 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'Session limit reached! Please try again later.' ) > -1,
             "AgentSessionLimit is reached.",
         );
+
+        # Check if login works with a higher limit and that the webservice sessions have no influence on the limit.
+        $Helper->ConfigSettingChange(
+            Key   => 'AgentSessionLimit',
+            Value => 3,
+        );
+
+        $Element = $Selenium->find_element( 'input#User', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys( $TestUserLogins[0] );
+
+        $Element = $Selenium->find_element( 'input#Password', 'css' );
+        $Element->is_displayed();
+        $Element->is_enabled();
+        $Element->send_keys( $TestUserLogins[0] );
+
+        $Element->VerifiedSubmit();
+
+        # login successful?
+        $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
         $SessionObject->CleanUp();
     }

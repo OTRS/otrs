@@ -353,6 +353,7 @@ sub Run {
             %UserData,
             UserLastRequest => $SessionDTObject->ToEpoch(),
             UserType        => 'Customer',
+            SessionSource   => 'CustomerInterface',
         );
 
         # show error message if no session id has been created

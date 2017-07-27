@@ -62,6 +62,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
             UserType        => 'User',
+            SessionSource   => 'AgentInterface',
         );
 
         # create a new LayoutObject with SessionIDCookie

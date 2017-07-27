@@ -933,7 +933,7 @@
         <Description Translatable="1">Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.</Description>
         <Navigation>Core::Session</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">21600</Item>
+            <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">7200</Item>
         </Value>
     </Setting>
     <Setting Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
