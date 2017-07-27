@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-07-10 13:01+0000\n"
+"POT-Creation-Date: 2017-07-27 11:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13339,7 +13339,7 @@ msgid "Send unencrypted notification"
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid."
+msgid "Authentication succeeded, but no user data record is found in the database. Please contact the administrator."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
@@ -13351,7 +13351,7 @@ msgid "Logout successful."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Panic! Invalid Session!!!"
+msgid "Error: invalid session."
 msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm

@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Alex Butuzov <aixrein@gmail.com>, 2017
 # Alexey Yusov <yusovas@gmail.com>, 2015-2016
 # Anatoly A <aaksinenko@gmail.com>, 2017
 # Anton <anton.astashkin@gmail.com>, 2015
@@ -28,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-08 09:42+0000\n"
-"PO-Revision-Date: 2017-07-08 14:56+0000\n"
+"POT-Creation-Date: 2017-07-27 11:44+0000\n"
+"PO-Revision-Date: 2017-07-27 16:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -6071,11 +6072,11 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "Информация о пакете"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
-msgstr ""
+msgstr "Установка пакета требует обновления уровня патчей OTRS."
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
@@ -14110,9 +14111,9 @@ msgstr "Отправить не зашифрованное уведомлени�
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
-"Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps"
-" the user is invalid."
-msgstr "Внимание, пользователь аутентифицировался, в БД OTRS отсутствуют данные о нем!! Возможно этот пользователь недействительный."
+"Authentication succeeded, but no user data record is found in the database. "
+"Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
@@ -14123,8 +14124,8 @@ msgid "Logout successful."
 msgstr "Успешный выход."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Panic! Invalid Session!!!"
-msgstr "Паника! Неверный сеанс!!!"
+msgid "Error: invalid session."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"

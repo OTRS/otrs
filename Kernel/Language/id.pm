@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.951362260343088;
+    $Self->{Completeness}        = 0.95095862764884;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -4494,11 +4494,11 @@ bin/otrs.Daemon.pl status\').',
         'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
-            'Panik, pengguna dikonfirmasi tetapi tidak ada data pengguna dapat ditemukan di OTRS DB !! Mungkin pengguna tidak valid.',
+        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
+            '',
         'Can`t remove SessionID.' => '',
         'Logout successful.' => 'Logout sukses.',
-        'Panic! Invalid Session!!!' => 'Panik! Sesi valid !!!',
+        'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => 'Tidak ada Izin untuk menggunakan modul antarmuka ini!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm

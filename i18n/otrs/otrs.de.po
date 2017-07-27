@@ -1,6 +1,7 @@
 # 
 # Translators:
 # Christian Mikschik, 2017
+# Christian Widauer <christian.widauer@fh-rosenheim.de>, 2017
 # christopher.kuhn <christopher.kuhn@otrs.com>, 2016
 # Daniel Schliemann <daniel.schliemann@googlemail.com>, 2016
 # Dominik <dominik@reichardt-online.it>, 2015
@@ -43,8 +44,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-08 09:42+0000\n"
-"PO-Revision-Date: 2017-07-08 14:56+0000\n"
+"POT-Creation-Date: 2017-07-27 11:44+0000\n"
+"PO-Revision-Date: 2017-07-27 16:46+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -14125,9 +14126,9 @@ msgstr "Unverschlüsselte Benachrichtigung senden"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
-"Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps"
-" the user is invalid."
-msgstr "Achtung, der Benutzer wurde authentifiziert, aber es konnten keine Benutzerdaten in der Datenbank gefunden worden. Möglicherweise ist der Benutzer ungültig."
+"Authentication succeeded, but no user data record is found in the database. "
+"Please contact the administrator."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
@@ -14138,8 +14139,8 @@ msgid "Logout successful."
 msgstr "Abmeldung erfolgreich."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
-msgid "Panic! Invalid Session!!!"
-msgstr "Fehler: Ungültige Sitzung."
+msgid "Error: invalid session."
+msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
@@ -20457,19 +20458,19 @@ msgstr "Definiert, wieviele Tickets in der Übersicht standardmäßig angezeigt 
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Wählen Sie die Sprache der Hauptoberfläche."
 
 #. SysConfig
 msgid "Select your default spelling dictionary."
-msgstr ""
+msgstr "Wählen Sie Ihr Standardwörterbuch."
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
-msgstr ""
+msgstr "Wählen Sie Ihr bevorzugtes Oberflächenlayout für OTRS."
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
-msgstr ""
+msgstr "Wählen Sie Ihr bevorzugtes Design für OTRS."
 
 #. SysConfig
 msgid "Selects the cache backend to use."

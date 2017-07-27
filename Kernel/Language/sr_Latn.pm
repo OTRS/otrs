@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.992734611503532;
+    $Self->{Completeness}        = 0.998183652875883;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1660,14 +1660,14 @@ sub Data {
         '%s Not Yet Available' => '%s nije još dostupno',
         '%s will be available soon.' => '%s će biti uskoro dostupno',
         '%s Update Available' => '%s dostupno ažuriranje',
-        'Package installation requires patch level update of OTRS.' => '',
-        'Please visit our customer portal and file a request.' => '',
+        'Package installation requires patch level update of OTRS.' => 'Instalacija paketa zahteva ažuriranu verziju OTRS.',
+        'Please visit our customer portal and file a request.' => 'Molimo posetite naš korisnički portal i podnesite zahtev.',
         'Everything else will be done as part of your contract.' => 'Sve ostalo će biti urađeno pod vašim postojećim ugovorom.',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'Instalirana OTRS verzija kod vas je %s.',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
-            '',
+            'Da biste instalirali aktuelnu verziju „OTRS Business Solution™”, neophodno je da ažurirate vaš OTRS na verziju %s ili višu.',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
-            '',
+            'Da biste instalirali aktuelnu verziju „OTRS Business Solution™”, najviša verzija OTRS je %s.',
         'To install this package, the required Framework version is %s.' =>
             'Za instalaciju ovog paketa, neophodna verzija OTRS je %s.',
         'Why should I keep OTRS up to date?' => 'Zašto bi trebalo da OTRS uvek bude ažuriran?',
@@ -1748,23 +1748,23 @@ sub Data {
             'Da li stvarno želite da ponovo instalirate ovaj paket? Sve ručne promene će biti izgubljene.',
         'Go to upgrading instructions' => 'Idi na uputstvo za ažuriranje',
         'package information' => 'Informacije o paketu',
-        'Package installation requires a patch level update of OTRS.' => '',
-        'Package update requires a patch level update of OTRS.' => '',
+        'Package installation requires a patch level update of OTRS.' => 'Instalacija paketa zahteva ažuriranu verziju OTRS.',
+        'Package update requires a patch level update of OTRS.' => 'Ažuriranje paketa zahteva ažuriranu verziju OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             'Ukoliko ste korisnik OTRS Business Solution™, molimo posetite naš korisnički portal i podnesite zahtev.',
         'Please note that your installed OTRS version is %s.' => 'Trenutno instalirana OTRS verzija je %s.',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            'Da biste instalirali ovaj paket, neophodno je da ažurirate vaš OTRS na verziju %s ili noviju.',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            'Ovaj paket se može instalirati samo na OTRS verziju%s ili stariju.',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            'Ovaj paket se može instalirati samo na OTRS verziju%s ili noviju.',
         'You will receive updates for all other relevant OTRS issues.' =>
-            '',
+            'Dobićete ažuriranja svih drugih relevantnih OTRS izdanja.',
         'How can I do a patch level update if I don’t have a contract?' =>
             'Kako mogu da ažuriram verziju OTRS ukoliko nemam ugovor?',
         'Please find all relevant information within the upgrading instructions at %s.' =>
-            '',
+            'Molimo pronađite sve relevantne informacije u okviru instrukcija za ažuriranje na %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'U slučaju da imate dodtana pitanja, biće nam zadovoljstvo da odgovorimo na njih.',
         'Continue' => 'Nastavi',
@@ -2431,11 +2431,11 @@ sub Data {
         'Display name' => 'Prikaži ime',
         'Add System Email Address' => 'Dodaj sistemsku imejl adresu',
         'Edit System Email Address' => 'Uredi sistemsku imejl adresu',
-        'This email address is already used as system email address.' => '',
+        'This email address is already used as system email address.' => 'Ova imejl adresa je već upotrebljena kao sistemska imejl adresa.',
         'The display name and email address will be shown on mail you send.' =>
             'Prikazano ime i imejl adresa će biti prikazani na poruci koju ste poslali.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            '',
+            'Ova sistemska adresa se ne može označiti kao nevažeća jer se koristi u jednom ili više redova.',
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Upravljanje sistemom održavanja',
@@ -2874,7 +2874,7 @@ sub Data {
         'Watcher' => 'Praćenje',
         'Article Create Time (before/after)' => 'Vreme kreiranja članka (pre/posle)',
         'Article Create Time (between)' => 'Vreme kreiranja članka (između)',
-        'Invalid date' => '',
+        'Invalid date' => 'Nevažeći datum',
         'Ticket Create Time (before/after)' => 'Vreme otvaranja tiketa (pre/posle)',
         'Ticket Create Time (between)' => 'Vreme otvaranja tiketa (između)',
         'Ticket Change Time (before/after)' => 'Vreme promene tiketa (pre/posle)',
@@ -3854,7 +3854,7 @@ sub Data {
         'Invalid TicketID: %s!' => 'Nevažeći ID tiketa: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Nedostaje ID entiteta aktivnosti na tiketu %s!',
         'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.' =>
-            '',
+            'Ovaj korak ne pripada više trenutnoj aktivnosti procesa za tiket \'%s%s%s\'! Drugi korisnik je u međuvremenu promenio ovaj tiket. Molimo da zatvorite ovaj prozor i ponovo učitate tiket.',
         'Missing ProcessEntityID in Ticket %s!' => 'Nedostaje ID entiteta procesa na tiketu %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
             'Ne mogu postaviti vrednost dinamičkog polja za %s za ID tiketa „%s” u dijalogu aktivnosti „%s”!',
@@ -4499,11 +4499,11 @@ sub Data {
         'Send unencrypted notification' => 'Pošalji nešifovano obaveštenje',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
-            'Pažnja, korisnik je ',
+        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
+            '',
         'Can`t remove SessionID.' => 'SessionID se ne može ukloniti.',
         'Logout successful.' => 'Uspešna odjava.',
-        'Panic! Invalid Session!!!' => 'Pažnja! Nevažeća sesija!!!',
+        'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => 'Nemate dozvolu za  upotrebu ovog korisničkog modula!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
@@ -4548,7 +4548,7 @@ sub Data {
             'Nastavljanje na zatvorene tikete nije moguće. Novi tiket neće biti kreiran.',
         'new ticket' => 'novi tiket',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
-            '',
+            'Nastavljanje na zatvorene tikete nije moguće. Novi tiket će biti kreiran.',
         'Postmaster queue.' => '„Postmaster” red.',
         'All default incoming tickets.' => ' Svi podrazumevani dolazni tiketi.',
         'All junk tickets.' => 'Svi besmisleni tiketi „junk”.',
@@ -5873,7 +5873,7 @@ Vaša tehnička podrška
             'Francuske zaustavne reči za indeks pretrage kompletnog teksta. Ove reči će biti uklonjene iz indeksa pretrage.',
         'Frontend' => 'Interfejs',
         'Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used).' =>
-            '',
+            'Registracija modula pristupa (onemogućite vezu „AgentTicketService” ako se ne koristi Tiket servis).',
         'Frontend module registration (disable company link if no company feature is used).' =>
             'Registracija modula pristupa (onemogućite vezu „preduzeće” ako se ne koristi svojstvo preduzeće).',
         'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
@@ -6113,7 +6113,7 @@ Vaša tehnička podrška
         'Locked Tickets.' => 'Zaključani tiketi.',
         'Locked ticket.' => 'Zaključan tiket.',
         'Log file for the ticket counter.' => 'Datoteka dnevnika za brojač tiketa.',
-        'Logged-In Users' => '',
+        'Logged-In Users' => 'Prijavljeni korisnici',
         'Logout of customer panel.' => 'Odjava sa klijentskog panela.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Zaštita od petlje! Automatski odgovor nije poslat na „%s”.',
         'Mail Accounts' => 'Imejl nalozi',
@@ -6158,7 +6158,7 @@ Vaša tehnička podrška
             'Maksimalni broj tiketa koji će biti prikazani u rezultatu ove operacije.',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Maksimalna dužina (u znacima) klijentske info tabele na detaljnom pregledu tiketa.',
-        'Merge this ticket and all articles into another ticket' => '',
+        'Merge this ticket and all articles into another ticket' => 'Spoji ovaj tiket i sve članke u drugi tiket',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Tiket <OTRS_TICKET> spojen u <OTRS_MERGE_TO_TICKET>.',
         'Miscellaneous' => 'Razno',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -6387,7 +6387,7 @@ Vaša tehnička podrška
         'Right' => 'Desno',
         'Roles <-> Groups' => 'Uloge <-> Grupe',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
-            '',
+            'Pokreće poslove generičkog operatera bazirane na datotekama (Napomena: naziv modula mora biti definisan u konfiguraciji parametara modula, npr. „Kernel::System::GenericAgent”).',
         'Running Process Tickets' => 'Aktivni proces tiketi',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             'Pokreće inicijalnu džoker pretragu postojećih firmi klijenata pri pristupu modulu AdminCustomerCompany.',
@@ -6416,9 +6416,9 @@ Vaša tehnička podrška
         'Select how many tickets should be shown in overviews by default.' =>
             'Izaberite koji broj tiketa će biti podrazumevano prikazan u pregledima.',
         'Select the main interface language.' => 'Izaberite glavni jezik interfejsa.',
-        'Select your default spelling dictionary.' => '',
+        'Select your default spelling dictionary.' => 'Izaberite vaš podrazumevani pravopisni rečnik.',
         'Select your preferred layout for OTRS.' => 'Izaberite vaš podrazumevani izgled OTRS.',
-        'Select your preferred theme for OTRS.' => '',
+        'Select your preferred theme for OTRS.' => 'Izaberite vašu podrazumevanu temu za OTRS.',
         'Selects the cache backend to use.' => 'Izbor keša koji će koristiti sistem u pozadini.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Bira modul za rukovanje prenešenim datotekama preko veb interfejsa. „DB” skladišti sve prenešene datoteke u bazu podataka, „FS” koristi sistem datoteka.',
@@ -6536,15 +6536,15 @@ Vaša tehnička podrška
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             'Određuje vreme bez aktivnosti (u sekundama) pre nego što sesija bude ugašena a korisnik odjavljen.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            'Postavlja maksimalni broj aktivnih operatera u vremenskom rasponu definisanom u „SessionMaxIdleTime” pre nego što obaveštenje bude vidljivo za prijavljene operatere.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Postavlja maksimalni broj aktivnih operatera u vremenskom rasponu definisanom u „SessionMaxIdleTime”.',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Postavlja maksimalni broj aktivnih klijenta u vremenskom rasponu definisanom u „SessionMaxIdleTime”.',
         'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Postavlja maksimalni broj aktivnih sesija po operateru u vremenskom rasponu definisanom u „SessionMaxIdleTime”.',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            'Postavlja maksimalni broj aktivnih sesija po korisniku u vremenskom rasponu definisanom u „SessionMaxIdleTime”.',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             'Definiše minimalnu veličinu brojača tiketa ukoliko je izabran „AutoIncrement” kao TicketNumberGenerator. Podrazumevano je 5, što znači da brojač počinje od 10000.',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
@@ -7069,7 +7069,7 @@ Vaša tehnička podrška
             'Ažuriraj indeks eskalacije tiketa posle ažuriranja atributa tiketa.',
         'Updates the ticket index accelerator.' => 'Ažuriraj akcelerator indeksa tiketa.',
         'Upload your PGP key.' => '',
-        'Upload your S/MIME certificate.' => '',
+        'Upload your S/MIME certificate.' => 'Pošaljite vaš S/MIME sertifikat.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Koristite novi tip polja za izbor i automatsko dovršavanje u interfejsu operatera gde je to moguće (polja za unos).',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>

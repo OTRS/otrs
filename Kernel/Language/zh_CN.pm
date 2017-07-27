@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998587285570131;
+    $Self->{Completeness}        = 0.998183652875883;
 
     # csv separator
     $Self->{Separator} = '';
@@ -4498,11 +4498,11 @@ sub Data {
         'Send unencrypted notification' => '发送未加密的通知',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
-            'Panic，用户已认证，但没有在OTRS数据库中找到用户数据！！可能是无效用户。',
+        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
+            '',
         'Can`t remove SessionID.' => '不能移除会话ID。',
         'Logout successful.' => '成功注销。',
-        'Panic! Invalid Session!!!' => 'Panic!无效的会话！！！',
+        'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => '没有权限使用这个前端界面模块！',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm

@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.541069626639758;
+    $Self->{Completeness}        = 0.54066599394551;
 
     # csv separator
     $Self->{Separator} = '';
@@ -4494,11 +4494,11 @@ Opdater venligst dit framework først!',
         'Send unencrypted notification' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
-            'PANIK, bruger login lykkedes, men ingen kundeoplysninger er fundet i OTRS DB!! Brugeren er muligvis ugyldig.',
+        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
+            '',
         'Can`t remove SessionID.' => 'Kan ikke fjerne SessionsID.',
         'Logout successful.' => 'Succesfuldt logget ud.',
-        'Panic! Invalid Session!!!' => 'Panik! Ugyldig session!!!',
+        'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm

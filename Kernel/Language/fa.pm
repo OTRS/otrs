@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.978002018163471;
+    $Self->{Completeness}        = 0.977598385469223;
 
     # csv separator
     $Self->{Separator} = '';
@@ -4497,11 +4497,11 @@ sub Data {
         'Send unencrypted notification' => 'ارسال هشدار از طریق تکه تکه کردن',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
-            'وحشت، کاربر تصدیق نه داده های کاربر را می توان در OTRS DB یافت. شاید برای کاربران نامعتبر است.',
+        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
+            '',
         'Can`t remove SessionID.' => 'نمیتواند SESSIONID را حذف کنید.',
         'Logout successful.' => 'خروج موفقیت آمیز.',
-        'Panic! Invalid Session!!!' => 'وحشت! جلسه نامعتبر است.',
+        'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => 'بدون اجازه به استفاده از این ماژول ظاهر!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm

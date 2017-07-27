@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.802421796165489;
+    $Self->{Completeness}        = 0.802018163471241;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -4498,11 +4498,11 @@ sub Data {
         'Send unencrypted notification' => 'Mandar la notificación no cifrada',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.' =>
-            'Pánico, el usuario identificado, pero no se pudieron encontrar ningunos datos del usuario en DB de OTRS! Quizás el usuario es inválido.',
+        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
+            '',
         'Can`t remove SessionID.' => 'No se puede eliminar el SessionID',
         'Logout successful.' => 'Sesión cerrada con éxito.',
-        'Panic! Invalid Session!!!' => '¡Pánico! ¡¡¡Sesión no válida!!!',
+        'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => 'No tiene Permiso a usar éste módulo de interfaz! ',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
