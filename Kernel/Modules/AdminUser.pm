@@ -81,6 +81,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Self->{TimeObject}->SystemTime(),
             UserType        => 'User',
+            SessionSource   => 'AgentInterface',
         );
 
         # create a new LayoutObject with SessionIDCookie

@@ -129,6 +129,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Self->{TimeObject}->SystemTime(),
             UserType        => 'Customer',
+            SessionSource   => 'CustomerInterface',
         );
 
         # get customer interface session name

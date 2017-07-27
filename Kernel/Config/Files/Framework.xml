@@ -955,7 +955,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
-            <String Regex="^[6-9][0-9]{1,8}|[1-9][0-9]{2,8}$">21600</String>
+            <String Regex="^[6-9][0-9]{1,8}|[1-9][0-9]{2,8}$">7200</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionActiveTime" Required="1" Valid="1">

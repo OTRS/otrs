@@ -366,6 +366,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Self->{TimeObject}->SystemTime(),
             UserType        => 'User',
+            SessionSource   => 'AgentInterface',
         );
 
         # show error message if no session id has been created
