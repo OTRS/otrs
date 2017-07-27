@@ -123,6 +123,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             SomeComplexData          => {                     # verify that complex data can be stored too
                 'CaseSensitive' => 1,
             },
+            SessionSource => 'AgentInterface',
         );
 
         my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
@@ -558,6 +559,23 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
     $SessionObject = Kernel::System::AuthSession->new();
 
+    # Create also some GenericInterface sessions, to check that the sessions are not influence the active session and limit check.
+    for my $Count ( 1 .. 2 ) {
+
+        my %NewSessionData = (
+            UserLogin     => 'root' . $Count,
+            UserType      => 'User',
+            SessionSource => 'GenericInterface',
+        );
+
+        my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
+
+        $Self->True(
+            $SessionID,
+            "#$Module - GenericInterface - CreateSessionID()",
+        );
+    }
+
     my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
     my %OTRSBusinessAgentSessionLimits = (
@@ -633,6 +651,46 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - CreateSessionID() - OTRSBusiness - AgentSessionLimit reached",
     );
 
+    %OTRSBusinessAgentSessionLimits = (
+        AgentSessionLimit => 4,
+    );
+
+    for my $Key ( sort keys %OTRSBusinessAgentSessionLimits ) {
+        my $FullKey = 'OTRSBusiness::' . $Key;
+
+        $SystemDataObject->SystemDataUpdate(
+            Key    => $FullKey,
+            Value  => $OTRSBusinessAgentSessionLimits{$Key},
+            UserID => 1,
+        );
+    }
+
+    $SessionID = $SessionObject->CreateSessionID(
+        UserLogin => 'root',
+        UserType  => 'User',
+    );
+
+    $Self->True(
+        $SessionID,
+        "#$Module - CreateSessionID() - OTRSBusiness - AgentSessionLimit not reached (after increase)",
+    );
+
+    $ConfigObject->Set(
+        Key   => 'AgentSessionLimit',
+        Value => 3,
+    );
+    $SessionObject = Kernel::System::AuthSession->new();
+
+    $SessionID = $SessionObject->CreateSessionID(
+        UserLogin => 'config-limit-reached',
+        UserType  => 'User',
+    );
+
+    $Self->False(
+        $SessionID,
+        "#$Module - CreateSessionID() - Config - AgentSessionLimit reached (after change of the config session limit)",
+    );
+
     $CleanUp = $SessionObject->CleanUp();
 
     $Self->True(
@@ -654,6 +712,12 @@ for my $ModuleFile (@BackendModuleFiles) {
             UserID => 1,
         );
     }
+
+    $ConfigObject->Set(
+        Key   => 'AgentSessionLimit',
+        Value => 100,
+    );
+    $SessionObject = Kernel::System::AuthSession->new();
 
     for my $Count ( 1 .. 2 ) {
 
@@ -690,6 +754,109 @@ for my $ModuleFile (@BackendModuleFiles) {
             UserID => 1,
         );
     }
+
+    # Added some checks for the GetActiveSessions function
+    $Helper->FixedTimeSet();
+
+    $ConfigObject->Set(
+        Key   => 'SessionMaxIdleTime',
+        Value => 60,
+    );
+    $SessionObject = Kernel::System::AuthSession->new();
+
+    for my $Count ( 1 .. 3 ) {
+
+        my %NewSessionData = (
+            UserLogin       => 'root' . $Count,
+            UserType        => 'User',
+            UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+        );
+
+        my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
+
+        $Self->True(
+            $SessionID,
+            "#$Module - CreateSessionID() - for active session check.",
+        );
+    }
+
+    # Create also some GenericInterface sessions, to check that the sessions are not influence the active session and limit check.
+    for my $Count ( 1 .. 2 ) {
+
+        my %NewSessionData = (
+            UserLogin       => 'root' . $Count,
+            UserType        => 'User',
+            UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+            SessionSource   => 'GenericInterface',
+        );
+
+        my $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
+
+        $Self->True(
+            $SessionID,
+            "#$Module - GenericInterface - CreateSessionID() - not relevant session",
+        );
+    }
+
+    my %ActiveSessionsReferenceData = (
+        PerUser => {
+            'root1' => 1,
+            'root2' => 1,
+            'root3' => 1,
+        },
+        Total => 3,
+    );
+
+    my %ActiveSessions = $SessionObject->GetActiveSessions(
+        UserType => 'User',
+    );
+
+    $Self->IsDeeply(
+        \%ActiveSessions,
+        \%ActiveSessionsReferenceData,
+        "#$Module - GetActiveSessions - correct data",
+    );
+
+    $Helper->FixedTimeAddSeconds(90);
+
+    my %NewSessionData = (
+        UserLogin => 'root3',
+        UserType  => 'User',
+    );
+
+    $SessionID = $SessionObject->CreateSessionID(%NewSessionData);
+
+    $Self->True(
+        $SessionID,
+        "#$Module - CreateSessionID() - for active session check.",
+    );
+
+    %ActiveSessionsReferenceData = (
+        PerUser => {
+            'root3' => 1,
+        },
+        Total => 1,
+    );
+
+    %ActiveSessions = $SessionObject->GetActiveSessions(
+        UserType => 'User',
+    );
+
+    $Self->IsDeeply(
+        \%ActiveSessions,
+        \%ActiveSessionsReferenceData,
+        "#$Module - GetActiveSessions - correct data after some idle sessions",
+    );
+
+    $CleanUp = $SessionObject->CleanUp();
+
+    $Self->True(
+        $CleanUp,
+        "#$Module - CleanUp after normal session limit tests()",
+    );
+}
+continue {
+    $Helper->FixedTimeUnset();
 }
 
 # restore to the previous state is done by RestoreDatabase

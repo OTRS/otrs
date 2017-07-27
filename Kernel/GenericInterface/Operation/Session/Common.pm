@@ -127,6 +127,7 @@ sub CreateSessionID {
         %UserData,
         UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
         UserType        => $UserType,
+        SessionSource   => 'GenericInterface',
     );
 
     return $NewSessionID if ($NewSessionID);

@@ -120,6 +120,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
             UserType        => 'Customer',
+            SessionSource   => 'CustomerInterface',
         );
 
         # get customer interface session name

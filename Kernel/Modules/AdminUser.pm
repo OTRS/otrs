@@ -81,6 +81,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
             UserType        => 'User',
+            SessionSource   => 'AgentInterface',
         );
 
         # create a new LayoutObject with SessionIDCookie

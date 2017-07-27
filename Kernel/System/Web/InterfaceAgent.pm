@@ -352,6 +352,7 @@ sub Run {
             %UserData,
             UserLastRequest => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
             UserType        => 'User',
+            SessionSource   => 'AgentInterface',
         );
 
         # show error message if no session id has been created

@@ -1,4 +1,5 @@
 #5.0.22 2017-??-??
+ - 2017-07-27 Decreased the default value for the 'SessionMaxIdleTime' to two hours and fixed session counting to ignore sessions originating from the GenericInterface.
  - 2017-07-26 Reverted fix for bug#[11843](https://bugs.otrs.org/show_bug.cgi?id=11843) - Notifications tag CUSTOMER_FROM gets replaced by CUSTOMER_REALNAME.
  - 2017-07-20 Fixed bug#[12962](https://bugs.otrs.org/show_bug.cgi?id=12962) - Dynamic fields list values are not update when state is changed in AgentTicketActionCommon.
  - 2017-07-20 Fixed bug#[12932](https://bugs.otrs.org/show_bug.cgi?id=12932) - Timeline view collides with Ticket::Frontend::ZoomExpand.
