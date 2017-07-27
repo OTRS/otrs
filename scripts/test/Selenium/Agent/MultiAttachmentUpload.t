@@ -159,7 +159,7 @@ $Selenium->RunTest(
                             "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$UploadExtension)').length"
                         ),
                         1,
-                        "Upload file correct"
+                        "$Action - Upload '$UploadExtension' file correct"
                     );
                 }
 
@@ -176,7 +176,7 @@ $Selenium->RunTest(
                     = "The following files were already uploaded and have not been uploaded again: Main-Test1.txt";
                 $Self->True(
                     index( $Selenium->get_page_source(), $UploadAgainMessage ) > -1,
-                    "UploadAgainMessage message is found",
+                    "$Action - UploadAgainMessage message is found",
                 );
 
                 # Confirm dialog action.
@@ -194,7 +194,7 @@ $Selenium->RunTest(
                 my $UploadMaxMessage = "No space left for the following files: PostMaster-Test9.box";
                 $Self->True(
                     index( $Selenium->get_page_source(), $UploadMaxMessage ) > -1,
-                    "UploadMaxMessage message is found",
+                    "$Action - UploadMaxMessage message is found",
                 );
 
                 # Confirm dialog action.
@@ -211,14 +211,19 @@ $Selenium->RunTest(
                             "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         1,
-                        "Uploaded file still there"
+                        "$Action - Uploaded '$DeleteExtension' file still there"
                     );
 
                     # Delete Attachment.
                     $Selenium->execute_script(
-                        "\$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').next().next().next().find('.AttachmentDelete').trigger('click')"
+                        "\$('#AttachmentList tbody tr:contains(Main-Test1.$DeleteExtension)').find('a.AttachmentDelete').trigger('click')"
                     );
-                    sleep 1;
+
+                    # Wait until attachment is deleted.
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $(".fa.fa-spinner.fa-spin:visible").length === 0;'
+                    );
 
                     # Check if deleted.
                     $Self->Is(
@@ -226,7 +231,7 @@ $Selenium->RunTest(
                             "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         0,
-                        "Upload file deleted"
+                        "$Action - Upload '$DeleteExtension' file deleted"
                     );
                 }
             }
@@ -302,7 +307,7 @@ $Selenium->RunTest(
                             "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$UploadExtension)').length"
                         ),
                         1,
-                        "Upload file correct"
+                        "$Action - Upload '$UploadExtension' file correct"
                     );
                 }
 
@@ -319,7 +324,7 @@ $Selenium->RunTest(
                     = "The following files were already uploaded and have not been uploaded again: Main-Test1.txt";
                 $Self->True(
                     index( $Selenium->get_page_source(), $UploadAgainMessage ) > -1,
-                    "UploadAgainMessage message is found",
+                    "$Action - UploadAgainMessage message is found",
                 );
 
                 # Confirm dialog action.
@@ -337,7 +342,7 @@ $Selenium->RunTest(
                 my $UploadMaxMessage = "No space left for the following files: PostMaster-Test9.box";
                 $Self->True(
                     index( $Selenium->get_page_source(), $UploadMaxMessage ) > -1,
-                    "UploadMaxMessage message is found",
+                    "$Action - UploadMaxMessage message is found",
                 );
 
                 # Confirm dialog action.
@@ -355,14 +360,19 @@ $Selenium->RunTest(
                             "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         1,
-                        "Uploaded file still there"
+                        "$Action - Uploaded '$DeleteExtension' file still there"
                     );
 
                     # Delete Attachment.
                     $Selenium->execute_script(
-                        "\$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').next().next().next().find('.AttachmentDelete').trigger('click')"
+                        "\$('#AttachmentList tbody tr:contains(Main-Test1.$DeleteExtension)').find('a.AttachmentDelete').trigger('click')"
                     );
-                    sleep 1;
+
+                    # Wait until attachment is deleted.
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $(".fa.fa-spinner.fa-spin:visible").length === 0;'
+                    );
 
                     # Check if deleted.
                     $Self->Is(
@@ -370,7 +380,7 @@ $Selenium->RunTest(
                             "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         0,
-                        "Upload file deleted"
+                        "$Action - Upload '$DeleteExtension' file deleted"
                     );
                 }
 
