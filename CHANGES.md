@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-07-28 Fixed bug#[12104](https://bugs.otrs.org/show_bug.cgi?id=12104) - TimeAccounting statistic silently returns only last full month unless Period filter is used.
  - 2017-07-25 Fixed bug#[12580](https://bugs.otrs.org/show_bug.cgi?id=12580) - Processes cannot be listed in search view.
  - 2017-07-24 Added ObjectDataGet() to dynamic field object types, for OTRS Business Solution™.
  - 2017-07-24 Added drag & drop multi upload functionality to agent and customer interface.

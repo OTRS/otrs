@@ -3218,6 +3218,17 @@ sub _GenerateDynamicStats {
         $Title .= " $TitleTimeStart-$TitleTimeStop";
     }
 
+    # Extend the title, e.g. to add a fixed time period from the stats object.
+    if ( $StatObject->can('GetExtendedTitle') ) {
+        my $ExtendedTitle = $StatObject->GetExtendedTitle(
+            XValue       => $Xvalue,
+            Restrictions => \%RestrictionAttribute,
+        );
+        if ($ExtendedTitle) {
+            $Title .= ' ' . $ExtendedTitle;
+        }
+    }
+
     # create the cache string
     my $CacheString = $Self->_GetCacheString(%Param);
 
