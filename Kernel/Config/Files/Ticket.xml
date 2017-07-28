@@ -1852,7 +1852,7 @@
                 <Item Key="TicketLinkDelete" Translatable="1">Deleted link to ticket "%s".</Item>
                 <Item Key="TimeAccounting" Translatable="1">Added %s time unit(s), for a total of %s time unit(s).</Item>
                 <Item Key="TitleUpdate" Translatable="1">Changed title from "%s" to "%s".</Item>
-                <Item Key="TypeUpdate" Translatable="1">Changed type to "%s" (%s).</Item>
+                <Item Key="TypeUpdate" Translatable="1">Changed type from "%s" (%s) to "%s" (%s).</Item>
                 <Item Key="Unlock" Translatable="1">Unlocked ticket.</Item>
                 <Item Key="Unsubscribe" Translatable="1">Removed subscription for user "%s".</Item>
                 <Item Key="WebRequestCustomer" Translatable="1">Added web request from customer.</Item>

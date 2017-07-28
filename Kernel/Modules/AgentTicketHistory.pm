@@ -152,6 +152,9 @@ sub Run {
             if ( $Data->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
                 @Values = ( $Values[1], $Values[5] // '', $Values[3] // '' );
             }
+            elsif ( $Data->{HistoryType} eq 'TypeUpdate' ) {
+                @Values = ( $Values[2], $Values[3], $Values[0], $Values[1] );
+            }
 
             $Data->{Name} = $LayoutObject->{LanguageObject}->Translate(
                 $HistoryTypes{ $Data->{HistoryType} },
