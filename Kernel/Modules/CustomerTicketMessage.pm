@@ -233,9 +233,9 @@ sub Run {
         }
 
         # print form ...
-        my $Output .= $LayoutObject->CustomerHeader();
-        $Output    .= $LayoutObject->CustomerNavigationBar();
-        $Output    .= $Self->_MaskNew(
+        my $Output = $LayoutObject->CustomerHeader();
+        $Output .= $LayoutObject->CustomerNavigationBar();
+        $Output .= $Self->_MaskNew(
             %GetParam,
             %ACLCompatGetParam,
             ToSelected       => $Param{ToSelected},
@@ -493,9 +493,9 @@ sub Run {
         if (%Error) {
 
             # html output
-            my $Output .= $LayoutObject->CustomerHeader();
-            $Output    .= $LayoutObject->CustomerNavigationBar();
-            $Output    .= $Self->_MaskNew(
+            my $Output = $LayoutObject->CustomerHeader();
+            $Output .= $LayoutObject->CustomerNavigationBar();
+            $Output .= $Self->_MaskNew(
                 Attachments => \@Attachments,
                 %GetParam,
                 ToSelected       => $Dest,

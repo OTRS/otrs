@@ -820,7 +820,7 @@ sub GeneralSpecificationsWidget {
         );
     }
 
-    my $Output .= $LayoutObject->Output(
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'Statistics/GeneralSpecificationsWidget',
         Data         => {
             %Frontend,
@@ -931,7 +931,7 @@ sub XAxisWidget {
         Value => \@XAxisElements,
     );
 
-    my $Output .= $LayoutObject->Output(
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'Statistics/XAxisWidget',
         Data         => {
             %{$Stat},
@@ -1037,7 +1037,7 @@ sub YAxisWidget {
         Value => \@YAxisElements,
     );
 
-    my $Output .= $LayoutObject->Output(
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'Statistics/YAxisWidget',
         Data         => {
             %{$Stat},
@@ -1146,7 +1146,7 @@ sub RestrictionsWidget {
         Value => \@RestrictionElements,
     );
 
-    my $Output .= $LayoutObject->Output(
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'Statistics/RestrictionsWidget',
         Data         => {
             %{$Stat},
@@ -1186,7 +1186,7 @@ sub PreviewWidget {
         Value => $Frontend{PreviewResult},
     );
 
-    my $Output .= $LayoutObject->Output(
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'Statistics/PreviewWidget',
         Data         => {
             %{$Stat},
@@ -1588,7 +1588,7 @@ sub StatsResultRender {
             );
             $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
         }
-        my $Output .= $CSVObject->Array2CSV(
+        my $Output = $CSVObject->Array2CSV(
             Head      => $HeadArrayRef,
             Data      => \@StatArray,
             Separator => $UserCSVSeparator,
@@ -1603,7 +1603,7 @@ sub StatsResultRender {
 
     # generate excel output
     elsif ( $Param{Format} eq 'Excel' ) {
-        my $Output .= $CSVObject->Array2CSV(
+        my $Output = $CSVObject->Array2CSV(
             Head   => $HeadArrayRef,
             Data   => \@StatArray,
             Format => 'Excel',

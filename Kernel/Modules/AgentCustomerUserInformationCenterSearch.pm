@@ -89,7 +89,7 @@ sub Run {
         );
     }
 
-    my $Output .= $LayoutObject->Output(
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'AgentCustomerUserInformationCenterSearch',
         Data         => \%Param,
     );

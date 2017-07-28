@@ -36,7 +36,7 @@ sub Run {
     # check if feature is active
     # ------------------------------------------------------------ #
     if ( !$ConfigObject->Get('CustomerGroupSupport') ) {
-        my $Output .= $LayoutObject->Header();
+        my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
         $Output .= $Self->_Disabled();

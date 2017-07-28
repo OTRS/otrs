@@ -152,6 +152,7 @@ sub Run {
             if ( $Data->{HistoryType} eq 'TicketDynamicFieldUpdate' ) {
                 @Values = ( $Values[1], $Values[5] // '', $Values[3] // '' );
             }
+
             # Make sure that the order of the values is correct, because we're now
             #   also showing the old ticket type on 'TypeUpdate'.
             elsif ( $Data->{HistoryType} eq 'TypeUpdate' ) {

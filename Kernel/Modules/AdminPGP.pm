@@ -36,7 +36,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('PGP') ) {
 
-        my $Output .= $LayoutObject->Header();
+        my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
         $LayoutObject->Block( Name => 'Overview' );
@@ -342,7 +342,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
-        my $Output .= $LayoutObject->Header();
+        my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
         $LayoutObject->Block( Name => 'Overview' );

@@ -2508,7 +2508,7 @@ sub Run {
             Value => \@SearchAttributes,
         );
 
-        my $Output .= $LayoutObject->Output(
+        my $Output = $LayoutObject->Output(
             TemplateFile => 'AgentTicketSearch',
             Data         => \%Param,
             AJAX         => 1,

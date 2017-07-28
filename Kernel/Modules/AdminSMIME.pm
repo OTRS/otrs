@@ -37,7 +37,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('SMIME') ) {
 
-        my $Output .= $LayoutObject->Header();
+        my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
 
         $LayoutObject->Block( Name => 'Overview' );
