@@ -155,7 +155,7 @@ ticketlinkadd: added link to ticket "%s".
 ticketlinkdelete: deleted link to ticket "%s".
 timeaccounting: added %s time unit(s), for a total of %s time unit(s).
 titleupdate: changed title from "%s" to "%s".
-typeupdate: changed type to "%s" (%s).
+typeupdate: changed type from "%s" (%s) to "%s" (%s).
 unlock: unlocked ticket.
 unsubscribe: removed subscription for user "%s".
 webrequestcustomer: added web request from customer.
