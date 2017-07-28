@@ -403,7 +403,7 @@ sub StatsParamsWidget {
                             TreeView       => $ObjectAttribute->{TreeView} || 0,
                             Sort           => scalar $ObjectAttribute->{Sort},
                             SortIndividual => scalar $ObjectAttribute->{SortIndividual},
-                            SelectedID     => [ $LocalGetArray->( Param => $ElementName ) ],
+                            SelectedID     => $LocalGetParam->( Param => $ElementName ),
                             Class          => 'Modernize',
                         );
                         $LayoutObject->Block(
