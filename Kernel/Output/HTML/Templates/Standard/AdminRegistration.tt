@@ -76,7 +76,7 @@
                 <fieldset class="TableLike">
 
                     <label>[% Translate("System type") | html %]:</label>
-                    <div class="Value">[% Data.Type | html %]</div>
+                    <div class="Value">[% Translate(Data.Type) | html %]</div>
                     <div class="Clear"></div>
 
                     <label>[% Translate("Description") | html %]:</label>
