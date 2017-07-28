@@ -1765,16 +1765,18 @@ sub Run {
         }
 
         $Param{AttributesStrg} = $LayoutObject->BuildSelection(
-            Data     => \@Attributes,
-            Name     => 'Attribute',
-            Multiple => 0,
-            Class    => 'Modernize',
+            PossibleNone => 1,
+            Data         => \@Attributes,
+            Name         => 'Attribute',
+            Multiple     => 0,
+            Class        => 'Modernize',
         );
         $Param{AttributesOrigStrg} = $LayoutObject->BuildSelection(
-            Data     => \@Attributes,
-            Name     => 'AttributeOrig',
-            Multiple => 0,
-            Class    => 'Modernize',
+            PossibleNone => 1,
+            Data         => \@Attributes,
+            Name         => 'AttributeOrig',
+            Multiple     => 0,
+            Class        => 'Modernize',
         );
 
         # get all users of own groups

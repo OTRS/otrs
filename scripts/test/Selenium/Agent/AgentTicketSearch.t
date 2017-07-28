@@ -212,7 +212,9 @@ $Selenium->RunTest(
         }
 
         # Add search filter by ticket number and run it.
-        $Selenium->find_element( '.AddButton',        'css' )->click();
+        $Selenium->execute_script(
+            "\$('#Attribute').val('TicketNumber').trigger('redraw.InputField').trigger('change');",
+        );
         $Selenium->find_element( 'TicketNumber',      'name' )->send_keys($TicketNumber);
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
@@ -353,7 +355,6 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
         );
-        $Selenium->find_element( '.AddButton', 'css' )->click();
         for my $Field (qw(Start Stop)) {
             $Selenium->find_element( "#TicketCreateTime${Field}Day",   'css' )->send_keys('04');
             $Selenium->find_element( "#TicketCreateTime${Field}Month", 'css' )->send_keys('05');
@@ -376,7 +377,6 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
         );
-        $Selenium->find_element( '.AddButton', 'css' )->click();
         for my $Field (qw(Start Stop)) {
             $Selenium->find_element( "#TicketCreateTime${Field}Day",   'css' )->send_keys('05');
             $Selenium->find_element( "#TicketCreateTime${Field}Month", 'css' )->send_keys('05');
@@ -400,7 +400,6 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
         );
-        $Selenium->find_element( '.AddButton',                  'css' )->click();
         $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('31');
         $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('04');
         $Selenium->find_element( '#TicketCreateTimeStartYear',  'css' )->send_keys('2017');
@@ -452,7 +451,6 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('PriorityIDs').trigger('redraw.InputField').trigger('change');",
         );
-        $Selenium->find_element( '.AddButton',          'css' )->click();
         $Selenium->find_element( '#PriorityIDs_Search', 'css' )->click();
 
         # Wait until drop down list is shown.
@@ -480,7 +478,6 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#Attribute').val('Search_DynamicField_$DynamicFields{$DynamicFieldType}->{Name}TimeSlot').trigger('redraw.InputField').trigger('change');",
             );
-            $Selenium->find_element( '.AddButton', 'css' )->click();
 
             for my $DatePart (qw(StartYear StartMonth StartDay StopYear StopMonth StopDay)) {
                 my $Element = $Selenium->find_element(
@@ -553,7 +550,6 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('$TextFieldID').trigger('redraw.InputField').trigger('change');",
         );
-        $Selenium->find_element( '.AddButton', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('#SearchInsert #$TextFieldID').length"
         );
