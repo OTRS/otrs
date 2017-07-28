@@ -116,16 +116,20 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      Set iframe height automatically based on real content height and default config setting.
      */
     TargetNS.IframeAutoHeight = function ($Iframe) {
-        var NewHeight;
+
+        var NewHeight,
+            IframeBodyHeight;
 
         if (isJQueryObject($Iframe)) {
-
+            $Iframe.width($Iframe.width() - 2);
+            IframeBodyHeight = $Iframe.contents().find('body').height();
             NewHeight = $Iframe.contents().height();
             if (!NewHeight || isNaN(NewHeight)) {
                 NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightDefault');
             }
             else {
-                if (NewHeight > Core.Config.Get('Ticket::Frontend::HTMLArticleHeightMax')) {
+                NewHeight = IframeBodyHeight;
+                if (IframeBodyHeight > Core.Config.Get('Ticket::Frontend::HTMLArticleHeightMax')) {
                     NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightMax');
                 }
             }
