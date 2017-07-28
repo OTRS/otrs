@@ -21,8 +21,10 @@
 
         <div class="WidgetSimple HistoryActions">
             <div class="Content">
-                <span class="FloatRight">
+                <span>
                     <input type="text" id="FilterHistory" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterHistory" value="" title="[% Translate("Filter for history items") | html %]">
+                </span>
+                <span class="FloatRight">
                     <a href="" class="CallForAction Collapsed" id="ExpandCollapseAll"><span><i class="fa fa-bars"></i> Expand/collapse all</span></a>
                 </span>
             </div>

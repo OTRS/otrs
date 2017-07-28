@@ -124,7 +124,15 @@ Core.UI.Table = (function (TargetNS) {
                 // handle multiple containers correctly
                 if ($Container.length > 1) {
                     $Container.each(function() {
-                        $(this).closest('.WidgetSimple').show();
+                        var $Widget = $(this).closest('.WidgetSimple'),
+                            IsCollapsed = $Widget.hasClass('Collapsed');
+
+                        $Widget.show();
+                        if (IsCollapsed) {
+                            // Expand widget for a moment.
+                            $Widget.addClass("Expanded").removeClass("Collapsed");
+                        }
+
                         if ($(this).find('tbody tr:visible:not(.FilterMessage), li:visible:not(.Header):not(.FilterMessage)').length) {
                             $(this).find('.FilterMessage').hide();
 
@@ -138,9 +146,15 @@ Core.UI.Table = (function (TargetNS) {
                                 $(this).closest('.WidgetSimple').hide();
                             }
                         }
+
+                        if (IsCollapsed) {
+                            // Collapse widget, just like it was before.
+                            $Widget.addClass("Collapsed").removeClass("Expanded");
+                        }
                     });
 
-                    if (!$Container.filter(':visible').length) {
+                    if (!$Container.filter(':visible').length
+                        && !$Container.closest(".WidgetSimple:visible").length) {
                         $('.FilterMessageWidget').show();
                     }
                     else {
