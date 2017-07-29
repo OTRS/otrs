@@ -63,7 +63,10 @@ sub Run {
         for (@Array) {
 
             # check if the value needs to be validated
-            if ($Self->{ConfigItem}->{ValidateRegex} && $Self->{ConfigItem}->{ValidateRegexMessage} && $_ !~ m{$Self->{ConfigItem}->{ValidateRegex}}) {
+            if (   $Self->{ConfigItem}->{ValidateRegex}
+                && $Self->{ConfigItem}->{ValidateRegexMessage}
+                && $_ !~ m{$Self->{ConfigItem}->{ValidateRegex}} )
+            {
                 $Self->{Error} = $Self->{ConfigItem}->{ValidateRegexMessage};
                 return;
             }

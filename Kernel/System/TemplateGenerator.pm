@@ -933,9 +933,9 @@ sub NotificationEvent {
 
         # Get article preview in plain text and store it as Body key.
         $ArticleData->{Body} = $LayoutObject->ArticlePreview(
-            TicketID  => $ArticleData->{TicketID},
-            ArticleID => $ArticleData->{ArticleID},
-            ResultType    => 'plain',
+            TicketID   => $ArticleData->{TicketID},
+            ArticleID  => $ArticleData->{ArticleID},
+            ResultType => 'plain',
         );
 
         # get accounted time

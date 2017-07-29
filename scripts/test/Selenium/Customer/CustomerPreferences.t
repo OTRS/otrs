@@ -25,7 +25,8 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # enable google authenticator shared secret preference
-        my $SharedSecretConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPreferencesGroups')->{'GoogleAuthenticatorSecretKey'};
+        my $SharedSecretConfig
+            = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPreferencesGroups')->{'GoogleAuthenticatorSecretKey'};
         $SharedSecretConfig->{Active} = 1;
         $Helper->ConfigSettingChange(
             Valid => 1,
