@@ -101,7 +101,6 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('TicketNumber').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( ".AddButton", 'css' )->VerifiedClick();
         $Selenium->find_element("//input[\@name='TicketNumber']")->send_keys("$TicketNumber");
         $Selenium->find_element( "#SearchFormSubmit", 'css' )->VerifiedClick();
 
