@@ -15,7 +15,6 @@ use Kernel::System::VariableCheck qw( :all );
 use parent qw(Kernel::System::SysConfig::Base::Framework);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
     'Kernel::Language',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::SysConfig',
@@ -92,17 +91,10 @@ sub SettingRender {
         );
     }
 
-    my %Setting = %{ $Param{Setting} };
-
-    my $RW = $Param{RW};
-    if ( $Setting{OverridenFileName} ) {
-        $RW = 0;
-    }
-
     my $Result = $Self->_SettingRender(
-        %Setting,
+        %{ $Param{Setting} },
         Value                   => $Param{Setting}->{XMLContentParsed}->{Value},
-        RW                      => $RW,
+        RW                      => $Param{RW},
         IsAjax                  => $Param{IsAjax},
         SkipEffectiveValueCheck => $Param{SkipEffectiveValueCheck},
         UserID                  => $Param{UserID},
@@ -114,7 +106,7 @@ sub SettingRender {
                         </div>
 EOF
 
-    if ($RW) {
+    if ( $Param{RW} ) {
         my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
         my $SaveText   = $LanguageObject->Translate('Save this setting');

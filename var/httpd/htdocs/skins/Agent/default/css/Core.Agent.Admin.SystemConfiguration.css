@@ -1386,8 +1386,7 @@ h2.SearchResults {
     margin-right: -10px;
 }
 
-.fa.fa-ban,
-.Icon .fa-exclamation-triangle {
+.fa.fa-ban {
     color: #b8384e;
 }
 

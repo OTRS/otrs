@@ -142,7 +142,6 @@ Returns:
         ChangeTime               => "2016-05-29 11:04:04",
         ChangeBy                 => 1,
         DefaultValue             => 'Old default value',
-        OverridenFileName        => '/opt/otrs/Kernel/Config/Files/ZZZ.pm',
     );
 
 =cut
@@ -161,7 +160,6 @@ sub SettingGet {
 
     $Param{Translate} //= 0;    # don't translate by default
 
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
     # Get default setting.
@@ -324,37 +322,6 @@ sub SettingGet {
         $Setting{Description} = $Kernel::OM->Get('Kernel::Language')->Translate(
             $Setting{Description},
         );
-    }
-
-    # Get real EffectiveValue - EffectiveValue from DB could be modified in the ZZZAbc.pm file.
-    my $LoadedEffectiveValue;
-
-    my @SettingStructure = split( '###', $Setting{Name} );
-    for my $Key (@SettingStructure) {
-        if ( !defined $LoadedEffectiveValue ) {
-
-            # first iteration
-            $LoadedEffectiveValue = $ConfigObject->Get($Key);
-        }
-        elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
-            $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
-        }
-    }
-
-    my $IsOverridden = DataIsDifferent(
-        Data1 => $Setting{EffectiveValue},
-        Data2 => $LoadedEffectiveValue,
-    );
-
-    if ($IsOverridden) {
-
-        $Setting{OverridenFileName} = $Self->OverriddenFileNameGet(
-            SettingName    => $Setting{Name},
-            EffectiveValue => $Setting{EffectiveValue},
-        );
-
-        # Update EffectiveValue.
-        $Setting{EffectiveValue} = $LoadedEffectiveValue;
     }
 
     # Return updated default.
@@ -2837,7 +2804,6 @@ Returns:
             ExclusiveLockExpiryTime  => '2016-05-29 11:09:04',
             CreateTime               => "2016-05-29 11:04:04",
             ChangeTime               => "2016-05-29 11:04:04",
-            OverridenFileName        => 'ZZZDefauls.pm'
         },
         {
             DefaultID     => 321,
@@ -2854,7 +2820,6 @@ Returns:
 sub ConfigurationListGet {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
     $Param{Translate} //= 0;    # don't translate by default
@@ -2957,7 +2922,7 @@ sub ConfigurationListGet {
         # Update setting attributes.
         ATTRIBUTE:
         for my $Attribute (
-            qw(ModifiedID IsValid UserModificationActive UserPreferencesGroup EffectiveValue IsDirty ChangeTime XMLContentParsed SettingUID OverridenFileName)
+            qw(ModifiedID IsValid UserModificationActive UserPreferencesGroup EffectiveValue IsDirty ChangeTime XMLContentParsed SettingUID)
             )
         {
             next ATTRIBUTE if !defined $ModifiedSetting{$Attribute};
@@ -4452,137 +4417,6 @@ sub SettingsSet {
         Force    => 1,
         DirtySettings => \@DeploySettings
     );
-}
-
-=head2 OverriddenFileNameGet()
-
-Returns file name which overrides setting Effective value.
-
-    my $FileName = $SysConfigObject->OverriddenFileNameGet(
-        SettingName    => 'Setting::Name',  # (required)
-        EffectiveValue => '3',              # (optional)
-    );
-
-Returns:
-
-    $FileName = 'ZZZUpdate.pm';
-
-=cut
-
-sub OverriddenFileNameGet {
-    my ( $Self, %Param ) = @_;
-
-    # Check needed stuff.
-    for my $Needed (qw(SettingName)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
-    }
-
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $LoadedEffectiveValue;
-
-    my @SettingStructure = split( '###', $Param{SettingName} );
-    for my $Key (@SettingStructure) {
-        if ( !defined $LoadedEffectiveValue ) {
-
-            # first iteration
-            $LoadedEffectiveValue = $ConfigObject->Get($Key);
-        }
-        elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
-            $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
-        }
-    }
-
-    my $IsOverridden = DataIsDifferent(
-        Data1 => $Param{EffectiveValue},
-        Data2 => $LoadedEffectiveValue,
-    );
-
-    # This setting is not overrided in perl file, return.
-    return if !$IsOverridden;
-
-    my $Result;
-
-    my $Home      = $ConfigObject->Get('Home');
-    my $Directory = "$Home/Kernel/Config/Files";
-
-    # Get all .pm files that start with 'ZZZ'.
-    my @FilesInDirectory = $MainObject->DirectoryRead(
-        Directory => $Directory,
-        Filter    => 'ZZZ*.pm',
-    );
-
-    FILE:
-    for my $File (@FilesInDirectory) {
-
-        # Get only file name, without full path and extension.
-        $File =~ m{^.*/(.*?)\.pm$};
-        my $FileName = $1;
-
-        # Skip the file that was regulary deployed.
-        next FILE if $FileName eq 'ZZZAAuto';
-
-        # Load .pm file, save overrided settings in $OverridedSettings.
-        my $Module = "Kernel::Config::Files::$FileName";
-        my $Loaded = $MainObject->Require(
-            $Module,
-        );
-        next FILE if !$Loaded;
-
-        my $OverridedSettings = {};
-        $Module->Load($OverridedSettings);
-
-        next FILE if !IsHashRefWithData($OverridedSettings);
-
-        my $LoadedEffectiveValue;
-
-        # Check if this file overrides our setting.
-        my $SettingFound = 0;
-
-        KEY:
-        for my $Key (@SettingStructure) {
-            if ( !defined $LoadedEffectiveValue ) {
-
-                # first iteration
-                $LoadedEffectiveValue = $OverridedSettings->{$Key};
-                if ( defined $LoadedEffectiveValue ) {
-                    $SettingFound = 1;
-                }
-                else {
-                    last KEY;
-                }
-            }
-            elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
-                $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
-                if ( defined $LoadedEffectiveValue ) {
-                    $SettingFound = 1;
-                }
-                else {
-                    $SettingFound = 0;
-                }
-            }
-        }
-
-        if ($SettingFound) {
-            $Result = $File;
-        }
-    }
-
-    if ($Result) {
-        $Result =~ s/^$Home\/?(.*)$/$1/;
-    }
-    else {
-        $Result = "Kernel/Config.pm";
-    }
-
-    return $Result;
 }
 
 =head1 PRIVATE INTERFACE
