@@ -67,6 +67,8 @@ sub OTRSInit {
 
     # caching can be disabled for debugging reasons
     $Self->{CachingEnabled} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::TemplateCache') // 1;
+
+    return;
 }
 
 =begin Internal:

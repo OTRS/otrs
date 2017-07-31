@@ -64,7 +64,7 @@ Returns article fields hash:
 =cut
 
 sub ArticleFields {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticlePreview()
@@ -85,7 +85,7 @@ Returns article preview in scalar form:
 =cut
 
 sub ArticlePreview {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleActions()
@@ -126,7 +126,7 @@ Returns article action array:
 =cut
 
 sub ArticleActions {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 1;

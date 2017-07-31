@@ -431,7 +431,7 @@ sub AgentQueueListOption {
         # at the top should be element with ' $QueueDataArray[$_]->{Key} = 0' like "- Move -"
         # if such an element is found, it is moved to the top
         my $MoveStr = $Self->{LanguageObject}->Translate('Move');
-        my $ValueOfQueueNoKey .= '- ' . $MoveStr . ' -';
+        my $ValueOfQueueNoKey = '- ' . $MoveStr . ' -';
         my ($FirstElementIndex) = grep {
             $QueueDataArray[$_]->{Value} eq '-'
                 || $QueueDataArray[$_]->{Value} eq $ValueOfQueueNoKey
@@ -474,7 +474,7 @@ sub AgentQueueListOption {
     my $KeyNoQueue;
     my $ValueNoQueue;
     my $MoveStr = $Self->{LanguageObject}->Translate('Move');
-    my $ValueOfQueueNoKey .= "- " . $MoveStr . " -";
+    my $ValueOfQueueNoKey = "- " . $MoveStr . " -";
     DATA:
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
 

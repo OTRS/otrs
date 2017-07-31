@@ -53,7 +53,7 @@ Result:
 =cut
 
 sub ArticleRender {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleMetaFields()

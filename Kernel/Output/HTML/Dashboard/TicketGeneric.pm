@@ -1758,11 +1758,6 @@ sub Run {
                         Data => {%EscalationData},
                     );
                     next COLUMN;
-
-                    $DataValue = $LayoutObject->CustomerAge(
-                        Age   => $Ticket{'EscalationTime'},
-                        Space => ' '
-                    );
                 }
                 elsif ( $Column eq 'Age' ) {
                     $DataValue = $LayoutObject->CustomerAge(

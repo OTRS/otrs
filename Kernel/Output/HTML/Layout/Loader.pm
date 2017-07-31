@@ -737,6 +737,7 @@ sub LoaderCreateCustomerJSCalls {
     }
 
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
+    return;
 }
 
 sub _HandleCSSList {

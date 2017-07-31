@@ -500,6 +500,8 @@ sub Block {
         Name => $Param{Name},
         Data => $Param{Data},
         };
+
+    return;
 }
 
 =head2 JSONEncode()
@@ -1665,7 +1667,7 @@ sub Print {
 
     # Disable perl warnings in case of printing unicode private chars,
     #   see https://rt.perl.org/Public/Bug/Display.html?id=121226.
-    no warnings 'nonchar';
+    no warnings 'nonchar'; ## no critic
 
     print ${ $Param{Output} };
 
@@ -5994,9 +5996,9 @@ sub WrapPlainText {
 
 #COMPAT: to 3.0.x and lower (can be removed later)
 sub TransfromDateSelection {
-    my $Self = shift;
+    my ($Self, %Param) = @_;
 
-    return $Self->TransformDateSelection(@_);
+    return $Self->TransformDateSelection(%Param);
 }
 
 =head2 SetRichTextParameters()
@@ -6124,6 +6126,8 @@ sub SetRichTextParameters {
             PictureUploadAction => $PictureUploadAction,
             }
     );
+
+    return;
 }
 
 =head2 CustomerSetRichTextParameters()
@@ -6250,6 +6254,7 @@ sub CustomerSetRichTextParameters {
             }
     );
 
+    return;
 }
 
 1;
