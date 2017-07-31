@@ -61,7 +61,7 @@ sub Run {
     my %WebserviceList = %{
         $WebserviceObject->WebserviceList(
             Valid => 1,
-        ),
+        )
     };
 
     # loop over web services

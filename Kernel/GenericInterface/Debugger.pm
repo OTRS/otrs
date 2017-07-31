@@ -330,7 +330,7 @@ sub DESTROY {
     my $Self = shift;
 
     #TODO: implement storing of the debug messages
-
+    return;
 }
 
 1;
