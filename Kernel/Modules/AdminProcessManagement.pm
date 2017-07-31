@@ -2056,11 +2056,6 @@ sub _PushSessionScreen {
     return 1;
 }
 
-sub _GetFullProcessConfig {
-    my ( $Self, %Param )
-
-}
-
 sub _GetProcessData {
 
     my ( $Self, %Param ) = @_;

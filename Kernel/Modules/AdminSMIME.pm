@@ -575,6 +575,7 @@ sub Run {
         $Output .= $LayoutObject->Footer();
         return $Output;
     }
+    return;
 }
 
 sub _MaskAdd {

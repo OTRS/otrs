@@ -629,6 +629,7 @@ sub Run {
         return $Output;
     }
 
+    return;
 }
 
 sub _Edit {

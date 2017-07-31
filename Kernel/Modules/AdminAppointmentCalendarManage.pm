@@ -1095,6 +1095,8 @@ sub _ShowTicketAppointmentParams {
             },
         );
     }
+
+    return;
 }
 
 1;

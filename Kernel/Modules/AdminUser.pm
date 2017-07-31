@@ -777,6 +777,7 @@ sub _EffectivePermissions {
             );
         }
     }
+    return;
 }
 
 1;

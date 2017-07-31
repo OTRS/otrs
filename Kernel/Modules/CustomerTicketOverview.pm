@@ -856,6 +856,8 @@ sub ShowTicketStatus {
             );
         }
     }
+
+    return;
 }
 
 1;
