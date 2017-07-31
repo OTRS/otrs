@@ -690,9 +690,9 @@ set SLA preferences
 =cut
 
 sub SLAPreferencesSet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->SLAPreferencesSet(@_);
+    return $Self->{PreferencesObject}->SLAPreferencesSet(%Param);
 }
 
 =head2 SLAPreferencesGet()
@@ -707,9 +707,9 @@ get SLA preferences
 =cut
 
 sub SLAPreferencesGet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->SLAPreferencesGet(@_);
+    return $Self->{PreferencesObject}->SLAPreferencesGet(%Param);
 }
 
 1;

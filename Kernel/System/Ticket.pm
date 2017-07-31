@@ -358,6 +358,7 @@ sub TicketCheckNumber {
 
         return $TicketID;
     }
+    return;
 }
 
 =head2 TicketCreate()
@@ -7210,6 +7211,8 @@ sub TicketCheckForProcessType {
 
     # return 1 if we got process ticket
     return 1 if $Ticket{$DynamicFieldName};
+
+    return;
 }
 
 =head2 TicketCalendarGet()
@@ -7367,105 +7370,105 @@ sub DESTROY {
 # COMPAT: to OTRS 1.x and 2.x (can be removed later)
 
 sub CustomerPermission {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketCustomerPermission(@_);
+    return $Self->TicketCustomerPermission(%Param);
 }
 
 sub InvolvedAgents {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketInvolvedAgentsList(@_);
+    return $Self->TicketInvolvedAgentsList(%Param);
 }
 
 sub LockIsTicketLocked {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketLockGet(@_);
+    return $Self->TicketLockGet(%Param);
 }
 
 sub LockSet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketLockSet(@_);
+    return $Self->TicketLockSet(%Param);
 }
 
 sub MoveList {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketMoveList(@_);
+    return $Self->TicketMoveList(%Param);
 }
 
 sub MoveTicket {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketQueueSet(@_);
+    return $Self->TicketQueueSet(%Param);
 }
 
 sub MoveQueueList {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketMoveQueueList(@_);
+    return $Self->TicketMoveQueueList(%Param);
 }
 
 sub OwnerList {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketOwnerList(@_);
+    return $Self->TicketOwnerList(%Param);
 }
 
 sub OwnerSet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketOwnerSet(@_);
+    return $Self->TicketOwnerSet(%Param);
 }
 
 sub Permission {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketPermission(@_);
+    return $Self->TicketPermission(%Param);
 }
 
 sub PriorityList {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketPriorityList(@_);
+    return $Self->TicketPriorityList(%Param);
 }
 
 sub PrioritySet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketPrioritySet(@_);
+    return $Self->TicketPrioritySet(%Param);
 }
 
 sub ResponsibleList {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketResponsibleList(@_);
+    return $Self->TicketResponsibleList(%Param);
 }
 
 sub ResponsibleSet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketResponsibleSet(@_);
+    return $Self->TicketResponsibleSet(%Param);
 }
 
 sub SetCustomerData {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketCustomerSet(@_);
+    return $Self->TicketCustomerSet(%Param);
 }
 
 sub StateList {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketStateList(@_);
+    return $Self->TicketStateList(%Param);
 }
 
 sub StateSet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->TicketStateSet(@_);
+    return $Self->TicketStateSet(%Param);
 }
 
 =head1 PRIVATE FUNCTIONS

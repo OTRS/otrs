@@ -1142,9 +1142,9 @@ set service preferences
 =cut
 
 sub ServicePreferencesSet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    $Self->{PreferencesObject}->ServicePreferencesSet(@_);
+    $Self->{PreferencesObject}->ServicePreferencesSet(%Param);
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
@@ -1164,9 +1164,9 @@ get service preferences
 =cut
 
 sub ServicePreferencesGet {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
-    return $Self->{PreferencesObject}->ServicePreferencesGet(@_);
+    return $Self->{PreferencesObject}->ServicePreferencesGet(%Param);
 }
 
 =head2 ServiceParentsGet()

@@ -49,7 +49,7 @@ sub new {
     $Self->{Debug} = 0;
 
     # use "locale" as an arg to encode/decode
-    @ARGV = map { decode( locale => $_, 1 ) } @ARGV;
+    @ARGV = map { decode( locale => $_, 1 ) } @ARGV;    ## no critic
 
     # check if the encodeobject is used from the command line
     # if so, we need to decode @ARGV
@@ -371,7 +371,7 @@ sub EncodingIsAsciiSuperset {
         print STDERR "Unsupported Encoding $Param{Encoding}!\n";
         return;
     }
-    my $Test = join '', map chr, 0 .. 127;
+    my $Test = join '', map {chr} 0 .. 127;
     return Encode::encode( $Param{Encoding}, $Test )
         eq Encode::encode( 'ASCII',          $Test );
 }

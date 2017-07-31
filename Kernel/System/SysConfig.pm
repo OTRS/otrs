@@ -4417,6 +4417,8 @@ sub SettingsSet {
         Force    => 1,
         DirtySettings => \@DeploySettings
     );
+
+    return $DeploymentSuccess;
 }
 
 =head1 PRIVATE INTERFACE

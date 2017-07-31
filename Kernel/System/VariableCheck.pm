@@ -103,6 +103,8 @@ returns 1 if data matches criteria or undef otherwise
 
 =cut
 
+## no critic (Perl::Critic::Policy::Subroutines::RequireArgUnpacking)
+
 sub IsString {
     my $TestData = $_[0];
 

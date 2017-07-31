@@ -734,6 +734,8 @@ sub ChannelDrop {
 
         $Self->ChannelDelete(%Param);
     }
+
+    return;
 }
 
 =head2 ChannelDelete()

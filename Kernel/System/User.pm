@@ -1315,7 +1315,7 @@ search in user preferences
 =cut
 
 sub SearchPreferences {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
     # get user preferences config
     my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule')
@@ -1324,7 +1324,7 @@ sub SearchPreferences {
     # get generator preferences module
     my $PreferencesObject = $Kernel::OM->Get($GeneratorModule);
 
-    return $PreferencesObject->SearchPreferences(@_);
+    return $PreferencesObject->SearchPreferences(%Param);
 }
 
 =head2 TokenGenerate()
