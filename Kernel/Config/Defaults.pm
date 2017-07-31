@@ -31,7 +31,7 @@ use File::stat;
 use Digest::MD5;
 
 use Exporter qw(import);
-our @EXPORT = qw(Translatable);
+our @EXPORT = qw(Translatable); ## no critic (allow automatic export)
 
 our @ObjectDependencies = ();
 
