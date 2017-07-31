@@ -552,7 +552,7 @@ for my $ModuleFile (@BackendModuleFiles) {
     );
     $SessionObject = Kernel::System::AuthSession->new();
 
-    # Create also some GenericInterface sessions, to check that the sessions are not influence the active session and limit check.
+# Create also some GenericInterface sessions, to check that the sessions are not influence the active session and limit check.
     for my $Count ( 1 .. 2 ) {
 
         my %NewSessionData = (
@@ -773,7 +773,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
     }
 
-    # Create also some GenericInterface sessions, to check that the sessions are not influence the active session and limit check.
+# Create also some GenericInterface sessions, to check that the sessions are not influence the active session and limit check.
     for my $Count ( 1 .. 2 ) {
 
         my %NewSessionData = (

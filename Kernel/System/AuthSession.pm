@@ -250,7 +250,6 @@ sub CreateSessionID {
         $SessionLimit = $Self->{CustomerSessionLimit};
     }
 
-
     # get session per user limit config
     my $SessionPerUserLimit;
     if ( $Param{UserType} eq 'User' && $Self->{AgentSessionPerUserLimit} ) {
