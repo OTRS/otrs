@@ -25,7 +25,7 @@
                     <input type="text" id="FilterHistory" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterHistory" value="" title="[% Translate("Filter for history items") | html %]">
                 </span>
                 <span class="FloatRight">
-                    <a href="" class="CallForAction Collapsed" id="ExpandCollapseAll"><span><i class="fa fa-bars"></i> Expand/collapse all</span></a>
+                    <a href="" class="CallForAction" id="ExpandCollapseAll"><span><i class="fa fa-bars"></i> Expand/collapse all</span></a>
                 </span>
             </div>
         </div>
@@ -44,7 +44,7 @@
             <div class="Header">
                 <div class="WidgetAction Toggle"><a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a></div>
                 <h2>
-                    [% Data.CreateTime | Localize("RelativeTime") %] - [% Data.CreateTime | html %]
+                    [% Data.CreateTime | Localize("RelativeTime") %]<span>[% Data.CreateTime | html %]</span>
                 </h2>
             </div>
             <div class="Content">

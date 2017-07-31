@@ -27,4 +27,18 @@
     width: 30px;
 }
 
+.WidgetSimple .Header h2 span {
+    font-size: 11px;
+    float: right;
+    margin-top: 2px;
+    margin-right: 3px;
+    color: #777;
+    opacity: 0;
+    transition: all ease 0.3s;
+}
+
+.WidgetSimple:hover .Header h2 span {
+    opacity: 1;
+}
+
 } /* end @media */
