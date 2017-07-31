@@ -731,10 +731,12 @@ sub ChannelDrop {
     if ( $ChannelData{ArticleDataIsDroppable} ) {
 
         # TODO: Delete article data.
-
         $Self->ChannelDelete(%Param);
+
+        return 1;
     }
 
+    # TODO: is this valid behaviour, to not drop a channel if the article data cannot be dropped?!
     return;
 }
 
