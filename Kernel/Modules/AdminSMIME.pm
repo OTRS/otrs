@@ -196,7 +196,7 @@ sub Run {
     # show add certificate form
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ShowAddCertificate' ) {
-        $Self->_MaskAdd(
+        return $Self->_MaskAdd(
             Type => 'Certificate',
             %Param,
         );
