@@ -184,7 +184,7 @@ sub Run {
         }
 
         if (%Error) {
-            return $Self->Form( { %Param, %Error } );
+            return $Self->Form( %Param, %Error );
         }
 
         # update customer user data

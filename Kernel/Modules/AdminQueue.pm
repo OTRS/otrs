@@ -596,7 +596,7 @@ sub _Edit {
             }
             $ParentQueue .= $Queue[$i];
         }
-        $Param{Name} = $Queue[$#Queue];
+        $Param{Name} = $Queue[-1];
     }
 
     my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');

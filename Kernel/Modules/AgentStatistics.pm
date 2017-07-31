@@ -1015,8 +1015,6 @@ sub RunAction {
         UserID    => $Self->{UserID},
         %Param
     );
-
-    return;
 }
 
 sub GeneralSpecificationsWidgetAJAX {

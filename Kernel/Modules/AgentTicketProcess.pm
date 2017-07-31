@@ -457,6 +457,7 @@ sub Run {
 }
 
 sub _RenderAjax {
+    my ( $Self, %Param ) = @_;
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -464,7 +465,6 @@ sub _RenderAjax {
     # FatalError is safe because a JSON structure is expecting, then it will result into a
     # communications error
 
-    my ( $Self, %Param ) = @_;
     for my $Needed (qw(ProcessEntityID)) {
         if ( !$Param{$Needed} ) {
             $LayoutObject->FatalError(

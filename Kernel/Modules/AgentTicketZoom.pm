@@ -1238,7 +1238,7 @@ sub MaskAgentZoom {
                 Link  => '#',
                 Class => 'ClusterLink',
                 Items => $MenuClusters{$Cluster}->{Items},
-                },
+            };
         }
 
         # display all items
@@ -2718,8 +2718,6 @@ sub _ArticleItem {
         Type                   => $Param{Type},
         MenuItems              => \@MenuItems,
     );
-
-    return 1;
 }
 
 sub _CollectArticleAttachments {
