@@ -478,7 +478,7 @@ for my $TestConfig (@TestConfigs) {
 # Tests for SystemTimeZoneGet()
 #
 my $ExpectedSystemTimeZone = 'Europe/Berlin';
-$ENV{TZ} = $ExpectedSystemTimeZone;
+local $ENV{TZ} = $ExpectedSystemTimeZone;
 my $SystemTimeZone = Kernel::System::DateTime->SystemTimeZoneGet();
 
 $Self->Is(

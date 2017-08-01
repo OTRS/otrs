@@ -18,6 +18,8 @@ sub new {
     my ( $Class, %Param ) = @_;
 
     bless \%Param, $Class;
+
+    return $Class;
 }
 
 sub Data {
@@ -30,6 +32,8 @@ sub DESTROY {
     # Request this object (undeclared dependency) in the desctructor.
     #   This will create it again in the OM to test that ObjectsDiscard will still work.
     $Kernel::OM->Get('scripts::test::ObjectManager::Dummy2');
+
+    return;
 }
 
 1;

@@ -40,7 +40,7 @@ my @PostmasterXHeader = @{$XHeaders};
 
 HEADER:
 for my $Header ( sort keys %NeededXHeaders ) {
-    next HEADER if ( grep $_ eq $Header, @PostmasterXHeader );
+    next HEADER if ( grep { $_ eq $Header } @PostmasterXHeader );
     push @PostmasterXHeader, $Header;
 }
 

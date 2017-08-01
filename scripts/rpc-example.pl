@@ -25,7 +25,7 @@ use SOAP::Lite;
 
 my $User = 'some_user';
 my $Pw   = 'some_pass';
-my $RPC  = new SOAP::Lite(
+my $RPC  = SOAP::Lite->new(
     proxy => 'http://127.0.0.1/otrs/rpc.pl',
     uri   => 'http://localhost/Core'
 );

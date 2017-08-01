@@ -500,7 +500,7 @@ my $WorkingHoursFull = [ '0' .. '23' ];
 $ConfigObject->Set(
     Key   => 'TimeWorkingHours::Calendar7',
     Value => {
-        map { $_ => $WorkingHoursFull, } qw( Mon Tue Wed Thu Fri Sat Sun ),
+        map { $_ => $WorkingHoursFull } qw( Mon Tue Wed Thu Fri Sat Sun ),
     },
 );
 

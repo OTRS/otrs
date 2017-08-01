@@ -569,8 +569,8 @@ for my $ACLID ( sort { $a <=> $b } keys %{$TestACLList} ) {
         $ACLID,
         $AddedACLList[$Counter],
         "ACLList Test 2: All ACL | ACLID match AddedACLID",
-        ),
-        $Counter++;
+    );
+    $Counter++;
 }
 
 # prepare ACL for listing

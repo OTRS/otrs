@@ -17,6 +17,8 @@ sub new {
     my ( $Class, %Param ) = @_;
 
     bless \%Param, $Class;
+
+    return $Class;
 }
 
 sub Data {

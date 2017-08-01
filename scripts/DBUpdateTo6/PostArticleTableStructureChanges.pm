@@ -81,7 +81,7 @@ sub _ResetAutoIncrementField {
     # Decide if reset is needed.
     my @ResetNeeded = qw(oracle postgresql);
 
-    if ( !grep( /$DBType/, @ResetNeeded ) ) {
+    if ( !grep {m/$DBType/} @ResetNeeded ) {
         return 1;
     }
 

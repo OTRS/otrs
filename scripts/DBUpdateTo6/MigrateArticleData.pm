@@ -222,7 +222,7 @@ sub _MigrateData {
     my $AllowMultiple          = 1;
     my @SupportMultipleInserts = qw(mysql oracle postgresql);
 
-    if ( !grep( /$DBType/, @SupportMultipleInserts ) ) {
+    if ( !grep {m/$DBType/} @SupportMultipleInserts ) {
         $AllowMultiple = 0;
     }
 

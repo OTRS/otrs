@@ -34,7 +34,7 @@ BEGIN {
     # on Fedora, $0 is not a path which would break OTRS.
     # see bug # 8533
     if ( !-e $0 ) {
-        $0 = '/opt/otrs/bin/cgi-bin/index.pl';
+        $0 = '/opt/otrs/bin/cgi-bin/index.pl';    ## no critic
     }
 }
 

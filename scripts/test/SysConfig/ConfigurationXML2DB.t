@@ -1259,7 +1259,7 @@ for my $Test (@Tests) {
             delete $Setting->{ChangeTime};
             delete $Setting->{DefaultID};
             delete $Setting->{ExclusiveLockExpiryTime};
-            delete $Setting->{SettingUID},
+            delete $Setting->{SettingUID};
         }
 
         $Self->Is(

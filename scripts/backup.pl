@@ -224,7 +224,7 @@ else {
 
     # set password via environment variable if there is one
     if ($DatabasePw) {
-        $ENV{'PGPASSWORD'} = $DatabasePw;
+        $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
     }
 
     if ($DatabaseHost) {
@@ -353,4 +353,6 @@ sub RemoveIncompleteBackup {
     else {
         print STDERR "failed\n";
     }
+
+    return;
 }

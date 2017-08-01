@@ -495,7 +495,7 @@ sub _Change {
     DATAITEM:
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
-        next DATAITEM if ( grep { m/\Q$Param{Data}->{$ID}\E/ } @CustomerAlwaysGroups );
+        next DATAITEM if ( grep {m/\Q$Param{Data}->{$ID}\E/} @CustomerAlwaysGroups );
 
         # set output class
         $LayoutObject->Block(
@@ -649,7 +649,7 @@ sub _Overview {
             keys %GroupData
             )
         {
-            next GROUP if ( grep { m/\Q$GroupData{$ID}\E/ } @CustomerAlwaysGroups );
+            next GROUP if ( grep {m/\Q$GroupData{$ID}\E/} @CustomerAlwaysGroups );
 
             # output gorup block
             $LayoutObject->Block(

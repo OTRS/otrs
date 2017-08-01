@@ -484,7 +484,7 @@ my $ResetMembership = sub {
 
         my @ExpectedResult;
         if ( IsArrayRefWithData( $Param{AlwaysGroups} ) ) {
-            @ExpectedResult = ( $Param{GID} ),
+            @ExpectedResult = ( $Param{GID} );
         }
 
         $Self->IsDeeply(
@@ -579,7 +579,7 @@ my $ResetCustomer = sub {
 
             my @ExpectedResult;
             if ( IsArrayRefWithData( $Param{AlwaysGroups} ) && $Context eq $PermissionContextDirect ) {
-                @ExpectedResult = ( $Param{GID} ),
+                @ExpectedResult = ( $Param{GID} );
             }
 
             $Self->IsDeeply(

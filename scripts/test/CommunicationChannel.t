@@ -25,7 +25,7 @@ my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::Communication
 my @ChannelsDefault = $CommunicationChannelObject->ChannelList();
 
 # remove keys
-grep { delete $_->{CreateTime}, delete $_->{ChangeTime} } @ChannelsDefault;
+grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelsDefault;
 
 my $RandomID1 = $Helper->GetRandomID();
 my $RandomID2 = $Helper->GetRandomID();
@@ -289,7 +289,7 @@ for my $Test (@TestChannelGet) {
 my @ChannelList1 = $CommunicationChannelObject->ChannelList();
 
 # remove keys
-grep { delete $_->{CreateTime}, delete $_->{ChangeTime} } @ChannelList1;
+grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList1;
 my @ExpectedChannelList1 = (
     @ChannelsDefault,
     @Channels,
@@ -429,7 +429,7 @@ for my $Test (@TestChannelGet2) {
 my @ChannelList2 = $CommunicationChannelObject->ChannelList();
 
 # remove keys
-grep { delete $_->{CreateTime}, delete $_->{ChangeTime} } @ChannelList2;
+grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList2;
 
 $Channels[0]->{ChannelName} = "Updated channel name $RandomID1";
 
@@ -490,7 +490,7 @@ for my $Test (@TestChannelDelete) {
 my @ChannelList3 = $CommunicationChannelObject->ChannelList();
 
 # remove keys
-grep { delete $_->{CreateTime}, delete $_->{ChangeTime} } @ChannelList3;
+grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList3;
 
 shift @Channels;
 shift @Channels;
@@ -512,7 +512,7 @@ $Self->IsDeeply(
 my @ChannelList4 = $CommunicationChannelObject->ChannelList( ValidID => 1 );
 
 # remove keys
-grep { delete $_->{CreateTime}, delete $_->{ChangeTime} } @ChannelList4;
+grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList4;
 
 pop @Channels;
 

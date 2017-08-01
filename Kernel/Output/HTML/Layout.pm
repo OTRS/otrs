@@ -1667,7 +1667,7 @@ sub Print {
 
     # Disable perl warnings in case of printing unicode private chars,
     #   see https://rt.perl.org/Public/Bug/Display.html?id=121226.
-    no warnings 'nonchar'; ## no critic
+    no warnings 'nonchar';    ## no critic
 
     print ${ $Param{Output} };
 
@@ -5996,7 +5996,7 @@ sub WrapPlainText {
 
 #COMPAT: to 3.0.x and lower (can be removed later)
 sub TransfromDateSelection {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     return $Self->TransformDateSelection(%Param);
 }

@@ -207,7 +207,7 @@ for my $Test (@Tests) {
 
     $Helper->FixedTimeSet($SystemTime);
 
-    no warnings 'redefine';
+    no warnings 'redefine';    ## no critic
 
     local *Kernel::System::OTRSBusiness::OTRSBusinessIsInstalled = sub {
         return $Test->{OTRSBusinessIsInstalled};

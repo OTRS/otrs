@@ -36,7 +36,7 @@ elsif ( $Type !~ /^encode|decode$/ ) {
 }
 
 # get source text
-my @InArray = <STDIN>;
+my @InArray = <STDIN>;    ## no critic
 my $In      = '';
 for (@InArray) {
     $In .= $_;

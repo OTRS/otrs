@@ -730,8 +730,10 @@ sub _SignerCertificateOverview {
     # and is not equal to the actual Certificate Fingerprint
     my @ShowCertList;
     my %RelatedCerts = map { $_->{Fingerprint} => 1 } @RelatedCerts;
-    @ShowCertList = grep { !defined $RelatedCerts{ $_->{Fingerprint} }
-            && $_->{Fingerprint} ne $Param{CertFingerprint} } @AvailableCerts;
+    @ShowCertList = grep {
+        !defined $RelatedCerts{ $_->{Fingerprint} }
+            && $_->{Fingerprint} ne $Param{CertFingerprint}
+    } @AvailableCerts;
 
     $LayoutObject->Block( Name => 'Overview' );
     $LayoutObject->Block( Name => 'ActionList' );

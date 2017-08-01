@@ -169,8 +169,8 @@ for my $PermissionTest (@UserGroupPermissionTests) {
 
                 # If user or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -204,8 +204,8 @@ for my $PermissionTest (@UserGroupPermissionTests) {
 
                 # If user or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -240,8 +240,8 @@ for my $PermissionTest (@UserGroupPermissionTests) {
 
                 # If user or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -275,8 +275,8 @@ for my $PermissionTest (@UserGroupPermissionTests) {
 
                 # If user or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -306,7 +306,7 @@ for my $PermissionTest (@UserGroupPermissionTests) {
             my $PermissionSet = $PermissionTest->{Permissions}->{$Permission};
 
             # If user is not part of test, permission is expected to be not set
-            if ( !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } ) ) {
+            if ( !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } ) ) {
                 $PermissionSet = 0;
             }
 
@@ -358,8 +358,8 @@ for my $PermissionTest (@UserGroupPermissionTests) {
 
                 # If user or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -529,8 +529,8 @@ for my $PermissionTest (@UserRolePermissionTests) {
 
             # If user or role is not part of test, permission is expected to be not set
             if (
-                !( grep /^$RoleID$/, @{ $PermissionTest->{RoleIDs} } )
-                || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                !( grep    {m/^$RoleID$/} @{ $PermissionTest->{RoleIDs} } )
+                || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                 )
             {
                 $PermissionSet = 0;
@@ -559,8 +559,8 @@ for my $PermissionTest (@UserRolePermissionTests) {
 
             # If user or role is not part of test, permission is expected to be not set
             if (
-                !( grep /^$RoleID$/, @{ $PermissionTest->{RoleIDs} } )
-                || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                !( grep    {m/^$RoleID$/} @{ $PermissionTest->{RoleIDs} } )
+                || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                 )
             {
                 $PermissionSet = 0;
@@ -729,8 +729,8 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
 
                 # If role or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$RoleID$/, @{ $PermissionTest->{RoleIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$RoleID$/} @{ $PermissionTest->{RoleIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -763,8 +763,8 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
 
                 # If role or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$RoleID$/, @{ $PermissionTest->{RoleIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$RoleID$/} @{ $PermissionTest->{RoleIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -815,8 +815,8 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
 
                 # If user or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                     )
                 {
                     $PermissionSet = 0;
@@ -850,8 +850,8 @@ for my $PermissionTest (@UserRoleGroupPermissionTests) {
 
                 # If user or group is not part of test, permission is expected to be not set
                 if (
-                    !( grep /^$GroupID$/, @{ $PermissionTest->{GroupIDs} } )
-                    || !( grep /^$UserID$/, @{ $PermissionTest->{UserIDs} } )
+                    !( grep    {m/^$GroupID$/} @{ $PermissionTest->{GroupIDs} } )
+                    || !( grep {m/^$UserID$/} @{ $PermissionTest->{UserIDs} } )
                     )
                 {
                     $PermissionSet = 0;

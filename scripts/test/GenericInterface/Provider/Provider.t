@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+## no critic (Perl::Critic::Policy::Variables::RequireLocalizedPunctuationVars)
+
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 

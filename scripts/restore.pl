@@ -212,7 +212,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;
+            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
         }
         print "cat SQL-file into $DB database\n";
         system(
@@ -227,7 +227,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;
+            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic
         }
         print "cat SQL-file into $DB database\n";
         system(

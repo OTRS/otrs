@@ -1377,7 +1377,7 @@ $Self->Is(
     'MoveQueueList() (Raw)',
 );
 $Self->Is(
-    $MoveQueueList[$#MoveQueueList],
+    $MoveQueueList[-1],
     'Junk',
     'MoveQueueList() (Junk)',
 );

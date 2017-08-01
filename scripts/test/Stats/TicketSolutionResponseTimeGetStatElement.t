@@ -38,7 +38,7 @@ $Helper->ConfigSettingChange(
 $Helper->ConfigSettingChange(
     Key   => 'TimeWorkingHours::Calendar1',
     Value => {
-        map { $_ => [ 0 .. 23 ], } qw( Mon Tue Wed Thu Fri Sat Sun ),
+        map { $_ => [ 0 .. 23 ] } qw( Mon Tue Wed Thu Fri Sat Sun ),
     },
 );
 

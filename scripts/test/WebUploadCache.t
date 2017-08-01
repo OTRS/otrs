@@ -93,7 +93,7 @@ for my $Module (qw(DB FS)) {
             FormID => $FormID,
         );
         if (@Data) {
-            my %File = %{ $Data[$#Data] };
+            my %File = %{ $Data[-1] };
             $Self->Is(
                 $File{ContentID},
                 $ContentID,
@@ -123,7 +123,7 @@ for my $Module (qw(DB FS)) {
         }
         @Data = $UploadCacheObject->FormIDGetAllFilesMeta( FormID => $FormID );
         if (@Data) {
-            my %File = %{ $Data[$#Data] };
+            my %File = %{ $Data[-1] };
             $Self->Is(
                 $File{ContentID},
                 $ContentID,
@@ -190,7 +190,7 @@ for my $Module (qw(DB FS)) {
             FormID => $FormID,
         );
         if (@Data) {
-            my %File = %{ $Data[$#Data] };
+            my %File = %{ $Data[-1] };
 
             $Self->Is(
                 $File{Filename},
@@ -216,7 +216,7 @@ for my $Module (qw(DB FS)) {
         }
         @Data = $UploadCacheObject->FormIDGetAllFilesMeta( FormID => $FormID );
         if (@Data) {
-            my %File = %{ $Data[$#Data] };
+            my %File = %{ $Data[-1] };
             $Self->Is(
                 $File{Filename},
                 $Filename,

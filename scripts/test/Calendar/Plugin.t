@@ -244,20 +244,20 @@ if ($PluginKeyTicket) {
     $Self->True(
         $LinkList->{$TicketID}->{LinkURL} =~ /TicketID=$TicketID/,
         'Ticket URL contains ticket ID'
-        ),
+    );
 
-        # link name
-        $Self->Is(
+    # link name
+    $Self->Is(
         $LinkList->{$TicketID}->{LinkName},
         "$TicketNumber Test Ticket $RandomID",
         'Link name'
-        ),
+    );
 
-        # delete links
-        $Success = $PluginObject->PluginLinkDelete(
+    # delete links
+    $Success = $PluginObject->PluginLinkDelete(
         AppointmentID => $AppointmentID,
         UserID        => $UserID,
-        );
+    );
 
     $Self->True(
         $Success,

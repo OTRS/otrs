@@ -56,11 +56,11 @@ my $App = CGI::Emulate::PSGI->handler(
         CGI::initialize_globals();
 
         # Populate SCRIPT_NAME as OTRS needs it in some places.
-        ( $ENV{SCRIPT_NAME} ) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};
+        ( $ENV{SCRIPT_NAME} ) = $ENV{PATH_INFO} =~ m{/([A-Za-z\-_]+\.pl)};    ## no critic
 
         # Fallback to agent login if we could not determine handle...
         if ( !defined $ENV{SCRIPT_NAME} || !-e "$Bin/$ENV{SCRIPT_NAME}" ) {
-            $ENV{SCRIPT_NAME} = 'index.pl';
+            $ENV{SCRIPT_NAME} = 'index.pl';                                   ## no critic
         }
 
         eval {

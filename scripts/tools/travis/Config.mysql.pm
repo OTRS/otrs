@@ -24,6 +24,7 @@ sub Load {
     $Self->{DatabaseDSN}      = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
     $Self->{Home}             = dirname dirname __FILE__;
     $Self->{TestHTTPHostname} = 'localhost:5000';
+    return;
 }
 
 use parent qw(Kernel::Config::Defaults);
