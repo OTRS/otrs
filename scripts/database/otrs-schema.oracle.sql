@@ -1125,7 +1125,6 @@ CREATE TABLE ticket (
     escalation_response_time NUMBER (12, 0) NOT NULL,
     escalation_solution_time NUMBER (12, 0) NOT NULL,
     archive_flag NUMBER (5, 0) DEFAULT 0 NOT NULL,
-    create_time_unix NUMBER (20, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
@@ -1180,14 +1179,6 @@ END;
 ;
 BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX ticket_create_time ON ticket (create_time)';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-/
---
-;
-BEGIN
-    EXECUTE IMMEDIATE 'CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;
@@ -1583,7 +1574,7 @@ CREATE TABLE ticket_index (
     group_id NUMBER (12, 0) NOT NULL,
     s_lock VARCHAR2 (200) NOT NULL,
     s_state VARCHAR2 (200) NOT NULL,
-    create_time_unix NUMBER (20, 0) NOT NULL
+    create_time DATE NOT NULL
 );
 BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX ticket_index_group_id ON ticket_index (group_id)';

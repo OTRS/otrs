@@ -583,7 +583,6 @@ CREATE TABLE ticket (
     escalation_response_time INTEGER NOT NULL,
     escalation_solution_time INTEGER NOT NULL,
     archive_flag SMALLINT DEFAULT 0 NOT NULL,
-    create_time_unix BIGINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,
@@ -610,17 +609,6 @@ IF NOT EXISTS (
     WHERE LOWER(indexname) = LOWER('ticket_create_time')
     ) THEN
     CREATE INDEX ticket_create_time ON ticket (create_time);
-END IF;
-END$$;
-;
-DO $$
-BEGIN
-IF NOT EXISTS (
-    SELECT 1
-    FROM pg_indexes
-    WHERE LOWER(indexname) = LOWER('ticket_create_time_unix')
-    ) THEN
-    CREATE INDEX ticket_create_time_unix ON ticket (create_time_unix);
 END IF;
 END$$;
 ;
@@ -1032,7 +1020,7 @@ CREATE TABLE ticket_index (
     group_id INTEGER NOT NULL,
     s_lock VARCHAR (200) NOT NULL,
     s_state VARCHAR (200) NOT NULL,
-    create_time_unix BIGINT NOT NULL
+    create_time timestamp(0) NOT NULL
 );
 DO $$
 BEGIN

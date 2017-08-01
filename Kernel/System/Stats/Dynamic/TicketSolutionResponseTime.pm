@@ -842,15 +842,21 @@ sub GetStatElement {
             DynamicFields => 0,
         );
 
-        my $DateTimeObject = $Kernel::OM->Create(
+        my $CreatedDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Ticket{Created}
+            },
+        );
+        my $ClosedDateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
                 String => $Ticket{Closed}
-                }
+            },
         );
 
-        $DateTimeObject->Subtract( Seconds => $Ticket{CreateTimeUnix} );
-        $SolutionAllOver{$TicketID} = $DateTimeObject->ToEpoch();
+        my $Delta = $ClosedDateTimeObject->Delta( DateTimeObject => $CreatedDateTimeObject );
+        $SolutionAllOver{$TicketID} = $Delta->{AbsoluteSeconds};
 
         next TICKET if !defined $Ticket{SolutionInMin};
 
@@ -861,10 +867,15 @@ sub GetStatElement {
 
         if ( $Ticket{FirstResponse} ) {
 
-            $DateTimeObject->Set( String => $Ticket{FirstResponse} );
-            $DateTimeObject->Subtract( Seconds => $Ticket{CreateTimeUnix} );
+            my $FirstResponseDateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Ticket{FirstResponse}
+                },
+            );
 
-            $Response{$TicketID}            = $DateTimeObject->ToEpoch();
+            my $Delta = $FirstResponseDateTimeObject->Delta( DateTimeObject => $CreatedDateTimeObject );
+            $Response{$TicketID}            = $Delta->{AbsoluteSeconds};
             $ResponseWorkingTime{$TicketID} = $Ticket{FirstResponseInMin};
         }
         else {

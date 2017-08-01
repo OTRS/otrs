@@ -251,12 +251,12 @@ sub TicketAcceleratorAdd {
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             INSERT INTO ticket_index
-                (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)
+                (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time)
                 VALUES (?, ?, ?, ?, ?, ?, ?)',
         Bind => [
             \$Param{TicketID},     \$TicketData{QueueID}, \$TicketData{Queue},
             \$TicketData{GroupID}, \$TicketData{Lock},    \$TicketData{State},
-            \$TicketData{CreateTimeUnix},
+            \$TicketData{Created},
         ],
     );
 
@@ -447,15 +447,14 @@ sub TicketAcceleratorIndex {
     # prepare the tickets in Queue bar (all data only with my/your Permission)
     return if !$DBObject->Prepare(
         SQL => "
-            SELECT queue_id, queue, min(create_time_unix), s_lock, count(*)
+            SELECT queue_id, queue, min(create_time), s_lock, count(*)
             FROM ticket_index
             WHERE group_id IN ( ${\(join ', ', @GroupIDs)} )
             GROUP BY queue_id, queue, s_lock
             ORDER BY queue",
     );
 
-    # get time object
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CurrentDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     my %QueuesSeen;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -483,7 +482,15 @@ sub TicketAcceleratorIndex {
 
             $QueueData->{Count} += $Count;
 
-            my $MaxAge = $DateTimeObject->ToEpoch() - $Row[2];
+            my $TicketCreatedDTObj = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Row[2],
+                },
+            );
+
+            my $Delta = $TicketCreatedDTObj->Delta( DateTimeObject => $CurrentDateTimeObject );
+            my $MaxAge = $Delta->{AbsoluteSeconds};
             $QueueData->{MaxAge} = $MaxAge if $MaxAge > $QueueData->{MaxAge};
 
             # get the oldest queue id
@@ -518,7 +525,7 @@ sub TicketAcceleratorRebuild {
 
     # get all viewable tickets
     my $SQL = "
-        SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, tsd.name, st.create_time_unix
+        SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, tsd.name, st.create_time
         FROM ticket st
             JOIN queue sq             ON st.queue_id = sq.id
             JOIN ticket_state tsd     ON st.ticket_state_id = tsd.id
@@ -538,7 +545,7 @@ sub TicketAcceleratorRebuild {
         $Data{GroupID}        = $Row[3];
         $Data{Lock}           = $Row[4];
         $Data{State}          = $Row[5];
-        $Data{CreateTimeUnix} = $Row[6];
+        $Data{CreateTime}     = $Row[6];
 
         push @RowBuffer, \%Data;
     }
@@ -553,11 +560,11 @@ sub TicketAcceleratorRebuild {
         $DBObject->Do(
             SQL => '
                 INSERT INTO ticket_index
-                    (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             Bind => [
                 \$Data{TicketID}, \$Data{QueueID}, \$Data{Queue}, \$Data{GroupID},
-                \$Data{Lock}, \$Data{State}, \$Data{CreateTimeUnix},
+                \$Data{Lock}, \$Data{State}, \$Data{CreateTime},
             ],
         );
     }
@@ -605,7 +612,7 @@ sub GetIndexTicket {
     # sql query
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix
+            SELECT ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time
             FROM ticket_index
             WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ]
@@ -619,7 +626,7 @@ sub GetIndexTicket {
         $Data{GroupID}        = $Row[3];
         $Data{Lock}           = $Row[4];
         $Data{State}          = $Row[5];
-        $Data{CreateTimeUnix} = $Row[6];
+        $Data{CreateTime}     = $Row[6];
     }
 
     return %Data;

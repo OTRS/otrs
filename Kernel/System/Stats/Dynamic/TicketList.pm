@@ -1651,7 +1651,6 @@ sub _TicketAttributes {
         Changed    => 'Last Changed',
         Created    => 'Created',
 
-        #CreateTimeUnix => 'CreateTimeUnix',
         CustomerUserID => 'Customer User',
         Lock           => 'Lock',
 

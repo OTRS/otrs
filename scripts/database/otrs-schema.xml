@@ -614,7 +614,6 @@
     <Column Name="escalation_response_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_solution_time" Required="true" Type="INTEGER"/>
     <Column Name="archive_flag" Required="true" Default="0" Type="SMALLINT"/>
-    <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
@@ -667,9 +666,6 @@
     </Index>
     <Index Name="ticket_escalation_solution_time">
         <IndexColumn Name="escalation_solution_time"/>
-    </Index>
-    <Index Name="ticket_create_time_unix">
-        <IndexColumn Name="create_time_unix"/>
     </Index>
     <Index Name="ticket_create_time">
         <IndexColumn Name="create_time"/>
@@ -872,7 +868,7 @@
     <Column Name="group_id" Required="true" Type="INTEGER"/>
     <Column Name="s_lock" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="s_state" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
     <Index Name="ticket_index_ticket_id">
         <IndexColumn Name="ticket_id"/>
     </Index>

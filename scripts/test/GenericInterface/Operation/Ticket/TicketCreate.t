@@ -4468,7 +4468,7 @@ for my $Test (@Tests) {
 
         # remove attributes that might be different from local and requester responses
         for my $Attribute (
-            qw(TicketID TicketNumber Created Changed Age CreateTimeUnix UnlockTimeout)
+            qw(TicketID TicketNumber Created Changed Age UnlockTimeout)
             )
         {
             delete $LocalTicketData{$Attribute};
@@ -4484,7 +4484,6 @@ for my $Test (@Tests) {
         # remove attributes that might be different from local and requester responses
         for my $Attribute (
             qw( Age AgeTimeUnix ArticleID TicketID CreateTime ChangeTime IncomingTime TicketNumber
-            CreateTimeUnix
             )
             )
         {

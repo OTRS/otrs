@@ -150,27 +150,38 @@ sub Run {
     }
 
     $DBObject->Prepare(
-        SQL => "SELECT max(create_time_unix), min(create_time_unix) FROM ticket WHERE id > 1 ",
+        SQL => "SELECT max(create_time), min(create_time) FROM ticket WHERE id > 1 ",
     );
     my $TicketWindowTime = 1;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         if ( $Row[0] && $Row[1] ) {
-            $TicketWindowTime = ( $Row[0] - $Row[1] ) || 1;
+            my $OldestCreateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Row[0],
+                },
+            );
+            my $NewestCreateTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Row[1],
+                },
+            );
+            my $Delta = $NewestCreateTimeObject->Delta( DateTimeObject => $OldestCreateTimeObject );
+            $TicketWindowTime = $Delta->{Months}
         }
-
     }
-    $TicketWindowTime = $TicketWindowTime / ( 60 * 60 * 24 * 30.4 );    # month in seconds
     $TicketWindowTime = 1 if $TicketWindowTime < 1;
 
     $Self->AddResultInformation(
         Identifier => 'TicketWindowTime',
         Label      => Translatable('Months Between First And Last Ticket'),
-        Value      => sprintf( "%.02f", $TicketWindowTime ),
+        Value      => $TicketWindowTime,
     );
     $Self->AddResultInformation(
         Identifier => 'TicketsPerMonth',
         Label      => Translatable('Tickets Per Month (avg)'),
-        Value      => sprintf( "%.02f", $Counts{TicketCount} / $TicketWindowTime ),
+        Value      => sprintf( "%d", $Counts{TicketCount} / $TicketWindowTime ),
     );
 
     return $Self->GetResults();

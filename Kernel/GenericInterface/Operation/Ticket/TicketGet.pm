@@ -119,7 +119,6 @@ one or more ticket entries in one call.
                     ResponsibleID      => 123,
                     Age                => 3456,
                     Created            => '2010-10-27 20:15:00'
-                    CreateTimeUnix     => '1231414141',
                     CreateBy           => 123,
                     Changed            => '2010-10-27 20:15:15',
                     ChangeBy           => 123,

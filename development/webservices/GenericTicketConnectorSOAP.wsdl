@@ -265,7 +265,6 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     <xsd:element maxOccurs="1" name="Changed" type="xsd:string"/>
                     <xsd:element minOccurs="0" name="Closed" type="xsd:string"/>
                     <xsd:element maxOccurs="1" name="CreateBy" type="xsd:positiveInteger"/>
-                    <xsd:element maxOccurs="1" minOccurs="1" name="CreateTimeUnix" type="xsd:positiveInteger"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="Created" type="xsd:string"/>
                     <xsd:element minOccurs="0" name="CustomerID" type="xsd:string"/>
                     <xsd:element minOccurs="1" name="CustomerUserID" type="xsd:string"/>
@@ -350,7 +349,6 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     <xsd:element minOccurs="0" name="Closed" type="xsd:string"/>
                     <xsd:element maxOccurs="1" name="ContentCharset" type="xsd:string"/>
                     <xsd:element maxOccurs="1" name="ContentType" type="xsd:string"/>
-                    <xsd:element maxOccurs="1" minOccurs="1" name="CreateTimeUnix" type="xsd:positiveInteger"/>
                     <xsd:element maxOccurs="1" minOccurs="1" name="Created" type="xsd:string"/>
                     <xsd:element maxOccurs="1" name="CreatedBy" type="xsd:positiveInteger"/>
                     <xsd:element minOccurs="0" name="CustomerID" type="xsd:string"/>

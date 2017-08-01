@@ -89,6 +89,14 @@ sub Run {
             Message => 'Drop no longer needed notifications table',
             Module  => 'DropNotificationsTable',
         },
+        {
+            Message => 'Drop obsolete create_time_unix column from ticket table',
+            Module  => 'TicketDropCreateTimeUnix',
+        },
+        {
+            Message => 'Replace column create_time_unix column by create_time column in ticket_index table',
+            Module  => 'TicketIndexUpdate',
+        },
     );
 
     print "\n" if $Verbose;

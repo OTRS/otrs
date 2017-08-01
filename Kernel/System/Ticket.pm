@@ -416,11 +416,6 @@ sub TicketCreate {
         }
     }
 
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
-    # set default values if no values are specified
-    my $Age = $DateTimeObject->ToEpoch();
-
     my $ArchiveFlag = 0;
     if ( $Param{ArchiveFlag} && $Param{ArchiveFlag} eq 'y' ) {
         $ArchiveFlag = 1;
@@ -586,15 +581,15 @@ sub TicketCreate {
     # create db record
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
-            INSERT INTO ticket (tn, title, create_time_unix, type_id, queue_id, ticket_lock_id,
+            INSERT INTO ticket (tn, title, type_id, queue_id, ticket_lock_id,
                 user_id, responsible_user_id, ticket_priority_id, ticket_state_id,
                 escalation_time, escalation_update_time, escalation_response_time,
                 escalation_solution_time, timeout, service_id, sla_id, until_time,
                 archive_flag, create_time, create_by, change_time, change_by)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, ?, ?, 0, ?,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, ?, ?, 0, ?,
                 current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{TN}, \$Param{Title}, \$Age, \$Param{TypeID}, \$Param{QueueID},
+            \$Param{TN}, \$Param{Title}, \$Param{TypeID}, \$Param{QueueID},
             \$Param{LockID},     \$Param{OwnerID}, \$Param{ResponsibleID},
             \$Param{PriorityID}, \$Param{StateID}, \$Param{ServiceID},
             \$Param{SLAID}, \$ArchiveFlag, \$Param{UserID}, \$Param{UserID},
@@ -1108,7 +1103,6 @@ Returns:
         ResponsibleID      => 123,
         Age                => 3456,
         Created            => '2010-10-27 20:15:00'
-        CreateTimeUnix     => '1231414141',
         CreateBy           => 123,
         Changed            => '2010-10-27 20:15:15',
         ChangeBy           => 123,
@@ -1233,7 +1227,7 @@ sub TicketGet {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT st.id, st.queue_id, st.ticket_state_id, st.ticket_lock_id, st.ticket_priority_id,
-                    st.create_time_unix, st.create_time, st.tn, st.customer_id, st.customer_user_id,
+                    st.create_time, st.create_time, st.tn, st.customer_id, st.customer_user_id,
                     st.user_id, st.responsible_user_id, st.until_time, st.change_time, st.title,
                     st.escalation_update_time, st.timeout, st.type_id, st.service_id, st.sla_id,
                     st.escalation_response_time, st.escalation_solution_time, st.escalation_time, st.archive_flag,
@@ -1251,7 +1245,7 @@ sub TicketGet {
             $Ticket{LockID}     = $Row[3];
             $Ticket{PriorityID} = $Row[4];
 
-            $Ticket{CreateTimeUnix} = $Row[5];
+            $Ticket{Created}        = $Row[5];
             $Ticket{TicketNumber}   = $Row[7];
             $Ticket{CustomerID}     = $Row[8];
             $Ticket{CustomerUserID} = $Row[9];
@@ -1334,14 +1328,6 @@ sub TicketGet {
         }
     }
 
-    my $TicketCreatedDTObj = $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-        ObjectParams => {
-            Epoch => $Ticket{CreateTimeUnix}
-            }
-    );
-    $Ticket{Created} = $TicketCreatedDTObj->ToString();
-
     my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
         ID => $Ticket{QueueID},
     );
@@ -1350,9 +1336,15 @@ sub TicketGet {
     $Ticket{GroupID} = $Queue{GroupID};
 
     # fillup runtime values
-    my $CreateTimeUnixDTObj = $Kernel::OM->Create('Kernel::System::DateTime');
-    $CreateTimeUnixDTObj->Subtract( Seconds => $Ticket{CreateTimeUnix} );
-    $Ticket{Age} = $CreateTimeUnixDTObj->ToEpoch();
+    my $TicketCreatedDTObj = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Ticket{Created}
+        },
+    );
+
+    my $Delta = $TicketCreatedDTObj->Delta( DateTimeObject => $Kernel::OM->Create('Kernel::System::DateTime') );
+    $Ticket{Age} = $Delta->{AbsoluteSeconds};
 
     $Ticket{Priority} = $Kernel::OM->Get('Kernel::System::Priority')->PriorityLookup(
         PriorityID => $Ticket{PriorityID},

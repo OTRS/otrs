@@ -763,9 +763,9 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 --  insert into table ticket
 -- ----------------------------------------------------------
-INSERT INTO ticket (tn, queue_id, ticket_lock_id, user_id, responsible_user_id, ticket_priority_id, ticket_state_id, title, create_time_unix, timeout, until_time, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, create_by, create_time, change_by, change_time)
+INSERT INTO ticket (tn, queue_id, ticket_lock_id, user_id, responsible_user_id, ticket_priority_id, ticket_state_id, title, timeout, until_time, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, create_by, create_time, change_by, change_time)
     VALUES
-    ('2015071510123456', 2, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1436949030, 0, 0, 0, 0, 0, 0, 1, current_timestamp, 1, current_timestamp);
+    ('2015071510123456', 2, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 0, 0, 0, 0, 0, 0, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table communication_channel
 -- ----------------------------------------------------------

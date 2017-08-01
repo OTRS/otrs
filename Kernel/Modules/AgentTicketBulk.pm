@@ -485,23 +485,19 @@ sub Run {
             elsif ( $GetParam{'MergeToSelection'} eq 'OptionMergeToOldest' ) {
 
                 # find oldest
-                my $TicketIDOldest;
-                my $TicketIDOldestID;
+                my $OldestCreateTime;
+                my $OldestTicketID;
                 for my $TicketIDCheck (@TicketIDs) {
                     my %Ticket = $TicketObject->TicketGet(
                         TicketID      => $TicketIDCheck,
                         DynamicFields => 0,
                     );
-                    if ( !defined $TicketIDOldest ) {
-                        $TicketIDOldest   = $Ticket{CreateTimeUnix};
-                        $TicketIDOldestID = $TicketIDCheck;
-                    }
-                    if ( $TicketIDOldest > $Ticket{CreateTimeUnix} ) {
-                        $TicketIDOldest   = $Ticket{CreateTimeUnix};
-                        $TicketIDOldestID = $TicketIDCheck;
+                    if ( !defined $OldestCreateTime || $OldestCreateTime gt $Ticket{Created} ) {
+                        $OldestCreateTime = $Ticket{Created};
+                        $OldestTicketID   = $TicketIDCheck;
                     }
                 }
-                $MainTicketID = $TicketIDOldestID;
+                $MainTicketID = $OldestTicketID;
             }
         }
 

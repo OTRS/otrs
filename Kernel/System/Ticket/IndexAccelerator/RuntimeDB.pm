@@ -189,7 +189,7 @@ sub TicketAcceleratorIndex {
     # prepare the tickets in Queue bar (all data only with my/your Permission)
     return if !$DBObject->Prepare(
         SQL => "
-            SELECT st.queue_id, sq.name, min(st.create_time_unix), st.ticket_lock_id, count(*)
+            SELECT st.queue_id, sq.name, min(st.create_time), st.ticket_lock_id, count(*)
             FROM ticket st, queue sq
             WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
                 AND st.queue_id = sq.id
@@ -199,8 +199,7 @@ sub TicketAcceleratorIndex {
             ORDER BY sq.name"
     );
 
-    # get time object
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CurrentDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
     my %QueuesSeen;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -228,7 +227,15 @@ sub TicketAcceleratorIndex {
 
             $QueueData->{Count} += $Count;
 
-            my $MaxAge = $DateTimeObject->ToEpoch() - $Row[2];
+            my $TicketCreatedDTObj = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Row[2],
+                },
+            );
+
+            my $Delta = $TicketCreatedDTObj->Delta( DateTimeObject => $CurrentDateTimeObject );
+            my $MaxAge = $Delta->{AbsoluteSeconds};
             $QueueData->{MaxAge} = $MaxAge if $MaxAge > $QueueData->{MaxAge};
 
             # get the oldest queue id
