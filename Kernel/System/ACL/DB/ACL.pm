@@ -934,7 +934,7 @@ sub ACLDump {
 package Kernel::Config::Files::ZZZACL;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic
 use utf8;
 sub Load {
     my ($File, $Self) = @_;
@@ -942,6 +942,7 @@ sub Load {
 EOF
 
     my $FileEnd = <<'EOF';
+    return;
 }
 1;
 EOF

@@ -4935,7 +4935,7 @@ sub _EffectiveValues2PerlFile {
 package $TargetPath;
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic
 EOF
 
     if ( $Self->{utf8} ) {
@@ -4946,6 +4946,7 @@ EOF
 sub Load {
     my (\$File, \$Self) = \@_;
 $PerlHashStrg
+    return;
 }
 1;
 EOF
