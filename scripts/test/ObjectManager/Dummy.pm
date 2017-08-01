@@ -16,10 +16,8 @@ our @ObjectDependencies = ();                   # we want to use an undeclared d
 
 sub new {
     my ( $Class, %Param ) = @_;
-
     bless \%Param, $Class;
-
-    return $Class;
+    return \%Param;
 }
 
 sub Data {
