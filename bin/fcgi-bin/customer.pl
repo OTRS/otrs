@@ -40,7 +40,7 @@ my $Debug = 0;
 #my $Cnt = 0;
 
 # Response loop
-while ( my $WebRequest = new CGI::Fast ) {
+while ( my $WebRequest = CGI::Fast->new() ) {
 
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $Interface = Kernel::System::Web::InterfaceCustomer->new(
