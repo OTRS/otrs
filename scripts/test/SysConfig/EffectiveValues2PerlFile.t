@@ -259,7 +259,7 @@ my $AssembleExpectedValue = sub {
 package $Param{Package}
 use strict;
 use warnings;
-no warnings 'redefine';
+no warnings 'redefine'; ## no critic
 use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
@@ -268,6 +268,7 @@ EOF
     $File .= $Param{Value};
 
     $File .= << 'EOF';
+    return;
 }
 1;
 EOF
