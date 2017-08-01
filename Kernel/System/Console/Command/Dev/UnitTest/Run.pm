@@ -88,6 +88,7 @@ sub Configure {
         ValueRegex => qr/.*/smx,
         Multiple   => 1
     );
+    return;
 }
 
 sub PreRun {

@@ -61,7 +61,7 @@ sub new {
 
     # Die if someone tries to instantiate the base class.
     if ( $Type eq __PACKAGE__ ) {
-        ...;    # yada-yada (unimplemented) operator
+        ...;    ## no critic
     }
 
     my $Self = {};
@@ -86,7 +86,7 @@ backend class.
 =cut
 
 sub ChannelNameGet {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleHasHTMLContent()
@@ -106,7 +106,7 @@ Result:
 =cut
 
 sub ArticleHasHTMLContent {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ChannelIDGet()
@@ -168,7 +168,7 @@ Events:
 =cut
 
 sub ArticleCreate {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleUpdate()
@@ -189,7 +189,7 @@ Events:
 =cut
 
 sub ArticleUpdate {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleGet()
@@ -209,7 +209,7 @@ Returns article data. Override this method in your class.
 =cut
 
 sub ArticleGet {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleDelete()
@@ -225,7 +225,7 @@ Delete an article. Override this method in your class.
 =cut
 
 sub ArticleDelete {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 BackendSearchableFieldsGet()
@@ -247,7 +247,7 @@ Returns:
 =cut
 
 sub BackendSearchableFieldsGet {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleSearchableContentGet()
@@ -278,7 +278,7 @@ Returns:
 =cut
 
 sub ArticleSearchableContentGet {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head1 PRIVATE FUNCTIONS

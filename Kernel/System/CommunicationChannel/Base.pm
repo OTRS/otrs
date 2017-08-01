@@ -44,7 +44,7 @@ sub new {
 
     # Die if someone tries to instantiate the base class.
     if ( $Type eq __PACKAGE__ ) {
-        ...;    # yada-yada (unimplemented) operator
+        ...;    ## no critic
     }
 
     my $Self = {};
@@ -69,7 +69,7 @@ implement this method.
 =cut
 
 sub ArticleDataTables {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleDataArticleIDField()
@@ -83,7 +83,7 @@ the main article table.
 =cut
 
 sub ArticleDataArticleIDField {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleBackend()
@@ -99,7 +99,7 @@ This method will always return a valid object, so that you can chain-call on the
 =cut
 
 sub ArticleBackend {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 ArticleDataIsDroppable()
@@ -113,7 +113,7 @@ class.
 =cut
 
 sub ArticleDataIsDroppable {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 =head2 PackageNameGet()
@@ -126,7 +126,7 @@ Returns name of the package that provides communication channel. Override this m
 =cut
 
 sub PackageNameGet {
-    ...;    # yada-yada (unimplemented) operator
+    ...;    ## no critic
 }
 
 1;

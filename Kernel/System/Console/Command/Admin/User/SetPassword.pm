@@ -34,6 +34,8 @@ sub Configure {
         Required    => 0,
         ValueRegex  => qr/.*/smx,
     );
+
+    return;
 }
 
 sub Run {

@@ -82,7 +82,7 @@ sub new {
         $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
 
         # set environment value to 0
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;    ## no critic
 
         $Self->{RestoreSSLVerify} = 1;
         $Self->{UnitTestObject}->True( 1, 'Skipping SSL certificates verification' );
@@ -411,7 +411,7 @@ sub FixedTimeSet {
         $FilePath =~ s{::}{/}xmsg;
         $FilePath .= '.pm';
         if ( $INC{$FilePath} ) {
-            no warnings 'redefine';
+            no warnings 'redefine';    ## no critic
             delete $INC{$FilePath};
             $Kernel::OM->Get('Kernel::System::Main')->Require($Object);
         }
@@ -450,7 +450,7 @@ sub FixedTimeAddSeconds {
 
 # See http://perldoc.perl.org/5.10.0/perlsub.html#Overriding-Built-in-Functions
 BEGIN {
-    no warnings 'redefine';
+    no warnings 'redefine';    ## no critic
     *CORE::GLOBAL::time = sub {
         return defined $FixedTime ? $FixedTime : CORE::time();
     };
@@ -508,7 +508,7 @@ sub DESTROY {
     # restore environment variable to skip SSL certificate verification if needed
     if ( $Self->{RestoreSSLVerify} ) {
 
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic
 
         $Self->{RestoreSSLVerify} = 0;
 
@@ -588,6 +588,8 @@ sub DESTROY {
             );
         }
     }
+
+    return;
 }
 
 =head2 ConfigSettingChange()

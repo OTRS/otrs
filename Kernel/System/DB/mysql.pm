@@ -125,6 +125,8 @@ sub _FixMysqlUTF8 {
     return if !Encode::is_utf8($$StringRef);
 
     $$StringRef =~ s/([\x{10000}-\x{10FFFF}])/"\x{FFFD}"/eg;
+
+    return;
 }
 
 sub Quote {

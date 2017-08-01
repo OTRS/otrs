@@ -24,6 +24,8 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description('Lists available commands.');
+
+    return;
 }
 
 sub Run {

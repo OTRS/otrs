@@ -86,7 +86,7 @@ sub Run {
 
         # load cache initially with 100k 1kB items
         print "Preloading cache with 100k x 1kB items... ";
-        $| = 1;
+        local $| = 1;
         my $Content1kB = '.' x 1024;
         for ( my $i = 0; $i < 100000; $i++ ) {
             $Result = $CacheObject->Set(
@@ -107,7 +107,6 @@ sub Run {
             my $OpCount = 10 + 50 * int( 7 - Log10($ItemSize) );
 
             printf( "%-15s %12d %10d ", $Module, $ItemSize, 100 * $OpCount );
-            $| = 1;
 
             # start timer
             my $Start = Time::HiRes::time();

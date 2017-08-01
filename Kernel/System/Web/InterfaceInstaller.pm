@@ -140,6 +140,7 @@ sub Run {
         print $LayoutObject->Footer();
     }
 
+    return;
 }
 
 sub DESTROY {

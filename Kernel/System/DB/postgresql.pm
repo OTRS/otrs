@@ -55,7 +55,7 @@ sub LoadPreferences {
     # our results: "PostgreSQL 9.2.4", "PostgreSQL 9.1.9".
     $Self->{'DB::Version'} = "SELECT SUBSTRING(VERSION(), 'PostgreSQL [0-9\.]*')";
 
-    $Self->{'DB::ListTables'} = <<'EOF',
+    $Self->{'DB::ListTables'} = <<'EOF';
 SELECT
     table_name
 FROM
@@ -66,8 +66,8 @@ WHERE
 ORDER BY table_name
 EOF
 
-        # dbi attributes
-        $Self->{'DB::Attribute'} = {};
+    # dbi attributes
+    $Self->{'DB::Attribute'} = {};
 
     # set current time stamp if different to "current_timestamp"
     $Self->{'DB::CurrentTimestamp'} = '';

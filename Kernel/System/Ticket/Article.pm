@@ -120,7 +120,7 @@ sub BackendForArticle {
             ArticleID => $Param{ArticleID},
         );
         if (@BaseArticles) {
-            $Param{CommunicationChannelID} = $BaseArticles[0]->{CommunicationChannelID},
+            $Param{CommunicationChannelID} = $BaseArticles[0]->{CommunicationChannelID};
         }
     }
 

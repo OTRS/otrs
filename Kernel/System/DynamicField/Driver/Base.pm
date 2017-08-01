@@ -71,9 +71,6 @@ sub HasBehavior {
 
     # return success if the dynamic field has the expected behavior
     return IsPositiveInteger( $Self->{Behaviors}->{ $Param{Behavior} } );
-
-    # otherwise return fail
-    return;
 }
 
 sub SearchFieldPreferences {

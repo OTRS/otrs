@@ -197,6 +197,8 @@ sub AddArgument {
 
     $Self->{_Arguments} //= [];
     push @{ $Self->{_Arguments} }, \%Param;
+
+    return;
 }
 
 =head2 GetArgument()
@@ -288,6 +290,7 @@ sub AddOption {
     $Self->{_Options} //= [];
     push @{ $Self->{_Options} }, \%Param;
 
+    return;
 }
 
 =head2 GetOption()

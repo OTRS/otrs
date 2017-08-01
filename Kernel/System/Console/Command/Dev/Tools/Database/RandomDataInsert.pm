@@ -564,6 +564,7 @@ sub CustomerCreate {
         );
         print "CustomerUser '$Name' created.\n";
     }
+    return;
 }
 
 sub CompanyCreate {
@@ -588,6 +589,7 @@ sub CompanyCreate {
 
         print "CustomerCompany '$Name' created.\n";
     }
+    return;
 }
 
 1;

@@ -118,7 +118,7 @@ sub _CleanupLocks {
     my @TicketIDs = $TicketObject->TicketSearch(
         Result   => 'ARRAY',
         Limit    => 1_000_000,
-        OwnerIDs => [ map $_->{UserID}, @Users ],
+        OwnerIDs => [ map { $_->{UserID} } @Users ],
         Locks    => ['lock'],
         UserID   => 1,
     );
@@ -150,6 +150,8 @@ sub _CleanupLocks {
             . @TicketIDs
             . "</yellow> and changed state of <yellow>$StateCount</yellow> tickets).\n"
     );
+
+    return;
 }
 
 sub _CleanupFlags {
@@ -269,6 +271,8 @@ sub _CleanupFlags {
         }
     }
     $Self->Print("  <green>Done.</green>\n");
+
+    return;
 }
 
 1;

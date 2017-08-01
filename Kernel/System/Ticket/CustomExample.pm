@@ -15,7 +15,7 @@ our $ObjectManagerDisabled = 1;
 
 # disable redefine warnings in this scope
 {
-    no warnings 'redefine';
+    no warnings 'redefine';    ## no critic
 
     # as example redefine the TicketXXX() of Kernel::System::Ticket
     sub Kernel::System::Ticket::TicketXXX {

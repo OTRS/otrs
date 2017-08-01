@@ -41,6 +41,7 @@ sub Configure {
         Required    => 1,
         ValueRegex  => qr/.*/smx,
     );
+    return;
 }
 
 sub PreRun {

@@ -124,8 +124,6 @@ sub GetTrustedQueueID {
     return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
         Queue => $GetParam{'X-OTRS-Queue'},
     );
-
-    return;
 }
 
 1;

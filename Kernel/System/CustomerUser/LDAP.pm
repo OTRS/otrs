@@ -922,7 +922,7 @@ sub CustomerSearchDetail {
         #   or skip the search and return a emptry array ref, if no user logins exists from the dynamic field search.
         if (@DynamicFieldUserLogins) {
 
-            my $DynamicFieldUserLoginsFilter .= '(|';
+            my $DynamicFieldUserLoginsFilter = '(|';
             for my $OneParam (@DynamicFieldUserLogins) {
                 $DynamicFieldUserLoginsFilter .= "($Self->{CustomerKey}=" . $Self->_ConvertTo($OneParam) . ")";
             }
@@ -938,7 +938,7 @@ sub CustomerSearchDetail {
 
     # Special parameter to exclude some user logins from the search result.
     if ( IsArrayRefWithData( $Param{ExcludeUserLogins} ) ) {
-        my $ExcludeUserLoginsFilter .= '(&';
+        my $ExcludeUserLoginsFilter = '(&';
         for my $OneParam ( @{ $Param{ExcludeUserLogins} } ) {
             $ExcludeUserLoginsFilter .= "(!($Self->{CustomerKey}=" . $Self->_ConvertTo($OneParam) . "))";
         }

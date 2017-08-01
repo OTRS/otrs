@@ -165,8 +165,8 @@ sub _execute_command {    ## no critic
     my $TestName = 'Selenium command success: ';
     $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
         {
-            %{ $Res    || {} },
-            %{ $Params || {} },
+            %{ $Res    || {} },    ## no critic
+            %{ $Params || {} },    ## no critic
         }
     );
 
@@ -510,6 +510,8 @@ sub HandleError {
         Filename => $Filename,
         Content  => $Data
     );
+
+    return;
 }
 
 =head2 DEMOLISH()
@@ -558,6 +560,8 @@ sub DEMOLISH {
 
         $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
     }
+
+    return;
 }
 
 1;

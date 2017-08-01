@@ -1156,7 +1156,7 @@ Returns:
 
 =cut
 
-sub ArticleAttachmentIndex {
+sub ArticleAttachmentIndex {    ## no critic
     my $Self = shift;
     return $Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleAttachmentIndex(@_);
 }

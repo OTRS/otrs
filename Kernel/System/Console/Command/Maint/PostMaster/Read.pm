@@ -56,6 +56,7 @@ sub PreRun {
             Message  => "OTRS email handle ($Name) started.",
         );
     }
+    return;
 }
 
 sub Run {
@@ -71,7 +72,7 @@ sub Run {
     }
 
     # get email from SDTIN
-    my @Email = <STDIN>;
+    my @Email = <STDIN>;    ## no critic
     if ( !@Email ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -155,6 +156,7 @@ sub PostRun {
             Message  => "OTRS email handle ($Name) stopped.",
         );
     }
+    return;
 }
 
 1;

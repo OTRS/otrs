@@ -125,7 +125,7 @@ sub Run {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     my %Counts;
-    CHECK:
+    CHECK_RECORDS:
     for my $Check (@Checks) {
         $DBObject->Prepare( SQL => $Check->{SQL} );
         while ( my @Row = $DBObject->FetchrowArray() ) {
