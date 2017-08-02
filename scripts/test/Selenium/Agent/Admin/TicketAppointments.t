@@ -565,6 +565,14 @@ $Selenium->RunTest(
                     UserID        => 1,
                 );
                 for my $Field ( sort keys %{ $Test->{UpdateResult} || {} } ) {
+
+                    # In case of UntilTime, it can happen that there is an error of one second overall. This is
+                    #   acceptable, so in this case, divide the values with 100 and floor the result before comparing.
+                    if ( $Field eq 'UntilTime' ) {
+                        $Ticket{$Field} = sprintf( '%.0f', $Ticket{$Field} / 100 );
+                        $Test->{UpdateResult}->{$Field} = sprintf( '%.0f', $Test->{UpdateResult}->{$Field} / 100 );
+                    }
+
                     $Self->Is(
                         $Ticket{$Field},
                         $Test->{UpdateResult}->{$Field},
