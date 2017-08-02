@@ -539,13 +539,13 @@ sub TicketAcceleratorRebuild {
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         my %Data;
-        $Data{TicketID}       = $Row[0];
-        $Data{QueueID}        = $Row[1];
-        $Data{Queue}          = $Row[2];
-        $Data{GroupID}        = $Row[3];
-        $Data{Lock}           = $Row[4];
-        $Data{State}          = $Row[5];
-        $Data{CreateTime}     = $Row[6];
+        $Data{TicketID}   = $Row[0];
+        $Data{QueueID}    = $Row[1];
+        $Data{Queue}      = $Row[2];
+        $Data{GroupID}    = $Row[3];
+        $Data{Lock}       = $Row[4];
+        $Data{State}      = $Row[5];
+        $Data{CreateTime} = $Row[6];
 
         push @RowBuffer, \%Data;
     }
@@ -620,13 +620,13 @@ sub GetIndexTicket {
 
     my %Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Data{TicketID}       = $Row[0];
-        $Data{QueueID}        = $Row[1];
-        $Data{Queue}          = $Row[2];
-        $Data{GroupID}        = $Row[3];
-        $Data{Lock}           = $Row[4];
-        $Data{State}          = $Row[5];
-        $Data{CreateTime}     = $Row[6];
+        $Data{TicketID}   = $Row[0];
+        $Data{QueueID}    = $Row[1];
+        $Data{Queue}      = $Row[2];
+        $Data{GroupID}    = $Row[3];
+        $Data{Lock}       = $Row[4];
+        $Data{State}      = $Row[5];
+        $Data{CreateTime} = $Row[6];
     }
 
     return %Data;
