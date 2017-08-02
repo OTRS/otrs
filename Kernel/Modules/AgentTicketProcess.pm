@@ -502,7 +502,6 @@ sub _RenderAjax {
     for my $DynamicFieldItem ( sort keys %DynamicFieldValues ) {
         next DYNAMICFIELD if !$DynamicFieldItem;
         next DYNAMICFIELD if !defined $DynamicFieldValues{$DynamicFieldItem};
-        next DYNAMICFIELD if !length $DynamicFieldValues{$DynamicFieldItem};
 
         $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
     }
