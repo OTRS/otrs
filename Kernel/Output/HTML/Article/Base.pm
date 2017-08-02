@@ -64,7 +64,7 @@ Returns article fields hash:
 =cut
 
 sub ArticleFields {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticlePreview()
@@ -85,7 +85,7 @@ Returns article preview in scalar form:
 =cut
 
 sub ArticlePreview {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleActions()
@@ -126,7 +126,7 @@ Returns article action array:
 =cut
 
 sub ArticleActions {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 1;

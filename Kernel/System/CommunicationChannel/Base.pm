@@ -44,7 +44,7 @@ sub new {
 
     # Die if someone tries to instantiate the base class.
     if ( $Type eq __PACKAGE__ ) {
-        ...;    ## no critic
+        die 'Virtual method in base class must not be called.';
     }
 
     my $Self = {};
@@ -69,7 +69,7 @@ implement this method.
 =cut
 
 sub ArticleDataTables {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleDataArticleIDField()
@@ -83,7 +83,7 @@ the main article table.
 =cut
 
 sub ArticleDataArticleIDField {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleBackend()
@@ -99,7 +99,7 @@ This method will always return a valid object, so that you can chain-call on the
 =cut
 
 sub ArticleBackend {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleDataIsDroppable()
@@ -113,7 +113,7 @@ class.
 =cut
 
 sub ArticleDataIsDroppable {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 PackageNameGet()
@@ -126,7 +126,7 @@ Returns name of the package that provides communication channel. Override this m
 =cut
 
 sub PackageNameGet {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 1;

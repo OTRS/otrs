@@ -52,7 +52,7 @@ Result:
 =cut
 
 sub ArticleRender {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleMetaFields()

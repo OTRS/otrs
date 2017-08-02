@@ -61,7 +61,7 @@ sub new {
 
     # Die if someone tries to instantiate the base class.
     if ( $Type eq __PACKAGE__ ) {
-        ...;    ## no critic
+        die 'Virtual method in base class must not be called.';
     }
 
     my $Self = {};
@@ -86,7 +86,7 @@ backend class.
 =cut
 
 sub ChannelNameGet {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleHasHTMLContent()
@@ -106,7 +106,7 @@ Result:
 =cut
 
 sub ArticleHasHTMLContent {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ChannelIDGet()
@@ -168,7 +168,7 @@ Events:
 =cut
 
 sub ArticleCreate {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleUpdate()
@@ -189,7 +189,7 @@ Events:
 =cut
 
 sub ArticleUpdate {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleGet()
@@ -209,7 +209,7 @@ Returns article data. Override this method in your class.
 =cut
 
 sub ArticleGet {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleDelete()
@@ -225,7 +225,7 @@ Delete an article. Override this method in your class.
 =cut
 
 sub ArticleDelete {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 BackendSearchableFieldsGet()
@@ -247,7 +247,7 @@ Returns:
 =cut
 
 sub BackendSearchableFieldsGet {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head2 ArticleSearchableContentGet()
@@ -278,7 +278,7 @@ Returns:
 =cut
 
 sub ArticleSearchableContentGet {
-    ...;    ## no critic
+    die 'Virtual method in base class must not be called.';
 }
 
 =head1 PRIVATE FUNCTIONS
