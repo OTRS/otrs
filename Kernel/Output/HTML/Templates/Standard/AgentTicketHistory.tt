@@ -51,13 +51,21 @@
                 <table class="DataTable">
                     <thead>
                         <tr>
-                            <th>[% Translate("Content") | html %]</th>
+                            <th>[% Translate("Agent") | html %]</th>
+                            <th>[% Translate("Action") | html %]</th>
                             <th class="Center">[% Translate("Article") | html %]</th>
                         </tr>
                     </thead>
                     <tbody>
                 [% RenderBlockStart("Row") %]
                         <tr class="[% Data.Class | html %]">
+                            <td class="UserName">
+                            [% IF Data.UserID == Config('CustomerPanelUserID') || Data.UserID == Config('PostmasterUserID') %]
+                                -
+                            [% ELSE %]
+                                [% Data.UserFullname | html %]
+                            [% END %]
+                            </td>
                             <td title="[% Data.HistoryType | html %]">
                                 [% Data.Name | html %]
                             </td>

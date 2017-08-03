@@ -41,4 +41,8 @@
     opacity: 1;
 }
 
+td.UserName {
+    width: 100px;
+}
+
 } /* end @media */
