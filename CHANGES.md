@@ -1,4 +1,5 @@
 #3.3.18 ????-??-??
+ - 2017-08-03 Updated CPAN module URI to version 1.72.
 
 #3.3.17 2017-06-06
  - 2017-05-31 Improved SecureMode detection in Installer.

@@ -1,22 +1,23 @@
 package URI;
 
 use strict;
-use vars qw($VERSION);
-$VERSION = "1.60";
+use warnings;
 
-use vars qw($ABS_REMOTE_LEADING_DOTS $ABS_ALLOW_RELATIVE_SCHEME $DEFAULT_QUERY_FORM_DELIMITER);
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+our ($ABS_REMOTE_LEADING_DOTS, $ABS_ALLOW_RELATIVE_SCHEME, $DEFAULT_QUERY_FORM_DELIMITER);
 
 my %implements;  # mapping from scheme to implementor class
 
 # Some "official" character classes
 
-use vars qw($reserved $mark $unreserved $uric $scheme_re);
-$reserved   = q(;/?:@&=+$,[]);
-$mark       = q(-_.!~*'());                                    #'; emacs
-$unreserved = "A-Za-z0-9\Q$mark\E";
-$uric       = quotemeta($reserved) . $unreserved . "%";
+our $reserved   = q(;/?:@&=+$,[]);
+our $mark       = q(-_.!~*'());                                    #'; emacs
+our $unreserved = "A-Za-z0-9\Q$mark\E";
+our $uric       = quotemeta($reserved) . $unreserved . "%";
 
-$scheme_re  = '[a-zA-Z][a-zA-Z0-9.+\-]*';
+our $scheme_re  = '[a-zA-Z][a-zA-Z0-9.+\-]*';
 
 use Carp ();
 use URI::Escape ();
@@ -94,6 +95,7 @@ sub _uric_escape
     return $str;
 }
 
+my %require_attempted;
 
 sub implementor
 {
@@ -128,10 +130,14 @@ sub implementor
     no strict 'refs';
     # check we actually have one for the scheme:
     unless (@{"${ic}::ISA"}) {
-        # Try to load it
-        eval "require $ic";
-        die $@ if $@ && $@ !~ /Can\'t locate.*in \@INC/;
-        return unless @{"${ic}::ISA"};
+        if (not exists $require_attempted{$ic}) {
+            # Try to load it
+            my $_old_error = $@;
+            eval "require $ic";
+            die $@ if $@ && $@ !~ /Can\'t locate.*in \@INC/;
+            $@ = $_old_error;
+        }
+        return undef unless @{"${ic}::ISA"};
     }
 
     $ic->_init_implementor($scheme);
@@ -155,6 +161,7 @@ sub clone
     bless \$other, ref $self;
 }
 
+sub TO_JSON { ${$_[0]} }
 
 sub _no_scheme_ok { 0 }
 
@@ -163,7 +170,7 @@ sub _scheme
     my $self = shift;
 
     unless (@_) {
-	return unless $$self =~ /^($scheme_re):/o;
+	return undef unless $$self =~ /^($scheme_re):/o;
 	return $1;
     }
 
@@ -193,10 +200,14 @@ sub _scheme
 sub scheme
 {
     my $scheme = shift->_scheme(@_);
-    return unless defined $scheme;
+    return undef unless defined $scheme;
     lc($scheme);
 }
 
+sub has_recognized_scheme {
+    my $self = shift;
+    return ref($self) !~ /^URI::_(?:foreign|generic)\z/;
+}
 
 sub opaque
 {
@@ -228,14 +239,14 @@ sub opaque
     $old_opaque;
 }
 
-*path = \&opaque;  # alias
+sub path { goto &opaque }  # alias
 
 
 sub fragment
 {
     my $self = shift;
     unless (@_) {
-	return unless $$self =~ /\#(.*)/s;
+	return undef unless $$self =~ /\#(.*)/s;
 	return $1;
     }
 
@@ -417,6 +428,11 @@ the $str argument before it is processed further.
 The constructor determines the scheme, maps this to an appropriate
 URI subclass, constructs a new object of that class and returns it.
 
+If the scheme isn't one of those that URI recognizes, you still get
+an URI object back that you can access the generic methods on.  The
+C<< $uri->has_recognized_scheme >> method can be used to test for
+this.
+
 The $scheme argument is only used when $str is a
 relative URI.  It can be either a simple string that
 denotes the scheme, a string containing an absolute URI reference, or
@@ -499,6 +515,14 @@ Letter case does not matter for scheme names.  The string
 returned by $uri->scheme is always lowercase.  If you want the scheme
 just as it was written in the URI in its original case,
 you can use the $uri->_scheme method instead.
+
+=item $uri->has_recognized_scheme
+
+Returns TRUE if the URI scheme is one that URI recognizes.
+
+It will also be TRUE for relative URLs where a recognized
+scheme was provided to the constructor, even if C<< $uri->scheme >>
+returns C<undef> for these.
 
 =item $uri->opaque
 
@@ -585,7 +609,7 @@ a secure channel, such as an SSL or TLS encrypted one.
 
 The following methods are available to schemes that use the
 common/generic syntax for hierarchical namespaces.  The descriptions of
-schemes below indicate which these are.  Unknown schemes are
+schemes below indicate which these are.  Unrecognized schemes are
 assumed to support the generic syntax, and therefore the following
 methods:
 
@@ -969,6 +993,12 @@ common, generic and server methods.
 
 Information about ssh is available at L<http://www.openssh.com/>.
 C<URI> objects belonging to the ssh scheme support the common,
+generic and server methods. In addition, they provide methods to
+access the userinfo sub-components: $uri->user and $uri->password.
+
+=item B<sftp>:
+
+C<URI> objects belonging to the sftp scheme support the common,
 generic and server methods. In addition, they provide methods to
 access the userinfo sub-components: $uri->user and $uri->password.
 

@@ -1,9 +1,13 @@
 package URI::pop;   # RFC 2384
 
-require URI::_server;
-@ISA=qw(URI::_server);
-
 use strict;
+use warnings;
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use parent 'URI::_server';
+
 use URI::Escape qw(uri_unescape);
 
 sub default_port { 110 }
@@ -31,7 +35,7 @@ sub user
 	}
     }
 
-    return unless defined $old;
+    return undef unless defined $old;
     $old =~ s/;.*//;
     return uri_unescape($old);
 }
@@ -59,7 +63,7 @@ sub auth
 	
     }
 
-    return unless defined $old;
+    return undef unless defined $old;
     $old =~ s/^[^;]*//;
     return uri_unescape($1) if $old =~ /;auth=(.*)/i;
     return;

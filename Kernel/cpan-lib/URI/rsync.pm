@@ -2,10 +2,13 @@ package URI::rsync;  # http://rsync.samba.org/
 
 # rsync://[USER@]HOST[:PORT]/SRC
 
-require URI::_server;
-require URI::_userpass;
+use strict;
+use warnings;
 
-@ISA=qw(URI::_server URI::_userpass);
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use parent qw(URI::_server URI::_userpass);
 
 sub default_port { 873 }
 

@@ -1,7 +1,12 @@
 package URI::file::FAT;
 
-require URI::file::Win32;
-@ISA=qw(URI::file::Win32);
+use strict;
+use warnings;
+
+use parent 'URI::file::Win32';
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
 
 sub fix_path
 {

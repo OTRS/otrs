@@ -1,7 +1,12 @@
 package URI::_userpass;
 
 use strict;
+use warnings;
+
 use URI::Escape qw(uri_unescape);
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
 
 sub user
 {
@@ -21,7 +26,7 @@ sub user
 	    $self->userinfo("$new$pass");
 	}
     }
-    return unless defined $info;
+    return undef unless defined $info;
     $info =~ s/:.*//;
     uri_unescape($info);
 }
@@ -43,8 +48,8 @@ sub password
 	    $self->userinfo("$user:$new");
 	}
     }
-    return unless defined $info;
-    return unless $info =~ s/^[^:]*://;
+    return undef unless defined $info;
+    return undef unless $info =~ s/^[^:]*://;
     uri_unescape($info);
 }
 

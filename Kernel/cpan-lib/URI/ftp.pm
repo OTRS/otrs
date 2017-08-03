@@ -1,10 +1,12 @@
 package URI::ftp;
 
-require URI::_server;
-require URI::_userpass;
-@ISA=qw(URI::_server URI::_userpass);
-
 use strict;
+use warnings;
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use parent qw(URI::_server URI::_userpass);
 
 sub default_port { 21 }
 

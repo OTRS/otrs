@@ -1,6 +1,12 @@
 package URI::sips;
-require URI::sip;
-@ISA=qw(URI::sip);
+
+use strict;
+use warnings;
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use parent 'URI::sip';
 
 sub default_port { 5061 }
 

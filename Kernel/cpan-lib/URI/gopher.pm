@@ -1,9 +1,13 @@
 package URI::gopher;  # <draft-murali-url-gopher>, Dec 4, 1996
 
-require URI::_server;
-@ISA=qw(URI::_server);
-
 use strict;
+use warnings;
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use parent 'URI::_server';
+
 use URI::Escape qw(uri_unescape);
 
 #  A Gopher URL follows the common internet scheme syntax as defined in 
@@ -58,7 +62,7 @@ sub gopher_type
     $gtype;
 }
 
-*gtype = \&gopher_type;  # URI::URL compatibility
+sub gtype { goto &gopher_type }  # URI::URL compatibility
 
 sub selector { shift->_gfield(0, @_) }
 sub search   { shift->_gfield(1, @_) }

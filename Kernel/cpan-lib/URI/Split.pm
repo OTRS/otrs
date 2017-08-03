@@ -1,11 +1,13 @@
 package URI::Split;
 
 use strict;
+use warnings;
 
-use vars qw(@ISA @EXPORT_OK);
-require Exporter;
-@ISA = qw(Exporter);
-@EXPORT_OK = qw(uri_split uri_join);
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use Exporter 5.57 'import';
+our @EXPORT_OK = qw(uri_split uri_join);
 
 use URI::Escape ();
 

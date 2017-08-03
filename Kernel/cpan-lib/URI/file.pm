@@ -1,19 +1,18 @@
 package URI::file;
 
 use strict;
-use vars qw(@ISA $VERSION $DEFAULT_AUTHORITY %OS_CLASS);
+use warnings;
 
-require URI::_generic;
-@ISA = qw(URI::_generic);
-$VERSION = "4.21";
+use parent 'URI::_generic';
+our $VERSION = "4.21";
 
 use URI::Escape qw(uri_unescape);
 
-$DEFAULT_AUTHORITY = "";
+our $DEFAULT_AUTHORITY = "";
 
 # Map from $^O values to implementation classes.  The Unix
 # class is the default.
-%OS_CLASS = (
+our %OS_CLASS = (
      os2     => "OS2",
      mac     => "Mac",
      MacOS   => "Mac",

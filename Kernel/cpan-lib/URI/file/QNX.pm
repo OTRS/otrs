@@ -1,9 +1,12 @@
 package URI::file::QNX;
 
-require URI::file::Unix;
-@ISA=qw(URI::file::Unix);
-
 use strict;
+use warnings;
+
+use parent 'URI::file::Unix';
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
 
 sub _file_extract_path
 {

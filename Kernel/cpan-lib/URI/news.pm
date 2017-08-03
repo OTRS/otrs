@@ -1,9 +1,13 @@
 package URI::news;  # draft-gilman-news-url-01
 
-require URI::_server;
-@ISA=qw(URI::_server);
-
 use strict;
+use warnings;
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use parent 'URI::_server';
+
 use URI::Escape qw(uri_unescape);
 use Carp ();
 
@@ -61,7 +65,7 @@ sub message
 	Carp::croak("Message must contain '\@'") unless $_[0] =~ /\@/;
     }
     my $old = $self->_group(@_);
-    return unless $old =~ /\@/;
+    return undef unless $old =~ /\@/;
     return $old;
 }
 

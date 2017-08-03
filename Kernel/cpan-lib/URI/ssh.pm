@@ -1,6 +1,12 @@
 package URI::ssh;
-require URI::_login;
-@ISA=qw(URI::_login);
+
+use strict;
+use warnings;
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
+
+use parent 'URI::_login';
 
 # ssh://[USER@]HOST[:PORT]/SRC
 

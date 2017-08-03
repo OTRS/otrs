@@ -1,12 +1,14 @@
 package URI::file::Mac;
 
-require URI::file::Base;
-@ISA=qw(URI::file::Base);
-
 use strict;
+use warnings;
+
+use parent 'URI::file::Base';
+
 use URI::Escape qw(uri_unescape);
 
-
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
 
 sub _file_extract_path
 {

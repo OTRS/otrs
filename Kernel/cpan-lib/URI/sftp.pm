@@ -1,9 +1,9 @@
-package URI::_foreign;
+package URI::sftp;
 
 use strict;
 use warnings;
 
-use parent 'URI::_generic';
+use parent 'URI::ssh';
 
 our $VERSION = '1.72';
 $VERSION = eval $VERSION;

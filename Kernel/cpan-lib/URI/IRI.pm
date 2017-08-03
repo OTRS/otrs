@@ -3,9 +3,13 @@ package URI::IRI;
 # Experimental
 
 use strict;
+use warnings;
 use URI ();
 
 use overload '""' => sub { shift->as_string };
+
+our $VERSION = '1.72';
+$VERSION = eval $VERSION;
 
 sub new {
     my($class, $uri, $scheme) = @_;
@@ -27,9 +31,9 @@ sub as_string {
     return $self->{uri}->as_iri;
 }
 
+our $AUTOLOAD;
 sub AUTOLOAD
 {
-    use vars qw($AUTOLOAD);
     my $method = substr($AUTOLOAD, rindex($AUTOLOAD, '::')+2);
 
     # We create the function here so that it will not need to be
