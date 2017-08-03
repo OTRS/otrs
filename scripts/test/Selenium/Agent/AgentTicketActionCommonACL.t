@@ -86,7 +86,7 @@ $Selenium->RunTest(
             "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)",
         );
 
-        my $DynamicFieldID2     = $DynamicFieldObject->DynamicFieldAdd(
+        my $DynamicFieldID2 = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'Field2' . $RandomID,
             Label      => 'Field2' . $RandomID,
             FieldOrder => 99999,
@@ -116,7 +116,7 @@ $Selenium->RunTest(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketNote###DynamicField',
             Value => {
-                'Field' . $RandomID => 1,
+                'Field' . $RandomID  => 1,
                 'Field2' . $RandomID => 1,
             },
         );
@@ -404,7 +404,8 @@ EOF
         );
 
         # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
