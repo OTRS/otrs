@@ -81,7 +81,7 @@ $Selenium->RunTest(
             "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)",
         );
 
-        my $DynamicFieldID2     = $DynamicFieldObject->DynamicFieldAdd(
+        my $DynamicFieldID2 = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'Field2' . $RandomID,
             Label      => 'Field2' . $RandomID,
             FieldOrder => 99999,
@@ -360,7 +360,8 @@ EOF
         );
 
         # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -430,7 +431,8 @@ EOF
         );
 
         # click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -470,7 +472,8 @@ EOF
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Click on 'Close' action and switch to it.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")
+            ->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
