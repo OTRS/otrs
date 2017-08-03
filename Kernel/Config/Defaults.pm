@@ -1933,111 +1933,29 @@ sub new {
                 next FILE;
             }
 
-            # check config file format - use 1.0 as eval string, 1.1 as require or do
-            my $FileFormat = 1;
-            my $ConfigFile = '';
-            ## no critic
-            if ( open( my $In, '<', $File ) ) {
-                ## use critic
+            # Extract package name and load it.
+            my $Package = $File =~ s/\Q$Self->{Home}\E//gr;
+            $Package =~ s/^\///g;
+            $Package =~ s/\/{2,}/\//g;
+            $Package =~ s/\//::/g;
+            $Package =~ s/\.pm$//g;
 
-                # only try to find # VERSION:1.1 in the first 8 lines
-                my $TryCount = 0;
-                LINE:
-                while ( my $Line = <$In> ) {
-                    if ( $Line =~ /^\Q# VERSION:1.1\E/ ) {
-                        $FileFormat = 1.1;
-                        last LINE;
-                    }
-                    elsif ($Line =~ /^\Q# VERSION:2.0\E/) {
-                        $FileFormat = 2.0;
-                        last LINE;
-                    }
-
-                    $TryCount++;
-                    if ( $TryCount >= 8 ) {
-                        last LINE;
-                    }
+            eval {
+                # Try to load file.
+                if ( !require $File ) {
+                    die "ERROR: Could not load $File: $!\n";
                 }
-                close($In);
-
-                # read file format 1.0 - file as string
-                if ( $FileFormat == 1 ) {
-                    open( my $In, '<', $File );
-                    $ConfigFile = do { local $/; <$In> };
-                    close $In;
+                # Check if package has loaded and has a Load() method.
+                if (!$Package->can('Load')) {
+                    die "$Package has no Load() method.";
                 }
-            }
-            else {
-                print STDERR "ERROR: $!: $File\n";
-            }
-
-            # use file format of config file
-            if ( $FileFormat == 1.1 || $FileFormat == 2.0 ) {
-
-                # check if mod_perl is used
-                my $Require = 1;
-                if ( exists $ENV{MOD_PERL} ) {
-
-                    # if mod_perl 2.x is used, check if Apache::Reload is use
-                    # on win32 Apache::Reload is not working correctly, so do also use "do"
-                    my $OS = $^O;
-                    ## no critic
-                    if ( $mod_perl::VERSION >= 1.99 && $OS ne 'MSWin32' ) {
-                        ## use critic
-                        my $ApacheReload = 0;
-                        MODULE:
-                        for my $Module ( sort keys %INC ) {
-                            $Module =~ s/\//::/g;
-                            $Module =~ s/\.pm$//g;
-                            if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
-                                $ApacheReload = 1;
-                                last MODULE;
-                            }
-                        }
-                        if ( !$ApacheReload ) {
-                            $Require = 0;
-                        }
-                    }
-
-                    # if mod_perl 1.x is used, do not use require
-                    else {
-                        $Require = 0;
-                    }
-                }
-
-                # if require is usable, use it (because of better performance,
-                # if not, use do to do it on runtime)
-                ## no critic
-                if ($Require) {
-                    if ( !require $File ) {
-                        die "ERROR: $!\n";
-                    }
-                }
-                else {
-                    if ( !do $File ) {
-                        die "ERROR: $!\n";
-                    }
-                }
-                ## use critic
-
-                # prepare file
-                $File =~ s/\Q$Self->{Home}\E//g;
-                $File =~ s/^\///g;
-                $File =~ s/\/\//\//g;
-                $File =~ s/\//::/g;
-                $File =~ s/\.pm$//g;
-                $File->Load($Self);
-            }
-            else {
-
-                # use eval for old file format
-                if ($ConfigFile) {
-                    if ( !eval $ConfigFile ) {    ## no critic
-                        print STDERR "ERROR: Syntax error in $File: $@\n";
-                    }
-
-                    # print STDERR "Notice: Loaded: $File\n";
-                }
+                # Call package method but pass $Self as instance.
+                $Package->Load($Self);
+            };
+            if ( $@ ) {
+                my $ErrorMessage = $@;
+                print STDERR $@;
+                next FILE;
             }
         }
     }

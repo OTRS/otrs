@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-03 Speed up configuration file loading by dropping support for the old configuration format (1) and instead enforcing the new package-based format (1.1) for Perl configuration files. OTRS 6+ can only load files with this format, please make sure to convert any custom developments to it (see Kernel/Config/Files/ZZZ*.pm for examples).
  - 2017-08-01 Added Ticket event module to lock new tickets to the agents that creates them.
  - 2017-08-01 Dropped obsolete create_time_unix columns from ticket and ticket_index tables. Use create_time instead.
  - 2017-07-28 Fixed bug#[12104](https://bugs.otrs.org/show_bug.cgi?id=12104) - TimeAccounting statistic silently returns only last full month unless Period filter is used.
