@@ -562,8 +562,7 @@ sub TransitionCheck {
 
                     # 1. go through each Condition->$ConditionName->Fields->$Field->Value (map).
                     # 2. assign the value to $CheckValue.
-                    # 3. grep through $Data->{$FieldName}
-                    #   to find the "toCheck" value inside the Data->{$FieldName} Array.
+                    # 3. grep through $Data->{$FieldName} to find the "toCheck" value inside the Data->{$FieldName} Array.
                     # 4. Assign all found Values to @CheckResults.
                     my $CheckValue;
                     my @CheckResults = map {
@@ -903,7 +902,7 @@ sub TransitionCheck {
                 }
             }
 
-            # FIELDLNAME Emd
+            # FIELDLNAME End.
             if ( $CondType eq 'and' ) {
 
                 # if we had no failing check this condition matched.
@@ -986,7 +985,7 @@ sub TransitionCheck {
             }
         }
 
-        # CONDITIONNAME End
+        # CONDITIONNAME End.
         if ( $ConditionLinking eq 'and' ) {
 
             # If we had no failing conditions this transition matched.
@@ -1033,7 +1032,7 @@ sub TransitionCheck {
         }
     }
 
-    # TRANSITIONENTITYID End
+    # TRANSITIONENTITYID End.
     # If no transition matched till here, we failed.
     return;
 
