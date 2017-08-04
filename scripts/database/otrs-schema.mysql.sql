@@ -1699,3 +1699,20 @@ CREATE TABLE ticket_number_counter (
     UNIQUE INDEX ticket_number_counter_uid (counter_uid),
     INDEX ticket_number_counter_create_time (create_time)
 );
+# ----------------------------------------------------------
+#  create table form_draft
+# ----------------------------------------------------------
+CREATE TABLE form_draft (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    object_type VARCHAR (200) NOT NULL,
+    object_id INTEGER NOT NULL,
+    action VARCHAR (200) NOT NULL,
+    title VARCHAR (255) NULL,
+    content LONGBLOB NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    INDEX form_draft_object_type_object_id_action (object_type, object_id, action)
+);

@@ -906,6 +906,12 @@ table.AttachmentList.DataTable thead th {
     color: #89C6D1;
 }
 
+form .MessageBox{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+}
+
 /**
  * @subsection  Flag
  */

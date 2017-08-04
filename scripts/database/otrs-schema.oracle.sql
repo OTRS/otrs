@@ -5207,3 +5207,64 @@ END;
 /
 --
 ;
+-- ----------------------------------------------------------
+--  create table form_draft
+-- ----------------------------------------------------------
+CREATE TABLE form_draft (
+    id NUMBER (12, 0) NOT NULL,
+    object_type VARCHAR2 (200) NOT NULL,
+    object_id NUMBER (12, 0) NOT NULL,
+    action VARCHAR2 (200) NOT NULL,
+    title VARCHAR2 (255) NULL,
+    content CLOB NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL
+);
+ALTER TABLE form_draft ADD CONSTRAINT PK_form_draft PRIMARY KEY (id);
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE SE_form_draft';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+CREATE SEQUENCE SE_form_draft
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER
+;
+BEGIN
+    EXECUTE IMMEDIATE 'DROP TRIGGER SE_form_draft_t';
+EXCEPTION
+    WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+CREATE OR REPLACE TRIGGER SE_form_draft_t
+BEFORE INSERT ON form_draft
+FOR EACH ROW
+BEGIN
+    IF :new.id IS NULL THEN
+        SELECT SE_form_draft.nextval
+        INTO :new.id
+        FROM DUAL;
+    END IF;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX form_draft_object_type_objecaf ON form_draft (object_type, object_id, action)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;

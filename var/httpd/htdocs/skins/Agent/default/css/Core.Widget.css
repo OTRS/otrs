@@ -192,6 +192,11 @@ ul.Tablelike li.Header + li {
     list-style: decimal inside;
 }
 
+#FormDraftTable td:nth-child(2) {
+    width: 10px;
+}
+
+
 /**
  * @subsection Widgets as notices
  */

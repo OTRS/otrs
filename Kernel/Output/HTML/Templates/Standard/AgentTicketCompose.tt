@@ -17,6 +17,9 @@
     <input type="hidden" name="ResponseID" value="[% Data.ResponseID | html %]"/>
     <input type="hidden" name="ReplyArticleID" value="[% Data.ReplyArticleID | html %]"/>
     <input type="hidden" name="IsVisibleForCustomerPresent" value="1"/>
+    <input type="hidden" name="FormDraftTitle" value="[% Data.FormDraftTitle | html %]"/>
+    <input type="hidden" name="FormDraftID" value="[% Data.FormDraftID | html %]"/>
+    <input type="hidden" name="FormDraftAction" id="FormDraftAction" />
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
             <h1>[% Translate("Compose Answer for %s%s%s", Config('Ticket::Hook'), Config('Ticket::HookDivider'), Data.TicketNumber) | html %] &mdash; [% Data.Title | html %]</h1>
@@ -36,6 +39,7 @@
 [% RenderBlockEnd("TicketBackUndo") %]
         </div>
         <div class="Content">
+            [% INCLUDE "FormElements/DraftNotifications.tt" %]
             <div class="ContentColumn">
                 <fieldset class="TableLike FixedLabel">
 
@@ -395,9 +399,14 @@
 [% RenderBlockEnd("TimeUnits") %]
                 </fieldset>
             </div>
+            <br/>
+
         </div>
         <div class="Footer">
-            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Send mail") | html %] (g)" type="submit" value="[% Translate("Send mail") | html %]" ><span><i class="fa fa-envelope-o"></i> [% Translate("Send mail") | html %]</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Send mail") | html %] (g)" type="submit" value="[% Translate("Send mail") | html %]" >
+                <span><i class="fa fa-envelope-o"></i> [% Translate("Send mail") | html %]</span>
+            </button>
+            [% INCLUDE "FormElements/DraftButtons.tt" %]
         </div>
     </div>
 </form>

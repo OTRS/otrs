@@ -4115,3 +4115,35 @@ END;
 /
 --
 ;
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE form_draft ADD CONSTRAINT FK_form_draft_create_by_id FOREIGN KEY (create_by) REFERENCES users (id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_form_draft_create_by ON form_draft (create_by)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE form_draft ADD CONSTRAINT FK_form_draft_change_by_id FOREIGN KEY (change_by) REFERENCES users (id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_form_draft_change_by ON form_draft (change_by)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;

@@ -1,0 +1,21 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% IF Data.FormDraftID %]
+    &nbsp;[% Translate("or") | html %]&nbsp;
+    <button class="CallForAction" id="FormDraftUpdate" accesskey="u" title="[% Translate("Update draft") | html %] (u)"
+        type="submit">
+        <span><i class="fa fa-pencil-square-o"></i> [% Translate("Update draft") | html %]</span>
+    </button>
+[% END %]
+[% IF Data.FormDraft %]
+    &nbsp;[% Translate("or") | html %]&nbsp;
+    <button class="CallForAction" id="FormDraftSave" accesskey="s" title="[% Translate("Save as new draft") | html %] (s)" type="submit">
+        <span><i class="fa fa-pencil-square-o"></i> [% Translate("Save as new draft") | html %]</span>
+    </button>
+[% END %]

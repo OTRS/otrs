@@ -1691,6 +1691,14 @@
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="FormDraftTTL###Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Defines time in minutes since last modification for drafts of specified type before they are considered expired.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Draft</SubGroup>
+        <Setting>
+            <String Regex="^\d+$">10080</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PlainView" Required="1" Valid="1">
         <Description Translatable="1">Shows a link to see a zoomed email ticket in plain text.</Description>
         <Group>Ticket</Group>
@@ -3046,6 +3054,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket free text screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###HistoryType" Required="0" Valid="1">
         <Description Translatable="1">Defines the history type for the ticket free text screen action, which gets used for ticket history.</Description>
         <Group>Ticket</Group>
@@ -3143,6 +3162,17 @@
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket phone outbound screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneInbound###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket phone inbound screen in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -3222,6 +3252,17 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
         <Setting>
             <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneInbound###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket phone inbound screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneInbound</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewOwnerSelection" Required="1" Valid="1">
@@ -3829,6 +3870,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the close ticket screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###HistoryType" Required="0" Valid="1">
         <Description Translatable="1">Defines the history type for the close ticket screen action, which gets used for ticket history in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -4118,6 +4170,17 @@
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket note screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
@@ -4416,6 +4479,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket owner screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###HistoryType" Required="0" Valid="1">
         <Description Translatable="1">Defines the history type for the ticket owner screen action, which gets used for ticket history in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -4702,6 +4776,17 @@
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
             <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket pending screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0" Translatable="1">No</Item>
                 <Item Key="1" Translatable="1">Yes</Item>
             </Option>
@@ -5000,6 +5085,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket priority screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###HistoryType" Required="0" Valid="1">
         <Description Translatable="1">Defines the history type for the ticket priority screen action, which gets used for ticket history in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -5293,6 +5389,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket responsible screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###HistoryType" Required="0" Valid="1">
         <Description Translatable="1">Defines the history type for the ticket responsible screen action, which gets used for ticket history in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -5505,6 +5612,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket move screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket bounce screen in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -5596,6 +5714,17 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###IsVisibleForCustomerDefault" Required="1" Valid="1">
         <Description Translatable="1">Defines if the message in the ticket compose screen of the agent interface is visible for the customer by default.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket compose screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
@@ -5725,6 +5854,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the ticket forward screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the email outbound screen in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -5768,6 +5908,17 @@
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###IsVisibleForCustomerDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###FormDraft" Required="0" Valid="1">
+        <Description Translatable="1">Allows to save current work as draft in the email outbound screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
         <Setting>
@@ -8798,6 +8949,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketPhoneCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -8814,6 +8966,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketPhoneCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9048,8 +9201,9 @@
                     <JavaScript>Core.Agent.TicketZoom.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.UI.Table.Sort.js</JavaScript>
-                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
                     <JavaScript>Core.Agent.LinkObject.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9102,6 +9256,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketActionCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9133,6 +9288,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketActionCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9161,6 +9317,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketActionCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9189,6 +9346,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketMove.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9264,6 +9422,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketActionCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9280,6 +9439,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketActionCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9298,6 +9458,7 @@
                     <JavaScript>Core.Agent.CustomerSearchAutoComplete.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketCompose.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9331,6 +9492,7 @@
                     <JavaScript>Core.Agent.CustomerSearchAutoComplete.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketForward.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9349,6 +9511,7 @@
                     <JavaScript>Core.Agent.CustomerSearchAutoComplete.js</JavaScript>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketEmailOutbound.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9383,6 +9546,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketActionCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -9399,6 +9563,7 @@
                 <Loader>
                     <JavaScript>Core.Agent.TicketAction.js</JavaScript>
                     <JavaScript>Core.Agent.TicketActionCommon.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketFormDraft.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

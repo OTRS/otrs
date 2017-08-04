@@ -15,6 +15,9 @@
     <input type="hidden" name="References" value="[% Data.References | html %]"/>
     <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
     <input type="hidden" name="IsVisibleForCustomerPresent" value="1"/>
+    <input type="hidden" name="FormDraftTitle" value="[% Data.FormDraftTitle | html %]"/>
+    <input type="hidden" name="FormDraftID" value="[% Data.FormDraftID | html %]"/>
+    <input type="hidden" name="FormDraftAction" id="FormDraftAction" />
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
@@ -38,7 +41,7 @@
         </div>
 
         <div class="Content">
-
+            [% INCLUDE "FormElements/DraftNotifications.tt" %]
             <fieldset class="TableLike FixedLabel">
                 <label>[% Translate("From") | html %]:</label>
                 <div class="Field">
@@ -394,9 +397,13 @@
 [% RenderBlockEnd("TimeUnits") %]
 
             </fieldset>
+            <br />
         </div>
         <div class="Footer">
-            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Send mail") | html %] (g)" type="submit" value="[% Translate("Send mail") | html %]" ><span><i class="fa fa-envelope-o"></i> [% Translate("Send mail") | html %]</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Send mail") | html %] (g)" type="submit" value="[% Translate("Send mail") | html %]" >
+                <span><i class="fa fa-envelope-o"></i> [% Translate("Send mail") | html %]</span>
+            </button>
+            [% INCLUDE "FormElements/DraftButtons.tt" %]
         </div>
     </div>
 </form>

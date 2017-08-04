@@ -2570,4 +2570,28 @@
         <IndexColumn Name="create_time" />
     </Index>
 </Table>
+
+<!-- form_draft -->
+<TableCreate Name="form_draft">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
+    <Column Name="object_type" Required="true" Size="200" Type="VARCHAR" />
+    <Column Name="object_id" Required="true" Type="INTEGER" />
+    <Column Name="action" Required="true" Size="200" Type="VARCHAR" />
+    <Column Name="title" Required="false" Size="255" Type="VARCHAR" />
+    <Column Name="content" Required="true" Type="LONGBLOB" />
+    <Column Name="create_time" Required="true" Type="DATE" />
+    <Column Name="create_by" Required="true" Type="INTEGER" />
+    <Column Name="change_time" Required="true" Type="DATE" />
+    <Column Name="change_by" Required="true" Type="INTEGER" />
+    <Index Name="form_draft_object_type_object_id_action">
+        <IndexColumn Name="object_type" />
+        <IndexColumn Name="object_id" />
+        <IndexColumn Name="action" />
+    </Index>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id" />
+        <Reference Local="change_by" Foreign="id" />
+    </ForeignKey>
+</TableCreate>
+
 </database>

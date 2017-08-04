@@ -381,6 +381,34 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
 
+    if ( $Self->{Subaction} eq 'FormDraftDelete' ) {
+        my %Response;
+
+        my $FormDraftID = $ParamObject->GetParam( Param => 'FormDraftID' ) || '';
+        if ($FormDraftID) {
+            $Response{Success} = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
+                FormDraftID => $FormDraftID,
+                UserID      => $Self->{UserID},
+            );
+        }
+        else {
+            $Response{Error} = $LayoutObject->{LanguageObject}->Translate("Missing FormDraftID!");
+        }
+
+        # build JSON output
+        my $JSON = $LayoutObject->JSONEncode(
+            Data => \%Response,
+        );
+
+        # send JSON response
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     if ( $Self->{Subaction} eq 'LoadWidget' ) {
         my $ElementID = $ParamObject->GetParam( Param => 'ElementID' );
         my $Config;
@@ -1182,6 +1210,9 @@ sub MaskAgentZoom {
         Data => { %Param, %Ticket, %AclAction },
     );
 
+    my %ActionLookup;
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # run ticket menu modules
     if ( ref $ConfigObject->Get('Ticket::Frontend::MenuModule') eq 'HASH' ) {
         my %Menus = %{ $ConfigObject->Get('Ticket::Frontend::MenuModule') };
@@ -1211,6 +1242,17 @@ sub MaskAgentZoom {
             next MENU if !$Item;
             if ( $Menus{$Menu}->{PopupType} ) {
                 $Item->{Class} = "AsPopup PopupType_$Menus{$Menu}->{PopupType}";
+            }
+
+            if ( $Menus{$Menu}->{Action} ) {
+                $ActionLookup{ $Menus{$Menu}->{Action} } = {
+                    Link           => $Item->{Link},
+                    Class          => $Item->{Class},
+                    LinkParam      => $Item->{LinkParam},
+                    Description    => $Item->{Description},
+                    Name           => $Item->{Name},
+                    TranslatedName => $Kernel::OM->Get('Kernel::Language')->Translate( $Item->{Name} ),
+                };
             }
 
             if ( !$Menus{$Menu}->{ClusterName} ) {
@@ -1311,7 +1353,138 @@ sub MaskAgentZoom {
                     Data => { %Param, %AclAction },
                 );
             }
+
+            $ActionLookup{AgentTicketMove} = {
+                Link           => 'Action=AgentTicketMove;TicketID=[% Data.TicketID | uri %]',
+                Class          => 'AsPopup PopupType_TicketAction',
+                LinkParam      => '',
+                Description    => Translatable('Change Queue'),
+                Name           => Translatable('Queue'),
+                TranslatedName => $Kernel::OM->Get('Kernel::Language')->Translate('Queue'),
+            };
         }
+    }
+
+    # Check if AgentTicketCompose and AgentTicketForward are allowed as action (for display of FormDrafts).
+    my %ActionConfig = (
+        AgentTicketCompose => {
+            Link           => 'Action=AgentTicketCompose;TicketID=[% Data.TicketID | uri %]',
+            Class          => 'AsPopup PopupType_TicketAction',
+            LinkParam      => '',
+            Description    => Translatable('Reply'),
+            Name           => Translatable('Reply'),
+            TranslatedName => $Kernel::OM->Get('Kernel::Language')->Translate('Reply'),
+        },
+        AgentTicketForward => {
+            Link           => 'Action=AgentTicketForward;TicketID=[% Data.TicketID | uri %]',
+            Class          => 'AsPopup PopupType_TicketAction',
+            LinkParam      => '',
+            Description    => Translatable('Forward article via mail'),
+            Name           => Translatable('Forward'),
+            TranslatedName => $Kernel::OM->Get('Kernel::Language')->Translate('Forward'),
+        },
+    );
+    ACTION:
+    for my $Action (qw(AgentTicketCompose AgentTicketForward)) {
+        next ACTION if !$ConfigObject->Get('Frontend::Module')->{$Action};
+        next ACTION if !$AclActionLookup{$Action};
+
+        my $Config = $ConfigObject->Get( 'Ticket::Frontend::' . $Action );
+        if ( $Config->{Permission} ) {
+            next ACTION if !$TicketObject->TicketPermission(
+                Type     => $Config->{Permission},
+                TicketID => $Ticket{TicketID},
+                UserID   => $Self->{UserID},
+                LogNo    => 1,
+            );
+        }
+        $ActionLookup{$Action} = $ActionConfig{$Action};
+    }
+
+    # Get and show available FormDrafts.
+    my %ShownFormDraftEntries;
+    my $FormDraftList = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftListGet(
+        ObjectType => 'Ticket',
+        ObjectID   => $Self->{TicketID},
+        UserID     => $Self->{UserID},
+    );
+    if ( IsArrayRefWithData($FormDraftList) ) {
+        FormDraft:
+        for my $FormDraft ( @{$FormDraftList} ) {
+            next FormDraft if !$ActionLookup{ $FormDraft->{Action} };
+            push @{ $ShownFormDraftEntries{ $FormDraft->{Action} } }, $FormDraft;
+        }
+    }
+    if (%ShownFormDraftEntries) {
+
+        my $LastArticle;
+        if ( $Order eq 'DESC' ) {
+            $LastArticle = $ArticleBoxAll[0];
+        }
+        else {
+            $LastArticle = $ArticleBoxAll[-1];
+        }
+
+        my $LastArticleSystemTime;
+        if ( $LastArticle->{CreateTime} ) {
+            my $LastArticleSystemTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $LastArticle->{CreateTime},
+                },
+            );
+            $LastArticleSystemTime = $LastArticleSystemTimeObject->ToEpoch();
+        }
+
+        my @FormDrafts;
+
+        for my $Action (
+            sort {
+                $ActionLookup{$a}->{TranslatedName}
+                    cmp
+                    $ActionLookup{$b}->{TranslatedName}
+            } keys %ShownFormDraftEntries
+            )
+        {
+            my $ActionData = $ActionLookup{$Action};
+
+            SHOWNFormDraftACTIONENTRY:
+            for my $ShownFormDraftActionEntry (
+                sort {
+                    $a->{Title}
+                        cmp
+                        $b->{Title}
+                        ||
+                        $a->{FormDraftID}
+                        <=>
+                        $b->{FormDraftID}
+                } @{ $ShownFormDraftEntries{$Action} }
+                )
+            {
+                $ShownFormDraftActionEntry->{CreatedByUser} = $UserObject->UserName(
+                    UserID => $ShownFormDraftActionEntry->{CreateBy},
+                );
+                $ShownFormDraftActionEntry->{ChangedByUser} = $UserObject->UserName(
+                    UserID => $ShownFormDraftActionEntry->{ChangeBy},
+                );
+
+                $ShownFormDraftActionEntry = {
+                    %{$ShownFormDraftActionEntry},
+                    %{$ActionData},
+
+                };
+
+                push @FormDrafts, $ShownFormDraftActionEntry;
+            }
+        }
+
+        $LayoutObject->Block(
+            Name => 'FormDraftTable',
+            Data => {
+                FormDrafts => \@FormDrafts,
+                TicketID   => $Param{TicketID},
+            },
+        );
     }
 
     # show created by if different then User ID 1

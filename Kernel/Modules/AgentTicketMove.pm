@@ -23,6 +23,19 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # Try to load draft if requested.
+    if (
+        $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}")->{FormDraft}
+        && $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'LoadFormDraft' )
+        && $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' )
+        )
+    {
+        $Self->{LoadedFormDraftID} = $Kernel::OM->Get('Kernel::System::Web::Request')->LoadFormDraft(
+            FormDraftID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormDraftID' ),
+            UserID      => $Self->{UserID},
+        );
+    }
+
     # get form id
     $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'FormID' );
 
@@ -89,6 +102,18 @@ sub Run {
         }
     }
 
+    # Check for failed draft loading request.
+    if (
+        $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'LoadFormDraft' )
+        && !$Self->{LoadedFormDraftID}
+        )
+    {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Loading draft failed!'),
+            Comment => Translatable('Please contact the admin.'),
+        );
+    }
+
     # check if ticket is locked
     if ( $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
         my $AccessOk = $TicketObject->OwnerCheck(
@@ -133,7 +158,7 @@ sub Run {
         qw(Subject Body
         NewUserID NewStateID NewPriorityID
         OwnerAll NoSubmit DestQueueID DestQueue
-        StandardTemplateID CreateArticle
+        StandardTemplateID CreateArticle FormDraftID Title
         )
         )
     {
@@ -225,6 +250,135 @@ sub Run {
 
     # error handling
     my %Error;
+
+    # distinguish between action concerning attachments and the move action
+    my $IsUpload = 0;
+
+    # Get and validate draft action.
+    my $FormDraftAction = $ParamObject->GetParam( Param => 'FormDraftAction' );
+    if ( $FormDraftAction && !$Config->{FormDraft} ) {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('FormDraft functionality disabled!'),
+            Comment => Translatable('Please contact the admin.'),
+        );
+    }
+
+    my %FormDraftResponse;
+
+    # Check draft name.
+    if (
+        $FormDraftAction
+        && ( $FormDraftAction eq 'Add' || $FormDraftAction eq 'Update' )
+        )
+    {
+        my $Title = $ParamObject->GetParam( Param => 'FormDraftTitle' );
+
+        # A draft name is required.
+        if ( !$Title ) {
+
+            %FormDraftResponse = (
+                Success      => 0,
+                ErrorMessage => $Kernel::OM->Get('Kernel::Language')->Translate("Draft name is required!"),
+            );
+        }
+
+        # Chosen draft name must be unique.
+        else {
+            my $FormDraftList = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftListGet(
+                ObjectType => 'Ticket',
+                ObjectID   => $Self->{TicketID},
+                Action     => $Self->{Action},
+                UserID     => $Self->{UserID},
+            );
+            DRAFT:
+            for my $FormDraft ( @{$FormDraftList} ) {
+
+                # No existing draft with same name.
+                next DRAFT if $Title ne $FormDraft->{Title};
+
+                # Same name for update on existing draft.
+                if (
+                    $GetParam{FormDraftID}
+                    && $FormDraftAction eq 'Update'
+                    && $GetParam{FormDraftID} eq $FormDraft->{FormDraftID}
+                    )
+                {
+                    next DRAFT;
+                }
+
+                # Another draft with the chosen name already exists.
+                %FormDraftResponse = (
+                    Success      => 0,
+                    ErrorMessage => $Kernel::OM->Get('Kernel::Language')
+                        ->Translate( "FormDraft name %s is already in use!", $Title ),
+                );
+                $IsUpload = 1;
+                last DRAFT;
+            }
+        }
+    }
+
+    # Perform draft action instead of saving form data in ticket/article.
+    if ( $FormDraftAction && !%FormDraftResponse ) {
+
+        # Reset FormDraftID to prevent updating existing draft.
+        if ( $FormDraftAction eq 'Add' && $GetParam{FormDraftID} ) {
+            $ParamObject->{Query}->param(
+                -name  => 'FormDraftID',
+                -value => '',
+            );
+        }
+
+        my $FormDraftActionOk;
+        if (
+            $FormDraftAction eq 'Add'
+            ||
+            ( $FormDraftAction eq 'Update' && $GetParam{FormDraftID} )
+            )
+        {
+            $FormDraftActionOk = $ParamObject->SaveFormDraft(
+                UserID         => $Self->{UserID},
+                ObjectType     => 'Ticket',
+                ObjectID       => $Self->{TicketID},
+                OverrideParams => {
+                    NoSubmit     => 1,
+                    TicketUnlock => undef,
+                },
+            );
+        }
+        elsif ( $FormDraftAction eq 'Delete' && $GetParam{FormDraftID} ) {
+            $FormDraftActionOk = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
+                FormDraftID => $GetParam{FormDraftID},
+                UserID      => $Self->{UserID},
+            );
+        }
+
+        if ($FormDraftActionOk) {
+            $FormDraftResponse{Success} = 1;
+        }
+        else {
+            %FormDraftResponse = (
+                Success      => 0,
+                ErrorMessage => 'Could not perform requested draft action!',
+            );
+        }
+    }
+
+    if (%FormDraftResponse) {
+
+        # build JSON output
+        my $JSON = $LayoutObject->JSONEncode(
+            Data => \%FormDraftResponse,
+        );
+
+        # send JSON response
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
 
     # DestQueueID lookup
     if ( !$GetParam{DestQueueID} && $GetParam{DestQueue} ) {
@@ -1082,6 +1236,22 @@ sub Run {
         );
     }
 
+    # If form was called based on a draft,
+    #   delete draft since its content has now been used.
+    if (
+        $GetParam{FormDraftID}
+        && !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftDelete(
+            FormDraftID => $GetParam{FormDraftID},
+            UserID      => $Self->{UserID},
+        )
+        )
+    {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Could not delete draft!'),
+            Comment => Translatable('Please contact the admin.'),
+        );
+    }
+
     # check permission for redirect
     my $AccessNew = $TicketObject->TicketPermission(
         Type     => 'ro',
@@ -1340,6 +1510,8 @@ sub AgentMove {
         if (
             $Config->{NoteMandatory}
             || $ConfigObject->Get('Ticket::Frontend::NeedAccountedTime')
+            || $Param{IsUpload}
+            || $Param{CreateArticle}
             )
         {
             $Param{WidgetStatus} = 'Expanded';
@@ -1487,9 +1659,73 @@ sub AgentMove {
         }
     }
 
+    my $LoadedFormDraft;
+    if ( $Self->{LoadedFormDraftID} ) {
+        $LoadedFormDraft = $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftGet(
+            FormDraftID => $Self->{LoadedFormDraftID},
+            GetContent  => 0,
+            UserID      => $Self->{UserID},
+        );
+
+        my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+            TicketID => $Self->{TicketID},
+            OnlyLast => 1,
+        );
+
+        if (@Articles) {
+            my $LastArticle = $Articles[0];
+
+            my $LastArticleSystemTime;
+            if ( $LastArticle->{CreateTime} ) {
+                my $LastArticleSystemTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $LastArticle->{CreateTime},
+                    },
+                );
+                $LastArticleSystemTime = $LastArticleSystemTimeObject->ToEpoch();
+            }
+
+            my $FormDraftSystemTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $LoadedFormDraft->{ChangeTime},
+                },
+            );
+            my $FormDraftSystemTime = $FormDraftSystemTimeObject->ToEpoch();
+
+            if ( !$LastArticleSystemTime || $FormDraftSystemTime <= $LastArticleSystemTime ) {
+                $Param{FormDraftOutdated} = 1;
+            }
+        }
+    }
+
+    if ( IsHashRefWithData($LoadedFormDraft) ) {
+
+        my $DateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $LoadedFormDraft->{ChangeTime},
+            },
+        );
+        my %RelativeTime = $LayoutObject->FormatRelativeTime( DateTimeObject => $DateTimeObject );
+        $LoadedFormDraft->{ChangeTimeRelative}
+            = $LayoutObject->{LanguageObject}->Translate( $RelativeTime{Message}, $RelativeTime{Value} );
+
+        $LoadedFormDraft->{ChangeByName} = $Kernel::OM->Get('Kernel::System::User')->UserName(
+            UserID => $LoadedFormDraft->{ChangeBy},
+        );
+    }
+
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketMove',
-        Data         => \%Param
+        Data         => {
+            %Param,
+            FormDraft      => $Config->{FormDraft},
+            FormDraftID    => $Self->{LoadedFormDraftID},
+            FormDraftTitle => $LoadedFormDraft ? $LoadedFormDraft->{Title} : '',
+            FormDraftMeta  => $LoadedFormDraft,
+        },
     );
 }
 

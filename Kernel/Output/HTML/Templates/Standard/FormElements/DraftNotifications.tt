@@ -1,0 +1,30 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% IF Data.FormDraftTitle %]
+<div class="MessageBox Info">
+    <p>
+    [% IF Data.FormDraftMeta.ChangeTime == Data.FormDraftMeta.CreateTime %]
+        [% Translate("You have loaded the draft \"%s\".", Data.FormDraftTitle) | html %]
+    [% ELSE %]
+        [% IF Data.FormDraftMeta.ChangeBy == Env('UserID') %]
+            [% Translate("You have loaded the draft \"%s\". You last changed it %s.", Data.FormDraftTitle, Data.FormDraftMeta.ChangeTimeRelative ) | html %]
+        [% ELSE %]
+            [% Translate("You have loaded the draft \"%s\". It was last changed %s by %s.", Data.FormDraftTitle, Data.FormDraftMeta.ChangeTimeRelative.Message, Data.FormDraftMeta.ChangeByName ) | html %]
+        [% END %]
+    [% END %]
+    </p>
+</div>
+[% END %]
+[% IF Data.FormDraftOutdated %]
+<div class="MessageBox Warning">
+    <p>
+        [% Translate("Please note that this draft is outdated because the ticket was modified since this draft was created.") | html %]
+    </p>
+</div>
+[% END %]

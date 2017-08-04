@@ -855,4 +855,25 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketDraftDeleteExpired" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Delete expired ticket draft entries.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">TicketDraftDeleteExpired</Item>
+                <Item Key="Schedule">55 * * * *</Item> <!-- default every hour in minute 55 -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Draft::Delete</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--object-type</Item>
+                        <Item>Ticket</Item>
+                        <Item>--expired</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 </otrs_config>

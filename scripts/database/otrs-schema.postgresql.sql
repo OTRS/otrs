@@ -2850,3 +2850,30 @@ IF NOT EXISTS (
 END IF;
 END$$;
 ;
+-- ----------------------------------------------------------
+--  create table form_draft
+-- ----------------------------------------------------------
+CREATE TABLE form_draft (
+    id serial NOT NULL,
+    object_type VARCHAR (200) NOT NULL,
+    object_id INTEGER NOT NULL,
+    action VARCHAR (200) NOT NULL,
+    title VARCHAR (255) NULL,
+    content TEXT NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('form_draft_object_type_object_id_action')
+    ) THEN
+    CREATE INDEX form_draft_object_type_object_id_action ON form_draft (object_type, object_id, action);
+END IF;
+END$$;
+;

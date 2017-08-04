@@ -1,0 +1,28 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+
+<div>
+    <div class="InnerContent">
+        <fieldset class="TableLike FixedLabelSmall NoMargin">
+            <label for="FormDraftTitle">{{ "Draft title" | Translate }}:</label>
+            <div class="Field">
+                <input type="text" id="FormDraftTitle" maxlength="255" />
+                <span class="AJAXLoader" style="display:none;"/>
+            </div>
+        </fieldset>
+    </div>
+    <div class="ContentFooter Center">
+        <button id="SaveFormDraft" class="Primary CallForAction">
+            <span>{{ "Save" | Translate }}</span>
+        </button>
+        <button class="CallForAction CloseDialog" value="{{ "Cancel" | Translate }}">
+            <span>{{ "Cancel" | Translate }}</span>
+        </button>
+    </div>
+</div>

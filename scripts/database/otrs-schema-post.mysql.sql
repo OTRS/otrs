@@ -1029,3 +1029,11 @@ SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHER
 SET @FKSQLStatement := IF( @FKExists = 0, 'ALTER TABLE calendar_appointment_ticket ADD CONSTRAINT FK_calendar_appointment_ticket_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id)', 'SELECT ''INFO: Foreign key constraint FK_calendar_appointment_ticket_ticket_id_id does already exist, skipping.''' );
 PREPARE FKStatement FROM @FKSQLStatement;
 EXECUTE FKStatement;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'form_draft' AND constraint_name = 'FK_form_draft_create_by_id');
+SET @FKSQLStatement := IF( @FKExists = 0, 'ALTER TABLE form_draft ADD CONSTRAINT FK_form_draft_create_by_id FOREIGN KEY (create_by) REFERENCES users (id)', 'SELECT ''INFO: Foreign key constraint FK_form_draft_create_by_id does already exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;
+SET @FKExists := (SELECT COUNT(*) FROM information_schema.table_constraints WHERE table_schema = DATABASE() AND table_name = 'form_draft' AND constraint_name = 'FK_form_draft_change_by_id');
+SET @FKSQLStatement := IF( @FKExists = 0, 'ALTER TABLE form_draft ADD CONSTRAINT FK_form_draft_change_by_id FOREIGN KEY (change_by) REFERENCES users (id)', 'SELECT ''INFO: Foreign key constraint FK_form_draft_change_by_id does already exist, skipping.''' );
+PREPARE FKStatement FROM @FKSQLStatement;
+EXECUTE FKStatement;

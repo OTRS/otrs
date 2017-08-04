@@ -254,6 +254,10 @@ sub _TasksGet {
             Module  => 'AddAppointmentCalendarNotification',
         },
         {
+            Message => 'Create Form Draft tables',
+            Module  => 'CreateFormDraftTables',
+        },
+        {
             Message => 'Clean and drop group_user permission_value column',
             Module  => 'CleanGroupUserPermissionValue',
         },

@@ -151,7 +151,8 @@
     margin-bottom: 15px;
 }
 
-.Dialog .WidgetSettingsForm fieldset {
+.Dialog .WidgetSettingsForm fieldset,
+.Dialog fieldset.NoMargin {
     margin-bottom: 0px;
 }
 

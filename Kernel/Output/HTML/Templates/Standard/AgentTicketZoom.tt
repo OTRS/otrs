@@ -78,6 +78,52 @@
 
     <div class="LayoutFixedSidebar SidebarLast">
         <div class="SidebarColumn">
+
+[% RenderBlockStart("FormDraftTable") %]
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate( "Drafts") | html %]</h2>
+                </div>
+
+                <div class="Content">
+                    <table class="DataTable" id="FormDraftTable">
+                        <tbody>
+                            [% FOREACH FormDraft IN Data.FormDrafts %]
+                            <tr class="MasterAction">
+                                <td class="DraftName">
+                                    <a
+                                        href="[% Env("Baselink") %][% FormDraft.Link | Interpolate %];LoadFormDraft=1;FormDraftID=[% FormDraft.FormDraftID | html %]"
+                                        class="[% FormDraft.Class | html %] MasterActionLink"
+                                        [% FormDraft.LinkParam %]>
+
+                                        <span title="[% Translate(FormDraft.Description) | html %]">
+                                            [% Translate(FormDraft.Name) | html %] -
+                                        </span>
+                                        <span title="[% Translate("Created") | html %] [% FormDraft.CreateTime | Localize("TimeShort") %] [% Translate("by") | html %] [% FormDraft.CreatedByUser | html %] [% Translate("Changed") | html %] [% FormDraft.ChangeTime | Localize("TimeShort") %] [% Translate("by") | html %] [% FormDraft.ChangedByUser | html %]">
+                                            [% FormDraft.Title | html %]
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="FormDraftDelete"
+                                        href="[% Env("CGIHandle") %]?Action=AgentTicketZoom;Subaction=FormDraftDelete;FormDraftID=[% FormDraft.FormDraftID | html %];TicketID=[% Data.TicketID %]"
+                                        title="[% Translate("Delete") | html %]"
+                                        data-title="[% FormDraft.Title | html %]"
+                                        [% FormDraft.LinkParam %]>
+
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </td>
+                            [% END %]
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+[% RenderBlockEnd("FormDraftTable") %]
+
             [% FOREACH Widget IN Data.SidebarWidgets; %]
                 [% IF Widget.Async; %]
                     <div id="[% Widget.ElementID %]">

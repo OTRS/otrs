@@ -11,6 +11,9 @@
     <input type="hidden" name="Subaction" value="Store"/>
     <input type="hidden" name="FormID"    value="[% Data.FormID | html %]"/>
     <input type="hidden" name="TicketID"  value="[% Data.TicketID | html %]"/>
+    <input type="hidden" name="FormDraftTitle" value="[% Data.FormDraftTitle | html %]"/>
+    <input type="hidden" name="FormDraftID" value="[% Data.FormDraftID | html %]"/>
+    <input type="hidden" name="FormDraftAction" id="FormDraftAction" />
     <div class="LayoutPopup ARIARoleMain">
 
         <div class="Header">
@@ -34,7 +37,7 @@
         </div>
 
         <div class="LayoutFixedSidebar SidebarLast Content">
-
+            [% INCLUDE "FormElements/DraftNotifications.tt" %]
             <div class="SidebarColumn">
 [% RenderBlockStart("CustomerTable") %]
                 <div id="CustomerInfo" class="WidgetSimple">
@@ -157,9 +160,13 @@
 
                 </fieldset>
             </div>
+            <br/>
         </div>
         <div class="Footer">
-            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]"><span><i class="fa fa-check-square-o"></i> [% Translate("Submit") | html %]</span></button>
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Submit") | html %] (g)" type="submit" value="[% Translate("Submit") | html %]">
+                <span><i class="fa fa-check-square-o"></i> [% Translate("Submit") | html %]</span>
+            </button>
+            [% INCLUDE "FormElements/DraftButtons.tt" %]
         </div>
     </div>
 </form>
