@@ -132,6 +132,7 @@ package $PackageName;
 use strict;
 use warnings;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
+sub Load {} # no-op, avoid warning logs
 sub $SubroutineName {
     return 'Hello, world!';
 }

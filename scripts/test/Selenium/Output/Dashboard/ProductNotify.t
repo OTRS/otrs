@@ -48,7 +48,7 @@ $Selenium->RunTest(
         my $NextVersionFirstNumber = $Parts[0] + 1;
 
         my @ProductFeeds;
-        for my $Count ( 1 .. 2 ) {
+        for my $Count ( 1 .. 3 ) {
             my $Number = $Helper->GetRandomNumber();
             push @ProductFeeds, {
                 Version => "$NextVersionFirstNumber.0.$Count",
@@ -56,18 +56,65 @@ $Selenium->RunTest(
             };
         }
 
+        # Create a fake cloud service response with product feed data.
+        my $CloudServiceResponse = {
+            Results => {
+                PublicFeeds => [
+                    {
+                        Success   => 1,
+                        Operation => 'ProductFeed',
+                        Data      => {
+                            CacheTTL => 4320,
+                            Release  => [
+                                {
+                                    Name     => 'OTRS',
+                                    Severity => 'Security',
+                                    Version  => $ProductFeeds[2]->{Version},
+                                    Link     => $ProductFeeds[2]->{Link},
+                                },
+                                {
+                                    Name     => 'OTRS',
+                                    Severity => 'Minor',
+                                    Version  => $ProductFeeds[1]->{Version},
+                                    Link     => $ProductFeeds[1]->{Link},
+                                },
+                                {
+                                    Name     => 'OTRS',
+                                    Severity => 'Major',
+                                    Version  => $ProductFeeds[0]->{Version},
+                                    Link     => $ProductFeeds[0]->{Link},
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+            ErrorMessage => '',
+            Success      => 1,
+        };
+        my $CloudServiceResponseJSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+            Data   => $CloudServiceResponse,
+            Pretty => 1,
+        );
+
+        my $RandomID = $Helper->GetRandomID();
+
         # Override Request() from WebUserAgent to always return some test data without making any
         #   actual web service calls. This should prevent instability in case cloud services are
         #   unavailable at the exact moment of this test run.
         my $CustomCode = <<"EOS";
+sub Kernel::Config::Files::ZZZZUnitTestProductNotify${RandomID}::Load {} # no-op, avoid warning logs
 use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
 use strict;
 use warnings;
+## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
 {
     no warnings 'redefine';
     sub Request {
-        my \$JSONString = '{"Results":{"PublicFeeds":[{"Success":"1","Operation":"ProductFeed","Data":{"CacheTTL":"4320","Release":[{"Name":"OTRS","Severity":"Patch","Version":"$ProductFeeds[0]->{Version}","Link":"$ProductFeeds[0]->{Link}"},{"Name":"OTRS","Severity":"Patch","Version":"$ProductFeeds[1]->{Version}","Link":"$ProductFeeds[1]->{Link}"}]}}]},"ErrorMessage":"","Success":1}';
+        my \$JSONString = q^
+$CloudServiceResponseJSON
+^;
         return (
             Content => \\\$JSONString,
             Status  => '200 OK',
@@ -77,7 +124,8 @@ use warnings;
 1;
 EOS
         $Helper->CustomCodeActivate(
-            Code => $CustomCode,
+            Code       => $CustomCode,
+            Identifier => 'ProductNotify' . $RandomID,
         );
 
         # Make sure cache is correct.

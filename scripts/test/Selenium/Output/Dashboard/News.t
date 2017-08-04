@@ -50,18 +50,56 @@ $Selenium->RunTest(
             };
         }
 
+        # Create a fake cloud service response with public feed data.
+        my $CloudServiceResponse = {
+            Results => {
+                PublicFeeds => [
+                    {
+                        Success   => 1,
+                        Operation => 'NewsFeed',
+                        Data      => {
+                            News => [
+                                {
+                                    Title => $NewsData[0]->{Title},
+                                    Link  => $NewsData[0]->{Link},
+                                    Time  => '2017-01-25T15:05:59+00:00',
+                                },
+                                {
+                                    Title => $NewsData[1]->{Title},
+                                    Link  => $NewsData[1]->{Link},
+                                    Time  => '2017-01-25T15:05:59+00:00',
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+            ErrorMessage => '',
+            Success      => 1,
+        };
+        my $CloudServiceResponseJSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+            Data   => $CloudServiceResponse,
+            Pretty => 1,
+        );
+
+        my $RandomID = $Helper->GetRandomID();
+
         # Override Request() from WebUserAgent to always return some test data without making any
         #   actual web service calls. This should prevent instability in case cloud services are
         #   unavailable at the exact moment of this test run.
         my $CustomCode = <<"EOS";
+sub Kernel::Config::Files::ZZZZUnitTestNews${RandomID}::Load {} # no-op, avoid warning logs
 use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
 use strict;
 use warnings;
+## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
 {
     no warnings 'redefine';
     sub Request {
-        my \$JSONString = '{"Results":{"PublicFeeds":[{"Success":"1","Operation":"NewsFeed","Data":{"News":[{"Title":"$NewsData[0]->{Title}","Link":"$NewsData[0]->{Link}","Time":"2017-01-25T15:05:59+00:00"},{"Title":"$NewsData[1]->{Title}","Link":"$NewsData[1]->{Link}","Time":"2017-01-25T15:05:59+00:00"}]}}]},"ErrorMessage":"","Success":1}';
+        my \$JSONString = q^
+$CloudServiceResponseJSON
+^;
         return (
             Content => \\\$JSONString,
             Status  => '200 OK',
@@ -71,7 +109,8 @@ use warnings;
 1;
 EOS
         $Helper->CustomCodeActivate(
-            Code => $CustomCode,
+            Code       => $CustomCode,
+            Identifier => 'News' . $RandomID,
         );
 
         # Make sure cache is correct.

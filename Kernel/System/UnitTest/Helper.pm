@@ -678,6 +678,7 @@ Please note that this will not work correctly in clustered environments.
 
     $Helper->CustomCodeActivate(
         Code => q^
+sub Kernel::Config::Files::ZZZZUnitTestIdentifier::Load {} # no-op, avoid warning logs
 use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
 use strict;
