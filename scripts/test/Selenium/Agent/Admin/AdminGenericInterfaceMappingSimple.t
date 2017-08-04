@@ -97,6 +97,12 @@ $Selenium->RunTest(
             "\$('#OperationList').val('Ticket::TicketCreate').trigger('redraw.InputField').trigger('change');"
         );
 
+        # Wait until AJAX loads new form.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#MappingInbound").length === 1 && $("#MappingOutbound").length === 1;'
+        );
+
         # create webservice operation
         $Selenium->find_element( "#Operation", 'css' )->send_keys('SeleniumOperation');
 
