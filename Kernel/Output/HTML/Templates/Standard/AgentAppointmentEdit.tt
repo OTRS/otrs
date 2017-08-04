@@ -25,7 +25,7 @@
             <div class="Field">
 [% IF Data.TicketAppointmentRuleID %]
                 <p id="Title" class="ReadOnlyValue">
-                    <a target="_blank" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]">[% Data.Title | html %]</a>
+                    <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]">[% Data.Title | html %]</a>
                 </p>
 [% ELSE %]
 [% IF Data.PermissionLevel < 2 %]
@@ -441,7 +441,7 @@
 [% END %]
 # keep following block on a single line, so :empty CSS selector would work!
                 <div id="PluginContainer_[% Key | html %]"[% IF Data.PermissionLevel >= 2 %] class="PluginContainer"[% END %]>[% FOREACH Link IN Data.PluginData.$Key %]<div class="Link_[% Link.LinkID | html %]">
-                    <a target="_blank" href="[% Link.LinkURL %]">[% Link.LinkName | html %]</a>[% IF Data.PermissionLevel >= 2 %]<a class="RemoveButton" href="#" data-plugin-key="[% Key | html %]" data-link-id="[% Link.LinkID | html %]" title="[% Translate("Remove entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>[% END %]
+                    <a href="[% Link.LinkURL %]">[% Link.LinkName | html %]</a>[% IF Data.PermissionLevel >= 2 %]<a class="RemoveButton" href="#" data-plugin-key="[% Key | html %]" data-link-id="[% Link.LinkID | html %]" title="[% Translate("Remove entry") | html %]"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove") | html %]</span></a>[% END %]
                 </div>[% END %]</div>
             </div>
             <div class="Clear"></div>
