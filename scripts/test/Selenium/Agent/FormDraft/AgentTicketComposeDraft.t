@@ -41,6 +41,7 @@ $Selenium->RunTest(
         );
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Get RandomID.
         my $RandomID = $Helper->GetRandomID();
@@ -138,6 +139,10 @@ $Selenium->RunTest(
                     Value  => 'Selenium Compose Body',
                     Update => 'Selenium Compose Body - Update',
                 },
+                Attachments => {
+                    ID     => 'FileUpload',
+                    Type   => 'Attachment',
+                },
             },
         };
 
@@ -166,6 +171,26 @@ $Selenium->RunTest(
                 );
 
                 $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
+
+            }
+            elsif ( $FormDraftCase->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
+
+                # make the file upload field visible
+                $Selenium->execute_script(
+                    "\$('#FileUpload').css('display', 'block')"
+                );
+
+                # upload a file
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf");
+
+                # Check if uploaded.
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                    ),
+                    1,
+                    "Uploaded file correctly"
+                );
 
             }
             else {
@@ -303,6 +328,41 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#$FormDraftCase->{Fields}->{$FieldValue}->{ID}", 'css' )
                     ->send_keys( $FormDraftCase->{Fields}->{$FieldValue}->{Update} );
             }
+            elsif ( $FormDraftCase->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
+
+                # there should be only one file with a certain name
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                    ),
+                    1,
+                    "Uploaded file correctly"
+                );
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('#AttachmentList tbody tr td.Filename').length"
+                    ),
+                    1,
+                    "Only one file present"
+                );
+
+                # add a second file
+                $Selenium->execute_script(
+                    "\$('#FileUpload').css('display', 'block')"
+                );
+
+                # upload a file
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc");
+
+                # Check if uploaded.
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length"
+                    ),
+                    1,
+                    "Uploaded file correctly"
+                );
+            }
         }
         $Selenium->find_element( "#FormDraftUpdate", "css" )->VerifiedClick();
 
@@ -334,6 +394,17 @@ $Selenium->RunTest(
                     $Selenium->find_element( "#$FormDraftCase->{Fields}->{$FieldValue}->{ID}", 'css' )->get_value(),
                     $FormDraftCase->{Fields}->{$FieldValue}->{Update},
                     "Updated FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct"
+                );
+            }
+            elsif ( $FormDraftCase->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
+
+                # there should be two files now
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('#AttachmentList tbody tr td.Filename').length"
+                    ),
+                    2,
+                    "Uploaded file correctly"
                 );
             }
         }

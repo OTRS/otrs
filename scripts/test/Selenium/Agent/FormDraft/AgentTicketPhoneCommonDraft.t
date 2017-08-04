@@ -41,6 +41,7 @@ $Selenium->RunTest(
 
         # Get ticket object.
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
@@ -102,6 +103,10 @@ $Selenium->RunTest(
                         Value  => 'Selenium Outbound Body',
                         Update => 'Selenium Outbound Body - Update',
                     },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
+                    },
                 },
             },
             {
@@ -124,6 +129,10 @@ $Selenium->RunTest(
                         Type   => 'Input',
                         Value  => 'Selenium Inbound Body',
                         Update => 'Selenium Inbound Body - Update',
+                    },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
                     },
                 },
             },
@@ -163,6 +172,26 @@ $Selenium->RunTest(
                     $Selenium->execute_script(
                         "\$('#$Test->{Fields}->{$Field}->{ID}').val('$Test->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
                     );
+                }
+                elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
+
+                    # make the file upload field visible
+                    $Selenium->execute_script(
+                        "\$('#FileUpload').css('display', 'block')"
+                    );
+
+                    # upload a file
+                    $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf");
+
+                    # Check if uploaded.
+                    $Self->Is(
+                        $Selenium->execute_script(
+                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                        ),
+                        1,
+                        "Uploaded file correctly"
+                    );
+
                 }
                 else {
                     $Selenium->find_element( "#$Test->{Fields}->{$Field}->{ID}", 'css' )->clear();
@@ -263,6 +292,41 @@ $Selenium->RunTest(
                         "\$('#$Test->{Fields}->{$FieldValue}->{ID}').val('$Test->{Fields}->{$FieldValue}->{Update}').trigger('redraw.InputField').trigger('change');"
                     );
                 }
+                elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
+
+                    # there should be only one file with a certain name
+                    $Self->Is(
+                        $Selenium->execute_script(
+                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                        ),
+                        1,
+                        "Uploaded file correctly"
+                    );
+                    $Self->Is(
+                        $Selenium->execute_script(
+                            "return \$('#AttachmentList tbody tr td.Filename').length"
+                        ),
+                        1,
+                        "Only one file present"
+                    );
+
+                    # add a second file
+                    $Selenium->execute_script(
+                        "\$('#FileUpload').css('display', 'block')"
+                    );
+
+                    # upload a file
+                    $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc");
+
+                    # Check if uploaded.
+                    $Self->Is(
+                        $Selenium->execute_script(
+                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length"
+                        ),
+                        1,
+                        "Uploaded file correctly"
+                    );
+                }
                 else {
                     $Self->Is(
                         $Selenium->find_element( "#$Test->{Fields}->{$FieldValue}->{ID}", 'css' )->get_value(),
@@ -308,6 +372,17 @@ $Selenium->RunTest(
                         $Selenium->execute_script("return \$('#$Test->{Fields}->{$FieldValue}->{ID}').val()"),
                         $Test->{Fields}->{$FieldValue}->{Update},
                         "Updated FormDraft value for $Test->{Module} field $FieldValue is correct"
+                    );
+                }
+                elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
+
+                    # there should be two files now
+                    $Self->Is(
+                        $Selenium->execute_script(
+                            "return \$('#AttachmentList tbody tr td.Filename').length"
+                        ),
+                        2,
+                        "Uploaded file correctly"
                     );
                 }
                 else {

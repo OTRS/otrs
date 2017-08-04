@@ -37,6 +37,15 @@ $Selenium->RunTest(
             Value => 1
         );
 
+        # Enable Drafts in AgentTicketActionCommon screens.
+        for my $SysConfig (qw(Priority Owner Note FreeText Pending Close Responsible)) {
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => "Ticket::Frontend::AgentTicket${SysConfig}###FormDraft",
+                Value => 1
+            );
+        }
+
         # Get ticket object.
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -101,6 +110,10 @@ $Selenium->RunTest(
                         Value  => 'Selenium Priority Body',
                         Update => 'Selenium Priority Body - Update',
                     },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
+                    },
                 },
             },
             {
@@ -112,15 +125,15 @@ $Selenium->RunTest(
                         Value  => 'Selenium Note Subject',
                         Update => 'Selenium Note Subject - Update'
                     },
-                    Attachments => {
-                        ID   => 'FileUpload',
-                        Type => 'Attachment',
-                    },
                     Body => {
                         ID     => 'RichText',
                         Type   => 'Input',
                         Value  => 'Selenium Note Body',
                         Update => 'Selenium Note Body - Update',
+                    },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
                     },
                 },
             },
@@ -145,6 +158,10 @@ $Selenium->RunTest(
                         Value  => 'Selenium Close Body',
                         Update => 'Selenium Close Body - Update',
                     },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
+                    },
                 },
             },
             {
@@ -168,6 +185,10 @@ $Selenium->RunTest(
                         Value  => 'Selenium Pending Body',
                         Update => 'Selenium Pending Body - Update',
                     },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
+                    },
                 },
             },
             {
@@ -184,6 +205,10 @@ $Selenium->RunTest(
                         Type   => 'Input',
                         Value  => 'Selenium Owner Body',
                         Update => 'Selenium Owner Body - Update',
+                    },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
                     },
                 },
             },
@@ -207,6 +232,10 @@ $Selenium->RunTest(
                         Type   => 'Input',
                         Value  => 'Selenium Responsible Body',
                         Update => 'Selenium Responsible Body - Update',
+                    },
+                    Attachments => {
+                        ID     => 'FileUpload',
+                        Type   => 'Attachment',
                     },
                 },
             },
@@ -271,7 +300,7 @@ $Selenium->RunTest(
                         "\$('#$Test->{Fields}->{$Field}->{ID}').val('$Test->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
                     );
                 }
-                elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
+                elsif ($Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
 
                     # make the file upload field visible
                     $Selenium->execute_script(
@@ -279,8 +308,7 @@ $Selenium->RunTest(
                     );
 
                     # upload a file
-                    $Selenium->find_element( "#FileUpload", 'css' )
-                        ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf" );
+                    $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf");
 
                     # Check if uploaded.
                     $Self->Is(
@@ -369,8 +397,7 @@ $Selenium->RunTest(
 
             # Make sure that outdated notification is present.
             $Self->True(
-                index(
-                    $Selenium->get_page_source(),
+                index( $Selenium->get_page_source(),
                     "Please note that this draft is outdated because the ticket was modified since this draft was created."
                     )
                     > 0,
@@ -415,8 +442,7 @@ $Selenium->RunTest(
                     );
 
                     # upload a file
-                    $Selenium->find_element( "#FileUpload", 'css' )
-                        ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc" );
+                    $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc");
 
                     # Check if uploaded.
                     $Self->Is(
