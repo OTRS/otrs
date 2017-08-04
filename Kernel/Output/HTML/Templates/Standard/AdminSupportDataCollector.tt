@@ -130,7 +130,7 @@
 
                     <div class="Field">
                         <button class="CallForAction" value="SendByEmail" id="SendSupportBundle">
-                            <span>[% Translate("Send") | html %]</span>
+                            <span><i class="fa fa-send"></i> [% Translate("Send") | html %]</span>
                         </button>
                         <span id="SendingAJAXLoader" class="Hidden" title="[% Translate("Sending") | html %]"></span>
                         <div class="FieldExplanation">
@@ -142,7 +142,7 @@
                     <legend><span>[% Translate("Download File") | html %]</span></legend>
                     <div class="Field">
                         <button class="CallForAction" value="DownLoad" id="DownloadSupportBundle">
-                            <span>[% Translate("Download") | html %]</span>
+                            <span><i class="fa fa-download"></i> [% Translate("Download") | html %]</span>
                         </button>
                         <div class="FieldExplanation">
                             [% Translate("A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.") | html %]
