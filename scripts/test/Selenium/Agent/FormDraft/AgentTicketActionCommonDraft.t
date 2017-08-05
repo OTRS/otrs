@@ -111,8 +111,8 @@ $Selenium->RunTest(
                         Update => 'Selenium Priority Body - Update',
                     },
                     Attachments => {
-                        ID     => 'FileUpload',
-                        Type   => 'Attachment',
+                        ID   => 'FileUpload',
+                        Type => 'Attachment',
                     },
                 },
             },
@@ -132,8 +132,8 @@ $Selenium->RunTest(
                         Update => 'Selenium Note Body - Update',
                     },
                     Attachments => {
-                        ID     => 'FileUpload',
-                        Type   => 'Attachment',
+                        ID   => 'FileUpload',
+                        Type => 'Attachment',
                     },
                 },
             },
@@ -159,8 +159,8 @@ $Selenium->RunTest(
                         Update => 'Selenium Close Body - Update',
                     },
                     Attachments => {
-                        ID     => 'FileUpload',
-                        Type   => 'Attachment',
+                        ID   => 'FileUpload',
+                        Type => 'Attachment',
                     },
                 },
             },
@@ -186,8 +186,8 @@ $Selenium->RunTest(
                         Update => 'Selenium Pending Body - Update',
                     },
                     Attachments => {
-                        ID     => 'FileUpload',
-                        Type   => 'Attachment',
+                        ID   => 'FileUpload',
+                        Type => 'Attachment',
                     },
                 },
             },
@@ -207,8 +207,8 @@ $Selenium->RunTest(
                         Update => 'Selenium Owner Body - Update',
                     },
                     Attachments => {
-                        ID     => 'FileUpload',
-                        Type   => 'Attachment',
+                        ID   => 'FileUpload',
+                        Type => 'Attachment',
                     },
                 },
             },
@@ -234,8 +234,8 @@ $Selenium->RunTest(
                         Update => 'Selenium Responsible Body - Update',
                     },
                     Attachments => {
-                        ID     => 'FileUpload',
-                        Type   => 'Attachment',
+                        ID   => 'FileUpload',
+                        Type => 'Attachment',
                     },
                 },
             },
@@ -300,7 +300,7 @@ $Selenium->RunTest(
                         "\$('#$Test->{Fields}->{$Field}->{ID}').val('$Test->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
                     );
                 }
-                elsif ($Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
+                elsif ( $Test->{Fields}->{$Field}->{Type} eq 'Attachment' ) {
 
                     # make the file upload field visible
                     $Selenium->execute_script(
@@ -308,7 +308,8 @@ $Selenium->RunTest(
                     );
 
                     # upload a file
-                    $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf");
+                    $Selenium->find_element( "#FileUpload", 'css' )
+                        ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf" );
 
                     # Check if uploaded.
                     $Self->Is(
@@ -397,7 +398,8 @@ $Selenium->RunTest(
 
             # Make sure that outdated notification is present.
             $Self->True(
-                index( $Selenium->get_page_source(),
+                index(
+                    $Selenium->get_page_source(),
                     "Please note that this draft is outdated because the ticket was modified since this draft was created."
                     )
                     > 0,
@@ -442,7 +444,8 @@ $Selenium->RunTest(
                     );
 
                     # upload a file
-                    $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc");
+                    $Selenium->find_element( "#FileUpload", 'css' )
+                        ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc" );
 
                     # Check if uploaded.
                     $Self->Is(

@@ -140,8 +140,8 @@ $Selenium->RunTest(
                     Update => 'Selenium Compose Body - Update',
                 },
                 Attachments => {
-                    ID     => 'FileUpload',
-                    Type   => 'Attachment',
+                    ID   => 'FileUpload',
+                    Type => 'Attachment',
                 },
             },
         };
@@ -181,7 +181,8 @@ $Selenium->RunTest(
                 );
 
                 # upload a file
-                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf");
+                $Selenium->find_element( "#FileUpload", 'css' )
+                    ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf" );
 
                 # Check if uploaded.
                 $Self->Is(
@@ -352,7 +353,8 @@ $Selenium->RunTest(
                 );
 
                 # upload a file
-                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc");
+                $Selenium->find_element( "#FileUpload", 'css' )
+                    ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc" );
 
                 # Check if uploaded.
                 $Self->Is(
