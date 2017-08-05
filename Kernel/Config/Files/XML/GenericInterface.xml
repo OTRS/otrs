@@ -577,6 +577,17 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="GenericInterface::Operation::Module###Session::SessionGet" Required="0" Valid="1">
+         <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
+         <Navigation>GenericInterface::Operation::ModuleRegistration</Navigation>
+         <Value>
+            <Hash>
+                <Item Key="Name">SessionGet</Item>
+                <Item Key="Controller">Session</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceOperationDefault</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="GenericInterface::Operation::Module###Ticket::TicketCreate" Required="0" Valid="1">
         <Description Translatable="1">GenericInterface module registration for the operation layer.</Description>
         <Navigation>GenericInterface::Operation::ModuleRegistration</Navigation>

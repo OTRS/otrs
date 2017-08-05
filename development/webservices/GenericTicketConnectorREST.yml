@@ -11,6 +11,11 @@ Provider:
       MappingInbound: {}
       MappingOutbound: {}
       Type: Session::SessionCreate
+    SessionGet:
+      Description: Retreive Session data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Session::SessionGet
     TicketCreate:
       Description: Creates a Ticket
       MappingInbound: {}
@@ -50,6 +55,10 @@ Provider:
           RequestMethod:
           - POST
           Route: /Session
+        SessionGet:
+          RequestMethod:
+          - GET
+          Route: /Session/:SessionID
         TicketCreate:
           RequestMethod:
           - POST

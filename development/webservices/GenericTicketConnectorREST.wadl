@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://wadl.dev.java.net/2009/02">
-  <doc xml:lang="en" title="http://localhost"/>
+  <doc title="OTRSGenericTicketConnectorREST" xml:lang="en"/>
   <resources base="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST">
-    <resource path="Ticket" id="Ticket">
-      <doc xml:lang="en" title="Ticket"/>
-      <param name="UserLogin" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-      <param name="Password" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-      <param name="SessionID" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-      <resource path="{TicketID}" id="TicketID">
-        <doc xml:lang="en" title=""/>
-        <param name="TicketID" type="xs:string" required="false" default="" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-        <method name="GET" id="GET_TicketGet">
-          <doc xml:lang="en" title="GET_TicketGet"/>
+    <resource id="Ticket" path="Ticket">
+      <doc title="Ticket" xml:lang="en"/>
+      <param default="" name="UserLogin" required="false" style="query" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <param default="" name="Password" required="false" style="query" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <param default="" name="SessionID" required="false" style="query" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+      <resource id="TicketID" path="{TicketID}">
+        <doc title="" xml:lang="en"/>
+        <param default="" name="TicketID" required="false" style="template" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <method id="GET_TicketGet" name="GET">
+          <doc title="GET_TicketGet" xml:lang="en"/>
           <request/>
           <response status="200">
-            <representation mediaType="application/json; charset=UTF-8" element="ns:Response" xmlns:ns="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Ticket/1"/>
+            <representation element="ns:Response" mediaType="application/json; charset=UTF-8" xmlns:ns="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Ticket/1"/>
           </response>
         </method>
-        <method name="PATCH" id="PATCH_TicketUpdate">
-          <doc xml:lang="en" title="PATCH_TicketUpdate">TicketUpdate parameters must be specified in request body in JSON format</doc>
+        <method id="PATCH_TicketUpdate" name="PATCH">
+          <doc title="PATCH_TicketUpdate" xml:lang="en">TicketUpdate parameters must be specified in request body in JSON format</doc>
           <request>
             <representation mediaType="application/json"/>
           </request>
@@ -26,22 +26,22 @@
             <representation mediaType="application/json"/>
           </response>
           <response status="500">
-            <representation mediaType="text/plain; charset=UTF-8" element="data"/>
+            <representation element="data" mediaType="text/plain; charset=UTF-8"/>
           </response>
           <response status="200">
-            <representation mediaType="application/json; charset=UTF-8" element="tic:Response" xmlns:tic="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Ticket/"/>
+            <representation element="tic:Response" mediaType="application/json; charset=UTF-8" xmlns:tic="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Ticket/"/>
           </response>
         </method>
       </resource>
-      <method name="GET" id="GET_TicketSearch">
-        <doc xml:lang="en" title="GET_TicketSearch"/>
+      <method id="GET_TicketSearch" name="GET">
+        <doc title="GET_TicketSearch" xml:lang="en"/>
         <request/>
         <response status="200">
           <representation mediaType="application/json; charset=UTF-8"/>
         </response>
       </method>
-      <method name="POST" id="POST_TicketCreate">
-        <doc xml:lang="en" title="POST_TicketCreate">TicketCreate parameters must be specified in request body in JSON format</doc>
+      <method id="POST_TicketCreate" name="POST">
+        <doc title="POST_TicketCreate" xml:lang="en">TicketCreate parameters must be specified in request body in JSON format</doc>
         <request>
           <representation mediaType="application/json"/>
         </request>
@@ -53,13 +53,24 @@
         </response>
       </method>
     </resource>
-    <resource path="Session" id="Session">
-      <doc xml:lang="en" title="Session"/>
-      <param name="UserLogin" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-      <param name="Password" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-      <method name="POST" id="POST_SessionCreate">
-        <doc xml:lang="en" title="POST_SessionCreate"/>
+    <resource id="Session" path="Session">
+      <doc title="Session" xml:lang="en"/>
+      <resource id="SessionID" path="{SessionID}">
+        <doc title="" xml:lang="en"/>
+        <param default="" name="SessionID" required="false" style="template" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <method id="GET_SessionGet" name="GET">
+          <doc title="GET_SessionGet" xml:lang="en"/>
+          <request/>
+          <response status="200">
+            <representation element="ns:Response" mediaType="application/json; charset=UTF-8" xmlns:ns="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Session/1"/>
+          </response>
+        </method>
+      </resource>
+      <method id="POST_SessionCreate" name="POST">
+        <doc title="POST_SessionCreate" xml:lang="en"/>
         <request>
+          <param default="" name="UserLogin" required="true" style="query" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+          <param default="" name="Password" required="true" style="query" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
           <representation mediaType="application/json"/>
         </request>
         <response status="404">
@@ -76,21 +87,21 @@
         </response>
       </method>
     </resource>
-    <resource path="TicketHistory" id="TicketHistory">
-      <doc xml:lang="en" title="TicketHistory"/>
-      <resource path="{TicketID}" id="TicketHistoryTicketID">
-        <doc xml:lang="en" title="{TicketID}"/>
-        <param name="TicketID" default="TicketID" type="xs:string" required="true" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-        <param name="UserLogin" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-        <param name="Password" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-        <method name="GET" id="GET_TicketHistoryGet">
-          <doc xml:lang="en" title="GET_TicketHistoryGet"/>
+    <resource id="TicketHistory" path="TicketHistory">
+      <doc title="TicketHistory" xml:lang="en"/>
+      <resource id="TicketHistoryTicketID" path="{TicketID}">
+        <doc title="{TicketID}" xml:lang="en"/>
+        <param default="TicketID" name="TicketID" required="true" style="template" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <param default="" name="UserLogin" required="true" style="query" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <param default="" name="Password" required="true" style="query" type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <method id="GET_TicketHistoryGet" name="GET">
+          <doc title="GET_TicketHistoryGet" xml:lang="en"/>
           <request/>
           <response status="0">
-            <representation mediaType="" element="data"/>
+            <representation element="data" mediaType=""/>
           </response>
           <response status="500">
-            <representation mediaType="text/plain; charset=UTF-8" element="data"/>
+            <representation element="data" mediaType="text/plain; charset=UTF-8"/>
           </response>
           <response status="200">
             <representation mediaType="application/json; charset=UTF-8"/>

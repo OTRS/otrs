@@ -624,6 +624,27 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                     <xsd:enumeration value="Phone"/>
                 </xsd:restriction>
             </xsd:simpleType>
+            <xsd:element name="SessionGet">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="SessionID" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SessionGetResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" minOccurs="1" name="SessionData" type="tns:OTRS_SessionGetResponse_SessionData"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="OTRS_SessionGetResponse_SessionData">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Name" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="1" name="Value" type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="Serialized" type="xsd:positiveInteger"/>
+                </xsd:sequence>
+            </xsd:complexType>
         </xsd:schema>
     </wsdl:types>
     <wsdl:message name="TicketCreateRequest">
@@ -662,6 +683,12 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
     <wsdl:message name="SessionCreateResponse">
         <wsdl:part element="tns:SessionCreateResponse" name="parameters"/>
     </wsdl:message>
+    <wsdl:message name="SessionGetRequest">
+        <wsdl:part element="tns:SessionGet" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="SessionGetResponse">
+        <wsdl:part element="tns:SessionGetResponse" name="parameters"/>
+    </wsdl:message>
     <wsdl:portType name="GenericTicketConnector_PortType">
         <wsdl:documentation>Provides:
 - TicketCreate
@@ -694,6 +721,10 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
         <wsdl:operation name="SessionCreate">
             <wsdl:input message="tns:SessionCreateRequest"/>
             <wsdl:output message="tns:SessionCreateResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="SessionGet">
+            <wsdl:input message="tns:SessionGetRequest"/>
+            <wsdl:output message="tns:SessionGetResponse"/>
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding name="GenericTicketConnector_Binding" type="tns:GenericTicketConnector_PortType">
@@ -745,6 +776,15 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
         </wsdl:operation>
         <wsdl:operation name="SessionCreate">
             <soap:operation soapAction="http://www.otrs.org/TicketConnector/SessionCreate"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="SessionGet">
+            <soap:operation soapAction="http://www.otrs.org/TicketConnector/SessionGet"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
