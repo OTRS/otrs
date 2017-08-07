@@ -622,11 +622,6 @@ sub _RenderAjax {
                 %{ $Param{GetParam} },
             );
 
-            my $PossibleNone = 1;
-            if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
-                $PossibleNone = 0;
-            }
-
             # add Owner to the JSONCollector
             push(
                 @JSONCollector,
@@ -634,7 +629,7 @@ sub _RenderAjax {
                     Name         => $Self->{NameToID}{$CurrentField},
                     Data         => $Data,
                     SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
-                    PossibleNone => $PossibleNone,
+                    PossibleNone => 1,
                     Translation  => 0,
                     Max          => 100,
                 },
@@ -648,11 +643,6 @@ sub _RenderAjax {
                 %{ $Param{GetParam} },
             );
 
-            my $PossibleNone = 1;
-            if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
-                $PossibleNone = 0;
-            }
-
             # add Responsible to the JSONCollector
             push(
                 @JSONCollector,
@@ -660,7 +650,7 @@ sub _RenderAjax {
                     Name         => $Self->{NameToID}{$CurrentField},
                     Data         => $Data,
                     SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
-                    PossibleNone => $PossibleNone,
+                    PossibleNone => 1,
                     Translation  => 0,
                     Max          => 100,
                 },
@@ -3081,11 +3071,12 @@ sub _RenderResponsible {
 
     # build Responsible string
     $Data{Content} = $LayoutObject->BuildSelection(
-        Data        => $Responsibles,
-        Name        => 'ResponsibleID',
-        Translation => 1,
-        SelectedID  => $SelectedID,
-        Class       => "Modernize $ServerError",
+        Data         => $Responsibles,
+        Name         => 'ResponsibleID',
+        Translation  => 1,
+        SelectedID   => $SelectedID,
+        Class        => "Modernize $ServerError",
+        PossibleNone => 1,
     );
 
     # send data to JS
@@ -3256,11 +3247,12 @@ sub _RenderOwner {
 
     # build Owner string
     $Data{Content} = $LayoutObject->BuildSelection(
-        Data        => $Owners,
-        Name        => 'OwnerID',
-        Translation => 1,
-        SelectedID  => $SelectedID || '',
-        Class       => "Modernize $ServerError",
+        Data         => $Owners,
+        Name         => 'OwnerID',
+        Translation  => 1,
+        SelectedID   => $SelectedID || '',
+        Class        => "Modernize $ServerError",
+        PossibleNone => 1,
     );
 
     # send data to JS
@@ -5897,9 +5889,6 @@ sub _GetResponsibles {
         }
     }
 
-    # Add empty user selection.
-    $ShownUsers{''} = '-';
-
     # workflow
     my $ACL = $TicketObject->TicketAcl(
         %Param,
@@ -5995,9 +5984,6 @@ sub _GetOwners {
             }
         }
     }
-
-    # Add empty user selection.
-    $ShownUsers{''} = '-';
 
     # workflow
     my $ACL = $TicketObject->TicketAcl(
