@@ -334,7 +334,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('.PluginContainer div a[target=\"_blank\"]').text();"
+                "return \$('.PluginContainer div a[href*=\"Action=AgentTicketZoom;TicketID=$TicketID\"]').text();"
             ),
             "$TicketNumber Link Ticket $RandomID",
             'Link ticket matches',
