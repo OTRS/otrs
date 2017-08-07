@@ -46,6 +46,18 @@ $Selenium->RunTest(
             );
         }
 
+        # Enable NoteMandatory for AgentTicketOwner and AgentTicketResponsible screen.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => "Ticket::Frontend::AgentTicketOwner###NoteMandatory",
+            Value => 1
+        );
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => "Ticket::Frontend::AgentTicketResponsible###NoteMandatory",
+            Value => 1
+        );
+
         # Get ticket object.
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -470,7 +482,11 @@ $Selenium->RunTest(
             }
 
             # Try to add draft with same name.
-            $Selenium->find_element( "#FormDraftSave",  'css' )->VerifiedClick();
+            $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("#FormDraftTitle").length;'
+            );
             $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
             $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
 

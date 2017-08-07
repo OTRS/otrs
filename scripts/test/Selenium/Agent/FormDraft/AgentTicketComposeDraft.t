@@ -366,9 +366,8 @@ $Selenium->RunTest(
                 );
             }
         }
-        $Selenium->find_element( "#FormDraftUpdate", "css" )->VerifiedClick();
 
-        # $Selenium->close();
+        $Selenium->find_element( "#FormDraftUpdate", "css" )->click();
 
         # Switch back window.
         $Selenium->WaitFor( WindowCount => 1 );
