@@ -1409,7 +1409,8 @@ sub GetStatTable {
 
             if ( $Attribute eq 'Owner' || $Attribute eq 'Responsible' ) {
                 $Ticket{$Attribute} = $Kernel::OM->Get('Kernel::System::User')->UserName(
-                    User => $Ticket{$Attribute},
+                    User          => $Ticket{$Attribute},
+                    NoOutOfOffice => 1,
                 );
             }
 
