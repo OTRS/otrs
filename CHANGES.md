@@ -1,4 +1,5 @@
 #4.0.25 2017-??-??
+ - 2017-08-07 Fixed bug#[13003](https://bugs.otrs.org/show_bug.cgi?id=13003) - Statistic shows Out of Office info in agent name.
  - 2017-08-02 Fixed bug#[12871](https://bugs.otrs.org/show_bug.cgi?id=12871) - TicketACL->_GetChecks fills Param with Ticket values and form ones are lost.
  - 2017-07-27 Decreased the default value for the 'SessionMaxIdleTime' to two hours and fixed session counting to ignore sessions originating from the GenericInterface.
  - 2017-07-20 Fixed bug#[12962](https://bugs.otrs.org/show_bug.cgi?id=12962) - Dynamic fields list values are not update when state is changed in AgentTicketActionCommon.
