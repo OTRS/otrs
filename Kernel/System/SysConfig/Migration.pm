@@ -2134,6 +2134,12 @@ sub _LookupNewConfigName {
 
         'Ticket::Frontend::ArticlePreViewModule###1-SMIME' =>
             'Ticket::Frontend::ArticlePreViewModule###2-SMIME',
+
+        # Moved and renamed config setting from OTRSBusiness.xml to Framework.xml
+        'ChatEngine::AgentOnlineThreshold' => 'SessionAgentOnlineThreshold',
+
+        # Moved and renamed config setting from OTRSBusiness.xml to Framework.xml
+        'ChatEngine::CustomerOnlineThreshold' => 'SessionCustomerOnlineThreshold',
     );
 
     # get the new name if found, otherwise use the given old name

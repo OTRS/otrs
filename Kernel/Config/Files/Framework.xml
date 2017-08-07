@@ -940,7 +940,6 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentOnline</Item>
                 <Item Key="ShowEmail">1</Item>
-                <Item Key="IdleMinutes">60</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -952,7 +951,6 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::CustomerOnline</Item>
                 <Item Key="ShowEmail">1</Item>
-                <Item Key="IdleMinutes">60</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -1193,6 +1191,22 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <String Regex="">sessions</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SessionAgentOnlineThreshold" Required="1" Valid="1">
+        <Description Translatable="1">Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String>5</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SessionCustomerOnlineThreshold" Required="1" Valid="1">
+        <Description Translatable="1">Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <String>5</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeZone" Required="0" Valid="0">
@@ -8141,7 +8155,6 @@ You can log in via the following URL:
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Notification::AgentOnline</Item>
                 <Item Key="ShowEmail">1</Item>
-                <Item Key="IdleMinutes">60</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -10461,7 +10474,6 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOutOfOffice</Item>
                 <Item Key="Title" Translatable="1">Out Of Office</Item>
                 <Item Key="Description"></Item>
-                <Item Key="IdleMinutes">60</Item>
                 <Item Key="SortBy">UserFullname</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">10</Item>
@@ -10478,10 +10490,9 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOnline</Item>
-                <Item Key="Title" Translatable="1">Online</Item>
+                <Item Key="Title" Translatable="1">Logged-In Users</Item>
                 <Item Key="Description"></Item>
                 <Item Key="ShowEmail">0</Item>
-                <Item Key="IdleMinutes">60</Item>
                 <Item Key="SortBy">UserFullname</Item>
                 <Item Key="Filter">Agent</Item>
                 <Item Key="Block">ContentSmall</Item>

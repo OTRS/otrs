@@ -25,11 +25,9 @@
 [% RenderBlockStart("ContentSmallUserOnlineRow") %]
         <tr class="UserRow">
             <td>
-                [% IF Data.ChatAccess %]
                 <span class="UserStatusIcon Inline [% Data.UserState | html %]">
                     <i class="fa fa-circle" title="[% Data.UserStateDescription | html %]"></i>
                 </span>
-                [% END %]
                 <p title="[% Data.UserEmail | html %]">
                 [% IF Data.UserCustomerID %]
                     <a href="[% Env("Baselink") %]Action=AgentCustomerInformationCenter;CustomerID=[% Data.UserCustomerID | uri %]">
