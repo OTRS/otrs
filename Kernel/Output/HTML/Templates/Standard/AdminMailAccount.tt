@@ -68,11 +68,14 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("All incoming emails with one account will be dispatched in the selected queue!") | html %]
+                    [% Translate("All incoming emails with one account will be dispatched in the selected queue.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    [% Translate("If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.") | html %]
+                    [% Translate("If your account is marked as trusted, the X-OTRS headers already existing at arrival time (for priority etc.) will be kept and used, for example in PostMaster filters.") | html %]
                 </p>
+                <p class="FieldExplanation">
+                    [% Translate("Outgoing email can be configured via the Sendmail* settings in %s.",
+                    '<a href="?Action=AdminSystemConfigurationGroup;RootNavigation=Core::Email">' _ Translate("System Configuration") _ '</a>') %]
             </div>
         </div>
     </div>
