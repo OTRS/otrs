@@ -25,10 +25,16 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
 
-# Disable emails validation
+# Disable emails validation.
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
+);
+
+# Don't really send the emails, just simulate.
+$Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::Test',
 );
 
 my $MailQueueSend = sub {
