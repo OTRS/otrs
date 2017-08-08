@@ -1,4 +1,5 @@
 #4.0.25 2017-??-??
+ - 2017-08-08 Fixed bug#[11512](https://bugs.otrs.org/show_bug.cgi?id=11512) - ACL Type field restriction on DynamicField change in AgentTicketProcess does not work.
  - 2017-08-07 Fixed bug#[13003](https://bugs.otrs.org/show_bug.cgi?id=13003) - Statistic shows Out of Office info in agent name.
  - 2017-08-02 Fixed bug#[12871](https://bugs.otrs.org/show_bug.cgi?id=12871) - TicketACL->_GetChecks fills Param with Ticket values and form ones are lost.
  - 2017-07-27 Decreased the default value for the 'SessionMaxIdleTime' to two hours and fixed session counting to ignore sessions originating from the GenericInterface.

@@ -759,6 +759,27 @@ sub _RenderAjax {
             );
             $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
         }
+        elsif ( $Self->{NameToID}{$CurrentField} eq 'TypeID' ) {
+            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+
+            my $Data = $Self->_GetTypes(
+                %{ $Param{GetParam} },
+            );
+
+            # Add Type to the JSONCollector (Use SelectedID from web request).
+            push(
+                @JSONCollector,
+                {
+                    Name         => $Self->{NameToID}{$CurrentField},
+                    Data         => $Data,
+                    SelectedID   => $Self->{ParamObject}->GetParam( Param => 'TypeID' ) || '',
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
+            );
+            $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
+        }
     }
 
     my $JSON = $Self->{LayoutObject}->BuildSelectionJSON( [@JSONCollector] );
@@ -5793,6 +5814,7 @@ sub _GetAJAXUpdatableFields {
         StateID       => 1,
         OwnerID       => 1,
         LockID        => 1,
+        TypeID        => 1,
     );
 
     # create a DynamicFieldLookupTable
