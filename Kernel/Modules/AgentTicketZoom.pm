@@ -2215,22 +2215,6 @@ sub _ArticleTree {
                 $TransmissionStatus = $ArticleObject->BackendForArticle(%Article)->ArticleTransmissionStatus(
                     ArticleID => $Article{ArticleID},
                 );
-                if (
-                    $TransmissionStatus->{Status}                 &&
-                    $TransmissionStatus->{Status} eq 'Processing' &&
-                    $TransmissionStatus->{Attempts}               &&
-                    $TransmissionStatus->{DueTime}
-                    )
-                {
-                    $TransmissionStatus->{Message} = sprintf(
-                        Translatable(
-                            "Message is being processed. Already tried to send %d %s. Next try will be at %s."
-                        ),
-                        $TransmissionStatus->{Attempts},
-                        $TransmissionStatus->{Attempts} == 1 ? 'time' : 'times',
-                        $TransmissionStatus->{DueTime}
-                    );
-                }
             }
 
             # check if we need to show also expand/collapse icon
