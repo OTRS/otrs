@@ -17,6 +17,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Valid',
+    'Kernel::System::Cache',
 );
 
 =head1 NAME
@@ -43,6 +44,9 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    $Self->{CacheType} = 'MailAccount';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;    # 20 days
 
     return $Self;
 }
@@ -128,6 +132,11 @@ sub MailAccountAdd {
         ],
     );
 
+    # delete cache
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+
     return if !$DBObject->Prepare(
         SQL  => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
         Bind => [ \$Param{Login}, \$Param{Host}, \$Param{Type} ],
@@ -139,6 +148,87 @@ sub MailAccountAdd {
     }
 
     return $ID;
+}
+
+=head2 MailAccountGetAll()
+
+returns an array of all mail account data
+
+    my @MailAccounts = $MailAccount->MailAccountGetAll();
+
+(returns list of the fields for each account: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
+
+
+=cut
+
+sub MailAccountGetAll {
+    my ( $Self, %Param ) = @_;
+
+    # check cache
+    my $CacheKey = 'MailAccountGetAll';
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+    return @{$Cache} if $Cache;
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # sql
+    return if !$DBObject->Prepare(
+        SQL =>
+            'SELECT id, login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
+            . ' create_time, change_time FROM mail_account',
+    );
+
+    my @Accounts;
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+        my %Data = (
+            ID         => $Data[0],
+            Login      => $Data[1],
+            Password   => $Data[2],
+            Host       => $Data[3],
+            Type       => $Data[4] || 'POP3',    # compat for old setups
+            QueueID    => $Data[5],
+            IMAPFolder => $Data[6],
+            Trusted    => $Data[7],
+            Comment    => $Data[8],
+            ValidID    => $Data[9],
+            CreateTime => $Data[10],
+            ChangeTime => $Data[11],
+        );
+
+        if ( $Data{QueueID} == 0 ) {
+            $Data{DispatchingBy} = 'From';
+        }
+        else {
+            $Data{DispatchingBy} = 'Queue';
+        }
+
+        # only return IMAP folder on IMAP type accounts
+        # fallback to 'INBOX' if none given
+        if ( $Data{Type} =~ m{ IMAP .* }xmsi ) {
+            if ( defined $Data{IMAPFolder} && !$Data{IMAPFolder} ) {
+                $Data{IMAPFolder} = 'INBOX';
+            }
+        }
+        else {
+            $Data{IMAPFolder} = '';
+        }
+
+        push @Accounts, \%Data;
+    }
+
+    # set cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \@Accounts,
+    );
+
+    return @Accounts;
 }
 
 =head2 MailAccountGet()
@@ -164,6 +254,14 @@ sub MailAccountGet {
         );
         return;
     }
+
+    # check cache
+    my $CacheKey = join '::', 'MailAccountGet', 'ID', $Param{ID};
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -211,6 +309,14 @@ sub MailAccountGet {
     else {
         $Data{IMAPFolder} = '';
     }
+
+    # set cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     return %Data;
 }
@@ -284,6 +390,11 @@ sub MailAccountUpdate {
         ],
     );
 
+    # delete cache
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+
     return 1;
 }
 
@@ -315,6 +426,11 @@ sub MailAccountDelete {
         Bind => [ \$Param{ID} ],
     );
 
+    # delete cache
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => $Self->{CacheType},
+    );
+
     return 1;
 }
 
@@ -330,6 +446,14 @@ returns a list (Key, Name) of all mail accounts
 
 sub MailAccountList {
     my ( $Self, %Param ) = @_;
+
+    # check cache
+    my $CacheKey = join '::', 'MailAccountList', ( $Param{Valid} ? 'Valid::1' : '' );
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
 
     # get valid object
     my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
@@ -349,6 +473,14 @@ sub MailAccountList {
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Data{ $Row[0] } = "$Row[1] ($Row[2])";
     }
+
+    # set cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Data,
+    );
 
     return %Data;
 }

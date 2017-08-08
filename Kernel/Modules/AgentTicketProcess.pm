@@ -97,7 +97,6 @@ sub Run {
         my %Article = $ArticleBackendObject->ArticleGet(
             TicketID  => $Self->{LinkTicketID},
             ArticleID => $Self->{ArticleID},
-            UserID    => $Self->{UserID},
         );
 
         $Self->{LinkArticleData} = \%Article;

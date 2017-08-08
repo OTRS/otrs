@@ -63,7 +63,6 @@ sub Run {
         TicketID      => $TicketID,
         ArticleID     => $ArticleID,
         DynamicFields => 0,
-        UserID        => $Self->{UserID},
     );
 
     # check permissions
@@ -81,7 +80,6 @@ sub Run {
     my %Data = $ArticleBackendObject->ArticleAttachment(
         ArticleID => $ArticleID,
         FileID    => $FileID,
-        UserID    => $Self->{UserID},
     );
     if ( !%Data ) {
         $LogObject->Log(

@@ -21,11 +21,25 @@ sub new {
 
     # allocate new hash for object
     my $Self = {};
-    return bless( $Self, $Type );
+    bless( $Self, $Type );
+
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+
+    return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
+        Value      => 'Searching for TicketNumber in email subject.',
+    );
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -35,7 +49,21 @@ sub Run {
     return if !$Tn;
 
     my $TicketID = $TicketObject->TicketCheckNumber( Tn => $Tn );
-    return $TicketID;
+
+    if ($TicketID) {
+
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Debug',
+            Key        => 'Kernel::System::PostMaster::FollowUpCheck::Subject',
+            Value      => "Found valid TicketNumber '$Tn' (TicketID '$TicketID') in email subject.",
+        );
+
+        return $TicketID;
+    }
+
+    return;
 }
 
 1;

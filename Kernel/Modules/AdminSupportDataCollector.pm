@@ -502,7 +502,7 @@ sub _SendSupportBundle {
                 $Body .= "Not registered\n";
             }
 
-            my ( $HeadRef, $BodyRef ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+            my $Result = $Kernel::OM->Get('Kernel::System::Email')->Send(
                 From          => $SenderAddress,
                 To            => 'SupportBundle@otrs.com',
                 Subject       => 'Support::Bundle::Email',
@@ -522,7 +522,7 @@ sub _SendSupportBundle {
                 ],
             );
 
-            if ( $HeadRef && $BodyRef ) {
+            if ( $Result->{Success} ) {
                 $Success = 1;
             }
         }

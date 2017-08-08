@@ -246,7 +246,6 @@ $Self->Is(
 my %Article = $ArticleBackendObject->ArticleGet(
     TicketID  => $TicketID,
     ArticleID => $ArticleID,
-    UserID    => 1,
 );
 $Self->True(
     $Article{From} eq
@@ -270,7 +269,6 @@ for my $Key (qw( Body Subject From To ReplyTo )) {
     my %Article2 = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
     $Self->Is(
         $Article2{$Key},

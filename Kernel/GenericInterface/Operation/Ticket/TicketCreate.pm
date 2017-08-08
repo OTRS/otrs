@@ -1633,7 +1633,6 @@ sub _TicketCreate {
         TicketID      => $TicketID,
         ArticleID     => $ArticleID,
         DynamicFields => 1,
-        UserID        => $Param{UserID},
     );
 
     # prepare Article DynamicFields
@@ -1663,7 +1662,6 @@ sub _TicketCreate {
     if ( IsArrayRefWithData($AttachmentList) ) {
         my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $ArticleID,
-            UserID    => $Param{UserID},
         );
 
         my @Attachments;
@@ -1674,7 +1672,6 @@ sub _TicketCreate {
             my %Attachment = $ArticleBackendObject->ArticleAttachment(
                 ArticleID => $ArticleID,
                 FileID    => $FileID,
-                UserID    => $Param{UserID},
             );
 
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );

@@ -20,7 +20,45 @@ $Selenium->RunTest(
     sub {
 
         # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+        my %MailQueueCurrentItems = map { $_->{ID} => $_ } @{ $MailQueueObject->List() || [] };
+
+        my $MailQueueClean = sub {
+            my $Items = $MailQueueObject->List();
+            MAIL_QUEUE_ITEM:
+            for my $Item ( @{$Items} ) {
+                next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+                $MailQueueObject->Delete(
+                    ID => $Item->{ID},
+                );
+            }
+
+            return;
+        };
+
+        my $MailQueueProcess = sub {
+            my %Param = @_;
+
+            my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
+
+            # Process all items except the ones already present before the tests.
+            my $Items = $MailQueueObject->List();
+            MAIL_QUEUE_ITEM:
+            for my $Item ( @{$Items} ) {
+                next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+                $MailQueueObject->Send( %{$Item} );
+            }
+
+            # Clean any garbage
+            $MailQueueClean->();
+
+            return;
+        };
+
+        # Make sure we start with a clean mail queue.
+        $MailQueueClean->();
 
         # enable involved agent feature
         $Helper->ConfigSettingChange(
@@ -58,6 +96,11 @@ $Selenium->RunTest(
         $Helper->ConfigSettingChange(
             Key   => 'SendmailModule',
             Value => 'Kernel::System::Email::Test',
+        );
+
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
         );
 
         # create test users and login first
@@ -171,6 +214,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
+        # Process mail queue items
+        $MailQueueProcess->();
+
         # check that emailS was sent
         my $Emails = $TestEmailObject->EmailsGet();
 
@@ -188,8 +234,9 @@ $Selenium->RunTest(
         for my $Email ( @{$Emails} ) {
             push @Recipients, $Email->{ToArray}->[0];
         }
+        my @Ordered = sort @Recipients;
         $Self->IsDeeply(
-            \@Recipients,
+            \@Ordered,
             [
                 $TestUser[0] . '@localunittest.com',
                 $TestUser[1] . '@localunittest.com',

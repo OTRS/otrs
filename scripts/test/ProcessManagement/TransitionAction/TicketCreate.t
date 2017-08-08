@@ -1079,7 +1079,6 @@ for my $Test (@Tests) {
                     TicketID      => $NewTicketID,
                     ArticleID     => $Articles[0]->{ArticleID},
                     DynamicFields => 1,
-                    UserID        => 1,
                 );
             }
         }

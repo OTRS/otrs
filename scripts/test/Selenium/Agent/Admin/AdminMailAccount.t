@@ -138,9 +138,15 @@ $Selenium->RunTest(
             'Password after adding',    # make sure real password was stored
         );
 
-        # Save current screen and verify that the password is not changed even though it was not sent to the user.
+        # Save current screen.
         $Selenium->find_element( "#LoginEdit", 'css' )->VerifiedSubmit();
 
+        # Discard the instance of cache object, because of in-memory cache.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Cache'],
+        );
+
+        # Verify that the password is not changed even though it was not sent to the user.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount;Subaction=Update;ID=$MailAccountID");
         %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
         $Self->Is(
@@ -153,6 +159,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#PasswordEdit", 'css' )->clear();
         $Selenium->find_element( "#PasswordEdit", 'css' )->send_keys("SomePassword2");
         $Selenium->find_element( "#LoginEdit",    'css' )->VerifiedSubmit();
+
+        # Discard the instance of cache object, because of in-memory cache.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Cache'],
+        );
 
         %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
         $Self->Is(

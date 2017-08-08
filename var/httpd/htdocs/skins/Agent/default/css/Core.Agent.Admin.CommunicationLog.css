@@ -1,0 +1,91 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.GridView {
+    text-align: center;
+}
+
+.ItemListGrid {
+    display: inline-block;
+}
+
+.ItemListGrid > li {
+    border: 1px solid #ccc;
+    min-width: 300px;
+}
+
+.ItemListGrid.WithIcons > li span.Icons i {
+    font-size: 20px;
+}
+.ItemListGrid.WithIcons > li span.Title {
+    color: #666;
+}
+
+.ItemListGrid.WithIcons > li.Successful span.Title,
+.ItemListGrid.WithIcons > li.Successful span.Icons i.Icon,
+.ItemListGrid.WithIcons > li.Successful span.Icons i.Icon2 {
+    color: #069d07;
+}
+
+.ItemListGrid.WithIcons > li.Warning span.Title,
+.ItemListGrid.WithIcons > li.Warning span.Icons i.Icon,
+.ItemListGrid.WithIcons > li.Warning span.Icons i.Icon2 {
+    color: #ff9050;
+}
+
+
+.ItemListGrid.WithIcons > li.Failed span.Title,
+.ItemListGrid.WithIcons > li.Failed span.Icons i.Icon,
+.ItemListGrid.WithIcons > li.Failed span.Icons i.Icon2 {
+    color: #ff505e;
+}
+
+td.Edit,
+td.Direction,
+td.Priority,
+td.Status {
+    width: 30px;
+}
+
+td.StartTime,
+td.EndTime {
+    white-space: nowrap;
+}
+
+#CommunicationList > .Content > .ControlRow {
+    margin: -8px -8px 0 -8px;
+}
+
+#AccountList {
+    border-top: 1px solid #ccc;
+}
+
+#ObjectListTable tr,
+#AccountsTable tr {
+    cursor: pointer;
+}
+
+.ControlRow {
+    background: #E8E8E8;
+}
+
+.ControlRow li > a {
+    color: #888;
+}
+
+} /* end @media print*/

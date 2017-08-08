@@ -2242,7 +2242,6 @@ sub _TicketUpdate {
         ArticleID => $ArticleID || $LastArticleID,
         DynamicFields => 1,
         TicketID      => $TicketID,
-        UserID        => $Param{UserID},
     );
 
     # prepare Article DynamicFields
@@ -2272,7 +2271,6 @@ sub _TicketUpdate {
     if ( IsArrayRefWithData($AttachmentList) ) {
         my %AttachmentIndex = $TicketObject->ArticleAttachmentIndex(
             ArticleID => $ArticleData{ArticleID},
-            UserID    => $Param{UserID},
         );
 
         my @Attachments;
@@ -2283,7 +2281,6 @@ sub _TicketUpdate {
             my %Attachment = $TicketObject->ArticleAttachment(
                 ArticleID => $ArticleData{ArticleID},
                 FileID    => $FileID,
-                UserID    => $Param{UserID},
             );
 
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );

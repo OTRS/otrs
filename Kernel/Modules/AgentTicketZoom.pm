@@ -507,14 +507,12 @@ sub Run {
             ArticleID     => $Self->{ArticleID},
             RealNames     => 1,
             DynamicFields => 0,
-            UserID        => $Self->{UserID},
         );
         $Article{Count} = $Count;
 
         # Get attachment index (excluding body attachments).
         my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $Self->{ArticleID},
-            UserID    => $Self->{UserID},
             %{ $Self->{ExcludeAttachments} },
         );
         $Article{Atms} = \%AtmIndex;
@@ -782,7 +780,6 @@ sub Run {
             TicketID      => $Self->{TicketID},
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
-            UserID        => $Self->{UserID},
         );
 
         # check if article data exists
@@ -2212,17 +2209,42 @@ sub _ArticleTree {
 
             my %ArticleFields = $LayoutObject->ArticleFields(%Article);
 
+            # Get transmission status information for email articles.
+            my $TransmissionStatus;
+            if ( $Article{Channel} eq 'Email' ) {
+                $TransmissionStatus = $ArticleObject->BackendForArticle(%Article)->ArticleTransmissionStatus(
+                    ArticleID => $Article{ArticleID},
+                );
+                if (
+                    $TransmissionStatus->{Status}                 &&
+                    $TransmissionStatus->{Status} eq 'Processing' &&
+                    $TransmissionStatus->{Attempts}               &&
+                    $TransmissionStatus->{DueTime}
+                    )
+                {
+                    $TransmissionStatus->{Message} = sprintf(
+                        Translatable(
+                            "Message is being processed. Already tried to send %d %s. Next try will be at %s."
+                        ),
+                        $TransmissionStatus->{Attempts},
+                        $TransmissionStatus->{Attempts} == 1 ? 'time' : 'times',
+                        $TransmissionStatus->{DueTime}
+                    );
+                }
+            }
+
             # check if we need to show also expand/collapse icon
             $LayoutObject->Block(
                 Name => 'TreeItem',
                 Data => {
                     %Article,
-                    ArticleFields  => \%ArticleFields,
-                    Class          => $Class,
-                    ClassRow       => $ClassRow,
-                    Subject        => $TmpSubject,
-                    ZoomExpand     => $Self->{ZoomExpand},
-                    ZoomExpandSort => $Self->{ZoomExpandSort},
+                    ArticleFields      => \%ArticleFields,
+                    Class              => $Class,
+                    ClassRow           => $ClassRow,
+                    Subject            => $TmpSubject,
+                    TransmissionStatus => $TransmissionStatus,
+                    ZoomExpand         => $Self->{ZoomExpand},
+                    ZoomExpandSort     => $Self->{ZoomExpandSort},
                 },
             );
 
@@ -2278,7 +2300,6 @@ sub _ArticleTree {
             # Get attachment index (excluding body attachments).
             my %AtmIndex = $ArticleObject->BackendForArticle(%Article)->ArticleAttachmentIndex(
                 ArticleID => $Article{ArticleID},
-                UserID    => $Self->{UserID},
                 %{ $Self->{ExcludeAttachments} },
             );
             $Article{Atms} = \%AtmIndex;
@@ -2310,7 +2331,6 @@ sub _ArticleTree {
                     },
                 );
             }
-
         }
     }
 
@@ -2336,7 +2356,6 @@ sub _ArticleTree {
                 ArticleID     => $ArticleItem->{ArticleID},
                 DynamicFields => 1,
                 RealNames     => 1,
-                UserID        => $Self->{UserID},
             );
 
             # Append article meta data.
@@ -2353,7 +2372,6 @@ sub _ArticleTree {
             # Get attachment index (excluding body attachments).
             my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $Article->{ArticleID},
-                UserID    => $Self->{UserID},
                 %{ $Self->{ExcludeAttachments} },
             );
             $Article->{Atms}                                = \%AtmIndex;
@@ -2363,7 +2381,6 @@ sub _ArticleTree {
             # Check if there is HTML body attachment.
             my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID    => $Article->{ArticleID},
-                UserID       => $Self->{UserID},
                 OnlyHTMLBody => 1,
             );
             ( $Article->{HTMLBodyAttachmentID} ) = sort keys %AttachmentIndexHTMLBody;
@@ -2969,7 +2986,6 @@ sub _ArticleBoxGet {
             ArticleID     => $Param{ArticleBoxAll}->[$Index]->{ArticleID},
             DynamicFields => 1,
             RealNames     => 1,
-            UserID        => $Self->{UserID},
         );
 
         my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(

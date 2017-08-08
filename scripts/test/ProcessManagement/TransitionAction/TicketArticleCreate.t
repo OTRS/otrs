@@ -696,10 +696,7 @@ for my $Test (@Tests) {
             TicketID => $TicketID,
             OnlyLast => 1,
         );
-        my %Article = $ArticleObject->BackendForArticle( %{ $MetaArticles[-1] } )->ArticleGet(
-            %{ $MetaArticles[-1] },
-            UserID => 1,
-        );
+        my %Article = $ArticleObject->BackendForArticle( %{ $MetaArticles[-1] } )->ArticleGet( %{ $MetaArticles[-1] } );
 
         ATTRIBUTE:
         for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {

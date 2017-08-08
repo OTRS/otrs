@@ -179,7 +179,6 @@ $Self->Is(
 my %Article = $ArticleBackendObject->ArticleGet(
     TicketID  => $TicketID,
     ArticleID => $Articles[-1]->{ArticleID},    # last
-    UserID    => $UserID,
 );
 
 $Self->Is(

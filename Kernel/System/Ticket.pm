@@ -6919,7 +6919,6 @@ sub TicketArticleStorageSwitch {
         # read source attachments
         my %Index = $ArticleObjectSource->ArticleAttachmentIndex(
             ArticleID     => $Article->{ArticleID},
-            UserID        => $Param{UserID},
             OnlyMyBackend => 1,
         );
 
@@ -6943,7 +6942,6 @@ sub TicketArticleStorageSwitch {
             my %Attachment = $ArticleObjectSource->ArticleAttachment(
                 ArticleID     => $Article->{ArticleID},
                 FileID        => $FileID,
-                UserID        => $Param{UserID},
                 OnlyMyBackend => 1,
                 Force         => 1,
             );
@@ -6976,7 +6974,6 @@ sub TicketArticleStorageSwitch {
         # read destination attachments
         %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
             ArticleID     => $Article->{ArticleID},
-            UserID        => $Param{UserID},
             OnlyMyBackend => 1,
         );
 
@@ -7031,7 +7028,6 @@ sub TicketArticleStorageSwitch {
             # verify destination attachments
             %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
                 ArticleID     => $Article->{ArticleID},
-                UserID        => $Param{UserID},
                 OnlyMyBackend => 1,
             );
         }
@@ -7040,7 +7036,6 @@ sub TicketArticleStorageSwitch {
             my %Attachment = $ArticleObjectDestination->ArticleAttachment(
                 ArticleID     => $Article->{ArticleID},
                 FileID        => $FileID,
-                UserID        => $Param{UserID},
                 OnlyMyBackend => 1,
                 Force         => 1,
             );
@@ -7141,7 +7136,6 @@ sub TicketArticleStorageSwitch {
         # read source attachments
         %Index = $ArticleObjectSource->ArticleAttachmentIndex(
             ArticleID     => $Article->{ArticleID},
-            UserID        => $Param{UserID},
             OnlyMyBackend => 1,
         );
 

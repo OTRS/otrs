@@ -12,11 +12,50 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # do not really send emails
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::Test',
 );
+
+my $SendEmail = sub {
+    my %Param = @_;
+
+    my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Delete mail queue
+    $MailQueueObject->Delete();
+
+    # Generate the mail and queue it
+    $EmailObject->Send( %Param, );
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObject->List();
+    $Items = [ sort { $b->{ID} <=> $a->{ID} } @{$Items} ];
+    my $LastItem = $Items->[0];
+
+    my $Result = $MailQueueObject->Send( %{$LastItem} );
+
+    return (
+        \$LastItem->{Message}->{Header},
+        \$LastItem->{Message}->{Body},
+    );
+};
 
 # get test email backed object
 my $TestBackendObject = $Kernel::OM->Get('Kernel::System::Email::Test');
@@ -39,7 +78,7 @@ my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 for ( 1 .. 2 ) {
 
     # call Send and get results
-    my ( $Header, $Body ) = $EmailObject->Send(
+    my ( $Header, $Body ) = $SendEmail->(
         From     => 'john.smith@example.com',
         To       => 'john.smith2@example.com',
         Subject  => 'some subject',

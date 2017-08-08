@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::System::PostMaster;
+
 # get needed objects
 my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $CommandObject      = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::PostMaster::Read');
@@ -166,7 +168,7 @@ my @Tests = (
             Body => 'OTRS_CUSTOMER_REALNAME tag: TestReplyTo@home.com',
         },
         ResultNotification => {
-            To   => 'TestFrom@home.com',
+            To   => 'TestReplyTo@home.com',
             Body => 'OTRS_CUSTOMER_REALNAME tag: TestReplyTo@home.com',
         },
     },
@@ -201,29 +203,44 @@ my @Tests = (
 # run test
 for my $Test (@Tests) {
 
-    my $ExitCode;
-    my $Result;
+    my $TicketID;
 
     {
-        local *STDIN;
-        open STDIN, '<:utf8', \$Test->{Email};    ## no critic
-        local *STDOUT;
-        open STDOUT, '>:utf8', \$Result;          ## no critic
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::CommunicationLog::LogModule::Email'] );
 
-        $ExitCode = $CommandObject->Execute( '--target-queue', $QueueNameRand, '--debug' );
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Incoming',
+                Start     => 1,
+                }
+        );
+        my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
 
-        $Self->Is(
-            $ExitCode,
-            0,
-            "$Test->{Name} - Maint::PostMaster::Read exit code with email input",
+        my $PostMasterObject = Kernel::System::PostMaster->new(
+            CommunicationLogObject    => $CommunicationLogObject,
+            CommunicationLogMessageID => $MessageID,
+            Trusted                   => 1,
+            Email                     => \$Test->{Email},
         );
 
-        # discard Web::Request and Ticket object from OM to prevent duplicated entries
-        $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::PostMaster', 'Kernel::System::Ticket' ] );
+        my @Return = $PostMasterObject->Run( Queue => $QueueNameRand );
+
+        $TicketID = $Return[1];
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectType => 'Message',
+            ObjectID   => $MessageID,
+            Status     => 'Successful',
+        );
+        $CommunicationLogObject->CommunicationStop(
+            Status => 'Successful',
+        );
     }
 
     # get test ticket ID
-    my ($TicketID) = $Result =~ m{TicketID:\s+(\d+)};
+    # my ($TicketID) = $Result =~ m{TicketID:\s+(\d+)};
     $Self->True(
         $TicketID,
         "TicketID $TicketID - created from email",
@@ -238,7 +255,6 @@ for my $Test (@Tests) {
 
     my %ArticleAutoResponse = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
         %{ $MetaArticles[1] },
-        UserID => 1,
     );
 
     # check auto response article values
@@ -253,8 +269,7 @@ for my $Test (@Tests) {
 
     # get notification article data
     my %ArticleNotification = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
-        %{ $MetaArticles[2] },
-        UserID => 1,
+        %{ $MetaArticles[1] },
     );
 
     for my $NotificationKey ( sort keys %{ $Test->{ResultNotification} } ) {

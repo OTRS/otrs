@@ -31,7 +31,7 @@
     <div class="MessageBody">
         <div class="Details SeperatorRow">
         [% FOREACH ArticleField IN Data.ArticleFields.values.nsort("Prio") %]
-            [% IF ArticleField.Label == "From" || ArticleField.Label == "To" || ArticleField.Label == "Cc"  || ArticleField.key == "Bcc" %]
+            [% IF ArticleField.Label == "From" || ArticleField.Label == "To" || ArticleField.Label == "Cc" %]
             <div>
                 <div class="Label">[% Translate(ArticleField.Label) | html %]:</div>
                 <span title="[% ArticleField.Realname | html %]">[% ArticleField.Realname | html %]</span>

@@ -70,7 +70,6 @@ sub Run {
     my %Article = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => $Self->{UserID},
     );
 
     my $Plain = $ArticleBackendObject->ArticlePlain(

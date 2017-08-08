@@ -1,0 +1,78 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="WidgetSimple">
+    <div class="Header">
+        <div class="WidgetAction Toggle">
+            <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+        </div>
+        <h2>
+            [% Translate("Communication Log Details (%s)", Data.ObjectLogCount) | html %]
+        </h2>
+    </div>
+    <div class="Content">
+        <table class="DataTable" id="ObjectLogListTable">
+            <thead>
+                <tr>
+                    <th class="Center Sortable InitialSorting"><a href="#">[% Translate("#") | html %]</a></th>
+                    <th class="Priority Center Sortable"><a href="#">[% Translate("Priority") | html %]</a></th>
+                    <th class="Sortable"><a href="#">[% Translate("Module") | html %]</a></th>
+                    <th class="Sortable"><a href="#">[% Translate("Information") | html %]</a></th>
+                    <th class="Sortable"><a href="#">[% Translate("Created") | html %]</a></th>
+                </tr>
+            </thead>
+            <tbody>
+[% RenderBlockStart("NoObjectLogsFound") %]
+                <tr>
+                    <td colspan="5">
+                        [% Translate("No log entries found.") | html %]
+                    </td>
+                </tr>
+[% RenderBlockEnd("NoObjectLogsFound") %]
+[% RenderBlockStart("ObjectLogEntry") %]
+                <tr class="[% IF Data.LogPriority == 'Error' %]Error[% END %]">
+                    <td class="Direction ObjectLogEntry">
+                        <input type="hidden" class="SortData" value="[% Data.LogID | html %]" />
+                    </td>
+                    <td class="Priority Center [% Data.LogPriority | html %]" title="[% Translate(Data.LogPriority) | html %]">
+                    [% IF Data.LogPriority == 'Trace' %]
+                        <i class="fa fa-list Notice" aria-hidden="true"></i>
+                    [% ELSIF Data.LogPriority == 'Debug' %]
+                        <i class="fa fa-bug Notice" aria-hidden="true"></i>
+                    [% ELSIF Data.LogPriority == 'Info' %]
+                        <i class="fa fa-info Notice" aria-hidden="true"></i>
+                    [% ELSIF Data.LogPriority == 'Notice' %]
+                        <i class="fa fa-info-circle Notice" aria-hidden="true"></i>
+                    [% ELSIF Data.LogPriority == 'Warn' %]
+                        <i class="fa fa-exclamation Warning" aria-hidden="true"></i>
+                    [% ELSIF Data.LogPriority == 'Error' %]
+                        <i class="fa fa-times Error" aria-hidden="true"></i>
+                    [% END %]
+                        <input type="hidden" class="SortData" value="[% Translate(Data.LogPriority) | html %]" />
+                    </td>
+                    <td title="[% Data.LogKey | html %]">
+                        [% Data.LogKey | html %]
+                        <input type="hidden" class="SortData" value="[% Data.LogKey | html %]" />
+                    </td>
+                    <td title="[% Data.LogValue | html %]">
+                        [% Data.LogValue | html %]
+                        <input type="hidden" class="SortData" value="[% Data.LogValue | html %]" />
+                    </td>
+                    <td title="[% Data.LogCreateTime | html %]" style="white-space: nowrap">
+                        [% Data.LogCreateTime | Localize("TimeLong") %]
+                        <input type="hidden" class="SortData" value="[% Data.LogCreateTime | html %]" />
+                    </td>
+                </tr>
+[% RenderBlockEnd("ObjectLogEntry") %]
+                <tr class="FilterMessage Hidden">
+                    <td colspan="5">[% Translate("No matches found.") | html %]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

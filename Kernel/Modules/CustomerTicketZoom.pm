@@ -149,7 +149,6 @@ sub Run {
         my %ArticleData = $ArticleBackendObject->ArticleGet(
             TicketID  => $Self->{TicketID},
             ArticleID => $ArticleMetaData->{ArticleID},
-            UserID    => $Self->{UserID},
             RealNames => 1,
         );
 
@@ -165,7 +164,6 @@ sub Run {
         # Get attachment index.
         my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID        => $ArticleMetaData->{ArticleID},
-            UserID           => 1,
             ExcludePlainText => 1,
             ExcludeHTMLBody  => 1,
             ExcludeInline    => 1,

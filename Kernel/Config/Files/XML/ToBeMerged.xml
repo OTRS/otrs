@@ -240,6 +240,13 @@
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>
+                <Item Key="AgentTicketMessageLog">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketMessageLog</Item>
+                        <Item Key="Prio">550</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
                 <Item Key="AgentTicketPlain">
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketPlain</Item>
@@ -258,6 +265,13 @@
                     <Hash>
                         <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketNote</Item>
                         <Item Key="Prio">800</Item>
+                        <Item Key="Valid">1</Item>
+                    </Hash>
+                </Item>
+                <Item Key="AgentTicketEmailResend">
+                    <Hash>
+                        <Item Key="Module">Kernel::Output::HTML::ArticleAction::AgentTicketEmailResend</Item>
+                        <Item Key="Prio">900</Item>
                         <Item Key="Valid">1</Item>
                     </Hash>
                 </Item>

@@ -37,7 +37,37 @@ sub Run {
                 <IndexColumn Name="article_id"/>
             </IndexCreate>
         </TableAlter>',
+
     );
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Add new EmailResend ticket history type, but only if it hasn't been added already.
+    #   This check is done via 'name' column of the 'ticket_history_type' table, since it has unique index and common
+    #   check for auto-incremented ID might fail in certain cases.
+    $DBObject->Prepare(
+        SQL   => "SELECT COUNT(id) FROM ticket_history_type WHERE name = ?",
+        Bind  => [ \'EmailResend' ],
+        Limit => 1,
+    );
+
+    my $Exists;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Exists = $Row[0];
+    }
+
+    if ( !$Exists ) {
+        push @XMLStrings,
+            '<Insert Table="ticket_history_type">
+                <Data Key="id" Type="AutoIncrement">51</Data>
+                <Data Key="name" Type="Quote">EmailResend</Data>
+                <Data Key="valid_id">1</Data>
+                <Data Key="create_by">1</Data>
+                <Data Key="create_time">current_timestamp</Data>
+                <Data Key="change_by">1</Data>
+                <Data Key="change_time">current_timestamp</Data>
+            </Insert>';
+    }
 
     return if !$Self->ExecuteXMLDBArray(
         XMLArray => \@XMLStrings,

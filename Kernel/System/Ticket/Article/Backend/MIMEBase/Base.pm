@@ -81,7 +81,6 @@ Get article attachment index as hash.
 
     my %Index = $BackendObject->ArticleAttachmentIndex(
         ArticleID        => 123,
-        UserID           => 123,
         ExcludePlainText => 1,       # (optional) Exclude plain text attachment
         ExcludeHTMLBody  => 1,       # (optional) Exclude HTML body attachment
         ExcludeInline    => 1,       # (optional) Exclude inline attachments
@@ -115,14 +114,12 @@ Returns:
 sub ArticleAttachmentIndex {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(ArticleID UserID)) {
-        if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
-            return;
-        }
+    if ( !$Param{ArticleID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!',
+        );
+        return;
     }
 
     if ( $Param{ExcludeHTMLBody} && $Param{OnlyHTMLBody} ) {

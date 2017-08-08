@@ -181,7 +181,6 @@ sub Run {
             TicketID      => $Self->{TicketID},
             ArticleID     => $Self->{ArticleID},
             DynamicFields => 0,
-            UserID        => $Self->{UserID},
         );
 
         # Check if article is from the same TicketID as we checked permissions for.

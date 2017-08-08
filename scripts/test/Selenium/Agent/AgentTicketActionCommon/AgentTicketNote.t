@@ -285,7 +285,6 @@ $Selenium->RunTest(
         my $HTMLContent     = '';
         my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $LastArticleID,
-            UserID    => 1,
         );
 
         # go through all attachments
@@ -293,7 +292,6 @@ $Selenium->RunTest(
             my %Attachment = $ArticleBackendObject->ArticleAttachment(
                 ArticleID => $LastArticleID,
                 FileID    => $FileID,
-                UserID    => 1,
             );
 
             # image attachment

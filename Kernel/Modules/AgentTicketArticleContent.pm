@@ -61,7 +61,6 @@ sub Run {
         TicketID      => $TicketID,
         ArticleID     => $ArticleID,
         DynamicFields => 0,
-        UserID        => $Self->{UserID},
     );
 
     my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPermission(
@@ -139,7 +138,6 @@ sub Run {
     # replace links to inline images in html content
     my %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $ArticleID,
-        UserID    => $Self->{UserID},
     );
 
     # reformat rich text document to have correct charset and links to

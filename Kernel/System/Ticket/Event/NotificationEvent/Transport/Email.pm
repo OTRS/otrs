@@ -180,7 +180,7 @@ sub SendNotification {
             EmailSecurity => $SecurityOptions || {},
         );
 
-        if ( !$Sent ) {
+        if ( !$Sent->{Success} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "'$Notification{Name}' notification could not be sent to agent '$Recipient{UserEmail} ",
@@ -225,7 +225,6 @@ sub SendNotification {
             %CustomerArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                 %{$Article},
                 DynamicFields => 0,
-                UserID        => $Param{UserID},
             );
         }
 
@@ -250,7 +249,6 @@ sub SendNotification {
                 %AgentArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                     %{$Article},
                     DynamicFields => 0,
-                    UserID        => $Param{UserID},
                 );
             }
 

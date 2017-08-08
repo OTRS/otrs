@@ -13,12 +13,12 @@ use warnings;
 
 use Net::POP3;
 
-use Kernel::System::PostMaster;
-
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::CommunicationLog',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::PostMaster',
 );
 
 sub new {
@@ -95,6 +95,22 @@ sub _Fetch {
 sub Fetch {
     my ( $Self, %Param ) = @_;
 
+    # start a new incoming communication
+    my $CommunicationLogObject = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog',
+        ObjectParams => {
+            Transport   => 'Email',
+            Direction   => 'Incoming',
+            Start       => 1,
+            AccountType => $Param{Type},
+            AccountID   => $Param{ID},
+            }
+    );
+
+    my $ConnectionID = $CommunicationLogObject->ObjectLogStart(
+        ObjectType => 'Connection',
+    );
+
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
@@ -102,15 +118,50 @@ sub Fetch {
                 Priority => 'error',
                 Message  => "$_ not defined!"
             );
+
+            $CommunicationLogObject->ObjectLog(
+                ObjectType => 'Connection',
+                ObjectID   => $ConnectionID,
+                Priority   => 'Error',
+                Key        => 'Kernel::System::MailAccount::POP3',
+                Value      => "$_ not defined!",
+            );
+
+            $CommunicationLogObject->ObjectLogStop(
+                ObjectType => 'Connection',
+                ObjectID   => $ConnectionID,
+                Status     => 'Failed',
+            );
+
+            $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
+
             return;
         }
     }
+
     for (qw(Login Password Host)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
+            $CommunicationLogObject->ObjectLog(
+                ObjectType => 'Connection',
+                ObjectID   => $ConnectionID,
+                Priority   => 'Error',
+                Key        => 'Kernel::System::MailAccount::POP3',
+                Value      => "Need $_!",
+            );
+
+            $CommunicationLogObject->ObjectLogStop(
+                ObjectType => 'Connection',
+                ObjectID   => $ConnectionID,
+                Status     => 'Failed',
+            );
+
+            $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
+
             return;
         }
     }
@@ -132,58 +183,201 @@ sub Fetch {
 
     $Self->{Reconnect} = 0;
 
-    my %Connect = $Self->Connect(
-        Host     => $Param{Host},
-        Login    => $Param{Login},
-        Password => $Param{Password},
-        Timeout  => 15,
-        Debug    => $Debug
+    $CommunicationLogObject->ObjectLog(
+        ObjectType => 'Connection',
+        ObjectID   => $ConnectionID,
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::MailAccount::POP3',
+        Value      => "Open connection to '$Param{Host}' ($Param{Login}).",
     );
+
+    my %Connect = ();
+    eval {
+        %Connect = $Self->Connect(
+            Host     => $Param{Host},
+            Login    => $Param{Login},
+            Password => $Param{Password},
+            Timeout  => 15,
+            Debug    => $Debug
+        );
+        return 1;
+    } || do {
+        my $Error = $@;
+        %Connect = (
+            Successful => 0,
+            Message =>
+                "Something went wrong while trying to connect to 'POP3 => $Param{Login}/$Param{Host}': ${ Error }",
+        );
+    };
 
     if ( !$Connect{Successful} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "$Connect{Message}",
+            Message  => $Connect{Message},
         );
+
+        $CommunicationLogObject->ObjectLog(
+            ObjectType => 'Connection',
+            ObjectID   => $ConnectionID,
+            Priority   => 'Error',
+            Key        => 'Kernel::System::MailAccount::POP3',
+            Value      => $Connect{Message},
+        );
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectType => 'Connection',
+            ObjectID   => $ConnectionID,
+            Status     => 'Failed',
+        );
+
+        $CommunicationLogObject->CommunicationStop(
+            Status => 'Failed',
+        );
+
         return;
     }
-    my $PopObject = $Connect{PopObject};
-    my $NOM       = $Connect{NOM};
-    my $AuthType  = $Connect{Type};
+
+    my $POPOperation = sub {
+        my $Operation = shift;
+        my @Params    = @_;
+
+        my $POPObject = $Connect{PopObject};
+        my $ScalarResult;
+        my @ArrayResult = ();
+        my $Wantarray   = wantarray;
+
+        eval {
+            if ($Wantarray) {
+                @ArrayResult = $POPObject->$Operation( @Params, );
+            }
+            else {
+                $ScalarResult = $POPObject->$Operation( @Params, );
+            }
+
+            return 1;
+        } || do {
+            my $Error = $@;
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => sprintf(
+                    "Error while executing 'POP->%s(%s)': %s",
+                    $Operation,
+                    join( ',', @Params ),
+                    $Error,
+                ),
+            );
+        };
+
+        return @ArrayResult if $Wantarray;
+        return $ScalarResult;
+    };
+
+    my $NOM      = $Connect{NOM};
+    my $AuthType = $Connect{Type};
+
+    my $ConnectionWithErrors = 0;
+    my $MessagesWithError    = 0;
 
     # fetch messages
     if ( !$NOM ) {
+
         if ($CMD) {
             print "$AuthType: No messages ($Param{Login}/$Param{Host})\n";
         }
+
+        $CommunicationLogObject->ObjectLog(
+            ObjectType => 'Connection',
+            ObjectID   => $ConnectionID,
+            Priority   => 'Notice',
+            Key        => 'Kernel::System::MailAccount::POP3',
+            Value      => "No messages available ($Param{Login}/$Param{Host}).",
+        );
     }
     else {
-        my $MessageList = $PopObject->list();
+
+        my $MessageList = $POPOperation->( 'list', );
+        my $MessageCount = $NOM eq '0E0' ? 0 : $NOM;
+
+        $CommunicationLogObject->ObjectLog(
+            ObjectType => 'Connection',
+            ObjectID   => $ConnectionID,
+            Priority   => 'Notice',
+            Key        => 'Kernel::System::MailAccount::POP3',
+            Value      => "$MessageCount messages available for fetching ($Param{Login}/$Param{Host}).",
+        );
+
         MESSAGE_NO:
         for my $Messageno ( sort keys %{$MessageList} ) {
 
             # check if reconnect is needed
             if ( $FetchCounter >= $MaxPopEmailSession ) {
+
                 $Self->{Reconnect} = 1;
+
                 if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
+
+                $CommunicationLogObject->ObjectLog(
+                    ObjectType => 'Connection',
+                    ObjectID   => $ConnectionID,
+                    Priority   => 'Info',
+                    Key        => 'Kernel::System::MailAccount::POP3',
+                    Value      => "Reconnect session after $MaxPopEmailSession messages.",
+                );
+
                 last MESSAGE_NO;
             }
+
             if ($CMD) {
                 print "$AuthType: Message $Messageno/$NOM ($Param{Login}/$Param{Host})\n";
             }
 
-            # check message size
+            # determine (human readable) message size
+            my $MessageSize;
+
+            if ( $MessageList->{$Messageno} > ( 1024 * 1024 ) ) {
+                $MessageSize = sprintf "%.1f MB", ( $MessageList->{$Messageno} / ( 1024 * 1024 ) );
+            }
+            elsif ( $MessageList->{$Messageno} > 1024 ) {
+                $MessageSize = sprintf "%.1f KB", ( $MessageList->{$Messageno} / 1024 );
+            }
+            else {
+                $MessageSize = $MessageList->{$Messageno} . ' Bytes';
+            }
+
+            $CommunicationLogObject->ObjectLog(
+                ObjectType => 'Connection',
+                ObjectID   => $ConnectionID,
+                Priority   => 'Debug',
+                Key        => 'Kernel::System::MailAccount::POP3',
+                Value      => "Prepare fetching of message '$Messageno/$NOM' (Size: $MessageSize) from server.",
+            );
+
+            # check maximum message size
             if ( $MessageList->{$Messageno} > ( $MaxEmailSize * 1024 ) ) {
 
                 # convert size to KB, log error
                 my $MessageSizeKB = int( $MessageList->{$Messageno} / (1024) );
+                my $ErrorMessage = "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
+                    . "Email too big ($MessageSizeKB KB - max $MaxEmailSize KB)!";
+
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
-                        . "Email too big ($MessageSizeKB KB - max $MaxEmailSize KB)!",
+                    Message  => $ErrorMessage,
                 );
+
+                $CommunicationLogObject->ObjectLog(
+                    ObjectType => 'Connection',
+                    ObjectID   => $ConnectionID,
+                    Priority   => 'Error',
+                    Key        => 'Kernel::System::MailAccount::POP3',
+                    Value =>
+                        "Cannot fetch message '$Messageno/$NOM' with size '$MessageSize' ($MessageSizeKB KB)."
+                        . "Maximum allowed message size is '$MaxEmailSize KB'!",
+                );
+
+                $ConnectionWithErrors = 1;
             }
             else {
 
@@ -191,39 +385,121 @@ sub Fetch {
                 $FetchCounter++;
                 my $FetchDelay = ( $FetchCounter % 20 == 0 ? 1 : 0 );
                 if ( $FetchDelay && $CMD ) {
+
                     print "$AuthType: Safety protection: waiting 1 second before processing next mail...\n";
+
+                    $CommunicationLogObject->ObjectLog(
+                        ObjectType => 'Connection',
+                        ObjectID   => $ConnectionID,
+                        Priority   => 'Debug',
+                        Key        => 'Kernel::System::MailAccount::POP3',
+                        Value      => 'Safety protection: waiting 1 second before fetching next message from server.',
+                    );
+
                     sleep 1;
                 }
 
                 # get message (header and body)
-                my $Lines = $PopObject->get($Messageno);
+                my $Lines = $POPOperation->( 'get', $Messageno, );
+
                 if ( !$Lines ) {
+
+                    my $ErrorMessage = "$AuthType: Can't process mail, email no $Messageno is empty!";
+
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message  => "$AuthType: Can't process mail, email no $Messageno is empty!",
+                        Message  => $ErrorMessage,
                     );
+
+                    $CommunicationLogObject->ObjectLog(
+                        ObjectType => 'Connection',
+                        ObjectID   => $ConnectionID,
+                        Priority   => 'Error',
+                        Key        => 'Kernel::System::MailAccount::POP3',
+                        Value      => "Could not fetch message '$Messageno', answer from server was empty.",
+                    );
+
+                    $ConnectionWithErrors = 1;
                 }
                 else {
-                    my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        Email   => $Lines,
-                        Trusted => $Param{Trusted} || 0,
-                        Debug   => $Debug,
+
+                    $CommunicationLogObject->ObjectLog(
+                        ObjectType => 'Connection',
+                        ObjectID   => $ConnectionID,
+                        Priority   => 'Debug',
+                        Key        => 'Kernel::System::MailAccount::POP3',
+                        Value      => "Message '$Messageno' successfully received from server.",
                     );
-                    my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
+
+                    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+                    my $MessageStatus = 'Successful';
+
+                    my $PostMasterObject = $Kernel::OM->Create(
+                        'Kernel::System::PostMaster',
+                        ObjectParams => {
+                            %{$Self},
+                            Email                     => $Lines,
+                            Trusted                   => $Param{Trusted} || 0,
+                            Debug                     => $Debug,
+                            CommunicationLogObject    => $CommunicationLogObject,
+                            CommunicationLogMessageID => $MessageID,
+                        },
+                    );
+
+                    my @Return = eval { return $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 ); };
+                    my $Exception = $@ || undef;
+
                     if ( !$Return[0] ) {
+                        $MessagesWithError += 1;
+
+                        if ($Exception) {
+                            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                                Priority => 'error',
+                                Message  => 'Exception while processing mail: ' . $Exception,
+                            );
+                        }
+
                         my $File = $Self->_ProcessFailed( Email => $Lines );
+
+                        my $ErrorMessage = "$AuthType: Can't process mail, mail saved ("
+                            . "$File, report it on http://bugs.otrs.org/)!";
+
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
-                            Message  => "$AuthType: Can't process mail, mail saved ("
-                                . "$File, report it on http://bugs.otrs.org/)!",
+                            Message  => $ErrorMessage,
                         );
+
+                        $CommunicationLogObject->ObjectLog(
+                            ObjectType => 'Message',
+                            ObjectID   => $MessageID,
+                            Priority   => 'Error',
+                            Key        => 'Kernel::System::MailAccount::POP3',
+                            Value =>
+                                "Could not process message. Raw mail saved ($File, report it on http://bugs.otrs.org/)!",
+                        );
+
+                        $MessageStatus = 'Failed';
                     }
+
                     undef $PostMasterObject;
+
+                    $CommunicationLogObject->ObjectLogStop(
+                        ObjectType => 'Message',
+                        ObjectID   => $MessageID,
+                        Status     => $MessageStatus,
+                    );
                 }
 
                 # mark email to delete if it got processed
-                $PopObject->delete($Messageno);
+                $POPOperation->( 'delete', $Messageno, );
+
+                $CommunicationLogObject->ObjectLog(
+                    ObjectType => 'Connection',
+                    ObjectID   => $ConnectionID,
+                    Priority   => 'Debug',
+                    Key        => 'Kernel::System::MailAccount::POP3',
+                    Value      => "Message '$Messageno' marked for deletion.",
+                );
 
                 # check limit
                 $Self->{Limit}++;
@@ -233,23 +509,44 @@ sub Fetch {
                 }
 
             }
+
             if ($CMD) {
                 print "\n";
             }
         }
     }
 
-    # log status
-    if ( $Debug > 0 || $FetchCounter ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'info',
-            Message  => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
-        );
-    }
-    $PopObject->quit();
+    $CommunicationLogObject->ObjectLog(
+        ObjectType => 'Connection',
+        ObjectID   => $ConnectionID,
+        Priority   => 'Info',
+        Key        => 'Kernel::System::MailAccount::POP3',
+        Value      => "Fetched $FetchCounter message(s) from server ($Param{Login}/$Param{Host}).",
+    );
+
+    $POPOperation->( 'quit', );
+
     if ($CMD) {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
+
+    $CommunicationLogObject->ObjectLog(
+        ObjectType => 'Connection',
+        ObjectID   => $ConnectionID,
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::MailAccount::POP3',
+        Value      => "Connection to '$Param{Host}' closed.",
+    );
+
+    $CommunicationLogObject->ObjectLogStop(
+        ObjectType => 'Connection',
+        ObjectID   => $ConnectionID,
+        Status     => $ConnectionWithErrors ? 'Failed' : 'Successful',
+    );
+
+    $CommunicationLogObject->CommunicationStop(
+        Status => $ConnectionWithErrors || $MessagesWithError ? 'Failed' : 'Successful',
+    );
 
     # return if everything is done
     return 1;

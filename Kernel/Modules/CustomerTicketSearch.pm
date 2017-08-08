@@ -116,6 +116,7 @@ sub Run {
 
     # get search string params (get submitted params)
     else {
+        KEY:
         for my $Key (
             sort keys %ArticleSearchableFields,
             qw(TicketNumber ResultForm TimeSearchType StateType SearchInArchive
@@ -126,6 +127,7 @@ sub Run {
             )
             )
         {
+            next KEY if $ArticleSearchableFields{$Key} && $ArticleSearchableFields{$Key}->{HideInCustomerInterface};
 
             # get search string params (get submitted params)
             $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
@@ -595,7 +597,6 @@ sub Run {
                         TicketID      => $TicketID,
                         ArticleID     => $Article->{ArticleID},
                         DynamicFields => 1,
-                        UserID        => $Self->{UserID},
                     );
                 }
 
@@ -632,7 +633,6 @@ sub Run {
                                 TicketID      => $TicketID,
                                 ArticleID     => $Article->{ArticleID},
                                 DynamicFields => 0,
-                                UserID        => $Self->{UserID},
                             );
                             if ( $Article{Body} ) {
                                 $Data{ArticleTree}
@@ -815,7 +815,6 @@ sub Run {
                     %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                         %{$Article},
                         DynamicFields => 0,
-                        UserID        => $Self->{UserID},
                     );
                 }
 
@@ -1179,7 +1178,6 @@ sub Run {
                         %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                             %{$Article},
                             DynamicFields => 1,
-                            UserID        => $Self->{UserID},
                         );
                     }
 
@@ -1876,11 +1874,14 @@ sub MaskForm {
     # create the fulltext field entries to be displayed
     my %ArticleSearchableFields = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSearchableFieldsList();
 
+    FIELD:
     for my $ArticleFieldKey (
         sort { $ArticleSearchableFields{$a}->{Label} cmp $ArticleSearchableFields{$b}->{Label} }
         keys %ArticleSearchableFields
         )
     {
+        next FIELD if $ArticleSearchableFields{$ArticleFieldKey}->{HideInCustomerInterface};
+
         $LayoutObject->Block(
             Name => 'SearchableArticleField',
             Data => {

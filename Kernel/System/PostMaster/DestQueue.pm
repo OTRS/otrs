@@ -28,7 +28,9 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    $Self->{Debug} = $Param{Debug} || 0;
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
 
     return $Self;
 }
@@ -60,7 +62,6 @@ sub GetQueueID {
     my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient );
 
     # check addresses
-    my $QueueID;
     EMAIL:
     for my $Email (@EmailAddresses) {
 
@@ -71,37 +72,71 @@ sub GetQueueID {
         next EMAIL if !$Address;
 
         # lookup queue id if recipiend address
-        $QueueID = $SystemAddressObject->SystemAddressQueueID(
+        my $QueueID = $SystemAddressObject->SystemAddressQueueID(
             Address => $Address,
         );
 
-        # debug
-        if ( $Self->{Debug} > 1 ) {
-            if ($QueueID) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'debug',
-                    Message =>
-                        "Match email: $Email to QueueID $QueueID (MessageID:$GetParam{'Message-ID'})!",
-                );
-            }
-            else {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'debug',
-                    Message  => "Does not match email: $Email (MessageID:$GetParam{'Message-ID'})!",
-                );
-            }
+        if ($QueueID) {
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Debug',
+                Key        => ref($Self),
+                Value      => "Match email: $Email to QueueID $QueueID (MessageID:$GetParam{'Message-ID'})!",
+            );
+
+            return $QueueID;
         }
 
-        last EMAIL if $QueueID;
+        # Address/Email not matched with any that is configured in the system
+        #   or any error occured while checking it.
+
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Debug',
+            Key        => ref($Self),
+            Value      => "No match for email: $Email (MessageID:$GetParam{'Message-ID'})!",
+        );
     }
 
-    return $QueueID if $QueueID;
+    # If we get here means that none of the addresses in the message is defined as a system address
+    #   or an error occured while checking it.
 
-    my $Queue = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterDefaultQueue');
-
-    return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+    my $Queue   = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterDefaultQueue');
+    my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
         Queue => $Queue,
-    ) || 1;
+    );
+
+    if ($QueueID) {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Debug',
+            Key        => ref($Self),
+            Value      => "MessageID:$GetParam{'Message-ID'} to 'PostmasterDefaultQueue' ( QueueID:${QueueID} ).",
+        );
+
+        return $QueueID;
+    }
+
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Error',
+        Key        => ref($Self),
+        Value      => "Couldn't get QueueID for 'PostmasterDefaultQueue' (${Queue}) !",
+    );
+
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => ref($Self),
+        Value      => "MessageID:$GetParam{'Message-ID'} to QueueID:1!",
+    );
+
+    return 1;
 }
 
 sub GetTrustedQueueID {
@@ -112,13 +147,13 @@ sub GetTrustedQueueID {
 
     return if !$GetParam{'X-OTRS-Queue'};
 
-    if ( $Self->{Debug} > 0 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message =>
-                "There exists a X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} (MessageID:$GetParam{'Message-ID'})!",
-        );
-    }
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::PostMaster::DestQueue',
+        Value      => "Existing X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} (MessageID:$GetParam{'Message-ID'})!",
+    );
 
     # get dest queue
     return $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(

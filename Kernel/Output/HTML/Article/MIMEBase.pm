@@ -42,7 +42,6 @@ Returns common article fields for a MIMEBase article.
     my %ArticleFields = $MIMEBaseObject->ArticleFields(
         TicketID  => 123,   # (required)
         ArticleID => 123,   # (required)
-        UserID    => 123,   # (required)
     );
 
 Returns:
@@ -73,7 +72,7 @@ sub ArticleFields {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -128,7 +127,7 @@ sub ArticleFields {
             my $Object = $Jobs{$Job}->{Module}->new(
                 TicketID  => $Self->{TicketID},
                 ArticleID => $Param{ArticleID},
-                UserID    => $Param{UserID},
+                UserID    => $Param{UserID} || 1,
             );
 
             # run module
@@ -174,17 +173,18 @@ sub ArticleFields {
     my $RecipientDisplayType = $ConfigObject->Get('Ticket::Frontend::DefaultRecipientDisplayType') || 'Realname';
     my $SenderDisplayType    = $ConfigObject->Get('Ticket::Frontend::DefaultSenderDisplayType')    || 'Realname';
     KEY:
-    for my $Key (qw(From To Cc)) {
+    for my $Key (qw(From To Cc Bcc)) {
         next KEY if !$Article{$Key};
 
         my $DisplayType = $Key eq 'From'             ? $SenderDisplayType : $RecipientDisplayType;
         my $HiddenType  = $DisplayType eq 'Realname' ? 'Value'            : 'Realname';
         $Result{$Key} = {
-            Label                => $Key,
-            Value                => $Article{$Key},
-            Realname             => $Article{ $Key . 'Realname' },
-            ArticleID            => $Article{ArticleID},
-            $HiddenType . Hidden => 'Hidden',
+            Label                   => $Key,
+            Value                   => $Article{$Key},
+            Realname                => $Article{ $Key . 'Realname' },
+            ArticleID               => $Article{ArticleID},
+            $HiddenType . Hidden    => 'Hidden',
+            HideInCustomerInterface => $Key eq 'Bcc' ? 1 : undef,
         };
         if ( $Key eq 'From' ) {
             $Result{Sender} = {
@@ -200,7 +200,7 @@ sub ArticleFields {
 
     # Assign priority.
     my $Priority = 100;
-    for my $Key (qw(From To Cc)) {
+    for my $Key (qw(From To Cc Bcc)) {
         if ( $Result{$Key} ) {
             $Result{$Key}->{Prio} = $Priority;
             $Priority += 100;
@@ -221,16 +221,17 @@ sub ArticleFields {
 Returns article preview for a MIMEBase article.
 
     $ArticleBaseObject->ArticlePreview(
-        TicketID    => 123,     # (required)
-        ArticleID   => 123,     # (required)
-        ResultType  => 'plain', # (optional) plain|HTML. Default HTML.
-        MaxLength   => 50,      # (optional) performs trimming (for plain result only)
-        UserID      => 123,     # (required)
+        TicketID   => 123,     # (required)
+        ArticleID  => 123,     # (required)
+        ResultType => 'plain', # (optional) plain|HTML. Default HTML.
+        MaxLength  => 50,      # (optional) performs trimming (for plain result only)
     );
 
 Returns article preview in scalar form:
 
     $ArticlePreview = 'Hello, world!';
+
+If HTML preview was requested, but HTML content does not exist for an article, this function will return undef.
 
 =cut
 
@@ -238,7 +239,7 @@ sub ArticlePreview {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -286,16 +287,9 @@ sub ArticlePreview {
             my %Data = $ArticleBackendObject->ArticleAttachment(
                 ArticleID => $Param{ArticleID},
                 FileID    => $HTMLBodyAttachmentID,
-                UserID    => $Param{UserID},
             );
 
             $Result = $Data{Content};
-        }
-        else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "HTML attachment can't be found (TicketID=$Param{TicketID}, ArticleID=$Param{ArticleID})!",
-            );
         }
     }
 
@@ -307,9 +301,8 @@ sub ArticlePreview {
 Returns HTMLBodyAttachmentID.
 
     my $HTMLBodyAttachmentID = $ArticleBaseObject->HTMLBodyAttachmentIDGet(
-        TicketID    => 123,     # (required)
-        ArticleID   => 123,     # (required)
-        UserID      => 123,     # (required)
+        TicketID  => 123,     # (required)
+        ArticleID => 123,     # (required)
     );
 
 Returns
@@ -322,7 +315,7 @@ sub HTMLBodyAttachmentIDGet {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -338,7 +331,6 @@ sub HTMLBodyAttachmentIDGet {
     my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID    => $Param{ArticleID},
         OnlyHTMLBody => 1,
-        UserID       => $Param{UserID},
     );
 
     my ($HTMLBodyAttachmentID) = sort keys %AttachmentIndexHTMLBody;

@@ -115,6 +115,7 @@ bounce: bounced to "%s".
 customerupdate: changed customer to "%s".
 emailagent: sent email to customer.
 emailcustomer: added email. %s
+emailresend: resent email to "%s".
 escalationresponsetimenotifybefore: notified about response time escalation.
 escalationresponsetimestart: started response time escalation.
 escalationresponsetimestop: stopped response time escalation.

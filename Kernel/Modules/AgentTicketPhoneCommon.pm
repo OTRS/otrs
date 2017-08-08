@@ -868,7 +868,6 @@ sub Run {
                             = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
                             %{ $MetaArticles[0] },
                             DynamicFields => 0,
-                            UserID        => $Self->{UserID},
                             );
                         $From = $LastCustomerArticle{From};
                     }

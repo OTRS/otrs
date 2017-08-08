@@ -74,7 +74,7 @@ sub Run {
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             UserID => 1,
-            }
+        },
     );
     ## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -90,7 +90,6 @@ sub Run {
         my %Article = $ArticleObject->BackendForArticle( %{$MetaArticle} )->ArticleGet(
             %{$MetaArticle},
             DynamicFields => 0,
-            UserID        => 1,
         );
 
         next META_ARTICLE if !%Article;

@@ -42,20 +42,13 @@ $Self->Is(
     open STDIN, '<:utf8', \$Email;    ## no critic
     local *STDOUT;
     open STDOUT, '>:utf8', \$Result;    ## no critic
-    $ExitCode = $CommandObject->Execute('--debug');
+    $ExitCode = $CommandObject->Execute();
 }
 
 $Self->Is(
     $ExitCode,
     0,
     "Maint::PostMaster::Read exit code with email input",
-);
-
-my ($TicketID) = $Result =~ m{TicketID:\s+(\d+)};
-
-$Self->True(
-    $TicketID,
-    'Ticket created from email',
 );
 
 # cleanup is done by RestoreDatabase

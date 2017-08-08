@@ -65,7 +65,6 @@ sub ArticleFields {
     # Return backend response.
     return $BackendObject->ArticleFields(
         %Param,
-        UserID => $Self->{UserID},
     );
 }
 
@@ -105,7 +104,6 @@ sub ArticlePreview {
     # Return backend response.
     return $BackendObject->ArticlePreview(
         %Param,
-        UserID => $Self->{UserID},
     );
 }
 
@@ -224,7 +222,6 @@ sub ArticleQuote {
         my %QuoteArticle = $ArticleBackendObject->ArticleGet(
             TicketID      => $Param{TicketID},
             ArticleID     => $Param{ArticleID},
-            UserID        => $Self->{UserID},
             DynamicFields => 0,
         );
 
@@ -232,7 +229,6 @@ sub ArticleQuote {
         $QuoteArticle{Atms} = {
             $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID        => $Param{ArticleID},
-                UserID           => $Self->{UserID},
                 ExcludePlainText => 1,
                 ExcludeHTMLBody  => 1,
                 )
@@ -241,7 +237,6 @@ sub ArticleQuote {
         # Check if there is HTML body attachment.
         my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID    => $Param{ArticleID},
-            UserID       => $Self->{UserID},
             OnlyHTMLBody => 1,
         );
         my ($HTMLBodyAttachmentID) = sort keys %AttachmentIndexHTMLBody;
@@ -251,7 +246,6 @@ sub ArticleQuote {
                 TicketID  => $QuoteArticle{TicketID},
                 ArticleID => $QuoteArticle{ArticleID},
                 FileID    => $HTMLBodyAttachmentID,
-                UserID    => $Self->{UserID},
             );
             my $Charset = $AttachmentHTML{ContentType} || '';
             $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
@@ -323,7 +317,6 @@ sub ArticleQuote {
                         TicketID => $Param{TicketID},
                         ArticleID => $Param{ArticleID},
                         FileID    => $AttachmentID,
-                        UserID    => $Self->{UserID},
                     );
 
                     # content id cleanup
@@ -364,7 +357,6 @@ sub ArticleQuote {
                     TicketID  => $Param{TicketID},
                     ArticleID => $Param{ArticleID},
                     FileID    => $AttachmentID,
-                    UserID    => $Self->{UserID},
                 );
 
                 # content id cleanup
@@ -417,7 +409,6 @@ sub ArticleQuote {
                     TicketID  => $Param{TicketID},
                     ArticleID => $Param{ArticleID},
                     FileID    => $AttachmentID,
-                    UserID    => $Self->{UserID},
                 );
 
                 # add attachment
@@ -436,7 +427,6 @@ sub ArticleQuote {
         TicketID      => $Param{TicketID},
         ArticleID     => $Param{ArticleID},
         DynamicFields => 0,
-        UserID        => $Self->{UserID},
     );
 
     # check if original content isn't text/plain or text/html, don't use it
@@ -459,7 +449,6 @@ sub ArticleQuote {
     if ( $Param{AttachmentsInclude} ) {
         my %ArticleIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID        => $Param{ArticleID},
-            UserID           => $Self->{UserID},
             ExcludePlainText => 1,
             ExcludeHTMLBody  => 1,
         );
@@ -468,7 +457,6 @@ sub ArticleQuote {
                 TicketID  => $Param{TicketID},
                 ArticleID => $Param{ArticleID},
                 FileID    => $Index,
-                UserID    => $Self->{UserID},
             );
 
             # add attachment

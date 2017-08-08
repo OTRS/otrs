@@ -25,6 +25,10 @@ sub new {
 
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject";
 
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+
     return $Self;
 }
 
@@ -37,6 +41,14 @@ sub Run {
     my @Attachments = $Self->{ParserObject}->GetAttachments();
     @Attachments = grep { defined $_->{ContentDisposition} && $_->{ContentDisposition} ne 'inline' } @Attachments;
 
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::PostMaster::FollowUpCheck::Attachments',
+        Value      => 'Searching for TicketNumber in email attachments.',
+    );
+
     ATTACHMENT:
     for my $Attachment (@Attachments) {
 
@@ -46,6 +58,16 @@ sub Run {
         my $TicketID = $TicketObject->TicketCheckNumber( Tn => $Tn );
 
         if ($TicketID) {
+
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Debug',
+                Key        => 'Kernel::System::PostMaster::FollowUpCheck::Attachments',
+                Value =>
+                    "Found valid TicketNumber '$Tn' (TicketID '$TicketID') in email attachment '$Attachment->{Filename}'.",
+            );
+
             return $TicketID;
         }
     }

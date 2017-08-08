@@ -172,7 +172,6 @@ my @ArticleGetTests = (
         Name   => 'ArticleGet() without TicketID',
         Params => {
             ArticleID => $ArticleIDValid,
-            UserID    => 1,
         },
         Success => 0,
     },
@@ -180,24 +179,14 @@ my @ArticleGetTests = (
         Name   => 'ArticleGet() without ArticleID',
         Params => {
             TicketID => $TicketID,
-            UserID   => 1,
         },
         Success => 0,
     },
     {
-        Name   => 'ArticleGet() without UserID',
+        Name   => 'ArticleGet() with all required parameters',
         Params => {
             TicketID  => $TicketID,
             ArticleID => $ArticleIDValid,
-        },
-        Success => 0,
-    },
-    {
-        Name   => 'ArticleGet() without TicketID',
-        Params => {
-            TicketID  => $TicketID,
-            ArticleID => $ArticleIDValid,
-            UserID    => 1,
         },
         Success        => 1,
         ExpectedResult => {

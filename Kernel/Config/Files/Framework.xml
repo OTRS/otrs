@@ -841,6 +841,39 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CommunicationLog::LogModule###Email" Required="1" Valid="1">
+        <Description Translatable="1">Registers a log module, that can be used to log communication related information.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationLog</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Email</Item>
+                <Item Key="Module">Kernel::System::CommunicationLog::LogModule::Email</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CommunicationLog::LogModule###Test" Required="1" Valid="1">
+        <Description Translatable="1">Registers a log module, that can be used to log communication related information.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationLog</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Name">Test</Item>
+                <Item Key="Module">Kernel::System::CommunicationLog::LogModule::Test</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="MailQueue" Required="1" Valid="1">
+        <Description Translatable="1">MailQueue configuration settings.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MailQueue</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="ItemMaxAttempts">3</Item>
+                <Item Key="IncrementAttemptDelayInMinutes">2</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="LoginURL" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines an alternate URL, where the login link refers to.</Description>
         <Group>Framework</Group>
@@ -8834,6 +8867,34 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###CommunicationLogPageShown" Required="0" Valid="1">
+        <Description Translatable="1">Parameters for the pages (in which the communication log entries are shown) of the communication log overview.</Description>
+        <Group>DynamicFields</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
+                <Item Key="Label" Translatable="1">CommunicationLog Overview Limit</Item>
+                <Item Key="Key" Translatable="1">Communication log limit per page for CommunicationLog Overview</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="10">10</Item>
+                        <Item Key="15">15</Item>
+                        <Item Key="20">20</Item>
+                        <Item Key="25">25</Item>
+                        <Item Key="30">30</Item>
+                        <Item Key="35">35</Item>
+                        <Item Key="50">50</Item>
+                    </Hash>
+                </Item>
+                <Item Key="DataSelected">25</Item>
+                <Item Key="PrefKey">AdminCommunicationLogPageShown</Item>
+                <Item Key="Prio">8100</Item>
+                <Item Key="Active">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
@@ -9920,6 +9981,33 @@ via the Preferences button after logging in.
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.CloudServices.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCommunicationLog" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>CommunicationLog</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description Translatable="1">This module is part of the admin area of OTRS.</Description>
+                <Title Translatable="1">Communication Log GUI</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">Communication Log</Name>
+                    <Description Translatable="1">Display communication log entries.</Description>
+                    <IconBig>fa-table</IconBig>
+                    <Prio>1000</Prio>
+                    <Block>Communication</Block>
+                </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.CommunicationLog.css</CSS>
+                    <JavaScript>Core.Agent.Admin.CommunicationLog.js</JavaScript>
+                    <JavaScript>thirdparty/jquery-tablesorter-2.28.14/jquery.tablesorter.js</JavaScript>
+                    <JavaScript>Core.UI.Table.Sort.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

@@ -423,6 +423,16 @@ my @Tests = (
     },
 );
 
+my $CommunicationLogObject = $Kernel::OM->Create(
+    'Kernel::System::CommunicationLog',
+    ObjectParams => {
+        Transport => 'Email',
+        Direction => 'Incoming',
+        Start     => 1,
+        }
+);
+my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+
 for my $Test (@Tests) {
 
     $ConfigObject->Set(
@@ -443,7 +453,9 @@ Some Content in Body
     my @Return;
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            Email => \$Email,
+            CommunicationLogObject    => $CommunicationLogObject,
+            CommunicationLogMessageID => $MessageID,
+            Email                     => \$Email,
         );
 
         @Return = $PostMasterObject->Run();
@@ -488,7 +500,9 @@ Some Content in Body
 
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            Email => \$Email2,
+            CommunicationLogObject    => $CommunicationLogObject,
+            CommunicationLogMessageID => $MessageID,
+            Email                     => \$Email2,
         );
 
         @Return = $PostMasterObject->Run();
@@ -527,6 +541,15 @@ Some Content in Body
         Value => undef,
     );
 }
+
+$CommunicationLogObject->ObjectLogStop(
+    ObjectType => 'Message',
+    ObjectID   => $MessageID,
+    Status     => 'Successful',
+);
+$CommunicationLogObject->CommunicationStop(
+    Status => 'Successful',
+);
 
 # cleanup is done by RestoreDatabase.
 

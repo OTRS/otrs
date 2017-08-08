@@ -81,7 +81,6 @@ $ArticleHash{CreateTime}    = $TimeStamp;
 my %ResultHash = $EmailBackendObject->ArticleGet(
     TicketID  => $TicketID,
     ArticleID => $ArticleID,
-    UserID    => 1,
 );
 
 KEY:

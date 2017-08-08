@@ -638,7 +638,6 @@ sub ShowTicketStatus {
         my %CurrentArticle = $ArticleBackendObject->ArticleGet(
             TicketID  => $Param{TicketID},
             ArticleID => $ArticleMetaData->{ArticleID},
-            UserID    => $Self->{UserID},
         );
 
         # check for customer article

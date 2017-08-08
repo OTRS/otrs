@@ -26,7 +26,9 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    $Self->{Debug} = $Param{Debug} || 0;
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
 
     return $Self;
 }
@@ -37,9 +39,16 @@ sub Run {
     # check needed stuff
     for (qw(JobConfig GetParam)) {
         if ( !$Param{$_} ) {
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Error',
+                Key        => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                Value      => "Need $_!",
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -89,21 +98,28 @@ sub Run {
                 my $LocalMatched;
                 RECIPIENT:
                 for my $Recipients (@EmailAddresses) {
+
                     my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
+
                     next RECIPIENT if !$Email;
+
                     if ( $Email =~ /^$SearchEmail$/i ) {
+
                         $LocalMatched = 1;
+
                         if ($SearchEmail) {
                             $MatchedResult = $SearchEmail;
                             $NamedCaptures{email} = $SearchEmail;
                         }
-                        if ( $Self->{Debug} > 1 ) {
-                            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                                Priority => 'debug',
-                                Message =>
-                                    "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
-                            );
-                        }
+
+                        $Self->{CommunicationLogObject}->ObjectLog(
+                            ObjectType => 'Message',
+                            ObjectID   => $Self->{CommunicationLogMessageID},
+                            Priority   => 'Debug',
+                            Key        => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                            Value      => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
+                        );
+
                         last RECIPIENT;
                     }
                 }
@@ -146,24 +162,28 @@ sub Run {
                     @NamedCaptures{@Keys} = @Values;
                 }
 
-                if ( $Self->{Debug} > 1 ) {
-                    my $Op = $Config{Not}->[$Index]->{Value} ? '!' : "=";
+                my $Op = $Config{Not}->[$Index]->{Value} ? '!' : "=";
 
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'debug',
-                        Message =>
-                            "successful $Prefix'$Param{GetParam}->{$Key}' $Op~ /$Value/i !",
-                    );
-                }
+                $Self->{CommunicationLogObject}->ObjectLog(
+                    ObjectType => 'Message',
+                    ObjectID   => $Self->{CommunicationLogMessageID},
+                    Priority   => 'Debug',
+                    Key        => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Value      => "successful $Prefix'$Param{GetParam}->{$Key}' $Op~ /$Value/i !",
+                );
             }
             else {
+
                 $MatchedNot = 1;
-                if ( $Self->{Debug} > 1 ) {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'debug',
-                        Message  => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
-                    );
-                }
+
+                $Self->{CommunicationLogObject}->ObjectLog(
+                    ObjectType => 'Message',
+                    ObjectID   => $Self->{CommunicationLogMessageID},
+                    Priority   => 'Debug',
+                    Key        => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Value      => "$Prefix'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
+                );
+
             }
         }
 
@@ -177,18 +197,25 @@ sub Run {
                 $Value =~ s/\[\*\* \\(\w+) \*\*\]/$NamedCaptures{$1}/xmsg;
 
                 $Param{GetParam}->{$Key} = $Value;
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
-                    Message  => $Prefix
+
+                $Self->{CommunicationLogObject}->ObjectLog(
+                    ObjectType => 'Message',
+                    ObjectID   => $Self->{CommunicationLogMessageID},
+                    Priority   => 'Notice',
+                    Key        => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Value      => $Prefix
                         . "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
                 );
             }
 
             # stop after match
             if ($StopAfterMatch) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
-                    Message  => $Prefix
+                $Self->{CommunicationLogObject}->ObjectLog(
+                    ObjectType => 'Message',
+                    ObjectID   => $Self->{CommunicationLogMessageID},
+                    Priority   => 'Notice',
+                    Key        => 'Kernel::System::PostMaster::Filter::MatchDBSource',
+                    Value      => $Prefix
                         . "Stopped filter processing because of used 'StopAfterMatch' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
                 );
                 return 1;

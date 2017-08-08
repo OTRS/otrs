@@ -330,6 +330,18 @@ o Name:    CPAN Text::vFile::asData
            # Artistic v1 - http://dev.perl.org/licenses/artistic.html
   Note:    # Copyright 2004, 2010, 2013 Richard Clamp and Nik Clayton. All Rights Reserved.
 
+o Name:    CPAN Class::Accessor::Lite
+  Web:     n/a
+  License: # GNU v1 - http://dev.perl.org/licenses/gpl1.html
+           # Artistic v1 - http://dev.perl.org/licenses/artistic.html
+  Note:    # Copyright (C) 2008 - 2010 Kazuho Oku.
+
+o Name:    CPAN Sisimai
+  Web:     http://libsisimai.org
+  License: # BSD 2-Clause - https://opensource.org/licenses/BSD-2-Clause
+  Note:    # Copyright (C) 2014-2017 azumakuniyuki, All rights reserved.
+
+
 #
 # JavaScript
 #

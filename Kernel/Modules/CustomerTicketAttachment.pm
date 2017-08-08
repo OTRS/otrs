@@ -88,7 +88,6 @@ sub Run {
         %Article = $ArticleBackendObject->ArticleGet(
             TicketID      => $TicketID,
             ArticleID     => $ArticleMetaData->{ArticleID},
-            UserID        => $Self->{UserID},
             DynamicFields => 0,
         );
     }
@@ -107,7 +106,6 @@ sub Run {
     my %Data = $ArticleBackendObject->ArticleAttachment(
         ArticleID => $ArticleID,
         FileID    => $FileID,
-        UserID    => $Self->{UserID},
     );
 
     if ( !%Data ) {

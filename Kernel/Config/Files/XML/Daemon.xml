@@ -413,6 +413,42 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###MailQueueSend" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Checks for queued outgoing emails to be sent.</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">MailQueueSend</Item>
+                <Item Key="Schedule">* * * * *</Item> <!-- default every minute -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Email::MailQueue</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--send</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###CommunicationLogDelete" Required="0" Valid="1" ConfigLevel="100">
+        <Description Translatable="1">Checks for communication log entries to be deleted.</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">CommunicationLogDelete</Item>
+                <Item Key="Schedule">00 03 * * *</Item> <!-- default each day at 03:00 AM -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Log::CommunicationLog</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                        <Item>--purge</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <!-- custom cron tasks -->
     <Setting Name="Daemon::SchedulerCronTaskManager::Task###Custom1" Required="0" Valid="0" ConfigLevel="100">
         <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>

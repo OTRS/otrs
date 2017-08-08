@@ -434,7 +434,6 @@ sub Run {
                 TicketID      => $TicketID,
                 ArticleID     => $Article->{ArticleID},
                 DynamicFields => $DynamicFields,
-                UserID        => 1,
             );
             $Article = \%ArticleData;
 
@@ -443,7 +442,6 @@ sub Run {
             # get attachment index (without attachments)
             my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $Article->{ArticleID},
-                UserID    => $UserID,
                 %ExcludeAttachments,
             );
 
@@ -456,7 +454,6 @@ sub Run {
                 my %Attachment = $ArticleBackendObject->ArticleAttachment(
                     ArticleID => $Article->{ArticleID},
                     FileID    => $FileID,                 # as returned by ArticleAttachmentIndex
-                    UserID    => $UserID,
                 );
 
                 next ATTACHMENT if !IsHashRefWithData( \%Attachment );

@@ -743,6 +743,12 @@ INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_
     VALUES
     ('TitleUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
+--  insert into table ticket_history_type
+-- ----------------------------------------------------------
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('EmailResend', 1, 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
 --  insert into table article_sender_type
 -- ----------------------------------------------------------
 INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_by, change_time)
@@ -1584,6 +1590,78 @@ INSERT INTO notification_event_item (notification_id, event_key, event_value)
 INSERT INTO notification_event_item (notification_id, event_key, event_value)
     VALUES
     (14, 'NotificationType', 'Appointment');
+-- ----------------------------------------------------------
+--  insert into table notification_event
+-- ----------------------------------------------------------
+INSERT INTO notification_event (name, valid_id, comments, create_by, create_time, change_by, change_time)
+    VALUES
+    ('Ticket email delivery failure notification', 1, '', 1, current_timestamp, 1, current_timestamp);
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'AgentEnabledByDefault', 'Email');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'ArticleAttachmentInclude', '0');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'ArticleCommunicationChannelID', '1');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'Events', 'ArticleEmailSendingError');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'LanguageID', 'en');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'RecipientGroups', '2');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'Recipients', 'AgentResponsible');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'Recipients', 'AgentOwner');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'TransportEmailTemplate', 'Default');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'Transports', 'Email');
+-- ----------------------------------------------------------
+--  insert into table notification_event_item
+-- ----------------------------------------------------------
+INSERT INTO notification_event_item (notification_id, event_key, event_value)
+    VALUES
+    (15, 'VisibleForAgent', '0');
 -- ----------------------------------------------------------
 --  insert into table notification_event_message
 -- ----------------------------------------------------------
@@ -3068,6 +3146,21 @@ Ponavljanje: &lt;OTRS_APPOINTMENT_RECURRING&gt;<br />
 <a href="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;" title="&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;">&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentAppointmentCalendarOverview;AppointmentID=&lt;OTRS_APPOINTMENT_APPOINTMENTID&gt;</a><br />
 <br />
 -- &lt;OTRS_CONFIG_NotificationSenderName&gt;');
+-- ----------------------------------------------------------
+--  insert into table notification_event_message
+-- ----------------------------------------------------------
+INSERT INTO notification_event_message (notification_id, content_type, language, subject, text)
+    VALUES
+    (15, 'text/plain', 'en', 'Email Delivery Failure', 'Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+Please note, that the delivery of an email article of [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has failed. Please check the email address of your recipient for mistakes and try again. You can manually resend the article from the ticket if required.
+
+Error Message:
+<OTRS_AGENT_TransmissionStatusMessage>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>;ArticleID=<OTRS_AGENT_ArticleID>
+
+-- <OTRS_CONFIG_NotificationSenderName>');
 -- ----------------------------------------------------------
 --  insert into table dynamic_field
 -- ----------------------------------------------------------

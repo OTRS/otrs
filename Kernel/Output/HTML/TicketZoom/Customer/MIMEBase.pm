@@ -30,12 +30,11 @@ our @ObjectDependencies = (
 Returns article html.
 
     my $HTML = $ArticleBaseObject->ArticleRender(
-        TicketID                    => 123,         # (required)
-        ArticleID                   => 123,         # (required)
-        UserID                      => 123,         # (required)
-        ShowBrowserLinkMessage      => 1,           # (optional) Default: 0.
-        ArticleActions              => [],          # (optional)
-        Class                       => 'Visible',   # (optional)
+        TicketID               => 123,         # (required)
+        ArticleID              => 123,         # (required)
+        ShowBrowserLinkMessage => 1,           # (optional) Default: 0.
+        ArticleActions         => [],          # (optional)
+        Class                  => 'Visible',   # (optional)
     );
 
 Result:
@@ -47,7 +46,7 @@ sub ArticleRender {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -87,7 +86,6 @@ sub ArticleRender {
     # Get attachment index (excluding body attachments).
     my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID        => $Param{ArticleID},
-        UserID           => $Param{UserID},
         ExcludePlainText => 1,
         ExcludeHTMLBody  => $RichTextEnabled,
         ExcludeInline    => $RichTextEnabled,

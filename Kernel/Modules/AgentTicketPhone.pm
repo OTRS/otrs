@@ -302,7 +302,6 @@ sub Run {
             %Article = $ArticleBackendObject->ArticleGet(
                 TicketID  => $Self->{TicketID},
                 ArticleID => $GetParam{ArticleID},
-                UserID    => $Self->{UserID},
             );
 
             # check if article is from the same TicketID as we checked permissions for.

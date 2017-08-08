@@ -117,7 +117,6 @@ for my $Article (@Articles) {
         TicketID      => $TicketID,
         ArticleID     => $Article->{ArticleID},
         DynamicFields => 0,
-        UserID        => 1,
     );
     push @ArticleBox, \%Article;
 }

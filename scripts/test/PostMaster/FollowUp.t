@@ -225,8 +225,20 @@ for my $Test (@Tests) {
         "TicketStateSet updated."
     );
 
+    my $CommunicationLogObject = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog',
+        ObjectParams => {
+            Transport => 'Email',
+            Direction => 'Incoming',
+            Start     => 1,
+            }
+    );
+    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        Email => "From: Provider <$CustomerAddress>
+        CommunicationLogObject    => $CommunicationLogObject,
+        CommunicationLogMessageID => $MessageID,
+        Email                     => "From: Provider <$CustomerAddress>
 To: Agent <$AgentAddress>
 Subject: FollowUp Ticket#$Ticket{TicketNumber}
 
@@ -234,6 +246,15 @@ Some Content in Body",
     );
 
     @Return = $PostMasterObject->Run();
+
+    $CommunicationLogObject->ObjectLogStop(
+        ObjectType => 'Message',
+        ObjectID   => $MessageID,
+        Status     => 'Successful',
+    );
+    $CommunicationLogObject->CommunicationStop(
+        Status => 'Successful',
+    );
 
     $Self->Is(
         $Return[0] || 0,

@@ -1,0 +1,326 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Communication Log") | html %] - [% Translate(Data.Action) | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Communication Log'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+
+    <div class="SidebarColumn">
+
+[% RenderBlockStart("TimeRange") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Time range") | html %]</h2>
+            </div>
+            <div class="Content">
+                [% Data.TimeRange %]
+                <p class="FieldExplanation">
+                    [% Translate("Show only communication logs created in specific time range.") | html %]
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("TimeRange") %]
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterCommunications">[% Translate("Filter for communications") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterCommunications" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterCommunications" value="" title="[% Translate("Filter for communications") | html %]">
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("In this screen you can see an overview about incoming and outgoing communications.") | html %]
+                    </p>
+                </div>
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("You can change the sort and order of the columns by clicking on the column header.") | html %]
+                        [% Translate("If you click on the different entries, you will get redirected to a detailed screen about the message.") | html %]
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ContentColumn">
+
+[% RenderBlockStart("StatusOverview") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label>[% Translate("Status for: %s", Data.TimeRange) | html %]</label></h2>
+            </div>
+            <div class="Content">
+
+                <div class="GridView">
+
+                    <ul class="ItemListGrid WithIcons">
+                        <li class="[% IF Data.AccountsStatus && Data.AccountsOverview.Failed %]Failed[% ELSIF Data.AccountsStatus && Data.AccountsOverview.Warning %]Warning[% ELSIF Data.AccountsStatus %]Successful[% END %]">
+                            <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Accounts;StartTime=[% Data.StartTime | uri %]">
+                                <span class="Icons">
+                                    [% IF Data.AccountsStatus && Data.AccountsOverview.Failed %]
+                                    <i class="Icon fa fa-times"></i>
+                                    [% ELSIF Data.AccountsStatus && Data.AccountsOverview.Warning %]
+                                    <i class="Icon fa fa-exclamation"></i>
+                                    [% ELSIF Data.AccountsStatus %]
+                                    <i class="Icon fa fa-check"></i>
+                                    [% ELSE %]
+                                    <i class="Icon fa fa-question"></i>
+                                    [% END %]
+                                </span>
+                                <span class="Title">
+                                    [% IF Data.AccountsStatus && Data.AccountsOverview.Failed %]
+                                    [% Translate("Failing accounts") | html %]
+                                    [% ELSIF Data.AccountsStatus && Data.AccountsOverview.Warning %]
+                                    [% Translate("Some account problems") | html %]
+                                    [% ELSIF Data.AccountsStatus %]
+                                    [% Translate("No account problems") | html %]
+                                    [% ELSE %]
+                                    [% Translate("No account activity") | html %]
+                                    [% END %]
+                                </span>
+                                <span class="Description">
+                                    [% IF Data.AccountsStatus && Data.AccountsOverview.Failed %]
+                                    [% Translate("Number of accounts with problems: %s", Data.AccountsOverview.Failed + Data.AccountsOverview.Warning) | html %]
+                                    [% ELSIF Data.AccountsStatus && Data.AccountsOverview.Warning %]
+                                    [% Translate("Number of accounts with warnings: %s", Data.AccountsOverview.Warning) | html %]
+                                    [% END %]
+                                </span>
+                            </a>
+                        </li>
+                        <li class="[% IF Data.Failed %]Failed[% ELSIF Data.Successful || Data.Processing %]Successful[% END %]">
+                            <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.StatusFilter | uri %];StartTime=[% Data.StartTime | uri %];Expand=1;">
+                                <span class="Icons">
+                                    [% IF Data.Failed %]
+                                    <i class="Icon fa fa-times"></i>
+                                    [% ELSIF Data.Successful || Data.Processing %]
+                                    <i class="Icon fa fa-check"></i>
+                                    [% ELSE %]
+                                    <i class="Icon fa fa-question"></i>
+                                    [% END %]
+                                </span>
+                                <span class="Title">
+                                    [% IF Data.Failed %]
+                                    [% Translate("Failing communications") | html %]
+                                    [% ELSIF Data.Successful || Data.Processing %]
+                                    [% Translate("No communication problems") | html %]
+                                    [% ELSE %]
+                                    [% Translate("No communication logs") | html %]
+                                    [% END %]
+                                </span>
+                                <span class="Description">
+                                    [% IF Data.Failed %]
+                                    [% Translate("Number of reported problems: %s", Data.Failed) | html %]
+                                    [% END %]
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=Processing;StartTime=[% Data.StartTime | uri %];Expand=1;">
+                                <span class="Icons">
+                                    <i class="fa fa-exchange"></i>
+                                </span>
+                                <span class="Title">
+                                    [% IF Data.Processing %]
+                                    [% Translate("Open communications") | html %]
+                                    [% ELSE %]
+                                    [% Translate("No active communications") | html %]
+                                    [% END %]
+                                </span>
+                                <span class="Description">
+                                    [% IF Data.Processing %]
+                                    [% Translate("Number of open communications: %s", Data.Processing) | html %]
+                                    [% END %]
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=All;StartTime=[% Data.StartTime | uri %];Expand=1;">
+                                <span class="Icons">
+                                    <i class="fa fa-clock-o"></i>
+                                </span>
+                                <span class="Title">
+                                    [% Translate("Average processing time") | html %]
+                                </span>
+                                <span class="Description">
+                                    [% Data.AverageString | html %]
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+[% RenderBlockEnd("StatusOverview") %]
+
+        <div id="CommunicationList" class="WidgetSimple [% IF !Data.Expand %]Collapsed[% END %]">
+
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                </div>
+                <h2>[% Translate("List of communications (%s)", Data.CommunicationCount) | html %]</h2>
+
+[% RenderBlockStart("ContextSettings") %]
+                <div class="ActionMenu">
+                    <div class="WidgetAction Settings">
+                        <a href="#" id="ShowContextSettingsDialog" title="[% Translate("Settings") | html %]">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="ContextSettingsDialogContainer" class="Hidden">
+                    <form action="[% Env("CGIHandle") %]" method="post" id="ContextSettingsDialog">
+                        <input type="hidden" name="Action" value="AgentPreferences"/>
+                        <input type="hidden" name="Subaction" value="Update"/>
+                        <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
+                        <input type="hidden" name="RedirectURL" value="[% Data.RequestedURL | html %]"/>
+                        <fieldset class="TableLike">
+                            <label for="[% Data.PreferencesKey | html %]">[% Translate("Entries per page") | html %]:</label>
+                            <div class="Field">
+                                [% Data.PageShownString %]
+                            </div>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </form>
+                </div>
+[% RenderBlockEnd("ContextSettings") %]
+
+            </div>
+
+            <div class="Content Overview">
+
+                <div class="ControlRow">
+
+[% RenderBlockStart("CommunicationNavBarFilter") %]
+                    <ul class="Tabs">
+[% RenderBlockStart("CommunicationNavBarFilterItem") %]
+                        <li [% IF Data.Selected %] class="Active" [% END %]>
+                            <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter | uri %];SortBy=[% Data.SortBy %];OrderBy=[% Data.OrderBy %];StartHit=1;Expand=1;StartTime=[% Data.StartTime | uri %]">[% Translate(Data.Name) | html %] ([% Data.Count %])</a>
+                        </li>
+[% RenderBlockEnd("CommunicationNavBarFilterItem") %]
+                    </ul>
+[% RenderBlockEnd("CommunicationNavBarFilter") %]
+
+                </div>
+
+                <div class="CommunicationPagination">
+                    <span class="Pagination">
+[% RenderBlockStart("OverviewNavBarPageNavBar") %]
+                        [% Data.ResultLong %]
+                        [% Data.SiteNavBarLong %]
+[% RenderBlockEnd("OverviewNavBarPageNavBar") %]
+                    </span>
+                </div>
+
+                <table class="DataTable" id="CommunicationsTable">
+                    <thead>
+                        <tr>
+[% RenderBlockStart("TableHeader") %]
+                            <th class="DashboardHeader OverviewHeader [% Data.CSS | html %]" title="[% Data.Title | html %]">
+                                <a name="OverviewControl" href="[% Env("Baselink") %]Action=[% Env("Action") %];[% Data.HeaderLink %];SortBy=[% Data.SortByName | uri %];OrderBy=[% Data.OrderBy | uri %]" title="[% Data.Title | html %]">
+                                [% IF Data.HeaderName == 'Direction' %]
+                                    <i class="fa fa-exchange"></i>
+                                [% ELSE %]
+                                    [% Data.HeaderName | html %]
+                                [% END %]
+                                </a>
+                            </th>
+[% RenderBlockEnd("TableHeader") %]
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoCommunicationsFound") %]
+                        <tr>
+                            <td colspan="6">
+                                [% Translate("No communications found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoCommunicationsFound") %]
+[% RenderBlockStart("CommunicationRow") %]
+                        <tr class="MasterAction [% IF Data.Status == 'Failed' %]Error[% END %]">
+                            <td class="Status Center" title="[% Translate(Data.Status) | html %]">
+                                <a class="MasterActionLink" href="[% Env("Baselink") %]Action=AdminCommunicationLog;Subaction=Zoom;CommunicationID=[% Data.CommunicationID | uri %]" title="[% Data.Name | html %]">
+                                [% IF Data.Status == 'Successful' %]
+                                    <i class="fa fa-check Confirmation" aria-hidden="true"></i>
+                                [% ELSIF Data.Status == 'Failed' %]
+                                    <i class="fa fa-times Error" aria-hidden="true"></i>
+                                [% ELSIF Data.Status == 'Warning' %]
+                                    <i class="fa fa-exclamation Warning" aria-hidden="true"></i>
+                                [% ELSIF Data.Status == 'Processing' %]
+                                    <i class="fa fa-circle-o-notch fa-spin Warning" aria-hidden="true"></i>
+                                [% END %]
+                                </a>
+                            </td>
+                            <td class="Transport">
+                                [% Data.Transport | html %]
+                            </td>
+                            <td class="Direction Center">
+                                [% IF Data.Direction == 'Incoming' %]
+                                <span class=" Direction Incoming" title="[% Data.Direction | html %]">
+                                    <i class="fa fa-long-arrow-left"></i>
+                                    <i class="fa fa-square-o"></i>
+                                </span>
+                                [% ELSE %]
+                                <span class=" Direction Outgoing" title="[% Data.Direction | html %]">
+                                    <i class="fa fa-long-arrow-right"></i>
+                                    <i class="fa fa-square-o"></i>
+                                </span>
+                                [% END %]
+                            </td>
+                            <td class="Account">
+                                [% Data.DisplayAccount | html %]
+                            </td>
+                            <td class="StartTime">
+                                [% Data.StartTime | Localize("TimeLong") %]
+                            </td>
+                            <td class="EndTime">
+                            [% IF Data.EndTime %]
+                                [% Data.EndTime | Localize("TimeLong") %]
+                            [% ELSE %]
+                                -
+                            [% END %]
+                            </td>
+                            <td class="Duration">
+                            [% IF Data.Duration.defined %]
+                                [% Translate("%s s", Data.Duration) | html %]
+                            [% ELSE %]
+                                -
+                            [% END %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("CommunicationRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="6">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="Clear"></div>
+
+    </div>
+</div>

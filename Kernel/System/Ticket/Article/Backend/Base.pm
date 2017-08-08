@@ -200,7 +200,6 @@ Returns article data. Override this method in your class.
         TicketID      => 123,
         ArticleID     => 123,
         DynamicFields => 1,
-        UserID        => 123,
 
         # Backend specific parameters:
         # RealNames => 1,
@@ -596,6 +595,14 @@ sub _MetaArticleDelete {
     );
     return if !$DBObject->Do(
         SQL  => 'DELETE FROM ticket_history WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ],
+    );
+    return if !$DBObject->Do(
+        SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ],
+    );
+    return if !$DBObject->Do(
+        SQL  => 'DELETE FROM mail_queue WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
     return if !$DBObject->Do(

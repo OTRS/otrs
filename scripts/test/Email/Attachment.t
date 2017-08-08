@@ -36,6 +36,21 @@ use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase  => 1,
+        UseTmpArticleDir => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # Constants for test(s): 1 - enabled, 0 - disabled.
 # SEND - check sending body. PARSE - check parsed body.
 
@@ -217,7 +232,27 @@ my @Tests = (
 );
 
 # get email object
-my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
+my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
+my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+my $SendEmail = sub {
+    my %Param = @_;
+
+    # Delete mail queue
+    $MailQueueObject->Delete();
+
+    # Generate the mail and queue it
+    $EmailObject->Send( %Param, );
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObject->List();
+    $Items = [ sort { $b->{ID} <=> $a->{ID} } @{$Items} ];
+    my $LastItem = $Items->[0];
+
+    my $Result = $MailQueueObject->Send( %{$LastItem} );
+
+    return ( \$LastItem->{Message}->{Header}, \$LastItem->{Message}->{Body}, );
+};
 
 # testing loop
 my $Count = 0;
@@ -228,10 +263,8 @@ for my $Test (@Tests) {
 
     my $Name = "#$Count $Test->{Name}";
 
-    # call Send and get results
-    my ( $Header, $Body ) = $EmailObject->Send(
-        %{ $Test->{Data} },
-    );
+    # Send mail and get results.
+    my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} } );
 
     # check reference attachment size
     if ( $Test->{CheckAttachmentsSize} ) {

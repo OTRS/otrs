@@ -61,6 +61,7 @@ my %ArticleHash = (
     From                 => 'Some Agent <email@example.com>',
     To                   => 'Some Customer A <customer-a@example.com>',
     Cc                   => 'Some Customer B <customer-b@example.com>',
+    Bcc                  => 'Some Customer C <customer-c@example.com>',
     Subject              => 'some short description',
     Body                 => "the message\ntext",
     Charset              => 'ISO-8859-15',
@@ -156,6 +157,10 @@ my @Tests = (
     {
         Field => 'Cc',
         Match => qr{^Cc:\s+Some Customer B <customer-b\@example.com>$}sm,
+    },
+    {
+        Field => 'Bcc',
+        Match => qr{^Bcc:\s+Some Customer C <customer-c\@example.com>$}sm,
     },
     {
         Field => 'Subject',

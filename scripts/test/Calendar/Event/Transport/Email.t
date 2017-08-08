@@ -17,9 +17,26 @@ use vars (qw($Self));
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
-
     },
 );
+
+my $ProcessMailQueue = sub {
+    my %Param = @_;
+
+    my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Send all items in the mail queue.
+    my $Items = $MailQueueObject->List();
+    for my $Item ( @{$Items} ) {
+        my $Result = $MailQueueObject->Send( %{$Item} );
+    }
+
+    # Delete mail queue
+    $MailQueueObject->Delete();
+
+    return;
+};
 
 # ------------------------------------------------------------ #
 # needed objects
@@ -34,6 +51,12 @@ my $CalendarObject  = $Kernel::OM->Get('Kernel::System::Calendar');
 # ------------------------------------------------------------ #
 # config changes
 # ------------------------------------------------------------ #
+
+# don't validate email addresses
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
 
 # disable rich text editor
 my $Success = $ConfigObject->Set(
@@ -224,6 +247,8 @@ for my $Test (@Tests) {
         Config => {},
         UserID => 1,
     );
+
+    $ProcessMailQueue->();
 
     my $Emails = $TestEmailObject->EmailsGet();
 

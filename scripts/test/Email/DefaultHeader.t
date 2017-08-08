@@ -25,6 +25,40 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $SendEmail = sub {
+    my %Param = @_;
+
+    my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Delete mail queue
+    $MailQueueObject->Delete();
+
+    # Generate the mail and queue it
+    $EmailObject->Send( %Param, );
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObject->List();
+    $Items = [ sort { $b->{ID} <=> $a->{ID} } @{$Items} ];
+    my $LastItem = $Items->[0];
+
+    my $Result = $MailQueueObject->Send( %{$LastItem} );
+
+    return ( \$LastItem->{Message}->{Header}, \$LastItem->{Message}->{Body}, );
+};
+
+# do not validate emails addresses
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # do not really send emails
 $ConfigObject->Set(
     Key   => 'SendmailModule',
@@ -78,7 +112,7 @@ for my $Test (@Tests) {
         Value => $Test->{Check},
     );
 
-    my ( $Header, $Body ) = $EmailObject->Send(
+    my ( $Header, $Body, ) = $SendEmail->(
         %{ $Test->{Data} },
     );
 

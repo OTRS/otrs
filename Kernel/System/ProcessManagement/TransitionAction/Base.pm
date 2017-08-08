@@ -175,7 +175,6 @@ sub _ReplaceAdditionalAttributes {
     if (@ArticleListCustomer) {
         %ArticleCustomer = $ArticleObject->BackendForArticle( %{ $ArticleListCustomer[0] } )->ArticleGet(
             %{ $ArticleListCustomer[0] },
-            UserID        => $Param{UserID},
             DynamicFields => 0,
         );
     }
@@ -191,7 +190,6 @@ sub _ReplaceAdditionalAttributes {
     if (@ArticleListAgent) {
         %ArticleAgent = $ArticleObject->BackendForArticle( %{ $ArticleListAgent[0] } )->ArticleGet(
             %{ $ArticleListAgent[0] },
-            UserID        => $Param{UserID},
             DynamicFields => 0,
         );
     }
@@ -221,7 +219,6 @@ sub _ReplaceAdditionalAttributes {
             # check if there are HTML body attachments
             my %AttachmentIndexHTMLBody = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID    => $ArticleData->{ArticleID},
-                UserID       => $Param{UserID},
                 OnlyHTMLBody => 1,
             );
 
@@ -233,7 +230,6 @@ sub _ReplaceAdditionalAttributes {
                     TicketID  => $Param{Ticket}->{TicketID},
                     ArticleID => $ArticleData->{ArticleID},
                     FileID    => $HTMLBodyAttachmentIDs[0],
-                    UserID    => $Param{UserID},
                 );
 
                 my $Charset = $AttachmentHTML{ContentType} || '';

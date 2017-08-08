@@ -84,10 +84,10 @@ sub Run {
     my $DaemonName = $Self->GetArgument('daemon-name');
 
     if ($DaemonName) {
-        $Self->Print("<yellow>Gathering '$DaemonName' daemon summary...</yellow>\n\n");
+        $Self->Print("\n  <yellow>Gathering '$DaemonName' daemon summary...</yellow>\n\n");
     }
     else {
-        $Self->Print("<yellow>Gathering all daemons summary...</yellow>\n\n");
+        $Self->Print("\n  <yellow>Gathering all daemons summary...</yellow>\n\n");
     }
 
     # get daemon modules from SysConfig
@@ -161,7 +161,7 @@ sub _FormatOutput {
     for my $Summary (@DaemonSummary) {
 
         # set header message
-        $Output .= '  ' . $Summary->{Header} . "\n";
+        $Output .= '  <yellow>' . $Summary->{Header} . "</yellow>\n";
 
         # if there is no data to display, show empty message
         if ( !IsArrayRefWithData( $Summary->{Data} ) ) {
@@ -170,33 +170,48 @@ sub _FormatOutput {
             next SUMMARY;
         }
 
-        # output the table header
-        $Output .= '    ';
+        my @TableHeader;
+        my @TableBody;
+
+        # generate table header
         for my $Column ( @{ $Summary->{Column} } ) {
-
-            my $Size  = $Column->{Size};
-            my $Value = $Column->{DisplayName};
-
-            $Output .= ' ' . sprintf '%-*s', $Size, uc $Value;
+            push @TableHeader, $Column->{DisplayName};
         }
-        $Output .= "\n";
 
-        # output the table body
+        # generate table body
         for my $DataRow ( @{ $Summary->{Data} } ) {
-            $Output .= '    ';
+
+            my @BodyRow;
+
             for my $Column ( @{ $Summary->{Column} } ) {
 
-                my $Size = $Column->{Size};
                 my $Value = $DataRow->{ $Column->{Name} } // '';
 
-                if ( length $Value >= $Size ) {
-                    $Value = substr( $Value, 0, $Size - 4 ) . '...';
+                if ( $Value eq 'Success' ) {
+                    $Value = "<green>$Value</green>";
                 }
-                $Output .= ' ' . sprintf '%-*s', $Size, $Value;
+                elsif ( $Value eq 'N/A' ) {
+                    $Value = "<yellow>$Value</yellow>";
+                }
+                elsif ( $Value eq 'Fail' ) {
+                    $Value = "<red>$Value</red>";
+                }
+
+                push @BodyRow, $Value;
             }
-            $Output .= "\n";
+
+            push @TableBody, \@BodyRow;
         }
-        $Output .= "\n";
+
+        my $TableOutput = $Self->TableOutput(
+            TableData => {
+                Header => \@TableHeader,
+                Body   => \@TableBody,
+            },
+            Indention => 2,
+        );
+
+        $Output .= "$TableOutput\n";
     }
 
     return $Output // '';

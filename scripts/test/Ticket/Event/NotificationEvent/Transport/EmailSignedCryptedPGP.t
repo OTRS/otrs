@@ -29,6 +29,31 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $SendEmails = sub {
+    my %Param = @_;
+
+    my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObj->List();
+    my @ToReturn;
+    for my $Item (@$Items) {
+        $MailQueueObj->Send( %{$Item} );
+        push @ToReturn, $Item->{Message};
+    }
+
+    # Clean the mail queue
+    $MailQueueObj->Delete();
+
+    return @ToReturn;
+};
+
 my $RandomID = $Helper->GetRandomNumber();
 
 # use Test email backend
@@ -104,8 +129,10 @@ $ConfigObject->Set(
     Value => 'unittest@example.com',
 );
 
+my $PGPBin = $ConfigObject->Get('PGP::Bin');
+
 # check if gpg is located there
-if ( !-e $ConfigObject->Get('PGP::Bin') ) {
+if ( !$PGPBin || !( -e $PGPBin ) ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/gpg' ) {
@@ -113,6 +140,17 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
             Key   => 'PGP::Bin',
             Value => '/opt/local/bin/gpg'
         );
+    }
+    else {
+        # Try to guess using system 'which'
+        my $GPGBin = `which gpg`;
+        chomp $GPGBin;
+        if ($GPGBin) {
+            $ConfigObject->Set(
+                Key   => 'PGP::Bin',
+                Value => $GPGBin,
+            );
+        }
     }
 }
 
@@ -447,6 +485,8 @@ for my $Test (@Tests) {
         Config => {},
         UserID => $UserID,
     );
+
+    $SendEmails->();
 
     my $Emails = $TestEmailObject->EmailsGet();
     if ( $Test->{Success} ) {

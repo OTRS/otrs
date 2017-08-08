@@ -19,11 +19,13 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::AutoResponse',
+    'Kernel::System::CommunicationChannel',
     'Kernel::System::CustomerUser',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Encode',
     'Kernel::System::HTMLUtils',
+    'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::Queue',
     'Kernel::System::Salutation',
@@ -34,8 +36,6 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::User',
     'Kernel::Output::HTML::Layout',
-    'Kernel::System::JSON',
-
 );
 
 =head1 NAME
@@ -697,8 +697,7 @@ sub AutoResponse {
     }
 
     if (@ArticleList) {
-        my %Article = $ArticleObject->BackendForArticle( %{ $ArticleList[0] } )
-            ->ArticleGet( %{ $ArticleList[0] }, UserID => $Param{UserID} );
+        my %Article = $ArticleObject->BackendForArticle( %{ $ArticleList[0] } )->ArticleGet( %{ $ArticleList[0] } );
 
         for (qw(From To Cc Subject Body)) {
             if ( !$Param{OrigHeader}->{$_} ) {
@@ -900,7 +899,6 @@ sub NotificationEvent {
         %CustomerArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
             %{$Article},
             DynamicFields => 0,
-            UserID        => $Param{UserID},
         );
     }
 
@@ -920,8 +918,20 @@ sub NotificationEvent {
         %AgentArticle = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
             %{$Article},
             DynamicFields => 0,
-            UserID        => $Param{UserID},
         );
+
+        # Include the transmission status, if article is an email.
+        my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
+            ChannelID => $Article->{CommunicationChannelID},
+        );
+        if ( $CommunicationChannel{ChannelName} eq 'Email' ) {
+            my $TransmissionStatus = $ArticleObject->BackendForArticle( %{$Article} )->ArticleTransmissionStatus(
+                ArticleID => $Article->{ArticleID},
+            );
+            if ( $TransmissionStatus && $TransmissionStatus->{Message} ) {
+                $AgentArticle{TransmissionStatusMessage} = $TransmissionStatus->{Message};
+            }
+        }
     }
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

@@ -66,7 +66,7 @@ sub Run {
             Module  => 'ArticleTableChangesPostRename',
         },
         {
-            Message => 'Add an index to the ticket_history table',
+            Message => 'Add an index to the ticket_history table and add EmailResend ticket history type',
             Module  => 'TicketHistoryTableChanges',
         },
         {
@@ -86,8 +86,12 @@ sub Run {
             Module  => 'NewArticleSearchIndexTable',
         },
         {
-            Message => 'Drop no longer needed notifications table',
-            Module  => 'DropNotificationsTable',
+            Message => 'Add new tables for communication logs',
+            Module  => 'CommunicationLogs',
+        },
+        {
+            Message => 'Update notification tables',
+            Module  => 'UpdateNotificationTables',
         },
         {
             Message => 'Drop obsolete create_time_unix column from ticket table',

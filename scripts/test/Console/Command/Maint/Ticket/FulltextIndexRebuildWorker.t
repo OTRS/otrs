@@ -68,6 +68,7 @@ my $ArticleID = $ArticleBackendObject->ArticleCreate(
     From                 => 'Agent Some Agent Some Agent <email@example.com>',
     To                   => 'Customer A <customer-a@example.com>',
     Cc                   => 'Customer B <customer-b@example.com>',
+    Bcc                  => 'Customer C <customer-c@example.com>',
     ReplyTo              => 'Customer B <customer-b@example.com>',
     Subject              => 'Ticket Article ' . $RandomID,
     Body                 => 'A text for the body, Title äöüßÄÖÜ€ис',

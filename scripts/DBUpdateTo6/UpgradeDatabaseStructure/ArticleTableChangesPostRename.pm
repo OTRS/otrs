@@ -74,9 +74,12 @@ sub Run {
             </ForeignKey>
         </Table>',
 
-        # add new article_id field.
+        # Add new fields to the article storage table:
+        #   - article_id
+        #   - a_bcc
         '<TableAlter Name="article_data_mime">
             <ColumnAdd Name="article_id" Required="true" Type="BIGINT"/>
+            <ColumnAdd Name="a_bcc" Required="false" Size="1800000" Type="VARCHAR"/>
         </TableAlter>',
     );
 

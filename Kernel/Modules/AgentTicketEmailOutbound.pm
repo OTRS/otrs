@@ -282,7 +282,6 @@ sub Run {
             my %Article = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
                 %{ $MetaArticles[0] },
                 DynamicFields => 0,
-                UserID        => $Self->{UserID},
             );
 
             # get the matching signature for the current user
@@ -501,7 +500,6 @@ sub Form {
             TicketID      => $Self->{TicketID},
             ArticleID     => $GetParam{ArticleID},
             DynamicFields => 1,
-            UserID        => $Self->{UserID},
         );
 
         # Check if article is from the same TicketID as we checked permissions for.
@@ -528,7 +526,6 @@ sub Form {
                 TicketID => $Self->{TicketID},
                 %{ $MetaArticles[0] },
                 DynamicFields => 0,
-                UserID        => $Self->{UserID},
             );
         }
     }

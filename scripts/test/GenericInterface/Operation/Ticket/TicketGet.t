@@ -573,7 +573,6 @@ my $ArticleContentGet = sub {
         my %ArticleContent = $ArticleBackendObject->ArticleGet(
             %Param,
             ArticleID => $Article->{ArticleID},
-            UserID    => 1,
         );
 
         for my $Key ( sort keys %ArticleContent ) {
@@ -767,7 +766,6 @@ my $ArticleAttachmentContentGet = sub {
         # Get attachment index.
         my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID        => $Article->{ArticleID},
-            UserID           => 1,
             ExcludePlainText => 1,
             ExcludeHTMLBody  => $Param{HTMLBody} ? 0 : 1,
         );
@@ -781,7 +779,6 @@ my $ArticleAttachmentContentGet = sub {
             my %Attachment = $ArticleBackendObject->ArticleAttachment(
                 ArticleID => $Article->{ArticleID},
                 FileID    => $FileID,
-                UserID    => 1,
             );
 
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );

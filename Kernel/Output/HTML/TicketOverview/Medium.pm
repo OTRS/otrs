@@ -357,12 +357,10 @@ sub _Show {
         %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
             %{$Article},
             DynamicFields => 0,
-            UserID        => $Self->{UserID},
         );
 
         my %ArticleFields = $LayoutObject->ArticleFields(
             %{$Article},
-            UserID => $Self->{UserID},
         );
 
         $Article{ArticleFields} = \%ArticleFields;

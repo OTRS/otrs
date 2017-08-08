@@ -40,11 +40,10 @@ sub new {
 Returns article html.
 
     my $HTML = $ArticleBaseObject->ArticleRender(
-        TicketID                    => 123,         # (required)
-        ArticleID                   => 123,         # (required)
-        UserID                      => 123,         # (required)
-        ShowBrowserLinkMessage      => 1,           # (optional) Default: 0.
-        ArticleActions              => [],          # (optional)
+        TicketID               => 123,         # (required)
+        ArticleID              => 123,         # (required)
+        ShowBrowserLinkMessage => 1,           # (optional) Default: 0.
+        ArticleActions         => [],          # (optional)
     );
 
 Result:
@@ -63,7 +62,6 @@ Returns common fields for any article.
     my %ArticleMetaFields = $ArticleBaseObject->ArticleMetaFields(
         TicketID  => 123,   # (required)
         ArticleID => 123,   # (required)
-        UserID    => 123,   # (required)
     );
 
 Returns:
@@ -85,7 +83,7 @@ sub ArticleMetaFields {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',

@@ -399,7 +399,7 @@ sub Run {
             next RECIPIENT;
         }
 
-        $Kernel::OM->Get('Kernel::System::Email')->Send(
+        my $Result = $Kernel::OM->Get('Kernel::System::Email')->Send(
             From       => $Self->GetOption('mail-sender'),
             To         => $Recipient,
             Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
@@ -407,7 +407,13 @@ sub Run {
             Charset    => 'utf-8',
             Attachment => [ {%Attachment}, ],
         );
-        $Self->Print("<yellow>Email sent to '$Recipient'.</yellow>\n");
+        if ( $Result->{Success} ) {
+            $Self->Print("<yellow>Email sent to '$Recipient'.</yellow>\n");
+        }
+        else {
+            $Self->Print("<red>Email sending to '$Recipient' has failed.</red>\n");
+        }
+
     }
 
     $Self->Print("<green>Done.</green>\n");

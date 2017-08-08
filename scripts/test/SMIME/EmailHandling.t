@@ -31,6 +31,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 my $HomeDir = $ConfigObject->Get('Home');
 
 # create directory for certificates and private keys
@@ -594,7 +600,7 @@ for my $Test (@Tests) {
     };
 
 }
-
+my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
 for my $Test (@TestVariations) {
 
     # make a deep copy as the references gets modified over the tests
@@ -631,13 +637,16 @@ for my $Test (@TestVariations) {
     my %Article = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
 
     my $CheckObject = Kernel::Output::HTML::ArticleCheck::SMIME->new(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
+
+    my $Item = $MailQueueObj->Get( ArticleID => $ArticleID );
+
+    my $Result = $MailQueueObj->Send( %{$Item} );
 
     my @CheckResult = $CheckObject->Check( Article => \%Article );
 
@@ -666,7 +675,6 @@ for my $Test (@TestVariations) {
     my %FinalArticleData = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
 
     my $TestBody = $Test->{ArticleData}->{Body};
@@ -688,7 +696,6 @@ for my $Test (@TestVariations) {
         my $Found;
         my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
             ArticleID => $ArticleID,
-            UserID    => 1,
         );
 
         TESTATTACHMENT:

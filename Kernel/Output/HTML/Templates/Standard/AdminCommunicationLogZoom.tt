@@ -1,0 +1,202 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>
+        [% Translate("Communication Log") | html %] &ndash;
+        [% Data.CommunicationLog.StartTime = Data.CommunicationLog.StartTime | Localize("TimeLong") %]
+        [% Translate("Detail view for %s communication started at %s", Data.CommunicationLog.Direction.lower, Data.CommunicationLog.StartTime) | html %]
+    </h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Communication Log'),
+                Link => Env("Action"),
+            },
+            {
+                Name => Translate('Detail View'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <a id="OverviewButton" class="CallForAction Fullsize Center Back">
+                    <span>
+                        <i class="fa fa-caret-left"></i>
+                        [% Translate("Back") | html %]
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterObjectLogEntries">[% Translate("Filter for log entries") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterObjectLogEntries" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterObjectLogEntries" value="" title="[% Translate("Filter for log entries") | html %]">
+                <p class="FieldExplanation">
+                    [% Translate("Show only entries with specific priority and higher:") | html %]
+                </p>
+                [% Data.PriorityFilter %]
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("In this screen you can see an overview about incoming and outgoing communications.") | html %]
+                    </p>
+                </div>
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("You can change the sort and order of those columns by clicking on the column header.") | html %]
+                        [% Translate("If you click on the different entries, you will get redirected to a detailed screen about the message.") | html %]
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ContentColumn">
+
+        <div id="CommunicationObjectWidget" class="WidgetSimple">
+
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                </div>
+                <h2>
+                    [% Translate("Communication Log Overview (%s)", Data.ObjectCount) | html %]
+                </h2>
+            </div>
+
+            <div class="Content">
+
+                <table class="DataTable" id="ObjectListTable">
+                    <thead>
+                        <tr>
+                            <th class="Status Center Sortable"><a href="#">[% Translate("Status") | html %]</a></th>
+                            <th class="Sortable InitialSorting"><a href="#">[% Translate("Type") | html %]</a></th>
+                            <th class="Direction Center Sortable" title="[% Translate("Direction") | html %]"><a href="#"><i class="fa fa-exchange"></i></a></th>
+                            <th class="Sortable"><a href="#">[% Translate("Account") | html %]</a></th>
+                            <th class="Sortable"><a href="#">[% Translate("Start Time") | html %]</a></th>
+                            <th class="Sortable"><a href="#">[% Translate("End Time") | html %]</a></th>
+                            <th class="Sortable"><a href="#">[% Translate("Duration") | html %]</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoCommunicationObjectsFound") %]
+                        <tr>
+                            <td colspan="6">
+                                [% Translate("No communication objects found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoCommunicationObjectsFound") %]
+[% RenderBlockStart("CommunicationObjectRow") %]
+                        <tr id="[% Data.ID %]" class="[% IF Data.Status == 'Failed' %]Error[% END %]">
+                            <td class="Status Center" title="[% Translate(Data.Status) | html %]">
+                            [% IF Data.Status == 'Successful' %]
+                                <i class="fa fa-check Confirmation" aria-hidden="true"></i>
+                            [% ELSIF Data.Status == 'Failed' %]
+                                <i class="fa fa-times Error" aria-hidden="true"></i>
+                            [% ELSIF Data.Status == 'Processing' %]
+                                <i class="fa fa-circle-o-notch fa-spin Warning" aria-hidden="true"></i>
+                            [% END %]
+                                <input type="hidden" class="SortData" value="[% Data.Status | html %]" />
+                            </td>
+                            <td>
+                                [% Data.ObjectType | html %]
+                                <input type="hidden" class="SortData" value="[% Data.ObjectType | html %]" />
+                            </td>
+                            <td class="Direction">
+                                [% IF Data.Direction == 'Incoming' %]
+                                <span class=" Direction Incoming" title="[% Data.Direction | html %]">
+                                    <i class="fa fa-long-arrow-left"></i>
+                                    <i class="fa fa-square-o"></i>
+                                </span>
+                                [% ELSE %]
+                                <span class=" Direction Outgoing" title="[% Data.Direction | html %]">
+                                    <i class="fa fa-long-arrow-right"></i>
+                                    <i class="fa fa-square-o"></i>
+                                </span>
+                                [% END %]
+                            </td>
+                            <td>
+                            [% IF Data.AccountLabel %]
+                                [% Data.AccountLabel | html %]
+                            [% ELSIF Data.AccountType %]
+                                [% Data.AccountType %]
+                            [% ELSE %]
+                                -
+                            [% END %]
+                                <input type="hidden" class="SortData" value="[% Data.AccountType | html %]" />
+                            </td>
+                            <td class="StartTime">
+                                [% Data.StartTime | Localize("TimeLong") %]
+                                <input type="hidden" class="SortData" value="[% Data.StartTime | html %]" />
+                            </td>
+                            <td class="EndTime">
+                            [% IF Data.EndTime %]
+                                [% Data.EndTime | Localize("TimeLong") %]
+                            [% ELSE %]
+                                -
+                            [% END %]
+                                <input type="hidden" class="SortData" value="[% Data.EndTime | html %]" />
+                            </td>
+                            <td class="Duration">
+                            [% IF Data.Duration.defined %]
+                                [% Translate("%s s", Data.Duration) | html %]
+                            [% ELSE %]
+                                -
+                            [% END %]
+                                <input type="hidden" class="SortData" value="[% Data.Duration | html %]" />
+                            </td>
+                        </tr>
+[% RenderBlockEnd("CommunicationObjectRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="7">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="ObjectLogWidget">
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>
+                        [% Translate("Communication Log Details") | html %]
+                    </h2>
+                </div>
+                <div class="Content">
+
+                    <p>[% Translate("Please select an entry from the list.") | html %]</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

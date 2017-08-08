@@ -71,7 +71,7 @@ sub Check {
     my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
     # check inline pgp crypt
-    if ( $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {
+    if ( $Param{Article}->{Body} && $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {
 
         # check sender (don't decrypt sent emails)
         if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
@@ -103,7 +103,6 @@ sub Check {
             # get a list of all article attachments
             my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $Self->{ArticleID},
-                UserID    => $Self->{UserID},
             );
 
             my @Attachments;
@@ -114,7 +113,6 @@ sub Check {
                     my %Attachment = $ArticleBackendObject->ArticleAttachment(
                         ArticleID => $Self->{ArticleID},
                         FileID    => $FileID,
-                        UserID    => $Self->{UserID},
                     );
 
                     # store attachemnts attributes that might change after decryption
@@ -178,7 +176,11 @@ sub Check {
     }
 
     # check inline pgp signature (but ignore if is in quoted text)
-    if ( $Param{Article}->{Body} =~ m{ ^\s* -----BEGIN [ ] PGP [ ] SIGNED [ ] MESSAGE----- }xms ) {
+    if (
+        $Param{Article}->{Body}
+        && $Param{Article}->{Body} =~ m{ ^\s* -----BEGIN [ ] PGP [ ] SIGNED [ ] MESSAGE----- }xms
+        )
+    {
 
         # get original message
         my $Message = $ArticleObject->ArticlePlain(
@@ -253,7 +255,7 @@ sub Check {
         {
 
             # check sender (don't decrypt sent emails)
-            if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
+            if ( $Param{Article}->{SenderType} && $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
 
                 # return info
                 return (

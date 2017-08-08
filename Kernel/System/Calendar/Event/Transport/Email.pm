@@ -143,7 +143,7 @@ sub SendNotification {
         Attachment => $Param{Attachments} || [],
     );
 
-    if ( !$Sent ) {
+    if ( !$Sent->{Success} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "'$Notification{Name}' notification could not be sent to agent '$Recipient{UserEmail} ",

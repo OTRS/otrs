@@ -87,7 +87,6 @@ sub Run {
         %Article = $ArticleBackendObject->ArticleGet(
             TicketID      => $TicketID,
             ArticleID     => $ArticleMetaData->{ArticleID},
-            UserID        => $Self->{UserID},
             DynamicFields => 0,
         );
     }
@@ -174,7 +173,6 @@ sub Run {
     # replace links to inline images in html content
     my %AtmBox = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $ArticleID,
-        UserID    => $Self->{UserID},
     );
 
     # reformat rich text document to have correct charset and links to

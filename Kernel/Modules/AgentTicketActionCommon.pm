@@ -54,7 +54,6 @@ sub new {
             TicketID      => $TicketID,
             ArticleID     => $ReplyToArticle,
             DynamicFields => 0,
-            UserID        => $Self->{UserID},
         );
 
         $Self->{ReplyToArticle}        = $ReplyToArticle;

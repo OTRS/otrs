@@ -1459,6 +1459,17 @@ BEGIN
 IF NOT EXISTS (
     SELECT 1
     FROM pg_constraint
+    WHERE LOWER(conname) = LOWER('FK_article_data_mime_send_error_article_id_id')
+    ) THEN
+    ALTER TABLE article_data_mime_send_error ADD CONSTRAINT FK_article_data_mime_send_error_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
     WHERE LOWER(conname) = LOWER('FK_article_data_otrs_chat_article_id_id')
     ) THEN
     ALTER TABLE article_data_otrs_chat ADD CONSTRAINT FK_article_data_otrs_chat_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
@@ -2826,6 +2837,50 @@ IF NOT EXISTS (
     WHERE LOWER(conname) = LOWER('FK_calendar_appointment_ticket_ticket_id_id')
     ) THEN
     ALTER TABLE calendar_appointment_ticket ADD CONSTRAINT FK_calendar_appointment_ticket_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE LOWER(conname) = LOWER('FK_mail_queue_article_id_id')
+    ) THEN
+    ALTER TABLE mail_queue ADD CONSTRAINT FK_mail_queue_article_id_id FOREIGN KEY (article_id) REFERENCES article (id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE LOWER(conname) = LOWER('FK_communication_log_object_communication_id_id')
+    ) THEN
+    ALTER TABLE communication_log_object ADD CONSTRAINT FK_communication_log_object_communication_id_id FOREIGN KEY (communication_id) REFERENCES communication_log (id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE LOWER(conname) = LOWER('FK_communication_log_object_entry_communication_log_objectaa')
+    ) THEN
+    ALTER TABLE communication_log_object_entry ADD CONSTRAINT FK_communication_log_object_entry_communication_log_objectaa FOREIGN KEY (communication_log_object_id) REFERENCES communication_log_object (id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE LOWER(conname) = LOWER('FK_communication_log_obj_lookup_communication_log_object_i0f')
+    ) THEN
+    ALTER TABLE communication_log_obj_lookup ADD CONSTRAINT FK_communication_log_obj_lookup_communication_log_object_i0f FOREIGN KEY (communication_log_object_id) REFERENCES communication_log_object (id);
 END IF;
 END$$;
 ;

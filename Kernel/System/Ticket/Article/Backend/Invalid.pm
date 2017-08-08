@@ -70,7 +70,6 @@ Returns article meta data as also returned by L<Kernel::System::Ticket::Article:
         TicketID      => 123,
         ArticleID     => 123,
         DynamicFields => 1,
-        UserID        => 123,
     );
 
 =cut

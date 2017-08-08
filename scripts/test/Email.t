@@ -25,6 +25,34 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $SendEmail = sub {
+    my %Param = @_;
+
+    my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Delete mail queue
+    $MailQueueObject->Delete();
+
+    # Generate the mail and queue it
+    $EmailObject->Send( %Param, );
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObject->List();
+    $Items = [ sort { $b->{ID} <=> $a->{ID} } @{$Items} ];
+    my $LastItem = $Items->[0];
+
+    my $Result = $MailQueueObject->Send( %{$LastItem} );
+
+    return ( \$LastItem->{Message}->{Header}, \$LastItem->{Message}->{Body}, );
+};
+
 # do not really send emails
 $ConfigObject->Set(
     Key   => 'SendmailModule',
@@ -34,10 +62,6 @@ $ConfigObject->Set(
 # disable dns lookups
 $ConfigObject->Set(
     Key   => 'CheckMXRecord',
-    Value => 1,
-);
-$ConfigObject->Set(
-    Key   => 'CheckEmailAddresses',
     Value => 1,
 );
 
@@ -110,9 +134,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Email'] );
         my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
-        my ( $Header, $Body ) = $EmailObject->Send(
-            %{ $Test->{Data} },
-        );
+        my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Data} }, );
 
         # start MIME::Tools workaround
         ${$Body} =~ s/\n/\r/g;

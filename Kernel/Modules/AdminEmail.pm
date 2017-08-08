@@ -178,7 +178,7 @@ sub Run {
                     MimeType => $ContentType,
                     Body     => $Param{Body},
                 );
-                if ( !$Sent ) {
+                if ( !$Sent->{Success} ) {
                     return $LayoutObject->ErrorScreen();
                 }
 

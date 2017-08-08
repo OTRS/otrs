@@ -74,7 +74,6 @@ sub Run {
             my %Article = $ArticleBackendObject->ArticleGet(
                 TicketID  => $Param{TicketID},
                 ArticleID => $Param{ArticleID},
-                UserID    => $Self->{UserID},
             );
 
             # detect the from address from given article

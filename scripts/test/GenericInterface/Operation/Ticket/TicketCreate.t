@@ -4356,7 +4356,6 @@ for my $Test (@Tests) {
             TicketID      => $LocalResult->{Data}->{TicketID},
             ArticleID     => $LocalResult->{Data}->{ArticleID},
             DynamicFields => 1,
-            UserID        => 1,
         );
 
         my $RequesterArticleBackendObject = $ArticleObject->BackendForArticle(
@@ -4369,7 +4368,6 @@ for my $Test (@Tests) {
             TicketID      => $RequesterResult->{Data}->{TicketID},
             ArticleID     => $RequesterResult->{Data}->{ArticleID},
             DynamicFields => 1,
-            UserID        => 1,
         );
 
         for my $Attribute (qw(Subject Body ContentType MimeType Charset From)) {
@@ -4425,7 +4423,6 @@ for my $Test (@Tests) {
         # check attachments
         my %AttachmentIndex = $LocalArticleBackendObject->ArticleAttachmentIndex(
             ArticleID        => $LocalResult->{Data}->{ArticleID},
-            UserID           => 1,
             ExcludePlainText => 1,
             ExcludeHTMLBody  => 1,
         );
@@ -4437,7 +4434,6 @@ for my $Test (@Tests) {
             my %Attachment = $LocalArticleBackendObject->ArticleAttachment(
                 ArticleID => $LocalResult->{Data}->{ArticleID},
                 FileID    => $FileID,
-                UserID    => 1,
             );
 
             next ATTACHMENT if !IsHashRefWithData( \%Attachment );

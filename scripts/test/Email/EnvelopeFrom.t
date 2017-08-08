@@ -12,11 +12,47 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # do not really send emails
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::Test',
 );
+
+my $SendEmail = sub {
+    my %Param = @_;
+
+    my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Delete mail queue
+    $MailQueueObject->Delete();
+
+    # Generate the mail and queue it
+    $EmailObject->Send( %Param, );
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObject->List();
+    $Items = [ sort { $b->{ID} <=> $a->{ID} } @{$Items} ];
+    my $LastItem = $Items->[0];
+
+    my $Result = $MailQueueObject->Send( %{$LastItem} );
+
+    return ( \$LastItem->{Message}->{Header}, \$LastItem->{Message}->{Body}, );
+};
 
 # get test email backed object
 my $TestBackendObject = $Kernel::OM->Get('Kernel::System::Email::Test');
@@ -87,7 +123,7 @@ my @Tests = (
             Charset  => 'utf8',
             Loop     => 1,
         },
-        Result => '',
+        Result => undef,
     },
     {
         Name     => 'No envelope from, notification with fallback envelope from',
@@ -154,7 +190,7 @@ for my $Test (@Tests) {
         );
     }
 
-    my ( $Header, $Body ) = $EmailObject->Send( %{ $Test->{Params} } );
+    my ( $Header, $Body ) = $SendEmail->( %{ $Test->{Params} } );
     $Self->True(
         $Body,
         "Email delivered to backend",
@@ -163,7 +199,7 @@ for my $Test (@Tests) {
     my $Emails = $TestBackendObject->EmailsGet();
 
     $Self->Is(
-        scalar $Emails->[0]->{From},
+        $Emails->[0]->{From},
         $Test->{Result},
         "$Test->{Name} From"
     );

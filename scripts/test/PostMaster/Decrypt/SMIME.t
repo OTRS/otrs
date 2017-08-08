@@ -279,9 +279,21 @@ $ConfigObject->Set(
         }
 );
 
+my $CommunicationLogObject = $Kernel::OM->Create(
+    'Kernel::System::CommunicationLog',
+    ObjectParams => {
+        Transport => 'Email',
+        Direction => 'Incoming',
+        Start     => 1,
+        }
+);
+my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+
 my $PostMasterObject = Kernel::System::PostMaster->new(
-    Email   => $Email,
-    Trusted => 1,
+    CommunicationLogObject    => $CommunicationLogObject,
+    CommunicationLogMessageID => $MessageID,
+    Email                     => $Email,
+    Trusted                   => 1,
 );
 
 my @Return = $PostMasterObject->Run( Queue => '' );
@@ -295,6 +307,15 @@ $Self->Is(
 $Self->True(
     $Return[1] || 0,
     "Create new ticket (TicketID)",
+);
+
+$CommunicationLogObject->ObjectLogStop(
+    ObjectType => 'Message',
+    ObjectID   => $MessageID,
+    Status     => 'Successful',
+);
+$CommunicationLogObject->CommunicationStop(
+    Status => 'Successful',
 );
 
 # Get ticket object.
@@ -313,10 +334,7 @@ my @ArticleIndex         = $ArticleObject->ArticleList(
     UserID   => 1,
 );
 
-my %FirstArticle = $ArticleBackendObject->ArticleGet(
-    %{ $ArticleIndex[0] },
-    UserID => 1,
-);
+my %FirstArticle = $ArticleBackendObject->ArticleGet( %{ $ArticleIndex[0] } );
 
 $Self->Is(
     $Ticket{Queue},

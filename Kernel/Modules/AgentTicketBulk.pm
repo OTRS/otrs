@@ -1008,7 +1008,6 @@ sub _GetRecipientList {
                 %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                     %{$Article},
                     DynamicFields => 0,
-                    UserID        => $Self->{UserID},
                 );
             }
 

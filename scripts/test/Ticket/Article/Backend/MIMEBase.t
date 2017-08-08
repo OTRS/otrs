@@ -21,6 +21,12 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 $Helper->FixedTimeSet();
 
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # Use test email backend.
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'SendmailModule',
@@ -55,6 +61,7 @@ my %ArticleHash = (
     From                 => 'Some Agent <email@example.com>',
     To                   => 'Some Customer A <customer-a@example.com>',
     Cc                   => 'Some Customer B <customer-b@example.com>',
+    Bcc                  => 'Some Customer C <customer-c@example.com>',
     Subject              => 'some short description',
     Body                 => 'the message text',
     MessageID            => $MessageID,
@@ -130,12 +137,13 @@ for my $ChannelName (qw(Email Phone Internal)) {
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
         RealNames => 1,
-        UserID    => 1,
     );
 
     KEY:
     for my $Key (
-        qw(TicketID ArticleID From ReplyTo To Cc Subject MessageID InReplyTo References ContentType Body SenderType SenderTypeID IsVisibleForCustomer CreateBy CreateTime Charset MimeType FromRealname ToRealname CcRealname)
+        qw(TicketID ArticleID From ReplyTo To Cc Bcc Subject MessageID InReplyTo References ContentType Body SenderType
+        SenderTypeID IsVisibleForCustomer CreateBy CreateTime Charset MimeType FromRealname ToRealname CcRealname
+        BccRealname)
         )
     {
         my $Value = $ArticleHash{$Key};
@@ -178,7 +186,6 @@ for my $ChannelName (qw(Email Phone Internal)) {
     %Article = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
 
     KEY:
@@ -207,12 +214,13 @@ for my $ChannelName (qw(Email Phone Internal)) {
         my %Article = $ArticleBackendObject->ArticleGetByMessageID(
             MessageID => $MessageID,
             RealNames => 1,
-            UserID    => 1,
         );
 
         KEY:
         for my $Key (
-            qw(TicketID ArticleID From ReplyTo To Cc Subject MessageID InReplyTo References ContentType Body SenderType SenderTypeID IsVisibleForCustomer CreateBy CreateTime Charset MimeType FromRealname ToRealname CcRealname)
+            qw(TicketID ArticleID From ReplyTo To Cc Bcc Subject MessageID InReplyTo References ContentType Body
+            SenderType SenderTypeID IsVisibleForCustomer CreateBy CreateTime Charset MimeType FromRealname ToRealname
+            CcRealname BccRealname)
             )
         {
             my $Value = $ArticleHash{$Key};
@@ -245,12 +253,12 @@ for my $ChannelName (qw(Email Phone Internal)) {
         %Article = $ArticleBackendObject->ArticleGet(
             TicketID  => $TicketID,
             ArticleID => $ArticleID,
-            UserID    => 1,
         );
 
         KEY:
         for my $Key (
-            qw(TicketID ArticleID From ReplyTo To Cc Subject MessageID InReplyTo References ContentType Body SenderType SenderTypeID CreateBy CreateTime Charset MimeType)
+            qw(TicketID ArticleID From ReplyTo To Cc Bcc Subject MessageID InReplyTo References ContentType Body
+            SenderType SenderTypeID CreateBy CreateTime Charset MimeType)
             )
         {
             my $Value = $ArticleHash{$Key};
@@ -289,7 +297,6 @@ for my $ChannelName (qw(Email Phone Internal)) {
     %Article = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
     $Self->False(
         scalar %Article,

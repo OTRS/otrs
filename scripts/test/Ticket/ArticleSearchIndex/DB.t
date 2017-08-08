@@ -122,6 +122,18 @@ my @ArticleIndexTests = (
         Conditions => " AND ( MIMEBase_Cc.article_value LIKE '\%spam\@example.com\%') ",
     },
     {
+        Name         => 'article search index MIMEBase_Bcc',
+        SearchParams => {
+            ContentSearchPrefix => '*',
+            ContentSearchSuffix => '*',
+            MIMEBase_Bcc        => 'spam@example.com',
+        },
+        Needed => 1,
+        Joins =>
+            " LEFT JOIN article_search_index MIMEBase_Bcc ON art.id = MIMEBase_Bcc.article_id AND MIMEBase_Bcc.article_key = 'MIMEBase_Bcc' ",
+        Conditions => " AND ( MIMEBase_Bcc.article_value LIKE '\%spam\@example.com\%') ",
+    },
+    {
         Name         => 'article search index MIMEBase_Subject',
         SearchParams => {
             ContentSearchPrefix => '*',

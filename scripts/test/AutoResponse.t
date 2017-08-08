@@ -17,6 +17,8 @@ my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 my $QueueObject         = $Kernel::OM->Get('Kernel::System::Queue');
+my $MailQueueObject     = $Kernel::OM->Get('Kernel::System::MailQueue');
+my $ArticleObject       = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -297,12 +299,19 @@ for my $TypeID ( sort keys %AutoResponseType ) {
             "Second article created."
         );
 
-        # check that email was sent
-        my $Emails = $TestEmailObject->EmailsGet();
+        # Auto response create a new article, so we need to get the article id generated
+        #   - supposedly it should be the last created article for the ticket.
+        my @Articles = $ArticleObject->ArticleList(
+            TicketID => $TicketID,
+            OnlyLast => 1,
+        );
+
+        # Get the mail queue element.
+        my $MailQueueElement = $MailQueueObject->Get( ArticleID => $Articles[0]->{ArticleID} );
 
         # Make sure that auto-response is not sent to the customer (in CC) - See bug#12293
         $Self->IsDeeply(
-            $Emails->[0]->{ToArray},
+            $MailQueueElement->{Recipient},
             [
                 'otrs@example.com'
             ],

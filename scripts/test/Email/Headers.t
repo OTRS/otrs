@@ -12,11 +12,49 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 # do not really send emails
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
+
+my $SendEmail = sub {
+    my %Param = @_;
+
+    my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Delete mail queue
+    $MailQueueObject->Delete();
+
+    # Generate the mail and queue it
+    $EmailObject->Send( %Param, );
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObject->List();
+    $Items = [ sort { $b->{ID} <=> $a->{ID} } @{$Items} ];
+    my $LastItem = $Items->[0];
+
+    my $Result = $MailQueueObject->Send( %{$LastItem} );
+
+    return {
+        Data => $LastItem->{Message},
+    };
+};
 
 # Check that long references and in-reply-to headers are correctly split across lines.
 # See bug#9345 and RFC5322.
@@ -55,7 +93,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my ( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+    my $Result = $SendEmail->(
         From       => 'john.smith@example.com',
         To         => 'john.smith2@example.com',
         Subject    => 'some subject',
@@ -66,8 +104,8 @@ for my $Test (@Tests) {
         InReplyTo  => $Test->{Header},
     );
 
-    my ($ReferencesHeader) = $$Header =~ m{^(References:.*?)(^\S|\z)}xms;
-    my ($InReplyToHeader)  = $$Header =~ m{^(In-Reply-To:.*?)(^\S|\z)}xms;
+    my ($ReferencesHeader) = $Result->{Data}->{Header} =~ m{^(References:.*?)(^\S|\z)}xms;
+    my ($InReplyToHeader)  = $Result->{Data}->{Header} =~ m{^(In-Reply-To:.*?)(^\S|\z)}xms;
 
     $Self->Is(
         $ReferencesHeader,
@@ -92,7 +130,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Value => 0,
 );
 
-my ( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+my $Result = $SendEmail->(
     From    => 'john.smith@example.com',
     To      => 'john.smith2@example.com',
     Subject => 'some subject',
@@ -101,8 +139,8 @@ my ( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
     Charset => 'utf8',
 );
 
-my ($XMailerHeader)    = $$Header =~ m{^X-Mailer:\s+(.*?)$}ixms;
-my ($XPoweredByHeader) = $$Header =~ m{^X-Powered-By:\s+(.*?)$}ixms;
+my ($XMailerHeader)    = $Result->{Data}->{Header} =~ m{^X-Mailer:\s+(.*?)$}ixms;
+my ($XPoweredByHeader) = $Result->{Data}->{Header} =~ m{^X-Powered-By:\s+(.*?)$}ixms;
 
 my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
 my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
@@ -124,7 +162,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Value => 1,
 );
 
-( $Header, $Body ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
+$Result = $SendEmail->(
     From     => 'john.smith@example.com',
     To       => 'john.smith2@example.com',
     Subject  => 'some subject',
@@ -133,8 +171,8 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Charset  => 'utf8',
 );
 
-($XMailerHeader)    = $$Header =~ m{^X-Mailer:\s+(.*?)$}ixms;
-($XPoweredByHeader) = $$Header =~ m{^X-Powered-By:\s+(.*?)$}ixms;
+($XMailerHeader)    = $Result->{Data}->{Header} =~ m{^X-Mailer:\s+(.*?)$}ixms;
+($XPoweredByHeader) = $Result->{Data}->{Header} =~ m{^X-Powered-By:\s+(.*?)$}ixms;
 
 $Self->Is(
     $XMailerHeader,

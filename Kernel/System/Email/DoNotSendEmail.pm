@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::System::CommunicationLog',
     'Kernel::System::Log',
 );
 
@@ -25,20 +26,53 @@ sub new {
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
 
+    $Self->{Type} = 'DoNotSendEmail';
+
     return $Self;
 }
 
 sub Send {
     my ( $Self, %Param ) = @_;
 
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Param{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::Email::DoNotSendEmail',
+        Value      => 'Received message for emulated sending without real external connections.',
+    );
+
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Param{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::Email::DoNotSendEmail',
+        Value      => 'Validating message contents.',
+    );
+
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
+
+            my $ErrorMessage = "Need $_!";
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => $ErrorMessage,
             );
-            return;
+
+            $Param{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Param{CommunicationLogMessageID},
+                Priority   => 'Error',
+                Key        => 'Kernel::System::Email::DoNotSendEmail',
+                Value      => $ErrorMessage,
+            );
+
+            return {
+                Success      => 0,
+                ErrorMessage => $ErrorMessage,
+            };
         }
     }
 
@@ -48,23 +82,37 @@ sub Send {
     }
 
     # recipient
-    my $ToString = '';
-    for my $To ( @{ $Param{ToArray} } ) {
-        if ($ToString) {
-            $ToString .= ", ";
-        }
-        $ToString .= $To;
-    }
+    my $ToString = join ', ', @{ $Param{ToArray} };
 
-    # debug
-    if ( $Self->{Debug} > 2 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "Sent email to '$ToString' from '$Param{From}'.",
-        );
-    }
+    my $ConnectionID = $Param{CommunicationLogObject}->ObjectLogStart(
+        ObjectType => 'Connection',
+    );
 
-    return 1;
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Connection',
+        ObjectID   => $ConnectionID,
+        Priority   => 'Info',
+        Key        => 'Kernel::System::Email::DoNotSendEmail',
+        Value      => "Sending email from '$Param{From}' to '$ToString'.",
+    );
+
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Connection',
+        ObjectID   => $ConnectionID,
+        Priority   => 'Info',
+        Key        => 'Kernel::System::Email::DoNotSendEmail',
+        Value      => "Email successfully sent!",
+    );
+
+    $Param{CommunicationLogObject}->ObjectLogStop(
+        ObjectType => 'Connection',
+        ObjectID   => $ConnectionID,
+        Status     => 'Successful',
+    );
+
+    return {
+        Success => 1,
+    };
 }
 
 1;

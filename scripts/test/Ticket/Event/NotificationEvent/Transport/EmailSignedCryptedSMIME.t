@@ -30,6 +30,31 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $SendEmails = sub {
+    my %Param = @_;
+
+    my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObj->List();
+    my @ToReturn;
+    for my $Item (@$Items) {
+        $MailQueueObj->Send( %{$Item} );
+        push @ToReturn, $Item->{Message};
+    }
+
+    # Clean the mail queue
+    $MailQueueObj->Delete();
+
+    return @ToReturn;
+};
+
 my $HomeDir = $ConfigObject->Get('Home');
 
 # create directory for certificates and private keys
@@ -49,6 +74,32 @@ $ConfigObject->Set(
 );
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
+
+# check if openssl is located there
+if ( !$OpenSSLBin || !( -e $OpenSSLBin ) ) {
+
+    # maybe it's a mac with macport
+    if ( -e '/opt/local/bin/openssl' ) {
+        $ConfigObject->Set(
+            Key   => 'SMIME::Bin',
+            Value => '/opt/local/bin/openssl',
+        );
+    }
+
+    # Try to guess using system 'which'
+    else {    # try to guess
+        my $OpenSSLBin = `which openssl`;
+        chomp $OpenSSLBin;
+        if ($OpenSSLBin) {
+            $ConfigObject->Set(
+                Key   => 'SMIME::Bin',
+                Value => $OpenSSLBin,
+            );
+        }
+    }
+}
+
+$OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 
 # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
 my $OpenSSLVersionString = qx{$OpenSSLBin version};
@@ -129,18 +180,6 @@ $ConfigObject->Set(
     Key   => 'NotificationSenderEmail',
     Value => 'unittest@example.org',
 );
-
-# check if openssl is located there
-if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
-
-    # maybe it's a mac with macport
-    if ( -e '/opt/local/bin/openssl' ) {
-        $ConfigObject->Set(
-            Key   => 'SMIME::Bin',
-            Value => '/opt/local/bin/openssl',
-        );
-    }
-}
 
 # create crypt object
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
@@ -547,6 +586,8 @@ for my $Test (@Tests) {
         Config => {},
         UserID => $UserID,
     );
+
+    $SendEmails->();
 
     my $Emails = $TestEmailObject->EmailsGet();
     if ( $Test->{Success} ) {

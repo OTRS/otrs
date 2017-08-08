@@ -29,7 +29,9 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    $Self->{Debug} = $Param{Debug} || 0;
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
 
     return $Self;
 }
@@ -40,9 +42,16 @@ sub Run {
     # check needed stuff
     for (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
         if ( !$Param{$_} ) {
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Error',
+                Key        => 'Kernel::System::PostMaster::Reject',
+                Value      => "Need $_!",
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -66,6 +75,14 @@ sub Run {
         ChannelName => 'Email',
     );
 
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::PostMaster::Reject',
+        Value      => "Going to create new article for TicketID '$Param{TicketID}'.",
+    );
+
     # do db insert
     my $ArticleID = $ArticleBackendObject->ArticleCreate(
         TicketID             => $Param{TicketID},
@@ -87,18 +104,55 @@ sub Run {
         AutoResponseType     => $AutoResponseType,
         OrigHeader           => \%GetParam,
     );
+
     if ( !$ArticleID ) {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::PostMaster::Reject',
+            Value      => "Article could not be created!",
+        );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Article could not be created!",
+        );
         return;
     }
 
-    # debug
-    if ( $Self->{Debug} > 0 ) {
-        print "Reject Follow up Ticket\n";
-        ATTRIBUTE:
-        for my $Attribute ( sort keys %GetParam ) {
-            next ATTRIBUTE if !$GetParam{$Attribute};
-            print "$Attribute: $GetParam{$Attribute}\n";
-        }
+    $Self->{CommunicationLogObject}->ObjectLookupSet(
+        ObjectID         => $Self->{CommunicationLogMessageID},
+        TargetObjectType => 'Article',
+        TargetObjectID   => $ArticleID,
+    );
+
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::PostMaster::Reject',
+        Value      => "Reject Follow up Ticket!",
+    );
+
+    my %CommunicationLogSkipAttributes = (
+        Body       => 1,
+        Attachment => 1,
+    );
+
+    ATTRIBUTE:
+    for my $Attribute ( sort keys %GetParam ) {
+        next ATTRIBUTE if $CommunicationLogSkipAttributes{$Attribute};
+
+        my $Value = $GetParam{$Attribute};
+        next ATTRIBUTE if !( defined $Value ) || !( length $Value );
+
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Debug',
+            Key        => 'Kernel::System::PostMaster::Reject',
+            Value      => "$Attribute: $Value",
+        );
     }
 
     # write plain email to the storage
@@ -154,9 +208,13 @@ sub Run {
                 UserID             => $Param{InmailUserID},
             );
 
-            if ( $Self->{Debug} > 0 ) {
-                print "$Key: " . $GetParam{$Key} . "\n";
-            }
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Debug',
+                Key        => 'Kernel::System::PostMaster::Reject',
+                Value      => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
+            );
         }
     }
 
@@ -191,17 +249,24 @@ sub Run {
                     );
                 }
 
-                if ( $Self->{Debug} > 0 ) {
-                    print "TicketKey$Count: " . $GetParam{$Key} . "\n";
-                }
+                $Self->{CommunicationLogObject}->ObjectLog(
+                    ObjectType => 'Message',
+                    ObjectID   => $Self->{CommunicationLogMessageID},
+                    Priority   => 'Debug',
+                    Key        => 'Kernel::System::PostMaster::Reject',
+                    Value =>
+                        "TicketKey$Count: Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
+                );
             }
         }
     }
 
-    # write log
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'notice',
-        Message  => "Reject FollowUp Article to Ticket [$Param{Tn}] created "
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Notice',
+        Key        => 'Kernel::System::PostMaster::Reject',
+        Value      => "Reject FollowUp Article to Ticket [$Param{Tn}] created "
             . "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment"
     );
 

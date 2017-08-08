@@ -30,7 +30,9 @@ sub new {
     # Get parser object.
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    $Self->{Debug} = $Param{Debug} || 0;
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
 
     return $Self;
 }
@@ -41,9 +43,16 @@ sub Run {
     # Check needed stuff.
     for my $Needed (qw(JobConfig GetParam)) {
         if ( !$Param{$Needed} ) {
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Error',
+                Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
+                Value      => "Need $Needed!",
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Need $Needed!',
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -122,9 +131,16 @@ sub _DecryptPGP {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     if ( !$ConfigObject->Get('PGP') ) {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value      => "PGP is not activated",
+        );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'PGP is not activated',
+            Message  => "PGP is not activated",
         );
         return;
     }
@@ -142,9 +158,16 @@ sub _DecryptPGP {
     my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
     if ( !$CryptObject ) {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value      => "Not possible to create crypt object",
+        );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Not possible to create crypt object',
+            Message  => "Not possible to create crypt object",
         );
         return;
     }
@@ -175,9 +198,16 @@ sub _DecryptSMIME {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     if ( !$ConfigObject->Get('SMIME') ) {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value      => "SMIME is not activated",
+        );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'SMIME is not activated',
+            Message  => "SMIME is not activated",
         );
         return;
     }
@@ -195,9 +225,16 @@ sub _DecryptSMIME {
     my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
     if ( !$CryptObject ) {
+        $Self->{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Self->{CommunicationLogMessageID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value      => "Not possible to create crypt object",
+        );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Not possible to create crypt object',
+            Message  => "Not possible to create crypt object",
         );
         return;
     }

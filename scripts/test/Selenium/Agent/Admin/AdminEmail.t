@@ -26,6 +26,12 @@ $Selenium->RunTest(
 
         my $Language = 'de';
 
+        # do not validate email addresses
+        $Helper->ConfigSettingChange(
+            Key   => 'CheckEmailAddresses',
+            Value => 0,
+        );
+
         # do not check RichText
         $Helper->ConfigSettingChange(
             Valid => 1,

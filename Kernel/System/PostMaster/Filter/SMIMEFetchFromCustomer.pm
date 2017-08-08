@@ -15,8 +15,8 @@ use Kernel::System::EmailParser;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Crypt::SMIME',
     'Kernel::System::Log',
+    'Kernel::System::Crypt::SMIME',
 );
 
 sub new {
@@ -29,7 +29,9 @@ sub new {
     # Get parser object.
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    $Self->{Debug} = $Param{Debug} || 0;
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
 
     return $Self;
 }
@@ -40,9 +42,16 @@ sub Run {
     # Check needed stuff.
     for my $Needed (qw(JobConfig GetParam)) {
         if ( !$Param{$Needed} ) {
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Error',
+                Key        => 'Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer',
+                Value      => "Need $Needed!",
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Need $Needed!',
+                Message  => "Need $Needed!",
             );
             return;
         }

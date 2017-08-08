@@ -2116,6 +2116,22 @@ END;
 --
 ;
 BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE article_data_mime_send_error ADD CONSTRAINT FK_article_data_mime_send_ereb FOREIGN KEY (article_id) REFERENCES article (id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_article_data_mime_send_er08 ON article_data_mime_send_error (article_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
     EXECUTE IMMEDIATE 'ALTER TABLE article_data_otrs_chat ADD CONSTRAINT FK_article_data_otrs_chat_arcf FOREIGN KEY (article_id) REFERENCES article (id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
@@ -4109,6 +4125,70 @@ END;
 ;
 BEGIN
     EXECUTE IMMEDIATE 'CREATE INDEX FK_calendar_appointment_tick5f ON calendar_appointment_ticket (ticket_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE mail_queue ADD CONSTRAINT FK_mail_queue_article_id_id FOREIGN KEY (article_id) REFERENCES article (id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_mail_queue_article_id ON mail_queue (article_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE communication_log_object ADD CONSTRAINT FK_communication_log_object_72 FOREIGN KEY (communication_id) REFERENCES communication_log (id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_communication_log_object_08 ON communication_log_object (communication_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE communication_log_object_entry ADD CONSTRAINT FK_communication_log_object_aa FOREIGN KEY (communication_log_object_id) REFERENCES communication_log_object (id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_communication_log_object_05 ON communication_log_object_entry (communication_log_object_id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE communication_log_obj_lookup ADD CONSTRAINT FK_communication_log_obj_loo0f FOREIGN KEY (communication_log_object_id) REFERENCES communication_log_object (id)';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--
+;
+BEGIN
+    EXECUTE IMMEDIATE 'CREATE INDEX FK_communication_log_obj_loob8 ON communication_log_obj_lookup (communication_log_object_id)';
 EXCEPTION
   WHEN OTHERS THEN NULL;
 END;

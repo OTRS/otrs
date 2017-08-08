@@ -181,7 +181,6 @@ for my $Test (@Tests) {
         TicketID      => $TicketID,
         ArticleID     => $ArticleID,
         DynamicFields => 0,
-        UserID        => 1,
     );
 
     if ( !defined $Test->{ExpectedResult} ) {

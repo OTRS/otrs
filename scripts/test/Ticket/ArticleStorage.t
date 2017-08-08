@@ -117,7 +117,6 @@ for my $Backend (qw(DB FS)) {
 
             my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $ArticleID,
-                UserID    => 1,
             );
 
             my $TargetFilename = $FileName . $File;
@@ -136,7 +135,6 @@ for my $Backend (qw(DB FS)) {
             my %Data = $ArticleBackendObject->ArticleAttachment(
                 ArticleID => $ArticleID,
                 FileID    => 1,
-                UserID    => 1,
             );
             $Self->True(
                 $Data{ContentType},
@@ -167,7 +165,6 @@ for my $Backend (qw(DB FS)) {
 
             %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
                 ArticleID => $ArticleID,
-                UserID    => 1,
             );
 
             $Self->IsDeeply(
@@ -228,7 +225,6 @@ for my $Backend (qw(DB FS)) {
 
     my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
 
     my $TargetFilename = '[Terminology Guide äöß]';
@@ -291,7 +287,6 @@ for my $Backend (qw(DB FS)) {
 
     %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
 
     $Self->IsDeeply(

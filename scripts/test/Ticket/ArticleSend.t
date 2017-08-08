@@ -25,6 +25,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Disable email addresses checking.
+$HelperObject->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 my $Success = $ConfigObject->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::Test',
@@ -145,6 +151,7 @@ my $ArticleAttachmentCount;
 my $ArticleCount = 0;
 my $Emails;
 my $Email;
+my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
 
 TEST:
 for my $Test (@ArticleTests) {
@@ -171,6 +178,10 @@ for my $Test (@ArticleTests) {
         $ArticleID,
         $Test->{Name} . ' - ArticleSend()',
     );
+
+    # Force email queue handling for this object
+    my $Item = $MailQueueObj->Get( ArticleID => $ArticleID );
+    my $Result = $MailQueueObj->Send( %{$Item} );
 
     # check that email was sent
     $Emails = $TestEmailObject->EmailsGet();
@@ -203,7 +214,6 @@ for my $Test (@ArticleTests) {
     %Article = $ArticleBackendObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
 
     $Self->True(
@@ -214,7 +224,6 @@ for my $Test (@ArticleTests) {
     # check article attachments
     %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID        => $ArticleID,
-        UserID           => 1,
         ExcludePlainText => 1,
         ExcludeHTMLBody  => 1,
     );

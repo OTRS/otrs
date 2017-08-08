@@ -1486,6 +1486,31 @@ my $PostmasterUserID = $ConfigObject->Get('PostmasterUserID') || 1;
 my $NotificationEventObject      = $Kernel::OM->Get('Kernel::System::NotificationEvent');
 my $EventNotificationEventObject = $Kernel::OM->Get('Kernel::System::Ticket::Event::NotificationEvent');
 
+my $SendEmail = sub {
+    my %Param = @_;
+
+    my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObj->List();
+    my @ToReturn;
+    for my $Item (@$Items) {
+        $MailQueueObj->Send( %{$Item} );
+        push @ToReturn, $Item->{Message};
+    }
+
+    return @ToReturn;
+};
+
+my $DeleteQueue = sub {
+    my %Param = @_;
+
+    my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+    $MailQueueObj->Delete();
+
+};
+
 my $Count = 0;
 my $NotificationID;
 TEST:
@@ -1572,6 +1597,8 @@ for my $Test (@Tests) {
         "$Test->{Name} - NotificationEvent Run() with true",
     );
 
+    $SendEmail->();
+
     my $Emails = $TestEmailObject->EmailsGet();
 
     # remove not needed data
@@ -1624,6 +1651,8 @@ continue {
     );
 
     $TestEmailObject->CleanUp();
+
+    $DeleteQueue->();
 
     # reset PostMasteruserID to the original value
     if ( $Test->{SetPostMasterUserID} ) {

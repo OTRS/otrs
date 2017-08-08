@@ -63,22 +63,17 @@ sub Run {
         %Article = $ArticleBackendObject->ArticleGet(
             %Param,
             ArticleID => $Article->{ArticleID},
-            UserID    => 1,
         );
     }
     return if !(%Article);
 
-    my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
-        %Article,
-        UserID => 1,
-    );
+    my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(%Article);
 
     my @Attachments;
 
     for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
         my %Attachment = $ArticleBackendObject->ArticleAttachment(
             %Article,
-            UserID => 1,
             FileID => $FileID,
         );
         if (%Attachment) {

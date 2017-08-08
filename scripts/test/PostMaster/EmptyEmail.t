@@ -48,13 +48,34 @@ for my $Backend (qw(DB FS)) {
 
     my $TicketID;
     {
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Incoming',
+                Start     => 1,
+                }
+        );
+        my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            Email => $ContentRef,
+            CommunicationLogObject    => $CommunicationLogObject,
+            CommunicationLogMessageID => $MessageID,
+            Email                     => $ContentRef,
         );
 
         my @Return = $PostMasterObject->Run();
 
         $TicketID = $Return[1];
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectType => 'Message',
+            ObjectID   => $MessageID,
+            Status     => 'Successful',
+        );
+        $CommunicationLogObject->CommunicationStop(
+            Status => 'Successful',
+        );
     }
 
     $Self->True(
@@ -71,7 +92,6 @@ for my $Backend (qw(DB FS)) {
     my %Article = $ArticleBackendObject->ArticleGet(
         ArticleID => $ArticleIDs[0],
         TicketID  => $TicketID,
-        UserID    => 1,
     );
 
     $Self->Is(
@@ -82,7 +102,6 @@ for my $Backend (qw(DB FS)) {
 
     my %Attachments = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID => $ArticleIDs[0],
-        UserID    => 1,
     );
 
     $Self->IsDeeply(

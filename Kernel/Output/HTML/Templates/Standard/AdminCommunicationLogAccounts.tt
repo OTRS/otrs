@@ -1,0 +1,256 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Communication Log") | html %] - [% Translate("Account Status") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Communication Log'),
+                Link => Env("Action"),
+            },
+            {
+                Name => Translate('Account Status'),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <a id="OverviewButton" class="CallForAction Fullsize Center Back">
+                    <span>
+                        <i class="fa fa-caret-left"></i>
+                        [% Translate("Back") | html %]
+                    </span>
+                </a>
+            </div>
+        </div>
+
+[% RenderBlockStart("TimeRange") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Time range") | html %]</h2>
+            </div>
+            <div class="Content">
+                [% Data.TimeRange %]
+                <p class="FieldExplanation">
+                    [% Translate("Show only communication logs created in specific time range.") | html %]
+                </p>
+            </div>
+        </div>
+[% RenderBlockEnd("TimeRange") %]
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterAccounts">[% Translate("Filter for accounts") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterAccounts" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterObjectLogEntries" value="" title="[% Translate("Filter for log entries") | html %]">
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterCommunicationLogList">[% Translate("Filter for communications") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterCommunicationLogList" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterCommunications" value="" title="[% Translate("Filter for communications") | html %]">
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("In this screen you can see an overview about incoming and outgoing communications.") | html %]
+                    </p>
+                </div>
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("You can change the sort and order of those columns by clicking on the column header.") | html %]
+                        [% Translate("If you click on the different entries, you will get redirected to a detailed screen about the message.") | html %]
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ContentColumn">
+
+        <div id="AccountsWidget" class="WidgetSimple">
+
+            <div class="Header">
+                <div class="WidgetAction Toggle">
+                    <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                </div>
+                <h2>
+                    [% Translate("Account status for: %s", Data.TimeRange) | html %]
+                </h2>
+
+            </div>
+
+            <div class="Content">
+
+                <table class="DataTable" id="AccountsTable">
+                    <thead>
+                        <tr>
+                            <th class="Status Center Sortable InitialSorting"><a href="#">[% Translate("Status") | html %]</a></th>
+                            <th class="Sortable"><a href="#">[% Translate("Account") | html %]</a></th>
+                            <th class="Sortable"><a href="#">[% Translate("Average processing time") | html %]</a></th>
+                            <th class="Edit Center">[% Translate("Edit") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("NoAccountsFound") %]
+                        <tr>
+                            <td colspan="3">
+                                [% Translate("No accounts found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("NoAccountsFound") %]
+[% RenderBlockStart("AccountRow") %]
+                        <tr id="[% Data.AccountKey %]" class="[% IF Data.AccountStatus == 'Failed' %]Error[% END %]">
+                            <td class="Status Center" title="[% Translate(Data.AccountStatus) | html %]">
+                            [% IF Data.AccountStatus == 'Success' %]
+                                <i class="fa fa-check Confirmation" aria-hidden="true" title="[% Data.AccountStatus %]"></i>
+                            [% ELSIF Data.AccountStatus == 'Warning' %]
+                                <i class="fa fa-exclamation Warning" aria-hidden="true" title="[% Data.AccountStatus %]"></i>
+                            [% ELSE %]
+                                <a href="[% Env("Baselink") %]Action=AdminCommunicationLog;[% Data.AccountErrorLink %]" target="_blank">
+                                    <i class="fa fa-times Error" aria-hidden="true"></i>
+                                </a>
+                            [% END %]
+                                <input type="hidden" class="SortData" value="[% Data.AccountStatus | html %]" />
+                            </td>
+                            <td>
+                                [% Data.AccountLabel | html %]
+                                <input type="hidden" class="SortData" value="[% Data.AccountLabel | html %]" />
+                            </td>
+                            <td>
+                                <span title="[% Translate("%s s", Data.AverageSeconds) | html %]">
+                                    [% Data.AverageString | html %]
+                                </span>
+                                <input type="hidden" class="SortData" value="[% Data.AverageSeconds | html %]" />
+                            </td>
+                            <td class="Edit Center">
+                            [% IF Data.AccountLink %]
+                                <a href="[% Env("Baselink") %][% Data.AccountLink %]" target="_blank">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                            [% END %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("AccountRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="3">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="FilteredCommunicationsWidget">
+
+            <div id="CommunicationLogWidget" class="WidgetSimple">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>
+                        [% Translate("Communication Log Details (%s)", Data.CommunicationLogCount) | html %]
+                    </h2>
+                </div>
+                <div class="Content">
+
+                    <span class="Pagination">
+[% RenderBlockStart("OverviewNavBarPageNavBar") %]
+                        [% Data.ResultLong %]
+                        [% Data.SiteNavBarLong %]
+[% RenderBlockEnd("OverviewNavBarPageNavBar") %]
+                    </span>
+
+                    <table class="DataTable" id="CommunicationLogListTable">
+                        <thead>
+                            <tr>
+                                <th class="Status Center Sortable"><a href="#">[% Translate("Status") | html %]</a></th>
+                                <th class="Sortable"><a href="#">[% Translate("Transport") | html %]</a></th>
+                                <th class="Direction Center Sortable"><a href="#">[% Translate("Direction") | html %]</a></th>
+                                <th class="Sortable"><a href="#">[% Translate("Start Time") | html %]</a></th>
+                                <th class="Sortable"><a href="#">[% Translate("End Time") | html %]</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("NoCommunicationLogsFound") %]
+                            <tr>
+                                <td colspan="6">
+                                    [% Translate("No communication log entries found.") | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("NoCommunicationLogsFound") %]
+[% RenderBlockStart("CommunicationLogRow") %]
+                            <tr class="MasterAction [% IF Data.Status == 'Failed' %]Error[% END %]">
+                                <td class="Status Center" title="[% Translate(Data.Status) | html %]">
+                                    <a href="[% Env("Baselink") %]Action=AdminCommunicationLog;Subaction=Zoom;CommunicationID=[% Data.CommunicationID | uri %]" title="[% Data.Name | html %]" class="MasterActionLink">
+                                    [% IF Data.Status == 'Successful' %]
+                                        <i class="fa fa-check Confirmation" aria-hidden="true"></i>
+                                    [% ELSIF Data.Status == 'Failed' %]
+                                        <i class="fa fa-times Error" aria-hidden="true"></i>
+                                    [% ELSIF Data.Status == 'Warning' %]
+                                        <i class="fa fa-exclamation Warning" aria-hidden="true"></i>
+                                    [% ELSIF Data.Status == 'Processing' %]
+                                        <i class="fa fa-circle-o-notch fa-spin Warning" aria-hidden="true"></i>
+                                    [% END %]
+                                    </a>
+                                </td>
+                                <td>
+                                    [% Data.Transport | html %]
+                                </td>
+                                <td class="Direction Center">
+                                    [% IF Data.Direction == 'Incoming' %]
+                                    <span class=" Direction Incoming" title="[% Data.Direction | html %]">
+                                        <i class="fa fa-long-arrow-left"></i>
+                                        <i class="fa fa-square-o"></i>
+                                    </span>
+                                    [% ELSE %]
+                                    <span class=" Direction Outgoing" title="[% Data.Direction | html %]">
+                                        <i class="fa fa-long-arrow-right"></i>
+                                        <i class="fa fa-square-o"></i>
+                                    </span>
+                                    [% END %]
+                                </td>
+                                <td class="StartTime">
+                                    [% Data.StartTime | Localize("TimeLong") %]
+                                </td>
+                                <td class="EndTime">
+                                    [% Data.EndTime | Localize("TimeLong") %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("CommunicationLogRow") %]
+                            <tr class="FilterMessage Hidden">
+                                <td colspan="6">[% Translate("No matches found.") | html %]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

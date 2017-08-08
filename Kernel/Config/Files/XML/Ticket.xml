@@ -1683,6 +1683,7 @@
                 <Item Key="PhoneCallCustomer" Translatable="1">Added phone call from customer.</Item>
                 <Item Key="PriorityUpdate" Translatable="1">Changed priority from "%s" (%s) to "%s" (%s).</Item>
                 <Item Key="Remove" Translatable="1">%s</Item>
+                <Item Key="EmailResend" Translatable="1">Resent email to "%s".</Item>
                 <Item Key="ResponsibleUpdate" Translatable="1">Changed responsible to "%s" (%s).</Item>
                 <Item Key="SendAgentNotification" Translatable="1">Sent "%s" notification to "%s" via "%s".</Item>
                 <Item Key="SendAnswer" Translatable="1">Sent email to "%s".</Item>
@@ -4677,6 +4678,27 @@
     <Setting Name="Ticket::Frontend::AgentTicketEmailOutbound###IsVisibleForCustomerDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines if the message in the email outbound screen of the agent interface is visible for the customer by default.</Description>
         <Navigation>Frontend::Agent::View::TicketEmailOutbound</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###Permission" Required="1" Valid="1">
+        <Description Translatable="1">Required permissions to use the email resend screen in the agent interface.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">compose</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RequiredLock" Required="0" Valid="1">
+        <Description Translatable="1">Defines if a ticket lock is required in the email resend screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner).</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###IsVisibleForCustomerDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines if the message in the email resend screen of the agent interface is visible for the customer by default.</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -8752,6 +8774,43 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Module###AgentTicketEmailResend" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Resend Ticket Email.</Item>
+                    <Item Key="Title" Translatable="1">Email Resend</Item>
+                    <Item Key="NavBarName">Ticket</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AgentTicketEmailResend###002-Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.CustomerSearch.js</Item>
+                        <Item>Core.Agent.CustomerSearchAutoComplete.js</Item>
+                        <Item>Core.Agent.TicketAction.js</Item>
+                        <Item>Core.Agent.TicketEmailResend.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::Module###AgentTicketCustomer" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
@@ -10100,6 +10159,9 @@
                 <Item>ArticleFlagDelete</Item>
                 <Item>ArticleAgentNotification</Item>
                 <Item>ArticleCustomerNotification</Item>
+                <Item>ArticleEmailSendingQueued</Item>
+                <Item>ArticleEmailSendingSent</Item>
+                <Item>ArticleEmailSendingError</Item>
             </Array>
         </Value>
     </Setting>
@@ -10656,6 +10718,7 @@
                 <Item>AgentTicketForward</Item>
                 <Item>AgentTicketEmail</Item>
                 <Item>AgentTicketEmailOutbound</Item>
+                <Item>AgentTicketEmailResend</Item>
                 <Item>AgentTicketFreeText</Item>
                 <Item>AgentTicketHistory</Item>
                 <Item>AgentTicketLink</Item>
@@ -10830,6 +10893,13 @@
         <Navigation>Core::Email::PostMaster</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^([1-9]|[1-9][0-9])$">12</Item>
+        </Value>
+    </Setting>
+    <Setting Name="PostmasterBounceEmailAsFollowUp" Required="1" Valid="1">
+        <Description Translatable="1">Indicates if a bounce e-mail should always be treated as normal follow-up.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="PostmasterX-Header" Required="1" Valid="1">
@@ -11153,6 +11223,24 @@ Thanks for your help!
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PostMaster::PreFilterModule###000-DetectBounceEmail" Required="0" Valid="1">
+        <Description Translatable="1">Module to check if a incoming e-mail message is bounce.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::DetectBounceEmail</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PostMaster::CheckFollowUpModule###0000-BounceEmail" Required="0" Valid="1">
+        <Description Translatable="1">Executes follow-up checks on OTRS Header 'X-OTRS-Bounce'.</Description>
+        <Navigation>Core::Email::PostMaster</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::FollowUpCheck::BounceEmail</Item>
             </Hash>
         </Value>
     </Setting>
@@ -12508,6 +12596,20 @@ Thanks for your help!
         <Navigation>Frontend::Agent::View::TicketMerge</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextWidth" Required="0" Valid="1">
+        <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextHeight" Required="0" Valid="1">
+        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^\d+%?$">300</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketMerge###RichTextHeight" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">

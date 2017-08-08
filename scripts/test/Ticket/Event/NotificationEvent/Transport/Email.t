@@ -11,6 +11,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Kernel::System::MailQueue;
+
 use vars (qw($Self));
 
 # get config object
@@ -23,8 +25,39 @@ $Kernel::OM->ObjectParamAdd(
         UseTmpArticleDir => 1,
 
     },
+    'Kernel::System::MailQueue' => {
+        CheckEmailAddresses => 0,
+    },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+my $SendEmails = sub {
+    my %Param = @_;
+
+    # Get last item in the queue.
+    my $Items = $MailQueueObj->List();
+    my @ToReturn;
+    for my $Item (@$Items) {
+        $MailQueueObj->Send( %{$Item} );
+        push @ToReturn, $Item->{Message};
+    }
+
+    # Clean the mail queue.
+    $MailQueueObj->Delete();
+
+    return @ToReturn;
+};
+
+# Ensure mail queue is empty before tests start.
+$MailQueueObj->Delete();
+
+# Enable email addresses checking.
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 1,
+);
 
 # disable rich text editor
 my $Success = $ConfigObject->Set(
@@ -255,6 +288,8 @@ for my $Test (@Tests) {
         Config => {},
         UserID => 1,
     );
+
+    $SendEmails->();
 
     my $Emails = $TestEmailObject->EmailsGet();
 

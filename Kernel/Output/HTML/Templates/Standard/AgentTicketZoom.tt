@@ -418,7 +418,19 @@
                                     <input type="hidden" class="SortData" value="[% Data.ArticleFields.Sender.Value | html %]" />
                                 </td>
                                 <td class="Channel">
-                                    <div>[% Translate(Data.Channel) | html %]</div>
+                                    <div>[% Translate(Data.Channel) | html %]
+                                    [% IF Data.TransmissionStatus %]
+                                        [% IF Data.TransmissionStatus.Status == 'Failed' %]
+                                        <span title="[% Translate("Sending of this message has failed.") | html %]">
+                                            <i class="fa fa-times Error" aria-hidden="true"></i>
+                                        </span>
+                                        [% ELSIF Data.TransmissionStatus.Status == 'Processing' %]
+                                        <span title="[% Translate("This message has been queued for sending.") | html %]">
+                                            <i class="fa fa-spin fa-circle-o-notch Warning" aria-hidden="true"></i>
+                                        </span>
+                                        [% END %]
+                                    [% END %]
+                                    </div>
                                     <input type="hidden" class="SortData" value="[% Translate(Data.Channel) | html %]" />
                                 </td>
                                 <td class="Subject">

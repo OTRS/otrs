@@ -80,12 +80,33 @@ my $TicketID;
 for my $Test (@Tests) {
     my @Return;
     {
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Incoming',
+                Start     => 1,
+                }
+        );
+        my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            Email => \$Test->{Email},
-            Debug => 2,
+            CommunicationLogObject    => $CommunicationLogObject,
+            CommunicationLogMessageID => $MessageID,
+            Email                     => \$Test->{Email},
+            Debug                     => 2,
         );
 
         @Return = $PostMasterObject->Run();
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectType => 'Message',
+            ObjectID   => $MessageID,
+            Status     => 'Successful',
+        );
+        $CommunicationLogObject->CommunicationStop(
+            Status => 'Successful',
+        );
     }
     $Self->Is(
         $Return[0] || 0,

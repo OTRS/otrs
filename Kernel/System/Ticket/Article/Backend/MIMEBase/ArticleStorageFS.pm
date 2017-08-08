@@ -331,7 +331,6 @@ sub ArticleWriteAttachment {
     my %UsedFile;
     my %Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
     );
 
     # Normalize filenames to find file names which are identical but in a different unicode form.
@@ -710,7 +709,7 @@ sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Item (qw(ArticleID FileID UserID)) {
+    for my $Item (qw(ArticleID FileID)) {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -742,7 +741,6 @@ sub ArticleAttachment {
     # get attachment index
     my %Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
     );
 
     # get content path

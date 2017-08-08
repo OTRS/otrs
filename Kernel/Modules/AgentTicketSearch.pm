@@ -802,7 +802,6 @@ sub Run {
                 my %Article = $ArticleObject->BackendForArticle( %{ $Articles[0] } )->ArticleGet(
                     %{ $Articles[0] },
                     DynamicFields => 1,
-                    UserID        => $Self->{UserID},
                 );
 
                 my %Data;
@@ -841,7 +840,6 @@ sub Run {
                                 TicketID      => $TicketID,
                                 ArticleID     => $Article->{ArticleID},
                                 DynamicFields => 0,
-                                UserID        => $Self->{UserID},
                             );
                             if ( $ArticleData{Body} ) {
                                 $Data{ArticleTree}
@@ -1007,7 +1005,6 @@ sub Run {
                 my %Article = $ArticleObject->BackendForArticle( %{ $Articles[0] } )->ArticleGet(
                     %{ $Articles[0] },
                     DynamicFields => 1,
-                    UserID        => $Self->{UserID},
                 );
 
                 # get first article data

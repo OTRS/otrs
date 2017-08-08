@@ -92,11 +92,9 @@ sub GeneratePDF {
         my %Article              = $ArticleBackendObject->ArticleGet(
             %{$MetaArticle},
             DynamicFields => 0,
-            UserID        => $Param{UserID},
         );
         my %Attachments = $ArticleBackendObject->ArticleAttachmentIndex(
             %{$MetaArticle},
-            UserID           => $Param{UserID},
             ExcludePlainText => 1,
             ExcludeHTMLBody  => 1,
             ExcludeInline    => 1,
@@ -1074,6 +1072,7 @@ sub _PDFOutputArticles {
         {
             my %ArticleField = %{ $ArticleFields{$ArticleFieldKey} // {} };
 
+            next ARTICLE_FIELD if $Param{Interface}->{Customer} && $ArticleField{HideInCustomerInterface};
             next ARTICLE_FIELD if $ArticleField{HideInTicketPrint};
             next ARTICLE_FIELD if !$ArticleField{Value};
 

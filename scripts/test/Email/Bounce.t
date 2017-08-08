@@ -11,6 +11,20 @@ use utf8;
 
 use vars (qw($Self));
 
+# get helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreDatabase => 1,
+    },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# Disable email addresses checking.
+$Helper->ConfigSettingChange(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
 $Kernel::OM->Get('Kernel::Config')->Set(
     Key   => 'OTRSTimeZone',
     Value => 'UTC',
@@ -21,7 +35,6 @@ $Kernel::OM->Get('Kernel::Config')->Set(
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
 
-my $Helper     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemTime = $Kernel::OM->Create(
     'Kernel::System::DateTime',
     ObjectParams => {
@@ -63,12 +76,30 @@ EOF
     },
 );
 
+my $CommunicationLogObject = $Kernel::OM->Create(
+    'Kernel::System::CommunicationLog',
+    ObjectParams => {
+        Transport => 'Email',
+        Direction => 'Outgoing',
+        Start     => 1,
+        }
+);
+
 for my $Test (@Tests) {
-    my ( $Header, $Body ) = $EmailObject->Bounce(
-        %{ $Test->{Params} }
+    my $CommunicationLogMessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    my $SentResult = $EmailObject->Bounce(
+        %{ $Test->{Params} },
+        CommunicationLogObject    => $CommunicationLogObject,
+        CommunicationLogMessageID => $CommunicationLogMessageID,
     );
+
+    $Self->True(
+        $SentResult->{Success},
+        sprintf( 'Bounce %s queued.', $Test->{Name}, ),
+    );
+
     $Self->Is(
-        $$Header . "\n" . $$Body,
+        $SentResult->{Data}->{Header} . "\n" . $SentResult->{Data}->{Body},
         $Test->{Result},
         "$Test->{Name} Bounce()",
     );

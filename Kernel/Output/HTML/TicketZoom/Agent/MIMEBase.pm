@@ -14,6 +14,7 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(IsPositiveInteger);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -30,11 +31,10 @@ our @ObjectDependencies = (
 Returns article html.
 
     my $HTML = $ArticleBaseObject->ArticleRender(
-        TicketID                    => 123,         # (required)
-        ArticleID                   => 123,         # (required)
-        UserID                      => 123,         # (required)
-        ShowBrowserLinkMessage      => 1,           # (optional) Default: 0.
-        ArticleActions              => [],          # (optional)
+        TicketID               => 123,         # (required)
+        ArticleID              => 123,         # (required)
+        ShowBrowserLinkMessage => 1,           # (optional) Default: 0.
+        ArticleActions         => [],          # (optional)
     );
 
 Result:
@@ -46,7 +46,7 @@ sub ArticleRender {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -89,7 +89,6 @@ sub ArticleRender {
     # Get attachment index (excluding body attachments).
     my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID        => $Param{ArticleID},
-        UserID           => $Param{UserID},
         ExcludePlainText => 1,
         ExcludeHTMLBody  => $RichTextEnabled,
         ExcludeInline    => $RichTextEnabled,
@@ -121,7 +120,7 @@ sub ArticleRender {
                     %{$Self},
                     TicketID  => $Param{TicketID},
                     ArticleID => $Param{ArticleID},
-                    UserID    => $Param{UserID},
+                    UserID    => $Param{UserID} || 1,
                 );
 
                 # run module
@@ -202,6 +201,18 @@ sub ArticleRender {
     my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
         ChannelID => $Article{CommunicationChannelID},
     );
+
+    if ( $CommunicationChannel{ChannelName} eq 'Email' ) {
+        my $TransmissionStatus = $ArticleBackendObject->ArticleTransmissionStatus(
+            ArticleID => $Article{ArticleID},
+        );
+        if ($TransmissionStatus) {
+            $LayoutObject->Block(
+                Name => 'TransmissionStatusMessage',
+                Data => $TransmissionStatus,
+            );
+        }
+    }
 
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentTicketZoom/ArticleRender/MIMEBase',

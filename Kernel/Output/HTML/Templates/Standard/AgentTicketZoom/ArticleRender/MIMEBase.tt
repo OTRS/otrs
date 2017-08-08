@@ -32,7 +32,7 @@
                 <fieldset class="TableLike FixedLabelSmall">
 
 [% FOREACH ArticleField IN Data.ArticleFields.values.nsort("Prio") %]
-    [% IF ArticleField.Label == "From" || ArticleField.Label == "To" || ArticleField.Label == "Cc"  || ArticleField.key == "Bcc" %]
+    [% IF ArticleField.Label == "From" || ArticleField.Label == "To" || ArticleField.Label == "Cc"  || ArticleField.Label == "Bcc" %]
                     <label class="Switchable">[% Translate(ArticleField.Label) | html %]:</label>
                     <p class="Value" title="[% ArticleField.Value | html %]">
                         <span class="Switch [% ArticleField.ValueHidden | html %]">[% ArticleField.Value | html %]</span>
@@ -83,6 +83,25 @@
         </div>
 
         <div class="Content">
+
+[% RenderBlockStart("TransmissionStatusMessage") %]
+        [% IF Data.Status == 'Failed' || Data.Status == 'Processing' %]
+            <div class="MessageBox SmallBox [% IF Data.Status == 'Failed' %]Error[% ELSIF Data.Status == 'Processing' %]Warning[% END %]">
+                <p>
+                [% IF Data.Status == "Failed" %]
+                    [% Translate("Sending of this message has failed.") | html %]
+                    [[% Data.CreateTime | Localize("TimeShort") %]] [% Data.Message | html %]
+                [% ELSIF Data.Status == "Processing" %]
+                    [% IF Data.Attempts && Data.DueTime %]
+                        [% Translate("This message is being processed. Already tried to send %s time(s). Next try will be %s.", Data.Attempts, Localize(Data.DueTime, "RelativeTime")) | html %]
+                    [% ELSE %]
+                        [% Translate("This message has been queued for sending.") | html %]
+                    [% END %]
+                [% END %]
+                </p>
+            </div>
+        [% END %]
+[% RenderBlockEnd("TransmissionStatusMessage") %]
 
 [% RenderBlockStart("BrowserLinkMessage") %]
 # Show info, that links within the iframe must be clicked with strg/cmd/shift (depending on the used browser and os)

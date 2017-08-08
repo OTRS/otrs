@@ -62,7 +62,7 @@ sub Check {
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
     # check inline smime
-    if ( $Param{Article}->{Body} =~ /^-----BEGIN PKCS7-----/ ) {
+    if ( $Param{Article}->{Body} && $Param{Article}->{Body} =~ /^-----BEGIN PKCS7-----/ ) {
         %SignCheck = $SMIMEObject->Verify( Message => $Param{Article}->{Body} );
         if (%SignCheck) {
 
@@ -122,7 +122,7 @@ sub Check {
         {
 
             # check if article is already decrypted
-            if ( $Param{Article}->{Body} ne '- no text message => see attachment -' ) {
+            if ( $Param{Article}->{Body} && $Param{Article}->{Body} ne '- no text message => see attachment -' ) {
                 push(
                     @Return,
                     {
@@ -134,7 +134,7 @@ sub Check {
             }
 
             # check sender (don't decrypt sent emails)
-            if ( $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
+            if ( $Param{Article}->{SenderType} && $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
 
                 # return info
                 return (

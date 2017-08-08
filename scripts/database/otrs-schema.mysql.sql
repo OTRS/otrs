@@ -615,6 +615,7 @@ CREATE TABLE article_data_mime (
     a_reply_to MEDIUMTEXT NULL,
     a_to MEDIUMTEXT NULL,
     a_cc MEDIUMTEXT NULL,
+    a_bcc MEDIUMTEXT NULL,
     a_subject TEXT NULL,
     a_message_id TEXT NULL,
     a_message_id_md5 VARCHAR (32) NULL,
@@ -677,6 +678,19 @@ CREATE TABLE article_data_mime_attachment (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX article_data_mime_attachment_article_id (article_id)
+);
+# ----------------------------------------------------------
+#  create table article_data_mime_send_error
+# ----------------------------------------------------------
+CREATE TABLE article_data_mime_send_error (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    article_id BIGINT NOT NULL,
+    message_id VARCHAR (200) NULL,
+    log_message MEDIUMTEXT NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    INDEX article_data_mime_transmission_article_id (article_id),
+    INDEX article_data_mime_transmission_message_id (message_id)
 );
 # ----------------------------------------------------------
 #  create table article_data_otrs_chat
@@ -1698,6 +1712,83 @@ CREATE TABLE ticket_number_counter (
     PRIMARY KEY(id),
     UNIQUE INDEX ticket_number_counter_uid (counter_uid),
     INDEX ticket_number_counter_create_time (create_time)
+);
+# ----------------------------------------------------------
+#  create table mail_queue
+# ----------------------------------------------------------
+CREATE TABLE mail_queue (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    insert_fingerprint VARCHAR (64) NULL,
+    article_id BIGINT NULL,
+    attempts INTEGER NOT NULL,
+    sender VARCHAR (200) NULL,
+    recipient MEDIUMTEXT NOT NULL,
+    raw_message LONGBLOB NOT NULL,
+    due_time DATETIME NULL,
+    last_smtp_code INTEGER NULL,
+    last_smtp_message MEDIUMTEXT NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX mail_queue_article_id (article_id),
+    UNIQUE INDEX mail_queue_insert_fingerprint (insert_fingerprint),
+    INDEX mail_queue_attempts (attempts)
+);
+# ----------------------------------------------------------
+#  create table communication_log
+# ----------------------------------------------------------
+CREATE TABLE communication_log (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    insert_fingerprint VARCHAR (64) NULL,
+    transport VARCHAR (200) NOT NULL,
+    direction VARCHAR (200) NOT NULL,
+    status VARCHAR (200) NOT NULL,
+    account_type VARCHAR (200) NULL,
+    account_id VARCHAR (200) NULL,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NULL,
+    PRIMARY KEY(id),
+    INDEX communication_direction (direction),
+    INDEX communication_status (status),
+    INDEX communication_transport (transport)
+);
+# ----------------------------------------------------------
+#  create table communication_log_object
+# ----------------------------------------------------------
+CREATE TABLE communication_log_object (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    insert_fingerprint VARCHAR (64) NULL,
+    communication_id BIGINT NOT NULL,
+    object_type VARCHAR (50) NOT NULL,
+    status VARCHAR (200) NOT NULL,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NULL,
+    PRIMARY KEY(id),
+    INDEX communication_log_object_object_type (object_type),
+    INDEX communication_log_object_status (status)
+);
+# ----------------------------------------------------------
+#  create table communication_log_object_entry
+# ----------------------------------------------------------
+CREATE TABLE communication_log_object_entry (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    communication_log_object_id BIGINT NOT NULL,
+    log_key VARCHAR (200) NOT NULL,
+    log_value MEDIUMTEXT NOT NULL,
+    priority VARCHAR (50) NOT NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    INDEX communication_log_object_entry_key (log_key)
+);
+# ----------------------------------------------------------
+#  create table communication_log_obj_lookup
+# ----------------------------------------------------------
+CREATE TABLE communication_log_obj_lookup (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    communication_log_object_id BIGINT NOT NULL,
+    object_type VARCHAR (200) NOT NULL,
+    object_id BIGINT NOT NULL,
+    PRIMARY KEY(id),
+    INDEX communication_log_obj_lookup_target (object_type, object_id)
 );
 # ----------------------------------------------------------
 #  create table form_draft

@@ -1316,7 +1316,6 @@ sub Run {
             %Data = $CurrentArticleBackendObject->ArticleGet(
                 TicketID  => $Self->{TicketID},
                 ArticleID => $ArticleMetaData->{ArticleID},
-                UserID    => $Self->{UserID},
             );
 
             last ARTICLEMETADATA;

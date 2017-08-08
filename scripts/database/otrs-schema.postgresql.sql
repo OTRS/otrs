@@ -1236,6 +1236,7 @@ CREATE TABLE article_data_mime (
     a_reply_to VARCHAR NULL,
     a_to VARCHAR NULL,
     a_cc VARCHAR NULL,
+    a_bcc VARCHAR NULL,
     a_subject VARCHAR (3800) NULL,
     a_message_id VARCHAR (3800) NULL,
     a_message_id_md5 VARCHAR (32) NULL,
@@ -1346,6 +1347,39 @@ IF NOT EXISTS (
     WHERE LOWER(indexname) = LOWER('article_data_mime_attachment_article_id')
     ) THEN
     CREATE INDEX article_data_mime_attachment_article_id ON article_data_mime_attachment (article_id);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table article_data_mime_send_error
+-- ----------------------------------------------------------
+CREATE TABLE article_data_mime_send_error (
+    id bigserial NOT NULL,
+    article_id BIGINT NOT NULL,
+    message_id VARCHAR (200) NULL,
+    log_message VARCHAR NULL,
+    create_time timestamp(0) NOT NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('article_data_mime_transmission_article_id')
+    ) THEN
+    CREATE INDEX article_data_mime_transmission_article_id ON article_data_mime_send_error (article_id);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('article_data_mime_transmission_message_id')
+    ) THEN
+    CREATE INDEX article_data_mime_transmission_message_id ON article_data_mime_send_error (message_id);
 END IF;
 END$$;
 ;
@@ -2847,6 +2881,163 @@ IF NOT EXISTS (
     WHERE LOWER(indexname) = LOWER('ticket_number_counter_create_time')
     ) THEN
     CREATE INDEX ticket_number_counter_create_time ON ticket_number_counter (create_time);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table mail_queue
+-- ----------------------------------------------------------
+CREATE TABLE mail_queue (
+    id bigserial NOT NULL,
+    insert_fingerprint VARCHAR (64) NULL,
+    article_id BIGINT NULL,
+    attempts INTEGER NOT NULL,
+    sender VARCHAR (200) NULL,
+    recipient VARCHAR NOT NULL,
+    raw_message TEXT NOT NULL,
+    due_time timestamp(0) NULL,
+    last_smtp_code INTEGER NULL,
+    last_smtp_message VARCHAR NULL,
+    create_time timestamp(0) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT mail_queue_article_id UNIQUE (article_id),
+    CONSTRAINT mail_queue_insert_fingerprint UNIQUE (insert_fingerprint)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('mail_queue_attempts')
+    ) THEN
+    CREATE INDEX mail_queue_attempts ON mail_queue (attempts);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table communication_log
+-- ----------------------------------------------------------
+CREATE TABLE communication_log (
+    id bigserial NOT NULL,
+    insert_fingerprint VARCHAR (64) NULL,
+    transport VARCHAR (200) NOT NULL,
+    direction VARCHAR (200) NOT NULL,
+    status VARCHAR (200) NOT NULL,
+    account_type VARCHAR (200) NULL,
+    account_id VARCHAR (200) NULL,
+    start_time timestamp(0) NOT NULL,
+    end_time timestamp(0) NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_direction')
+    ) THEN
+    CREATE INDEX communication_direction ON communication_log (direction);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_status')
+    ) THEN
+    CREATE INDEX communication_status ON communication_log (status);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_transport')
+    ) THEN
+    CREATE INDEX communication_transport ON communication_log (transport);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table communication_log_object
+-- ----------------------------------------------------------
+CREATE TABLE communication_log_object (
+    id bigserial NOT NULL,
+    insert_fingerprint VARCHAR (64) NULL,
+    communication_id BIGINT NOT NULL,
+    object_type VARCHAR (50) NOT NULL,
+    status VARCHAR (200) NOT NULL,
+    start_time timestamp(0) NOT NULL,
+    end_time timestamp(0) NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_log_object_object_type')
+    ) THEN
+    CREATE INDEX communication_log_object_object_type ON communication_log_object (object_type);
+END IF;
+END$$;
+;
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_log_object_status')
+    ) THEN
+    CREATE INDEX communication_log_object_status ON communication_log_object (status);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table communication_log_object_entry
+-- ----------------------------------------------------------
+CREATE TABLE communication_log_object_entry (
+    id bigserial NOT NULL,
+    communication_log_object_id BIGINT NOT NULL,
+    log_key VARCHAR (200) NOT NULL,
+    log_value VARCHAR NOT NULL,
+    priority VARCHAR (50) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_log_object_entry_key')
+    ) THEN
+    CREATE INDEX communication_log_object_entry_key ON communication_log_object_entry (log_key);
+END IF;
+END$$;
+;
+-- ----------------------------------------------------------
+--  create table communication_log_obj_lookup
+-- ----------------------------------------------------------
+CREATE TABLE communication_log_obj_lookup (
+    id bigserial NOT NULL,
+    communication_log_object_id BIGINT NOT NULL,
+    object_type VARCHAR (200) NOT NULL,
+    object_id BIGINT NOT NULL,
+    PRIMARY KEY(id)
+);
+DO $$
+BEGIN
+IF NOT EXISTS (
+    SELECT 1
+    FROM pg_indexes
+    WHERE LOWER(indexname) = LOWER('communication_log_obj_lookup_target')
+    ) THEN
+    CREATE INDEX communication_log_obj_lookup_target ON communication_log_obj_lookup (object_type, object_id);
 END IF;
 END$$;
 ;

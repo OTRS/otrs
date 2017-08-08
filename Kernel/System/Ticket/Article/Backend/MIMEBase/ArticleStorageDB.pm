@@ -197,7 +197,6 @@ sub ArticleWriteAttachment {
     my %UsedFile;
     my %Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
     );
 
     for my $IndexFile ( sort keys %Index ) {
@@ -393,7 +392,7 @@ sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Item (qw(ArticleID FileID UserID)) {
+    for my $Item (qw(ArticleID FileID)) {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -410,7 +409,6 @@ sub ArticleAttachment {
     # get attachment index
     my %Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
     );
 
     return if !$Index{ $Param{FileID} };

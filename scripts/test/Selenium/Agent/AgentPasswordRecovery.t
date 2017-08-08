@@ -22,6 +22,44 @@ $Selenium->RunTest(
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
         my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
+        my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+        my %MailQueueCurrentItems = map { $_->{ID} => $_ } @{ $MailQueueObject->List() || [] };
+
+        my $MailQueueClean = sub {
+            my $Items = $MailQueueObject->List();
+            MAIL_QUEUE_ITEM:
+            for my $Item ( @{$Items} ) {
+                next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+                $MailQueueObject->Delete(
+                    ID => $Item->{ID},
+                );
+            }
+
+            return;
+        };
+
+        my $MailQueueProcess = sub {
+            my %Param = @_;
+
+            my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
+
+            # Process all items except the ones already present before the tests.
+            my $Items = $MailQueueObject->List();
+            MAIL_QUEUE_ITEM:
+            for my $Item ( @{$Items} ) {
+                next MAIL_QUEUE_ITEM if $MailQueueCurrentItems{ $Item->{ID} };
+                $MailQueueObject->Send( %{$Item} );
+            }
+
+            # Clean any garbage
+            $MailQueueClean->();
+
+            return;
+        };
+
+        # Make sure we start with a clean mail queue.
+        $MailQueueClean->();
 
         # use test email backend
         $Helper->ConfigSettingChange(
@@ -81,6 +119,9 @@ $Selenium->RunTest(
             "Password recovery message found on screen for valid user",
         );
 
+        # Really send the emails
+        $MailQueueProcess->();
+
         # check if password recovery email is sent to valid user
         my $Emails = $TestEmailObject->EmailsGet();
         $Self->Is(
@@ -139,6 +180,9 @@ $Selenium->RunTest(
             $Selenium->find_element( "#LoginBox p.Error", 'css' ),
             "Password recovery message found on screen for invalid user",
         );
+
+        # Really send the emails
+        $MailQueueProcess->();
 
         # check if password recovery email is sent to invalid user
         $Emails = $TestEmailObject->EmailsGet();

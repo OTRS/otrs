@@ -24,6 +24,11 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => '0',
+);
+
 # force rich text editor
 my $Success = $ConfigObject->Set(
     Key   => 'Frontend::RichText',

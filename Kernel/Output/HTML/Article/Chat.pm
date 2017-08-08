@@ -37,7 +37,6 @@ Returns common article fields for a Chat article.
     my %ArticleFields = $ChatObject->ArticleFields(
         TicketID  => 123,   # (required)
         ArticleID => 123,   # (required)
-        UserID    => 123,   # (required)
     );
 
 Returns:
@@ -62,7 +61,7 @@ sub ArticleFields {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -142,11 +141,10 @@ sub ArticleFields {
 Returns article preview for a Chat article.
 
     $ArticleBaseObject->ArticlePreview(
-        TicketID    => 123,     # (required)
-        ArticleID   => 123,     # (required)
-        ResultType  => 'plain', # (optional) plain|HTML. Default HTML.
-        MaxLength   => 50,      # (optional) performs trimming (for plain result only)
-        UserID      => 123,     # (required)
+        TicketID   => 123,     # (required)
+        ArticleID  => 123,     # (required)
+        ResultType => 'plain', # (optional) plain|HTML. Default HTML.
+        MaxLength  => 50,      # (optional) performs trimming (for plain result only)
     );
 
 Returns article preview in scalar form:
@@ -159,7 +157,7 @@ sub ArticlePreview {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',

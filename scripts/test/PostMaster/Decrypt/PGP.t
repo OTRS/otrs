@@ -199,10 +199,22 @@ my $Email = $MainObject->FileRead(
     Result   => 'ARRAY',
 );
 
+my $CommunicationLogObject = $Kernel::OM->Create(
+    'Kernel::System::CommunicationLog',
+    ObjectParams => {
+        Transport => 'Email',
+        Direction => 'Incoming',
+        Start     => 1,
+        }
+);
+my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+
 # Part where StoreDecryptedBody is enabled
 my $PostMasterObject = Kernel::System::PostMaster->new(
-    Email   => $Email,
-    Trusted => 1,
+    CommunicationLogObject    => $CommunicationLogObject,
+    CommunicationLogMessageID => $MessageID,
+    Email                     => $Email,
+    Trusted                   => 1,
 );
 
 $ConfigObject->Set(
@@ -259,10 +271,7 @@ $Self->Is(
     "Ticket created in $Ticket{Queue}",
 );
 
-my %FirstArticle = $ArticleBackendObject->ArticleGet(
-    %{ $ArticleIndex[0] },
-    UserID => 1,
-);
+my %FirstArticle = $ArticleBackendObject->ArticleGet( %{ $ArticleIndex[0] } );
 
 my $GetBody = $FirstArticle{Body};
 chomp($GetBody);
@@ -281,8 +290,10 @@ $Email = $MainObject->FileRead(
 
 # Part where StoreDecryptedBody is disabled
 $PostMasterObject = Kernel::System::PostMaster->new(
-    Email   => $Email,
-    Trusted => 1,
+    CommunicationLogObject    => $CommunicationLogObject,
+    CommunicationLogMessageID => $MessageID,
+    Email                     => $Email,
+    Trusted                   => 1,
 );
 
 $ConfigObject->Set(
@@ -316,6 +327,15 @@ $Self->True(
     "Create new ticket (TicketID)",
 );
 
+$CommunicationLogObject->ObjectLogStop(
+    ObjectType => 'Message',
+    ObjectID   => $MessageID,
+    Status     => 'Successful',
+);
+$CommunicationLogObject->CommunicationStop(
+    Status => 'Successful',
+);
+
 my $TicketIDEncrypted = $Return[1];
 
 my %TicketEncrypted = $TicketObject->TicketGet(
@@ -333,10 +353,7 @@ $Self->Is(
     "Ticket created in $TicketEncrypted{Queue}",
 );
 
-my %FirstArticleEncrypted = $ArticleBackendObject->ArticleGet(
-    %{ $ArticleIndexEncrypted[0] },
-    UserID => 1,
-);
+my %FirstArticleEncrypted = $ArticleBackendObject->ArticleGet( %{ $ArticleIndexEncrypted[0] } );
 
 my $GetBodyEncrypted = $FirstArticleEncrypted{Body};
 

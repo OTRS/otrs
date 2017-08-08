@@ -259,7 +259,6 @@ sub Form {
             TicketID      => $Self->{TicketID},
             ArticleID     => $GetParam{ArticleID},
             DynamicFields => 1,
-            UserID        => $Self->{UserID},
         );
 
         # Check if article exists.
@@ -304,7 +303,6 @@ sub Form {
             %Data = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                 %{$Article},
                 DynamicFields => 1,
-                UserID        => $Self->{UserID},
             );
         }
     }

@@ -400,7 +400,6 @@ sub Run {
             %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
                 %{$Article},
                 DynamicFields => 1,
-                UserID        => $Self->{UserID},
             );
         }
 

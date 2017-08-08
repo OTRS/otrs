@@ -365,14 +365,12 @@ sub _Show {
             TicketID      => $Param{TicketID},
             ArticleID     => $Article->{ArticleID},
             DynamicFields => 0,
-            UserID        => $Self->{UserID},
         );
         %ArticleData = ( %ArticleData, %Ticket );
 
         my %ArticleFields = $LayoutObject->ArticleFields(
             TicketID  => $Param{TicketID},
             ArticleID => $Article->{ArticleID},
-            UserID    => $Self->{UserID},
         );
 
         $ArticleData{ArticleFields} = \%ArticleFields;

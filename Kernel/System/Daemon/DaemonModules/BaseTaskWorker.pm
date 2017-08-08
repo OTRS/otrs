@@ -69,7 +69,8 @@ sub _HandleError {
             Body     => $Param{ErrorMessage},
         );
 
-        return $Sent;
+        return 1 if $Sent->{Success};
+        return;
     }
 
     return;

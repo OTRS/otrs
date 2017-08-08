@@ -1356,10 +1356,7 @@ sub _MaskRun {
             );
             my %Article;
             for my $Article (@Articles) {
-                %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet(
-                    %{$Article},
-                    UserID => $Self->{UserID},
-                );
+                %Article = $ArticleObject->BackendForArticle( %{$Article} )->ArticleGet( %{$Article} );
             }
 
             my %Data = ( %Ticket, %Article );

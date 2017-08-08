@@ -453,11 +453,26 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                 $Element.val(CustomerValue);
 
-                if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') {
+                if (
+                    Core.Config.Get('Action') === 'AgentTicketEmail'
+                    || Core.Config.Get('Action') === 'AgentTicketCompose'
+                    || Core.Config.Get('Action') === 'AgentTicketForward'
+                    || Core.Config.Get('Action') === 'AgentTicketEmailOutbound'
+                    || Core.Config.Get('Action') === 'AgentTicketEmailResend'
+                    )
+                {
                     $Element.val('');
                 }
 
-                if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward' && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound') {
+                if (
+                    Core.Config.Get('Action') !== 'AgentTicketPhone'
+                    && Core.Config.Get('Action') !== 'AgentTicketEmail'
+                    && Core.Config.Get('Action') !== 'AgentTicketCompose'
+                    && Core.Config.Get('Action') !== 'AgentTicketForward'
+                    && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound'
+                    && Core.Config.Get('Action') !== 'AgentTicketEmailResend'
+                    )
+                {
                     // set hidden field SelectedCustomerUser
                     $('#SelectedCustomerUser').val(CustomerKey);
 
@@ -486,13 +501,15 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             }, 'CustomerSearch');
 
             if (
-                Core.Config.Get('Action') !== 'AgentTicketCustomer' &&
-                Core.Config.Get('Action') !== 'AgentTicketPhone' &&
-                Core.Config.Get('Action') !== 'AgentTicketEmail' &&
-                Core.Config.Get('Action') !== 'AgentTicketCompose' &&
-                Core.Config.Get('Action') !== 'AgentTicketForward' &&
-                Core.Config.Get('Action') !== 'AgentTicketEmailOutbound'
-                ) {
+                Core.Config.Get('Action') !== 'AgentTicketCustomer'
+                && Core.Config.Get('Action') !== 'AgentTicketPhone'
+                && Core.Config.Get('Action') !== 'AgentTicketEmail'
+                && Core.Config.Get('Action') !== 'AgentTicketCompose'
+                && Core.Config.Get('Action') !== 'AgentTicketForward'
+                && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound'
+                && Core.Config.Get('Action') !== 'AgentTicketEmailResend'
+                )
+            {
                 $Element.blur(function () {
                     var FieldValue = $(this).val();
                     if (FieldValue !== BackupData.CustomerEmail && FieldValue !== BackupData.CustomerKey) {
@@ -552,6 +569,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             CustomerTicketCounter = $('#CustomerTicketCounter' + Field).val(),
             TicketCustomerIDs = 0,
             IsDuplicated = false,
+            IsFocused = ($(document.activeElement).attr('id') == Field),
             Suffix;
 
         if (typeof CustomerKey !== 'undefined') {
@@ -654,13 +672,28 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             }
         }
 
-        // return value to search field
-        $('#' + Field).val('').focus();
+        // Return the value to the search field.
+        $('#' + Field).val('');
+
+        // Re-focus the field, but only if it was previously focused.
+        if (IsFocused) {
+            $('#' + Field).focus();
+        }
 
         CheckPhoneCustomerCountLimit();
 
-        // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
-        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') && $('#CryptKeyID').length) {
+        // Reload Crypt options on specific screens.
+        if (
+            (
+                Core.Config.Get('Action') === 'AgentTicketEmail'
+                || Core.Config.Get('Action') === 'AgentTicketCompose'
+                || Core.Config.Get('Action') === 'AgentTicketForward'
+                || Core.Config.Get('Action') === 'AgentTicketEmailOutbound'
+                || Core.Config.Get('Action') === 'AgentTicketEmailResend'
+            )
+            && $('#CryptKeyID').length
+            )
+        {
             Core.AJAX.FormUpdate($('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
         }
 
@@ -691,7 +724,14 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $Field = Object.closest('.Field'),
         $Form;
 
-        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') {
+        if (
+            Core.Config.Get('Action') === 'AgentTicketEmail'
+            || Core.Config.Get('Action') === 'AgentTicketCompose'
+            || Core.Config.Get('Action') === 'AgentTicketForward'
+            || Core.Config.Get('Action') === 'AgentTicketEmailOutbound'
+            || Core.Config.Get('Action') === 'AgentTicketEmailResend'
+            )
+        {
             $Form = Object.closest('form');
         }
         Object.parent().remove();
@@ -700,8 +740,18 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             TargetNS.ResetCustomerInfo();
         }
 
-        // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
-        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') && $('#CryptKeyID').length) {
+        // Reload Crypt options on specific screens.
+        if (
+            (
+                Core.Config.Get('Action') === 'AgentTicketEmail'
+                || Core.Config.Get('Action') === 'AgentTicketCompose'
+                || Core.Config.Get('Action') === 'AgentTicketForward'
+                || Core.Config.Get('Action') === 'AgentTicketEmailOutbound'
+                || Core.Config.Get('Action') === 'AgentTicketEmailResend'
+            )
+            && $('#CryptKeyID').length
+            )
+        {
             Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
         }
 

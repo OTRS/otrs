@@ -61,6 +61,7 @@ my @ArticleTests = (
             From                 => $SmallEmail,
             To                   => $SmallEmail,
             Cc                   => $SmallEmail,
+            Bcc                  => $SmallEmail,
             ReplyTo              => $SmallEmail,
             MessageID            => $SmallReference,
             References           => $SmallReference,
@@ -83,6 +84,7 @@ my @ArticleTests = (
             From                 => $MediumEmail,
             To                   => $MediumEmail,
             Cc                   => $MediumEmail,
+            Bcc                  => $MediumEmail,
             ReplyTo              => $MediumEmail,
             MessageID            => $SmallReference,
             References           => $MediumReference,
@@ -105,6 +107,7 @@ my @ArticleTests = (
             From                 => $LargeEmail,
             To                   => $LargeEmail,
             Cc                   => $LargeEmail,
+            Bcc                  => $LargeEmail,
             ReplyTo              => $LargeEmail,
             MessageID            => $SmallReference,
             References           => $LargeReference,
@@ -142,7 +145,6 @@ for my $Test (@ArticleTests) {
     my %Article = $ArticleInternalObject->ArticleGet(
         TicketID  => $TicketID,
         ArticleID => $ArticleID,
-        UserID    => 1,
     );
 
     KEY:

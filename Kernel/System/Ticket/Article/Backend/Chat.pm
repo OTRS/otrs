@@ -277,10 +277,9 @@ sub ArticleCreate {
 Returns single article data.
 
     my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID       => 123,   # (required)
-        ArticleID      => 123,   # (required)
-        DynamicFields  => 1,     # (optional) To include the dynamic field values for this article on the return structure.
-        UserID         => 123,   # (required)
+        TicketID      => 123,   # (required)
+        ArticleID     => 123,   # (required)
+        DynamicFields => 1,     # (optional) To include the dynamic field values for this article on the return structure.
     );
 
 Returns:
@@ -314,7 +313,7 @@ Returns:
 sub ArticleGet {
     my ( $Self, %Param ) = @_;
 
-    for my $Item (qw(TicketID ArticleID UserID)) {
+    for my $Item (qw(TicketID ArticleID)) {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',

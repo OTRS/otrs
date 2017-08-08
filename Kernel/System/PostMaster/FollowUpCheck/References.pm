@@ -27,11 +27,23 @@ sub new {
 
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject";
 
+    # get communication log object and MessageID
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    $Self->{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Self->{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::PostMaster::FollowUpCheck::References',
+        Value      => 'Searching for TicketID in email references.',
+    );
 
     my @References = $Self->{ParserObject}->GetReferences();
     return if !@References;
@@ -44,10 +56,18 @@ sub Run {
 
         my %Article = $ArticleBackendObject->ArticleGetByMessageID(
             MessageID => "<$Reference>",
-            UserID    => $Param{UserID},
         );
 
         if (%Article) {
+
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Debug',
+                Key        => 'Kernel::System::PostMaster::FollowUpCheck::References',
+                Value      => "Found valid TicketID '$Article{TicketID}' in email references.",
+            );
+
             return $Article{TicketID};
         }
     }

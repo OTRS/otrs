@@ -651,7 +651,6 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
     my %Attachment = $ArticleBackendObject->ArticleAttachment(
         ArticleID => $ArticleID,
         FileID    => 1,
-        UserID    => 1,
     );
 
     @XMLHash = $XMLObject->XMLParse2XMLHash( String => $Attachment{Content} );

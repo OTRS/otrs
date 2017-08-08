@@ -13,6 +13,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::CommunicationLog',
     'Kernel::System::Encode',
     'Kernel::System::Log',
 );
@@ -27,20 +28,59 @@ sub new {
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
 
+    $Self->{Type} = 'Sendmail';
+
     return $Self;
 }
 
 sub Send {
     my ( $Self, %Param ) = @_;
 
+    my $SendSuccess = sub { return { Success => 1, @_, }; };
+    my $SendError = sub {
+        my %Param = @_;
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => $Param{ErrorMessage},
+        );
+
+        $Param{CommunicationLogObject}->ObjectLogStop(
+            ObjectType => 'Connection',
+            ObjectID   => $Param{ConnectionID},
+            Status     => 'Failed',
+        );
+
+        return {
+            Success => 0,
+            %Param,
+        };
+    };
+
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Param{CommunicationLogMessageID},
+        Priority   => 'Info',
+        Key        => 'Kernel::System::Email::Sendmail',
+        Value      => 'Received message for sending, validating message contents.',
+    );
+
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
+            my $ErrorMsg = "Need $_!";
+
+            $Param{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Param{CommunicationLogMessageID},
+                Priority   => 'Error',
+                Key        => 'Kernel::System::Email::Sendmail',
+                Value      => $ErrorMsg,
             );
-            return;
+
+            return $SendError->(
+                ErrorMessage => $ErrorMsg,
+            );
         }
     }
 
@@ -60,15 +100,41 @@ sub Send {
         $Arg .= ' ' . quotemeta($To);
     }
 
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Message',
+        ObjectID   => $Param{CommunicationLogMessageID},
+        Priority   => 'Debug',
+        Key        => 'Kernel::System::Email::Sendmail',
+        Value      => 'Checking availability of sendmail command.',
+    );
+
     # check availability
     my %Result = $Self->Check();
-    if ( !$Result{Successful} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $Result{Message},
+
+    if ( !$Result{Success} ) {
+
+        $Param{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Message',
+            ObjectID   => $Param{CommunicationLogMessageID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::Email::Sendmail',
+            Value      => "Sendmail check error: $Result{ErrorMessage}",
         );
-        return;
+
+        return $SendError->( %Result, );
     }
+
+    $Param{ConnectionID} = $Param{CommunicationLogObject}->ObjectLogStart(
+        ObjectType => 'Connection',
+    );
+
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Connection',
+        ObjectID   => $Param{ConnectionID},
+        Priority   => 'Info',
+        Key        => 'Kernel::System::Email::Sendmail',
+        Value      => "Sending email from '$Param{From}' to '$ToString'.",
+    );
 
     # set sendmail binary
     my $Sendmail = $Result{Sendmail};
@@ -79,14 +145,23 @@ sub Send {
 
     # invoke sendmail in order to send off mail, catching errors in a temporary file
     my $FH;
+    my $GenErrorMessage = sub { return sprintf( q{Can't send message: %s!}, shift, ); };
     ## no critic
     if ( !open( $FH, '|-', "$Sendmail $Arg " ) ) {
         ## use critic
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't send message: $!!",
+        my $ErrorMessage = $GenErrorMessage->($!);
+
+        $Param{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Connection',
+            ObjectID   => $Param{ConnectionID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::Email::Sendmail',
+            Value      => "Error during message sending: $ErrorMessage",
         );
-        return;
+
+        return $SendError->(
+            ErrorMessage => $ErrorMessage,
+        );
     }
 
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -104,22 +179,36 @@ sub Send {
     # Check if the filehandle was already closed because of an error
     #   (e. g. mail too large). See bug#9251.
     if ( !close($FH) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't send message: $!!",
+        my $ErrorMessage = $GenErrorMessage->($!);
+
+        $Param{CommunicationLogObject}->ObjectLog(
+            ObjectType => 'Connection',
+            ObjectID   => $Param{ConnectionID},
+            Priority   => 'Error',
+            Key        => 'Kernel::System::Email::Sendmail',
+            Value      => "Error during message sending: $ErrorMessage",
         );
-        return;
+
+        return $SendError->(
+            ErrorMessage => $ErrorMessage,
+        );
     }
 
-    # debug
-    if ( $Self->{Debug} > 2 ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "Sent email to '$ToString' from '$Param{From}'.",
-        );
-    }
+    $Param{CommunicationLogObject}->ObjectLog(
+        ObjectType => 'Connection',
+        ObjectID   => $Param{ConnectionID},
+        Priority   => 'Info',
+        Key        => 'Kernel::System::Email::Sendmail',
+        Value      => "Email successfully sent from '$Param{From}' to '$ToString'!",
+    );
 
-    return 1;
+    $Param{CommunicationLogObject}->ObjectLogStop(
+        ObjectType => 'Connection',
+        ObjectID   => $Param{ConnectionID},
+        Status     => 'Successful',
+    );
+
+    return $SendSuccess->();
 }
 
 sub Check {
@@ -133,16 +222,15 @@ sub Check {
     $SendmailBinary =~ s/^(.+?)\s.+?$/$1/;
     if ( !-f $SendmailBinary ) {
         return (
-            Successful => 0,
-            Message    => "No such binary: $SendmailBinary!"
+            Success      => 0,
+            ErrorMessage => "No such binary: $SendmailBinary!"
         );
     }
-    else {
-        return (
-            Successful => 1,
-            Sendmail   => $Sendmail
-        );
-    }
+
+    return (
+        Success  => 1,
+        Sendmail => $Sendmail,
+    );
 }
 
 1;

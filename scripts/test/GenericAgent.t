@@ -387,10 +387,7 @@ my @MetaArticles  = $ArticleObject->ArticleList(
     UserID   => 1,
 );
 
-my %NoteArticle = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet(
-    %{ $MetaArticles[0] },
-    UserID => 1,
-);
+my %NoteArticle = $ArticleObject->BackendForArticle( %{ $MetaArticles[0] } )->ArticleGet( %{ $MetaArticles[0] } );
 
 $Self->Is(
     $NoteArticle{From},
