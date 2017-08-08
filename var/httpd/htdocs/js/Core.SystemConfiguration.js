@@ -1585,6 +1585,11 @@ var Core = Core || {};
                 Core.UI.InputFields.InitSelect(
                     $(".SettingsList .Modernize")
                 );
+
+                // scroll to top to see all the settings from the current node
+                $('html, body').animate({
+                    scrollTop: $('.ContentColumn .WidgetSimple').first().position().top
+                }, 'fast');
             }, 'html'
         );
 
