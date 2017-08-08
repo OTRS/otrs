@@ -11,8 +11,6 @@ package Kernel::System::Console::Command::Maint::Ticket::FulltextIndex;
 use strict;
 use warnings;
 
-use Time::HiRes();
-
 use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
