@@ -79,6 +79,7 @@ ActivityDialogs:
       - Queue
       - Article
       - DynamicField_TestDropdownACLProcess
+      - Type
       Fields:
         Article:
           Config:
@@ -97,6 +98,11 @@ ActivityDialogs:
           DescriptionLong: ''
           DescriptionShort: ''
           Display: '1'
+        Type:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
       Interface:
       - AgentInterface
       - CustomerInterface
