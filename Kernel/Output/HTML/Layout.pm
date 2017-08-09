@@ -686,7 +686,7 @@ sub Login {
         $Self->{SetCookies}->{OTRSBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
             Key      => 'OTRSBrowserHasCookie',
             Value    => 1,
-            Expires  => '1y',
+            Expires  => '+1y',
             Path     => $ConfigObject->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
             HttpOnly => 1,
@@ -3619,7 +3619,7 @@ sub CustomerLogin {
         $Self->{SetCookies}->{OTRSBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
             Key      => 'OTRSBrowserHasCookie',
             Value    => 1,
-            Expires  => '1y',
+            Expires  => '+1y',
             Path     => $ConfigObject->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
             HttpOnly => 1,
