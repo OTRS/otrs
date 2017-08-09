@@ -374,6 +374,11 @@ form fieldset {
     border: none;
 }
 
+.TableLikeOverflow {
+    overflow: auto;
+    line-height: initial;
+}
+
 fieldset > legend {
     display: block;
     width: 100%;
