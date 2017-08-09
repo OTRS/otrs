@@ -115,10 +115,8 @@ sub TicketNumberCounterAdd {
 
     # It's strange, but this sleep seems to be needed to make sure that other database sessions also see this record.
     #   Without it, there were race conditions because the fillup of unset values below didn't find records that other
-    #   sessions already inserted (MySQL).
-    if ($DBObject->GetDatabaseFunction('Type') eq 'mysql') {
-        Time::HiRes::sleep(0.1);
-    }
+    #   sessions already inserted.
+    Time::HiRes::sleep(0.1);
 
     # Get the ID of the just inserted ticket counter.
     return if !$DBObject->Prepare(
@@ -161,8 +159,8 @@ sub TicketNumberCounterAdd {
         ORDER BY id ASC";
 
     return if !$DBObject->Prepare(
-        SQL => $SQL,
-        Bind => [\$CounterID]
+        SQL  => $SQL,
+        Bind => [ \$CounterID ]
     );
 
     my @UnsetCounterIDs;
