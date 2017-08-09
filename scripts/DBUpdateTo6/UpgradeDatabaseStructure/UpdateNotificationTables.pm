@@ -53,7 +53,6 @@ sub Run {
     if ( !$Exists ) {
         push @XMLStrings,
             '<Insert Table="notification_event">
-                <Data Key="id" Type="AutoIncrement">15</Data>
                 <Data Key="name" Type="Quote" Translatable="1">Ticket email delivery failure notification</Data>
                 <Data Key="valid_id">1</Data>
                 <Data Key="comments" Type="Quote"></Data>
