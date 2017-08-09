@@ -113,6 +113,28 @@ sub TicketNumberCounterAdd {
         Bind => [ \$CounterUID, \$CurrentTimeString ],
     );
 
+    # It's strange, but this sleep seems to be needed to make sure that other database sessions also see this record.
+    #   Without it, there were race conditions because the fillup of unset values below didn't find records that other
+    #   sessions already inserted (MySQL).
+    if ($DBObject->GetDatabaseFunction('Type') eq 'mysql') {
+        Time::HiRes::sleep(0.1);
+    }
+
+    # Get the ID of the just inserted ticket counter.
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT id
+            FROM ticket_number_counter
+            WHERE counter_uid = ?',
+        Bind  => [ \$CounterUID ],
+        Limit => 1,
+    );
+
+    my $CounterID;
+    while ( my @Data = $DBObject->FetchrowArray() ) {
+        $CounterID = $Data[0];
+    }
+
     # Calculate the counter values for all records that don't have a generated value yet.
     #   This is safe even if multiple processes access the records at the same time.
 
@@ -134,11 +156,13 @@ sub TicketNumberCounterAdd {
         SELECT id
         FROM ticket_number_counter
         WHERE counter = 0
+            AND id <= ?
             $DateConditionSQL
         ORDER BY id ASC";
 
     return if !$DBObject->Prepare(
         SQL => $SQL,
+        Bind => [\$CounterID]
     );
 
     my @UnsetCounterIDs;
@@ -149,7 +173,7 @@ sub TicketNumberCounterAdd {
     }
 
     my $SetOffset;
-    for my $CounterID (@UnsetCounterIDs) {
+    for my $UnsetCounterID (@UnsetCounterIDs) {
 
         # Get previous counter record value (tolerate gaps).
         my $PreviousCounter = 0;
@@ -161,7 +185,7 @@ sub TicketNumberCounterAdd {
             WHERE id < ?
                 $DateConditionSQL
             ORDER BY id DESC",
-            Bind  => [ \$CounterID ],
+            Bind  => [ \$UnsetCounterID ],
             Limit => 1,
         );
 
@@ -183,7 +207,7 @@ sub TicketNumberCounterAdd {
                 SET counter = ?
                 WHERE id = ?
                     AND counter = 0',
-            Bind => [ \$NewCounter, \$CounterID ],
+            Bind => [ \$NewCounter, \$UnsetCounterID ],
         );
     }
 
