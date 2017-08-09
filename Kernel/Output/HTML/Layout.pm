@@ -4499,7 +4499,7 @@ sub _BuildSelectionDataRefCreate {
 
         # get missing parents and mark them for disable later
         if ( $OptionRef->{Sort} eq 'TreeView' ) {
-            my %List = reverse %{$DataLocal};
+            my %List = reverse %{ $DataLocal || {} };
 
             # get each data value
             for my $Key ( sort keys %List ) {
@@ -4562,8 +4562,10 @@ sub _BuildSelectionDataRefCreate {
 
             # add suffix for correct sorting
             my %SortHash;
-            for ( sort keys %{$DataLocal} ) {
-                $SortHash{$_} = $DataLocal->{$_} . '::';
+            KEY:
+            for my $Key ( sort keys %{$DataLocal} ) {
+                next KEY if !defined $DataLocal->{$Key};
+                $SortHash{$Key} = $DataLocal->{$Key} . '::';
             }
             @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
         }
@@ -4770,7 +4772,7 @@ sub _BuildSelectionDataRefCreate {
         )
     {
         for my $Row ( @{$DataRef} ) {
-            if ( $DisabledElements{ $Row->{Value} } ) {
+            if ( defined $Row->{Value} && $DisabledElements{ $Row->{Value} } ) {
                 $Row->{Key}      = '-';
                 $Row->{Disabled} = 1;
             }
@@ -4793,10 +4795,21 @@ sub _BuildSelectionDataRefCreate {
         for my $Row ( @{$DataRef} ) {
             if (
                 (
-                    $OptionRef->{SelectedID}->{ $Row->{Key} }
-                    || $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                    (
+                        defined $Row->{Key}
+                        && $OptionRef->{SelectedID}->{ $Row->{Key} }
+                    )
+                    ||
+                    (
+                        defined $Row->{Value}
+                        && $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                    )
                 )
-                && !$DisabledElements{ $Row->{Value} }
+                &&
+                (
+                    defined $Row->{Value}
+                    && !$DisabledElements{ $Row->{Value} }
+                )
                 )
             {
                 $Row->{Selected} = 1;
