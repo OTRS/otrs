@@ -610,6 +610,7 @@ sub Run {
             Data         => {
                 ManualVersion => $ManualVersion,
                 SettingCount  => scalar @SettingList,
+                OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
                 %OutputData,
             },
         );

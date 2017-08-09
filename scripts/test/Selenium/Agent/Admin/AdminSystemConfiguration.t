@@ -3187,7 +3187,23 @@ $Selenium->RunTest(
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AdminSysConfig screen
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration");
+
+        my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+        my $OBTeaserFound           = index( $Selenium->get_page_source(), 'supports versioning, rollback and' ) > -1;
+        if ( !$OTRSBusinessIsInstalled ) {
+            $Self->True(
+                $OBTeaserFound,
+                "OTRSBusiness teaser found on page",
+            );
+        }
+        else {
+            $Self->False(
+                $OBTeaserFound,
+                "OTRSBusiness teaser not found on page",
+            );
+        }
+
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfigurationGroup;RootNavigation=Sample;");
 
         my $SelectedItem;

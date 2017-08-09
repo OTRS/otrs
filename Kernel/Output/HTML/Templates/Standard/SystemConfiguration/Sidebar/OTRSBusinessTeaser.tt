@@ -1,0 +1,19 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% IF !Data.OTRSBusinessIsInstalled %]
+<div class="WidgetSimple">
+    <div class="Header"><h2>[% Translate("Did you know?") | html %]</h2></div>
+    <div class="Content">
+        [% SET OTRSBusinessLabel = '<strong><a href="#" class="OTRSBusinessRequired">OTRS Business Solution</a></strong>™'; %]
+        <p class="FieldExplanation">
+            [% Translate("With %s, System Configuration supports versioning, rollback and user-specific configuration settings.", OTRSBusinessLabel) %]
+        </p>
+    </div>
+</div>
+[% END %]

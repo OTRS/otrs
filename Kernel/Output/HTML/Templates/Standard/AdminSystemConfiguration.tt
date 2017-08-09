@@ -39,6 +39,7 @@
         [% END %]
         [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
         [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
+        [% INCLUDE "SystemConfiguration/Sidebar/OTRSBusinessTeaser.tt" %]
     </div>
 
     <div class="ContentColumn">
