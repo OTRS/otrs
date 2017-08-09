@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-09 Removed RHEL6 spec files as it is not supported with OTRS 6 (Perl version too old).
  - 2017-08-09 Fixed bug#[13000](https://bugs.otrs.org/show_bug.cgi?id=13000) - Error message in the log when changing out of office time in user preferences.
  - 2017-08-09 Fixed bug#[13005](https://bugs.otrs.org/show_bug.cgi?id=13005) - Enable Ticket Service link is broken.
  - 2017-08-09 Fixed bug#[12970](https://bugs.otrs.org/show_bug.cgi?id=12970) - Issue with text overflow and scroll.

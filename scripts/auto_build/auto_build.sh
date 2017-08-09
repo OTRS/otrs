@@ -174,7 +174,6 @@ CreateRPM "SuSE 13"   "suse13-otrs.spec"   "suse/13/"
 CreateRPM "Fedora 20" "fedora20-otrs.spec" "fedora/20/"
 CreateRPM "Fedora 21" "fedora21-otrs.spec" "fedora/21/"
 CreateRPM "Fedora 22" "fedora22-otrs.spec" "fedora/22/"
-CreateRPM "RHEL 6"    "rhel6-otrs.spec"    "rhel/6"
 CreateRPM "RHEL 7"    "rhel7-otrs.spec"    "rhel/7"
 
 echo "-----------------------------------------------------------------";
