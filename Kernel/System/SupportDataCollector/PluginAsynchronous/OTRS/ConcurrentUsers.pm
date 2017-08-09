@@ -164,9 +164,6 @@ sub RunAsynchronous {
         }
     }
 
-    # get all sessions
-    my @Sessions = $AuthSessionObject->GetAllSessionIDs();
-
     # to count the agents and customer user sessions
     my %CountConcurrentUser = (
         TimeStamp             => $TimeStamp,
