@@ -19,11 +19,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'Ticket::EventModulePost',
-    Value => {},
-);
 
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -54,6 +49,11 @@ for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
 
             # Destroy objects.
             $Kernel::OM->ObjectsDiscard();
+
+            $Kernel::OM->Get('Kernel::Config')->Set(
+                Key   => 'Ticket::EventModulePost',
+                Value => {},
+            );
 
             my $TicketNumber
                 = $Kernel::OM->Get("Kernel::System::Ticket::Number::$TicketNumberBackend")->TicketCreateNumber();
