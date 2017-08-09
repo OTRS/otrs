@@ -549,9 +549,6 @@ sub _Edit {
         $LayoutObject->Block( Name => 'HeaderAdd' );
         $LayoutObject->Block( Name => 'MarkerMandatory' );
         $LayoutObject->Block( Name => 'ShowPasswordHint' );
-        $LayoutObject->Block(
-            Name => 'ShowPasswordHint',
-        );
     }
 
     # add the correct server error message
