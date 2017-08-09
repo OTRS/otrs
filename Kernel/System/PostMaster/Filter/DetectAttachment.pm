@@ -1,0 +1,75 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package Kernel::System::PostMaster::Filter::DetectAttachment;
+
+use strict;
+use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+);
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # Allocate new hash for object.
+    my $Self = {};
+    bless( $Self, $Type );
+
+    $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject";
+
+    # Get communication log object and MessageID.
+    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
+    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+
+    return $Self;
+}
+
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(JobConfig GetParam)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectType => 'Message',
+                ObjectID   => $Self->{CommunicationLogMessageID},
+                Priority   => 'Error',
+                Key        => 'Kernel::System::PostMaster::Filter::DetectAttachment',
+                Value      => "Need $Needed!",
+            );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # Get attachments.
+    my @Attachments = $Self->{ParserObject}->GetAttachments();
+
+    my $AttachmentCount = 0;
+    for my $Attachment (@Attachments) {
+        if (
+            defined $Attachment->{ContentDisposition}
+            && length $Attachment->{ContentDisposition}
+            )
+        {
+            $AttachmentCount++;
+        }
+    }
+
+    $Param{GetParam}->{'X-OTRS-AttachmentExists'} = ( $AttachmentCount ? 'yes' : 'no' );
+    $Param{GetParam}->{'X-OTRS-AttachmentCount'} = $AttachmentCount;
+
+    return 1;
+}
+
+1;

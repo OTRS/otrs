@@ -10890,6 +10890,8 @@
                 <Item>Envelope-To</Item>
                 <Item>X-Envelope-To</Item>
                 <Item>Return-Path</Item>
+                <Item>X-OTRS-AttachmentExists</Item>
+                <Item>X-OTRS-AttachmentCount</Item>
                 <Item>X-OTRS-Owner</Item>
                 <Item>X-OTRS-OwnerID</Item>
                 <Item>X-OTRS-Responsible</Item>
@@ -11199,6 +11201,16 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::DetectBounceEmail</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::PreFilterModule###000-DetectAttachment" Required="0" Valid="1">
+        <Description Translatable="1">Module used to detect if attachments are present.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::DetectAttachment</Item>
             </Hash>
         </Setting>
     </ConfigItem>
