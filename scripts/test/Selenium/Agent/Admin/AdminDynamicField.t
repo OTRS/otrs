@@ -93,6 +93,26 @@ $Selenium->RunTest(
             "Breadcrumb is found on Overview screen.",
         );
 
+        my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+        my $OBTeaser                = $LanguageObject->Translate('More Business Fields');
+        my $OBTeaserFound           = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
+        if ( !$OTRSBusinessIsInstalled ) {
+            $Self->True(
+                $OBTeaserFound,
+                "OTRSBusiness teaser found on page",
+            );
+            for my $TeaserOption (qw(Database Webservice ContactWithData)) {
+                $Selenium->find_element( "select#TicketDynamicField option[value=$TeaserOption]", 'css' );
+            }
+
+        }
+        else {
+            $Self->False(
+                $OBTeaserFound,
+                "OTRSBusiness teaser not found on page",
+            );
+        }
+
         # Define variables for breadcrumb.
         my $OverviewTitleBreadcrumb = $LanguageObject->Translate('Dynamic Fields Management');
         my $IDText;

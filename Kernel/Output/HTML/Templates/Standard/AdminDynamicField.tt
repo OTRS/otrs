@@ -6,6 +6,11 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[%
+SET OTRSBusinessLabel     = '<strong><a href="#" class="OTRSBusinessRequired">OTRS Business Solution</a></strong>™';
+%]
+
+
 [% RenderBlockStart("Main") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Dynamic Fields Management") | html %] - [% Translate(Data.Action) | html %]</h1>
@@ -48,6 +53,32 @@
                 <input type="text" id="FilterDynamicFields" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterDynamicFields" value="" title="[% Translate("Filter for dynamic fields") | html %]">
             </div>
         </div>
+
+[% IF !Data.OTRSBusinessIsInstalled %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("More Business Fields") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="FieldExplanation">
+                    <p>
+                        [% Translate("Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:", OTRSBusinessLabel) %]
+                    </p>
+                    <dl>
+                        <dt>[% Translate('Database') %]</dt>
+                        <dd>[% Translate('Use external databases as configurable data sources for this dynamic field.') %]</dd>
+
+                        <dt>[% Translate('Web service') %]</dt>
+                        <dd>[% Translate('External web services can be configured as data sources for this dynamic field.') %]</dd>
+
+                        <dt>[% Translate('Contact with data') %]</dt>
+                        <dd>[% Translate('This feature allows to add (multiple) contacts with data to tickets.') %]</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+[% END %]
+
 
 [% RenderBlockStart("Hint") %]
         <div class="WidgetSimple">
