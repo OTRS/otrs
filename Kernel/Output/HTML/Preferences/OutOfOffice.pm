@@ -105,6 +105,7 @@ sub Run {
         return 1;
     }
     elsif ( $OOOStartDTObject <= $OOOEndDTObject ) {
+        my $SessionID = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{SessionID};
         for my $Key (
             qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
             )
@@ -123,7 +124,7 @@ sub Run {
                 # update SessionID
                 if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
                     $SessionObject->UpdateSessionID(
-                        SessionID => $Self->{SessionID},
+                        SessionID => $SessionID,
                         Key       => $Key,
                         Value     => $Param{$Key},
                     );
@@ -136,7 +137,7 @@ sub Run {
             my %User = $UserObject->GetUserData( UserID => $Self->{UserID} );
 
             $SessionObject->UpdateSessionID(
-                SessionID => $Self->{SessionID},
+                SessionID => $SessionID,
                 Key       => 'UserLastname',
                 Value     => $User{UserLastname},
             );
