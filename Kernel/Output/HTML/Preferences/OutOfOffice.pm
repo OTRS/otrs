@@ -101,7 +101,10 @@ sub Run {
         Data => \%Param
     );
 
-    if ( $OOOStartDTObject <= $OOOEndDTObject ) {
+    if ( !$OOOStartDTObject || !$OOOEndDTObject ) {
+        return 1;
+    }
+    elsif ( $OOOStartDTObject <= $OOOEndDTObject ) {
         for my $Key (
             qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
             )
@@ -167,20 +170,28 @@ sub _GetOutOfOfficeDateTimeObject {
     my $Type = $Param{Type};
     my $Data = $Param{Data};
 
-    my $DTString = sprintf(
-        '%s-%s-%s %s',
-        $Data->{"OutOfOffice${Type}Year"},
-        $Data->{"OutOfOffice${Type}Month"},
-        $Data->{"OutOfOffice${Type}Day"},
-        ( $Type eq 'End' ? '23:59:59' : '00:00:00' ),
-    );
+    my $Year  = $Data->{"OutOfOffice${Type}Year"};
+    my $Month = $Data->{"OutOfOffice${Type}Month"};
+    my $Day   = $Data->{"OutOfOffice${Type}Day"};
 
-    return $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-        ObjectParams => {
-            String => $DTString,
-        },
-    );
+    if ( $Year && $Month && $Day ) {
+        my $DTString = sprintf(
+            '%s-%s-%s %s',
+            $Year,
+            $Month,
+            $Day,
+            ( $Type eq 'End' ? '23:59:59' : '00:00:00' ),
+        );
+
+        return $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $DTString,
+            },
+        );
+    }
+
+    return;
 }
 
 1;

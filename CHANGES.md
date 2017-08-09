@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-09 Fixed bug#[12999](https://bugs.otrs.org/show_bug.cgi?id=12999) - Error when changing user data (agent data) or adding a user in AdminUser.pm.
  - 2017-08-09 Fixed bug#[13001](https://bugs.otrs.org/show_bug.cgi?id=13001) - Duplicated description for the password field in the admin user add screen.
  - 2017-08-09 Fixed bug#[12984](https://bugs.otrs.org/show_bug.cgi?id=12984) - Customer naming convention in link object table.
  - 2017-08-07 Added improvements for the user online dashboard widget.
