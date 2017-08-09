@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-09 Fixed bug#[12984](https://bugs.otrs.org/show_bug.cgi?id=12984) - Customer naming convention in link object table.
  - 2017-08-07 Added improvements for the user online dashboard widget.
  - 2017-08-05 Added Generic Interface operation SessionGet, thanks to Marco Ferrante.
  - 2017-08-04 Added possibility to store unfinished ticket forms as drafts for later reuse.

@@ -18,8 +18,8 @@
 <table class="DataTable">
     <thead>
         <tr>
-            <th>[% Translate("Customer login") | html %]</th>
-            <th>[% Translate("Customer information") | html %]</th>
+            <th>[% Translate("Customer User ID") | html %]</th>
+            <th>[% Translate("Customer user information") | html %]</th>
             <th>[% Translate("Open") | html %]</th>
             <th>[% Translate("Closed") | html %]</th>
 [% RenderBlockStart("OverviewResultNewAgentTicketPhone") %]

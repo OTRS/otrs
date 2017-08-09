@@ -18,7 +18,7 @@
 <table class="DataTable">
     <thead>
         <tr>
-            <th>[% Translate("CustomerID") | html %]</th>
+            <th>[% Translate("Customer ID") | html %]</th>
             <th>[% Translate("Name") | html %]</th>
             <th>[% Translate("Open") | html %]</th>
             <th>[% Translate("Closed") | html %]</th>

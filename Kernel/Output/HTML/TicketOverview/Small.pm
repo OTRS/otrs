@@ -315,7 +315,13 @@ sub ActionRow {
                 $TranslatedWord = Translatable('Pending till');
             }
             elsif ( $Column eq 'CustomerCompanyName' ) {
-                $TranslatedWord = Translatable('Customer Company Name');
+                $TranslatedWord = Translatable('Customer Name');
+            }
+            elsif ( $Column eq 'CustomerID' ) {
+                $TranslatedWord = Translatable('Customer ID');
+            }
+            elsif ( $Column eq 'CustomerName' ) {
+                $TranslatedWord = Translatable('Customer User Name');
             }
             elsif ( $Column eq 'CustomerUserID' ) {
                 $TranslatedWord = Translatable('Customer User ID');
@@ -773,7 +779,13 @@ sub Run {
                 }
 
                 # translate the column name to write it in the current language
-                my $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($Column);
+                my $TranslatedWord;
+                if ( $Column eq 'CustomerID' ) {
+                    $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Customer ID');
+                }
+                else {
+                    $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($Column);
+                }
 
                 my $FilterTitle     = $TranslatedWord;
                 my $FilterTitleDesc = Translatable('filter not active');
@@ -969,7 +981,10 @@ sub Run {
                     $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Pending till');
                 }
                 elsif ( $Column eq 'CustomerCompanyName' ) {
-                    $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Customer Company Name');
+                    $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Customer Name');
+                }
+                elsif ( $Column eq 'CustomerName' ) {
+                    $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Customer User Name');
                 }
                 elsif ( $Column eq 'CustomerUserID' ) {
                     $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Customer User ID');

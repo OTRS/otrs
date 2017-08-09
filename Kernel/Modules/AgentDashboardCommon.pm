@@ -761,7 +761,13 @@ sub Run {
                 $TranslatedWord = Translatable('Pending till');
             }
             elsif ( $Column eq 'CustomerCompanyName' ) {
-                $TranslatedWord = Translatable('Customer Company Name');
+                $TranslatedWord = Translatable('Customer Name');
+            }
+            elsif ( $Column eq 'CustomerID' ) {
+                $TranslatedWord = Translatable('Customer ID');
+            }
+            elsif ( $Column eq 'CustomerName' ) {
+                $TranslatedWord = Translatable('Customer User Name');
             }
             elsif ( $Column eq 'CustomerUserID' ) {
                 $TranslatedWord = Translatable('Customer User ID');

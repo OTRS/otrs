@@ -322,7 +322,13 @@ sub TableCreateComplex {
             $ColumnTranslate = Translatable('Pending till');
         }
         elsif ( $Column eq 'CustomerCompanyName' ) {
-            $ColumnTranslate = Translatable('Customer Company Name');
+            $ColumnTranslate = Translatable('Customer Name');
+        }
+        elsif ( $Column eq 'CustomerID' ) {
+            $ColumnTranslate = Translatable('Customer ID');
+        }
+        elsif ( $Column eq 'CustomerName' ) {
+            $ColumnTranslate = Translatable('Customer User Name');
         }
         elsif ( $Column eq 'CustomerUserID' ) {
             $ColumnTranslate = Translatable('Customer User ID');

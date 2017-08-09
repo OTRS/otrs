@@ -599,7 +599,7 @@ sub GetObjectAttributes {
         }
 
         my %ObjectAttribute = (
-            Name             => Translatable('CustomerID'),
+            Name             => Translatable('Customer ID'),
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
@@ -1648,7 +1648,7 @@ sub _TicketAttributes {
         Priority => 'Priority',
 
         #PriorityID     => 'PriorityID',
-        CustomerID => 'CustomerID',
+        CustomerID => 'Customer ID',
         Changed    => 'Last Changed',
         Created    => 'Created',
 
