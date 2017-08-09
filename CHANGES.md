@@ -1,4 +1,5 @@
 #4.0.25 2017-??-??
+ - 2017-08-09 Fixed bug#[13011](https://bugs.otrs.org/show_bug.cgi?id=13011) - Bad expires value in cookie.
  - 2017-08-09 Fixed bug#[13015](https://bugs.otrs.org/show_bug.cgi?id=13015) - SysConfig: Problem with unknown valid init types in xml configurations.
  - 2017-08-08 Fixed bug#[11512](https://bugs.otrs.org/show_bug.cgi?id=11512) - ACL Type field restriction on DynamicField change in AgentTicketProcess does not work.
  - 2017-08-07 Fixed bug#[13003](https://bugs.otrs.org/show_bug.cgi?id=13003) - Statistic shows Out of Office info in agent name.

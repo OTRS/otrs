@@ -653,7 +653,7 @@ sub Login {
         $Self->{SetCookies}{OTRSBrowserHasCookie} = $Self->{ParamObject}->SetCookie(
             Key      => 'OTRSBrowserHasCookie',
             Value    => 1,
-            Expires  => '1y',
+            Expires  => '+1y',
             Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
             HttpOnly => 1,
@@ -3167,7 +3167,7 @@ sub CustomerLogin {
         $Self->{SetCookies}{OTRSBrowserHasCookie} = $Self->{ParamObject}->SetCookie(
             Key      => 'OTRSBrowserHasCookie',
             Value    => 1,
-            Expires  => '1y',
+            Expires  => '+1y',
             Path     => $Self->{ConfigObject}->Get('ScriptAlias'),
             Secure   => $CookieSecureAttribute,
             HttpOnly => 1,
