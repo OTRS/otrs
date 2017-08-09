@@ -1684,7 +1684,7 @@ sub _Init {
     }
 
     # Now process the entries in init order and assign them to the xml entry list.
-    for my $Init (qw(Framework Application Config Changes Unkown)) {
+    for my $Init (qw(Framework Application Config Changes Unknown)) {
         for my $ConfigItem ( @{ $XMLConfigTMP{$Init} } ) {
             push(
                 @{ $Self->{XMLConfig} },
