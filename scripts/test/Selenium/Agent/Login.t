@@ -240,6 +240,9 @@ $Selenium->RunTest(
             Value => 3,
         );
 
+        # let mod_perl / Apache2::Reload pick up the changed configuration
+        sleep 1;
+
         $Element = $Selenium->find_element( 'input#User', 'css' );
         $Element->is_displayed();
         $Element->is_enabled();
