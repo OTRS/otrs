@@ -237,16 +237,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'DateTime::TimeZone',
-        Required  => 1,
-        InstTypes => {
-            aptget => 'libdatetime-perl',
-            emerge => 'dev-perl/DateTime',
-            zypper => 'perl-DateTime',
-            ports  => 'devel/p5-TimeDate',
-        },
-    },
-    {
         Module    => 'DBI',
         Required  => 1,
         InstTypes => {
