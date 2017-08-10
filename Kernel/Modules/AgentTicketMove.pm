@@ -266,6 +266,12 @@ sub Run {
         $GetParam{'UserSelection::New'} = 'checked="checked"';
     }
 
+    # Check if TreeView list type is activated.
+    my $TreeView = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     # Ajax update
     if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' ) || '';
@@ -483,6 +489,7 @@ sub Run {
                     SelectedID   => $GetParam{DestQueueID},
                     PossibleNone => 1,
                     Translation  => 0,
+                    TreeView     => $TreeView,
                     Max          => 100,
                 },
                 @DynamicFieldAJAX,
