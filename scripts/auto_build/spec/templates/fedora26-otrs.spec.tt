@@ -1,0 +1,1 @@
+[% INCLUDE 'fedora25-otrs.spec.tt' -%]

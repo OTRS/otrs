@@ -9,6 +9,8 @@
         'perl(Crypt::Eksblowfish::Bcrypt)',
         'perl(Crypt::SSLeay)',
         'perl(Date::Format)',
+        'perl(DateTime)',
+        'perl(DateTime::Locale)',
         'perl(DBI)',
         'perl(Encode::HanExtra)',
         'perl(IO::Socket::SSL)',
