@@ -256,6 +256,12 @@ sub Run {
     # get upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
+    # Check if TreeView list type is activated.
+    my $TreeView = 0;
+    if ( $ConfigObject->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+        $TreeView = 1;
+    }
+
     # Ajax update
     if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
@@ -459,6 +465,7 @@ sub Run {
                     SelectedID   => $GetParam{DestQueueID},
                     PossibleNone => 1,
                     Translation  => 0,
+                    TreeView     => $TreeView,
                     Max          => 100,
                 },
                 @DynamicFieldAJAX,
