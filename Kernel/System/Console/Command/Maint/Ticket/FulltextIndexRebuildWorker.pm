@@ -73,7 +73,7 @@ sub PreRun {
     );
 
     if ( %PID && !$ForcePID ) {
-        die "<yellow>Active indexing process already running! Skipping...</yellow>\n";
+        die "Active indexing process already running! Skipping...\n";
     }
 
     my $Success = $PIDObject->PIDCreate(
