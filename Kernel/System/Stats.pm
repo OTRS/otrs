@@ -3166,13 +3166,12 @@ sub _GenerateDynamicStats {
     else {
         $Xvalue = $Element;
 
-        # Build the header line from the selected values.
-        VALUENAME:
+        # build the headerline
+
         for my $Valuename ( @{ $Xvalue->{SelectedValues} } ) {
-            next VALUENAME if !defined $Xvalue->{Values}->{$Valuename};
 
             # Do not translate the values, please see bug#12384 for more information.
-            push @HeaderLine, $Xvalue->{Values}->{$Valuename};
+            push @HeaderLine, $Xvalue->{Values}{$Valuename};
         }
     }
 
@@ -3188,13 +3187,10 @@ sub _GenerateDynamicStats {
         # all elements which are shown with multiselectfields
         if ( $Ref1->{Block} ne 'Time' ) {
             my %SelectedValues;
-
-            REF2:
             for my $Ref2 ( @{ $Ref1->{SelectedValues} } ) {
-                next REF2 if !defined $Ref1->{Values}->{$Ref2};
 
                 # Do not translate the values, please see bug#12384 for more information.
-                $SelectedValues{$Ref2} = $Ref1->{Values}->{$Ref2};
+                $SelectedValues{$Ref2} = $Ref1->{Values}{$Ref2};
             }
             push(
                 @ArraySelected,
@@ -3574,17 +3570,17 @@ sub _GenerateDynamicStats {
 
             # the following is necessary if as x-axis and as value-series time is selected
             if ( $Xvalue->{Block} eq 'Time' ) {
-                my $TimeStart = $Xvalue->{Values}->{TimeStart};
-                my $TimeStop  = $Xvalue->{Values}->{TimeStop};
-                if ( $ValueSeries{$Row}->{$TimeStop} && $ValueSeries{$Row}->{$TimeStart} ) {
+                my $TimeStart = $Xvalue->{Values}{TimeStart};
+                my $TimeStop  = $Xvalue->{Values}{TimeStop};
+                if ( $ValueSeries{$Row}{$TimeStop} && $ValueSeries{$Row}{$TimeStart} ) {
                     if (
                         $TimeObject->TimeStamp2SystemTime( String => $Cell->{TimeStop} )
                         > $TimeObject->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}->{$TimeStop}
+                            String => $ValueSeries{$Row}{$TimeStop}
                         )
                         || $TimeObject->TimeStamp2SystemTime( String => $Cell->{TimeStart} )
                         < $TimeObject->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}->{$TimeStart}
+                            String => $ValueSeries{$Row}{$TimeStart}
                         )
                         )
                     {
@@ -3595,11 +3591,9 @@ sub _GenerateDynamicStats {
                 $Attributes{$TimeStart} = $Cell->{TimeStart};
             }
             elsif ( $Xvalue->{Block} eq 'SelectField' ) {
-                next CELL if !defined $Xvalue->{Values}->{$Cell};
                 $Attributes{ $Xvalue->{Element} } = $Cell;
             }
             else {
-                next CELL if !defined $Xvalue->{Values}->{$Cell};
                 $Attributes{ $Xvalue->{Element} } = [$Cell];
             }
             push @Cells, \%Attributes;
