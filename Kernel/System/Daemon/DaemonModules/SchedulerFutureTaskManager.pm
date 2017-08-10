@@ -71,7 +71,7 @@ sub new {
 
     # Do not change the following values!
     # Modulo in PreRun() can be damaged after a change.
-    $Self->{SleepPost} = 1;          # sleep 60 seconds after each loop
+    $Self->{SleepPost} = 1;          # sleep 1 second after each loop
     $Self->{Discard}   = 60 * 60;    # discard every hour
 
     $Self->{DiscardCount} = $Self->{Discard} / $Self->{SleepPost};
@@ -114,8 +114,8 @@ sub PostRun {
 
     $Self->{DiscardCount}--;
 
-    if ( $Self->{Debug} ) {
-        print "  $Self->{DaemonName} Discard Count: $Self->{DiscardCount}\n";
+    if ( $Self->{Debug} && $Self->{DiscardCount} == 0 ) {
+        print "  $Self->{DaemonName} will be stopped and set for restart!\n";
     }
 
     return if $Self->{DiscardCount} <= 0;

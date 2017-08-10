@@ -78,6 +78,10 @@ sub Run {
     # stop execution if an error in params is detected
     return if !$CheckResult;
 
+    if ( $Self->{Debug} ) {
+        print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
+    }
+
     # trigger the appointment notification
     my $Success
         = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentNotification( %{ $Param{Data} } );

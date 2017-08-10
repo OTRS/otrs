@@ -290,10 +290,6 @@ sub PostRun {
 
     $Self->{DiscardCount}--;
 
-    if ( $Self->{Debug} ) {
-        print "  $Self->{DaemonName} Discard Count: $Self->{DiscardCount}\n";
-    }
-
     # Update task locks and remove expired each 60 seconds.
     if ( !int $Self->{DiscardCount} % ( 60 / $Self->{SleepPost} ) ) {
 
@@ -314,6 +310,10 @@ sub PostRun {
     # Remove obsolete tasks before destroy.
     if ( $Self->{DiscardCount} == 0 ) {
         $Self->{SchedulerDBObject}->TaskCleanup();
+
+        if ( $Self->{Debug} ) {
+            print "  $Self->{DaemonName} will be stopped and set for restart!\n";
+        }
     }
 
     return if $Self->{DiscardCount} <= 0;
