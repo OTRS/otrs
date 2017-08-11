@@ -4,6 +4,8 @@ The following persons contributed to OTRS:
 * Alex Kantchev <ak@otrs.com>
 * Alex Mazur <alex.mazur@otrs.com>
 * Alexandre D. Rogoski <alexandre@exatati.com.br>
+* André Brás <andre.bras@otrs.com>
+* Balázs Úr <urbalazs@gmail.com>
 * Belnet <info@belnet.be>
 * Bernhard Schmalhofer <bernhard.schmalhofer@otrs.com>
 * Bodo Bauer <bodo.bauer@otrs.com>
@@ -20,16 +22,19 @@ The following persons contributed to OTRS:
 * Diego Selzlein <diegoselzlein@gmail.com>
 * Dietmar Berg <dietmar.berg@thalesgroup.com>
 * Dominik Klein <dominik.klein@otrs.com>
-* Dusan Vuckovic <dusan.vuckovic@muehlbauer.de>
+* Dusan Vuckovic <dusan.vuckovic@otrs.com>
 * Elias Probst <elias.probst@otrs.com>
 * Elva Novoa <elva.novoa@otrs.com>
 * Enrique Matías Sánchez (Quique) <cronopios@gmail.com>
 * Felix Niklas <felix.niklas@otrs.com>
+* Florian Liebe <florian.liebe@otrs.com>
 * Friedrich Delgado <friedel@nomaden.org>
 * Gerald Young <gerald.young@noynim.com>
 * Henning Oschwald <henning.oschwald@otrs.com>
 * IB Development Team <dev@ib.pl>
+* Igor Djuric <igor.djuric@otrs.com>
 * Jan Steinweg <jan.steinweg@otrs.com>
+* Jaroslav Balaz <jaroslav.balaz@otrs.com>
 * Jens Bothe <jens.bothe@otrs.com>
 * Jens Pfeifer <jens.pfeifer@otrs.com>
 * Johannes Hörburger <johannes.hoerburger@otrs.com>
@@ -40,6 +45,8 @@ The following persons contributed to OTRS:
 * Marc Bonsels <marc.bonsels@otrs.com>
 * Marc Nilius <marc.nilius@otrs.com>
 * Marco Buchholz <marco.buchholz@otrs.com>
+* Marco Bucholz <marco.buchholz@otrs.com>
+* Marco Ferrante <marco@csita.unige.it>
 * Markus Esche <markus.esche@otrs.com>
 * Martha Pascual <martha.pascual@otrs.com>
 * Martin Edenhofer <martin.edenhofer@otrs.com>
@@ -48,8 +55,10 @@ The following persons contributed to OTRS:
 * Mathias Bräunling <mathias.braeunling@otrs.com>
 * Michael Tänzer <neo@nhng.de>
 * Michiel Beijen <michiel.beijen@otrs.com>
+* Milan Rakic <mrakic@s7designcreative.com>
 * Moritz Lenz <mlenz@noris.net>
 * NeverMin <never.min@gmail.com>
+* Niels Dimmers <niels@nielsdimmers.nl>
 * Nils Leideck <nils.leideck@leidex.net>
 * Nils Leideck <nils.leideck@otrs.com>
 * Norihiro Tanaka <noritnk@kcn.ne.jp>
@@ -66,12 +75,15 @@ The following persons contributed to OTRS:
 * Richard Kammermayer <richard.kammermayer@otrs.com>
 * Rolf Schmidt <rolf.schmidt@otrs.com>
 * Romain THERRAT <romain42@gmail.com>
+* Rui Patinha <rui.patinha@otrs.com>
+* Sanjin Vik <svik@s7designcreative.com>
 * Shawn Beasley <shawn.beasley@otrs.com>
 * Stefan Bedorf <stefan.bedorf@otrs.com>
 * Stefan Rother <stefan.rother@otrs.com>
 * Stefan Wintermeyer <stefan@otrs.org>
 * Theo van Hoesel <Th.J.v.Hoesel+GitHub@gmail.com>
 * Thomas Raith <thomas.raith@otrs.com>
+* Thomas Wouters <thomas@sijn.org>
 * Thorsten Eckel <thorsten.eckel@otrs.com>
 * Torsten Thau <Torsten.Thau@cape-it.de>
 * Udo Bretz <udo.bretz@otrs.com>
@@ -79,6 +91,8 @@ The following persons contributed to OTRS:
 * Walter Souto <walter.souto@saude.go.gov.br>
 * Wojciech Kuchta <klapi85@gmail.com>
 * Wojciech Kuchta <wojciech.kuchta@allegro.pl>
+* Zoran Ilibasic <zilibasic@s7designcreative.com>
+* anonymous <uknown@anonymous>
 * djurici <igor.djuric@muehlbauer.de>
 * juanmclavero <juanm.clavero@ibsalut.es>
 * otrsintern <otrsintern@gmail.com>
