@@ -153,6 +153,55 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
             "CryptType $CryptType Password '$Test->{Password}' (cached)",
         );
 
+        if ( $CryptType eq 'bcrypt' ) {
+            my $OldCost = $ConfigObject->Get('Customer::AuthModule::DB::bcryptCost') // 12;
+            my $NewCost = $OldCost + 2;
+
+            # Increase cost and check if old passwords can still be used.
+            $ConfigObject->Set(
+                Key   => 'Customer::AuthModule::DB::bcryptCost',
+                Value => $NewCost,
+            );
+
+            $CustomerAuthResult = $CustomerAuthObject->Auth(
+                User => $UserRand,
+                Pw   => $Test->{Password},
+            );
+
+            $Self->Is(
+                $CustomerAuthResult,
+                $Test->{AuthResult},
+                "CryptType $CryptType old Password '$Test->{Password}' with changed default cost ($NewCost)",
+            );
+
+            $PasswordSet = $UserObject->SetPassword(
+                UserLogin => $UserRand,
+                PW        => $Test->{Password},
+            );
+
+            $Self->True(
+                $PasswordSet,
+                "Password set - with new cost $NewCost"
+            );
+
+            $CustomerAuthResult = $CustomerAuthObject->Auth(
+                User => $UserRand,
+                Pw   => $Test->{Password},
+            );
+
+            $Self->Is(
+                $CustomerAuthResult,
+                $Test->{AuthResult},
+                "CryptType $CryptType new Password '$Test->{Password}' with changed default cost ($NewCost)",
+            );
+
+            # Restore old cost value
+            $ConfigObject->Set(
+                Key   => 'Customer::AuthModule::DB::bcryptCost',
+                Value => $OldCost,
+            );
+        }
+
         $CustomerAuthResult = $CustomerAuthObject->Auth(
             User => $UserRand,
             Pw   => 'wrong_pw',

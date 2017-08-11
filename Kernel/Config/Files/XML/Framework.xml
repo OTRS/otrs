@@ -8042,6 +8042,13 @@ via the Preferences button after logging in.
             </Item>
         </Value>
     </Setting>
+    <Setting Name="Customer::AuthModule::DB::bcryptCost" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">If "bcrypt" was selected for CryptType, use cost specified here for bcrypt hashing. Currently max. supported cost value is 31.</Description>
+        <Navigation>Core::Auth::Customer</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="^[0-9]{1,2}$">12</Item>
+        </Value>
+    </Setting>
     <Setting Name="Customer::AuthModule::DB::Table" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "DB" was selected for Customer::AuthModule, the name of the table where your customer data should be stored must be specified.</Description>
         <Navigation>Core::Auth::Customer</Navigation>

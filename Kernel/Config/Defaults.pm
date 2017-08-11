@@ -412,6 +412,10 @@ sub LoadDefaults {
     # password crypt type (bcrypt|sha2|sha1|md5|apr1|crypt|plain)
 #    $Self->{'AuthModule::DB::CryptType'} = 'sha2';
 
+    # If "bcrypt" was selected for CryptType, use cost specified here for bcrypt hashing.
+    #   Currently max. supported cost value is 31.
+    # $Self->{'AuthModule::DB::bcryptCost'} = 12;
+
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
 #    $Self->{AuthModule} = 'Kernel::System::Auth::LDAP';
