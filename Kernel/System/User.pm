@@ -385,7 +385,7 @@ sub UserAdd {
     if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A user with username '$Param{UserLogin}' already exists!"
+            Message  => "A user with the username '$Param{UserLogin}' already exists.",
         );
         return;
     }
@@ -537,7 +537,7 @@ sub UserUpdate {
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A user with username '$Param{UserLogin}' already exists!"
+            Message  => "A user with the username '$Param{UserLogin}' already exists.",
         );
         return;
     }

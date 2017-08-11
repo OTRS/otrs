@@ -134,7 +134,7 @@ sub DynamicFieldAdd {
     if ($NameExists) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The name $Param{Name} already exists for a dynamic field!"
+            Message  => "A dynamic field with the name '$Param{Name}' already exists.",
         );
         return;
     }
@@ -416,7 +416,7 @@ sub DynamicFieldUpdate {
     if ($NameExists) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The name $Param{Name} already exists for a dynamic field!",
+            Message  => "A dynamic field with the name '$Param{Name}' already exists.",
         );
         return;
     }

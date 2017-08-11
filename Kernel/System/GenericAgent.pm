@@ -771,7 +771,7 @@ sub JobAdd {
     if (%Check) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't add job '$Param{Name}', job already exists!",
+            Message  => "A job with the name '$Param{Name}' already exists.",
         );
         return;
     }

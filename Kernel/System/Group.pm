@@ -118,7 +118,7 @@ sub GroupAdd {
     if ( defined $ExistingGroups{ $Param{Name} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A Group with the name $Param{Name} already exists.",
+            Message  => "A group with the name '$Param{Name}' already exists.",
         );
         return;
     }
@@ -249,7 +249,7 @@ sub GroupUpdate {
     if ( defined $ExistingGroups{ $Param{Name} } && $ExistingGroups{ $Param{Name} } != $Param{ID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A Group with the name $Param{Name} already exists.",
+            Message  => "A group with the name '$Param{Name}' already exists.",
         );
         return;
     }
@@ -607,7 +607,7 @@ sub RoleAdd {
     if ( defined $ExistingRoles{ $Param{Name} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A Role with the name $Param{Name} already exists.",
+            Message  => "A role with the name '$Param{Name}' already exists.",
         );
         return;
     }
@@ -689,7 +689,7 @@ sub RoleUpdate {
     if ( defined $ExistingRoles{ $Param{Name} } && $ExistingRoles{ $Param{Name} } != $Param{ID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A Role with the name $Param{Name} already exists.",
+            Message  => "A role with the name '$Param{Name}' already exists.",
         );
         return;
     }

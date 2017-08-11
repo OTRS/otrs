@@ -309,7 +309,7 @@ sub NotificationAdd {
     if (%Check) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't add notification '$Param{Name}', notification already exists!",
+            Message  => "A notification with the name '$Param{Name}' already exists.",
         );
         return;
     }

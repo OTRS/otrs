@@ -638,7 +638,7 @@ sub ServiceAdd {
     if ($Exists) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Can\'t add service! Service with same name and parent already exists.'
+            Message  => "A service with the name and parent '$Param{FullName}' already exists.",
         );
         return;
     }
@@ -780,7 +780,7 @@ sub ServiceUpdate {
     if ($Exists) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Can\'t update service! Service with same name and parent already exists.'
+            Message  => "A service with the name and parent '$Param{FullName}' already exists.",
         );
         return;
 

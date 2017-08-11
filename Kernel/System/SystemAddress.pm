@@ -82,7 +82,7 @@ sub SystemAddressAdd {
     if ( $Self->NameExistsCheck( Name => $Param{Name} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A system address with name '$Param{Name}' already exists!"
+            Message  => "A system address with the name '$Param{Name}' already exists.",
         );
         return;
     }
@@ -241,7 +241,7 @@ sub SystemAddressUpdate {
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "A system address with name '$Param{Name}' already exists!"
+            Message  => "A system address with the name '$Param{Name}' already exists.",
         );
         return;
     }

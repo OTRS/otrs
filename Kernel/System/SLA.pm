@@ -472,7 +472,7 @@ sub SLAAdd {
     if ($NoAdd) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't add new SLA! '$Param{Name}' already exists.",
+            Message  => "An SLA with the name '$Param{Name}' already exists.",
         );
         return;
     }
@@ -623,7 +623,7 @@ sub SLAUpdate {
     if ($Update) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Can't update SLA! '$Param{Name}' already exists.",
+            Message  => "An SLA with the name '$Param{Name}' already exists.",
         );
         return;
     }
