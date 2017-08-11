@@ -99,4 +99,3 @@ The following persons contributed to OTRS:
 * s7design <otrs@s7designcreative.com>
 * sergot <filip@sergot.pl>
 * vlascoder <vlascoder@gmail.com>
-* Úr Balázs <urbalazs@gmail.com>
