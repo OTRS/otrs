@@ -90,5 +90,59 @@ span.WarningDialog {
     margin-top: 5px;
 }
 
+/**
+ * @subsubsection     Invoker Event conditions
+ */
+
+.Fields {
+    margin-top: 15px;
+}
+
+#EventForm .WidgetSimple .WidgetSimple {
+    margin-top: 10px;
+}
+
+#EventForm .WidgetSimple .WidgetSimple + .WidgetSimple {
+    margin-top: -5px;
+}
+
+#EventForm .WidgetSimple .WidgetSimple .WidgetSimple {
+    margin-bottom: 0px;
+}
+
+#EventForm #PresentConditionsContainer > label,
+#EventForm #PresentConditionsContainer p {
+    width: auto;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+#EventForm #ConditionAdd {
+    margin-left: 10px;
+    margin-top: -5px;
+}
+
+#EventForm .Condition > fieldset > label {
+    width: auto;
+    display: inline-block;
+    margin: 0px 5px 0px 10px;
+}
+
+#EventForm fieldset + fieldset {
+    margin-top: 7px;
+}
+
+#EventForm .FieldWidget label {
+    margin: 0px 3px 0px 5px;
+}
+
+#EventForm #ConfigParams input {
+    width: 40%;
+}
+
+#EventForm #ConfigParams input + label {
+    margin-left: 5px;
+}
 
 }/* end @media */

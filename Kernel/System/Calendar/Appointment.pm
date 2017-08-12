@@ -419,6 +419,7 @@ sub AppointmentCreate {
         Event => 'AppointmentCreate',
         Data  => {
             AppointmentID => $AppointmentID,
+            CalendarID    => $Param{CalendarID},
         },
         UserID => $Param{UserID},
     );
@@ -1391,6 +1392,7 @@ sub AppointmentUpdate {
         Event => 'AppointmentUpdate',
         Data  => {
             AppointmentID => $Param{AppointmentID},
+            CalendarID    => $Param{CalendarID},
         },
         UserID => $Param{UserID},
     );
@@ -2163,6 +2165,7 @@ sub AppointmentNotification {
             Event => 'AppointmentNotification',
             Data  => {
                 AppointmentID => $UpcomingAppointment->{AppointmentID},
+                CalendarID    => $UpcomingAppointment->{CaledarID},
             },
             UserID => 1,
         );

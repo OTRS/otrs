@@ -156,6 +156,138 @@ my @Tests = (
         Success      => 1,
     },
     {
+        Name             => 'Synchronous event call Filter Success',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type   => 'Test::TestSimple',
+                        Events => [
+                            {
+                                Event        => 'TicketCreate',
+                                Asynchronous => 0,
+                                Condition    => {
+                                    Condition => {
+                                        ConditionLinking => 'and',
+                                        1                => {
+                                            Type   => 'and',
+                                            Fields => {
+                                                Queue => {
+                                                    Match => 'Raw',
+                                                    Type  => 'String',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+        },
+        Asynchronous => 0,
+        ValidID      => 1,
+        Success      => 1,
+    },
+    {
+        Name             => 'Synchronous event call Filter Fail',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type   => 'Test::TestSimple',
+                        Events => [
+                            {
+                                Event        => 'TicketCreate',
+                                Asynchronous => 0,
+                                Condition    => {
+                                    Condition => {
+                                        ConditionLinking => 'and',
+                                        1                => {
+                                            Type   => 'and',
+                                            Fields => {
+                                                Queue => {
+                                                    Match => 'Postmaster',
+                                                    Type  => 'String',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+        },
+        Asynchronous => 0,
+        ValidID      => 1,
+        Success      => 0,
+    },
+    {
+        Name             => 'Asynchronous event call Filter Success',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Invoker => {
+                    test_operation => {
+                        Type   => 'Test::TestSimple',
+                        Events => [
+                            {
+                                Event        => 'TicketCreate',
+                                Asynchronous => 1,
+                                Condition    => {
+                                    Condition => {
+                                        ConditionLinking => 'and',
+                                        1                => {
+                                            Type   => 'and',
+                                            Fields => {
+                                                Queue => {
+                                                    Match => 'Raw',
+                                                    Type  => 'String',
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+        },
+        Asynchronous => 1,
+        ValidID      => 1,
+        Success      => 1,
+    },
+    {
         Name             => 'Synchronous event call - Web service set to invalid',
         WebserviceConfig => {
             Debugger => {

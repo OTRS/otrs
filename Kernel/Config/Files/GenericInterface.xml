@@ -220,6 +220,22 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminGenericInterfaceInvokerEvent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">GenericInterface Invoker Event GUI</Title>
+                <Loader>
+                    <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                    <JavaScript>Core.Agent.Admin.GenericInterfaceInvokerEvent.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
 
     <ConfigItem Name="GenericInterface::Transport::Module###HTTP::SOAP" Required="0" Valid="1">
         <Description Translatable="1">GenericInterface module registration for the transport layer.</Description>

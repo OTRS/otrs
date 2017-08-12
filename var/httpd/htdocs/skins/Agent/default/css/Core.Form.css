@@ -105,6 +105,7 @@ button.Remove,
 a.Remove,
 button.TrashCan,
 a.TrashCan,
+a.Pencil,
 button.Reset,
 a.Reset {
     height: 16px;
@@ -154,7 +155,8 @@ a.Remove:focus {
     background: url(../img/filter_remove_hover.png) no-repeat center;
 }
 
-a.TrashCan i.fa-trash-o {
+a.TrashCan i.fa-trash-o,
+a.Pencil i.fa-edit {
     text-indent: 0px;
     position: absolute;
     left: 0px;

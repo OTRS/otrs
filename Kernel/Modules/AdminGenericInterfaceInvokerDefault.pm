@@ -612,6 +612,12 @@ sub _ShowScreen {
             $Asynchronous = 'Yes'
         }
 
+        # Set if event have a Condition.
+        my $Condition = 'No';
+        if ( IsHashRefWithData( $Event->{Condition} ) ) {
+            $Condition = 'Yes'
+        }
+
         # set the event type ( event object like Article or Ticket) not currently in use
         # but left if is needed in future
         my $EventType;
@@ -629,9 +635,12 @@ sub _ShowScreen {
         $LayoutObject->Block(
             Name => 'EventRow',
             Data => {
+                WebserviceID => $Param{WebserviceID},
+                Invoker      => $Param{Invoker},
                 Event        => $Event->{Event},
                 Type         => $EventType || '-',
                 Asynchronous => $Asynchronous,
+                Condition    => $Condition,
             },
         );
     }

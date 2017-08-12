@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-12 Merged FAO OTRSGenericInterfaceInvokerEventFilter.
  - 2017-08-11 Made bcrypt cost configurable for agent and customer password hashing, thanks to Pawel Boguslawski.
  - 2017-08-09 Reduced Daemon debug information.
  - 2017-08-09 Removed RHEL6 spec files as it is not supported with OTRS 6 (Perl version too old).
