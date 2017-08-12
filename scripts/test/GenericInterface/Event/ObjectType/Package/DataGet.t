@@ -24,7 +24,7 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 my $FileString = $MainObject->FileRead(
-    Location => "$Home/scripts/test/Sample/PackageManager/TestPackage.opm",
+    Location => "$Home/scripts/test/sample/PackageManager/TestPackage.opm",
     Mode     => 'utf8',
     Type     => 'Local',
     Result   => 'SCALAR',
