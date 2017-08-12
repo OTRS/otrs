@@ -1075,7 +1075,7 @@ Core.UI.InputFields = (function (TargetNS) {
         }
 
         // Check if the selection is empty.
-        if ($SelectObj.val().length === 0) {
+        if ($SelectObj.val() !== null && $SelectObj.val().length === 0) {
             $SelectObj.data('filtered', '0');
             $SelectObj.data('selection', []);
             ApplyFilter($SelectObj, $ToolbarContainerObj);
