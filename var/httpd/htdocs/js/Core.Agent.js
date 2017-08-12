@@ -772,38 +772,49 @@ Core.Agent = (function (TargetNS) {
      * @memberof Core.Agent
      * @function
      * @description
-     *      Initialize OTRSBusinessRequired dialog on click
+     *      Initialize OTRSBusiness upgrade dialog on all clicks coming from anchor with OTRSBusinessRequired class.
      */
     function InitOTRSBusinessRequiredDialog () {
-        var OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™';
-
         $('body').on('click', 'a.OTRSBusinessRequired', function() {
-            Core.UI.Dialog.ShowContentDialog(
-                '<div class="OTRSBusinessRequiredDialog">' + Core.Language.Translate('This feature is part of the %s.  Please contact us at %s for an upgrade.', OTRSBusinessLabel, 'sales@otrs.com') + '<a class="Hidden" href="http://www.otrs.com/solutions/" target="_blank"><span></span></a></div>',
-                '',
-                '240px',
-                'Center',
-                true,
-                [
-                   {
-                       Label: Core.Language.Translate('Close dialog'),
-                       Class: 'Primary',
-                       Function: function () {
-                           Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
-                       }
-                   },
-                   {
-                       Label: Core.Language.Translate('Find out more about the %s', 'OTRS Business Solution™'),
-                       Class: 'Primary',
-                       Function: function () {
-                           $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
-                       }
-                   }
-                ]
-            );
+            TargetNS.ShowOTRSBusinessRequiredDialog();
             return false;
         });
     }
+
+    /**
+     * @name ShowOTRSBusinessRequiredDialog
+     * @memberof Core.Agent
+     * @function
+     * @description
+     *      This function shows OTRSBusiness upgrade dialog.
+     */
+    TargetNS.ShowOTRSBusinessRequiredDialog = function() {
+        var OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™';
+
+        Core.UI.Dialog.ShowContentDialog(
+            '<div class="OTRSBusinessRequiredDialog">' + Core.Language.Translate('This feature is part of the %s.  Please contact us at %s for an upgrade.', OTRSBusinessLabel, 'sales@otrs.com') + '<a class="Hidden" href="http://www.otrs.com/solutions/" target="_blank"><span></span></a></div>',
+            '',
+            '240px',
+            'Center',
+            true,
+            [
+               {
+                   Label: Core.Language.Translate('Close dialog'),
+                   Class: 'Primary',
+                   Function: function () {
+                       Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
+                   }
+               },
+               {
+                   Label: Core.Language.Translate('Find out more about the %s', 'OTRS Business Solution™'),
+                   Class: 'Primary',
+                   Function: function () {
+                       $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
+                   }
+               }
+            ]
+        );
+    };
 
     /**
      * @private

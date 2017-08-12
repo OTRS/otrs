@@ -113,6 +113,13 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
                     // reset select value to none
                     $(this).val('');
                 }
+
+                // Show OTRSBusiness upgrade dialog.
+                else if (!parseInt(Core.Config.Get('OTRSBusinessIsInstalled'), 10)) {
+                    Core.Agent.ShowOTRSBusinessRequiredDialog();
+                }
+
+                return false;
             });
         }
         for (Key in ObjectType) {
