@@ -92,8 +92,8 @@ sub Run {
     }
 
     # Get the configuration dialog for the event.
-    my $InvokerEventFrontendModule
-        = $InvokerModules->{$InvokerType}->{'EventEditDialog'} || 'AdminGenericInterfaceInvokerEvent';
+    my $InvokerEventFrontendModule = $InvokerModules->{$InvokerType}->{'EventEditDialog'}
+        || 'AdminGenericInterfaceInvokerEvent';
 
     # Get the configuration dialog for the Invoker.
     my $InvokerTypeFrontendModule = $InvokerModules->{$InvokerType}->{'ConfigDialog'};
@@ -202,26 +202,28 @@ sub Run {
             Condition => $GetParam->{Config},
         );
 
-        # This map statement loops through the Array of Hashes of
+        # This loop goes through the Array of Hashes of
         #   @{ $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker}->{Events} }.
         #
-        # If it drops over the array containing the HashKeys "Event" and this Key equals
+        # If it stumbles upon the array containing the HashKeys "Event" and this Key equals
         #   $Event, it takes the Original Hash and extends the keys by the keys of %NewCondition.
         #
         # If it doesn't match $Event it takes the original unchanged HashRef
         #  (e.g. just extending one single hash of all existing hashes inside the Events Array).
-        @{ $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker}->{Events} } =
-            map {
-            ( $_->{Event} eq $Event )
-                ?
-                {
-                %{$_}, %NewCondition,
-                Asynchronous => $GetParam->{Asynchronous},
-                }
-                :
-                $_
+        my @NewEventsArray;
+        for my $EventsHashRef ( @{ $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker}->{Events} } ) {
+            if ( $EventsHashRef->{Event} && $EventsHashRef->{Event} eq $Event ) {
+                push @NewEventsArray, {
+                    %{$EventsHashRef},
+                    %NewCondition,
+                    Asynchronous => $GetParam->{Asynchronous},
+                };
             }
-            @{ $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker}->{Events} };
+            else {
+                push @NewEventsArray, $EventsHashRef;
+            }
+        }
+        $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker}->{Events} = \@NewEventsArray;
 
         # Otherwise save configuration and return to overview screen.
         my $Success = $WebserviceObject->WebserviceUpdate(
