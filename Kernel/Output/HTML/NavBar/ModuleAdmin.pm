@@ -84,12 +84,12 @@ sub Run {
             }
             next MODULE if !$Shown;
 
-            my $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} || 0 );
+            my $Key = sprintf( "%07d", $Hash{Prio} || 0 );
             COUNT:
             for ( 1 .. 51 ) {
                 if ( $NavBarModule{$Key} ) {
-                    $Hash{NavBarModule}->{Prio}++;
-                    $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} );
+                    $Hash{Prio}++;
+                    $Key = sprintf( "%07d", $Hash{Prio} );
                 }
                 if ( !$NavBarModule{$Key} ) {
                     last COUNT;
@@ -98,7 +98,6 @@ sub Run {
             $NavBarModule{$Key} = {
                 'Frontend::Module' => $Module,
                 %Hash,
-                %{ $Hash{NavBarModule} },
             };
         }
     }
