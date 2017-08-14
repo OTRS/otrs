@@ -53,14 +53,21 @@ $Selenium->RunTest(
         );
 
         # create and login test user
+        my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
+            Language => $Language,
         ) || die "Did not get test user";
 
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
+        );
+
+        # Get language object.
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
         );
 
         # create test customer
@@ -147,6 +154,22 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element("//a[contains(\@href, \'Action=$Action')]");
             $Element->is_enabled();
             $Element->is_displayed();
+        }
+
+        my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+        my $OBTeaser                = $LanguageObject->Translate('All attachments (OTRS Business Solution™)');
+        my $OBTeaserFound           = index( $Selenium->get_page_source(), $OBTeaser ) > -1;
+        if ( !$OTRSBusinessIsInstalled ) {
+            $Self->True(
+                $OBTeaserFound,
+                "OTRSBusiness teaser found on page",
+            );
+        }
+        else {
+            $Self->False(
+                $OBTeaserFound,
+                "OTRSBusiness teaser not found on page",
+            );
         }
 
         # verify article order in zoom screen
