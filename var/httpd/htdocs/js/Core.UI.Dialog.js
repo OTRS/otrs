@@ -93,7 +93,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 .filter(':first'),
             $FocusField;
 
-        if (!$FirstElement || !$FirstElement.length) {
+        if (!$FirstElement || !$FirstElement.length || $('div.Dialog:visible').find('.OTRSBusinessRequiredDialog').length) {
             return;
         }
 
@@ -619,6 +619,18 @@ Core.UI.Dialog = (function (TargetNS) {
             PositionLeft: 'Center',
             AllowAutoGrow: true
         });
+    };
+
+    /**
+     * @name MakeDialogWait
+     * @memberof Core.UI.Dialog
+     * @function
+     * @description
+     *      Shows a spinner overlay on the currently visible modal dialog. Is meant for showing the user that something is about
+     *      to happen, e.g. if changing a field within a dialog causes a page reload.
+     */
+    TargetNS.MakeDialogWait = function () {
+        $('.Dialog:visible .InnerContent').prepend('<div class="Waiting"><i class="fa fa-spinner fa-spin"></i></div>').find('.Waiting').fadeIn();
     };
 
     /**

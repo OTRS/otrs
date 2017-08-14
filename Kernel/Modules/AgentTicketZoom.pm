@@ -10,6 +10,7 @@ package Kernel::Modules::AgentTicketZoom;
 
 use strict;
 use warnings;
+use utf8;
 
 our $ObjectManagerDisabled = 1;
 
@@ -2044,14 +2045,23 @@ sub _ArticleTree {
         );
     }
 
-    my %ArticleView = (
-        Collapse => Translatable('Show one article'),
-        Expand   => Translatable('Show all articles'),
+    my @ArticleViews = (
+        {
+            Key   => 'Collapse',
+            Value => Translatable('Show one article'),
+        },
+        {
+            Key   => 'Expand',
+            Value => Translatable('Show all articles'),
+        },
     );
 
     # Add timeline view option only if enabled.
     if ( $Kernel::OM->Get('Kernel::Config')->Get('TimelineViewEnabled') ) {
-        $ArticleView{Timeline} = Translatable('Show Ticket Timeline View');
+        push @ArticleViews, {
+            Key => 'Timeline',
+            Value => Translatable('Show Ticket Timeline View'),
+        };
     }
 
     my $ArticleViewSelected = 'Collapse';
@@ -2062,8 +2072,18 @@ sub _ArticleTree {
         $ArticleViewSelected = 'Timeline';
     }
 
+    # Add disabled teaser option for OTRSBusiness timeline view
+    my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+    if ( !$OTRSBusinessIsInstalled ) {
+        push @ArticleViews, {
+            Key => 'Timeline',
+            Value => $LayoutObject->{LanguageObject}->Translate( 'Show Ticket Timeline View (%s)', 'OTRS Business Solution™' ),
+            Disabled => 1,
+        };
+    }
+
     my $ArticleViewStrg = $LayoutObject->BuildSelection(
-        Data        => \%ArticleView,
+        Data        => \@ArticleViews,
         SelectedID  => $ArticleViewSelected,
         Translation => 1,
         Sort        => 'AlphanumericValue',

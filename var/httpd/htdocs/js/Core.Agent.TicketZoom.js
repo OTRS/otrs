@@ -372,18 +372,27 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
         // Calendar settings button
         $ArticleViewSettingsObj.off('click.AgentTicketZoom').on('click.AgentTicketZoom', function (Event) {
+
             Core.UI.Dialog.ShowContentDialog(ArticleViewSettingsDialogHTML, Core.Language.Translate('Settings'), '10px', 'Center', true,
                 [
-                    {
-                        Label: Core.Language.Translate('Save'),
-                        Class: 'Primary',
-                        Type: 'Submit'
-                    },
                     {
                         Label: Core.Language.Translate('Close'),
                         Type: 'Close'
                     }
                 ], true);
+
+            $('#ArticleView').off('change').on('change', function() {
+
+                if (!parseInt(Core.Config.Get('OTRSBusinessIsInstalled'), 10) && ($(this).val() === null || $(this).val() === '')) {
+                    Core.UI.Dialog.CloseDialog($('.Dialog:visible'));
+                    Core.Agent.ShowOTRSBusinessRequiredDialog();
+                    return false;
+                }
+                else {
+                    Core.UI.Dialog.MakeDialogWait();
+                    $('#ArticleView').closest('form').submit();
+                }
+            });
 
             Event.preventDefault();
             Event.stopPropagation();

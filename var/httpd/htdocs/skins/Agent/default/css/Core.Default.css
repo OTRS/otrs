@@ -90,6 +90,28 @@ body {
     padding: 0px 10px 10px 10px;
 }
 
+.Dialog .InnerContent .Waiting {
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    background: #fff;
+    z-index: 999;
+    line-height: 100%;
+}
+
+.Dialog .InnerContent .Waiting i {
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    left: 50%;
+    margin-left: -7px;
+}
+
 /**
  * @subsection  Print elements - Only show when page is printed
  */

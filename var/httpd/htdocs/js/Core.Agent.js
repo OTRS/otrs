@@ -798,20 +798,19 @@ Core.Agent = (function (TargetNS) {
             'Center',
             true,
             [
-               {
+                {
+                    Label: Core.Language.Translate('Find out more about the %s', 'OTRS Business Solution™'),
+                    Class: 'Primary',
+                    Function: function () {
+                        $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
+                    }
+                },
+                {
                    Label: Core.Language.Translate('Close dialog'),
-                   Class: 'Primary',
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
                    }
-               },
-               {
-                   Label: Core.Language.Translate('Find out more about the %s', 'OTRS Business Solution™'),
-                   Class: 'Primary',
-                   Function: function () {
-                       $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
-                   }
-               }
+                }
             ]
         );
     };
