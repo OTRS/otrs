@@ -310,7 +310,30 @@ JAVASCRIPT
             "Test NotificationEvent is deleted - $NotifEventRandomID",
         ) || die;
 
-    }
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # import existing template without overwrite
+        my $Location = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/NotificationEvent/Export_Notification_Ticket_create_notification.yml";
+        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+
+        $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
+
+        $Selenium->find_element(
+            "//p[contains(text(), \'There where errors adding/updating the following Notifications')]"
+        );
+
+        # import existing template with overwrite
+        $Location = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/NotificationEvent/Export_Notification_Ticket_create_notification.yml";
+        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+
+        $Selenium->find_element( "#OverwriteExistingNotifications", 'css' )->VerifiedClick();
+
+        $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
+
+        $Selenium->find_element("//p[contains(text(), \'The following Notifications have been updated successfully')]");
+        }
 
 );
 

@@ -1,0 +1,139 @@
+---
+- ChangeBy: 1
+  ChangeTime: 2017-08-11 11:22:44
+  Comment: ''
+  CreateBy: 1
+  CreateTime: 2017-08-11 11:22:44
+  Data:
+    AgentEnabledByDefault:
+    - Email
+    Events:
+    - NotificationNewTicket
+    Recipients:
+    - AgentMyQueues
+    - AgentMyServices
+    SendOnOutOfOffice:
+    - '1'
+    Transports:
+    - Email
+    VisibleForAgent:
+    - '1'
+    VisibleForAgentTooltip:
+    - You will receive a notification each time a new ticket is created in one of
+      your "My Queues" or "My Services".
+  ID: 1
+  Message:
+    de:
+      Body: |-
+        Hallo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname> <OTRS_NOTIFICATION_RECIPIENT_UserLastname>,
+
+        das Ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] wurde in der Queue <OTRS_TICKET_Queue> erstellt.
+
+        <OTRS_CUSTOMER_REALNAME> schrieb:
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Ticket erstellt: <OTRS_TICKET_Title>'
+    en:
+      Body: |-
+        Hi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] has been created in queue <OTRS_TICKET_Queue>.
+
+        <OTRS_CUSTOMER_REALNAME> wrote:
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Ticket Created: <OTRS_TICKET_Title>'
+    es_MX:
+      Body: |-
+        Hola <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        el ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] se ha creado en la fila <OTRS_TICKET_Queue>.
+
+        <OTRS_CUSTOMER_REALNAME> escribió:
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Se ha creado un ticket: <OTRS_TICKET_Title>'
+    hu:
+      Body: |-
+        Kedves <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>!
+
+        A(z) [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] jegy létrejött a következő várólistában: <OTRS_TICKET_Queue>.
+
+        <OTRS_CUSTOMER_REALNAME> ezt írta:
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Jegy létrehozva: <OTRS_TICKET_Title>'
+    pt_BR:
+      Body: |-
+        Oi <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        o ticket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] foi criado na fila <OTRS_TICKET_Queue>.
+
+        <OTRS_CUSTOMER_REALNAME> escreveu:
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Ticket criado: <OTRS_TICKET_Title>'
+    sr_Cyrl:
+      Body: |-
+        Здраво <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        тикет [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] је отворен у реду <OTRS_TICKET_Queue>.
+
+        <OTRS_CUSTOMER_REALNAME> је написао/ла:
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Oтворен тикет: <OTRS_TICKET_Title>'
+    sr_Latn:
+      Body: |-
+        Zdravo <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        tiket [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] je otvoren u redu <OTRS_TICKET_Queue>.
+
+        <OTRS_CUSTOMER_REALNAME> je napisao/la:
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 'Otvoren tiket: <OTRS_TICKET_Title>'
+    zh_CN:
+      Body: |-
+        您好 <OTRS_NOTIFICATION_RECIPIENT_UserFirstname>,
+
+        票据工单 [<OTRS_CONFIG_Ticket::Hook><OTRS_CONFIG_Ticket::HookDivider><OTRS_TICKET_TicketNumber>] 已在等待队列 已在队列<OTRS_TICKET_Queue> 中被编制完成。中被创建完成
+
+        <OTRS_CUSTOMER_REALNAME> 写道：
+        <OTRS_CUSTOMER_BODY[30]>
+
+        <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentTicketZoom;TicketID=<OTRS_TICKET_TicketID>
+
+        -- <OTRS_CONFIG_NotificationSenderName>
+      ContentType: text/plain
+      Subject: 票据编制 工单已创建：<OTRS_TICKET_Title>
+  Name: Ticket create notification
+  ValidID: 1

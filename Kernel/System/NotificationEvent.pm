@@ -802,7 +802,6 @@ sub NotificationImport {
             else {
                 push @NotificationErrors, $Notification->{Name};
             }
-
         }
         else {
 
