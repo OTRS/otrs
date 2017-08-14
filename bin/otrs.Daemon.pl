@@ -64,7 +64,7 @@ if ( $NodeID !~ m{ \A \d+ \z }xms && $NodeID > 0 && $NodeID < 1000 ) {
 }
 
 # get pid directory
-my $PIDDir  = $ConfigObject->Get('Home') . '/var/run/';
+my $PIDDir = $ConfigObject->Get('Daemon::PID::Path') || $ConfigObject->Get('Home') . '/var/run/';
 my $PIDFile = $PIDDir . "Daemon-NodeID-$NodeID.pid";
 my $PIDFH;
 
