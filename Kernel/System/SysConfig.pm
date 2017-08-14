@@ -3401,15 +3401,18 @@ sub ConfigurationDeploySync {
 
     my $Home       = $Self->{Home};
     my $TargetPath = "$Home/Kernel/Config/Files/ZZZAAuto.pm";
-    if ( !require $TargetPath ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Could not load $TargetPath, $1",
-        );
-        return;
-    }
 
-    do $TargetPath;
+    if ( -e $TargetPath ) {
+        if ( !require $TargetPath ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not load $TargetPath, $1",
+            );
+            return;
+        }
+
+        do $TargetPath;
+    }
 
     $Kernel::OM->ObjectsDiscard(
         Objects => [ 'Kernel::Config', ],

@@ -96,6 +96,9 @@ my %IgnoreEntries = (
     'Loader::Module::Admin'                    => 1,
     'Loader::Module::AdminLog'                 => 1,
     'Loader::Module::AdminSystemConfiguration' => 1,
+
+    # This settings is modified in daemon.xml and needs to be excluded from this test.
+    'DaemonModules' => 1,
 );
 
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');

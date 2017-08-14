@@ -105,7 +105,7 @@ returns
                 },
                 # ...
             ],
-            NoDataMesssage => "Message if there is no data",
+            NoDataMessage => "Show this message if there is no data.",
         },
     );
 

@@ -84,10 +84,10 @@ sub Run {
     my $DaemonName = $Self->GetArgument('daemon-name');
 
     if ($DaemonName) {
-        $Self->Print("\n  <yellow>Gathering '$DaemonName' daemon summary...</yellow>\n\n");
+        $Self->Print("\n<yellow>Gathering summary for '$DaemonName'...</yellow>\n\n");
     }
     else {
-        $Self->Print("\n  <yellow>Gathering all daemons summary...</yellow>\n\n");
+        $Self->Print("\n<yellow>Gathering summary for all daemons...</yellow>\n\n");
     }
 
     # get daemon modules from SysConfig
@@ -165,7 +165,7 @@ sub _FormatOutput {
 
         # if there is no data to display, show empty message
         if ( !IsArrayRefWithData( $Summary->{Data} ) ) {
-            $Output .= '    ' . ( $Summary->{NoDataMesssage} || '' ) . "\n\n";
+            $Output .= '    ' . ( $Summary->{NoDataMessage} || '' ) . "\n\n";
 
             next SUMMARY;
         }

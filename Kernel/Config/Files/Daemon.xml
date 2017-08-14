@@ -125,6 +125,16 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="DaemonModules###SystemConfigurationSyncManager" Required="1" Valid="1">
+        <Description Translatable="1">The daemon registration for the system configuration deployment sync manager.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Core::Daemon::ModuleRegistration</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 
     <ConfigItem Name="Daemon::SchedulerTaskWorker::MaximumWorkers" Required="1" Valid="1">
         <Description Translatable="1">Defines the maximum number of tasks to be executed as the same time.</Description>

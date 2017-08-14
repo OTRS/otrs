@@ -749,6 +749,11 @@ sub LoadDefaults {
         },
     };
 
+    # Make sure the daemon is able to deploy the configuration to all cluster nodes that have no ZZZAAuto.pm yet.
+    $Self->{DaemonModules}->{SystemConfigurationSyncManager} =  {
+      Module => 'Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager'
+    };
+
     # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #

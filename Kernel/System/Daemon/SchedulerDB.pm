@@ -704,7 +704,7 @@ sub TaskSummary {
                 },
             ],
             Data           => \@UnhandledTasks,
-            NoDataMesssage => 'There are currently no tasks waiting to be executed',
+            NoDataMessage => 'There are currently no tasks waiting to be executed.',
         },
         {
             Header => 'Handled Worker Tasks:',
@@ -736,7 +736,7 @@ sub TaskSummary {
                 },
             ],
             Data           => \@HandledTasks,
-            NoDataMesssage => 'There are currently no tasks been executing',
+            NoDataMessage => 'There are currently no tasks being executed.',
         },
     );
 }
@@ -1357,7 +1357,7 @@ sub FutureTaskSummary {
                 },
             ],
             Data           => \@List,
-            NoDataMesssage => 'There are currently no tasks to be executed in future',
+            NoDataMessage => 'There are currently no tasks to be executed in future.',
         },
     );
 }
@@ -2304,7 +2304,7 @@ sub RecurrentTaskSummary {
                 },
             ],
             Data           => \@List,
-            NoDataMesssage => "There are currently no $Param{DisplayType} recurring tasks configured",
+            NoDataMessage => "There are currently no $Param{DisplayType} recurring tasks configured.",
         },
     );
 }
