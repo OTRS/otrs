@@ -19,7 +19,8 @@ a:hover {
     text-decoration: none;
 }
 
-.WidgetSimple {
+.WidgetSimple,
+div.DnDUpload {
     border: 1px solid #333;
 }
 
@@ -40,6 +41,10 @@ a:hover {
 #ToolBar a,
 #Navigation > .Active > ul > li > a {
     color: #fff !important;
+}
+
+#ToolBar a {
+    text-decoration: none;
 }
 
 .DataTable,
@@ -86,7 +91,8 @@ a,
 .AsteriskExplanation,
 #Footer a,
 .OverviewMedium table.Infos td label,
-.OverviewLarge .Infos table td label {
+.OverviewLarge .Infos table td label,
+.DnDUpload span.ReadyForUpload {
     color: #000;
 }
 
@@ -97,12 +103,6 @@ a,
 .WidgetSimple.Setting .SettingWrapper > form,
 #Navigation > .Active > ul > li:hover * {
     color: #000 !important;
-}
-
-.Tab.Actions li.Selected a,
-form label.Mandatory,
-a {
-    text-decoration: underline;
 }
 
 form label.Mandatory span {
