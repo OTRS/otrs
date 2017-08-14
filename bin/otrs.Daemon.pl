@@ -472,13 +472,13 @@ sub _PIDLock {
 
     # create new PID file (set exclusive lock while writing the PIDFile)
     open my $FH, '>', $PIDFile || die "Can not create PID file: $PIDFile\n";    ## no critic
-    return if !flock( $FH, LOCK_EX | LOCK_NB );
+    flock( $FH, LOCK_EX | LOCK_NB ) || die "Can not get exclusive lock for writing PID file: $PIDFile\n";
     print $FH $$;
     close $FH;
 
     # keep PIDFile shared locked forever
-    open $PIDFH, '<', $PIDFile || die "Can not create PID file: $PIDFile\n";    ## no critic
-    return if !flock( $PIDFH, LOCK_SH | LOCK_NB );
+    open $PIDFH, '<', $PIDFile || die "Can not read PID file: $PIDFile\n";      ## no critic
+    flock( $PIDFH, LOCK_SH | LOCK_NB ) || die "Can not get shared lock for reading PID file: $PIDFile\n";
 
     return 1;
 }
