@@ -27,8 +27,8 @@ sub Run {
 
     my $SessionMaxIdleTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionMaxIdleTime');
 
-    my %Online      = ();
-    my @Sessions    = $SessionObject->GetAllSessionIDs();
+    my %Online   = ();
+    my @Sessions = $SessionObject->GetAllSessionIDs();
 
     for (@Sessions) {
         my %Data = $SessionObject->GetSessionIDData(

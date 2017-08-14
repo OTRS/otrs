@@ -608,8 +608,8 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfiguration',
             Data         => {
-                ManualVersion => $ManualVersion,
-                SettingCount  => scalar @SettingList,
+                ManualVersion           => $ManualVersion,
+                SettingCount            => scalar @SettingList,
                 OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
                 %OutputData,
             },

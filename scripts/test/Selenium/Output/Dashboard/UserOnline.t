@@ -70,7 +70,9 @@ $Selenium->RunTest(
             "$TestUserLogin - found on UserOnline plugin"
         );
         $Self->True(
-            $Selenium->execute_script("return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"),
+            $Selenium->execute_script(
+                "return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"
+            ),
             "$TestUserLogin - found active status icon",
         );
 
@@ -85,7 +87,9 @@ $Selenium->RunTest(
         );
 
         $Self->True(
-            $Selenium->execute_script("return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"),
+            $Selenium->execute_script(
+                "return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"
+            ),
             "$TestCustomerUserLogin - found active status icon",
         );
 

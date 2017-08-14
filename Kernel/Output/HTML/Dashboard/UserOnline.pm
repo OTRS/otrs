@@ -190,8 +190,10 @@ sub Run {
         }
 
         # Remember the user data, if the user not already exists in the online list or the last request time is newer.
-        if (  !$Online->{User}->{ $Data{UserType} }->{ $Data{UserID} }
-            || $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} }->{UserLastRequest} < $Data{UserLastRequest} )
+        if (
+            !$Online->{User}->{ $Data{UserType} }->{ $Data{UserID} }
+            || $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} }->{UserLastRequest} < $Data{UserLastRequest}
+            )
         {
 
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
@@ -264,9 +266,11 @@ sub Run {
     if ( $EnableChat && $Self->{Filter} eq 'Agent' && !$ConfigObject->Get('ChatEngine::ChatDirection::AgentToAgent') ) {
         $EnableChat = 0;
     }
-    if (   $EnableChat
+    if (
+        $EnableChat
         && $Self->{Filter} eq 'Customer'
-        && !$ConfigObject->Get('ChatEngine::ChatDirection::AgentToCustomer') )
+        && !$ConfigObject->Get('ChatEngine::ChatDirection::AgentToCustomer')
+        )
     {
         $EnableChat = 0;
     }
@@ -287,10 +291,11 @@ sub Run {
     }
 
     # Online thresholds for agents and customers (default 5 min).
-    my $OnlineThreshold
-        = ( $Self->{Filter} eq 'Agent'
+    my $OnlineThreshold = (
+        $Self->{Filter} eq 'Agent'
         ? $Kernel::OM->Get('Kernel::Config')->Get('SessionAgentOnlineThreshold')
-        : $Kernel::OM->Get('Kernel::Config')->Get('SessionCustomerOnlineThreshold') )
+        : $Kernel::OM->Get('Kernel::Config')->Get('SessionCustomerOnlineThreshold')
+        )
         || 5;
 
     # Translate the diffrent user state descriptions.
