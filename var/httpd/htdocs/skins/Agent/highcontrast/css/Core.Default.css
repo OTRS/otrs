@@ -20,8 +20,9 @@ a:hover {
 }
 
 .WidgetSimple,
-div.DnDUpload {
-    border: 1px solid #333;
+div.DnDUpload,
+#ArticleItems .Incoming .ArticleMailContentHTMLWrapper, #ArticleItems .Incoming .ArticleChat, #ArticleItems .Incoming .ArticleBody {
+    border: 1px solid #000;
 }
 
 .WidgetSimple > .Header,
@@ -136,7 +137,8 @@ form label.Mandatory span {
 .CallForAction:active,
 .CallForAction:hover,
 .CallForAction:focus,
-#Navigation > .Active > ul > li:hover {
+#Navigation > .Active > ul > li:hover,
+.WidgetSimple {
     background: #fff;
 }
 
