@@ -83,7 +83,8 @@ sub new {
     }
 
     # Get pid directory.
-    $Self->{PIDDir}  = $Self->{ConfigObject}->Get('Home') . '/var/run/Daemon/Scheduler/';
+    my $BaseDir = $Self->{ConfigObject}->Get('Daemon::PID::Path') || $Self->{ConfigObject}->Get('Home') . '/var/run/';
+    $Self->{PIDDir}  = $BaseDir . 'Daemon/Scheduler/';
     $Self->{PIDFile} = $Self->{PIDDir} . "Worker-NodeID-$Self->{NodeID}.pid";
 
     # Check pid hash and pid file.
