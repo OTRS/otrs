@@ -5336,6 +5336,24 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::MenuModule###999-TeaserAttachmentView" Required="0" Valid="1">
+        <Description Translatable="1">Shows a teaser link in the menu for the ticket attachment view of OTRS Business Solution™.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenu::TeaserAttachmentView</Item>
+                <Item Key="Name">All Ticket Attachments (OTRS Business Solution™)</Item>
+                <Item Key="Description" Translatable="1">View all attachments of the current ticket</Item>
+                <Item Key="Action">AgentTicketZoom</Item>
+                <Item Key="Link">Action=AgentTicketZoom;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Target"></Item>
+                <Item Key="Class">OTRSBusinessRequired</Item>
+                <Item Key="PopupType"></Item>
+                <Item Key="ClusterName" Translatable="1">Miscellaneous</Item>
+                <Item Key="ClusterPriority">999</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::MenuModule###210-Print" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom::MenuModule</Navigation>
