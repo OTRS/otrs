@@ -1455,6 +1455,7 @@ sub Run {
 
                 my $BlockType = '';
                 my $CSSClass  = '';
+                my $TitleValue;
                 if ( $TicketColumn eq 'EscalationSolutionTime' ) {
                     $BlockType = 'Escalation';
 
@@ -1527,8 +1528,8 @@ sub Run {
                     my %ResponsibleInfo = $Self->{UserObject}->GetUserData(
                         UserID => $Article{ResponsibleID},
                     );
-                    $DataValue = $ResponsibleInfo{'UserFirstname'} . ' '
-                        . $ResponsibleInfo{'UserLastname'};
+                    $DataValue  = $ResponsibleInfo{'UserFullname'};
+                    $TitleValue = $ResponsibleInfo{'UserFullname'} . ' (' . $ResponsibleInfo{'UserLogin'} . ')';
                 }
                 else {
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
@@ -1537,8 +1538,9 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => "RecordTicketColumn$BlockType",
                     Data => {
-                        GenericValue => $DataValue || '',
-                        Class        => $CSSClass  || '',
+                        GenericValue => $DataValue  || '',
+                        TitleValue   => $TitleValue || $DataValue,
+                        Class        => $CSSClass   || '',
                     },
                 );
             }

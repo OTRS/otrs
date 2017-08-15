@@ -1564,7 +1564,7 @@ sub Run {
                     my %OwnerInfo = $UserObject->GetUserData(
                         UserID => $Ticket{OwnerID},
                     );
-                    $DataValue = $OwnerInfo{'UserFirstname'} . ' ' . $OwnerInfo{'UserLastname'};
+                    $DataValue = $OwnerInfo{'UserFullname'};
                 }
                 elsif ( $Column eq 'Responsible' ) {
 
@@ -1572,8 +1572,7 @@ sub Run {
                     my %ResponsibleInfo = $UserObject->GetUserData(
                         UserID => $Ticket{ResponsibleID},
                     );
-                    $DataValue = $ResponsibleInfo{'UserFirstname'} . ' '
-                        . $ResponsibleInfo{'UserLastname'};
+                    $DataValue = $ResponsibleInfo{'UserFullname'};
                 }
                 elsif (
                     $Column eq 'State'
