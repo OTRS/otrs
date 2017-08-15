@@ -615,7 +615,7 @@ $Selenium->RunTest(
 
         # Stop daemon if it was started earlier in the test.
         if ( !$DaemonExitCode ) {
-            `$Daemon stop`;
+            `$^X $Daemon stop`;
 
             $Self->True(
                 1,

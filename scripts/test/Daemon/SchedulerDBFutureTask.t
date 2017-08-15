@@ -22,7 +22,7 @@ my $PreviousDaemonStatus = `$Daemon status`;
 
 # stop daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    `$Daemon stop`;
+    `$^X $Daemon stop`;
 
     my $SleepTime = 2;
 
@@ -564,7 +564,7 @@ for my $Test (@Tests) {
 
 # start daemon if it was already running before this test
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
-    system("$Daemon start");
+    system("$^X $Daemon start");
 }
 
 # cleanup is done by RestoreDatabase.
