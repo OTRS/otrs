@@ -24,8 +24,7 @@ my $CreateMailQueueElement = sub {
     my %Param = @_;
 
     my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
-
-    my %ElementData = (
+    my %ElementData     = (
         Sender    => 'mailqueue.test@otrs.com',
         Recipient => 'mailqueue.test@otrs.com',
         Message   => {
@@ -123,20 +122,16 @@ for my $Idx ( 0 .. 1 ) {
 my $Item = $MailQueueObject->Get(
     ArticleID => 1,
 );
-my $CommunicationLogObject = $Kernel::OM->Create(
-    'Kernel::System::CommunicationLog',
-    ObjectParams => {
-        Transport => 'Email',
-        Direction => 'Outgoing',
-    },
+my $CommunicationLogDBObj = $Kernel::OM->Get(
+    'Kernel::System::CommunicationLog::DB',
 );
-my $ComLookupInfo = $CommunicationLogObject->ObjectLookupGet(
+my $ComLookupInfo = $CommunicationLogDBObj->ObjectLookupGet(
     TargetObjectType => 'MailQueueItem',
     TargetObjectID   => $Item->{ID},
 ) || {};
 
 $Self->True(
-    $ComLookupInfo->{ObjectID},
+    $ComLookupInfo->{ObjectLogID},
     'Found communication-log lookup information for the queue element.',
 );
 

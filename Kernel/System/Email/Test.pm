@@ -40,7 +40,6 @@ sub Send {
     ) // [];
 
     delete $Param{CommunicationLogObject};
-    delete $Param{CommunicationLogMessageID};
     push @{$Emails}, \%Param;
 
     $Kernel::OM->Get('Kernel::System::Cache')->Set(

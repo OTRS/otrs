@@ -284,24 +284,21 @@ my $RunTest = sub {
             ObjectParams => {
                 Transport => 'Email',
                 Direction => 'Incoming',
-                Start     => 1,
-                }
+            },
         );
-        my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+        $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            CommunicationLogObject    => $CommunicationLogObject,
-            CommunicationLogMessageID => $MessageID,
-            Email                     => \$Test->{Email},
-            Debug                     => 2,
+            CommunicationLogObject => $CommunicationLogObject,
+            Email                  => \$Test->{Email},
+            Debug                  => 2,
         );
 
         @Return = $PostMasterObject->Run();
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Status     => 'Successful',
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
         );
         $CommunicationLogObject->CommunicationStop(
             Status => 'Successful',

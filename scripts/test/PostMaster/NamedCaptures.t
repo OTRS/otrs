@@ -192,23 +192,20 @@ The IP address: 192.168.0.1
             ObjectParams => {
                 Transport => 'Email',
                 Direction => 'Incoming',
-                Start     => 1,
-                }
+            },
         );
-        my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+        $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            CommunicationLogObject    => $CommunicationLogObject,
-            CommunicationLogMessageID => $MessageID,
-            Email                     => \$Email,
+            CommunicationLogObject => $CommunicationLogObject,
+            Email                  => \$Email,
         );
 
         @Return = $PostMasterObject->Run();
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Status     => 'Successful',
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
         );
         $CommunicationLogObject->CommunicationStop(
             Status => 'Successful',

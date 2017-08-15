@@ -18,14 +18,17 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 my $CommunicationLogObject = $Kernel::OM->Create(
     'Kernel::System::CommunicationLog',
     ObjectParams => {
         Transport => 'Email',
         Direction => 'Incoming',
-        Start     => 1,
     },
 );
+
+my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 
 my $TestSet = sub {
 
@@ -38,13 +41,13 @@ my $TestSet = sub {
 
     # Test a successful create and update.
     for my $Idx ( 0 .. 1 ) {
-        my $ComLogMessageID = $CommunicationLogObject->ObjectLogStart(
-            ObjectType => 'Message',
+        $CommunicationLogObject->ObjectLogStart(
+            ObjectLogType => 'Message',
         );
 
         # Create lookup information.
         my $Result = $CommunicationLogObject->ObjectLookupSet(
-            ObjectID         => $ComLogMessageID,
+            ObjectLogType    => 'Message',
             TargetObjectType => 'Test',
             TargetObjectID   => 1,
         );
@@ -56,10 +59,17 @@ my $TestSet = sub {
                 ( $Idx ? 'updated' : 'created' ),
             ),
         );
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
+        );
     }
 
     # Delete all communication log data.
-    $CommunicationLogObject->ObjectLogDelete();
+    $CommunicationLogDBObj->ObjectLogDelete(
+        CommunicationID => $CommunicationLogObject->CommunicationIDGet(),
+    );
 
     return;
 };
@@ -70,17 +80,24 @@ my $TestSearch = sub {
     my %ComLogLookupInfo = ();
     for my $Idx ( 1 .. 5 ) {
         my $MessageID = $CommunicationLogObject->ObjectLogStart(
-            ObjectType => 'Message',
+            ObjectLogType => 'Message',
         );
 
         $ComLogLookupInfo{$Idx} = {
-            ObjectID         => $MessageID,
+            ObjectLogID      => $MessageID,
             TargetObjectType => 'Test',
             TargetObjectID   => $Idx,
+            CommunicationID  => $CommunicationLogObject->CommunicationIDGet(),
         };
 
         $CommunicationLogObject->ObjectLookupSet(
+            ObjectLogType => 'Message',
             %{ $ComLogLookupInfo{$Idx} },
+        );
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
         );
     }
 
@@ -107,9 +124,9 @@ my $TestSearch = sub {
             Expected => [ $ComLogLookupInfo{2} ],
         },
         {
-            Name     => 'Communication log lookup search by ObjectType',
+            Name     => 'Communication log lookup search by ObjectLogType',
             SearchBy => {
-                ObjectType => 'Message',
+                ObjectLogType => 'Message',
             },
             Expected => [ sort { $a->{TargetObjectID} <=> $b->{TargetObjectID} } values %ComLogLookupInfo ],
         },
@@ -124,13 +141,17 @@ my $TestSearch = sub {
     );
 
     for my $Test (@Tests) {
-        my $List = $CommunicationLogObject->ObjectLookupSearch( %{ $Test->{SearchBy} } );
+        my $List = $CommunicationLogDBObj->ObjectLookupSearch(
+            %{ $Test->{SearchBy} },
+        );
         $List = [ sort { $a->{TargetObjectID} <=> $b->{TargetObjectID} } @{$List} ];
         $Self->IsDeeply( $Test->{Expected}, $List, $Test->{Name}, );
     }
 
     # Delete all communication log data.
-    $CommunicationLogObject->ObjectLogDelete();
+    $CommunicationLogDBObj->ObjectLogDelete(
+        CommunicationID => $CommunicationLogObject->CommunicationIDGet(),
+    );
 
     return;
 };
@@ -141,22 +162,29 @@ my $TestGet = sub {
     my %ComLogLookupInfo = ();
     for my $Idx ( 1 .. 2 ) {
         my $MessageID = $CommunicationLogObject->ObjectLogStart(
-            ObjectType => 'Message',
+            ObjectLogType => 'Message',
         );
 
         $ComLogLookupInfo{$Idx} = {
-            ObjectID         => $MessageID,
+            ObjectLogID      => $MessageID,
             TargetObjectType => 'Test',
             TargetObjectID   => $Idx,
+            CommunicationID  => $CommunicationLogObject->CommunicationIDGet(),
         };
 
         $CommunicationLogObject->ObjectLookupSet(
+            ObjectLogType => 'Message',
             %{ $ComLogLookupInfo{$Idx} },
+        );
+
+        $CommunicationLogObject->ObjectLogStop(
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
         );
     }
 
     # Try to get lookup without passing any parameter.
-    my $Result = $CommunicationLogObject->ObjectLookupGet();
+    my $Result = $CommunicationLogDBObj->ObjectLookupGet();
     $Self->False(
         $Result,
         'Communication log get lookup missing required params.'
@@ -164,9 +192,9 @@ my $TestGet = sub {
 
     my @Tests = (
         {
-            Name     => 'Communication log lookup get by ObjectID and TargetObjectType ',
+            Name     => 'Communication log lookup get by ObjectLogID and TargetObjectType ',
             SearchBy => {
-                ObjectID         => $ComLogLookupInfo{1}->{ObjectID},
+                ObjectLogID      => $ComLogLookupInfo{1}->{ObjectLogID},
                 TargetObjectType => $ComLogLookupInfo{1}->{TargetObjectType},
             },
             Expected => $ComLogLookupInfo{1},
@@ -187,7 +215,9 @@ my $TestGet = sub {
     }
 
     # Delete all communication log data.
-    $CommunicationLogObject->ObjectLogDelete();
+    $CommunicationLogDBObj->ObjectLogDelete(
+        CommunicationID => $CommunicationLogObject->CommunicationIDGet(),
+    );
 
     return;
 };

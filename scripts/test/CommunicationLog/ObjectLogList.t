@@ -26,27 +26,26 @@ my $CommunicationLogObject = $Kernel::OM->Create(
     ObjectParams => {
         Transport => 'Test',
         Direction => 'Incoming',
-        Start     => 1,
     },
 );
 
 # Create some logging for 'Connection' and 'Message'
-for my $ObjectType (qw( Connection Message )) {
-    my $ObjectID = $CommunicationLogObject->ObjectLogStart(
-        ObjectType => $ObjectType,
+for my $ObjectLogType (qw( Connection Message )) {
+    my $ObjectLogID = $CommunicationLogObject->ObjectLogStart(
+        ObjectLogType => $ObjectLogType,
     );
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => $ObjectType,
-        ObjectID   => $ObjectID,
-        Key        => 'Time',
-        Value      => time(),
+        ObjectLogType => $ObjectLogType,
+        ObjectLogID   => $ObjectLogID,
+        Key           => 'Time',
+        Value         => time(),
     );
 
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => $ObjectType,
-        ObjectID   => $ObjectID,
-        Status     => $ObjectType eq 'Connection' ? 'Successful' : 'Failed',
+        ObjectLogType => $ObjectLogType,
+        ObjectLogID   => $ObjectLogID,
+        Status        => $ObjectLogType eq 'Connection' ? 'Successful' : 'Failed',
     );
 }
 
@@ -58,30 +57,33 @@ $CommunicationLogObject->CommunicationStop(
 my $Result;
 
 # Get the Objects list.
-$Result = $CommunicationLogObject->ObjectList();
+my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+
+$Result = $CommunicationDBObject->ObjectLogList();
 $Self->True(
     $Result && scalar @{$Result} == 2,
     'Communication objects list.'
 );
 
 # Filter by Status
-$Result = $CommunicationLogObject->ObjectList( Status => 'Failed' );
+$Result = $CommunicationDBObject->ObjectLogList( ObjectLogStatus => 'Failed' );
+
 $Self->True(
     $Result && scalar @{$Result} == 1,
     'Communication objects list by status "Failed".'
 );
 
-# Filter by ObjectType
-$Result = $CommunicationLogObject->ObjectList( ObjectType => 'Message' );
+# Filter by ObjectLogType
+$Result = $CommunicationDBObject->ObjectLogList( ObjectLogType => 'Message' );
 $Self->True(
     $Result && scalar @{$Result} == 1,
     'Communication objects list by object-type "Message".'
 );
 
-# Filter by ObjectType and Status
-$Result = $CommunicationLogObject->ObjectList(
-    ObjectType => 'Message',
-    Status     => 'Successful'
+# Filter by ObjectLogType and Status
+$Result = $CommunicationDBObject->ObjectLogList(
+    ObjectLogType   => 'Message',
+    ObjectLogStatus => 'Successful'
 );
 $Self->True(
     $Result && scalar @{$Result} == 0,
@@ -93,7 +95,7 @@ my $CurSysDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 $CurSysDateTimeObject->Subtract(
     Days => 1,
 );
-$Result = $CommunicationLogObject->ObjectList( StartTime => $CurSysDateTimeObject->ToString() );
+$Result = $CommunicationDBObject->ObjectLogList( ObjectLogStartTime => $CurSysDateTimeObject->ToString() );
 $Self->True(
     $Result && scalar @{$Result} == 0,
     sprintf( 'Communication objects list by start-time "%s".', $CurSysDateTimeObject->ToString(), ),

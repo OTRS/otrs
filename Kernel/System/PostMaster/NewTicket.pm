@@ -38,9 +38,8 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -52,11 +51,10 @@ sub Run {
     for my $Needed (qw(InmailUserID GetParam)) {
         if ( !$Param{$Needed} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "Need $Needed!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "Need $Needed!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -91,11 +89,10 @@ sub Run {
         }
         else {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -118,11 +115,10 @@ sub Run {
         }
         else {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "Priority $GetParam{'X-OTRS-Priority'} does not exist, falling back to $Priority!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "Priority $GetParam{'X-OTRS-Priority'} does not exist, falling back to $Priority!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -140,11 +136,10 @@ sub Run {
 
         if ( !$TypeID ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "Type $GetParam{'X-OTRS-Type'} does not exist, falling back to default type.",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "Type $GetParam{'X-OTRS-Type'} does not exist, falling back to default type.",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -218,11 +213,10 @@ sub Run {
 
             # notice that UserLogin is from customer source backend
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Notice',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "Take UserLogin ($CustomerData{UserLogin}) from "
+                ObjectLogType => 'Message',
+                Priority      => 'Notice',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "Take UserLogin ($CustomerData{UserLogin}) from "
                     . "customer source backend based on ($GetParam{'EmailFrom'}).",
             );
         }
@@ -231,11 +225,10 @@ sub Run {
 
             # notice that UserCustomerID is from customer source backend
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Notice',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "Take UserCustomerID ($CustomerData{UserCustomerID})"
+                ObjectLogType => 'Message',
+                Priority      => 'Notice',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "Take UserCustomerID ($CustomerData{UserCustomerID})"
                     . " from customer source backend based on ($GetParam{'EmailFrom'}).",
             );
         }
@@ -284,11 +277,10 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::NewTicket',
-        Value      => "Going to create new ticket.",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::NewTicket',
+        Value         => "Going to create new ticket.",
     );
 
     # create new ticket
@@ -312,11 +304,10 @@ sub Run {
 
     if ( !$TicketID ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::NewTicket',
-            Value      => "Ticket could not be created!",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::NewTicket',
+            Value         => "Ticket could not be created!",
         );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -345,11 +336,10 @@ Message
     }
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::NewTicket',
-        Value      => $TicketCreateMessage,
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::NewTicket',
+        Value         => $TicketCreateMessage,
     );
 
     # set pending time
@@ -392,10 +382,9 @@ Message
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::NewTicket',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::NewTicket',
             Value =>
                 "Pending time update via 'X-OTRS-State-PendingTime'! State-PendingTime: $GetParam{'X-OTRS-State-PendingTime'}.",
         );
@@ -435,11 +424,10 @@ Message
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "DynamicField update via '$Key'! Value: $GetParam{$Key}.",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
         }
     }
@@ -477,11 +465,10 @@ Message
                 }
 
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Debug',
-                    Key        => 'Kernel::System::PostMaster::NewTicket',
-                    Value      => "DynamicField (TicketKey$Count) update via '$Key'! Value: $GetParam{$Key}.",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Debug',
+                    Key           => 'Kernel::System::PostMaster::NewTicket',
+                    Value         => "DynamicField (TicketKey$Count) update via '$Key'! Value: $GetParam{$Key}.",
                 );
             }
         }
@@ -520,11 +507,10 @@ Message
                 }
 
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Debug',
-                    Key        => 'Kernel::System::PostMaster::NewTicket',
-                    Value      => "DynamicField (TicketTime$Count) update via '$Key'! Value: $GetParam{$Key}.",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Debug',
+                    Key           => 'Kernel::System::PostMaster::NewTicket',
+                    Value         => "DynamicField (TicketTime$Count) update via '$Key'! Value: $GetParam{$Key}.",
                 );
             }
         }
@@ -540,11 +526,10 @@ Message
     }
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::NewTicket',
-        Value      => "Going to create new article for TicketID '$TicketID'.",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::NewTicket',
+        Value         => "Going to create new article for TicketID '$TicketID'.",
     );
 
     # Create email article.
@@ -574,11 +559,10 @@ Message
     if ( !$ArticleID ) {
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::NewTicket',
-            Value      => "Can't process email with MessageID <$GetParam{'Message-ID'}>! "
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::NewTicket',
+            Value         => "Can't process email with MessageID <$GetParam{'Message-ID'}>! "
                 . "Please create a bug report with this email (From: $GetParam{From}, Located "
                 . "under var/spool/problem-email*) on http://bugs.otrs.org/!",
         );
@@ -591,11 +575,10 @@ Message
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::NewTicket',
-            Value      => "TicketID '$TicketID' will be deleted again!",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::NewTicket',
+            Value         => "TicketID '$TicketID' will be deleted again!",
         );
 
         $TicketObject->TicketDelete(
@@ -606,7 +589,7 @@ Message
     }
 
     $Self->{CommunicationLogObject}->ObjectLookupSet(
-        ObjectID         => $Self->{CommunicationLogMessageID},
+        ObjectLogType    => 'Message',
         TargetObjectType => 'Article',
         TargetObjectID   => $ArticleID,
     );
@@ -640,11 +623,10 @@ Message
         next ATTRIBUTE if !( defined $Value ) || !( length $Value );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::NewTicket',
-            Value      => "$Attribute: $Value",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::NewTicket',
+            Value         => "$Attribute: $Value",
         );
     }
 
@@ -677,11 +659,10 @@ Message
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::NewTicket',
-                Value      => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value         => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
         }
     }
@@ -719,11 +700,10 @@ Message
                 }
 
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Debug',
-                    Key        => 'Kernel::System::PostMaster::NewTicket',
-                    Value      => "Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Debug',
+                    Key           => 'Kernel::System::PostMaster::NewTicket',
+                    Value         => "Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
                 );
             }
         }

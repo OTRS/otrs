@@ -26,8 +26,7 @@ sub new {
     bless( $Self, $Type );
 
     # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -39,11 +38,10 @@ sub Run {
     for my $Option (qw(NumberRegExp DynamicFieldName SenderType IsVisibleForCustomer)) {
         if ( !defined $Param{JobConfig}->{$Option} && !$Param{JobConfig}->{$Option} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-                Value      => "Missing configuration for $Option for postmaster filter.",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+                Value         => "Missing configuration for $Option for postmaster filter.",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -54,11 +52,10 @@ sub Run {
     }
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-        Value      => "Starting filter '$Param{JobConfig}->{Name}'",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+        Value         => "Starting filter '$Param{JobConfig}->{Name}'",
     );
 
     # check if sender is of interest
@@ -87,20 +84,18 @@ sub Run {
 
         if ( $Self->{Number} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-                Value      => "Found number: '$Self->{Number}' in subject",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+                Value         => "Found number: '$Self->{Number}' in subject",
             );
         }
         else {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-                Value      => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+                Value         => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
             );
         }
     }
@@ -126,21 +121,19 @@ sub Run {
     # we need to have found an external number to proceed.
     if ( !$Self->{Number} ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-            Value      => "Could not find external ticket number => Ignoring",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Value         => "Could not find external ticket number => Ignoring",
         );
         return 1;
     }
     else {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-            Value      => "Found number $Self->{Number}",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Value         => "Found number $Self->{Number}",
         );
     }
 
@@ -205,11 +198,10 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-            Value      => "Found ticket $TicketNumber open for external number $Self->{Number}. Updating.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Value         => "Found ticket $TicketNumber open for external number $Self->{Number}. Updating.",
         );
 
         # get config object
@@ -232,11 +224,10 @@ sub Run {
     }
     else {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
-            Value      => "Creating new ticket for external ticket '$Self->{Number}'",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
+            Value         => "Creating new ticket for external ticket '$Self->{Number}'",
         );
 
         # get the dynamic field name and description from JobConfig, set as headers

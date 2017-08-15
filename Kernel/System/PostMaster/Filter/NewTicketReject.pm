@@ -25,9 +25,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -39,11 +38,10 @@ sub Run {
     for (qw(JobConfig GetParam)) {
         if ( !$Param{$_} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::Filter::NewTicketReject',
-                Value      => "Need $_!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::Filter::NewTicketReject',
+                Value         => "Need $_!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -79,11 +77,10 @@ sub Run {
             $Matched = $1 || '1';
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::Filter::NewTicketReject',
-                Value      => "'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::Filter::NewTicketReject',
+                Value         => "'$Param{GetParam}->{$Key}' =~ /$Value/i matched!",
             );
         }
         else {
@@ -91,11 +88,10 @@ sub Run {
             $MatchedNot = 1;
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::Filter::NewTicketReject',
-                Value      => "'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::Filter::NewTicketReject',
+                Value         => "'$Param{GetParam}->{$Key}' =~ /$Value/i matched NOT!",
             );
         }
     }
@@ -117,11 +113,10 @@ sub Run {
             $Param{GetParam}->{$Key} = $Value;
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Notice',
-                Key        => 'Kernel::System::PostMaster::Filter::NewTicketReject',
-                Value      => "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'})",
+                ObjectLogType => 'Message',
+                Priority      => 'Notice',
+                Key           => 'Kernel::System::PostMaster::Filter::NewTicketReject',
+                Value         => "Set param '$Key' to '$Value' (Message-ID: $Param{GetParam}->{'Message-ID'})",
             );
         }
 
@@ -157,11 +152,10 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Notice',
-            Key        => 'Kernel::System::PostMaster::Filter::NewTicketReject',
-            Value      => "Send reject mail to '$Param{GetParam}->{From}'!",
+            ObjectLogType => 'Message',
+            Priority      => 'Notice',
+            Key           => 'Kernel::System::PostMaster::Filter::NewTicketReject',
+            Value         => "Send reject mail to '$Param{GetParam}->{From}'!",
         );
     }
 

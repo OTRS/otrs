@@ -161,10 +161,9 @@ my $CommunicationLogObject = $Kernel::OM->Create(
     ObjectParams => {
         Transport => 'Email',
         Direction => 'Incoming',
-        Start     => 1,
-        }
+    },
 );
-my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+$CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
 # use different subject format
 for my $TicketSubjectConfig ( 'Right', 'Left' ) {
@@ -385,9 +384,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
-                        Email                     => \@Content,
+                        CommunicationLogObject => $CommunicationLogObject,
+                        Email                  => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -625,9 +623,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
-                        Email                     => \@Content,
+                        CommunicationLogObject => $CommunicationLogObject,
+                        Email                  => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -678,9 +675,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
-                        Email                     => \@Content,
+                        CommunicationLogObject => $CommunicationLogObject,
+                        Email                  => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -707,9 +703,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
-                        Email                     => \@Content,
+                        CommunicationLogObject => $CommunicationLogObject,
+                        Email                  => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -736,9 +731,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
-                        Email                     => \@Content,
+                        CommunicationLogObject => $CommunicationLogObject,
+                        Email                  => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -765,9 +759,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
-                        Email                     => \@Content,
+                        CommunicationLogObject => $CommunicationLogObject,
+                        Email                  => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -822,9 +815,8 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
-                        Email                     => \@Content,
+                        CommunicationLogObject => $CommunicationLogObject,
+                        Email                  => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -1178,9 +1170,8 @@ Some Content in Body
     my @Return;
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            CommunicationLogObject    => $CommunicationLogObject,
-            CommunicationLogMessageID => $MessageID,
-            Email                     => \$Email,
+            CommunicationLogObject => $CommunicationLogObject,
+            Email                  => \$Email,
         );
 
         @Return = $PostMasterObject->Run();
@@ -1340,9 +1331,8 @@ for my $Test (@Tests) {
         my @Return;
         {
             my $PostMasterObject = Kernel::System::PostMaster->new(
-                CommunicationLogObject    => $CommunicationLogObject,
-                CommunicationLogMessageID => $MessageID,
-                Email                     => \$Test->{Email},
+                CommunicationLogObject => $CommunicationLogObject,
+                Email                  => \$Test->{Email},
             );
 
             @Return = $PostMasterObject->Run();
@@ -1478,9 +1468,8 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
     }
 
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $MessageID,
-        Email                     => $ContentRef,
+        CommunicationLogObject => $CommunicationLogObject,
+        Email                  => $ContentRef,
     );
 
     my @Return = $PostMasterObject->Run();
@@ -1514,9 +1503,8 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
 }
 
 $CommunicationLogObject->ObjectLogStop(
-    ObjectType => 'Message',
-    ObjectID   => $MessageID,
-    Status     => 'Successful',
+    ObjectLogType => 'Message',
+    Status        => 'Successful',
 );
 $CommunicationLogObject->CommunicationStop(
     Status => 'Successful',

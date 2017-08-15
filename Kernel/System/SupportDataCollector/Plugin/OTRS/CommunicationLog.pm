@@ -18,6 +18,7 @@ use Kernel::Language qw(Translatable);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CommunicationLog',
+    'Kernel::System::CommunicationLog::DB',
 );
 
 sub GetDisplayPath {
@@ -27,15 +28,8 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Incoming',
-        },
-    );
-
-    my @CommunicationList = $CommunicationLogObject->CommunicationList();
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+    my @CommunicationList = @{ $CommunicationLogDBObj->CommunicationList() || [] };
 
     my %CommunicationData = (
         All        => 0,
@@ -51,7 +45,7 @@ sub Run {
         $CommunicationData{ $Communication->{Direction} }++;
     }
 
-    my $CommunicationAverageSeconds = $CommunicationLogObject->CommunicationList( Result => 'AVERAGE' );
+    my $CommunicationAverageSeconds = $CommunicationLogDBObj->CommunicationList( Result => 'AVERAGE' );
 
     $Self->AddResultInformation(
         Identifier => 'Incoming',

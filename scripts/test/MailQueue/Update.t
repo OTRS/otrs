@@ -35,21 +35,11 @@ $HelperObject->ConfigSettingChange(
 my $CreateTestData = sub {
     my %Param = @_;
 
-    my $MailQueueObject        = $Kernel::OM->Get('Kernel::System::MailQueue');
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Outgoing',
-            Start     => 1,
-            }
-    );
-
-    my %ElementData = (
-        CommunicationID => $CommunicationLogObject->CommunicationIDGet(),
-        Sender          => 'mailqueue.test@otrs.com',
-        Recipient       => 'mailqueue.test@otrs.com',
-        Message         => {
+    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
+    my %ElementData     = (
+        Sender    => 'mailqueue.test@otrs.com',
+        Recipient => 'mailqueue.test@otrs.com',
+        Message   => {
             'Key1' => 'Value1',
             'Key2' => 'Value2',
         },

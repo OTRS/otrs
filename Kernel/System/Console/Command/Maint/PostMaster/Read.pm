@@ -48,20 +48,18 @@ sub Run {
         ObjectParams => {
             Transport   => 'Email',
             Direction   => 'Incoming',
-            Start       => 1,
             AccountType => 'STDIN',
-            }
+        },
     );
 
     # start object log for the incoming connection
-    my $ConnectionID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Connection' );
+    $CommunicationLogObject->ObjectLogStart( ObjectType => 'Connection' );
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-        Value      => 'Read email from STDIN.',
+        ObjectLogType => 'Connection',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+        Value         => 'Read email from STDIN.',
     );
 
     # get email from SDTIN
@@ -70,17 +68,15 @@ sub Run {
     if ( !@Email ) {
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Priority   => 'Error',
-            Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-            Value      => 'Got no email on STDIN!',
+            ObjectLogType => 'Connection',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+            Value         => 'Got no email on STDIN!',
         );
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Status     => 'Failed',
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
         );
         $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 
@@ -88,15 +84,14 @@ sub Run {
     }
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-        Value      => 'Email with ' . ( scalar @Email ) . ' lines successfully read from STDIN.',
+        ObjectLogType => 'Connection',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+        Value         => 'Email with ' . ( scalar @Email ) . ' lines successfully read from STDIN.',
     );
 
     # start object log for the email processing
-    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
 
     # remember the return code to stop the communictaion later with a proper status
     my $PostMasterReturnCode = 0;
@@ -108,20 +103,18 @@ sub Run {
     eval {
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-            Value      => 'Processing email with PostMaster module.',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+            Value         => 'Processing email with PostMaster module.',
         );
 
         my $PostMasterObject = $Kernel::OM->Create(
             'Kernel::System::PostMaster',
             ObjectParams => {
-                CommunicationLogObject    => $CommunicationLogObject,
-                CommunicationLogMessageID => $MessageID,
-                Email                     => \@Email,
-                Trusted                   => $Self->GetOption('untrusted') ? 0 : 1,
+                CommunicationLogObject => $CommunicationLogObject,
+                Email                  => \@Email,
+                Trusted                => $Self->GetOption('untrusted') ? 0 : 1,
             },
         );
 
@@ -132,11 +125,10 @@ sub Run {
         if ( !$Return[0] ) {
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $MessageID,
-                Priority   => 'Error',
-                Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-                Value      => 'PostMaster module exited with errors, could not process email. Please refer to the log!',
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+                Value => 'PostMaster module exited with errors, could not process email. Please refer to the log!',
             );
             $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 
@@ -145,11 +137,10 @@ sub Run {
 
         my $Dump = $Kernel::OM->Get('Kernel::System::Main')->Dump( \@Return );
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-            Value      => "Email processing with PostMaster module completed, return data: $Dump",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+            Value         => "Email processing with PostMaster module completed, return data: $Dump",
         );
 
         $PostMasterReturnCode = $Return[0];
@@ -166,22 +157,19 @@ sub Run {
         my $Message = $@;
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Priority   => 'Error',
-            Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-            Value      => "An unexpected error occurred, message: $Message",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+            Value         => "An unexpected error occurred, message: $Message",
         );
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Status     => 'Failed',
+            ObjectLogType => 'Message',
+            Status        => 'Failed',
         );
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Status     => 'Failed',
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
         );
         $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 
@@ -189,22 +177,19 @@ sub Run {
     }
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
-        Value      => 'Closing connection from STDIN.',
+        ObjectLogType => 'Connection',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Console::Command::Maint::PostMaster::Read',
+        Value         => 'Closing connection from STDIN.',
     );
 
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => 'Message',
-        ObjectID   => $MessageID,
-        Status     => 'Successful',
+        ObjectLogType => 'Message',
+        Status        => 'Successful',
     );
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Status     => 'Successful',
+        ObjectLogType => 'Connection',
+        Status        => 'Successful',
     );
 
     my %ReturnCodeMap = (

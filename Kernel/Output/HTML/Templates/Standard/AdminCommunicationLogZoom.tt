@@ -113,20 +113,20 @@
                         </tr>
 [% RenderBlockEnd("NoCommunicationObjectsFound") %]
 [% RenderBlockStart("CommunicationObjectRow") %]
-                        <tr id="[% Data.ID %]" class="[% IF Data.Status == 'Failed' %]Error[% END %]">
-                            <td class="Status Center" title="[% Translate(Data.Status) | html %]">
-                            [% IF Data.Status == 'Successful' %]
+                        <tr id="[% Data.ObjectLogID %]" class="[% IF Data.Status == 'Failed' %]Error[% END %]">
+                            <td class="Status Center" title="[% Translate(Data.ObjectLogStatus) | html %]">
+                            [% IF Data.ObjectLogStatus == 'Successful' %]
                                 <i class="fa fa-check Confirmation" aria-hidden="true"></i>
-                            [% ELSIF Data.Status == 'Failed' %]
+                            [% ELSIF Data.ObjectLogStatus == 'Failed' %]
                                 <i class="fa fa-times Error" aria-hidden="true"></i>
-                            [% ELSIF Data.Status == 'Processing' %]
+                            [% ELSIF Data.ObjectLogStatus == 'Processing' %]
                                 <i class="fa fa-circle-o-notch fa-spin Warning" aria-hidden="true"></i>
                             [% END %]
-                                <input type="hidden" class="SortData" value="[% Data.Status | html %]" />
+                                <input type="hidden" class="SortData" value="[% Data.ObjectLogStatus | html %]" />
                             </td>
                             <td>
-                                [% Data.ObjectType | html %]
-                                <input type="hidden" class="SortData" value="[% Data.ObjectType | html %]" />
+                                [% Data.ObjectLogType | html %]
+                                <input type="hidden" class="SortData" value="[% Data.ObjectLogType | html %]" />
                             </td>
                             <td class="Direction">
                                 [% IF Data.Direction == 'Incoming' %]
@@ -152,24 +152,24 @@
                                 <input type="hidden" class="SortData" value="[% Data.AccountType | html %]" />
                             </td>
                             <td class="StartTime">
-                                [% Data.StartTime | Localize("TimeLong") %]
-                                <input type="hidden" class="SortData" value="[% Data.StartTime | html %]" />
+                                [% Data.ObjectLogStartTime | Localize("TimeLong") %]
+                                <input type="hidden" class="SortData" value="[% Data.ObjectLogStartTime | html %]" />
                             </td>
                             <td class="EndTime">
-                            [% IF Data.EndTime %]
-                                [% Data.EndTime | Localize("TimeLong") %]
+                            [% IF Data.ObjectLogEndTime %]
+                                [% Data.ObjectLogEndTime | Localize("TimeLong") %]
                             [% ELSE %]
                                 -
                             [% END %]
-                                <input type="hidden" class="SortData" value="[% Data.EndTime | html %]" />
+                                <input type="hidden" class="SortData" value="[% Data.ObjectLogEndTime | html %]" />
                             </td>
                             <td class="Duration">
-                            [% IF Data.Duration.defined %]
-                                [% Translate("%s s", Data.Duration) | html %]
+                            [% IF Data.ObjectLogDuration.defined %]
+                                [% Translate("%s s", Data.ObjectLogDuration) | html %]
                             [% ELSE %]
                                 -
                             [% END %]
-                                <input type="hidden" class="SortData" value="[% Data.Duration | html %]" />
+                                <input type="hidden" class="SortData" value="[% Data.ObjectLogDuration | html %]" />
                             </td>
                         </tr>
 [% RenderBlockEnd("CommunicationObjectRow") %]

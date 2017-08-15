@@ -204,17 +204,15 @@ my $CommunicationLogObject = $Kernel::OM->Create(
     ObjectParams => {
         Transport => 'Email',
         Direction => 'Incoming',
-        Start     => 1,
-        }
+    },
 );
-my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+$CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
 # Part where StoreDecryptedBody is enabled
 my $PostMasterObject = Kernel::System::PostMaster->new(
-    CommunicationLogObject    => $CommunicationLogObject,
-    CommunicationLogMessageID => $MessageID,
-    Email                     => $Email,
-    Trusted                   => 1,
+    CommunicationLogObject => $CommunicationLogObject,
+    Email                  => $Email,
+    Trusted                => 1,
 );
 
 $ConfigObject->Set(
@@ -290,10 +288,9 @@ $Email = $MainObject->FileRead(
 
 # Part where StoreDecryptedBody is disabled
 $PostMasterObject = Kernel::System::PostMaster->new(
-    CommunicationLogObject    => $CommunicationLogObject,
-    CommunicationLogMessageID => $MessageID,
-    Email                     => $Email,
-    Trusted                   => 1,
+    CommunicationLogObject => $CommunicationLogObject,
+    Email                  => $Email,
+    Trusted                => 1,
 );
 
 $ConfigObject->Set(
@@ -328,9 +325,8 @@ $Self->True(
 );
 
 $CommunicationLogObject->ObjectLogStop(
-    ObjectType => 'Message',
-    ObjectID   => $MessageID,
-    Status     => 'Successful',
+    ObjectLogType => 'Message',
+    Status        => 'Successful',
 );
 $CommunicationLogObject->CommunicationStop(
     Status => 'Successful',

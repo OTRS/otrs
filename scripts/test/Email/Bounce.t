@@ -81,16 +81,16 @@ my $CommunicationLogObject = $Kernel::OM->Create(
     ObjectParams => {
         Transport => 'Email',
         Direction => 'Outgoing',
-        Start     => 1,
-        }
+    },
 );
 
 for my $Test (@Tests) {
-    my $CommunicationLogMessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart(
+        ObjectLogType => 'Message'
+    );
     my $SentResult = $EmailObject->Bounce(
         %{ $Test->{Params} },
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $CommunicationLogMessageID,
+        CommunicationLogObject => $CommunicationLogObject,
     );
 
     $Self->True(

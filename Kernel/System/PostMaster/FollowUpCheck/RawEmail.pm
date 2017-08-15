@@ -25,9 +25,8 @@ sub new {
 
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -38,11 +37,10 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::FollowUpCheck::RawEmail',
-        Value      => 'Searching for TicketNumber in raw email.',
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::FollowUpCheck::RawEmail',
+        Value         => 'Searching for TicketNumber in raw email.',
     );
 
     my $Tn = $TicketObject->GetTNByString( $Self->{ParserObject}->GetPlainEmail() );
@@ -53,11 +51,10 @@ sub Run {
     if ($TicketID) {
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUpCheck::RawEmail',
-            Value      => "Found valid TicketNumber '$Tn' (TicketID '$TicketID') in raw email.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUpCheck::RawEmail',
+            Value         => "Found valid TicketNumber '$Tn' (TicketID '$TicketID') in raw email.",
         );
 
         return $TicketID;

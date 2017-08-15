@@ -28,9 +28,8 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -78,11 +77,10 @@ sub GetQueueID {
 
         if ($QueueID) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => ref($Self),
-                Value      => "Match email: $Email to QueueID $QueueID (MessageID:$GetParam{'Message-ID'})!",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => ref($Self),
+                Value         => "Match email: $Email to QueueID $QueueID (MessageID:$GetParam{'Message-ID'})!",
             );
 
             return $QueueID;
@@ -92,11 +90,10 @@ sub GetQueueID {
         #   or any error occured while checking it.
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => ref($Self),
-            Value      => "No match for email: $Email (MessageID:$GetParam{'Message-ID'})!",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => ref($Self),
+            Value         => "No match for email: $Email (MessageID:$GetParam{'Message-ID'})!",
         );
     }
 
@@ -110,30 +107,27 @@ sub GetQueueID {
 
     if ($QueueID) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => ref($Self),
-            Value      => "MessageID:$GetParam{'Message-ID'} to 'PostmasterDefaultQueue' ( QueueID:${QueueID} ).",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => ref($Self),
+            Value         => "MessageID:$GetParam{'Message-ID'} to 'PostmasterDefaultQueue' ( QueueID:${QueueID} ).",
         );
 
         return $QueueID;
     }
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Error',
-        Key        => ref($Self),
-        Value      => "Couldn't get QueueID for 'PostmasterDefaultQueue' (${Queue}) !",
+        ObjectLogType => 'Message',
+        Priority      => 'Error',
+        Key           => ref($Self),
+        Value         => "Couldn't get QueueID for 'PostmasterDefaultQueue' (${Queue}) !",
     );
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => ref($Self),
-        Value      => "MessageID:$GetParam{'Message-ID'} to QueueID:1!",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => ref($Self),
+        Value         => "MessageID:$GetParam{'Message-ID'} to QueueID:1!",
     );
 
     return 1;
@@ -148,11 +142,10 @@ sub GetTrustedQueueID {
     return if !$GetParam{'X-OTRS-Queue'};
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::DestQueue',
-        Value      => "Existing X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} (MessageID:$GetParam{'Message-ID'})!",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::DestQueue',
+        Value         => "Existing X-OTRS-Queue header: $GetParam{'X-OTRS-Queue'} (MessageID:$GetParam{'Message-ID'})!",
     );
 
     # get dest queue

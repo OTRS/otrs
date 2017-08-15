@@ -68,15 +68,13 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
             ObjectParams => {
                 Transport => 'Email',
                 Direction => 'Incoming',
-                Start     => 1,
-                }
+            },
         );
-        my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+        $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            CommunicationLogObject    => $CommunicationLogObject,
-            CommunicationLogMessageID => $MessageID,
-            Email                     => \@Content,
+            CommunicationLogObject => $CommunicationLogObject,
+            Email                  => \@Content,
         );
 
         my @Return = $PostMasterObject->Run();
@@ -91,9 +89,8 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         );
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Status     => 'Successful',
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
         );
         $CommunicationLogObject->CommunicationStop(
             Status => 'Successful',

@@ -35,19 +35,17 @@ sub Send {
     my ( $Self, %Param ) = @_;
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Email::DoNotSendEmail',
-        Value      => 'Received message for emulated sending without real external connections.',
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Email::DoNotSendEmail',
+        Value         => 'Received message for emulated sending without real external connections.',
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Email::DoNotSendEmail',
-        Value      => 'Validating message contents.',
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Email::DoNotSendEmail',
+        Value         => 'Validating message contents.',
     );
 
     # check needed stuff
@@ -62,11 +60,10 @@ sub Send {
             );
 
             $Param{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Param{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::Email::DoNotSendEmail',
-                Value      => $ErrorMessage,
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::Email::DoNotSendEmail',
+                Value         => $ErrorMessage,
             );
 
             return {
@@ -84,30 +81,27 @@ sub Send {
     # recipient
     my $ToString = join ', ', @{ $Param{ToArray} };
 
-    my $ConnectionID = $Param{CommunicationLogObject}->ObjectLogStart(
-        ObjectType => 'Connection',
+    $Param{CommunicationLogObject}->ObjectLogStart(
+        ObjectLogType => 'Connection',
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Priority   => 'Info',
-        Key        => 'Kernel::System::Email::DoNotSendEmail',
-        Value      => "Sending email from '$Param{From}' to '$ToString'.",
+        ObjectLogType => 'Connection',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email::DoNotSendEmail',
+        Value         => "Sending email from '$Param{From}' to '$ToString'.",
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Priority   => 'Info',
-        Key        => 'Kernel::System::Email::DoNotSendEmail',
-        Value      => "Email successfully sent!",
+        ObjectLogType => 'Connection',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email::DoNotSendEmail',
+        Value         => "Email successfully sent!",
     );
 
     $Param{CommunicationLogObject}->ObjectLogStop(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Status     => 'Successful',
+        ObjectLogType => 'Connection',
+        Status        => 'Successful',
     );
 
     return {

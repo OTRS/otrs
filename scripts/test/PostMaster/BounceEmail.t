@@ -140,24 +140,21 @@ my $ProcessEmail = sub {
         ObjectParams => {
             Transport => 'Email',
             Direction => 'Incoming',
-            Start     => 1,
-            }
+        },
     );
-    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $MessageID,
-        Email                     => $BounceEmail->(%Param),
-        Debug                     => 2,
+        CommunicationLogObject => $CommunicationLogObject,
+        Email                  => $BounceEmail->(%Param),
+        Debug                  => 2,
     );
 
     my ( $ReturnCode, $TicketID ) = $PostMasterObject->Run();
 
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => 'Message',
-        ObjectID   => $MessageID,
-        Status     => 'Successful',
+        ObjectLogType => 'Message',
+        Status        => 'Successful',
     );
     $CommunicationLogObject->CommunicationStop(
         Status => 'Successful',

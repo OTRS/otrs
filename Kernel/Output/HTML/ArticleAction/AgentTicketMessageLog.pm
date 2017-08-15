@@ -16,7 +16,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::CommunicationLog',
+    'Kernel::System::CommunicationLog::DB',
     'Kernel::System::Log',
     'Kernel::System::Group',
 );
@@ -91,34 +91,27 @@ sub GetConfig {
         }
     }
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Incoming',
-        },
+    my $CommunicationLogDBObj = $Kernel::OM->Get(
+        'Kernel::System::CommunicationLog::DB',
     );
 
-    my $Result = $CommunicationLogObject->ObjectLookupGet(
+    my $Result = $CommunicationLogDBObj->ObjectLookupGet(
         TargetObjectID   => $Param{Article}->{ArticleID},
         TargetObjectType => 'Article',
+        ObjectLogType    => 'Message',
     );
 
     return if !$Result || !%{$Result};
 
-    my %CommunicationData = $CommunicationLogObject->CommunicationGetByObjectID(
-        ObjectID => $Result->{ObjectID},
-    );
-
-    my $ObjectID        = $Result->{ObjectID};
-    my $CommunicationID = $CommunicationData{CommunicationID};
+    my $ObjectLogID     = $Result->{ObjectLogID};
+    my $CommunicationID = $Result->{CommunicationID};
 
     my %MenuItem = (
         ItemType    => 'Link',
         Description => Translatable('View message log details for this article'),
         Name        => Translatable('Message Log'),
         Link =>
-            "Action=AdminCommunicationLog;Subaction=Zoom;CommunicationID=$CommunicationID;ObjectID=$ObjectID"
+            "Action=AdminCommunicationLog;Subaction=Zoom;CommunicationID=$CommunicationID;ObjectLogID=$ObjectLogID"
     );
 
     return ( \%MenuItem );

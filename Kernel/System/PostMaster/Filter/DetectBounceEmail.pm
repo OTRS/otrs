@@ -28,9 +28,8 @@ sub new {
 
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -42,11 +41,10 @@ sub Run {
     delete $Param{GetParam}->{'X-OTRS-Bounce'};
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => ref($Self),
-        Value      => 'Checking if is a Bounce e-mail.',
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => ref($Self),
+        Value         => 'Checking if is a Bounce e-mail.',
     );
 
     my $BounceMessage = Sisimai::Message->new( data => $Self->{ParserObject}->GetPlainEmail() );
@@ -66,11 +64,10 @@ sub Run {
     $Param{GetParam}->{'X-OTRS-Loop'}                     = 1;
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => ref($Self),
-        Value      => sprintf(
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => ref($Self),
+        Value         => sprintf(
             'Detected Bounce for e-mail "%s"',
             $MessageID,
         ),

@@ -46,9 +46,8 @@ sub Send {
         );
 
         $Param{CommunicationLogObject}->ObjectLogStop(
-            ObjectType => 'Connection',
-            ObjectID   => $Param{ConnectionID},
-            Status     => 'Failed',
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
         );
 
         return {
@@ -58,11 +57,10 @@ sub Send {
     };
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Info',
-        Key        => 'Kernel::System::Email::Sendmail',
-        Value      => 'Received message for sending, validating message contents.',
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email::Sendmail',
+        Value         => 'Received message for sending, validating message contents.',
     );
 
     # check needed stuff
@@ -71,11 +69,10 @@ sub Send {
             my $ErrorMsg = "Need $_!";
 
             $Param{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Param{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::Email::Sendmail',
-                Value      => $ErrorMsg,
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::Email::Sendmail',
+                Value         => $ErrorMsg,
             );
 
             return $SendError->(
@@ -101,11 +98,10 @@ sub Send {
     }
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Email::Sendmail',
-        Value      => 'Checking availability of sendmail command.',
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Email::Sendmail',
+        Value         => 'Checking availability of sendmail command.',
     );
 
     # check availability
@@ -114,26 +110,24 @@ sub Send {
     if ( !$Result{Success} ) {
 
         $Param{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Param{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::Email::Sendmail',
-            Value      => "Sendmail check error: $Result{ErrorMessage}",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Email::Sendmail',
+            Value         => "Sendmail check error: $Result{ErrorMessage}",
         );
 
         return $SendError->( %Result, );
     }
 
-    $Param{ConnectionID} = $Param{CommunicationLogObject}->ObjectLogStart(
-        ObjectType => 'Connection',
+    $Param{CommunicationLogObject}->ObjectLogStart(
+        ObjectLogType => 'Connection',
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $Param{ConnectionID},
-        Priority   => 'Info',
-        Key        => 'Kernel::System::Email::Sendmail',
-        Value      => "Sending email from '$Param{From}' to '$ToString'.",
+        ObjectLogType => 'Connection',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email::Sendmail',
+        Value         => "Sending email from '$Param{From}' to '$ToString'.",
     );
 
     # set sendmail binary
@@ -152,11 +146,10 @@ sub Send {
         my $ErrorMessage = $GenErrorMessage->($!);
 
         $Param{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Connection',
-            ObjectID   => $Param{ConnectionID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::Email::Sendmail',
-            Value      => "Error during message sending: $ErrorMessage",
+            ObjectLogType => 'Connection',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Email::Sendmail',
+            Value         => "Error during message sending: $ErrorMessage",
         );
 
         return $SendError->(
@@ -182,11 +175,10 @@ sub Send {
         my $ErrorMessage = $GenErrorMessage->($!);
 
         $Param{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Connection',
-            ObjectID   => $Param{ConnectionID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::Email::Sendmail',
-            Value      => "Error during message sending: $ErrorMessage",
+            ObjectLogType => 'Connection',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Email::Sendmail',
+            Value         => "Error during message sending: $ErrorMessage",
         );
 
         return $SendError->(
@@ -195,17 +187,15 @@ sub Send {
     }
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $Param{ConnectionID},
-        Priority   => 'Info',
-        Key        => 'Kernel::System::Email::Sendmail',
-        Value      => "Email successfully sent from '$Param{From}' to '$ToString'!",
+        ObjectLogType => 'Connection',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email::Sendmail',
+        Value         => "Email successfully sent from '$Param{From}' to '$ToString'!",
     );
 
     $Param{CommunicationLogObject}->ObjectLogStop(
-        ObjectType => 'Connection',
-        ObjectID   => $Param{ConnectionID},
-        Status     => 'Successful',
+        ObjectLogType => 'Connection',
+        Status        => 'Successful',
     );
 
     return $SendSuccess->();

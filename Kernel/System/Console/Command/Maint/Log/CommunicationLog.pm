@@ -16,6 +16,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DateTime',
+    'Kernel::System::CommunicationLog::DB',
 );
 
 sub Configure {
@@ -140,24 +141,17 @@ sub Delete {
 
     my $Verbose = $Self->GetOption('verbose');
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Incoming',
-            }
-    );
-
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
     my @CommunicationIDs;
 
     if ( $Param{ID} ) {
 
         $Self->Print("\nRetrieving logs for CommunicationID '<yellow>$Param{ID}</yellow>'\n");
 
-        my %Communication = $CommunicationLogObject->CommunicationGet( CommunicationID => $Param{ID} );
+        my $Communication = $CommunicationLogDBObj->CommunicationGet( CommunicationID => $Param{ID} );
 
-        if ( %Communication && ( $Communication{Status} ne 'Processing' || $Param{Force} ) ) {
-            push @CommunicationIDs, $Communication{CommunicationID};
+        if ( $Communication && ( $Communication->{Status} ne 'Processing' || $Param{Force} ) ) {
+            push @CommunicationIDs, $Communication->{CommunicationID};
         }
     }
 
@@ -165,12 +159,12 @@ sub Delete {
 
         $Self->Print("\nRetrieving logs of date '<yellow>$Param{Date}</yellow>'\n");
 
-        my @Communications = $CommunicationLogObject->CommunicationList(
+        my $Communications = $CommunicationLogDBObj->CommunicationList(
             Date => $Param{Date},
-        );
+        ) || [];
 
         COMMUNICATION:
-        for my $Communication (@Communications) {
+        for my $Communication ( @{$Communications} ) {
 
             next COMMUNICATION if $Communication->{Status} eq 'Processing' && !$Param{Force};
             push @CommunicationIDs, $Communication->{CommunicationID};
@@ -185,12 +179,12 @@ sub Delete {
 
         $Self->Print("\nRetrieving logs of dates older than '<yellow>$OlderDate</yellow>'\n");
 
-        my @Communications = $CommunicationLogObject->CommunicationList(
+        my $Communications = $CommunicationLogDBObj->CommunicationList(
             OlderThan => $OlderDate,
-        );
+        ) || [];
 
         COMMUNICATION:
-        for my $Communication (@Communications) {
+        for my $Communication ( @{$Communications} ) {
 
             next COMMUNICATION if $Communication->{Status} eq 'Processing' && !$Param{Force};
             push @CommunicationIDs, $Communication->{CommunicationID};
@@ -209,22 +203,26 @@ sub Delete {
         $SuccessDateObject->Subtract( Days => $SuccessDays );
         my $SuccessDate = $SuccessDateObject->Format( Format => '%Y-%m-%d' );
 
-        my @Communications = $CommunicationLogObject->CommunicationList(
+        my $Communications = $CommunicationLogDBObj->CommunicationList(
             OlderThan => $SuccessDate,
             Status    => 'Successful',
-        );
+        ) || [];
 
         $DateTimeObject->Subtract( Days => $AllDays );
         my $AllDaysDate = $DateTimeObject->Format( Format => '%Y-%m-%d' );
 
-        push @Communications, $CommunicationLogObject->CommunicationList(
-            OlderThan => $AllDaysDate,
-        );
+        push @{$Communications},
+            @{
+            $CommunicationLogDBObj->CommunicationList(
+                OlderThan => $AllDaysDate,
+                )
+                || []
+            }
+            ;
 
-        for my $Communication (@Communications) {
+        for my $Communication ( @{$Communications} ) {
             push @CommunicationIDs, $Communication->{CommunicationID};
         }
-
     }
 
     my $CommunicationCount = scalar @CommunicationIDs;
@@ -247,14 +245,12 @@ sub Delete {
 
     for my $CommunicationID (@CommunicationIDs) {
 
-        my $Return = $CommunicationLogObject->CommunicationDelete(
+        my $Return = $CommunicationLogDBObj->CommunicationDelete(
             CommunicationID => $CommunicationID
         );
 
-        if ( $Return->{Status} eq 'Failed' ) {
+        if ( !$Return ) {
             $Self->PrintError("Could not delete communications with id '$CommunicationID'!\n");
-            $Self->PrintError( $Return->{Message} . "\n" ) if $Verbose;
-
             $Result = 0;
         }
     }

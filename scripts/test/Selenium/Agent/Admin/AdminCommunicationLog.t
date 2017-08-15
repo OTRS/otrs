@@ -39,27 +39,11 @@ $Selenium->RunTest(
             Value => 'Kernel::System::Email::DoNotSendEmail',
         );
 
-        my $CommunicationLogObject = $Kernel::OM->Create(
-            'Kernel::System::CommunicationLog',
-            ObjectParams => {
-                Transport => 'Email',
-                Direction => 'Incoming',
-            },
-        );
+        my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 
         # Clean up all existing communications.
-        my @CommunicationList = $CommunicationLogObject->CommunicationList();
-        for my $Communication (@CommunicationList) {
-            $CommunicationLogObject->ObjectLogDelete(
-                CommunicationID => $Communication->{CommunicationID},
-            );
-            $CommunicationLogObject->CommunicationDelete(
-                CommunicationID => $Communication->{CommunicationID},
-            );
-        }
-
-        $Self->False(
-            $CommunicationLogObject->CommunicationList() || 0,
+        $Self->True(
+            $CommunicationLogDBObj->CommunicationDelete(),
             'Cleaned up existing communications'
         );
 
@@ -107,62 +91,56 @@ $Selenium->RunTest(
                 ObjectParams => {
                     Transport   => 'Email',
                     Direction   => 'Incoming',
-                    Start       => 1,
                     AccountType => $MailAccounts{$MailAccountID}->{Type},
                     AccountID   => $MailAccountID,
                 },
             );
 
-            my $ConnectionID = $CommunicationLogObject->ObjectLogStart(
-                ObjectType => 'Connection',
+            $CommunicationLogObject->ObjectLogStart(
+                ObjectLogType => 'Connection',
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                 Value =>
                     "Open connection to '$MailAccounts{$MailAccountID}->{Host}' ($MailAccounts{$MailAccountID}->{Login}).",
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Notice',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                ObjectLogType => 'Connection',
+                Priority      => 'Notice',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                 Value =>
                     "1 messages available for fetching ($MailAccounts{$MailAccountID}->{Login}/$MailAccounts{$MailAccountID}->{Host}).",
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
-                Value      => "Prepare fetching of message '1/1' (Size: 12.3 KB) from server.",
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                Value         => "Prepare fetching of message '1/1' (Size: 12.3 KB) from server.",
             );
 
             # Fetch a single message from each account.
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
-                Value      => "Message '1' successfully received from server.",
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                Value         => "Message '1' successfully received from server.",
             );
 
-            my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+            $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
             my $MessageStatus = 'Successful';
 
             # In case of IMAP, fail the message only.
             if ( $MailAccounts{$MailAccountID}->{Type} eq 'IMAP' ) {
                 $CommunicationLogObject->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $MessageID,
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                     Value =>
                         "Could not process message. Raw mail saved (report it on http://bugs.otrs.org/)!",
                 );
@@ -171,26 +149,23 @@ $Selenium->RunTest(
             }
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
-                Value      => "Message '1' marked for deletion.",
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                Value         => "Message '1' marked for deletion.",
             );
 
             $CommunicationLogObject->ObjectLogStop(
-                ObjectType => 'Message',
-                ObjectID   => $MessageID,
-                Status     => $MessageStatus,
+                ObjectLogType => 'Message',
+                Status        => $MessageStatus,
             );
 
             # Close the connection successfully.
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Info',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
-                Value      => $MessageStatus eq 'Failed'
+                ObjectLogType => 'Connection',
+                Priority      => 'Info',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                Value         => $MessageStatus eq 'Failed'
                 ?
                     "Fetched 0 message(s) from server ($MailAccounts{$MailAccountID}->{Login}/$MailAccounts{$MailAccountID}->{Host})."
                 :
@@ -198,26 +173,23 @@ $Selenium->RunTest(
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                 Value =>
                     "Executed deletion of marked messages from server ($MailAccounts{$MailAccountID}->{Login}/$MailAccounts{$MailAccountID}->{Host}).",
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
-                Value      => "Connection to '$MailAccounts{$MailAccountID}->{Host}' closed.",
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                Value         => "Connection to '$MailAccounts{$MailAccountID}->{Host}' closed.",
             );
 
             $CommunicationLogObject->ObjectLogStop(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Status     => 'Successful',
+                ObjectLogType => 'Connection',
+                Status        => 'Successful',
             );
 
             $CommunicationLogObject->CommunicationStop(
@@ -298,38 +270,34 @@ $Selenium->RunTest(
                 ObjectParams => {
                     Transport   => 'Email',
                     Direction   => 'Incoming',
-                    Start       => 1,
                     AccountType => $MailAccounts{$MailAccountID}->{Type},
                     AccountID   => $MailAccountID,
                 },
             );
 
-            my $ConnectionID = $CommunicationLogObject->ObjectLogStart(
-                ObjectType => 'Connection',
+            $CommunicationLogObject->ObjectLogStart(
+                ObjectLogType => 'Connection',
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                 Value =>
                     "Open connection to '$MailAccounts{$MailAccountID}->{Host}' ($MailAccounts{$MailAccountID}->{Login}).",
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                ObjectLogType => 'Connection',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                 Value =>
                     "Something went wrong while trying to connect to 'IMAP => $MailAccounts{$MailAccountID}->{Login}/$MailAccounts{$MailAccountID}->{Host}'.",
             );
 
             $CommunicationLogObject->ObjectLogStop(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Status     => 'Failed',
+                ObjectLogType => 'Connection',
+                Status        => 'Failed',
             );
 
             $CommunicationLogObject->CommunicationStop(
@@ -378,38 +346,34 @@ $Selenium->RunTest(
                 ObjectParams => {
                     Transport   => 'Email',
                     Direction   => 'Incoming',
-                    Start       => 1,
                     AccountType => $MailAccounts{$MailAccountID}->{Type},
                     AccountID   => $MailAccountID,
                 },
             );
 
-            my $ConnectionID = $CommunicationLogObject->ObjectLogStart(
-                ObjectType => 'Connection',
+            $CommunicationLogObject->ObjectLogStart(
+                ObjectLogType => 'Connection',
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                ObjectLogType => 'Connection',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                 Value =>
                     "Open connection to '$MailAccounts{$MailAccountID}->{Host}' ($MailAccounts{$MailAccountID}->{Login}).",
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
+                ObjectLogType => 'Connection',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                 Value =>
                     "Something went wrong while trying to connect to 'IMAP => $MailAccounts{$MailAccountID}->{Login}/$MailAccounts{$MailAccountID}->{Host}'.",
             );
 
             $CommunicationLogObject->ObjectLogStop(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Status     => 'Failed',
+                ObjectLogType => 'Connection',
+                Status        => 'Failed',
             );
 
             $CommunicationLogObject->CommunicationStop(
@@ -504,18 +468,8 @@ $Selenium->RunTest(
         );
 
         # Clean up all communications created by the test.
-        @CommunicationList = $CommunicationLogObject->CommunicationList();
-        for my $Communication (@CommunicationList) {
-            $CommunicationLogObject->ObjectLogDelete(
-                CommunicationID => $Communication->{CommunicationID},
-            );
-            $CommunicationLogObject->CommunicationDelete(
-                CommunicationID => $Communication->{CommunicationID},
-            );
-        }
-
-        $Self->False(
-            $CommunicationLogObject->CommunicationList() || 0,
+        $Self->True(
+            $CommunicationLogDBObj->CommunicationDelete(),
             'Cleaned up test communications'
         );
 

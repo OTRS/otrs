@@ -31,8 +31,7 @@ sub new {
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
     # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -44,11 +43,10 @@ sub Run {
     for my $Needed (qw(JobConfig GetParam)) {
         if ( !$Param{$Needed} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
-                Value      => "Need $Needed!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
+                Value         => "Need $Needed!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -132,11 +130,10 @@ sub _DecryptPGP {
 
     if ( !$ConfigObject->Get('PGP') ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
-            Value      => "PGP is not activated",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value         => "PGP is not activated",
         );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -159,11 +156,10 @@ sub _DecryptPGP {
 
     if ( !$CryptObject ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
-            Value      => "Not possible to create crypt object",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value         => "Not possible to create crypt object",
         );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -199,11 +195,10 @@ sub _DecryptSMIME {
 
     if ( !$ConfigObject->Get('SMIME') ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
-            Value      => "SMIME is not activated",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value         => "SMIME is not activated",
         );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -226,11 +221,10 @@ sub _DecryptSMIME {
 
     if ( !$CryptObject ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::Filter::Decrypt',
-            Value      => "Not possible to create crypt object",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
+            Value         => "Not possible to create crypt object",
         );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',

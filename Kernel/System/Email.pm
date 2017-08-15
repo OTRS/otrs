@@ -156,19 +156,17 @@ sub Send {
         ObjectParams => {
             Transport   => 'Email',
             Direction   => 'Outgoing',
-            Start       => 1,
             AccountType => $BackendName,
-            }
+        },
     );
 
-    my $CommunicationLogMessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $CommunicationLogMessageID,
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Email',
-        Value      => 'Building message for delivery.',
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Email',
+        Value         => 'Building message for delivery.',
     );
 
     my $SendSuccess = sub {
@@ -182,17 +180,15 @@ sub Send {
         my %Param = @_;
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Priority   => 'Error',
-            Key        => 'Kernel::System::Email',
-            Value      => "Errors occurred during message sending: $Param{ErrorMessage}",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Email',
+            Value         => "Errors occurred during message sending: $Param{ErrorMessage}",
         );
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Status     => 'Failed',
+            ObjectLogType => 'Message',
+            Status        => 'Failed',
         );
 
         $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
@@ -324,11 +320,10 @@ sub Send {
     if ( $Param{EmailSecurity}->{SignKey} && $Param{EmailSecurity}->{Method} eq 'Inline' ) {
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::Email',
-            Value      => "Signing message (inline) with $Param{EmailSecurity}->{Backend}.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::Email',
+            Value         => "Signing message (inline) with $Param{EmailSecurity}->{Backend}.",
         );
 
         my $Body = $EncryptObject->Sign(
@@ -347,11 +342,10 @@ sub Send {
     if ( $Param{EmailSecurity}->{EncryptKeys} && $Param{EmailSecurity}->{Method} eq 'Inline' ) {
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::Email',
-            Value      => "Encrypting message (inline) with $Param{EmailSecurity}->{Backend}.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::Email',
+            Value         => "Encrypting message (inline) with $Param{EmailSecurity}->{Backend}.",
         );
 
         my $Body = $EncryptObject->Crypt(
@@ -372,11 +366,10 @@ sub Send {
     if ( $Param{EmailSecurity}->{SignKey} && $Param{EmailSecurity}->{Method} eq 'Detached' ) {
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::Email',
-            Value      => "Signing message (detached) with $Param{EmailSecurity}->{Backend}.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::Email',
+            Value         => "Signing message (detached) with $Param{EmailSecurity}->{Backend}.",
         );
 
         if ( $Param{EmailSecurity}->{Backend} eq 'PGP' ) {
@@ -477,11 +470,10 @@ sub Send {
     if ( $Param{EmailSecurity}->{EncryptKeys} && $Param{EmailSecurity}->{Method} eq 'Detached' ) {
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::Email',
-            Value      => "Encrypting message (detached) with $Param{EmailSecurity}->{Backend}.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::Email',
+            Value         => "Encrypting message (detached) with $Param{EmailSecurity}->{Backend}.",
         );
 
         if ( $Param{EmailSecurity}->{Backend} eq 'PGP' ) {
@@ -636,11 +628,10 @@ sub Send {
     }
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $CommunicationLogMessageID,
-        Priority   => 'Info',
-        Key        => 'Kernel::System::Email',
-        Value      => "Queuing message for delivery.",
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email',
+        Value         => "Queuing message for delivery.",
     );
 
     # Save it to the queue
@@ -654,8 +645,7 @@ sub Send {
             Header => $Param{Header},
             Body   => $Param{Body},
         },
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $CommunicationLogMessageID,
+        CommunicationLogObject => $CommunicationLogObject,
     );
 
     if ( !$MailQueued ) {
@@ -678,11 +668,10 @@ sub Send {
     }
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $CommunicationLogMessageID,
-        Priority   => 'Info',
-        Key        => 'Kernel::System::Email',
-        Value      => 'Successfully queued message for delivery '
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::Email',
+        Value         => 'Successfully queued message for delivery '
             . sprintf(
             "(%sTo: '%s', From: '%s', Subject: '%s').",
             ( $Param{'Message-ID'} ? "MessageID: $Param{'Message-ID'}, " : '' ),
@@ -710,7 +699,6 @@ Really send the mail
         Header                 => \$Param{Header},
         Body                   => \$Param{Body},
         CommunicationLogObject => $CommunicationLogObject,
-        CommunicationLogMessageID => '5c456bb2b57b7f967a78cbd6fa63ed1c',
     );
 
 This returns something like:
@@ -752,20 +740,18 @@ sub SendExecute {
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::Email',
-        Value      => $LogMessage,
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::Email',
+        Value         => $LogMessage,
     );
 
     my $Sent = $Self->{Backend}->Send(
-        From                      => $Param{From},
-        ToArray                   => $To,
-        Header                    => \$Param{Header},
-        Body                      => \$Param{Body},
-        CommunicationLogObject    => $Param{CommunicationLogObject},
-        CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+        From                   => $Param{From},
+        ToArray                => $To,
+        Header                 => \$Param{Header},
+        Body                   => \$Param{Body},
+        CommunicationLogObject => $Param{CommunicationLogObject},
     );
 
     if ( !$Sent->{Success} ) {
@@ -781,11 +767,10 @@ sub SendExecute {
         );
 
         $Param{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Param{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::Email',
-            Value      => $LogErrorMessage,
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::Email',
+            Value         => $LogErrorMessage,
         );
 
         return $Sent;
@@ -887,12 +872,11 @@ sub Bounce {
     }
 
     my $SentResult = $Self->{Backend}->Send(
-        From                      => $RealFrom,
-        ToArray                   => [ $Param{To} ],
-        Header                    => \$HeaderAsString,
-        Body                      => \$BodyAsString,
-        CommunicationLogObject    => $Param{CommunicationLogObject},
-        CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+        From                   => $RealFrom,
+        ToArray                => [ $Param{To} ],
+        Header                 => \$HeaderAsString,
+        Body                   => \$BodyAsString,
+        CommunicationLogObject => $Param{CommunicationLogObject},
     );
 
     return $SentResult if !$SentResult->{Success};

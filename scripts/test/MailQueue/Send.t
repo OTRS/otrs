@@ -76,15 +76,14 @@ local *{'Kernel::System::Email::SMTP::Check'} = sub {
     }
 
     my $CommunicationLogObject = $Param{CommunicationLogObject};
-    my $ConnectionID           = $CommunicationLogObject->ObjectLogStart(
-        ObjectType => 'Connection',
+    $CommunicationLogObject->ObjectLogStart(
+        ObjectLogType => 'Connection',
     );
 
     if ( !$FakeSMTPEnv{'connect'} ) {
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Status     => 'Failed',
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
         );
 
         return (
@@ -94,9 +93,8 @@ local *{'Kernel::System::Email::SMTP::Check'} = sub {
     }
 
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Status     => 'Successful',
+        ObjectLogType => 'Connection',
+        Status        => 'Successful',
     );
 
     return (
@@ -203,50 +201,51 @@ my $CheckForCommunicationLog = sub {
     my $MailQueueItemSent      = $Param{MailQueueItemSent};
     my $CommunicationLogStatus = $Param{CommunicationLogStatus};
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Outgoing',
-        },
+    my $CommunicationLogDBObj = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog::DB',
     );
 
-    my $ComLogLookupInfo = $CommunicationLogObject->ObjectLookupGet(
-        CommunicationID  => undef,
-        ObjectType       => 'Message',
+    my $ComLogLookupInfo = $CommunicationLogDBObj->ObjectLookupGet(
+        ObjectLogType    => 'Message',
         TargetObjectType => 'MailQueueItem',
         TargetObjectID   => $MailQueueItemSent->{ID},
     );
-    $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            ObjectID => $ComLogLookupInfo->{ObjectID},
-        },
+
+    # Get the communication info.
+    my $Communication = $CommunicationLogDBObj->CommunicationGet(
+        CommunicationID => $ComLogLookupInfo->{CommunicationID},
     );
 
     # Get all the communication objects.
-    my $CommunicationLogObjects = [ reverse @{ $CommunicationLogObject->ObjectList() } ];
+    my $CommunicationLogObjects = [
+        reverse @{
+            $CommunicationLogDBObj->ObjectLogList(
+                CommunicationID => $ComLogLookupInfo->{CommunicationID},
+                )
+            }
+    ];
 
-    my $CommunicationLogConnection = List::Util::first { $_->{ObjectType} eq 'Connection' } @{$CommunicationLogObjects};
+    my $CommunicationLogConnection
+        = List::Util::first { $_->{ObjectLogType} eq 'Connection' } @{$CommunicationLogObjects};
     $Self->True(
-        $CommunicationLogConnection->{Status} eq $CommunicationLogStatus->{Connection},
+        $CommunicationLogConnection->{ObjectLogStatus} eq $CommunicationLogStatus->{Connection},
         $TestBaseMessage
             . sprintf( ", communication log connection with status '%s'", $CommunicationLogStatus->{Connection} ),
     );
 
     my $CommunicationLogMessage = List::Util::first {
-        $_->{ID} == $ComLogLookupInfo->{ObjectID}
+        $_->{ObjectLogID} == $ComLogLookupInfo->{ObjectLogID}
     }
     @{$CommunicationLogObjects};
 
     $Self->True(
-        $CommunicationLogMessage->{Status} eq $CommunicationLogStatus->{Message},
+        $CommunicationLogMessage->{ObjectLogStatus} eq $CommunicationLogStatus->{Message},
         $TestBaseMessage
             . sprintf( ", communication log message with status '%s'", $CommunicationLogStatus->{Message} ),
     );
 
     $Self->True(
-        $CommunicationLogObject->StatusGet() eq $CommunicationLogStatus->{Communication},
+        $Communication->{Status} eq $CommunicationLogStatus->{Communication},
         $TestBaseMessage
             . sprintf( ", communication log with status '%s'", $CommunicationLogStatus->{Communication} ),
     );

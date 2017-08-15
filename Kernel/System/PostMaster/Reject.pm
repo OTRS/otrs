@@ -29,9 +29,8 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -43,11 +42,10 @@ sub Run {
     for (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
         if ( !$Param{$_} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::Reject',
-                Value      => "Need $_!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::Reject',
+                Value         => "Need $_!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -76,11 +74,10 @@ sub Run {
     );
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::Reject',
-        Value      => "Going to create new article for TicketID '$Param{TicketID}'.",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::Reject',
+        Value         => "Going to create new article for TicketID '$Param{TicketID}'.",
     );
 
     # do db insert
@@ -107,11 +104,10 @@ sub Run {
 
     if ( !$ArticleID ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::Reject',
-            Value      => "Article could not be created!",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::Reject',
+            Value         => "Article could not be created!",
         );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -121,17 +117,16 @@ sub Run {
     }
 
     $Self->{CommunicationLogObject}->ObjectLookupSet(
-        ObjectID         => $Self->{CommunicationLogMessageID},
+        ObjectLogType    => 'Message',
         TargetObjectType => 'Article',
         TargetObjectID   => $ArticleID,
     );
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::Reject',
-        Value      => "Reject Follow up Ticket!",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::Reject',
+        Value         => "Reject Follow up Ticket!",
     );
 
     my %CommunicationLogSkipAttributes = (
@@ -147,11 +142,10 @@ sub Run {
         next ATTRIBUTE if !( defined $Value ) || !( length $Value );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::Reject',
-            Value      => "$Attribute: $Value",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::Reject',
+            Value         => "$Attribute: $Value",
         );
     }
 
@@ -209,11 +203,10 @@ sub Run {
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::Reject',
-                Value      => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::Reject',
+                Value         => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
         }
     }
@@ -250,10 +243,9 @@ sub Run {
                 }
 
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Debug',
-                    Key        => 'Kernel::System::PostMaster::Reject',
+                    ObjectLogType => 'Message',
+                    Priority      => 'Debug',
+                    Key           => 'Kernel::System::PostMaster::Reject',
                     Value =>
                         "TicketKey$Count: Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
                 );
@@ -262,11 +254,10 @@ sub Run {
     }
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Notice',
-        Key        => 'Kernel::System::PostMaster::Reject',
-        Value      => "Reject FollowUp Article to Ticket [$Param{Tn}] created "
+        ObjectLogType => 'Message',
+        Priority      => 'Notice',
+        Key           => 'Kernel::System::PostMaster::Reject',
+        Value         => "Reject FollowUp Article to Ticket [$Param{Tn}] created "
             . "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment"
     );
 

@@ -23,11 +23,12 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::DateTime',
     'Kernel::System::Storable',
-    'Kernel::System::CommunicationLog',
     'Kernel::System::Ticket::Article',
     'Kernel::System::Email',
     'Kernel::System::CheckItem',
     'Kernel::System::Main',
+    'Kernel::System::CommunicationLog',
+    'Kernel::System::CommunicationLog::DB',
 );
 
 my %DBNames = (
@@ -97,7 +98,6 @@ sub Create {
         ObjectParams => {
             Transport => 'Email',
             Direction => 'Outgoing',
-            Start     => 1,
         },
     );
 
@@ -110,9 +110,16 @@ sub Create {
         return;
     }
 
-    $Param{CommunicationLogMessageID} ||= $Param{CommunicationLogObject}->ObjectLogStart(
-        ObjectType => 'Message',
-    );
+    if (
+        !$Param{CommunicationLogObject}->IsObjectLogOpen(
+            ObjectLogType => 'Message',
+        )
+        )
+    {
+        $Param{CommunicationLogObject}->ObjectLogStart(
+            ObjectLogType => 'Message',
+        );
+    }
 
     # Check for required data.
     for my $Argument (qw(Recipient Message)) {
@@ -126,11 +133,10 @@ sub Create {
             );
 
             $Param{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Param{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailQueue',
-                Value      => $ErrorMessage,
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailQueue',
+                Value         => $ErrorMessage,
             );
 
             $Self->_SetArticleTransmissionError(
@@ -169,9 +175,8 @@ sub Create {
     return if !$OnErrorSetArticleTransmissionError->(
         Process => sub {
             return $Self->_CheckValidMessageData(
-                Data                      => $Param{Message},
-                CommunicationLogObject    => $Param{CommunicationLogObject},
-                CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+                Data                   => $Param{Message},
+                CommunicationLogObject => $Param{CommunicationLogObject},
             );
         },
         ErrorMessage => 'Error while validating Message data.',
@@ -181,10 +186,9 @@ sub Create {
     return if !$OnErrorSetArticleTransmissionError->(
         Process => sub {
             return $Self->_CheckValidEmailAddresses(
-                ParamName                 => 'Sender',
-                Addresses                 => [ $Param{Sender} ? $Param{Sender} : () ],
-                CommunicationLogObject    => $Param{CommunicationLogObject},
-                CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+                ParamName              => 'Sender',
+                Addresses              => [ $Param{Sender} ? $Param{Sender} : () ],
+                CommunicationLogObject => $Param{CommunicationLogObject},
             );
         },
         ErrorMessage => 'Error while validating Sender email address.',
@@ -193,10 +197,9 @@ sub Create {
     return if !$OnErrorSetArticleTransmissionError->(
         Process => sub {
             return $Self->_CheckValidEmailAddresses(
-                ParamName                 => 'Recipient',
-                Addresses                 => $Recipient,
-                CommunicationLogObject    => $Param{CommunicationLogObject},
-                CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+                ParamName              => 'Recipient',
+                Addresses              => $Recipient,
+                CommunicationLogObject => $Param{CommunicationLogObject},
             );
         },
         ErrorMessage => 'Error while validating Recipient email address.',
@@ -208,11 +211,10 @@ sub Create {
     my $RecipientStr = join q{,}, @{$Recipient};
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::MailQueue',
-        Value      => sprintf(
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::MailQueue',
+        Value         => sprintf(
             "Serializing and saving message (ArticleID: %s, Sender: $Param{Sender}, "
                 . "Recipient: $RecipientStr, MessageID: %s)",
             $Param{ArticleID} || '',
@@ -233,10 +235,9 @@ sub Create {
     return if !$InsertResult->{Success} && $InsertResult->{Action} eq 'db-insert';
 
     $Self->_SetCommunicationLogLookup(
-        CommunicationLogObject    => $Param{CommunicationLogObject},
-        CommunicationLogMessageID => $Param{CommunicationLogMessageID},
-        ArticleID                 => $Param{ArticleID},
-        ID                        => $InsertResult->{ID},
+        CommunicationLogObject => $Param{CommunicationLogObject},
+        ArticleID              => $Param{ArticleID},
+        ID                     => $InsertResult->{ID},
     );
 
     my $LogMessage = 'Successfully stored message for sending.';
@@ -250,11 +251,10 @@ sub Create {
     );
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Info',
-        Key        => 'Kernel::System::MailQueue',
-        Value      => $LogMessage,
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::MailQueue',
+        Value         => $LogMessage,
     );
 
     return 1;
@@ -447,15 +447,15 @@ sub Update {
         my $ArticleID = $Data{ArticleID};
         my $ToUpdate  = $Self->List(%Filters);
         return if $Self->_IsArticleAlreadyQueued(
-            ArticleID                 => $ArticleID,
-            ToUpdate                  => $ToUpdate,
-            CommunicationLogObject    => $Param{CommunicationLogObject},
-            CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+            ArticleID              => $ArticleID,
+            ToUpdate               => $ToUpdate,
+            CommunicationLogObject => $Param{CommunicationLogObject},
         );
 
         $Self->_SetCommunicationLogLookup(
-            ArticleID => $Data{ArticleID},
-            ObjectID  => $ToUpdate->[0]->{ID},
+            CommunicationLogObject => $Param{CommunicationLogObject},
+            ArticleID              => $Data{ArticleID},
+            ID                     => $ToUpdate->[0]->{ID},
         );
     }
 
@@ -473,10 +473,9 @@ sub Update {
             }
 
             return if !$Self->_CheckValidEmailAddresses(
-                ParamName                 => $Col,
-                Addresses                 => $Value,
-                CommunicationLogObject    => $Param{CommunicationLogObject},
-                CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+                ParamName              => $Col,
+                Addresses              => $Value,
+                CommunicationLogObject => $Param{CommunicationLogObject},
             );
 
             if ( ref $Value ) {
@@ -485,9 +484,8 @@ sub Update {
         }
         elsif ( $Col eq 'Message' ) {
             return if !$Self->_CheckValidMessageData(
-                Data                      => $Value,
-                CommunicationLogObject    => $Param{CommunicationLogObject},
-                CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+                Data                   => $Value,
+                CommunicationLogObject => $Param{CommunicationLogObject},
             );
             $Value = $Self->_SerializeMessage(
                 Message => $Value,
@@ -560,24 +558,20 @@ sub Delete {
             Message   => $DoSetTransmissionArticleError,
         );
 
-        my $CommunicationLog = $Self->_GetCommunicationLog(
+        my $CommunicationLogObject = $Self->_GetCommunicationLog(
             ID => $Item->{ID},
         );
-        my $CommunicationLogObject    = $CommunicationLog->{CommunicationLogObject};
-        my $CommunicationLogMessageID = $CommunicationLog->{CommunicationLogMessageID};
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Priority   => 'Error',
-            Key        => ref $Self,
-            Value      => $DoSetTransmissionArticleError,
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => ref $Self,
+            Value         => $DoSetTransmissionArticleError,
         );
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Status     => 'Failed',
+            ObjectLogType => 'Message',
+            Status        => 'Failed',
         );
 
         $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
@@ -641,11 +635,8 @@ sub Send {
     }
 
     # Lookup for the communication id for the processing mail-queue item.
-    my $CommunicationLog = $Self->_GetCommunicationLog( %Param, );
-
-    $Param{CommunicationLogObject}    = $CommunicationLog->{CommunicationLogObject};
-    $Param{CommunicationLogMessageID} = $CommunicationLog->{CommunicationLogMessageID};
-    $Param{CommunicationID}           = $Param{CommunicationLogObject}->CommunicationIDGet();
+    $Param{CommunicationLogObject} = $Self->_GetCommunicationLog( %Param, );
+    $Param{CommunicationID}        = $Param{CommunicationLogObject}->CommunicationIDGet();
 
     # If DueTime is bigger than current time, skip, it is not time to run yet.
     my $CurrentSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -659,11 +650,10 @@ sub Send {
         );
 
         $Param{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Param{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::MailQueue',
-            Value      => $LogMessage,
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::MailQueue',
+            Value         => $LogMessage,
         );
 
         return {
@@ -673,21 +663,19 @@ sub Send {
     }
 
     $Param{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Param{CommunicationLogMessageID},
-        Priority   => 'Info',
-        Key        => 'Kernel::System::MailQueue',
-        Value      => "Sending queued message with id '$Param{ID}'.",
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::MailQueue',
+        Value         => "Sending queued message with id '$Param{ID}'.",
     );
 
     my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
     my $Result      = $EmailObject->SendExecute(
-        From                      => $Param{Sender},
-        To                        => $Param{Recipient},
-        Header                    => $Param{Message}->{Header},
-        Body                      => $Param{Message}->{Body},
-        CommunicationLogObject    => $Param{CommunicationLogObject},
-        CommunicationLogMessageID => $Param{CommunicationLogMessageID},
+        From                   => $Param{Sender},
+        To                     => $Param{Recipient},
+        Header                 => $Param{Message}->{Header},
+        Body                   => $Param{Message}->{Body},
+        CommunicationLogObject => $Param{CommunicationLogObject},
     );
 
     if ( $Result->{Success} ) {
@@ -722,7 +710,6 @@ triggers a Event Notification.
             ArticleID                 => ..., # optional
             UserID                    => ...,
             CommunicationLogObject    => ...,
-            CommunicationLogMessageID => ...,
         }
     );
 
@@ -761,26 +748,23 @@ sub _SendSuccess {
         $LogError->($LogMessage);
 
         $Item->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Item->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::MailQueue',
-            Value      => $LogMessage,
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::MailQueue',
+            Value         => $LogMessage,
         );
     }
 
     $Item->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Item->{CommunicationLogMessageID},
-        Priority   => 'Info',
-        Key        => 'Kernel::System::MailQueue',
-        Value      => 'Message successfuly sent!',
+        ObjectLogType => 'Message',
+        Priority      => 'Info',
+        Key           => 'Kernel::System::MailQueue',
+        Value         => 'Message successfuly sent!',
     );
 
     $Item->{CommunicationLogObject}->ObjectLogStop(
-        ObjectType => 'Message',
-        ObjectID   => $Item->{CommunicationLogMessageID},
-        Status     => 'Successful',
+        ObjectLogType => 'Message',
+        Status        => 'Successful',
     );
 
     $Result = $Item->{CommunicationLogObject}->CommunicationStop(
@@ -847,11 +831,10 @@ sub _SendError {
     my $ItemMaxAttempts = $Config->{ItemMaxAttempts};
 
     $Item->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Item->{CommunicationLogMessageID},
-        Priority   => 'Error',
-        Key        => 'Kernel::System::MailQueue',
-        Value      => "Message could not be sent! Error message: $SendResult->{ErrorMessage}",
+        ObjectLogType => 'Message',
+        Priority      => 'Error',
+        Key           => 'Kernel::System::MailQueue',
+        Value         => "Message could not be sent! Error message: $SendResult->{ErrorMessage}",
     );
 
     # If is a permanent error or reach the maximum attempts, remove the element from the queue.
@@ -861,18 +844,16 @@ sub _SendError {
         )
     {
         $Self->_SetArticleTransmissionError(
-            ArticleID                 => $Item->{ArticleID},
-            Message                   => $SendResult->{ErrorMessage},
-            CommunicationLogObject    => $Item->{CommunicationLogObject},
-            CommunicationLogMessageID => $Item->{CommunicationLogMessageID},
+            ArticleID              => $Item->{ArticleID},
+            Message                => $SendResult->{ErrorMessage},
+            CommunicationLogObject => $Item->{CommunicationLogObject},
         );
 
         $Item->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Item->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::MailQueue',
-            Value      => "Permanent sending problem or we reached the sending attempt limit. Message will be removed",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::MailQueue',
+            Value => "Permanent sending problem or we reached the sending attempt limit. Message will be removed",
         );
 
         # Delete mail queue element/item.
@@ -889,18 +870,16 @@ sub _SendError {
             $LogError->($LogMessage);
 
             $Item->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Item->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailQueue',
-                Value      => $LogMessage,
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailQueue',
+                Value         => $LogMessage,
             );
         }
 
         $Item->{CommunicationLogObject}->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $Item->{CommunicationLogMessageID},
-            Status     => 'Failed',
+            ObjectLogType => 'Message',
+            Status        => 'Failed',
         );
 
         # Set Communication as failed.
@@ -944,11 +923,10 @@ sub _SendError {
     }
 
     $Item->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Item->{CommunicationLogMessageID},
-        Priority   => 'Error',
-        Key        => 'Kernel::System::MailQueue',
-        Value      => 'Temporary problem returned from server, requeuing message for sending. Message: '
+        ObjectLogType => 'Message',
+        Priority      => 'Error',
+        Key           => 'Kernel::System::MailQueue',
+        Value         => 'Temporary problem returned from server, requeuing message for sending. Message: '
             . sprintf(
             "SMTPCode: %s, ErrorMessage: $SendResult->{ErrorMessage}",
             $SendResult->{Code} ? $SendResult->{Code} : '-'
@@ -973,11 +951,10 @@ sub _SendError {
         $LogError->($LogMessage);
 
         $Item->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Item->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::MailQueue',
-            Value      => $LogMessage,
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::MailQueue',
+            Value         => $LogMessage,
         );
     }
 
@@ -996,7 +973,6 @@ Then, fires a Notification Event.
         UserID                    => ...,
         ForceUpdate               => ...,
         CommunicationLogObject    => ...,
-        CommunicationLogMessageID => ...,
     );
 
 Returns 1 or undef.
@@ -1036,11 +1012,10 @@ sub _SetArticleTransmissionError {
             );
 
             $Param{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Param{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailQueue',
-                Value      => $ErrorMessage,
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailQueue',
+                Value         => $ErrorMessage,
             );
 
             # Event Notification
@@ -1084,11 +1059,10 @@ sub _SetArticleTransmissionError {
         );
 
         $Param{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Param{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::MailQueue',
-            Value      => $ErrorMessage,
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::MailQueue',
+            Value         => $ErrorMessage,
         );
 
         # Event Notification
@@ -1301,11 +1275,10 @@ sub _CheckValidEmailAddresses {
 
         if ( $Param{CommunicationLogObject} ) {
             $Param{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Param{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailQueue',
-                Value      => $ErrorMessage,
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailQueue',
+                Value         => $ErrorMessage,
             );
         }
 
@@ -1346,11 +1319,10 @@ sub _CheckValidMessageData {
 
         if ( $Param{CommunicationLogObject} ) {
             $Param{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Param{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailQueue',
-                Value      => 'Received no message data to check.',
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailQueue',
+                Value         => 'Received no message data to check.',
             );
         }
 
@@ -1426,11 +1398,10 @@ sub _IsArticleAlreadyQueued {
         my %LocalParam             = @_;
         my $CommunicationLogObject = $Param{CommunicationLogObject};
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Param{CommunicationLogMessageID},
-            Key        => ref($Self),
-            Value      => $LocalParam{Message},
-            Priority   => $LocalParam{Priority},
+            ObjectLogType => 'Message',
+            Key           => ref($Self),
+            Value         => $LocalParam{Message},
+            Priority      => $LocalParam{Priority},
         );
         return;
     };
@@ -1555,11 +1526,10 @@ sub _DBInsert {
     if ( !$Result ) {
 
         $Param{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Param{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::MailQueue',
-            Value      => "Could not save serialized message data: $Param{Message}",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::MailQueue',
+            Value         => "Could not save serialized message data: $Param{Message}",
         );
 
         $Self->_SetArticleTransmissionError(
@@ -1600,7 +1570,7 @@ sub _SetCommunicationLogLookup {
     my $CommunicationLogObject = $Param{CommunicationLogObject};
     if ( $Param{ID} ) {
         $CommunicationLogObject->ObjectLookupSet(
-            ObjectID         => $Param{CommunicationLogMessageID},
+            ObjectLogType    => 'Message',
             TargetObjectType => 'MailQueueItem',
             TargetObjectID   => $Param{ID},
         );
@@ -1609,7 +1579,7 @@ sub _SetCommunicationLogLookup {
     # If ArticleID is present, set also a lookup for it.
     if ( $Param{ArticleID} ) {
         $CommunicationLogObject->ObjectLookupSet(
-            ObjectID         => $Param{CommunicationLogMessageID},
+            ObjectLogType    => 'Message',
             TargetObjectType => 'Article',
             TargetObjectID   => $Param{ArticleID},
         );
@@ -1626,28 +1596,16 @@ Get the communication log associated to the queue item, if not found, creates a 
         ID => '...' # mail-queue item ID
     );
 
-Returns a hashref with the communication-log object and the respective message.
-
-    {
-        CommunicationLogObject    => $,     # communication-log object
-        CommunicationLogMessageID => '...', # communication-log message id
-    }
+Returns communication-log object.
 
 =cut
 
 sub _GetCommunicationLog {
     my ( $Self, %Param, ) = @_;
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Outgoing',
-        },
-    );
-    my $LookupInfo = $CommunicationLogObject->ObjectLookupGet(
-        CommunicationID  => undef,
-        ObjectType       => 'Message',
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+    my $LookupInfo            = $CommunicationLogDBObj->ObjectLookupGet(
+        ObjectLogType    => 'Message',
         TargetObjectType => 'MailQueueItem',
         TargetObjectID   => $Param{ID},
     );
@@ -1655,17 +1613,22 @@ sub _GetCommunicationLog {
     # IF for any reason we can't get the lookup information (error or no record found),
     #   lets create a new communication log and communication log message.
     if ( !$LookupInfo || !%{$LookupInfo} ) {
-        $CommunicationLogObject->CommunicationStart();
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Outgoing',
+            },
+        );
 
-        my $CommunicationLogMessageID = $CommunicationLogObject->ObjectLogStart(
-            ObjectType => 'Message',
+        $CommunicationLogObject->ObjectLogStart(
+            ObjectLogType => 'Message',
         );
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $CommunicationLogMessageID,
-            Key        => ref($Self),
-            Value      => sprintf(
+            ObjectLogType => 'Message',
+            Key           => ref($Self),
+            Value         => sprintf(
                 q{It wasn't possible to recover the communication for queued ID "%s".},
                 $Param{ID},
             ),
@@ -1673,7 +1636,7 @@ sub _GetCommunicationLog {
 
         # Set the new mail-queue item communication-log lookup.
         my $ComLookupUpdated = $CommunicationLogObject->ObjectLookupSet(
-            ObjectID         => $CommunicationLogMessageID,
+            ObjectLogType    => 'Message',
             TargetObjectType => 'MailQueueItem',
             TargetObjectID   => $Param{ID},
         );
@@ -1684,23 +1647,15 @@ sub _GetCommunicationLog {
             );
         }
 
-        return {
-            CommunicationLogObject    => $CommunicationLogObject,
-            CommunicationLogMessageID => $CommunicationLogMessageID,
-        };
+        return $CommunicationLogObject;
     }
 
-    $CommunicationLogObject = $Kernel::OM->Create(
+    return $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',
         ObjectParams => {
-            ObjectID => $LookupInfo->{ObjectID},
+            ObjectLogID => $LookupInfo->{ObjectLogID},
         },
     );
-
-    return {
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $LookupInfo->{ObjectID},
-    };
 }
 
 =head1 TERMS AND CONDITIONS

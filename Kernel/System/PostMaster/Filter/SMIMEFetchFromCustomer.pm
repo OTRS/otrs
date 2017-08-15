@@ -29,9 +29,8 @@ sub new {
     # Get parser object.
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -43,11 +42,10 @@ sub Run {
     for my $Needed (qw(JobConfig GetParam)) {
         if ( !$Param{$Needed} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer',
-                Value      => "Need $Needed!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer',
+                Value         => "Need $Needed!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',

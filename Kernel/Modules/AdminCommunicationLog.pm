@@ -33,7 +33,7 @@ sub Run {
     my %GetParam;
     for my $Param (
         qw(
-        CommunicationID ObjectID StartTime Filter SortBy
+        CommunicationID ObjectLogID StartTime Filter SortBy
         OrderBy StartHit Expand AccountID Direct PriorityFilter
         )
         )
@@ -41,31 +41,19 @@ sub Run {
         $GetParam{$Param} = $ParamObject->GetParam( Param => $Param );
     }
 
-    my $CommunicationLogObject;
-
+    my $Communication;
     if ( $GetParam{CommunicationID} ) {
-        $CommunicationLogObject = $Kernel::OM->Create(
-            'Kernel::System::CommunicationLog',
-            ObjectParams => {
-                CommunicationID => $GetParam{CommunicationID},
-                }
+        my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+        $Communication = $CommunicationLogDBObj->CommunicationGet(
+            CommunicationID => $GetParam{CommunicationID},
         );
-        if ( !$CommunicationLogObject ) {
+
+        if ( !$Communication ) {
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             return $LayoutObject->FatalError(
                 Message => Translatable('Invalid CommunicationID '),
             );
-
         }
-    }
-    else {
-        $CommunicationLogObject = $Kernel::OM->Create(
-            'Kernel::System::CommunicationLog',
-            ObjectParams => {
-                Transport => 'Email',
-                Direction => 'Incoming',
-                }
-        );
     }
 
     my %TimeRanges = (
@@ -103,45 +91,31 @@ sub Run {
         if ( !$ValidDate ) {
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             return $LayoutObject->FatalError(
-                Message => sprintf( Translatable("Invdddalid StartTime: %s!"), $GetParam{StartTime} ),
+                Message => sprintf( Translatable("Invalid StartTime: %s!"), $GetParam{StartTime} ),
             );
         }
         $GetParam{DateTime} = $DateTimeObject->ToString();
     }
 
-    if ( $Self->{Subaction} eq 'Zoom' ) {
-        return $Self->_ZoomView(
-            %GetParam,
-            Action                 => $Self->{Subaction},
-            CommunicationLogObject => $CommunicationLogObject,
-        );
-    }
-    if ( $Self->{Subaction} eq 'Accounts' ) {
-        return $Self->_AccountsView(
-            %GetParam,
-            Action                 => $Self->{Subaction},
-            CommunicationLogObject => $CommunicationLogObject,
-        );
-    }
-    elsif ( $Self->{Subaction} eq 'GetObjectLog' ) {
-        return $Self->_GetObjectLog(
-            %GetParam,
-            Action                 => $Self->{Subaction},
-            CommunicationLogObject => $CommunicationLogObject,
-        );
-    }
-    elsif ( $Self->{Subaction} eq 'GetCommunicationLog' ) {
-        return $Self->_GetCommunicationLog(
-            %GetParam,
-            Action                 => $Self->{Subaction},
-            CommunicationLogObject => $CommunicationLogObject,
-        );
+    my %SubactionHandlerMap = (
+        Overview            => '_ShowOverview',
+        Zoom                => '_ZoomView',
+        Accounts            => '_AccountsView',
+        GetObjectLog        => '_GetObjectLog',
+        GetCommunicationLog => '_GetCommunicationLog',
+    );
+
+    my $Subaction = $Self->{Subaction};
+    if ( !( exists $SubactionHandlerMap{$Subaction} ) ) {
+        $Subaction = 'Overview';
     }
 
-    return $Self->_ShowOverview(
+    my $SubactionHandler = $SubactionHandlerMap{$Subaction};
+
+    return $Self->$SubactionHandler(
         %GetParam,
-        Action                 => 'Overview',
-        CommunicationLogObject => $CommunicationLogObject,
+        Action        => $Subaction,
+        Communication => $Communication,
     );
 }
 
@@ -225,12 +199,17 @@ sub _ShowOverview {
         );
     }
 
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+
     my @CommunicationData;
     for my $Filter ( values %Filters ) {
-        my @Communications = $Param{CommunicationLogObject}->CommunicationList(
-            StartDate => $Param{DateTime},
-            %{ $Filter->{Search} },
-        );
+        my @Communications = @{
+            $CommunicationLogDBObj->CommunicationList(
+                StartDate => $Param{DateTime},
+                %{ $Filter->{Search} },
+                )
+                || []
+        };
 
         $Filter->{Count} = scalar @Communications;
 
@@ -247,7 +226,7 @@ sub _ShowOverview {
     );
 
     # generate human readable average processing time
-    my $AverageSeconds = $Param{CommunicationLogObject}->CommunicationList(
+    my $AverageSeconds = $CommunicationLogDBObj->CommunicationList(
         StartDate => $Param{DateTime},
         Result    => 'AVERAGE',
     );
@@ -476,9 +455,10 @@ sub _ShowOverview {
             if ( $Counter >= $Param{StartHit} && $Counter < ( $PageShown + $Param{StartHit} ) ) {
                 my $Account = '-';
                 if ( $Communication->{AccountID} ) {
-                    $Account = $Param{CommunicationLogObject}->ObjectAccountLabelGet(
+                    $Account = $CommunicationLogDBObj->CommunicationAccountLabelGet(
                         AccountType => $Communication->{AccountType},
                         AccountID   => $Communication->{AccountID},
+                        Transport   => $Communication->{Transport},
                     );
                 }
                 elsif ( $Communication->{AccountType} ) {
@@ -532,7 +512,11 @@ sub _ZoomView {
         Data => \%Param,
     );
 
-    my $CommunicationObjects = $Param{CommunicationLogObject}->ObjectList();
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+    my $Communication         = $Param{Communication};
+    my $CommunicationObjects  = $CommunicationLogDBObj->ObjectLogList(
+        CommunicationID => $Communication->{CommunicationID},
+    );
 
     if ( !IsArrayRefWithData($CommunicationObjects) ) {
         $LayoutObject->Block(
@@ -540,30 +524,29 @@ sub _ZoomView {
         );
     }
 
-    my $Direction = $Param{CommunicationLogObject}->DirectionGet();
+    my $Direction = $Communication->{Direction};
 
     for my $CommunicationObject ( @{$CommunicationObjects} ) {
-
-        my %CommunicationLogData = $Param{CommunicationLogObject}->CommunicationGet(
-            CommunicationID => $CommunicationObject->{CommunicationID},
-        );
+        $CommunicationObject->{Direction} = $Direction;
 
         # Get account specific information.
-        if ( $CommunicationLogData{AccountType} && $CommunicationLogData{AccountID} ) {
+        if ( $Communication->{AccountType} && $Communication->{AccountID} ) {
 
-            $CommunicationObject->{Direction}    = $Direction;
-            $CommunicationObject->{AccountLabel} = $Param{CommunicationLogObject}->ObjectAccountLabelGet(
-                AccountType => $CommunicationLogData{AccountType},
-                AccountID   => $CommunicationLogData{AccountID},
+            $CommunicationObject->{AccountLabel} = $CommunicationLogDBObj->CommunicationAccountLabelGet(
+                AccountType => $Communication->{AccountType},
+                AccountID   => $Communication->{AccountID},
+                Transport   => $Communication->{Transport},
             );
-            $CommunicationObject->{AccountLink} = $Param{CommunicationLogObject}->ObjectAccountLinkGet(
-                AccountID => $CommunicationLogData{AccountID},
+            $CommunicationObject->{AccountLink} = $CommunicationLogDBObj->CommunicationAccountLinkGet(
+                AccountType => $Communication->{AccountType},
+                AccountID   => $Communication->{AccountID},
+                Transport   => $Communication->{Transport},
             );
-            $CommunicationObject->{AccountType} = $CommunicationLogData{AccountType};
+            $CommunicationObject->{AccountType} = $Communication->{AccountType};
         }
         else {
-            $CommunicationObject->{AccountLabel} = $CommunicationLogData{AccountType};
-            $CommunicationObject->{AccountType}  = $CommunicationLogData{AccountType};
+            $CommunicationObject->{AccountLabel} = $Communication->{AccountType};
+            $CommunicationObject->{AccountType}  = $Communication->{AccountType};
         }
 
         $LayoutObject->Block(
@@ -595,15 +578,10 @@ sub _ZoomView {
         Value => $Param{CommunicationID},
     );
 
-    # send ObjectID to JS
+    # send ObjectLogID to JS
     $LayoutObject->AddJSData(
-        Key   => 'ObjectID',
-        Value => $Param{ObjectID},
-    );
-
-    # Get some meta data about communication log.
-    my %CommunicationLog = $Param{CommunicationLogObject}->CommunicationGet(
-        CommunicationID => $Param{CommunicationID},
+        Key   => 'ObjectLogID',
+        Value => $Param{ObjectLogID},
     );
 
     $Output .= $LayoutObject->Output(
@@ -612,7 +590,7 @@ sub _ZoomView {
             %Param,
             ObjectCount      => scalar @{$CommunicationObjects},
             PriorityFilter   => $PriorityFilterStrg,
-            CommunicationLog => \%CommunicationLog,
+            CommunicationLog => $Communication,
         },
     );
 
@@ -658,6 +636,8 @@ sub _AccountsView {
         %Param,
     );
 
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+
     if ( !scalar keys %Accounts ) {
         $LayoutObject->Block(
             Name => 'NoAccountsFound',
@@ -672,21 +652,24 @@ sub _AccountsView {
             my ( $AccountLink, $AverageSeconds );
 
             if ( $Account->{AccountID} ) {
-                $AccountLabel = $Param{CommunicationLogObject}->ObjectAccountLabelGet(
+                $AccountLabel = $CommunicationLogDBObj->CommunicationAccountLabelGet(
                     AccountType => $Account->{AccountType},
                     AccountID   => $Account->{AccountID},
+                    Transport   => $Account->{Transport},
                 );
-                $AccountLink = $Param{CommunicationLogObject}->ObjectAccountLinkGet(
-                    AccountID => $Account->{AccountID},
+                $AccountLink = $CommunicationLogDBObj->CommunicationAccountLinkGet(
+                    AccountType => $Account->{AccountType},
+                    AccountID   => $Account->{AccountID},
+                    Transport   => $Account->{Transport},
                 );
-                $AverageSeconds = $Param{CommunicationLogObject}->CommunicationList(
+                $AverageSeconds = $CommunicationLogDBObj->CommunicationList(
                     StartDate => $Param{DateTime},
                     AccountID => $Account->{AccountID},
                     Result    => 'AVERAGE',
                 );
             }
             else {
-                $AverageSeconds = $Param{CommunicationLogObject}->CommunicationList(
+                $AverageSeconds = $CommunicationLogDBObj->CommunicationList(
                     StartDate   => $Param{DateTime},
                     AccountType => $Account->{AccountType},
                     Result      => 'AVERAGE',
@@ -753,9 +736,10 @@ sub _GetObjectLog {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $CommunicationObjectLogs = $Param{CommunicationLogObject}->ObjectLogList(
-        ObjectID => $Param{ObjectID},
-        OrderBy  => 'up',
+    my $CommunicationLogDBObj   = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+    my $CommunicationObjectLogs = $CommunicationLogDBObj->ObjectLogEntryList(
+        ObjectLogID => $Param{ObjectLogID},
+        OrderBy     => 'up',
     );
 
     if ( !IsArrayRefWithData($CommunicationObjectLogs) ) {
@@ -795,7 +779,8 @@ sub _GetCommunicationLog {
     # $Param{AccountID} can be like 'DoNotSendEmail' or 'IMAPS::1', for example.
     my ( $AccountType, $AccountID ) = split '::', $Param{AccountID};
 
-    my $CommunicationLogObjects = $Param{CommunicationLogObject}->ObjectList(
+    my $CommunicationLogDBObj   = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+    my $CommunicationLogObjects = $CommunicationLogDBObj->ObjectLogList(
         AccountID => $AccountID || $Param{AccountID},
         StartDate => $Param{DateTime},
     );
@@ -817,9 +802,12 @@ sub _GetCommunicationLog {
 
         if ( $Counter >= $Param{StartHit} && $Counter < ( $PageShown + $Param{StartHit} ) ) {
 
-            my %CommunicationLog = $Param{CommunicationLogObject}->CommunicationGet(
-                CommunicationID => $LogObject->{CommunicationID},
-            );
+            my %CommunicationLog = %{
+                $CommunicationLogDBObj->CommunicationGet(
+                    CommunicationID => $LogObject->{CommunicationID},
+                    )
+                    || {}
+            };
 
             next COMMUNICATIONLOGOBJECT if $CommunicationLog{AccountType} ne $AccountType;
 
@@ -974,16 +962,16 @@ sub _AccountStatus {
     my ( $Self, %Param ) = @_;
 
     my %Filter = (
-        StartDate => $Param{StartDate},
+        ObjectLogStartDate => $Param{StartDate},
     );
 
     if ( $Param{Status} ) {
-        $Filter{Status} = $Param{Status};
+        $Filter{ObjectLogStatus} = $Param{Status};
     }
 
-    # TODO: make this new sub accept status
-    my $Connections = $Param{CommunicationLogObject}->GetConnectionsObjectsAndCommunications(%Filter);
-    if ( !scalar @$Connections ) {
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+    my $Connections           = $CommunicationLogDBObj->GetConnectionsObjectsAndCommunications(%Filter);
+    if ( !$Connections || !@{$Connections} ) {
         return;
     }
 
@@ -995,9 +983,17 @@ sub _AccountStatus {
             $AccountKey .= "::$Connection->{AccountID}";
         }
 
-        $Account{$AccountKey}->{AccountID}   = $Connection->{AccountID};
-        $Account{$AccountKey}->{AccountType} = $Connection->{AccountType};
-        push @{ $Account{$AccountKey}->{ $Connection->{Status} } },
+        if ( !$Account{$AccountKey} ) {
+            $Account{$AccountKey} = {
+                AccountID   => $Connection->{AccountID},
+                AccountType => $Connection->{AccountType},
+                Transport   => $Connection->{Transport},
+            };
+        }
+
+        $Account{$AccountKey}->{ $Connection->{ObjectLogStatus} } ||= [];
+
+        push @{ $Account{$AccountKey}->{ $Connection->{ObjectLogStatus} } },
             $Connection->{CommunicationID};
     }
 

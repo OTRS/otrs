@@ -27,9 +27,8 @@ sub new {
 
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     # Get Article backend object.
     $Self->{ArticleBackendObject} =
@@ -154,11 +153,10 @@ sub _AddCommunicationLog {
     my ( $Self, %Param ) = @_;
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => $Param{Priority} || 'Debug',
-        Key        => ref($Self),
-        Value      => $Param{Message},
+        ObjectLogType => 'Message',
+        Priority      => $Param{Priority} || 'Debug',
+        Key           => ref($Self),
+        Value         => $Param{Message},
     );
 
     return;

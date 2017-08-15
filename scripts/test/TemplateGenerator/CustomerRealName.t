@@ -213,16 +213,14 @@ for my $Test (@Tests) {
             ObjectParams => {
                 Transport => 'Email',
                 Direction => 'Incoming',
-                Start     => 1,
-                }
+            },
         );
-        my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+        $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            CommunicationLogObject    => $CommunicationLogObject,
-            CommunicationLogMessageID => $MessageID,
-            Trusted                   => 1,
-            Email                     => \$Test->{Email},
+            CommunicationLogObject => $CommunicationLogObject,
+            Trusted                => 1,
+            Email                  => \$Test->{Email},
         );
 
         my @Return = $PostMasterObject->Run( Queue => $QueueNameRand );
@@ -230,9 +228,8 @@ for my $Test (@Tests) {
         $TicketID = $Return[1];
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Message',
-            ObjectID   => $MessageID,
-            Status     => 'Successful',
+            ObjectLogType => 'Message',
+            Status        => 'Successful',
         );
         $CommunicationLogObject->CommunicationStop(
             Status => 'Successful',

@@ -230,15 +230,13 @@ for my $Test (@Tests) {
         ObjectParams => {
             Transport => 'Email',
             Direction => 'Incoming',
-            Start     => 1,
-            }
+        },
     );
-    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $MessageID,
-        Email                     => "From: Provider <$CustomerAddress>
+        CommunicationLogObject => $CommunicationLogObject,
+        Email                  => "From: Provider <$CustomerAddress>
 To: Agent <$AgentAddress>
 Subject: FollowUp Ticket#$Ticket{TicketNumber}
 
@@ -248,9 +246,8 @@ Some Content in Body",
     @Return = $PostMasterObject->Run();
 
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => 'Message',
-        ObjectID   => $MessageID,
-        Status     => 'Successful',
+        ObjectLogType => 'Message',
+        Status        => 'Successful',
     );
     $CommunicationLogObject->CommunicationStop(
         Status => 'Successful',

@@ -11,31 +11,36 @@ package Kernel::System::CommunicationLog::LogModule::Email;
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::CommunicationLog::LogModule::Base);
-
 our @ObjectDependencies = (
     'Kernel::System::MailAccount',
 );
 
 =head1 NAME
 
-Kernel::System::Ticket::CommunicationLog::LogModule::Test - log module class for mail transport
+Kernel::System::Ticket::CommunicationLog::LogModule::Email - log module class for mail transport
 
 =head1 DESCRIPTION
 
-This class provides functions to log test module related information.
-
-Inherits from L<Kernel::System::CommunicationLog::LogModule::Base>, please have a look there for its API.
+This class provides functions to retrieve account type specific information.
 
 =cut
 
-=head2 ObjectAccountLinkGet()
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    my $Self = {};
+    bless( $Self, $Type );
+
+    return $Self;
+}
+
+=head2 CommunicationAccountLinkGet()
 
 Returns relative link information if AccountType and AccountID are present.
 
 =cut
 
-sub ObjectAccountLinkGet {
+sub CommunicationAccountLinkGet {
     my ( $Self, %Param ) = @_;
 
     return if !$Param{AccountID};
@@ -43,13 +48,13 @@ sub ObjectAccountLinkGet {
     return "Action=AdminMailAccount;Subaction=Update;ID=$Param{AccountID}";
 }
 
-=head2 ObjectAccountLabelGet()
+=head2 CommunicationAccountLabelGet()
 
 Returns related account label if AccountType and AccountID are present.
 
 =cut
 
-sub ObjectAccountLabelGet {
+sub CommunicationAccountLabelGet {
     my ( $Self, %Param ) = @_;
 
     return if !$Param{AccountType};

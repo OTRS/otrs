@@ -140,7 +140,7 @@ Core.Agent.Admin.CommunicationLog = (function (TargetNS) {
                 Action: 'AdminCommunicationLog',
                 Subaction: 'GetObjectLog',
                 CommunicationID: Core.Config.Get('CommunicationID'),
-                ObjectID : $(this).attr('id')
+                ObjectLogID : $(this).attr('id')
             });
 
             // setup loader and row activation
@@ -173,8 +173,8 @@ Core.Agent.Admin.CommunicationLog = (function (TargetNS) {
 
         // select the given object or the first entry in object list table.
         ObjectSelected = $('#ObjectListTable > tbody').children('tr:first');
-        if (Core.Config.Get('ObjectID')) {
-            ObjectIdElement = $('#ObjectListTable > tbody').children('tr#' + Core.Config.Get('ObjectID'));
+        if (Core.Config.Get('ObjectLogID')) {
+            ObjectIdElement = $('#ObjectListTable > tbody').children('tr#' + Core.Config.Get('ObjectLogID'));
             if (ObjectIdElement.length) {
                 ObjectSelected = ObjectIdElement;
             }

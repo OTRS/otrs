@@ -81,7 +81,6 @@ sub Fetch {
         ObjectParams => {
             Transport   => 'Email',
             Direction   => 'Incoming',
-            Start       => 1,
             AccountType => $Param{Type},
             AccountID   => $Param{ID},
         },
@@ -114,8 +113,8 @@ sub _Fetch {
 
     my $CommunicationLogObject = $Param{CommunicationLogObject};
 
-    my $ConnectionID = $CommunicationLogObject->ObjectLogStart(
-        ObjectType => 'Connection',
+    $CommunicationLogObject->ObjectLogStart(
+        ObjectLogType => 'Connection',
     );
 
     # check needed stuff
@@ -127,17 +126,15 @@ sub _Fetch {
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailAccount::IMAPTLS',
-                Value      => "$_ not defined!",
+                ObjectLogType => 'Connection',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                Value         => "$_ not defined!",
             );
 
             $CommunicationLogObject->ObjectLogStop(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Status     => 'Failed',
+                ObjectLogType => 'Connection',
+                Status        => 'Failed',
             );
             $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
 
@@ -152,17 +149,15 @@ sub _Fetch {
             );
 
             $CommunicationLogObject->ObjectLog(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Priority   => 'Error',
-                Key        => 'Kernel::System::MailAccount::IMAPTLS',
-                Value      => "Need $_!",
+                ObjectLogType => 'Connection',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                Value         => "Need $_!",
             );
 
             $CommunicationLogObject->ObjectLogStop(
-                ObjectType => 'Connection',
-                ObjectID   => $ConnectionID,
-                Status     => 'Failed',
+                ObjectLogType => 'Connection',
+                Status        => 'Failed',
             );
 
             $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
@@ -191,11 +186,10 @@ sub _Fetch {
     $Self->{Reconnect} = 0;
 
     $CommunicationLogObject->ObjectLog(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::MailAccount::IMAPTLS',
-        Value      => "Open connection to '$Param{Host}' ($Param{Login}).",
+        ObjectLogType => 'Connection',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::MailAccount::IMAPTLS',
+        Value         => "Open connection to '$Param{Host}' ($Param{Login}).",
     );
 
     my %Connect = ();
@@ -223,17 +217,15 @@ sub _Fetch {
         );
 
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Priority   => 'Error',
-            Key        => 'Kernel::System::MailAccount::IMAPTLS',
-            Value      => $Connect{Message},
+            ObjectLogType => 'Connection',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::MailAccount::IMAPTLS',
+            Value         => $Connect{Message},
         );
 
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Status     => 'Failed',
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
         );
 
         $CommunicationLogObject->CommunicationStop( Status => 'Failed' );
@@ -343,11 +335,10 @@ sub _Fetch {
                 );
 
                 $CommunicationLogObject->ObjectLog(
-                    ObjectType => 'Connection',
-                    ObjectID   => $ConnectionID,
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::MailAccount::IMAPTLS',
-                    Value      => $ErrorMessage,
+                    ObjectLogType => 'Connection',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                    Value         => $ErrorMessage,
                 );
 
                 $ConnectionWithErrors = 1;
@@ -371,11 +362,10 @@ sub _Fetch {
                 );
 
                 $CommunicationLogObject->ObjectLog(
-                    ObjectType => 'Connection',
-                    ObjectID   => $ConnectionID,
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::MailAccount::IMAPTLS',
-                    Value      => $ErrorMessage,
+                    ObjectLogType => 'Connection',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                    Value         => $ErrorMessage,
                 );
 
                 $ConnectionWithErrors = 1;
@@ -401,34 +391,31 @@ sub _Fetch {
                     );
 
                     $CommunicationLogObject->ObjectLog(
-                        ObjectType => 'Connection',
-                        ObjectID   => $ConnectionID,
-                        Priority   => 'Error',
-                        Key        => 'Kernel::System::MailAccount::IMAPTLS',
-                        Value      => $ErrorMessage,
+                        ObjectLogType => 'Connection',
+                        Priority      => 'Error',
+                        Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                        Value         => $ErrorMessage,
                     );
 
                     $ConnectionWithErrors = 1;
                 }
                 else {
                     $CommunicationLogObject->ObjectLog(
-                        ObjectType => 'Connection',
-                        ObjectID   => $ConnectionID,
-                        Priority   => 'Debug',
-                        Key        => 'Kernel::System::MailAccount::IMAPTLS',
-                        Value      => "Message '$Messageno' successfully received from server.",
+                        ObjectLogType => 'Connection',
+                        Priority      => 'Debug',
+                        Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                        Value         => "Message '$Messageno' successfully received from server.",
                     );
 
-                    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+                    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
                     my $MessageStatus = 'Successful';
 
                     my $PostMasterObject = Kernel::System::PostMaster->new(
                         %{$Self},
-                        Email                     => \$Message,
-                        Trusted                   => $Param{Trusted} || 0,
-                        Debug                     => $Debug,
-                        CommunicationLogObject    => $CommunicationLogObject,
-                        CommunicationLogMessageID => $MessageID,
+                        Email                  => \$Message,
+                        Trusted                => $Param{Trusted} || 0,
+                        Debug                  => $Debug,
+                        CommunicationLogObject => $CommunicationLogObject,
                     );
 
                     my @Return = eval {
@@ -458,11 +445,10 @@ sub _Fetch {
                         );
 
                         $CommunicationLogObject->ObjectLog(
-                            ObjectType => 'Connection',
-                            ObjectID   => $MessageID,
-                            Priority   => 'Error',
-                            Key        => 'Kernel::System::MailAccount::IMAPTLS',
-                            Value      => $ErrorMessage,
+                            ObjectLogType => 'Connection',
+                            Priority      => 'Error',
+                            Key           => 'Kernel::System::MailAccount::IMAPTLS',
+                            Value         => $ErrorMessage,
                         );
 
                         $MessageStatus = 'Failed';
@@ -473,9 +459,8 @@ sub _Fetch {
                     undef $PostMasterObject;
 
                     $CommunicationLogObject->ObjectLogStop(
-                        ObjectType => 'Message',
-                        ObjectID   => $MessageID,
-                        Status     => $MessageStatus,
+                        ObjectLogType => 'Message',
+                        Status        => $MessageStatus,
                     );
                 }
 
@@ -495,11 +480,10 @@ sub _Fetch {
     # log status
     if ( $Debug > 0 || $FetchCounter ) {
         $CommunicationLogObject->ObjectLog(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Priority   => 'Info',
-            Key        => 'Kernel::System::MailAccount::IMAPTLS',
-            Value      => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            ObjectLogType => 'Connection',
+            Priority      => 'Info',
+            Key           => 'Kernel::System::MailAccount::IMAPTLS',
+            Value         => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
     $IMAPOperation->( 'close', );
@@ -509,18 +493,16 @@ sub _Fetch {
 
     if ($ConnectionWithErrors) {
         $CommunicationLogObject->ObjectLogStop(
-            ObjectType => 'Connection',
-            ObjectID   => $ConnectionID,
-            Status     => 'Failed',
+            ObjectLogType => 'Connection',
+            Status        => 'Failed',
         );
 
         return;
     }
 
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => 'Connection',
-        ObjectID   => $ConnectionID,
-        Status     => 'Successful',
+        ObjectLogType => 'Connection',
+        Status        => 'Successful',
     );
     $CommunicationLogObject->CommunicationStop( Status => 'Successful' );
 

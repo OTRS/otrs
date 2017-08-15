@@ -250,24 +250,21 @@ for my $Test (@Tests) {
         ObjectParams => {
             Transport => 'Email',
             Direction => 'Incoming',
-            Start     => 1,
-            }
+        },
     );
-    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
     # use post master to import mail into OTRS
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $MessageID,
-        Email                     => $Email,
-        Trusted                   => 1,
+        CommunicationLogObject => $CommunicationLogObject,
+        Email                  => $Email,
+        Trusted                => 1,
     );
     my @PostMasterResult = $PostMasterObject->Run( Queue => '' );
 
     $CommunicationLogObject->ObjectLogStop(
-        ObjectType => 'Message',
-        ObjectID   => $MessageID,
-        Status     => 'Successful',
+        ObjectLogType => 'Message',
+        Status        => 'Successful',
     );
     $CommunicationLogObject->CommunicationStop(
         Status => 'Successful',
@@ -747,15 +744,13 @@ for my $Test (@TestVariations) {
         ObjectParams => {
             Transport => 'Email',
             Direction => 'Incoming',
-            Start     => 1,
-            }
+        },
     );
-    my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        Email                     => \$NewEmail,
-        CommunicationLogObject    => $CommunicationLogObject,
-        CommunicationLogMessageID => $MessageID,
+        Email                  => \$NewEmail,
+        CommunicationLogObject => $CommunicationLogObject,
     );
 
     my @Return = $PostMasterObject->Run();

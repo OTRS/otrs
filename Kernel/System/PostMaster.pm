@@ -65,9 +65,8 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    $Self->{Email}                     = $Param{Email}                     || die "Got no Email!";
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    $Self->{Email} = $Param{Email} || die "Got no Email!";
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     $Self->{ParserObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email},
@@ -177,11 +176,10 @@ sub Run {
 
             if ( !$FilterObject ) {
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::PostMaster',
-                    Value      => "new() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::PostMaster',
+                    Value         => "new() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
                 next JOB;
             }
@@ -195,11 +193,10 @@ sub Run {
             );
             if ( !$Run ) {
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::PostMaster',
-                    Value      => "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::PostMaster',
+                    Value         => "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
             }
         }
@@ -208,10 +205,9 @@ sub Run {
     # should I ignore the incoming mail?
     if ( $GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /(yes|true)/i ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Info',
-            Key        => 'Kernel::System::PostMaster',
+            ObjectLogType => 'Message',
+            Priority      => 'Info',
+            Key           => 'Kernel::System::PostMaster',
             Value =>
                 "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
                 . "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'}).",
@@ -244,11 +240,10 @@ sub Run {
 
             if ( !$FilterObject ) {
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::PostMaster',
-                    Value      => "new() of PreCreateFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::PostMaster',
+                    Value         => "new() of PreCreateFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
                 next JOB;
             }
@@ -262,11 +257,10 @@ sub Run {
             );
             if ( !$Run ) {
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::PostMaster',
-                    Value      => "Execute Run() of PreCreateFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::PostMaster',
+                    Value         => "Execute Run() of PreCreateFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
             }
         }
@@ -314,11 +308,10 @@ sub Run {
         {
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Info',
-                Key        => 'Kernel::System::PostMaster',
-                Value      => "Follow up for [$Tn] but follow up not possible ($Ticket{State}). Create new ticket.",
+                ObjectLogType => 'Message',
+                Priority      => 'Info',
+                Key           => 'Kernel::System::PostMaster',
+                Value         => "Follow up for [$Tn] but follow up not possible ($Ticket{State}). Create new ticket.",
             );
 
             # send mail && create new article
@@ -366,11 +359,10 @@ sub Run {
         elsif ( !$BounceEmailAsFollowUp && $FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^(removed|close)/i ) {
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Info',
-                Key        => 'Kernel::System::PostMaster',
-                Value      => "Follow up for [$Tn] but follow up not possible. Follow up rejected.",
+                ObjectLogType => 'Message',
+                Priority      => 'Info',
+                Key           => 'Kernel::System::PostMaster',
+                Value         => "Follow up for [$Tn] but follow up not possible. Follow up rejected.",
             );
 
             # send reject mail and add article to ticket
@@ -465,11 +457,10 @@ sub Run {
 
             if ( !$FilterObject ) {
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::PostMaster',
-                    Value      => "new() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::PostMaster',
+                    Value         => "new() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
                 next JOB;
             }
@@ -485,11 +476,10 @@ sub Run {
 
             if ( !$Run ) {
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::PostMaster',
-                    Value      => "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::PostMaster',
+                    Value         => "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
             }
         }
@@ -534,11 +524,10 @@ sub CheckFollowUp {
 
             if ( !$CheckObject ) {
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Error',
-                    Key        => 'Kernel::System::PostMaster',
-                    Value      => "new() of CheckFollowUp $Jobs->{$Job}->{Module} not successfully!",
+                    ObjectLogType => 'Message',
+                    Priority      => 'Error',
+                    Key           => 'Kernel::System::PostMaster',
+                    Value         => "new() of CheckFollowUp $Jobs->{$Job}->{Module} not successfully!",
                 );
                 next JOB;
             }
@@ -554,10 +543,9 @@ sub CheckFollowUp {
                 if (%Ticket) {
 
                     $Self->{CommunicationLogObject}->ObjectLog(
-                        ObjectType => 'Message',
-                        ObjectID   => $Self->{CommunicationLogMessageID},
-                        Priority   => 'Debug',
-                        Key        => 'Kernel::System::PostMaster',
+                        ObjectLogType => 'Message',
+                        Priority      => 'Debug',
+                        Key           => 'Kernel::System::PostMaster',
                         Value =>
                             "Found follow up ticket with TicketNumber '$Ticket{TicketNumber}' and TicketID '$TicketID'.",
                     );
@@ -596,11 +584,10 @@ sub GetEmailParams {
         next HEADER if !$GetParam{$Param};
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster',
-            Value      => "$Param: " . $GetParam{$Param},
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster',
+            Value         => "$Param: " . $GetParam{$Param},
         );
     }
 
@@ -650,11 +637,10 @@ sub GetEmailParams {
         # check if X-OTRS-SenderType exists, if not, set customer
         if ( !$ArticleObject->ArticleSenderTypeLookup( SenderType => $GetParam{$Key} ) ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster',
-                Value      => "Can't find sender type '$GetParam{$Key}' in db, take 'customer'",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster',
+                Value         => "Can't find sender type '$GetParam{$Key}' in db, take 'customer'",
             );
             $GetParam{$Key} = 'customer';
         }

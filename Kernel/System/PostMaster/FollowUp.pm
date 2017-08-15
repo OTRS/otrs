@@ -32,9 +32,8 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -46,11 +45,10 @@ sub Run {
     for (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
         if ( !$Param{$_} ) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Error',
-                Key        => 'Kernel::System::PostMaster::FollowUp',
-                Value      => "Need $_!",
+                ObjectLogType => 'Message',
+                Priority      => 'Error',
+                Key           => 'Kernel::System::PostMaster::FollowUp',
+                Value         => "Need $_!",
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -125,11 +123,10 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Notice',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
-            Value      => "Ticket [$Param{Tn}] unlocked, current owner is out of office!",
+            ObjectLogType => 'Message',
+            Priority      => 'Notice',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
+            Value         => "Ticket [$Param{Tn}] unlocked, current owner is out of office!",
         );
     }
 
@@ -146,11 +143,10 @@ sub Run {
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Notice',
-                Key        => 'Kernel::System::PostMaster::FollowUp',
-                Value      => "Ticket [$Param{Tn}] still locked.",
+                ObjectLogType => 'Message',
+                Priority      => 'Notice',
+                Key           => 'Kernel::System::PostMaster::FollowUp',
+                Value         => "Ticket [$Param{Tn}] still locked.",
             );
         }
     }
@@ -165,11 +161,10 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Notice',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
-            Value      => "Ticket [$Param{Tn}] unlocked, current owner is invalid!",
+            ObjectLogType => 'Message',
+            Priority      => 'Notice',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
+            Value         => "Ticket [$Param{Tn}] unlocked, current owner is invalid!",
         );
     }
 
@@ -202,11 +197,10 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
-            Value      => "Ticket state will be left unchanged! State: $State.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
+            Value         => "Ticket state will be left unchanged! State: $State.",
         );
     }
 
@@ -252,10 +246,9 @@ sub Run {
         # debug
         if ($Updated) {
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::FollowUp',
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::FollowUp',
                 Value =>
                     "Pending time update via 'X-OTRS-FollowUp-State-PendingTime'! State-PendingTime: $GetParam{'X-OTRS-FollowUp-State-PendingTime'}.",
             );
@@ -272,10 +265,9 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
             Value =>
                 "Priority update via 'X-OTRS-FollowUp-Priority'! Priority: $GetParam{'X-OTRS-FollowUp-Priority'}.",
         );
@@ -291,10 +283,9 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
             Value =>
                 "Queue update via 'X-OTRS-FollowUp-Queue'! Queue: $GetParam{'X-OTRS-FollowUp-Queue'}.",
         );
@@ -310,10 +301,9 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
             Value =>
                 "Lock update via 'X-OTRS-FollowUp-Lock'! Lock: $GetParam{'X-OTRS-FollowUp-Lock'}.",
         );
@@ -329,10 +319,9 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
             Value =>
                 "Type update via 'X-OTRS-FollowUp-Type'! Type: $GetParam{'X-OTRS-FollowUp-Type'}.",
         );
@@ -348,10 +337,9 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
             Value =>
                 "Services update via 'X-OTRS-FollowUp-Service'! Service: $GetParam{'X-OTRS-FollowUp-Service'}.",
         );
@@ -367,10 +355,9 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
             Value =>
                 "SLA update via 'X-OTRS-FollowUp-SLA'! SLA: $GetParam{'X-OTRS-FollowUp-SLA'}.",
         );
@@ -409,10 +396,9 @@ sub Run {
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::FollowUp',
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::FollowUp',
                 Value =>
                     "DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
@@ -451,10 +437,9 @@ sub Run {
                 }
 
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Debug',
-                    Key        => 'Kernel::System::PostMaster::FollowUp',
+                    ObjectLogType => 'Message',
+                    Priority      => 'Debug',
+                    Key           => 'Kernel::System::PostMaster::FollowUp',
                     Value =>
                         "DynamicField (TicketKey$Count) update via '$Key'! Value: $GetParam{$Key}.",
                 );
@@ -494,10 +479,9 @@ sub Run {
                 }
 
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Debug',
-                    Key        => 'Kernel::System::PostMaster::FollowUp',
+                    ObjectLogType => 'Message',
+                    Priority      => 'Debug',
+                    Key           => 'Kernel::System::PostMaster::FollowUp',
                     Value =>
                         "DynamicField (TicketTime$Count) update via '$Key'! Value: $GetParam{$Key}.",
                 );
@@ -515,11 +499,10 @@ sub Run {
     }
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::FollowUp',
-        Value      => "Going to create follow up for TicketID '$Param{TicketID}'.",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::FollowUp',
+        Value         => "Going to create follow up for TicketID '$Param{TicketID}'.",
     );
 
     # do db insert
@@ -546,15 +529,14 @@ sub Run {
     return if !$ArticleID;
 
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Debug',
-        Key        => 'Kernel::System::PostMaster::FollowUp',
-        Value      => "Follow up created for TicketID '$Param{TicketID}' (ArticleID: '$ArticleID')",
+        ObjectLogType => 'Message',
+        Priority      => 'Debug',
+        Key           => 'Kernel::System::PostMaster::FollowUp',
+        Value         => "Follow up created for TicketID '$Param{TicketID}' (ArticleID: '$ArticleID')",
     );
 
     $Self->{CommunicationLogObject}->ObjectLookupSet(
-        ObjectID         => $Self->{CommunicationLogMessageID},
+        ObjectLogType    => 'Message',
         TargetObjectType => 'Article',
         TargetObjectID   => $ArticleID,
     );
@@ -572,11 +554,10 @@ sub Run {
         next ATTRIBUTE if !( defined $Value ) || !( length $Value );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
-            Value      => "$Attribute: $Value",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
+            Value         => "$Attribute: $Value",
         );
     }
 
@@ -630,11 +611,10 @@ sub Run {
             );
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Debug',
-                Key        => 'Kernel::System::PostMaster::FollowUp',
-                Value      => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::FollowUp',
+                Value         => "Article DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
         }
     }
@@ -671,10 +651,9 @@ sub Run {
                 }
 
                 $Self->{CommunicationLogObject}->ObjectLog(
-                    ObjectType => 'Message',
-                    ObjectID   => $Self->{CommunicationLogMessageID},
-                    Priority   => 'Debug',
-                    Key        => 'Kernel::System::PostMaster::FollowUp',
+                    ObjectLogType => 'Message',
+                    Priority      => 'Debug',
+                    Key           => 'Kernel::System::PostMaster::FollowUp',
                     Value =>
                         "Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
                 );
@@ -692,21 +671,19 @@ sub Run {
         );
 
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Debug',
-            Key        => 'Kernel::System::PostMaster::FollowUp',
-            Value      => "Title update via 'X-OTRS-FollowUp-Title'! Value: $GetParam{'X-OTRS-FollowUp-Title'}.",
+            ObjectLogType => 'Message',
+            Priority      => 'Debug',
+            Key           => 'Kernel::System::PostMaster::FollowUp',
+            Value         => "Title update via 'X-OTRS-FollowUp-Title'! Value: $GetParam{'X-OTRS-FollowUp-Title'}.",
         );
     }
 
     # write log
     $Self->{CommunicationLogObject}->ObjectLog(
-        ObjectType => 'Message',
-        ObjectID   => $Self->{CommunicationLogMessageID},
-        Priority   => 'Notice',
-        Key        => 'Kernel::System::PostMaster::FollowUp',
-        Value      => "FollowUp Article to Ticket [$Param{Tn}] created "
+        ObjectLogType => 'Message',
+        Priority      => 'Notice',
+        Key           => 'Kernel::System::PostMaster::FollowUp',
+        Value         => "FollowUp Article to Ticket [$Param{Tn}] created "
             . "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment,",
     );
 

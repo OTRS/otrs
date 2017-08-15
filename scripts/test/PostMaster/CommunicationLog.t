@@ -184,37 +184,31 @@ my $GetMailAcountLastCommunicationLog = sub {
 
     my $MailAccount = $Param{MailAccount};
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Incoming',
-            }
+    my $CommunicationLogDBObj = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog::DB',
     );
-    my @MailAccountCommunicationLog = $CommunicationLogObject->CommunicationList(
-        AccountType => $MailAccount->{Type},
-        AccountID   => $MailAccount->{ID},
-    );
+    my @MailAccountCommunicationLog = @{
+        $CommunicationLogDBObj->CommunicationList(
+            AccountType => $MailAccount->{Type},
+            AccountID   => $MailAccount->{ID},
+            )
+            || []
+    };
 
     @MailAccountCommunicationLog
         = sort { $b->{CommunicationID} <=> $a->{CommunicationID} } @MailAccountCommunicationLog;
 
-    $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            CommunicationID => $MailAccountCommunicationLog[0]->{CommunicationID},
-        },
-    );
-
     # Get all communication related objects.
-    my $Objects = $CommunicationLogObject->ObjectList();
+    my $Objects = $CommunicationLogDBObj->ObjectLogList(
+        CommunicationID => $MailAccountCommunicationLog[0]->{CommunicationID},
+    );
 
     my $Connection = undef;
     my @Messages   = ();
     OBJECT:
     for my $Object ( @{$Objects} ) {
 
-        if ( $Object->{ObjectType} eq 'Connection' ) {
+        if ( $Object->{ObjectLogType} eq 'Connection' ) {
             $Connection = $Object;
             next OBJECT;
         }
@@ -438,7 +432,7 @@ for my $MailAccount (@MailAccounts) {
             sprintf( '%s, communication %s', $TestBaseMessage, $CommunicationLogStatus{Communication}, ),
         );
         $Self->True(
-            $CommunicationLogData->{Connection}->{Status} eq $CommunicationLogStatus{Connection},
+            $CommunicationLogData->{Connection}->{ObjectLogStatus} eq $CommunicationLogStatus{Connection},
             sprintf( '%s, connection %s', $TestBaseMessage, $CommunicationLogStatus{Connection}, ),
         );
 
@@ -458,7 +452,7 @@ for my $MailAccount (@MailAccounts) {
             }
 
             $Self->True(
-                $Message->{Status} eq $ExpectedStatus,
+                $Message->{ObjectLogStatus} eq $ExpectedStatus,
                 sprintf( '%s, message-%s %s', $TestBaseMessage, $MessageIdx, $ExpectedStatus, ),
             );
         }

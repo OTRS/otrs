@@ -284,16 +284,14 @@ my $CommunicationLogObject = $Kernel::OM->Create(
     ObjectParams => {
         Transport => 'Email',
         Direction => 'Incoming',
-        Start     => 1,
-        }
+    },
 );
-my $MessageID = $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+$CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
 my $PostMasterObject = Kernel::System::PostMaster->new(
-    CommunicationLogObject    => $CommunicationLogObject,
-    CommunicationLogMessageID => $MessageID,
-    Email                     => $Email,
-    Trusted                   => 1,
+    CommunicationLogObject => $CommunicationLogObject,
+    Email                  => $Email,
+    Trusted                => 1,
 );
 
 my @Return = $PostMasterObject->Run( Queue => '' );
@@ -310,9 +308,8 @@ $Self->True(
 );
 
 $CommunicationLogObject->ObjectLogStop(
-    ObjectType => 'Message',
-    ObjectID   => $MessageID,
-    Status     => 'Successful',
+    ObjectLogType => 'Message',
+    Status        => 'Successful',
 );
 $CommunicationLogObject->CommunicationStop(
     Status => 'Successful',

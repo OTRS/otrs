@@ -17,7 +17,7 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::CommunicationLog',
+    'Kernel::System::CommunicationLog::DB',
     'Kernel::System::DateTime',
     'Kernel::System::MailAccount',
 );
@@ -29,22 +29,15 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $CommunicationLogObject = $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            Transport => 'Email',
-            Direction => 'Incoming',
-        },
-    );
-
-    my $DateTime = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+    my $DateTime              = $Kernel::OM->Create('Kernel::System::DateTime');
     $DateTime->Subtract( Days => 1 );
 
-    my $Connections = $CommunicationLogObject->GetConnectionsObjectsAndCommunications(
-        StartDate => $DateTime->ToString(),
+    my $Connections = $CommunicationLogDBObj->GetConnectionsObjectsAndCommunications(
+        ObjectLogStartDate => $DateTime->ToString(),
     );
 
-    if ( !scalar @$Connections ) {
+    if ( !$Connections || !@{$Connections} ) {
         $Self->AddResultInformation(
             Identifier => 'NoConnections',
             Label      => Translatable('No connections found.'),
@@ -54,16 +47,23 @@ sub Run {
 
     my %Account;
 
-    for my $Connection (@$Connections) {
+    for my $Connection ( @{$Connections} ) {
 
         my $AccountKey = $Connection->{AccountType};
         if ( $Connection->{AccountID} ) {
             $AccountKey .= "::$Connection->{AccountID}";
         }
 
-        $Account{$AccountKey}->{AccountID}   = $Connection->{AccountID};
-        $Account{$AccountKey}->{AccountType} = $Connection->{AccountType};
-        push @{ $Account{$AccountKey}->{ $Connection->{Status} } }, $Connection->{CommunicationID};
+        if ( !$Account{$AccountKey} ) {
+            $Account{$AccountKey} = {
+                AccountID   => $Connection->{AccountID},
+                AccountType => $Connection->{AccountType},
+            };
+        }
+
+        $Account{$AccountKey}->{ $Connection->{ObjectLogStatus} } ||= [];
+
+        push @{ $Account{$AccountKey}->{ $Connection->{ObjectLogStatus} } }, $Connection->{CommunicationID};
     }
 
     my @AllMailAccounts = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGetAll();

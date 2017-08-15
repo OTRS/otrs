@@ -26,9 +26,8 @@ sub new {
     # get parser object
     $Self->{ParserObject} = $Param{ParserObject} || die "Got no ParserObject!";
 
-    # get communication log object and MessageID
-    $Self->{CommunicationLogObject}    = $Param{CommunicationLogObject}    || die "Got no CommunicationLogObject!";
-    $Self->{CommunicationLogMessageID} = $Param{CommunicationLogMessageID} || die "Got no CommunicationLogMessageID!";
+    # Get communication log object.
+    $Self->{CommunicationLogObject} = $Param{CommunicationLogObject} || die "Got no CommunicationLogObject!";
 
     return $Self;
 }
@@ -49,11 +48,10 @@ sub Run {
     # check CMD config param
     if ( !$Config{CMD} ) {
         $Self->{CommunicationLogObject}->ObjectLog(
-            ObjectType => 'Message',
-            ObjectID   => $Self->{CommunicationLogMessageID},
-            Priority   => 'Error',
-            Key        => 'Kernel::System::PostMaster::Filter::CMD',
-            Value      => "Need CMD config option in PostMaster::PreFilterModule job!",
+            ObjectLogType => 'Message',
+            Priority      => 'Error',
+            Key           => 'Kernel::System::PostMaster::Filter::CMD',
+            Value         => "Need CMD config option in PostMaster::PreFilterModule job!",
         );
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -85,10 +83,9 @@ sub Run {
             $Param{GetParam}->{$Key} = $Value;
 
             $Self->{CommunicationLogObject}->ObjectLog(
-                ObjectType => 'Message',
-                ObjectID   => $Self->{CommunicationLogMessageID},
-                Priority   => 'Notice',
-                Key        => 'Kernel::System::PostMaster::Filter::CMD',
+                ObjectLogType => 'Message',
+                Priority      => 'Notice',
+                Key           => 'Kernel::System::PostMaster::Filter::CMD',
                 Value =>
                     "Set param '$Key' to '$Value' because of '$Ret' (Message-ID: $Param{GetParam}->{'Message-ID'})",
             );
