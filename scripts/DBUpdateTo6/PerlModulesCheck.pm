@@ -45,6 +45,7 @@ sub CheckPreviousRequirement {
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
+    my $PerlBinary = $^X;
     my $ScriptPath = "$Home/bin/otrs.CheckModules.pl";
 
     # verify check modules script exist
@@ -61,7 +62,7 @@ sub CheckPreviousRequirement {
         $ScriptPath .= ' >/dev/null';
     }
 
-    my $ExitCode = system($ScriptPath);
+    my $ExitCode = system("$PerlBinary $ScriptPath");
 
     if ( $ExitCode != 0 ) {
         print
