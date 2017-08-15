@@ -1,7 +1,19 @@
 #!/bin/bash
-
+set -ev
 
 if [ $DB = 'mysql' ]; then
+
+    # Tweak some mysql settings for OTRS.
+    sudo cat - <<MYSQL_CONFIG >> /etc/mysql/my.cnf
+[mysqld]
+max_allowed_packet   = 24M
+innodb_log_file_size = 256M
+MYSQL_CONFIG
+    sudo service mysql restart
+    mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
+    mysql -e "SHOW VARIABLES LIKE 'innodb_log_file_size';"
+
+    # Now create OTRS specific users and databases.
     cp -i $TRAVIS_BUILD_DIR/scripts/tools/travis/Config.mysql.pm $TRAVIS_BUILD_DIR/Kernel/Config.pm
 
     mysql -uroot -e "CREATE DATABASE otrs CHARACTER SET utf8";
