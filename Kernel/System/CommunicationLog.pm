@@ -107,11 +107,11 @@ sub CommunicationStop {
 
 =head2 CommunicationIDGet()
 
-    Returns the communication id.
+Returns the communication id.
 
     my $CommunicationID = $CommunicationLogObject->CommunicationIDGet();
 
-    Returns:
+Returns:
 
     The communication id of the current communication represented by this object.
 
