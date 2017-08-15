@@ -65,6 +65,7 @@ sub ArticleDataTables {
         'article_data_mime',
         'article_data_mime_plain',
         'article_data_mime_attachment',
+        'article_data_mime_send_error',
     );
 }
 
