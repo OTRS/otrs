@@ -38,9 +38,8 @@
                 <ul class="ActionList">
                     <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="Action" value="AdminSystemConfiguration"/>
-                        <input type="hidden" name="Subaction" value="Edit"/>
-                        <input type="hidden" name="SysConfigGroup" value="Framework"/>
-                        <input type="hidden" name="SysConfigSubGroup" value="Frontend::Customer"/>
+                        <input type="hidden" name="Subaction" value="View"/>
+                        <input type="hidden" name="Setting" value="CustomerGroupSupport"/>
                         <h3>[% Translate("This feature is disabled!") | html %]</h3>
                         <fieldset>
                             <p class="FieldExplanation">

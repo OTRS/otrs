@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-15 Fixed bug#[13034](https://bugs.otrs.org/show_bug.cgi?id=13034) - Enable SMIME and/or PGP Support jumps to wrong setting.
  - 2017-08-12 Merged FAO OTRSGenericInterfaceInvokerEventFilter.
  - 2017-08-11 Made bcrypt cost configurable for agent and customer password hashing, thanks to Pawel Boguslawski.
  - 2017-08-09 Reduced Daemon debug information.
