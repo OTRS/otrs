@@ -31,11 +31,11 @@ our @ObjectDependencies = (
 
 =head2 new()
 
-    Creates a CommunicationLog object. Do not use new() directly, instead use the object manager.
-    This is a class which represents a complete communication. Therefore the created
-    instances must not be shared between processes of different communications.
+Creates a CommunicationLog object. Do not use new() directly, instead use the object manager.
+This is a class which represents a complete communication. Therefore the created
+instances must not be shared between processes of different communications.
 
-    Please use the object manager as follows for this class:
+Please use the object manager as follows for this class:
 
     # Create an object, representing a new communication:
     my $CommunicationLogObject = $Kernel::OM->Create(
@@ -72,13 +72,13 @@ sub new {
 
 =head2 CommunicationStop()
 
-    Update the status of a communication entry.
+Update the status of a communication entry.
 
     my $Success = $CommunicationLogObject->CommunicationStop(
         Status => 'Successful', # (required) Needs to be either 'Successful', 'Warning' or 'Failed'
     );
 
-    Returns:
+Returns:
 
     1 in case of success, 0 in case of errors
 
@@ -125,11 +125,11 @@ sub CommunicationIDGet {
 
 =head2 TransportGet()
 
-    Returns the used transport.
+Returns the used transport.
 
     my $Transport = $CommunicationLogObject->TransportGet();
 
-    Returns:
+Returns:
 
     The transport of the current communication represented by this object.
 
@@ -143,11 +143,11 @@ sub TransportGet {
 
 =head2 DirectionGet()
 
-    Returns the used direction.
+Returns the used direction.
 
     my $Direction = $CommunicationLogObject->DirectionGet();
 
-    Returns:
+Returns:
 
     The direction of the current communication represented by this object.
 
@@ -161,11 +161,11 @@ sub DirectionGet {
 
 =head2 StatusGet()
 
-    Returns the current Status.
+Returns the current Status.
 
     my $Direction = $CommunicationLogObject->StatusGet();
 
-    Returns:
+Returns:
 
     The status of the current communication represented by this object.
 
@@ -179,13 +179,13 @@ sub StatusGet {
 
 =head2 ObjectLogStart()
 
-    Starts a log object of a given object type.
+Starts a log object of a given object type.
 
     my $ObjectID = $CommunicationLogObject->ObjectLogStart(
         ObjectType => 'Connection' # (required) Can be 'Connection' or 'Message'
     );
 
-    Returns:
+Returns:
 
     1 in case of success, 0 in case of errors
 
@@ -214,14 +214,14 @@ sub ObjectLogStart {
 
 =head2 ObjectLogStop()
 
-    Stops a log object of a given object type.
+Stops a log object of a given object type.
 
     my $Success = $CommunicationLogObject->ObjectLogStop(
         ObjectLogType => 'Connection'                        # (required) Can be 'Connection' or 'Message'
         ObjectLogID   => 123, # (required) The ObjectID of the started object type
     );
 
-    Returns:
+Returns:
 
     1 in case of success, 0 in case of errors
 
@@ -258,14 +258,14 @@ sub ObjectLogStop {
 
 =head2 ObjectLog()
 
-    Adds a log entry for a certain log object.
+Adds a log entry for a certain log object.
 
     my $Success = $CommunicationLogObject->ObjectLog(
         ObjectLogType => '...' # (required) To be defined by the related LogObject
         ObjectLogID   => 123, # (required) The ObjectID of the started object type
     );
 
-    Returns:
+Returns:
 
     1 in case of success, 0 in case of errors
 
@@ -295,7 +295,7 @@ sub ObjectLog {
 
 =head2 ObjectLookupSet()
 
-    Inserts or updates a lookup information.
+Inserts or updates a lookup information.
 
     my $Result = $CommunicationLogObject->ObjectLookupSet(
         ObjectID         => 123,       # (required)
@@ -303,7 +303,7 @@ sub ObjectLog {
         TargetObjectID   => 123,       # (required)
     );
 
-    Returns:
+Returns:
 
     <undef> - if any error occur
           1 - in case of success
@@ -357,13 +357,15 @@ sub ObjectLookupGet {
 
 =head2 IsObjectLogOpen()
 
-    Checks if a given ObjectLogType has an open Object or not.
+Checks if a given ObjectLogType has an open Object or not.
 
     my $Result = $CommunicationLogObject->IsObjectLogOpen(
         ObjectLogType => '...',     # Required
     );
 
-    Returns the ObjectLogID or undef.
+Returns:
+
+    The ObjectLogID or undef.
 
 =cut
 
@@ -385,7 +387,7 @@ Private methods
 
 =head2 _CommunicationStart()
 
-    Create a new communication entry.
+Create a new communication entry.
 
     my $Success = $CommunicationLogObject->CommunicationStart(
         Status => 'Processing', # (optional) Needs to be either 'Successful', 'Processing', 'Warning' or 'Failed'
@@ -395,7 +397,7 @@ Private methods
         AccountID   =>          # (optional) The used account id
     );
 
-    Returns:
+Returns:
 
     1 in case of success, 0 in case of errors
 
@@ -439,7 +441,7 @@ sub _CommunicationStart {
 
 =head2 _RecoverCommunciationObject()
 
-    Recover a Communication object given an CommunicationID or ObjectLogID.
+Recover a Communication object given an CommunicationID or ObjectLogID.
 
 =cut
 
@@ -505,11 +507,11 @@ sub _RecoverCommunicationObject {
 
 =head2 _GetTransportModule()
 
-    Lookup for the transport module.
+Lookup for the transport module.
 
-    Returns:
-        undef  - in case isn't found
-        module - in case is found
+Returns:
+    undef  - case not found
+    module - case found
 
 =cut
 
@@ -530,7 +532,7 @@ sub _GetTransportModule {
 
 =head2 _LogError()
 
-    Helper Method for logging.
+Helper Method for logging.
 
 =cut
 
