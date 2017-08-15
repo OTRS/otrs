@@ -1601,16 +1601,16 @@ via the Preferences button after logging in.
 #        Map => [
 #            # note: Login, Email and CustomerID needed!
 #            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target, link class(es)
-#            [ 'UserTitle',       Translatable('Title or salutation)', 'title',               1, 0, 'var', '', 1, undef, undef ],
-#            [ 'UserFirstname',   Translatable('Firstname)',           'givenname',           1, 1, 'var', '', 1, undef, undef ],
-#            [ 'UserLastname',    Translatable('Lastname)',            'sn',                  1, 1, 'var', '', 1, undef, undef ],
-#            [ 'UserLogin',       Translatable('Username)',            'uid',                 1, 1, 'var', '', 1, undef, undef ],
-#            [ 'UserEmail',       Translatable('Email)',               'mail',                1, 1, 'var', '', 1, undef, undef ],
-#            [ 'UserCustomerID',  Translatable('CustomerID)',          'mail',                0, 1, 'var', '', 1, undef, undef ],
-#            # [ 'UserCustomerIDs', Translatable('CustomerIDs)',         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
-#            [ 'UserPhone',       Translatable('Phone)',               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
-#            [ 'UserAddress',     Translatable('Address)',             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
-#            [ 'UserComment',     Translatable('Comment)',             'description',         1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserTitle',       Translatable('Title or salutation'), 'title',               1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserFirstname',   Translatable('Firstname'),           'givenname',           1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserLastname',    Translatable('Lastname'),            'sn',                  1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserLogin',       Translatable('Username'),            'uid',                 1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserEmail',       Translatable('Email'),               'mail',                1, 1, 'var', '', 1, undef, undef ],
+#            [ 'UserCustomerID',  Translatable('CustomerID'),          'mail',                0, 1, 'var', '', 1, undef, undef ],
+#            # [ 'UserCustomerIDs', Translatable('CustomerIDs'),         'second_customer_ids', 1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserPhone',       Translatable('Phone'),               'telephonenumber',     1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserAddress',     Translatable('Address'),             'postaladdress',       1, 0, 'var', '', 1, undef, undef ],
+#            [ 'UserComment',     Translatable('Comment'),             'description',         1, 0, 'var', '', 1, undef, undef ],
 
 #            # this is needed, if "SMIME::FetchFromCustomer" is active
 #            # [ 'UserSMIMECertificate', 'SMIMECertificate', 'userSMIMECertificate', 0, 1, 'var', '', 1, undef, undef ],
