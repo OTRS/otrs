@@ -1067,6 +1067,7 @@ sub NotificationEvent {
         UserID     => $Param{UserID},
         Language   => $Language,
     );
+
     $Notification{Subject} = $Self->_Replace(
         RichText   => 0,
         Text       => $Notification{Subject},
@@ -1077,6 +1078,10 @@ sub NotificationEvent {
         UserID     => $Param{UserID},
         Language   => $Language,
     );
+
+    # Keep the "original" (unmodified) subject and body for later use.
+    $Notification{OriginalSubject} = $Notification{Subject};
+    $Notification{OriginalBody}    = $Notification{Body};
 
     $Notification{Subject} = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSubjectBuild(
         TicketNumber => $Param{TicketData}->{TicketNumber},

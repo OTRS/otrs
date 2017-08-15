@@ -6,16 +6,14 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="ArticleChat">
 [% FOREACH Line IN Data.ChatMessages %]
-    <div>
-        <div class="[% IF Line.ChatterID == Env('UserID') %]Own[% ELSE %]Foreign[% END %][% IF Line.SystemGenerated %] SystemGenerated[% END %]">
-            <span class="Time">[[% Line.CreateTime | Localize('TimeLong') | html %]]</span>
-            <span>
-                <span class="Name">[% IF Line.SystemGenerated != 1 %][% Line.ChatterName | html %][% END %]</span>
-                <span class="Text">[% Line.MessageText %]</span>
-            </span>
-        </div>
+<div>
+    <div class="[% IF Line.ChatterID == Env('UserID') %]Own[% ELSE %]Foreign[% END %][% IF Line.SystemGenerated %] SystemGenerated[% END %]">
+        <span class="Time">[[% Line.CreateTime | Localize('TimeLong') | html %]]</span>
+        <span>
+            <span class="Name">[% IF Line.SystemGenerated != 1 %][% Line.ChatterName | html %][% END %]</span>
+            <span class="Text">[% Line.MessageText %]</span>
+        </span>
     </div>
-[% END %]
 </div>
+[% END %]

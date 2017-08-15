@@ -136,6 +136,7 @@ div.Headline .Flag {
     padding: 0px 10px;
     box-sizing: border-box;
     margin-right: 115px;
+    min-height: 28px;
 }
 
 #ArticleItems .Outgoing .ItemActions {
@@ -218,7 +219,7 @@ div.Headline .Flag {
     height: 80px;
 }
 
-.Avatar i {
+.Avatar i.ArticleSenderChannelIcon {
     font-size: 15px;
     position: absolute;
     left: 5px;
@@ -226,6 +227,15 @@ div.Headline .Flag {
     color: #444;
     background: #fff;
     padding: 4px;
+}
+
+.Avatar i.InvalidChannelIcon {
+    font-size: 64px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px;
+    margin-top: -32px;
 }
 
 .Outgoing .Avatar {
@@ -237,7 +247,7 @@ div.Headline .Flag {
 }
 
 #ArticleItems .ArticleMailContentHTMLWrapper,
-#ArticleItems .ArticleChat,
+#ArticleItems .ArticleHTML,
 #ArticleItems .ArticleBody {
     -webkit-overflow-scrolling: touch;
    margin-left: 115px;
@@ -245,7 +255,7 @@ div.Headline .Flag {
 }
 
 #ArticleItems .Incoming .ArticleMailContentHTMLWrapper,
-#ArticleItems .Incoming .ArticleChat,
+#ArticleItems .Incoming .ArticleHTML,
 #ArticleItems .Incoming .ArticleBody {
     margin-left: 0px;
     margin-right: 115px;
@@ -253,8 +263,8 @@ div.Headline .Flag {
 
 .Outgoing .ArticleMailContentHTMLWrapper:after,
 .Incoming .ArticleMailContentHTMLWrapper:after,
-.Outgoing .ArticleChat:after,
-.Incoming .ArticleChat:after,
+.Outgoing .ArticleHTML:after,
+.Incoming .ArticleHTML:after,
 .Outgoing .ArticleBody:after,
 .Incoming .ArticleBody:after {
 	border-color: rgba(255, 255, 255, 0);
@@ -270,27 +280,27 @@ div.Headline .Flag {
 }
 
 .Outgoing .ArticleMailContentHTMLWrapper:after,
-.Outgoing .ArticleChat:after,
+.Outgoing .ArticleHTML:after,
 .Outgoing .ArticleBody:after {
     right: 100%;
 	border-right-color: #fff;
 }
 
 .Incoming .ArticleMailContentHTMLWrapper:after,
-.Incoming .ArticleChat:after,
+.Incoming .ArticleHTML:after,
 .Incoming .ArticleBody:after {
 	left: 100%;
 	border-left-color: #fff;
 }
 
 .Incoming.NotVisibleForCustomer .ArticleMailContentHTMLWrapper:after,
-.Incoming.NotVisibleForCustomer .ArticleChat:after,
+.Incoming.NotVisibleForCustomer .ArticleHTML:after,
 .Incoming.NotVisibleForCustomer .ArticleBody:after {
     border-left-color: #ffcccc;
 }
 
 .Outgoing.NotVisibleForCustomer .ArticleMailContentHTMLWrapper:after,
-.Outgoing.NotVisibleForCustomer .ArticleChat:after,
+.Outgoing.NotVisibleForCustomer .ArticleHTML:after,
 .Outgoing.NotVisibleForCustomer .ArticleBody:after {
     border-right-color: #ffcccc;
 }
@@ -517,45 +527,21 @@ div.Headline .Flag {
     background: #FFCCCC;
 }
 
-/*.UseArticleColors #ArticleItems .Incoming .ArticleMailContent iframe,
-.UseArticleColors #ArticleItems .Incoming .ArticleMailContent .ArticleBody,
-.UseArticleColors #ArticleItems .Incoming .ArticleMailContent .ArticleChat {
-    border: 5px solid #d4defc;
-}
-
-.UseArticleColors #ArticleItems .Outgoing .ArticleMailContent iframe,
-.UseArticleColors #ArticleItems .Outgoing .ArticleMailContent .ArticleBody,
-.UseArticleColors #ArticleItems .Outgoing .ArticleMailContent .ArticleChat {
-    border: 5px solid #d3e5b5;
-}*/
-
 .UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent iframe,
 .UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent .ArticleBody,
-.UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent .ArticleChat,
+.UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent .ArticleHTML,
 .NotVisibleForCustomer .ArticleMailContent .ArticleMeta {
     border: 5px solid #FFCCCC;
 }
 
-/*.UseArticleColors .Incoming .ArticleMailContentHTMLWrapper:after,
-.UseArticleColors .Incoming .ArticleChat:after,
-.UseArticleColors .Incoming .ArticleBody:after {
-    border-left-color: #d4defc;
-}
-
-.UseArticleColors .Outgoing .ArticleMailContentHTMLWrapper:after,
-.UseArticleColors .Outgoing .ArticleChat:after,
-.UseArticleColors .Outgoing .ArticleBody:after {
-    border-right-color: #d3e5b5;
-}*/
-
 .UseArticleColors .Incoming.NotVisibleForCustomer .ArticleMailContentHTMLWrapper:after,
-.UseArticleColors .Incoming.NotVisibleForCustomer .ArticleChat:after,
+.UseArticleColors .Incoming.NotVisibleForCustomer .ArticleHTML:after,
 .UseArticleColors .Incoming.NotVisibleForCustomer .ArticleBody:after {
     border-left-color: #ffcccc;
 }
 
 .UseArticleColors .Outgoing.NotVisibleForCustomer .ArticleMailContentHTMLWrapper:after,
-.UseArticleColors .Outgoing.NotVisibleForCustomer .ArticleChat:after,
+.UseArticleColors .Outgoing.NotVisibleForCustomer .ArticleHTML:after,
 .UseArticleColors .Outgoing.NotVisibleForCustomer .ArticleBody:after {
     border-right-color: #ffcccc;
 }
@@ -1048,7 +1034,7 @@ div.Headline .Flag {
     font-style: normal;
 }
 
-.TimelinePlainText .ArticleChat {
+.TimelinePlainText .ArticleHTML {
     max-height: none;
     line-height: 120%;
     font-size: 12px;
@@ -1207,13 +1193,13 @@ div.Headline .Flag {
 
     .Avatar,
     .ArticleMailContentHTMLWrapper:after,
-    .ArticleChat:after,
+    .ArticleHTML:after,
     .ArticleBody:after {
         display: none;
     }
 
     #ArticleItems .ArticleMailContentHTMLWrapper,
-    #ArticleItems .ArticleChat,
+    #ArticleItems .ArticleHTML,
     #ArticleItems .ArticleBody,
     .ArticleMailContent .ArticleMeta,
     .ItemActions,

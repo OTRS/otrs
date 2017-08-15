@@ -14,6 +14,25 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Appointment Notification Management") | html %]</h1>
 
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Appointment Notification Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate("Add Notification"),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Notification")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="Clear"></div>
     <div class="SidebarColumn">
 [% RenderBlockStart("ActionList") %]
         <div class="WidgetSimple">
@@ -39,6 +58,18 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
+
+[% RenderBlockStart("Filter") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2><label for="FilterNotifications">[% Translate("Filter for Notifications") | html %]</label></h2>
+            </div>
+            <div class="Content">
+                <input type="text" id="FilterNotifications" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterNotifications" value="" title="[% Translate("Filter for notifications") | html %]">
+            </div>
+        </div>
+[% RenderBlockEnd("Filter") %]
+
 [% RenderBlockStart("ActionImport") %]
         <div class="WidgetSimple">
             <div class="Header">
@@ -81,7 +112,7 @@
                 <h2>[% Translate("List") | html %]</h2>
             </div>
             <div class="Content">
-                <table class="DataTable">
+                <table class="DataTable" id="Notifications">
                     <thead>
                         <tr>
                             <th class="W20pc">[% Translate("Name") | html %]</th>
@@ -118,6 +149,9 @@
                             </td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="8">[% Translate("No matches found.") | html %]</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -130,18 +164,20 @@
         <form action="[% Env("CGIHandle") %]" method="post" class="Validate" name="compose" id="NotificationEvent">
             <div class="WidgetSimple">
                 <div class="Header">
-[% RenderBlockStart("HeaderAdd") %]
+                [% IF Data.Action == 'Add' %]
                     <h2>[% Translate("Add Notification") | html %]</h2>
-[% RenderBlockEnd("HeaderAdd") %]
-[% RenderBlockStart("HeaderEdit") %]
+                [% ELSE %]
                     <h2>[% Translate("Edit Notification") | html %]</h2>
-[% RenderBlockEnd("HeaderEdit") %]
+                [% END %]
                 </div>
                 <div class="Content">
 
                     <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="[% Data.Action | uri %]Action"/>
                     <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                    [% IF Data.Action == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
                     <fieldset class="TableLike">
 
                         <label for="Name" class="Mandatory">
@@ -379,6 +415,11 @@
                             <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</a>
                         </div>
 [% RenderBlockEnd("TransportRowRecommendation") %]
+[% RenderBlockStart("TransportRowNotActive") %]
+                        <div class="Field Info">
+                            <a href="[% Env("Baselink") %]Action=AdminCloudServices" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Please activate this transport in order to use it.") %]</a>
+                        </div>
+[% RenderBlockEnd("TransportRowNotActive") %]
                         <div class="Clear"></div>
                     </fieldset>
 [% RenderBlockEnd("TransportRow") %]
@@ -403,10 +444,6 @@
 
                 <div class="Content">
                     <div class ="NotificationLanguageContainer">
-
-[% RenderBlockStart("RichText") %]
-[% InsertTemplate("RichTextEditor.tt") %]
-[% RenderBlockEnd("RichText") %]
 
 [% RenderBlockStart("NotificationLanguage") %]
                         <div class="NotificationLanguage">
@@ -537,7 +574,13 @@
                     <fieldset class="TableLike">
 
                         <div class="Field SpacingTop">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                            [% IF Data.Action == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>

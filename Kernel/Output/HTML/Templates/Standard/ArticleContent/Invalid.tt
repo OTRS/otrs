@@ -1,0 +1,15 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% Translate("Preview of this article is not possible because %s channel is missing in the system.", Data.ChannelName) | html %]
+<br>
+[% IF Data.PackageName == 'OTRSBusiness' %]
+[% Translate('This feature is part of the %s. Please contact us at %s for an upgrade.', '<strong>OTRS Business Solution</strong>™', 'sales@otrs.com') %]
+[% ELSE %]
+[% Translate("Please re-install %s package in order to display this article.", Data.PackageName) | html %]
+[% END %]

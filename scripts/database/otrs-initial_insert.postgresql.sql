@@ -778,11 +778,11 @@ INSERT INTO communication_channel (name, module, package_name, channel_data, val
     VALUES
     ('Email', 'Kernel::System::CommunicationChannel::Email', 'Framework', '---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_mime
 - article_data_mime_plain
 - article_data_mime_attachment
+- article_data_mime_send_error
 ', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table communication_channel
@@ -791,11 +791,11 @@ INSERT INTO communication_channel (name, module, package_name, channel_data, val
     VALUES
     ('Phone', 'Kernel::System::CommunicationChannel::Phone', 'Framework', '---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_mime
 - article_data_mime_plain
 - article_data_mime_attachment
+- article_data_mime_send_error
 ', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table communication_channel
@@ -804,11 +804,11 @@ INSERT INTO communication_channel (name, module, package_name, channel_data, val
     VALUES
     ('Internal', 'Kernel::System::CommunicationChannel::Internal', 'Framework', '---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_mime
 - article_data_mime_plain
 - article_data_mime_attachment
+- article_data_mime_send_error
 ', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table communication_channel
@@ -817,7 +817,6 @@ INSERT INTO communication_channel (name, module, package_name, channel_data, val
     VALUES
     ('Chat', 'Kernel::System::CommunicationChannel::Chat', 'Framework', '---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_otrs_chat
 ', 1, 1, current_timestamp, 1, current_timestamp);

@@ -20,10 +20,6 @@ our @ObjectDependencies = (
 
 Kernel::System::Ticket::Event::NotificationEvent::Transport::Base - common notification event transport functions
 
-=head1 DESCRIPTION
-
-Common notification event transport functions.
-
 =head1 PUBLIC INTERFACE
 
 =head2 SendNotification()
@@ -65,9 +61,9 @@ returns:
 
     @TransportRecipents = (
         {
-            UserEmail    => 'some email',       # optional
-            UserFisrname => 'some name',        # optional
-            # ...                               # optional
+            UserEmail     => 'some email',       # optional
+            UserFirstname => 'some name',        # optional
+            # ...                                # optional
         }
     );
 
@@ -86,7 +82,7 @@ generates and returns the HTML code to display exclusive settings for each trans
 
 returns
 
-    $HTMLOuput = 'some HTML code';
+    $HTMLOutput = 'some HTML code';
 
 =cut
 

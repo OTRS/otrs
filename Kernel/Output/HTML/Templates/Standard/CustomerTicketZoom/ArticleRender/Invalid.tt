@@ -1,0 +1,28 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<li class="[% Data.SenderType | html %]-[% Data.IsVisibleForCustomer | html %] [% Data.Class | html %]">
+    <div class="MessageHeader">
+        <h3>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];TicketNumber=[% Data.TicketNumber | uri %];TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]">
+                <i class="fa fa-exclamation-triangle"></i> [% Translate("Missing channel") | html %]
+            </a>
+        </h3>
+
+        <span class="Age" title="[% Data.CreateTime | Localize("TimeLong") | html %]">[% Data.Age %]</span>
+        <div class="Clear"></div>
+    </div>
+    <input type="hidden" name="ArticleState" />
+    <div class="MessageBody">
+        <div class="MessageContent">
+            <div class="[% IF Data.HTML %]ArticleHTML[% ELSE %]ArticleBody[% END %]">
+[% Data.Body %]
+            </div>
+        </div>
+    </div>
+</li>

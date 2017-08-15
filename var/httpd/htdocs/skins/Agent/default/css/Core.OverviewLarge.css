@@ -300,6 +300,7 @@ body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
     overflow: hidden;
     background: #EEEEEE;
     border-bottom: 1px solid #CCC;
+    min-height: 28px;
 }
 
 .OverviewLarge .Preview {

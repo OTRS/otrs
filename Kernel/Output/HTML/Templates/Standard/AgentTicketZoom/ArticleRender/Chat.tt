@@ -14,9 +14,9 @@
                 [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %]
                 &ndash; <span class="[% Data.ArticleFields.Sender.ValueHidden | html %]">[% Data.ArticleFields.Sender.Value | html %]</span> <span class="[% Data.ArticleFields.Sender.RealnameHidden | html %]">[% Data.ArticleFields.Sender.Realname | html %]</span>
                 &ndash; <span title="[% Translate("Created") %]: [% Data.CreateTime | Localize("TimeShort") %]">[% Data.CreateTime | Localize("RelativeTime") %]</span> [% Translate("via %s", Translate(Data.CommunicationChannel)) %]
-[% RenderBlockStart("ArticleCreatedBy") %]
+[% IF Data.CreateByUser %]
                 [% Translate("by %s", Data.CreateByUser) | html %]
-[% RenderBlockEnd("ArticleCreatedBy") %]
+[% END %]
             </h2>
             <div class="ActionMenu Visible">
                 <div class="WidgetAction Expand">
@@ -71,7 +71,7 @@
                 <div class="Avatar">
 [% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
                     <div class="ArticleSenderImage">
-                        <img src="[% Data.SenderImage | url %]" title="[% Data.From | html %]" />
+                        <img src="[% Data.SenderImage | url %]" title="[% Data.ArticleFields.Sender.Value | html %]" />
                         <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>
                     </div>
 [% ELSE %]
@@ -82,13 +82,9 @@
 [% END %]
                 </div>
 
-[% IF !Data.HTML %]
-                <div class="ArticleChat">
-[% END %]
+                <div class="[% IF Data.HTML %]ArticleHTML[% ELSE %]ArticleBody[% END %] ArticleChat">
 [% Data.Body %]
-[% IF !Data.HTML %]
                 </div>
-[% END %]
 
                 [% IF Data.ArticleModuleMeta && Data.ArticleModuleMeta.size() %]
                 <div class="ArticleMeta">

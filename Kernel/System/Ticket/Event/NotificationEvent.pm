@@ -180,7 +180,7 @@ sub Run {
 
         my @NotificationBundle;
 
-        # get template generator object;
+        # get template generator object
         my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
 
         # parse all notification tags for each user
@@ -397,6 +397,7 @@ sub _NotificationFilter {
     KEY:
     for my $Key ( sort keys %{ $Notification{Data} } ) {
 
+        # TODO: This function here should be fixed to not use hardcoded attribute values!
         # ignore not ticket related attributes
         next KEY if $Key eq 'Recipients';
         next KEY if $Key eq 'SkipRecipients';
@@ -427,8 +428,8 @@ sub _NotificationFilter {
         # ignore article searchable fields
         next KEY if $ArticleSearchableFields{$Key};
 
-        # check recipient fields from transport methods
-        if ( $Key =~ m{\A Recipient}xms ) {
+        # skip transport related attributes
+        if ( $Key =~ m{ \A ( Recipient | Transport ) }xms ) {
             next KEY;
         }
 

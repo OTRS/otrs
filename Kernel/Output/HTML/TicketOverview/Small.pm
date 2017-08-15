@@ -477,6 +477,19 @@ sub Run {
 
             %Article = ( %Article, %Ticket );
 
+            # Get channel specific fields.
+            if ( $Article{ArticleID} ) {
+                my %ArticleFields = $LayoutObject->ArticleFields(
+                    TicketID  => $TicketID,
+                    ArticleID => $Article{ArticleID},
+                );
+                FIELD:
+                for my $FieldKey (qw(Sender Subject)) {
+                    next FIELD if !defined $ArticleFields{$FieldKey}->{Value};
+                    $Article{$FieldKey} = $ArticleFields{$FieldKey}->{Realname} // $ArticleFields{$FieldKey}->{Value};
+                }
+            }
+
             # Fallback for tickets without articles: get at least basic ticket data.
             if ( !%Article ) {
                 %Article = %Ticket;
@@ -491,28 +504,11 @@ sub Run {
             # show ticket create time in small view
             $Article{Created} = $Ticket{Created};
 
-            # prepare a "long" version of the subject to show in the title attribute. We don't take
-            # the whole string (which could be VERY long) to avoid polluting the DOM and having too
-            # much data to be transferred on large ticket lists
-            $Article{SubjectLong} = $TicketObject->TicketSubjectClean(
-                TicketNumber => $Article{TicketNumber},
-                Subject      => $Article{Subject} || '',
-                Size         => 500,
-            );
-
-            # prepare subject
-            $Article{Subject} = $TicketObject->TicketSubjectClean(
-                TicketNumber => $Article{TicketNumber},
-                Subject      => $Article{Subject} || '',
-            );
-
             # create human age
             $Article{Age} = $LayoutObject->CustomerAge(
                 Age   => $Article{Age},
                 Space => ' ',
             );
-
-            $Article{Sender} = $Article{From} // '';
 
             # get ACL restrictions
             my %PossibleActions;

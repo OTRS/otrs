@@ -418,7 +418,12 @@
                                     <input type="hidden" class="SortData" value="[% Data.ArticleFields.Sender.Value | html %]" />
                                 </td>
                                 <td class="Channel">
-                                    <div>[% Translate(Data.Channel) | html %]
+                                    <div>[% Translate(Data.ChannelDisplayName) | html %]
+                                    [% IF Data.ChannelInvalid %]
+                                        <span title="[% Translate("Missing channel") | html %]">
+                                            <i class="fa fa-exclamation-triangle Warning" aria-hidden="true"></i>
+                                        </span>
+                                    [% END %]
                                     [% IF Data.TransmissionStatus %]
                                         [% IF Data.TransmissionStatus.Status == 'Failed' %]
                                         <span title="[% Translate("Sending of this message has failed.") | html %]">
@@ -431,7 +436,7 @@
                                         [% END %]
                                     [% END %]
                                     </div>
-                                    <input type="hidden" class="SortData" value="[% Translate(Data.Channel) | html %]" />
+                                    <input type="hidden" class="SortData" value="[% Translate(Data.ChannelDisplayName) | html %]" />
                                 </td>
                                 <td class="Subject">
                                     <div title="[% Data.ArticleFields.Subject.Value | html %]"><a href="#">[% Data.ArticleFields.Subject.Value | truncate(36) | html %]</a></div>

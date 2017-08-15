@@ -152,7 +152,6 @@ my $CertificateSearch = sub {
         );
     }
 
-    #$Kernel::OM->Get('Kernel::System::Log')->Dumper( 'search', \@Result );
     return @Result;
 };
 

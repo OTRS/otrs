@@ -65,6 +65,7 @@ sub ArticleDataTables {
         'article_data_mime',
         'article_data_mime_plain',
         'article_data_mime_attachment',
+        'article_data_mime_send_error',
     );
 }
 
@@ -96,19 +97,6 @@ This method will always return a valid object, so that you can chain-call on the
 
 sub ArticleBackend {
     return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Email');
-}
-
-=head2 ArticleDataIsDroppable()
-
-Returns 1 if communication channel article data can be dropped/deleted.
-
-    my $IsDroppable = $ChannelObject->ArticleDataIsDroppable();
-    $IsDroppable = 0;
-
-=cut
-
-sub ArticleDataIsDroppable {
-    return 0;
 }
 
 =head2 PackageNameGet()

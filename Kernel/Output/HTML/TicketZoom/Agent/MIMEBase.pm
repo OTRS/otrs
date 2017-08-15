@@ -18,12 +18,13 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Article::MIMEBase',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::CommunicationChannel',
     'Kernel::System::Main',
     'Kernel::System::Log',
     'Kernel::System::Ticket::Article',
-    'Kernel::Output::HTML::Article::MIMEBase',
+    'Kernel::System::User',
 );
 
 =head2 ArticleRender()
@@ -81,6 +82,11 @@ sub ArticleRender {
 
     # Get data from modules like Google CVE search
     my @ArticleModuleMeta = $Self->_ArticleModuleMeta(%Param);
+
+    # Show created by string, if creator is different from admin user.
+    if ( $Article{CreateBy} > 1 ) {
+        $Article{CreateByUser} = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Article{CreateBy} );
+    }
 
     my $RichTextEnabled = $ConfigObject->Get('Ticket::Frontend::ZoomRichTextForce')
         || $LayoutObject->{BrowserRichText}

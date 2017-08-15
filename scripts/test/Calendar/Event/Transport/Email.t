@@ -11,51 +11,50 @@ use strict;
 use warnings;
 use utf8;
 
+use Kernel::System::MailQueue;
 use vars (qw($Self));
+
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase => 1,
+        RestoreDatabase  => 1,
+        UseTmpArticleDir => 1,
+    },
+    'Kernel::System::MailQueue' => {
+        CheckEmailAddresses => 0,
     },
 );
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $ProcessMailQueue = sub {
+my $MailQueueObj = $Kernel::OM->Get('Kernel::System::MailQueue');
+
+my $SendEmails = sub {
     my %Param = @_;
 
-    my $EmailObject     = $Kernel::OM->Get('Kernel::System::Email');
-    my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
-
-    # Send all items in the mail queue.
-    my $Items = $MailQueueObject->List();
-    for my $Item ( @{$Items} ) {
-        my $Result = $MailQueueObject->Send( %{$Item} );
+    # Get last item in the queue.
+    my $Items = $MailQueueObj->List();
+    my @ToReturn;
+    for my $Item (@$Items) {
+        $MailQueueObj->Send( %{$Item} );
+        push @ToReturn, $Item->{Message};
     }
 
-    # Delete mail queue
-    $MailQueueObject->Delete();
+    # Clean the mail queue.
+    $MailQueueObj->Delete();
 
-    return;
+    return @ToReturn;
 };
 
-# ------------------------------------------------------------ #
-# needed objects
-# ------------------------------------------------------------ #
+# Ensure mail queue is empty before tests start.
+$MailQueueObj->Delete();
 
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $GroupObject     = $Kernel::OM->Get('Kernel::System::Group');
-my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
-my $CalendarObject  = $Kernel::OM->Get('Kernel::System::Calendar');
-
-# ------------------------------------------------------------ #
-# config changes
-# ------------------------------------------------------------ #
-
-# don't validate email addresses
+# Enable email addresses checking.
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
-    Value => 0,
+    Value => 1,
 );
 
 # disable rich text editor
@@ -91,9 +90,7 @@ $Self->True(
     "Disable Agent Self Notify On Action",
 );
 
-# ------------------------------------------------------------ #
-# email test backend
-# ------------------------------------------------------------ #
+my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
 
 $Success = $TestEmailObject->CleanUp();
 $Self->True(
@@ -107,22 +104,18 @@ $Self->IsDeeply(
     'Test backend empty after initial cleanup',
 );
 
-# ------------------------------------------------------------ #
-# user create
-# ------------------------------------------------------------ #
-
 # create a new user for current test
 my $UserLogin = $HelperObject->TestUserCreate(
     Groups => ['users'],
 );
+
 my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
     User => $UserLogin,
 );
+
 my $UserID = $UserData{UserID};
 
-# ------------------------------------------------------------ #
-# group create
-# ------------------------------------------------------------ #
+my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
 # create test group
 my $GroupID = $GroupObject->GroupAdd(
@@ -156,9 +149,7 @@ $Self->True(
     'Group user add',
 );
 
-# ------------------------------------------------------------ #
-# calendar create
-# ------------------------------------------------------------ #
+my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
 
 # create calendar and appointment
 my %Calendar = $CalendarObject->CalendarCreate(
@@ -248,7 +239,7 @@ for my $Test (@Tests) {
         UserID => 1,
     );
 
-    $ProcessMailQueue->();
+    $SendEmails->();
 
     my $Emails = $TestEmailObject->EmailsGet();
 
@@ -286,3 +277,5 @@ for my $Test (@Tests) {
 }
 
 1;
+
+# cleanup is done by RestoreDatabase.

@@ -16,6 +16,7 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::CommunicationChannel',
     'Kernel::System::CustomerUser',
     'Kernel::System::SystemAddress',
     'Kernel::System::DynamicField',
@@ -1124,6 +1125,11 @@ sub _Show {
         );
     }
 
+    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
+
+    # Save communication channel data to improve performance.
+    my %CommunicationChannelData;
+
     # show inline article
     for my $ArticleItem ( reverse @ArticleBody ) {
 
@@ -1143,6 +1149,25 @@ sub _Show {
             StripEmptyLines => $Param{Config}->{StripEmptyLines},
         );
 
+        # Include some information about communication channel.
+        if ( !$CommunicationChannelData{ $ArticleItem->{CommunicationChannelID} } ) {
+
+            # Communication channel display name is part of the configuration.
+            my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+                ChannelID => $ArticleItem->{CommunicationChannelID},
+            );
+
+            # Presence of communication channel object indicates its validity.
+            my $ChannelObject = $CommunicationChannelObject->ChannelObjectGet(
+                ChannelID => $ArticleItem->{CommunicationChannelID},
+            );
+
+            $CommunicationChannelData{ $ArticleItem->{CommunicationChannelID} } = {
+                ChannelDisplayName => $CommunicationChannel{DisplayName},
+                ChannelInvalid     => !$ChannelObject,
+            };
+        }
+
         my @ArticleActions = $LayoutObject->ArticleActions(
             TicketID  => $ArticleItem->{TicketID},
             ArticleID => $ArticleItem->{ArticleID},
@@ -1157,6 +1182,7 @@ sub _Show {
             Name => 'ArticlePreview',
             Data => {
                 %{$ArticleItem},
+                %{ $CommunicationChannelData{ $ArticleItem->{CommunicationChannelID} } },
                 MenuItems => \@ArticleActions,
             },
         );

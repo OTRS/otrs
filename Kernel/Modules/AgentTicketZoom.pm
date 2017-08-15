@@ -175,6 +175,8 @@ sub new {
         SendAutoFollowUp                => Translatable('Automatic Follow-Up Sent'),
         AddNote                         => Translatable('Note Added'),
         AddNoteCustomer                 => Translatable('Note Added (Customer)'),
+        AddSMS                          => Translatable('SMS Added'),
+        AddSMSCustomer                  => Translatable('SMS Added (Customer)'),
         StateUpdate                     => Translatable('State Updated'),
         SendAnswer                      => Translatable('Outgoing Answer'),
         ServiceUpdate                   => Translatable('Service Updated'),
@@ -202,7 +204,6 @@ sub new {
         EscalationResponseTimeStart     => Translatable('Escalation Response Time In Effect'),
         EscalationResponseTimeStop      => Translatable('Escalation Response Time Stopped'),
         SLAUpdate                       => Translatable('SLA Updated'),
-        Move                            => Translatable('Queue Updated'),
         ChatExternal                    => Translatable('External Chat'),
         Move                            => Translatable('Queue Changed'),
         SendAgentNotification           => Translatable('Notification Was Sent'),
@@ -2231,7 +2232,7 @@ sub _ArticleTree {
 
             # Get transmission status information for email articles.
             my $TransmissionStatus;
-            if ( $Article{Channel} eq 'Email' ) {
+            if ( $Article{ChannelName} && $Article{ChannelName} eq 'Email' ) {
                 $TransmissionStatus = $ArticleObject->BackendForArticle(%Article)->ArticleTransmissionStatus(
                     ArticleID => $Article{ArticleID},
                 );
@@ -2470,6 +2471,7 @@ sub _ArticleTree {
 
         # outgoing types
         my @TypesOutgoing = qw(
+            AddSMS
             Forward
             EmailAgent
             PhoneCallAgent
@@ -2481,6 +2483,7 @@ sub _ArticleTree {
         my @TypesIncoming = qw(
             EmailCustomer
             AddNoteCustomer
+            AddSMSCustomer
             PhoneCallCustomer
             FollowUp
             WebRequestCustomer
@@ -2564,6 +2567,21 @@ sub _ArticleTree {
                 # We fake a custom history type because external notes from customers still
                 # have the history type 'AddNote' which does not allow for distinguishing.
                 $Item->{HistoryType} = 'AddNoteCustomer';
+            }
+
+            # special treatment for certain types, e.g. external SMS from customers
+            elsif (
+                $Item->{ArticleID}
+                && $Item->{HistoryType} eq 'AddSMS'
+                && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'customer'
+                )
+            {
+                $Item->{Class} = 'TypeIncoming';
+
+                # We fake a custom history type because external notes from customers still
+                # have the history type 'AddSMS' which does not allow for distinguishing.
+                $Item->{HistoryType} = 'AddSMSCustomer';
             }
 
             # special treatment for internal emails
@@ -2978,6 +2996,11 @@ sub _ArticleBoxGet {
 
     my @ArticleIndexes = ( $Start .. $End );
 
+    my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
+
+    # Save communication channel data to improve performance.
+    my %CommunicationChannelData;
+
     my @ArticleBox;
     for my $Index (@ArticleIndexes) {
         my $ArticleBackendObject = $ArticleObject->BackendForArticle(
@@ -2992,10 +3015,27 @@ sub _ArticleBoxGet {
             RealNames     => 1,
         );
 
-        my %CommunicationChannel = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelGet(
-            ChannelID => $Article{CommunicationChannelID},
-        );
-        $Article{Channel} = $CommunicationChannel{DisplayName};
+        # Include some information about communication channel.
+        if ( !$CommunicationChannelData{ $Article{CommunicationChannelID} } ) {
+
+            # Communication channel display name is part of the configuration.
+            my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+                ChannelID => $Article{CommunicationChannelID},
+            );
+
+            # Presence of communication channel object indicates its validity.
+            my $ChannelObject = $CommunicationChannelObject->ChannelObjectGet(
+                ChannelID => $Article{CommunicationChannelID},
+            );
+
+            $CommunicationChannelData{ $Article{CommunicationChannelID} } = {
+                ChannelName        => $CommunicationChannel{ChannelName},
+                ChannelDisplayName => $CommunicationChannel{DisplayName},
+                ChannelInvalid     => !$ChannelObject,
+            };
+        }
+
+        %Article = ( %Article, %{ $CommunicationChannelData{ $Article{CommunicationChannelID} } } );
 
         push @ArticleBox, \%Article;
     }

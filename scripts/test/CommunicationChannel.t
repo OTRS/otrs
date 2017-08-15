@@ -12,674 +12,831 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
-        RestoreDatabase  => 1,
-        UseTmpArticleDir => 1,
+        RestoreDatabase => 1,
     },
 );
 my $Helper                     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $CommunicationChannelObject = $Kernel::OM->Get('Kernel::System::CommunicationChannel');
 
-my @ChannelsDefault = $CommunicationChannelObject->ChannelList();
+my @ChannelIDs;
+my $UserID    = 1;
+my @RandomIDs = (
+    $Helper->GetRandomID(),
+    $Helper->GetRandomID(),
+    $Helper->GetRandomID(),
+    $Helper->GetRandomID(),
+);
 
-# remove keys
-grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelsDefault;
-
-my $RandomID1 = $Helper->GetRandomID();
-my $RandomID2 = $Helper->GetRandomID();
-my $RandomID3 = $Helper->GetRandomID();
-my $RandomID4 = $Helper->GetRandomID();
-my $RandomID5 = $Helper->GetRandomID();
-
-my @TestChannelAdd = (
+#
+# Tests for ChannelAdd().
+#
+my @Tests = (
     {
-        Title  => "Add channel without name.",
-        Params => {
+        Name   => 'ChannelAdd - Without ChannelName',
+        Config => {
             Module      => 'scripts::test::CommunicationChannel::Test',
-            ChannelName => 'Framework',
-            UserID      => 1,
+            PackageName => 'Framework',
+            UserID      => $UserID,
         },
-        ExpectedResult => undef,
+        Success => 0,
     },
     {
-        Title  => "Add channel without UserID.",
-        Params => {
-            ChannelName => 'TEßt channel namé',
+        Name   => 'ChannelAdd - Without Module',
+        Config => {
+            ChannelName => "Channel $RandomIDs[0]",
+            PackageName => 'Framework',
+            UserID      => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelAdd - Without PackageName',
+        Config => {
+            ChannelName => "Channel $RandomIDs[0]",
+            Module      => 'scripts::test::CommunicationChannel::Test',
+            UserID      => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelAdd - Without UserID',
+        Config => {
+            ChannelName => "Channel $RandomIDs[0]",
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
         },
-        ExpectedResult => undef,
+        Success => 0,
     },
     {
-        Title  => "Add channel without Module.",
-        Params => {
-            ChannelName => 'TEßt channel namé',
-            PackageName => 'Framework',
-            UserID      => 1,
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Title  => "Add channel without PackageName.",
-        Params => {
-            ChannelName => 'TEßt channel namé',
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            UserID      => 1,
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Title  => "Add UTF-8 channel name.",
-        Params => {
-            ChannelName => "TEßt channel namé$RandomID1",
+        Name   => 'ChannelAdd - With all required params',
+        Config => {
+            ChannelName => "Channel $RandomIDs[0]",
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
-            UserID      => 1,
+            UserID      => $UserID,
         },
-        ExpectedResult => 1,
+        Success => 1,
     },
     {
-        Title  => "Add normal channel name.",
-        Params => {
-            ChannelName => "Channel name $RandomID2",
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            UserID      => 1,
-        },
-        ExpectedResult => 1,
-    },
-    {
-        Title  => "ChannelData has array.",
-        Params => {
-            ChannelName => "Channel name $RandomID3",
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => [
-                '1',
-                '2',
-            ],
-            UserID => 1,
-        },
-        ExpectedResult => 1,
-    },
-    {
-        Title  => "ChannelData has hash.",
-        Params => {
-            ChannelName => "Channel name $RandomID4",
+        Name   => 'ChannelAdd - With optional ChannelData',
+        Config => {
+            ChannelName => "Channel $RandomIDs[1]",
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ChannelData => {
-                One => '1',
-                Two => '2',
+                ArticleDataTables => [
+                    'i_do_not_exist',
+                ],
+                ArticleDataArticleIDField => 'article_id',
             },
-            UserID => 1,
+            UserID => $UserID,
         },
-        ExpectedResult => 1,
+        Success => 1,
     },
     {
-        Title  => "Channel with ValidID = 0.",
-        Params => {
-            ChannelName => "Channel name $RandomID5",
+        Name   => 'ChannelAdd - With optional ValidID',
+        Config => {
+            ChannelName => "Channel $RandomIDs[2]",
             Module      => 'scripts::test::CommunicationChannel::Test',
             PackageName => 'Framework',
             ValidID     => 2,
-            UserID      => 1,
+            UserID      => $UserID,
         },
-        ExpectedResult => 1,
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelAdd - With all required and optional params',
+        Config => {
+            ChannelName => "Channel $RandomIDs[3]",
+            Module      => 'scripts::test::CommunicationChannel::Test',
+            PackageName => 'Framework',
+            ChannelData => {
+                ArticleDataTables => [
+                    'i_do_not_exist',
+                ],
+                ArticleDataArticleIDField => 'article_id',
+            },
+            ValidID => 1,
+            UserID  => $UserID,
+        },
+        Success => 1,
     },
 );
 
-my @Channels;
-
-for my $Test (@TestChannelAdd) {
-    my $ChannelID = $CommunicationChannelObject->ChannelAdd( %{ $Test->{Params} } );
-
-    if ($ChannelID) {
-        push @Channels, {
-            ChannelID   => $ChannelID,
-            ChannelName => $Test->{Params}->{ChannelName},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => $Test->{Params}->{ChannelData} || '',
-            DisplayName => $Test->{Params}->{ChannelName},
-            DisplayIcon => 'fa-exchange',
-            ValidID     => $Test->{Params}->{ValidID} // 1,
-            CreateBy    => 1,
-            ChangeBy    => 1,
-        };
-    }
-
-    $Self->Is(
-        $ChannelID ? 1 : undef,
-        $Test->{ExpectedResult},
-        "ChannelAdd() - Check expected value for $Test->{Title}.",
+for my $Test (@Tests) {
+    my $ChannelID = $CommunicationChannelObject->ChannelAdd(
+        %{ $Test->{Config} },
     );
+
+    if ( $Test->{Success} ) {
+        $Self->True(
+            $ChannelID,
+            "$Test->{Name} - Success"
+        );
+
+        push @ChannelIDs, $ChannelID;
+    }
+    else {
+        $Self->False(
+            $ChannelID // 0,
+            "$Test->{Name} - No Success"
+        );
+    }
 }
 
-my @TestChannelGet = (
+#
+# Expected test channel data.
+#
+my @TestChannels = (
     {
-        Title          => "Get channel without ChannelName or ChannelID",
-        Params         => {},
-        ExpectedResult => undef,
+        ChannelName => "Channel $RandomIDs[0]",
+        ChangeBy    => $UserID,
+        ChannelData => '',
+        ChannelID   => $ChannelIDs[0],
+        CreateBy    => $UserID,
+        DisplayIcon => 'fa-exchange',
+        DisplayName => "Channel $RandomIDs[0]",
+        Module      => 'scripts::test::CommunicationChannel::Test',
+        PackageName => 'Framework',
+        ValidID     => 1,
     },
     {
-        Title  => "Get by ChannelName.",
-        Params => {
-            ChannelName => "TEßt channel namé$RandomID1",
-        },
-        ExpectedResult => {
-            ChannelName => "TEßt channel namé$RandomID1",
-            ChannelID   => $Channels[0]->{ChannelID},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => '',
-            DisplayName => "TEßt channel namé$RandomID1",
-            DisplayIcon => 'fa-exchange',
-            ValidID     => 1,
-            CreateBy    => 1,
-            ChangeBy    => 1,
-        },
-    },
-    {
-        Title  => "Get by ChannelID.",
-        Params => {
-            ChannelID => $Channels[0]->{ChannelID},
-        },
-        ExpectedResult => {
-            ChannelName => "TEßt channel namé$RandomID1",
-            ChannelID   => $Channels[0]->{ChannelID},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => '',
-            DisplayName => "TEßt channel namé$RandomID1",
-            DisplayIcon => 'fa-exchange',
-            ValidID     => 1,
-            CreateBy    => 1,
-            ChangeBy    => 1,
-        },
-    },
-    {
-        Title  => "Get by ChannelID.",
-        Params => {
-            ChannelID => $Channels[2]->{ChannelID},
-        },
-        ExpectedResult => {
-            ChannelName => "Channel name $RandomID3",
-            ChannelID   => $Channels[2]->{ChannelID},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => [
-                '1',
-                '2'
+        ChannelName => "Channel $RandomIDs[1]",
+        ChangeBy    => $UserID,
+        ChannelData => {
+            ArticleDataTables => [
+                'i_do_not_exist',
             ],
-            DisplayName => "Channel name $RandomID3",
-            DisplayIcon => 'fa-exchange',
-            ValidID     => 1,
-            CreateBy    => 1,
-            ChangeBy    => 1,
+            ArticleDataArticleIDField => 'article_id',
         },
+        ChannelID   => $ChannelIDs[1],
+        CreateBy    => $UserID,
+        DisplayIcon => 'fa-exchange',
+        DisplayName => "Channel $RandomIDs[1]",
+        Module      => 'scripts::test::CommunicationChannel::Test',
+        PackageName => 'Framework',
+        ValidID     => 1,
     },
     {
-        Title  => "Get by ChannelID.",
-        Params => {
-            ChannelID => $Channels[3]->{ChannelID},
-        },
-        ExpectedResult => {
-            ChannelName => "Channel name $RandomID4",
-            ChannelID   => $Channels[3]->{ChannelID},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => {
-                'One' => '1',
-                'Two' => '2'
-            },
-            DisplayName => "Channel name $RandomID4",
-            DisplayIcon => 'fa-exchange',
-            ValidID     => 1,
-            CreateBy    => 1,
-            ChangeBy    => 1,
-        },
+        ChannelName => "Channel $RandomIDs[2]",
+        ChangeBy    => $UserID,
+        ChannelData => '',
+        ChannelID   => $ChannelIDs[2],
+        CreateBy    => $UserID,
+        DisplayIcon => 'fa-exchange',
+        DisplayName => "Channel $RandomIDs[2]",
+        Module      => 'scripts::test::CommunicationChannel::Test',
+        PackageName => 'Framework',
+        ValidID     => 2,
     },
     {
-        Title  => "Get by ChannelID.",
-        Params => {
-            ChannelID => $Channels[4]->{ChannelID},
+        ChannelName => "Channel $RandomIDs[3]",
+        ChangeBy    => $UserID,
+        ChannelData => {
+            ArticleDataTables => [
+                'i_do_not_exist',
+            ],
+            ArticleDataArticleIDField => 'article_id',
         },
-        ExpectedResult => {
-            ChannelName => "Channel name $RandomID5",
-            ChannelID   => $Channels[4]->{ChannelID},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => '',
-            DisplayName => "Channel name $RandomID5",
-            DisplayIcon => 'fa-exchange',
-            ValidID     => 2,
-            CreateBy    => 1,
-            ChangeBy    => 1,
-        },
+        ChannelID   => $ChannelIDs[3],
+        CreateBy    => $UserID,
+        DisplayIcon => 'fa-exchange',
+        DisplayName => "Channel $RandomIDs[3]",
+        Module      => 'scripts::test::CommunicationChannel::Test',
+        PackageName => 'Framework',
+        ValidID     => 1,
     },
 );
 
-for my $Test (@TestChannelGet) {
-    my %CommunicationChannel = $CommunicationChannelObject->ChannelGet( %{ $Test->{Params} } );
+#
+# Tests for ChannelGet().
+#
+@Tests = (
+    {
+        Name    => 'ChannelGet - Without parameters',
+        Config  => {},
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelGet - With ChannelID',
+        Config => {
+            ChannelID => $ChannelIDs[0],
+        },
+        Result  => $TestChannels[0],
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelGet - With ChannelName',
+        Config => {
+            ChannelName => "Channel $RandomIDs[1]",
+        },
+        Result  => $TestChannels[1],
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelGet - With another ChannelID',
+        Config => {
+            ChannelID => $ChannelIDs[2],
+        },
+        Result  => $TestChannels[2],
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelGet - With both ChannelID and ChannelName',
+        Config => {
+            ChannelID   => $ChannelIDs[2],
+            ChannelName => "Channel $RandomIDs[3]",    # this should win
+        },
+        Result  => $TestChannels[3],
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelGet - Invalid ChannelID',
+        Config => {
+            ChannelID => 999_999_999,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelGet - Invalid ChannelName',
+        Config => {
+            ChannelName => $Helper->GetRandomID(),
+        },
+        Success => 0,
+    },
+);
 
-    if ( $Test->{ExpectedResult} ) {
+for my $Test (@Tests) {
+    my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+        %{ $Test->{Config} },
+    );
 
-        # remove keys
-        delete $CommunicationChannel{CreateTime};
-        delete $CommunicationChannel{ChangeTime};
+    if ( $Test->{Success} ) {
+        $Self->True(
+            scalar %CommunicationChannel,
+            "$Test->{Name} - Success"
+        );
+
+        # Remove variable data before comparison.
+        for my $Field (qw(CreateTime ChangeTime)) {
+            delete $CommunicationChannel{$Field};
+        }
 
         $Self->IsDeeply(
             \%CommunicationChannel,
-            $Test->{ExpectedResult},
-            "ChannelGet() - Check expected value - $Test->{Title} (deeply).",
+            $Test->{Result},
+            "$Test->{Name} - Result"
         );
     }
     else {
         $Self->False(
-            %CommunicationChannel ? 1 : 0,
-            "ChannelGet() - Check expected value - $Test->{Title}.",
+            scalar %CommunicationChannel // 0,
+            "$Test->{Name} - No Success"
         );
     }
 }
 
-# List channels.
-my @ChannelList1 = $CommunicationChannelObject->ChannelList();
-
-# remove keys
-grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList1;
-my @ExpectedChannelList1 = (
-    @ChannelsDefault,
-    @Channels,
-);
-
-@ExpectedChannelList1 = sort { $a->{ChannelName} cmp $b->{ChannelName} } @ExpectedChannelList1;
-
-$Self->IsDeeply(
-    \@ChannelList1,
-    \@ExpectedChannelList1,
-    "ChannelList() - Check expected value.",
-);
-
-my @TestChannelUpdate = (
+#
+# Tests for ChannelList().
+#
+@Tests = (
     {
-        Title  => "Update channel without ChannelName",
-        Params => {
-            ID     => $Channels[0]->{ChannelID},
-            UserID => 1,
-        },
-        ExpectedResult => undef,
+        Name    => 'ChannelList - Without parameters',
+        Config  => {},
+        Result  => [ @TestChannels[ 0 .. 3 ] ],
+        Success => 1,
     },
     {
-        Title  => "Update channel without ChannelID",
-        Params => {
-            ChannelName => 'Updated channel name',
-            UserID      => 1,
+        Name   => 'ChannelList - Valid only',
+        Config => {
+            ValidID => 1,
         },
-        ExpectedResult => undef,
+        Result  => [ @TestChannels[ 0, 1, 3 ] ],
+        Success => 1,
     },
     {
-        Title  => "Update channel without UserID",
-        Params => {
-            ID          => $Channels[0]->{ChannelID},
-            ChannelName => 'Updated channel name',
+        Name   => 'ChannelList - Invalid only',
+        Config => {
+            ValidID => 2,
         },
-        ExpectedResult => undef,
-    },
-    {
-        Title  => "Update ok",
-        Params => {
-            ChannelID   => $Channels[0]->{ChannelID},
-            ChannelName => "Updated channel name $RandomID1",
-            UserID      => 1,
-        },
-        ExpectedResult => 1,
+        Result  => [ $TestChannels[2] ],
+        Success => 1,
     },
 );
 
-for my $Test (@TestChannelUpdate) {
-    my $Success = $CommunicationChannelObject->ChannelUpdate( %{ $Test->{Params} } );
-
-    $Self->Is(
-        $Success ? 1 : undef,
-        $Test->{ExpectedResult},
-        "ChannelUpdate() - Check expected value for $Test->{Title}.",
+for my $Test (@Tests) {
+    my @CommunicationChannels = $CommunicationChannelObject->ChannelList(
+        %{ $Test->{Config} },
     );
-}
 
-my @TestChannelGet2 = (
-    {
-        Title  => "Get by old name (after update).",
-        Params => {
-            ChannelName => "TEßt channel namé$RandomID1",
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Title  => "Get by new name (after update).",
-        Params => {
-            ChannelName => "Updated channel name $RandomID1",
-        },
-        ExpectedResult => {
-            ChannelName => "Updated channel name $RandomID1",
-            ChannelID   => $Channels[0]->{ChannelID},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => '',
-            DisplayName => "Updated channel name $RandomID1",
-            DisplayIcon => 'fa-exchange',
-            ValidID     => 1,
-            CreateBy    => 1,
-            ChangeBy    => 1,
-        },
-    },
-    {
-        Title  => "Get by ID (after update).",
-        Params => {
-            ChannelID => $Channels[0]->{ChannelID},
-        },
-        ExpectedResult => {
-            ChannelName => "Updated channel name $RandomID1",
-            ChannelID   => $Channels[0]->{ChannelID},
-            Module      => 'scripts::test::CommunicationChannel::Test',
-            PackageName => 'Framework',
-            ChannelData => '',
-            DisplayName => "Updated channel name $RandomID1",
-            DisplayIcon => 'fa-exchange',
-            ValidID     => 1,
-            CreateBy    => 1,
-            ChangeBy    => 1,
-        },
-    },
-);
-
-for my $Test (@TestChannelGet2) {
-    my %CommunicationChannel = $CommunicationChannelObject->ChannelGet( %{ $Test->{Params} } );
-
-    # remove keys
-    delete @CommunicationChannel{ 'CreateTime', 'ChangeTime' };
-
-    if ( $Test->{ExpectedResult} ) {
-        $Self->IsDeeply(
-            \%CommunicationChannel,
-            $Test->{ExpectedResult},
-            "ChannelGet() - 2 Check expected value for $Test->{Title} (deeply).",
+    if ( $Test->{Success} ) {
+        $Self->True(
+            scalar @CommunicationChannels,
+            "$Test->{Name} - Success"
         );
 
-        # Update locally stored data for later comparison.
-        if ( $Test->{Params}->{ChannelID} ) {
-            CHANNEL:
-            for my $Channel (@Channels) {
-                next CHANNEL if $Channel->{ChannelID} != $Test->{Params}->{ChannelID};
-                $Channel = \%CommunicationChannel;
+        my $Count = 0;
+        for my $Result ( @{ $Test->{Result} } ) {
+            for my $CommunicationChannel (@CommunicationChannels) {
+                if ( $CommunicationChannel->{ChannelName} eq $Result->{ChannelName} ) {
+
+                    # Remove variable data before comparison.
+                    for my $Field (qw(CreateTime ChangeTime)) {
+                        delete $CommunicationChannel->{$Field};
+                    }
+
+                    $Self->IsDeeply(
+                        $CommunicationChannel,
+                        $Result,
+                        "$Test->{Name} - $Result->{ChannelName}"
+                    );
+
+                    $Count++;
+                }
             }
         }
+
+        $Self->Is(
+            $Count,
+            scalar @{ $Test->{Result} },
+            "$Test->{Name} - Count"
+        );
     }
     else {
         $Self->False(
-            %CommunicationChannel ? 1 : 0,
-            "ChannelGet() - 2 Check expected value for $Test->{Title}.",
+            scalar @CommunicationChannels // 0,
+            "$Test->{Name} - No Success"
         );
     }
 }
 
-# List channels.
-my @ChannelList2 = $CommunicationChannelObject->ChannelList();
-
-# remove keys
-grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList2;
-
-$Channels[0]->{ChannelName} = "Updated channel name $RandomID1";
-
-my @ExpectedChannelList2 = (
-    @ChannelsDefault,
-    @Channels,
+#
+# Tests for ChannelUpdate().
+#
+@Tests = (
+    {
+        Name   => 'ChannelUpdate - Without ChannelID',
+        Config => {
+            ChannelName => "New channel $RandomIDs[0]",
+            UserID      => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelUpdate - Without ChannelName',
+        Config => {
+            ChannelID => $ChannelIDs[0],
+            UserID    => $UserID,
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelUpdate - Without UserID',
+        Config => {
+            ChannelID   => $ChannelIDs[0],
+            ChannelName => "New channel $RandomIDs[0]",
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelUpdate - With all required parameters',
+        Config => {
+            ChannelID   => $ChannelIDs[0],
+            ChannelName => "New channel $RandomIDs[0]",
+            UserID      => 1,
+        },
+        Result => {
+            %{ $TestChannels[0] },
+            ChannelName => "New channel $RandomIDs[0]",
+            DisplayName => "New channel $RandomIDs[0]",
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelUpdate - With optional parameters',
+        Config => {
+            ChannelID   => $ChannelIDs[0],
+            ChannelName => "Even newer channel $RandomIDs[0]",
+            Module      => 'Kernel::System::CommunicationChannel::Internal',
+            PackageName => 'TestPackage',
+            ChannelData => {
+                ArticleDataTables => [
+                    'i_do_not_exist',
+                ],
+                ArticleDataArticleIDField => 'article_id',
+            },
+            ValidID => 2,
+            UserID  => $UserID,
+        },
+        Result => {
+            %{ $TestChannels[0] },
+            ChannelName => "Even newer channel $RandomIDs[0]",
+            DisplayName => "Even newer channel $RandomIDs[0]",
+            Module      => 'Kernel::System::CommunicationChannel::Internal',
+            PackageName => 'TestPackage',
+            ChannelData => {
+                ArticleDataTables => [
+                    'i_do_not_exist',
+                ],
+                ArticleDataArticleIDField => 'article_id',
+            },
+            ValidID => 2,
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelUpdate - Reset',
+        Config => {
+            %{ $TestChannels[0] },
+            UserID => $UserID,
+        },
+        Result => {
+            %{ $TestChannels[0] },
+        },
+        Success => 1,
+    },
 );
 
-@ExpectedChannelList2 = sort { $a->{ChannelName} cmp $b->{ChannelName} } @ExpectedChannelList2;
-
-$Self->IsDeeply(
-    \@ChannelList2,
-    \@ExpectedChannelList2,
-    "ChannelList() - 2 Check expected value.",
-);
-
-my @TestChannelDelete = (
-    {
-        Title  => "Delete - missing ChannelID and ChannelName",
-        Params => {
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Title  => "Delete by ChannelName",
-        Params => {
-            ChannelName => "Updated channel name $RandomID1",
-        },
-        ExpectedResult => 1,
-    },
-    {
-        Title  => "Delete already deleted channel",
-        Params => {
-            ChannelID => $Channels[0]->{ChannelID},
-        },
-        ExpectedResult => undef,
-    },
-    {
-        Title  => "Delete by ChannelID",
-        Params => {
-            ChannelID => $Channels[1]->{ChannelID},
-        },
-        ExpectedResult => 1,
-    },
-);
-
-for my $Test (@TestChannelDelete) {
-    my $Success = $CommunicationChannelObject->ChannelDelete( %{ $Test->{Params} } );
-
-    $Self->Is(
-        $Success ? 1 : undef,
-        $Test->{ExpectedResult},
-        "ChannelDelete() - Check expected value - $Test->{Title}.",
+for my $Test (@Tests) {
+    my $Success = $CommunicationChannelObject->ChannelUpdate(
+        %{ $Test->{Config} },
     );
+
+    if ( $Test->{Success} ) {
+        $Self->True(
+            $Success,
+            "$Test->{Name} - Success"
+        );
+
+        my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+            %{ $Test->{Config} },
+        );
+
+        # Remove variable data before comparison.
+        for my $Field (qw(CreateTime ChangeTime)) {
+            delete $CommunicationChannel{$Field};
+        }
+
+        $Self->IsDeeply(
+            \%CommunicationChannel,
+            $Test->{Result},
+            "$Test->{Name} - Result"
+        );
+    }
+    else {
+        $Self->False(
+            $Success // 0,
+            "$Test->{Name} - No Success"
+        );
+    }
 }
 
-# List channels.
-my @ChannelList3 = $CommunicationChannelObject->ChannelList();
-
-# remove keys
-grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList3;
-
-shift @Channels;
-shift @Channels;
-
-my @ExpectedChannelList3 = (
-    @ChannelsDefault,
-    @Channels,
-);
-
-@ExpectedChannelList3 = sort { $a->{ChannelName} cmp $b->{ChannelName} } @ExpectedChannelList3;
-
-$Self->IsDeeply(
-    \@ChannelList3,
-    \@ExpectedChannelList3,
-    "ChannelList() - 3 Check expected value.",
-);
-
-# List channels.
-my @ChannelList4 = $CommunicationChannelObject->ChannelList( ValidID => 1 );
-
-# remove keys
-grep { delete $_->{CreateTime}; delete $_->{ChangeTime}; } @ChannelList4;
-
-pop @Channels;
-
-my @ExpectedChannelList4 = (
-    @ChannelsDefault,
-    @Channels,
-);
-
-@ExpectedChannelList4 = sort { $a->{ChannelName} cmp $b->{ChannelName} } @ExpectedChannelList4;
-
-$Self->IsDeeply(
-    \@ChannelList4,
-    \@ExpectedChannelList4,
-    "ChannelList(ValidID => 1) - 4 Check expected value.",
-);
-
-my @AddedChannels1 = $CommunicationChannelObject->ChannelSync(
-    UserID => 1,
-);
-$Self->IsDeeply(
-    \@AddedChannels1,
-    [],
-    "ChannelSync() - already in sync.",
-);
-
-# Register a new communication channel.
-$Helper->ConfigSettingChange(
-    Valid => 1,                        # (optional) enable or disable setting
-    Key   => 'CommunicationChannel',
-    Value => {
-        TestChannelName1 => {
-            Name   => "TestChannelName$RandomID1",
-            Icon   => 'fa-font-awesome',
-            Module => 'scripts::test::CommunicationChannel::Test',
-        },
-    },
-);
-
-my @AddedChannels2 = $CommunicationChannelObject->ChannelSync(
-    UserID => 1,
-);
-$Self->IsDeeply(
-    \@AddedChannels2,
-    ['TestChannelName1'],
-    'ChannelSync() - with sync.'
-);
-
-my %ChannelSynced1 = $CommunicationChannelObject->ChannelGet(
-    ChannelName => 'TestChannelName1',
-);
-
-# remove keys
-delete @ChannelSynced1{ 'ChannelID', 'CreateTime', 'ChangeTime' };
-
-$Self->IsDeeply(
-    \%ChannelSynced1,
+#
+# Tests for ChannelDelete().
+#
+@Tests = (
     {
-        ChangeBy    => '1',
-        ChannelData => {
-            ArticleDataArticleIDField => 'article_id',
-            ArticleDataIsDroppable    => '1',
-            ArticleDataTables         => [
-                'article_data_mime',
-                'article_data_mime_plain',
-                'article_data_mime_attachment',
-            ],
-        },
-        ChannelName => 'TestChannelName1',
-        DisplayName => "TestChannelName$RandomID1",
-        DisplayIcon => 'fa-font-awesome',
-        CreateBy    => '1',
-        Module      => 'scripts::test::CommunicationChannel::Test',
-        PackageName => 'TestPackage',
-        ValidID     => '1'
+        Name    => 'ChannelDelete - Without parameters',
+        Config  => {},
+        Success => 0,
     },
-    'ChannelGet() - Check synced value.'
-);
-
-# Update registration - forward to another communication channel.
-$Helper->ConfigSettingChange(
-    Valid => 1,                        # (optional) enable or disable setting
-    Key   => 'CommunicationChannel',
-    Value => {
-        TestChannelName2 => {
-            Name   => "TestChannelName$RandomID2",
-            Icon   => 'fa-fort-awesome',
-            Module => 'scripts::test::CommunicationChannel::TestTwo',
-        },
-    },
-);
-
-my @AddedChannels3 = $CommunicationChannelObject->ChannelSync(
-    UserID => 1,
-);
-$Self->IsDeeply(
-    \@AddedChannels3,
-    ['TestChannelName2'],
-    'ChannelSync() - with sync.'
-);
-
-my %ChannelSynced2 = $CommunicationChannelObject->ChannelGet(
-    ChannelName => 'TestChannelName2',
-);
-
-# remove keys
-delete @ChannelSynced2{ 'ChannelID', 'CreateTime', 'ChangeTime' };
-
-$Self->IsDeeply(
-    \%ChannelSynced2,
     {
-        ChangeBy    => '1',
-        ChannelData => {
-            ArticleDataArticleIDField => 'article_id',
-            ArticleDataIsDroppable    => '0',
-            ArticleDataTables         => [
-                'article_data_mime',
-                'article_data_mime_plain',
-                'article_data_mime_attachment',
-            ],
+        Name   => 'ChannelDelete - With ChannelID',
+        Config => {
+            ChannelID => $ChannelIDs[0],
         },
-        ChannelName => 'TestChannelName2',
-        DisplayName => "TestChannelName$RandomID2",
-        DisplayIcon => 'fa-fort-awesome',
-        CreateBy    => '1',
-        Module      => 'scripts::test::CommunicationChannel::TestTwo',
-        PackageName => 'TestPackage',
-        ValidID     => '1'
+        Success => 1,
     },
-    'ChannelGet() - Check synced value.'
+    {
+        Name   => 'ChannelDelete - With ChannelName',
+        Config => {
+            ChannelName => "Channel $RandomIDs[1]",
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelDelete - With both ChannelID and ChannelName',
+        Config => {
+            ChannelID   => $ChannelIDs[2],            # this will win
+            ChannelName => "Channel $RandomIDs[2]",
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelDelete - With another ChannelName',
+        Config => {
+            ChannelName => "Channel $RandomIDs[3]",
+        },
+        Success => 1,
+    },
+    {
+        Name   => 'ChannelDelete - With invalid ChannelID',
+        Config => {
+            ChannelID   => 999_999_999,
+            ChannelName => "Channel $RandomIDs[3]",
+        },
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelDelete - With invalid ChannelName',
+        Config => {
+            ChannelName => $Helper->GetRandomID(),
+        },
+        Success => 0,
+    },
 );
 
-my $DropSuccess1 = $CommunicationChannelObject->ChannelDrop(
-    ChannelName => 'TestChannelName2',
+for my $Test (@Tests) {
+    my $Success = $CommunicationChannelObject->ChannelDelete(
+        %{ $Test->{Config} },
+    );
+
+    if ( $Test->{Success} ) {
+        $Self->True(
+            $Success,
+            "$Test->{Name} - Success"
+        );
+
+        my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+            %{ $Test->{Config} },
+        );
+
+        $Self->False(
+            %CommunicationChannel // 0,
+            "$Test->{Name} - Channel deleted"
+        );
+    }
+    else {
+        $Self->False(
+            $Success // 0,
+            "$Test->{Name} - No Success"
+        );
+    }
+}
+
+# Forget channel IDs.
+@ChannelIDs = ();
+
+#
+# Tests for ChannelSync().
+#
+@Tests = (
+    {
+        Name   => 'ChannelSync - Already in sync',
+        Config => {
+            UserID => $UserID,
+        },
+        Result => {},
+    },
+    {
+        Name   => 'ChannelSync - Add first test channel',
+        Config => {
+            UserID => $UserID,
+        },
+        ChannelName     => $TestChannels[0]->{ChannelName},
+        RegistrationAdd => {
+            Name        => $TestChannels[0]->{DisplayName},
+            Icon        => 'fa-font-awesome',
+            Description => 'First test communication channel',
+            Module      => 'scripts::test::CommunicationChannel::Test',
+        },
+        Result => {
+            ChannelsAdded => [ $TestChannels[0]->{ChannelName} ],
+        },
+        ChannelGet => {
+            %{ $TestChannels[0] },
+            ChannelID   => undef,
+            DisplayIcon => 'fa-font-awesome',
+            PackageName => 'TestPackage',
+            ChannelData => {
+                ArticleDataArticleIDField => 'article_id',
+                ArticleDataTables         => [
+                    'i_do_not_exist',
+                ],
+            },
+        },
+    },
+    {
+        Name   => 'ChannelSync - Add second test channel',
+        Config => {
+            UserID => $UserID,
+        },
+        ChannelName     => $TestChannels[1]->{ChannelName},
+        RegistrationAdd => {
+            Name        => $TestChannels[1]->{DisplayName},
+            Icon        => 'fa-exchange',
+            Description => 'Second test communication channel',
+            Module      => 'scripts::test::CommunicationChannel::TestTwo',
+        },
+        Result => {
+            ChannelsAdded => [ $TestChannels[1]->{ChannelName} ],
+        },
+        ChannelGet => {
+            %{ $TestChannels[1] },
+            ChannelID   => undef,
+            Module      => 'scripts::test::CommunicationChannel::TestTwo',
+            PackageName => 'TestPackage',
+        },
+    },
+    {
+        Name   => 'ChannelSync - Remove first test channel',
+        Config => {
+            UserID => $UserID,
+        },
+        ChannelName        => $TestChannels[0]->{ChannelName},
+        RegistrationRemove => 1,
+        Result             => {
+            ChannelsInvalid => [ $TestChannels[0]->{ChannelName} ],
+        },
+        ChannelGet => {},
+    },
+    {
+        Name   => 'ChannelSync - Remove Email channel registration',
+        Config => {
+            UserID => $UserID,
+        },
+        ChannelName        => 'Email',
+        RegistrationRemove => 1,
+        Result             => {
+            ChannelsInvalid => ['Email'],
+        },
+        ChannelGet => {
+            ChangeBy    => 1,
+            ChannelData => {
+                ArticleDataArticleIDField => 'article_id',
+                ArticleDataTables         => [
+                    'article_data_mime',
+                    'article_data_mime_plain',
+                    'article_data_mime_attachment',
+                ],
+            },
+            ChannelID   => undef,
+            ChannelName => 'Email',
+            CreateBy    => 1,
+            DisplayIcon => 'fa-exchange',
+            DisplayName => 'Email',
+            Module      => 'Kernel::System::CommunicationChannel::Email',
+            PackageName => 'Framework',
+            ValidID     => 1,
+        },
+    },
 );
 
-$Self->False(
-    $DropSuccess1,
-    'ChannelDrop() - IsDroppable => 0'
+for my $Test (@Tests) {
+    if ( $Test->{ChannelName} && $Test->{RegistrationAdd} ) {
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => "CommunicationChannel###$Test->{ChannelName}",
+            Value => $Test->{RegistrationAdd},
+        );
+    }
+    if ( $Test->{ChannelName} && $Test->{RegistrationRemove} ) {
+        $Helper->ConfigSettingChange(
+            Valid => 0,
+            Key   => "CommunicationChannel###$Test->{ChannelName}",
+        );
+    }
+
+    my %Result = $CommunicationChannelObject->ChannelSync(
+        %{ $Test->{Config} },
+    );
+
+    $Self->IsDeeply(
+        \%Result,
+        $Test->{Result},
+        "$Test->{Name} - Result"
+    );
+
+    if ( $Test->{ChannelGet} ) {
+        my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+            ChannelName => $Test->{ChannelName},
+        );
+
+        # Remember channel ID for later.
+        push @ChannelIDs, $CommunicationChannel{ChannelID};
+
+        # Remove variable data before comparison.
+        for my $Field (qw(ChannelID CreateTime ChangeTime)) {
+            if ( $Field eq 'ChannelID' ) {
+                $CommunicationChannel{ChannelID} = undef;
+            }
+            else {
+                delete $CommunicationChannel{$Field};
+            }
+        }
+
+        $Self->IsDeeply(
+            \%CommunicationChannel,
+            $Test->{ChannelGet},
+            "$Test->{Name} - ChannelGet"
+        );
+    }
+    if ( $Test->{ChannelCheckPresent} ) {
+        my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+            ChannelName => $Test->{ChannelCheckPresent},
+        );
+
+        $Self->True(
+            %CommunicationChannel,
+            'Channel is present',
+        );
+    }
+}
+
+#
+# Tests for ChannelDrop().
+#
+@Tests = (
+    {
+        Name    => 'ChannelDrop - Without parameters',
+        Config  => {},
+        Success => 0,
+    },
+    {
+        Name   => 'ChannelDrop - With ChannelID, with data deletion',
+        Config => {
+            ChannelID       => $ChannelIDs[1],
+            ChannelName     => $TestChannels[1]->{ChannelName},    # will be ignored, needed for invalidating channel
+            DropArticleData => 1,
+        },
+        Success => 1,
+        Check   => 1,
+        Result  => {},
+    },
+    {
+        Name   => 'ChannelDrop - With ChannelName, framework channel',
+        Config => {
+            ChannelName => 'Email',
+        },
+        Success => 0,
+        Check   => 1,
+        Result  => {
+            ChangeBy    => 1,
+            ChannelData => {
+                ArticleDataArticleIDField => 'article_id',
+                ArticleDataTables         => [
+                    'article_data_mime',
+                    'article_data_mime_plain',
+                    'article_data_mime_attachment',
+                ],
+            },
+            ChannelID   => '1',
+            ChannelName => 'Email',
+            CreateBy    => 1,
+            DisplayIcon => 'fa-exchange',
+            DisplayName => 'Email',
+            Module      => 'Kernel::System::CommunicationChannel::Email',
+            PackageName => 'Framework',
+            ValidID     => 1,
+        },
+    },
 );
 
-# get object
-my $Object1 = $CommunicationChannelObject->ChannelObjectGet(
-    ChannelName => 'TestChannelName2',
-);
+for my $Test (@Tests) {
+    if ( $Test->{Config}->{ChannelName} ) {
+        $Helper->ConfigSettingChange(
+            Valid => 0,
+            Key   => "CommunicationChannel###$Test->{Config}->{ChannelName}",
+        );
+    }
 
-$Self->True(
-    $Object1,
-    'Object created.'
-);
+    my $Success = $CommunicationChannelObject->ChannelDrop(
+        %{ $Test->{Config} },
+    );
 
-my $DropSuccess2 = $CommunicationChannelObject->ChannelDrop(
-    ChannelName => 'TestChannelName1',
-);
+    if ( $Test->{Success} ) {
+        $Self->True(
+            $Success,
+            "$Test->{Name} - Success"
+        );
+    }
+    else {
+        $Self->False(
+            $Success // 0,
+            "$Test->{Name} - No success",
+        );
+    }
 
-$Self->True(
-    $DropSuccess2,
-    'ChannelDrop() - IsDroppable => 1'
-);
+    if ( $Test->{Check} ) {
+        my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
+            %{ $Test->{Config} },
+        );
 
-# get object
-my $Object2 = $CommunicationChannelObject->ChannelObjectGet(
-    ChannelName => 'TestChannelName1',
-);
+        # Remove variable data before comparison.
+        for my $Field (qw(CreateTime ChangeTime)) {
+            delete $CommunicationChannel{$Field};
+        }
 
-$Self->False(
-    $Object2,
-    'Object created.'
-);
+        $Self->IsDeeply(
+            \%CommunicationChannel,
+            $Test->{Result},
+            "$Test->{Name} - Result"
+        );
+    }
+}
+
+# Cleanup is done by RestoreDatabase.
 
 1;

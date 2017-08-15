@@ -98,19 +98,6 @@ sub ArticleBackend {
     return $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Phone');
 }
 
-=head2 ArticleDataIsDroppable()
-
-Returns 1 if communication channel article data can be dropped/deleted.
-
-    my $IsDroppable = $ChannelObject->ArticleDataIsDroppable();
-    $IsDroppable = 0;
-
-=cut
-
-sub ArticleDataIsDroppable {
-    return 0;
-}
-
 =head2 PackageNameGet()
 
 Returns name of the package that provides communication channel.

@@ -166,6 +166,47 @@ sub ArticleActions {
     );
 }
 
+=head2 ArticleCustomerRecipientsGet()
+
+Get customer users from an article to use as recipients.
+
+    my @CustomerUserIDs = $LayoutObject->ArticleCustomerRecipientsGet(
+        TicketID  => 123,     # (required)
+        ArticleID => 123,     # (required)
+    );
+
+Returns array of customer user IDs who should receive a message:
+
+    @CustomerUserIDs = (
+        'customer-1',
+        'customer-2',
+        ...
+    );
+
+=cut
+
+sub ArticleCustomerRecipientsGet {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(TicketID ArticleID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $BackendObject = $Self->_BackendGet(%Param);
+
+    # Return backend response.
+    return $BackendObject->ArticleCustomerRecipientsGet(
+        %Param,
+        UserID => $Self->{UserID},
+    );
+}
+
 =head2 ArticleQuote()
 
 get body and attach e. g. inline documents and/or attach all attachments to
@@ -419,6 +460,15 @@ sub ArticleQuote {
                 );
             }
         }
+
+        # Fallback for non-MIMEBase articles: get article HTML content if it exists.
+        if ( !$Body ) {
+            $Body = $Self->ArticlePreview(
+                TicketID  => $Param{TicketID},
+                ArticleID => $Param{ArticleID},
+            );
+        }
+
         return $Body if $Body;
     }
 

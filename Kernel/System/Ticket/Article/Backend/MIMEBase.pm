@@ -981,9 +981,17 @@ sub ArticleDelete {    ## no critic;
     # Delete from article storage.
     return if !$Kernel::OM->Get( $Self->{ArticleStorageModule} )->ArticleDelete(%Param);
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # Delete article data.
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return if !$DBObject->Do(
         SQL  => 'DELETE FROM article_data_mime WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ],
+    );
+
+    # Delete related transmission error entries.
+    return if !$DBObject->Do(
+        SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
 

@@ -102,20 +102,6 @@ sub ArticleBackend {
     die 'Virtual method in base class must not be called.';
 }
 
-=head2 ArticleDataIsDroppable()
-
-Returns 1 if communication channel article data can be dropped/deleted. Override this method in your
-class.
-
-    my $IsDroppable = $ChannelObject->ArticleDataIsDroppable();
-    $IsDroppable = 1;
-
-=cut
-
-sub ArticleDataIsDroppable {
-    die 'Virtual method in base class must not be called.';
-}
-
 =head2 PackageNameGet()
 
 Returns name of the package that provides communication channel. Override this method in your class.

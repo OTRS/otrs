@@ -516,7 +516,13 @@ sub OperationResultGet {
         }
         else {
 
-            next RESULT if $OperationResult->{InstanceName} ne $Param{InstanceName};
+            if (
+                !defined $OperationResult->{InstanceName}
+                || $OperationResult->{InstanceName} ne $Param{InstanceName}
+                )
+            {
+                next RESULT;
+            }
         }
 
         return $OperationResult;

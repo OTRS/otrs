@@ -438,7 +438,7 @@ sub _MetaArticleUpdate {
         }
     }
 
-    if ( $Param{Key} eq 'SenderType' ) {
+    if ( $Param{Key} && $Param{Key} eq 'SenderType' ) {
         $Param{Key}   = 'SenderTypeID';
         $Param{Value} = $Self->ArticleSenderTypeLookup(
             SenderType => $Param{Value},
@@ -564,7 +564,7 @@ sub _MetaArticleDelete {
         }
     }
 
-    $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ObjectValuesDelete(
+    return if !$Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ObjectValuesDelete(
         ObjectType => 'Article',
         ObjectID   => $Param{ArticleID},
         UserID     => $Param{UserID},
@@ -572,23 +572,21 @@ sub _MetaArticleDelete {
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
-    $ArticleObject->ArticleSearchIndexDelete(
+    # Delete related accounted time entries.
+    return if !$ArticleObject->ArticleAccountedTimeDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
 
-    $ArticleObject->ArticleAccountedTimeDelete(
-        ArticleID => $Param{ArticleID},
-        UserID    => $Param{UserID},
-    );
-
-    # delete article from article search index
+    # Delete article from article search index.
     return if !$ArticleObject->ArticleSearchIndexDelete(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
     );
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # Remove all associated data for the article.
     return if !$DBObject->Do(
         SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
@@ -598,13 +596,11 @@ sub _MetaArticleDelete {
         Bind => [ \$Param{ArticleID} ],
     );
     return if !$DBObject->Do(
-        SQL  => 'DELETE FROM article_data_mime_send_error WHERE article_id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
-    return if !$DBObject->Do(
         SQL  => 'DELETE FROM mail_queue WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
+
+    # Finally, delete the meta article entry.
     return if !$DBObject->Do(
         SQL  => 'DELETE FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],

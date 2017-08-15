@@ -38,7 +38,7 @@
 
     [% ELSIF Item.ItemType == 'Link' %]
         <li>
-            <a href="[% Env("Baselink") %][% Item.Link %]" class="[% Item.Class | html %]" [% Item.LinkParam %] title="[% Translate(Item.Description) | html %]">[% Translate(Item.Name) | html %]</a>
+            <a href="[% IF Item.Link.match('^(?!(mailto)|(http(s)?):)') %][% Env("Baselink") %][% END %][% Item.Link %]" class="[% Item.Class | html %]" [% Item.LinkParam %] title="[% Translate(Item.Description) | html %]">[% Translate(Item.Name) | html %]</a>
         </li>
     [% END %]
 

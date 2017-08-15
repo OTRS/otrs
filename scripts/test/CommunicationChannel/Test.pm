@@ -26,18 +26,12 @@ sub new {
 
 sub ArticleDataTables {
     return (
-        'article_data_mime',
-        'article_data_mime_plain',
-        'article_data_mime_attachment',
+        'i_do_not_exist',
     );
 }
 
 sub ArticleDataArticleIDField {
     return 'article_id';
-}
-
-sub ArticleDataIsDroppable {
-    return 1;
 }
 
 sub PackageNameGet {

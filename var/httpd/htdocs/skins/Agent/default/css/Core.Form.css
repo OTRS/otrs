@@ -766,22 +766,4 @@ input[type=text].ArticleFreeKey {
     width: 50%;
 }
 
-/**
- * @subsection Chat
- */
-
-.ArticleChat {
-    padding: 2px 5px;
-    font-size: 11px;
-    max-height: 100px;
-    background: #FFF;
-    min-height: 70px;
-}
-
-.ArticleMailContent .ArticleChat {
-    max-height: none;
-    font-size: 12px;
-    padding: 10px;
-}
-
 } /* end @media */

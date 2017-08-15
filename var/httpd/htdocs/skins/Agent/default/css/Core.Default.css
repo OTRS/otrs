@@ -1219,6 +1219,19 @@ iframe.TextOption.CustomerUserAddressBook {
     min-height: 70px;
 }
 
+.ArticleHTML {
+    padding: 2px 5px;
+    font-size: 11px;
+    max-height: 100px;
+    background: #FFF;
+    min-height: 70px;
+}
+
+.ArticleMailContent .ArticleHTML {
+    max-height: none;
+    font-size: 12px;
+    padding: 10px;
+}
 
 /**
  * @subsection  Chat

@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketZoom::Agent::Chat;
+package Kernel::Output::HTML::TicketZoom::Agent::Invalid;
 
 use parent 'Kernel::Output::HTML::TicketZoom::Agent::Base';
 
@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 =head2 ArticleRender()
 
-Returns article html.
+Returns invalid article HTML.
 
     my $HTML = $ArticleBaseObject->ArticleRender(
         TicketID       => 123,   # (required)
@@ -42,7 +42,6 @@ Result:
 sub ArticleRender {
     my ( $Self, %Param ) = @_;
 
-    # Check needed stuff.
     for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -74,12 +73,6 @@ sub ArticleRender {
     # Get channel specific fields
     my %ArticleFields = $LayoutObject->ArticleFields(%Param);
 
-    # Get dynamic fields and accounted time
-    my %ArticleMetaFields = $Self->ArticleMetaFields(%Param);
-
-    # Get data from modules like Google CVE search
-    my @ArticleModuleMeta = $Self->_ArticleModuleMeta(%Param);
-
     # Show created by string, if creator is different from admin user.
     if ( $Article{CreateBy} > 1 ) {
         $Article{CreateByUser} = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Article{CreateBy} );
@@ -93,7 +86,7 @@ sub ArticleRender {
 
     if ( !$ShowHTML ) {
 
-        # html quoting
+        # HTML quoting.
         $ArticleContent = $LayoutObject->Ascii2Html(
             NewLine        => $ConfigObject->Get('DefaultViewNewLine'),
             Text           => $ArticleContent,
@@ -108,21 +101,16 @@ sub ArticleRender {
     );
 
     my $Content = $LayoutObject->Output(
-        TemplateFile => 'AgentTicketZoom/ArticleRender/Chat',
+        TemplateFile => 'AgentTicketZoom/ArticleRender/Invalid',
         Data         => {
             %Article,
             ArticleFields        => \%ArticleFields,
-            ArticleMetaFields    => \%ArticleMetaFields,
-            ArticleModuleMeta    => \@ArticleModuleMeta,
             MenuItems            => $Param{ArticleActions},
             Body                 => $ArticleContent,
             HTML                 => $ShowHTML,
             CommunicationChannel => $CommunicationChannel{DisplayName},
             ChannelIcon          => $CommunicationChannel{DisplayIcon},
-            SenderImage          => $Self->_ArticleSenderImage(
-                Sender => $ArticleFields{Sender}->{Value},
-            ),
-            SenderInitials => $Self->_ArticleSenderInitials(
+            SenderInitials       => $Self->_ArticleSenderInitials(
                 Sender => $ArticleFields{Sender}->{Realname},
             ),
         },

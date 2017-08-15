@@ -6,9 +6,9 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketZoom::Agent::Chat;
+package Kernel::Output::HTML::TicketZoom::Customer::Invalid;
 
-use parent 'Kernel::Output::HTML::TicketZoom::Agent::Base';
+use parent 'Kernel::Output::HTML::TicketZoom::Customer::Base';
 
 use strict;
 use warnings;
@@ -19,19 +19,22 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::CommunicationChannel',
+    'Kernel::System::Main',
     'Kernel::System::Log',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::User',
+    'Kernel::Output::HTML::Article::MIMEBase',
 );
 
 =head2 ArticleRender()
 
-Returns article html.
+Returns article HTML.
 
     my $HTML = $ArticleBaseObject->ArticleRender(
-        TicketID       => 123,   # (required)
-        ArticleID      => 123,   # (required)
-        ArticleActions => [],    # (optional)
+        TicketID               => 123,         # (required)
+        ArticleID              => 123,         # (required)
+        Class                  => 'Visible',   # (optional)
+        ShowBrowserLinkMessage => 1,           # (optional) Default: 0.
+        ArticleActions         => [],          # (optional)
     );
 
 Result:
@@ -42,7 +45,6 @@ Result:
 sub ArticleRender {
     my ( $Self, %Param ) = @_;
 
-    # Check needed stuff.
     for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -55,9 +57,13 @@ sub ArticleRender {
 
     my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $MainObject           = $Kernel::OM->Get('Kernel::System::Main');
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
 
-    my %Article = $ArticleBackendObject->ArticleGet(%Param);
+    my %Article = $ArticleBackendObject->ArticleGet(
+        %Param,
+        RealNames => 1,
+    );
     if ( !%Article ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -66,28 +72,16 @@ sub ArticleRender {
         return;
     }
 
+    # Get channel specific fields
+    my %ArticleFields = $LayoutObject->ArticleFields(%Param);
+
     # Check if HTML should be displayed.
     my $ShowHTML = $ConfigObject->Get('Ticket::Frontend::ZoomRichTextForce')
         || $LayoutObject->{BrowserRichText}
         || 0;
 
-    # Get channel specific fields
-    my %ArticleFields = $LayoutObject->ArticleFields(%Param);
-
-    # Get dynamic fields and accounted time
-    my %ArticleMetaFields = $Self->ArticleMetaFields(%Param);
-
-    # Get data from modules like Google CVE search
-    my @ArticleModuleMeta = $Self->_ArticleModuleMeta(%Param);
-
-    # Show created by string, if creator is different from admin user.
-    if ( $Article{CreateBy} > 1 ) {
-        $Article{CreateByUser} = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Article{CreateBy} );
-    }
-
     my $ArticleContent = $LayoutObject->ArticlePreview(
-        TicketID   => $Param{TicketID},
-        ArticleID  => $Param{ArticleID},
+        %Param,
         ResultType => $ShowHTML ? 'HTML' : 'plain',
     );
 
@@ -108,23 +102,15 @@ sub ArticleRender {
     );
 
     my $Content = $LayoutObject->Output(
-        TemplateFile => 'AgentTicketZoom/ArticleRender/Chat',
+        TemplateFile => 'CustomerTicketZoom/ArticleRender/Invalid',
         Data         => {
             %Article,
             ArticleFields        => \%ArticleFields,
-            ArticleMetaFields    => \%ArticleMetaFields,
-            ArticleModuleMeta    => \@ArticleModuleMeta,
-            MenuItems            => $Param{ArticleActions},
             Body                 => $ArticleContent,
             HTML                 => $ShowHTML,
             CommunicationChannel => $CommunicationChannel{DisplayName},
             ChannelIcon          => $CommunicationChannel{DisplayIcon},
-            SenderImage          => $Self->_ArticleSenderImage(
-                Sender => $ArticleFields{Sender}->{Value},
-            ),
-            SenderInitials => $Self->_ArticleSenderInitials(
-                Sender => $ArticleFields{Sender}->{Realname},
-            ),
+            Class                => $Param{Class},
         },
     );
 

@@ -347,6 +347,15 @@ sub Form {
         AttachmentsInclude => 1,
     );
 
+    # If article is not a MIMEBase article, include sender name for correct quoting.
+    if ( !$Data{From} ) {
+        my %ArticleFields = $LayoutObject->ArticleFields(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Data{ArticleID},
+        );
+        $Data{Sender} = $ArticleFields{Sender}->{Value} // '';
+    }
+
     if ( $LayoutObject->{BrowserRichText} ) {
 
         # prepare body, subject, ReplyTo ...
@@ -356,7 +365,7 @@ sub Form {
             $Data{Body}       = $LayoutObject->{LanguageObject}->Translate('Date') .
                 ": $Data{CreateTime}<br/>" . $Data{Body};
         }
-        for my $Key (qw( Subject ReplyTo Reply-To Cc To From )) {
+        for my $Key (qw(Subject ReplyTo Reply-To Cc To From Sender)) {
             if ( $Data{$Key} ) {
                 my $KeyText = $LayoutObject->{LanguageObject}->Translate($Key);
 
@@ -384,7 +393,7 @@ sub Form {
             $Data{Body} = "<br/>" . $Data{Body};
         }
         my $From = $LayoutObject->Ascii2RichText(
-            String => $Data{From},
+            String => $Data{From} || $Data{Sender},
         );
 
         my $ForwardedMessageFrom = $LayoutObject->{LanguageObject}->Translate('Forwarded message from');
@@ -417,7 +426,7 @@ sub Form {
             $Data{Body}       = $LayoutObject->{LanguageObject}->Translate('Date') .
                 ": $Data{CreateTime}\n" . $Data{Body};
         }
-        for (qw(Subject ReplyTo Reply-To Cc To From)) {
+        for (qw(Subject ReplyTo Reply-To Cc To From Sender)) {
             if ( $Data{$_} ) {
                 $Data{Body} = $LayoutObject->{LanguageObject}->Translate($_) .
                     ": $Data{$_}\n" . $Data{Body};
@@ -427,7 +436,9 @@ sub Form {
         my $ForwardedMessageFrom = $LayoutObject->{LanguageObject}->Translate('Forwarded message from');
         my $EndForwardedMessage  = $LayoutObject->{LanguageObject}->Translate('End forwarded message');
 
-        $Data{Body} = "\n---- $ForwardedMessageFrom $Data{From} ---\n\n" . $Data{Body};
+        my $From = $Data{From} || $Data{Sender};
+
+        $Data{Body} = "\n---- $ForwardedMessageFrom $From ---\n\n" . $Data{Body};
         $Data{Body} .= "\n---- $EndForwardedMessage ---\n";
         $Data{Body} = $Data{Signature} . $Data{Body};
 

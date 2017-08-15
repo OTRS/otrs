@@ -500,6 +500,11 @@
                             <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</a>
                         </div>
 [% RenderBlockEnd("TransportRowRecommendation") %]
+[% RenderBlockStart("TransportRowNotActive") %]
+                        <div class="Field Info">
+                            <a href="[% Env("Baselink") %]Action=AdminCloudServices" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Please activate this transport in order to use it.") %]</a>
+                        </div>
+[% RenderBlockEnd("TransportRowNotActive") %]
                         <div class="Clear"></div>
                     </fieldset>
 [% RenderBlockEnd("TransportRow") %]

@@ -1318,7 +1318,41 @@ sub Run {
                 ArticleID => $ArticleMetaData->{ArticleID},
             );
 
+            $Data{CommunicationChannelName} = $CurrentArticleBackendObject->ChannelNameGet();
+
             last ARTICLEMETADATA;
+        }
+
+        # If article is not a MIMEBase article, get customer recipients from the backend.
+        if ( !$Data{To} && !$Data{From} ) {
+            my @CustomerUserIDs = $LayoutObject->ArticleCustomerRecipientsGet(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $Data{ArticleID},
+                UserID    => $Self->{UserID},
+            );
+
+            my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
+            my @CustomerRecipients;
+
+            CUSTOMER_USER_ID:
+            for my $CustomerUserID (@CustomerUserIDs) {
+                my %Customer = $CustomerUserObject->CustomerUserDataGet(
+                    User => $CustomerUserID,
+                );
+                next CUSTOMER_USER_ID if !%Customer;
+
+                push @CustomerRecipients, "\"$Customer{UserFirstname} $Customer{UserLastname}\" <$Customer{UserEmail}>";
+            }
+
+            $Data{To} = join( ',', @CustomerRecipients ) // '';
+
+            # Include sender name in 'From' field for correct quoting.
+            my %ArticleFields = $LayoutObject->ArticleFields(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $Data{ArticleID},
+            );
+            $Data{From} = $ArticleFields{Sender}->{Value} // '';
         }
 
         # set OrigFrom for correct email quoting (xxxx wrote)

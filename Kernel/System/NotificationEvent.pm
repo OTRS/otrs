@@ -779,6 +779,7 @@ sub NotificationImport {
     my @NotificationErrors;
 
     my %CurrentNotifications = $Self->NotificationList(
+        %Param,
         UserID => $Param{UserID},
     );
     my %ReverseCurrentNotifications = reverse %CurrentNotifications;

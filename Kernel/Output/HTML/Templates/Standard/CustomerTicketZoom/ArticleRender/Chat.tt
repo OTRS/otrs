@@ -70,13 +70,9 @@
         [% END %]
         </div>
         <div class="MessageContent">
-            [% IF !Data.HTML %]
-                <div class="ArticleChat">
-            [% END %]
-            [% Data.Body %]
-            [% IF !Data.HTML %]
-                </div>
-            [% END %]
+            <div class="[% IF Data.HTML %]ArticleHTML[% ELSE %]ArticleBody[% END %] ArticleChat">
+[% Data.Body %]
+            </div>
         </div>
     </div>
 </li>

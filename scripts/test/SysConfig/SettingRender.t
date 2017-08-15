@@ -86,12 +86,6 @@ my @Tests = (
 
 for my $Test (@Tests) {
 
-    my %Setting = $SysConfigObject->SettingGet(
-        Name => $Test->{Name},
-    );
-
-    $Kernel::OM->Get('Kernel::System::Log')->Dumper( 'set', \%Setting );
-
     my $HTMLStr = $SysConfigHTMLObject->SettingRender(
         Setting => {
             Name             => $Test->{Name},
@@ -107,7 +101,7 @@ for my $Test (@Tests) {
     $Self->Is(
         $HTMLStr,
         $Test->{ExpectedResult},
-        'SettingRender() is same'
+        'SettingRender() is same',
     );
 
 }

@@ -23,9 +23,6 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::HTMLUtils',
     'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::Queue',
-    'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
     'Kernel::System::User',
 );
@@ -209,48 +206,29 @@ sub ArticlePreview {
     return $Result;
 }
 
-=head2 ArticleActions()
+=head2 ArticleCustomerRecipientsGet()
 
-Returns article actions.
+Get customer users from an article to use as recipients.
 
-    my @Actions = $ArticleBaseObject->ArticleActions(
-        TicketID    => 123,      # (required)
-        ArticleID   => 123,      # (required)
-        UserID      => 1,        # (required)
-        Type        => 'Static', # (required) Static or OnLoad
+    my @CustomerUserIDs = $LayoutObject->ArticleCustomerRecipientsGet(
+        TicketID  => 123,     # (required)
+        ArticleID => 123,     # (required)
     );
 
-Returns:
-     @Actions = (
-        {
-            ItemType              => 'Dropdown',
-            DropdownType          => 'Reply',
-            StandardResponsesStrg => $StandardResponsesStrg,
-            Name                  => 'Reply',
-            Class                 => 'AsPopup PopupType_TicketAction',
-            Action                => 'AgentTicketCompose',
-            FormID                => 'Reply' . $Article{ArticleID},
-            ResponseElementID     => 'ResponseID',
-            Type                  => $Param{Type},
-        },
-        {
-            ItemType    => 'Link',
-            Description => 'Forward article via mail',
-            Name        => 'Forward',
-            Class       => 'AsPopup PopupType_TicketAction',
-            Link =>
-                "Action=AgentTicketForward;TicketID=$Ticket{TicketID};ArticleID=$Article{ArticleID}"
-        },
+Returns array of customer user IDs who should receive a message:
+
+    @CustomerUserIDs = (
+        'customer-1',
+        'customer-2',
         ...
-     );
+    );
 
 =cut
 
-sub ArticleActions {
+sub ArticleCustomerRecipientsGet {
     my ( $Self, %Param ) = @_;
 
-    # Check needed stuff.
-    for my $Needed (qw(TicketID ArticleID Type UserID)) {
+    for my $Needed (qw(TicketID ArticleID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -260,107 +238,33 @@ sub ArticleActions {
         }
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my %Article = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param)->ArticleGet(%Param);
+    return if !%Article;
 
-    my @Actions;
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-    my $ActionsConfig = $ConfigObject->Get('Ticket::Frontend::Article::Actions');
+    my @CustomerUserIDs;
 
-    my $Config = {};
-    if ( IsHashRefWithData($ActionsConfig) ) {
-        $Config = $ActionsConfig->{Chat};
-    }
-    return () if !$Config;
+    CHAT_MESSAGE:
+    for my $ChatMessage ( @{ $Article{ChatMessageList} // [] } ) {
 
-    # get ACL restrictions
-    my %PossibleActions;
-    my $Counter = 0;
+        # Process all chat messages where the sender was a customer.
+        next CHAT_MESSAGE if !$ChatMessage->{ChatterType} eq 'Customer';
 
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        # Get single customer user from customer backend based on the ID address.
+        my %CustomerSearch = $CustomerUserObject->CustomerSearch(
+            UserLogin => $ChatMessage->{ChatterID},
+            Limit     => 1,
+        );
+        next CHAT_MESSAGE if !%CustomerSearch;
 
-    # get all registered Actions
-    if ( ref $ConfigObject->Get('Frontend::Module') eq 'HASH' ) {
-
-        my %Actions = %{ $ConfigObject->Get('Frontend::Module') };
-
-        # only use those Actions that stats with Agent
-        %PossibleActions = map { ++$Counter => $_ }
-            grep { substr( $_, 0, length 'Agent' ) eq 'Agent' }
-            sort keys %Actions;
-    }
-
-    my $ACL = $TicketObject->TicketAcl(
-        Data          => \%PossibleActions,
-        Action        => 'AgentTicketZoom',            # TODO: review. $Self->{Action},
-        TicketID      => $Param{Ticket}->{TicketID},
-        ReturnType    => 'Action',
-        ReturnSubType => '-',
-        UserID        => $Param{UserID},
-    );
-
-    my %AclAction = %PossibleActions;
-    if ($ACL) {
-        %AclAction = $TicketObject->TicketAclActionData();
-    }
-
-    my %AclActionLookup = reverse %AclAction;
-
-    # get ticket attributes
-    my %Ticket = $TicketObject->TicketGet(
-        TicketID      => $Param{TicketID},
-        DynamicFields => 0,
-    );
-
-    my $BackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(%Param);
-    my %Article       = $BackendObject->ArticleGet(%Param);
-
-    my %StandardTemplates = $Kernel::OM->Get('Kernel::System::Queue')->QueueStandardTemplateMemberList(
-        QueueID       => $Ticket{QueueID},
-        TemplateTypes => 1,
-        Valid         => 1,
-    );
-
-    ACTION:
-    for my $Action ( sort { $Config->{$a}->{Prio} <=> $Config->{$b}->{Prio} } keys %{$Config} ) {
-        next ACTION if !$Config->{$Action}->{Valid};
-
-        if ( $Config->{$Action}->{Module} ) {
-            my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
-                $Config->{$Action}->{Module},
-                Silent => 1,    # TODO: Remove later
-            );
-            next ACTION if !$Loaded;
-
-            my $ModuleObject = $Kernel::OM->Get( $Config->{$Action}->{Module} );
-
-            # check access
-            next ACTION if !$ModuleObject->CheckAccess(
-                Ticket          => \%Ticket,
-                Article         => \%Article,
-                ChannelName     => 'Chat',
-                AclActionLookup => \%AclActionLookup,
-                UserID          => $Param{UserID},
-            );
-
-            my @ActionConfig = $ModuleObject->GetConfig(
-                Ticket            => \%Ticket,
-                Article           => \%Article,
-                StandardTemplates => \%StandardTemplates,
-                UserID            => $Param{UserID},
-                Type              => $Param{Type},
-            );
-
-            push @Actions, @ActionConfig;
-        }
-        else {
-            # TODO: Review if it's needed.
+        # Save customer user ID if not already present in the list.
+        for my $CustomerUserID ( sort keys %CustomerSearch ) {
+            push @CustomerUserIDs, $CustomerUserID if !grep { $_ eq $CustomerUserID } @CustomerUserIDs;
         }
     }
 
-    # sort
-
-    return @Actions;
+    return @CustomerUserIDs;
 }
 
 1;

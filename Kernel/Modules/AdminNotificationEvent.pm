@@ -100,6 +100,12 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
+        # TODO:
+        # Events, IsVisibleForCustomer, ArticleSenderTypeID, ArticleIsVisibleForCustomer,
+        # ArticleCommunicationChannelID, Transports are used twice! Why? See below.
+        # The same is done in the other subactions.
+        # Also check each transport (Email, SMS, Webview) template file for duplicate ids like IsVisibleForCustomer!
+
         my %GetParam;
         for my $Parameter (
             @ArticleSearchableFieldsKeys,
@@ -253,7 +259,7 @@ sub Run {
             {
                 my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
                 return $LayoutObject->Redirect(
-                    OP => "Action=$Self->{Action};Subaction=Change;ID=$ID;Notification=Update"
+                    OP => "Action=$Self->{Action};Subaction=Change;ID=$ID;Notification=Update",
                 );
             }
             else {
@@ -1356,45 +1362,69 @@ sub _Edit {
                 next TRANSPORT;
             }
             else {
-                my $TransportChecked = '';
-                if ( grep { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
-                    $TransportChecked = 'checked="checked"';
+
+                my $TransportObject = $Kernel::OM->Get( $RegisteredTransports{$Transport}->{Module} );
+
+                my $IsActive = 1;
+
+                # Check only if function is available due backwards compatibility.
+                if ( $TransportObject->can('IsActive') ) {
+                    $IsActive = $TransportObject->IsActive();
                 }
 
-                # set Email transport selected on add screen
-                if ( $Transport eq 'Email' && !$Param{ID} ) {
-                    $TransportChecked = 'checked="checked"'
-                }
+                if ($IsActive) {
 
-                # get transport settings string from transport object
-                my $TransportSettings =
-                    $Kernel::OM->Get( $RegisteredTransports{$Transport}->{Module} )->TransportSettingsDisplayGet(
-                    %Param,
+                    my $TransportChecked = '';
+                    if ( grep { $_ eq $Transport } @{ $Param{Data}->{Transports} } ) {
+                        $TransportChecked = 'checked="checked"';
+                    }
+
+                    # set Email transport selected on add screen
+                    if ( $Transport eq 'Email' && !$Param{ID} ) {
+                        $TransportChecked = 'checked="checked"'
+                    }
+
+                    # get transport settings string from transport object
+                    my $TransportSettings =
+                        $TransportObject->TransportSettingsDisplayGet(
+                        %Param,
+                        );
+
+                    # it should decide if the default value for the
+                    # notification on AgentPreferences is enabled or not
+                    my $AgentEnabledByDefault = 0;
+                    if ( grep { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
+                        $AgentEnabledByDefault = 1;
+                    }
+                    elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
+                        $AgentEnabledByDefault = $RegisteredTransports{$Transport}->{AgentEnabledByDefault};
+                    }
+                    my $AgentEnabledByDefaultChecked = ( $AgentEnabledByDefault ? 'checked="checked"' : '' );
+
+                    # transport
+                    $LayoutObject->Block(
+                        Name => 'TransportRowEnabled',
+                        Data => {
+                            Transport                    => $Transport,
+                            TransportName                => $RegisteredTransports{$Transport}->{Name},
+                            TransportChecked             => $TransportChecked,
+                            SettingsString               => $TransportSettings,
+                            AgentEnabledByDefaultChecked => $AgentEnabledByDefaultChecked,
+                            TransportsServerError        => $Param{TransportsServerError},
+                        },
                     );
-
-                # it should decide if the default value for the
-                # notification on AgentPreferences is enabled or not
-                my $AgentEnabledByDefault = 0;
-                if ( grep { $_ eq $Transport } @{ $Param{Data}->{AgentEnabledByDefault} } ) {
-                    $AgentEnabledByDefault = 1;
                 }
-                elsif ( !$Param{ID} && defined $RegisteredTransports{$Transport}->{AgentEnabledByDefault} ) {
-                    $AgentEnabledByDefault = $RegisteredTransports{$Transport}->{AgentEnabledByDefault};
-                }
-                my $AgentEnabledByDefaultChecked = ( $AgentEnabledByDefault ? 'checked="checked"' : '' );
+                else {
 
-                # transport
-                $LayoutObject->Block(
-                    Name => 'TransportRowEnabled',
-                    Data => {
-                        Transport                    => $Transport,
-                        TransportName                => $RegisteredTransports{$Transport}->{Name},
-                        TransportChecked             => $TransportChecked,
-                        SettingsString               => $TransportSettings,
-                        AgentEnabledByDefaultChecked => $AgentEnabledByDefaultChecked,
-                        TransportsServerError        => $Param{TransportsServerError},
-                    },
-                );
+                    # This trasnport needs to be active before use it.
+                    $LayoutObject->Block(
+                        Name => 'TransportRowNotActive',
+                        Data => {
+                            Transport     => $Transport,
+                            TransportName => $RegisteredTransports{$Transport}->{Name},
+                        },
+                    );
+                }
 
             }
 
@@ -1440,10 +1470,10 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
-        for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
+        for my $NotificationID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
             my %Data = $NotificationEventObject->NotificationGet(
-                ID => $_,
+                ID => $NotificationID,
             );
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',

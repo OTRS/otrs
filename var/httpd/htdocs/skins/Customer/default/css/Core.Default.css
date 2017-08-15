@@ -469,6 +469,20 @@ form select.Error {
     font-family: monospace,fixed;
 }
 
+/*.ArticleHTML {
+    padding: 2px 5px;
+    font-size: 11px;
+    max-height: 100px;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.ArticleMailContent .ArticleHTML {
+    max-height: none;
+    font-size: 12px;
+    padding: 10px;
+}*/
 
 /**
  * @subsection  Chat
@@ -672,7 +686,7 @@ body > div.MetaFloater {
     border-top: 30px solid #eee;
 }
 
-body > div.MetaFloater:after, 
+body > div.MetaFloater:after,
 body > div.MetaFloater:before {
     bottom: 399px;
     left: 50%;
@@ -684,19 +698,19 @@ body > div.MetaFloater:before {
     pointer-events: none;
 }
 
-body > div.MetaFloater.Left:after, 
+body > div.MetaFloater.Left:after,
 body > div.MetaFloater.Left:before {
     left: 15px;
     margin-top: -1px;
 }
 
-body > div.MetaFloater.Right:after, 
+body > div.MetaFloater.Right:after,
 body > div.MetaFloater.Right:before {
     left: auto;
     right: 15px;
 }
 
-body > div.MetaFloater.Bottom:after, 
+body > div.MetaFloater.Bottom:after,
 body > div.MetaFloater.Bottom:before {
     bottom: auto;
     top: 100%;

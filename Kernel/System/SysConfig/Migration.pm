@@ -1428,7 +1428,13 @@ sub MigrateConfigEffectiveValues {
         my $FirstLevelKey = shift @SettingNameParts;
         my $LastLevelKey  = pop @SettingNameParts;
 
-        if (@SettingNameParts) {
+        if (
+            @SettingNameParts
+
+            # Skip any setting with more than one sub-levels in hash key (unsupported in OTRS 5).
+            && !defined $SettingsWithSubLevels{$FirstLevelKey}->{ $SettingNameParts[0] }
+            )
+        {
             $SettingsWithSubLevels{$FirstLevelKey}->{ $SettingNameParts[0] }->{$LastLevelKey} = 1;
         }
         else {

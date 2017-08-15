@@ -62,11 +62,11 @@ sub Run {
             <Data Key="package_name" Type="Quote">Framework</Data>
             <Data Key="channel_data" Type="Quote">---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_mime
 - article_data_mime_plain
 - article_data_mime_attachment
+- article_data_mime_send_error
             </Data>
             <Data Key="valid_id">1</Data>
             <Data Key="create_by">1</Data>
@@ -82,11 +82,11 @@ ArticleDataTables:
             <Data Key="package_name" Type="Quote">Framework</Data>
             <Data Key="channel_data" Type="Quote">---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_mime
 - article_data_mime_plain
 - article_data_mime_attachment
+- article_data_mime_send_error
 </Data>
             <Data Key="valid_id">1</Data>
             <Data Key="create_by">1</Data>
@@ -102,11 +102,11 @@ ArticleDataTables:
             <Data Key="package_name" Type="Quote">Framework</Data>
             <Data Key="channel_data" Type="Quote">---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_mime
 - article_data_mime_plain
 - article_data_mime_attachment
+- article_data_mime_send_error
             </Data>
             <Data Key="valid_id">1</Data>
             <Data Key="create_by">1</Data>
@@ -122,7 +122,6 @@ ArticleDataTables:
             <Data Key="package_name" Type="Quote">Framework</Data>
             <Data Key="channel_data" Type="Quote">---
 ArticleDataArticleIDField: article_id
-ArticleDataIsDroppable: 0
 ArticleDataTables:
 - article_data_otrs_chat
             </Data>

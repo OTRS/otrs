@@ -464,9 +464,17 @@ Core.Agent.Overview = (function (TargetNS) {
         $('.MasterAction').off('click').on('click', function (Event) {
             $MasterActionLink = $(this).find('.MasterActionLink');
 
-            // if the user is trying to select text from an article, MasterAction should not be executed
-            if (typeof Event.target === 'object' && ($(Event.target).hasClass('ArticleBody') || $(Event.target).hasClass('ActionRow'))) {
-                return false;
+            // If the user is trying to select text from or use article actions, MasterAction should not be executed.
+            if (
+                typeof Event.target === 'object'
+                && (
+                    $(Event.target).hasClass('ArticleBody')
+                    || $(Event.target).hasClass('ItemActions')
+                    || $(Event.target).parents('.Actions').length
+                )
+                )
+            {
+                return true;
             }
 
             // prevent MasterAction on Dynamic Fields links

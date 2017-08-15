@@ -47,11 +47,6 @@ sub CheckAccess {
         }
     }
 
-    # check basic conditions
-    if ( $Param{ChannelName} eq 'Chat' ) {
-        return;
-    }
-
     if ( $Param{ChannelName} eq 'Internal' && $Param{Article}->{SenderType} eq 'agent' ) {
 
         # skip notes
