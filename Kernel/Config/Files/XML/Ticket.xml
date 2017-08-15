@@ -4684,21 +4684,21 @@
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailResend###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the email resend screen in the agent interface.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="">compose</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RequiredLock" Required="0" Valid="1">
         <Description Translatable="1">Defines if a ticket lock is required in the email resend screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner).</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailResend###IsVisibleForCustomerDefault" Required="0" Valid="1">
         <Description Translatable="1">Defines if the message in the email resend screen of the agent interface is visible for the customer by default.</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -12629,14 +12629,14 @@ Thanks for your help!
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextWidth" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">620</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketEmailResend###RichTextHeight" Required="0" Valid="1">
         <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
-        <Navigation>Frontend::Agent::Ticket::ViewEmailResend</Navigation>
+        <Navigation>Frontend::Agent::View::TicketEmailResend</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">300</Item>
         </Value>
