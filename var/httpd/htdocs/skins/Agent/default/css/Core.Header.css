@@ -155,6 +155,10 @@
     overflow: hidden;
 }
 
+.NavContainerZIndex{
+    z-index: 5500 !important;
+}
+
 #NavigationContainer #Navigation {
     left: 0px;
     position: absolute;
