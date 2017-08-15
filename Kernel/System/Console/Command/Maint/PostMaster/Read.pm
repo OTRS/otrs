@@ -53,7 +53,7 @@ sub Run {
     );
 
     # start object log for the incoming connection
-    $CommunicationLogObject->ObjectLogStart( ObjectType => 'Connection' );
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Connection' );
 
     $CommunicationLogObject->ObjectLog(
         ObjectLogType => 'Connection',
@@ -91,7 +91,7 @@ sub Run {
     );
 
     # start object log for the email processing
-    $CommunicationLogObject->ObjectLogStart( ObjectType => 'Message' );
+    $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
     # remember the return code to stop the communictaion later with a proper status
     my $PostMasterReturnCode = 0;
