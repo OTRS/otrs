@@ -12,10 +12,10 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -133,7 +133,7 @@ my %TestUser4 = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
     User => $TestUserLogin,
 );
 
-my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
+my $TicketID = $TicketObject->TicketCreate(
     Title         => 'Some Ticket_Title',
     Queue         => 'Raw',
     Lock          => 'unlock',
@@ -558,13 +558,18 @@ Line7</div>',
     },
 );
 
+my %Ticket = $TicketObject->TicketGet(
+    TicketID      => $TicketID,
+    DynamicFields => 1,
+);
+
 for my $Test (@Tests) {
     my $Result = $TemplateGeneratorObject->_Replace(
         Text        => $Test->{Template},
         Data        => $Test->{Data},
         DataAgent   => $Test->{DataAgent},
         RichText    => $Test->{RichText},
-        TicketID    => $TicketID,
+        TicketData  => \%Ticket,
         UserID      => $TestUser3{UserID},
         RecipientID => $TestUser4{UserID},
     );

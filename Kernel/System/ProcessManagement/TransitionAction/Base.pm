@@ -286,13 +286,13 @@ sub _ReplaceAdditionalAttributes {
             }
 
             $ConfigValue = $TemplateGeneratorObject->_Replace(
-                RichText  => $RichText,
-                Text      => $ConfigValue,
-                Data      => \%ArticleCustomer,
-                DataAgent => \%ArticleAgent,
-                TicketID  => $Param{Ticket}->{TicketID},
-                UserID    => $Param{UserID},
-                Language  => $Language,
+                RichText   => $RichText,
+                Text       => $ConfigValue,
+                Data       => \%ArticleCustomer,
+                DataAgent  => \%ArticleAgent,
+                TicketData => $Param{Ticket},
+                UserID     => $Param{UserID},
+                Language   => $Language,
             );
 
             # Convert quoted body to Ascii and create a completed

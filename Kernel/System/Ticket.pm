@@ -5558,54 +5558,27 @@ sub HistoryAdd {
         }
     }
 
-    # get QueueID
-    if ( !$Param{QueueID} ) {
-        $Param{QueueID} = $Self->TicketQueueID( TicketID => $Param{TicketID} );
+    my %Ticket;
+    if ( !$Param{QueueID} || !$Param{TypeID} || !$Param{OwnerID} || !$Param{PriorityID} || !$Param{StateID} ) {
+        %Ticket = $Self->TicketGet(
+            %Param,
+            DynamicFields => 0,
+        );
     }
 
-    my %Ticket;
-
-    # get type
+    if ( !$Param{QueueID} ) {
+        $Param{QueueID} = $Ticket{QueueID};
+    }
     if ( !$Param{TypeID} ) {
-        if ( !%Ticket ) {
-            %Ticket = $Self->TicketGet(
-                %Param,
-                DynamicFields => 0,
-            );
-        }
         $Param{TypeID} = $Ticket{TypeID};
     }
-
-    # get owner
     if ( !$Param{OwnerID} ) {
-        if ( !%Ticket ) {
-            %Ticket = $Self->TicketGet(
-                %Param,
-                DynamicFields => 0,
-            );
-        }
         $Param{OwnerID} = $Ticket{OwnerID};
     }
-
-    # get priority
     if ( !$Param{PriorityID} ) {
-        if ( !%Ticket ) {
-            %Ticket = $Self->TicketGet(
-                %Param,
-                DynamicFields => 0,
-            );
-        }
         $Param{PriorityID} = $Ticket{PriorityID};
     }
-
-    # get state
     if ( !$Param{StateID} ) {
-        if ( !%Ticket ) {
-            %Ticket = $Self->TicketGet(
-                %Param,
-                DynamicFields => 0,
-            );
-        }
         $Param{StateID} = $Ticket{StateID};
     }
 
