@@ -142,9 +142,9 @@ sub _ExecuteComponent {
             },
         );
 
-        my $TaskObject = $Kernel::OM->Create($ModuleName);
-        if ( !$TaskObject ) {
-            print "\n    Error:Was not possible to create object for: $ModuleName.\n\n";
+        $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
+        if ( !$Self->{TaskObjects}->{$ModuleName} ) {
+            print "\n    Error: Could not create object for: $ModuleName.\n\n";
             $SuccessfulMigration = 0;
             last TASK;
         }
@@ -154,13 +154,13 @@ sub _ExecuteComponent {
         # Execute Run-Component
         if ( $Component eq 'Run' ) {
             print "    Step $CurrentStep of $Steps: $Task->{Message} ...\n";
-            $Success = $TaskObject->$Component(%Param);
+            $Success = $Self->{TaskObjects}->{$ModuleName}->$Component(%Param);
         }
 
         # Execute previous check, printing a different message
-        elsif ( $TaskObject->can($Component) ) {
+        elsif ( $Self->{TaskObjects}->{$ModuleName}->can($Component) ) {
             print "    Requirement check for: $Task->{Message} ...\n";
-            $Success = $TaskObject->$Component(%Param);
+            $Success = $Self->{TaskObjects}->{$ModuleName}->$Component(%Param);
         }
 
         # Do not handle timing if task has no appropriate component.
