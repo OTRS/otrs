@@ -188,6 +188,9 @@ Core.Agent = (function (TargetNS) {
                     // Set Timeout for closing nav
                     CreateSubnavCloseTimeout($Element, function () {
                         $Element.removeClass('Active').attr('aria-expanded', false);
+
+                        // Remove z-index=5500.
+                        $Element.parent().parent().removeClass('NavContainerZIndex');
                         if (!$('#Navigation > li.Active').length) {
                             $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
                         }
@@ -228,6 +231,8 @@ Core.Agent = (function (TargetNS) {
 
                 if ($Element.hasClass('Active')) {
                     $Element.removeClass('Active').attr('aria-expanded', false);
+                    // Remove z-index=5500.
+                    $Element.parent().parent().removeClass('NavContainerZIndex');
 
                     if ($('body').hasClass('Visible-ScreenXL')) {
                         // restore initial container height
@@ -245,6 +250,9 @@ Core.Agent = (function (TargetNS) {
 
                         // If Timeout is set for this nav element, clear it
                         ClearSubnavCloseTimeout($Element);
+
+                        // Add z-index=5500.
+                        $Element.parent().parent().addClass('NavContainerZIndex');
                     }
                 }
 

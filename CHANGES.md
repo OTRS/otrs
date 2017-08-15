@@ -172,6 +172,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.23 2017-??-??
+ - 2017-08-15 Fixed bug#[12990](https://bugs.otrs.org/show_bug.cgi?id=12990) - Ticket Menu Module is overlapping.
  - 2017-08-14 Added possibility to specify a different directory where the OTRS Daemon creates its PID files by using the new SysConfig setting: 'Daemon::PID::Path'.
  - 2017-08-14 Fixed bug#[13054](https://bugs.otrs.org/show_bug.cgi?id=13054) - Daemon reports that is already running when it can't get the lock of the PID file.
  - 2017-08-10 Fixed bug#[12971](https://bugs.otrs.org/show_bug.cgi?id=12971) - AgentTicketMove - Queue list on AJAX update does not honor ListType setting.

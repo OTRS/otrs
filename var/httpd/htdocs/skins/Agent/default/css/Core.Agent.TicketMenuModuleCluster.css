@@ -41,6 +41,10 @@
     transition: all 0.2s linear;
 }
 
+.Cluster > ul li:hover {
+    z-index: 5500;
+}
+
 .Cluster ul li:hover ul,
 .Cluster ul ul.ForceVisible {
     height: auto;
