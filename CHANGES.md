@@ -1,4 +1,5 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-15 Fixed bug#[13050](https://bugs.otrs.org/show_bug.cgi?id=13050) - Dropdown fields in ACL editor not modernized.
  - 2017-08-15 Fixed bug#[12927](https://bugs.otrs.org/show_bug.cgi?id=12927) - Web Notifications kills PostMaster::Read performance.
  - 2017-08-15 Fixed bug#[13034](https://bugs.otrs.org/show_bug.cgi?id=13034) - Enable SMIME and/or PGP Support jumps to wrong setting.
  - 2017-08-12 Merged FAO OTRSGenericInterfaceInvokerEventFilter.

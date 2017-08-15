@@ -613,6 +613,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         $('.ACLStructure').on('blur keydown', '.NewDataKey', function(Event) {
             if ((Event.type === 'keydown' && Event.which === 13) || Event.type !== 'keydown') {
                 TargetNS.AddItem($(this));
+                Core.UI.InputFields.Activate();
                 return false;
             }
         });
@@ -821,6 +822,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
         $('.ACLStructure').on('change', '.ItemAdd', function() {
             TargetNS.AddItem($(this));
+            Core.UI.InputFields.Activate();
         });
 
         $('#SubmitAndContinue').on('click', function() {
