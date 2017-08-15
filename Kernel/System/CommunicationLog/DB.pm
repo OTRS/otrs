@@ -33,7 +33,7 @@ Global module to handle all the Database operations for the Communication Log.
 
 =head2 new()
 
-    Create a Communication Log Database object. Do not use it directly, instead use:
+Create a Communication Log Database object. Do not use it directly, instead use:
 
     my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 
@@ -50,7 +50,7 @@ sub new {
 
 =head2 CommunicationCreate()
 
-    Create a new communication element.
+Create a new communication element.
 
     my $CommunicationID = $CommunicationDBObject->CommunicationCreate(
         Transport       => '...',
@@ -60,7 +60,7 @@ sub new {
         AccountID       => '...',
     );
 
-    Returns the created ID.
+Returns the created ID.
 
 =cut
 
@@ -128,14 +128,14 @@ sub CommunicationCreate {
 
 =head2 CommunicationUpdate()
 
-    Update Communication elements.
+Update Communication elements.
 
     my $Result = $CommunicationDBObject->CommunicationUpdate(
         CommunicationID => '...',
         Status         => '[Successful|Warning|Failed]',
     );
 
-    Returns 1 or undef.
+Returns 1 or undef.
 
 =cut
 
@@ -167,8 +167,8 @@ sub CommunicationUpdate {
 
 =head2 CommunicationList()
 
-    List communication entries. If parameters are given, the listing will be filtered,
-    otherwise all available entries will be returned.
+List communication entries. If parameters are given, the listing will be filtered,
+otherwise all available entries will be returned.
 
     my $CommunicationList = $CommunicationDBObject->CommunicationList(
         Transport   => 'Email',      # (optional) Log type/transport/module
@@ -186,7 +186,7 @@ sub CommunicationUpdate {
         AccountID   => 123,          # (optional) The used account id
     );
 
-    Returns:
+Returns:
 
     $CommunicationList = [
         {
@@ -377,13 +377,13 @@ sub CommunicationList {
 
 =head2 CommunicationDelete()
 
-    Deletes a Communication entry.
+Deletes a Communication entry.
 
     my $Result = $CommunicationDBObject->CommunicationDelete(
         CommunicationID => 123, # (required)
     );
 
-    Returns:
+Returns:
 
     $Result = {
         Status => '...',  # Failed | Success
@@ -452,13 +452,13 @@ sub CommunicationDelete {
 
 =head2 CommunicationGet()
 
-    Get a communication entry data.
+Get a communication entry data.
 
     my $CommunicationData = $CommunicationDBObject->CommunicationGet(
         CommunicationID => 123, # Required
     );
 
-    Returns:
+Returns:
 
     $CommunicationData = {
         CommunicationID => 123,
@@ -489,11 +489,11 @@ sub CommunicationGet {
 
 =head2 CommunicationAccountLinkGet()
 
-    Get relative link information if AccountType and AccountID are present.
+Get relative link information if AccountType and AccountID are present.
 
     my $ParamString = $CommunicationDBObject->CommunicationAccountLinkGet();
 
-    Returns something like this:
+Returns something like this:
 
     $ParamString = "Action=AdminMailAccount;Subaction=Update;ID=2";
 
@@ -509,11 +509,11 @@ sub CommunicationAccountLinkGet {
 
 =head2 CommunicationAccountLabelGet()
 
-    Get related account label if AccountType and AccountID are present.
+Get related account label if AccountType and AccountID are present.
 
     my $AccountLabel = $CommunicationDBObject->CommunicationAccountLabelGet();
 
-    Returns something like this:
+Returns something like this:
 
     $AccountLabel = "Example.com / Alice (IMAPS)";
 
@@ -529,7 +529,7 @@ sub CommunicationAccountLabelGet {
 
 =head2 ObjectLogCreate()
 
-    Creates the logging for a specific communication object.
+Creates the logging for a specific communication object.
 
     my $ObjectLogID = $CommunicationDBObject->ObjectLogCreate(
         CommunicationID => 123,          # (required) The CommunicationID of the related ongoing communication.
@@ -614,7 +614,7 @@ sub ObjectLogCreate {
 
 =head2 ObjectLogUpdate()
 
-    Stop the logging for a specific communication object.
+Stop the logging for a specific communication object.
 
     my $Result = $CommunicationDBObject->ObjectLogUpdate(
         CommunicationID => 123,             # (required) The CommunicationID of the related ongoing communication.
@@ -670,7 +670,7 @@ sub ObjectLogUpdate {
 
 =head2 ObjectLogList()
 
-    Get the object list for a specific communication.
+Get the object list for a specific communication.
 
     my $Result = $LogModuleObject->ObjectLogList(
         CommunicationID    => '123',         # (optional)
@@ -684,7 +684,7 @@ sub ObjectLogUpdate {
         SortBy             => 'ID',          # (optional) ID|CommunicationID|ObjectLogType|StartTime|EndTime|Status|Duration, default: ID
     );
 
-    Returns:
+Returns:
 
     $Result = [
         {
@@ -818,7 +818,7 @@ sub ObjectLogList {
 
 =head2 ObjectLogDelete()
 
-    Delete the logging.
+Delete the logging.
 
     my $Result = $CommunicationDBObject->ObjectLogDelete(
         CommunicationID => '...',    # optional
@@ -918,7 +918,7 @@ sub ObjectLogDelete {
 
 =head2 ObjectLogGet()
 
-    Returns the Communication Log Object by ID
+Returns the Communication Log Object by ID
 
     my $Result = $CommunicationDBObject->ObjectLogGet(
         CommunicationID  => '...',
@@ -960,7 +960,7 @@ sub ObjectLogGet {
 
 =head2 ObjectLogEntryCreate()
 
-    Create a log entry for the specific communication object.
+Create a log entry for the specific communication object.
 
     my $Result = $CommunicationDBObject->ObjectLogEntryCreate(
         ObjectLogID => '...', # required
@@ -1027,7 +1027,7 @@ sub ObjectLogEntryCreate {
 
 =head2 ObjectLogEntryList()
 
-    Get the logging list for a specific communication.
+Get the logging list for a specific communication.
 
     my $Result = $CommunicationDBObject->ObjectLogEntryList(
         CommunicationID     => '...',
@@ -1159,15 +1159,15 @@ sub ObjectLogEntryList {
 
 =head2 GetConnectionsObjectsAndCommunications()
 
-    Method specifically created for optimization purposes for the Support Data Collector.
-    Joins the Communication Log Object and Communications.
+Method specifically created for optimization purposes for the Support Data Collector.
+Joins the Communication Log Object and Communications.
 
     my $Result = $CommunicationDBObject->GetConnectionsObjectsAndCommunications(
         ObjectLogStartDate => '...',    # Required
         Status             => '...',    # Optional
     );
 
-    Returns Arrayref of Hashes.
+Returns Arrayref of Hashes.
 
     $Result = [
         {
@@ -1235,7 +1235,7 @@ sub GetConnectionsObjectsAndCommunications {
 
 =head2 ObjectLookupSet()
 
-    Inserts or updates a lookup information.
+Inserts or updates a lookup information.
 
     my $Result = $CommunicationDBObject->ObjectLookupSet(
         ObjectLogID      => '123',     # (required)
@@ -1243,7 +1243,7 @@ sub GetConnectionsObjectsAndCommunications {
         TargetObjectID   => '123',     # (required)
     );
 
-    Returns:
+Returns:
 
     1 in case of success, <undef> in case of errors
 
@@ -1302,7 +1302,7 @@ sub ObjectLookupSet {
 
 =head2 ObjectLookupSearch()
 
-    Get a list of the objects lookup information.
+Get a list of the objects lookup information.
 
     my $List = $CommunicationDBObject->ObjectLookupSearch(
         ObjectLogID      => '123',     # (optional)
@@ -1312,7 +1312,7 @@ sub ObjectLookupSet {
         CommunicationID  => '123',     # (optional)
     );
 
-    Returns:
+Returns:
 
     <undef> - if any error occur
     An arrayref of object lookup - in case of success
@@ -1388,7 +1388,7 @@ sub ObjectLookupSearch {
 
 =head2 ObjectLookupGet()
 
-    Gets the object lookup information.
+Gets the object lookup information.
 
     my $Result = $CommunicationDBObject->ObjectLookupGet(
         ObjectLogID      => '123',         # (optional)
@@ -1396,7 +1396,7 @@ sub ObjectLookupSearch {
         TargetObjectType => '123',         # (optional)
     );
 
-    Returns:
+Returns:
 
     $Result = {
         CommunicationID  => '...',
@@ -1458,13 +1458,13 @@ sub ObjectLookupGet {
 
 =head2 CommunicationGetByObjectLogID()
 
-    Get a communication entry data by a communication object id.
+Get a communication entry data by a communication object id.
 
     my %CommunicationData = $CommunicationDBObject->CommunicationGetByObjectLogID(
         ObjectLogID => 123,
     );
 
-    Returns:
+Returns:
 
     %CommunicationData = (
         CommunicationID => 123,
@@ -1519,7 +1519,7 @@ sub CommunicationGetByObjectLogID {
 
 =head2 _SetupLogModule()
 
-    Setup the needed log module instance, based on the account type.
+Setup the needed log module instance, based on the account type.
 
 =cut
 
@@ -1554,7 +1554,7 @@ sub _SetupLogModule {
 
 =head2 _LogError()
 
-    Helper Method for logging.
+Helper Method for logging.
 
 =cut
 
@@ -1568,6 +1568,16 @@ sub _LogError {
 
     return;
 }
+
+=head2 _IsValidDirection()
+
+Check if the given direction is valid.
+
+    my $Result = $LogModuleObject->_IsValidDirection(
+        Direction => '...',
+    );
+
+=cut
 
 sub _IsValidDirection {
     my ( $Self, %Param ) = @_;
@@ -1587,7 +1597,7 @@ sub _IsValidDirection {
 
 =head2 _IsValidObjectLogType()
 
-    Check if the given Object Log Type is valid.
+Check if the given Object Log Type is valid.
 
     my $Result = $LogModuleObject->_IsValidObjectLogType(
         ObjectLogType => '...',
@@ -1613,7 +1623,7 @@ sub _IsValidObjectLogType {
 
 =head2 _IsValidStatus()
 
-    Check if the given status is valid.
+Check if the given status is valid.
 
     my $Result = $LogModuleObject->_IsValidStatus(
         Status => '...',
@@ -1639,6 +1649,16 @@ sub _IsValidStatus {
     return 1;
 }
 
+=head2 _IsValidTransport()
+
+Check if the given transport is valid.
+
+    my $Result = $LogModuleObject->_IsValidTransport(
+        Transport => '...',
+    );
+
+=cut
+
 sub _IsValidTransport {
     my ( $Self, %Param ) = @_;
 
@@ -1656,7 +1676,7 @@ sub _IsValidTransport {
 
 =head2 _DurationSQL()
 
-    Return the SQL expression to get the difference between two dates in seconds.
+Return the SQL expression to get the difference between two dates in seconds.
 
 =cut
 
