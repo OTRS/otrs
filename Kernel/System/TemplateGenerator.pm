@@ -215,7 +215,7 @@ sub Signature {
 
     # Get queue.
     my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
-        ID => $Param{TicketID} || $Param{QueueID},
+        ID => $Ticket{QueueID} || $Param{QueueID},
     );
 
     # Get signature.
