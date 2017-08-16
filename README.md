@@ -25,24 +25,23 @@ You can find quick documentation in README.* and the long version
 modules is available on [github](http://otrs.github.io).
 
 
-Professional Services
-=====================
+Professional Services for OTRS – OTRS Business Solution™
+========================================================
 
 Whether you need help in configuring or customizing OTRS or you want to be on the safe side,
 don't hesitate to contact us: We offer a wide range of professional services such as
 world-wide enterprise support, consulting and engineering including process design,
 implementation, customization, application support, and fully managed service.
 
-Our [Service Contracts](http://www.otrs.com/en/solutions/service-contracts/) guarantee instant help
-and professional support as well as support assessment and last but not least free access to
-[OTRS Feature Add-ons](http://www.otrs.com/en/solutions/subscriptions/otrsfeatureadd-ons/) -
-useful additional features for your OTRS.
+Our [OTRS Business Solution™](https://www.otrs.com/otrs-business-solution-improving-customer-service/)
+offers you best professional support from the OTRS team, reliable OTRS security and regular free updates
+as well as an [exclusive set of additional Business Features](https://www.otrs.com/solutions/otrs-business-solution-on-premise/#integrated-business-features)
+that you can flexibly activate or deactivate according to different deployment scenarios.
 
-The [OTRS Group](http://www.otrs.com/) offers specific
-[training programs](http://www.otrs.com/en/solutions/training/) in different countries.
+The [OTRS Group](https://www.otrs.com/) offers specific
+[training programs](https://www.otrs.com/public-otrs-trainings/) in different countries.
 You can either participate in one of our public OTRS Administrator trainings which take place regularly,
 or benefit from an inhouse training that covers all the specific needs of your company.
-
 
 Software requirements
 =====================
