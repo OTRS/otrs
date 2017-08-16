@@ -500,7 +500,7 @@ Returns something like this:
 sub CommunicationAccountLinkGet {
     my ( $Self, %Param ) = @_;
 
-    my $TransportModule = $Self->GetTransportModule( %Param, );
+    my $TransportModule = $Self->_GetTransportModule(%Param);
     return if !$TransportModule;
 
     return $TransportModule->CommunicationAccountLinkGet(%Param);
@@ -521,7 +521,7 @@ Returns something like this:
 sub CommunicationAccountLabelGet {
     my ( $Self, %Param ) = @_;
 
-    my $TransportModule = $Self->GetTransportModule( %Param, );
+    my $TransportModule = $Self->_GetTransportModule(%Param);
     return if !$TransportModule;
 
     return $TransportModule->CommunicationAccountLabelGet(%Param);
@@ -1515,7 +1515,7 @@ sub CommunicationGetByObjectLogID {
 
 }
 
-=head2 GetTransportModule()
+=head2 _GetTransportModule()
 
 Lookup for the transport module.
 
@@ -1526,7 +1526,7 @@ Returns:
 
 =cut
 
-sub GetTransportModule {
+sub _GetTransportModule {
     my ( $Self, %Param ) = @_;
 
     my $Transport = $Param{Transport};
@@ -1539,7 +1539,7 @@ sub GetTransportModule {
         return $Self->_LogError("Couldn't create a backend object for transport '${ Transport }'!");
     }
 
-    return $Module->{Module};
+    return $Kernel::OM->Get( $Module->{Module} );
 }
 
 =head2 _LogError()

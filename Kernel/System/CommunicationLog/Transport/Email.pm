@@ -17,7 +17,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Ticket::CommunicationLog::Transport::Email
+Kernel::System::CommunicationLog::Transport::Email
 
 =head1 DESCRIPTION
 
