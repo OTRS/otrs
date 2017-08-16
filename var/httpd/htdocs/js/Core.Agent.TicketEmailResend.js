@@ -42,21 +42,21 @@ Core.Agent.TicketEmailResend = (function (TargetNS) {
             return false;
         });
 
-        // add 'To' customer users
+        // Add 'To' customer users.
         if (typeof EmailAddressesTo !== 'undefined') {
             EmailAddressesTo.forEach(function(ToCustomer) {
                 Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', ToCustomer.CustomerTicketText, ToCustomer.CustomerKey);
             });
         }
 
-        // add 'Cc' customer users
+        // Add 'Cc' customer users.
         if (typeof EmailAddressesCc !== 'undefined') {
             EmailAddressesCc.forEach(function(CcCustomer) {
                 Core.Agent.CustomerSearch.AddTicketCustomer('CcCustomer', CcCustomer.CustomerTicketText, CcCustomer.CustomerKey);
             });
         }
 
-        // add 'BCc' customer users
+        // Add 'BCc' customer users.
         if (typeof EmailAddressesCc !== 'undefined') {
             EmailAddressesBcc.forEach(function(BccCustomer) {
                 Core.Agent.CustomerSearch.AddTicketCustomer('BccCustomer', BccCustomer.CustomerTicketText, BccCustomer.CustomerKey);
