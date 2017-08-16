@@ -980,7 +980,11 @@ sub Run {
 
             # redirect to last screen (e. g. zoom view) and to queue view if
             # the ticket is closed (move to the next task).
-            if ( $StateData{TypeName} =~ /^close/i ) {
+            if (
+                $StateData{TypeName} =~ /^close/i
+                && !$ConfigObject->Get('Ticket::Frontend::RedirectAfterCloseDisabled')
+                )
+            {
                 return $LayoutObject->PopupClose(
                     URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
                 );

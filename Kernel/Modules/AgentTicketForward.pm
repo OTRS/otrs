@@ -1326,7 +1326,12 @@ sub SendEmail {
     }
 
     # redirect
-    if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^close/i ) {
+    if (
+        defined $StateData{TypeName}
+        && $StateData{TypeName} =~ /^close/i
+        && !$ConfigObject->Get('Ticket::Frontend::RedirectAfterCloseDisabled')
+        )
+    {
         return $LayoutObject->PopupClose(
             URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
         );

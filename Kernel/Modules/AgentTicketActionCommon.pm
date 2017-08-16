@@ -1041,7 +1041,11 @@ sub Run {
             }
 
             # redirect parent window to last screen overview on closed tickets
-            if ( $StateData{TypeName} =~ /^close/i ) {
+            if (
+                $StateData{TypeName} =~ /^close/i
+                && !$ConfigObject->Get('Ticket::Frontend::RedirectAfterCloseDisabled')
+                )
+            {
                 $ReturnURL = $Self->{LastScreenOverview} || 'Action=AgentDashboard';
             }
         }

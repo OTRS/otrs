@@ -244,6 +244,7 @@ scripts/test/SysConfig/OTRSBusiness/*
 scripts/test/Ticket/Article/Backend/SMS.t
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
 scripts/test/Ticket/Event/StoreHistoricalData.t
+scripts/test/Upgrade/UserPreferences2Settings.t
 scripts/test/VideoChat/Signalling.t
 var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*
