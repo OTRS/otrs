@@ -422,6 +422,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                }
             });
 
+            Core.App.Subscribe('Event.CustomerUserAddressBook.AddTicketCustomer.Callback.' + $Element.attr('id'), function(UserLogin, CustomerTicketText) {
+                $Element.val(CustomerTicketText);
+                TargetNS.AddTicketCustomer($Element.attr('id'), CustomerTicketText, UserLogin);
+            });
+
             Core.UI.Autocomplete.Init($Element, function (Request, Response) {
                 var URL = Core.Config.Get('Baselink'),
                     Data = {

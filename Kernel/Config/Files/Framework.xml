@@ -11654,50 +11654,6 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###PageShown" Required="1" Valid="1">
-        <Description Translatable="1">Defines the number of entries per page for the AgentCustomerUserAddressBook result screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
-        <Setting>
-            <String Regex="">50</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###DefaultFields" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix 'CustomerCompany_' must be added.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
-        <Setting>
-            <Array>
-                <Item>UserLogin</Item>
-                <Item>UserFirstname</Item>
-                <Item>UserLastname</Item>
-                <Item>UserEmail</Item>
-                <Item>UserCustomerID</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###ShowColumns" Required="1" Valid="1">
-        <Description Translatable="1">Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
-        <Setting>
-            <Array>
-                <Item>UserFirstname</Item>
-                <Item>UserLastname</Item>
-                <Item>UserLogin</Item>
-                <Item>UserEmail</Item>
-                <Item>UserCustomerID</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###SearchLimit" Required="1" Valid="1">
-        <Description Translatable="1">Defines the search limit for the AgentCustomerUserAddressBook screen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ViewCustomerUserSearch</SubGroup>
-        <Setting>
-            <String Regex="">10000</String>
-        </Setting>
-    </ConfigItem>
 
     <ConfigItem Name="Frontend::Module###AdminSystemConfigurationDeployment" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>

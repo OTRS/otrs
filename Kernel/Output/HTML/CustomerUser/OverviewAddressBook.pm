@@ -116,8 +116,13 @@ sub Run {
                 next ID if !%CustomerUser;
 
                 # Disable the already selected customer user in the result table.
-                if ( $Param{LookupExcludeUserLogins}->{$ID} ) {
+                if ( $Param{LookupExcludeUserLogins}->{$ID} || !$CustomerUser{ $Param{CustomerTicketTextField} } ) {
                     $CustomerUser{Disabled} = 1;
+                }
+
+                # Set the checkbox for the already selected customer user to 'checked'.
+                if ( $Param{LookupExcludeUserLogins}->{$ID} ) {
+                    $CustomerUser{AlreadySelected} = 1;
                 }
 
                 push @RecordDataColumns, {

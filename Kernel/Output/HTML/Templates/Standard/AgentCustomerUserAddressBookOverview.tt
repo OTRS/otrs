@@ -9,7 +9,9 @@
 <div id="OverviewBody" class="Overview TicketList CustomerUserAdressBookList">
     <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="matrix" class="CustomerUserAddressBookForm">
         <input type="hidden" name="Action" value="[% Env("Action") %]" />
+        <input type="hidden" name="RecipientType" value="[% Data.RecipientType | html %]" id="RecipientType" />
         <input type="hidden" name="RecipientField" value="[% Data.RecipientField | html %]" id="RecipientField" />
+        <input type="hidden" name="RecipientFieldLabel" value="[% Data.RecipientFieldLabel | html %]" id="RecipientFieldLabel" />
         <input type="hidden" name="RecipientsJSON" value="[% Data.RecipientsJSON | html %]" id="RecipientSelectedJSON" />
 
         <table class="TableSmall" summary="A generic customer user table">
@@ -30,7 +32,7 @@
             [% FOR Entry IN Data.RecordDataColumns %]
                 <tr class="MasterAction[% IF Entry.Disabled %] Disabled[% END %]"[% IF Entry.Disabled %] title="[% Translate("The customer user is already selected in the ticket mask.") | html %]"[% END %]>
                     <td class="Checkbox NonTextContent">
-                        <input class="Checkbox" type="checkbox" [% IF !Entry.Disabled %]name="RecipientUserLogin"[% END %] title="[% Translate("Select this customer user") | html %]" value="[% Entry.UserLogin | html %]"  data-user-mail-string="[% Entry.UserMailString | html %]" autocomplete="off"[% IF Data.Recipients.item(Entry.UserLogin) || Entry.Disabled %] checked="checked"[% END %][% IF Entry.Disabled %] disabled="disabled"[% END %]/>
+                        <input class="Checkbox" type="checkbox" [% IF !Entry.Disabled %]name="RecipientUserLogin"[% END %] title="[% Translate("Select this customer user") | html %]" value="[% Entry.UserLogin | html %]"  data-customer-ticket-text="[% Entry.${Data.CustomerTicketTextField} | html %]" autocomplete="off"[% IF Data.Recipients.item(Entry.UserLogin) || Entry.AlreadySelected %] checked="checked"[% END %][% IF Entry.Disabled %] disabled="disabled"[% END %]/>
                     </td>
                 [% FOR Column IN Data.ShowColumns %]
                     <td>

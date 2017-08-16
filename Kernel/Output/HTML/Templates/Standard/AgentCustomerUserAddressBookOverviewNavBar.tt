@@ -9,7 +9,7 @@
 [% RenderBlockStart("OverviewNavBar") %]
 <div class="OverviewBox ARIARoleMain [% Data.View | html %] CustomerUserAdressBook">
     <h1>[% Translate(Data.TitleName) | html %] [% Translate(Data.TitleValue) | html %]</h1>
-    <div class="FieldExplanation">[% Translate("Search for recipients and add the results as '%s'.", Data.RecipientField) | html %]</div>
+    <div class="FieldExplanation">[% Translate("Search for recipients and add the results as '%s'.", Data.RecipientFieldLabel) | html %]</div>
     <div class="OverviewControl SpacingTop" id="OverviewControl">
         <div>
             <div class="ControlRow">

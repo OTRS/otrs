@@ -1038,13 +1038,35 @@ sub _Mask {
         );
     }
 
-    my @EmailAddressesCc;
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-    # Set preselected values for 'Cc' field.
+    # set preselected values for Cc field
     if ( $Param{Cc} && $Param{Cc} ne '' && !$CustomerCounterCc ) {
 
-        # Split the 'Cc' values.
-        @EmailAddressesCc = map { $_->[0] ? "$_->[0] <$_->[1]>" : "$_->[1]" } ( Mail::Address->parse( $Param{Cc} ) );
+        # split Cc values
+        my @EmailAddressesCc;
+        for my $Email ( Mail::Address->parse( $Param{Cc} ) ) {
+
+            my %CustomerSearch = $CustomerUserObject->CustomerSearch(
+                PostMasterSearch => $Email->address(),
+                Limit            => 1,
+            );
+
+            if (%CustomerSearch) {
+                for my $CustomerUserID ( sort keys %CustomerSearch ) {
+                    push @EmailAddressesCc, {
+                        CustomerKey       => $CustomerUserID,
+                        CustomerTicketText => $CustomerSearch{$CustomerUserID},
+                    };
+                }
+            }
+            else {
+                push @EmailAddressesCc, {
+                    CustomerKey        => '',
+                    CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
+                },
+            }
+        }
 
         $LayoutObject->AddJSData(
             Key   => 'EmailAddressesCc',
@@ -1054,27 +1076,33 @@ sub _Mask {
         $Param{Cc} = '';
     }
 
-    my @EmailAddressesBcc;
-
-    # Set preselected values for 'Bcc' field.
-    if ( $Param{Bcc} && $Param{Bcc} ne '' && !$CustomerCounterBcc ) {
-
-        # Split the 'Bcc' values.
-        @EmailAddressesBcc = map { $_->[0] ? "$_->[0] <$_->[1]>" : "$_->[1]" } ( Mail::Address->parse( $Param{Bcc} ) );
-
-        $LayoutObject->AddJSData(
-            Key   => 'EmailAddressesBcc',
-            Value => \@EmailAddressesBcc,
-        );
-
-        $Param{Bcc} = '';
-    }
-
-    # Set preselected values for 'To' field.
+    # set preselected values for To field
     if ( defined $Param{To} && $Param{To} ne '' && !$CustomerCounter ) {
 
-        # Split the 'To' values.
-        my @EmailAddressesTo = map { $_->[0] ? "$_->[0] <$_->[1]>" : "$_->[1]" } ( Mail::Address->parse( $Param{To} ) );
+        # split To values
+        my @EmailAddressesTo;
+        for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+
+            my %CustomerSearch = $CustomerUserObject->CustomerSearch(
+                PostMasterSearch => $Email->address(),
+                Limit            => 1,
+            );
+
+            if (%CustomerSearch) {
+                for my $CustomerUserID ( sort keys %CustomerSearch ) {
+                    push @EmailAddressesTo, {
+                        CustomerKey       => $CustomerUserID,
+                        CustomerTicketText => $CustomerSearch{$CustomerUserID},
+                    };
+                }
+            }
+            else {
+                push @EmailAddressesTo, {
+                    CustomerKey       => '',
+                    CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
+                },
+            }
+        }
 
         $LayoutObject->AddJSData(
             Key   => 'EmailAddressesTo',

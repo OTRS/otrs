@@ -82,17 +82,16 @@ Core.Agent.CustomerUserAddressBook = (function (TargetNS) {
      *      Adds the given recipients to the ticket for the selected recipient field and close the dialog.
      */
     function AddRecipientsToTicket() {
-        var $RecipientField = $('#' + $('#RecipientField').val() + 'Customer', parent.document),
+        var RecipientField = $('#RecipientField').val(),
         Recipients = Core.JSON.Parse($('#RecipientSelectedJSON').val());
 
-        $.each(Recipients, function(UserLogin, UserMailString) {
+        $.each(Recipients, function(UserLogin, CustomerTicketText) {
 
-            if (!UserMailString) {
+            if (!CustomerTicketText) {
                 return true;
             }
 
-            $RecipientField.val(UserMailString);
-            parent.Core.Agent.CustomerSearch.AddTicketCustomer($('#RecipientField').val() + 'Customer', UserMailString, UserLogin);
+            parent.Core.App.Publish('Event.CustomerUserAddressBook.AddTicketCustomer.Callback.' + RecipientField, [UserLogin, CustomerTicketText]);
         });
 
         parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
@@ -250,9 +249,11 @@ Core.Agent.CustomerUserAddressBook = (function (TargetNS) {
             var SearchProfile = $('#SearchProfile').val(),
                 SearchProfileEmptySearch = $('#EmptySearch').val(),
                 SearchProfileAction = $('#SearchAction').val(),
-                RecipientField = $('#RecipientField').val();
+                RecipientType = $('#RecipientType').val(),
+                RecipientField = $('#RecipientField').val(),
+                RecipientFieldLabel = $('#RecipientFieldLabel').val();
 
-            window.location.href = Core.Config.Get('Baselink') + 'Action=' + SearchProfileAction + ';RecipientField=' + RecipientField + ';Subaction=LoadProfile;EmptySearch=' +
+            window.location.href = Core.Config.Get('Baselink') + 'Action=' + SearchProfileAction + ';RecipientType=' + RecipientType + ';RecipientField=' + RecipientField + ';RecipientFieldLabel=' + RecipientFieldLabel + ';Subaction=LoadProfile;EmptySearch=' +
             encodeURIComponent(SearchProfileEmptySearch) + ';Profile=' + encodeURIComponent(SearchProfile);
             return false;
         });
@@ -268,14 +269,16 @@ Core.Agent.CustomerUserAddressBook = (function (TargetNS) {
         // delete profile
         $('#SearchProfileDelete').on('click', function (Event) {
             var SearchProfileAction = $('#SearchAction').val(),
-                RecipientField = $('#RecipientField').val();
+                RecipientType = $('#RecipientType').val(),
+                RecipientField = $('#RecipientField').val(),
+                RecipientFieldLabel = $('#RecipientFieldLabel').val();
 
             Event.preventDefault();
 
             // strip all already used attributes
             $('#SearchProfile').find('option:selected').each(function () {
                 if ($(this).attr('value') !== 'last-search') {
-                    window.location.href = Core.Config.Get('Baselink') + 'Action=' + SearchProfileAction + ';RecipientField=' + RecipientField + ';Subaction=DeleteProfile;Profile=' +
+                    window.location.href = Core.Config.Get('Baselink') + 'Action=' + SearchProfileAction + ';RecipientType=' + RecipientType + ';RecipientField=' + RecipientField + ';RecipientFieldLabel=' + RecipientFieldLabel + ';Subaction=DeleteProfile;Profile=' +
                     encodeURIComponent($(this).val());
                     return false;
                 }
@@ -295,7 +298,7 @@ Core.Agent.CustomerUserAddressBook = (function (TargetNS) {
 
         // Add the current field label and move recipient selection button in the dialog footer
         //  for the result view, to have the same view in all dialog widgets.
-        $('#RecipientSelect span').append(' ' +  $('#OptionCustomerUserAddressBook' + $('#RecipientField').val() + 'Customer', parent.document).data('recipient-field-label') + ' (' + Object.keys(InitialRecipients).length + ')');
+        $('#RecipientSelect span').append(' ' +  $('#RecipientFieldLabel').val() + ' (' + Object.keys(InitialRecipients).length + ')');
         $('.Dialog .Footer', parent.document).html($('.RecipientButton').html());
         $('.RecipientButton').remove();
 
@@ -315,7 +318,7 @@ Core.Agent.CustomerUserAddressBook = (function (TargetNS) {
                 var UserLogin = $(this).val();
 
                 if (Status) {
-                    Recipients[UserLogin] = $(this).data('user-mail-string');
+                    Recipients[UserLogin] = $(this).data('customer-ticket-text');
                 }
                 else {
                     delete Recipients[UserLogin];
@@ -346,7 +349,7 @@ Core.Agent.CustomerUserAddressBook = (function (TargetNS) {
             Core.Form.SelectAllCheckboxes($(this), $('#SelectAllCustomerUser'));
 
             if (Status) {
-                Recipients[UserLogin] = $(this).data('user-mail-string');
+                Recipients[UserLogin] = $(this).data('customer-ticket-text');
             }
             else {
                 delete Recipients[UserLogin];

@@ -2045,13 +2045,35 @@ sub _Mask {
         );
     }
 
-    my @EmailAddressesCc;
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     # set preselected values for Cc field
     if ( $Param{Cc} && $Param{Cc} ne '' && !$CustomerCounterCc ) {
 
         # split Cc values
-        @EmailAddressesCc = map { $_->[0] ? "$_->[0] <$_->[1]>" : "$_->[1]" } ( Mail::Address->parse( $Param{Cc} ) );
+        my @EmailAddressesCc;
+        for my $Email ( Mail::Address->parse( $Param{Cc} ) ) {
+
+            my %CustomerSearch = $CustomerUserObject->CustomerSearch(
+                PostMasterSearch => $Email->address(),
+                Limit            => 1,
+            );
+
+            if (%CustomerSearch) {
+                for my $CustomerUserID ( sort keys %CustomerSearch ) {
+                    push @EmailAddressesCc, {
+                        CustomerKey       => $CustomerUserID,
+                        CustomerTicketText => $CustomerSearch{$CustomerUserID},
+                    };
+                }
+            }
+            else {
+                push @EmailAddressesCc, {
+                    CustomerKey        => '',
+                    CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
+                },
+            }
+        }
 
         $LayoutObject->AddJSData(
             Key   => 'EmailAddressesCc',
@@ -2065,7 +2087,29 @@ sub _Mask {
     if ( defined $Param{To} && $Param{To} ne '' && !$CustomerCounter ) {
 
         # split To values
-        my @EmailAddressesTo = map { $_->[0] ? "$_->[0] <$_->[1]>" : "$_->[1]" } ( Mail::Address->parse( $Param{To} ) );
+        my @EmailAddressesTo;
+        for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+
+            my %CustomerSearch = $CustomerUserObject->CustomerSearch(
+                PostMasterSearch => $Email->address(),
+                Limit            => 1,
+            );
+
+            if (%CustomerSearch) {
+                for my $CustomerUserID ( sort keys %CustomerSearch ) {
+                    push @EmailAddressesTo, {
+                        CustomerKey       => $CustomerUserID,
+                        CustomerTicketText => $CustomerSearch{$CustomerUserID},
+                    };
+                }
+            }
+            else {
+                push @EmailAddressesTo, {
+                    CustomerKey       => '',
+                    CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
+                },
+            }
+        }
 
         $LayoutObject->AddJSData(
             Key   => 'EmailAddressesTo',

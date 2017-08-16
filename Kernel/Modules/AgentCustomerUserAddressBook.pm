@@ -11,6 +11,8 @@ package Kernel::Modules::AgentCustomerUserAddressBook;
 use strict;
 use warnings;
 
+use List::Util qw(first);
+
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
@@ -34,23 +36,34 @@ sub Run {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $Self->{RecipientType} = $ParamObject->GetParam( Param => 'RecipientType' ) || 'Email';
 
     $Self->{Config} = $ConfigObject->Get("CustomerUser::Frontend::$Self->{Action}");
 
-    # Get the diffrent values from the params or the config to set the default values.
-    $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
-    $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
-    $Self->{SortBy}
-        = $ParamObject->GetParam( Param => 'SortBy' ) || $Self->{Config}->{'SortBy::Default'} || 'UserLogin';
-    $Self->{OrderBy} = $ParamObject->GetParam( Param => 'OrderBy' ) || $Self->{Config}->{'Order::Default'} || 'Up';
-    $Self->{Profile} = $ParamObject->GetParam( Param => 'Profile' ) || '';
-    $Self->{SaveProfile}    = $ParamObject->GetParam( Param => 'SaveProfile' )    || '';
-    $Self->{TakeLastSearch} = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
-    $Self->{SelectTemplate} = $ParamObject->GetParam( Param => 'SelectTemplate' ) || '';
-    $Self->{EraseTemplate}  = $ParamObject->GetParam( Param => 'EraseTemplate' )  || '';
-    $Self->{RecipientField} = $ParamObject->GetParam( Param => 'RecipientField' );
+    # Check if the config settings exsists for the given recipient type.
+    for my $ConfigKey (qw(SearchParameters DefaultFields ShowColumns)) {
+        if ( !grep { $_ eq $Self->{RecipientType} } sort keys %{ $Self->{Config}->{$ConfigKey} } ) {
+            return $LayoutObject->ErrorScreen(
+                Message => Translatable("No config setting '$ConfigKey' for the given RecipientType!"),
+                Comment => Translatable('Please contact the administrator.'),
+            );
+        }
+    }
 
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # Get the diffrent values from the params or the config to set the default values.
+    $Self->{StartHit}            = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{SearchLimit}         = $Self->{Config}->{SearchParameters}->{ $Self->{RecipientType} }->{SearchLimit} || 500;
+    $Self->{SortBy}              = $ParamObject->GetParam( Param => 'SortBy' ) || $Self->{Config}->{SearchParameters}->{ $Self->{RecipientType} }->{'SortBy::Default'} || 'UserLogin';
+    $Self->{OrderBy}             = $ParamObject->GetParam( Param => 'OrderBy' ) || $Self->{Config}->{SearchParameters}->{ $Self->{RecipientType} }->{'Order::Default'} || 'Up';
+    $Self->{Profile}             = $ParamObject->GetParam( Param => 'Profile' )        || '';
+    $Self->{SaveProfile}         = $ParamObject->GetParam( Param => 'SaveProfile' )    || '';
+    $Self->{TakeLastSearch}      = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
+    $Self->{SelectTemplate}      = $ParamObject->GetParam( Param => 'SelectTemplate' ) || '';
+    $Self->{EraseTemplate}       = $ParamObject->GetParam( Param => 'EraseTemplate' )  || '';
+    $Self->{RecipientField}      = $ParamObject->GetParam( Param => 'RecipientField' );
+    $Self->{RecipientFieldLabel} = $ParamObject->GetParam( Param => 'RecipientFieldLabel' ) || $Self->{RecipientField};
 
     if ( !$Self->{RecipientField} ) {
         return $LayoutObject->ErrorScreen(
@@ -399,30 +412,41 @@ sub Run {
             $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
             $Self->{View}   = $ParamObject->GetParam( Param => 'View' )   || '';
 
-            my $LinkPage = 'RecipientField=' . $Self->{RecipientField} . ';Filter='
-                . $LayoutObject->Ascii2Html( Text => $Self->{Filter} )
+            my $LinkPage = 'RecipientField=' . $Self->{RecipientField}
+                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
+                . ';RecipientType=' . $Self->{RecipientType}
+                . ';Filter=' . $LayoutObject->Ascii2Html( Text => $Self->{Filter} )
                 . ';View=' . $LayoutObject->Ascii2Html( Text => $Self->{View} )
                 . ';SortBy=' . $LayoutObject->Ascii2Html( Text => $Self->{SortBy} )
-                . ';OrderBy='
-                . $LayoutObject->Ascii2Html( Text => $Self->{OrderBy} )
-                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
+                . ';OrderBy=' . $LayoutObject->Ascii2Html( Text => $Self->{OrderBy} )
+                . ';Profile=' . $Self->{Profile}
+                . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
-            my $LinkSort = 'RecipientField=' . $Self->{RecipientField} . ';Filter='
-                . $LayoutObject->Ascii2Html( Text => $Self->{Filter} )
+            my $LinkSort = 'RecipientField=' . $Self->{RecipientField}
+                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
+                . ';RecipientType=' . $Self->{RecipientType}
+                . ';Filter=' . $LayoutObject->Ascii2Html( Text => $Self->{Filter} )
                 . ';View=' . $LayoutObject->Ascii2Html( Text => $Self->{View} )
-                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
+                . ';Profile=' . $Self->{Profile}
+                . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
-            my $LinkFilter = 'RecipientField=' . $Self->{RecipientField} . ';TakeLastSearch=1;Subaction=Search;Profile='
-                . $LayoutObject->Ascii2Html( Text => $Self->{Profile} )
+            my $LinkFilter = 'RecipientField=' . $Self->{RecipientField}
+                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
+                . ';RecipientType=' . $Self->{RecipientType}
+                . ';Profile=' . $LayoutObject->Ascii2Html( Text => $Self->{Profile} )
+                . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
-            my $LinkBack = 'RecipientField=' . $Self->{RecipientField} . ';Subaction=LoadProfile;Profile='
-                . $LayoutObject->Ascii2Html( Text => $Self->{Profile} )
-                . ';TakeLastSearch=1;';
+            my $LinkBack = 'RecipientField=' . $Self->{RecipientField}
+                . ';RecipientFieldLabel=' . $Self->{RecipientFieldLabel}
+                . ';RecipientType=' . $Self->{RecipientType}
+                . ';Profile=' . $LayoutObject->Ascii2Html( Text => $Self->{Profile} )
+                . ';TakeLastSearch=1;Subaction=LoadProfile'
+                . ';';
 
             # Find out which columns should be shown.
             my @ShowColumns;
-            if ( IsArrayRefWithData( $Self->{Config}->{ShowColumns} ) ) {
-                @ShowColumns = @{ $Self->{Config}->{ShowColumns} };
+            if ( IsArrayRefWithData( $Self->{Config}->{ShowColumns}->{ $Self->{RecipientType} } ) ) {
+                @ShowColumns = @{ $Self->{Config}->{ShowColumns}->{ $Self->{RecipientType} } };
             }
 
             # Get the already selected recipients, to remember the selected recipients for the diffrent pages.
@@ -451,7 +475,10 @@ sub Run {
                 OrderBy                 => $LayoutObject->Ascii2Html( Text => $Self->{OrderBy} ),
                 RequestedURL            => 'Action=' . $Self->{Action} . ';' . $LinkPage,
                 Recipients              => $Recipients || {},
+                RecipientType           => $Self->{RecipientType},
                 RecipientField          => $Self->{RecipientField},
+                RecipientFieldLabel     => $Self->{RecipientFieldLabel},
+                CustomerTicketTextField => $Self->{Config}->{SearchParameters}->{ $Self->{RecipientType} }->{CustomerTicketTextField} || 'UserMailString',
                 LookupExcludeUserLogins => \%LookupExcludeUserLogins,
             );
 
@@ -470,7 +497,9 @@ sub Run {
     );
 
     $Output .= $Self->_MaskForm(
-        RecipientField => $Self->{RecipientField},
+        RecipientType       => $Self->{RecipientType},
+        RecipientField      => $Self->{RecipientField},
+        RecipientFieldLabel => $Self->{RecipientFieldLabel},
         %GetParam,
     );
 
@@ -681,7 +710,6 @@ sub _MaskForm {
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 Profile              => \%GetParam,
                 PossibleValuesFilter => $PossibleValues,
-                DefaultValue         => $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
                 LayoutObject         => $LayoutObject,
                 Type                 => $Preference->{Type},
                 );
@@ -860,7 +888,7 @@ sub _MaskForm {
     # No profile, then show default screen.
     else {
 
-        my %LookupDefaultFields = map { $_ => 1 } @{ $Self->{Config}->{DefaultFields} };
+        my %LookupDefaultFields = map { $_ => 1 } @{ $Self->{Config}->{DefaultFields}->{ $Self->{RecipientType} } };
 
         ITEM:
         for my $Item (@Attributes) {

@@ -1421,8 +1421,14 @@ sub CustomerUserDataGet {
 
     # to build the UserMailString
     my $UserMailString = '';
+    my @UserMailStringParts;
 
-    for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} } ) {
+    my $CustomerUserListFieldsMap = $Self->{CustomerUserMap}->{CustomerUserListFields};
+    if ( !IsArrayRefWithData($CustomerUserListFieldsMap) ) {
+        $CustomerUserListFieldsMap = [ 'first_name', 'last_name', 'email', ];
+    }
+
+    for my $Field ( @{ $CustomerUserListFieldsMap } ) {
 
         my $Value = $Self->_ConvertFrom( $Result2->get_value($Field) ) || '';
 
@@ -1430,9 +1436,10 @@ sub CustomerUserDataGet {
             if ( $Field =~ /^targetaddress$/i ) {
                 $Value =~ s/SMTP:(.*)/$1/;
             }
-            $UserMailString .= $Value . ' ';
+            push @UserMailStringParts, $Data{$Field};
         }
     }
+    $UserMailString = join ' ', @UserMailStringParts;
     $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
 
     # add the UserMailString to the data hash

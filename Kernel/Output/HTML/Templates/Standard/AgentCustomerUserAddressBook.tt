@@ -9,14 +9,16 @@
 [% IF Data.ShowSearchDialog %]
 <div class="MainBox ARIARoleMain CustomerUserAdressBookSearch">
     <h1>[% Translate("Customer User Address Book") | html %]</h1>
-    <div class="FieldExplanation">[% Translate("Search for recipients and add the results as '%s'.", Data.RecipientField) | html %]</div>
+    <div class="FieldExplanation">[% Translate("Search for recipients and add the results as '%s'.", Data.RecipientFieldLabel) | html %]</div>
     <div class="ContentColumn">
         <form action="[% Env("CGIHandle") %]" method="post" id="SearchForm" class="CustomerUserAddressBookForm">
             <input type="hidden" name="Action" value="[% Env("Action") %]" id="SearchAction"/>
             <input type="hidden" name="Subaction" value="Search"/>
             <input type="hidden" name="EmptySearch" value="[% Data.EmptySearch | html %]" id="EmptySearch"/>
             <input type="hidden" name="ShownAttributes" value="" id="ShownAttributes">
+            <input type="hidden" name="RecipientType" value="[% Data.RecipientType | html %]" id="RecipientType" />
             <input type="hidden" name="RecipientField" value="[% Data.RecipientField | html %]" id="RecipientField" />
+            <input type="hidden" name="RecipientFieldLabel" value="[% Data.RecipientFieldLabel | html %]" id="RecipientFieldLabel" />
             <input type="hidden" name="ExcludeUserLoginsJSON" value="" id="ExcludeUserLogins">
             <fieldset class="TableLike SpacingTop">
                 <legend><span>[% Translate("Templates") | html %]</span></legend>

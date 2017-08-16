@@ -64,7 +64,7 @@
 [% RenderBlockEnd("ToIsLocalAddressServerErrorMsg") %]
                     </div>
                 [% IF Data.OptionCustomerUserAddressBook %]
-                    <a href="#" data-recipient-field-label="[% Translate("To") | html %]" data-recipient-field="To" id="OptionCustomerUserAddressBookToCustomer" class="OptionCustomerUserAddressBook AdditionlFieldIcon" title="[% Translate("Select one or more recipients from the customer user address book.") | html %]">
+                    <a href="#" data-recipient-field-label="[% Translate("To") | html %]" data-recipient-field="ToCustomer" data-recipient-type="Email" id="OptionCustomerUserAddressBookToCustomer" class="OptionCustomerUserAddressBook AdditionlFieldIcon" title="[% Translate("Select one or more recipients from the customer user address book.") | html %]">
                         <span>[% Translate("Customer user address book") | html %]</span>
                         <i class="fa fa-address-book-o"></i>
                     </a>
@@ -139,7 +139,7 @@
 [% RenderBlockEnd("CcIsLocalAddressServerErrorMsg") %]
                     </div>
                 [% IF Data.OptionCustomerUserAddressBook %]
-                    <a href="#" data-recipient-field-label="[% Translate("Cc") | html %]" data-recipient-field="Cc" id="OptionCustomerUserAddressBookCcCustomer" class="OptionCustomerUserAddressBook AdditionlFieldIcon" title="[% Translate("Select one or more recipients from the customer user address book.") | html %]">
+                    <a href="#" data-recipient-field-label="[% Translate("Cc") | html %]" data-recipient-field="CcCustomer" data-recipient-type="Email" id="OptionCustomerUserAddressBookCcCustomer" class="OptionCustomerUserAddressBook AdditionlFieldIcon" title="[% Translate("Select one or more recipients from the customer user address book.") | html %]">
                         <span>[% Translate("Customer user address book") | html %]</span>
                         <i class="fa fa-address-book-o"></i>
                     </a>
@@ -215,7 +215,7 @@
 [% RenderBlockEnd("BccIsLocalAddressServerErrorMsg") %]
                     </div>
                 [% IF Data.OptionCustomerUserAddressBook %]
-                    <a href="#" data-recipient-field-label="[% Translate("Bcc") | html %]" data-recipient-field="Bcc" id="OptionCustomerUserAddressBookBccCustomer" class="OptionCustomerUserAddressBook AdditionlFieldIcon" title="[% Translate("Select one or more recipients from the customer user address book.") | html %]">
+                    <a href="#" data-recipient-field-label="[% Translate("Bcc") | html %]" data-recipient-field="BccCustomer" data-recipient-type="Email" id="OptionCustomerUserAddressBookBccCustomer" class="OptionCustomerUserAddressBook AdditionlFieldIcon" title="[% Translate("Select one or more recipients from the customer user address book.") | html %]">
                         <span>[% Translate("Customer user address book") | html %]</span>
                         <i class="fa fa-address-book-o"></i>
                     </a>

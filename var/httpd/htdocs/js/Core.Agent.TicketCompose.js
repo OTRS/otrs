@@ -29,7 +29,7 @@ Core.Agent.TicketCompose = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var $Form, FieldID, i,
+        var $Form, FieldID,
             ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             EmailAddressesTo = Core.Config.Get('EmailAddressesTo'),
             EmailAddressesCc = Core.Config.Get('EmailAddressesCc');
@@ -59,16 +59,16 @@ Core.Agent.TicketCompose = (function (TargetNS) {
 
         // add 'To' customer users
         if (typeof EmailAddressesTo !== 'undefined') {
-            for (i = 0; i < EmailAddressesTo.length; i++) {
-                Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', EmailAddressesTo[i]);
-            }
+            EmailAddressesTo.forEach(function(ToCustomer) {
+                Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', ToCustomer.CustomerTicketText, ToCustomer.CustomerKey);
+            });
         }
 
         // add 'Cc' customer users
         if (typeof EmailAddressesCc !== 'undefined') {
-            for (i = 0; i < EmailAddressesCc.length; i++) {
-                Core.Agent.CustomerSearch.AddTicketCustomer('CcCustomer', EmailAddressesCc[i]);
-            }
+            EmailAddressesCc.forEach(function(CcCustomer) {
+                Core.Agent.CustomerSearch.AddTicketCustomer('CcCustomer', CcCustomer.CustomerTicketText, CcCustomer.CustomerKey);
+            });
         }
 
         // change article compose options

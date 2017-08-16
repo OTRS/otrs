@@ -1259,19 +1259,25 @@ sub CustomerUserDataGet {
         return;
     }
 
+    my $CustomerUserListFieldsMap = $Self->{CustomerUserMap}->{CustomerUserListFields};
+    if ( !IsArrayRefWithData($CustomerUserListFieldsMap) ) {
+        $CustomerUserListFieldsMap = [ 'first_name', 'last_name', 'email', ];
+    }
+
     # to build the UserMailString
-    my %LookupCustomerUserListFields = map { $_ => 1 } @{ $Self->{CustomerUserMap}->{CustomerUserListFields} };
-    my @CustomerUserListFields
-        = map { $_->[0] } grep { $LookupCustomerUserListFields{ $_->[2] } } @{ $Self->{CustomerUserMap}->{Map} };
+    my %LookupCustomerUserListFields = map { $_ => 1 } @{ $CustomerUserListFieldsMap };
+    my @CustomerUserListFields = map { $_->[0] } grep { $LookupCustomerUserListFields{ $_->[2] } } @{ $Self->{CustomerUserMap}->{Map} };
 
     my $UserMailString = '';
+    my @UserMailStringParts;
 
     FIELD:
     for my $Field (@CustomerUserListFields) {
         next FIELD if !$Data{$Field};
 
-        $UserMailString .= $Data{$Field} . ' ';
+        push @UserMailStringParts, $Data{$Field};
     }
+    $UserMailString = join ' ', @UserMailStringParts;
     $UserMailString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
 
     # add the UserMailString to the data hash

@@ -44,13 +44,15 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @memberof Core.Agent.TicketAction
      * @function
      * @param {String} RecipientField - The recipient field name to add the selected recipients in the correct field.
+     * @param {String} RecipientFieldLabel - The recipient field label for the output in the address book screen.
+     * @param {String} RecipientType - The recipient type for the diffrent screens.
      * @description
      *      Open the AgentCustomerUserAddressBook screen.
      */
-    function OpenCustomerUserAddressBook(RecipientField) {
+    function OpenCustomerUserAddressBook(RecipientField, RecipientFieldLabel, RecipientType) {
         var CustomerUserAddressBookIFrameURL, CustomerUserAddressBookIFrame;
 
-        CustomerUserAddressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentCustomerUserAddressBook;RecipientField=' + RecipientField
+        CustomerUserAddressBookIFrameURL = Core.Config.Get('CGIHandle') + '?Action=AgentCustomerUserAddressBook;RecipientField=' + RecipientField + ';RecipientFieldLabel=' + RecipientFieldLabel + ';RecipientType=' + RecipientType;
         CustomerUserAddressBookIFrameURL += SerializeData(Core.App.GetSessionInformation());
 
         CustomerUserAddressBookIFrame = '<iframe class="TextOption CustomerUserAddressBook" src="' + CustomerUserAddressBookIFrameURL + '"></iframe>';
@@ -173,7 +175,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
     TargetNS.Init = function () {
 
         $('.OptionCustomerUserAddressBook').on('click', function () {
-            OpenCustomerUserAddressBook($(this).data('recipient-field'));
+            OpenCustomerUserAddressBook($(this).data('recipient-field'), $(this).data('recipient-field-label'), $(this).data('recipient-type'));
             return false;
         });
 
