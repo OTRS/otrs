@@ -18,12 +18,12 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
         <li>[% Translate("You are here") | html %]:</li>
 [% RenderBlockStart("WebservicePathElement") %]
         <li>
-            <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">[% Data.Name | html %]</a>
+            <a href="[% Env("Baselink") %][% Data.Link %];Nav=[% Data.Nav | uri %]">[% Translate(Data.Name) | html %]</a>
         </li>
 [% RenderBlockEnd("WebservicePathElement") %]
 [% RenderBlockStart("WebservicePathElementNoLink") %]
         <li>
-            [% Data.Name | html %]
+            [% Translate(Data.Name) | html %]
         </li>
 [% RenderBlockEnd("WebservicePathElementNoLink") %]
     </ul>

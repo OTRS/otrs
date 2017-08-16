@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-07-27 11:49+0000\n"
+"POT-Creation-Date: 2017-08-16 14:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10846,6 +10846,14 @@ msgstr ""
 msgid "New Web service"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr ""
@@ -11268,6 +11276,22 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -16142,10 +16166,6 @@ msgid "Determines which queues will be valid for ticket's recepients in the cust
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr ""
-
-#. SysConfig
 msgid "Disable HTTP header \"Content-Security-Policy\" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!"
 msgstr ""
 
@@ -16914,7 +16934,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -17035,6 +17055,10 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled the daemon will redirect the standard output stream to a log file."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used."
 msgstr ""
 
 #. SysConfig
