@@ -20,9 +20,8 @@ accompanying [COPYING](COPYING) file for more details.
 
 Documentation
 =============
-You can find quick documentation in README.* and the long version
-[online](http://otrs.github.io/doc/). The source code of OTRS and its public extension
-modules is available on [github](http://otrs.github.io).
+You can find documentation [online](http://doc.otrs.com/). The source code of OTRS and its public extension
+modules is available on [github](https://github.com/OTRS).
 
 
 Professional Services for OTRS – OTRS Business Solution™
