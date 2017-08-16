@@ -39,7 +39,7 @@ as well as an [exclusive set of additional Business Features](https://www.otrs.c
 that you can flexibly activate or deactivate according to different deployment scenarios.
 
 The [OTRS Group](https://www.otrs.com/) offers specific
-[training programs](https://www.otrs.com/en/solutions/training/) in different countries.
+[training programs](https://www.otrs.com/public-otrs-trainings/) in different countries.
 You can either participate in one of our public OTRS Administrator trainings which take place regularly,
 or benefit from an inhouse training that covers all the specific needs of your company.
 
