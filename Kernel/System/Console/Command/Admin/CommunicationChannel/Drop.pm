@@ -38,10 +38,10 @@ sub Configure {
         ValueRegex  => qr/\A\w+\z/smx,
     );
     $Self->AddOption(
-        Name => 'force',
+        Name        => 'force',
         Description => 'Force drop the channel even if there is existing article data, use with care.',
-        Required => 0,
-        HasValue => 0,
+        Required    => 0,
+        HasValue    => 0,
     );
 
     return;

@@ -333,7 +333,7 @@ JAVASCRIPT
         $Selenium->find_element("//button[\@value=\'Upload Notification configuration']")->VerifiedClick();
 
         $Selenium->find_element("//p[contains(text(), \'The following Notifications have been updated successfully')]");
-        }
+    }
 
 );
 

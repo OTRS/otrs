@@ -55,7 +55,7 @@ $Selenium->RunTest(
         # create and login test user
         my $Language      = 'de';
         my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
+            Groups   => [ 'admin', 'users' ],
             Language => $Language,
         ) || die "Did not get test user";
 

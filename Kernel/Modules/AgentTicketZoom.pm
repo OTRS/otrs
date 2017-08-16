@@ -2060,7 +2060,7 @@ sub _ArticleTree {
     # Add timeline view option only if enabled.
     if ( $Kernel::OM->Get('Kernel::Config')->Get('TimelineViewEnabled') ) {
         push @ArticleViews, {
-            Key => 'Timeline',
+            Key   => 'Timeline',
             Value => Translatable('Show Ticket Timeline View'),
         };
     }
@@ -2077,8 +2077,9 @@ sub _ArticleTree {
     my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
     if ( !$OTRSBusinessIsInstalled ) {
         push @ArticleViews, {
-            Key => 'Timeline',
-            Value => $LayoutObject->{LanguageObject}->Translate( 'Show Ticket Timeline View (%s)', 'OTRS Business Solution™' ),
+            Key   => 'Timeline',
+            Value => $LayoutObject->{LanguageObject}
+                ->Translate( 'Show Ticket Timeline View (%s)', 'OTRS Business Solution™' ),
             Disabled => 1,
         };
     }

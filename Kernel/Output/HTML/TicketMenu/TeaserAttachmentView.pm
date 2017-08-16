@@ -20,7 +20,7 @@ our @ObjectDependencies = (
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if ($Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled()) {
+    if ( $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
         return;
     }
 

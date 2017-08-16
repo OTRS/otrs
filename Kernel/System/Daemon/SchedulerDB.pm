@@ -703,7 +703,7 @@ sub TaskSummary {
                     Size        => 20,
                 },
             ],
-            Data           => \@UnhandledTasks,
+            Data          => \@UnhandledTasks,
             NoDataMessage => 'There are currently no tasks waiting to be executed.',
         },
         {
@@ -735,7 +735,7 @@ sub TaskSummary {
                     Size        => 20,
                 },
             ],
-            Data           => \@HandledTasks,
+            Data          => \@HandledTasks,
             NoDataMessage => 'There are currently no tasks being executed.',
         },
     );
@@ -1356,7 +1356,7 @@ sub FutureTaskSummary {
                     Size        => 20,
                 },
             ],
-            Data           => \@List,
+            Data          => \@List,
             NoDataMessage => 'There are currently no tasks to be executed in future.',
         },
     );
@@ -2303,7 +2303,7 @@ sub RecurrentTaskSummary {
                     Size        => 20,
                 },
             ],
-            Data           => \@List,
+            Data          => \@List,
             NoDataMessage => "There are currently no $Param{DisplayType} recurring tasks configured.",
         },
     );

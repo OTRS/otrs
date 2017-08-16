@@ -173,9 +173,9 @@ sub Summary {
 
     return (
         {
-            Header         => "System configuration sync:",
-            Column         => [],
-            Data           => [],
+            Header        => "System configuration sync:",
+            Column        => [],
+            Data          => [],
             NoDataMessage => "Daemon is active.",
         },
     );
