@@ -187,7 +187,6 @@
                 <Item Key="Description" Translatable="1">Create and manage web services.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1000</Item>
             </Hash>
         </Value>
     </Setting>

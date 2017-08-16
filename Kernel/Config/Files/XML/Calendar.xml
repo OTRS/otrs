@@ -318,7 +318,6 @@
                 <Item Key="Description" Translatable="1">Create and manage calendars.</Item>
                 <Item Key="IconBig">fa-calendar</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1500</Item>
             </Hash>
         </Value>
     </Setting>
@@ -673,7 +672,6 @@
                 <Item Key="Description" Translatable="1">Create and manage appointment notifications.</Item>
                 <Item Key="IconBig">fa-bell-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">400</Item>
             </Hash>
         </Value>
     </Setting>

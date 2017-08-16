@@ -1767,7 +1767,6 @@ via the Preferences button after logging in.
         IconBig => '',
         IconSmall => '',
         Name => '',
-        Prio => '',
         Block => '',
     };
 
@@ -1804,7 +1803,6 @@ via the Preferences button after logging in.
         IconSmall   => '',
         Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Name        => Translatable('System Log'),
-        Prio        => '600',
         Block => 'Administration',
     };
 
@@ -1833,7 +1831,6 @@ via the Preferences button after logging in.
         Name        => Translatable('System Configuration'),
         Description => Translatable('Edit the system configuration settings.'),
         Block       => 'System',
-        Prio        => 800,
         IconBig     => '',
         IconSmall    => '',
         Block => 'Administration',
@@ -1858,7 +1855,6 @@ via the Preferences button after logging in.
         Description => Translatable('Update and extend your system with software packages.'),
         Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
         Name        => Translatable('Package Manager'),
-        Prio        => '1000',
         Block => 'Administration',
     };
 

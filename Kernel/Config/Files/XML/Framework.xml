@@ -9116,7 +9116,6 @@ via the Preferences button after logging in.
                 <Item Key="Description"></Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio"></Item>
             </Hash>
         </Value>
     </Setting>
@@ -9243,7 +9242,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Create and manage agents.</Item>
                 <Item Key="IconBig">fa-user</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">100</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9302,7 +9300,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Create and manage groups.</Item>
                 <Item Key="IconBig">fa-users</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">150</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9361,7 +9358,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Link agents to groups.</Item>
                 <Item Key="IconBig">fa-user</Item>
                 <Item Key="IconSmall">fa-users</Item>
-                <Item Key="Prio">200</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9450,7 +9446,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Create and manage customer users.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">300</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9538,7 +9533,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Create and manage customers.</Item>
                 <Item Key="IconBig">fa-building-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">310</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9606,7 +9600,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Link customer users to groups.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall">fa-users</Item>
-                <Item Key="Prio">400</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9665,7 +9658,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Link customers to groups.</Item>
                 <Item Key="IconBig">fa-building-o</Item>
                 <Item Key="IconSmall">fa-users</Item>
-                <Item Key="Prio">410</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9724,7 +9716,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Link customer users to services.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall">fa-wrench</Item>
-                <Item Key="Prio">500</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9783,7 +9774,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Link customer users to customers.</Item>
                 <Item Key="IconBig">fa-male</Item>
                 <Item Key="IconSmall">fa-building-o</Item>
-                <Item Key="Prio">510</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9842,7 +9832,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Create and manage roles.</Item>
                 <Item Key="IconBig">fa-circle-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">600</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9901,7 +9890,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Link agents to roles.</Item>
                 <Item Key="IconBig">fa-user</Item>
                 <Item Key="IconSmall">fa-circle-o</Item>
-                <Item Key="Prio">700</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9960,7 +9948,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Link roles to groups.</Item>
                 <Item Key="IconBig">fa-circle-o</Item>
                 <Item Key="IconSmall">fa-users</Item>
-                <Item Key="Prio">800</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10019,7 +10006,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Manage S/MIME certificates for email encryption.</Item>
                 <Item Key="IconBig">fa-user-secret</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1100</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10065,7 +10051,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Manage PGP keys for email encryption.</Item>
                 <Item Key="IconBig">fa-user-secret</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1200</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10124,7 +10109,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Manage POP3 or IMAP accounts to fetch email from.</Item>
                 <Item Key="IconBig">fa-envelope-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">100</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10188,7 +10172,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Filter incoming emails.</Item>
                 <Item Key="IconBig">fa-filter</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">200</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10234,7 +10217,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Send notifications to users.</Item>
                 <Item Key="IconBig">fa-quote-right</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">400</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10293,7 +10275,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Manage existing sessions.</Item>
                 <Item Key="IconBig">fa-clock-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">500</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10352,7 +10333,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">View performance benchmark results.</Item>
                 <Item Key="IconBig">fa-bar-chart</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">550</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10416,7 +10396,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Manage system registration.</Item>
                 <Item Key="IconBig">fa-edit</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">350</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10475,7 +10454,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Deploy and manage OTRS Business Solution™.</Item>
                 <Item Key="IconBig">fa-angle-double-up</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">360</Item>
                 <Item Key="CssClass">OTRSBusiness</Item>
             </Hash>
         </Value>
@@ -10574,7 +10552,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Manage support data.</Item>
                 <Item Key="IconBig">fa-search</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">370</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10633,7 +10610,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Manage OTRS Group cloud services.</Item>
                 <Item Key="IconBig">fa-cloud</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">380</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10699,7 +10675,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Display communication log entries.</Item>
                 <Item Key="IconBig">fa-table</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1000</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10758,7 +10733,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">View system log messages.</Item>
                 <Item Key="IconBig">fa-file-text-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">600</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10817,7 +10791,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Execute SQL statements.</Item>
                 <Item Key="IconBig">fa-terminal</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">700</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10863,7 +10836,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Update and extend your system with software packages.</Item>
                 <Item Key="IconBig">fa-plug</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1000</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10922,7 +10894,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Schedule a maintenance period.</Item>
                 <Item Key="IconBig">fa-wrench</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">501</Item>
             </Hash>
         </Value>
     </Setting>
@@ -12631,7 +12602,6 @@ via the Preferences button after logging in.
                 <Item Key="Description" Translatable="1">Edit the system configuration settings.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">800</Item>
             </Hash>
         </Value>
     </Setting>

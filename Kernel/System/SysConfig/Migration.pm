@@ -488,7 +488,7 @@ sub MigrateXMLStructure {
                 }
 
                 NAVBARTAG:
-                for my $NavBarTag (qw(Module Name Block Description IconBig IconSmall Prio CssClass)) {
+                for my $NavBarTag (qw(Module Name Block Description IconBig IconSmall CssClass)) {
                     my $Value      = '';
                     my $Attributes = '';
 

@@ -9054,7 +9054,6 @@
                 <Item Key="Description" Translatable="1">Configure and manage ACLs.</Item>
                 <Item Key="IconBig">fa-check-square-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">750</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9114,7 +9113,6 @@
                 <Item Key="Description" Translatable="1">Create and manage queues.</Item>
                 <Item Key="IconBig">fa-folder</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">100</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9173,7 +9171,6 @@
                 <Item Key="Description" Translatable="1">Create and manage templates.</Item>
                 <Item Key="IconBig">fa-file-text-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">200</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9232,7 +9229,6 @@
                 <Item Key="Description" Translatable="1">Link templates to queues.</Item>
                 <Item Key="IconBig">fa-file-text-o</Item>
                 <Item Key="IconSmall">fa-folder</Item>
-                <Item Key="Prio">300</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9291,7 +9287,6 @@
                 <Item Key="Description" Translatable="1">Create and manage responses that are automatically sent.</Item>
                 <Item Key="IconBig">fa-reply</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">400</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9350,7 +9345,6 @@
                 <Item Key="Description" Translatable="1">Link queues to auto responses.</Item>
                 <Item Key="IconBig">fa-reply</Item>
                 <Item Key="IconSmall">fa-folder</Item>
-                <Item Key="Prio">500</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9409,7 +9403,6 @@
                 <Item Key="Description" Translatable="1">Create and manage attachments.</Item>
                 <Item Key="IconBig">fa-paperclip</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">600</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9468,7 +9461,6 @@
                 <Item Key="Description" Translatable="1">Link attachments to templates.</Item>
                 <Item Key="IconBig">fa-paperclip</Item>
                 <Item Key="IconSmall">fa-file-text-o</Item>
-                <Item Key="Prio">700</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9527,7 +9519,6 @@
                 <Item Key="Description" Translatable="1">Create and manage salutations.</Item>
                 <Item Key="IconBig">fa-comment-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">800</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9586,7 +9577,6 @@
                 <Item Key="Description" Translatable="1">Create and manage signatures.</Item>
                 <Item Key="IconBig">fa-file-text-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">900</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9645,7 +9635,6 @@
                 <Item Key="Description" Translatable="1">Set sender email addresses for this system.</Item>
                 <Item Key="IconBig">fa-at</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">300</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9709,7 +9698,6 @@
                 <Item Key="Description" Translatable="1">Create and manage ticket notifications.</Item>
                 <Item Key="IconBig">fa-bell-o</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">400</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9768,7 +9756,6 @@
                 <Item Key="Description" Translatable="1">Create and manage services.</Item>
                 <Item Key="IconBig">fa-wrench</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">900</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9827,7 +9814,6 @@
                 <Item Key="Description" Translatable="1">Create and manage Service Level Agreements (SLAs).</Item>
                 <Item Key="IconBig">fa-ticket</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1000</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9887,7 +9873,6 @@
                 <Item Key="Description" Translatable="1">Create and manage ticket types.</Item>
                 <Item Key="IconBig">fa-ticket</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">700</Item>
             </Hash>
         </Value>
     </Setting>
@@ -9947,7 +9932,6 @@
                 <Item Key="Description" Translatable="1">Create and manage ticket states.</Item>
                 <Item Key="IconBig">fa-ticket</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">800</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10007,7 +9991,6 @@
                 <Item Key="Description" Translatable="1">Create and manage ticket priorities.</Item>
                 <Item Key="IconBig">fa-list-ol</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">850</Item>
             </Hash>
         </Value>
     </Setting>
@@ -10066,7 +10049,6 @@
                 <Item Key="Description" Translatable="1">Manage tasks triggered by event or time based execution.</Item>
                 <Item Key="IconBig">fa-database</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">300</Item>
             </Hash>
         </Value>
     </Setting>
@@ -11515,7 +11497,6 @@ Thanks for your help!
                 <Item Key="Description" Translatable="1">Create and manage dynamic fields.</Item>
                 <Item Key="IconBig">fa-align-left</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">1000</Item>
             </Hash>
         </Value>
     </Setting>

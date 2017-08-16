@@ -66,7 +66,6 @@
                 <Item Key="Description" Translatable="1">Configure Processes.</Item>
                 <Item Key="IconBig">fa-sitemap</Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">750</Item>
             </Hash>
         </Value>
     </Setting>

@@ -259,7 +259,6 @@ Description
                 <Item Key="Description" Translatable="1">Link agents to groups.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">200</Item>
             </Hash>
         </Value>
     </Setting>
@@ -393,7 +392,6 @@ Description
                 <Item Key="Description" Translatable="1">Link agents to groups.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">200</Item>
             </Hash>
         </Value>
     </Setting>
@@ -485,7 +483,6 @@ Description
                 <Item Key="Description" Translatable="1">Link agents to groups.</Item>
                 <Item Key="IconBig"></Item>
                 <Item Key="IconSmall"></Item>
-                <Item Key="Prio">200</Item>
             </Hash>
         </Value>
     </Setting>
