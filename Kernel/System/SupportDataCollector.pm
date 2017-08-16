@@ -280,7 +280,7 @@ sub CollectByWebRequest {
         . $Host
         . '/'
         . $ConfigObject->Get('ScriptAlias')
-        . 'public.pl123';
+        . 'public.pl';
 
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
         Timeout => $Param{WebTimeout} || 20,
