@@ -1040,6 +1040,42 @@ sub _Mask {
 
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
+    # Set preselected values for 'Bcc' field.
+    if ( $Param{Bcc} && $Param{Bcc} ne '' && !$CustomerCounterBcc ) {
+
+        # split Cc values
+        my @EmailAddressesBcc;
+        for my $Email ( Mail::Address->parse( $Param{Bcc} ) ) {
+
+            my %CustomerSearch = $CustomerUserObject->CustomerSearch(
+                PostMasterSearch => $Email->address(),
+                Limit            => 1,
+            );
+
+            if (%CustomerSearch) {
+                for my $CustomerUserID ( sort keys %CustomerSearch ) {
+                    push @EmailAddressesBcc, {
+                        CustomerKey       => $CustomerUserID,
+                        CustomerTicketText => $CustomerSearch{$CustomerUserID},
+                    };
+                }
+            }
+            else {
+                push @EmailAddressesBcc, {
+                    CustomerKey        => '',
+                    CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
+                },
+            }
+        }
+
+        $LayoutObject->AddJSData(
+            Key   => 'EmailAddressesBcc',
+            Value => \@EmailAddressesBcc,
+        );
+
+        $Param{Bcc} = '';
+    }
+
     # set preselected values for Cc field
     if ( $Param{Cc} && $Param{Cc} ne '' && !$CustomerCounterCc ) {
 

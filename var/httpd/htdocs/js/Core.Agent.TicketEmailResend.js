@@ -28,8 +28,7 @@ Core.Agent.TicketEmailResend = (function (TargetNS) {
      *      This function initializes .
      */
     TargetNS.Init = function () {
-        var i,
-            ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
+        var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             EmailAddressesTo = Core.Config.Get('EmailAddressesTo'),
             EmailAddressesCc = Core.Config.Get('EmailAddressesCc'),
             EmailAddressesBcc = Core.Config.Get('EmailAddressesBcc');
@@ -43,25 +42,25 @@ Core.Agent.TicketEmailResend = (function (TargetNS) {
             return false;
         });
 
-        // Add 'To' customer users.
+        // add 'To' customer users
         if (typeof EmailAddressesTo !== 'undefined') {
-            for (i = 0; i < EmailAddressesTo.length; i++) {
-                Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', EmailAddressesTo[i]);
-            }
+            EmailAddressesTo.forEach(function(ToCustomer) {
+                Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', ToCustomer.CustomerTicketText, ToCustomer.CustomerKey);
+            });
         }
 
-        // Add 'Cc' customer users.
+        // add 'Cc' customer users
         if (typeof EmailAddressesCc !== 'undefined') {
-            for (i = 0; i < EmailAddressesCc.length; i++) {
-                Core.Agent.CustomerSearch.AddTicketCustomer('CcCustomer', EmailAddressesCc[i]);
-            }
+            EmailAddressesCc.forEach(function(CcCustomer) {
+                Core.Agent.CustomerSearch.AddTicketCustomer('CcCustomer', CcCustomer.CustomerTicketText, CcCustomer.CustomerKey);
+            });
         }
 
-        // Add 'Bcc' customer users.
-        if (typeof EmailAddressesBcc !== 'undefined') {
-            for (i = 0; i < EmailAddressesBcc.length; i++) {
-                Core.Agent.CustomerSearch.AddTicketCustomer('BccCustomer', EmailAddressesBcc[i]);
-            }
+        // add 'BCc' customer users
+        if (typeof EmailAddressesCc !== 'undefined') {
+            EmailAddressesBcc.forEach(function(BccCustomer) {
+                Core.Agent.CustomerSearch.AddTicketCustomer('BccCustomer', BccCustomer.CustomerTicketText, BccCustomer.CustomerKey);
+            });
         }
 
         // Change article compose options.
