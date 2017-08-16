@@ -61,6 +61,7 @@ collect system data
     my %Result = $SupportDataCollectorObject->Collect(
         UseCache   => 1,    # (optional) to get data from cache if any
         WebTimeout => 60,   # (optional)
+        Debug      => 1,    # (optional)
         Hostname   => 'my.test.host:8080' # (optional, for testing purposes)
     );
 
@@ -279,7 +280,7 @@ sub CollectByWebRequest {
         . $Host
         . '/'
         . $ConfigObject->Get('ScriptAlias')
-        . 'public.pl';
+        . 'public.pl123';
 
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
         Timeout => $Param{WebTimeout} || 20,
@@ -301,12 +302,12 @@ sub CollectByWebRequest {
             ChallengeToken => $ChallengeToken,
         },
         SkipSSLVerification => 1,
-        NoLog               => $Self->{Debug} ? 0 : 1,
+        NoLog               => $Param{Debug} ? 0 : 1,
     );
 
     if ( $Response{Status} ne '200 OK' ) {
 
-        if ( $Self->{Debug} ) {
+        if ( $Param{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "SupportDataCollector - Can't connect to server - $Response{Status}",
@@ -319,7 +320,7 @@ sub CollectByWebRequest {
     # check if we have content as a scalar ref
     if ( !$Response{Content} || ref $Response{Content} ne 'SCALAR' ) {
 
-        if ( $Self->{Debug} ) {
+        if ( $Param{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "SupportDataCollector - No content received.",
@@ -334,7 +335,7 @@ sub CollectByWebRequest {
     # Discard HTML responses (error pages etc.).
     if ( substr( ${ $Response{Content} }, 0, 1 ) eq '<' ) {
 
-        if ( $Self->{Debug} ) {
+        if ( $Param{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => "SupportDataCollector - Response looks like HTML instead of JSON.",
@@ -350,7 +351,7 @@ sub CollectByWebRequest {
     );
     if ( !$ResponseData || ref $ResponseData ne 'HASH' ) {
 
-        if ( $Self->{Debug} ) {
+        if ( $Param{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "SupportDataCollector - Can't decode JSON: '" . ${ $Response{Content} } . "'!",

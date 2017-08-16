@@ -56,7 +56,7 @@ sub new {
         );
 
     # set URL for calling cloud services
-    $Self->{CloudServiceURL} = 'https://cloud.otrs.com/otrs/public.pl';
+    $Self->{CloudServiceURL} = 'https://kollerberg.otrs.com/otrs/public.pl';
 
     return $Self;
 }

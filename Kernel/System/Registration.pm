@@ -563,6 +563,7 @@ If you provide Type and Description, these will be sent to the registration serv
     my %Result = $RegistrationObject->RegistrationUpdateSend(
         Type        => 'test',
         Description => 'new test system',
+        Debug       => 1,                 # optional
     );
 
 returns
@@ -629,6 +630,7 @@ sub RegistrationUpdateSend {
         my %CollectResult = eval {
             $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect(
                 WebTimeout => $SupportDataCollectorWebTimeout,
+                Debug      => $Param{Debug},
             );
         };
         if ( !$CollectResult{Success} ) {

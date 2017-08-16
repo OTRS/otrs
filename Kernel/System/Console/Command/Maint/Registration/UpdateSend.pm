@@ -33,6 +33,14 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
 
+    $Self->AddOption(
+        Name        => 'debug',
+        Description => "Output debug information while running.",
+        Required    => 0,
+        HasValue    => 0,
+        ValueRegex  => qr/.*/smx,
+    );
+
     return;
 }
 
@@ -83,7 +91,9 @@ sub Run {
     }
 
     # send the registration update
-    my %Result = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationUpdateSend();
+    my %Result = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationUpdateSend(
+        Debug => $Self->GetOption('debug') || 0,
+    );
 
     # if everything is OK return successfully
     if ( $Result{Success} ) {
