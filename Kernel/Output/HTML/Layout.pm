@@ -2452,12 +2452,13 @@ sub ReturnValue {
 returns browser output to display/download a attachment
 
     $HTML = $LayoutObject->Attachment(
-        Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
-        Filename    => 'FileName.png',  # optional
-        ContentType => 'image/png',
-        Content     => $Content,
-        Sandbox     => 1,               # optional, default 0; use content security policy to prohibit external
-                                        #   scripts, flash etc.
+        Type             => 'inline',          # optional, default: attachment, possible: inline|attachment
+        Filename         => 'FileName.png',    # optional
+        AdditionalHeader => $AdditionalHeader, # optional
+        ContentType      => 'image/png',
+        Content          => $Content,
+        Sandbox          => 1,                 # optional, default 0; use content security policy to prohibit external
+                                               #   scripts, flash etc.
     );
 
     or for AJAX html snippets
@@ -2538,6 +2539,10 @@ sub Attachment {
         # referrer:   don't send referrers to prevent referrer-leak attacks
         $Output
             .= "Content-Security-Policy: default-src *; img-src * data:; script-src 'none'; object-src 'self'; frame-src 'none'; style-src 'unsafe-inline'; referrer no-referrer;\n";
+    }
+
+    if ( $Param{AdditionalHeader} ) {
+        $Output .= $Param{AdditionalHeader} . "\n";
     }
 
     if ( $Param{Charset} ) {
