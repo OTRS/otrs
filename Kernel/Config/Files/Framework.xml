@@ -841,25 +841,14 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CommunicationLog::LogModule###Email" Required="1" Valid="1">
+    <ConfigItem Name="CommunicationLog::Transport###Email" Required="1" Valid="1">
         <Description Translatable="1">Registers a log module, that can be used to log communication related information.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::CommunicationLog</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Name">Email</Item>
-                <Item Key="Module">Kernel::System::CommunicationLog::LogModule::Email</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CommunicationLog::LogModule###Test" Required="1" Valid="1">
-        <Description Translatable="1">Registers a log module, that can be used to log communication related information.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::CommunicationLog</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name">Test</Item>
-                <Item Key="Module">Kernel::System::CommunicationLog::LogModule::Test</Item>
+                <Item Key="Module">Kernel::System::CommunicationLog::Transport::Email</Item>
             </Hash>
         </Setting>
     </ConfigItem>

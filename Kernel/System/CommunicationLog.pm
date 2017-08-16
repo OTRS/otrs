@@ -479,7 +479,7 @@ sub _RecoverCommunicationObject {
         );
     }
 
-    return if !$Self->_GetTransportModule(
+    return if !$CommunicationDBObject->GetTransportModule(
         Transport => $CommunicationData->{Transport},
     );
 
@@ -503,31 +503,6 @@ sub _RecoverCommunicationObject {
     }
 
     return $Self;
-}
-
-=head2 _GetTransportModule()
-
-Lookup for the transport module.
-
-Returns:
-    undef  - case not found
-    module - case found
-
-=cut
-
-sub _GetTransportModule {
-    my ( $Self, %Param ) = @_;
-
-    # Get the communication log module (driver) configuration.
-    my $ModuleConfigs = $Kernel::OM->Get('Kernel::Config')->Get('CommunicationLog::LogModule');
-    my $Transport     = $Param{Transport};
-    my $Module        = $ModuleConfigs->{$Transport};
-
-    if ( !$Module || !$Module->{Module} ) {
-        return $Self->_LogError("Couldn't create a backend object for log module '${ Transport }'!");
-    }
-
-    return $Module->{Module};
 }
 
 =head2 _LogError()

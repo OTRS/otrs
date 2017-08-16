@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::CommunicationLog::LogModule::Email;
+package Kernel::System::CommunicationLog::Transport::Email;
 
 use strict;
 use warnings;
@@ -17,11 +17,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Ticket::CommunicationLog::LogModule::Email - log module class for mail transport
+Kernel::System::Ticket::CommunicationLog::Transport::Email
 
 =head1 DESCRIPTION
 
-This class provides functions to retrieve account type specific information.
+This class provides functions to retrieve transport specific information.
 
 =cut
 

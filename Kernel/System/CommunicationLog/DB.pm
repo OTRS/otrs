@@ -74,7 +74,7 @@ sub CommunicationCreate {
         }
     }
 
-    return if !$Self->_IsValidTransport( Transport => $Param{Transport} );
+    return if !$Self->GetTransportModule( Transport => $Param{Transport} );
 
     return if !$Self->_IsValidStatus( Status => $Param{Status} );
 
@@ -502,9 +502,10 @@ Returns something like this:
 sub CommunicationAccountLinkGet {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->_SetupLogModule(%Param);
+    my $TransportModule = $Self->GetTransportModule( %Param, );
+    return if !$TransportModule;
 
-    return $Self->{LogModule}->{ $Param{Transport} }->CommunicationAccountLinkGet(%Param);
+    return $TransportModule->CommunicationAccountLinkGet(%Param);
 }
 
 =head2 CommunicationAccountLabelGet()
@@ -522,9 +523,10 @@ Returns something like this:
 sub CommunicationAccountLabelGet {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->_SetupLogModule(%Param);
+    my $TransportModule = $Self->GetTransportModule( %Param, );
+    return if !$TransportModule;
 
-    return $Self->{LogModule}->{ $Param{Transport} }->CommunicationAccountLabelGet(%Param);
+    return $TransportModule->CommunicationAccountLabelGet(%Param);
 }
 
 =head2 ObjectLogCreate()
@@ -1517,39 +1519,30 @@ sub CommunicationGetByObjectLogID {
 
 }
 
-=head2 _SetupLogModule()
+=head2 GetTransportModule()
 
-Setup the needed log module instance, based on the account type.
+Lookup for the transport module.
+
+Returns:
+
+    undef  - case not found
+    module - case found
 
 =cut
 
-sub _SetupLogModule {
+sub GetTransportModule {
     my ( $Self, %Param ) = @_;
 
-    # get the communication log module (driver) configuration
-    my $LogModuleConfigs = $Kernel::OM->Get('Kernel::Config')->Get('CommunicationLog::LogModule');
-    my $LogModule        = $LogModuleConfigs->{ $Param{Transport} }->{Module};
+    # Get the communication log module (driver) configuration.
+    my $ModuleConfigs = $Kernel::OM->Get('Kernel::Config')->Get('CommunicationLog::Transport');
+    my $Transport     = $Param{Transport};
+    my $Module        = $ModuleConfigs->{$Transport};
 
-    # check if we already have a proper log module instance
-    if (
-        $Self->{LogModule}->{ $Param{Transport} }
-        && ref $Self->{LogModule}->{ $Param{Transport} } eq $LogModule
-        )
-    {
-        return 1;
+    if ( !$Module || !$Module->{Module} ) {
+        return $Self->_LogError("Couldn't create a backend object for transport '${ Transport }'!");
     }
 
-    $Self->{LogModule}->{ $Param{Transport} } = $Kernel::OM->Get($LogModule);
-
-    if ( !$Self->{LogModule}->{ $Param{Transport} } ) {
-        $Self->_LogError("Couldn't create a backend object for log module '$Param{Transport}'!");
-    }
-
-    if ( ref $Self->{LogModule}->{ $Param{Transport} } ne $LogModule ) {
-        $Self->_LogError("Object for log module backend '$Param{Transport}' was not created successfuly!");
-    }
-
-    return 1;
+    return $Module->{Module};
 }
 
 =head2 _LogError()
@@ -1647,31 +1640,6 @@ sub _IsValidStatus {
     }
 
     return 1;
-}
-
-=head2 _IsValidTransport()
-
-Check if the given transport is valid.
-
-    my $Result = $LogModuleObject->_IsValidTransport(
-        Transport => '...',
-    );
-
-=cut
-
-sub _IsValidTransport {
-    my ( $Self, %Param ) = @_;
-
-    # Get the communication log module (driver) configuration.
-    my $ModuleConfigs = $Kernel::OM->Get('Kernel::Config')->Get('CommunicationLog::LogModule');
-    my $Transport     = $Param{Transport};
-    my $Module        = $ModuleConfigs->{ $Param{Transport} };
-
-    if ( !$Module || !$Module->{Module} ) {
-        return $Self->_LogError("Couldn't create a backend object for log module '${ Transport }'!");
-    }
-
-    return $Module->{Module};
 }
 
 =head2 _DurationSQL()
