@@ -1094,9 +1094,6 @@ sub _Edit {
             $Param{ReadOnly} = 0;
         }
 
-        # Reset the input type
-        $Param{InputType} = '';
-
         # show required flag
         if ( $Entry->[4] ) {
             $Param{RequiredClass}          = 'Validate_Required';
@@ -1114,7 +1111,6 @@ sub _Edit {
 
         # add class to validate emails
         if ( $Entry->[0] eq 'UserEmail' ) {
-            $Param{InputType}     = 'email';
             $Param{RequiredClass} .= ' Validate_Email';
         }
 

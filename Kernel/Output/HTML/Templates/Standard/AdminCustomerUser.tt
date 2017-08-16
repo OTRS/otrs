@@ -193,7 +193,7 @@
 [% RenderBlockStart("PreferencesGenericInput") %]
                         <label class="[% Data.RequiredLabelClass | html %]" for="[% Data.Name | html %]"><span class="Marker">[% Data.RequiredLabelCharacter | html %]</span> [% Translate(Data.Item) | html %]:</label>
                         <div class="Field">
-                            <input type="[% IF Data.InputType %][% Data.InputType %][% ELSE %]text[% END %]" id="[% Data.Name | html %]" name="[% Data.Name | html %]" class="W50pc [% Data.RequiredClass | html %] [% Data.InvalidField | html %]" value="[% Data.Value | html %]"[% IF Data.ReadOnly %] readonly="readonly"[% END %]/>
+                            <input type="[% IF Data.RequiredClass.match('Validate_Email') %]email[% ELSE %]text[% END %]" id="[% Data.Name | html %]" name="[% Data.Name | html %]" class="W50pc [% Data.RequiredClass | html %] [% Data.InvalidField | html %]" value="[% Data.Value | html %]"[% IF Data.ReadOnly %] readonly="readonly"[% END %]/>
 [% RenderBlockStart("PreferencesGenericErrorMsg") %]
                             <div id="[% Data.Name | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockEnd("PreferencesGenericErrorMsg") %]
