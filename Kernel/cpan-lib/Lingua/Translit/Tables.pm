@@ -328,6 +328,9 @@ sub _get_table_id {
     return lc($name);
 }
 
+# OTRS: Disable void context warning for line below.
+no warnings qw(void);
+
 # For convenience, the next line is automatically substituted with the set
 # of transliteration tables at build time.
 %tables;    # PLACEHOLDER
