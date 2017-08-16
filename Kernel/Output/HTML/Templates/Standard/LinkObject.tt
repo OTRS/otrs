@@ -31,7 +31,7 @@
 [% RenderBlockEnd("DeleteLinkIcon") %]
 
 [% RenderBlockStart("TimeLong") %]
-[% Data.Content | Localize("TimeLong") %]
+<span title="[% Data.Content | Localize("TimeLong") %]">[% Data.Content | Localize("RelativeTime") %]</span>
 [% RenderBlockEnd("TimeLong") %]
 
 [% RenderBlockStart("Date") %]
@@ -45,7 +45,6 @@
     checked="checked"
 [% END %]
     />
-&nbsp;<br/>
 [% RenderBlockEnd("Checkbox") %]
 
 [% RenderBlockStart("InputText") %]
@@ -96,7 +95,7 @@
             <li class="Bulk">
                 <span>
                     <input type="checkbox" class="SelectAll" title="[% Translate("Select all") | html %]" id="SelectAllLinks[% Translate(Data.TableNumber) | html %]" autocomplete="off" />
-                    <label class="InvisibleText" for="SelectAllLinks[% Translate(Data.TableNumber) | html %]">[% Translate("Select all") | html %]</label>
+                    <label for="SelectAllLinks[% Translate(Data.TableNumber) | html %]">[% Translate("Select all") | html %]</label>
                 </span>
             </li>
 [% RenderBlockEnd("TableComplexBlockActionRowBulk") %]
@@ -190,14 +189,14 @@
 [% RenderBlockStart("TableComplexBlockFooterAdd") %]
         <div class="SpacingTopSmall">
             [% Data.LinkTypeStrg %]
-            <button class="Primary CallForAction Inline" id="AddLinks" name="AddLinks" type="submit" title="[% Translate("Add links") | html %]"><span>[% Translate("Add links") | html %]</span></button>
+            <button class="CallForAction Inline" id="AddLinks" name="AddLinks" type="submit" title="[% Translate("Add links") | html %]"><span>[% Translate("Add links") | html %]</span></button>
         </div>
         <input type="hidden" name="SubmitLink" value="[% Translate("Link") | html %]" />
 [% RenderBlockEnd("TableComplexBlockFooterAdd") %]
 
 [% RenderBlockStart("TableComplexBlockFooterDelete") %]
         <div class="SpacingTopSmall">
-            <button class="Primary CallForAction" type="submit" title="[% Translate("Delete links") | html %]"><span>[% Translate("Delete links") | html %]</span></button>
+            <button class="CallForAction" type="submit" title="[% Translate("Delete links") | html %]"><span>[% Translate("Delete links") | html %]</span></button>
         </div>
         <input type="hidden" name="SubmitDelete" value="[% Translate("Delete") | html %]" />
 [% RenderBlockEnd("TableComplexBlockFooterDelete") %]

@@ -1100,6 +1100,44 @@ button.HighlightError {
     animation: ButtonError 0.7s infinite alternate;
 }
 
+/**
+ * @subsection      Tabs
+ */
+
+.WidgetSimple.Tabs > .Header {
+    padding: 0px;
+    overflow: hidden;
+}
+
+.WidgetSimple.Tabs > .Header a {
+    display: block;
+    float: left;
+    padding: 7px 9px;
+    color: #333;
+}
+
+.WidgetSimple.Tabs > .Header a.Disabled {
+    color: #999;
+    cursor: not-allowed;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.WidgetSimple.Tabs > .Header a:not(.Disabled).Active,
+.WidgetSimple.Tabs > .Header a:not(.Disabled):hover,
+.WidgetSimple.Tabs > .Header a:not(.Disabled):active  {
+    background: #777;
+    color: #fff;
+}
+
+.WidgetSimple.Tabs > .Content > div {
+    display: none;
+}
+
+.WidgetSimple.Tabs > .Content > div.Active {
+    display: block;
+}
+
+
 @keyframes ButtonHint {
     from {
         box-shadow: none;

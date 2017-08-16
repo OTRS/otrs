@@ -452,8 +452,11 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[1] );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-        # click on 'go to link delete screen'
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=LinkDelete;' )]")->VerifiedClick();
+        # switch to manage links tab
+        $Selenium->find_element("//a[contains(\@href, \'#ManageLinks' )]")->VerifiedClick();
+
+        # wait for the manage links tab to show up
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div[data-id=ManageLinks]:visible").length && parseInt($("div[data-id=ManageLinks]").css("opacity"), 10) == 1' );
 
         # check for long ticket title in LinkDelete screen
         # this one is displayed on hover
@@ -469,16 +472,19 @@ $Selenium->RunTest(
         ) || die;
 
         # select all links
-        $Selenium->find_element( "#SelectAllLinks0", "css" )->VerifiedClick();
+        $Selenium->find_element( ".Tabs div.Active .SelectAll", "css" )->VerifiedClick();
 
         # make sure it's selected
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0:checked").length' );
 
         # click on delete links
-        $Selenium->find_element( ".Primary", "css" )->VerifiedClick();
+        $Selenium->find_element( ".Tabs div.Active .CallForAction", "css" )->VerifiedClick();
 
-        # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0").length' );
+        # switch to add links tab
+        $Selenium->find_element("//a[contains(\@href, \'#AddNewLinks' )]")->VerifiedClick();
+
+        # wait for the add new links tab to show up
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div[data-id=AddNewLinks]:visible").length && parseInt($("div[data-id=AddNewLinks]").css("opacity"), 10) == 1' );
 
         my $SuccessArchived = $TicketObject->TicketArchiveFlagSet(
             ArchiveFlag => 'y',
@@ -522,7 +528,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0").length' );
 
         # link again
-        $Selenium->find_element( "#SelectAllLinks0",  "css" )->click();
+        $Selenium->find_element( ".Tabs div.Active .SelectAll",  "css" )->click();
         $Selenium->find_element( "#AddLinks",         "css" )->VerifiedClick();
         $Selenium->find_element( "#LinkAddCloseLink", "css" )->click();
 

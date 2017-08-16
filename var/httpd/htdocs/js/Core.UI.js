@@ -105,6 +105,62 @@ Core.UI = (function (TargetNS) {
     };
 
     /**
+     * @name InitWidgetTabs
+     * @memberof Core.UI
+     * @function
+     * @description
+     *      Initializes tab functions (e.g. link navigation) on widgets with class 'Tabs'.
+     */
+    TargetNS.InitWidgetTabs = function() {
+
+        function ActivateTab($TriggerObj) {
+
+            var $ContainerObj = $TriggerObj.closest('.WidgetSimple'),
+                TargetID      = $TriggerObj.attr('href').replace('#', ''),
+                $TargetObj    = $ContainerObj.find('div[data-id="' + TargetID + '"]');
+
+            if ($TriggerObj.hasClass('Disabled')) {
+                return false;
+            }
+
+            // if tab doesnt exist or is already active, do nothing
+            if ($TargetObj.length && !$TargetObj.hasClass('Active')) {
+
+                $ContainerObj.find('.Header > a').removeClass('Active');
+                $TriggerObj.addClass('Active');
+                $ContainerObj.find('.Content > div.Active').hide().removeClass('Active');
+                $TargetObj.fadeIn(function() {
+                    $(this).addClass('Active');
+
+                    // activate any modern input fields on the active tab
+                    Core.UI.InputFields.Activate($TargetObj);
+                });
+            }
+        }
+
+        // check if the url contains a tab id anchor and jump directly
+        // to this tab if it's the case.
+        $('.WidgetSimple.Tabs .Header a').each(function() {
+            var TargetID = $(this).attr('href');
+            if (window.location.href.indexOf(TargetID) > -1) {
+                ActivateTab($(this));
+                return false;
+            }
+        });
+
+        $('.WidgetSimple.Tabs .Header a').on('click', function(Event) {
+
+            if ($(this).hasClass('Disabled')) {
+                Event.stopPropagation();
+                Event.preventDefault();
+                return false;
+            }
+
+            ActivateTab($(this));
+        });
+    };
+
+    /**
      * @name WidgetOverlayHide
      * @memberof Core.UI
      * @function
@@ -748,6 +804,7 @@ Core.UI = (function (TargetNS) {
      */
     TargetNS.Init = function() {
         Core.UI.InitWidgetActionToggle();
+        Core.UI.InitWidgetTabs();
         Core.UI.InitMessageBoxClose();
         Core.UI.InitMasterAction();
         Core.UI.InitAjaxDnDUpload();

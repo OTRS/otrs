@@ -226,7 +226,7 @@ sub LinkObjectTableCreateComplex {
 
             my %LinkDeleteData;
             my $TargetPermission;
-            if ( $Param{SourceObject} && $Param{ObjectID} && $ShowDeleteButton ) {
+            if ( $Param{SourceObject} && $Param{ObjectID} && $Item->[0]->{Key} && $ShowDeleteButton ) {
 
                 for my $LinkType ( sort keys %{ $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} } } ) {
 
@@ -306,9 +306,7 @@ sub LinkObjectTableCreateComplex {
         for my $Block (@OutputData) {
 
             # define the headline column
-            my $Column = {
-                Content => 'Select',
-            };
+            my $Column;
 
             # add new column to the headline
             unshift @{ $Block->{Headline} }, $Column;
