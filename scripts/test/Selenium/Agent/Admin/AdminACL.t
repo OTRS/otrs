@@ -125,11 +125,16 @@ $Selenium->RunTest(
         }
 
         # the next screen should be the edit screen for this ACL
-        # which means that there should be dropdowns present for Match/Change settings
+        # which means that there should be modernize fields present for Match/Change settings
         $Self->Is(
-            $Selenium->find_element( '.ItemAddLevel1', 'css' )->is_displayed(),
+            $Selenium->find_element( '#ItemAddLevel1Match_Search', 'css' )->is_displayed(),
             '1',
-            'Check if dropdown elements are present as expected',
+            'Check if modernize Match element is present as expected',
+        );
+        $Self->Is(
+            $Selenium->find_element( '#ItemAddLevel1Change_Search', 'css' )->is_displayed(),
+            '1',
+            'Check if modernize Change element is present as expected',
         );
 
         # lets check for the correct values
@@ -161,14 +166,14 @@ $Selenium->RunTest(
 
         # now lets play around with the match & change settings
         $Selenium->execute_script(
-            "\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
+            "\$('#ACLMatch').siblings('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
         );
 
         # after clicking an ItemAddLevel1 element, there should be now a new .ItemAdd element
         $Self->Is(
-            $Selenium->find_element( '#ACLMatch .ItemAdd', 'css' )->is_displayed(),
+            $Selenium->find_element( '#ACLMatch #Properties_Search', 'css' )->is_displayed(),
             '1',
-            'Check for .ItemAdd element',
+            'Check for .ItemAdd element - modernize element #Properties_Search is visible',
         );
 
         my $CheckAlertJS = <<"JAVASCRIPT";
@@ -189,7 +194,7 @@ JAVASCRIPT
 
         # now we should not be able to add the same element again, an alert box should appear
         $Selenium->execute_script(
-            "\$('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
+            "\$('#ACLMatch').siblings('.ItemAddLevel1').val('Properties').trigger('redraw.InputField').trigger('change');"
         );
 
         $Self->Is(
@@ -199,7 +204,9 @@ JAVASCRIPT
         );
 
         # now lets add the CustomerUser element on level 2
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='CustomerUser']", 'css' )->VerifiedClick();
+        $Selenium->execute_script(
+            "\$('#ACLMatch .ItemAdd').val('CustomerUser').trigger('redraw.InputField').trigger('change');"
+        );
 
         # now there should be a new .DataItem element with an input element
         $Self->Is(
@@ -235,12 +242,14 @@ JAVASCRIPT
             'Check for .NewDataItem element',
         );
 
-        # now lets add the DynamicField element on level 2, which should create a new dropdown
+        # now lets add the DynamicField element on level 2, which should create a new modernize
         # element containing dynamic fields and an 'Add all' button
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )->VerifiedClick();
+        $Selenium->execute_script(
+            "\$('#ACLMatch .ItemAdd').val('DynamicField').trigger('redraw.InputField').trigger('change');"
+        );
 
         $Self->Is(
-            $Selenium->find_element( '#ACLMatch .DataItem .NewDataKeyDropdown', 'css' )->is_displayed(),
+            $Selenium->execute_script("return \$('#ACLMatch .DataItem .NewDataKeyDropdown').length;"),
             '1',
             'Check for .NewDataKeyDropdown element',
         );
