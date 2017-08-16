@@ -377,7 +377,7 @@ sub CommunicationList {
 
 =head2 CommunicationDelete()
 
-Deletes a Communication entry.
+Deletes a Communication entry if specified. Otherwise deletes all communications.
 
     my $Result = $CommunicationDBObject->CommunicationDelete(
         CommunicationID => 123, # (required)

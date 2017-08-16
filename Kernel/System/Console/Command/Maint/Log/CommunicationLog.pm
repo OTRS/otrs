@@ -92,11 +92,11 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Purge         = $Self->GetOption('purge');
-    my $DeleteID      = $Self->GetOption('delete-by-id');
-    my $DeleteDate    = $Self->GetOption('delete-by-date');
-    my $DeleteDaysOld = $Self->GetOption('delete-by-days-old');
-    my $ForceDelete   = $Self->GetOption('force-delete');
+    my $Purge          = $Self->GetOption('purge');
+    my $DeleteID       = $Self->GetOption('delete-by-id');
+    my $DeleteDate     = $Self->GetOption('delete-by-date');
+    my $DeleteHoursOld = $Self->GetOption('delete-by-hours-old');
+    my $ForceDelete    = $Self->GetOption('force-delete');
 
     my $Success = 0;
 
@@ -114,10 +114,10 @@ sub Run {
         );
     }
 
-    elsif ($DeleteDaysOld) {
+    elsif ($DeleteHoursOld) {
         $Success = $Self->Delete(
-            DaysOld => $DeleteDaysOld,
-            Force   => $ForceDelete,
+            HoursOld => $DeleteHoursOld,
+            Force    => $ForceDelete,
         );
     }
 
@@ -171,11 +171,11 @@ sub Delete {
         }
     }
 
-    if ( $Param{DaysOld} ) {
+    if ( $Param{HoursOld} ) {
 
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-        $DateTimeObject->Subtract( Days => $Param{DaysOld} );
-        my $OlderDate = $DateTimeObject->Format( Format => '%Y-%m-%d' );
+        $DateTimeObject->Subtract( Hours => $Param{HoursOld} );
+        my $OlderDate = $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S' );
 
         $Self->Print("\nRetrieving logs of dates older than '<yellow>$OlderDate</yellow>'\n");
 
@@ -193,28 +193,28 @@ sub Delete {
 
     if ( $Param{Purge} ) {
 
-        my $Config      = $Kernel::OM->Get('Kernel::Config')->Get('CommunicationLog::Purge');
-        my $SuccessDays = $Config->{SuccessDays} || 7;
-        my $AllDays     = $Config->{AllDays} || 31;
+        my $ConfigObj    = $Kernel::OM->Get('Kernel::Config');
+        my $SuccessHours = $ConfigObj->Get('CommunicationLog::PurgeAfterHours::SuccessfulCommunications');
+        my $AllHours     = $ConfigObj->Get('CommunicationLog::PurgeAfterHours::AllCommunications');
 
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
         my $SuccessDateObject = $DateTimeObject->Clone();
-        $SuccessDateObject->Subtract( Days => $SuccessDays );
-        my $SuccessDate = $SuccessDateObject->Format( Format => '%Y-%m-%d' );
+        $SuccessDateObject->Subtract( Hours => $SuccessHours );
+        my $SuccessDate = $SuccessDateObject->Format( Format => '%Y-%m-%d %H:%M:%S' );
 
         my $Communications = $CommunicationLogDBObj->CommunicationList(
             OlderThan => $SuccessDate,
             Status    => 'Successful',
         ) || [];
 
-        $DateTimeObject->Subtract( Days => $AllDays );
-        my $AllDaysDate = $DateTimeObject->Format( Format => '%Y-%m-%d' );
+        $DateTimeObject->Subtract( Hours => $AllHours );
+        my $AllHoursDate = $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S' );
 
         push @{$Communications},
             @{
             $CommunicationLogDBObj->CommunicationList(
-                OlderThan => $AllDaysDate,
+                OlderThan => $AllHoursDate,
                 )
                 || []
             }

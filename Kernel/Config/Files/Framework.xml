@@ -852,6 +852,22 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CommunicationLog::PurgeAfterHours::SuccessfulCommunications" Required="1" Valid="1">
+        <Description Translatable="1">Defines the number of hours a successful communication will be stored.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationLog</SubGroup>
+        <Setting>
+            <String Regex="\d+">168</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CommunicationLog::PurgeAfterHours::AllCommunications" Required="1" Valid="1">
+        <Description Translatable="1">Defines the number of hours a communication will be stored, whichever its status.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::CommunicationLog</SubGroup>
+        <Setting>
+            <String Regex="\d+">744</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="MailQueue" Required="1" Valid="1">
         <Description Translatable="1">MailQueue configuration settings.</Description>
         <Group>Framework</Group>

@@ -724,6 +724,20 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="CommunicationLog::PurgeAfterHours::SuccessfulCommunications" Required="1" Valid="1">
+        <Description Translatable="1">Defines the number of hours a successful communication will be stored.</Description>
+        <Navigation>Core::CommunicationLog</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="\d+">168</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CommunicationLog::PurgeAfterHours::AllCommunications" Required="1" Valid="1">
+        <Description Translatable="1">Defines the number of hours a communication will be stored, whichever its status.</Description>
+        <Navigation>Core::CommunicationLog</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="\d+">744</Item>
+        </Value>
+    </Setting>
     <Setting Name="MailQueue" Required="1" Valid="1">
         <Description Translatable="1">MailQueue configuration settings.</Description>
         <Navigation>Core::MailQueue</Navigation>
