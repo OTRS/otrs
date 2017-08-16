@@ -47,10 +47,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::Reject',
                 Value         => "Need $_!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!",
-            );
             return;
         }
     }
@@ -108,10 +104,6 @@ sub Run {
             Priority      => 'Error',
             Key           => 'Kernel::System::PostMaster::Reject',
             Value         => "Article could not be created!",
-        );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Article could not be created!",
         );
         return;
     }

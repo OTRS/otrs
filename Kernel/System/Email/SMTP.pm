@@ -174,7 +174,7 @@ sub Check {
 
             $Param{CommunicationLogObject}->ObjectLog(
                 ObjectLogType => 'Connection',
-                Priority      => 'Debug',
+                Priority      => 'Error',
                 Key           => 'Kernel::System::Email::SMTP',
                 Value         => "SMTP authentication failed (SMTP code: $Code, ErrorMessage: $Error).",
             );
@@ -412,11 +412,6 @@ sub _SendError {
     if ( $SMTP && !defined $Param{Code} ) {
         $Param{Code} = $SMTP->( 'code', );
     }
-
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'error',
-        Message  => $Param{ErrorMessage},
-    );
 
     return $Self->_SendResult(
         Success => 0,

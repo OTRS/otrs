@@ -47,10 +47,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::Filter::SMIMEFetchFromCustomer',
                 Value         => "Need $Needed!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
             return;
         }
     }

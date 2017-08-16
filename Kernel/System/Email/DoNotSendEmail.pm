@@ -51,13 +51,7 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-
             my $ErrorMessage = "Need $_!";
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => $ErrorMessage,
-            );
 
             $Param{CommunicationLogObject}->ObjectLog(
                 ObjectLogType => 'Message',

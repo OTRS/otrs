@@ -56,10 +56,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "Need $Needed!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
             return;
         }
     }
@@ -94,10 +90,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!",
-            );
         }
     }
 
@@ -120,10 +112,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "Priority $GetParam{'X-OTRS-Priority'} does not exist, falling back to $Priority!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Priority $GetParam{'X-OTRS-Priority'} does not exist, falling back to $Priority!",
-            );
         }
     }
 
@@ -140,10 +128,6 @@ sub Run {
                 Priority      => 'Error',
                 Key           => 'Kernel::System::PostMaster::NewTicket',
                 Value         => "Type $GetParam{'X-OTRS-Type'} does not exist, falling back to default type.",
-            );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Type $GetParam{'X-OTRS-Type'} does not exist, falling back to default type.",
             );
         }
     }
@@ -308,10 +292,6 @@ sub Run {
             Priority      => 'Error',
             Key           => 'Kernel::System::PostMaster::NewTicket',
             Value         => "Ticket could not be created!",
-        );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Ticket could not be created!",
         );
         return;
     }
@@ -563,13 +543,6 @@ Message
             Priority      => 'Error',
             Key           => 'Kernel::System::PostMaster::NewTicket',
             Value         => "Can't process email with MessageID <$GetParam{'Message-ID'}>! "
-                . "Please create a bug report with this email (From: $GetParam{From}, Located "
-                . "under var/spool/problem-email*) on http://bugs.otrs.org/!",
-        );
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Can't process email with MessageID <$GetParam{'Message-ID'}>! "
                 . "Please create a bug report with this email (From: $GetParam{From}, Located "
                 . "under var/spool/problem-email*) on http://bugs.otrs.org/!",
         );

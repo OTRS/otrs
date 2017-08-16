@@ -761,11 +761,6 @@ sub SendExecute {
             ref( $Self->{Backend} ),
         );
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Message  => $LogErrorMessage,
-            Priority => 'Error',
-        );
-
         $Param{CommunicationLogObject}->ObjectLog(
             ObjectLogType => 'Message',
             Priority      => 'Error',

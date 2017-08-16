@@ -43,10 +43,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::Filter::NewTicketReject',
                 Value         => "Need $_!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!",
-            );
             return;
         }
     }

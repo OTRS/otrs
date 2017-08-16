@@ -40,11 +40,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
+            return (
+                Successful => 0,
+                Message    => "Need $_!",
             );
-            return;
         }
     }
 
@@ -113,11 +112,6 @@ sub Fetch {
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "$_ not defined!"
-            );
-
             $CommunicationLogObject->ObjectLog(
                 ObjectLogType => 'Connection',
                 Priority      => 'Error',
@@ -138,11 +132,6 @@ sub Fetch {
 
     for (qw(Login Password Host)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-
             $CommunicationLogObject->ObjectLog(
                 ObjectLogType => 'Connection',
                 Priority      => 'Error',
@@ -205,11 +194,6 @@ sub Fetch {
     };
 
     if ( !$Connect{Successful} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $Connect{Message},
-        );
-
         $CommunicationLogObject->ObjectLog(
             ObjectLogType => 'Connection',
             Priority      => 'Error',
@@ -350,11 +334,6 @@ sub Fetch {
                 my $ErrorMessage = "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
                     . "Email too big ($MessageSizeKB KB - max $MaxEmailSize KB)!";
 
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => $ErrorMessage,
-                );
-
                 $CommunicationLogObject->ObjectLog(
                     ObjectLogType => 'Connection',
                     Priority      => 'Error',
@@ -391,11 +370,6 @@ sub Fetch {
                 if ( !$Lines ) {
 
                     my $ErrorMessage = "$AuthType: Can't process mail, email no $Messageno is empty!";
-
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message  => $ErrorMessage,
-                    );
 
                     $CommunicationLogObject->ObjectLog(
                         ObjectLogType => 'Connection',
@@ -446,11 +420,6 @@ sub Fetch {
 
                         my $ErrorMessage = "$AuthType: Can't process mail, mail saved ("
                             . "$File, report it on http://bugs.otrs.org/)!";
-
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
-                            Priority => 'error',
-                            Message  => $ErrorMessage,
-                        );
 
                         $CommunicationLogObject->ObjectLog(
                             ObjectLogType => 'Message',

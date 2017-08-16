@@ -278,15 +278,40 @@ sub ObjectLog {
         return $Self->_LogError("Need ObjectLogType.");
     }
 
-    if ( !$Self->{Current}->{ $Param{ObjectLogType} } ) {
+    my $ObjectLogID = $Self->{Current}->{ $Param{ObjectLogType} };
+    if ( !$ObjectLogID ) {
         return $Self->_LogError("Object Log needs to have an open Log Type.");
+    }
+
+    $Param{Priority} //= 'Info';
+
+    # In case of error also add it to the system log.
+    if ( $Param{Priority} eq 'Error' ) {
+        my @Identification = (
+            'ID:' . $Self->CommunicationIDGet(),
+            'AccountType:' . ( $Self->{AccountType} || '-' ),
+            'AccountID:' .   ( $Self->{AccountID}   || '-' ),
+            'Direction:' . $Self->{Direction},
+            'Transport:' . $Self->{Transport},
+            'ObjectLogType:' . $Param{ObjectLogType},
+            'ObjectLogID:' . $ObjectLogID,
+        );
+
+        $Self->_LogError(
+            sprintf(
+                'CommunicationLog(%s)' . '::%s => %s',
+                join( ',', @Identification, ),
+                $Param{Key},
+                $Param{Value},
+            ),
+        );
     }
 
     my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 
     return $CommunicationDBObject->ObjectLogEntryCreate(
         CommunicationID => $Self->{CommunicationID},
-        ObjectLogID     => $Self->{Current}->{ $Param{ObjectLogType} },
+        ObjectLogID     => $ObjectLogID,
         Key             => $Param{Key},
         Value           => $Param{Value},
         Priority        => $Param{Priority},
@@ -478,10 +503,6 @@ sub _RecoverCommunicationObject {
             ),
         );
     }
-
-    return if !$CommunicationDBObject->GetTransportModule(
-        Transport => $CommunicationData->{Transport},
-    );
 
     $Self->{CommunicationID} = $CommunicationData->{CommunicationID};
     $Self->{Transport}       = $CommunicationData->{Transport};

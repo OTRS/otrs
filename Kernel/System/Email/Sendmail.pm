@@ -40,11 +40,6 @@ sub Send {
     my $SendError = sub {
         my %Param = @_;
 
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $Param{ErrorMessage},
-        );
-
         $Param{CommunicationLogObject}->ObjectLogStop(
             ObjectLogType => 'Connection',
             Status        => 'Failed',

@@ -30,7 +30,7 @@ my $TestObjectLogDelete = sub {
     my $CommunicationLogObject = $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',
         ObjectParams => {
-            Transport => 'Test',
+            Transport => 'Email',
             Direction => 'Incoming',
         },
     );
@@ -111,7 +111,7 @@ my $TestObjectLogGet = sub {
     my $CommunicationLogObject = $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',
         ObjectParams => {
-            Transport => 'Test',
+            Transport => 'Email',
             Direction => 'Incoming',
         },
     );
@@ -172,7 +172,7 @@ my $TestObjectLogEntryList = sub {
     my $CommunicationLogObject = $Kernel::OM->Create(
         'Kernel::System::CommunicationLog',
         ObjectParams => {
-            Transport => 'Test',
+            Transport => 'Email',
             Direction => 'Incoming',
         },
     );

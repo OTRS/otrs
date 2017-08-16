@@ -53,10 +53,6 @@ sub Run {
             Key           => 'Kernel::System::PostMaster::Filter::CMD',
             Value         => "Need CMD config option in PostMaster::PreFilterModule job!",
         );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need CMD config option in PostMaster::PreFilterModule job!",
-        );
         return;
     }
 

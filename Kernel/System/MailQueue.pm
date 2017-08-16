@@ -1408,14 +1408,8 @@ sub _IsArticleAlreadyQueued {
 
     # On Error consider as queued, do not try to insert or update.
     my $Error = sub {
-        my $ErrorMessage = shift;
-        $LogObject->Log(
-            Priority => 'error',
-            Message  => $ErrorMessage,
-        );
-
         $AddCommunicationLog->(
-            Message  => $ErrorMessage,
+            Message  => shift,
             Priority => 'Error',
         );
 

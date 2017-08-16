@@ -43,10 +43,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::Filter::ExternalTicketNumberRecognition',
                 Value         => "Missing configuration for $Option for postmaster filter.",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Missing configuration for $Option for postmaster filter.",
-            );
             return 1;
         }
     }

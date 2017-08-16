@@ -105,12 +105,6 @@ sub _SetArticleTransmissionSendError {
                 $ArticleID,
             );
 
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => $ErrorMessage,
-                Message  => $ErrorMessage,
-            );
-
             $Self->_AddCommunicationLog(
                 Message  => $ErrorMessage,
                 Priority => 'Error',
@@ -131,11 +125,6 @@ sub _SetArticleTransmissionSendError {
         my $ErrorMessage = sprintf(
             'Error while creating transmission error for article "%s"!',
             $ArticleID,
-        );
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $ErrorMessage,
         );
 
         $Self->_AddCommunicationLog(

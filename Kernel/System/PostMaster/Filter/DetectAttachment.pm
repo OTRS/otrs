@@ -42,10 +42,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::Filter::DetectAttachment',
                 Value         => "Need $Needed!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
             return;
         }
     }

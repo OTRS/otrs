@@ -48,10 +48,6 @@ sub Run {
                 Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
                 Value         => "Need $Needed!",
             );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Needed!",
-            );
             return;
         }
     }
@@ -135,10 +131,6 @@ sub _DecryptPGP {
             Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
             Value         => "PGP is not activated",
         );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "PGP is not activated",
-        );
         return;
     }
 
@@ -160,10 +152,6 @@ sub _DecryptPGP {
             Priority      => 'Error',
             Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
             Value         => "Not possible to create crypt object",
-        );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Not possible to create crypt object",
         );
         return;
     }
@@ -200,10 +188,6 @@ sub _DecryptSMIME {
             Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
             Value         => "SMIME is not activated",
         );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "SMIME is not activated",
-        );
         return;
     }
 
@@ -225,10 +209,6 @@ sub _DecryptSMIME {
             Priority      => 'Error',
             Key           => 'Kernel::System::PostMaster::Filter::Decrypt',
             Value         => "Not possible to create crypt object",
-        );
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Not possible to create crypt object",
         );
         return;
     }
