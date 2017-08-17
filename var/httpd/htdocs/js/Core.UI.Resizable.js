@@ -28,7 +28,7 @@ Core.UI.Resizable = (function (TargetNS) {
      * @description
      *      The minimum height fpr the resizable object.
      */
-    var ScrollerMinHeight = 101,
+    var ScrollerMinHeight = 120,
     /**
      * @private
      * @name HandleHeight
