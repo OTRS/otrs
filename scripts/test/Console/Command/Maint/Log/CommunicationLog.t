@@ -20,8 +20,10 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Log::CommunicationLog');
+my $HelperObject          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $CommandObject         = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Log::CommunicationLog');
+my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
 
 my @Communications = (
     {
@@ -101,10 +103,20 @@ my $RunTest = sub {
         "$Test->{Name} Exit Code: $Test->{ExpectedExitCode}",
     );
 
-    $Self->True(
-        index( $Result, $Test->{ExpectedResult} ) > -1,
-        "$Test->{Name} expected result: '$Test->{ExpectedResult}'",
-    );
+    if ( 'ARRAY' eq ref $Test->{ExpectedResult} ) {
+        for my $ExpectedResult ( @{ $Test->{ExpectedResult} } ) {
+            $Self->True(
+                index( $Result, $ExpectedResult ) > -1,
+                "$Test->{Name} expected result: '$ExpectedResult'",
+            );
+        }
+    }
+    else {
+        $Self->True(
+            index( $Result, $Test->{ExpectedResult} ) > -1,
+            "$Test->{Name} expected result: '$Test->{ExpectedResult}'",
+        );
+    }
 
 };
 
@@ -161,6 +173,94 @@ my @Tests = (
 
 for my $Test (@Tests) {
     $RunTest->($Test);
+}
+
+# test accurate purge hours
+
+my $SuccessHours = $ConfigObject->Get('CommunicationLog::PurgeAfterHours::SuccessfulCommunications');
+my $AllHours     = $ConfigObject->Get('CommunicationLog::PurgeAfterHours::AllCommunications');
+
+my @CommunicationsToTestPurge = (
+    {
+        Transport => 'Email',
+        Direction => 'Outgoing',
+        Status    => 'Successful',
+        Date      => {
+            Hours => ( $SuccessHours + 1 )
+            }
+    },
+    {
+        Transport => 'Email',
+        Direction => 'Outgoing',
+        Status    => 'Successful',
+        Date      => {
+            Hours => ( $SuccessHours - 1 )
+            }
+    },
+    {
+        Transport => 'Email',
+        Direction => 'Outgoing',
+        Date      => {
+            Hours => ( $AllHours + 1 )
+            }
+    },
+    {
+        Transport => 'Email',
+        Direction => 'Outgoing',
+        Date      => {
+            Hours => ( $AllHours - 1 )
+            }
+    },
+);
+
+for my $CommunicationToTestPurge (@CommunicationsToTestPurge) {
+    my $TestDateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    $TestDateTimeObject->Subtract( Hours => $CommunicationToTestPurge->{Date}->{Hours} );
+
+    $HelperObject->FixedTimeSet($TestDateTimeObject);
+
+    my $CommunicationLogObject = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog',
+        ObjectParams => {
+            Transport => $CommunicationToTestPurge->{Transport},
+            Direction => $CommunicationToTestPurge->{Direction},
+            }
+    );
+
+    if ( $CommunicationToTestPurge->{Status} ) {
+        $CommunicationLogObject->CommunicationStop( Status => $CommunicationToTestPurge->{Status} );
+    }
+    $CommunicationToTestPurge->{ID} = $CommunicationLogObject->CommunicationIDGet();
+    $HelperObject->FixedTimeUnset();
+
+}
+
+$RunTest->(
+    {
+        Name           => 'Purge.',
+        ExpectedResult => [
+            "Deleted communication $CommunicationsToTestPurge[0]->{ID}.",
+            "Deleted communication $CommunicationsToTestPurge[2]->{ID}.",
+        ],
+        ExpectedExitCode => 0,
+        Output           => 'STDOUT',
+        Params           => ['--purge'],
+    }
+);
+
+my $CommunicationsList = $CommunicationDBObject->CommunicationList();
+
+for my $CommunicationListItem (@$CommunicationsList) {
+    my ($Found) = grep {
+        $_->{ID} == $CommunicationListItem->{CommunicationID}
+        }
+        ( $CommunicationsToTestPurge[1], $CommunicationsToTestPurge[3] );
+
+    $Self->True(
+        $Found,
+        "Not to be deleted $CommunicationListItem->{CommunicationID} found.",
+    );
+
 }
 
 # cleanup is done by RestoreDatabase
