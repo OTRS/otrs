@@ -273,7 +273,7 @@ div.Headline .Flag {
 .Outgoing .ArticleBody:after,
 .Incoming .ArticleBody:after {
 	border-color: rgba(255, 255, 255, 0);
-	top: 35px;
+	top: 38px;
 	border: solid transparent;
 	content: " ";
 	height: 0;
@@ -530,6 +530,13 @@ div.Headline .Flag {
 
 .UseArticleColors tr.NotVisibleForCustomer > td {
     background: #FFCCCC;
+}
+
+.ArticleMailContent iframe,
+.ArticleMailContent .ArticleBody,
+.ArticleMailContent .ArticleHTML,
+.NotVisibleForCustomer .ArticleMailContent .ArticleMeta {
+    border: 5px solid #fff;
 }
 
 .UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent iframe,

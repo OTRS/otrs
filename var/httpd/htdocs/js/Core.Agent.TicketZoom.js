@@ -121,7 +121,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             IframeBodyHeight;
 
         if (isJQueryObject($Iframe)) {
-            $Iframe.width($Iframe.width() - 2);
             IframeBodyHeight = $Iframe.contents().find('body').height();
             NewHeight = $Iframe.contents().height();
             if (!NewHeight || isNaN(NewHeight)) {
@@ -136,6 +135,12 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
             // add delta for scrollbar
             NewHeight = parseInt(NewHeight, 10) + 25;
+
+            // make sure the minimum height is in line with the avatar images
+            if (NewHeight < 50) {
+                NewHeight = 50;
+            }
+
             $Iframe.height(NewHeight + 'px');
         }
     };
