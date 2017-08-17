@@ -36,6 +36,7 @@ Returns article html.
         ArticleID              => 123,         # (required)
         ShowBrowserLinkMessage => 1,           # (optional) Default: 0.
         ArticleActions         => [],          # (optional)
+        UserID                 => 123,         # (optional)
     );
 
 Result:
@@ -235,6 +236,7 @@ sub ArticleRender {
             ChannelIcon          => $CommunicationChannel{DisplayIcon},
             SenderImage          => $Self->_ArticleSenderImage(
                 Sender => $Article{From},
+                UserID => $Param{UserID},
             ),
             SenderInitials => $LayoutObject->UserInitialsGet(
                 Fullname => $Article{FromRealname},

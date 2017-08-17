@@ -23,6 +23,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::User',
 );
 
 sub new {
@@ -205,12 +206,17 @@ sub _ArticleSenderImage {
     if (@Addresses) {
         my $Email = $EmailParser->GetEmailAddress( Email => $Addresses[0] );
         if ($Email) {
-            my $IsLocal = $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressIsLocalAddress(
-                Address => $Email,
-            );
-            if ( !$IsLocal ) {
-                $Result = '//www.gravatar.com/avatar/' . md5_hex( lc $Email ) . '?s=' . $Size . '&d=identicon';
+            my $DefaultIcon = 'identicon';    # a geometric pattern based on an email hash
+
+            # Get current user's email and compare it to the sender's email.
+            if ( $Param{UserID} ) {
+                my %CurrentUserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Param{UserID} );
+                if ( $Email eq $CurrentUserData{UserEmail} ) {
+                    $DefaultIcon = 'mm';      # 'mystery man'
+                }
             }
+
+            $Result = '//www.gravatar.com/avatar/' . md5_hex( lc $Email ) . '?s=' . $Size . '&d=' . $DefaultIcon;
         }
     }
 
