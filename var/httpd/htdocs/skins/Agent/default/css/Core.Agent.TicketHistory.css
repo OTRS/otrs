@@ -27,14 +27,20 @@
     width: 30px;
 }
 
+.WidgetSimple .Header h2 {
+    position: relative;
+}
+
 .WidgetSimple .Header h2 span {
     font-size: 11px;
-    float: right;
+    position: absolute;
     margin-top: 2px;
     margin-right: 3px;
     color: #777;
     opacity: 0;
     transition: all ease 0.3s;
+    right: 1px;
+    top: 2px;
 }
 
 .WidgetSimple:hover .Header h2 span {
