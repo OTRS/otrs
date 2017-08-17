@@ -110,8 +110,8 @@ sub ArticleRender {
             HTML                 => $ShowHTML,
             CommunicationChannel => $CommunicationChannel{DisplayName},
             ChannelIcon          => $CommunicationChannel{DisplayIcon},
-            SenderInitials       => $Self->_ArticleSenderInitials(
-                Sender => $ArticleFields{Sender}->{Realname},
+            SenderInitials       => $LayoutObject->UserInitialsGet(
+                Fullname => $ArticleFields{Sender}->{Realname},
             ),
         },
     );

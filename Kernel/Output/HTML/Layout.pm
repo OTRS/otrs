@@ -1434,17 +1434,11 @@ sub Header {
         }
 
         # generate avatar
-        if ($ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $Self->{UserEmail}) {
+        if ( $ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $Self->{UserEmail} ) {
             $Param{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=mm';
         }
         else {
-            my @NameParts = split /\s+/, $Self->{UserFullname};
-            if (@NameParts) {
-                $Param{UserInitials} = uc substr $NameParts[0], 0, 1;
-                if ( @NameParts > 1 ) {
-                    $Param{UserInitials} .= uc substr $NameParts[-1], 0, 1;
-                }
-            }
+            $Param{UserInitials} = $Self->UserInitialsGet( Fullname => $Self->{UserFullname} );
         }
 
         # show logged in notice
@@ -6288,6 +6282,57 @@ sub CustomerSetRichTextParameters {
     );
 
     return;
+}
+
+=head2 UserInitialsGet()
+
+Get initials from a full name of a user.
+
+    my $UserInitials = $LayoutObject->UserInitialsGet(
+        Fullname => 'John Doe',
+    );
+
+Returns string of exactly two uppercase characters that represent user initials:
+
+    $UserInitials = 'JD';
+
+Please note that this function will return 'O' if invalid name (without any word characters) was supplied.
+
+=cut
+
+sub UserInitialsGet {
+    my ( $Self, %Param ) = @_;
+
+    # Fallback in case name is invalid.
+    my $UserInitials = 'O';
+    return $UserInitials if !$Param{Fullname};
+
+    # Remove anything found in brackets (email address, etc).
+    my $Fullname = $Param{Fullname} =~ s/[<[{(].*[>\]})]//r;
+
+    # Split full name by whitespace.
+    my @UserNames = split /\s+/, $Fullname;
+    if (@UserNames) {
+
+        # Cleanup unnecessary characters.
+        my $FirstName = $UserNames[0] =~ s/\W//gr;
+        return $UserInitials if !$FirstName;
+
+        # Get first character of first name.
+        $UserInitials = uc substr $FirstName, 0, 1;
+
+        if ( @UserNames > 1 ) {
+
+            # Cleanup unnecessary characters.
+            my $LastName = $UserNames[-1] =~ s/\W//gr;
+            return $UserInitials if !$LastName;
+
+            # Get first character of last name.
+            $UserInitials .= uc substr $LastName, 0, 1;
+        }
+    }
+
+    return $UserInitials;
 }
 
 1;

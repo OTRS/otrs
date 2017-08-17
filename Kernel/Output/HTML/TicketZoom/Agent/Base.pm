@@ -217,39 +217,6 @@ sub _ArticleSenderImage {
     return $Result;
 }
 
-=head2 _ArticleSenderInitials()
-
-Get sender initials.
-
-    my $SenderInitials = $ArticleBaseObject->_ArticleSenderInitials(
-        Sender => 'John Doe',
-    );
-
-Returns:
-
-    $SenderInitials = 'JD';
-
-=cut
-
-sub _ArticleSenderInitials {
-    my ( $Self, %Param ) = @_;
-
-    my $SenderInitials = 'O';
-
-    return $SenderInitials if !$Param{Sender};
-
-    # Split sender name by whitespace.
-    my @Sender = split /\s+/, $Param{Sender};
-    if (@Sender) {
-        $SenderInitials = uc substr $Sender[0], 0, 1;
-        if ( @Sender > 1 ) {
-            $SenderInitials .= uc substr $Sender[-1], 0, 1;
-        }
-    }
-
-    return $SenderInitials;
-}
-
 sub _ArticleModuleMeta {
     my ( $Self, %Param ) = @_;
 

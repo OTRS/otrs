@@ -122,8 +122,8 @@ sub ArticleRender {
             SenderImage          => $Self->_ArticleSenderImage(
                 Sender => $ArticleFields{Sender}->{Value},
             ),
-            SenderInitials => $Self->_ArticleSenderInitials(
-                Sender => $ArticleFields{Sender}->{Realname},
+            SenderInitials => $LayoutObject->UserInitialsGet(
+                Fullname => $ArticleFields{Sender}->{Realname},
             ),
         },
     );

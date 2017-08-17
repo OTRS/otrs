@@ -236,8 +236,8 @@ sub ArticleRender {
             SenderImage          => $Self->_ArticleSenderImage(
                 Sender => $Article{From},
             ),
-            SenderInitials => $Self->_ArticleSenderInitials(
-                Sender => $Article{FromRealname},
+            SenderInitials => $LayoutObject->UserInitialsGet(
+                Fullname => $Article{FromRealname},
             ),
         },
     );
