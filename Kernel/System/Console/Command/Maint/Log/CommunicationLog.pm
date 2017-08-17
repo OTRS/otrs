@@ -32,13 +32,13 @@ sub Configure {
     $Self->AddOption(
         Name => 'purge',
         Description =>
-            'Purges successful communications older than a week and all communications older than a month.',
+            'Purges successful communications older than a week and all communications older than a month. These durations are specified in sysconfig.',
         Required => 0,
         HasValue => 0,
     );
     $Self->AddOption(
-        Name        => 'delete-by-days-old',
-        Description => 'Delete logs older than these number of days. Example: --delete-by-days-old="7"',
+        Name        => 'delete-by-hours-old',
+        Description => 'Delete logs older than these number of hours. Example: --delete-by-hours-old="7"',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
@@ -72,7 +72,7 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     my %Options;
-    for my $Option (qw(delete-by-id delete-by-date delete-by-days-old purge)) {
+    for my $Option (qw(delete-by-id delete-by-date delete-by-hours-old purge)) {
         $Options{$Option} = 1 if $Self->GetOption($Option);
     }
 
@@ -150,7 +150,7 @@ sub Delete {
 
         my $Communication = $CommunicationLogDBObj->CommunicationGet( CommunicationID => $Param{ID} );
 
-        if ( $Communication && ( $Communication->{Status} ne 'Processing' || $Param{Force} ) ) {
+        if ( $Communication && %$Communication && ( $Communication->{Status} ne 'Processing' || $Param{Force} ) ) {
             push @CommunicationIDs, $Communication->{CommunicationID};
         }
     }
@@ -165,7 +165,6 @@ sub Delete {
 
         COMMUNICATION:
         for my $Communication ( @{$Communications} ) {
-
             next COMMUNICATION if $Communication->{Status} eq 'Processing' && !$Param{Force};
             push @CommunicationIDs, $Communication->{CommunicationID};
         }
@@ -253,6 +252,8 @@ sub Delete {
             $Self->PrintError("Could not delete communications with id '$CommunicationID'!\n");
             $Result = 0;
         }
+
+        $Self->Print("Deleted communication $CommunicationID.\n");
     }
 
     return $Result;
