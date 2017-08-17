@@ -106,6 +106,20 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             }
         });
 
+        $('#TicketEvent').bind('change', function (){
+            if ($('#EventType').val() !== null) {
+                TargetNS.AddEvent($('#EventType').val());
+                return;
+            }
+        });
+
+        $('#ArticleEvent').bind('change', function (){
+            if ($('#EventType').val() !== null) {
+                TargetNS.AddEvent($('#EventType').val());
+                return;
+            }
+        });
+
         $('#EventType').on('change', function (){
             TargetNS.ToggleEventSelect($(this).val());
         });

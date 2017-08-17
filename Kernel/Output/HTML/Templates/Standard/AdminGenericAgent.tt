@@ -216,12 +216,12 @@
 
                         <label for="EventsTable">[% Translate("Event Triggers") | html %]:</label>
                         <div class="Field W50pc">
-                            <table class="DataTable" id="EventsTable" summary="[% Translate("List of all configured events") | html %]">
+                            <table class="DataTable ClearNone SpacingBottomSmall" id="EventsTable" summary="[% Translate("List of all configured events") | html %]">
                                 <thead>
                                     <tr>
                                         <th>[% Translate("Type") | html %]</th>
                                         <th>[% Translate("Event") | html %]</th>
-                                        <th>[% Translate("Delete") | html %]</th>
+                                        <th class="Center">[% Translate("Delete") | html %]</th>
                                     </tr>
                                 </thead>
                                 <tbody>

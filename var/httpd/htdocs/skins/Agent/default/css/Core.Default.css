@@ -567,6 +567,10 @@ table.AttachmentList.DataTable thead th {
     clear: both !important;
 }
 
+.ClearNone {
+    clear: none !important;
+}
+
 .ClearLeft,
 .RTL .ClearRight {
     float: none !important;
