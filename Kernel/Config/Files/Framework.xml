@@ -886,7 +886,7 @@
         <Setting>
             <Option SelectedID="Gravatar">
                 <Item Key="None" Translatable="1">None</Item>
-                <Item Key="Gravatar" Translatable="1">Gravatar.com</Item>
+                <Item Key="Gravatar">Gravatar.com</Item>
             </Option>
         </Setting>
     </ConfigItem>

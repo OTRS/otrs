@@ -754,7 +754,7 @@
         <Value>
             <Item ValueType="Select" SelectedID="Gravatar">
                 <Item ValueType="Option" Value="None" Translatable="1">None</Item>
-                <Item ValueType="Option" Value="Gravatar" Translatable="1">Gravatar.com</Item>
+                <Item ValueType="Option" Value="Gravatar">Gravatar.com</Item>
             </Item>
         </Value>
     </Setting>
