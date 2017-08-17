@@ -2426,19 +2426,6 @@ sub ConfigurationXML2DB {
 
     my $CleanUpNeeded;
 
-    # Lock all settings to be able to update them if needed.
-    my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
-        UserID  => $Param{UserID},
-        LockAll => 1,
-    );
-    if ( !$ExclusiveLockGUID ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "System was unable to lock Default Settings ",
-        );
-        return;
-    }
-
     # Create/Update settings in DB.
     SETTING:
     for my $SettingName ( sort keys %Settings ) {
@@ -2453,6 +2440,22 @@ sub ConfigurationXML2DB {
             # Compare new Setting XML with the old one (skip if there is no difference).
             my $Updated = $Settings{$SettingName}->{XMLContentRaw} eq $SettingData{XMLContentRaw} ? 0 : 1;
             next SETTING if !$Updated;
+
+            # Lock setting to be able to update it.
+            my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
+                UserID    => $Param{UserID},
+                DefaultID => $SettingData{DefaultID},
+                Force     => $Param{Force},
+            );
+            if ( !$ExclusiveLockGUID ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message =>
+                        "System was unable to lock Default Setting "
+                        . "(DefaultID=$SettingData{DefaultID} UserID=$Param{UserID})!",
+                );
+                next SETTING;
+            }
 
             # Create a local clone of the value to prevent any modification.
             my $Value = $Kernel::OM->Get('Kernel::System::Storable')->Clone(
@@ -2492,6 +2495,11 @@ sub ConfigurationXML2DB {
                         "DefaultSettingUpdate failed for Config Item: $SettingName!",
                 );
             }
+
+            # Unlock the setting so it can be locked again afterwards.
+            $SysConfigDBObject->DefaultSettingUnlock(
+                DefaultID => $SettingData{DefaultID},
+            );
 
             my @ModifiedList = $SysConfigDBObject->ModifiedSettingListGet(
                 Name => $Settings{$SettingName}->{XMLContentParsed}->{Name},
@@ -2571,11 +2579,6 @@ sub ConfigurationXML2DB {
             $CleanUpNeeded = 1;
         }
     }
-
-    # Unlock all the settings so they can be locked again afterwards.
-    $SysConfigDBObject->DefaultSettingUnlock(
-        UnlockAll => 1,
-    );
 
     if ($CleanUpNeeded) {
 
