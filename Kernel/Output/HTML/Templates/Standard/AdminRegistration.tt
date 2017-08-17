@@ -10,7 +10,7 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("System Registration Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("System Registration Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

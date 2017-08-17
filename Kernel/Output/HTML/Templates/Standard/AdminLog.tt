@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("System Log") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("System Log") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

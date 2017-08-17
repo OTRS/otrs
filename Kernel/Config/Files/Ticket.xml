@@ -6360,10 +6360,9 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
                 <Item Key="Description" Translatable="1">Fulltext search</Item>
-                <Item Key="Name" Translatable="1">Fulltext search</Item>
+                <Item Key="Name" Translatable="1">Fulltext</Item>
                 <Item Key="Block">ToolBarSearchFulltext</Item>
                 <Item Key="Size">10</Item>
-                <Item Key="CSS">Core.Agent.Toolbar.FulltextSearch.css</Item>
                 <Item Key="Priority">1990020</Item>
             </Hash>
         </Setting>
@@ -6376,10 +6375,9 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
                 <Item Key="Description" Translatable="1">CustomerID search</Item>
-                <Item Key="Name" Translatable="1">CustomerID search</Item>
+                <Item Key="Name" Translatable="1">CustomerID</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerID</Item>
                 <Item Key="Size">10</Item>
-                <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
                 <Item Key="Priority">1990030</Item>
             </Hash>
         </Setting>
@@ -6392,10 +6390,9 @@
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
                 <Item Key="Description" Translatable="1">Customer user search</Item>
-                <Item Key="Name" Translatable="1">Customer user search</Item>
+                <Item Key="Name" Translatable="1">Customer User</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerUser</Item>
                 <Item Key="Size">10</Item>
-                <Item Key="CSS">Core.Agent.Toolbar.CICSearch.css</Item>
                 <Item Key="Priority">1990040</Item>
             </Hash>
         </Setting>
@@ -11921,17 +11918,6 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketZoom###SenderDisplay" Required="1" Valid="1">
-         <Description Translatable="1">Controls which type of sender display will be used next to article contents in ticket zoom screen. If set to "Sender Image", system will automatically fetch image associated with sender's address from external service (Gravatar). If set to "Sender Initials", system will show first letters of sender's name.</Description>
-         <Group>Ticket</Group>
-         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
-         <Setting>
-             <Option SelectedID="SenderImage">
-                 <Item Key="SenderImage" Translatable="1">Sender Image</Item>
-                 <Item Key="SenderInitials" Translatable="1">Sender Initials</Item>
-             </Option>
-         </Setting>
-     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.</Description>
         <Group>Ticket</Group>

@@ -7,7 +7,7 @@
 # --
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Edit System Maintenance") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Edit System Maintenance") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

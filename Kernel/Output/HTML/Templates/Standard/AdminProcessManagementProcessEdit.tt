@@ -7,7 +7,7 @@
 # --
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst ProcessManagementEditScreen">
-    <h1>[% Translate("Edit Process") | html %] "[% Data.Name | html %]"</h1>
+    <h1 class="InvisibleText">[% Translate("Edit Process") | html %] "[% Data.Name | html %]"</h1>
 
     [% BreadcrumbPath = [
             {

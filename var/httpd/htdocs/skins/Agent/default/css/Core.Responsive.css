@@ -56,14 +56,68 @@
         height: 0px;
     }
 
-    #ToolBar li,
-    .RTL #ToolBar li {
+    #ToolBar li:not(.UserAvatar),
+    .RTL #ToolBar li:not(.UserAvatar),
+    #ToolBar li.UserAvatar div a,
+    #ToolBar li.UserAvatar div span {
+        float: none;
+        display: inline-block;
+        padding: 8px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    #ToolBar li.UserAvatar > a,
+    #ToolBar li.UserAvatar div:after,
+    #ToolBar li.UserAvatar div span {
+        display: none;
+    }
+
+    #ToolBar li.UserAvatar {
+        display: inline-block;
         float: none;
         display: inline-block;
         background-color: #444;
         padding: 8px;
         margin-bottom: 10px;
         margin-top: 10px;
+        background: none;
+        width: auto;
+    }
+
+    #ToolBar li.UserAvatar i {
+        display: block !important;
+        color: #f92;
+    }
+
+    #ToolBar li.UserAvatar div a:last-child {
+        padding-bottom: 0px;
+    }
+
+    #ToolBar li.UserAvatar a strong {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #ToolBar li.UserAvatar {
+        margin: 0px;
+    }
+
+    #ToolBar li.UserAvatar a {
+        width: 24px;
+        height: 34px;
+        margin: 0 5px;
+        float: left;
+        position: relative;
+    }
+
+    #ToolBar li.UserAvatar div {
+        display: inline-block !important;
+        position: static;
+        background: none;
+        width: auto;
+        margin: 0px;
     }
 
     #ToolBar li i {

@@ -7,7 +7,7 @@
 # --
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Mail Account Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Mail Account Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

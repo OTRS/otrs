@@ -85,6 +85,8 @@ ul.Tablelike li.Header + li {
 .WidgetSimple {
     margin-bottom: 15px;
     background: #f5f5f5;
+    box-shadow: 1px 1px 0px #e9e9e9;
+    margin-right: 2px;
 }
 
 .WidgetSimple.WidgetLoading i {
@@ -115,7 +117,7 @@ ul.Tablelike li.Header + li {
 .WidgetSimple.Collapsed.AnimationRunning > .Header {
     padding: 2px 5px 2px 5px;
     position: relative;
-    background-color: #e8e8e8;
+    border-bottom: 1px solid #ddd;
 }
 
 .WidgetSimple.Collapsed > .Header {
@@ -130,6 +132,8 @@ ul.Tablelike li.Header + li {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 13px;
+    text-shadow: 1px 1px #fff;
+    color: #555;
 }
 
 .WidgetSimple > .Content {

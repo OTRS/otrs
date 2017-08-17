@@ -16,7 +16,7 @@
  */
 div.Headline {
     height: 24px;
-    margin: 15px 0px 5px 0px;
+    margin: 5px 0px;
     position: relative;
 }
 
@@ -132,15 +132,15 @@ div.Headline .Flag {
 }
 
 #ArticleItems .ItemActions {
-    background: #eee;
     padding: 0px 10px;
     box-sizing: border-box;
+    margin-right: 105px;
     margin-right: 115px;
     min-height: 28px;
 }
 
 #ArticleItems .Outgoing .ItemActions {
-    margin-left: 115px;
+    margin-left: 105px;
     margin-right: 0px;
 }
 
@@ -162,7 +162,7 @@ div.Headline .Flag {
 }
 
 .ArticleMailContent {
-    padding: 11px 12px;
+    padding: 3px 12px 11px 12px;
     line-height: 1.3;
     position: relative;
 }
@@ -172,7 +172,7 @@ div.Headline .Flag {
     padding: 12px 12px 4px 12px;
     text-align: right;
     box-sizing: border-box;
-    margin-left: 115px;
+    margin-left: 105px;
     margin-top: -9px;
     border-top: 1px solid #ddd !important;
     position: relative;
@@ -181,7 +181,7 @@ div.Headline .Flag {
 
 .Incoming .ArticleMailContent .ArticleMeta {
     margin-left: 0px;
-    margin-right: 115px;
+    margin-right: 105px;
 }
 
 .ArticleMailContent .ArticleMeta h2 {
@@ -212,11 +212,11 @@ div.Headline .Flag {
 .Avatar {
     border: 1px solid #eee;
     position: absolute;
-    top: 10px;
+    top: 30px;
     background: #fff;
     padding: 5px;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 }
 
 .Avatar i.ArticleSenderChannelIcon {
@@ -227,6 +227,11 @@ div.Headline .Flag {
     color: #444;
     background: #fff;
     padding: 4px;
+}
+
+.Avatar img {
+    width: 100%;
+    height: 100%;
 }
 
 .Avatar i.InvalidChannelIcon {
@@ -250,7 +255,7 @@ div.Headline .Flag {
 #ArticleItems .ArticleHTML,
 #ArticleItems .ArticleBody {
     -webkit-overflow-scrolling: touch;
-   margin-left: 115px;
+   margin-left: 105px;
    position: relative;
 }
 
@@ -258,7 +263,7 @@ div.Headline .Flag {
 #ArticleItems .Incoming .ArticleHTML,
 #ArticleItems .Incoming .ArticleBody {
     margin-left: 0px;
-    margin-right: 115px;
+    margin-right: 105px;
 }
 
 .Outgoing .ArticleMailContentHTMLWrapper:after,
@@ -268,7 +273,7 @@ div.Headline .Flag {
 .Outgoing .ArticleBody:after,
 .Incoming .ArticleBody:after {
 	border-color: rgba(255, 255, 255, 0);
-	top: 15px;
+	top: 35px;
 	border: solid transparent;
 	content: " ";
 	height: 0;
@@ -311,7 +316,7 @@ div.Headline .Flag {
 
 .ArticleSenderInitials span {
     font-size: 36px;
-    line-height: 80px;
+    line-height: 65px;
     color: #CCC;
 }
 
@@ -1132,12 +1137,12 @@ div.Headline .Flag {
 
 .ArticleAttachments {
     clear: both;
-    margin: 10px 0px -15px 115px;
+    margin: 10px 0px -15px 105px;
     overflow: hidden;
 }
 
 .Incoming .ArticleAttachments {
-    margin: 10px 115px 0px 0px;
+    margin: 10px 105px 0px 0px;
 }
 
 .ArticleAttachments li {

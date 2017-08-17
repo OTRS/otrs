@@ -183,7 +183,7 @@ Get URL used for article sender image.
 
 Returns:
 
-    $SenderImage = 'https://gravatar.com/avatar/28a58af1db24962e81212115e7cac685?s=80';
+    $SenderImage = '//gravatar.com/avatar/28a58af1db24962e81212115e7cac685?s=80';
 
 =cut
 
@@ -209,7 +209,7 @@ sub _ArticleSenderImage {
                 Address => $Email,
             );
             if ( !$IsLocal ) {
-                $Result = 'https://www.gravatar.com/avatar/' . md5_hex( lc $Email ) . '?s=' . $Size . '&d=identicon';
+                $Result = '//www.gravatar.com/avatar/' . md5_hex( lc $Email ) . '?s=' . $Size . '&d=identicon';
             }
         }
     }

@@ -9,7 +9,7 @@
 [% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Cloud Service Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Cloud Service Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

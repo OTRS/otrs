@@ -41,7 +41,6 @@
 }
 
 .LoginScreen #Footer {
-    background: #eee;
     border: 0px;
     bottom: 0px;
     box-sizing: border-box;
@@ -61,6 +60,7 @@
     padding-left: 18px;
     margin-bottom: 5px;
     transition: all ease 0.4s;
+    text-transform: none;
 }
 
 #Footer a span {
@@ -81,6 +81,7 @@
 
 #Footer a:hover span {
     opacity: 1;
+    transform: rotate(90deg);
 }
 
 .LoginBox,

@@ -272,10 +272,10 @@
         <Value>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
+                <Item Key="StyleTop">12px</Item>
+                <Item Key="StyleRight">20px</Item>
                 <Item Key="StyleHeight">85px</Item>
-                <Item Key="StyleWidth">270px</Item>
+                <Item Key="StyleWidth">230px</Item>
             </Hash>
         </Value>
     </Setting>
@@ -292,20 +292,20 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="AgentLogoCustom###slim" Required="0" Valid="0">
+    <Setting Name="AgentLogoCustom###slim" Required="0" Valid="1">
         <Description Translatable="1">The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
                 <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleRight">5px</Item>
+                <Item Key="StyleHeight">65px</Item>
                 <Item Key="StyleWidth">270px</Item>
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="AgentLogoCustom###ivory" Required="0" Valid="0">
+    <Setting Name="AgentLogoCustom###ivory" Required="0" Valid="1">
         <Description Translatable="1">The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
@@ -318,15 +318,15 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="AgentLogoCustom###ivory-slim" Required="0" Valid="0">
+    <Setting Name="AgentLogoCustom###ivory-slim" Required="0" Valid="1">
         <Description Translatable="1">The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.</Description>
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
                 <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleRight">5px</Item>
+                <Item Key="StyleHeight">65px</Item>
                 <Item Key="StyleWidth">270px</Item>
             </Hash>
         </Value>
@@ -728,14 +728,14 @@
         <Description Translatable="1">Defines the number of hours a successful communication will be stored.</Description>
         <Navigation>Core::CommunicationLog</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="\d+">168</Item>
+            <Item ValueType="String" ValueRegex="^\d+$">168</Item>
         </Value>
     </Setting>
     <Setting Name="CommunicationLog::PurgeAfterHours::AllCommunications" Required="1" Valid="1">
         <Description Translatable="1">Defines the number of hours a communication will be stored, whichever its status.</Description>
         <Navigation>Core::CommunicationLog</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="\d+">744</Item>
+            <Item ValueType="String" ValueRegex="^\d+$">744</Item>
         </Value>
     </Setting>
     <Setting Name="MailQueue" Required="1" Valid="1">
@@ -746,6 +746,16 @@
                 <Item Key="ItemMaxAttempts">3</Item>
                 <Item Key="IncrementAttemptDelayInMinutes">2</Item>
             </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::AvatarEngine" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If 'None' is selected, initials will be displayed instead. Please note that selecting anything other than 'None' will transfer the encrypted email address of the particular user to an external service.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="Select" SelectedID="Gravatar">
+                <Item ValueType="Option" Value="None" Translatable="1">None</Item>
+                <Item ValueType="Option" Value="Gravatar" Translatable="1">Gravatar.com</Item>
+            </Item>
         </Value>
     </Setting>
     <Setting Name="LoginURL" Required="0" Valid="0" ConfigLevel="200">

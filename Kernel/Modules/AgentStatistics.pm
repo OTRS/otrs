@@ -806,6 +806,11 @@ sub AddScreen {
         $Frontend{ShowFormInitially} = 1;
     }
 
+    # generate manual link
+    my $ManualVersion = $Kernel::OM->Get('Kernel::Config')->Get('Version');
+    $ManualVersion =~ m{^(\d{1,2}).+};
+    $ManualVersion = $1;
+
     # build output
     my $Output = $LayoutObject->Header(
         Title => Translatable('Add New Statistic'),
@@ -816,6 +821,7 @@ sub AddScreen {
         Data         => {
             %Frontend,
             %Errors,
+            ManualVersion  => $ManualVersion,
             BreadcrumbPath => $Self->{BreadcrumbPath},
         },
     );

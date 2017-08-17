@@ -21,7 +21,7 @@
             </h2>
             <div class="ActionMenu Visible">
                 <div class="WidgetAction Expand">
-                    <a href="#" title="[% Translate("Toggle article details") | html %]"><i class="fa fa-bars"></i></a>
+                    <a href="#" title="[% Translate("Toggle article details") | html %]"><i class="fa fa-info"></i></a>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
             <div class="ArticleMailContent">
 
                 <div class="Avatar">
-[% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
+[% IF Config("Frontend::AvatarEngine") == 'Gravatar' && Data.SenderImage %]
                     <div class="ArticleSenderImage">
                         <img src="[% Data.SenderImage | url %]" title="[% Data.From | html %]" />
                         <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>

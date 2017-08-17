@@ -7,7 +7,7 @@
 # --
 <!-- start form -->
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Generic Agent") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Generic Agent") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

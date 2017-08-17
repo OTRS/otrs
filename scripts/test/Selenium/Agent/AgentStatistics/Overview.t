@@ -48,12 +48,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
 
-        # check breadcrumb on Overview screen
-        $Self->True(
-            $Selenium->find_element( '.BreadCrumb', 'css' ),
-            "Breadcrumb is found on Overview screen.",
-        );
-
         # check add button
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'Action=AgentStatistics;Subaction=Add\' )]"),
@@ -154,23 +148,6 @@ $Selenium->RunTest(
             StatID => $StatsIDFirst,
             UserID => 1,
         );
-
-        # check breadcrumb on Edit screen
-        my $Count = 1;
-        for my $BreadcrumbText (
-            'Statistics Overview',
-            'Edit ' . $ConfigObject->Get('Stats::StatsHook') . $StatsData->{StatNumber}
-            )
-        {
-            $Self->Is(
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
-                $BreadcrumbText,
-                "Breadcrumb text '$BreadcrumbText' is found on screen"
-            );
-
-            $Count++;
-        }
-
     }
 );
 

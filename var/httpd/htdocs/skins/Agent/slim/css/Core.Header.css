@@ -46,13 +46,25 @@
  * @subsection  Toolbar
  */
 #ToolBar {
-    top: 32px;
+    top: 22px;
     left: auto;
     right: 14px;
+    z-index: 10;
 }
 
-#ToolBar a {
-    margin-top: -7px;
+#ToolBar li.UserAvatar {
+    margin-top: -6px;
+    float: right;
+}
+
+#ToolBar li.UserAvatar div {
+    right: -25px;
+    left: auto;
+}
+
+#ToolBar li.UserAvatar div:after {
+    left: auto;
+    right: 15px;
 }
 
 .RTL #ToolBar {
@@ -72,7 +84,7 @@
  */
 
 #NavigationContainer {
-    top: 27px;
+    top: 17px;
 }
 
 } /* end @media */

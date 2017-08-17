@@ -13,7 +13,7 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
 
 [% RenderBlockStart("Main") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("GenericInterface Web Service Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("GenericInterface Web Service Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

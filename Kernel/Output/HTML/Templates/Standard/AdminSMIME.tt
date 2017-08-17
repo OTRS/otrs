@@ -8,7 +8,7 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("S/MIME Management") | html %][% IF Data.Subtitle %]:[% END %] [% Translate(Data.Subtitle) | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("S/MIME Management") | html %][% IF Data.Subtitle %]:[% END %] [% Translate(Data.Subtitle) | html %]</h1>
 
     [% BreadcrumbPath = [
             {

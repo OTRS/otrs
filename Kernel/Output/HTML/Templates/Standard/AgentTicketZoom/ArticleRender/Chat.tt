@@ -69,7 +69,7 @@
                 [% PROCESS ArticleActionMenu.tt %]
 
                 <div class="Avatar">
-[% IF Config("Ticket::Frontend::AgentTicketZoom").SenderDisplay == 'SenderImage' && Data.SenderImage %]
+[% IF Config("Frontend::AvatarEngine") == 'Gravatar' && Data.SenderImage %]
                     <div class="ArticleSenderImage">
                         <img src="[% Data.SenderImage | url %]" title="[% Data.ArticleFields.Sender.Value | html %]" />
                         <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>

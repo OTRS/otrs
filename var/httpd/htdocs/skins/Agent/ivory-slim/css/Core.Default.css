@@ -44,6 +44,13 @@ a:focus,
     color: #82CED8;
 }
 
+@keyframes border-fill {
+    0%   { border-bottom: 2px solid #82CED8; }
+    25%  { border-bottom: 2px solid #82CED8; border-left: 2px solid #82CED8; }
+    50%  { border-bottom: 2px solid #82CED8; border-left: 2px solid #82CED8; border-top: 2px solid #82CED8; }
+    100% { border-bottom: 2px solid #82CED8; border-left: 2px solid #82CED8; border-top: 2px solid #82CED8; border-right: 2px solid #82CED8; }
+}
+
 .Admin .Size1of2:hover h4 {
     color: #265D66 !important;
 }
@@ -70,11 +77,8 @@ textarea.Focus  {
  *              red overlay doesn't fit, so changed the main sprite too.
  */
 
-#Navigation > .Selected,
-#Navigation > .Selected > a,
-#Navigation > li:hover,
-#Navigation > li:hover > a {
-    border-color: #69BFCC;
+#Navigation > li > a:after {
+    background-color: #69BFCC;
 }
 
 #Navigation > li:hover > span {
@@ -124,19 +128,19 @@ textarea.Focus  {
     background: #82CED8;
 }
 
-.UseArticleColors .agent-phone:hover > td, 
-.UseArticleColors .agent-email-external:hover > td, 
-.UseArticleColors .agent-email-internal:hover > td, 
-.UseArticleColors .agent-note-external:hover > td, 
-.UseArticleColors .agent-note-internal:hover > td, 
-.UseArticleColors .system-note-internal:hover > td, 
-.UseArticleColors .system-note-external:hover > td, 
-.UseArticleColors .system-note-report:hover > td, 
-.UseArticleColors .system-email-external:hover > td, 
-.UseArticleColors .system-email-internal:hover > td, 
-.UseArticleColors .customer-webrequest:hover > td, 
-.UseArticleColors .customer-email-external:hover > td, 
-.UseArticleColors .customer-note-external:hover > td, 
+.UseArticleColors .agent-phone:hover > td,
+.UseArticleColors .agent-email-external:hover > td,
+.UseArticleColors .agent-email-internal:hover > td,
+.UseArticleColors .agent-note-external:hover > td,
+.UseArticleColors .agent-note-internal:hover > td,
+.UseArticleColors .system-note-internal:hover > td,
+.UseArticleColors .system-note-external:hover > td,
+.UseArticleColors .system-note-report:hover > td,
+.UseArticleColors .system-email-external:hover > td,
+.UseArticleColors .system-email-internal:hover > td,
+.UseArticleColors .customer-webrequest:hover > td,
+.UseArticleColors .customer-email-external:hover > td,
+.UseArticleColors .customer-note-external:hover > td,
 .UseArticleColors .customer-phone:hover > td {
     background: #82CED8 !important;
 }
@@ -168,13 +172,25 @@ textarea.Focus  {
 }
 
 #ToolBar {
-    top: 32px;
+    top: 22px;
     left: auto;
     right: 14px;
+    z-index: 10;
 }
 
-#ToolBar a {
-    margin-top: -7px;
+#ToolBar li.UserAvatar {
+    margin-top: -6px;
+    float: right;
+}
+
+#ToolBar li.UserAvatar div {
+    right: -25px;
+    left: auto;
+}
+
+#ToolBar li.UserAvatar div:after {
+    left: auto;
+    right: 15px;
 }
 
 .RTL #ToolBar {
@@ -187,7 +203,7 @@ textarea.Focus  {
 }
 
 #NavigationContainer {
-    top: 27px;
+    top: 17px;
 }
 
 .DataTable tr td {

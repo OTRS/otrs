@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingSimple">
-    <h1>[% Translate("GenericInterface Web Service Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("GenericInterface Web Service Management") | html %]</h1>
 
     [% USE WebserviceLink = String( "AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=" ) %]
     [% USE ActionName = String( Data.ActionType ) %]

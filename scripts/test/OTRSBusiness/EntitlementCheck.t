@@ -40,7 +40,7 @@ my @Tests = (
         AgentNotificationResultAdmin => '<!-- start Notify -->
 <div class="MessageBox Info">
     <p>
-            <a href="No-$ENV{"SCRIPT_NAME"}?Action=AdminOTRSBusiness" class="Button"><i class="fa fa-angle-double-up"></i> Upgrade to <b>OTRS Business Solution</b>™ now! </a>
+            <a href="No-$ENV{"SCRIPT_NAME"}?Action=AdminOTRSBusiness"> Upgrade to <b>OTRS Business Solution</b>™ now! </a>
     </p>
 </div>
 <!-- end Notify -->

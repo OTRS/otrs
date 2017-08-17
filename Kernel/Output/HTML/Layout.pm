@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use URI::Escape qw();
+use Digest::MD5 qw(md5_hex);
 
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
@@ -1429,6 +1430,20 @@ sub Header {
                     Key   => 'ChatEngine::Active',
                     Value => $ConfigObject->Get('ChatEngine::Active')
                 );
+            }
+        }
+
+        # generate avatar
+        if ($ConfigObject->Get('Frontend::AvatarEngine') eq 'Gravatar' && $Self->{UserEmail}) {
+            $Param{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=mm';
+        }
+        else {
+            my @NameParts = split /\s+/, $Self->{UserFullname};
+            if (@NameParts) {
+                $Param{UserInitials} = uc substr $NameParts[0], 0, 1;
+                if ( @NameParts > 1 ) {
+                    $Param{UserInitials} .= uc substr $NameParts[-1], 0, 1;
+                }
             }
         }
 

@@ -23,7 +23,6 @@
     background: #333;
     color: #FFF;
     position: relative;
-    z-index: 10;
 }
 
 /**
@@ -50,9 +49,8 @@
  */
 #ToolBar {
     left: 10px;
-    top: 10px;
+    top: 15px;
     position: absolute;
-    z-index: 20;
 }
 
 #ToolBar:last-child {
@@ -86,6 +84,119 @@
 
 #ToolBar li.Extended form select {
     margin-top: 1px;
+}
+
+#ToolBar li.UserAvatar {
+    margin: -5px 25px 0px 10px;
+}
+
+#ToolBar li.UserAvatar .Initials {
+    background: #777;
+    display: block;
+    height: 35px;
+    width: 35px;
+    border-radius: 50px;
+    color: #ccc;
+    text-indent: 0px;
+    text-align: center;
+    line-height: 37px;
+    text-shadow: 1px 1px 1px #333;
+    border: 1px solid transparent;
+}
+
+#ToolBar li.UserAvatar i {
+    display: none !important;
+}
+
+#ToolBar li.UserAvatar > a {
+    display: block;
+    width: 37px;
+    height: 37px;
+    border-radius: 50px;
+    border: 2px solid transparent;
+    padding: 0px;
+    margin-top: -3px;
+    transition: border-color ease 0.3s;
+}
+
+body.Visible-ScreenXL #ToolBar li.UserAvatar:hover > a {
+    animation-name: border-fill;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+@keyframes border-fill {
+    0%   { border-bottom: 2px solid #f92; }
+    25%  { border-bottom: 2px solid #f92; border-left: 2px solid #f92; }
+    50%  { border-bottom: 2px solid #f92; border-left: 2px solid #f92; border-top: 2px solid #f92; }
+    100% { border-bottom: 2px solid #f92; border-left: 2px solid #f92; border-top: 2px solid #f92; border-right: 2px solid #f92; }
+}
+
+#ToolBar li.UserAvatar img {
+    width: 35px;
+    height: 35px;
+    border: 1px solid transparent;
+    display: block;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+#ToolBar li.UserAvatar div {
+    display: none;
+    width: 180px;
+    background: #555;
+    z-index: 999;
+    position: absolute;
+    top: 100%;
+    left: -10px;
+    margin-top: 22px;
+}
+
+#ToolBar li.UserAvatar div:after {
+	bottom: 100%;
+	left: 15px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(85, 85, 85, 0);
+	border-bottom-color: #555;
+	border-width: 15px;
+}
+
+#ToolBar li.UserAvatar div a,
+#ToolBar li.UserAvatar div span {
+    text-indent: 0px;
+    height: auto;
+    width: auto;
+    line-height: 18px;
+    color: #fff;
+    display: block;
+    padding: 5px 10px;
+}
+
+body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
+    background: #777;
+}
+
+#ToolBar li.UserAvatar div a:last-child {
+    padding-bottom: 10px;
+}
+
+#ToolBar li.UserAvatar div span {
+    color: #ccc;
+    font-size: 12px;
+    border-bottom: 1px solid #777;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    padding-top: 10px;
+}
+
+#ToolBar li.UserAvatar div strong {
+    font-weight: normal;
 }
 
 #ToolBar a {
@@ -141,6 +252,90 @@
     width: 24px;
 }
 
+#ToolBar .Extended.SearchProfile {
+    position: relative;
+    padding-left: 10px;
+    overflow: hidden;
+    margin-right: 0px;
+}
+
+#ToolBar .Extended input[type=text] {
+    padding: 4px 7px 5px 22px;
+    background: #444;
+    border: 1px solid #333;
+    box-shadow: none;
+    position: relative;
+    top: -1px;
+    margin-right: -5px;
+    text-overflow: ellipsis;
+    width: 90px !important;
+    font-size: 12px;
+    transition: all ease 0.3s;
+    color: #aaa;
+}
+
+#ToolBar .Extended.SearchFulltext {
+    position: relative;
+}
+
+#ToolBar .Extended.SearchFulltext:before {
+    content: "\f002";
+    font-family: FontAwesome;
+    display: inline-block;
+    position: absolute;
+    left: 8px;
+    z-index: 2;
+    color: #777;
+    top: 5px;
+}
+
+#ToolBar .Extended input[type=text]:focus {
+    position: relative;
+    z-index: 3;
+    padding-left: 7px;
+    width: 120px !important;
+}
+
+#ToolBar .Extended input[type=text]::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #999;
+}
+
+#ToolBar .Extended input[type=text]:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #999;
+}
+
+#ToolBar .Extended input[type=text]::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #999;
+}
+
+#ToolBar .Extended input[type=text]:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #999;
+}
+
+#ToolBar .Extended input[type=text]::-ms-input-placeholder { /* Microsoft Edge */
+    color: #999;
+}
+
+#ToolBar .Extended input[type=text]:focus::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #555;
+}
+
+#ToolBar .Extended input[type=text]:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #555;
+}
+
+#ToolBar .Extended input[type=text]:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #555;
+}
+
+#ToolBar .Extended input[type=text]:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #555;
+}
+
+#ToolBar .Extended input[type=text]:focus::-ms-input-placeholder { /* Microsoft Edge */
+    color: #555;
+}
+
 /**
  * @subsection      Navigation Level-0
  */
@@ -151,7 +346,7 @@
     left: 10px;
     z-index: 20;
     width: 98%;
-    height: 35px;
+    height: 34px;
     overflow: hidden;
 }
 
@@ -216,18 +411,27 @@
 #Navigation > li {
     float: left;
     position: relative;
-    background: #000000;
-    margin-right: 1px;
-    border-bottom: 5px solid #000;
 }
 
 #Navigation > li > a {
     display: block;
     height: 21px;
-    padding: 8px 15px 0px 7px;
+    padding: 8px 10px 4px 10px;
     font-size: 12px;
     line-height: 12px;
     color: #DDD;
+    position: relative;
+}
+
+#Navigation > li > a:after {
+    width: 0px;
+    height: 3px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    background: #f92;
+    content: "";
+    transition: width ease 0.3s;
 }
 
 #Navigation > li > a#GlobalSearchNav {
@@ -254,7 +458,6 @@
 
 #Navigation > li:hover {
     cursor: pointer;
-    border-color: #FF9922;
 }
 
 #Navigation > li:hover > a,
@@ -262,8 +465,17 @@
     color: #FFF;
 }
 
+
+#Navigation > li:hover > a:after,
+#Navigation > li:active > a:after,
+#Navigation > li > a:hover:after,
+#Navigation > li > a:active:after,
+#Navigation > li > a:focus:after,
+#Navigation > li.Selected > a:after {
+    width: 100%;
+}
+
 #Navigation > .Selected {
-    border-color: #FF9922;
     z-index: 90;
 }
 
@@ -295,12 +507,12 @@
 
 #Navigation > .Active > ul {
     position: absolute;
-    top: 35px;
+    top: 34px;
     left: 0px;
     display: block;
     min-width: 240px;
     z-index: 99;
-    background: #000;
+    background: #333;
 }
 
 .RTL #Navigation > .Active > ul {
@@ -327,8 +539,8 @@
     display: block;
     position: relative;
     color: #DDD;
-    padding: 6px 10px 7px 8px;
-    border-bottom: 1px solid #555;
+    padding: 8px 10px;
+    border-bottom: 1px solid #222;
 }
 
 #Navigation > .Active > ul > li:last-child > a {

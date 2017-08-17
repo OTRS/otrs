@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <div class="MainBox ARIARoleMain AdminSupportDataCollector LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Support Data Collector") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Support Data Collector") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

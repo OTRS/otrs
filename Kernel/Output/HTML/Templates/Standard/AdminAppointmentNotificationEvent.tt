@@ -12,7 +12,25 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Appointment Notification Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Appointment Notification Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Appointment Notification Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% BreadcrumbPath.push({ Name => Translate("Add Notification"),}) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit Notification")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
     [% BreadcrumbPath = [
             {

@@ -539,8 +539,6 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title       => 'Logout',
-                    Message     => Translatable('Session invalid. Please log in again.'),
-                    MessageType => 'Error',
                     %Param,
                 ),
             );

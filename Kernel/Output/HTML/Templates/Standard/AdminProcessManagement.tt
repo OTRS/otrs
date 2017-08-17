@@ -12,7 +12,7 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
 %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Process Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Process Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

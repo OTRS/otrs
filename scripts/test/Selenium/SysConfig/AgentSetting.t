@@ -113,6 +113,9 @@ EOF
             'Ivory skin should be selected'
         );
 
+        # try to expand the user profile sub menu by clicking the avatar
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
+
         # logout
         my $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
         $Element->VerifiedClick();

@@ -122,19 +122,6 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
-        # check breadcrumb on Import screen
-        my $Count = 1;
-        for my $BreadcrumbText ( 'Statistics Overview', 'Import Statistics Configuration' )
-        {
-            $Self->Is(
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
-                $BreadcrumbText,
-                "Breadcrumb text '$BreadcrumbText' is found on screen"
-            );
-
-            $Count++;
-        }
-
         # import test selenium statistic
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
@@ -171,7 +158,7 @@ $Selenium->RunTest(
             UserID   => 1,
         );
 
-        $Count = scalar @{$StatsIDs};
+        my $Count = scalar @{$StatsIDs};
         my $StatsIDLast = $StatsIDs->[ $Count - 1 ];
 
         # check for imported stats on overview screen

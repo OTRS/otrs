@@ -102,22 +102,6 @@ $Selenium->RunTest(
             UserID => 1,
         );
 
-        # check breadcrumb on View screen
-        $Count = 1;
-        for my $BreadcrumbText (
-            'Statistics Overview',
-            'View ' . $ConfigObject->Get('Stats::StatsHook') . $StatData->{StatNumber}
-            )
-        {
-            $Self->Is(
-                $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
-                $BreadcrumbText,
-                "Breadcrumb text '$BreadcrumbText' is found on screen"
-            );
-
-            $Count++;
-        }
-
         # run test statistic
         $Selenium->find_element( "#StartStatistic", 'css' )->VerifiedClick();
         $Selenium->WaitFor( WindowCount => 2 );

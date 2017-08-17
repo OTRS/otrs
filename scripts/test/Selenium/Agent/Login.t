@@ -85,7 +85,10 @@ $Selenium->RunTest(
         # login
         $Element->VerifiedSubmit();
 
-        # login successful?
+        # try to expand the user profile sub menu by clicking the avatar
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
+
+        # check if we see the logout button
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
 
         # Check for version tag in the footer.
@@ -156,6 +159,9 @@ $Selenium->RunTest(
             "AgentSessionLimitPriorWarning is reached.",
         );
 
+        # try to expand the user profile sub menu by clicking the avatar
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
+
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );
         $Element->VerifiedClick();
 
@@ -220,6 +226,9 @@ $Selenium->RunTest(
         $Element->send_keys( $TestUserLogins[0] );
 
         $Element->VerifiedSubmit();
+
+        # try to expand the user profile sub menu by clicking the avatar
+        $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
 
         # login successful?
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );

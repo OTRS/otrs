@@ -8,7 +8,7 @@
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Type Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Type Management") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

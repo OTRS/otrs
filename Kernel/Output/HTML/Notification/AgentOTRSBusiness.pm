@@ -45,7 +45,7 @@ sub Run {
             '<a href="'
                 . $LayoutObject->{Baselink}
                 . 'Action=AdminOTRSBusiness'
-                . '" class="Button"><i class="fa fa-angle-double-up"></i>',
+                . '">',
             $OTRSBusinessLabel,
             '</a>',
         );

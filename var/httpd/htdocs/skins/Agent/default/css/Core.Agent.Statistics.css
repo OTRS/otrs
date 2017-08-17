@@ -16,64 +16,6 @@
  * @subsubsection     General
  */
 
-.Content.BigButtonsContainer {
-    display: table;
-    margin: 0px auto 10px auto;
-    border-spacing: 5px;
-}
-
-.BigButtons {
-    display: table-row;
-    text-align: center;
-    padding: 20px 0px;
-}
-
-.BigButtons a {
-    display: table-cell;
-    border: 1px solid #ccc;
-    padding: 20px;
-    width: 150px;
-    background: #eee;
-    cursor: pointer;
-    transition: all ease-in 0.2s;
-}
-
-.BigButtons a:not(.Disabled):hover,
-.BigButtons a.Active {
-	background-color: #e5e5e5;
-    border-color: #999;
-}
-
-.BigButtons a.Disabled strong,
-.BigButtons a.Disabled span {
-    color: #ccc;
-}
-
-.BigButtons a.Disabled {
-    cursor: default;
-}
-
-.BigButtons a strong,
-.BigButtons a span {
-    display: block;
-}
-
-.BigButtons a strong {
-    font-size: 15px;
-    margin: 3px 0px;
-    color: #f92;
-}
-
-.BigButtons a span {
-	color: #555;
-}
-
-.BigButtons a i {
-	font-size: 25px;
-	color: #bbb;
-	margin-bottom: 5px;
-}
-
 .PreviewWidget {
     position: relative;
 }

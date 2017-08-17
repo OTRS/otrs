@@ -149,31 +149,6 @@ Core.Agent.Preferences = (function (TargetNS) {
             return false;
         });
 
-        $('#ToggleView').on('click', function() {
-            if ($(this).hasClass('Grid')) {
-                Core.Agent.PreferencesUpdate('AgentPreferencesView', 'List');
-                $('.GridView').fadeOut();
-                $('.ListView').fadeIn(function() {
-
-                    // check if the "no matches found" message is the only visible entry
-                    if ($('.ListView .DataTable tbody tr:visible').length == 1 && $('.ListView .DataTable tbody tr:visible').hasClass('FilterMessage')) {
-                        $('.ListView .DataTable tr.FilterMessage').removeClass('Hidden');
-                    }
-                    else {
-                        $('.ListView .DataTable tr.FilterMessage').hide();
-                    }
-                    $('#ToggleView').removeClass('Grid').addClass('List');
-                });
-            }
-            else {
-                Core.Agent.PreferencesUpdate('AgentPreferencesView', 'Grid');
-                $('.ListView').fadeOut();
-                $('.GridView').fadeIn(function() {
-                    $('#ToggleView').removeClass('List').addClass('Grid');
-                });
-            }
-        });
-
         TargetNS.InitSysConfig();
 
         Core.UI.Table.InitTableFilter($("#FilterSettings"), $(".SettingsList"));

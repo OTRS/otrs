@@ -10,7 +10,7 @@
 
 [% RenderBlockStart("Uninstall") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Package Manager") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
 
     [% BreadcrumbPath = [
             {

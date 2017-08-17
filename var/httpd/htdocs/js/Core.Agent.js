@@ -677,6 +677,16 @@ Core.Agent = (function (TargetNS) {
         if (parseInt(Core.Config.Get('NewTicketInNewWindow'), 10)) {
             InitTicketInNewWindow();
         }
+
+        // init the avatar toggle
+        $('#ToolBar .UserAvatar > a').off('click.UserAvatar').on('click.UserAvatar', function() {
+            $(this).next('div').fadeToggle('fast');
+            return false;
+        });
+
+        $('#ToolBar .UserAvatar > div').off('mouseleave.UserAvatar').on('mouseleave.UserAvatar', function() {
+            $(this).fadeToggle('fast');
+        });
     };
 
     /**

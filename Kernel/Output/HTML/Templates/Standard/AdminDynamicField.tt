@@ -13,7 +13,7 @@ SET OTRSBusinessLabel     = '<strong><a href="#" class="OTRSBusinessRequired">OT
 
 [% RenderBlockStart("Main") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Dynamic Fields Management") | html %] - [% Translate(Data.Action) | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Dynamic Fields Management") | html %] - [% Translate(Data.Action) | html %]</h1>
 
     [% BreadcrumbPath = [
             {

@@ -67,7 +67,59 @@ input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
 textarea:focus {
-    border-color: #F92;
+    border-color: #777;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #555;
+    transition: color ease 0.3s;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: #555;
+   transition: color ease 0.3s;
+   opacity: 1;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: #555;
+   transition: color ease 0.3s;
+   opacity: 1;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #555;
+   transition: color ease 0.3s;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+   color: #555;
+   transition: color ease 0.3s;
+}
+
+:focus::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #ccc;
+}
+
+:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: #ccc;
+   opacity: 1;
+}
+
+:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: #ccc;
+   opacity: 1;
+}
+
+:focus:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #ccc;
+}
+
+:focus::-ms-input-placeholder { /* Microsoft Edge */
+   color: #ccc;
 }
 
 /**

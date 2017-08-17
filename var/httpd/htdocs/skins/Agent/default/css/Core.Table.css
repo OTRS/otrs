@@ -420,8 +420,7 @@ thead .headerSortDown a {
 .TableSmall tbody tr.Active td,
 .DataTable tbody tr.Active td {
     color: #1A1A1A;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    text-shadow: 1px 1px 1px #fff;
 }
 
 .DataTable tbody tr.Active td {

@@ -62,7 +62,7 @@
 [% RenderBlockStart("Header") %]
 <div class="MainBox ARIARoleMain TicketZoom [% IF Data.UseArticleColors %]UseArticleColors[% END %]">
     <div class="ClearLeft"></div>
-    <div class="Headline">
+    <div class="Headline NoMargin">
         <div class="Flag" title="[% Translate(Data.Priority) | html %]"><span class="PriorityID-[% Data.PriorityID | html %]">[% Translate(Data.Priority) | html %]</span></div>
         <h1>
             [% Data.Hook %][% Config('Ticket::HookDivider') %][% Data.TicketNumber %] &mdash; [% Data.Title | html %]

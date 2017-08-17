@@ -310,10 +310,10 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
+                <Item Key="StyleTop">12px</Item>
+                <Item Key="StyleRight">20px</Item>
                 <Item Key="StyleHeight">85px</Item>
-                <Item Key="StyleWidth">270px</Item>
+                <Item Key="StyleWidth">230px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -331,7 +331,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentLogoCustom###slim" Required="0" Valid="0">
+    <ConfigItem Name="AgentLogoCustom###slim" Required="0" Valid="1">
         <Description Translatable="1">The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -339,13 +339,13 @@
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
                 <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleRight">5px</Item>
+                <Item Key="StyleHeight">65px</Item>
                 <Item Key="StyleWidth">270px</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentLogoCustom###ivory" Required="0" Valid="0">
+    <ConfigItem Name="AgentLogoCustom###ivory" Required="0" Valid="1">
         <Description Translatable="1">The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -359,7 +359,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="AgentLogoCustom###ivory-slim" Required="0" Valid="0">
+    <ConfigItem Name="AgentLogoCustom###ivory-slim" Required="0" Valid="1">
         <Description Translatable="1">The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -367,8 +367,8 @@
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
                 <Item Key="StyleTop">4px</Item>
-                <Item Key="StyleRight">38px</Item>
-                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleRight">5px</Item>
+                <Item Key="StyleHeight">65px</Item>
                 <Item Key="StyleWidth">270px</Item>
             </Hash>
         </Setting>
@@ -877,6 +877,17 @@
                 <Item Key="ItemMaxAttempts">3</Item>
                 <Item Key="IncrementAttemptDelayInMinutes">2</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::AvatarEngine" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If 'None' is selected, initials will be displayed instead. Please note that selecting anything other than 'None' will transfer the encrypted email address of the particular user to an external service.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Option SelectedID="Gravatar">
+                <Item Key="None" Translatable="1">None</Item>
+                <Item Key="Gravatar" Translatable="1">Gravatar.com</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LoginURL" Required="0" Valid="0" ConfigLevel="200">
