@@ -575,7 +575,8 @@ $Selenium->RunTest(
             ],
         );
 
-        my $AgentCustomerUserAddressBookConfig = $ConfigObject->Get("CustomerUser::Frontend::AgentCustomerUserAddressBook");
+        my $AgentCustomerUserAddressBookConfig
+            = $ConfigObject->Get("CustomerUser::Frontend::AgentCustomerUserAddressBook");
 
         for my $Test (@Tests) {
 

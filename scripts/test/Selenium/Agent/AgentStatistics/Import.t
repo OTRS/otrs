@@ -158,7 +158,7 @@ $Selenium->RunTest(
             UserID   => 1,
         );
 
-        my $Count = scalar @{$StatsIDs};
+        my $Count       = scalar @{$StatsIDs};
         my $StatsIDLast = $StatsIDs->[ $Count - 1 ];
 
         # check for imported stats on overview screen

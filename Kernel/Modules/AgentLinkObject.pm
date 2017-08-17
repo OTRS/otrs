@@ -281,7 +281,8 @@ sub Run {
         if ($SuccessCounter) {
             $Output .= $LayoutObject->Notify(
                 Priority => 'Info',
-                Data     => $LayoutObject->{LanguageObject}->Translate("%s Link(s) deleted successfully.", $SuccessCounter),
+                Data =>
+                    $LayoutObject->{LanguageObject}->Translate( "%s Link(s) deleted successfully.", $SuccessCounter ),
             );
         }
 
@@ -787,7 +788,7 @@ sub Run {
     );
 
     my $ManageTabDisabled = 0;
-    if (!$LinkTableStrg) {
+    if ( !$LinkTableStrg ) {
         $ManageTabDisabled = 1;
     }
 
@@ -811,13 +812,13 @@ sub Run {
     # start template output
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentLinkObject',
-        Data => {
+        Data         => {
             SourceObjectNormal => $SourceObjectDescription{Normal},
             SourceObjectLong   => $SourceObjectDescription{Long},
             TargetObjectStrg   => $TargetObjectStrg,
             ActiveTab          => $ActiveTab,
             ManageTabDisabled  => $ManageTabDisabled,
-        }
+            }
     );
 
     $Output .= $LayoutObject->Footer( Type => 'Small' );

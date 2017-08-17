@@ -456,7 +456,10 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'#ManageLinks' )]")->VerifiedClick();
 
         # wait for the manage links tab to show up
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div[data-id=ManageLinks]:visible").length && parseInt($("div[data-id=ManageLinks]").css("opacity"), 10) == 1' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("div[data-id=ManageLinks]:visible").length && parseInt($("div[data-id=ManageLinks]").css("opacity"), 10) == 1'
+        );
 
         # check for long ticket title in LinkDelete screen
         # this one is displayed on hover
@@ -484,7 +487,10 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'#AddNewLinks' )]")->VerifiedClick();
 
         # wait for the add new links tab to show up
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div[data-id=AddNewLinks]:visible").length && parseInt($("div[data-id=AddNewLinks]").css("opacity"), 10) == 1' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("div[data-id=AddNewLinks]:visible").length && parseInt($("div[data-id=AddNewLinks]").css("opacity"), 10) == 1'
+        );
 
         my $SuccessArchived = $TicketObject->TicketArchiveFlagSet(
             ArchiveFlag => 'y',
@@ -528,9 +534,9 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SelectAllLinks0").length' );
 
         # link again
-        $Selenium->find_element( ".Tabs div.Active .SelectAll",  "css" )->click();
-        $Selenium->find_element( "#AddLinks",         "css" )->VerifiedClick();
-        $Selenium->find_element( "#LinkAddCloseLink", "css" )->click();
+        $Selenium->find_element( ".Tabs div.Active .SelectAll", "css" )->click();
+        $Selenium->find_element( "#AddLinks",                   "css" )->VerifiedClick();
+        $Selenium->find_element( "#LinkAddCloseLink",           "css" )->click();
 
         # wait till popup is closed
         $Selenium->WaitFor( WindowCount => 1 );

@@ -538,7 +538,7 @@ sub Run {
             # show login screen
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
-                    Title       => 'Logout',
+                    Title => 'Logout',
                     %Param,
                 ),
             );

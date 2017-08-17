@@ -1265,8 +1265,9 @@ sub CustomerUserDataGet {
     }
 
     # to build the UserMailString
-    my %LookupCustomerUserListFields = map { $_ => 1 } @{ $CustomerUserListFieldsMap };
-    my @CustomerUserListFields = map { $_->[0] } grep { $LookupCustomerUserListFields{ $_->[2] } } @{ $Self->{CustomerUserMap}->{Map} };
+    my %LookupCustomerUserListFields = map { $_ => 1 } @{$CustomerUserListFieldsMap};
+    my @CustomerUserListFields
+        = map { $_->[0] } grep { $LookupCustomerUserListFields{ $_->[2] } } @{ $Self->{CustomerUserMap}->{Map} };
 
     my $UserMailString = '';
     my @UserMailStringParts;

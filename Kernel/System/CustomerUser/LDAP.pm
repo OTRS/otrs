@@ -1428,7 +1428,7 @@ sub CustomerUserDataGet {
         $CustomerUserListFieldsMap = [ 'first_name', 'last_name', 'email', ];
     }
 
-    for my $Field ( @{ $CustomerUserListFieldsMap } ) {
+    for my $Field ( @{$CustomerUserListFieldsMap} ) {
 
         my $Value = $Self->_ConvertFrom( $Result2->get_value($Field) ) || '';
 

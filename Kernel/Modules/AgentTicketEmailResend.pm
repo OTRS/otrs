@@ -1055,7 +1055,7 @@ sub _Mask {
             if (%CustomerSearch) {
                 for my $CustomerUserID ( sort keys %CustomerSearch ) {
                     push @EmailAddressesBcc, {
-                        CustomerKey       => $CustomerUserID,
+                        CustomerKey        => $CustomerUserID,
                         CustomerTicketText => $CustomerSearch{$CustomerUserID},
                     };
                 }
@@ -1064,7 +1064,7 @@ sub _Mask {
                 push @EmailAddressesBcc, {
                     CustomerKey        => '',
                     CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
-                },
+                    },
             }
         }
 
@@ -1091,7 +1091,7 @@ sub _Mask {
             if (%CustomerSearch) {
                 for my $CustomerUserID ( sort keys %CustomerSearch ) {
                     push @EmailAddressesCc, {
-                        CustomerKey       => $CustomerUserID,
+                        CustomerKey        => $CustomerUserID,
                         CustomerTicketText => $CustomerSearch{$CustomerUserID},
                     };
                 }
@@ -1100,7 +1100,7 @@ sub _Mask {
                 push @EmailAddressesCc, {
                     CustomerKey        => '',
                     CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
-                },
+                    },
             }
         }
 
@@ -1127,16 +1127,16 @@ sub _Mask {
             if (%CustomerSearch) {
                 for my $CustomerUserID ( sort keys %CustomerSearch ) {
                     push @EmailAddressesTo, {
-                        CustomerKey       => $CustomerUserID,
+                        CustomerKey        => $CustomerUserID,
                         CustomerTicketText => $CustomerSearch{$CustomerUserID},
                     };
                 }
             }
             else {
                 push @EmailAddressesTo, {
-                    CustomerKey       => '',
+                    CustomerKey        => '',
                     CustomerTicketText => $Email->[0] ? "$Email->[0] <$Email->[1]>" : "$Email->[1]",
-                },
+                    },
             }
         }
 
