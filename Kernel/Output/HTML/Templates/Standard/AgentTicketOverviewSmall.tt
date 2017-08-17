@@ -266,29 +266,35 @@
 [% RenderBlockEnd("RecordEscalationTime") %]
 [% RenderBlockStart("RecordOwner") %]
                     <td>
-                        <div title="[% Data.UserFullname | html %] ([% Data.Owner | html %])">[% Data.UserFullname | truncate(30) | html %]</div>
+                        <div title="[% Data.UserFullname | html %] ([% Data.Owner | html %])">[% Data.UserFullname | truncate(50) | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordOwner") %]
 [% RenderBlockStart("RecordResponsible") %]
                     <td>
-                        <div title="[% Data.ResponsibleInfo.UserFullname | html %] ([% Data.Responsible | html %])">[% Data.ResponsibleInfo.UserFullname | truncate(30) | html %]</div>
+                        <div title="[% Data.ResponsibleInfo.UserFullname | html %] ([% Data.Responsible | html %])">[% Data.ResponsibleInfo.UserFullname | truncate(50) | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordResponsible") %]
 [% RenderBlockStart("RecordCustomerID") %]
                     <td>
                         <a href="[% Env("Baselink") %]Action=AgentTicketCustomer;TicketID=[% Data.TicketID | uri %]" class="AsPopup">
-                            <span title="[% Data.CustomerID | html %]">[% Data.CustomerID | truncate(15) | html %]</span>
+                            <span title="[% Data.CustomerID | html %]">[% Data.CustomerID | truncate(100) | html %]</span>
                         </a>
                     </td>
 [% RenderBlockEnd("RecordCustomerID") %]
+[% RenderBlockStart("RecordLastCustomerSubject") %]
+                    <td>
+                        <div title="[% Data.From | html %]">[% Data.FromRealname | truncate(100) | html %]</div>
+                        <div title="[% Data.SubjectLong | html %]">[% Data.Subject | html %]</div>
+                    </td>
+[% RenderBlockEnd("RecordLastCustomerSubject") %]
 [% RenderBlockStart("RecordTicketCreatedBy") %]
                     <td>
-                        <div title="[% Data.UserFullname | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | truncate(30) | html %]</div>
+                        <div title="[% Data.UserFullname | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | truncate(50) | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordTicketCreatedBy") %]
 [% RenderBlockStart("RecordTicketColumn") %]
                     <td>
-                        <div title="[% Data.GenericValue | html %]">[% Data.GenericValue | truncate(30) | html %]</div>
+                        <div title="[% Data.GenericValue | html %]">[% Data.GenericValue | truncate(100) | html %]</div>
                     </td>
 [% RenderBlockEnd("RecordTicketColumn") %]
 [% RenderBlockStart("RecordTicketColumnTranslatable") %]
