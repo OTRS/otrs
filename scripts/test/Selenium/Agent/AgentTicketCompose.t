@@ -14,30 +14,33 @@ use vars (qw($Self));
 
 use Kernel::Language;
 
-# get selenium object
+# Get Selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper                    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+        my $StandardTemplateObject    = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+        my $CustomerUserObject        = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # disable check email addresses
+        # Disable check email addresses.
         $Helper->ConfigSettingChange(
             Key   => 'CheckEmailAddresses',
             Value => 0,
         );
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0
         );
 
-        # do not check service and type
+        # Do not check service and type.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Service',
@@ -49,7 +52,7 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        # disable RequiredLock for AgentTicketCompose
+        # Disable RequiredLock for AgentTicketCompose.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::AgentTicketCompose###RequiredLock',
@@ -62,7 +65,7 @@ $Selenium->RunTest(
             Value => '1'
         );
 
-        # use test email backend
+        # Use test email backend.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'SendmailModule',
@@ -70,8 +73,6 @@ $Selenium->RunTest(
         );
 
         my $RandomID = $Helper->GetRandomID();
-
-        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
         my %DynamicFields = (
             Text => {
@@ -165,7 +166,7 @@ $Selenium->RunTest(
 
         my @DynamicFieldIDs;
 
-        # Create test dynamic field of type date
+        # Create test dynamic fields.
         for my $DynamicFieldType ( sort keys %DynamicFields ) {
 
             my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -180,10 +181,7 @@ $Selenium->RunTest(
             push @DynamicFieldIDs, $DynamicFieldID;
         }
 
-        # get standard template object
-        my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
-
-        # create a new template
+        # Create a new template.
         my $TemplateID = $StandardTemplateObject->StandardTemplateAdd(
             Name     => 'New Standard Template' . $RandomID,
             Template => "Thank you for your email.
@@ -191,6 +189,8 @@ $Selenium->RunTest(
                              Ticket lock: <OTRS_TICKET_Lock>.\n
                              Ticket priority: <OTRS_TICKET_Priority>.\n
                              Ticket created: <OTRS_TICKET_Created>.\n
+                             Ticket pending until time: <OTRS_TICKET_UntilTime>.\n
+                             Ticket will not be used till: <OTRS_TICKET_RealTillTimeNotUsed>.\n
                              DynamicField Text: <OTRS_TICKET_DynamicField_" . $DynamicFields{Text}->{Name} . "_Value>
                              DynamicField Dropdown: <OTRS_TICKET_DynamicField_"
                 . $DynamicFields{Dropdown}->{Name}
@@ -213,7 +213,7 @@ $Selenium->RunTest(
             "Standard template is created - ID $TemplateID",
         );
 
-        # assign template to the queue
+        # Assign template to the queue.
         my $Success = $Kernel::OM->Get('Kernel::System::Queue')->QueueStandardTemplateMemberAdd(
             QueueID            => 1,
             StandardTemplateID => $TemplateID,
@@ -225,10 +225,7 @@ $Selenium->RunTest(
             "$TemplateID is assigned to the queue.",
         );
 
-        # get customer user object
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
-        # add test customer for testing
+        # Create test customer.
         my $TestCustomer       = 'Customer' . $RandomID;
         my $CustomerEmail      = "$TestCustomer\@localhost.com";
         my $TestCustomerUserID = $CustomerUserObject->CustomerUserAdd(
@@ -246,7 +243,7 @@ $Selenium->RunTest(
             "CustomerUserAdd - ID $TestCustomerUserID",
         );
 
-        # set customer user language
+        # Set customer user language.
         my $Language = 'es';
         $Success = $CustomerUserObject->SetPreferences(
             Key    => 'UserLanguage',
@@ -258,14 +255,12 @@ $Selenium->RunTest(
             "Customer user language is set.",
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test ticket
+        # Create test ticket.
         my %TicketData = (
-            State    => 'new',
-            Priority => '4 high',
-            Lock     => 'unlock',
+            State     => 'pending reminder',
+            Priority  => '4 high',
+            Lock      => 'unlock',
+            UntilTime => '1 d 23 h'
         );
 
         my %DynamicFieldValues = (
@@ -284,7 +279,7 @@ $Selenium->RunTest(
             QueueID      => 1,
             Lock         => $TicketData{Lock},
             Priority     => $TicketData{Priority},
-            State        => $TicketData{State},
+            State        => 'new',
             CustomerID   => 'SeleniumCustomer',
             CustomerUser => $TestCustomer,
             OwnerID      => 1,
@@ -295,11 +290,8 @@ $Selenium->RunTest(
             "Ticket is created - ID $TicketID",
         );
 
-        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
+        # Set dynamic field values.
         for my $DynamicFieldType ( sort keys %DynamicFieldValues, sort keys %DynamicFieldDateValues ) {
-
-            # Set the value from the dynamic field.
             my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
                 Name => $DynamicFields{$DynamicFieldType}->{Name},
             );
@@ -315,7 +307,7 @@ $Selenium->RunTest(
         my $ArticleBackendObject
             = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel( ChannelName => 'Email' );
 
-        # create test email article
+        # Create test email article.
         my $ArticleID = $ArticleBackendObject->ArticleCreate(
             TicketID             => $TicketID,
             IsVisibleForCustomer => 1,
@@ -335,11 +327,31 @@ $Selenium->RunTest(
             "Article is created - ID $ArticleID",
         );
 
+        # Set state to 'pending reminder' for next 2 days.
+        $Success = $TicketObject->TicketStateSet(
+            State    => $TicketData{State},
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "TicketID $TicketID - set state to pending reminder successfully",
+        );
+        $Success = $TicketObject->TicketPendingTimeSet(
+            Diff     => ( 2 * 24 * 60 ),
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "Set pending time successfully",
+        );
+
         my %CreatedTicketData = $TicketObject->TicketGet(
             TicketID => $TicketID,
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -350,13 +362,13 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # Get script alias.
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to created test ticket in AgentTicketZoom page
+        # Navigate to created test ticket in AgentTicketZoom page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # click on reply
+        # Click on reply.
         $Selenium->execute_script(
             "\$('#ResponseID$ArticleID').val('$TemplateID').trigger('redraw.InputField').trigger('change');"
         );
@@ -366,10 +378,10 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait without jQuery because it might not be loaded yet
+        # Wait without jQuery because it might not be loaded yet.
         $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");' );
 
-        # Input required field and select customer
+        # Input required field and select customer.
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
@@ -386,7 +398,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
-        # check AgentTicketCompose page
+        # Check AgentTicketCompose page.
         for my $ID (
             qw(ToCustomer CcCustomer BccCustomer Subject RichText
             FileUpload StateID IsVisibleForCustomer submitRichText)
@@ -402,8 +414,8 @@ $Selenium->RunTest(
             "Default customer visibility is honored",
         );
 
-        # test bug #11810 - http://bugs.otrs.org/show_bug.cgi?id=11810
-        # translate ticket data tags (e.g. <OTRS_TICKET_State> ) in standard template
+        # Test bug #11810 - http://bugs.otrs.org/show_bug.cgi?id=11810.
+        # Translate ticket data tags (e.g. <OTRS_TICKET_State> ) in standard template.
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Language' => {
                 UserLanguage => $Language,
@@ -414,7 +426,7 @@ $Selenium->RunTest(
         for my $Item ( sort keys %TicketData ) {
             my $TransletedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
 
-            # check translated value
+            # Check translated value.
             $Self->True(
                 index( $Selenium->get_page_source(), $TransletedTicketValue ) > -1,
                 "Translated \'$Item\' value is found - $TransletedTicketValue .",
@@ -430,7 +442,25 @@ $Selenium->RunTest(
 
         $Self->True(
             index( $Selenium->get_page_source(), $TranslatedTicketCreated ) > -1,
-            "Translated \'Created\' value is found - $TranslatedTicketCreated.",
+            "Translated 'Created' value is found - $TranslatedTicketCreated.",
+        );
+
+        my $RealTillTimeNotUsed = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $CreatedTicketData{RealTillTimeNotUsed},
+                }
+        )->ToString();
+
+        $RealTillTimeNotUsed = $LanguageObject->FormatTimeString(
+            $RealTillTimeNotUsed,
+            'DateFormat',
+            'NoSeconds',
+        );
+
+        $Self->True(
+            index( $Selenium->get_page_source(), $RealTillTimeNotUsed ) > -1,
+            "Translated 'RealTillTimeNotUsed' value is found - $RealTillTimeNotUsed.",
         );
 
         for my $DynamicFieldType ( sort keys %DynamicFieldValues ) {
@@ -442,7 +472,7 @@ $Selenium->RunTest(
 
             my $TransletedDynamicFieldValue = $LanguageObject->Translate($Value);
 
-            # check dynamic field date format
+            # Check dynamic field date format.
             $Self->True(
                 index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $TransletedDynamicFieldValue . "\n" )
                     > -1,
@@ -460,21 +490,21 @@ $Selenium->RunTest(
                 'NoSeconds',
             );
 
-            # check dynamic field date format
+            # Check dynamic field date format.
             $Self->True(
                 index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $LanguageFormatDateValue . "\n" ) > -1,
                 "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $LanguageFormatDateValue.",
             );
         }
 
-        # input required fields and submit compose
+        # Input required fields and submit compose.
         $Selenium->find_element( "#RichText",       'css' )->send_keys('Selenium Compose Text');
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         $Selenium->find_element("//*[text()='History']")->VerifiedClick();
@@ -483,17 +513,17 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
-        # verify that compose worked as expected
+        # Verify that compose worked as expected.
         my $HistoryText = "Sent email to \"\"$TestCustomer $TestCustomer\"";
         $Self->True(
             index( $Selenium->get_page_source(), $HistoryText ) > -1,
             'Compose executed correctly'
         );
 
-        # delete created test ticket
+        # Delete test ticket.
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
@@ -503,7 +533,7 @@ $Selenium->RunTest(
             "Ticket with ticket ID $TicketID is deleted"
         );
 
-        # delete standard template
+        # Delete standard template.
         $Success = $StandardTemplateObject->StandardTemplateDelete(
             ID => $TemplateID,
         );
@@ -512,7 +542,7 @@ $Selenium->RunTest(
             "Standard template is deleted - ID $TemplateID"
         );
 
-        # delete created test customer user
+        # Delete test customer user.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         $TestCustomer = $DBObject->Quote($TestCustomer);
         $Success      = $DBObject->Do(
@@ -524,9 +554,8 @@ $Selenium->RunTest(
             "Delete customer user - $TestCustomer",
         );
 
+        # Delete created test dynamic fields.
         for my $DynamicFieldID (@DynamicFieldIDs) {
-
-            # delete created test dynamic field
             $Success = $DynamicFieldObject->DynamicFieldDelete(
                 ID     => $DynamicFieldID,
                 UserID => 1,
@@ -537,12 +566,11 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
-        for my $Cache (
-            qw (Ticket CustomerUser )
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+        # Make sure the cache is correct.
+        for my $Cache (qw( Ticket CustomerUser )) {
+            $CacheObject->CleanUp(
                 Type => $Cache,
             );
         }

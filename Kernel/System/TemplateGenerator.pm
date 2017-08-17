@@ -25,7 +25,6 @@ our @ObjectDependencies = (
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Encode',
     'Kernel::System::HTMLUtils',
-    'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::Queue',
     'Kernel::System::Salutation',
@@ -36,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::User',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::DateTime',
 );
 
 =head1 NAME
@@ -1166,6 +1166,22 @@ sub _Replace {
         %Ticket = %{ $Param{TicketData} };
     }
 
+    # Replace Unix time format tags.
+    # If language is defined, they will be converted into a correct format in below IF statement.
+    for my $UnixFormatTime (
+        qw(RealTillTimeNotUsed EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+        )
+    {
+        if ( $Ticket{$UnixFormatTime} ) {
+            $Ticket{$UnixFormatTime} = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $Ticket{$UnixFormatTime},
+                    }
+            )->ToString();
+        }
+    }
+
     # translate ticket values if needed
     if ( $Param{Language} ) {
 
@@ -1173,7 +1189,7 @@ sub _Replace {
             UserLanguage => $Param{Language},
         );
 
-        # Translate the diffrent values.
+        # Translate the different values.
         for my $Field (qw(Type State StateType Lock Priority)) {
             $Ticket{$Field} = $LanguageObject->Translate( $Ticket{$Field} );
         }
@@ -1189,6 +1205,24 @@ sub _Replace {
                     $Ticket{$Attribute},
                     'DateFormat',
                     'NoSeconds',
+                );
+            }
+        }
+
+        my $LocalLayoutObject = Kernel::Output::HTML::Layout->new(
+            Lang => $Param{Language},
+        );
+
+        # Convert tags in seconds to more readable appropriate format if language is defined.
+        for my $TimeInSeconds (
+            qw(UntilTime EscalationTimeWorkingTime EscalationTime FirstResponseTimeWorkingTime FirstResponseTime UpdateTimeWorkingTime
+            UpdateTime SolutionTimeWorkingTime SolutionTime)
+            )
+        {
+            if ( $Ticket{$TimeInSeconds} ) {
+                $Ticket{$TimeInSeconds} = $LocalLayoutObject->CustomerAge(
+                    Age   => $Ticket{$TimeInSeconds},
+                    Space => ' '
                 );
             }
         }
