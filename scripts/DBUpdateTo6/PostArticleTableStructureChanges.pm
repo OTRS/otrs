@@ -29,6 +29,17 @@ sub Run {
 
     my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
 
+    # Check if article_type table exists.
+    my $TableExists = $Self->TableExists(
+        Table => 'article_type',
+    );
+
+    # Skip execution if article_type table is missing.
+    if ( !$TableExists ) {
+        print "\n        - Article types table missing, skipping...\n\n" if $Verbose;
+        return 1;
+    }
+
     if ($Verbose) {
         print "\n        - Reseting auto-incremental if needed for article table.\n";
     }
