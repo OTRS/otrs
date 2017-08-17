@@ -414,7 +414,7 @@
 [% RenderBlockEnd("TreeItemDirectionInternal") %]
                                 </td>
                                 <td class="Sender">
-                                    <div title="[% Data.ArticleFields.Sender.Value | html %]"><a href="#">[% Data.ArticleFields.Sender.Realname | truncate(34) | html %]</a></div>
+                                    <div title="[% Data.ArticleFields.Sender.Value | html %]"><a href="#">[% Data.ArticleFields.Sender.Realname | truncate(100) | html %]</a></div>
                                     <input type="hidden" class="SortData" value="[% Data.ArticleFields.Sender.Value | html %]" />
                                 </td>
                                 <td class="Channel">
@@ -439,7 +439,7 @@
                                     <input type="hidden" class="SortData" value="[% Translate(Data.ChannelDisplayName) | html %]" />
                                 </td>
                                 <td class="Subject">
-                                    <div title="[% Data.ArticleFields.Subject.Value | html %]"><a href="#">[% Data.ArticleFields.Subject.Value | truncate(36) | html %]</a></div>
+                                    <div title="[% Data.ArticleFields.Subject.Value | html %]"><a href="#">[% Data.ArticleFields.Subject.Value | truncate(100) | html %]</a></div>
                                     <input type="hidden" class="SortData" value="[% Data.ArticleFields.Subject.Value | html %]" />
                                 </td>
                                 <td class="Created">
