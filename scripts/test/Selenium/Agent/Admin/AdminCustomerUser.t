@@ -162,6 +162,12 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
         );
+
+        # Change one preference entry, to check if preferences fields exists on the page.
+        $Selenium->execute_script(
+            "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
+        );
+
         $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
 
         # check overview page
@@ -242,6 +248,11 @@ $Selenium->RunTest(
             $Selenium->find_element( '#UserCustomerID', 'css' )->get_value(),
             $RandomID,
             "#UserCustomerID updated value",
+        );
+        $Self->Is(
+            $Selenium->find_element( '#UserTimeZone', 'css' )->get_value(),
+            'Europe/Berlin',
+            "#UserTimeZone updated value",
         );
 
         # check breadcrumb on Edit screen

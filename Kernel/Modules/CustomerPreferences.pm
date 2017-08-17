@@ -172,10 +172,7 @@ sub CustomerPreferencesForm {
         next GROUP if !$PreferencesGroup;
         next GROUP if ref $PreferencesGroup ne 'HASH';
 
-        #$PreferencesGroup->{Column} ||= '';
         $PreferencesGroup->{Prio} ||= 9999;
-
-        #next GROUP if $PreferencesGroup->{Column} ne $Column;
 
         if ( $Data{ $PreferencesGroup->{Prio} } ) {
 
