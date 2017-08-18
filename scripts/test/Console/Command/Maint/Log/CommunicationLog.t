@@ -25,6 +25,9 @@ my $CommandObject         = $Kernel::OM->Get('Kernel::System::Console::Command::
 my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
 
+# Set Database to an initial clean state.
+$CommunicationDBObject->CommunicationDelete();
+
 my @Communications = (
     {
         Transport => 'Email',
