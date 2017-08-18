@@ -125,7 +125,7 @@ local *Kernel::System::CloudService::Backend::Run::Request = sub {
             };
         }
     }
-    elsif ( scalar @{$Packages} == 2 ) {
+    else {
         return {
             PackageManagement => [
                 {
@@ -146,7 +146,7 @@ local *Kernel::System::CloudService::Backend::Run::Request = sub {
 #
 my @Tests = (
     {
-        Name        => "PackageVerify - Package 'Test'x",
+        Name        => "PackageVerify - Package 'Test'",
         Package     => $String,
         PackageName => 'Test',
         Result      => 'not_verified',
@@ -201,7 +201,7 @@ for my $Package (@Packages) {
 
     $Self->True(
         $PackageInstall,
-        "Package '$Package->{Name}' - installed successfully",
+        "Package '$Package->{Name}' - installed successfully"
     );
 }
 
