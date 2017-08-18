@@ -125,7 +125,7 @@ local *Kernel::System::CloudService::Request = sub {
             };
         }
     }
-    elsif ( scalar @{$Packages} == 2 ) {
+    else {
         return {
             PackageManagement => [
                 {
@@ -146,7 +146,7 @@ local *Kernel::System::CloudService::Request = sub {
 #
 my @Tests = (
     {
-        Name        => "PackageVerify - Package 'Test'x",
+        Name        => "PackageVerify - Package 'Test'",
         Package     => $String,
         PackageName => 'Test',
         Result      => 'not_verified',
@@ -201,7 +201,7 @@ for my $Package (@Packages) {
 
     $Self->True(
         $PackageInstall,
-        "Package '$Package->{Name}' - installed successfully",
+        "Package '$Package->{Name}' - installed successfully"
     );
 }
 
@@ -214,7 +214,7 @@ for my $PackageName (qw( Test TestSecond )) {
     $Self->Is(
         $VerifyAll{$PackageName},
         'not_verified',
-        "PackageVerifyAll - '$PackageName' not verified",
+        "PackageVerifyAll - '$PackageName' not verified"
     );
 }
 
@@ -224,7 +224,7 @@ for my $Package (@Packages) {
 
     $Self->True(
         $PackageUninstall,
-        "Package '$Package->{Name}' - uninstalled successfully",
+        "Package '$Package->{Name}' - uninstalled successfully"
     );
 }
 
