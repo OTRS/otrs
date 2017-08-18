@@ -13,7 +13,8 @@ use utf8;
 
 use vars (qw($Self));
 
-# get helper object
+use Kernel::System::WebUserAgent;
+
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
@@ -166,71 +167,64 @@ my @Tests = (
     },
 );
 
-# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-# Some old test VMs have problems with the used SSL certificate, disable for this test.
-$ConfigObject->Set(
-    Key   => 'WebUserAgent::DisableSSLVerification',
-    Value => 1,
+# Create a fake cloud service response.
+my $CloudServiceResponse = {
+    Success      => 1,
+    ErrorMessage => '',
+    Results      => {
+        Test => [
+            {
+                Operation => 'Test',
+                Data      => {},
+                Success   => 1,
+            },
+        ],
+    },
+};
+my $CloudServiceResponseJSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+    Data => $CloudServiceResponse,
 );
 
-my %Intervall = (
-    1 => 3,
-    2 => 15,
-    3 => 60,
-    4 => 60 * 3,
-    5 => 60 * 6,
-);
+# Override Request() from WebUserAgent to always return expected data without any real web call.
+#   This should prevent instability in case cloud services are unavailable.
+local *Kernel::System::WebUserAgent::Request = sub {
+    return (
+        Content => \$CloudServiceResponseJSON,
+        Status  => '200 OK',
+    );
+};
 
-TEST:
+my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
+
 for my $Test (@Tests) {
 
-    # set test SysConfig settings
+    # Set test SysConfig settings.
     for my $Setting ( @{ $Test->{Settings} } ) {
-
         my $Success = $ConfigObject->Set( %{$Setting} );
         $Self->True(
             $Success,
-            "$Test->{Name} Config Set() - for $Setting->{Key} with true",
+            "$Test->{Name} - Set $Setting->{Key}"
         );
     }
 
-    # refresh cloud service object
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::System::CloudService::Backend::Run', ],
-    );
+    my $RequestResult = $CloudServiceObject->Request( %{ $Test->{Config} } );
 
-    # get cloud service backend object
-    my $CloudServiceBackend = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
-
-    my $RequestResult;
-    TRY:
-    for my $Try ( 1 .. 5 ) {
-
-        # perform the request
-        $RequestResult = $CloudServiceBackend->Request( %{ $Test->{Config} } );
-
-        if ( !$Test->{Success} ) {
-            $Self->Is(
-                $RequestResult,
-                undef,
-                "$Test->{Name} - Expected unsuccessfull request",
-            );
-
-            next TEST;
-        }
-
-        last TRY if $RequestResult;
-
-        sleep $Intervall{$Try};
+    if ( !$Test->{Success} ) {
+        $Self->Is(
+            $RequestResult,
+            undef,
+            "$Test->{Name} - Expected unsuccessful request"
+        );
     }
-
-    $Self->IsDeeply(
-        $RequestResult,
-        $Test->{ExpectedResults},
-        "$Test->{Name} - Expected request",
-    );
+    else {
+        $Self->IsDeeply(
+            $RequestResult,
+            $Test->{ExpectedResults},
+            "$Test->{Name} - Expected request"
+        );
+    }
 }
 
 1;
