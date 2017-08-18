@@ -520,8 +520,8 @@ sub _PIDLock {
     close $FH;
 
     # keep PIDFile shared locked forever
-    open $PIDFH, '<', $PIDFile || die "Can not read PID file: $PIDFile\n";    ## no critic
-    flock( $PIDFH, LOCK_SH | LOCK_NB ) ||  die "Can not get shared lock for reading PID file: $PIDFile\n";
+    open $PIDFH, '<', $PIDFile || die "Can not read PID file: $PIDFile\n";      ## no critic
+    flock( $PIDFH, LOCK_SH | LOCK_NB ) || die "Can not get shared lock for reading PID file: $PIDFile\n";
 
     return 1;
 }
