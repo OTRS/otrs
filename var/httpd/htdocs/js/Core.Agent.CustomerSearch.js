@@ -459,7 +459,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         }
 
         // return value to search field
-        $('#' + Field).val('').focus();
+        $('#' + Field).val('');
 
         CheckPhoneCustomerCountLimit();
 
