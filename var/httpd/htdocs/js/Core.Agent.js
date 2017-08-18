@@ -681,11 +681,13 @@ Core.Agent = (function (TargetNS) {
         // init the avatar toggle
         $('#ToolBar .UserAvatar > a').off('click.UserAvatar').on('click.UserAvatar', function() {
             $(this).next('div').fadeToggle('fast');
+            $(this).toggleClass('Active');
             return false;
         });
 
         $('#ToolBar .UserAvatar > div').off('mouseleave.UserAvatar').on('mouseleave.UserAvatar', function() {
             $(this).fadeToggle('fast');
+            $(this).prev('a').toggleClass('Active');
         });
     };
 

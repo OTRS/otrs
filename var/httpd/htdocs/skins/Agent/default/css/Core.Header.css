@@ -119,7 +119,8 @@
     transition: border-color ease 0.3s;
 }
 
-body.Visible-ScreenXL #ToolBar li.UserAvatar:hover > a {
+body.Visible-ScreenXL #ToolBar li.UserAvatar:hover > a,
+body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
     animation-name: border-fill;
     animation-duration: 0.3s;
     animation-timing-function: ease;
