@@ -9,19 +9,17 @@
 use strict;
 use warnings;
 use utf8;
+use Kernel::System::CloudService::Backend::Run;
 
 use vars (qw($Self));
 
-# get package object
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+my $OTRSVersion   = $Kernel::OM->Get('Kernel::Config')->Get('Version');
 
-# get OTRS Version
-my $OTRSVersion = $Kernel::OM->Get('Kernel::Config')->Get('Version');
-
-# leave only major and minor level versions
+# Leave only major and minor level versions.
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
 
-# add x as patch level version
+# Add x as patch level version.
 $OTRSVersion .= '.x';
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
@@ -69,161 +67,168 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
-my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
-<otrs_package version="1.0">
+my $StringSecond = "<?xml version='1.0' encoding='utf-8' ?>
+<otrs_package version='1.0'>
   <Name>TestSecond</Name>
   <Version>0.0.1</Version>
   <Vendor>OTRS AG</Vendor>
   <URL>http://otrs.org/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
   <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
-  <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
-  <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
-  <ModuleRequired Version="1.112">Encode</ModuleRequired>
-  <Framework>' . $OTRSVersion . '</Framework>
+  <Description Lang='en'>A test package (some test &lt; &gt; &amp;).\nNew line for testing.</Description>
+  <Description Lang='de'>Ein Test Paket (some test &lt; &gt; &amp;).\nNeue Linie zum Testen.</Description>
+  <ModuleRequired Version='1.112'>Encode</ModuleRequired>
+  <Framework>$OTRSVersion</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
-    <File Location="TestSecond" Permission="644" Encode="Base64">aGVsbG8K</File>
-    <File Location="var/TestSecond" Permission="644" Encode="Base64">aGVsbG8K</File>
+    <File Location='TestSecond' Permission='644' Encode='Base64'>aGVsbG8K</File>
+    <File Location='var/TestSecond' Permission='644' Encode='Base64'>aGVsbG8K</File>
   </Filelist>
 </otrs_package>
-';
+";
 
-my %Intervall = (
-    1 => 3,
-    2 => 15,
-    3 => 60,
-    4 => 60 * 3,
-    5 => 60 * 6,
-);
+# Override Request() from K::S::CloudService::Backend::Run to always return expected data without any real web call.
+#   This should prevent instability in case cloud services are unavailable.
+local *Kernel::System::CloudService::Backend::Run::Request = sub {
+    my ( $Self, %Param ) = @_;
 
-my $Verification;
-TRY:
-for my $Try ( 1 .. 5 ) {
+    return if $Param{RequestData}->{PackageManagement}->[0]->{Operation} ne 'PackageVerify';
 
-    $Verification = $PackageObject->PackageVerify(
-        Package => $String,
-        Name    => 'Test',
-    );
+    my $Packages = $Param{RequestData}->{PackageManagement}->[0]->{Data}->{Package};
 
-    last TRY if $Verification ne 'unknown';
-
-    sleep $Intervall{$Try};
-}
-
-$Self->Is(
-    $Verification,
-    'not_verified',
-    "PackageVerify() - package 'Test' is NOT verified",
-);
-
-my $Download = $PackageObject->PackageOnlineGet(
-    Source => 'http://ftp.otrs.org/pub/otrs/packages',
-    File   => 'Support-1.4.4.opm',
-);
-
-$Self->True(
-    $Download,
-    "PackageOnlineGet - get Support package from ftp.otrs.org",
-);
-
-TRY:
-for my $Try ( 1 .. 5 ) {
-
-    $Verification = $PackageObject->PackageVerify(
-        Package => $Download,
-        Name    => 'Support',
-    );
-
-    last TRY if $Verification ne 'unknown';
-
-    sleep $Intervall{$Try};
-}
-
-$Self->Is(
-    $Verification,
-    'verified',
-    "PackageVerify() - package 'Support' is verified",
-);
-
-# test again with changed line endings, see http://bugs.otrs.org/show_bug.cgi?id=9838
-$Download =~ s{\n}{\r\n}xmsg;
-
-TRY:
-for my $Try ( 1 .. 5 ) {
-
-    $Verification = $PackageObject->PackageVerify(
-        Package => $Download,
-        Name    => 'Support',
-    );
-
-    last TRY if $Verification ne 'unknown';
-
-    sleep $Intervall{$Try};
-}
-
-$Self->Is(
-    $Verification,
-    'verified',
-    "PackageVerify() - package 'Support' with changed line endings is verified",
-);
-
-my $PackageInstall = $PackageObject->PackageInstall( String => $String );
-
-$Self->True(
-    $PackageInstall,
-    'PackageInstall() - Package Test',
-);
-
-$PackageInstall = $PackageObject->PackageInstall( String => $StringSecond );
-
-$Self->True(
-    $PackageInstall,
-    'PackageInstall() - Package TestSecond',
-);
-
-TRY:
-for my $Try ( 1 .. 5 ) {
-
-    my %VerifyAll = $PackageObject->PackageVerifyAll();
-
-    my $Unknown;
-    for my $PackageName (qw( Test TestSecond )) {
-
-        if ( $Try < 5 && $VerifyAll{$PackageName} eq 'unknown' ) {
-            $Unknown = 1;
+    if ( scalar @{$Packages} == 1 ) {
+        if ( $Packages->[0]->{Name} eq 'Test' ) {
+            return {
+                PackageManagement => [
+                    {
+                        Success   => '1',
+                        Operation => 'PackageVerify',
+                        Data      => {
+                            Test => 'not_verified',
+                        },
+                    }
+                ],
+            };
         }
-        else {
-
-            $Self->Is(
-                $VerifyAll{$PackageName},
-                'not_verified',
-                "VerifyAll - result for $PackageName",
-            );
+        elsif ( $Packages->[0]->{Name} eq 'TestSecond' ) {
+            return {
+                PackageManagement => [
+                    {
+                        Success   => '1',
+                        Operation => 'PackageVerify',
+                        Data      => {
+                            TestSecond => 'verified',
+                        },
+                    }
+                ],
+            };
         }
     }
+    elsif ( scalar @{$Packages} == 2 ) {
+        return {
+            PackageManagement => [
+                {
+                    Success   => '1',
+                    Operation => 'PackageVerify',
+                    Data      => {
+                        Test       => 'not_verified',
+                        TestSecond => 'not_verified',
+                    },
+                }
+            ],
+        };
+    }
+};
 
-    last TRY if !$Unknown;
+#
+# Tests for PackageVerify().
+#
+my @Tests = (
+    {
+        Name        => "PackageVerify - Package 'Test'x",
+        Package     => $String,
+        PackageName => 'Test',
+        Result      => 'not_verified',
+    },
+    {
+        Name        => "PackageVerify - Package 'TestSecond'",
+        Package     => $StringSecond,
+        PackageName => 'TestSecond',
+        Result      => 'verified',
+    },
+    {
+        Name              => "PackageVerify - Package 'TestSecond'",
+        Package           => $StringSecond,
+        PackageName       => 'TestSecond',
+        ChangeLineEndings => 1,
+        Result            => 'verified',
+    },
+);
 
-    sleep $Intervall{$Try};
+for my $Test (@Tests) {
+
+    # Change line endings in the package source, see http://bugs.otrs.org/show_bug.cgi?id=9838 for more information.
+    if ( $Test->{ChangeLineEndings} ) {
+        $Test->{Package} =~ s{\n}{\r\n}xmsg;
+    }
+
+    my $Verification = $PackageObject->PackageVerify(
+        Package => $Test->{Package},
+        Name    => $Test->{PackageName},
+    );
+    $Self->Is(
+        $Verification,
+        $Test->{Result},
+        "$Test->{Name} - Result"
+    );
 }
 
-my $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
-
-$Self->True(
-    $PackageUninstall,
-    'PackageUninstall() - Package Test',
+my @Packages = (
+    {
+        Name    => 'Test',
+        Package => $String,
+    },
+    {
+        Name    => 'TestSecond',
+        Package => $StringSecond,
+    },
 );
 
-$PackageUninstall = $PackageObject->PackageUninstall( String => $StringSecond );
+# Install packages.
+for my $Package (@Packages) {
+    my $PackageInstall = $PackageObject->PackageInstall( String => $Package->{Package} );
 
-$Self->True(
-    $PackageUninstall,
-    'PackageUninstall() - Package TestSecond',
-);
+    $Self->True(
+        $PackageInstall,
+        "Package '$Package->{Name}' - installed successfully",
+    );
+}
 
-# cleanup cache
+#
+# Test for PackageVerifyAll().
+#
+my %VerifyAll = $PackageObject->PackageVerifyAll();
+
+for my $PackageName (qw( Test TestSecond )) {
+    $Self->Is(
+        $VerifyAll{$PackageName},
+        'not_verified',
+        "PackageVerifyAll - '$PackageName' not verified"
+    );
+}
+
+# Uninstall packages.
+for my $Package (@Packages) {
+    my $PackageUninstall = $PackageObject->PackageUninstall( String => $Package->{Package} );
+
+    $Self->True(
+        $PackageUninstall,
+        "Package '$Package->{Name}' - uninstalled successfully"
+    );
+}
+
+# Cache cleanup.
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
 1;
