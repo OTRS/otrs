@@ -311,8 +311,11 @@ $Selenium->RunTest(
         # go to the ticket zoom screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=${TicketID}");
 
-        # find link to the appointment on page
-        $Selenium->find_element( 'a.LinkObjectLink', 'css' )->VerifiedClick();
+        # Find link to the appointment on page.
+        my $LinkedAppointment = $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentAppointmentCalendarOverview;AppointmentID=' )]"
+        );
+        $Selenium->VerifiedGet( $LinkedAppointment->get_attribute('href') );
 
         # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
