@@ -1460,6 +1460,12 @@ sub Run {
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                     FormID => $Self->{FormID},
                 );
+
+                for my $Attachment (@TicketAttachments) {
+                    $Attachment->{Filesize} = $LayoutObject->HumanReadableDataSize(
+                        Size => $Attachment->{Filesize},
+                    );
+                }
             }
 
             @TemplateAJAX = (

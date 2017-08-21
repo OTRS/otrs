@@ -29,9 +29,7 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var $Form,
-            FieldID,
-            UpdateFields = Core.Config.Get('DynamicFieldNames');
+        var UpdateFields = Core.Config.Get('DynamicFieldNames');
 
         // Bind event to StandardTemplate field.
         $('#StandardTemplateID').on('change', function () {
@@ -46,15 +44,6 @@ Core.Agent.TicketPhoneCommon = (function (TargetNS) {
         $('#NextStateID').on('change', function () {
             UpdateFields.push('StandardTemplateID');
             Core.AJAX.FormUpdate($(this).parents('form'), 'AJAXUpdate', 'NextStateID', UpdateFields);
-        });
-
-        // Bind event to AttachmentDelete button.
-        $('button[id*=AttachmentDeleteButton]').on('click', function () {
-            $Form = $(this).closest('form');
-            FieldID = $(this).attr('id').split('AttachmentDeleteButton')[1];
-            $('#AttachmentDelete' + FieldID).val(1);
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.trigger('submit');
         });
 
         // Initialize the ticket action popup.

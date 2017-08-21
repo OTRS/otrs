@@ -29,24 +29,13 @@ Core.Agent.TicketForward = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var $Form,
-            FieldID,
-            ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
+        var ArticleComposeOptions = Core.Config.Get('ArticleComposeOptions'),
             DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
 
         // remove a customer ticket entry
         $('.CustomerTicketRemove').on('click', function () {
             Core.Agent.CustomerSearch.RemoveCustomerTicket($(this));
             return false;
-        });
-
-        // delete attachment
-        $('button[id*=AttachmentDeleteButton]').on('click', function () {
-            $Form = $(this).closest('form');
-            FieldID = $(this).attr('id').split('AttachmentDeleteButton')[1];
-            $('#AttachmentDelete' + FieldID).val(1);
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.trigger('submit');
         });
 
         // update dynamic fields in form

@@ -29,9 +29,7 @@ Core.Agent.TicketMove = (function (TargetNS) {
      */
     TargetNS.Init = function () {
 
-        var $Form,
-            FieldID,
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
+        var DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
             Fields = ['NewUserID', 'DestQueueID', 'NewStateID', 'NewPriorityID'],
             ModifiedFields;
 
@@ -62,15 +60,6 @@ Core.Agent.TicketMove = (function (TargetNS) {
                 Core.AJAX.FormUpdate($('#MoveTicketToQueue'), 'AJAXUpdate', 'StandardTemplateID', ['RichTextField']);
             });
             return false;
-        });
-
-        // Bind event to AttachmentDelete button.
-        $('button[id*=AttachmentDeleteButton]').on('click', function () {
-            $Form = $(this).closest('form');
-            FieldID = $(this).attr('id').split('AttachmentDeleteButton')[1];
-            $('#AttachmentDelete' + FieldID).val(1);
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.trigger('submit');
         });
 
         // Initialize the ticket action popup.

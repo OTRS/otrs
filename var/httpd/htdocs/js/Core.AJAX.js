@@ -202,37 +202,36 @@ Core.AJAX = (function (TargetNS) {
      * @name UpdateTicketAttachments
      * @memberof Core.AJAX
      * @function
-     * @param {Object} Value - Array of hashes, each hash have the needed attachment information.
+     * @param {Object} Attachments - Array of hashes, each hash have the needed attachment information.
      * @description
-     *      Removes all shown attachments on the screen and adds the ones that are sent in
-     *      the Value parmeter.
+     *      Removes all selected attachments and adds the ones passed in the Attachments object.
      */
-    function UpdateTicketAttachments(Value) {
-        var FileID,
-            ButtonStrg,
-            InputStrg;
+    function UpdateTicketAttachments(Attachments) {
 
-        // sync the attachment list with the attachments in the UploadCache
-        // 1st: delete the current attachment list
-        $('#FileUpload').parent().siblings('li').remove();
+        // delete existing attachments
+        $('#AttachmentList tbody').empty();
 
-        // 2nd: add all files based on the metadata from Value
-        $(Value).each(function() {
-            FileID = this.FileID;
-            ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="CallForAction Inline Small SpacingRight"><span>' + Core.Language.Translate('Delete') + '</span></button>';
-            InputStrg = '<input type="hidden" id="AttachmentDelete' + this.FileID + '" name="AttachmentDelete' + this.FileID + '" />';
-            $('#FileUpload').parent().before(
-                '<li>' + ButtonStrg + InputStrg + this.Filename + ' (' + this.Filesize + ')' + '</li>'
-            );
+        // go through all attachments and append them to the attachment table
+        $(Attachments).each(function() {
 
-            //3rd: set form submit and disable validation on attachment delete
-            $('#AttachmentDeleteButton' + FileID).on('click', function () {
-                var $Form = $(this).closest('form');
-                $(this).next('input[type=hidden]').val(1);
-                Core.Form.Validate.DisableValidation($Form);
-                $Form.trigger('submit');
+            var AttachmentItem = Core.Template.Render('AjaxDnDUpload/AttachmentItem', {
+                'Filename' : this.Filename,
+                'Filetype' : this.ContentType,
+                'Filesize' : this.Filesize,
+                'FileID'   : this.FileID,
             });
+
+            $(AttachmentItem).prependTo($('#AttachmentList tbody')).fadeIn();
         });
+
+        // make sure to display the attachment table only if any attachments
+        // are actually in it.
+        if ($('#AttachmentList tbody tr').length) {
+            $('#AttachmentList').show();
+        }
+        else {
+            $('#AttachmentList').hide();
+        }
     }
 
     /**

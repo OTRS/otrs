@@ -270,6 +270,12 @@ sub Run {
                 @TicketAttachments = $UploadCacheObject->FormIDGetAllFilesMeta(
                     FormID => $GetParam{FormID},
                 );
+
+                for my $Attachment (@TicketAttachments) {
+                    $Attachment->{Filesize} = $LayoutObject->HumanReadableDataSize(
+                        Size => $Attachment->{Filesize},
+                    );
+                }
             }
 
             # Get the first article of the ticket.
