@@ -204,11 +204,11 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSystemConfigurationDeployment',
             Data         => {
-                SettingList       => \@Settings,
-                AdvancedMode      => $AdvancedMode,
-                DeploymentRestore => $DeploymentRestore,
-                Readonly          => 1,
-
+                SettingList             => \@Settings,
+                AdvancedMode            => $AdvancedMode,
+                DeploymentRestore       => $DeploymentRestore,
+                Readonly                => 1,
+                OTRSBusinessIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled(),
             },
         );
 
