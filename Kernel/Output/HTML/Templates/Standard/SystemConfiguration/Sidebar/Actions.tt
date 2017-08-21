@@ -15,6 +15,16 @@
     </div>
     <div class="Content">
         <ul class="ActionList">
+[% IF Env("Action") == 'AdminSystemConfiguration' && Env("Subaction") == 'SearchLocked' %]
+            <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration" class="GoBackButton CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
+            </li>
+[% END %]
+[% IF Env("Action") == 'AdminSystemConfiguration' && Env("Subaction") == 'Search' %]
+            <li>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=SearchDialog" data-term="[% Data.Search | html %]" data-category="[% Data.Category | html %]" id="SystemConfigurationEditSearch" class="CallForAction Fullsize Center"><span><i class="fa fa-search"></i>[% Translate("Edit search") | html %]</span></a>
+            </li>
+[% END %]
 [% IF Env("LastEntityType") %]
             <li>
                 <a href="[% Env("Baselink") %][% Env("LastScreenEntity") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back to admin: ") | html %][% Translate( Env("LastEntityType") ) | html %]</span></a>

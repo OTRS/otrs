@@ -31,43 +31,7 @@
     [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
 
     <div class="SidebarColumn">
-
-    [% IF Env("Subaction") == 'SearchLocked' %]
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>[% Translate("Actions") | html %]</h2>
-            </div>
-            <div class="Content">
-                <ul class="ActionList">
-                    <li>
-                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration" class="GoBackButton CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go back") | html %]</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    [% ELSE %]
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>[% Translate("Actions") | html %]</h2>
-            </div>
-            <div class="Content">
-                <ul class="ActionList">
-                    <li>
-                        <a href="[% Env("Baselink") %]Action=AdminSystemConfiguration;Subaction=SearchDialog" data-term="[% Data.Search | html %]" data-category="[% Data.Category | html %]" id="SystemConfigurationEditSearch" class="CallForAction Fullsize Center"><span><i class="fa fa-search"></i>[% Translate("Edit search") | html %]</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="WidgetSimple">
-            <div class="Header">
-                <h2>[% Translate("Hint") | html %]</h2>
-            </div>
-            <div class="Content">
-                <p>[% Translate("Did you know? You can work directly on the search results as on any other screen in the system configuration.") | html %]</p>
-            </div>
-        </div>
-    [% END %]
-
+        [% INCLUDE "SystemConfiguration/Sidebar/Actions.tt" %]
         [% INCLUDE "SystemConfiguration/Sidebar/Help.tt" %]
         [% INCLUDE "SystemConfiguration/Sidebar/DynamicActions.tt" %]
     </div>
