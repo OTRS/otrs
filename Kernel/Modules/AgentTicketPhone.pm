@@ -2299,6 +2299,16 @@ sub _MaskPhoneNew {
             $NewTo{"$KeyTo||$Param{To}->{$KeyTo}"} = $Param{To}->{$KeyTo};
         }
     }
+    if ( !$Param{ToSelected} ) {
+        my $UserDefaultQueue = $ConfigObject->Get('Ticket::Frontend::UserDefaultQueue') || '';
+
+        if ($UserDefaultQueue) {
+            my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $UserDefaultQueue );
+            if ($QueueID) {
+                $Param{ToSelected} = "$QueueID||$UserDefaultQueue";
+            }
+        }
+    }
     if ( $ConfigObject->Get('Ticket::Frontend::NewQueueSelectionType') eq 'Queue' ) {
         $Param{ToStrg} = $LayoutObject->AgentQueueListOption(
             Class          => 'Validate_Required Modernize',

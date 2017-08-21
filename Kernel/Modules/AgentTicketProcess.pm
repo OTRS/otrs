@@ -1197,6 +1197,19 @@ sub _GetParam {
             next DIALOGFIELD;
         }
 
+        if ( $CurrentField eq 'Queue' && !$GetParam{ $Self->{NameToID}{$CurrentField} } ) {
+            my $UserDefaultQueue = $ConfigObject->Get('Ticket::Frontend::UserDefaultQueue') || '';
+            if ($UserDefaultQueue) {
+                my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $UserDefaultQueue );
+                if ($QueueID) {
+                    $GetParam{$CurrentField}                          = $UserDefaultQueue;
+                    $GetParam{ $Self->{NameToID}{$CurrentField} }     = $QueueID;
+                    $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
+                    next DIALOGFIELD;
+                }
+            }
+        }
+
         # if no Submitted nore Ticket Param get ActivityDialog Config's Param
         if ( $CurrentField ne 'CustomerID' ) {
             $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};

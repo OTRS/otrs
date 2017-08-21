@@ -350,7 +350,6 @@
             </Hash>
         </Value>
     </Setting>
-
     <Setting Name="CustomerUser::Frontend::AgentCustomerUserAddressBook###SearchParameters" Required="1" Valid="1">
         <Description Translatable="1">Defines the search parameters for the AgentCustomerUserAddressBook screen. With the setting 'CustomerTicketTextField' the values for the recipient field can be specified.</Description>
         <Navigation>Frontend::Agent::ViewCustomerUserSearch</Navigation>
@@ -434,6 +433,13 @@
         <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Frontend::UserDefaultQueue" Required="0" Valid="0" UserModificationActive="1" UserModificationPossible="1">
+        <Description Translatable="1">Defines the default queue for new tickets in the agent interface.</Description>
+        <Navigation>Frontend::Agent</Navigation>
+        <Value>
+            <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Postmaster</Item>
         </Value>
     </Setting>
 </otrs_config>
