@@ -413,7 +413,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DashboardBackend###0140-RunningTicketProcess" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.</Description>
+        <Description Translatable="1">Parameters for the dashboard backend of the running process tickets overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.</Description>
         <Group>ProcessManagement</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>

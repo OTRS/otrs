@@ -787,21 +787,33 @@ sub MigrateXMLStructure {
                     {$LinkBackendReplace}gsmx;
                 }
 
-                # fill dropdowns with existing values
+                # Fill dropdowns with existing values.
                 $Setting =~ s{<\/DefaultItem>(\s*?)<Item\sKey="(.*?)">(0|1|2)<}
                 {<\/DefaultItem>$1\t\t<Item Key="$2" SelectedID="$3"><}gsmx;
-                while (
-                    $Setting =~ m{"(0|1|2)"><\/Item>(\s*)<Item\sKey="(.*?)">(0|1|2)<}
-                    )
-                {
-                    if ( $2 ne 'Default' ) {
-                        $Setting =~ s{><\/Item>(\s*)<Item\sKey="(.*?)">(0|1|2)<}
-                        {></Item>$1<Item Key="$2" SelectedID="$3"><}gsmx;
+
+                # Only alter <Items> right after </DefaultItem> and before the closing the hash </Hash>
+                my $DropdownItems;
+                if ( $Setting =~ m{<\/DefaultItem>(.+)<\/Hash>\s+^[\s]}smx ) {
+
+                    $DropdownItems = $1;
+
+                    while (
+                        $DropdownItems =~ m{"(0|1|2)"><\/Item>(\s*)<Item\sKey="(.*?)">(0|1|2)<}
+                        )
+                    {
+                        if ( $2 ne 'Default' ) {
+                            $DropdownItems =~ s{><\/Item>(\s*)<Item\sKey="(.*?)">(0|1|2)<}
+                            {></Item>$1<Item Key="$2" SelectedID="$3"><}gsmx;
+                        }
                     }
+
+                    $DropdownItems =~ s{><\/Item>(\s*)<Item\sKey="Default"\sSelectedID="(0|1)"><}
+                        {></Item>\n\t\t\t\t<Item Key="Default">$2<}gsmx;
                 }
 
-                $Setting =~ s{><\/Item>(\s*)<Item\sKey="Default"\sSelectedID="(0|1)"><}
-                    {></Item>\n\t\t\t\t<Item Key="Default">$2<}gsmx;
+                if ($DropdownItems) {
+                    $Setting =~ s{(<\/DefaultItem>).+(<\/Hash>\s+^[\s])}{$1$DropdownItems$2}msx;
+                }
 
                 # replace tab with spaces
                 $Setting =~ s{\t}{    }gsmx;
@@ -1339,6 +1351,10 @@ sub MigrateXMLStructure {
         if ( $SettingsUserPreferencesGroup{$SettingName} ) {
             $Setting
                 =~ s{(ConfigItem\sName=".*?")}{$1 UserPreferencesGroup="$SettingsUserPreferencesGroup{$SettingName}"}gsmx;
+        }
+
+        if ( $Setting =~ m{Name=\"DashboardBackend\#\#\#} ) {
+            $Setting =~ s{\n([ ]*)(<\/Hash>\n[ ]*<\/Value>)}{\n$1    <Item Key="Mandatory">0</Item>\n$1$2}xms;
         }
     }
 

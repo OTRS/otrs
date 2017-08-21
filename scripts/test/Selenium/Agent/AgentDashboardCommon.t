@@ -32,6 +32,20 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        my %DashboardOnlineWidgetConfig = $Kernel::OM->Get('Kernel::System::SysConfig')->SettingGet(
+            Name => 'DashboardBackend###0400-UserOnline',
+        );
+
+        # Make 'UserOnline' widget mandatory.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'DashboardBackend###0400-UserOnline',
+            Value => {
+                %{ $DashboardOnlineWidgetConfig{EffectiveValue} },
+                Mandatory => 1,
+            },
+        );
+
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
@@ -66,6 +80,26 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), "Settings" ) > -1,
             "Setting for toggle widgets found on page",
+        );
+
+        # Check 'UserOnline' widget.
+        my $Widget = $Selenium->find_element( "#Dashboard0400-UserOnline-box", 'css' );
+        $Widget->is_enabled();
+        $Widget->is_displayed();
+
+        $Self->False(
+            $Selenium->execute_script("return \$('#Dashboard0400-UserOnline-box > div.WidgetAction.Close').length"),
+            "Remove button is not shown.",
+        );
+
+        $Self->True(
+            $Selenium->execute_script("return \$('#Settings0400-UserOnline').prop('checked')"),
+            "Widget is shown (checked).",
+        );
+
+        $Self->True(
+            $Selenium->execute_script("return \$('#Settings0400-UserOnline').prop('disabled')"),
+            "Widget is read-only.",
         );
 
     }

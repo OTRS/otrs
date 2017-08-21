@@ -773,7 +773,7 @@
     </Setting>
     <!-- dashboard widget -->
     <Setting Name="DashboardBackend###0500-AppointmentCalendar" Required="0" Valid="1">
-        <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.</Description>
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.</Description>
         <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
@@ -789,6 +789,7 @@
                 <Item Key="Group"></Item>
                 <Item Key="Default">0</Item>
                 <Item Key="CacheTTLLocal">5</Item>
+                <Item Key="Mandatory">0</Item>
             </Hash>
         </Value>
     </Setting>

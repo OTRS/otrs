@@ -25,7 +25,7 @@
                     <li>
                         <span title="[% Translate(Data.Description) | html %]">
                             <label for="Settings[% Data.Name | html %]">
-                                <input type="checkbox" name="Backend" id="Settings[% Data.Name | html %]" value="[% Data.Name | html %]" [% Data.Checked %]/>
+                                <input type="checkbox" name="Backend" id="Settings[% Data.Name | html %]" value="[% Data.Name | html %]" [% Data.Checked %] [% Data.Readonly %]/>
                                 [% Translate(Data.Title) | html %]
                             </label>
                         </span>
@@ -57,11 +57,13 @@
                     </a>
                 </div>
 [% RenderBlockEnd("ContentSmallRefresh") %]
-                <div class="WidgetAction Close">
+[% RenderBlockStart("ContentSmallRemove") %]
+                 <div class="WidgetAction Close">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];CustomerUserID=[% Data.CustomerUserID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
+[% RenderBlockEnd("ContentSmallRemove") %]
                 <div class="Clear"></div>
             </div>
             <h2 title="[% Translate(Data.Description) | html %]">[% Translate(Data.Title) | html %]</h2>
@@ -144,11 +146,13 @@
                     </a>
                 </div>
 [% RenderBlockEnd("ContentLargePreferences") %]
-                <div class="WidgetAction Close">
+[% RenderBlockStart("ContentLargeRemove") %]
+                 <div class="WidgetAction Close">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateRemove;Name=[% Data.Name | uri %];CustomerID=[% Data.CustomerID | uri %];CustomerUserID=[% Data.CustomerUserID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Close this widget") | html %]">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
+[% RenderBlockEnd("ContentLargeRemove") %]
                 <div class="Clear"></div>
             </div>
             <h2 title="[% Translate(Data.Description) | html %]">[% Translate(Data.Title) | html %]</h2>

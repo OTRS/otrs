@@ -170,6 +170,14 @@ sub Run {
         my $Name = $ParamObject->GetParam( Param => 'Name' );
         my $Key = $UserSettingsKey . $Name;
 
+        # Mandatory widgets can't be removed.
+        if ( $Config->{$Name} && $Config->{$Name}->{Mandatory} ) {
+
+            return $LayoutObject->Redirect(
+                OP => "Action=$Self->{Action}",
+            );
+        }
+
         # update session
         $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -279,6 +287,12 @@ sub Run {
                 $Active = 1;
                 last BACKEND;
             }
+
+            # Mandatory widgets can not be removed.
+            if ( $Config->{$Name}->{Mandatory} ) {
+                $Active = 1;
+            }
+
             my $Key = $UserSettingsKey . $Name;
 
             # update session
@@ -547,6 +561,11 @@ sub Run {
         else {
             $Backends{$Name} = $Config->{$Name}->{Default};
         }
+
+        # Always show widgets with mandatory flag.
+        if ( $Config->{$Name}->{Mandatory} ) {
+            $Backends{$Name} = $Config->{$Name}->{Mandatory};
+        }
     }
 
     # set order of plugins
@@ -640,6 +659,20 @@ sub Run {
                     %{ $Element{Config} },
                     Name     => $Name,
                     NameHTML => $NameHTML,
+                },
+            );
+        }
+
+        # Do not show the delete link if the widget is mandatory.
+        if ( !$Config->{$Name}->{Mandatory} ) {
+
+            $LayoutObject->Block(
+                Name => $Element{Config}->{Block} . 'Remove',
+                Data => {
+                    %{ $Element{Config} },
+                    Name           => $Name,
+                    CustomerID     => $Self->{CustomerID} || '',
+                    CustomerUserID => $Self->{CustomerUserID} || '',
                 },
             );
         }
@@ -898,17 +931,27 @@ sub _Element {
     # add backend to settings selection
     if ($Backends) {
         my $Checked = '';
-        if ( $Backends->{$Name} ) {
+        if ( $Backends->{$Name} || $Configs->{$Name}->{Mandatory} ) {
             $Checked = 'checked="checked"';
         }
+
+        # Check whether the widget is forcibly displayed.
+        # Mandatory widgets are displayed as read-only.
+        my $Readonly = '';
+        if ( $Configs->{$Name}->{Mandatory} ) {
+            $Readonly = 'disabled="disabled"';
+        }
+
         $LayoutObject->Block(
             Name => 'ContentSettings',
             Data => {
                 %Config,
-                Name    => $Name,
-                Checked => $Checked,
+                Name     => $Name,
+                Checked  => $Checked,
+                Readonly => $Readonly,
             },
         );
+
         return if !$Backends->{$Name};
     }
 
