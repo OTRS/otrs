@@ -202,11 +202,6 @@ $Selenium->RunTest(
             }
         }
 
-        # Wait until all current AJAX requests have completed, before cleaning up test entities. Otherwise, it could
-        #   happen some asynchronous calls prevent entries from being deleted by running into race conditions.
-        #   jQuery property $.active contains number of active AJAX calls on the page.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $.active === 0' );
-
         # Cleanup the created test data.
         my $Success;
 
