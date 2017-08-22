@@ -581,7 +581,6 @@ $Selenium->RunTest(
 
         # find the appointment link
         my $AppointmentLink = $Selenium->find_element( '.fc-event-container a', 'css' );
-        $Selenium->mouse_move_to_location($AppointmentLink);
 
         # click on appointment
         $AppointmentLink->VerifiedClick();
