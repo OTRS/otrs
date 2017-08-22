@@ -9,8 +9,7 @@
 
 <div>
     <div class="InnerContent">
-        <h2>{{ "Draft name" | Translate }}: {{ FormDraftName }}</h2>
-        <p>{{ "Do you really want to delete this draft?" | Translate }}</p>
+        <p class="Center">{{ 'Do you really want to delete "%s"?' | Translate(Title) }}</p>
     </div>
     <div class="ContentFooter Center">
         <button id="DeleteConfirm" class="Primary CallForAction">
