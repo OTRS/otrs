@@ -197,6 +197,7 @@ Kernel/System/NotificationView.pm
 Kernel/System/SMSTemplate.pm
 Kernel/System/SMSTemplateGenerator.pm
 Kernel/System/StatsReport.pm
+Kernel/System/SupportDataCollector/Plugin/CloudService/SMS.pm
 Kernel/System/SupportDataCollector/Plugin/OTRS/ConfigLastDeployments.pm
 Kernel/System/SysConfig/Base/OTRSBusiness.pm
 Kernel/System/Ticket/Article/Backend/SMS.pm
