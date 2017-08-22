@@ -281,12 +281,6 @@
                         </a>
                     </td>
 [% RenderBlockEnd("RecordCustomerID") %]
-[% RenderBlockStart("RecordLastCustomerSubject") %]
-                    <td>
-                        <div title="[% Data.From | html %]">[% Data.FromRealname | truncate(100) | html %]</div>
-                        <div title="[% Data.SubjectLong | html %]">[% Data.Subject | html %]</div>
-                    </td>
-[% RenderBlockEnd("RecordLastCustomerSubject") %]
 [% RenderBlockStart("RecordTicketCreatedBy") %]
                     <td>
                         <div title="[% Data.UserFullname | html %] ([% Data.UserLogin | html %])">[% Data.UserFullname | truncate(50) | html %]</div>
