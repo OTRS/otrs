@@ -1938,8 +1938,10 @@ sub new {
                 next FILE;
             }
 
+            my $RelativeFile = $File =~ s{\Q$Self->{Home}\E/*}{}gr;
+
             # Extract package name and load it.
-            my $Package = $File =~ s/\Q$Self->{Home}\E//gr;
+            my $Package = $RelativeFile;
             $Package =~ s/^\///g;
             $Package =~ s/\/{2,}/\//g;
             $Package =~ s/\//::/g;
@@ -1947,7 +1949,7 @@ sub new {
 
             eval {
                 # Try to load file.
-                if ( !require $File ) {
+                if ( !require $RelativeFile ) {
                     die "ERROR: Could not load $File: $!\n";
                 }
                 # Check if package has loaded and has a Load() method.
