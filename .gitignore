@@ -188,6 +188,7 @@ Kernel/System/Console/Command/Maint/Chat*
 Kernel/System/Console/Command/Maint/NotificationView*
 Kernel/System/Console/Command/Maint/Stats/Reports*
 Kernel/System/CommunicationChannel/SMS.pm
+Kernel/System/CommunicationLog/Transport/CloudService.pm
 Kernel/System/DynamicField/Driver/BaseDatabase.pm
 Kernel/System/DynamicField/Driver/ContactWithData.pm
 Kernel/System/DynamicField/Driver/Database.pm
