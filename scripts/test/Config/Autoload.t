@@ -24,7 +24,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'AutoloadPerlPackages###1000-Test',
-    Value => 'Kernel::Autoload::Test',
+    Value => ['Kernel::Autoload::Test'],
 );
 
 # Recreate config object, which calls the autoload.

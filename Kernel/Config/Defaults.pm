@@ -2114,20 +2114,26 @@ sub AutoloadPerlPackages {
     my %AutoloadConfiguration = %{ $Self->{AutoloadPerlPackages} };
     return 1 if !%AutoloadConfiguration;
 
-    PACKAGEKEY:
-    for my $PackageKey (sort keys %AutoloadConfiguration) {
-        my $Package = $AutoloadConfiguration{$PackageKey};
-        next PACKAGEKEY if !$Package;
-        if (substr($Package, 0, 16) ne 'Kernel::Autoload') {
-            print STDERR "Error: Autoload packages must be located in Kernel/Autoload, skipping $Package\n";
-            next PACKAGEKEY;
+    CONFIGKEY:
+    for my $ConfigKey (sort keys %AutoloadConfiguration) {
+        my $ConfigValue = $AutoloadConfiguration{$ConfigKey};
+        next CONFIGKEY if ref $ConfigValue ne 'ARRAY';
+
+        PACKAGE:
+        for my $Package (@{$ConfigValue}) {
+            next PACKAGE if !$Package;
+            if (substr($Package, 0, 16) ne 'Kernel::Autoload') {
+                print STDERR "Error: Autoload packages must be located in Kernel/Autoload, skipping $Package\n";
+                next PACKAGE;
+            }
+
+            # Don't use the MainObject here to load the file.
+            eval {
+                my $FileName = $Package =~ s{::}{/}smxgr;
+                require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
+            };
         }
 
-        # Don't use the MainObject here to load the file.
-        eval {
-            my $FileName = $Package =~ s{::}{/}smxgr;
-            require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
-        };
     }
 
     return 1;

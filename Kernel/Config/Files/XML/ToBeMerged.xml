@@ -446,7 +446,9 @@
         <Description Translatable="1">Example package autoload configuration.</Description>
         <Navigation>Core::Autoload</Navigation>
         <Value>
-            <Item ValueType="String">Kernel::Autoload::Test</Item>
+            <Array>
+                <Item ValueType="String">Kernel::Autoload::Test</Item>
+            </Array>
         </Value>
     </Setting>
 </otrs_config>
