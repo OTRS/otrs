@@ -1,5 +1,5 @@
 package Selenium::Remote::Driver;
-$Selenium::Remote::Driver::VERSION = '1.11';
+$Selenium::Remote::Driver::VERSION = '1.20';
 # ABSTRACT: Perl Client for Selenium Remote Driver
 
 use Moo;
@@ -235,18 +235,32 @@ has 'inner_window_size' => (
 
 );
 
+# At the time of writing, Geckodriver uses a different endpoint than
+# the java bindings for executing synchronous and asynchronous
+# scripts. As a matter of fact, Geckodriver does conform to the W3C
+# spec, but as are bound to support both while the java bindings
+# transition to full spec support, we need some way to handle the
+# difference.
+
+has '_execute_script_suffix' => (
+    is => 'lazy',
+    default => ''
+);
+
 with 'Selenium::Remote::Finders';
 with 'Selenium::Remote::Driver::CanSetWebdriverContext';
 
 sub BUILD {
     my $self = shift;
 
-    if ($self->has_desired_capabilities) {
-        $self->new_desired_session( $self->desired_capabilities );
-    }
-    else {
-        # Connect to remote server & establish a new session
-        $self->new_session( $self->extra_capabilities );
+    if ( !( defined $self->session_id ) ) {
+        if ($self->has_desired_capabilities) {
+            $self->new_desired_session( $self->desired_capabilities );
+        }
+        else {
+            # Connect to remote server & establish a new session
+            $self->new_session( $self->extra_capabilities );
+        }
     }
 
     if ( !( defined $self->session_id ) ) {
@@ -672,7 +686,7 @@ sub execute_async_script {
         if ( not defined $script ) {
             croak 'No script provided';
         }
-        my $res = { 'command' => 'executeAsyncScript' };
+        my $res = { 'command' => 'executeAsyncScript' . $self->_execute_script_suffix};
 
         # Check the args array if the elem obj is provided & replace it with
         # JSON representation
@@ -711,7 +725,7 @@ sub execute_script {
         if ( not defined $script ) {
             croak 'No script provided';
         }
-        my $res = { 'command' => 'executeScript' };
+        my $res = { 'command' => 'executeScript' . $self->_execute_script_suffix };
 
         # Check the args array if the elem obj is provided & replace it with
         # JSON representation
@@ -825,7 +839,7 @@ sub switch_to_window {
         return 'Window name not provided';
     }
     my $res    = { 'command' => 'switchToWindow' };
-    my $params = { 'handle'  => $name };
+    my $params = { 'name'  => $name, 'handle' => $name };
     return $self->_execute_command( $res, $params );
 }
 
@@ -933,35 +947,28 @@ sub find_element {
     if ( not defined $query ) {
         croak 'Search string to find element not provided.';
     }
-    my $using =
-      ( defined $method ) ? $self->FINDERS->{$method} : $self->default_finder;
-    if ( defined $using ) {
-        my $res = { 'command' => 'findElement' };
-        my $params = { 'using' => $using, 'value' => $query };
-        my $ret_data = eval { $self->_execute_command( $res, $params ); };
-        if ($@) {
-            if ( $@
-                =~ /(An element could not be located on the page using the given search parameters)/
-              )
-            {
-                # give details on what element wasn't found
-                $@ = "$1: $query,$using";
-                local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
-                croak $@;
-            }
-            else {
-                # re throw if the exception wasn't what we expected
-                die $@;
-            }
+
+    my $res = { 'command' => 'findElement' };
+    my $params = $self->_build_find_params($method, $query);
+    my $ret_data = eval { $self->_execute_command( $res, $params ); };
+    if ($@) {
+        if ( $@
+             =~ /(An element could not be located on the page using the given search parameters)/
+         ) {
+            # give details on what element wasn't found
+            $@ = "$1: $query,$params->{using}";
+            local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
+            croak $@;
         }
-        return $self->webelement_class->new(
-            id => $ret_data,
-            driver => $self
-        );
+        else {
+            # re throw if the exception wasn't what we expected
+            die $@;
+        }
     }
-    else {
-        croak "Bad method, expected: " . join(', ', keys %{ $self->FINDERS });
-    }
+    return $self->webelement_class->new(
+        id => $ret_data,
+        driver => $self
+    );
 }
 
 
@@ -971,43 +978,34 @@ sub find_elements {
         croak 'Search string to find element not provided.';
     }
 
-    my $using =
-      ( defined $method ) ? $self->FINDERS->{$method} : $self->default_finder;
-
-    if ( defined $using ) {
-        my $res = { 'command' => 'findElements' };
-        my $params = { 'using' => $using, 'value' => $query };
-        my $ret_data = eval { $self->_execute_command( $res, $params ); };
-        if ($@) {
-            if ( $@
-                =~ /(An element could not be located on the page using the given search parameters)/
-              )
-            {
-                # give details on what element wasn't found
-                $@ = "$1: $query,$using";
-                local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
-                croak $@;
-            }
-            else {
-                # re throw if the exception wasn't what we expected
-                die $@;
-            }
+    my $res = { 'command' => 'findElements' };
+    my $params = $self->_build_find_params($method, $query);
+    my $ret_data = eval { $self->_execute_command( $res, $params ); };
+    if ($@) {
+        if ( $@
+             =~ /(An element could not be located on the page using the given search parameters)/
+         ) {
+            # give details on what element wasn't found
+            $@ = "$1: $query,$params->{using}";
+            local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
+            croak $@;
         }
-        my $elem_obj_arr = [];
-        foreach (@$ret_data) {
-            push(
-                @$elem_obj_arr,
-                $self->webelement_class->new(
-                    id => $_,
-                    driver => $self
-                )
-            );
+        else {
+            # re throw if the exception wasn't what we expected
+            die $@;
         }
-        return wantarray? @{$elem_obj_arr} : $elem_obj_arr ;
     }
-    else {
-        croak "Bad method, expected: " . join(', ', keys %{ $self->FINDERS });
+    my $elem_obj_arr = [];
+    foreach (@$ret_data) {
+        push(
+            @$elem_obj_arr,
+            $self->webelement_class->new(
+                id => $_,
+                driver => $self
+            )
+        );
     }
+    return wantarray? @{$elem_obj_arr} : $elem_obj_arr ;
 }
 
 
@@ -1016,33 +1014,27 @@ sub find_child_element {
     if ( ( not defined $elem ) || ( not defined $query ) ) {
         croak "Missing parameters";
     }
-    my $using =
-      ( defined $method ) ? $self->FINDERS->{$method} : $self->default_finder;
-    if ( defined $using ) {
-        my $res = { 'command' => 'findChildElement', 'id' => $elem->{id} };
-        my $params = { 'using' => $using, 'value' => $query };
-        my $ret_data = eval { $self->_execute_command( $res, $params ); };
-        if ($@) {
-            if ( $@
-                =~ /(An element could not be located on the page using the given search parameters)/
-              )
-            {
-                # give details on what element wasn't found
-                $@ = "$1: $query,$using";
-                local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
-                croak $@;
-            }
-            else {
-                # re throw if the exception wasn't what we expected
-                die $@;
-            }
+    my $res = { 'command' => 'findChildElement', 'id' => $elem->{id} };
+    my $params = $self->_build_find_params($method, $query);
+    my $ret_data = eval { $self->_execute_command( $res, $params ); };
+    if ($@) {
+        if ( $@
+             =~ /(An element could not be located on the page using the given search parameters)/
+         ) {
+            # give details on what element wasn't found
+            $@ = "$1: $query,$params->{using}";
+            local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
+            croak $@;
         }
-        return $self->webelement_class->new( id => $ret_data,
-            driver => $self );
+        else {
+            # re throw if the exception wasn't what we expected
+            die $@;
+        }
     }
-    else {
-        croak "Bad method, expected: " . join(', ', keys %{ $self->FINDERS });
-    }
+    return $self->webelement_class->new(
+        id => $ret_data,
+        driver => $self
+    );
 }
 
 
@@ -1051,44 +1043,73 @@ sub find_child_elements {
     if ( ( not defined $elem ) || ( not defined $query ) ) {
         croak "Missing parameters";
     }
-    my $using =
-      ( defined $method ) ? $self->FINDERS->{$method} : $self->default_finder;
-    if ( defined $using ) {
-        my $res = { 'command' => 'findChildElements', 'id' => $elem->{id} };
-        my $params = { 'using' => $using, 'value' => $query };
-        my $ret_data = eval { $self->_execute_command( $res, $params ); };
-        if ($@) {
-            if ( $@
-                =~ /(An element could not be located on the page using the given search parameters)/
-              )
-            {
-                # give details on what element wasn't found
-                $@ = "$1: $query,$using";
-                local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
-                croak $@;
-            }
-            else {
-                # re throw if the exception wasn't what we expected
-                die $@;
-            }
+
+    my $res = { 'command' => 'findChildElements', 'id' => $elem->{id} };
+    my $params = $self->_build_find_params($method, $query);
+    my $ret_data = eval { $self->_execute_command( $res, $params ); };
+    if ($@) {
+        if ( $@
+             =~ /(An element could not be located on the page using the given search parameters)/
+         ) {
+            # give details on what element wasn't found
+            $@ = "$1: $query,$params->{using}";
+            local @CARP_NOT = ( "Selenium::Remote::Driver", @CARP_NOT );
+            croak $@;
         }
-        my $elem_obj_arr = [];
-        my $i = 0;
-        foreach (@$ret_data) {
-            $elem_obj_arr->[$i] =
-              $self->webelement_class->new(
-                  id => $_,
-                  driver => $self
-              );
-            $i++;
+        else {
+            # re throw if the exception wasn't what we expected
+            die $@;
         }
-        return wantarray ? @{$elem_obj_arr} : $elem_obj_arr;
+    }
+    my $elem_obj_arr = [];
+    my $i = 0;
+    foreach (@$ret_data) {
+        $elem_obj_arr->[$i] =
+          $self->webelement_class->new(
+              id => $_,
+              driver => $self
+          );
+        $i++;
+    }
+    return wantarray ? @{$elem_obj_arr} : $elem_obj_arr;
+}
+
+
+sub _build_find_params {
+    my ($self, $method, $query) = @_;
+
+    my $using = $self->_build_using($method);
+
+    # geckodriver doesn't accept name as a valid selector
+    if ($self->isa('Selenium::Firefox') && $using eq 'name') {
+        return {
+            using => 'css',
+            value => '[name=$query]'
+        };
     }
     else {
-        croak "Bad method, expected: " . join(', ', keys %{ $self->FINDERS });
+        return {
+            using => $using,
+            value => $query
+        };
     }
 }
 
+sub _build_using {
+    my ($self, $method) = @_;
+
+    if ($method) {
+        if ($self->FINDERS->{$method}) {
+            return $self->FINDERS->{$method};
+        }
+        else {
+            croak 'Bad method, expected: ' . join(', ', keys %{ $self->FINDERS });
+        }
+    }
+    else {
+        return $self->default_finder;
+    }
+}
 
 sub get_active_element {
     my ($self) = @_;
@@ -1363,7 +1384,7 @@ Selenium::Remote::Driver - Perl Client for Selenium Remote Driver
 
 =head1 VERSION
 
-version 1.11
+version 1.20
 
 =head1 SYNOPSIS
 
@@ -1531,6 +1552,7 @@ you please.
         'error_handler'        - CODEREF     - A CODEREF that we will call in event of any exceptions. See L</error_handler> for more details.
         'webelement_class'     - <string>    - sub-class of Selenium::Remote::WebElement if you wish to use an alternate WebElement class.
         'ua'                   - LWP::UserAgent instance - if you wish to use a specific $ua, like from Test::LWP::UserAgent
+        'session_id'           - <string>    - prevent create new session, reuse previous (but not finished) session, previous session should have 'auto_close' => 0
 
     If no values are provided, then these defaults will be assumed:
         'remote_server_addr' => 'localhost'
@@ -1541,6 +1563,7 @@ you please.
         'javascript'         => 1
         'auto_close'         => 1
         'default_finder'     => 'xpath'
+        'session_id'         => undef
 
  Output:
     Remote Driver object
@@ -1550,6 +1573,12 @@ you please.
     or
     my $driver = Selenium::Remote::Driver->new('browser_name' => 'firefox',
                                                'platform'     => 'MAC');
+    or (for Firefox 47 or lower on Selenium 3+)
+    my $driver = Selenium::Remote::Driver->new('browser_name' => 'firefox',
+                                               'platform'     => 'MAC',
+                                               'extra_capabilities' => {
+                                                    'marionette' => \0,
+                                              });
     or
     my $driver = Selenium::Remote::Driver->new('remote_server_addr' => '10.10.1.1',
                                                'port'               => '2222',
@@ -2854,13 +2883,49 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 =head1 CONTRIBUTORS
 
-=for stopwords A.MacLeay Eric Johnson Gabor Szabo George S. Baugh Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson Allen Lew Phil Kania Mitchell Richard Sailer Robert Utter Tetsuya Tatsumi Tom Hukins Vangelis Katsikaros Vishwanath Janmanchi amacleay Andy Jack jamadam lembark richi235 rouzier Bas Bloemsaat Brian Horakh Charles Howes Chris Davies Daniel Fackrell Dave Rolsky Dmitry Karasik
+=for stopwords Allen Lew A.MacLeay Andy Jack Bas Bloemsaat Brian Horakh Charles Howes Chris Davies Daniel Fackrell Dave Rolsky Dmitry Karasik Eric Johnson Gabor Szabo George S. Baugh Gordon Child GreatFlamingFoo Ivan Kurmanov Joe Higton Jon Hermansen Keita Sugama Ken Swanson lembark Luke Closs Martin Gruner Peter Mottram (SysPete) Phil Kania Mitchell Richard Sailer Robert Utter rouzier Tetsuya Tatsumi Tom Hukins Vangelis Katsikaros Vishwanath Janmanchi Viťas Strádal
 
 =over 4
 
 =item *
 
+Allen Lew <allen@alew.org>
+
+=item *
+
 A.MacLeay <a.macleay@gmail.com>
+
+=item *
+
+Andy Jack <andyjack@users.noreply.github.com>
+
+=item *
+
+Bas Bloemsaat <bas@bloemsaat.com>
+
+=item *
+
+Brian Horakh <brianh@zoovy.com>
+
+=item *
+
+Charles Howes <charles.howes@globalrelay.net>
+
+=item *
+
+Chris Davies <FMQA@users.noreply.github.com>
+
+=item *
+
+Daniel Fackrell <dfackrell@bluehost.com>
+
+=item *
+
+Dave Rolsky <autarch@urth.org>
+
+=item *
+
+Dmitry Karasik <dmitry@karasik.eu.org>
 
 =item *
 
@@ -2904,7 +2969,19 @@ Ken Swanson <kswanson@genome.wustl.edu>
 
 =item *
 
-Allen Lew <allen@alew.org>
+lembark <lembark@wrkhors.com>
+
+=item *
+
+Luke Closs <lukec@users.noreply.github.com>
+
+=item *
+
+Martin Gruner <martin.gruner@otrs.com>
+
+=item *
+
+Peter Mottram (SysPete) <peter@sysnix.com>
 
 =item *
 
@@ -2921,6 +2998,10 @@ Richard Sailer <richard@weltraumpflege.org>
 =item *
 
 Robert Utter <utter.robert@gmail.com>
+
+=item *
+
+rouzier <rouzier@gmail.com>
 
 =item *
 
@@ -2944,55 +3025,7 @@ Vishwanath Janmanchi <jvishwanath@gmail.com>
 
 =item *
 
-amacleay <a.macleay@gmail.com>
-
-=item *
-
-Andy Jack <andyjack@users.noreply.github.com>
-
-=item *
-
-jamadam <sugama@jamadam.com>
-
-=item *
-
-lembark <lembark@wrkhors.com>
-
-=item *
-
-richi235 <richard@weltraumpflege.org>
-
-=item *
-
-rouzier <rouzier@gmail.com>
-
-=item *
-
-Bas Bloemsaat <bas@bloemsaat.com>
-
-=item *
-
-Brian Horakh <brianh@zoovy.com>
-
-=item *
-
-Charles Howes <charles.howes@globalrelay.net>
-
-=item *
-
-Chris Davies <FMQA@users.noreply.github.com>
-
-=item *
-
-Daniel Fackrell <dfackrell@bluehost.com>
-
-=item *
-
-Dave Rolsky <autarch@urth.org>
-
-=item *
-
-Dmitry Karasik <dmitry@karasik.eu.org>
+Viťas Strádal <vitas@matfyz.cz>
 
 =back
 
@@ -3000,7 +3033,7 @@ Dmitry Karasik <dmitry@karasik.eu.org>
 
 Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
-Copyright (c) 2014-2016 Daniel Gempesaw
+Copyright (c) 2014-2017 Daniel Gempesaw
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

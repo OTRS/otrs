@@ -1,5 +1,5 @@
 package Selenium::Firefox;
-$Selenium::Firefox::VERSION = '1.11';
+$Selenium::Firefox::VERSION = '1.20';
 # ABSTRACT: Use FirefoxDriver without a Selenium server
 use Moo;
 use Carp;
@@ -81,6 +81,11 @@ has 'firefox_binary' => (
     builder => 'firefox_path'
 );
 
+has '_execute_script_suffix' => (
+    is => 'lazy',
+    default => 'Gecko'
+);
+
 
 sub get_context {
     my $self = shift;
@@ -126,7 +131,7 @@ Selenium::Firefox - Use FirefoxDriver without a Selenium server
 
 =head1 VERSION
 
-version 1.11
+version 1.20
 
 =head1 SYNOPSIS
 
@@ -429,7 +434,7 @@ Aditya Ivaturi <ivaturi@gmail.com>
 
 Copyright (c) 2010-2011 Aditya Ivaturi, Gordon Child
 
-Copyright (c) 2014-2016 Daniel Gempesaw
+Copyright (c) 2014-2017 Daniel Gempesaw
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
