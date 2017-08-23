@@ -17,6 +17,12 @@ use Kernel::GenericInterface::Operation::Session::Common;
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
+# Cleanup existing settings to make sure session limit calculations are correct.
+my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+for my $SessionID ($AuthSessionObject->GetAllSessionIDs()) {
+    $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
+}
+
 $Selenium->RunTest(
     sub {
 
