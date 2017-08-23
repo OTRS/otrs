@@ -18,7 +18,7 @@ use warnings;
 #
 
 #
-# Please note that all autoload files have to be registered via SysConfig (see AutoloadPackages###1000-Test).
+# Please note that all autoload files have to be registered via SysConfig (see AutoloadPerlPackages###1000-Test).
 #
 
 sub AutoloadTest {
