@@ -11,7 +11,7 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="12" y="96" width="237" height="66" text="Navigation" measuredWidth="237" measuredHeight="66"/>
-  <widgets xsi:type="model:Button" x="22" y="127" width="218" text="Back to webservice details" measuredWidth="218" measuredHeight="23" link="WebServiceDetails.screen">
+  <widgets xsi:type="model:Button" x="22" y="127" width="218" text="Back to web service details" measuredWidth="218" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="26" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>

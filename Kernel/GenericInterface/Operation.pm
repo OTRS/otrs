@@ -62,7 +62,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
+    # Check needed objects.
     for my $Needed (qw(DebuggerObject Operation OperationType WebserviceID)) {
         if ( !$Param{$Needed} ) {
 
@@ -75,7 +75,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    # check operation
+    # Check operation.
     if ( !IsStringWithData( $Param{OperationType} ) ) {
 
         return $Self->{DebuggerObject}->Error(
@@ -83,7 +83,7 @@ sub new {
         );
     }
 
-    # load backend module
+    # Load backend module.
     my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{OperationType};
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
 
@@ -95,7 +95,7 @@ sub new {
         %{$Self},
     );
 
-    # pass back error message from backend if backend module could not be executed
+    # Pass back error message from backend if backend module could not be executed.
     return $Self->{BackendObject} if ref $Self->{BackendObject} ne $GenericModule;
 
     return $Self;
@@ -124,7 +124,7 @@ perform the selected Operation.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # start map on backend
+    # Start map on backend,
     return $Self->{BackendObject}->Run(%Param);
 }
 

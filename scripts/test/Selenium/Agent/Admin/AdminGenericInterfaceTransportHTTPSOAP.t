@@ -25,7 +25,7 @@ $Selenium->RunTest(
         # define needed variable
         my $RandomID = $Helper->GetRandomID();
 
-        # create test webservice
+        # create test web service
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config => {
                 Debugger => {
@@ -38,14 +38,14 @@ $Selenium->RunTest(
                     },
                 },
             },
-            Name    => "Selenium $RandomID webservice",
+            Name    => "Selenium $RandomID web service",
             ValidID => 1,
             UserID  => 1,
         );
 
         $Self->True(
             $WebserviceID,
-            "Webservice ID $WebserviceID is created"
+            "Web service ID $WebserviceID is created"
         );
 
         # create test user and login
@@ -59,13 +59,15 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        # get some variables
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
+        my $Home         = $ConfigObject->Get('Home');
 
         # navigate to AdminGenericInterfaceWebservice screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
 
-        # click on created webservice
+        # click on created web service
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # select 'HTTP::SOAP' as provider network transport
@@ -79,14 +81,18 @@ $Selenium->RunTest(
         );
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # click to configure provider network transport
         $Selenium->find_element("//button[\@id='ProviderTransportProperties']")->VerifiedClick();
 
         # verify screen
         for my $ID (
-            qw(NameSpace RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText MaxLength )
+            qw(
+            NameSpace MaxLength
+            RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText
+            SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
+            )
             )
         {
             $Selenium->find_element( "#$ID", 'css' )->is_enabled();
@@ -126,7 +132,7 @@ $Selenium->RunTest(
         }
 
         # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         for my $ValidationField (qw( NameSpace RequestNameFreeText ResponseNameFreeText MaxLength)) {
             $Self->Is(
                 $Selenium->execute_script(
@@ -152,7 +158,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AddValue", 'css' )->click();
 
         # Click on 'Save' without entering anything to trigger client-side validation.
-        $Selenium->find_element("//button[\@value='Save and continue']")->click();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check if errors are shown.
         $Self->True(
@@ -185,7 +191,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # verify URL is changed while we are on the same screen
         $Self->True(
@@ -198,18 +204,18 @@ $Selenium->RunTest(
             $Self->Is(
                 $Selenium->find_element( "#$VerifyField", 'css' )->get_value(),
                 $ProviderInputData{$VerifyField},
-                "Inputed value for $VerifyField field is correct"
+                "Input value for $VerifyField field is correct"
             );
         }
         $Self->Is(
             $Selenium->find_element( '.DefaultValueKeyItem', 'css' )->get_value(),
             'Key1',
-            'Inputed value for DefaultValueKeyItem field is correct'
+            'Input value for DefaultValueKeyItem field is correct'
         );
         $Self->Is(
             $Selenium->find_element( '.DefaultValueItem', 'css' )->get_value(),
             'Value1',
-            'Inputed value for DefaultValueItem field is correct'
+            'Input value for DefaultValueItem field is correct'
         );
 
         # verify saved sort options
@@ -229,7 +235,7 @@ $Selenium->RunTest(
         $Selenium->accept_alert();
 
         # click on 'Save and finish' verify JS redirection
-        $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
@@ -240,9 +246,14 @@ $Selenium->RunTest(
 
         # verify screen
         for my $ID (
-            qw( Endpoint NameSpace RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText Encoding
-            SOAPAction SOAPActionSeparator Authentication User Password SSLProxy SSLProxyUser SSLProxyPassword
-            UseSSL SSLP12Certificate SSLP12Password SSLCAFile SSLCADir)
+            qw(
+            Endpoint NameSpace Encoding Timeout
+            RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText
+            SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
+            AuthType BasicAuthUser BasicAuthPassword
+            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
+            )
             )
         {
             $Selenium->find_element( "#$ID", 'css' )->is_enabled();
@@ -273,13 +284,31 @@ $Selenium->RunTest(
                 OptionValue => 'Append',
             },
             {
-                CheckField  => 'SOAPActionField',
+                CheckField  => 'SOAPActionSchemeField',
                 OptionField => 'SOAPAction',
                 OptionValue => 'Yes',
             },
             {
+                CheckField     => 'SOAPActionFreeTextField',
+                OptionField    => 'SOAPActionScheme',
+                OptionValuePre => 'SeparatorOperation',
+                OptionValue    => 'FreeText',
+            },
+            {
+                CheckField     => 'SOAPActionSeparatorField',
+                OptionField    => 'SOAPActionScheme',
+                OptionValuePre => 'FreeText',
+                OptionValue    => 'SeparatorOperation',
+            },
+            {
+                CheckField     => 'SOAPActionSeparatorField',
+                OptionField    => 'SOAPActionScheme',
+                OptionValuePre => 'FreeText',
+                OptionValue    => 'NameSpaceSeparatorOperation',
+            },
+            {
                 CheckField  => 'BasicAuthField',
-                OptionField => 'Authentication',
+                OptionField => 'AuthType',
                 OptionValue => 'BasicAuth',
             },
             {
@@ -287,9 +316,21 @@ $Selenium->RunTest(
                 OptionField => 'UseSSL',
                 OptionValue => 'Yes',
             },
+            {
+                CheckField  => 'ProxyField',
+                OptionField => 'UseProxy',
+                OptionValue => 'Yes',
+            },
         );
 
         for my $Field (@RequesterJSFields) {
+
+            # change field to trigger JS (if necessary)
+            if ( $Field->{OptionValuePre} ) {
+                $Selenium->execute_script(
+                    "\$('#$Field->{OptionField}').val('$Field->{OptionValuePre}').trigger('redraw.InputField').trigger('change');"
+                );
+            }
 
             # verify field is hidden
             $Self->Is(
@@ -316,8 +357,8 @@ $Selenium->RunTest(
         }
 
         # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
-        for my $ValidationField (qw( Endpoint NameSpace RequestNameFreeText SSLP12Certificate SSLP12Password )) {
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        for my $ValidationField (qw( Endpoint NameSpace RequestNameFreeText ResponseNameFreeText )) {
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#$ValidationField').hasClass('Error')"
@@ -334,15 +375,16 @@ $Selenium->RunTest(
             RequestNameFreeText  => 'RequestName' . $RandomID,
             ResponseNameFreeText => 'ResponseName' . $RandomID,
             Encoding             => 'utf-8',
-            User                 => 'User' . $RandomID,
-            Password             => 'Pass' . $RandomID,
-            SSLProxy             => 'http://proxy_hostname:8080',
-            SSLProxyUser         => 'SSLUser' . $RandomID,
-            SSLProxyPassword     => 'SSLPass' . $RandomID,
-            SSLP12Certificate    => '/opt/otrs/var/Selenium/SOAP/certificate.p12',
-            SSLP12Password       => 'SSLP12Pass' . $RandomID,
-            SSLCAFile            => '/opt/otrs/var/Selenium/SOAP/CA/ca.pem',
-            SSLCADir             => '/opt/otrs/var/Selenium/SOAP/CA',
+            BasicAuthUser        => 'User' . $RandomID,
+            BasicAuthPassword    => 'Pass' . $RandomID,
+            ProxyHost            => 'http://proxy_hostname:8080',
+            ProxyUser            => 'SSLUser' . $RandomID,
+            ProxyPassword        => 'SSLPass' . $RandomID,
+            SSLCertificate       => $Home . '/scripts/test/sample/SSL/certificate.pem',
+            SSLKey               => $Home . '/scripts/test/sample/SSL/certificate.key.pem',
+            SSLPassword          => 'SSLPass' . $RandomID,
+            SSLCAFile            => $Home . '/scripts/test/sample/SSL/ca-certificate.pem',
+            SSLCADir             => $Home . '/scripts/test/sample/SSL/',
 
         );
         for my $InputField ( sort keys %RequesterInputData ) {
@@ -350,7 +392,7 @@ $Selenium->RunTest(
         }
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # verify URL is changed while we are on the same screen
         $Self->True(
@@ -363,25 +405,25 @@ $Selenium->RunTest(
             $Self->Is(
                 $Selenium->find_element( "#$VerifyField", 'css' )->get_value(),
                 $RequesterInputData{$VerifyField},
-                "Inputed value for $VerifyField field is correct"
+                "Input value for $VerifyField field is correct"
             );
         }
 
         # click on 'Save and finish' verify JS redirection
-        $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
         );
 
-        # delete test created webservice
+        # delete test created web service
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => 1,
         );
         $Self->True(
             $Success,
-            "Webservice ID $WebserviceID is deleted"
+            "Web service ID $WebserviceID is deleted"
         );
 
         # make sure cache is correct

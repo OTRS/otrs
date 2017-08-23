@@ -42,10 +42,6 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
             TargetNS.Redirect('MappingOutbound');
         });
 
-        $('#SaveAndFinishButton').on('click', function(){
-            $('#ReturnToWebservice').val(1);
-        });
-
         $('.RegisterChange').on('change.RegisterChange keyup.RegisterChange', function () {
             $('.HideOnChange').hide();
             $('.ShowOnChange').show();

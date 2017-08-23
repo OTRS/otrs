@@ -17,7 +17,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  * @memberof Core.Agent.Admin
  * @author OTRS AG
  * @description
- *      This namespace contains the special module functions for the GenericInterface webservice module.
+ *      This namespace contains the special module functions for the GenericInterface web service module.
  */
 Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
 
@@ -77,10 +77,6 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             TargetNS.HideElements();
         });
 
-        $('#SaveAndFinishButton').on('click', function(){
-            $('#ReturnToWebservice').val(1);
-        });
-
         // Initialize delete action dialog events
         $('.DeleteOperation').each(function() {
             $(this).on('click', TargetNS.ShowDeleteActionDialog);
@@ -96,12 +92,12 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      * @function
      * @param {Object} Event - The browser event object, e.g. of the clicked DOM element.
      * @description
-     *      Shows a confirmation dialog to delete the webservice.
+     *      Shows a confirmation dialog to delete the web service.
      */
     TargetNS.ShowDeleteDialog = function(Event){
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteDialogContainer'),
-            Core.Language.Translate('Delete webservice'),
+            Core.Language.Translate('Delete web service'),
             '240px',
             'Center',
             true,
@@ -148,7 +144,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      * @function
      * @param {Object} Event - The browser event object, e.g. of the clicked DOM element.
      * @description
-     *      Shows a dialog to clone a webservice.
+     *      Shows a dialog to clone a web service.
      */
     TargetNS.ShowCloneDialog = function(Event){
 
@@ -156,7 +152,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
 
         Core.UI.Dialog.ShowContentDialog(
             $('#CloneDialogContainer'),
-            Core.Language.Translate('Clone webservice'),
+            Core.Language.Translate('Clone web service'),
             '240px',
             'Center',
             true
@@ -166,7 +162,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         // Currently we have not a function to initialize the validation on a single form
         Core.Form.Validate.Init();
 
-        // get current system time to define suggested the name of the cloned webservice
+        // get current system time to define suggested the name of the cloned web service
         CurrentDate = new Date();
         CloneName = $('#Name').val() + "-" + CurrentDate.getTime();
 
@@ -191,13 +187,13 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      * @function
      * @param {Object} Event - The browser event object, e.g. of the clicked DOM element.
      * @description
-     *      Shows a dialog to import a webservice.
+     *      Shows a dialog to import a web service.
      */
     TargetNS.ShowImportDialog = function(Event){
 
         Core.UI.Dialog.ShowContentDialog(
             $('#ImportDialogContainer'),
-            Core.Language.Translate('Import webservice'),
+            Core.Language.Translate('Import web service'),
             '240px',
             'Center',
             true

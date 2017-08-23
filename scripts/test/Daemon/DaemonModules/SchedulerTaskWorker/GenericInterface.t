@@ -183,7 +183,7 @@ my @Test = (
         Result => 0,
     },
     {
-        Name   => 'Wrong Webservice ID',
+        Name   => 'Wrong web service ID',
         Config => {
             TaskID   => 123,
             TaskName => 'UnitTest',

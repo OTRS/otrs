@@ -233,7 +233,7 @@ for my $Test (@Tests) {
 }
 
 #
-# Test non existing webservice
+# Test non existing web service
 #
 my $FunctionResult = $RequesterObject->Run(
     WebserviceID => -1,

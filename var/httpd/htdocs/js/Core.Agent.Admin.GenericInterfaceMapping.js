@@ -93,11 +93,6 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
         //            $(this).parent().remove();
             return false;
         });
-
-        // bind click function to save and finish button
-        $('#SaveAndFinishButton').on('click', function(){
-            $('#ReturnToAction').val(1);
-        });
     };
 
     /**

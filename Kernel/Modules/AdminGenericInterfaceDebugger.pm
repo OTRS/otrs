@@ -11,6 +11,8 @@ package Kernel::Modules::AdminGenericInterfaceDebugger;
 use strict;
 use warnings;
 
+use utf8;
+
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -30,7 +32,6 @@ sub Run {
 
     my $WebserviceID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'WebserviceID' );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$WebserviceID ) {
@@ -50,7 +51,7 @@ sub Run {
         );
     }
 
-    # send value to JS
+    # Send value to JS.
     $LayoutObject->AddJSData(
         Key   => 'WebserviceID',
         Value => $WebserviceID,
@@ -78,7 +79,7 @@ sub Run {
         );
     }
 
-    # default: show start screen
+    # Default: show start screen.
     return $Self->_ShowScreen(
         %Param,
         WebserviceID   => $WebserviceID,
@@ -89,7 +90,6 @@ sub Run {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $Output = $LayoutObject->Header();
@@ -98,14 +98,30 @@ sub _ShowScreen {
     my $FilterLimitStrg = $LayoutObject->BuildSelection(
         Data => [
             '10',
+            '25',
+            '50',
             '100',
+            '250',
+            '500',
             '1000',
             '10000',
         ],
         Name          => 'FilterLimit',
-        SelectedValue => '100',
+        SelectedValue => '10',
         Translate     => 0,
         Class         => 'Modernize',
+    );
+
+    my $FilterSortStrg = $LayoutObject->BuildSelection(
+        Data => {
+            'ASC'  => 'ascending',
+            'DESC' => 'descending',
+        },
+        Name         => 'FilterSort',
+        PossibleNone => 0,
+        SelectedID   => 'DESC',
+        Translate    => 0,
+        Class        => 'Modernize',
     );
 
     my $FilterTypeStrg = $LayoutObject->BuildSelection(
@@ -134,6 +150,7 @@ sub _ShowScreen {
             %Param,
             WebserviceName  => $Param{WebserviceData}->{Name},
             FilterLimitStrg => $FilterLimitStrg,
+            FilterSortStrg  => $FilterSortStrg,
             FilterTypeStrg  => $FilterTypeStrg,
             FilterFromStrg  => $FilterFromStrg,
             FilterToStrg    => $FilterToStrg,
@@ -151,7 +168,6 @@ sub _GetRequestList {
         WebserviceID => $Param{WebserviceID},
     );
 
-    # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $FilterType = $ParamObject->GetParam( Param => 'FilterType' );
@@ -165,24 +181,24 @@ sub _GetRequestList {
 
     $LogSearchParam{CreatedAtOrAfter}  = $ParamObject->GetParam( Param => 'FilterFrom' );
     $LogSearchParam{CreatedAtOrBefore} = $ParamObject->GetParam( Param => 'FilterTo' );
-    $LogSearchParam{Limit}             = $ParamObject->GetParam( Param => 'FilterLimit' ) || undef;
+    $LogSearchParam{Limit}             = $ParamObject->GetParam( Param => 'FilterLimit' ) || 10;
+    $LogSearchParam{Sort}              = $ParamObject->GetParam( Param => 'FilterSort' ) || 'DESC';
 
     my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogSearch(%LogSearchParam);
 
-    # fail gracefully
+    # Fail gracefully.
     $LogData ||= [];
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build JSON output
+    # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => $LogData,
         },
     );
 
-    # send JSON response
+    # Send JSON response.
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
@@ -206,21 +222,52 @@ sub _GetCommunicationDetails {
     }
 
     my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogGetWithData(
-        WebserviceID    => $Param{WebserviceID},
         CommunicationID => $CommunicationID,
     );
 
-    # get layout object
+    # Duplicate widgets containing xml data and format the new version for better readability.
+    if ( IsArrayRefWithData( $LogData->{Data} ) ) {
+        $Kernel::OM->Get('Kernel::System::Main')->Require('XML::LibXML');
+        my $XML = XML::LibXML->new();
+
+        INDEX:
+        for my $Index ( 0 .. scalar( @{ $LogData->{Data} } ) + 1 ) {
+            my $Data = $LogData->{Data}->[$Index]->{Data};
+            next INDEX if !IsStringWithData($Data);
+            next INDEX if substr( $Data, 0, 5 ) ne '<?xml';
+
+            # Safely attempt to format xml.
+            my $LintedXML;
+            eval {
+                $LintedXML = $XML->parse_string($Data)->serialize(1);
+            };
+            next INDEX if !$LintedXML;
+
+            # Prevent double encoding of utf8 data.
+            utf8::decode($LintedXML);
+
+            # If formatted xml differs from original version, add it to data.
+            next INDEX if $LintedXML eq $Data;
+            splice @{ $LogData->{Data} }, $Index + 1, 0, {
+                Created    => $LogData->{Data}->[$Index]->{Created},
+                Data       => $LintedXML,
+                DebugLevel => $LogData->{Data}->[$Index]->{DebugLevel},
+                Summary    => $LogData->{Data}->[$Index]->{Summary}
+                    . ' (auto-formatted XML, not part of original transmission)',
+            };
+        }
+    }
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build JSON output
+    # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => $LogData,
         },
     );
 
-    # send JSON response
+    # Send JSON response.
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
@@ -236,17 +283,16 @@ sub _ClearDebugLog {
         WebserviceID => $Param{WebserviceID},
     );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build JSON output
+    # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
         Data => {
             Success => $Success,
         },
     );
 
-    # send JSON response
+    # Send JSON response.
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,

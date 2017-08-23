@@ -37,11 +37,10 @@ by using Kernel::GenericInterface::Transport->new();
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
+    # Allocate new hash for object.
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
     for my $Needed (qw(DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
@@ -76,7 +75,7 @@ In case of an error, the resulting http error code and message are remembered fo
 sub ProviderProcessRequest {
     my ( $Self, %Param ) = @_;
 
-    # check transport config
+    # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
         return $Self->_Error(
             Summary   => 'REST Transport: Have no TransportConfig',
@@ -99,7 +98,6 @@ sub ProviderProcessRequest {
         );
     }
 
-    # get Encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $Operation;
@@ -107,37 +105,37 @@ sub ProviderProcessRequest {
     my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
-    # remove any query parameter from the URL
-    # e.g. from /Ticket/1/2?UserLogin=user&Password=secret
-    # to /Ticket/1/2?
+    # Remove any query parameter from the URL
+    #   e.g. from /Ticket/1/2?UserLogin=user&Password=secret
+    #   to /Ticket/1/2?.
     $RequestURI =~ s{([^?]+)(.+)?}{$1};
 
-    # remember the query parameters e.g. ?UserLogin=user&Password=secret
+    # Remember the query parameters e.g. ?UserLogin=user&Password=secret.
     my $QueryParamsStr = $2 || '';
     my %QueryParams;
 
     if ($QueryParamsStr) {
 
-        # remove question mark '?' in the beginning
+        # Remove question mark '?' in the beginning.
         substr $QueryParamsStr, 0, 1, '';
 
-        # convert query parameters into a hash
-        # e.g. from UserLogin=user&Password=secret
-        # to (
-        #       UserLogin => 'user',
-        #       Password  => 'secret',
-        #    );
+        # Convert query parameters into a hash
+        #   e.g. from UserLogin=user&Password=secret
+        #   to (
+        #        UserLogin => 'user',
+        #        Password  => 'secret',
+        #      );
         for my $QueryParam ( split /[;&]/, $QueryParamsStr ) {
             my ( $Key, $Value ) = split '=', $QueryParam;
 
-            # Convert + characters to its encoded representation, see bug#11917
+            # Convert + characters to its encoded representation, see bug#11917.
             $Value =~ s{\+}{%20}g;
 
-            # unescape URI strings in query parameters
+            # Unescape URI strings in query parameters.
             $Key   = URI::Escape::uri_unescape($Key);
             $Value = URI::Escape::uri_unescape($Value);
 
-            # encode variables
+            # Encode variables.
             $EncodeObject->EncodeInput( \$Key );
             $EncodeObject->EncodeInput( \$Value );
 
@@ -145,7 +143,7 @@ sub ProviderProcessRequest {
                 $QueryParams{$Key} = $Value || '';
             }
 
-            # elements specified multiple times will be added as array reference
+            # Elements specified multiple times will be added as array reference.
             elsif ( ref $QueryParams{$Key} eq '' ) {
                 $QueryParams{$Key} = [ $QueryParams{$Key}, $Value ];
             }
@@ -168,44 +166,44 @@ sub ProviderProcessRequest {
         }
 
         # Convert the configured route with the help of extended regexp patterns
-        # to a regexp. This generated regexp is used to:
-        # 1.) Determine the Operation for the request
-        # 2.) Extract additional parameters from the RequestURI
-        # For further information: http://perldoc.perl.org/perlre.html#Extended-Patterns
+        #   to a regexp. This generated regexp is used to:
+        #   1.) Determine the Operation for the request
+        #   2.) Extract additional parameters from the RequestURI
+        #   For further information: http://perldoc.perl.org/perlre.html#Extended-Patterns
         #
-        # For example, from the RequestURI: /Ticket/1/2
-        #     and the route setting:        /Ticket/:TicketID/:Other
-        #     %URIData will then contain:
-        #     (
-        #         TicketID => 1,
-        #         Other    => 2,
-        #     );
+        #   For example, from the RequestURI: /Ticket/1/2
+        #       and the route setting:        /Ticket/:TicketID/:Other
+        #       %URIData will then contain:
+        #       (
+        #           TicketID => 1,
+        #           Other    => 2,
+        #       );
         my $RouteRegEx = $RouteMapping{Route};
         $RouteRegEx =~ s{:([^\/]+)}{(?<$1>[^\/]+)}xmsg;
 
         next ROUTE if !( $RequestURI =~ m{^ $RouteRegEx $}xms );
 
-        # import URI params
+        # Import URI params.
         for my $URIKey ( sort keys %+ ) {
             my $URIValue = $+{$URIKey};
 
-            # unescape value
+            # Unescape value
             $URIValue = URI::Escape::uri_unescape($URIValue);
 
-            # encode value
+            # Encode value.
             $EncodeObject->EncodeInput( \$URIValue );
 
-            # add to URI data
+            # Add to URI data.
             $URIData{$URIKey} = $URIValue;
         }
 
         $Operation = $CurrentOperation;
 
-        # leave with the first matching regexp
+        # Leave with the first matching regexp.
         last ROUTE;
     }
 
-    # combine query params with URIData params, URIData has more precedence
+    # Combine query params with URIData params, URIData has more precedence.
     if (%QueryParams) {
         %URIData = ( %QueryParams, %URIData, );
     }
@@ -219,7 +217,7 @@ sub ProviderProcessRequest {
 
     my $Length = $ENV{'CONTENT_LENGTH'};
 
-    # no length provided, return the information we have
+    # No length provided, return the information we have.
     if ( !$Length ) {
         return {
             Success   => 1,
@@ -231,7 +229,7 @@ sub ProviderProcessRequest {
         };
     }
 
-    # request bigger than allowed
+    # Request bigger than allowed.
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
@@ -239,7 +237,7 @@ sub ProviderProcessRequest {
         );
     }
 
-    # read request
+    # Read request.
     my $Content;
     read STDIN, $Content, $Length;
 
@@ -252,7 +250,7 @@ sub ProviderProcessRequest {
         );
     }
 
-    # check if we have content
+    # Check if we have content.
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
@@ -260,7 +258,7 @@ sub ProviderProcessRequest {
         );
     }
 
-    # convert char-set if necessary
+    # Convert char-set if necessary.
     my $ContentCharset;
     if ( $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
         $ContentCharset = $1;
@@ -275,7 +273,7 @@ sub ProviderProcessRequest {
         $EncodeObject->EncodeInput( \$Content );
     }
 
-    # send received data to debugger
+    # Send received data to debugger.
     $Self->{DebuggerObject}->Debug(
         Summary => 'Received data by provider from remote system',
         Data    => $Content,
@@ -317,7 +315,7 @@ sub ProviderProcessRequest {
         );
     }
 
-    # all ok - return data
+    # All OK - return data
     return {
         Success   => 1,
         Operation => $Operation,
@@ -354,7 +352,7 @@ The HTTP code is set accordingly
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
-    # do we have a http error message to return
+    # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
         return $Self->_Output(
             HTTPCode => $Self->{HTTPError},
@@ -362,7 +360,7 @@ sub ProviderGenerateResponse {
         );
     }
 
-    # check data param
+    # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return $Self->_Output(
             HTTPCode => 500,
@@ -370,22 +368,22 @@ sub ProviderGenerateResponse {
         );
     }
 
-    # check success param
+    # Check success param.
     my $HTTPCode = 200;
     if ( !$Param{Success} ) {
 
-        # create Fault structure
+        # Create Fault structure.
         my $FaultString = $Param{ErrorMessage} || 'Unknown';
         $Param{Data} = {
             faultcode   => 'Server',
             faultstring => $FaultString,
         };
 
-        # override HTTPCode to 500
+        # Override HTTPCode to 500.
         $HTTPCode = 500;
     }
 
-    # prepare data
+    # Orepare data.
     my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => $Param{Data},
     );
@@ -397,7 +395,7 @@ sub ProviderGenerateResponse {
         );
     }
 
-    # no error - return output
+    # No error - return output.
     return $Self->_Output(
         HTTPCode => $HTTPCode,
         Content  => $JSONString,
@@ -429,7 +427,7 @@ receive the response and return its data.
 sub RequesterPerformRequest {
     my ( $Self, %Param ) = @_;
 
-    # check transport config
+    # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
         return {
             Success      => 0,
@@ -445,7 +443,7 @@ sub RequesterPerformRequest {
     my $Config = $Self->{TransportConfig}->{Config};
 
     NEEDED:
-    for my $Needed (qw(Host DefaultCommand)) {
+    for my $Needed (qw(Host DefaultCommand Timeout)) {
         next NEEDED if IsStringWithData( $Config->{$Needed} );
 
         return {
@@ -454,7 +452,7 @@ sub RequesterPerformRequest {
         };
     }
 
-    # check data param
+    # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
         return {
             Success      => 0,
@@ -462,7 +460,7 @@ sub RequesterPerformRequest {
         };
     }
 
-    # check operation param
+    # Check operation param.
     if ( !IsStringWithData( $Param{Operation} ) ) {
         return {
             Success      => 0,
@@ -470,32 +468,14 @@ sub RequesterPerformRequest {
         };
     }
 
-    # create header container
-    # and add proper content type
+    # Create header container and add proper content type
     my $Headers = { 'Content-Type' => 'application/json; charset=UTF-8' };
-
-    if ( IsHashRefWithData( $Config->{Authentication} ) ) {
-
-        # basic authentication
-        if (
-            IsStringWithData( $Config->{Authentication}->{Type} )
-            && $Config->{Authentication}->{Type} eq 'BasicAuth'
-            )
-        {
-            my $User = $Config->{Authentication}->{User};
-            my $Password = $Config->{Authentication}->{Password} || '';
-
-            if ( IsStringWithData($User) ) {
-                my $EncodedCredentials = encode_base64("$User:$Password");
-                $Headers->{Authorization} = 'Basic ' . $EncodedCredentials;
-            }
-        }
-    }
 
     # set up a REST session
     my $RestClient = REST::Client->new(
         {
-            host => $Config->{Host},
+            host    => $Config->{Host},
+            timeout => $Config->{Timeout},
         }
     );
 
@@ -503,7 +483,7 @@ sub RequesterPerformRequest {
 
         my $ErrorMessage = "Error while creating REST client from 'REST::Client'.";
 
-        # log to debugger
+        # Log to debugger.
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
@@ -513,24 +493,90 @@ sub RequesterPerformRequest {
         };
     }
 
-    # add X509 options if configured
-    if ( IsHashRefWithData( $Config->{X509} ) ) {
+    # Add SSL options if configured.
+    my %SSLOptions;
+    if (
+        IsHashRefWithData( $Config->{SSL} )
+        && IsStringWithData( $Config->{SSL}->{UseSSL} )
+        && $Config->{SSL}->{UseSSL} eq 'Yes'
+        )
+    {
+        my %SSLOptionsMap = (
+            SSLCertificate => 'SSL_cert_file',
+            SSLKey         => 'SSL_key_file',
+            SSLPassword    => 'SSL_passwd_cb',
+            SSLCAFile      => 'SSL_ca_file',
+            SSLCADir       => 'SSL_ca_path',
+        );
+        SSLOPTION:
+        for my $SSLOption ( sort keys %SSLOptionsMap ) {
+            next SSLOPTION if !IsStringWithData( $Config->{SSL}->{$SSLOption} );
 
-        # use X509 options
+            if ( $SSLOption ne 'SSLPassword' ) {
+                $RestClient->getUseragent()->ssl_opts(
+                    $SSLOptionsMap{$SSLOption} => $Config->{SSL}->{$SSLOption},
+                );
+                next SSLOPTION;
+            }
+
+            # Passwords needs a special treatment.
+            $RestClient->getUseragent()->ssl_opts(
+                $SSLOptionsMap{$SSLOption} => sub { $Config->{SSL}->{$SSLOption} },
+            );
+        }
+    }
+
+    # Add proxy options if configured.
+    if (
+        IsHashRefWithData( $Config->{Proxy} )
+        && IsStringWithData( $Config->{Proxy}->{UseProxy} )
+        && $Config->{Proxy}->{UseProxy} eq 'Yes'
+        )
+    {
+
+        # Explicitly use no proxy (even if configured system wide).
         if (
-            IsStringWithData( $Config->{X509}->{UseX509} )
-            && $Config->{X509}->{UseX509} eq 'Yes'
+            IsStringWithData( $Config->{Proxy}->{ProxyExclude} )
+            && $Config->{Proxy}->{ProxyExclude} eq 'Yes'
             )
         {
-            #X509 client authentication
-            $RestClient->setCert( $Config->{X509}->{X509CertFile} );
-            $RestClient->setKey( $Config->{X509}->{X509KeyFile} );
+            $RestClient->getUseragent()->no_proxy();
+        }
 
-            #add a CA to verify server certificates
-            if ( IsStringWithData( $Config->{X509}->{X509CAFile} ) ) {
-                $RestClient->setCa( $Config->{X509}->{X509CAFile} );
+        # Use proxy.
+        elsif ( IsStringWithData( $Config->{Proxy}->{ProxyHost} ) ) {
+
+            # Set host.
+            $RestClient->getUseragent()->proxy(
+                [ 'http', 'https', ],
+                $Config->{Proxy}->{ProxyHost},
+            );
+
+            # Add proxy authentication.
+            if (
+                IsStringWithData( $Config->{Proxy}->{ProxyUser} )
+                && IsStringWithData( $Config->{Proxy}->{ProxyPassword} )
+                )
+            {
+                $Headers->{'Proxy-Authorization'} = 'Basic ' . encode_base64(
+                    $Config->{Proxy}->{ProxyUser} . ':' . $Config->{Proxy}->{ProxyPassword}
+                );
             }
         }
+    }
+
+    # Add authentication options if configured (hard wired to basic authentication at the moment).
+    if (
+        IsHashRefWithData( $Config->{Authentication} )
+        && IsStringWithData( $Config->{Authentication}->{AuthType} )
+        && $Config->{Authentication}->{AuthType} eq 'BasicAuth'
+        && IsStringWithData( $Config->{Authentication}->{BasicAuthUser} )
+        && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
+        )
+    {
+        $Headers->{Authorization} = 'Basic ' . encode_base64(
+            $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
+        );
     }
 
     my $RestCommand = $Config->{DefaultCommand};
@@ -545,7 +591,7 @@ sub RequesterPerformRequest {
 
         my $ErrorMessage = "'$RestCommand' is not a valid REST command.";
 
-        # log to debugger
+        # Log to debugger.
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
@@ -565,7 +611,7 @@ sub RequesterPerformRequest {
     {
         my $ErrorMessage = "REST Transport: Have no Invoker <-> Controller mapping for Invoker '$Param{Operation}'.";
 
-        # log to debugger
+        # Log to debugger.
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
@@ -578,19 +624,19 @@ sub RequesterPerformRequest {
     my @RequestParam;
     my $Controller = $Config->{InvokerControllerMapping}->{ $Param{Operation} }->{Controller};
 
-    # remove any query parameters that might be in the config
-    # For example, from the controller: /Ticket/:TicketID/?:UserLogin&:Password
-    #     controller must remain  /Ticket/:TicketID/
+    # Remove any query parameters that might be in the config,
+    #   For example, from the controller: /Ticket/:TicketID/?:UserLogin&:Password
+    #   controller must remain  /Ticket/:TicketID/
     $Controller =~ s{([^?]+)(.+)?}{$1};
 
-    # remember the query parameters e.g. ?:UserLogin&:Password
+    # Remember the query parameters e.g. ?:UserLogin&:Password.
     my $QueryParamsStr = $2 || '';
 
     my @ParamsToDelete;
 
-    # replace any URI params with their actual value
+    # Replace any URI params with their actual value.
     #    for example: from /Ticket/:TicketID/:Other
-    #    to /Ticket/1/2 (considering that $Param{Data} contains TicketID = 1 and Other = 2)
+    #    to /Ticket/1/2 (considering that $Param{Data} contains TicketID = 1 and Other = 2).
     for my $ParamName ( sort keys %{ $Param{Data} } ) {
         if ( $Controller =~ m{:$ParamName(?=/|\?|$)}msx ) {
             my $ParamValue = $Param{Data}->{$ParamName};
@@ -607,10 +653,10 @@ sub RequesterPerformRequest {
 
     if ($QueryParamsStr) {
 
-        # replace any query params with their actual value
+        # Replace any query params with their actual value
         #    for example: from ?UserLogin:UserLogin&Password=:Password
         #    to ?UserLogin=user&Password=secret
-        #    (considering that $Param{Data} contains UserLogin = 'user' and Password = 'secret')
+        #    (considering that $Param{Data} contains UserLogin = 'user' and Password = 'secret').
         my $ReplaceFlag;
         for my $ParamName ( sort keys %{ $Param{Data} } ) {
             if ( $QueryParamsStr =~ m{:$ParamName(?=&|$)}msx ) {
@@ -622,7 +668,7 @@ sub RequesterPerformRequest {
             }
         }
 
-        # append query params in the URI
+        # Append query params in the URI.
         if ($ReplaceFlag) {
             $Controller .= $QueryParamsStr;
 
@@ -633,19 +679,19 @@ sub RequesterPerformRequest {
         }
     }
 
-    # remove already used params
+    # Remove already used params.
     for my $ParamName (@ParamsToDelete) {
         delete $Param{Data}->{$ParamName};
     }
 
-    # get JSON and Encode object
+    # Get JSON and Encode object.
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $Body;
     if ( IsHashRefWithData( $Param{Data} ) ) {
 
-        # POST, PUT and PATCH can have Data in the Body
+        # POST, PUT and PATCH can have Data in the Body.
         if (
             $RestCommand eq 'POST'
             || $RestCommand eq 'PUT'
@@ -661,20 +707,20 @@ sub RequesterPerformRequest {
                 Data => $Param{Data},
             );
 
-            # make sure data is correctly encoded
+            # Make sure data is correctly encoded.
             $EncodeObject->EncodeOutput( \$Param{Data} );
         }
 
-        # whereas GET and the others just have a the data added to the Query URI.
+        # Whereas GET and the others just have a the data added to the Query URI.
         else {
             my $QueryParams = $RestClient->buildQuery(
                 %{ $Param{Data} }
             );
 
-            # check if controller already have a  question mark '?'
+            # Check if controller already have a  question mark '?'.
             if ( $Controller =~ m{\?}msx ) {
 
-                # replace question mark '?' by an ampersand '&'
+                # Replace question mark '?' by an ampersand '&'.
                 $QueryParams =~ s{\A\?}{&};
             }
 
@@ -699,7 +745,7 @@ sub RequesterPerformRequest {
         push @RequestParam, $Body;
     }
 
-    # add headers to request
+    # Add headers to request
     push @RequestParam, $Headers;
 
     $RestClient->$RestCommand(@RequestParam);
@@ -719,7 +765,7 @@ sub RequesterPerformRequest {
 
     if ($ResponseError) {
 
-        # log to debugger
+        # Log to debugger.
         $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
         );
@@ -734,7 +780,7 @@ sub RequesterPerformRequest {
 
         my $ResponseError = $ErrorMessage . ' No content provided.';
 
-        # log to debugger
+        # Log to debugger.
         $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
         );
@@ -769,7 +815,7 @@ sub RequesterPerformRequest {
         }
     }
 
-    # send processed data to debugger
+    # Send processed data to debugger.
     $Self->{DebuggerObject}->Debug(
         Summary => 'JSON data received from remote system',
         Data    => $ResponseContent,
@@ -780,7 +826,7 @@ sub RequesterPerformRequest {
         From => 'utf-8',
     );
 
-    # to convert the data into a hash, use the JSON module
+    # To convert the data into a hash, use the JSON module.
     my $Result = $JSONObject->Decode(
         Data => $ResponseContent,
     );
@@ -788,7 +834,7 @@ sub RequesterPerformRequest {
     if ( !$Result ) {
         my $ResponseError = $ErrorMessage . ' Error while parsing JSON data.';
 
-        # log to debugger
+        # Log to debugger.
         $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
         );
@@ -798,7 +844,7 @@ sub RequesterPerformRequest {
         };
     }
 
-    # all OK - return result
+    # All OK - return result.
     return {
         Success     => 1,
         Data        => $Result || undef,
@@ -829,7 +875,7 @@ Returns structure to be passed to provider.
 sub _Output {
     my ( $Self, %Param ) = @_;
 
-    # check params
+    # Check params.
     my $Success = 1;
     my $ErrorMessage;
     if ( defined $Param{HTTPCode} && !IsInteger( $Param{HTTPCode} ) ) {
@@ -845,14 +891,13 @@ sub _Output {
         $ErrorMessage    = 'Invalid Content';
     }
 
-    # prepare protocol
+    # Prepare protocol.
     my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
 
-    # FIXME
-    # according to SOAP::Transport::HTTP the previous should only be used
-    # for IIS to imitate nph- behavior
-    # for all other browser 'Status:' should be used here
-    # this breaks apache though
+    # FIXME: according to SOAP::Transport::HTTP the previous should only be used
+    #   for IIS to imitate nph- behavior
+    #   for all other browser 'Status:' should be used here
+    #   this breaks apache though
 
     # prepare data
     $Param{Content}  ||= '';
@@ -865,10 +910,10 @@ sub _Output {
         $ContentType = 'text/plain';
     }
 
-    # calculate content length (based on the bytes length not on the characters length)
+    # Calculate content length (based on the bytes length not on the characters length).
     my $ContentLength = bytes::length( $Param{Content} );
 
-    # log to debugger
+    # Log to debugger.
     my $DebugLevel;
     if ( $Param{HTTPCode} eq 200 ) {
         $DebugLevel = 'debug';
@@ -882,7 +927,7 @@ sub _Output {
         Data       => $Param{Content},
     );
 
-    # set keep-alive
+    # Set keep-alive.
     my $Connection = $Self->{KeepAlive} ? 'Keep-Alive' : 'close';
 
     # prepare additional headers
@@ -895,19 +940,20 @@ sub _Output {
         }
     }
 
-    # in the constructor of this module STDIN and STDOUT are set to binmode without any additional
-    # layer (according to the documentation this is the same as set :raw). Previous solutions for
-    # binary responses requires the set of :raw or :utf8 according to IO layers.
-    # with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
-    # while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
-    # XML parser complains about it... ( but under special circumstances :raw layer was needed
-    # instead ).
-    # this solution to set the binmode in the constructor and then :utf8 layer before the response
-    # is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
-    # reproducible, and not tested in this solution).
+    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
+    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
+    #   binary responses requires the set of :raw or :utf8 according to IO layers.
+    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
+    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
+    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
+    #   instead ).
+    #
+    # This solution to set the binmode in the constructor and then :utf8 layer before the response
+    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
+    #   reproducible, and not tested in this solution).
     binmode STDOUT, ':utf8';    ## no critic
 
-    # print data to http - '\r' is required according to HTTP RFCs
+    # Print data to http - '\r' is required according to HTTP RFCs.
     my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
     print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
     print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
@@ -952,18 +998,18 @@ sub _Error {
         );
     }
 
-    # log to debugger
+    # Log to debugger.
     $Self->{DebuggerObject}->Error(
         Summary => $Param{Summary},
     );
 
-    # remember data for response
+    # Remember data for response.
     if ( IsStringWithData( $Param{HTTPError} ) ) {
         $Self->{HTTPError}   = $Param{HTTPError};
         $Self->{HTTPMessage} = $Param{Summary};
     }
 
-    # return to provider/requester
+    # Return to provider/requester.
     return {
         Success      => 0,
         ErrorMessage => $Param{Summary},

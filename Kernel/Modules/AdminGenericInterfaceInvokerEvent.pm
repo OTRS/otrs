@@ -165,7 +165,7 @@ sub Run {
             EventType                  => $EventType,
             Condition                  => $Condition,
             Asynchronous               => $Asynchronous,
-            Subaction                  => 'Change',
+            Action                     => 'Change',
         );
     }
 
@@ -194,7 +194,7 @@ sub Run {
                 EventType                  => $EventType,
                 Condition                  => $Condition,
                 Asynchronous               => $Asynchronous,
-                Subaction                  => 'Change',
+                Action                     => 'Change',
             );
         }
 
@@ -269,7 +269,7 @@ sub Run {
             EventType                  => $EventType,
             Condition                  => $Condition,
             Asynchronous               => $Asynchronous,
-            Subaction                  => 'Change',
+            Action                     => 'Change',
         );
     }
 
@@ -362,8 +362,8 @@ sub _ShowEdit {
     );
 
     if (
-        defined $Param{Subaction}
-        && $Param{Subaction} eq 'Change'
+        defined $Param{Action}
+        && $Param{Action} eq 'Change'
         && IsHashRefWithData( $Param{Condition} )
         && IsHashRefWithData( $Param{Condition}->{Condition} )
         && IsStringWithData( $Param{Condition}->{ConditionLinking} )

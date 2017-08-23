@@ -103,10 +103,6 @@ Core.Agent.Admin.GenericInterfaceInvokerEvent= (function (TargetNS) {
             $(window).unbind("beforeunload.PMPopup");
         });
 
-        $('#SaveAndFinishButton').bind('click', function(){
-            $('#ReturnToAction').val(1);
-        });
-
         $('#DeleteButton').on('click', TargetNS.ShowDeleteDialog);
     };
 

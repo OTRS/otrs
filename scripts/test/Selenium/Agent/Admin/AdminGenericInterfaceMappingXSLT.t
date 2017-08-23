@@ -27,7 +27,7 @@ $Selenium->RunTest(
         # define needed variable
         my $RandomID = $Helper->GetRandomID();
 
-        # create test webservice
+        # create test web service
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config => {
                 Debugger => {
@@ -40,14 +40,14 @@ $Selenium->RunTest(
                     },
                 },
             },
-            Name    => "Selenium $RandomID webservice",
+            Name    => "Selenium $RandomID web service",
             ValidID => 1,
             UserID  => 1,
         );
 
         $Self->True(
             $WebserviceID,
-            "Webservice ID $WebserviceID is created"
+            "Web service ID $WebserviceID is created"
         );
 
         # create debugger object
@@ -83,7 +83,7 @@ $Selenium->RunTest(
         # navigate to AdminGenericInterfaceWebservice screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
 
-        # click on created webservice
+        # click on created web service
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # check breadcrumb on Overview screen
@@ -100,7 +100,7 @@ $Selenium->RunTest(
         # wait for page to load if necessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Operation").length' );
 
-        # create webservice operation
+        # create web service operation
         $Selenium->find_element( "#Operation", 'css' )->send_keys('SeleniumOperation');
 
         # select XSLT mapping for inbound data
@@ -114,7 +114,7 @@ $Selenium->RunTest(
         );
 
         # submit operation
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Verify ticket data option.
         $Self->Is(
@@ -136,7 +136,7 @@ $Selenium->RunTest(
         my $Count = 1;
         for my $Breadcrumb (
             "Web Service Management",
-            "Selenium $RandomID webservice",
+            "Selenium $RandomID web service",
             "Operation: SeleniumOperation",
             "XSLT Mapping for Incoming Data"
             )
@@ -151,7 +151,7 @@ $Selenium->RunTest(
         }
 
         # submit empty form and check client side validation
-        $Selenium->find_element("//button[\@value='Save']")->click();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Template').hasClass('Error')"
@@ -164,7 +164,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Template", 'css' )->send_keys($RandomID);
 
         # submit invalid XSLT
-        $Selenium->find_element("//button[\@value='Save']")->click();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # click to confirm error and verify it
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
@@ -186,7 +186,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Template", 'css' )->send_keys($XSLTData);
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save']")->click();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # verify we are still on same screen
         $Self->True(
@@ -195,7 +195,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Save and finish' test JS redirection
-        $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_current_url(), 'AdminGenericInterfaceOperationDefault' ) > -1,
@@ -217,14 +217,14 @@ $Selenium->RunTest(
             "XSLT data is successfully saved"
         );
 
-        # delete test created webservice
+        # delete test created web service
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => 1,
         );
         $Self->True(
             $Success,
-            "Webservice ID $WebserviceID is deleted"
+            "Web service ID $WebserviceID is deleted"
         );
 
         # make sure cache is correct

@@ -24,12 +24,12 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# add webservice to be used (empty config)
+# add web service to be used (empty config)
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
-    "Create webservice object",
+    "Create web service object",
 );
 my $WebserviceName = 'SOAP' . $Helper->GetRandomID();
 my $WebserviceID   = $WebserviceObject->WebserviceAdd(
@@ -49,13 +49,13 @@ my $WebserviceID   = $WebserviceObject->WebserviceAdd(
 );
 $Self->True(
     $WebserviceID,
-    "Added Webservice",
+    "Added web service",
 );
 
 # get remote host with some precautions for certain unit test systems
 my $Host = $Helper->GetTestHTTPHostname();
 
-# prepare webservice config
+# prepare web service config
 my $RemoteSystem =
     $ConfigObject->Get('HttpType')
     . '://'
@@ -65,6 +65,7 @@ my $RemoteSystem =
     . '/nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
+my $Home  = $ConfigObject->Get('Home');
 my @Tests = (
     {
         Name           => 'Test 1',
@@ -265,14 +266,10 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
-                        Encoding       => 'UTF-8',
-                        Endpoint       => $RemoteSystem,
-                        Authentication => {
-                            Type     => 'BasicAuth',
-                            User     => 'MyUser',
-                            Password => 'MyPass',
-                        },
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -393,14 +390,10 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
-                        Encoding       => 'UTF-8',
-                        Endpoint       => $RemoteSystem,
-                        Authentication => {
-                            Type     => 'BasicAuth',
-                            User     => 'MyUser',
-                            Password => 'MyPass',
-                        },
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -487,14 +480,10 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
-                        Encoding       => 'UTF-8',
-                        Endpoint       => $RemoteSystem,
-                        Authentication => {
-                            Type     => 'BasicAuth',
-                            User     => 'MyUser',
-                            Password => 'MyPass',
-                        },
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -544,14 +533,10 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
-                        Encoding       => 'UTF-8',
-                        Endpoint       => $RemoteSystem,
-                        Authentication => {
-                            Type     => 'BasicAuth',
-                            User     => 'MyUser',
-                            Password => 'MyPass',
-                        },
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -611,14 +596,79 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
-                        Encoding       => 'UTF-8',
-                        Endpoint       => $RemoteSystem,
-                        Authentication => {
-                            Type     => 'BasicAuth',
-                            User     => 'MyUser',
-                            Password => 'MyPass',
-                        },
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 7a',
+        SuccessRequest => '1',
+        RequestData    => {
+            'Element1' => [
+                'String1',
+                {},
+            ],
+            'Element2' => {
+                'String2' => {},
+                'String3' => '',
+            },
+            'Element3' => {},
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                'Element1' => [
+                    'String1',
+                    '',
+                ],
+                'Element2' => {
+                    'String2' => '',
+                    'String3' => '',
+                },
+                'Element3' => '',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Basic test for provider and requester using SOAP transport backend.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint  => $RemoteSystem,
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -670,14 +720,10 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace      => 'http://otrs.org/SoapTestInterface/',
-                        Encoding       => 'UTF-8',
-                        Endpoint       => $RemoteSystem,
-                        Authentication => {
-                            Type     => 'BasicAuth',
-                            User     => 'MyUser',
-                            Password => 'MyPass',
-                        },
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -691,60 +737,6 @@ my @Tests = (
 
     {
         Name           => 'Test 9',
-        SuccessRequest => '0',
-        RequestData    => {
-            Key => 'Value',
-        },
-        ExpectedReturnData => {
-            Success => 0,
-            ErrorMessage =>
-                "faultcode: Server, faultstring: Namespace from SOAPAction"
-                . " 'http://otrs.org/InvalidSoapTestInterface' does not match namespace"
-                . " from configuration 'http://otrs.org/SoapTestInterface'",
-
-        },
-        WebserviceConfig => {
-            Name        => 'SOAPTest1',
-            Description => 'Test for NameSpace validation.',
-            Debugger    => {
-                DebugThreshold => 'debug',
-                TestMode       => 1,
-            },
-            Provider => {
-                Transport => {
-                    Type   => 'HTTP::SOAP',
-                    Config => {
-                        MaxLength => 10000000,
-                        NameSpace => 'http://otrs.org/SoapTestInterface/',
-                        Endpoint  => $RemoteSystem,
-                    },
-                },
-                Operation => {
-                    PriorityIDName => {
-                        Type => 'Test::Test',
-                    },
-                },
-            },
-            Requester => {
-                Transport => {
-                    Type   => 'HTTP::SOAP',
-                    Config => {
-                        NameSpace => 'http://otrs.org/InvalidSoapTestInterface/',
-                        Encoding  => 'UTF-8',
-                        Endpoint  => $RemoteSystem,
-                    },
-                },
-                Invoker => {
-                    PriorityIDName => {
-                        Type => 'Test::TestSimple',
-                    },
-                },
-            },
-        },
-    },
-
-    {
-        Name           => 'Test 10',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -785,6 +777,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -797,7 +790,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 11',
+        Name           => 'Test 10',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -839,6 +832,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -851,7 +845,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 12',
+        Name           => 'Test 11',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -892,6 +886,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -904,7 +899,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 13',
+        Name           => 'Test 12',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -946,6 +941,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -958,7 +954,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 14',
+        Name           => 'Test 13',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -999,6 +995,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -1011,7 +1008,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 15',
+        Name           => 'Test 14',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1053,6 +1050,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -1065,7 +1063,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 16',
+        Name           => 'Test 15',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1091,6 +1089,7 @@ my @Tests = (
                         Endpoint            => $RemoteSystem,
                         RequestNameFreeText => 'Name',
                         RequestNameScheme   => 'Append',
+                        SOAPAction          => 'No',
                     },
                 },
                 Operation => {
@@ -1106,6 +1105,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -1118,7 +1118,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 17',
+        Name           => 'Test 16',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1147,6 +1147,7 @@ my @Tests = (
                         RequestNameScheme    => 'Append',
                         ResponseNameFreeText => 'PriorityIDNameTestResponse',
                         ResponseNameScheme   => 'Replace',
+                        SOAPAction           => 'No',
                     },
                 },
                 Operation => {
@@ -1162,6 +1163,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -1174,7 +1176,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 18',
+        Name           => 'Test 17',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1199,6 +1201,7 @@ my @Tests = (
                         NameSpace         => 'http://otrs.org/SoapTestInterface/',
                         Endpoint          => $RemoteSystem,
                         RequestNameScheme => 'Request',
+                        SOAPAction        => 'No',
                     },
                 },
                 Operation => {
@@ -1214,6 +1217,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -1226,7 +1230,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 19',
+        Name           => 'Test 18',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1254,6 +1258,7 @@ my @Tests = (
                         RequestNameScheme    => 'Request',
                         ResponseNameFreeText => 'PriorityIDNameRequestResponse',
                         ResponseNameScheme   => 'Replace',
+                        SOAPAction           => 'No',
                     },
                 },
                 Operation => {
@@ -1269,6 +1274,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -1281,7 +1287,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 20',
+        Name           => 'Test 19',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1322,6 +1328,7 @@ my @Tests = (
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
                         Encoding  => 'UTF-8',
                         Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
                     },
                 },
                 Invoker => {
@@ -1334,7 +1341,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 21',
+        Name           => 'Test 20',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1372,10 +1379,13 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
-                        Encoding          => 'UTF-8',
-                        Endpoint          => $RemoteSystem,
-                        RequestNameScheme => 'Request',
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        RequestNameScheme   => 'Request',
+                        SOAPAction          => 'Yes',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
                     },
                 },
                 Invoker => {
@@ -1388,7 +1398,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 22',
+        Name           => 'Test 21',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1409,9 +1419,10 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        MaxLength => 10000000,
-                        NameSpace => 'http://otrs.org/SoapTestInterface/',
-                        Endpoint  => $RemoteSystem,
+                        MaxLength  => 10000000,
+                        NameSpace  => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint   => $RemoteSystem,
+                        SOAPAction => 'No',
                     },
                 },
                 Operation => {
@@ -1424,10 +1435,13 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace         => 'http://otrs.org/SoapTestInterface/',
-                        Encoding          => 'UTF-8',
-                        Endpoint          => $RemoteSystem,
-                        RequestNameScheme => 'Request',
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        RequestNameScheme   => 'Request',
+                        SOAPAction          => 'Yes',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
                     },
                 },
                 Invoker => {
@@ -1440,7 +1454,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 23a',
+        Name           => 'Test 22a',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1483,6 +1497,9 @@ my @Tests = (
                         Endpoint            => $RemoteSystem,
                         RequestNameFreeText => 'Request',
                         RequestNameScheme   => 'Append',
+                        SOAPAction          => 'Yes',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
                     },
                 },
                 Invoker => {
@@ -1494,7 +1511,7 @@ my @Tests = (
         },
     },
     {
-        Name           => 'Test 23b',
+        Name           => 'Test 22b',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1519,6 +1536,7 @@ my @Tests = (
                         NameSpace         => 'http://otrs.org/SoapTestInterface/',
                         Endpoint          => $RemoteSystem,
                         RequestNameScheme => 'equest',
+                        SOAPAction        => 'No',
                     },
                 },
                 Operation => {
@@ -1536,6 +1554,9 @@ my @Tests = (
                         Endpoint            => $RemoteSystem,
                         RequestNameFreeText => 'Request',
                         RequestNameScheme   => 'Append',
+                        SOAPAction          => 'Yes',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
                     },
                 },
                 Invoker => {
@@ -1548,7 +1569,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 24',
+        Name           => 'Test 23',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1573,6 +1594,7 @@ my @Tests = (
                         NameSpace         => 'http://otrs.org/SoapTestInterface/',
                         Endpoint          => $RemoteSystem,
                         RequestNameScheme => 'Request',
+                        SOAPAction        => 'No',
                     },
                 },
                 Operation => {
@@ -1590,6 +1612,9 @@ my @Tests = (
                         Endpoint            => $RemoteSystem,
                         RequestNameFreeText => 'Test',
                         RequestNameScheme   => 'Apppend',
+                        SOAPAction          => 'Yes',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
                     },
                 },
                 Invoker => {
@@ -1602,7 +1627,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 25',
+        Name           => 'Test 24',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1643,6 +1668,7 @@ my @Tests = (
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => 'WillBeOverwritten',
                         ResponseNameScheme   => 'Plain',
+                        Timeout              => 60,
                     },
                 },
                 Invoker => {
@@ -1655,7 +1681,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 26',
+        Name           => 'Test 25',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1697,6 +1723,7 @@ my @Tests = (
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => 'WillBeOverwritten',
                         ResponseNameScheme   => 'Response',
+                        Timeout              => 60,
                     },
                 },
                 Invoker => {
@@ -1709,7 +1736,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 27',
+        Name           => 'Test 26',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1750,6 +1777,7 @@ my @Tests = (
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => 'Test',
                         ResponseNameScheme   => 'Replace',
+                        Timeout              => 60,
                     },
                 },
                 Invoker => {
@@ -1762,7 +1790,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 28',
+        Name           => 'Test 27',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1804,6 +1832,7 @@ my @Tests = (
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => 'PriorityIDNameResponse',
                         ResponseNameScheme   => 'Replace',
+                        Timeout              => 60,
                     },
                 },
                 Invoker => {
@@ -1816,7 +1845,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 29',
+        Name           => 'Test 28',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1857,6 +1886,7 @@ my @Tests = (
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => '',
                         ResponseNameScheme   => 'Append',
+                        Timeout              => 60,
                     },
                 },
                 Invoker => {
@@ -1869,7 +1899,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 30',
+        Name           => 'Test 29',
         SuccessRequest => '1',
         RequestData    => {
             Key => 'Value',
@@ -1911,6 +1941,7 @@ my @Tests = (
                         Endpoint             => $RemoteSystem,
                         ResponseNameFreeText => 'Response',
                         ResponseNameScheme   => 'Append',
+                        Timeout              => 60,
                     },
                 },
                 Invoker => {
@@ -1923,7 +1954,7 @@ my @Tests = (
     },
 
     {
-        Name           => 'Test 31',
+        Name           => 'Test 30',
         SuccessRequest => '0',
         RequestData    => {
             Key => 'Value',
@@ -1944,9 +1975,10 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        MaxLength => 10000000,
-                        NameSpace => 'http://otrs.org/SoapTestInterface/',
-                        Endpoint  => $RemoteSystem,
+                        MaxLength  => 10000000,
+                        NameSpace  => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint   => $RemoteSystem,
+                        SOAPAction => 'No',
                     },
                 },
                 Operation => {
@@ -1964,6 +1996,69 @@ my @Tests = (
                         Endpoint            => $RemoteSystem,
                         RequestNameFreeText => 'Name',
                         RequestNameScheme   => 'Append',
+                        SOAPAction          => 'Yes',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 31',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for requester response element name generation/validation.',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength  => 10000000,
+                        NameSpace  => 'http://otrs.org/SoapTestInterface/',
+                        Endpoint   => $RemoteSystem,
+                        SOAPAction => 'No',
+                    },
+                },
+                Operation => {
+                    PriorityIDNameTest => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
+                        Encoding             => 'UTF-8',
+                        Endpoint             => $RemoteSystem,
+                        RequestNameFreeText  => 'Test',
+                        RequestNameScheme    => 'Append',
+                        ResponseNameFreeText => 'PriorityIDNameTestResponse',
+                        ResponseNameScheme   => 'Replace',
+                        SOAPAction           => 'Yes',
+                        SOAPActionSeparator  => '#',
+                        Timeout              => 60,
                     },
                 },
                 Invoker => {
@@ -1989,7 +2084,7 @@ my @Tests = (
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
-            Description => 'Test for requester response element name generation/validation.',
+            Description => 'Test for SOAPAction validation (Fallback-Config Requester vs. Fallback-Config Provider).',
             Debugger    => {
                 DebugThreshold => 'debug',
                 TestMode       => 1,
@@ -2000,11 +2095,10 @@ my @Tests = (
                     Config => {
                         MaxLength => 10000000,
                         NameSpace => 'http://otrs.org/SoapTestInterface/',
-                        Endpoint  => $RemoteSystem,
                     },
                 },
                 Operation => {
-                    PriorityIDNameTest => {
+                    PriorityIDName => {
                         Type => 'Test::Test',
                     },
                 },
@@ -2013,13 +2107,854 @@ my @Tests = (
                 Transport => {
                     Type   => 'HTTP::SOAP',
                     Config => {
-                        NameSpace            => 'http://otrs.org/SoapTestInterface/',
-                        Encoding             => 'UTF-8',
-                        Endpoint             => $RemoteSystem,
-                        RequestNameFreeText  => 'Test',
-                        RequestNameScheme    => 'Append',
-                        ResponseNameFreeText => 'PriorityIDNameTestResponse',
-                        ResponseNameScheme   => 'Replace',
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 33',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme NameSpaceSeparatorOperation Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength           => 10000000,
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '#',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 34',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: "
+                . "SOAPAction 'http://otrs.org/SoapTestInterface/#PriorityIDName' does not match "
+                . "expected result 'http://otrs.org/SoapTestInterface//PriorityIDName'",
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SOAPActionSeparator / Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength           => 10000000,
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 35',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: "
+                . "SOAPAction 'http://otrs.org/SoapTestInterface/#PriorityIDName' does not match "
+                . "expected result '#PriorityIDName'",
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme SeparatorOperation Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength           => 10000000,
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'SeparatorOperation',
+                        SOAPActionSeparator => '#',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 36',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: "
+                . "SOAPAction 'http://otrs.org/SoapTestInterface/#PriorityIDName' does not match "
+                . "expected result 'PriorityIDName'",
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme Operation Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength        => 10000000,
+                        NameSpace        => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction       => 'Yes',
+                        SOAPActionScheme => 'Operation',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 37',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: "
+                . "SOAPAction 'http://otrs.org/SoapTestInterface/#PriorityIDName' does not match "
+                . "expected result 'SoapTestInterface'",
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme FreeText Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength          => 10000000,
+                        NameSpace          => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction         => 'Yes',
+                        SOAPActionScheme   => 'FreeText',
+                        SOAPActionFreeText => 'SoapTestInterface',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                        Encoding  => 'UTF-8',
+                        Endpoint  => $RemoteSystem,
+                        Timeout   => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 38',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme NameSpaceSeparatorOperation Requester 1).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 39',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme NameSpaceSeparatorOperation Requester 2).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '/',
+                        Timeout             => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 40',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: "
+                . "SOAPAction '#PriorityIDName' does not match "
+                . "expected result 'http://otrs.org/SoapTestInterface/#PriorityIDName'",
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme SeparatorOperation Requester).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'SeparatorOperation',
+                        SOAPActionSeparator => '#',
+                        Timeout             => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 41',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: "
+                . "SOAPAction 'PriorityIDName' does not match "
+                . "expected result 'http://otrs.org/SoapTestInterface/#PriorityIDName'",
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme Operation Requester).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace        => 'http://otrs.org/SoapTestInterface/',
+                        Encoding         => 'UTF-8',
+                        Endpoint         => $RemoteSystem,
+                        SOAPAction       => 'Yes',
+                        SOAPActionScheme => 'Operation',
+                        Timeout          => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 42',
+        SuccessRequest => '0',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 0,
+            ErrorMessage =>
+                "faultcode: Server, faultstring: "
+                . "SOAPAction 'SoapTestInterface' does not match "
+                . "expected result 'http://otrs.org/SoapTestInterface/#PriorityIDName'",
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme FreeText Requester).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength => 10000000,
+                        NameSpace => 'http://otrs.org/SoapTestInterface/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace          => 'http://otrs.org/SoapTestInterface/',
+                        Encoding           => 'UTF-8',
+                        Endpoint           => $RemoteSystem,
+                        SOAPAction         => 'Yes',
+                        SOAPActionScheme   => 'FreeText',
+                        SOAPActionFreeText => 'SoapTestInterface',
+                        Timeout            => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 43',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name => 'SOAPTest1',
+            Description =>
+                'Test for SOAPAction validation (SoapActionScheme NameSpaceSeparatorOperation Requester&Provider).',
+            Debugger => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength           => 10000000,
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '/',
+                        Timeout             => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 44',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme SeparatorOperation Requester&Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength           => 10000000,
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'SeparatorOperation',
+                        SOAPActionSeparator => '/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'SeparatorOperation',
+                        SOAPActionSeparator => '/',
+                        Timeout             => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 45',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme Operation Requester&Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength        => 10000000,
+                        NameSpace        => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction       => 'Yes',
+                        SOAPActionScheme => 'Operation',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace        => 'http://otrs.org/SoapTestInterface/',
+                        Encoding         => 'UTF-8',
+                        Endpoint         => $RemoteSystem,
+                        SOAPAction       => 'Yes',
+                        SOAPActionScheme => 'Operation',
+                        Timeout          => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 46',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (SoapActionScheme FreeText Requester&Provider).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength          => 10000000,
+                        NameSpace          => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction         => 'Yes',
+                        SOAPActionScheme   => 'FreeText',
+                        SOAPActionFreeText => 'SoapTestInterface',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace          => 'http://otrs.org/SoapTestInterface/',
+                        Encoding           => 'UTF-8',
+                        Endpoint           => $RemoteSystem,
+                        SOAPAction         => 'Yes',
+                        SOAPActionScheme   => 'FreeText',
+                        SOAPActionFreeText => 'SoapTestInterface',
+                        Timeout            => 60,
+                    },
+                },
+                Invoker => {
+                    PriorityIDName => {
+                        Type => 'Test::TestSimple',
+                    },
+                },
+            },
+        },
+    },
+
+    {
+        Name           => 'Test 47',
+        SuccessRequest => '1',
+        RequestData    => {
+            Key => 'Value',
+        },
+        ExpectedReturnData => {
+            Success => 1,
+            Data    => {
+                Key => 'Value',
+            },
+        },
+        WebserviceConfig => {
+            Name        => 'SOAPTest1',
+            Description => 'Test for SOAPAction validation (NameSpace with vs. without trailing slash, see bug#12196).',
+            Debugger    => {
+                DebugThreshold => 'debug',
+                TestMode       => 1,
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        MaxLength           => 10000000,
+                        NameSpace           => 'http://otrs.org/SoapTestInterface/',
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '/',
+                    },
+                },
+                Operation => {
+                    PriorityIDName => {
+                        Type => 'Test::Test',
+                    },
+                },
+            },
+            Requester => {
+                Transport => {
+                    Type   => 'HTTP::SOAP',
+                    Config => {
+                        NameSpace           => 'http://otrs.org/SoapTestInterface',
+                        Encoding            => 'UTF-8',
+                        Endpoint            => $RemoteSystem,
+                        SOAPAction          => 'Yes',
+                        SOAPActionScheme    => 'NameSpaceSeparatorOperation',
+                        SOAPActionSeparator => '/',
+                        Timeout             => 60,
                     },
                 },
                 Invoker => {
@@ -2044,7 +2979,7 @@ $Self->Is(
 TEST:
 for my $Test (@Tests) {
 
-    # update webservice with real config
+    # update web service with real config
     my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
         ID      => $WebserviceID,
         Name    => $WebserviceName,
@@ -2054,10 +2989,10 @@ for my $Test (@Tests) {
     );
     $Self->True(
         $WebserviceUpdate,
-        "$Test->{Name} - Updated Webservice $WebserviceID",
+        "$Test->{Name} - Updated web service $WebserviceID",
     );
 
-    # start requester with our webservice
+    # start requester with our web service
     my ($InvokerName) = keys %{ $Test->{WebserviceConfig}->{Requester}->{Invoker} };
     my $RequesterResult = $RequesterObject->Run(
         WebserviceID => $WebserviceID,
@@ -2186,14 +3121,14 @@ for my $Test (@Tests) {
     }
 }
 
-# cleanup webservice
+# cleanup web service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
 $Self->True(
     $WebserviceDelete,
-    "Deleted Webservice $WebserviceID",
+    "Deleted web service $WebserviceID",
 );
 
 1;

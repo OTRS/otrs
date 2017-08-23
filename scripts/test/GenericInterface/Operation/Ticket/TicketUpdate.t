@@ -226,7 +226,7 @@ $Self->True(
     "Dropdown ValueSet() for Ticket $TicketID1",
 );
 
-# set webservice name
+# set web service name
 my $WebserviceName = $Helper->GetRandomID();
 
 # create web-service object
@@ -235,7 +235,7 @@ my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webse
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
-    "Create webservice object",
+    "Create web service object",
 );
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
@@ -255,7 +255,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
 );
 $Self->True(
     $WebserviceID,
-    "Added Webservice",
+    "Added web service",
 );
 
 # get config object
@@ -308,6 +308,7 @@ my $WebserviceConfig = {
                 NameSpace => 'http://otrs.org/SoapTestInterface/',
                 Encoding  => 'UTF-8',
                 Endpoint  => $RemoteSystem,
+                Timeout   => 120,
             },
         },
         Invoker => {
@@ -333,7 +334,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
 );
 $Self->True(
     $WebserviceUpdate,
-    "Updated Webservice $WebserviceID - $WebserviceName",
+    "Updated web service $WebserviceID - $WebserviceName",
 );
 
 # disable SessionCheckRemoteIP setting
@@ -940,7 +941,7 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
 );
 $Self->True(
     $WebserviceDelete,
-    "Deleted Webservice $WebserviceID",
+    "Deleted web service $WebserviceID",
 );
 
 # delete tickets

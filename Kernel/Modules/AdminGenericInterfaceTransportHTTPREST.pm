@@ -22,7 +22,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # set possible values handling strings
+    # Set possible values handling strings.
     $Self->{EmptyString}     = '_AdditionalHeaders_EmptyString_Dont_Use_It_String_Please';
     $Self->{DuplicateString} = '_AdditionalHeaders_DuplicatedString_Dont_Use_It_String_Please';
     $Self->{DeletedString}   = '_AdditionalHeaders_DeletedString_Dont_Use_It_String_Please';
@@ -33,7 +33,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get needed objects
     my $ParamObject      = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -46,17 +45,17 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Add' || $Self->{Subaction} eq 'Change' ) {
 
-        # check for WebserviceID
+        # Check for WebserviceID.
         if ( !$WebserviceID ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Need WebserviceID!'),
             );
         }
 
-        # get web service configuration
+        # Get web service configuration.
         my $WebserviceData = $WebserviceObject->WebserviceGet( ID => $WebserviceID );
 
-        # check for valid web service configuration
+        # Check for valid web service configuration.
         if ( !IsHashRefWithData($WebserviceData) ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}
@@ -74,286 +73,283 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # sub-action ChangeAction: write config and return to overview
+    # invalid sub-action
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-
-        # challenge token check for write action
-        $LayoutObject->ChallengeTokenCheck();
-
-        # check for WebserviceID
-        if ( !$WebserviceID ) {
-            return $LayoutObject->ErrorScreen(
-                Message => Translatable('Need WebserviceID!'),
-            );
-        }
-
-        # get web service configuration
-        my $WebserviceData = $WebserviceObject->WebserviceGet(
-            ID => $WebserviceID,
-        );
-
-        # check for valid web service configuration
-        if ( !IsHashRefWithData($WebserviceData) ) {
-            return $LayoutObject->ErrorScreen(
-                Message => $LayoutObject->{LanguageObject}
-                    ->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
-            );
-        }
-
-        # get parameter from web browser
-        my $GetParam;
-        for my $ParamName (
-            qw(
-            Host DefaultCommand Authentication User Password UseX509
-            X509CertFile X509KeyFile X509CAFile MaxLength KeepAlive
-            )
-            )
-        {
-            $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
-        }
-
-        # check required parameters
-        my %Error;
-
-        # to store the clean new configuration locally
-        my $TransportConfig;
-
-        # check if is not provider (requester)
-        if ( $CommunicationType ne 'Provider' ) {
-
-            NEEDED:
-            for my $ParamName (
-                qw( Host DefaultCommand )
-                )
-            {
-                if ( !$GetParam->{$ParamName} ) {
-
-                    # add server error error class
-                    $Error{ $ParamName . 'ServerError' }        = 'ServerError';
-                    $Error{ $ParamName . 'ServerErrorMessage' } = Translatable('This field is required');
-
-                    next NEEDED;
-                }
-
-                $TransportConfig->{$ParamName} = $GetParam->{$ParamName};
-            }
-
-            my $Invokers = $WebserviceData->{Config}->{$CommunicationType}->{Invoker};
-
-            if ( IsHashRefWithData($Invokers) ) {
-
-                INVOKER:
-                for my $CurrentInvoker ( sort keys %{$Invokers} ) {
-
-                    my $Controller = $ParamObject->GetParam(
-                        Param => 'InvokerControllerMapping' . $CurrentInvoker,
-                    );
-
-                    if ( !$Controller ) {
-                        $Error{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' } = 'ServerError';
-                        $Error{
-                            'InvokerControllerMapping'
-                                . $CurrentInvoker
-                                . 'ServerErrorMessage'
-                        } = Translatable('This field is required');
-                        next INVOKER;
-                    }
-
-                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller} = $Controller;
-
-                    my $Command = $ParamObject->GetParam(
-                        Param => 'Command' . $CurrentInvoker
-                    );
-                    next INVOKER if !$Command;
-
-                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Command} = $Command;
-                }
-            }
-
-            # check for BasicAuth Authentication
-            if ( $GetParam->{Authentication} && $GetParam->{Authentication} eq 'BasicAuth' ) {
-
-                # get BasicAuth settings
-                $TransportConfig->{Authentication}->{Type}     = $GetParam->{Authentication};
-                $TransportConfig->{Authentication}->{User}     = $GetParam->{User};
-                $TransportConfig->{Authentication}->{Password} = $GetParam->{Password};
-
-                if ( !$GetParam->{User} ) {
-
-                    # add server error error class
-                    $Error{'UserServerError'} = 'ServerError';
-                }
-            }
-
-            # check SSL options
-            if ( $GetParam->{UseX509} && $GetParam->{UseX509} eq 'Yes' ) {
-
-                # get X509 authentication settings
-                $TransportConfig->{X509}->{UseX509} = $GetParam->{UseX509};
-
-                NEEDED:
-                for my $Needed (qw(CertFile KeyFile)) {
-
-                    if ( !$GetParam->{ 'X509' . $Needed } ) {
-
-                        # add server error error class
-                        $Error{ 'X509' . $Needed . 'ServerError' } = 'ServerError';
-                        next NEEDED;
-                    }
-
-                    $TransportConfig->{X509}->{ 'X509' . $Needed } = $GetParam->{ 'X509' . $Needed };
-                }
-
-                # This param is optional so use it just if we have at least a length
-                if ( $GetParam->{'X509CAFile'} && length $GetParam->{'X509CAFile'} ) {
-                    $TransportConfig->{X509}->{'X509CAFile'} = $GetParam->{'X509CAFile'};
-                }
-            }
-        }
-
-        # otherwise is provider
-        else {
-
-            NEEDED:
-            for my $ParamName (
-                qw( MaxLength KeepAlive )
-                )
-            {
-                if ( !defined $GetParam->{$ParamName} ) {
-
-                    # add server error error class
-                    $Error{ $ParamName . 'ServerError' }        = 'ServerError';
-                    $Error{ $ParamName . 'ServerErrorMessage' } = Translatable('This field is required');
-
-                    next NEEDED;
-                }
-
-                $TransportConfig->{$ParamName} = $GetParam->{$ParamName};
-            }
-
-            my $Operations = $WebserviceData->{Config}->{$CommunicationType}->{Operation};
-
-            if ( IsHashRefWithData($Operations) ) {
-
-                OPERATION:
-                for my $CurrentOperation ( sort keys %{$Operations} ) {
-
-                    my $Route = $ParamObject->GetParam(
-                        Param => 'RouteOperationMapping' . $CurrentOperation,
-                    );
-
-                    if ( !$Route ) {
-                        $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' } = 'ServerError';
-                        $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerErrorMessage' }
-                            = Translatable('This field is required');
-                        next OPERATION;
-                    }
-
-                    $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route} = $Route;
-
-                    my @RequestMethod = $ParamObject->GetArray(
-                        Param => 'RequestMethod' . $CurrentOperation,
-                    );
-                    next OPERATION if !scalar @RequestMethod;
-
-                    $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{RequestMethod} = \@RequestMethod;
-                }
-            }
-
-            $TransportConfig->{KeepAlive} = $GetParam->{KeepAlive};
-            $TransportConfig->{MaxLength} = $GetParam->{MaxLength};
-
-            # set error for non integer contents
-            if ( $GetParam->{MaxLength} !~ m{\A\d+\Z}sxi ) {
-
-                # add server error error class
-                $Error{MaxLengthServerError}        = 'ServerError';
-                $Error{MaxLengthServerErrorMessage} = Translatable('This field should be an integer number.');
-            }
-
-            # get additional headers
-            $TransportConfig->{AdditionalHeaders} = $Self->_GetAdditionalHeaders();
-        }
-
-        # set new configuration
-        $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config} = $TransportConfig;
-
-        # if there is an error return to edit screen
-        if ( IsHashRefWithData( \%Error ) ) {
-            return $Self->_ShowEdit(
-                %Error,
-                %Param,
-                WebserviceID      => $WebserviceID,
-                WebserviceData    => $WebserviceData,
-                CommunicationType => $CommunicationType,
-                Action            => 'Change',
-            );
-        }
-
-        # otherwise save configuration and return to overview screen
-        my $Success = $WebserviceObject->WebserviceUpdate(
-            ID      => $WebserviceID,
-            Name    => $WebserviceData->{Name},
-            Config  => $WebserviceData->{Config},
-            ValidID => $WebserviceData->{ValidID},
-            UserID  => $Self->{UserID},
-        );
-
-        # Save button: stay in edit mode.
-        my $RedirectURL = "Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Change;"
-            . "WebserviceID=$WebserviceID;CommunicationType=$CommunicationType;";
-
-        # Save and finish button: go to web service.
-        if ( $ParamObject->GetParam( Param => 'ReturnToWebservice' ) ) {
-            $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
-
-        }
-
-        return $LayoutObject->Redirect(
-            OP => $RedirectURL,
+    elsif ( $Self->{Subaction} ne 'ChangeAction' ) {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Need valid Subaction!'),
         );
     }
 
-    return $LayoutObject->ErrorScreen(
-        Message => Translatable('Need Subaction!'),
+    # ------------------------------------------------------------ #
+    # sub-action ChangeAction: write config and return to overview
+    # ------------------------------------------------------------ #
+
+    # Challenge token check for write action.
+    $LayoutObject->ChallengeTokenCheck();
+
+    # Check for WebserviceID.
+    if ( !$WebserviceID ) {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Need WebserviceID!'),
+        );
+    }
+
+    # Get web service configuration.
+    my $WebserviceData = $WebserviceObject->WebserviceGet(
+        ID => $WebserviceID,
     );
+
+    # Check for valid web service configuration.
+    if ( !IsHashRefWithData($WebserviceData) ) {
+        return $LayoutObject->ErrorScreen(
+            Message =>
+                $LayoutObject->{LanguageObject}->Translate( 'Could not get data for WebserviceID %s', $WebserviceID ),
+        );
+    }
+
+    # Get parameter from web browser.
+    my $GetParam = $Self->_GetParams();
+
+    # Check required parameters.
+    my %Error;
+
+    # To store the clean new configuration locally.
+    my $TransportConfig;
+
+    # Get requester specific settings.
+    if ( $CommunicationType eq 'Requester' ) {
+
+        NEEDED:
+        for my $Needed (qw( Host DefaultCommand Timeout )) {
+            $TransportConfig->{$Needed} = $GetParam->{$Needed};
+            next NEEDED if $GetParam->{$Needed};
+
+            $Error{ $Needed . 'ServerError' }        = 'ServerError';
+            $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
+        }
+
+        # Set error for non integer content.
+        if ( $GetParam->{Timeout} && !IsInteger( $GetParam->{Timeout} ) ) {
+            $Error{TimeoutServerError}        = 'ServerError';
+            $Error{TimeoutServerErrorMessage} = Translatable('This field should be an integer.');
+        }
+
+        # Check authentication options.
+        if ( $GetParam->{AuthType} && $GetParam->{AuthType} eq 'BasicAuth' ) {
+
+            # Get BasicAuth settings.
+            for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword )) {
+                $TransportConfig->{Authentication}->{$ParamName} = $GetParam->{$ParamName};
+            }
+            NEEDED:
+            for my $Needed (qw( BasicAuthUser BasicAuthPassword )) {
+                next NEEDED if $GetParam->{$Needed};
+
+                $Error{ $Needed . 'ServerError' }        = 'ServerError';
+                $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
+            }
+        }
+
+        # Check proxy options.
+        if ( $GetParam->{UseProxy} && $GetParam->{UseProxy} eq 'Yes' ) {
+
+            # Get Proxy settings.
+            for my $ParamName (qw( UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude )) {
+                $TransportConfig->{Proxy}->{$ParamName} = $GetParam->{$ParamName};
+            }
+        }
+
+        # Check SSL options.
+        if ( $GetParam->{UseSSL} && $GetParam->{UseSSL} eq 'Yes' ) {
+
+            # Get SSL authentication settings.
+            for my $ParamName (qw( UseSSL SSLPassword )) {
+                $TransportConfig->{SSL}->{$ParamName} = $GetParam->{$ParamName};
+            }
+            PARAMNAME:
+            for my $ParamName (qw( SSLCertificate SSLKey SSLCAFile SSLCADir )) {
+                $TransportConfig->{SSL}->{$ParamName} = $GetParam->{$ParamName};
+
+                # Check if file/directory exists and is accessible.
+                next PARAMNAME if !$GetParam->{$ParamName};
+                if ( $ParamName eq 'SSLCADir' ) {
+                    next PARAMNAME if -d $GetParam->{$ParamName};
+                }
+                else {
+                    next PARAMNAME if -f $GetParam->{$ParamName};
+                }
+                $Error{ $ParamName . 'ServerError' }        = 'ServerError';
+                $Error{ $ParamName . 'ServerErrorMessage' } = Translatable('File or Directory not found.');
+            }
+        }
+
+        my $Invokers = $WebserviceData->{Config}->{$CommunicationType}->{Invoker};
+
+        if ( IsHashRefWithData($Invokers) ) {
+
+            INVOKER:
+            for my $CurrentInvoker ( sort keys %{$Invokers} ) {
+
+                my $Controller = $ParamObject->GetParam(
+                    Param => 'InvokerControllerMapping' . $CurrentInvoker,
+                );
+
+                if ( !$Controller ) {
+                    $Error{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' } = 'ServerError';
+                    $Error{
+                        'InvokerControllerMapping'
+                            . $CurrentInvoker
+                            . 'ServerErrorMessage'
+                    } = Translatable('This field is required');
+                    next INVOKER;
+                }
+
+                $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller} = $Controller;
+
+                my $Command = $ParamObject->GetParam(
+                    Param => 'Command' . $CurrentInvoker
+                );
+                next INVOKER if !$Command;
+
+                $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Command} = $Command;
+            }
+        }
+    }
+
+    # Get provider specific settings.
+    else {
+
+        NEEDED:
+        for my $Needed (qw( MaxLength KeepAlive )) {
+            $TransportConfig->{$Needed} = $GetParam->{$Needed};
+            next NEEDED if $GetParam->{$Needed};
+
+            $Error{ $Needed . 'ServerError' }        = 'ServerError';
+            $Error{ $Needed . 'ServerErrorMessage' } = Translatable('This field is required');
+        }
+
+        # Set error for non integer content.
+        if ( $GetParam->{MaxLength} && !IsInteger( $GetParam->{MaxLength} ) ) {
+            $Error{MaxLengthServerError}        = 'ServerError';
+            $Error{MaxLengthServerErrorMessage} = Translatable('This field should be an integer.');
+        }
+
+        my $Operations = $WebserviceData->{Config}->{$CommunicationType}->{Operation};
+
+        if ( IsHashRefWithData($Operations) ) {
+
+            OPERATION:
+            for my $CurrentOperation ( sort keys %{$Operations} ) {
+
+                my $Route = $ParamObject->GetParam(
+                    Param => 'RouteOperationMapping' . $CurrentOperation,
+                );
+
+                if ( !$Route ) {
+                    $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' } = 'ServerError';
+                    $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerErrorMessage' }
+                        = Translatable('This field is required');
+                    next OPERATION;
+                }
+
+                $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route} = $Route;
+
+                my @RequestMethod = $ParamObject->GetArray(
+                    Param => 'RequestMethod' . $CurrentOperation,
+                );
+                next OPERATION if !scalar @RequestMethod;
+
+                $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{RequestMethod} = \@RequestMethod;
+            }
+        }
+
+        # Get additional headers.
+        $TransportConfig->{AdditionalHeaders} = $Self->_GetAdditionalHeaders();
+    }
+
+    # Set new configuration.
+    $WebserviceData->{Config}->{$CommunicationType}->{Transport}->{Config} = $TransportConfig;
+
+    # If there is an error return to edit screen.
+    if ( IsHashRefWithData( \%Error ) ) {
+        return $Self->_ShowEdit(
+            %Error,
+            %Param,
+            WebserviceID      => $WebserviceID,
+            WebserviceData    => $WebserviceData,
+            CommunicationType => $CommunicationType,
+            Action            => 'Change',
+        );
+    }
+
+    # Otherwise save configuration and return to overview screen.
+    my $Success = $WebserviceObject->WebserviceUpdate(
+        ID      => $WebserviceID,
+        Name    => $WebserviceData->{Name},
+        Config  => $WebserviceData->{Config},
+        ValidID => $WebserviceData->{ValidID},
+        UserID  => $Self->{UserID},
+    );
+
+    # If the user would like to continue editing the transport config, just redirect to the edit screen.
+    if (
+        defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+        && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+        )
+    {
+        return $LayoutObject->Redirect(
+            OP =>
+                "Action=$Self->{Action};Subaction=Change;WebserviceID=$WebserviceID;CommunicationType=$CommunicationType;",
+        );
+    }
+    else {
+
+        # Otherwise return to overview.
+        return $LayoutObject->Redirect(
+            OP => "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;",
+        );
+    }
 }
 
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
-    # configuration
     $Param{Type}           = 'HTTP::REST';
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
     my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
 
-    # extract display parameters from transport config
-    $Param{Host}              = $TransportConfig->{Host};
-    $Param{DefaultCommand}    = $TransportConfig->{DefaultCommand};
-    $Param{Authentication}    = $TransportConfig->{Authentication}->{Type};
-    $Param{User}              = $TransportConfig->{Authentication}->{User};
-    $Param{Password}          = $TransportConfig->{Authentication}->{Password};
-    $Param{UseX509}           = $TransportConfig->{X509}->{UseX509};
-    $Param{X509CertFile}      = $TransportConfig->{X509}->{X509CertFile};
-    $Param{X509KeyFile}       = $TransportConfig->{X509}->{X509KeyFile};
-    $Param{X509CAFile}        = $TransportConfig->{X509}->{X509CAFile};
-    $Param{KeepAlive}         = $TransportConfig->{KeepAlive};
-    $Param{MaxLength}         = $TransportConfig->{MaxLength};
-    $Param{AdditionalHeaders} = $TransportConfig->{AdditionalHeaders};
+    # Extract display parameters from transport config.
+    for my $ParamName (
+        qw(
+        Host DefaultCommand KeepAlive MaxLength Timeout
+        AdditionalHeaders
+        )
+        )
+    {
+        $Param{$ParamName} = $TransportConfig->{$ParamName};
+    }
+    for my $ParamName (qw( AuthType BasicAuthUser BasicAuthPassword )) {
+        $Param{$ParamName} = $TransportConfig->{Authentication}->{$ParamName};
+    }
+    for my $ParamName (qw( UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir )) {
+        $Param{$ParamName} = $TransportConfig->{SSL}->{$ParamName};
+    }
+    for my $ParamName (qw( UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude )) {
+        $Param{$ParamName} = $TransportConfig->{Proxy}->{$ParamName};
+    }
 
     my @PossibleRequestMethods = qw(GET POST PUT PATCH DELETE HEAD OPTIONS CONNECT TRACE);
 
-    # check if communication type is not provider (requester)
-    if ( $Param{CommunicationType} ne 'Provider' ) {
+    # Check if communication type is requester.
+    if ( $Param{CommunicationType} eq 'Requester' ) {
 
-        # create Authentication types select
+        # create default command types select
         $Param{DefaultCommandStrg} = $LayoutObject->BuildSelection(
             Data          => \@PossibleRequestMethods,
             Name          => 'DefaultCommand',
@@ -362,60 +358,76 @@ sub _ShowEdit {
             Class         => 'Modernize',
         );
 
-        # create Authentication types select
+        # Create Timeout select.
+        $Param{TimeoutStrg} = $LayoutObject->BuildSelection(
+            Data => [ '30', '60', '90', '120', '150', '180', '210', '240', '270', '300' ],
+            Name => 'Timeout',
+            SelectedValue => $Param{Timeout} || '120',
+            Sort          => 'NumericValue',
+            Class         => 'Modernize',
+        );
+
+        # Create Authentication types select.
         $Param{AuthenticationStrg} = $LayoutObject->BuildSelection(
             Data          => ['BasicAuth'],
-            Name          => 'Authentication',
-            SelectedValue => $Param{Authentication} || '-',
+            Name          => 'AuthType',
+            SelectedValue => $Param{AuthType} || '-',
             PossibleNone  => 1,
             Sort          => 'AlphanumericValue',
             Class         => 'Modernize',
         );
 
-        # hide and disable authentication methods if they are not selected
+        # Hide and disable authentication methods if they are not selected.
         $Param{BasicAuthHidden} = 'Hidden';
-        if ( $Param{Authentication} && $Param{Authentication} eq 'BasicAuth' )
-        {
-            $Param{BasicAuthHidden}      = '';
-            $Param{UserValidateRequired} = 'Validate_Required';
+        if ( $Param{AuthType} && $Param{AuthType} eq 'BasicAuth' ) {
+            $Param{BasicAuthHidden}                   = '';
+            $Param{BasicAuthUserServerError}          = 'Validate_Required';
+            $Param{BasicAuthPasswordValidateRequired} = 'Validate_Required';
         }
 
-        # create use X509 select
-        $Param{UseX509Strg} = $LayoutObject->BuildSelection(
+        # Create use Proxy select.
+        $Param{UseProxyStrg} = $LayoutObject->BuildSelection(
             Data => [ 'No', 'Yes' ],
-            Name => 'UseX509',
-            SelectedValue => $Param{UseX509} || 'No',
+            Name => 'UseProxy',
+            SelectedValue => $Param{UseProxy} || 'No',
             PossibleNone  => 0,
             Sort          => 'AlphanumericValue',
             Class         => 'Modernize',
         );
 
-        # hide and disable X509 options if they are not selected
-        $Param{X509Hidden} = 'Hidden';
-        if ( $Param{UseX509} && $Param{UseX509} eq 'Yes' )
+        # Create Proxy exclude select.
+        $Param{ProxyExcludeStrg} = $LayoutObject->BuildSelection(
+            Data => [ 'No', 'Yes' ],
+            Name => 'ProxyExclude',
+            SelectedValue => $Param{ProxyExclude} || 'No',
+            PossibleNone  => 0,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
+        );
+
+        # Hide and disable Proxy options if they are not selected.
+        $Param{ProxyHidden} = 'Hidden';
+        if ( $Param{UseProxy} && $Param{UseProxy} eq 'Yes' )
         {
-            $Param{X509Hidden}                   = '';
-            $Param{X509CertFileValidateRequired} = 'Validate_Required';
-            $Param{X509KeyFileValidateRequired}  = 'Validate_Required';
-            $Param{X509CAFileValidateRequired}   = 'Validate_Required';
+            $Param{ProxyHidden} = '';
         }
 
-        # call Endpoint block
-        $LayoutObject->Block(
-            Name => 'Endpoint',
-            Data => \%Param,
+        # Create use SSL select.
+        $Param{UseSSLStrg} = $LayoutObject->BuildSelection(
+            Data => [ 'No', 'Yes' ],
+            Name => 'UseSSL',
+            SelectedValue => $Param{UseSSL} || 'No',
+            PossibleNone  => 0,
+            Sort          => 'AlphanumericValue',
+            Class         => 'Modernize',
         );
-    }
 
-    # call provider or requester specific bocks
-    $LayoutObject->Block(
-        Name => 'Transport' . $Param{CommunicationType},
-        Data => \%Param,
-    );
-
-    # check if communication type is not provider (requester)
-    my $SaveAndFinishOK;
-    if ( $Param{CommunicationType} ne 'Provider' ) {
+        # Hide and disable SSL options if they are not selected.
+        $Param{SSLHidden} = 'Hidden';
+        if ( $Param{UseSSL} && $Param{UseSSL} eq 'Yes' )
+        {
+            $Param{SSLHidden} = '';
+        }
 
         my $Invokers = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Invoker};
         if ( IsHashRefWithData($Invokers) ) {
@@ -450,14 +462,10 @@ sub _ShowEdit {
                 );
             }
         }
-
-        if ( $Param{Host} && $Param{DefaultCommand} ) {
-            $SaveAndFinishOK = 1;
-        }
     }
 
-    # otherwise is provider
-    else {
+    # Check if communication type is requester.
+    elsif ( $Param{CommunicationType} eq 'Provider' ) {
         my $Operations = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Operation};
         if ( IsHashRefWithData($Operations) ) {
 
@@ -504,10 +512,6 @@ sub _ShowEdit {
             Class        => 'Modernize',
         );
 
-        if ( $Param{MaxLength} && defined $Param{KeepAlive} ) {
-            $SaveAndFinishOK = 1;
-        }
-
         $LayoutObject->Block(
             Name => 'AdditionalHeaders',
             Data => {
@@ -515,7 +519,7 @@ sub _ShowEdit {
             },
         );
 
-        # output the possible values and errors within (if any)
+        # Output the possible values and errors within (if any).
         my $ValueCounter = 1;
         for my $Key ( sort keys %{ $Param{AdditionalHeaders} || {} } ) {
             $LayoutObject->Block(
@@ -530,7 +534,7 @@ sub _ShowEdit {
             $ValueCounter++;
         }
 
-        # create the possible values template
+        # Create the possible values template.
         $LayoutObject->Block(
             Name => 'ValueTemplate',
             Data => {
@@ -538,16 +542,8 @@ sub _ShowEdit {
             },
         );
 
-        # set value counter
+        # Set value counter.
         $Param{ValueCounter} = $ValueCounter;
-    }
-
-    # call save and finish block
-    if ($SaveAndFinishOK) {
-        $LayoutObject->Block(
-            Name => 'SaveAndFinishButton',
-            Data => \%Param
-        );
     }
 
     $Output .= $LayoutObject->Output(
@@ -559,24 +555,46 @@ sub _ShowEdit {
     return $Output;
 }
 
+sub _GetParams {
+    my ( $Self, %Param ) = @_;
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    my $GetParam;
+
+    # Get parameters from web browser.
+    for my $ParamName (
+        qw(
+        Host DefaultCommand MaxLength KeepAlive Timeout
+        AuthType BasicAuthUser BasicAuthPassword
+        UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
+        UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+        )
+        )
+    {
+        $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
+    }
+    return $GetParam;
+}
+
 sub _GetAdditionalHeaders {
     my ( $Self, %Param ) = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # get ValueCounters
+    # Get ValueCounters.
     my $ValueCounter = $ParamObject->GetParam( Param => 'ValueCounter' ) || 0;
 
-    # get possible values
+    # Get possible values.
     my $AdditionalHeaderConfig;
     VALUEINDEX:
     for my $ValueIndex ( 1 .. $ValueCounter ) {
         my $Key = $ParamObject->GetParam( Param => 'Key' . '_' . $ValueIndex ) // '';
 
-        # check if key was deleted by the user and skip it
+        # Check if key was deleted by the user and skip it.
         next VALUEINDEX if $Key eq $Self->{DeletedString};
 
-        # skip empty key
+        # Skip empty key.
         next VALUEINDEX if $Key eq '';
 
         my $Value = $ParamObject->GetParam( Param => 'Value' . '_' . $ValueIndex ) // '';

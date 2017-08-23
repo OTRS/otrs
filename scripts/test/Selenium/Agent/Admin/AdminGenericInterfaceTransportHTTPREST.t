@@ -25,7 +25,7 @@ $Selenium->RunTest(
         # define needed variable
         my $RandomID = $Helper->GetRandomID();
 
-        # create test webservice
+        # create test web service
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config => {
                 Debugger => {
@@ -38,14 +38,14 @@ $Selenium->RunTest(
                     },
                 },
             },
-            Name    => "Selenium $RandomID webservice",
+            Name    => "Selenium $RandomID web service",
             ValidID => 1,
             UserID  => 1,
         );
 
         $Self->True(
             $WebserviceID,
-            "Webservice ID $WebserviceID is created"
+            "Web service ID $WebserviceID is created"
         );
 
         # create test user and login
@@ -59,13 +59,15 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        # get some variables
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
+        my $Home         = $ConfigObject->Get('Home');
 
         # navigate to AdminGenericInterfaceWebservice screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
 
-        # click on created webservice
+        # click on created web service
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # select 'HTTP::REST' as provider network transport
@@ -79,7 +81,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # click to configure provider network transport
         $Selenium->find_element("//button[\@id='ProviderTransportProperties']")->VerifiedClick();
@@ -89,9 +91,7 @@ $Selenium->RunTest(
             qw(MaxLength KeepAlive)
             )
         {
-            my $Element = $Selenium->find_element( "#$ID", 'css' );
-            $Element->is_enabled();
-            $Element->is_displayed();
+            $Selenium->find_element( "#$ID", 'css' )->is_enabled();
         }
 
         # verify URL
@@ -109,7 +109,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AddValue", 'css' )->click();
 
         # Click on 'Save' without entering anything to trigger client-side validation.
-        $Selenium->find_element("//button[\@value='Save and continue']")->click();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # Check if errors are shown.
         $Self->True(
@@ -130,7 +130,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.DefaultValueItem',    'css' )->send_keys('Value1');
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # verify URL is changed while we are on the same screen
         $Self->True(
@@ -161,7 +161,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Save and finish' verify JS redirection
-        $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
@@ -172,12 +172,15 @@ $Selenium->RunTest(
 
         # verify screen
         for my $ID (
-            qw(Host DefaultCommand Authentication UseX509 User Password X509CertFile X509KeyFile X509CAFile)
+            qw(
+            Host DefaultCommand Timeout
+            AuthType BasicAuthUser BasicAuthPassword
+            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
+            )
             )
         {
-            my $Element = $Selenium->find_element( "#$ID", 'css' );
-            $Element->is_enabled();
-            $Element->is_displayed();
+            $Selenium->find_element( "#$ID", 'css' )->is_enabled();
         }
 
         # verify URL
@@ -187,73 +190,90 @@ $Selenium->RunTest(
             "Current URL on Add action is correct"
         );
 
-        # verify Authentication fields are hidden
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('.BasicAuthField').hasClass('Hidden')"
-            ),
-            1,
-            'Authentication fields are hidden',
-        );
-
-        # select BasicAuth as Authentication option, verify JS remove Hidden class and fields are shown
-        $Selenium->execute_script(
-            "\$('#Authentication').val('BasicAuth').trigger('redraw.InputField').trigger('change');"
-        );
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('.BasicAuthField').hasClass('Hidden')"
-            ),
-            0,
-            'Authentication fields are shown - JS is successful',
-        );
-
-        # verify SSL option fields are hidden
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('.X509Field').hasClass('Hidden')"
-            ),
-            1,
-            'SSL option fields are hidden',
-        );
-
-        # select Yes to use SSL options, verify JS removed Hidden class and fields are shown
-        $Selenium->execute_script("\$('#UseX509').val('Yes').trigger('redraw.InputField').trigger('change');");
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('.X509Field').hasClass('Hidden')"
-            ),
-            0,
-            'SLL option fields are shown - JS is successful',
-        );
-
         # click to 'Save' and verify client side validation for missing fields
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
-        for my $ValidationField (qw( Host User X509CertFile X509KeyFile)) {
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
+        for my $ValidationField (qw( Host )) {
             $Self->Is(
                 $Selenium->execute_script(
                     "return \$('#$ValidationField').hasClass('Error')"
                 ),
                 1,
-                'Client side validation for missing fields is successful',
+                "Client side validation for missing field $ValidationField is successful",
+            );
+        }
+
+ # verify certain fields are Hidden with default options, select appropriate option to trigger JS to remove Hidden class
+        my @RequesterJSFields = (
+            {
+                CheckField  => 'BasicAuthField',
+                OptionField => 'AuthType',
+                OptionValue => 'BasicAuth',
+            },
+            {
+                CheckField  => 'SSLField',
+                OptionField => 'UseSSL',
+                OptionValue => 'Yes',
+            },
+            {
+                CheckField  => 'ProxyField',
+                OptionField => 'UseProxy',
+                OptionValue => 'Yes',
+            },
+        );
+
+        for my $Field (@RequesterJSFields) {
+
+            # change field to trigger JS (if necessary)
+            if ( $Field->{OptionValuePre} ) {
+                $Selenium->execute_script(
+                    "\$('#$Field->{OptionField}').val('$Field->{OptionValuePre}').trigger('redraw.InputField').trigger('change');"
+                );
+            }
+
+            # verify field is hidden
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('.$Field->{CheckField}').hasClass('Hidden')"
+                ),
+                1,
+                "$Field->{CheckField} field is hidden",
+            );
+
+            # change field to trigger JS
+            $Selenium->execute_script(
+                "\$('#$Field->{OptionField}').val('$Field->{OptionValue}').trigger('redraw.InputField').trigger('change');"
+            );
+
+            # verify JS removed Hidden class, fields are shown
+            $Self->Is(
+                $Selenium->execute_script(
+                    "return \$('.$Field->{CheckField}').hasClass('Hidden')"
+                ),
+                0,
+                "$Field->{CheckField} field is shown",
             );
         }
 
         # input fields
-        my %InputData = (
-            Host         => 'TransportHost-' . $RandomID,
-            User         => 'User' . $RandomID,
-            Password     => 'Pass' . $RandomID,
-            X509CertFile => '/opt/otrs/var/Selenium/ssl.crt',
-            X509KeyFile  => '/opt/otrs/var/Selenium/ssl.key',
-            X509CAFile   => '/opt/otrs/var/Selenium/ca.file'
+        my %RequesterInputData = (
+            Host              => 'TransportHost-' . $RandomID,
+            BasicAuthUser     => 'User' . $RandomID,
+            BasicAuthPassword => 'Pass' . $RandomID,
+            ProxyHost         => 'http://proxy_hostname:8080',
+            ProxyUser         => 'SSLUser' . $RandomID,
+            ProxyPassword     => 'SSLPass' . $RandomID,
+            SSLCertificate    => $Home . '/scripts/test/sample/SSL/certificate.pem',
+            SSLKey            => $Home . '/scripts/test/sample/SSL/certificate.key.pem',
+            SSLPassword       => 'SSLPass' . $RandomID,
+            SSLCAFile         => $Home . '/scripts/test/sample/SSL/ca-certificate.pem',
+            SSLCADir          => $Home . '/scripts/test/sample/SSL/',
         );
-        for my $InputField ( sort keys %InputData ) {
-            $Selenium->find_element( "#$InputField", 'css' )->send_keys( $InputData{$InputField} );
+        for my $InputField ( sort keys %RequesterInputData ) {
+            $Selenium->find_element( "#$InputField", 'css' )->send_keys( $RequesterInputData{$InputField} );
         }
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # verify URL is changed while we are on the same screen
         $Self->True(
@@ -262,29 +282,29 @@ $Selenium->RunTest(
         );
 
         # verify saved fields
-        for my $VerifyField ( sort keys %InputData ) {
+        for my $VerifyField ( sort keys %RequesterInputData ) {
             $Self->Is(
                 $Selenium->find_element( "#$VerifyField", 'css' )->get_value(),
-                $InputData{$VerifyField},
+                $RequesterInputData{$VerifyField},
                 "Inputed value for $VerifyField field is correct"
             );
         }
 
         # click on 'Save and finish' verify JS redirection
-        $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             $Selenium->get_current_url() =~ /Action=AdminGenericInterfaceWebservice/,
             "Click on 'Save and finish' button - JS is successful"
         );
 
-        # delete test created webservice
+        # delete test created web service
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => 1,
         );
         $Self->True(
             $Success,
-            "Webservice ID $WebserviceID is deleted"
+            "Web service ID $WebserviceID is deleted"
         );
 
         # make sure cache is correct

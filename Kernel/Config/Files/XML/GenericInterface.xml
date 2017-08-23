@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="2.0" init="Application">
     <Setting Name="Ticket::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Navigation>Core::Event::Ticket</Navigation>
         <Value>
             <Hash>
@@ -12,7 +12,7 @@
         </Value>
     </Setting>
     <Setting Name="Package::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Navigation>Core::Event::Package</Navigation>
         <Value>
             <Hash>
@@ -23,7 +23,7 @@
         </Value>
     </Setting>
     <Setting Name="CustomerCompany::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Navigation>Core::Event::CustomerCompany</Navigation>
         <Value>
             <Hash>
@@ -34,7 +34,7 @@
         </Value>
     </Setting>
     <Setting Name="CustomerUser::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Navigation>Core::Event::CustomerUser</Navigation>
         <Value>
             <Hash>
@@ -45,7 +45,7 @@
         </Value>
     </Setting>
     <Setting Name="Queue::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Navigation>Core::Event::Queue</Navigation>
         <Value>
             <Hash>
@@ -56,7 +56,7 @@
         </Value>
     </Setting>
     <Setting Name="DynamicField::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Navigation>Core::Event::DynamicField</Navigation>
         <Value>
             <Hash>
@@ -288,7 +288,7 @@
                         </Array>
                     </Item>
                     <Item Key="Description">Admin</Item>
-                    <Item Key="Title" Translatable="1">GenericInterface Webservice History GUI</Item>
+                    <Item Key="Title" Translatable="1">GenericInterface Web Service History GUI</Item>
                     <Item Key="NavBarName"></Item>
                 </Hash>
             </Item>
@@ -523,7 +523,7 @@
                         </Array>
                     </Item>
                     <Item Key="Description">Admin</Item>
-                    <Item Key="Title" Translatable="1">GenericInterface Webservice Mapping GUI</Item>
+                    <Item Key="Title" Translatable="1">GenericInterface Web Service Mapping GUI</Item>
                     <Item Key="NavBarName"></Item>
                 </Hash>
             </Item>
@@ -572,7 +572,7 @@
                         </Array>
                     </Item>
                     <Item Key="Description">Admin</Item>
-                    <Item Key="Title" Translatable="1">GenericInterface Webservice Mapping GUI</Item>
+                    <Item Key="Title" Translatable="1">GenericInterface Web Service Mapping GUI</Item>
                     <Item Key="NavBarName"></Item>
                 </Hash>
             </Item>
@@ -590,7 +590,6 @@
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>Core.Agent.Admin.GenericInterfaceMappingXSLT.js</Item>
                     </Array>
                 </Item>
             </Hash>

@@ -94,6 +94,11 @@ $Selenium->RunTest(
             webserviceconfig_2 => 'Connector to send and receive date from Nagios 2.',
         );
 
+        my %WebserviceNames = (
+            webserviceconfig_1 => 'webserviceconfig_1',
+            webserviceconfig_2 => $Helper->GetRandomID(),
+        );
+
         for my $Webservice (
             qw(webserviceconfig_1 webserviceconfig_2)
             )
@@ -107,40 +112,46 @@ $Selenium->RunTest(
 
             my $File     = $Webservice . '.yml';
             my $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Webservice/$File";
+            my $Name     = $WebserviceNames{$Webservice};
+
+            if ( $Name ne $Webservice ) {
+                $Selenium->find_element( "#WebserviceName", 'css' )->send_keys($Name);
+            }
+
             $Selenium->find_element( "#ConfigFile",         'css' )->send_keys($Location);
             $Selenium->find_element( "#ImportButtonAction", 'css' )->VerifiedClick();
 
-            # verify that webservice is created
+            # verify that web service is created
             $Self->True(
-                index( $Selenium->get_page_source(), "Web service \"$Webservice\" created!" ) > -1,
-                "$Webservice is created",
+                index( $Selenium->get_page_source(), "Web service \"$Name\" created!" ) > -1,
+                "$Name is created",
             );
 
             # GenericInterface Web Service Management - Change screen
-            $Selenium->find_element( $Webservice, 'link_text' )->VerifiedClick();
+            $Selenium->find_element( $Name, 'link_text' )->VerifiedClick();
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#RemoteSystem", 'css' )->send_keys('Test remote system');
 
             # check breadcrumb on Edit screen
-            $CheckBredcrumb->( BreadcrumbText => 'Edit Web Service: ' . $Webservice );
+            $CheckBredcrumb->( BreadcrumbText => 'Edit Web Service: ' . $Name );
 
             # save edited value
-            $Selenium->find_element( "#SaveAndFinishButton", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
-            # check class of invalid webservice in the overview table
+            # check class of invalid web service in the overview table
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('tr.Invalid td:contains($Webservice)').length"
+                    "return \$('tr.Invalid td:contains($Name)').length"
                 ),
-                "There is a class 'Invalid' for test Webservice",
+                "There is a class 'Invalid' for test web service",
             );
 
             # check web service values
-            $Selenium->find_element( $Webservice, 'link_text' )->VerifiedClick();
+            $Selenium->find_element( $Name, 'link_text' )->VerifiedClick();
 
             $Self->Is(
                 $Selenium->find_element( '#Name', 'css' )->get_value(),
-                $Webservice,
+                $Name,
                 "#Name stored value",
             );
 
@@ -169,10 +180,10 @@ $Selenium->RunTest(
             # wait until delete dialog has closed and action performed
             $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && !\$('#DialogButton2').length" );
 
-            # verify that webservice is deleted
+            # verify that web service is deleted
             $Self->True(
-                index( $Selenium->get_page_source(), "Web service \"$Webservice\" deleted!" ) > -1,
-                "$Webservice is deleted",
+                index( $Selenium->get_page_source(), "Web service \"$Name\" deleted!" ) > -1,
+                "$Name is deleted",
             );
 
         }

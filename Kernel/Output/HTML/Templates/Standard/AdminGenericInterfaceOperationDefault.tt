@@ -22,7 +22,7 @@
         ]
     %]
 
-    [% SWITCH Data.Mode %]
+    [% SWITCH Data.Action %]
         [% CASE 'Add' %]
             [% BreadcrumbPath.push({ Name => Translate("Add Operation"),}) %]
         [% CASE 'Change' %]
@@ -71,9 +71,12 @@
             <div class="Content">
                 <form action="[% Env("CGIHandle") %]" class="Validate" method="post">
                     <input type="hidden" name="Action" value="AdminGenericInterfaceOperationDefault" />
-                    <input type="hidden" name="Subaction" value="[% Data.Mode | html %]Action" />
+                    <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action" />
                     <input type="hidden" id="WebserviceID" name="WebserviceID" value="[% Data.WebserviceID | html %]" />
                     <input type="hidden" name="OperationType" value="[% Data.OperationType | html %]" />
+                    [% IF Data.Action == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
 
                     <fieldset class="TableLike">
                         <label for="Operation" class="Mandatory">
@@ -108,7 +111,7 @@
                             [% Data.MappingInboundStrg %]
                             <input type="hidden" id="MappingInboundConfigDialog" value="[% Data.MappingInboundConfigDialog | html %]" />
 [% RenderBlockStart("MappingInboundConfigureButton") %]
-                            <button type="button" class="HideOnChange" id="MappingInboundConfigureButton" value="[% Translate("Configure") | html %]">[% Translate("Configure") | html %]</button>
+                            <button type="button" class="HideOnChange CallForAction Inline" id="MappingInboundConfigureButton" value="[% Translate("Configure") | html %]"><span>[% Translate("Configure") | html %]</span></button>
 [% RenderBlockEnd("MappingInboundConfigureButton") %]
                             <p class="FieldExplanation">
                                 [% Translate("The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.") | html %]
@@ -130,7 +133,7 @@
                             [% Data.MappingOutboundStrg %]
                             <input type="hidden" id="MappingOutboundConfigDialog" value="[% Data.MappingOutboundConfigDialog | html %]" />
 [% RenderBlockStart("MappingOutboundConfigureButton") %]
-                            <button type="button" class="HideOnChange" id="MappingOutboundConfigureButton" value="[% Translate("Configure") | html %]">[% Translate("Configure") | html %]</button>
+                            <button type="button" class="HideOnChange CallForAction Inline" id="MappingOutboundConfigureButton" value="[% Translate("Configure") | html %]"><span>[% Translate("Configure") | html %]</span></button>
 [% RenderBlockEnd("MappingOutboundConfigureButton") %]
                             <p class="FieldExplanation">
                                 [% Translate("The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.") | html %]
@@ -147,14 +150,15 @@
                         <div class="Clear"></div>
 
                         <div class="Field SpacingTop">
-                            <button type="submit" class="Primary CallForAction" value="[% Translate("Save and continue") | html %]"><span>[% Translate("Save") | html %]</span></button>
-[% RenderBlockStart("SaveAndFinishButton") %]
+                            [% IF Data.Action == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
-                            <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                            <input type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
-[% RenderBlockEnd("SaveAndFinishButton") %]
-                            [% Translate("or") | html %]
-                            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
                         <div class="Clear"></div>
 

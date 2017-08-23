@@ -29,7 +29,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $WebserviceID = $ParamObject->GetParam( Param => 'WebserviceID' ) || '';
@@ -41,18 +40,17 @@ sub Run {
     my $ActionType        = IsStringWithData($Operation) ? 'Operation' : 'Invoker';
     my $Action = $Operation || $Invoker;
 
-    # set mapping direction for display
+    # Set mapping direction for display.
     my $MappingDirection = $Direction eq 'MappingOutbound'
         ? 'XSLT Mapping for Outgoing Data'
         : 'XSLT Mapping for Incoming Data';
 
-    # get configured Actions
+    # Get configured Actions.
     my $ActionsConfig = $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $ActionType . '::Module' );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # make sure required libraries (XML::LibXML and XML::LibXSLT) are installed
+    # Make sure required libraries (XML::LibXML and XML::LibXSLT) are installed.
     LIBREQUIRED:
     for my $LibRequired (qw(XML::LibXML XML::LibXSLT)) {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require(
@@ -67,7 +65,7 @@ sub Run {
         );
     }
 
-    # check for valid action backend
+    # Check for valid action backend.
     if ( !IsHashRefWithData($ActionsConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message => $LayoutObject->{LanguageObject}
@@ -75,21 +73,19 @@ sub Run {
         );
     }
 
-    # check for WebserviceID
+    # Check for WebserviceID.
     if ( !$WebserviceID ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Need WebserviceID!'),
         );
     }
 
-    # get web service object
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
-    # get web service configuration
-    my $WebserviceData =
-        $WebserviceObject->WebserviceGet( ID => $WebserviceID );
+    # Get web service con configuration.
+    my $WebserviceData = $WebserviceObject->WebserviceGet( ID => $WebserviceID );
 
-    # check for valid web service configuration
+    # Check for valid web service configuration.
     if ( !IsHashRefWithData($WebserviceData) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
@@ -97,10 +93,10 @@ sub Run {
         );
     }
 
-    # get the action type (back-end)
+    # Get the action type (back-end),
     my $ActionBackend = $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{'Type'};
 
-    # check for valid action backend
+    # Check for valid action backend.
     if ( !$ActionBackend ) {
         return $LayoutObject->ErrorScreen(
             Message =>
@@ -108,7 +104,7 @@ sub Run {
         );
     }
 
-    # get the configuration dialog for the action
+    # Get the configuration dialog for the action.
     my $ActionFrontendModule = $ActionsConfig->{$ActionBackend}->{'ConfigDialog'};
 
     my $WebserviceName = $WebserviceData->{Name};
@@ -118,7 +114,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
 
-        # recreate structure for edit
+        # Recreate structure for edit.
         my %Mapping;
         my $MappingConfig = $WebserviceData->{Config}->{$CommunicationType}->
             {$ActionType}->{$Action}->{$Direction}->{Config};
@@ -147,13 +143,13 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
-        # challenge token check for write action
+        # Challenge token check for write action.
         $LayoutObject->ChallengeTokenCheck();
 
-        # get parameter from web browser
+        # Get parameter from web browser.
         my $GetParam = $Self->_GetParams();
 
-        # if there is an error return to edit screen
+        # If there is an error return to edit screen.
         if ( $GetParam->{Error} ) {
             return $Self->_ShowEdit(
                 %Param,
@@ -175,11 +171,11 @@ sub Run {
         my %NewMapping;
         $NewMapping{Template} = $GetParam->{Template};
 
-        # set new mapping
+        # Set new mapping.
         $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}->{Config}
             = \%NewMapping;
 
-        # otherwise save configuration and return to overview screen
+        # Otherwise save configuration and return to overview screen.
         my $Success = $WebserviceObject->WebserviceUpdate(
             ID      => $WebserviceID,
             Name    => $WebserviceData->{Name},
@@ -188,7 +184,7 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
-        # check for successful web service update
+        # Check for successful web service update.
         if ( !$Success ) {
             return $LayoutObject->ErrorScreen(
                 Message => $LayoutObject->{LanguageObject}
@@ -196,38 +192,41 @@ sub Run {
             );
         }
 
-        # save and finish button: go to web service.
-        if ( $ParamObject->GetParam( Param => 'ReturnToAction' ) ) {
-            my $RedirectURL = "Action=$ActionFrontendModule;Subaction=Change;$ActionType=$Action;"
-                . "WebserviceID=$WebserviceID;";
+        # If the user would like to continue editing the invoker config, just redirect to the edit screen.
+        my $RedirectURL;
+        if (
+            defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+            && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+            )
+        {
 
-            return $LayoutObject->Redirect(
-                OP => $RedirectURL,
-            );
+            $RedirectURL =
+                'Action='
+                . $Self->{Action}
+                . ';Subaction=Change;WebserviceID='
+                . $WebserviceID
+                . ";$ActionType="
+                . $LayoutObject->LinkEncode($Action)
+                . ';Direction='
+                . $Direction
+                . ';';
+        }
+        else {
+
+            # Otherwise return to overview.
+            $RedirectURL =
+                'Action='
+                . $ActionFrontendModule
+                . ';Subaction=Change;'
+                . ";$ActionType="
+                . $LayoutObject->LinkEncode($Action)
+                . ';WebserviceID='
+                . $WebserviceID
+                . ';';
         }
 
-        # recreate structure for edit
-        my %Mapping;
-        my $MappingConfig = $WebserviceData->{Config}->{$CommunicationType}->
-            {$ActionType}->{$Action}->{$Direction}->{Config};
-
-        $Mapping{Template} = $MappingConfig->{Template};
-
-        # check if stay on mapping screen or redirect to previous screen
-        return $Self->_ShowEdit(
-            %Param,
-            WebserviceID         => $WebserviceID,
-            WebserviceName       => $WebserviceName,
-            WebserviceData       => \%Mapping,
-            Operation            => $Operation,
-            Invoker              => $Invoker,
-            Direction            => $Direction,
-            MappingDirection     => $MappingDirection,
-            CommunicationType    => $CommunicationType,
-            ActionType           => $ActionType,
-            Action               => $Action,
-            ActionFrontendModule => $ActionFrontendModule,
-            Subaction            => 'Change',
+        return $LayoutObject->Redirect(
+            OP => $RedirectURL,
         );
     }
 }
@@ -235,10 +234,9 @@ sub Run {
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
-    # set action for go back button
+    # Set action for go back button.
     $Param{LowerCaseActionType} = lc $Param{ActionType};
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $Output = $LayoutObject->Header();
@@ -269,13 +267,12 @@ sub _GetParams {
 
     my $GetParam;
 
-    # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # get parameters from web browser
+    # Get parameters from web browser.
     $GetParam->{Template} = $ParamObject->GetParam( Param => 'Template' ) || '';
 
-    # check validity
+    # Check validity.
     my $LibXML  = XML::LibXML->new();
     my $LibXSLT = XML::LibXSLT->new();
     my ( $StyleDoc, $StyleSheet );

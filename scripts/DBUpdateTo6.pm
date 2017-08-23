@@ -305,6 +305,10 @@ sub _TasksGet {
             Message => 'Initialize default cron jobs',
             Module  => 'InitializeDefaultCronjobs',
         },
+        {
+            Message => 'Migrate web service configuration',
+            Module  => 'MigrateWebServiceConfiguration',
+        },
 
         # ...
 

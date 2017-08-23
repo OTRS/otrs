@@ -326,7 +326,7 @@ sub Request {
         },
     );
 
-    # perform webservice request
+    # Perform web service request.
     my %Response;
     TRY:
     for my $Try ( 1 .. 3 ) {

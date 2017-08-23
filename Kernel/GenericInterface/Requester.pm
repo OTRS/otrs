@@ -56,7 +56,7 @@ web service.
         WebserviceID => 1,                      # ID of the configured remote web service to use OR
         Invoker      => 'some_operation',       # Name of the Invoker to be used for sending the request
         Asynchronous => 1,                      # Optional, 1 or 0, defaults to 0
-        Data         => {                       # Data payload for the Invoker request (remote webservice)
+        Data         => {                       # Data payload for the Invoker request (remote web service)
            #...
         },
     );
@@ -101,7 +101,7 @@ sub Run {
     }
 
     #
-    # Locate desired webservice and load its configuration data.
+    # Locate desired web service and load its configuration data.
     #
 
     my $WebserviceID = $Param{WebserviceID};
@@ -165,7 +165,7 @@ sub Run {
         WebserviceID   => $WebserviceID,
     );
 
-    # bail out if invoker init failed
+    # Bail out if invoker initialization failed.
     if ( ref $InvokerObject ne 'Kernel::GenericInterface::Invoker' ) {
 
         return $DebuggerObject->Error(
@@ -186,10 +186,10 @@ sub Run {
         );
     }
 
-    # not always a success on the invoker prepare request means that invoker need to do something
-    # there are cases in which the requester does not need to do anything, for this cases
-    # StopCommunication can be sent. in this cases the request will be successful with out sending
-    # the request actually
+    # Not always a success on the invoker prepare request means that invoker need to do something
+    #   there are cases in which the requester does not need to do anything, for this cases
+    #   StopCommunication can be sent. in this cases the request will be successful with out sending
+    #   the request actually.
     elsif ( $FunctionResult->{StopCommunication} && $FunctionResult->{StopCommunication} eq 1 ) {
 
         return {
@@ -208,7 +208,7 @@ sub Run {
         Data    => $DataOut,
     );
 
-    # decide if mapping needs to be used or not
+    # Decide if mapping needs to be used or not.
     if (
         IsHashRefWithData(
             $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound}
@@ -223,7 +223,7 @@ sub Run {
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
         );
 
-        # if mapping init failed, bail out
+        # If mapping initialization failed, bail out.
         if ( ref $MappingOutObject ne 'Kernel::GenericInterface::Mapping' ) {
             $DebuggerObject->Error(
                 Summary => 'MappingOut could not be initialized',
@@ -259,7 +259,7 @@ sub Run {
         TransportConfig => $RequesterConfig->{Transport},
     );
 
-    # bail out if transport init failed
+    # Bail out if transport initialization failed.
     if ( ref $TransportObject ne 'Kernel::GenericInterface::Transport' ) {
 
         return $DebuggerObject->Error(
@@ -268,7 +268,7 @@ sub Run {
         );
     }
 
-    # read request content
+    # Read request content.
     $FunctionResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
@@ -281,7 +281,7 @@ sub Run {
             Summary => $FunctionResult->{ErrorMessage},
         );
 
-        # Send error to Invoker
+        # Send error to Invoker.
         my $Response = $InvokerObject->HandleResponse(
             ResponseSuccess      => 0,
             ResponseErrorMessage => $FunctionResult->{ErrorMessage},
@@ -292,11 +292,11 @@ sub Run {
             RESPONSEKEY:
             for my $ResponseKey ( sort keys %{$Response} ) {
 
-                # skip Success and ErrorMessage as they are set already
+                # Skip Success and ErrorMessage as they are set already.
                 next RESPONSEKEY if $ResponseKey eq 'Success';
                 next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
 
-                # add any other key from the invoker HandleResponse() in Data
+                # Add any other key from the invoker HandleResponse() in Data.
                 $ErrorReturn->{$ResponseKey} = $Response->{$ResponseKey}
             }
         }
@@ -320,7 +320,7 @@ sub Run {
         );
     }
 
-    # decide if mapping needs to be used or not
+    # Decide if mapping needs to be used or not.
     if (
         IsHashRefWithData(
             $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound}
@@ -335,7 +335,7 @@ sub Run {
                 $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
         );
 
-        # if mapping init failed, bail out
+        # If mapping initialization failed, bail out.
         if ( ref $MappingInObject ne 'Kernel::GenericInterface::Mapping' ) {
             $DebuggerObject->Error(
                 Summary => 'MappingOut could not be initialized',
@@ -376,7 +376,7 @@ sub Run {
     }
 
     #
-    # Handle response data in Invoker
+    # Handle response data in Invoker.
     #
 
     $FunctionResult = $InvokerObject->HandleResponse(
@@ -396,11 +396,11 @@ sub Run {
             RESPONSEKEY:
             for my $ResponseKey ( sort keys %{$FunctionResult} ) {
 
-                # skip Success and ErrorMessage as they are set already
+                # Skip Success and ErrorMessage as they are set already.
                 next RESPONSEKEY if $ResponseKey eq 'Success';
                 next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
 
-                # add any other key from the invoker HandleResponse() in Data
+                # Add any other key from the invoker HandleResponse() in Data.
                 $ErrorReturn->{$ResponseKey} = $FunctionResult->{$ResponseKey}
             }
         }

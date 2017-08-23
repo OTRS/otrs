@@ -1,13 +1,13 @@
 ---
 Debugger:
-  DebugThreshold: info
+  DebugThreshold: debug
   TestMode: '0'
 Description: Ticket Connector REST Sample
 FrameworkVersion: 6.0.x git
 Provider:
   Operation:
     SessionCreate:
-      Description: Creates a Session
+      Description: Create a Session
       MappingInbound: {}
       MappingOutbound: {}
       Type: Session::SessionCreate
@@ -17,35 +17,35 @@ Provider:
       MappingOutbound: {}
       Type: Session::SessionGet
     TicketCreate:
-      Description: Creates a Ticket
+      Description: Create a Ticket
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketCreate
     TicketGet:
-      Description: Retrieves Ticket data
+      Description: Retrieve Ticket data
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketGet
     TicketGetList:
-      Description: Retrieves Ticket data for a List of Ticket IDs
+      Description: Retrieve Ticket data for a List of Ticket IDs
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketGet
+    TicketHistoryGet:
+      Description: Retrieve Ticket history data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketHistoryGet
     TicketSearch:
       Description: Search for Tickets
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketSearch
     TicketUpdate:
-      Description: Updates a Ticket
+      Description: Update a Ticket
       MappingInbound: {}
       MappingOutbound: {}
       Type: Ticket::TicketUpdate
-    TicketHistoryGet:
-      Description: Retrieves history of a Ticket
-      MappingInbound: {}
-      MappingOutbound: {}
-      Type: Ticket::TicketHistoryGet
   Transport:
     Config:
       KeepAlive: ''
@@ -71,6 +71,10 @@ Provider:
           RequestMethod:
           - GET
           Route: /TicketList
+        TicketHistoryGet:
+          RequestMethod:
+          - GET
+          Route: /TicketHistory/:TicketID
         TicketSearch:
           RequestMethod:
           - GET
@@ -79,13 +83,8 @@ Provider:
           RequestMethod:
           - PATCH
           Route: /Ticket/:TicketID
-        TicketHistoryGet:
-          RequestMethod:
-          - GET
-          Route: /TicketHistory/:TicketID
     Type: HTTP::REST
 RemoteSystem: ''
 Requester:
   Transport:
     Type: ''
-

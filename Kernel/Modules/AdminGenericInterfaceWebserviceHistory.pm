@@ -28,13 +28,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $WebserviceHistoryID = $ParamObject->GetParam( Param => 'WebserviceHistoryID' );
     my $WebserviceID        = $ParamObject->GetParam( Param => 'WebserviceID' );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$WebserviceID ) {
@@ -43,7 +41,7 @@ sub Run {
         );
     }
 
-    # send data to JS
+    # Send data to JS.
     $LayoutObject->AddJSData(
         Key   => 'WebserviceID',
         Value => $WebserviceID
@@ -83,7 +81,7 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'Rollback' ) {
 
-        # challenge token check for write action
+        # Challenge token check for write action.
         $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_RollbackWebserviceHistory(
@@ -94,7 +92,7 @@ sub Run {
         );
     }
 
-    # default: show start screen
+    # Default: show start screen.
     return $Self->_ShowScreen(
         %Param,
         WebserviceID   => $WebserviceID,
@@ -105,7 +103,6 @@ sub Run {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $Output = $LayoutObject->Header();
@@ -129,7 +126,7 @@ sub _GetWebserviceList {
         WebserviceID => $Param{WebserviceID},
     );
 
-    # get web service history object
+    # Get web service history object.
     my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
     my @List                    = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => $Param{WebserviceID},
@@ -137,7 +134,7 @@ sub _GetWebserviceList {
 
     my @LogData;
 
-    # get web service history info
+    # Get web service history info.
     for my $Key (@List) {
         my $WebserviceHistory = $WebserviceHistoryObject->WebserviceHistoryGet(
             ID => $Key,
@@ -146,17 +143,16 @@ sub _GetWebserviceList {
         push @LogData, $WebserviceHistory;
     }
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build JSON output
+    # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => \@LogData,
         },
     );
 
-    # send JSON response
+    # Send JSON response.
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
@@ -185,33 +181,89 @@ sub _GetWebserviceHistoryDetails {
         ID => $WebserviceHistoryID,
     );
 
-    # change password string for asterisks
-    for my $CommunicationType (qw(Provider Requester)) {
-        if (
-            defined $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}->{Password}
-            )
-        {
-            $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}->{Password}
-                = $PasswordMask;
-        }
+    # Mask password strings.
+    if (
+        IsStringWithData(
+            $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication}->{BasicAuthPassword}
+        )
+        )
+    {
+        $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication}->{BasicAuthPassword} = $PasswordMask;
+    }
+    if (
+        IsStringWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{Proxy}->{ProxyPassword} )
+        )
+    {
+        $LogData->{Config}->{Requester}->{Transport}->{Config}->{Proxy}->{ProxyPassword} = $PasswordMask;
+    }
+    if (
+        IsStringWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL}->{SSLPassword} )
+        )
+    {
+        $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL}->{SSLPassword} = $PasswordMask;
     }
 
-    # dump config
+    # For compatibility (web services changed before OTRS 6).
+    if (
+        IsStringWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication}->{Password} )
+        )
+    {
+        $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication}->{Password} = $PasswordMask;
+    }
+    elsif (
+        !IsHashRefWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication} )
+        )
+    {
+        delete $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication};
+    }
+    if (
+        IsStringWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL}->{SSLProxyPassword} )
+        )
+    {
+        $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL}->{SSLProxyPassword} = $PasswordMask;
+    }
+    if (
+        IsStringWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL}->{SSLP12Password} )
+        )
+    {
+        $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL}->{SSLP12Password} = $PasswordMask;
+    }
+
+    # Remove structure added by auto-vivification.
+    if (
+        !IsHashRefWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication} )
+        )
+    {
+        delete $LogData->{Config}->{Requester}->{Transport}->{Config}->{Authentication};
+    }
+    if (
+        !IsHashRefWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{Proxy} )
+        )
+    {
+        delete $LogData->{Config}->{Requester}->{Transport}->{Config}->{Proxy};
+    }
+    if (
+        !IsHashRefWithData( $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL} )
+        )
+    {
+        delete $LogData->{Config}->{Requester}->{Transport}->{Config}->{SSL};
+    }
+
+    # Dump config.
     $LogData->{Config} = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
         Data => $LogData->{Config},
     );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build JSON output
+    # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => $LogData,
         },
     );
 
-    # send JSON response
+    # Send JSON response.
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
@@ -223,7 +275,6 @@ sub _GetWebserviceHistoryDetails {
 sub _ExportWebserviceHistory {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$Param{WebserviceHistoryID} ) {
@@ -239,20 +290,21 @@ sub _ExportWebserviceHistory {
         ID => $WebserviceHistoryID,
         );
 
-    # check for valid web service configuration
+    # Check for valid web service configuration.
     if ( !IsHashRefWithData($WebserviceHistoryData) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
+            Message =>
+                $LayoutObject->{LanguageObject}
                 ->Translate( 'Could not get history data for WebserviceHistoryID %s', $WebserviceHistoryID ),
         );
     }
 
-    # dump configuration into a YAML structure
+    # Dump configuration into a YAML structure.
     my $YAMLContent = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
         Data => $WebserviceHistoryData->{Config},
     );
 
-    # return YAML to download
+    # Return YAML to download.
     my $YAMLFile = $Param{WebserviceData}->{Name} || 'yamlfile';
     return $LayoutObject->Attachment(
         Filename    => $YAMLFile . '.yml',
@@ -264,7 +316,6 @@ sub _ExportWebserviceHistory {
 sub _RollbackWebserviceHistory {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$Param{WebserviceHistoryID} ) {

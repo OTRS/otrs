@@ -26,9 +26,9 @@ $Selenium->RunTest(
 
         # define needed variables
         my $RandomID       = $Helper->GetRandomID();
-        my $WebserviceName = "Selenium $RandomID webservice";
+        my $WebserviceName = "Selenium $RandomID web service";
 
-        # create test webservice
+        # create test web service
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config => {
                 Debugger => {
@@ -48,7 +48,7 @@ $Selenium->RunTest(
 
         $Self->True(
             $WebserviceID,
-            "Webservice ID $WebserviceID is created"
+            "Web service ID $WebserviceID is created"
         );
 
         # create debugger object
@@ -110,7 +110,7 @@ $Selenium->RunTest(
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click on created webservice
+        # click on created web service
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # click on 'Debugger' button
@@ -123,7 +123,7 @@ $Selenium->RunTest(
 
         for my $ID (
             qw(DeleteButton FilterType_Search FilterFromMonth FilterFromDay FilterFromYear FilterFromDayDatepickerIcon
-            FilterToMonth FilterToDay FilterToYear FilterRemoteIP FilterLimit_Search FilterRefresh)
+            FilterToMonth FilterToDay FilterToYear FilterRemoteIP FilterLimit_Search FilterSort FilterRefresh)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -160,6 +160,12 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('#CommunicationDetails:visible').length;"),
             0,
             "Communication details are not visible"
+        );
+
+        # wait if necessary
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && !$(".RequestListWidget.Loading").length'
         );
 
         # verify Provider log is present in table
@@ -230,14 +236,14 @@ $Selenium->RunTest(
             "Debugger log table is empty after clear"
         );
 
-        # delete test created webservice
+        # delete test created web service
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => 1,
         );
         $Self->True(
             $Success,
-            "Webservice ID $WebserviceID is deleted"
+            "Web service ID $WebserviceID is deleted"
         );
 
         # make sure cache is correct

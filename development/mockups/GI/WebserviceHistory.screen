@@ -10,31 +10,31 @@
   <widgets xsi:type="model:Text" x="20" y="245" width="217" height="50" measuredWidth="217" measuredHeight="50" dummyText="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="20" y="125" width="218" text="Back to webservice details" measuredWidth="218" measuredHeight="23" link="WebServiceDetails.screen">
+  <widgets xsi:type="model:Button" x="20" y="125" width="218" text="Back to web service details" measuredWidth="218" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="26" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
-  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details > Webservice History" locked="true" measuredWidth="506" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="20" y="62" text="GI > Services > *Lanxess Solman* > Details > Web Service History" locked="true" measuredWidth="506" measuredHeight="26">
     <font size="16" bold="false"/>
   </widgets>
   <widgets xsi:type="model:Icon" x="720" y="632" measuredWidth="16" measuredHeight="16" icon="internet (small)"/>
-  <widgets xsi:type="model:Label" x="294" y="136" text="Select webservice entry" measuredWidth="186" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="294" y="136" text="Select web service entry" measuredWidth="186" measuredHeight="26">
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Table" x="295" y="175" width="568" text="Name, Time, Created By&#xA;WebserviceName, 2011-03-23 12:23, Someone&#xA;WebserviceName, 2011-03-23 12:24, Someone&#xA;WebserviceName, 2011-03-23 12:25, Someone&#xA;WebserviceName, 2011-03-23 12:28, Someone&#xA;WebserviceName, 2011-03-23 12:30, Someone" measuredWidth="568" measuredHeight="124" selection="0" verticalScrollbar="true">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="294" y="320" text="Webservice detail" measuredWidth="140" measuredHeight="26">
+  <widgets xsi:type="model:Label" x="294" y="320" text="Web service detail" measuredWidth="140" measuredHeight="26">
     <font size="16"/>
   </widgets>
-  <widgets xsi:type="model:Accordion" x="296" y="352" width="567" height="329" text="Webservice history detail" measuredWidth="567" measuredHeight="329" selection="0">
-    <items x="0" y="2" width="567" height="24" text="Webservice history detail"/>
+  <widgets xsi:type="model:Accordion" x="296" y="352" width="567" height="329" text="Web service history detail" measuredWidth="567" measuredHeight="329" selection="0">
+    <items x="0" y="2" width="567" height="24" text="Web service history detail"/>
   </widgets>
   <widgets xsi:type="model:Arrow" x="571" y="136" width="82" height="37" measuredWidth="82" measuredHeight="37" direction="bottom"/>
-  <widgets xsi:type="model:Note" x="622" y="104" text="Here you have to select one webservice&#xA;entry to be shown. The area below updates via&#xA;AJAX." measuredWidth="259" measuredHeight="49">
+  <widgets xsi:type="model:Note" x="622" y="104" text="Here you have to select one web service&#xA;entry to be shown. The area below updates via&#xA;AJAX." measuredWidth="259" measuredHeight="49">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Button" x="704" y="632" text="Export webservice" measuredWidth="117" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="704" y="632" text="Export web service" measuredWidth="117" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Rectangle" x="344" y="504" width="495" height="120" text="The YAML file" measuredWidth="495" measuredHeight="120" alpha="192" textAlignment="Left">
@@ -55,7 +55,7 @@
   <widgets xsi:type="model:Label" x="524" y="432" text="Administrator" measuredWidth="79" measuredHeight="21">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Label" x="524" y="400" text="Old webservice" measuredWidth="86" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="524" y="400" text="Old web service" measuredWidth="86" measuredHeight="21">
     <font/>
   </widgets>
   <hRuler>

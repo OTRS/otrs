@@ -164,26 +164,78 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPSOAP = (function (TargetNS) {
         // bind change function to SOAP Action field
         $('#SOAPAction').on('change', function(){
             if ($(this).val() === 'Yes') {
-                $('.SOAPActionField').removeClass('Hidden');
+                $('.SOAPActionSchemeField').removeClass('Hidden');
+                $('#SOAPActionScheme').addClass('Validate_Required');
+
+                if ($('#SOAPActionScheme').val() === 'SeparatorOperation' || $('#SOAPActionScheme').val() === 'NameSpaceSeparatorOperation') {
+                    $('.SOAPActionSeparatorField').removeClass('Hidden');
+                    $('#SOAPActionSeparatorText').addClass('Validate_Required');
+                }
+                else if ($('#SOAPActionScheme').val() === 'FreeText') {
+                    $('.SOAPActionFreeTextField').removeClass('Hidden');
+                    $('#SOAPActionFreeText').addClass('Validate_Required');
+                }
+                Core.UI.InputFields.Init();
             }
             else {
-                $('.SOAPActionField').addClass('Hidden');
+                $('.SOAPActionSchemeField').addClass('Hidden');
+                $('#SOAPActionScheme').removeClass('Validate_Required');
+                $('.SOAPActionSeparatorField').addClass('Hidden');
+                $('#SOAPActionSeparatorText').removeClass('Validate_Required');
+                $('.SOAPActionFreeTextField').addClass('Hidden');
+                $('#SOAPActionFreeText').removeClass('Validate_Required');
+            }
+        });
+
+        // bind change function to SOAP Action scheme field
+        $('#SOAPActionScheme').on('change', function(){
+            if ($(this).val() === 'SeparatorOperation' || $(this).val() === 'NameSpaceSeparatorOperation') {
+                $('.SOAPActionSeparatorField').removeClass('Hidden');
+                $('#SOAPActionSeparatorText').addClass('Validate_Required');
+                $('.SOAPActionFreeTextField').addClass('Hidden');
+                $('#SOAPActionFreeText').removeClass('Validate_Required');
+                Core.UI.InputFields.Init();
+            }
+            else if ($(this).val() === 'FreeText') {
+                $('.SOAPActionFreeTextField').removeClass('Hidden');
+                $('#SOAPActionFreeText').addClass('Validate_Required');
+                $('.SOAPActionSeparatorField').addClass('Hidden');
+                $('#SOAPActionSeparatorText').removeClass('Validate_Required');
+                Core.UI.InputFields.Init();
+            }
+            else {
+                $('.SOAPActionFreeTextField').addClass('Hidden');
+                $('#SOAPActionFreeText').removeClass('Validate_Required');
+                $('.SOAPActionSeparatorField').addClass('Hidden');
+                $('#SOAPActionSeparatorText').removeClass('Validate_Required');
             }
         });
 
         // bind change function to Authentication field
-        $('#Authentication').on('change', function(){
+        $('#AuthType').on('change', function(){
             if ($(this).val() === 'BasicAuth') {
                 $('.BasicAuthField').removeClass('Hidden');
-                $('.BasicAuthField').find('#UserName').each(function(){
+                $('.BasicAuthField').find('#BasicAuthUser').each(function(){
                     $(this).addClass('Validate_Required');
                 });
             }
             else {
                 $('.BasicAuthField').addClass('Hidden');
-                $('.BasicAuthField').find('#User').each(function(){
+                $('.BasicAuthField').find('#BasicAuthUser').each(function(){
                     $(this).removeClass('Validate_Required');
                 });
+            }
+        });
+
+        // bind change function to Use Proxy field
+        $('#UseProxy').on('change', function(){
+            if ($(this).val() === 'Yes') {
+                $('.ProxyField').removeClass('Hidden');
+                $('#ProxyExclude').addClass('Validate_Required');
+                Core.UI.InputFields.Activate($('.ProxyField'));
+            }
+            else {
+                $('.ProxyField').addClass('Hidden');
             }
         });
 
@@ -191,22 +243,10 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPSOAP = (function (TargetNS) {
         $('#UseSSL').on('change', function(){
             if ($(this).val() === 'Yes') {
                 $('.SSLField').removeClass('Hidden');
-                $('.SSLField').find('#SSLP12Certificate').each(function(){
-                    $(this).addClass('Validate_Required');
-                });
-                $('.SSLField').find('#SSLP12Password').each(function(){
-                    $(this).addClass('Validate_Required');
-                });
             }
 
             else {
                 $('.SSLField').addClass('Hidden');
-                $('.SSLField').find('#SSLP12Certificate').each(function(){
-                    $(this).removeClass('Validate_Required');
-                });
-                $('.SSLField').find('#SSLP12Password').each(function(){
-                    $(this).removeClass('Validate_Required');
-                });
             }
         });
 
@@ -229,11 +269,6 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPSOAP = (function (TargetNS) {
         $('.ValueRemove').on('click', function () {
             TargetNS.RemoveValue($(this).attr('id'));
             return false;
-        });
-
-        // bind click function to Save and finish button
-        $('#SaveAndFinishButton').on('click', function(){
-            $('#ReturnToWebservice').val(1);
         });
 
         Core.Agent.SortedTree.Init($('.SortableList'), $('#TransportConfigForm'), $('#Sort'), Core.Config.Get('SortData'));

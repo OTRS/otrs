@@ -66,6 +66,9 @@
                     <input type="hidden" name="Operation" value="[% Data.Operation | html %]" />
                     <input type="hidden" name="Invoker" value="[% Data.Invoker | html %]" />
                     <input type="hidden" name="Direction" value="[% Data.Direction | html %]"/>
+                    [% IF Data.Subaction == 'Change' %]
+                        <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+                    [% END %]
                     <fieldset class="TableLike SpacingTop">
                         <label for="Template">[% Translate("Template") | html %]:</label>
                         <div class="Field">
@@ -78,16 +81,18 @@
                         <div class="Clear Spacing"></div>
                     </fieldset>
                     <fieldset class="TableLike">
-                        <div class="Field Spacing">
-                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
-
-                            <button type="submit" class="CallForAction" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                            <input autocomplete="off" type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
-
+                        <div class="Field SpacingTop">
+                            [% IF Data.Subaction == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
-                            <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                            <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
-
+                        <div class="Clear"></div>
                     </fieldset>
                     <div class="Clear"></div>
 

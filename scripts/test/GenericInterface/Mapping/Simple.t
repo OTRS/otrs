@@ -42,7 +42,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
             },
         },
     },
-    Name    => "$RandomID webservice",
+    Name    => "$RandomID web service",
     ValidID => 1,
     UserID  => 1,
 );

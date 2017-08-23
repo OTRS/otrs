@@ -27,7 +27,7 @@ $Selenium->RunTest(
         # define needed variable
         my $RandomID = $Helper->GetRandomID();
 
-        # create test webservice
+        # create test web service
         my $WebserviceID = $WebserviceObject->WebserviceAdd(
             Config => {
                 Debugger => {
@@ -40,14 +40,14 @@ $Selenium->RunTest(
                     },
                 },
             },
-            Name    => "Selenium $RandomID webservice",
+            Name    => "Selenium $RandomID web service",
             ValidID => 1,
             UserID  => 1,
         );
 
         $Self->True(
             $WebserviceID,
-            "Webservice ID $WebserviceID is created"
+            "Web service ID $WebserviceID is created"
         );
 
         # create debugger object
@@ -89,7 +89,7 @@ $Selenium->RunTest(
             "Breadcrumb is found on Overview screen.",
         );
 
-        # click on created webservice
+        # click on created web service
         $Selenium->find_element("//a[contains(\@href, 'WebserviceID=$WebserviceID')]")->VerifiedClick();
 
         # select 'Ticket::TicketCreate' as option
@@ -103,7 +103,7 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#MappingInbound").length === 1 && $("#MappingOutbound").length === 1;'
         );
 
-        # create webservice operation
+        # create web service operation
         $Selenium->find_element( "#Operation", 'css' )->send_keys('SeleniumOperation');
 
         # select simple mapping for inbound and outbound data
@@ -120,7 +120,7 @@ $Selenium->RunTest(
         );
 
         # submit operation
-        $Selenium->find_element("//button[\@value='Save and continue']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Verify ticket data option.
         $Self->Is(
@@ -148,7 +148,7 @@ $Selenium->RunTest(
                 Text => 'Web Service Management',
             },
             {
-                Text => "Selenium $RandomID webservice",
+                Text => "Selenium $RandomID web service",
             },
             {
                 Text => 'Operation: SeleniumOperation',
@@ -199,7 +199,7 @@ $Selenium->RunTest(
             );
 
             # submit and check client side validation on MapTo fields
-            $Selenium->find_element("//button[\@value='Save']")->click();
+            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             $Self->Is(
                 $Selenium->execute_script(
@@ -220,7 +220,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AddValueMapping1", 'css' )->click();
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save']")->click();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # verify key and value mapping fields and check client side validation
         for my $MapFields (qw(KeyName1 KeyMapNew1 ValueName1_1 ValueMapNew1_1)) {
@@ -238,7 +238,7 @@ $Selenium->RunTest(
         }
 
         # click on 'Save'
-        $Selenium->find_element("//button[\@value='Save']")->VerifiedClick();
+        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
 
         # verify after 'Save' click it is the same screen
         $Self->True(
@@ -247,7 +247,7 @@ $Selenium->RunTest(
         );
 
         # click on 'Save and finish' test JS redirection
-        $Selenium->find_element("//button[\@value='Save and finish']")->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->True(
             $Selenium->get_current_url() =~ /AdminGenericInterfaceOperationDefault/,
@@ -275,14 +275,14 @@ $Selenium->RunTest(
             );
         }
 
-        # delete test created webservice
+        # delete test created web service
         my $Success = $WebserviceObject->WebserviceDelete(
             ID     => $WebserviceID,
             UserID => 1,
         );
         $Self->True(
             $Success,
-            "Webservice ID $WebserviceID is deleted"
+            "Web service ID $WebserviceID is deleted"
         );
 
         # make sure cache is correct

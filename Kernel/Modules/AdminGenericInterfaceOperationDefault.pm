@@ -28,11 +28,14 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $WebserviceID
-        = int( $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'WebserviceID' ) || 0 );
-
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $WebserviceID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'WebserviceID' );
+    if ( !IsStringWithData($WebserviceID) ) {
+        return $LayoutObject->ErrorScreen(
+            Message => Translatable('Need WebserviceID!'),
+        );
+    }
 
     if ( !$WebserviceID ) {
         return $LayoutObject->ErrorScreen(
@@ -66,7 +69,7 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
-        # challenge token check for write action
+        # Challenge token check for write action.
         $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_AddAction(
@@ -84,7 +87,7 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
-        # challenge token check for write action
+        # Challenge token check for write action.
         $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_ChangeAction(
@@ -95,7 +98,7 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'DeleteAction' ) {
 
-        # challenge token check for write action
+        # Challenge token check for write action.
         $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_DeleteAction(
@@ -115,7 +118,6 @@ sub _Add {
 
     my $OperationType = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'OperationType' );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$OperationType ) {
@@ -131,7 +133,7 @@ sub _Add {
 
     return $Self->_ShowScreen(
         %Param,
-        Mode           => 'Add',
+        Action         => 'Add',
         WebserviceID   => $WebserviceID,
         WebserviceData => $WebserviceData,
         WebserviceName => $WebserviceData->{Name},
@@ -148,7 +150,6 @@ sub _AddAction {
     my %Errors;
     my %GetParam;
 
-    # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     for my $Needed (qw(Operation OperationType)) {
@@ -158,15 +159,14 @@ sub _AddAction {
         }
     }
 
-    # name already exists, bail out
+    # Name already exists, bail out.
     if ( exists $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } ) {
         $Errors{OperationServerError} = 'ServerError';
     }
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # uncorrectable errors
+    # Uncorrectable errors.
     if ( !$GetParam{OperationType} ) {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Need OperationType'),
@@ -179,7 +179,7 @@ sub _AddAction {
         );
     }
 
-    # validation errors
+    # Validation errors.
     if (%Errors) {
 
         # get the description from the web request to send it back again to the screen
@@ -191,7 +191,7 @@ sub _AddAction {
             %Param,
             %GetParam,
             %Errors,
-            Mode            => 'Add',
+            Action          => 'Add',
             WebserviceID    => $WebserviceID,
             WebserviceData  => $WebserviceData,
             WebserviceName  => $WebserviceData->{Name},
@@ -224,7 +224,7 @@ sub _AddAction {
         };
     }
 
-    # check if Operation already exists
+    # Check if Operation already exists.
     if ( !$WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } ) {
         $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } = $Config;
 
@@ -250,7 +250,6 @@ sub _Change {
 
     my $Operation = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Operation' );
 
-    # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$Operation ) {
@@ -276,7 +275,7 @@ sub _Change {
 
     return $Self->_ShowScreen(
         %Param,
-        Mode            => 'Change',
+        Action          => 'Change',
         WebserviceID    => $WebserviceID,
         WebserviceData  => $WebserviceData,
         WebserviceName  => $WebserviceData->{Name},
@@ -328,10 +327,10 @@ sub _ChangeAction {
 
     my $OperationConfig = $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{OldOperation} };
 
-    # Operation was renamed, avoid conflicts
+    # Operation was renamed, avoid conflicts.
     if ( $GetParam{OldOperation} ne $GetParam{Operation} ) {
 
-        # New name already exists, bail out
+        # New name already exists, bail out.
         if ( exists $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } ) {
             $Errors{OperationServerError} = 'ServerError';
         }
@@ -348,7 +347,7 @@ sub _ChangeAction {
             %Param,
             %GetParam,
             %Errors,
-            Mode            => 'Change',
+            Action          => 'Change',
             WebserviceID    => $WebserviceID,
             WebserviceData  => $WebserviceData,
             WebserviceName  => $WebserviceData->{Name},
@@ -404,14 +403,29 @@ sub _ChangeAction {
         UserID => $Self->{UserID},
     );
 
-    # Save button: stay in edit mode.
-    my $RedirectURL
-        = "Action=AdminGenericInterfaceOperationDefault;Subaction=Change;WebserviceID=$WebserviceID;Operation=$GetParam{Operation}";
+    # If the user would like to continue editing the invoker config, just redirect to the edit screen.
+    my $RedirectURL;
+    if (
+        defined $ParamObject->GetParam( Param => 'ContinueAfterSave' )
+        && ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' )
+        )
+    {
+        $RedirectURL =
+            'Action='
+            . $Self->{Action}
+            . ';Subaction=Change;WebserviceID='
+            . $WebserviceID
+            . ';Operation='
+            . $LayoutObject->LinkEncode( $GetParam{Operation} )
+            . ';';
+    }
+    else {
 
-    # Save and finish button: go to web service.
-    if ( $ParamObject->GetParam( Param => 'ReturnToWebservice' ) ) {
-        $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
-
+        # Otherwise return to overview.
+        $RedirectURL =
+            'Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID='
+            . $WebserviceID
+            . ';';
     }
 
     return $LayoutObject->Redirect(
@@ -447,14 +461,14 @@ sub _DeleteAction {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # build JSON output
+    # Build JSON output.
     my $JSON = $LayoutObject->JSONEncode(
         Data => {
             Success => $Success,
         },
     );
 
-    # send JSON response
+    # Send JSON response.
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
@@ -466,13 +480,13 @@ sub _DeleteAction {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
+    # Get layout object.
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
 
-    # send data to JS
+    # Send data to JS.
     if ( $Param{Operation} ) {
         $LayoutObject->AddJSData(
             Key   => 'Operation',
@@ -482,18 +496,13 @@ sub _ShowScreen {
 
     my %TemplateData;
 
-    if ( $Param{Mode} eq 'Add' ) {
+    if ( $Param{Action} eq 'Add' ) {
         $TemplateData{OperationType} = $Param{OperationType};
 
     }
-    elsif ( $Param{Mode} eq 'Change' ) {
+    elsif ( $Param{Action} eq 'Change' ) {
         $LayoutObject->Block(
             Name => 'ActionListDelete',
-            Data => \%Param
-        );
-
-        $LayoutObject->Block(
-            Name => 'SaveAndFinishButton',
             Data => \%Param
         );
 
@@ -504,7 +513,7 @@ sub _ShowScreen {
 
     my $Mappings = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Mapping::Module') || {};
 
-    # Inbound mapping
+    # Inbound mapping.
     my @MappingList = sort keys %{$Mappings};
 
     my $MappingInbound = $Self->_MappingTypeCheck( MappingType => $Param{MappingInbound} )
@@ -524,7 +533,7 @@ sub _ShowScreen {
         $TemplateData{MappingInboundConfigDialog} = $Mappings->{$MappingInbound}->{ConfigDialog};
     }
 
-    if ( $TemplateData{MappingInboundConfigDialog} && $Param{Mode} eq 'Change' ) {
+    if ( $TemplateData{MappingInboundConfigDialog} && $Param{Action} eq 'Change' ) {
         $LayoutObject->Block(
             Name => 'MappingInboundConfigureButton',
             Data => {
@@ -534,7 +543,7 @@ sub _ShowScreen {
         );
     }
 
-    # Outbound mapping
+    # Outbound mapping.
     my $MappingOutbound = $Self->_MappingTypeCheck( MappingType => $Param{MappingOutbound} )
         ? $Param{MappingOutbound}
         : '';
@@ -552,7 +561,7 @@ sub _ShowScreen {
         $TemplateData{MappingOutboundConfigDialog} = $Mappings->{$MappingOutbound}->{ConfigDialog};
     }
 
-    if ( $TemplateData{MappingOutboundConfigDialog} && $Param{Mode} eq 'Change' ) {
+    if ( $TemplateData{MappingOutboundConfigDialog} && $Param{Action} eq 'Change' ) {
         $LayoutObject->Block(
             Name => 'MappingOutboundConfigureButton',
             Data => {
@@ -588,7 +597,7 @@ sub _ShowScreen {
     return $Output;
 }
 
-# =item _OperationTypeCheck()
+# =head2 _OperationTypeCheck()
 #
 # checks if a given OperationType is registered in the system.
 #
@@ -605,7 +614,7 @@ sub _OperationTypeCheck {
     return ref $Operations->{ $Param{OperationType} } eq 'HASH' ? 1 : 0;
 }
 
-# =item _MappingTypeCheck()
+# =head2 _MappingTypeCheck()
 #
 # checks if a given MappingType is registered in the system.
 #

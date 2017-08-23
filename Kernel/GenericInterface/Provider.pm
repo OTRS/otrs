@@ -18,7 +18,7 @@ use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
 use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::VariableCheck (qw(IsHashRefWithData));
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::GenericInterface::Provider - handler for incoming webservice requests.
+Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
 =head1 PUBLIC INTERFACE
 
@@ -42,7 +42,7 @@ Don't use the constructor directly, use the ObjectManager instead:
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
+    # Allocate new hash for object.
     my $Self = {};
     bless( $Self, $Type );
 
@@ -51,9 +51,8 @@ sub new {
 
 =head2 Run()
 
-receives the current incoming web service request, handles it,
-and returns an appropriate answer based on the configured requested
-web service.
+Receives the current incoming web service request, handles it,
+and returns an appropriate answer based on the requested web service.
 
     # put this in the handler script
     $ProviderObject->Run();
@@ -63,64 +62,66 @@ web service.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    #
-    # First, we need to locate the desired webservice and load its configuration data.
-    #
-
-    my $Webservice;
-
-    # on Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
+    # On Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
     my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
 
-    my ($WebserviceID) = $RequestURI =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
+    #
+    # Locate and verify the desired web service based on the request URI and load its configuration data.
+    #
 
-    if ($WebserviceID) {
-
-        $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
-            ID => $WebserviceID,
-        );
-
-    }
-    else {
-
-        my ($WebserviceName) = $RequestURI =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
-
-        if ( !$WebserviceName ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Could not determine WebserviceID from query string $RequestURI",
-            );
-
-            return;    # bail out without Transport, Apache will generate 500 Error
-        }
-
-        $WebserviceName = URI::Escape::uri_unescape($WebserviceName);
-
-        $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
-            Name => $WebserviceName,
+    # Check RequestURI for a web service by id or name.
+    my %WebserviceGetData;
+    if (
+        $RequestURI
+        && $RequestURI
+        =~ m{ nph-genericinterface[.]pl/ (?: WebserviceID/ (?<ID> \d+ ) | Webservice/ (?<Name> [^/?]+ ) ) }smx
+        )
+    {
+        %WebserviceGetData = (
+            ID   => $+{ID},
+            Name => $+{Name} ? URI::Escape::uri_unescape( $+{Name} ) : undef,
         );
     }
 
+    # URI is empty or invalid.
+    if ( !%WebserviceGetData ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not determine WebserviceID or Webservice from query string '$RequestURI'",
+        );
+        return;    # bail out without Transport, Apache will generate 500 Error
+    }
+
+    # Check if requested web service exists and is valid.
+    my $WebserviceObject      = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $WebserviceList        = $WebserviceObject->WebserviceList();
+    my %WebserviceListReverse = reverse %{$WebserviceList};
+    if (
+        $WebserviceGetData{Name}  && !$WebserviceListReverse{ $WebserviceGetData{Name} }
+        || $WebserviceGetData{ID} && !$WebserviceList->{ $WebserviceGetData{ID} }
+        )
+    {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not find valid web service for query string '$RequestURI'",
+        );
+        return;    # bail out without Transport, Apache will generate 500 Error
+    }
+
+    my $Webservice = $WebserviceObject->WebserviceGet(%WebserviceGetData);
     if ( !IsHashRefWithData($Webservice) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
-                "Could not load web service configuration for web service at $RequestURI",
+                "Could not load web service configuration for query string '$RequestURI'",
         );
-
         return;    # bail out without Transport, Apache will generate 500 Error
     }
 
-    $WebserviceID = $Webservice->{ID};
-
-    #
-    # Create a debugger instance which will log the details of this
-    #   communication entry.
-    #
-
+    # Create a debugger instance which will log the details of this communication entry.
     my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
         DebuggerConfig    => $Webservice->{Config}->{Debugger},
-        WebserviceID      => $WebserviceID,
+        WebserviceID      => $Webservice->{ID},
         CommunicationType => 'Provider',
         RemoteIP          => $ENV{REMOTE_ADDR},
     );
@@ -146,7 +147,7 @@ sub Run {
         TransportConfig => $ProviderConfig->{Transport},
     );
 
-    # bail out if transport init failed
+    # Bail out if transport initialization failed.
     if ( ref $Self->{TransportObject} ne 'Kernel::GenericInterface::Transport' ) {
 
         return $DebuggerObject->Error(
@@ -155,7 +156,7 @@ sub Run {
         );
     }
 
-    # read request content
+    # Read request content.
     my $FunctionResult = $Self->{TransportObject}->ProviderProcessRequest();
 
     # If the request was not processed correctly, send error to client.
@@ -178,7 +179,7 @@ sub Run {
     );
 
     #
-    # Map the incoming data based on the configured mapping
+    # Map the incoming data based on the configured mapping.
     #
 
     my $DataIn = $FunctionResult->{Data};
@@ -188,7 +189,7 @@ sub Run {
         Data    => $DataIn,
     );
 
-    # decide if mapping needs to be used or not
+    # Decide if mapping needs to be used or not.
     if (
         IsHashRefWithData( $ProviderConfig->{Operation}->{$Operation}->{MappingInbound} )
         )
@@ -201,7 +202,7 @@ sub Run {
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
 
-        # if mapping init failed, bail out
+        # If mapping initialization failed, bail out.
         if ( ref $MappingInObject ne 'Kernel::GenericInterface::Mapping' ) {
             $DebuggerObject->Error(
                 Summary => 'MappingIn could not be initialized',
@@ -242,20 +243,20 @@ sub Run {
         DebuggerObject => $DebuggerObject,
         Operation      => $Operation,
         OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-        WebserviceID   => $WebserviceID,
+        WebserviceID   => $Webservice->{ID},
     );
 
-    # if operation init failed, bail out
+    # If operation initialization failed, bail out.
     if ( ref $OperationObject ne 'Kernel::GenericInterface::Operation' ) {
         $DebuggerObject->Error(
             Summary => 'Operation could not be initialized',
             Data    => $OperationObject,
         );
 
-        # set default error message
+        # Set default error message.
         my $ErrorMessage = 'Unknown error in Operation initialization';
 
-        # check if we got an error message from the operation and overwrite it
+        # Check if we got an error message from the operation and overwrite it.
         if ( IsHashRefWithData($OperationObject) && $OperationObject->{ErrorMessage} ) {
             $ErrorMessage = $OperationObject->{ErrorMessage};
         }
@@ -289,7 +290,7 @@ sub Run {
         Data    => $DataOut,
     );
 
-    # decide if mapping needs to be used or not
+    # Decide if mapping needs to be used or not.
     if (
         IsHashRefWithData(
             $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound}
@@ -304,7 +305,7 @@ sub Run {
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
 
-        # if mapping init failed, bail out
+        # If mapping initialization failed, bail out
         if ( ref $MappingOutObject ne 'Kernel::GenericInterface::Mapping' ) {
             $DebuggerObject->Error(
                 Summary => 'MappingOut could not be initialized',
@@ -338,7 +339,7 @@ sub Run {
     }
 
     #
-    # Generate the actual response
+    # Generate the actual response.
     #
 
     $FunctionResult = $Self->{TransportObject}->ProviderGenerateResponse(

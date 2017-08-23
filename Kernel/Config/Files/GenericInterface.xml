@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_config version="1.0" init="Application">
     <ConfigItem Name="Ticket::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>Core::Event::Ticket</SubGroup>
         <Setting>
@@ -13,7 +13,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>Core::Event::Package</SubGroup>
         <Setting>
@@ -25,7 +25,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerCompany::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>Core::Event::CustomerCompany</SubGroup>
         <Setting>
@@ -37,7 +37,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerUser::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>Core::Event::CustomerUser</SubGroup>
         <Setting>
@@ -49,7 +49,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Queue::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>Core::Event::Queue</SubGroup>
         <Setting>
@@ -61,7 +61,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DynamicField::EventModulePost###9900-GenericInterface" Required="0" Valid="1">
-        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured web service.</Description>
         <Group>GenericInterface</Group>
         <SubGroup>Core::Event::DynamicField</SubGroup>
         <Setting>
@@ -178,7 +178,7 @@
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">GenericInterface Webservice History GUI</Title>
+                <Title Translatable="1">GenericInterface Web Service History GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
                     <JavaScript>Core.Agent.Admin.GenericInterfaceWebserviceHistory.js</JavaScript>
@@ -328,7 +328,7 @@
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">GenericInterface Webservice Mapping GUI</Title>
+                <Title Translatable="1">GenericInterface Web Service Mapping GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
                     <JavaScript>Core.Agent.Admin.GenericInterfaceMapping.js</JavaScript>
@@ -356,10 +356,9 @@
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">GenericInterface Webservice Mapping GUI</Title>
+                <Title Translatable="1">GenericInterface Web Service Mapping GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
-                    <JavaScript>Core.Agent.Admin.GenericInterfaceMappingXSLT.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

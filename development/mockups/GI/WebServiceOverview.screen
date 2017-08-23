@@ -6,7 +6,7 @@
     <font size="16"/>
   </widgets>
   <widgets xsi:type="model:Window" x="264" y="96" width="641" height="613" locked="true" measuredWidth="641" measuredHeight="613"/>
-  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Add Webservice" measuredWidth="217" measuredHeight="23" link="WebServiceDetails.screen">
+  <widgets xsi:type="model:Button" x="20" y="128" width="217" text="Add Web Service" measuredWidth="217" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Table" x="274" y="125" width="621" height="212" text="Name v,Description v,Remote System v,Protocol v,Valid&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]&#xA;Lanxess Solman,SAP Solman,SAP,SOAP,[x]&#xA;Statistik,Jaspersoft,Jasper,REST,[]" measuredWidth="621" measuredHeight="212" selection="0" horizontalLines="true">

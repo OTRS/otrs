@@ -44,7 +44,7 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="96" width="237" height="66" text="Navigation" measuredWidth="237" measuredHeight="66"/>
-  <widgets xsi:type="model:Button" x="20" y="127" width="218" text="Back to webservice overview" measuredWidth="218" measuredHeight="23" link="WebServiceOverview.screen">
+  <widgets xsi:type="model:Button" x="20" y="127" width="218" text="Back to web service overview" measuredWidth="218" measuredHeight="23" link="WebServiceOverview.screen">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="24" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>

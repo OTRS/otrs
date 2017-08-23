@@ -115,6 +115,13 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
                                             <div class="FieldExplanation">[% Translate("The file must be a valid web service configuration YAML file.") | html %]</div>
                                         </div>
                                         <div class="Clear"></div>
+
+                                        <label for="WebserviceName">[% Translate("Name") | html %]:</label>
+                                        <div class="Field">
+                                            <input id="WebserviceName" class="W100pc" type="text" maxlength="250" value="" name="WebserviceName" />
+                                            <div class="FieldExplanation">[% Translate("Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name.") | html %]</div>
+                                        </div>
+                                        <div class="Clear"></div>
                                     </fieldset>
                                 </form>
                             </div>
@@ -266,6 +273,9 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
             <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
+            [% IF Data.Action == 'Change' %]
+                <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+            [% END %]
             <div class="WidgetSimple">
                 <div class="Header">
                     <h2>[% Translate("General") | html %]</h2>
@@ -338,7 +348,7 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
                         <div class="Field">
                                     [% Data.TransportsStrg %]
 [% RenderBlockStart("DetailsTransportPropertiesButton") %]
-                            <button type="button" id="[% Data.CommunicationType | html %]TransportProperties" class="HideOnChange GenericInterfaceSpacing" value="Configure">[% Translate("Configure") | html %]</button>
+                            <button type="button" id="[% Data.CommunicationType | html %]TransportProperties" class="HideOnChange CallForAction Inline" value="Configure"><span>[% Translate("Configure") | html %]</span></button>
 [% RenderBlockEnd("DetailsTransportPropertiesButton") %]
                         </div>
                     </fieldset>
@@ -425,14 +435,15 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
                 <div class="Content">
                     <fieldset class="TableLike">
                         <div class="Field SpacingTop">
-                            <button type="submit" class="Primary CallForAction" value="[% Translate("Save and continue") | html %]"><span>[% Translate("Save") | html %]</span></button>
-[% RenderBlockStart("SaveAndFinishButton") %]
+                            [% IF Data.Action == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
                             [% Translate("or") | html %]
-                            <button type="submit" id="SaveAndFinishButton" class="CallForAction" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
-                            <input autocomplete="off" type="hidden" name="ReturnToWebservice" id="ReturnToWebservice" value="" />
-[% RenderBlockEnd("SaveAndFinishButton") %]
-                            [% Translate("or") | html %]
-                            <a href="[% Env("Baselink") %]Action=[% Env('Action') %]">[% Translate("Cancel") | html %]</a>
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %]"><span>[% Translate("Cancel") | html %]</span></a>
                         </div>
                         <div class="Clear"></div>
                     </fieldset>

@@ -2152,7 +2152,7 @@ sub _TicketUpdate {
         }
     }
 
-    # get webservice configuration
+    # get web service configuration
     my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
         ID => $Self->{WebserviceID},
     );

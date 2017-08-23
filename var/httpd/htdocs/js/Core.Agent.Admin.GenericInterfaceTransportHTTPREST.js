@@ -138,43 +138,41 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPREST = (function (TargetNS) {
     TargetNS.Init = function () {
 
         // bind change function to Authentication field
-        $('#Authentication').on('change', function(){
+        $('#AuthType').on('change', function(){
             if ($(this).val() === 'BasicAuth') {
                 $('.BasicAuthField').removeClass('Hidden');
-                $('.BasicAuthField').find('#User').each(function(){
+                $('.BasicAuthField').find('#BasicAuthUser').each(function(){
                     $(this).addClass('Validate_Required');
                 });
             }
             else {
                 $('.BasicAuthField').addClass('Hidden');
-                $('.BasicAuthField').find('#User').each(function(){
+                $('.BasicAuthField').find('#BasicAuthUser').each(function(){
                     $(this).removeClass('Validate_Required');
                 });
             }
         });
 
-        // bind change function to Use SSL option field
-        $('#UseX509').on('change', function(){
+        // bind change function to Use Proxy field
+        $('#UseProxy').on('change', function(){
             if ($(this).val() === 'Yes') {
-                $('.X509Field').removeClass('Hidden');
+                $('.ProxyField').removeClass('Hidden');
+                $('#ProxyExclude').addClass('Validate_Required');
+                Core.UI.InputFields.Activate($('.ProxyField'));
+            }
+            else {
+                $('.ProxyField').addClass('Hidden');
+            }
+        });
 
-                $('.X509Field').find('#X509CertFile').each(function(){
-                    $(this).addClass('Validate_Required');
-                });
-                $('.X509Field').find('#X509KeyFile').each(function(){
-                    $(this).addClass('Validate_Required');
-                });
+        // bind change function to Use SSL field
+        $('#UseSSL').on('change', function(){
+            if ($(this).val() === 'Yes') {
+                $('.SSLField').removeClass('Hidden');
             }
 
             else {
-                $('.X509Field').addClass('Hidden');
-
-                $('.X509Field').find('#X509CertFile').each(function(){
-                    $(this).removeClass('Validate_Required');
-                });
-                $('.X509Field').find('#X509KeyFile').each(function(){
-                    $(this).removeClass('Validate_Required');
-                });
+                $('.SSLField').addClass('Hidden');
             }
         });
 
@@ -197,11 +195,6 @@ Core.Agent.Admin.GenericInterfaceTransportHTTPREST = (function (TargetNS) {
         $('.ValueRemove').on('click', function () {
             TargetNS.RemoveValue($(this).attr('id'));
             return false;
-        });
-
-        // bind click function to save and finish button
-        $('#SaveAndFinishButton').on('click', function(){
-            $('#ReturnToWebservice').val(1);
         });
     };
 

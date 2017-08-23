@@ -44,7 +44,7 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="96" width="237" height="66" text="Navigation" measuredWidth="237" measuredHeight="66"/>
-  <widgets xsi:type="model:Button" x="20" y="127" width="218" text="Back to webservice overview" measuredWidth="218" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="20" y="127" width="218" text="Back to web service overview" measuredWidth="218" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="24" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
@@ -119,7 +119,7 @@
   <widgets xsi:type="model:Rectangle" y="52" width="1024" height="916" measuredWidth="1024" measuredHeight="916" background="#000000" alpha="128">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Window" x="294" y="387" height="193" text="Import webservice" measuredWidth="400" measuredHeight="193"/>
+  <widgets xsi:type="model:Window" x="294" y="387" height="193" text="Import web service" measuredWidth="400" measuredHeight="193"/>
   <widgets xsi:type="model:Label" x="339" y="458" text="* Name" measuredWidth="45" measuredHeight="21">
     <font/>
   </widgets>

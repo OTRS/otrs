@@ -10,6 +10,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
 use vars (qw($Self));
 
 ## no critic (Perl::Critic::Policy::Variables::RequireLocalizedPunctuationVars)
@@ -168,25 +170,63 @@ my @Tests = (
         ResponseData    => {},
         ResponseSuccess => 0,
     },
+    {
+        Name             => 'HTTP request (invalid web service)',
+        WebserviceConfig => {
+            Debugger => {
+                DebugThreshold => 'debug',
+            },
+            Provider => {
+                Transport => {
+                    Type   => 'HTTP::Test',
+                    Config => {
+                        Fail => 0,
+                    },
+                },
+                Operation => {
+                    test_operation => {
+                        Type           => 'Test::Test',
+                        MappingInbound => {
+                            Type => 'Test',
+                        },
+                        MappingOutbound => {
+                            Type => 'Test',
+                        },
+                    },
+                },
+            },
+        },
+        EarlyError  => 1,
+        RequestData => {
+            A => 'A',
+            b => '使用下列语言',
+            c => 'Языковые',
+            d => 'd',
+        },
+        ResponseData      => {},
+        ResponseSuccess   => 0,
+        InvalidWebservice => 1,
+    },
 );
 
 my $CreateQueryString = sub {
-    my ( $Self, %Param ) = @_;
+    my (%Param) = @_;
 
-    my $QueryString;
+    return '' if !IsHashRefWithData( $Param{Data} );
 
-    for my $Key ( sort keys %{ $Param{Data} || {} } ) {
-        $QueryString .= '&' if ($QueryString);
-        $QueryString .= $Param{Encode} ? URI::Escape::uri_escape_utf8($Key) : $Key;
-        if ( $Param{Data}->{$Key} ) {
-            $QueryString
-                .= "="
-                . (
-                $Param{Encode}
-                ? URI::Escape::uri_escape_utf8( $Param{Data}->{$Key} )
-                : $Param{Data}->{$Key}
-                );
+    my $QueryString = '';
+
+    KEY:
+    for my $Key ( sort keys %{ $Param{Data} } ) {
+        if ($QueryString) {
+            $QueryString .= ';';
         }
+        $QueryString .= $Param{Encode} ? URI::Escape::uri_escape_utf8($Key) : $Key;
+
+        next KEY if !$Param{Data}->{$Key};
+
+        $QueryString
+            .= '=' . ( $Param{Encode} ? URI::Escape::uri_escape_utf8( $Param{Data}->{$Key} ) : $Param{Data}->{$Key} );
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$QueryString );
@@ -209,6 +249,11 @@ if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
 # get objects
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $ProviderObject   = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
+my $ValidObject      = $Kernel::OM->Get('Kernel::System::Valid');
+
+my $InvalidID = $ValidObject->ValidLookup(
+    Valid => 'invalid',
+);
 
 for my $Test (@Tests) {
 
@@ -216,7 +261,7 @@ for my $Test (@Tests) {
     my $WebserviceID = $WebserviceObject->WebserviceAdd(
         Config  => $Test->{WebserviceConfig},
         Name    => "$Test->{Name} $RandomID",
-        ValidID => 1,
+        ValidID => $Test->{InvalidWebservice} ? $InvalidID : 1,
         UserID  => 1,
     );
 
@@ -250,7 +295,6 @@ for my $Test (@Tests) {
                     $ENV{REQUEST_URI}    = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess";
                     $ENV{REQUEST_METHOD} = 'POST';
                     $RequestData         = $CreateQueryString->(
-                        $Self,
                         Data   => $Test->{RequestData},
                         Encode => 0,
                     );
@@ -259,18 +303,15 @@ for my $Test (@Tests) {
                 }
                 else {    # GET
 
-                    # prepare CGI environment variables
-                    $ENV{REQUEST_URI} = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?"
-                        . $CreateQueryString->(
-                        $Self,
-                        Data   => $Test->{RequestData},
-                        Encode => 1,
-                        );
-                    $ENV{QUERY_STRING} = $CreateQueryString->(
-                        $Self,
+                    my $QueryString = $CreateQueryString->(
                         Data   => $Test->{RequestData},
                         Encode => 1,
                     );
+
+                    # prepare CGI environment variables
+                    $ENV{REQUEST_URI}
+                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?" . $QueryString;
+                    $ENV{QUERY_STRING}   = $QueryString;
                     $ENV{REQUEST_METHOD} = 'GET';
                 }
 
@@ -348,7 +389,6 @@ for my $Test (@Tests) {
                 my $Response;
                 my $ResponseData;
                 my $QueryString = $CreateQueryString->(
-                    $Self,
                     Data   => $Test->{RequestData},
                     Encode => 1,
                 );
@@ -407,7 +447,7 @@ for my $Test (@Tests) {
 }
 
 #
-# Test non existing webservice
+# Test non existing web service
 #
 for my $RequestMethod (qw(get post)) {
 
@@ -420,7 +460,7 @@ for my $RequestMethod (qw(get post)) {
     $Self->Is(
         $Response->code(),
         500,
-        "Non existing Webservice real HTTP $RequestMethod request result error status ($URL)",
+        "Non existing web service real HTTP $RequestMethod request result error status ($URL)",
     );
 }
 

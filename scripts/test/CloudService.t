@@ -32,7 +32,7 @@ my @Tests = (
         Success     => '0',
     },
     {
-        Name        => 'Test ' . $Index . '.- RequestData without Webservice',
+        Name        => 'Test ' . $Index . '.- RequestData without web service',
         RequestData => {
             '' => [
                 {

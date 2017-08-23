@@ -66,7 +66,7 @@ my $HistoryControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket
 
 # TicketGet Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
-#   - webservice
+#   - web service
 #   - transport
 #   - operations
 my $GetParams = {
@@ -101,7 +101,7 @@ else {
 
 # TicketSearch Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
-#   - webservice
+#   - web service
 #   - transport
 #   - operations
 my $SearchParams = {
@@ -138,7 +138,7 @@ else {
 
 # TicketCreate Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
-# - webservice
+# - web service
 # - transport
 # - operations
 my $CreateOrUpdateParams = {
@@ -194,7 +194,7 @@ else {
 
 # TicketUpdate Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
-#   - webservice
+#   - web service
 #   - transport
 #   - operations
 my $UpdateJSONParams = encode_json $CreateOrUpdateParams;
@@ -229,7 +229,7 @@ else {
 
 # TicketHistoryGet Example
 # See the documentation of OTRSGenericInterfaceREST on how to setup
-#   - webservice
+#   - web service
 #   - transport
 #   - operations
 my $HistoryParams = {

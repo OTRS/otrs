@@ -43,15 +43,15 @@ my $CustomerUserLogin    = $Helper->TestCustomerUserCreate();
 my $CustomerUserPassword = $CustomerUserLogin;
 my $CustomerUserID       = $CustomerUserLogin;
 
-# create webservice object
+# create web service object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
-    "Create webservice object",
+    "Create web service object",
 );
 
-# set webservice name
+# set web service name
 my $WebserviceName = '-Test-' . $RandomID;
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
@@ -71,13 +71,13 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
 );
 $Self->True(
     $WebserviceID,
-    "Added Webservice",
+    "Added web service",
 );
 
 # get remote host with some precautions for certain unit test systems
 my $Host = $Helper->GetTestHTTPHostname();
 
-# prepare webservice config
+# prepare web service config
 my $RemoteSystem =
     $ConfigObject->Get('HttpType')
     . '://'
@@ -118,6 +118,7 @@ my $WebserviceConfig = {
                 NameSpace => 'http://otrs.org/SoapTestInterface/',
                 Encoding  => 'UTF-8',
                 Endpoint  => $RemoteSystem,
+                Timeout   => 120,
             },
         },
         Invoker => {
@@ -128,7 +129,7 @@ my $WebserviceConfig = {
     },
 };
 
-# update webservice with real config
+# update web service with real config
 my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     ID      => $WebserviceID,
     Name    => $WebserviceName,
@@ -138,7 +139,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
 );
 $Self->True(
     $WebserviceUpdate,
-    "Updated Webservice $WebserviceID - $WebserviceName",
+    "Updated web service $WebserviceID - $WebserviceName",
 );
 
 my @Tests = (
@@ -331,7 +332,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - Create local object",
     );
 
-    # start requester with our webservice
+    # start requester with our web service
     my $LocalResult = $LocalObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
@@ -359,7 +360,7 @@ for my $Test (@Tests) {
         "$Test->{Name} - Create requester object",
     );
 
-    # start requester with our webservice
+    # start requester with our web service
     my $RequesterResult = $RequesterObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
@@ -436,14 +437,14 @@ for my $Test (@Tests) {
     }
 }
 
-# clean up webservice
+# clean up web service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
 $Self->True(
     $WebserviceDelete,
-    "Deleted Webservice $WebserviceID",
+    "Deleted web service $WebserviceID",
 );
 
 # cleanup sessions

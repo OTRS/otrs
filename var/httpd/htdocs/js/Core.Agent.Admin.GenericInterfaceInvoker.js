@@ -54,10 +54,6 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
             TargetNS.Redirect('MappingInbound');
         });
 
-        $('#SaveAndFinishButton').on('click', function(){
-            $('#ReturnToWebservice').val(1);
-        });
-
         $('.RegisterChange').on('change.RegisterChange keyup.RegisterChange', function () {
             $('.HideOnChange').hide();
             $('.ShowOnChange').show();

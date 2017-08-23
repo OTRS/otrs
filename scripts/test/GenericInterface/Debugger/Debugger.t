@@ -14,7 +14,7 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
 
-# get webservice object
+# get web service object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 # get helper object
@@ -39,7 +39,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
             },
         },
     },
-    Name    => "$RandomID webservice",
+    Name    => "$RandomID web service",
     ValidID => 1,
     UserID  => 1,
 );
@@ -272,7 +272,7 @@ for my $Test (@Tests) {
                 },
             },
         },
-        Name    => "$RandomID webservice",
+        Name    => "$RandomID web service",
         ValidID => 1,
         UserID  => 1,
     );

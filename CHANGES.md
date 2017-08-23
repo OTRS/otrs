@@ -1,4 +1,12 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-03-23 Added numerous Generic Interface improvements.
+     Updated default web service configurations.
+     Improved Authentication, Proxy and SSL handling in SOAP and REST transport.
+     Improved usability of debugger.
+     Added SOAPAction naming flexibility.
+     Improved SOAP output generation.
+     Prevent usage of invalid web services in provider.
+     Globally changed wording from 'webservice' to 'web service'.
  - 2017-08-23 Added a new mechanism to autoload Perl files to override existing functionality from custom packages (please see `Kernel/Autoload/Test.pm` for a demo).
  - 2017-08-21 Added new SysConfig setting 'Ticket::Frontend::UserDefaultQueue' to set a pre-selected queue for ticket creation. This is available in New Phone, Email and Process screens.
  - 2017-08-17 Fixed bug#[8301](https://bugs.otrs.org/show_bug.cgi?id=8301) - Unable to use Pending UntilTime in notifications.

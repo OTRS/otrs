@@ -842,6 +842,177 @@ my @Tests = (
             UserID  => 1,
         },
     },
+
+    {
+        Name          => 'test 27 - Upgrade configuration scheme for Migration from OTRS 5 to OTRS 6',
+        SuccessAdd    => 1,
+        SuccessUpdate => 1,
+        HistoryCount  => 2,
+        Add           => {
+            Config => {
+                Description => 'Test for auto-update OTRS 5 -> 6.',
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                        }
+                },
+                Requester => {
+                    Transport => {
+                        Type   => 'HTTP::SOAP',
+                        Config => {
+                            Authentication => {
+                                Password => 'basic auth password',
+                                Type     => 'BasicAuth',
+                                User     => 'basic auth user',
+                            },
+                            Encoding             => 'UTF-8',
+                            Endpoint             => 'http://somehost/someuri',
+                            NameSpace            => '',
+                            RequestNameFreeText  => '',
+                            RequestNameScheme    => 'Request',
+                            ResponseNameFreeText => '',
+                            ResponseNameScheme   => 'Response',
+                            SOAPAction           => 'Yes',
+                            SOAPActionSeparator  => '/',
+                            SSL                  => {
+                                SSLCADir          => '/opt/otrs/scripts/test/sample/SSL/',
+                                SSLCAFile         => '/opt/otrs/scripts/test/sample/SSL/ca-certificate.pem',
+                                SSLP12Certificate => '/opt/otrs/scripts/test/sample/SSL/certificate.pem',
+                                SSLP12Password    => 'certificate password',
+                                SSLProxy          => 'https://proxy-host:1234/',
+                                SSLProxyPassword  => 'proxy password',
+                                SSLProxyUser      => 'proxy user',
+                                UseSSL            => 'Yes',
+                            },
+                        },
+                    },
+                },
+            },
+            ValidID        => 1,
+            UserID         => 1,
+            ExpectedConfig => {
+                Description => 'Test for auto-update OTRS 5 -> 6.',
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                        }
+                },
+                Requester => {
+                    Transport => {
+                        Type   => 'HTTP::SOAP',
+                        Config => {
+                            Authentication => {
+                                AuthType          => 'BasicAuth',
+                                BasicAuthPassword => 'basic auth password',
+                                BasicAuthUser     => 'basic auth user',
+                            },
+                            Encoding  => 'UTF-8',
+                            Endpoint  => 'http://somehost/someuri',
+                            NameSpace => '',
+                            Proxy     => {
+                                ProxyExclude  => 'No',
+                                ProxyHost     => 'https://proxy-host:1234/',
+                                ProxyPassword => 'proxy password',
+                                ProxyUser     => 'proxy user',
+                                UseProxy      => 'Yes',
+                            },
+                            RequestNameFreeText  => '',
+                            RequestNameScheme    => 'Request',
+                            ResponseNameFreeText => '',
+                            ResponseNameScheme   => 'Response',
+                            SOAPAction           => 'Yes',
+                            SOAPActionScheme     => 'NameSpaceSeparatorOperation',
+                            SOAPActionSeparator  => '/',
+                            SSL                  => {
+                                SSLCADir       => '/opt/otrs/scripts/test/sample/SSL/',
+                                SSLCAFile      => '/opt/otrs/scripts/test/sample/SSL/ca-certificate.pem',
+                                SSLCertificate => '/opt/otrs/scripts/test/sample/SSL/certificate.pem',
+                                SSLPassword    => 'certificate password',
+                                UseSSL         => 'Yes',
+                            },
+                            Timeout => 60,
+                        },
+                    },
+                },
+            },
+        },
+        Update => {
+            Config => {
+                Description => 'Test for auto-update OTRS 5 -> 6.',
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                        }
+                },
+                Requester => {
+                    Transport => {
+                        Type   => 'HTTP::REST',
+                        Config => {
+                            Authentication => {
+                                Password => 'basic auth password',
+                                Type     => 'BasicAuth',
+                                User     => 'basic auth user',
+                            },
+                            DefaultCommand => 'POST',
+                            Host           => 'http://somehost/someuri',
+                            X509           => {
+                                X509CAFile   => '/opt/otrs/scripts/test/sample/SSL/ca-certificate.pem',
+                                X509CertFile => '/opt/otrs/scripts/test/sample/SSL/certificate.pem',
+                                X509KeyFile  => '/opt/otrs/scripts/test/sample/SSL/certificate.key.pem',
+                                UseX509      => 'Yes',
+                            },
+                        },
+                    },
+                },
+            },
+            ValidID        => 1,
+            UserID         => 1,
+            ExpectedConfig => {
+                Description => 'Test for auto-update OTRS 5 -> 6.',
+                Debugger    => {
+                    DebugThreshold => 'debug',
+                },
+                Provider => {
+                    Transport => {
+                        Type => 'HTTP::Test'
+                        }
+                },
+                Requester => {
+                    Transport => {
+                        Type   => 'HTTP::REST',
+                        Config => {
+                            Authentication => {
+                                AuthType          => 'BasicAuth',
+                                BasicAuthPassword => 'basic auth password',
+                                BasicAuthUser     => 'basic auth user',
+                            },
+                            DefaultCommand => 'POST',
+                            Host           => 'http://somehost/someuri',
+                            Proxy          => {
+                                UseProxy => 'No',
+                            },
+                            SSL => {
+                                SSLCAFile      => '/opt/otrs/scripts/test/sample/SSL/ca-certificate.pem',
+                                SSLCertificate => '/opt/otrs/scripts/test/sample/SSL/certificate.pem',
+                                SSLKey         => '/opt/otrs/scripts/test/sample/SSL/certificate.key.pem',
+                                UseSSL         => 'Yes',
+                            },
+                            Timeout => 300,
+                        },
+                    },
+                },
+            },
+        },
+    },
 );
 
 my @WebserviceIDs;
@@ -883,7 +1054,7 @@ for my $Test (@Tests) {
     );
     $Self->IsDeeply(
         $Webservice->{Config},
-        $Test->{Add}->{Config},
+        $Test->{Add}->{ExpectedConfig} // $Test->{Add}->{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
@@ -910,7 +1081,7 @@ for my $Test (@Tests) {
     );
     $Self->IsDeeply(
         $WebserviceFromCache->{Config},
-        $Test->{Add}->{Config},
+        $Test->{Add}->{ExpectedConfig} // $Test->{Add}->{Config},
         "$Test->{Name} - WebserviceGet() from cache- Config",
     );
 
@@ -967,7 +1138,7 @@ for my $Test (@Tests) {
     );
     $Self->IsDeeply(
         $Webservice->{Config},
-        $Test->{Update}->{Config},
+        $Test->{Update}->{ExpectedConfig} // $Test->{Update}->{Config},
         "$Test->{Name} - WebserviceGet() - Config",
     );
 
@@ -1001,14 +1172,14 @@ for my $Test (@Tests) {
         if ( $Count == 1 ) {
             $Self->IsDeeply(
                 $WebserviceHistoryGet->{Config},
-                $Test->{Add}->{Config},
+                $Test->{Add}->{ExpectedConfig} // $Test->{Add}->{Config},
                 "$Test->{Name} - WebserviceHistoryGet() - Config",
             );
         }
         else {
             $Self->IsDeeply(
                 $WebserviceHistoryGet->{Config},
-                $Test->{Update}->{Config},
+                $Test->{Update}->{ExpectedConfig} // $Test->{Update}->{Config},
                 "$Test->{Name} - WebserviceHistoryGet() - Config",
             );
         }
@@ -1029,7 +1200,7 @@ for my $Test (@Tests) {
         );
         $Self->IsDeeply(
             $WebserviceUpdateFromCache->{Config},
-            $Test->{Update}->{Config},
+            $Test->{Update}->{ExpectedConfig} // $Test->{Update}->{Config},
             "$Test->{Name} - WebserviceGet() from cache- Config",
         );
     }
@@ -1040,7 +1211,7 @@ my $WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->True(
         scalar $WebserviceList->{$WebserviceID},
-        "WebserviceList() from DB found Webservice $WebserviceID",
+        "WebserviceList() from DB found web service $WebserviceID",
     );
 
     my @WebserviceHistoryList = $WebserviceHistoryObject->WebserviceHistoryList(
@@ -1049,7 +1220,7 @@ for my $WebserviceID (@WebserviceIDs) {
 
     $Self->True(
         scalar @WebserviceHistoryList > 0,
-        "WebserviceHistoryList() found entries for Webservice $WebserviceID",
+        "WebserviceHistoryList() found entries for web service $WebserviceID",
     );
 }
 
@@ -1058,7 +1229,7 @@ $WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->True(
         scalar $WebserviceList->{$WebserviceID},
-        "WebserviceList() from Cache found Webservice $WebserviceID",
+        "WebserviceList() from Cache found web service $WebserviceID",
     );
 }
 
@@ -1070,7 +1241,7 @@ for my $WebserviceID (@WebserviceIDs) {
     );
     $Self->True(
         $Success,
-        "WebserviceDelete() deleted Webservice $WebserviceID",
+        "WebserviceDelete() deleted web service $WebserviceID",
     );
     $Success = $WebserviceObject->WebserviceDelete(
         ID     => $WebserviceID,
@@ -1078,7 +1249,7 @@ for my $WebserviceID (@WebserviceIDs) {
     );
     $Self->False(
         $Success,
-        "WebserviceDelete() deleted Webservice $WebserviceID",
+        "WebserviceDelete() deleted web service $WebserviceID",
     );
 }
 
@@ -1087,7 +1258,7 @@ $WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->False(
         scalar $WebserviceList->{$WebserviceID},
-        "WebserviceList() did not find webservice $WebserviceID",
+        "WebserviceList() did not find web service $WebserviceID",
     );
 
     my @WebserviceHistoryList = $WebserviceHistoryObject->WebserviceHistoryList(
@@ -1096,7 +1267,7 @@ for my $WebserviceID (@WebserviceIDs) {
 
     $Self->False(
         scalar @WebserviceHistoryList,
-        "WebserviceHistoryList() from DB found entries for Webservice $WebserviceID",
+        "WebserviceHistoryList() from DB found entries for web service $WebserviceID",
     );
     my @History = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => $WebserviceID,
@@ -1113,7 +1284,7 @@ $WebserviceList = $WebserviceObject->WebserviceList( Valid => 0 );
 for my $WebserviceID (@WebserviceIDs) {
     $Self->False(
         scalar $WebserviceList->{$WebserviceID},
-        "WebserviceList() from cache did not find webservice $WebserviceID",
+        "WebserviceList() from cache did not find web service $WebserviceID",
     );
 }
 

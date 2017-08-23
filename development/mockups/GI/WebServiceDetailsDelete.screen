@@ -44,7 +44,7 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Window" x="10" y="96" width="237" height="66" text="Navigation" measuredWidth="237" measuredHeight="66"/>
-  <widgets xsi:type="model:Button" x="20" y="127" width="218" text="Back to webservice overview" measuredWidth="218" measuredHeight="23">
+  <widgets xsi:type="model:Button" x="20" y="127" width="218" text="Back to web service overview" measuredWidth="218" measuredHeight="23">
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="24" y="131" measuredWidth="16" measuredHeight="16" icon="filled-arrow-left (small)"/>
@@ -115,7 +115,7 @@
   <widgets xsi:type="model:Rectangle" y="52" width="1024" height="916" measuredWidth="1024" measuredHeight="916" background="#000000" alpha="128">
     <font/>
   </widgets>
-  <widgets xsi:type="model:Window" x="264" y="228" width="379" height="192" text="Delete Webservice" measuredWidth="379" measuredHeight="192"/>
+  <widgets xsi:type="model:Window" x="264" y="228" width="379" height="192" text="Delete Web Service" measuredWidth="379" measuredHeight="192"/>
   <widgets xsi:type="model:Button" x="405" y="391" text="Yes" measuredWidth="39" measuredHeight="23" link="WebServiceDetails.screen">
     <font/>
   </widgets>
@@ -123,7 +123,7 @@
     <font/>
   </widgets>
   <widgets xsi:type="model:Icon" x="281" y="273" measuredWidth="48" measuredHeight="48" icon="warning (xlarge)"/>
-  <widgets xsi:type="model:Label" x="342" y="295" text="Are you sure that you want to delete thsi webservice?" measuredWidth="290" measuredHeight="21">
+  <widgets xsi:type="model:Label" x="342" y="295" text="Are you sure that you want to delete thsi web service?" measuredWidth="290" measuredHeight="21">
     <font/>
   </widgets>
   <hRuler>

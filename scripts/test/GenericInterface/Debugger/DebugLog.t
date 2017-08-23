@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-# get webservice object
+# get web service object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 # get helper object
@@ -37,7 +37,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
             },
         },
     },
-    Name    => "$RandomID webservice",
+    Name    => "$RandomID web service",
     ValidID => 1,
     UserID  => 1,
 );
@@ -472,14 +472,14 @@ my $AllEntries = $DebugLogObject->LogSearch(
 for my $Entry ( @{$AllEntries} ) {
     $Self->True(
         $DebugLogIDCheck{ $Entry->{CommunicationID} },
-        "LogSearch() for webservice found CommunicationID $Entry->{CommunicationID}",
+        "LogSearch() for web service found CommunicationID $Entry->{CommunicationID}",
     );
     delete $DebugLogIDCheck{ $Entry->{CommunicationID} };
 }
 for my $CommunicationID ( sort keys %DebugLogIDCheck ) {
     $Self->False(
         $CommunicationID,
-        "LogSearch() for webservice found CommunicationID $CommunicationID",
+        "LogSearch() for web service found CommunicationID $CommunicationID",
     );
 }
 

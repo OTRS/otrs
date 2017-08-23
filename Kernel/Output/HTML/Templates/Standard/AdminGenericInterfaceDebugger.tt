@@ -63,12 +63,13 @@
             <div class="Content">
                 <div class="LayoutGrid ColumnsWithSpacing">
                     <div class="Size1of2">
-                        <div class="ListContainer"><!-- needed for CSS to limit table height -->
-                            <table class="DataTable" id="RequestList" summary="List of webservice communications recorded by the debugger with the applied filter">
+                        <div class="ListContainer" style="max-height: 220px;"><!-- needed for CSS to limit table height -->
+                            <table class="DataTable" id="RequestList" summary="List of web service communications recorded by the debugger with the applied filter">
                                 <thead>
                                     <tr>
                                         <th>[% Translate("Type") | html %]</th>
                                         <th>[% Translate("Time") | html %]</th>
+                                        <th>[% Translate("Communication ID") | html %]</th>
                                         <th>[% Translate("Remote IP") | html %]</th>
                                     </tr>
                                 </thead>
@@ -113,6 +114,12 @@
                             </div>
                             <div class="Clear"></div>
 
+                            <label for="FilterSort">[% Translate("Order") | html %]:</label>
+                            <div class="Field">
+                                [% Data.FilterSortStrg %]
+                            </div>
+                            <div class="Clear"></div>
+
                             <div class="Field">
                                 <button type="button" id="FilterRefresh" class="CallForAction" value="[% Translate("Refresh") | html %]"><span><i class="fa fa-refresh"></i> [% Translate("Refresh") | html %]</span></button>
                             </div>
@@ -126,9 +133,7 @@
         </div>
 
         <div class="WidgetSimple Hidden" id="CommunicationDetails">
-            <div class="Header">
-                <h2>[% Translate("Request Details") | html %]</h2>
-            </div>
+            <div class="Header"></div>
             <div class="Content"></div>
         </div>
     </div>
