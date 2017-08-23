@@ -919,7 +919,7 @@
             <Hash>
                 <Item Key="TaskName">TicketDraftDeleteExpired</Item>
                 <Item Key="Schedule">55 * * * *</Item> <!-- default every hour in minute 55 -->
-                <Item Key="Module">Kernel::System::Console::Command::Maint::Draft::Delete</Item>
+                <Item Key="Module">Kernel::System::Console::Command::Maint::FormDraft::Delete</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="MaximumParallelInstances">1</Item>
                 <Item Key="Params">
