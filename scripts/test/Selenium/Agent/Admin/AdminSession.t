@@ -100,6 +100,8 @@ $Selenium->RunTest(
         # kill current session, this means a logout effectively
         $Selenium->find_element( "a#KillThisSession", 'css' )->click();
 
+        sleep 5;
+
         # make sure that we now see the login screen
         $Selenium->find_element( "#LoginBox", 'css' );
     }
