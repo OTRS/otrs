@@ -149,22 +149,18 @@ sub Run {
         # At the child, execute task.
         if ( !$PID ) {
 
-            # Define the ZZZ files.
-            my @ZZZFiles = (
-                'ZZZAAuto.pm',
-                'ZZZAuto.pm',
-            );
+            # Remove the ZZZ files from %INC to force reloading it.
+            INCPATH:
+            for my $INCPath (sort keys %INC) {
 
-            # Reload the ZZZ files.
-            for my $ZZZFile (@ZZZFiles) {
+                my $ZZZPath = 'Kernel/Config/Files/ZZZAAuto.pm';
+                my $ZZZPathLength = length $ZZZPath;
 
-                PREFIX:
-                for my $Prefix (@INC) {
-                    my $File = $Prefix . '/Kernel/Config/Files/' . $ZZZFile;
-                    next PREFIX if !-f $File;
-                    do $File;
-                    last PREFIX;
-                }
+                my $INCPathPart = substr $INCPath, -$ZZZPathLength;
+
+                next INCPATH if $ZZZPath ne $INCPathPart;
+
+                delete $INC{$INCPath};
             }
 
             # Destroy objects.
