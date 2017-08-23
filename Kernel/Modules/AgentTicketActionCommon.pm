@@ -161,7 +161,7 @@ sub Run {
     {
         return $LayoutObject->ErrorScreen(
             Message => Translatable('Loading draft failed!'),
-            Comment => Translatable('Please contact the admin.'),
+            Comment => Translatable('Please contact the administrator.'),
         );
     }
 
@@ -434,7 +434,7 @@ sub Run {
         if ( $FormDraftAction && !$Config->{FormDraft} ) {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('FormDraft functionality disabled!'),
-                Comment => Translatable('Please contact the admin.'),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
 
@@ -1228,7 +1228,7 @@ sub Run {
         {
             return $LayoutObject->ErrorScreen(
                 Message => Translatable('Could not delete draft!'),
-                Comment => Translatable('Please contact the admin.'),
+                Comment => Translatable('Please contact the administrator.'),
             );
         }
 

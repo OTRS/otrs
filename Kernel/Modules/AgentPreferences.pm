@@ -295,7 +295,7 @@ sub Run {
         }
         elsif ( !$SysConfigObject->can('UserConfigurationDeploy') ) {    # OTRS Business Solution™
             $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
-                "This feature is part of the %s Please contact us at %s for an upgrade."
+                "This feature is part of the %s. Please contact us at %s for an upgrade."
                 , 'OTRS Business Solution™'
                 , 'sales@otrs.com'
             );
