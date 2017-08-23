@@ -545,7 +545,7 @@ sub DEMOLISH {
         my %SessionData = $AuthSessionObject->GetSessionIDData( SessionID => $SessionID );
 
         next SESSION if !%SessionData;
-        next SESSION if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} < $Self->{TestStartSystemTime};
+        next SESSION if $SessionData{UserSessionStart} && $SessionData{UserSessionStart} <= $Self->{TestStartSystemTime};
 
         $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
     }
