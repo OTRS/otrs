@@ -2011,6 +2011,8 @@ sub new {
         }
     }
 
+    $Self->AutoloadPerlPackages();
+
     return $Self;
 }
 
@@ -2102,6 +2104,33 @@ sub ConfigChecksum {
     }
 
     return Digest::MD5::md5_hex($ConfigString);
+}
+
+sub AutoloadPerlPackages {
+    my ($Self) = @_;
+
+    return 1 if !$Self->{AutoloadPerlPackages};
+    return 1 if ref $Self->{AutoloadPerlPackages} ne 'HASH';
+    my %AutoloadConfiguration = %{ $Self->{AutoloadPerlPackages} };
+    return 1 if !%AutoloadConfiguration;
+
+    PACKAGEKEY:
+    for my $PackageKey (sort keys %AutoloadConfiguration) {
+        my $Package = $AutoloadConfiguration{$PackageKey};
+        next PACKAGEKEY if !$Package;
+        if (substr($Package, 0, 16) ne 'Kernel::Autoload') {
+            print STDERR "Error: Autoload packages must be located in Kernel/Autoload, skipping $Package\n";
+            next PACKAGEKEY;
+        }
+
+        # Don't use the MainObject here to load the file.
+        eval {
+            my $FileName = $Package =~ s{::}{/}smxgr;
+            require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
+        };
+    }
+
+    return 1;
 }
 
 1;

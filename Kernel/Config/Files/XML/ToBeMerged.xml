@@ -442,4 +442,11 @@
             <Item ValueType="Entity" ValueEntityType="Queue" ValueRegex="">Postmaster</Item>
         </Value>
     </Setting>
+    <Setting Name="AutoloadPerlPackages###1000-Test" Required="0" Valid="0">
+        <Description Translatable="1">Example package autoload configuration.</Description>
+        <Navigation>Core::Autoload</Navigation>
+        <Value>
+            <Item ValueType="String">Kernel::Autoload::Test</Item>
+        </Value>
+    </Setting>
 </otrs_config>
