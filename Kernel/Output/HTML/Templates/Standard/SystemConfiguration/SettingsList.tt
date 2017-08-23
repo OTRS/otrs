@@ -47,7 +47,7 @@
                 <a href="#" class="Button SettingDisabled [% IF Setting.IsValid == 1 %]Hidden[% END %]" title="[% Translate("Enable this setting, so it becomes effective") %]"><i class="fa fa-check"></i> [% Translate("Enable") %]</a>
                 [% END %]
 
-                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationSettingHistory;Subaction=ShowSettingHistory;SettingName=[% Setting.Name | uri %]" class="OTRSBusinessRequired SettingHistory Button"><i class="fa fa-clock-o"></i> [% Translate("History") %]</a>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationSettingHistory;Subaction=ShowSettingHistory;SettingName=[% Setting.Name | uri %]" class="OTRSBusinessRequired SettingHistory Button"><i class="fa fa-clock-o"></i> [% Translate("History") %][% IF !Data.OTRSBusinessIsInstalled %] (OTRS Business Solution™)[% END %]</a>
                 <a href="#" class="ResetSetting Button" data-user-modification="[% Setting.UserModificationPossible %]" title="[% Translate("Reset this setting to its default state") %]">
                     <i class="fa fa-undo"></i>
                     [% Translate("Reset setting") %]
