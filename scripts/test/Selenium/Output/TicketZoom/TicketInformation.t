@@ -115,15 +115,16 @@ $Selenium->RunTest(
         # get test ticket data
         my $RandomID   = $Helper->GetRandomID();
         my %TicketData = (
-            Age         => '0 m',
-            Type        => "Type$RandomID",
-            Service     => "Service$RandomID",
-            SLA         => "SLA$RandomID",
-            Queue       => "Queue$RandomID",
-            Priority    => '5 very high',
-            State       => 'open',
-            Locked      => 'unlock',
-            Responsible => $ResponsibleUser,
+            Age           => '0 m',
+            Type          => "Type$RandomID",
+            Service       => "Service$RandomID",
+            SLA           => "SLA$RandomID",
+            Queue         => "Queue$RandomID",
+            Priority      => '5 very high',
+            State         => 'open',
+            Locked        => 'unlock',
+            Responsible   => $ResponsibleUser,
+            CreatedByUser => $UserObject->UserName( UserID => $UserLoginID ),
         );
 
         # get type object

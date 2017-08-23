@@ -24,9 +24,19 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
     my %Ticket    = %{ $Param{Ticket} };
     my %AclAction = %{ $Param{AclAction} };
+
+    # Show created by name, if different then root user (ID=1).
+    if ( $Ticket{CreateBy} > 1 ) {
+        $Ticket{CreatedByUser} = $UserObject->UserName( UserID => $Ticket{CreateBy} );
+        $LayoutObject->Block(
+            Name => 'CreatedBy',
+            Data => {%Ticket},
+        );
+    }
 
     if ( $Ticket{ArchiveFlag} eq 'y' ) {
         $LayoutObject->Block(
@@ -177,9 +187,6 @@ sub Run {
             Data => \%Ticket,
         );
     }
-
-    # get user object
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     # Check if agent has permission to start chats with agents.
     my $EnableChat               = 1;
