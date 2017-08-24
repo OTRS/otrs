@@ -972,11 +972,15 @@ sub NotificationEvent {
     }
 
     # Get customer article fields.
-    my %CustomerArticleFields = $LayoutObject->ArticleFields(
-        TicketID  => $CustomerArticle{TicketID},
-        ArticleID => $CustomerArticle{ArticleID},
-        UserID    => $Param{UserID},
-    );
+    my %CustomerArticleFields;
+
+    if (%CustomerArticle) {
+        %CustomerArticleFields = $LayoutObject->ArticleFields(
+            TicketID  => $CustomerArticle{TicketID},
+            ArticleID => $CustomerArticle{ArticleID},
+            UserID    => $Param{UserID},
+        );
+    }
 
     ARTICLE_FIELD:
     for my $ArticleField ( sort keys %CustomerArticleFields ) {
