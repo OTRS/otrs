@@ -1046,7 +1046,8 @@ sub LinkList {
     # get complete list for both directions (or only one if restricted)
     my $SourceLinks = {};
     my $TargetLinks = {};
-    if ( !$Param{Direction} || $Param{Direction} eq 'Both' || $Param{Direction} eq 'Target' ) {
+    my $Direction   = $Param{Direction} || 'Both';
+    if ( $Direction ne 'Target' ) {
         $SourceLinks = $Self->_LinkListRaw(
             Direction => 'Target',
             ObjectID  => $ObjectID,
@@ -1055,15 +1056,13 @@ sub LinkList {
             TypeID    => $TypeID,
         );
     }
-    if ( !$Param{Direction} || $Param{Direction} eq 'Both' || $Param{Direction} eq 'Source' ) {
-        $TargetLinks = $Self->_LinkListRaw(
-            Direction => 'Source',
-            ObjectID  => $ObjectID,
-            Key       => $Param{Key},
-            StateID   => $StateID,
-            TypeID    => $TypeID,
-        );
-    }
+    $TargetLinks = $Self->_LinkListRaw(
+        Direction => 'Source',
+        ObjectID  => $ObjectID,
+        Key       => $Param{Key},
+        StateID   => $StateID,
+        TypeID    => $TypeID,
+    );
 
     # get names for used objects
     # consider restriction for Object2
@@ -1117,28 +1116,27 @@ sub LinkList {
             my $IsPointed       = $TypePointedLookup{$TypeID};
             my $TypeName        = $TypeNameLookup{$TypeID};
 
-            # add source links as source (no target links or type is pointed)
-            if ( $HaveSourceLinks && ( $IsPointed || !$HaveTargetLinks ) ) {
+            # add target links as target
+            if ( $Direction ne 'Source' && $HaveTargetLinks && $IsPointed ) {
+                $Links{$ObjectName}->{$TypeName}->{Target} = $TargetLinks->{$ObjectID}->{$TypeID};
+            }
+
+            next TYPEID if $Direction eq 'Target';
+
+            # add source links as source
+            if ($HaveSourceLinks) {
                 $Links{$ObjectName}->{$TypeName}->{Source} = $SourceLinks->{$ObjectID}->{$TypeID};
             }
 
-            # add source and target links as source (have source and target links and type is not pointed)
-            elsif ( $HaveSourceLinks && $HaveTargetLinks ) {
+            # add target links as source for non-pointed links
+            if ( !$IsPointed && $HaveTargetLinks ) {
+                $Links{$ObjectName}->{$TypeName}->{Source} //= {};
                 $Links{$ObjectName}->{$TypeName}->{Source} = {
-                    %{ $SourceLinks->{$ObjectID}->{$TypeID} },
+                    %{ $Links{$ObjectName}->{$TypeName}->{Source} },
                     %{ $TargetLinks->{$ObjectID}->{$TypeID} },
                 };
             }
 
-            # add target links as source (have only target links and type is not pointed)
-            elsif ( $HaveTargetLinks && !$IsPointed ) {
-                $Links{$ObjectName}->{$TypeName}->{Source} = $TargetLinks->{$ObjectID}->{$TypeID};
-            }
-
-            # add target links as target
-            if ( $HaveTargetLinks && $IsPointed ) {
-                $Links{$ObjectName}->{$TypeName}->{Target} = $TargetLinks->{$ObjectID}->{$TypeID};
-            }
         }
     }
 

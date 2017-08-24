@@ -2972,10 +2972,14 @@ $ConfigObject->Set(
     Value => \%PossibleLinksNew,
 );
 my %ExpectedLinkList;
+my %ExpectedSourceLinkList;
+my %ExpectedTargetLinkList;
 my %TypePointedLookup;
 my @DeleteEntryData;
 my %DeleteExpectedData;
-my $NumberOfLinks = 0;
+my $NumberOfLinks       = 0;
+my $NumberOfSourceLinks = 0;
+my $NumberOfTargetLinks = 0;
 
 # delete cache to ensure correct link type lookup (incl. pointed flag)
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -3073,7 +3077,7 @@ for my $ObjectCount ( 0 .. 49 ) {
             if ($SwitchSourceTarget) {
                 $SQLFirst          = $SQLTarget;
                 $SQLSecond         = $SQLSource;
-                $ExpectedDirection = $Pointed ? 'Source' : 'Source';
+                $ExpectedDirection = 'Source';
             }
             else {
                 $SQLFirst          = $SQLSource;
@@ -3098,6 +3102,14 @@ for my $ObjectCount ( 0 .. 49 ) {
 
             # add link to list of expected links for comparison
             $ExpectedLinkList{$Object}->{$Type}->{$ExpectedDirection}->{$Key} = 1;
+            if ( $ExpectedDirection eq 'Source' ) {
+                $ExpectedSourceLinkList{$Object}->{$Type}->{$ExpectedDirection}->{$Key} = 1;
+                ++$NumberOfSourceLinks;
+            }
+            else {
+                $ExpectedTargetLinkList{$Object}->{$Type}->{$ExpectedDirection}->{$Key} = 1;
+                ++$NumberOfTargetLinks;
+            }
 
             # remember first entry for deletion (cache test)
             next COUNT if @DeleteEntryData;
@@ -3153,6 +3165,32 @@ $Self->IsDeeply(
     $LinkList,
     \%ExpectedLinkList,
     "LinkList() deep structure test for $NumberOfLinks links - cached",
+);
+
+# check directional structures
+$LinkList = $LinkObject->LinkList(
+    Object    => 'Ticket',
+    Key       => '321',
+    Direction => 'Source',
+    State     => 'Valid',
+    UserID    => 1,
+);
+$Self->IsDeeply(
+    $LinkList,
+    \%ExpectedSourceLinkList,
+    "LinkList() deep structure test for $NumberOfSourceLinks source links",
+);
+$LinkList = $LinkObject->LinkList(
+    Object    => 'Ticket',
+    Key       => '321',
+    Direction => 'Target',
+    State     => 'Valid',
+    UserID    => 1,
+);
+$Self->IsDeeply(
+    $LinkList,
+    \%ExpectedTargetLinkList,
+    "LinkList() deep structure test for $NumberOfTargetLinks target links",
 );
 
 # remove one link manually to ensure cache is working
