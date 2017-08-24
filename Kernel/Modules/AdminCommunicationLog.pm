@@ -811,7 +811,7 @@ sub _GetCommunicationLog {
 
             next COMMUNICATIONLOGOBJECT if $CommunicationLog{AccountType} ne $AccountType;
 
-            next COMMUNICATIONLOGOBJECT if $AccountID && $CommunicationLog{AccountID} != $AccountID;
+            next COMMUNICATIONLOGOBJECT if $AccountID && $CommunicationLog{AccountID} ne $AccountID;
 
             $CommunicationIDs{ $LogObject->{CommunicationID} } = 1;
 
