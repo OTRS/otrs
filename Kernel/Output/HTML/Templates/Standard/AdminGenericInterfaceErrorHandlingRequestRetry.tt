@@ -1,0 +1,396 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate( "GenericInterface Web Service Management" ) | html %]</h1>
+
+    [% USE WebserviceLink = String("AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=") %]
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate( 'Web Service Management' ),
+                Link => BreadcrumbLink,
+            },
+            {
+                Name => Data.WebserviceName,
+                Link => WebserviceLink.append( Data.WebserviceID ),
+            },
+        ]
+    %]
+
+    [% SWITCH Data.Action %]
+        [% CASE 'Add' %]
+            [% USE AddTitle = String(Translate("Add ErrorHandling")) %]
+            [% BreadcrumbPath.push({ Name => AddTitle.append( ': ', Data.ErrorHandlingType ), }) %]
+        [% CASE 'Change' %]
+            [% USE EditTitle = String(Translate("Edit ErrorHandling")) %]
+            [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.ErrorHandlingType ), }) %]
+    [% END %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i> [% Translate("Go back to web service") | html %]</span></a>
+                    </li>
+[% IF Data.Action == 'Change' %]
+                    <li>
+                        <button class="CallForAction Fullsize Center" type="button" id="DeleteButton"><span> <i class="fa fa-trash-o"></i> [% Translate("Delete") | html %]</span></button>
+                        <div class="Hidden" id="DeleteDialogContainer">
+                            <span class="WarningDialog ">&nbsp;</span>
+                            <p id="DeleteDialog" class="Center Warning">
+                                [% Translate("Do you really want to delete this error handling module?") | html %]
+                            </p>
+                            <p class="Center Warning">
+                                [% Translate("All configuration data will be lost.") | html %]
+                            </p>
+                            <div class="SpacingTop"></div>
+                        </div>
+                    </li>
+[% END %]
+                </ul>
+            </div>
+        </div>
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("This module allows to configure scheduled retries for failed requests.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors.") | html %]
+                </p>
+                <p class="FieldExplanation">
+                    [% Translate("If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <form action="[% Env("CGIHandle") %]" class="Validate" method="post">
+            <input type="hidden" name="Action" value="AdminGenericInterfaceErrorHandlingRequestRetry" />
+            <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action" />
+            <input type="hidden" id="WebserviceID" name="WebserviceID" value="[% Data.WebserviceID | html %]" />
+            <input type="hidden" name="CommunicationType" value="[% Data.CommunicationType | html %]" />
+            <input type="hidden" name="ErrorHandlingType" value="[% Data.ErrorHandlingType | html %]" />
+            [% IF Data.Action == 'Change' %]
+                <input type="hidden" name="ContinueAfterSave" id="ContinueAfterSave" value=""/>
+            [% END %]
+
+            <!-- General options -->
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("General options") | html %]</h2>
+                </div>
+                <div class="Content">
+
+                    <fieldset class="TableLike">
+                        <label for="ErrorHandling" class="Mandatory">
+                            <span class="Marker">*</span>
+                            [% Translate("Name") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc Validate_Required [% Data.ErrorHandlingServerError | html %]" maxlength="200" id="ErrorHandling" name="ErrorHandling" value="[% Data.ErrorHandling | html %]" />
+                            <input type="hidden" name="OldErrorHandling" value="[% Data.OldErrorHandling | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate("The name can be used to distinguish different error handling configurations.") | html %]
+                            </p>
+                            <div id="ErrorHandlingError" class="TooltipErrorMessage">
+                                [% Translate("Please provide a unique name for this web service.") | html %]
+                            </div>
+                            <div id="ErrorHandlingServerError" class="TooltipErrorMessage">
+                                [% Translate("The name you entered already exists.") | html %]
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Description">
+                            [% Translate("Description") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc" maxlength="200" id="Description" name="Description" value="[% Data.Description | html %]" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ErrorHandlingTypeDisplay">[% Translate("Error handling module backend") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" readonly="readonly" class="W50pc" id="ErrorHandlingTypeDisplay" value="[% Data.ErrorHandlingType | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate("This OTRS error handling backend module will be called internally to process the error handling mechanism.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <!-- Processing options -->
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Processing options") | html %]</h2>
+                </div>
+                <div class="Content">
+
+                    <fieldset class="TableLike">
+
+                        <div class="Field">
+                            [% Translate("Configure filters to control error handling module execution.") | html %]
+                            <p class="FieldExplanation">
+                                [% Translate("Only requests matching all configured filters (if any) will trigger module execution.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+[% RenderBlockStart("OperationFilter") %]
+                        <label for="OperationFilter">
+                            [% Translate("Operation filter") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.OperationFilterStrg %]
+                            <p class="FieldExplanation">
+                                [% Translate("Only execute error handling module for selected operations.") | html %]<br/>
+                                [% Translate("Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("OperationFilter") %]
+[% RenderBlockStart("InvokerFilter") %]
+                        <label for="InvokerFilter">
+                            [% Translate("Invoker filter") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.InvokerFilterStrg %]
+                            <p class="FieldExplanation">
+                                [% Translate("Only execute error handling module for selected invokers.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("InvokerFilter") %]
+
+                        <label for="ErrorMessageContentFilter">
+                            [% Translate("Error message content filter") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc [% Data.ErrorMessageContentFilterServerError | html %]" maxlength="200" id="ErrorMessageContentFilter" name="ErrorMessageContentFilter" value="[% Data.ErrorMessageContentFilter | html %]" />
+                            <input type="hidden" id="ErrorMessageContentFilter" name="ErrorMessageContentFilter" value="[% Data.ErrorMessageContentFilter | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate("Enter a regular expression to restrict which error messages should cause error handling module execution.") | html %]<br/>
+                                [% Translate("Error message subject and data (as seen in the debugger error entry) will considered for a match.") | html %]<br/>
+                                [% Translate("Example: Enter '^.*401 Unauthorized.*\$' to handle only authentication related errors.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ErrorStageFilter">
+                            [% Translate("Error stage filter") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.ErrorStageFilterStrg %]
+                            <p class="FieldExplanation">
+                                [% Translate("Only execute error handling module on errors that occur during specific processing stages.") | html %]<br/>
+                                [% Translate("Example: Handle only errors where mapping for outgoing data could not be applied.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ErrorCode">
+                            [% Translate("Error code") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc" maxlength="200" id="ErrorCode" name="ErrorCode" value="[% Data.ErrorCode | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate("An error identifier for this error handling module.") | html %]<br/>
+                                [% Translate("This identifier will be available in XSLT-Mapping and shown in debugger output.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ErrorMessage">
+                            [% Translate("Error message") | html %]:
+                        </label>
+                        <div class="Field">
+                            <input type="text" class="W50pc" maxlength="200" id="ErrorMessage" name="ErrorMessage" value="[% Data.ErrorMessage | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate("An error explanation for this error handling module.") | html %]<br/>
+                                [% Translate("This message will be available in XSLT-Mapping and shown in debugger output.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="StopAfterMatch">
+                            [% Translate("Stop after match") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.StopAfterMatchStrg %]
+                            <p class="FieldExplanation">
+                                [% Translate("Define if processing should be stopped after module was executed, skipping all remaining modules or only those of the same backend.") | html %]<br/>
+                                [% Translate("Default behavior is to resume, processing the next module.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <!-- Request retry specific options -->
+            <div class="WidgetSimple Expanded">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Request retry options") | html %]</h2>
+                </div>
+                <div class="Content">
+
+                    <fieldset class="TableLike">
+
+                        <div class="Field">
+                            [% Translate("Retry options are applied when requests cause error handling module execution (based on processing options).") | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="ScheduleRetry" class="Mandatory">
+                            <span class="Marker">*</span>
+                            [% Translate("Schedule retry") | html %]:
+                        </label>
+                        <div class="Field">
+                            [% Data.ScheduleRetryStrg %]
+                            <p class="FieldExplanation">
+                                [% Translate("Should requests causing an error be triggered again at a later time?") | html %]
+                            </p>
+                            <div id="ScheduleRetryError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div id="ScheduleRetryFields" class="[% Data.ScheduleRetryFieldsHidden | html %]">
+                            <fieldset class="TableLike">
+
+                                <label for="RetryIntervalStart" class="Mandatory">
+                                    <span class="Marker">*</span>
+                                    [% Translate("Initial retry interval") | html %]:
+                                </label>
+                                <div class="Field">
+                                    [% Data.RetryIntervalStartStrg %]
+                                    <p class="FieldExplanation">
+                                        [% Translate("Interval after which to trigger the first retry.") | html %]<br />
+                                        [% Translate("Note: This and all further retry intervals are based on the error handling module execution time for the initial request.") | html %]
+                                    </p>
+                                    <div id="RetryIntervalStartError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="RetryIntervalFactor" class="Mandatory">
+                                    <span class="Marker">*</span>
+                                    [% Translate("Factor for further retries") | html %]:
+                                </label>
+                                <div class="Field">
+                                    [% Data.RetryIntervalFactorStrg %]
+                                    <p class="FieldExplanation">
+                                        [% Translate("If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.") | html %]<br />
+                                        [% Translate("Example: If a request is initially triggered at 10:00 with initial interval at '1 minute' and retry factor at '2', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...") | html %]
+                                    </p>
+                                    <div id="RetryIntervalFactorError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="RetryIntervalMax" class="Mandatory">
+                                    <span class="Marker">*</span>
+                                    [% Translate("Maximum retry interval") | html %]:
+                                </label>
+                                <div class="Field">
+                                    [% Data.RetryIntervalMaxStrg %]
+                                    <p class="FieldExplanation">
+                                        [% Translate("If a retry interval factor of '1.5' or '2' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.") | html %]<br />
+                                        [% Translate("Intervals calculated to exceed the maximum retry interval will then automatically be shortened accordingly.") | html %]<br />
+                                        [% Translate("Example: If a request is initially triggered at 10:00 with initial interval at '1 minute', retry factor at '2' and maximum interval at '5 minutes', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...") | html %]<br />
+                                    </p>
+                                    <div id="RetryIntervalMaxError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="RetryCountMax">
+                                    [% Translate("Maximum retry count") | html %]:
+                                </label>
+                                <div class="Field">
+                                    <input type="text" class="W50pc Validate_Number [% Data.RetryCountMaxServerError | html %]" maxlength="200" id="RetryCountMax" name="RetryCountMax" value="[% Data.RetryCountMax | html %]" />
+                                    <input type="hidden" id="RetryCountMax" name="RetryCountMax" value="[% Data.RetryCountMax | html %]" />
+                                    <p class="FieldExplanation">
+                                        [% Translate("Maximum number of retries before a failing request is discarded, not counting the initial request.") | html %]<br />
+                                        [% Translate("Example: If a request is initially triggered at 10:00 with initial interval at '1 minute', retry factor at '2' and maximum retry count at '2', retries would be triggered at 10:01 and 10:02 only.") | html %]<br />
+                                        [% Translate("Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.") | html %]
+                                    </p>
+                                    <div id="RetryCountMaxServerError" class="TooltipErrorMessage"><p>[% Translate("This field must be empty or contain a positive number.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="RetryPeriodMax">
+                                    [% Translate("Maximum retry period") | html %]:
+                                </label>
+                                <div class="Field">
+                                    [% Data.RetryPeriodMaxStrg %]
+                                    <p class="FieldExplanation">
+                                        [% Translate("Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).") | html %]<br />
+                                        [% Translate("Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly.") | html %]<br />
+                                        [% Translate("Example: If a request is initially triggered at 10:00 with initial interval at '1 minute', retry factor at '2' and maximum retry period at '30 minutes', retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at 10:31=>10:30.") | html %]<br />
+                                        [% Translate("Note: Maximum retry period might not be reached if a maximum retry count is configured as well and reached earlier.") | html %]
+                                    </p>
+                                </div>
+                                <div class="Clear"></div>
+
+                            </fieldset>
+                        </div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+            <!-- Submit options -->
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Submit") | html %]</h2>
+                </div>
+                <div class="Content">
+
+                    <fieldset class="TableLike">
+
+                        <div class="Field SpacingTop">
+                            [% IF Data.Action == 'Change' %]
+                                <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                                [% Translate("or") | html %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
+                            [% ELSE %]
+                                <button class="CallForAction Primary" id="Submit" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% END %]
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]"><span>[% Translate("Cancel") | html %]</span></a>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="Clear"></div>
+</div>

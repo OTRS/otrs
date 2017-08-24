@@ -128,6 +128,41 @@ sub Run {
     return $Self->{BackendObject}->Run(%Param);
 }
 
+=head2 HandleError()
+
+handle error data of the configured remote web service.
+
+    my $Result = $InvokerObject->HandleError(
+        Data => {                               # data payload
+            ...
+        },
+    );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Data            => {                    # data payload after Invoker
+            ...
+        },
+    };
+
+=cut
+
+sub HandleError {
+    my ( $Self, %Param ) = @_;
+
+    # Check data - only accept undef or hash ref
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got Data but it is not a hash ref in Operation handler (HandleResponse)!'
+        );
+    }
+
+    return $Self->{BackendObject}->HandleError(%Param);
+
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS

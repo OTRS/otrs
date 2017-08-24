@@ -13,6 +13,8 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 
+use Storable;
+
 our @ObjectDependencies = (
     'Kernel::GenericInterface::Requester',
     'Kernel::System::Scheduler',
@@ -20,6 +22,9 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Event',
     'Kernel::System::Main',
+    'Kernel::Config',
+    'Kernel::System::Daemon::SchedulerDB',
+    'Kernel::System::DateTime',
 );
 
 =head1 NAME
@@ -46,19 +51,25 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    for (qw(Data Event Config)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+    for my $Needed (qw(Data Event Config)) {
+        if ( !$Param{$Needed} ) {
+            $LogObject->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
     }
 
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $SchedulerObject  = $Kernel::OM->Get('Kernel::System::Scheduler');
+    my $MainObject       = $Kernel::OM->Get('Kernel::System::Main');
+    my $RequesterObject  = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+    my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 
     my %WebserviceList = %{ $WebserviceObject->WebserviceList( Valid => 1 ) };
+    my %RegisteredEvents = $Kernel::OM->Get('Kernel::System::Event')->EventList();
 
     # Loop over web services.
     WEBSERVICEID:
@@ -80,15 +91,12 @@ sub Run {
 
             next INVOKER if ref $InvokerConfig->{Events} ne 'ARRAY';
 
-            # Get list of all registered events.
-            my %RegisteredEvents = $Kernel::OM->Get('Kernel::System::Event')->EventList();
-
             INVOKEREVENT:
             for my $InvokerEvent ( @{ $InvokerConfig->{Events} } ) {
 
-                next INVOKEREVENT if ref $InvokerEvent ne 'HASH';
-
                 # Check if the invoker is connected to this event.
+                next INVOKEREVENT if !IsHashRefWithData($InvokerEvent);
+                next INVOKEREVENT if !IsStringWithData( $InvokerEvent->{Event} );
                 next INVOKEREVENT if $InvokerEvent->{Event} ne $Param{Event};
 
                 # Prepare event type.
@@ -118,12 +126,12 @@ sub Run {
 
                         my $ObjectClass = "Kernel::GenericInterface::Event::ObjectType::$EventType";
 
-                        my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
+                        my $Loaded = $MainObject->Require(
                             $ObjectClass,
                         );
 
                         if ( !$Loaded ) {
-                            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            $LogObject->Log(
                                 Priority => 'error',
                                 Message =>
                                     "Could not load $ObjectClass, skipping condition checks for event $InvokerEvent->{Event}!",
@@ -159,10 +167,10 @@ sub Run {
                     }
                 }
 
-                # Create a scheduler task (if configured as Asynchronous).
+                # create scheduler task for asynchronous tasks
                 if ( $InvokerEvent->{Asynchronous} ) {
 
-                    my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
+                    my $Success = $SchedulerObject->TaskAdd(
                         Type     => 'GenericInterface',
                         Name     => 'Invoker-' . $Invoker,
                         Attempts => 10,
@@ -172,14 +180,81 @@ sub Run {
                             Data         => $Param{Data},
                         },
                     );
+                    if ( !$Success ) {
+                        $LogObject->Log(
+                            Priority => 'error',
+                            Message  => 'Could not schedule task for Invoker-' . $Invoker,
+                        );
+                    }
+
+                    next INVOKEREVENT;
 
                 }
-                else {    # or execute Event directly
 
-                    $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
-                        WebserviceID => $WebserviceID,
-                        Invoker      => $Invoker,
-                        Data         => $Param{Data},
+                # execute synchronous tasks directly
+                my $Result = $RequesterObject->Run(
+                    WebserviceID => $WebserviceID,
+                    Invoker      => $Invoker,
+                    Data         => Storable::dclone( $Param{Data} ),
+                );
+                next INVOKEREVENT if $Result->{Success};
+
+                # check if rescheduling is requested on errors
+                next INVOKEREVENT if !IsHashRefWithData( $Result->{Data} );
+                next INVOKEREVENT if !$Result->{Data}->{ReSchedule};
+
+                # Use the execution time from the return data
+                my $ExecutionTime = $Result->{Data}->{ExecutionTime};
+                my $ExecutionDateTime;
+
+                # Check if execution time is valid.
+                if ( IsStringWithData($ExecutionTime) ) {
+
+                    $ExecutionDateTime = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            String => $ExecutionTime,
+                        },
+                    );
+                    if ( !$ExecutionDateTime ) {
+                        my $WebServiceName = $WebserviceData->{Name} // 'N/A';
+                        $LogObject->Log(
+                            Priority => 'error',
+                            Message =>
+                                "WebService $WebServiceName, Invoker $Invoker returned invalid execution time $ExecutionTime. Falling back to default!",
+                        );
+                    }
+                }
+
+                # Set default execution time.
+                if ( !$ExecutionTime || !$ExecutionDateTime ) {
+
+                    # Get default time difference from config.
+                    my $FutureTaskTimeDiff
+                        = int( $ConfigObject->Get('Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff') )
+                        || 300;
+
+                    $ExecutionDateTime = $Kernel::OM->Create('Kernel::System::DateTime');
+                    $ExecutionDateTime->Add( Seconds => $FutureTaskTimeDiff );
+                }
+
+                # Create a new task that will be executed in the future.
+                my $Success = $SchedulerObject->TaskAdd(
+                    ExecutionTime => $ExecutionDateTime->ToString(),
+                    Type          => 'GenericInterface',
+                    Name          => 'Invoker-' . $Invoker,
+                    Attempts      => 10,
+                    Data          => {
+                        Data              => $Param{Data},
+                        PastExecutionData => $Result->{Data}->{PastExecutionData},
+                        WebserviceID      => $WebserviceID,
+                        Invoker           => $Invoker,
+                    },
+                );
+                if ( !$Success ) {
+                    $LogObject->Log(
+                        Priority => 'error',
+                        Message  => 'Could not re-schedule a task in future for Invoker ' . $Invoker,
                     );
                 }
             }
@@ -354,9 +429,10 @@ sub _SerializeConfig {
 sub _ConditionCheck {
     my ( $Self, %Param ) = @_;
 
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
     for my $Needed (qw(Condition Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
@@ -367,7 +443,7 @@ sub _ConditionCheck {
 
     # Check if we have Data to check against Condition.
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Data has no values!",
         );
@@ -377,7 +453,7 @@ sub _ConditionCheck {
 
     # Check if we have Condition to check against Data.
     if ( !IsHashRefWithData( $Param{Condition} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Condition has no values!",
         );
@@ -394,7 +470,7 @@ sub _ConditionCheck {
         && $ConditionLinking ne 'xor'
         )
     {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Invalid ConditionLinking!",
         );
@@ -403,6 +479,7 @@ sub _ConditionCheck {
     my ( $ConditionSuccess, $ConditionFail ) = ( 0, 0 );
 
     # Loop through all submitted conditions
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
     CONDITIONNAME:
     for my $ConditionName ( sort { $a cmp $b } keys %{ $Param{Condition} } ) {
 
@@ -414,7 +491,7 @@ sub _ConditionCheck {
         # Check if we have Fields in our Condition
         if ( !IsHashRefWithData( $ActualCondition->{Fields} ) )
         {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "No Fields in Condition->$ConditionName found!",
             );
@@ -426,7 +503,7 @@ sub _ConditionCheck {
 
         # If there is something else than 'and', 'or', 'xor' log defect condition configuration
         if ( $CondType ne 'and' && $CondType ne 'or' && $CondType ne 'xor' ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "Invalid Condition->$ConditionName->Type!",
             );
@@ -470,7 +547,7 @@ sub _ConditionCheck {
                 && $FieldType ne 'Module'
                 )
             {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                $LogObject->Log(
                     Priority => 'error',
                     Message  => "Invalid Condition->Type!",
                 );
@@ -489,7 +566,7 @@ sub _ConditionCheck {
                     || ref $ActualCondition->{Fields}->{$FieldName}->{Match}
                     )
                 {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    $LogObject->Log(
                         Priority => 'error',
                         Message =>
                             "Condition->$ConditionName->Fields->$FieldName Match must"
@@ -623,7 +700,7 @@ sub _ConditionCheck {
 
                 # if our Check doesn't contain a hash.
                 if ( ref $ActualCondition->{Fields}->{$FieldName}->{Match} ne 'HASH' ) {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    $LogObject->Log(
                         Priority => 'error',
                         Message =>
                             "Condition->$ConditionName->Fields->$FieldName Match must"
@@ -689,7 +766,7 @@ sub _ConditionCheck {
                     )
                     )
                 {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    $LogObject->Log(
                         Priority => 'error',
                         Message =>
                             "Condition->$ConditionName->Fields->$FieldName Match must"
@@ -706,7 +783,7 @@ sub _ConditionCheck {
                         $ActualCondition->{Fields}->{$FieldName}->{Match} = qr{$Match};
                     };
                     if ($@) {
-                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        $LogObject->Log(
                             Priority => 'error',
                             Message  => $@,
                         );
@@ -795,12 +872,12 @@ sub _ConditionCheck {
                 # Load Validation Modules. Default location for validation modules:
                 #   Kernel/GenericInterface/Event/Validation/
                 if (
-                    !$Kernel::OM->Get('Kernel::System::Main')->Require(
+                    !$MainObject->Require(
                         $ActualCondition->{Fields}->{$FieldName}->{Match}
                     )
                     )
                 {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    $LogObject->Log(
                         Priority => 'error',
                         Message  => "Can't load "
                             . $ActualCondition->{Fields}->{$FieldName}->{Type}

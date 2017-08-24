@@ -47,6 +47,7 @@ create an object.
         CommunicationType   => Requester, # Requester or Provider
 
         RemoteIP        => 192.168.1.1, # optional
+        CommunicationID => '02a381c622d5f93df868a42151db1983', # optional
     );
 
 =cut
@@ -117,12 +118,21 @@ sub new {
     }
     $Self->{RemoteIP} = $Param{RemoteIP};
 
-    # communication ID MD5 (system time + random #)
-    my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-    my $MD5String   = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
-        String => $CurrentTime . int( rand(1000000) ),
-    );
-    $Self->{CommunicationID} = $MD5String;
+    # use communication ID passed in constructor
+    if ( $Param{CommunicationID} ) {
+        $Self->{CommunicationID} = $Param{CommunicationID};
+    }
+
+    # create new communication ID
+    else {
+
+        # communication ID MD5 (system time + random #)
+        my $CurrentTime = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+        my $MD5String   = $Kernel::OM->Get('Kernel::System::Main')->MD5sum(
+            String => $CurrentTime . int( rand(1000000) ),
+        );
+        $Self->{CommunicationID} = $MD5String;
+    }
 
     return $Self;
 }

@@ -1,5 +1,7 @@
 #6.0.0.beta1 2017-??-??
- - 2017-03-23 Added numerous Generic Interface improvements.
+ - 2017-08-24 Added error handling to the Generic Interface.
+     Configurable retry module for requester.
+ - 2017-08-23 Added numerous Generic Interface improvements.
      Updated default web service configurations.
      Improved Authentication, Proxy and SSL handling in SOAP and REST transport.
      Improved usability of debugger.

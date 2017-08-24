@@ -174,7 +174,7 @@ sub ProviderProcessRequest {
     my $ContentCharset;
     if ( $ENV{'CONTENT_TYPE'} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
 
-        # rRmember content type for the response.
+        # Remember content type for the response.
         $Self->{ContentType} = $1;
 
         $ContentCharset = $2;

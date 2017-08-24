@@ -77,6 +77,82 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
             TargetNS.HideElements();
         });
 
+        $('#ProviderErrorHandling').on('change', function() {
+            TargetNS.Redirect(Webservice.ErrorHandling, 'ProviderErrorHandling', {
+                CommunicationType: 'Provider',
+                ErrorHandlingType: $(this).val()
+            });
+        });
+
+        $('#RequesterErrorHandling').on('change', function() {
+            TargetNS.Redirect(Webservice.ErrorHandling, 'RequesterErrorHandling', {
+                CommunicationType: 'Requester',
+                ErrorHandlingType: $(this).val()
+            });
+        });
+
+        // initialize the table sorting feature
+        $('.ErrorHandlingPriority tbody').sortable({
+            create: function () {
+
+                // enumerate rows on page load
+                var Count = 1;
+                $(this).find("tr td:first-child").each(function() {
+                    $(this).text(Count);
+                    Count++;
+                });
+            },
+            stop: function () {
+
+                var $Widget = $(this).closest('.WidgetSimple'),
+                    Count = 1,
+                    Priority = [];
+
+                // re-enumerate rows after sorting actions
+                $(this).find("tr td:first-child").each(function() {
+                    $(this).text(Count);
+                    Count++;
+                });
+
+                $(this).find("tr").each(function() {
+                    if ($(this).attr('id')) {
+                        Priority.push($(this).attr('id'));
+                    }
+                });
+
+                if (Priority.length > 1) {
+
+                    $Widget.addClass('Loading');
+
+                    Core.AJAX.FunctionCall(
+                        Core.Config.Get('Baselink'),
+                        $(this).closest('table').data('query-string') + ';Priority=' + JSON.stringify(Priority),
+                        function() {
+
+                            $Widget.removeClass('Loading');
+
+                            $Widget.find('h2')
+                                   .before('<i class="fa fa-check"></i>')
+                                   .prev('.fa-check')
+                                   .hide()
+                                   .css('float', 'right')
+                                   .css('margin-right', '5px')
+                                   .css('margin-top', '3px')
+                                   .css('color', '#666666')
+                                   .delay(200)
+                                   .fadeIn(function() {
+                                $(this).delay(1500).fadeOut();
+                            });
+                        }
+                    );
+                }
+            }
+        }).disableSelection();
+
+        $('#SaveAndFinishButton').on('click', function(){
+            $('#ReturnToWebservice').val(1);
+        });
+
         // Initialize delete action dialog events
         $('.DeleteOperation').each(function() {
             $(this).on('click', TargetNS.ShowDeleteActionDialog);

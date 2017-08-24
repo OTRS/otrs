@@ -352,6 +352,54 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
 [% RenderBlockEnd("DetailsTransportPropertiesButton") %]
                         </div>
                     </fieldset>
+
+                    <h4 class="SpacingTop SpacingBottom">[% Translate("Error Handling Modules") | html %]</h4>
+
+                    <p class="FieldExplanation">
+                                [% Translate("Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop.") | html %]
+                    </p>
+
+                    <table class="DataTable ErrorHandlingPriority" id="[% Data.ActionsTitle | html %]Table" data-query-string="Action=AdminGenericInterfaceErrorHandlingDefault;Subaction=PriorityAction;CommunicationType=[% Data.CommunicationType | uri %];WebserviceID=[% Data.WebserviceID | uri %];[% Env('ChallengeTokenParam') | html %]">
+                        <thead>
+                            <tr>
+                                <th width="10px">[% Translate("#") | html %]</th>
+                                <th>[% Translate("Name") | html %]</th>
+                                <th>[% Translate("Description") | html %]</th>
+                                <th>[% Translate("Backend") | html %]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+[% RenderBlockStart("ErrorHandlingRow") %]
+                            <tr id="[% Data.ErrorHandling | html %]">
+                                <td></td>
+                                <td>
+                                    <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Data.Dialog | uri %];CommunicationType=[% Data.CommunicationType | uri %];ErrorHandling=[% Data.ErrorHandling | uri %];Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %];ErrorHandlingType=[% Data.ErrorHandlingType | uri %]">
+                                        [% Data.ErrorHandling | html %]
+                                    </a>
+                                </td>
+                                <td>[% Data.Description | html %]</td>
+                                <td>[% Data.ErrorHandlingType | html %]</td>
+                            </tr>
+[% RenderBlockEnd("ErrorHandlingRow") %]
+[% RenderBlockStart("ErrorHandlingRowNoDataFoundMsg") %]
+                            <tr>
+                                <td></td>
+                                <td colspan="4">
+                                            [% Translate("No data found.") | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("ErrorHandlingRowNoDataFoundMsg") %]
+                        </tbody>
+                    </table>
+
+                    <fieldset class="TableLike HideOnChange SpacingTop">
+                        <label for="[% Data.CommunicationType | html %]ErrorHandling">[% Translate("Add error handling module") | html %]:</label>
+                        <div class="Field">
+                                    [% Data.ErrorHandlingStrg %]
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+
                     <h4 class="SpacingTop SpacingBottom">[% Translate(Data.ActionsTitle) | html %]</h4>
 
 [% RenderBlockStart("DetailsCommunicationTypeActionsExplanationProvider") %]

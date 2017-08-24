@@ -13,11 +13,15 @@ use warnings;
 
 use parent qw(Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
 
+use Kernel::System::VariableCheck qw(:all);
+
+use Storable;
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::GenericInterface::Requester',
+    'Kernel::System::Daemon::Scheduler',
     'Kernel::System::DateTime',
-    'Kernel::System::Daemon::SchedulerDB',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Log',
 );
@@ -80,103 +84,107 @@ sub Run {
         NeededDataAttributes => [ 'WebserviceID', 'Invoker', 'Data' ],
         %Param,
     );
-
-    # Stop execution if an error in params is detected.
     return if !$CheckResult;
-
-    # To store task data locally.
-    my %TaskData = %{ $Param{Data} };
 
     if ( $Self->{Debug} ) {
         print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
     }
 
     my $Result = $Kernel::OM->Get('Kernel::GenericInterface::Requester')->Run(
-        WebserviceID => $TaskData{WebserviceID},
-        Invoker      => $TaskData{Invoker},
-        Asynchronous => 1,
-        Data         => $TaskData{Data},
+        WebserviceID      => $Param{Data}->{WebserviceID},
+        Invoker           => $Param{Data}->{Invoker},
+        Asynchronous      => 1,
+        Data              => Storable::dclone( $Param{Data}->{Data} ),
+        PastExecutionData => $Param{Data}->{PastExecutionData},
+    );
+    return 1 if $Result->{Success};
+
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+        ID => $Param{Data}->{WebserviceID},
     );
 
-    if ( !$Result->{Success} ) {
+    my $WebServiceName = $Webservice->{Name} // 'N/A';
 
-        my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
-            ID => $Param{Data}->{WebserviceID},
-        );
-
-        my $WebServiceName = $Webservice->{Name} // 'N/A';
-
+    # No further retries for request.
+    if (
+        !IsHashRefWithData( $Result->{Data} )
+        || !$Result->{Data}->{ReSchedule}
+        )
+    {
         my $ErrorMessage
             = $Result->{ErrorMessage} || "$Param{Data}->{Invoker} execution failed without an error message";
 
         $Self->_HandleError(
             TaskName     => "$Param{Data}->{Invoker} WebService: $WebServiceName",
             TaskType     => 'GenericInterface',
-            LogMessage   => "There was an error executing $Param{Data}->{Invoker}($WebServiceName): $ErrorMessage",
+            LogMessage   => "There was an error executing $Param{Data}->{Invoker} ($WebServiceName): $ErrorMessage",
             ErrorMessage => "$ErrorMessage",
         );
-
-        # Check if task needs to be re-schedule in the future.
-        if ( $Result->{Data}->{ReSchedule} ) {
-
-            my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
-            # Use the execution time from the return data (if any).
-            my $ExecutionTime = $Result->{Data}->{ExecutionTime} || 0;
-
-            # Check if execution time is valid.
-            if ($ExecutionTime) {
-                my $ValidSystemTime = $DateTimeObject->Set( String => $ExecutionTime );
-
-                if ( !$ValidSystemTime ) {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message =>
-                            "Invoker $Param{Data}->{Invoker} WebService: $WebServiceName returned future execution time: $ExecutionTime is invalid! falling back to default",
-                    );
-
-                    $ExecutionTime = 0;
-                }
-            }
-
-            # Use another if condition as inside the first one, the Execution time could be reset to 0.
-            if ( !$ExecutionTime ) {
-
-                # Get default time difference from config.
-                my $FutureTaskTimeDiff = abs( $Kernel::OM->Get('Kernel::Config')
-                        ->Get('Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff') || 300 );
-
-                # Calculate execution time in future.
-                $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-                $DateTimeObject->Add( Seconds => $FutureTaskTimeDiff );
-                $ExecutionTime = $DateTimeObject->ToString();
-            }
-
-            if ( $Self->{Debug} ) {
-                print "    $Self->{WorkerName} re-schedule task: $Param{TaskName} for: $ExecutionTime\n";
-            }
-
-            # Create a new task (replica) that will be executed in the future.
-            my $TaskID = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB')->FutureTaskAdd(
-                ExecutionTime => $ExecutionTime,
-                Type          => 'GenericInterface',
-                Name          => $Param{TaskName},
-                Attempts      => 10,
-                Data          => $Param{Data}
-            );
-
-            if ( !$TaskID ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Could not re-schedule a task in future for task $Param{TaskName}",
-                );
-            }
-        }
 
         return;
     }
 
-    return 1;
+    # Schedule request for another try.
+
+    # Use the execution time from the return data (if any).
+    my $ExecutionTime = $Result->{Data}->{ExecutionTime};
+    my $ExecutionDateTime;
+
+    # Check if execution time is valid.
+    if ( IsStringWithData($ExecutionTime) ) {
+
+        $ExecutionDateTime = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $ExecutionTime,
+            },
+        );
+        if ( !$ExecutionDateTime ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "WebService $WebServiceName, Invoker $Param{Data}->{Invoker} returned invalid execution time $ExecutionTime. Falling back to default!",
+            );
+        }
+    }
+
+    # Set default execution time.
+    if ( !$ExecutionTime || !$ExecutionDateTime ) {
+
+        # Get default time difference from config.
+        my $FutureTaskTimeDiff = int(
+            $Kernel::OM->Get('Kernel::Config')->Get('Daemon::SchedulerGenericInterfaceTaskManager::FutureTaskTimeDiff')
+            )
+            || 300;
+
+        $ExecutionDateTime = $Kernel::OM->Create('Kernel::System::DateTime');
+        $ExecutionDateTime->Add( Seconds => $FutureTaskTimeDiff );
+    }
+
+    if ( $Self->{Debug} ) {
+        print "    $Self->{WorkerName} re-schedule task: $Param{TaskName} for: $ExecutionDateTime->ToString()\n";
+    }
+
+    # Create a new task (replica) that will be executed in the future.
+    my $Success = $Kernel::OM->Get('Kernel::System::Daemon::Scheduler')->TaskAdd(
+        ExecutionTime => $ExecutionDateTime->ToString(),
+        Type          => 'GenericInterface',
+        Name          => $Param{TaskName},
+        Attempts      => 10,
+        Data          => {
+            %{ $Param{Data} },
+            PastExecutionData => $Result->{Data}->{PastExecutionData},
+        },
+    );
+
+    if ( !$Success ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not re-schedule a task in future for task $Param{TaskName}",
+        );
+    }
+
+    return;
 }
 
 1;

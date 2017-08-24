@@ -397,6 +397,24 @@ sub _ChangeAction {
     # Update operation config.
     $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{Operation} } = $OperationConfig;
 
+    # Take care of error handlers with operation filters.
+    ERRORHANDLING:
+    for my $ErrorHandling ( sort keys %{ $Param{WebserviceData}->{Config}->{Provider}->{ErrorHandling} || {} } ) {
+
+        if ( !IsHashRefWithData( $Param{WebserviceData}->{Config}->{Provider}->{ErrorHandling}->{$ErrorHandling} ) ) {
+            next ERRORHANDLING;
+        }
+        my $OperationFilter
+            = $Param{WebserviceData}->{Config}->{Provider}->{ErrorHandling}->{$ErrorHandling}->{OperationFilter};
+        next ERRORHANDLING if !IsArrayRefWithData($OperationFilter);
+        next ERRORHANDLING if !grep { $_ eq $GetParam{OldOperation} } @{$OperationFilter};
+
+        # Rename operation in error handling operation filter as well to keep consistency.
+        my @NewOperationFilter = map { $_ eq $GetParam{OldOperation} ? $GetParam{Operation} : $_ } @{$OperationFilter};
+        $Param{WebserviceData}->{Config}->{Provider}->{ErrorHandling}->{$ErrorHandling}->{OperationFilter}
+            = \@NewOperationFilter;
+    }
+
     # Write new config to database.
     $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         %{$WebserviceData},

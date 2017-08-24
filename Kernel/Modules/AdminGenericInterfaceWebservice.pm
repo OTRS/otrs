@@ -858,6 +858,12 @@ sub _ShowEdit {
 
     my $RequesterData = $WebserviceData->{Config}->{Requester} || {};
 
+    my $ErrorHandlingProvider         = $WebserviceData->{Config}->{Provider}->{ErrorHandling}         || {};
+    my $ErrorHandlingPriorityProvider = $WebserviceData->{Config}->{Provider}->{ErrorHandlingPriority} || [];
+
+    my $ErrorHandlingRequester         = $WebserviceData->{Config}->{Requester}->{ErrorHandling}         || {};
+    my $ErrorHandlingPriorityRequester = $WebserviceData->{Config}->{Requester}->{ErrorHandlingPriority} || [];
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my $Output = $LayoutObject->Header();
@@ -1039,29 +1045,44 @@ sub _ShowEdit {
         $GIInvokers{$Invoker} = $GIInvokerConfig->{$Invoker}->{ConfigDialog};
     }
 
+    # Get error handling modules data.
+    my %GIErrorHandlingModules;
+    my $GIErrorHandlingModuleConfig = $ConfigObject->Get('GenericInterface::ErrorHandling::Module');
+    ERRORHANDLINGMODULE:
+    for my $ErrorHandlingModules ( sort keys %{$GIErrorHandlingModuleConfig} ) {
+        next ERRORHANDLINGMODULE if !$ErrorHandlingModules;
+        $GIErrorHandlingModules{$ErrorHandlingModules}
+            = $GIErrorHandlingModuleConfig->{$ErrorHandlingModules}->{ConfigDialog};
+    }
+
     $Self->_OutputGIConfig(
-        GITransports => \%GITransports,
-        GIOperations => \%GIOperations,
-        GIInvokers   => \%GIInvokers,
+        GITransports           => \%GITransports,
+        GIOperations           => \%GIOperations,
+        GIInvokers             => \%GIInvokers,
+        GIErrorHandlingModules => \%GIErrorHandlingModules,
     );
 
     # Meta configuration for output blocks.
     my %CommTypeConfig = (
         Provider => {
-            Title             => Translatable('OTRS as provider'),
-            SelectedTransport => $ProviderData->{Transport}->{Type},
-            ActionType        => 'Operation',
-            ActionsTitle      => Translatable('Operations'),
-            ActionsConfig     => $ProviderData->{Operation},
-            ControllerData    => \%GIOperations,
+            Title                 => Translatable('OTRS as provider'),
+            SelectedTransport     => $ProviderData->{Transport}->{Type},
+            ActionType            => 'Operation',
+            ActionsTitle          => Translatable('Operations'),
+            ActionsConfig         => $ProviderData->{Operation},
+            ControllerData        => \%GIOperations,
+            ErrorHandling         => $ErrorHandlingProvider,
+            ErrorHandlingPriority => $ErrorHandlingPriorityProvider,
         },
         Requester => {
-            Title             => Translatable('OTRS as requester'),
-            SelectedTransport => $RequesterData->{Transport}->{Type},
-            ActionType        => 'Invoker',
-            ActionsTitle      => Translatable('Invokers'),
-            ActionsConfig     => $RequesterData->{Invoker},
-            ControllerData    => \%GIInvokers,
+            Title                 => Translatable('OTRS as requester'),
+            SelectedTransport     => $RequesterData->{Transport}->{Type},
+            ActionType            => 'Invoker',
+            ActionsTitle          => Translatable('Invokers'),
+            ActionsConfig         => $RequesterData->{Invoker},
+            ControllerData        => \%GIInvokers,
+            ErrorHandling         => $ErrorHandlingRequester,
+            ErrorHandlingPriority => $ErrorHandlingPriorityRequester,
         },
 
     );
@@ -1084,7 +1105,44 @@ sub _ShowEdit {
             Class         => 'Modernize HideTrigger',
         );
 
+        my $ErrorModuleConfig = $ConfigObject->Get('GenericInterface::ErrorHandling::Module');
+
+        my @ErrorModules;
+
+        ERRORMODULEKEY:
+        for my $ErrorModuleKey ( sort keys %{$ErrorModuleConfig} ) {
+
+            next ERRORMODULEKEY if !$ErrorModuleKey;
+            next ERRORMODULEKEY if !IsHashRefWithData( $ErrorModuleConfig->{$ErrorModuleKey} );
+            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{Name} );
+            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{ConfigDialog} );
+
+            # Check for active communication type filter.
+            if (
+                IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{CommunicationTypeFilter} )
+                && $ErrorModuleConfig->{$ErrorModuleKey}->{CommunicationTypeFilter} ne $CommunicationType
+                )
+            {
+                next ERRORMODULEKEY;
+            }
+
+            push @ErrorModules, {
+                Key   => $ErrorModuleKey,
+                Value => $ErrorModuleConfig->{$ErrorModuleKey}->{Name},
+            };
+        }
+
+        # Create the list of error handling modules.
+        $Param{ErrorHandlingStrg} = $LayoutObject->BuildSelection(
+            Data         => \@ErrorModules,
+            Name         => $CommunicationType . 'ErrorHandling',
+            PossibleNone => 1,
+            Sort         => 'AlphanumericValue',
+            Class        => 'Modernize ConfigureErrorHandling',
+        );
+
         # Get the controllers config for Requesters or Providers.
+
         my %GIControllers = %{ $CommTypeConfig{$CommunicationType}->{ControllerData} };
 
         my @ControllerList;
@@ -1215,6 +1273,100 @@ sub _ShowEdit {
             );
         }
 
+        # Check error handling modules and priority for consistency,
+        #   correct possible inconsistencies and save the web service.
+        my $ErrorConfigUpdated = 0;
+
+        my $ErrorHandlingModulesCheck = join '',
+            sort @{ $CommTypeConfig{$CommunicationType}->{ErrorHandlingPriority} || [] };
+
+        my $ErrorHandlingPriorityCheck = join '',
+            sort keys %{ $CommTypeConfig{$CommunicationType}->{ErrorHandling} || {} };
+
+        if ( $ErrorHandlingModulesCheck ne $ErrorHandlingPriorityCheck ) {
+
+            my @CorrectedErrorHandlingModules
+                = sort keys %{ $CommTypeConfig{$CommunicationType}->{ErrorHandling} || [] };
+
+            $CommTypeConfig{$CommunicationType}->{ErrorHandlingPriority} = \@CorrectedErrorHandlingModules;
+
+            $ErrorConfigUpdated = 1;
+        }
+
+        # Check for type and set RequestRetry as default.
+        for my $CurrentErrorHandlingModule ( sort keys %{ $CommTypeConfig{$CommunicationType}->{ErrorHandling} || {} } )
+        {
+
+            if (
+                !defined $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$CurrentErrorHandlingModule}->{Type}
+                )
+            {
+                $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$CurrentErrorHandlingModule}->{Type}
+                    = 'RequestRetry';
+
+                $ErrorConfigUpdated = 1;
+            }
+        }
+
+        # Update config if needed.
+        if ($ErrorConfigUpdated) {
+
+            $WebserviceData->{Config}->{$CommunicationType}->{ErrorHandling}
+                = $CommTypeConfig{$CommunicationType}->{ErrorHandling};
+            $WebserviceData->{Config}->{$CommunicationType}->{ErrorHandlingPriority}
+                = $CommTypeConfig{$CommunicationType}->{ErrorHandlingPriority};
+
+            $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
+                %{$WebserviceData},
+                UserID => $Self->{UserID},
+            );
+        }
+
+        # No error handling modules defined.
+        if ( !IsHashRefWithData( $CommTypeConfig{$CommunicationType}->{ErrorHandling} ) ) {
+            $LayoutObject->Block(
+                Name => 'ErrorHandlingRowNoDataFoundMsg',
+            );
+        }
+
+        # List available error handling modules.
+        else {
+
+            ERRORHANDLINGMODULE:
+            for my $ErrorHandlingModule ( @{ $CommTypeConfig{$CommunicationType}->{ErrorHandlingPriority} || [] } ) {
+
+                next ERRORHANDLINGMODULE if !$ErrorHandlingModule;
+                next ERRORHANDLINGMODULE
+                    if !IsHashRefWithData(
+                    $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$ErrorHandlingModule}
+                    );
+
+                next ERRORHANDLINGMODULE
+                    if !$CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$ErrorHandlingModule}->{Type};
+
+                my $ErrorModuleAction = $ErrorModuleConfig->{
+                    $CommTypeConfig{$CommunicationType}->{ErrorHandling}
+                        ->{$ErrorHandlingModule}->{Type}
+                }->{ConfigDialog};
+
+                next ERRORHANDLINGMODULE if !$ErrorModuleAction;
+
+                $LayoutObject->Block(
+                    Name => 'ErrorHandlingRow',
+                    Data => {
+                        ErrorHandling => $ErrorHandlingModule,
+                        Description =>
+                            $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$ErrorHandlingModule}->{Description},
+                        ErrorHandlingType =>
+                            $CommTypeConfig{$CommunicationType}->{ErrorHandling}->{$ErrorHandlingModule}->{Type},
+                        Dialog            => $ErrorModuleAction,
+                        CommunicationType => $CommunicationType,
+                        WebserviceID      => $Param{WebserviceID},
+
+                        }
+                );
+            }
+        }
     }
 
     $Output .= $LayoutObject->Output(
@@ -1237,10 +1389,10 @@ sub _OutputGIConfig {
     $LayoutObject->AddJSData(
         Key   => 'Webservice',
         Value => {
-            Transport => $Param{GITransports},
-            Operation => $Param{GIOperations},
-            Invoker   => $Param{GIInvokers},
-
+            Transport     => $Param{GITransports},
+            Operation     => $Param{GIOperations},
+            Invoker       => $Param{GIInvokers},
+            ErrorHandling => $Param{GIErrorHandlingModules},
         },
     );
 
@@ -1275,9 +1427,9 @@ sub _UpdateConfiguration {
 
     my $Configuration = $Param{Configuration};
 
-    # this function needs to be extended for further otrs versions
-    # it could be that newer otrs versions has different configuration options
-    # migration from previous version should be automatic and needs to be done here
+    # This function needs to be extended for further otrs versions
+    #   it could be that newer otrs versions has different configuration options
+    #   migration from previous version should be automatic and needs to be done here
     return $Configuration;
 }
 

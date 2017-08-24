@@ -13,7 +13,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(IsStringWithData);
 
-# prevent 'Used once' warning for Kernel::OM
+# Prevent 'Used once' warning for Kernel::OM.
 use Kernel::System::ObjectManager;
 
 our $ObjectManagerDisabled = 1;
@@ -186,8 +186,43 @@ sub HandleResponse {
         );
     }
 
-    # start map on backend
+    # Start map on backend.
     return $Self->{BackendObject}->HandleResponse(%Param);
+
+}
+
+=head2 HandleError()
+
+handle error data of the configured remote web service.
+
+    my $Result = $InvokerObject->HandleError(
+        Data => {                               # data payload
+            ...
+        },
+    );
+
+    $Result = {
+        Success         => 1,                   # 0 or 1
+        ErrorMessage    => '',                  # in case of error
+        Data            => {                    # data payload after Invoker
+            ...
+        },
+    };
+
+=cut
+
+sub HandleError {
+    my ( $Self, %Param ) = @_;
+
+    # Check data - only accept undef or hash ref.
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got Data but it is not a hash ref in Invoker handler (HandleResponse)!'
+        );
+    }
+
+    return $Self->{BackendObject}->HandleError(%Param);
 
 }
 
