@@ -588,10 +588,6 @@
                         <Item>Core.Agent.Admin.GenericInterface.css</Item>
                     </Array>
                 </Item>
-                <Item Key="JavaScript">
-                    <Array>
-                    </Array>
-                </Item>
             </Hash>
         </Value>
     </Setting>
