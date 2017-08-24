@@ -20,10 +20,10 @@ use Storable;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::GenericInterface::Requester',
-    'Kernel::System::Daemon::Scheduler',
     'Kernel::System::DateTime',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Log',
+    'Kernel::System::Scheduler',
 );
 
 =head1 NAME
@@ -166,7 +166,7 @@ sub Run {
     }
 
     # Create a new task (replica) that will be executed in the future.
-    my $Success = $Kernel::OM->Get('Kernel::System::Daemon::Scheduler')->TaskAdd(
+    my $Success = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
         ExecutionTime => $ExecutionDateTime->ToString(),
         Type          => 'GenericInterface',
         Name          => $Param{TaskName},
