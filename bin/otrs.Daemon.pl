@@ -260,19 +260,8 @@ sub Start {
                 local $SIG{TERM} = sub { $ChildRun = 0; };
                 local $SIG{CHLD} = "IGNORE";
 
-                # Remove the ZZZ files from %INC to force reloading it.
-                INCPATH:
-                for my $INCPath (sort keys %INC) {
-
-                    my $ZZZPath = 'Kernel/Config/Files/ZZZAAuto.pm';
-                    my $ZZZPathLength = length $ZZZPath;
-
-                    my $INCPathPart = substr $INCPath, -$ZZZPathLength;
-
-                    next INCPATH if $ZZZPath ne $INCPathPart;
-
-                    delete $INC{$INCPath};
-                }
+                # Remove the ZZZAAuto.pm from %INC to force reloading it.
+                delete $INC{'Kernel/Config/Files/ZZZAAuto.pm'};
 
                 local $Kernel::OM = Kernel::System::ObjectManager->new(
                     'Kernel::System::Log' => {

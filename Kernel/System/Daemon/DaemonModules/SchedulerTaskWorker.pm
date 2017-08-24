@@ -149,19 +149,8 @@ sub Run {
         # At the child, execute task.
         if ( !$PID ) {
 
-            # Remove the ZZZ files from %INC to force reloading it.
-            INCPATH:
-            for my $INCPath (sort keys %INC) {
-
-                my $ZZZPath = 'Kernel/Config/Files/ZZZAAuto.pm';
-                my $ZZZPathLength = length $ZZZPath;
-
-                my $INCPathPart = substr $INCPath, -$ZZZPathLength;
-
-                next INCPATH if $ZZZPath ne $INCPathPart;
-
-                delete $INC{$INCPath};
-            }
+            # Remove the ZZZAAuto.pm from %INC to force reloading it.
+            delete $INC{'Kernel/Config/Files/ZZZAAuto.pm'};
 
             # Destroy objects.
             $Kernel::OM->ObjectsDiscard(

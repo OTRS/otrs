@@ -1917,11 +1917,11 @@ sub new {
     # load extra config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
 
-        my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
+        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
 
         # Resorting the filelist.
-        my @NewFileOrderPre;
-        my @NewFileOrderPost;
+        my @NewFileOrderPre  = ();
+        my @NewFileOrderPost = ();
 
         for my $File (@Files) {
 
@@ -1983,7 +1983,7 @@ sub new {
         die;
     }
 
-    if ( open my $Product, '<', "$Self->{Home}/RELEASE" ) {    ## no critic
+    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {    ## no critic
 
         while ( my $Line = <$Product> ) {
 
@@ -2146,7 +2146,7 @@ sub AutoloadPerlPackages {
 
             next PACKAGE if !$Package;
 
-            if ( substr $Package, 0, 16 ne 'Kernel::Autoload' ) {
+            if ( substr($Package, 0, 16) ne 'Kernel::Autoload' ) {
                 print STDERR "Error: Autoload packages must be located in Kernel/Autoload, skipping $Package\n";
                 next PACKAGE;
             }
