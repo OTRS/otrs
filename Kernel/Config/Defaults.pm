@@ -1916,12 +1916,15 @@ sub new {
 
     # load extra config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
-        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
 
-        # sort
-        my @NewFileOrderPre  = ();
-        my @NewFileOrderPost = ();
+        my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
+
+        # Resorting the filelist.
+        my @NewFileOrderPre;
+        my @NewFileOrderPost;
+
         for my $File (@Files) {
+
             if ( $File =~ /Ticket/ ) {
                 push @NewFileOrderPre, $File;
             }
@@ -1929,7 +1932,9 @@ sub new {
                 push @NewFileOrderPost, $File;
             }
         }
+
         @Files = ( @NewFileOrderPre, @NewFileOrderPost );
+
         FILE:
         for my $File (@Files) {
 
@@ -1948,17 +1953,21 @@ sub new {
             $Package =~ s/\.pm$//g;
 
             eval {
+
                 # Try to load file.
                 if ( !require $RelativeFile ) {
                     die "ERROR: Could not load $File: $!\n";
                 }
+
                 # Check if package has loaded and has a Load() method.
                 if (!$Package->can('Load')) {
                     die "$Package has no Load() method.";
                 }
+
                 # Call package method but pass $Self as instance.
                 $Package->Load($Self);
             };
+
             if ( $@ ) {
                 my $ErrorMessage = $@;
                 print STDERR $@;
@@ -1973,11 +1982,14 @@ sub new {
             "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
         die;
     }
-    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) {    ## no critic
+
+    if ( open my $Product, '<', "$Self->{Home}/RELEASE" ) {    ## no critic
+
         while ( my $Line = <$Product> ) {
 
             # filtering of comment lines
             if ( $Line !~ /^#/ ) {
+
                 if ( $Line =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
                     $Self->{Product} = $1;
                 }
@@ -1986,7 +1998,8 @@ sub new {
                 }
             }
         }
-        close($Product);
+
+        close $Product;
     }
     else {
         print STDERR
@@ -2003,7 +2016,9 @@ sub new {
         # replace config variables in config variables
         KEY:
         for my $Key ( sort keys %{$Self} ) {
+
             next KEY if !defined $Key;
+
             if ( defined $Self->{$Key} ) {
                 $Self->{$Key} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
             }
@@ -2049,6 +2064,7 @@ sub Set {
 
     # set runtime config option
     if ( $Param{Key} =~ /^(.+?)###(.+?)$/ ) {
+
         if ( !defined $Param{Value} ) {
             delete $Self->{$1}->{$2};
         }
@@ -2057,6 +2073,7 @@ sub Set {
         }
     }
     else {
+
         if ( !defined $Param{Value} ) {
             delete $Self->{ $Param{Key} };
         }
@@ -2064,6 +2081,7 @@ sub Set {
             $Self->{ $Param{Key} } = $Param{Value};
         }
     }
+
     return 1;
 }
 
@@ -2118,13 +2136,17 @@ sub AutoloadPerlPackages {
 
     CONFIGKEY:
     for my $ConfigKey (sort keys %AutoloadConfiguration) {
+
         my $ConfigValue = $AutoloadConfiguration{$ConfigKey};
+
         next CONFIGKEY if ref $ConfigValue ne 'ARRAY';
 
         PACKAGE:
-        for my $Package (@{$ConfigValue}) {
+        for my $Package ( @{$ConfigValue} ) {
+
             next PACKAGE if !$Package;
-            if (substr($Package, 0, 16) ne 'Kernel::Autoload') {
+
+            if ( substr $Package, 0, 16 ne 'Kernel::Autoload' ) {
                 print STDERR "Error: Autoload packages must be located in Kernel/Autoload, skipping $Package\n";
                 next PACKAGE;
             }
@@ -2135,7 +2157,6 @@ sub AutoloadPerlPackages {
                 require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
             };
         }
-
     }
 
     return 1;
