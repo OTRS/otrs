@@ -588,6 +588,11 @@
                         <Item>Core.Agent.Admin.GenericInterface.css</Item>
                     </Array>
                 </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.GenericInterfaceMappingXSLT.js</Item>
+                    </Array>
+                </Item>
             </Hash>
         </Value>
     </Setting>

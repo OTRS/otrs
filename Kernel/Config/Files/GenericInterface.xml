@@ -359,6 +359,7 @@
                 <Title Translatable="1">GenericInterface Web Service Mapping GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
+                    <JavaScript>Core.Agent.Admin.GenericInterfaceMappingXSLT.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>

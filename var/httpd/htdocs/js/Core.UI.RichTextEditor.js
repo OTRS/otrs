@@ -69,7 +69,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         var EditorID = '',
             Editor,
             UserLanguage,
-            UploadURL = '';
+            UploadURL = '',
+            EditorConfig;
 
         if (typeof CKEDITOR === 'undefined') {
             return false;
@@ -105,6 +106,30 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         });
 
         CKEDITOR.on('instanceReady', function (Editor) {
+
+            // specific config for CodeMirror instances (e.g. XSLT editor)
+            if (Core.Config.Get('RichText.Type') == 'CodeMirror') {
+
+                // The width of a tab character. Defaults to 4.
+                window[ 'codemirror_' + Editor.editor.id ].setOption("tabSize", 4);
+
+                // How many spaces a block (whatever that means in the edited language) should be indented. The default is 2.
+                window[ 'codemirror_' + Editor.editor.id ].setOption("indentUnit", 4);
+
+                // Whether to use the context-sensitive indentation that the mode provides (or just indent the same as the line before). Defaults to true.
+                window[ 'codemirror_' + Editor.editor.id ].setOption("tabMode", 'spaces');
+                window[ 'codemirror_' + Editor.editor.id ].setOption("smartIndent", true);
+
+                // convert tabs to spaces
+                window[ 'codemirror_' + Editor.editor.id ].setOption("extraKeys", {
+                    Tab: function(cm) {
+                        var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                        cm.replaceSelection(spaces);
+                    }
+                });
+
+            }
+
             Core.App.Publish('Event.UI.RichTextEditor.InstanceReady', [Editor]);
         });
 
@@ -124,9 +149,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     + '=' + Core.Config.Get('SessionID');
         }
 
+        // set default editor config, but allow custom config for other types for editors
         /*eslint-disable camelcase */
-        Editor = CKEDITOR.replace(EditorID,
-        {
+        EditorConfig = {
             customConfig: '', // avoid loading external config files
             defaultLanguage: UserLanguage,
             language: UserLanguage,
@@ -147,12 +172,46 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             extraPlugins: 'splitquote,preventimagepaste',
             entities: false,
             skin: 'moono-lisa'
-        });
+        };
         /*eslint-enable camelcase */
+
+        // specific config for CodeMirror instances (e.g. XSLT editor)
+        if (Core.Config.Get('RichText.Type') == 'CodeMirror') {
+            $.extend(EditorConfig, {
+
+                /*eslint-disable camelcase */
+                startupMode: 'source',
+                allowedContent: true,
+                extraPlugins: 'codemirror',
+                codemirror: {
+                    theme: 'default',
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    matchBrackets: true,
+                    autoCloseTags: true,
+                    autoCloseBrackets: true,
+                    enableSearchTools: true,
+                    enableCodeFolding: true,
+                    enableCodeFormatting: true,
+                    autoFormatOnStart: false,
+                    autoFormatOnModeChange: false,
+                    autoFormatOnUncomment: false,
+                    mode: 'htmlmixed',
+                    showTrailingSpace: true,
+                    highlightMatches: true,
+                    styleActiveLine: true
+                }
+                /*eslint-disable camelcase */
+
+            });
+        }
+
+        Editor = CKEDITOR.replace(EditorID, EditorConfig);
 
         // check if creating CKEditor was successful
         // might be a problem on mobile devices e.g.
         if (typeof Editor !== 'undefined') {
+
             // Hack for updating the textarea with the RTE content (bug#5857)
             // Rename the original function to another name, than overwrite the original one
             CKEDITOR.instances[EditorID].updateElementOriginal = CKEDITOR.instances[EditorID].updateElement;
@@ -168,9 +227,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 //  like '<br/>' stored in the DB.
                 Data = this.element.getValue(); // get textarea content
 
-                // only if data contains no image tag,
+                // only if codemirror plugin is not used (for XSLT editor)
+                // or
+                // if data contains no image tag,
                 // this is important for inline images, we don't want to remove them!
-                if (!Data.match(/<img/)) {
+                if (typeof CKEDITOR.instances[EditorID].config.codemirror === 'undefined' && !Data.match(/<img/)) {
+
                     // remove tags and whitespace for checking
                     Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
                     if (!Data.length) {

@@ -200,6 +200,87 @@ ul.Tablelike li.Header + li {
     width: 10px;
 }
 
+/* Legend & Shortcuts */
+
+.WidgetSimple .Legend,
+.WidgetSimple .ShortCuts {
+    margin: 5px;
+}
+
+.WidgetSimple .Legend {
+    margin-left: 8px;
+}
+
+.WidgetSimple .Legend li,
+.WidgetSimple .ShortCuts li {
+    margin-bottom: 7px;
+    font-size: 11px;
+    position: relative;
+    padding-left: 10px;
+    color: #555;
+}
+
+.RTL .WidgetSimple .Legend li,
+.RTL .WidgetSimple .ShortCuts li {
+    padding-left: 0px;
+    padding-right: 10px;
+}
+
+.WidgetSimple .Legend li:last-child,
+.WidgetSimple .ShortCuts li:last-child {
+    margin-bottom: 0px;
+}
+
+.WidgetSimple .Legend li span {
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    height: 12px;
+    margin-top: -6px;
+    width: 5px;
+}
+
+.RTL .WidgetSimple .Legend li span {
+    left: auto;
+    right: 0px;
+}
+
+.WidgetSimple .ShortCuts {
+    margin-top: 7px;
+    display: table;
+}
+
+.WidgetSimple .ShortCuts li {
+    padding-left: 0px;
+    display: table-row;
+}
+
+.WidgetSimple .ShortCuts li em {
+    display: table-cell;
+    padding-top: 5px;
+    font-style: normal;
+}
+
+.WidgetSimple .ShortCuts li em:first-child {
+    text-align: right;
+}
+
+.WidgetSimple .ShortCuts li span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    text-transform: uppercase;
+    font-size: 9px;
+    font-weight: bold;
+    margin-right: 5px;
+    color: #555;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.RTL .WidgetSimple .ShortCuts li span {
+    margin-right: 0px;
+    margin-left: 5px;
+}
 
 /**
  * @subsection Widgets as notices

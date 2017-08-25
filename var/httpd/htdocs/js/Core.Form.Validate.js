@@ -257,9 +257,10 @@ Core.Form.Validate = (function (TargetNS) {
 
         // for richtextareas, get editor code and remove all tags and whitespace
         // keep tags if images are embedded because of inline-images
+        // keep tags if codemirror plugin is used (for XSLT editor)
         if (Core.UI.RichTextEditor.IsEnabled($Element)) {
             Value = CKEDITOR.instances[Element.id].getData();
-            if (!Value.match(/<img/)) {
+            if (typeof CKEDITOR.instances[Element.id].config.codemirror === 'undefined' && !Value.match(/<img/)) {
                 Value = Value.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
             }
         }

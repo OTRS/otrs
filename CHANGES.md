@@ -1,4 +1,10 @@
 #6.0.0.beta1 2017-??-??
+ - 2017-08-25 Improved XSLT mapping functionality.
+     Added XSLT regex functionality.
+     Improved XSLT backend (module handling and error reporting).
+     Added richtext (ckeditor/codemirror) functionality to XSLT frontend.
+     Improved XSLT frontend (wording, structure).
+     Added data include functionality to XSLT mapping.
  - 2017-08-24 Added error handling to the Generic Interface.
      Configurable retry module for requester.
  - 2017-08-23 Added numerous Generic Interface improvements.

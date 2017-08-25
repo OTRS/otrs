@@ -502,7 +502,7 @@ sub Block {
         Data => $Param{Data},
         };
 
-    return;
+    return 1;
 }
 
 =head2 JSONEncode()
@@ -1104,7 +1104,7 @@ create notify lines
         Info => 'Some Error Message',
     );
 
-    errors from log backend, if no error extists, a '' will be returned
+    errors from log backend, if no error exists, a '' will be returned
 
     my $Output = $LayoutObject->Notify(
         Priority => 'Error',
@@ -1685,14 +1685,14 @@ sub Print {
 
 =head2 Ascii2Html()
 
-convert ascii to html string
+convert ASCII to html string
 
     my $HTML = $LayoutObject->Ascii2Html(
         Text            => 'Some <> Test <font color="red">Test</font>',
-        Max             => 20,       # max 20 chars folowed by [..]
+        Max             => 20,       # max 20 chars flowed by [..]
         VMax            => 15,       # first 15 lines
         NewLine         => 0,        # move \r to \n
-        HTMLResultMode  => 0,        # replace " " with &nbsp;
+        HTMLResultMode  => 0,        # replace " " with C<&nbsp;>
         StripEmptyLines => 0,
         Type            => 'Normal', # JSText or Normal text
         LinkFeature     => 0,        # do some URL detections
@@ -2123,7 +2123,7 @@ build a HTML option element based on given data
         DisabledBranch => 'Branch',          # (optional) disable all elements of this branch (use string or arrayref)
         Max            => 100,               # (optional) default 100 max size of the shown value
         HTMLQuote      => 0,                 # (optional) default 1 (0|1) disable html quote
-        Title          => 'Tooltip Text',    # (optional) string will be shown as Tooltip on mouseover
+        Title          => 'C<Tooltip> Text',    # (optional) string will be shown as c<Tooltip> on c<mouseover>
         OptionTitle    => 1,                 # (optional) default 0 (0|1) show title attribute (the option value) on every option element
 
         Filters => {                         # (optional) filter data, used by InputFields
@@ -6021,13 +6021,6 @@ sub WrapPlainText {
     return $WorkString;
 }
 
-#COMPAT: to 3.0.x and lower (can be removed later)
-sub TransfromDateSelection {
-    my ( $Self, %Param ) = @_;
-
-    return $Self->TransformDateSelection(%Param);
-}
-
 =head2 SetRichTextParameters()
 
 set properties for rich text editor and send them to JS via AddJSData()
@@ -6059,6 +6052,7 @@ sub SetRichTextParameters {
     # get needed variables
     my $ScreenRichTextHeight = $Param{Data}->{RichTextHeight} || $ConfigObject->Get("Frontend::RichTextHeight");
     my $ScreenRichTextWidth  = $Param{Data}->{RichTextWidth}  || $ConfigObject->Get("Frontend::RichTextWidth");
+    my $RichTextType         = $Param{Data}->{RichTextType}   || '';
     my $PictureUploadAction = $Param{Data}->{RichTextPictureUploadAction} || '';
     my $TextDir = $Self->{TextDirection} || '';
     my $EditingAreaCSS = 'body.cke_editable { ' . $ConfigObject->Get("Frontend::RichText::DefaultCSS") . ' }';
@@ -6067,7 +6061,14 @@ sub SetRichTextParameters {
     my @Toolbar;
     my @ToolbarWithoutImage;
 
-    if ( $ConfigObject->Get("Frontend::RichText::EnhancedMode") == '1' ) {
+    if ( $RichTextType eq 'CodeMirror' ) {
+        @Toolbar = @ToolbarWithoutImage = [
+            [ 'autoFormat', 'CommentSelectedRange', 'UncommentSelectedRange', 'AutoComplete' ],
+            [ 'Find', 'Replace', '-', 'SelectAll' ],
+            ['Maximize'],
+        ];
+    }
+    elsif ( $ConfigObject->Get("Frontend::RichText::EnhancedMode") == '1' ) {
         @Toolbar = [
             [
                 'Bold',   'Italic',       'Underline',    'Strike',        'Subscript',    'Superscript',
@@ -6151,10 +6152,11 @@ sub SetRichTextParameters {
             Toolbar             => $Toolbar[0],
             ToolbarWithoutImage => $ToolbarWithoutImage[0],
             PictureUploadAction => $PictureUploadAction,
+            Type                => $RichTextType,
             }
     );
 
-    return;
+    return 1;
 }
 
 =head2 CustomerSetRichTextParameters()
@@ -6281,7 +6283,7 @@ sub CustomerSetRichTextParameters {
             }
     );
 
-    return;
+    return 1;
 }
 
 =head2 UserInitialsGet()

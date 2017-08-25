@@ -7,7 +7,6 @@
 # --
 
 package Kernel::Modules::AdminGenericInterfaceMappingXSLT;
-## nofilter(TidyAll::Plugin::OTRS::Perl::Require)
 
 use strict;
 use warnings;
@@ -22,6 +21,10 @@ sub new {
 
     my $Self = {%Param};
     bless( $Self, $Type );
+
+    # Set possible values handling strings.
+    $Self->{EmptyString}   = '_RegEx_EmptyString_Dont_Use_It_String_Please';
+    $Self->{DeletedString} = '_RegEx_DeletedString_Dont_Use_It_String_Please';
 
     return $Self;
 }
@@ -55,8 +58,6 @@ sub Run {
     for my $LibRequired (qw(XML::LibXML XML::LibXSLT)) {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require(
             $LibRequired,
-
-            #Silent => 1,
         );
         next LIBREQUIRED if $LibFound;
 
@@ -119,7 +120,12 @@ sub Run {
         my $MappingConfig = $WebserviceData->{Config}->{$CommunicationType}->
             {$ActionType}->{$Action}->{$Direction}->{Config};
 
-        $Mapping{Template} = $MappingConfig->{Template};
+        $Mapping{Template}              = $MappingConfig->{Template};
+        $Mapping{DataInclude}           = $MappingConfig->{DataInclude};
+        $Mapping{PreRegExFilter}        = $MappingConfig->{PreRegExFilter};
+        $Mapping{PreRegExValueCounter}  = $MappingConfig->{PreRegExValueCounter};
+        $Mapping{PostRegExFilter}       = $MappingConfig->{PostRegExFilter};
+        $Mapping{PostRegExValueCounter} = $MappingConfig->{PostRegExValueCounter};
 
         return $Self->_ShowEdit(
             %Param,
@@ -169,7 +175,12 @@ sub Run {
         }
 
         my %NewMapping;
-        $NewMapping{Template} = $GetParam->{Template};
+        $NewMapping{Template}              = $GetParam->{Template};
+        $NewMapping{DataInclude}           = $GetParam->{DataInclude};
+        $NewMapping{PreRegExFilter}        = $GetParam->{PreRegExFilter};
+        $NewMapping{PreRegExValueCounter}  = $GetParam->{PreRegExValueCounter};
+        $NewMapping{PostRegExFilter}       = $GetParam->{PostRegExFilter};
+        $NewMapping{PostRegExValueCounter} = $GetParam->{PostRegExValueCounter};
 
         # Set new mapping.
         $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}->{Config}
@@ -248,8 +259,116 @@ sub _ShowEdit {
         %Error = %{ $Param{WebserviceData}->{Error} };
     }
 
-    $Param{Template} = $MappingConfig->{Template};
-    $Param{TemplateError} = $Error{Template} || '';
+    # Add rich text editor config.
+    if ( $LayoutObject->{BrowserRichText} ) {
+        $LayoutObject->SetRichTextParameters(
+            Data => {
+                %Param,
+                RichTextHeight => '600',
+                RichTextWidth  => '99%',
+                RichTextType   => 'CodeMirror',
+            },
+        );
+    }
+
+    # Render pre regex filters.
+    $Self->_RegExFiltersOutput(
+        %{$MappingConfig},
+        Type => 'Pre',
+    );
+
+    my %DataIncludeOptionMap = (
+        Requester => {
+            MappingOutbound => [
+                {
+                    Key   => 'RequesterRequestInput',
+                    Value => Translatable('Outgoing request data before processing') . ' (RequesterRequestInput)',
+                },
+                {
+                    Key   => 'RequesterRequestPrepareOutput',
+                    Value => Translatable('Outgoing request data before mapping') . ' (RequesterRequestPrepareOutput)',
+                },
+            ],
+            MappingInbound => [
+                {
+                    Key   => 'RequesterRequestInput',
+                    Value => Translatable('Outgoing request data before processing') . ' (RequesterRequestInput)',
+                },
+                {
+                    Key   => 'RequesterRequestPrepareOutput',
+                    Value => Translatable('Outgoing request data before mapping') . ' (RequesterRequestPrepareOutput)',
+                },
+                {
+                    Key   => 'RequesterRequestMapOutput',
+                    Value => Translatable('Outgoing request data after mapping') . ' (RequesterRequestMapOutput)',
+                },
+                {
+                    Key   => 'RequesterResponseInput',
+                    Value => Translatable('Incoming response data before mapping') . ' (RequesterResponseInput)',
+                },
+                {
+                    Key   => 'RequesterErrorHandlingOutput',
+                    Value => Translatable('Outgoing error handler data after error handling')
+                        . ' (RequesterErrorHandlingOutput)',
+                },
+            ],
+        },
+        Provider => {
+            MappingOutbound => [
+                {
+                    Key   => 'ProviderRequestInput',
+                    Value => Translatable('Incoming request data before mapping') . ' (ProviderRequestInput)',
+                },
+                {
+                    Key   => 'ProviderRequestMapOutput',
+                    Value => Translatable('Incoming request data after mapping') . ' (ProviderRequestMapOutput)',
+                },
+                {
+                    Key   => 'ProviderResponseInput',
+                    Value => Translatable('Outgoing response data before mapping') . ' (ProviderResponseInput)',
+                },
+                {
+                    Key   => 'ProviderErrorHandlingOutput',
+                    Value => Translatable('Outgoing error handler data after error handling')
+                        . ' (ProviderErrorHandlingOutput)',
+                },
+            ],
+            MappingInbound => [
+                {
+                    Key   => 'ProviderRequestInput',
+                    Value => Translatable('Incoming request data before mapping') . ' (ProviderRequestInput)',
+                },
+            ],
+        },
+    );
+    $Param{DataIncludeSelect} = $LayoutObject->BuildSelection(
+        Data         => $DataIncludeOptionMap{ $Param{CommunicationType} }->{ $Param{Direction} },
+        Name         => 'DataInclude',
+        SelectedID   => $MappingConfig->{DataInclude},
+        PossibleNone => 1,
+        Translation  => 1,
+        Multiple     => 1,
+        Class        => 'Modernize W50pc',
+    );
+
+    $LayoutObject->Block(
+        Name => 'ConfigBlock',
+        Data => {},
+    );
+    $LayoutObject->Block(
+        Name => 'ConfigBlockTemplate',
+        Data => {
+            %Param,
+            Template      => $MappingConfig->{Template},
+            TemplateError => $Error{Template} || '',
+        },
+    );
+
+    # Render post regex filters.
+    $Self->_RegExFiltersOutput(
+        %{$MappingConfig},
+        Type => 'Post',
+    );
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminGenericInterfaceMappingXSLT',
@@ -271,13 +390,15 @@ sub _GetParams {
 
     # Get parameters from web browser.
     $GetParam->{Template} = $ParamObject->GetParam( Param => 'Template' ) || '';
+    my @DataInclude = $ParamObject->GetArray( Param => 'DataInclude' );
+    $GetParam->{DataInclude} = \@DataInclude;
 
     # Check validity.
     my $LibXML  = XML::LibXML->new();
     my $LibXSLT = XML::LibXSLT->new();
     my ( $StyleDoc, $StyleSheet );
     eval {
-        $StyleDoc = $LibXML->load_xml(
+        $StyleDoc = XML::LibXML->load_xml(
             string   => $GetParam->{Template},
             no_cdata => 1,
         );
@@ -287,6 +408,7 @@ sub _GetParams {
         return $GetParam;
     }
     eval {
+        my $LibXSLT = XML::LibXSLT->new();
         $StyleSheet = $LibXSLT->parse_stylesheet($StyleDoc);
     };
     if ( !$StyleSheet ) {
@@ -294,7 +416,118 @@ sub _GetParams {
         return $GetParam;
     }
 
+    # Get RegEx params.
+    my %RegExFilterConfig;
+    TYPE:
+    for my $Type (qw(Pre Post)) {
+        my $ValueCounter = $ParamObject->GetParam( Param => $Type . 'ValueCounter' ) // 0;
+        next TYPE if !$ValueCounter;
+
+        my $EmptyValueCounter = 0;
+        my @RegExConfig;
+        VALUEINDEX:
+        for my $ValueIndex ( 1 .. $ValueCounter ) {
+            my $Key = $ParamObject->GetParam( Param => $Type . 'Key' . '_' . $ValueIndex ) // '';
+
+            # Check if key was deleted by the user and skip it.
+            next VALUEINDEX if $Key eq $Self->{DeletedString};
+
+            # Check if the original value is empty.
+            if ( !IsStringWithData($Key) ) {
+
+                # Change the empty value to a predefined string.
+                $Key = $Self->{EmptyString} . $EmptyValueCounter++;
+                $GetParam->{Error}->{ $Type . 'RegExFilter' }->{$Key} = 1;
+            }
+
+            push @RegExConfig, {
+                Search  => $Key,
+                Replace => $ParamObject->GetParam( Param => $Type . 'Value' . '_' . $ValueIndex ) // '',
+            };
+        }
+
+        $GetParam->{ $Type . 'RegExFilter' }       = \@RegExConfig;
+        $GetParam->{ $Type . 'RegExValueCounter' } = scalar @RegExConfig;
+    }
+
     return $GetParam;
+}
+
+sub _RegExFiltersOutput {
+    my ( $Self, %Param ) = @_;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my @RegExFilter;
+    if ( IsArrayRefWithData( $Param{ $Param{Type} . 'RegExFilter' } ) ) {
+        @RegExFilter = @{ $Param{ $Param{Type} . 'RegExFilter' } };
+    }
+
+    $LayoutObject->Block(
+        Name => 'ConfigBlock',
+        Data => {},
+    );
+    $LayoutObject->Block(
+        Name => 'ConfigBlockRegExFilter',
+        Data => {
+            Type          => $Param{Type},
+            ValueCounter  => $Param{ $Param{Type} . 'RegExValueCounter' } // 0,
+            DeletedString => $Self->{DeletedString},
+            Collapsed     => !@RegExFilter ? 'Collapsed' : undef,
+        },
+    );
+
+    # Create the possible values template.
+    $LayoutObject->Block(
+        Name => 'ValueTemplate',
+        Data => {
+            %Param,
+        },
+    );
+
+    return 1 if !@RegExFilter;
+
+    # Output the possible entries and errors within (if any).
+    my $ValueCounter = 1;
+    for my $RegEx (@RegExFilter) {
+
+        # Needed for server side validation.
+        my $KeyError;
+        my $KeyErrorStrg;
+
+        # To set the correct original value.
+        my $KeyClone = $RegEx->{Search};
+
+        # Check for errors.
+        if ( $Param{Error}->{ $Param{Type} . 'RegExFilter' }->{ $RegEx->{Search} } ) {
+
+            # If the original value was empty it has been changed in _GetParams to a predefined
+            #   string and need to be set to empty again.
+            $KeyClone = '';
+
+            # Set the error class.
+            $KeyError     = 'ServerError';
+            $KeyErrorStrg = Translatable('This field is required.');
+        }
+
+        # Create a value map row.
+        $LayoutObject->Block(
+            Name => 'ValueRow',
+            Data => {
+                Type         => $Param{Type},
+                KeyError     => $KeyError,
+                KeyErrorStrg => $KeyErrorStrg || Translatable('This field is required.'),
+                Key          => $KeyClone,
+                ValueCounter => $ValueCounter,
+                Value        => $RegEx->{Replace},
+            },
+        );
+    }
+    continue {
+        ++$ValueCounter;
+    }
+
+    return 1;
 }
 
 1;

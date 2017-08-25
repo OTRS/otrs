@@ -214,6 +214,45 @@ my @MappingTests = (
         ResultSuccess => 1,
         ConfigSuccess => 1,
     },
+    {
+        Name   => 'Test DataInclude functionality',
+        Config => {
+            DataInclude => [
+                'RequesterRequestInput',
+                'RequesterResponseMapOutput',
+            ],
+            Template => qq{<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+ xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+ xmlns:otrs="http://otrs.org"
+ extension-element-prefixes="otrs">
+<xsl:import href="$Home/Kernel/GenericInterface/Mapping/OTRSFunctions.xsl" />
+<xsl:output method="xml" encoding="utf-8" indent="yes"/>
+<xsl:template match="/RootElement">
+<NewRootElement>
+    <DataInclude><xsl:value-of select="/RootElement/DataInclude/RequesterResponseMapOutput/Value" /></DataInclude>
+    <DataInclude><xsl:value-of select="/RootElement/DataInclude/RequesterRequestInput/Value" /></DataInclude>
+</NewRootElement>
+</xsl:template>
+</xsl:stylesheet>},
+        },
+        Data => {
+            Key => 'Value',
+        },
+        DataInclude => {
+            RequesterRequestInput         => { Value => 1 },
+            RequesterRequestPrepareOutput => { Value => 2 },
+            RequesterResponseMapOutput    => { Value => 3 }
+        },
+        ResultData => {
+            DataInclude => [
+                3,
+                1,
+            ],
+        },
+        ResultSuccess => 1,
+        ConfigSuccess => 1,
+    },
 );
 
 TEST:
@@ -244,9 +283,9 @@ for my $Test (@MappingTests) {
         next TEST;
     }
 
-    # $MappingObject->{MappingConfig}->{Config} = $Test->{Config};
     my $MappingResult = $MappingObject->Map(
-        Data => $Test->{Data},
+        Data        => $Test->{Data},
+        DataInclude => $Test->{DataInclude},
     );
 
     # check if function return correct status
