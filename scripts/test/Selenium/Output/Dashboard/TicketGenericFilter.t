@@ -168,7 +168,7 @@ $Selenium->RunTest(
             );
 
             # Delete the current filter.
-            $Selenium->find_element( "a.DeleteFilter", 'css' )->VerifiedClick();
+            $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
 
             # Wait for AJAX to finish.
             $Selenium->WaitFor(
@@ -227,7 +227,7 @@ $Selenium->RunTest(
             );
 
             # Delete the current filter.
-            $Selenium->find_element( "a.DeleteFilter", 'css' )->VerifiedClick();
+            $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
 
             # Wait for AJAX to finish.
             $Selenium->WaitFor(
@@ -321,7 +321,7 @@ $Selenium->RunTest(
             );
 
             # Delete the current filter.
-            $Selenium->find_element( "a.DeleteFilter", 'css' )->VerifiedClick();
+            $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
 
             # Wait for AJAX to finish.
             $Selenium->WaitFor(
