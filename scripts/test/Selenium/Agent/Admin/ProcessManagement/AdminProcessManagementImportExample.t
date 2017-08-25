@@ -189,6 +189,7 @@ $Selenium->RunTest(
         );
 
         # Reset settings to the default value.
+        my @UpdatedSettings;
         for my $Key (qw( ProcessWidgetDynamicFieldGroups ProcessWidgetDynamicField)) {
 
             my $Guid = $SysConfigObject->SettingLock(
@@ -205,6 +206,25 @@ $Selenium->RunTest(
             $Self->True(
                 $Success,
                 "Setting Ticket::Frontend::AgentTicketZoom###$Key reset to the default value.",
+            );
+
+            $SysConfigObject->SettingUnlock(
+                DefaultID => $Value->{$Key}->{DefaultID},
+            );
+
+            push @UpdatedSettings, $Value->{$Key}->{Name};
+        }
+
+        $Success = $SysConfigObject->ConfigurationDeploy(
+            Comments      => "Deployed by Selenium test",
+            UserID        => 1,
+            Force         => 1,
+            DirtySettings => \@UpdatedSettings,
+        );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "System was unable to deploy settings needed for Application for leave process!"
             );
         }
     }
