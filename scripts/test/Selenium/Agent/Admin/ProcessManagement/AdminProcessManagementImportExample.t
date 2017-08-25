@@ -13,24 +13,22 @@ use utf8;
 use vars (qw($Self));
 use Kernel::Config;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper             = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
         my $Home = $Kernel::OM->Get('Kernel::Config')->Get("Home");
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
 
-        # add needed dynamic field, but in wrong format
+        # Add needed dynamic field, but in wrong format.
         my $ID = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'PreProcApplicationRecorded',
             Label      => 'Days Remaining',
@@ -52,27 +50,21 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-
-        # navigate to AdminProcessManagement screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # select Application for leave process
+        # Select Application for leave process.
         $Selenium->execute_script(
             "\$('#ExampleProcess').val('Application_for_leave.yml')" .
                 ".trigger('redraw.InputField').trigger('change');"
         );
-
-        # Import
         $Selenium->find_element( "#ExampleProcesses button", "css" )->VerifiedClick();
 
-        # check error message
+        # Check error message.
         $Self->True(
             index(
                 $Selenium->get_page_source(),
@@ -81,31 +73,28 @@ $Selenium->RunTest(
             "Error message is shown.",
         );
 
-        # delete wrong dynamic field
-        my $DeleteSuccess = $DynamicFieldObject->DynamicFieldDelete(
+        # Delete wrong dynamic field.
+        my $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID      => $ID,
             UserID  => 1,
             Reorder => 1,
         );
         $Self->True(
-            $DeleteSuccess,
+            $Success,
             "Dynamic field deleted successfully.",
         );
 
         # Try to import process once again, but this time it should work.
-
-        # navigate to AdminProcessManagement screen
+        # Navigate to AdminProcessManagement screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # select Application for leave process
+        # Select Application for leave process.
         $Selenium->execute_script(
             "\$('#ExampleProcess').val('Application_for_leave.yml')" .
                 ".trigger('redraw.InputField').trigger('change');"
         );
 
-        # Import
         $Selenium->find_element( "#ExampleProcesses button", "css" )->VerifiedClick();
-
         my $ProcessFound = $Selenium->execute_script(
             "return \$(\".ContentColumn a.AsBlock:contains('Application for leave')\").length;"
         );
@@ -115,7 +104,7 @@ $Selenium->RunTest(
             "Application for leave is imported."
         );
 
-        # check imported dynamic fields (from pre .pm file)
+        # Check imported dynamic fields (from pre .pm file).
         my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
             ObjectType => 'Ticket',
             ResultType => 'HASH',
@@ -137,10 +126,13 @@ $Selenium->RunTest(
         }
 
         # To check if _post.pm file is executed properly, compare sysconfig with expected value.
-        delete $INC{ $Home . '/Kernel/Config/Files/ZZZAAuto.pm' };
-        my $ConfigObject = Kernel::Config->new();
-
-        my $Value = $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom");
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $Value;
+        for my $Key (qw( ProcessWidgetDynamicFieldGroups ProcessWidgetDynamicField)) {
+            %{ $Value->{$Key} } = $SysConfigObject->SettingGet(
+                Name => "Ticket::Frontend::AgentTicketZoom###$Key",
+            );
+        }
 
         my %ExpectedValue = (
             'ProcessWidgetDynamicFieldGroups' => {
@@ -174,7 +166,7 @@ $Selenium->RunTest(
                 );
                 if ( $Value->{$Key} ) {
                     $Self->Is(
-                        $Value->{$Key}->{$InnerKey},
+                        $Value->{$Key}->{EffectiveValue}->{$InnerKey},
                         $ExpectedValue{$Key}->{$InnerKey},
                         "Check Ticket::Frontend::AgentTicketZoom###$Key###$InnerKey value."
                     );
@@ -182,19 +174,39 @@ $Selenium->RunTest(
             }
         }
 
-        # delete wrong dynamic field
+        # Delete wrong dynamic field.
         my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
             Name => 'PreProcApplicationRecorded',
         );
-        my $DeleteSuccess2 = $DynamicFieldObject->DynamicFieldDelete(
+        $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID      => $DynamicFieldData->{ID},
             UserID  => 1,
             Reorder => 1,
         );
         $Self->True(
-            $DeleteSuccess2,
+            $Success,
             "Dynamic field deleted successfully.",
         );
+
+        # Reset settings to the default value.
+        for my $Key (qw( ProcessWidgetDynamicFieldGroups ProcessWidgetDynamicField)) {
+
+            my $Guid = $SysConfigObject->SettingLock(
+                UserID    => 1,
+                DefaultID => $Value->{$Key}->{DefaultID},
+                Force     => 1,
+            );
+
+            $Success = $SysConfigObject->SettingReset(
+                Name              => "Ticket::Frontend::AgentTicketZoom###$Key",
+                ExclusiveLockGUID => $Guid,
+                UserID            => 1,
+            );
+            $Self->True(
+                $Success,
+                "Setting Ticket::Frontend::AgentTicketZoom###$Key reset to the default value.",
+            );
+        }
     }
 );
 
