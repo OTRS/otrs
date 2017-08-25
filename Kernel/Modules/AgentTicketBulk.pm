@@ -322,7 +322,7 @@ sub Run {
             }
 
             # get time stamp based on user time zone
-            %Time = $LayoutObject->TransfromDateSelection(
+            %Time = $LayoutObject->TransformDateSelection(
                 Year   => $ParamObject->GetParam( Param => 'Year' ),
                 Month  => $ParamObject->GetParam( Param => 'Month' ),
                 Day    => $ParamObject->GetParam( Param => 'Day' ),
