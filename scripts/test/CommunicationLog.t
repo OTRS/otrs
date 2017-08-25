@@ -332,6 +332,21 @@ for my $Test (@Test) {
         "$Test->{Name} - Communication stop - Status.",
     );
 
+    #
+    # CommunicationLog recreate closed object
+    #
+    $CommunicationLogObject = undef;
+    $CommunicationLogObject = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog',
+        ObjectParams => {
+            CommunicationID => $GeneratedCommunicationID,
+        },
+    );
+
+    $Self->False(
+        $CommunicationLogObject,
+        "$Test->{Name} - Object already closed couldn't be recreated.",
+    );
 }
 
 1;

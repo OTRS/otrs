@@ -64,7 +64,7 @@ sub new {
     bless( $Self, $Type );
 
     if ( IsStringWithData( $Param{CommunicationID} ) || IsStringWithData( $Param{ObjectLogID} ) ) {
-        $Self->_RecoverCommunicationObject(%Param);
+        return $Self->_RecoverCommunicationObject(%Param);
     }
 
     return $Self->_CommunicationStart(%Param);
@@ -495,7 +495,7 @@ sub _RecoverCommunicationObject {
         return $Self->_LogError($ErrorMessage);
     }
 
-    if ( $CommunicationData->{Status} eq 'Closed' ) {
+    if ( $CommunicationData->{Status} ne 'Processing' ) {
         return $Self->_LogError(
             sprintf(
                 "The communication '%s' is already closed, can't be used.",
