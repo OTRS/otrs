@@ -26,7 +26,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new(
 
 # Cleanup existing settings to make sure session limit calculations are correct.
 my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-for my $SessionID ($AuthSessionObject->GetAllSessionIDs()) {
+for my $SessionID ( $AuthSessionObject->GetAllSessionIDs() ) {
     $AuthSessionObject->RemoveSessionID( SessionID => $SessionID );
 }
 
