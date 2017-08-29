@@ -1,4 +1,6 @@
-#6.0.0.beta1 2017-??-??
+#6.0.0.beta2 2017-??-??
+
+#6.0.0.beta1 2017-09-05
  - 2017-08-25 Improved XSLT mapping functionality.
      Added XSLT regex functionality.
      Improved XSLT backend (module handling and error reporting).
