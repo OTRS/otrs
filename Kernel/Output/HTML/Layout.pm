@@ -730,6 +730,12 @@ sub Login {
         my %AgentLogo = %{ $ConfigObject->Get('AgentLogo') };
         my %Data;
 
+        # If OTRSBusines is installed, use business logo on Login screen.
+        my $AgentLogoCustom = $ConfigObject->Get('AgentLogoCustom');
+        if ($AgentLogoCustom) {
+            %AgentLogo = %{ $AgentLogoCustom->{ $Self->{SkinSelected} } };
+        }
+
         for my $CSSStatement ( sort keys %AgentLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';

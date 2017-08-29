@@ -1,4 +1,5 @@
 #5.0.23 2017-??-??
+ - 2017-08-29 Fixed bug#[13083](https://bugs.otrs.org/show_bug.cgi?id=13083) - OTRS Business Solution Logout Logo is OTRSFree.
  - 2017-08-18 Fixed bug#[13060](https://bugs.otrs.org/show_bug.cgi?id=13060) - Customer User input field is refocused on click away.
  - 2017-08-15 Fixed bug#[13052](https://bugs.otrs.org/show_bug.cgi?id=13052) - Explaining text is missing from the New ticket viewon the customer interface in case of mandatory texts.
  - 2017-08-15 Fixed bug#[12990](https://bugs.otrs.org/show_bug.cgi?id=12990) - Ticket Menu Module is overlapping.
