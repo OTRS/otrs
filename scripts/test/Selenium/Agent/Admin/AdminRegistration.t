@@ -14,22 +14,26 @@ use vars (qw($Self));
 
 use Kernel::Language;
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+
+# Fake a running daemon.
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $NodeID = $ConfigObject->Get('NodeID') || 1;
+my $Running = $Kernel::OM->Get('Kernel::System::Cache')->Set(
+    Type => 'DaemonRunning',
+    Key  => $NodeID,
+    Value => 1,
+);
 
 $Selenium->RunTest(
     sub {
 
         # get needed objects
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # get needed variables
         my $Daemon   = $ConfigObject->Get('Home') . '/bin/otrs.Daemon.pl';
         my $RandomID = $Helper->GetRandomID();
-
-        # start daemon
-        system("perl $Daemon start");
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -123,9 +127,6 @@ $Selenium->RunTest(
             # close the modal dialog
             $Selenium->find_element( ".Dialog.Modal .fa.fa-times", 'css' )->VerifiedClick();
         }
-
-        # stop daemon
-        system("perl $Daemon stop");
     }
 );
 
