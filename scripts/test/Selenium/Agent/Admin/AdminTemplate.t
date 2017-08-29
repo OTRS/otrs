@@ -84,6 +84,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
 
+        # Wait for filter to kick in.
+        sleep 1;
+
         $Self->True(
             $Selenium->find_element( $TemplateRandomID, 'link_text' )->is_displayed(),
             "Template $TemplateRandomID found on screen",
@@ -122,6 +125,9 @@ $Selenium->RunTest(
         # test search filter
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
+
+        # Wait for filter to kick in.
+        sleep 1;
 
         # check class of invalid Template in the overview table
         $Self->True(
