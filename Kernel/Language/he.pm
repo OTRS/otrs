@@ -31,6 +31,9 @@ sub Data {
     # csv separator
     $Self->{Separator} = '';
 
+    $Self->{DecimalSeparator}    = '';
+    $Self->{ThousandSeparator}   = '';
+
     # TextDirection rtl or ltr
     $Self->{TextDirection} = 'rtl';
 

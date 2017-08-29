@@ -31,6 +31,8 @@ sub Data {
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
     $Self->{Separator}           = ',';
+    $Self->{DecimalSeparator}    = '.';
+    $Self->{ThousandSeparator}   = ',';
 
     $Self->{Translation} = {
         'May_long' => 'May',

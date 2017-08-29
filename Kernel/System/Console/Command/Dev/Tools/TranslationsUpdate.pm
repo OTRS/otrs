@@ -873,8 +873,10 @@ EOF
     \$Self->{Completeness}        = $Completeness;
 
     # csv separator
-    \$Self->{Separator} = '$LanguageCoreObject->{Separator}';
+    \$Self->{Separator}         = '$LanguageCoreObject->{Separator}';
 
+    \$Self->{DecimalSeparator}  = '$LanguageCoreObject->{DecimalSeparator}';
+    \$Self->{ThousandSeparator} = '$LanguageCoreObject->{ThousandSeparator}';
 EOF
 
                 if ( $LanguageCoreObject->{TextDirection} ) {
