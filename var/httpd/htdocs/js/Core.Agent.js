@@ -819,14 +819,14 @@ Core.Agent = (function (TargetNS) {
             true,
             [
                 {
-                    Label: Core.Language.Translate('Find out more about the %s', 'OTRS Business Solution™'),
+                    Label: Core.Language.Translate('Find out more'),
                     Class: 'Primary',
                     Function: function () {
                         $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
                     }
                 },
                 {
-                   Label: Core.Language.Translate('Close dialog'),
+                   Label: Core.Language.Translate('Close'),
                    Function: function () {
                        Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
                    }

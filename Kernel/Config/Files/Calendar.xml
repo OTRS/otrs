@@ -44,7 +44,7 @@
                 </NavBar>
                 <NavBar>
                     <Description Translatable="1">Resource Overview (OTRS Business Solution™)</Description>
-                    <Name Translatable="1">Resource Overview</Name>
+                    <Name Translatable="1">Resource Overview (OTRS Business Solution™)</Name>
                     <Link>Action=AgentAppointmentCalendarOverview</Link>
                     <LinkOption>class="OTRSBusinessRequired"</LinkOption>
                     <NavBar>Calendar</NavBar>

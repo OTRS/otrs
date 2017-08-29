@@ -511,7 +511,6 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     top: 34px;
     left: 0px;
     display: block;
-    min-width: 240px;
     z-index: 99;
     background: #333;
 }
@@ -526,6 +525,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     line-height: 11px;
     margin-top: -1px;
     position: relative;
+    white-space: nowrap;
 }
 
 #Navigation > .Active > ul > li:hover {

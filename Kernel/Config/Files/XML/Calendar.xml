@@ -130,7 +130,7 @@
                     </Array>
                 </Item>
                 <Item Key="Description" Translatable="1">Resource Overview (OTRS Business Solution™)</Item>
-                <Item Key="Name" Translatable="1">Resource Overview</Item>
+                <Item Key="Name" Translatable="1">Resource Overview (OTRS Business Solution™)</Item>
                 <Item Key="Link">Action=AgentAppointmentCalendarOverview</Item>
                 <Item Key="LinkOption">class="OTRSBusinessRequired"</Item>
                 <Item Key="NavBar">Calendar</Item>
