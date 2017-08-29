@@ -240,6 +240,7 @@ $Selenium->RunTest(
 
         # Try to create FormDraft with same name, expecting error.
         $Selenium->find_element( "#FormDraftSave",  'css' )->VerifiedClick();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#FormDraftTitle").length;' );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
 

@@ -206,7 +206,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@title, \'Queue, filter not active' )]")->click();
         $Selenium->WaitFor(
             JavaScript =>
-                "return typeof(\$) === 'function' && \$(\"#ColumnFilterQueue0120-TicketNew option[value='$QueueID']:visible\").length"
+                "return typeof(\$) === 'function' && \$(\"#ColumnFilterQueue0120-TicketNew option[value='$QueueID']\").length"
         );
 
         $Selenium->find_element( "#ColumnFilterQueue0120-TicketNew option[value='$QueueID']", 'css' )->click();
