@@ -217,6 +217,10 @@ fieldset p {
     color: #AAA;
 }
 
+.AsteriskExplanationCustomer {
+    margin-left: 235px;
+}
+
 .RTL fieldset p {
     margin: 1px 140px 0 0;
 }
