@@ -157,6 +157,7 @@ rm -rf $RPM_BUILD_ROOT
 /opt/otrs/Kernel/Language/*.pm
 
 /opt/otrs/bin*
+/opt/otrs/Kernel/Autoload*
 /opt/otrs/Kernel/Modules*
 /opt/otrs/Kernel/Output*
 /opt/otrs/Kernel/System*
