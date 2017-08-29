@@ -9,13 +9,13 @@
 <!-- start form -->
 <div id="MainBox" class="Login">
     <div class="Content">
-        <h2>[% Translate("Info") | html %]</h2>
+        <h2>[% Translate("Information") | html %]</h2>
         <p>
-            Dear Customer,<br/>
-            thank you for using our services.
+            [% Translate("Dear Customer,") | html %]<br/>
+            [% Translate("thank you for using our services.") | html %]
         </p>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">Yes, I accepted your license.</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1">[% Translate("Yes, I accepted your license.") | html %]</a>
         </p>
     </div>
 </div>
