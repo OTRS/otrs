@@ -18,10 +18,10 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # Fake a running daemon.
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $NodeID = $ConfigObject->Get('NodeID') || 1;
-my $Running = $Kernel::OM->Get('Kernel::System::Cache')->Set(
-    Type => 'DaemonRunning',
-    Key  => $NodeID,
+my $NodeID       = $ConfigObject->Get('NodeID') || 1;
+my $Running      = $Kernel::OM->Get('Kernel::System::Cache')->Set(
+    Type  => 'DaemonRunning',
+    Key   => $NodeID,
     Value => 1,
 );
 
@@ -29,7 +29,7 @@ $Selenium->RunTest(
     sub {
 
         # get needed objects
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get needed variables
         my $Daemon   = $ConfigObject->Get('Home') . '/bin/otrs.Daemon.pl';
