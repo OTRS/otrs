@@ -155,6 +155,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($ProcessRandom);
 
+        # Wait for filter to kick in.
+        sleep 1;
+
         # check class of invalid Process in the overview table
         $Self->True(
             $Selenium->execute_script(
