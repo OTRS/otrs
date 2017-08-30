@@ -92,6 +92,7 @@ Kernel/GenericInterface/Invoker/Generic/PassThrough.pm
 Kernel/Language/*OTRSBusiness.pm
 Kernel/Modules/AdminCloudServiceSMS.pm
 Kernel/Modules/AdminSMSTemplate.pm
+Kernel/Modules/AdminQueueSMSTemplates.pm
 Kernel/Modules/*Chat*
 Kernel/Modules/*ContactWithData*
 Kernel/Modules/*DynamicFieldDatabase*
@@ -137,6 +138,7 @@ Kernel/Output/HTML/Templates/Standard/AdminCloudServiceSMS.tt
 Kernel/Output/HTML/Templates/Standard/AdminDynamicFieldWebService.tt
 Kernel/Output/HTML/Templates/Standard/AdminNotificationEventTransportSMSSettings.tt
 Kernel/Output/HTML/Templates/Standard/AdminSMSTemplate.tt
+Kernel/Output/HTML/Templates/Standard/AdminQueueSMSTemplates.tt
 Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationDeploymentHistory.tt
 Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationDeploymentHistoryDetails.tt
 Kernel/Output/HTML/Templates/Standard/AdminSystemConfigurationSettingHistoryDetails.tt
@@ -221,6 +223,7 @@ scripts/test/Selenium/Agent/Admin/AdminDynamicFieldContactWithData.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldDatabase.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldWebService.t
 scripts/test/Selenium/Agent/Admin/AdminSMSTemplate.t
+scripts/test/Selenium/Agent/Admin/AdminQueueSMSTemplates.t
 scripts/test/Selenium/Agent/Admin/GenericInterface/AdminGenericInterfaceWebserviceImportExample.t
 scripts/test/Selenium/Agent/AgentAppointmentResourceOverview.t
 scripts/test/Selenium/Agent/AgentContactWithDataSearch.t
@@ -256,6 +259,7 @@ var/httpd/htdocs/js/Core.Agent.Admin.CloudServiceSMS.js
 var/httpd/htdocs/js/Core.Agent.Admin.DynamicFieldDatabase.js
 var/httpd/htdocs/js/Core.Agent.Admin.DynamicFieldWebService.js
 var/httpd/htdocs/js/Core.Agent.Admin.SMSTemplate.js
+var/httpd/htdocs/js/Core.Agent.Admin.QueueSMSTemplates.js
 var/httpd/htdocs/js/Core.Agent.Admin.SystemConfigurationUser.js
 var/httpd/htdocs/js/Core.Agent.AppointmentTeam.js
 var/httpd/htdocs/js/Core.Agent.CustomerSearchSMS.js
