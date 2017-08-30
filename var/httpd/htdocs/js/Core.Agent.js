@@ -47,6 +47,40 @@ Core.Agent = (function (TargetNS) {
 
     /**
      * @private
+     * @name InitAvatarFlyout
+     * @memberof Core.Agent
+     * @function
+     * @description
+     *      This function initializes the flyout when the avatar on the top left is clicked.
+     */
+    function InitAvatarFlyout() {
+
+        var Timeout,
+            TimeoutDuration = 700;
+
+        // init the avatar toggle
+        $('#ToolBar .UserAvatar > a').off('click.UserAvatar').on('click.UserAvatar', function() {
+            $(this).next('div').fadeToggle('fast');
+            $(this).toggleClass('Active');
+            return false;
+        });
+
+        $('#ToolBar .UserAvatar > div').off('mouseenter.UserAvatar').on('mouseenter.UserAvatar', function() {
+            if (Timeout && $(this).css('opacity') == 1) {
+                clearTimeout(Timeout);
+            }
+        });
+
+        $('#ToolBar .UserAvatar > div').off('mouseleave.UserAvatar').on('mouseleave.UserAvatar', function() {
+            Timeout = setTimeout(function() {
+                $('#ToolBar .UserAvatar > div').fadeOut('fast');
+                $('#ToolBar .UserAvatar > div').prev('a').removeClass('Active');
+            }, TimeoutDuration);
+        });
+    }
+
+    /**
+     * @private
      * @name InitNavigation
      * @memberof Core.Agent
      * @function
@@ -662,7 +696,7 @@ Core.Agent = (function (TargetNS) {
         Core.App.Responsive.CheckIfTouchDevice();
 
         InitNavigation();
-
+        InitAvatarFlyout();
         InitSubmitAndContinue();
 
         // Initialize pagination
@@ -677,18 +711,6 @@ Core.Agent = (function (TargetNS) {
         if (parseInt(Core.Config.Get('NewTicketInNewWindow'), 10)) {
             InitTicketInNewWindow();
         }
-
-        // init the avatar toggle
-        $('#ToolBar .UserAvatar > a').off('click.UserAvatar').on('click.UserAvatar', function() {
-            $(this).next('div').fadeToggle('fast');
-            $(this).toggleClass('Active');
-            return false;
-        });
-
-        $('#ToolBar .UserAvatar > div').off('mouseleave.UserAvatar').on('mouseleave.UserAvatar', function() {
-            $(this).fadeToggle('fast');
-            $(this).prev('a').toggleClass('Active');
-        });
     };
 
     /**
