@@ -423,6 +423,9 @@ $Selenium->RunTest(
                 $WaitForAJAX->();
             }
 
+            # Wait until opened field (due to error) has closed.
+            $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0' );
+
             # submit
             $Selenium->find_element( "#submitRichText", 'css' )->click();
 
