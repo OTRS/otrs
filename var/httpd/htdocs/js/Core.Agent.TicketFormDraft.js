@@ -37,23 +37,27 @@ Core.Agent.TicketFormDraft = (function (TargetNS) {
             Core.Form.Validate.DisableValidation($Form);
             $('#FormDraftAction').val('Update');
 
-            Data = Core.AJAX.SerializeForm($Form);
-
             // add a loader icon to the update button
             Core.Form.DisableForm($Form);
             $(this).find('span i').hide().after('<i class="fa fa-spinner fa-spin" />');
 
-            Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-                if (Response.Success == 0) {
-                    alert(Response.ErrorMessage);
-                    $(this).find('span i.fa-spinner').remove();
-                    Core.Form.EnableForm($Form);
-                }
-                else {
-                    Core.UI.Dialog.CloseDialog($(".Dialog"));
-                    Core.UI.Popup.ClosePopup();
-                }
-            });
+            // wait 300ms to make sure the hidden textarea of any richtext editors has been
+            // updated properly (which takes 250ms by definition, see Core.UI.RichTextEditor.js)
+            window.setTimeout(function() {
+                Data = Core.AJAX.SerializeForm($Form);
+                Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+                    if (Response.Success == 0) {
+                        alert(Response.ErrorMessage);
+                        $(this).find('span i.fa-spinner').remove();
+                        Core.Form.EnableForm($Form);
+                    }
+                    else {
+                        Core.UI.Dialog.CloseDialog($(".Dialog"));
+                        Core.UI.Popup.ClosePopup();
+                    }
+                });
+            }, 300);
+
             return false;
         });
 
@@ -73,25 +77,30 @@ Core.Agent.TicketFormDraft = (function (TargetNS) {
 
                 // Update hidden input field on the form with value from the Dialog.
                 $('input[name="FormDraftTitle"]').val($('input#FormDraftTitle').val());
-
-                Data = Core.AJAX.SerializeForm($Form);
                 $(".Dialog:visible .AJAXLoader").show();
 
-                // Mark article as seen in backend
-                Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-                    if (Response.Success == 0) {
-                        $(".Dialog:visible .AJAXLoader").hide();
-                        alert(Response.ErrorMessage);
-                    }
-                    else {
-                        Core.UI.Dialog.CloseDialog($(".Dialog"));
-                        Core.UI.Popup.ExecuteInParentWindow(function (ParentWindow) {
-                            ParentWindow.Core.UI.Popup.FirePopupEvent('Reload');
-                        });
+                // wait 300ms to make sure the hidden textarea of any richtext editors has been
+                // updated properly (which takes 250ms by definition, see Core.UI.RichTextEditor.js)
+                window.setTimeout(function() {
 
-                        Core.UI.Popup.ClosePopup();
-                    }
-                });
+                    Data = Core.AJAX.SerializeForm($Form);
+
+                    // Mark article as seen in backend
+                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+                        if (Response.Success == 0) {
+                            $(".Dialog:visible .AJAXLoader").hide();
+                            alert(Response.ErrorMessage);
+                        }
+                        else {
+                            Core.UI.Dialog.CloseDialog($(".Dialog"));
+                            Core.UI.Popup.ExecuteInParentWindow(function (ParentWindow) {
+                                ParentWindow.Core.UI.Popup.FirePopupEvent('Reload');
+                            });
+
+                            Core.UI.Popup.ClosePopup();
+                        }
+                    });
+                }, 300);
             });
 
             $("button.CloseDialog").off("click").on("click", function() {

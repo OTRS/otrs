@@ -8,14 +8,13 @@
 
 [% IF Data.FormDraftID %]
     &nbsp;[% Translate("or") | html %]&nbsp;
-    <button class="CallForAction" id="FormDraftUpdate" accesskey="u" title="[% Translate("Update draft") | html %] (u)"
-        type="submit">
+    <button class="CallForAction" id="FormDraftUpdate" accesskey="u" title="[% Translate("Update draft") | html %] (u)">
         <span><i class="fa fa-pencil-square-o"></i> [% Translate("Update draft") | html %]</span>
     </button>
 [% END %]
 [% IF Data.FormDraft %]
     &nbsp;[% Translate("or") | html %]&nbsp;
-    <button class="CallForAction" id="FormDraftSave" accesskey="s" title="[% Translate("Save as new draft") | html %] (s)" type="submit">
+    <button class="CallForAction" id="FormDraftSave" accesskey="s" title="[% Translate("Save as new draft") | html %] (s)">
         <span><i class="fa fa-pencil-square-o"></i> [% Translate("Save as new draft") | html %]</span>
     </button>
 [% END %]

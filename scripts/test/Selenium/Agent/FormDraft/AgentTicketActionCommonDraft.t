@@ -21,14 +21,12 @@ $Selenium->RunTest(
         # Get helper object.
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # Do not check RichText and hide Fred.
-        for my $SysConfig (qw(Frontend::RichText Fred::Active)) {
-            $Helper->ConfigSettingChange(
-                Valid => 1,
-                Key   => $SysConfig,
-                Value => 0
-            );
-        }
+        # Hide Fred.
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Fred::Active',
+            Value => 0
+        );
 
         # Enable Responsible feature.
         $Helper->ConfigSettingChange(
@@ -118,7 +116,7 @@ $Selenium->RunTest(
                     },
                     Body => {
                         ID     => 'RichText',
-                        Type   => 'Input',
+                        Type   => 'RichText',
                         Value  => 'Selenium Priority Body',
                         Update => 'Selenium Priority Body - Update',
                     },
@@ -139,7 +137,7 @@ $Selenium->RunTest(
                     },
                     Body => {
                         ID     => 'RichText',
-                        Type   => 'Input',
+                        Type   => 'RichText',
                         Value  => 'Selenium Note Body',
                         Update => 'Selenium Note Body - Update',
                     },
@@ -166,7 +164,7 @@ $Selenium->RunTest(
                     },
                     Body => {
                         ID     => 'RichText',
-                        Type   => 'Input',
+                        Type   => 'RichText',
                         Value  => 'Selenium Close Body',
                         Update => 'Selenium Close Body - Update',
                     },
@@ -193,7 +191,7 @@ $Selenium->RunTest(
                     },
                     Body => {
                         ID     => 'RichText',
-                        Type   => 'Input',
+                        Type   => 'RichText',
                         Value  => 'Selenium Pending Body',
                         Update => 'Selenium Pending Body - Update',
                     },
@@ -214,7 +212,7 @@ $Selenium->RunTest(
                     },
                     Body => {
                         ID     => 'RichText',
-                        Type   => 'Input',
+                        Type   => 'RichText',
                         Value  => 'Selenium Owner Body',
                         Update => 'Selenium Owner Body - Update',
                     },
@@ -241,7 +239,7 @@ $Selenium->RunTest(
                     },
                     Body => {
                         ID     => 'RichText',
-                        Type   => 'Input',
+                        Type   => 'RichText',
                         Value  => 'Selenium Responsible Body',
                         Update => 'Selenium Responsible Body - Update',
                     },
@@ -330,6 +328,22 @@ $Selenium->RunTest(
                         ),
                         1,
                         $Test->{Module} . " - Uploaded file correctly"
+                    );
+                }
+                elsif ( $Test->{Fields}->{$Field}->{Type} eq 'RichText' ) {
+
+                    # wait for the CKE to load
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                    );
+
+                    $Selenium->execute_script(
+                        "return CKEDITOR.instances.RichText.setData('$Test->{Fields}->{$Field}->{Value}');"
+                    );
+
+                    $Selenium->execute_script(
+                        "return CKEDITOR.instances.RichText.updateElement();"
                     );
                 }
                 else {
@@ -468,6 +482,28 @@ $Selenium->RunTest(
                         $Test->{Module} . " - Uploaded file correctly"
                     );
                 }
+                elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'RichText' ) {
+
+                    # wait for the CKE to load
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                    );
+
+                    $Self->Is(
+                        $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
+                        $Test->{Fields}->{$FieldValue}->{Value},
+                        "Initial Draft value for $Test->{Module} field $FieldValue is correct"
+                    );
+
+                    $Selenium->execute_script(
+                        "return CKEDITOR.instances.RichText.setData('$Test->{Fields}->{$FieldValue}->{Update}');"
+                    );
+
+                    $Selenium->execute_script(
+                        "return CKEDITOR.instances.RichText.updateElement();"
+                    );
+                }
                 else {
                     $Self->Is(
                         $Selenium->find_element( "#$Test->{Fields}->{$FieldValue}->{ID}", 'css' )->get_value(),
@@ -532,12 +568,6 @@ $Selenium->RunTest(
                     'return typeof($) === "function" && $(".WidgetSimple").length;'
             );
 
-            # Make sure that draft loaded notification is present.
-            # $Self->True(
-            #     index( $Selenium->get_page_source(), "Loaded Draft $Title" ) > 0,
-            #     'Draft loaded notification is present',
-            # );
-
             # Verify updated Draft values.
             for my $FieldValue ( sort keys %{ $Test->{Fields} } ) {
 
@@ -557,6 +587,20 @@ $Selenium->RunTest(
                         ),
                         2,
                         $Test->{Module} . " - Uploaded file correctly"
+                    );
+                }
+                elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'RichText' ) {
+
+                    # wait for the CKE to load
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                    );
+
+                    $Self->Is(
+                        $Selenium->execute_script('return CKEDITOR.instances.RichText.getData();'),
+                        $Test->{Fields}->{$FieldValue}->{Update},
+                        "Updated Draft value for $Test->{Module} field $FieldValue is correct"
                     );
                 }
                 else {
