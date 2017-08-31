@@ -2204,7 +2204,7 @@ sub ConfigurationEntityCheck {
     my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(EntityType EntityName)) {
-        if ( !$Param{$Needed} ) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!"
@@ -2212,6 +2212,16 @@ sub ConfigurationEntityCheck {
             return;
         }
     }
+    if ( !$Param{EntityType} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "EntityType is invalid!"
+        );
+        return;
+    }
+
+    # If name is an empty string there is nothing to do, return an empty array.
+    return () if !$Param{EntityName};
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 

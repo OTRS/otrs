@@ -709,7 +709,7 @@ sub _ShowScreen {
 
     my @IsDynamicFieldInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
         EntityType => 'DynamicField',
-        EntityName => $DynamicFieldName,
+        EntityName => $DynamicFieldName // '',
     );
 
     if (@IsDynamicFieldInSysConfig) {

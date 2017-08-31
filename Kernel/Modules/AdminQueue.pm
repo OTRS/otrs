@@ -887,7 +887,7 @@ sub _Edit {
 
     my @IsQueueInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
         EntityType => 'Queue',
-        EntityName => $QueueName,
+        EntityName => $QueueName // '',
     );
 
     if (@IsQueueInSysConfig) {

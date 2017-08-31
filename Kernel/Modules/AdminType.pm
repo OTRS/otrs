@@ -400,7 +400,7 @@ sub _Edit {
 
         my @IsTypeInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
             EntityType => 'Type',
-            EntityName => $TypeName,
+            EntityName => $TypeName // '',
         );
         if (@IsTypeInSysConfig) {
             $LayoutObject->Block(

@@ -354,7 +354,7 @@ sub _Edit {
 
         my @IsStateInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
             EntityType => 'State',
-            EntityName => $StateName,
+            EntityName => $StateName // '',
         );
         if (@IsStateInSysConfig) {
             $LayoutObject->Block(

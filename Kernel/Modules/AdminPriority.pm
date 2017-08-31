@@ -361,7 +361,7 @@ sub _Edit {
 
         my @IsPriorityInSysConfig = $SysConfigObject->ConfigurationEntityCheck(
             EntityType => 'Priority',
-            EntityName => $PriorityName,
+            EntityName => $PriorityName // '',
         );
 
         if (@IsPriorityInSysConfig) {
