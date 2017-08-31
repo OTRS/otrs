@@ -792,19 +792,6 @@ iframe.Signature {
 }
 
 /**
- * @subsection AJAX Loader
- */
-
-.AJAXLoader {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin: 2px;
-    background: url("../img/loader.gif") no-repeat right center;
-    vertical-align: bottom;
-}
-
-/**
  * @subsection freetext fields
  */
 

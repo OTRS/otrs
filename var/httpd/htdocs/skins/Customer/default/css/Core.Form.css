@@ -386,11 +386,26 @@ div.TooltipErrorMessage {
 
 .AJAXLoader {
     display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin: 2px;
-    background: url("../img/loader.gif") no-repeat right center;
+    width: 14px;
+    height: 14px;
+    margin: 4px;
+    position: relative;
     vertical-align: bottom;
+}
+
+.AJAXLoader:after {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    line-height: 14px;
+    content: "\f1ce";
+    font-family: FontAwesome;
+    font-size: 14px;
+    color: #777;
 }
 
 /**

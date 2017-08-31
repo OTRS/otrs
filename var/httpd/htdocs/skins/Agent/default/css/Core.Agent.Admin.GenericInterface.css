@@ -15,9 +15,6 @@
 /**
  * @subsubsection     AdminGenericInterfaceDebugger
  */
-.AdminGenericInterfaceDebugger .Loading h2 {
-    background: url("../img/loader.gif") no-repeat right center;
-}
 
 #DeleteDialog {
     min-width: 420px;

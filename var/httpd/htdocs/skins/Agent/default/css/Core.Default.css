@@ -1739,6 +1739,37 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
     filter: alpha(opacity = 100);
 }
 
+/**
+ * @subsection AJAX Loader
+ */
+
+.AJAXLoader {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 4px;
+    position: relative;
+    vertical-align: bottom;
+}
+
+.AJAXLoader:after,
+#Canvas .Activity .Loader:after,
+.Loading > .Header h2:after,
+.OverviewControl.Loading .ControlRow:after {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    line-height: 14px;
+    content: "\f1ce";
+    font-family: FontAwesome;
+    font-size: 14px;
+    color: #777;
+}
+
 }
 
 /*

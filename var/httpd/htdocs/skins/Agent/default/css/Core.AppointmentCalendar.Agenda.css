@@ -71,12 +71,17 @@
         background-color: #EEE;
     }
 
-    .OverviewControl.Loading .ControlRow {
-        background: #DDD url("../img/loader.gif") no-repeat right 5px center;
+    .OverviewControl.Loading .ControlRow:after {
+        left: auto;
+        right: 6px;
+        top: 6px;
+        width: 14px;
+        height: 14px;
     }
 
-    .RTL .OverviewControl.Loading .ControlRow {
-        background: #DDD url("../img/loader.gif") no-repeat left 5px center;
+    .RTL .OverviewControl.Loading .ControlRow:after {
+        left: 6px;
+        right: auto;
     }
 
 } /* end @media */

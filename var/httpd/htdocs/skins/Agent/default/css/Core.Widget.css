@@ -303,11 +303,21 @@ ul.Tablelike li.Header + li {
  */
 
 .Loading > .Header h2 {
-    background: url("../img/loader.gif") no-repeat right center;
+    position: relative;
 }
 
-.RTL .Loading > .Header h2 {
-    background: url("../img/loader.gif") no-repeat left center;
+.Loading > .Header h2:after {
+    left: auto;
+    top: auto;
+    right: 3px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+}
+
+.RTL .Loading > .Header h2:after {
+    left: 3px;
+    right: auto;
 }
 
 .WidgetIsLoading {

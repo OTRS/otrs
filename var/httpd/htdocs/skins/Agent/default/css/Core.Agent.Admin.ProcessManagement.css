@@ -458,10 +458,6 @@ em.EntityID:after {
     border-radius: 3px;
 }
 
-#Canvas .Activity .Loader {
-    background-image: url(../img/loader.gif);
-}
-
 #Canvas .Activity .Success,  #Canvas .TransitionLabel .Success {
     background-image: url(../img/icons/tick.png);
 }

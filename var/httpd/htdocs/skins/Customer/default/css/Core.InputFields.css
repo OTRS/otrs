@@ -212,13 +212,6 @@ div.InputField_ToolbarContainer ul li a:hover {
     margin-bottom: 0;
 }
 
-.InputField_Loading {
-    background-image: url('../img/loader.gif');
-    background-position: 99.5% center;
-    background-position: right 3px center;
-    background-repeat: no-repeat;
-}
-
 .InputField_Confirm,
 .InputField_Filters.Active {
     font-weight: bold;
@@ -472,10 +465,6 @@ div.InputField_ToolbarContainer ul li a:hover {
     background-color: transparent;
     background-image: none;
     background-position: 0 0;
-}
-
-.jstree-InputField > .jstree-container-ul .jstree-loading > .jstree-ocl {
-    background: url('../img/loader.gif') center center no-repeat;
 }
 
 .jstree-InputField.jstree-rtl .jstree-node {
