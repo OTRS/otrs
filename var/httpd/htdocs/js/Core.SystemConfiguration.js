@@ -6,6 +6,8 @@
 // did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 // --
 
+/*eslint-disable no-window*/
+
 "use strict";
 
 var Core = Core || {};
@@ -171,6 +173,12 @@ var Core = Core || {};
             Data["Category"] = 'All';
         }
 
+        $('#ConfigTree').on('click', '.OpenNodeInNewWindow', function(Event) {
+            window.open(Core.Config.Get('CGIHandle') + '?Action=AdminSystemConfigurationGroup;RootNavigation=' + $(this).data('node'), '_blank');
+            Event.preventDefault;
+            return false;
+        });
+
         if (Core.Config.Get('Action') == 'AgentPreferences') {
             Data["IsValid"] = 1;
         }
@@ -221,6 +229,12 @@ var Core = Core || {};
                     })
                     .on('after_close.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
                         Core.UI.InitStickyElement();
+                    })
+                    .on('hover_node.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
+                        $('#ConfigTree #' + Core.App.EscapeSelector(Selected.node.id)).children('a').append('<span class="OpenNodeInNewWindow" title="' + Core.Language.Translate('Open this node in a new window') + '" data-node="' + Selected.node.id + '"><i class="fa fa-external-link"></i></span>').find('.OpenNodeInNewWindow').fadeIn();
+                    })
+                    .on('dehover_node.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
+                        $('#ConfigTree #' + Core.App.EscapeSelector(Selected.node.id)).find('.OpenNodeInNewWindow').remove();
                     })
                     .on('select_node.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
 

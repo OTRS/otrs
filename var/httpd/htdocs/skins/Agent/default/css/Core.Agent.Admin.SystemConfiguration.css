@@ -153,6 +153,17 @@ p.NoItemsInfo i {
     overflow: hidden;
 }
 
+#ConfigTree .OpenNodeInNewWindow {
+    display: none;
+    margin-left: 5px;
+}
+
+#ConfigTree .OpenNodeInNewWindow i {
+    position: relative;
+    top: 1px;
+    font-size: 11px;
+}
+
 #ConfigTree > p {
     line-height: 100px;
 }
