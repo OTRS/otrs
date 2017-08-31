@@ -19,9 +19,9 @@
     [% Data.Content %]
     <div id="PendingTimeDayError" class="TooltipErrorMessage"><p>[% Data.PendingtTimeDayError | html %]</p></div>
     <div id="PendingTimeHourError" class="TooltipErrorMessage"><p>[% Data.PendingtTimeHourError | html %]</p></div>
-[% RenderBlockStart("rw:Owner:DescriptionShort") %]
+[% RenderBlockStart("rw:PendingTime:DescriptionShort") %]
     <div class="FieldExplanation">[% Data.DescriptionShort | html %]</div>
-[% RenderBlockEnd("rw:Owner:DescriptionShort") %]
+[% RenderBlockEnd("rw:PendingTime:DescriptionShort") %]
 </div>
 <div class="Clear"></div>
 [% RenderBlockEnd("rw:PendingTime") %]
