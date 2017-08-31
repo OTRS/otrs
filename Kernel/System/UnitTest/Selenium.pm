@@ -55,15 +55,27 @@ To do this, you need a running C<selenium> or C<phantomjs> server.
 
 Specify the connection details in C<Config.pm>, like this:
 
+    # For testing with Firefox until v. 47 (testing with recent FF and marionette is currently not supported):
     $Self->{'SeleniumTestsConfig'} = {
         remote_server_addr  => 'localhost',
         port                => '4444',
-        browser_name        => 'phantomjs',
         platform            => 'ANY',
-        window_height       => 1200,    # optional, default 1000
-        window_width        => 1600,    # optional, default 1200
+        browser_name        => 'firefox',
         extra_capabilities => {
             marionette     => \0,   # Required to run FF 47 or older on Selenium 3+.
+        },
+    };
+
+    # For testing with Chrome/Chromium (requires installed geckodriver):
+    $Self->{'SeleniumTestsConfig'} = {
+        remote_server_addr  => 'localhost',
+        port                => '4444',
+        platform            => 'ANY',
+        browser_name        => 'chrome',
+        extra_capabilities => {
+            chromeOptions => {
+                args => ["no-sandbox", "disable-infobars"],
+            },
         },
     };
 
