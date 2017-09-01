@@ -53,6 +53,11 @@ $Selenium->RunTest(
             JavaScript =>
                 "return !\$('#UserLanguage').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+
+        $Selenium->find_element("//*[text()='Sprache']");
+
     }
 );
 
