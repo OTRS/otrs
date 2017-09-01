@@ -198,6 +198,30 @@ $Selenium->RunTest(
                 "return !\$('#UserGoogleAuthenticatorSecretKey').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
 
+        # check if the correct avatar widget is displayed (engine disabled)
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::AvatarEngine',
+            Value => 'None',
+        );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+        $Self->True(
+            index( $Selenium->get_page_source(), "Avatars have been disabled by the system administrator. You'll see your initials instead." ) > -1,
+            "Avatars disabled message found"
+        );
+
+        # now set engine to 'Gravatar' and reload the screen
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'Frontend::AvatarEngine',
+            Value => 'Gravatar',
+        );
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
+        $Self->True(
+            index( $Selenium->get_page_source(), "You can change your avatar image by registering with your email address" ) > -1,
+            "Gravatar message found"
+        );
+
         # Inject malicious code in user language variable.
         my $MaliciousCode = 'en\\\'});window.iShouldNotExist=true;Core.Config.AddConfig({a:\\\'';
         $Selenium->execute_script(
