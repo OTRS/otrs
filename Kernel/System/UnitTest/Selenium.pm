@@ -74,7 +74,8 @@ Specify the connection details in C<Config.pm>, like this:
         browser_name        => 'chrome',
         extra_capabilities => {
             chromeOptions => {
-                args => ["no-sandbox", "disable-infobars"],
+                # disable-infobars makes sure window size calculations are ok
+                args => [ "disable-infobars" ],
             },
         },
     };
