@@ -1988,6 +1988,7 @@ for my $Test (@Tests) {
         Data         => {
             UserLogin => $UserLogin,
             Password  => $Password,
+            TicketID  => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
             %{ $Test->{RequestData} },
         },
     );
@@ -2013,6 +2014,7 @@ for my $Test (@Tests) {
         Invoker      => $Test->{Operation},
         Data         => {
             SessionID => $NewSessionID,
+            TicketID  => [ $TicketID1, $TicketID2, $TicketID3, $TicketID4 ],
             %{ $Test->{RequestData} },
             }
     );
