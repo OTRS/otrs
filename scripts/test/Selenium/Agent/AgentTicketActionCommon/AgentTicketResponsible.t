@@ -177,8 +177,16 @@ $Selenium->RunTest(
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => $UserID[0],
-        ) || die 'New responsible not correctly set';
+        );
 
+        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+        if ( !$Success ) {
+            sleep 3;
+            $Success = $TicketObject->TicketDelete(
+                TicketID => $TicketID,
+                UserID   => $UserID[0],
+            );
+        }
         $Self->True(
             $Success,
             "Ticket is deleted - ID $TicketID",
