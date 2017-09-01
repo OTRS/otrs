@@ -636,6 +636,11 @@ Core.UI = (function (TargetNS) {
 
                                 $(AttachmentItem).prependTo($('#AttachmentList tbody')).fadeIn();
                             }
+
+                            // Append input field for validation (see bug#13081).
+                            if (!$('#AttachmentExists').length) {
+                                $('#AttachmentListContainer').append('<input type="hidden" id="AttachmentExists" name="AttachmentExists" value="1" />');
+                            }
                         });
 
                         // we need to empty the relevant file upload field because it would otherwise
@@ -699,6 +704,9 @@ Core.UI = (function (TargetNS) {
                         else {
                             $('#AttachmentList').hide();
                             $('#AttachmentListContainer').find('.Busy').hide();
+
+                            // Remove input field because validation is not needed when there is no attachments (see bug#13081).
+                            $('#AttachmentExists').remove();
                         }
                     });
                 }

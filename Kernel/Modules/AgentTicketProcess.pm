@@ -2682,6 +2682,27 @@ sub _RenderArticle {
         );
     }
 
+    # get all attachments meta data
+    my @Attachments = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDGetAllFilesMeta(
+        FormID => $Self->{FormID},
+    );
+
+    # show attachments
+    ATTACHMENT:
+    for my $Attachment (@Attachments) {
+        if (
+            $Attachment->{ContentID}
+            && $LayoutObject->{BrowserRichText}
+            && ( $Attachment->{ContentType} =~ /image/i )
+            && ( $Attachment->{Disposition} eq 'inline' )
+            )
+        {
+            next ATTACHMENT;
+        }
+
+        push @{ $Param{AttachmentList} }, $Attachment;
+    }
+
     my %Data = (
         Name             => 'Article',
         MandatoryClass   => '',
@@ -2692,6 +2713,7 @@ sub _RenderArticle {
             || $LayoutObject->{LanguageObject}->Translate("Subject"),
         LabelBody => $Param{ActivityDialogField}->{Config}->{LabelBody}
             || $LayoutObject->{LanguageObject}->Translate("Text"),
+        AttachmentList => $Param{AttachmentList},
     );
 
     # If field is required put in the necessary variables for
@@ -2784,27 +2806,6 @@ sub _RenderArticle {
             Name => 'rw:Article:InformAgent',
             Data => \%Param,
         );
-    }
-
-    # get all attachments meta data
-    my @Attachments = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDGetAllFilesMeta(
-        FormID => $Self->{FormID},
-    );
-
-    # show attachments
-    ATTACHMENT:
-    for my $Attachment (@Attachments) {
-        if (
-            $Attachment->{ContentID}
-            && $LayoutObject->{BrowserRichText}
-            && ( $Attachment->{ContentType} =~ /image/i )
-            && ( $Attachment->{Disposition} eq 'inline' )
-            )
-        {
-            next ATTACHMENT;
-        }
-
-        push @{ $Param{AttachmentList} }, $Attachment;
     }
 
     # output server errors
@@ -4630,7 +4631,7 @@ sub _StoreActivityDialog {
                 %{ $ActivityDialog->{Fields}{$CurrentField} },
             );
 
-            if ( !$Result && $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
+            if ( !$Result ) {
 
                 # special case for Article (Subject & Body)
                 if ( $CurrentField eq 'Article' ) {
@@ -4644,7 +4645,7 @@ sub _StoreActivityDialog {
                 }
 
                 # all other fields
-                else {
+                elsif ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
                     $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                 }
             }
@@ -5674,8 +5675,18 @@ sub _CheckField {
         # check if the given field param is valid
         if ( $Param{Field} eq 'Article' ) {
 
-            # in case of article fields we need to fake a value
             $Value = 1;
+
+            my ( $Body, $Subject, $AttachmentExists ) = (
+                $ParamObject->GetParam( Param => 'Body' ),
+                $ParamObject->GetParam( Param => 'Subject' ),
+                $ParamObject->GetParam( Param => 'AttachmentExists' )
+            );
+
+            # If attachment exists and body and subject not, it is error (see bug#13081).
+            if ( $AttachmentExists && ( !$Body && !$Subject ) ) {
+                $Value = 0;
+            }
         }
         else {
 
