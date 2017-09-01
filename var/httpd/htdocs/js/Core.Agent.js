@@ -846,12 +846,6 @@ Core.Agent = (function (TargetNS) {
                     Function: function () {
                         $('.OTRSBusinessRequiredDialog').find('a span').trigger('click');
                     }
-                },
-                {
-                   Label: Core.Language.Translate('Close'),
-                   Function: function () {
-                       Core.UI.Dialog.CloseDialog($('.OTRSBusinessRequiredDialog'));
-                   }
                 }
             ]
         );
