@@ -4545,21 +4545,15 @@ sub _StoreActivityDialog {
                     %{ $ActivityDialog->{Fields}{$CurrentField} },
                 );
 
-                if ( !$Result && $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
-
-                    # special case for Article (Subject & Body)
+                if ( !$Result ) {
                     if ( $CurrentField eq 'Article' ) {
                         for my $ArticlePart (qw(Subject Body)) {
                             if ( !$Param{GetParam}->{$ArticlePart} ) {
-
-                                # set error for each part (if any)
                                 $Error{ 'Article' . $ArticlePart } = 1;
                             }
                         }
                     }
-
-                    # all other fields
-                    else {
+                    elsif ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
                         $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                     }
                 }
@@ -5541,8 +5535,18 @@ sub _CheckField {
         # check if the given field param is valid
         if ( $Param{Field} eq 'Article' ) {
 
-            # in case of article fields we need to fake a value
             $Value = 1;
+
+            my ( $Body, $Subject, $AttachmentDelete1 ) = (
+                $ParamObject->GetParam( Param => 'Body' ),
+                $ParamObject->GetParam( Param => 'Subject' ),
+                $ParamObject->GetParam( Param => 'AttachmentDelete1' )
+            );
+
+            # If attachment exists and body and subject not, it is error (see bug#13081).
+            if ( defined $AttachmentDelete1 && ( !$Body && !$Subject ) ) {
+                $Value = 0;
+            }
         }
         else {
 

@@ -3431,7 +3431,7 @@ sub _StoreActivityDialog {
                     %{ $ActivityDialog->{Fields}->{$CurrentField} },
                 );
 
-                if ( !$Result && $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
+                if ( !$Result ) {
 
                     # special case for Article (Subject & Body)
                     if ( $CurrentField eq 'Article' ) {
@@ -3445,11 +3445,11 @@ sub _StoreActivityDialog {
                     }
 
                     # all other fields
-                    else {
+                    elsif ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
                         $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                     }
                 }
-                elsif ($Result) {
+                else {
                     $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
                 }
                 $CheckedFields{ $Self->{NameToID}->{$CurrentField} } = 1;
@@ -4227,6 +4227,17 @@ sub _CheckField {
 
             # in case of article fields we need to fake a value
             $Value = 1;
+
+            my ( $Body, $Subject, $AttachmentDelete1 ) = (
+                $ParamObject->GetParam( Param => 'Body' ),
+                $ParamObject->GetParam( Param => 'Subject' ),
+                $ParamObject->GetParam( Param => 'AttachmentDelete1' )
+            );
+
+            # If attachment exists and body and subject not, it is error (see bug#13081).
+            if ( defined $AttachmentDelete1 && ( !$Body && !$Subject ) ) {
+                $Value = 0;
+            }
         }
         else {
 
