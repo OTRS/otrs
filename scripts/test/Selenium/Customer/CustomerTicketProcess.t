@@ -429,13 +429,23 @@ $Selenium->RunTest(
         @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
         push @DeleteTicketIDs, $TicketID[1];
 
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         for my $TicketID (@DeleteTicketIDs) {
 
-            my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+            my $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
 
+            # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+            if ( !$Success ) {
+                sleep 3;
+                $Success = $TicketObject->TicketDelete(
+                    TicketID => $TicketID,
+                    UserID   => 1,
+                );
+            }
             $Self->True(
                 $Success,
                 "TicketID $TicketID is deleted",
