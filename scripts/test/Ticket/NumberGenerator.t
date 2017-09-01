@@ -42,7 +42,7 @@ for my $Backend (qw(AutoIncrement Date DateChecksum)) {
                 Value => $TicketHook,
             );
 
-            for my $Count ( 1 .. 100 ) {
+            for my $Count ( 1 .. 5 ) {
 
                 # Produce a ticket number for a foreign system
                 $ConfigObject->Set(
