@@ -1,4 +1,5 @@
 #6.0.0.beta2 2017-??-??
+ - 2017-09-01 Fixed bug#[13094](https://bugs.otrs.org/show_bug.cgi?id=13094) - Admin->Performance log enable/disable leads to System Configuration start page instead of correct setting.
  - 2017-08-31 Fixed bug#[12953](https://bugs.otrs.org/show_bug.cgi?id=12953) - AJAXLoader in autocomplete box disapears when typing longer terms.
 #6.0.0.beta1 2017-09-05
  - 2017-08-25 Improved XSLT mapping functionality.
