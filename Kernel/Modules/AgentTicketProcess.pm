@@ -2602,6 +2602,8 @@ sub _RenderArticle {
         FormID => $Self->{FormID},
     );
 
+    my $AttachmentExists = 0;
+
     # show attachments
     ATTACHMENT:
     for my $Attachment (@Attachments) {
@@ -2614,9 +2616,18 @@ sub _RenderArticle {
         {
             next ATTACHMENT;
         }
+
+        $AttachmentExists = 1;
+
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
+        );
+    }
+
+    if ( $AttachmentExists == 1 ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'AttachmentExists',
         );
     }
 
@@ -4338,21 +4349,19 @@ sub _StoreActivityDialog {
                     %{ $ActivityDialog->{Fields}{$CurrentField} },
                 );
 
-                if ( !$Result && $ActivityDialog->{Fields}{$CurrentField}->{Display} == 2 ) {
+                if ( !$Result ) {
 
                     # special case for Article (Subject & Body)
                     if ( $CurrentField eq 'Article' ) {
                         for my $ArticlePart (qw(Subject Body)) {
                             if ( !$Param{GetParam}->{$ArticlePart} ) {
-
-                                # set error for each part (if any)
                                 $Error{ 'Article' . $ArticlePart } = 1;
                             }
                         }
                     }
 
                     # all other fields
-                    else {
+                    elsif ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2 ) {
                         $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
                     }
                 }
@@ -5263,8 +5272,18 @@ sub _CheckField {
         # check if the given field param is valid
         if ( $Param{Field} eq 'Article' ) {
 
-            # in case of article fields we need to fake a value
             $Value = 1;
+
+            my ( $Body, $Subject, $AttachmentExists ) = (
+                $Self->{ParamObject}->GetParam( Param => 'Body' ),
+                $Self->{ParamObject}->GetParam( Param => 'Subjet' ),
+                $Self->{ParamObject}->GetParam( Param => 'AttachmentExists' )
+            );
+
+            # If attachment exists and body and subject not, it is error (see bug#13081).
+            if ( defined $AttachmentExists && ( !$Body && !$Subject ) ) {
+                $Value = 0;
+            }
         }
         else {
 

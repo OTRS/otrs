@@ -24,7 +24,7 @@
     [% Data.LabelSubject | html %]:
 </label>
 <div class="Field">
-    <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="W75pc [% Data.ValidateRequired | html %] [% Data.SubjectServerError | html %] Validate_DependingRequiredAND Validate_Depending_RichText"/>
+    <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="W75pc [% Data.ValidateRequired | html %] [% Data.SubjectServerError | html %] Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentDelete1"/>
     <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 </div>
@@ -50,7 +50,7 @@
 [% RenderBlockStart("RichText") %]
 [% InsertTemplate("RichTextEditor.tt") %]
 [% RenderBlockEnd("RichText") %]
-    <textarea id="RichText" class="RichText [% Data.ValidateRequired | html %] [% Data.BodyServerError | html %] Validate_DependingRequiredAND Validate_Depending_Subject" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+    <textarea id="RichText" class="RichText [% Data.ValidateRequired | html %] [% Data.BodyServerError | html %] Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentDelete1" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
     <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 </div>
@@ -71,6 +71,9 @@
 [% END %]
         </li>
 [% RenderBlockEnd("Attachment") %]
+[% RenderBlockStart("AttachmentExists") %]
+        <input type="hidden" id="AttachmentExists" name="AttachmentExists" value="1" />
+[% RenderBlockEnd("AttachmentExists") %]
         <li>
             <input name="FileUpload" id="FileUpload" type="file" size="40"/>
             <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
