@@ -595,7 +595,7 @@ h2.SearchResults {
     opacity: 1;
 }
 
-.WidgetSimple.Setting > .Content:hover .SettingWrapper,
+.WidgetSimple:not(.ReadOnly) > .Content:hover .SettingWrapper,
 .WidgetSimple.Setting.IsLockedByMe.HasOverlay .SettingWrapper,
 .WidgetSimple.Setting.IsLockedByMe.HasOverlay > .Content:hover .SettingWrapper,
 .WidgetSimple.Setting.HasOverlay .SettingWrapper {

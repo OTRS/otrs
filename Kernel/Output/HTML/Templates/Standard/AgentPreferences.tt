@@ -94,10 +94,9 @@
                     <input type="hidden" name="EditUserID" value="[% Data.EditUserID | html %]"/>
                     <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
 
-                    <div class="WidgetSimple Setting PreferenceClassic IsLockedByMe">
+                    <div class="WidgetSimple [% IF Data.Block == 'Avatar' && Config("Frontend::AvatarEngine") != 'Local' %]ReadOnly[% ELSE %]IsLockedByMe[% END %] Setting PreferenceClassic">
                         <div class="Header"><h2><label for="[% Data.PrefKey | html %]">[% Translate(Data.Label) | html %]</label></h2></div>
                         <div class="Content">
-
                             <div class="SettingWrapper">
                                 <fieldset class="TableLike">
     [% RenderBlockStart("Block") %]
@@ -133,6 +132,24 @@
                                     </div>
                                     <div class="Clear"></div>
     [% RenderBlockEnd("Upload") %]
+    [% RenderBlockStart("Avatar") %]
+                                [% IF Data.AvatarEngine == 'None' %]
+                                    <div class="Field NoMargin">
+                                        [% Translate("Avatars have been disabled by the system administrator. You'll see your initials instead.") | html %]
+                                    </div>
+                                    <div class="Clear"></div>
+                                [% ELSIF Data.AvatarEngine == 'Gravatar' %]
+                                    <div class="Field PreferenceAvatar">
+                                        <a href="https://www.gravatar.com" target="_blank"><img src="[% Data.Avatar %]" /></a>
+                                        [%
+                                            SET GravatarLink  = '<a href="https://www.gravatar.com" target="_blank"><i class="fa fa-external-link"></i> gravatar.com</a>';
+                                            SET GravatarEmail = '<strong>' _ Env("UserEmail") _ '</strong>';
+                                        %]
+                                        [% Translate("You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.", GravatarEmail, GravatarLink) %]
+                                    </div>
+                                    <div class="Clear"></div>
+                                [% END %]
+    [% RenderBlockEnd("Avatar") %]
     [% RenderBlockStart("Password") %]
                                     <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
                                     <div class="Field">
@@ -172,9 +189,15 @@
     [% RenderBlockEnd("Block") %]
 
                                     <div class="SettingUpdateBox">
+                                    [% IF Data.Block == 'Avatar' && Config("Frontend::AvatarEngine") != 'Local' %]
+                                        <button class="CallForAction Disabled" type="button" value="[% Translate("This setting can currently not be saved.") | html %]" title="[% Translate("This setting can currently not be saved") | html %]">
+                                            <span><i class="fa fa-check"></i></span>
+                                        </button>
+                                    [% ELSE %]
                                         <button class="CallForAction Update" type="button" value="[% Translate("Save this setting") | html %]" title="[% Translate("Save this setting") | html %]">
                                             <span><i class="fa fa-check"></i></span>
                                         </button>
+                                    [% END %]
                                     </div>
 
                                 </fieldset>

@@ -32,6 +32,15 @@
     display: block !important;
 }
 
+.Preferences .WidgetSimple.Setting.ReadOnly .Content .SettingUpdateBox {
+    width: 48px;
+    display: block !important;
+}
+
+.WidgetSimple.Setting.ReadOnly .Content .SettingUpdateBox button {
+    margin-top: 7px;
+}
+
 .Preferences .WidgetSimple.Setting.IsLockedByMe .Content .SettingUpdateBox button.Cancel {
     display: none;
 }
@@ -47,6 +56,15 @@ fieldset.TableLike > .Field.NoMargin {
 .WidgetSimple .WidgetMessage.Top {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+.PreferenceAvatar img {
+    display: block;
+    float: left;
+    margin-right: 10px;
+    border-radius: 5px;
+    width: 45px;
+    height: 45px;
 }
 
 #ToggleView.Grid .fa:last-child {
