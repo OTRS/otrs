@@ -38,7 +38,11 @@ Core.Agent.Admin = (function (TargetNS) {
         $('.AddAsFavourite').off('click.AddAsFavourite').on('click.AddAsFavourite', function(Event) {
 
             var $TriggerObj = $(this),
-                Module = $(this).data('module');
+                Module = $(this).data('module'),
+                ModuleName = $TriggerObj.closest('a').find('span.Title').clone().children().remove().end().text();
+
+            // Remove white space at start and at the end of string.
+            ModuleName = ModuleName.replace(/^\s*(.*?)\s*$/, "$1");
 
             if ($TriggerObj.hasClass('Clicked')) {
                 return false;
@@ -47,16 +51,19 @@ Core.Agent.Admin = (function (TargetNS) {
             Event.stopPropagation();
             $(this).addClass('Clicked');
             Favourites.push(Module);
+
             Core.Agent.PreferencesUpdate('AdminNavigationBarFavourites', JSON.stringify(Favourites), function() {
 
-                var FavouriteHTML = '';
+                var FavouriteHTML = '',
+                    RowIndex,
+                    FavouriteRows = [ModuleName];
 
                 $TriggerObj.addClass('Clicked');
 
                 // also add the entry to the sidebar favourites list dynamically
                 FavouriteHTML = Core.Template.Render('Agent/Admin/Favourite', {
                     'Link'  : $TriggerObj.closest('a').attr('href'),
-                    'Name'  : $TriggerObj.closest('a').find('span.Title').clone().children().remove().end().text(),
+                    'Name'  : ModuleName,
                     'Module': Module
                 });
 
@@ -73,7 +80,22 @@ Core.Agent.Admin = (function (TargetNS) {
                     $(this).hide();
                 });
 
-                $('.DataTable.Favourites').append($(FavouriteHTML));
+                $('.DataTable.Favourites tbody tr').each(function() {
+                    FavouriteRows.push($(this).find('td:first a').html());
+                });
+
+                FavouriteRows.sort();
+                RowIndex = FavouriteRows.indexOf(ModuleName);
+                if (RowIndex < 0) {
+                    $('.DataTable.Favourites').append($(FavouriteHTML));
+                }
+                else if (RowIndex == 0) {
+                    $('.DataTable.Favourites').prepend($(FavouriteHTML));
+                }
+                else {
+                    $(FavouriteHTML).insertAfter($(".DataTable.Favourites tbody tr")[RowIndex - 1]);
+                }
+
                 $('.DataTable.Favourites').show();
 
             });

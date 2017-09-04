@@ -131,8 +131,7 @@ sub Run {
         next ITEMS if ( $NavBarModule{$Module}->{'Link'} && $NavBarModule{$Module}->{'Link'} eq 'Action=Admin' );
 
         if ( grep { $_ eq $Module } @{$PrefFavourites} ) {
-            push @Favourites,       $NavBarModule{$Module};
-            push @FavouriteModules, $Module;
+            push @Favourites, $NavBarModule{$Module};
             $NavBarModule{$Module}->{IsFavourite} = 1;
         }
 
@@ -142,6 +141,16 @@ sub Run {
             $Block = 'Miscellaneous';
         }
         push @{ $Modules{$Block} }, $NavBarModule{$Module};
+    }
+
+    @Favourites = sort {
+        $LayoutObject->{LanguageObject}->Translate( $a->{Name} )
+            cmp
+            $LayoutObject->{LanguageObject}->Translate( $b->{Name} )
+    } @Favourites;
+
+    for my $Favourite (@Favourites) {
+        push @FavouriteModules, $Favourite->{'Frontend::Module'};
     }
 
     # Sort the items within the groups.
