@@ -285,14 +285,15 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#submitRichText").length;'
-        );
-
         # Verify updated FormDraft values.
         for my $FieldValue ( sort keys %{ $FormDraftCase->{Fields} } ) {
+
+            # Wait until input field has loaded, if necessary.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$(\'#$FormDraftCase->{Fields}->{$FieldValue}->{ID}\').length;"
+            );
+
             $Self->Is(
                 $Selenium->execute_script("return \$('#$FormDraftCase->{Fields}->{$FieldValue}->{ID}').val()"),
                 $FormDraftCase->{Fields}->{$FieldValue}->{Update},
