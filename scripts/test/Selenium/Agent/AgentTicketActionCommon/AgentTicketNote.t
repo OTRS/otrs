@@ -379,12 +379,10 @@ $Selenium->RunTest(
 
         $Selenium->switch_to_frame($FrameName);
 
-        # expand the article widget
-        $Selenium->find_element( "#WidgetArticle .Toggle a", 'css' )->click();
-
-        $Selenium->execute_script(
-            "\$('#WidgetArticle .Toggle a', \$('.PopupIframe').contents()).trigger('click')"
-        );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTRS API verification failed after page load.";
 
         # check if the richtext is empty
         $Self->Is(
