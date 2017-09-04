@@ -380,6 +380,11 @@ $Selenium->RunTest(
 
         $Selenium->switch_to_frame($FrameName);
 
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        ) || die "OTRS API verification failed after page load.";
+
         # expand the article widget
         $Selenium->find_element( "#WidgetArticle .Toggle a", 'css' )->click();
 
