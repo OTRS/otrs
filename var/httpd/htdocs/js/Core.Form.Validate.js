@@ -127,10 +127,18 @@ Core.Form.Validate = (function (TargetNS) {
         InputErrorMessageText = $('#' + Core.App.EscapeSelector($Element.attr('id')) + ErrorType).text();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
-            // if error field is a RTE, it is a little bit more difficult
+            // If error field is a RTE, it is a little bit more difficult.
             if ($('#cke_' + Core.App.EscapeSelector(Element.id)).length) {
                 Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
-            } else {
+            }
+            // If server error field is RTE, action must be subscribed and loaded when event is finished because RTE is not loaded yet.
+            else if ($Element.hasClass('RichText') && parseInt(Core.Config.Get('RichTextSet'), 10) === 1)
+            {
+                Core.App.Subscribe('Event.UI.RichTextEditor.InstanceReady', function () {
+                    Core.Form.ErrorTooltips.InitRTETooltip($Element, InputErrorMessageHTML);
+                });
+            }
+            else {
                 Core.Form.ErrorTooltips.InitTooltip($Element, InputErrorMessageHTML);
             }
         }

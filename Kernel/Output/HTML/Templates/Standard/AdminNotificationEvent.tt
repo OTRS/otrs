@@ -577,13 +577,13 @@
                             [% Translate("Text") | html %]:
                                         </label>
                                         <div class="RichTextField">
-                                            <textarea name="[% Data.LanguageID | html %]_Body" id="[% Data.LanguageID | html %]_Body" class="RichText Validate_RequiredRichText [% Data.BodyServerError | html %]" title="[% Translate("Message body") | html %]" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+                                            <textarea name="[% Data.LanguageID | html %]_Body" id="[% Data.LanguageID | html %]_Body" class="RichText Validate_RequiredRichText Validate_MaxLength [% Data.BodyServerError | html %]" title="[% Translate("Message body") | html %]" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]" data-maxlength="4000">[% Data.Body | html %]</textarea>
 
                                             <div id="[% Data.LanguageID | html %]_BodyError" class="TooltipErrorMessage">
-                                                <p>[% Translate("This field is required.") | html %]</p>
+                                                <p>[% Translate("This field is required and must have less than 4000 characters.") | html %]</p>
                                             </div>
                                             <div id="[% Data.LanguageID | html %]_BodyServerError" class="TooltipErrorMessage">
-                                                <p>[% Translate("This field is required.") | html %]</p>
+                                                <p>[% Translate("This field is required and must have less than 4000 characters.") | html %]</p>
                                             </div>
                                         </div>
                                         <div class="Clear"></div>
