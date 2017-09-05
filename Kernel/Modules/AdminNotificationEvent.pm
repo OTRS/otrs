@@ -115,6 +115,8 @@ sub Run {
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
+        my $Error;
+
         # get the subject and body for all languages
         for my $LanguageID ( @{ $GetParam{Data}->{LanguageID} } ) {
 
@@ -130,9 +132,11 @@ sub Run {
             # set server error flag if field is empty
             if ( !$Subject ) {
                 $GetParam{ $LanguageID . '_SubjectServerError' } = "ServerError";
+                $Error = 1;
             }
-            if ( !$Body ) {
+            if ( !$Body || length $Body > 4000 ) {
                 $GetParam{ $LanguageID . '_BodyServerError' } = "ServerError";
+                $Error = 1;
             }
         }
 
@@ -216,7 +220,7 @@ sub Run {
 
         # required Article filter only on ArticleCreate and ArticleSend event
         # if isn't selected at least one of the article filter fields, notification isn't updated
-        if ( !$ArticleFilterMissing ) {
+        if ( !$ArticleFilterMissing && !$Error ) {
 
             $Ok = $NotificationEventObject->NotificationUpdate(
                 %GetParam,
@@ -326,6 +330,8 @@ sub Run {
             $GetParam{Data}->{$Parameter} = \@Data;
         }
 
+        my $Error;
+
         # get the subject and body for all languages
         for my $LanguageID ( @{ $GetParam{Data}->{LanguageID} } ) {
 
@@ -341,9 +347,11 @@ sub Run {
             # set server error flag if field is empty
             if ( !$Subject ) {
                 $GetParam{ $LanguageID . '_SubjectServerError' } = "ServerError";
+                $Error = 1;
             }
-            if ( !$Body ) {
+            if ( !$Body || length $Body > 4000 ) {
                 $GetParam{ $LanguageID . '_BodyServerError' } = "ServerError";
+                $Error = 1;
             }
         }
 
@@ -427,7 +435,7 @@ sub Run {
 
         # required Article filter only on ArticleCreate and Article Send event
         # if isn't selected at least one of the article filter fields, notification isn't added
-        if ( !$ArticleFilterMissing ) {
+        if ( !$ArticleFilterMissing && !$Error ) {
             $ID = $NotificationEventObject->NotificationAdd(
                 %GetParam,
                 UserID => $Self->{UserID},

@@ -781,6 +781,17 @@ sub NotificationImport {
         };
     }
 
+    # Check if notification message in any language has more characters than limit (4000 characters).
+    for my $Language ( sort keys %{ $NotificationData->[0]->{Message} } ) {
+        if ( length $NotificationData->[0]->{Message}->{$Language}->{Body} > 4000 ) {
+            return {
+                Success => 0,
+                Message =>
+                    Translatable("Imported notification has body text with more than 4000 characters."),
+            };
+        }
+    }
+
     my @UpdatedNotifications;
     my @AddedNotifications;
     my @NotificationErrors;
