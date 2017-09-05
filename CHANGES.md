@@ -1,4 +1,5 @@
 #5.0.23 2017-??-??
+ - 2017-09-05 Fixed bug#[13053](https://bugs.otrs.org/show_bug.cgi?id=13053) - There are no dialogs available at this point in the process is not shown.
  - 2017-09-01 Fixed bug#[13081](https://bugs.otrs.org/show_bug.cgi?id=13081) - Article field not mandatory if attachment is added.
  - 2017-09-01 Fixed bug#[13075](https://bugs.otrs.org/show_bug.cgi?id=13075) - Short description for "pending time" not shown in D.
  - 2017-08-29 Fixed bug#[13083](https://bugs.otrs.org/show_bug.cgi?id=13083) - OTRS Business Solution Logout Logo is OTRSFree.
