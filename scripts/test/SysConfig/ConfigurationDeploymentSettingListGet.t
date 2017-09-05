@@ -25,6 +25,8 @@ my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 my $RandomNumber = $HelperObject->GetRandomNumber();
 
+$HelperObject->FixedTimeSet();
+
 my $SettingName1 = 'ProductName ' . $RandomNumber . 1;
 my $SettingName2 = 'ProductName ' . $RandomNumber . 2;
 my $SettingName3 = 'ProductName ' . $RandomNumber . 3;
@@ -271,11 +273,7 @@ $Success = $SysConfigDBObject->DefaultSettingUnlock(
 # Make sure that there is enough time between two ConfigurationDeploy() calls.
 # DeploymentModifiedVersionList() method works with timestamps, so it can return
 # data which was deployed in previous deployment. See https://bugs.otrs.org/show_bug.cgi?id=13071.
-my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-$DateTimeObject->Add(
-    Seconds => 2,
-);
-$HelperObject->FixedTimeSet($DateTimeObject);
+$HelperObject->FixedTimeAddSeconds(2);
 
 $Success = $SysConfigObject->ConfigurationDeploy(
     Comments     => "UnitTest",
