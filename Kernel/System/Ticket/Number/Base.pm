@@ -116,7 +116,7 @@ sub TicketNumberCounterAdd {
     # It's strange, but this sleep seems to be needed to make sure that other database sessions also see this record.
     #   Without it, there were race conditions because the fillup of unset values below didn't find records that other
     #   sessions already inserted.
-    Time::HiRes::sleep(0.1);
+    Time::HiRes::sleep(0.05);
 
     # Get the ID of the just inserted ticket counter.
     return if !$DBObject->Prepare(
