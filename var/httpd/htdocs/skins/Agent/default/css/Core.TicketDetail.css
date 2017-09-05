@@ -529,7 +529,11 @@ div.Headline .Flag {
 }
 
 .UseArticleColors tr.NotVisibleForCustomer > td {
-    background: #FFCCCC;
+    background: #FFCCCC !important;
+}
+
+.UseArticleColors tr.Active td {
+    background-color: #e5e5e5 !important;
 }
 
 .ArticleMailContent iframe,

@@ -1,4 +1,5 @@
 #6.0.0.beta2 2017-??-??
+ - 2017-09-05 Fixed bug#[13047](https://bugs.otrs.org/show_bug.cgi?id=13047) - High contrast skin visibilty issues.
  - 2017-09-05 Fixed bug#[13053](https://bugs.otrs.org/show_bug.cgi?id=13053) - There are no dialogs available at this point in the process is not shown.
  - 2017-09-04 Fixed bug#[13071](https://bugs.otrs.org/show_bug.cgi?id=13071) - SysConfig UT errors.
  - 2017-09-01 Fixed bug#[13103](https://bugs.otrs.org/show_bug.cgi?id=13103) - Sorting in admin favourites is id based.

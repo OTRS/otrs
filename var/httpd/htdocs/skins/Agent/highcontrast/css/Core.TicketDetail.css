@@ -1,0 +1,43 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "High Contrast"
+ * @section     Skin overrides
+ */
+
+@media screen,projection,tv,handheld {
+
+.ArticleMailContent iframe,
+.ArticleMailContent .ArticleBody,
+.ArticleMailContent .ArticleHTML,
+.NotVisibleForCustomer .ArticleMailContent .ArticleMeta {
+    border-color: #777;
+}
+
+.Incoming .ArticleMailContentHTMLWrapper:after,
+.Incoming .ArticleHTML:after,
+.Incoming .ArticleBody:after {
+    border-left-color: #777;
+}
+
+.Outgoing .ArticleMailContentHTMLWrapper:after,
+.Outgoing .ArticleHTML:after,
+.Outgoing .ArticleBody:after {
+    border-right-color: #777;
+}
+
+.Cluster ul ul {
+    background: #fff !important;
+    border: 1px solid #000;
+}
+
+.Cluster ul ul li a:hover {
+    background: #000 !important;
+    color: #fff;
+}
+
+} /* end @media */
