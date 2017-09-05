@@ -268,6 +268,15 @@ $Success = $SysConfigDBObject->DefaultSettingUnlock(
     UnlockAll => 1,
 );
 
+# Make sure that there is enough time between two ConfigurationDeploy() calls.
+# DeploymentModifiedVersionList() method works with timestamps, so it can return
+# data which was deployed in previous deployment. See https://bugs.otrs.org/show_bug.cgi?id=13071.
+my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+$DateTimeObject->Add(
+    Seconds => 2,
+);
+$HelperObject->FixedTimeSet($DateTimeObject);
+
 $Success = $SysConfigObject->ConfigurationDeploy(
     Comments     => "UnitTest",
     UserID       => 1,
