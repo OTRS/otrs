@@ -1235,7 +1235,7 @@ sub MaskAgentZoom {
         # get next activity dialogs
         my $NextActivityDialogs;
         if ( $Ticket{$ActivityEntityIDField} ) {
-            $NextActivityDialogs = ${ActivityData}->{ActivityDialog} // {};
+            $NextActivityDialogs = ${ActivityData}->{ActivityDialog} || {};
         }
         my $ActivityName = $ActivityData->{Name};
 
