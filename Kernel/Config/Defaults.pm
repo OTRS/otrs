@@ -1166,6 +1166,7 @@ sub LoadDefaults {
         'Block' => 'Input',
         'Column' => 'Other Settings',
         'Data' => '[% Env("UserComment") %]',
+        'Desc' => 'Add a comment.',
         'Key' => 'Comment',
         'Label' => 'Comment',
         'Module' => 'Kernel::Output::HTML::Preferences::Generic',
