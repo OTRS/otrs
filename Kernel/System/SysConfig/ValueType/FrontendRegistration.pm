@@ -103,23 +103,6 @@ sub SettingEffectiveValueCheck {
         return %Result;
     }
 
-    GROUP:
-    for my $Group (qw(Group GroupRo)) {
-        if ( ref $Param{EffectiveValue}->{$Group} ne 'ARRAY' ) {
-            $Result{Error} = "FrontendRegistration EffectiveValue must have defined $Group (Array)!";
-            last GROUP;
-        }
-
-        for my $Item ( @{ $Param{EffectiveValue}->{$Group} } ) {
-            if ( ref $Item ) {
-                $Result{Error} = "FrontendRegistration $Group item must contain scalar value!";
-                last GROUP;
-            }
-        }
-    }
-
-    return %Result if $Result{Error};
-
     DEFINED:
     for my $Defined (qw(NavBarName Description)) {
         if ( !defined $Param{EffectiveValue}->{$Defined} ) {
@@ -210,6 +193,13 @@ sub EffectiveValueGet {
         }
     }
 
+    # Set undefined group attributes.
+    for my $Group (qw(Group GroupRo)) {
+        if ( !defined $EffectiveValue->{$Group} ) {
+            $EffectiveValue->{$Group} = [];
+        }
+    }
+
     return $EffectiveValue;
 }
 
@@ -266,6 +256,13 @@ sub SettingRender {
 
     my $EffectiveValue = $Param{EffectiveValue};
 
+    # Set undefined group attributes.
+    for my $Group (qw(Group GroupRo)) {
+        if ( !defined $EffectiveValue->{$Group} ) {
+            $EffectiveValue->{$Group} = [];
+        }
+    }
+
     if ( !IsHashRefWithData($EffectiveValue) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -307,7 +304,6 @@ sub SettingRender {
     if ( !defined $EffectiveValue->{Title} ) {
         $EffectiveValue->{Title} = '';
     }
-
     for my $Key ( sort keys %{$EffectiveValue} ) {
 
         $HTML .= "<div class='HashItem'>\n";
