@@ -3786,6 +3786,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Comment</Item>
+                <Item Key="Desc" Translatable="1">Add a comment.</Item>
                 <Item Key="Key" Translatable="1">Comment</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="Data">[% Env("UserComment") %]</Item>
@@ -3804,6 +3805,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">NameX</Item>
+                <Item Key="Desc" Translatable="1">Add a default name for Dynamic Field.</Item>
                 <Item Key="Key" Translatable="1">Default value for NameX</Item>
                 <Item Key="Block">Input</Item>
                 <Item Key="Data">[% Env("UserDynamicField_NameX") %]</Item>
@@ -3891,6 +3893,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::TimeZone</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Time Zone</Item>
+                <Item Key="Desc" Translatable="1">Select your time zone.</Item>
                 <Item Key="Key" Translatable="1">Time Zone</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">5000</Item>
@@ -4607,6 +4610,7 @@ via the Preferences button after logging in.
                 <Item Key="Module">Kernel::Output::HTML::Preferences::TimeZone</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Time Zone</Item>
+                <Item Key="Desc" Translatable="1">This is a description for TimeZone on Customer side.</Item>
                 <Item Key="Key" Translatable="1">Time Zone</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">5000</Item>
