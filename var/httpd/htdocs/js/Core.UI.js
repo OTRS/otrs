@@ -182,16 +182,16 @@ Core.UI = (function (TargetNS) {
                 .parent()
                 .delay(1000)
                 .fadeOut(function() {
-                    $Widget.removeClass('HasOverlay');
                     $(this).remove();
+                    $Widget.removeClass('HasOverlay');
                 });
         }
         else {
             $Widget
                 .find('.Overlay')
                 .fadeOut(function() {
-                    $Widget.removeClass('HasOverlay');
                     $(this).remove();
+                    $Widget.removeClass('HasOverlay');
                 });
         }
     };
