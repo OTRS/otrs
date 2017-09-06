@@ -172,8 +172,7 @@ $Selenium->RunTest(
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                 );
-
-                $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
+                $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
 
             }
             elsif ( $FormDraftCase->{Fields}->{$Field}->{Type} eq 'Attachment' ) {

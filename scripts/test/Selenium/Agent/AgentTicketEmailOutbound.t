@@ -192,7 +192,7 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
 
-        $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
         $Selenium->find_element( "#Subject",    'css' )->send_keys("TestSubject");
         $Selenium->find_element( "#ToCustomer", 'css' )->VerifiedSubmit();
 

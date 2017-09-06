@@ -178,7 +178,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )
             ->send_keys($TestCustomerUserLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$TestCustomerUserLogin']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomerUserLogin)').click()");
 
         # check customer information center page
         $Self->True(
@@ -265,7 +265,7 @@ $Selenium->RunTest(
 
         # Click on wanted element in dropdown menu.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$CustomerUserIDs[0]']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUserIDs[0])').click()");
 
         # Error is expected.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
@@ -299,7 +299,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys( $CustomerUserIDs[0] );
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$CustomerUserIDs[0]']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUserIDs[0])').click()");
 
         # Error is expected.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );

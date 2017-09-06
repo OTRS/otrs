@@ -384,7 +384,7 @@ $Selenium->RunTest(
         # Input required field and select customer.
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$TestCustomer']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
 
         $Self->Is(
             $Selenium->execute_script('return $(".Dialog.Modal.Alert") > -1'),

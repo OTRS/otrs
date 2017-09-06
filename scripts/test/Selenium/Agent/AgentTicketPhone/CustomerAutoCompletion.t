@@ -262,7 +262,7 @@ $Selenium->RunTest(
             if ( $AutoCompleteExpected{$AutocompleteInput}->{Expected} ) {
 
                 # select customer user
-                $Selenium->find_element("//*[text()='$AutocompleteInput']")->VerifiedClick();
+                $Selenium->execute_script("\$('li.ui-menu-item:contains($AutocompleteInput)').click()");
 
                 # Wait until customer data is loading (CustomerID is filled after CustomerAutoComplete)
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
@@ -326,9 +326,10 @@ $Selenium->RunTest(
                     );
 
                     # select customer id
-                    $Selenium->find_element(
-                        "//*[text()='$AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID}']"
-                    )->click();
+                    $Selenium->execute_script(
+                        "\$('li.ui-menu-item:contains($AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID})').click()"
+                    );
+
                 }
 
                 $Selenium->WaitFor(

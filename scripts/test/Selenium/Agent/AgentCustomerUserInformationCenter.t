@@ -183,7 +183,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AgentCustomerUserInformationCenterSearchCustomerUser", 'css' )
             ->send_keys( $CustomerUsers[0]->{UserLogin} );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$CustomerUsers[0]->{UserMailString}']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUsers[0]->{UserMailString})').click()");
 
         # Check customer user information center page.
         $Self->True(
