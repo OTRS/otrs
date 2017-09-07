@@ -865,8 +865,9 @@ sub AddAction {
     my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
     my $ObjectModuleCheck = $StatsObject->ObjectModuleCheck(
-        StatType     => $Data{StatType},
-        ObjectModule => $Data{ObjectModule},
+        StatType                     => $Data{StatType},
+        ObjectModule                 => $Data{ObjectModule},
+        CheckAlreadyUsedStaticObject => 1,
     );
 
     if (!$ObjectModuleCheck) {

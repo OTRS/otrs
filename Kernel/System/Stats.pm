@@ -1168,8 +1168,9 @@ sub ObjectFileCheck {
 Check the object module.
 
     my $ObjectModuleCheck = $StatsObject->ObjectModuleCheck(
-        StatType    => 'static',
-        ObjectModule => 'Kernel::System::Stats::Static::StateAction',
+        StatType                     => 'static',
+        ObjectModule                 => 'Kernel::System::Stats::Static::StateAction',
+        CheckAlreadyUsedStaticObject => 1,                                             # optional
     );
 
 Returns true on success and false on error.
@@ -1200,7 +1201,7 @@ sub ObjectModuleCheck {
         );
 
         my $StaticFiles = $Self->GetStaticFiles(
-            OnlyUnusedFiles => 1,
+            OnlyUnusedFiles => $Param{CheckAlreadyUsedStaticObject},
             UserID          => 1,
         );
 
@@ -1386,8 +1387,9 @@ sub Import {
     }
 
     my $ObjectModuleCheck = $Self->ObjectModuleCheck(
-        StatType     => $StatsXML->{StatType}->[1]->{Content},
-        ObjectModule => $StatsXML->{ObjectModule}->[1]->{Content}
+        StatType                     => $StatsXML->{StatType}->[1]->{Content},
+        ObjectModule                 => $StatsXML->{ObjectModule}->[1]->{Content},
+        CheckAlreadyUsedStaticObject => 1,
     );
 
     return if !$ObjectModuleCheck;
