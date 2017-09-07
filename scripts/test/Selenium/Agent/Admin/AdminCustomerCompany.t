@@ -79,7 +79,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#CustomerID", 'css' )->clear();
-        $Selenium->find_element( "#CustomerID", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",     'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#CustomerID').hasClass('Error')"
@@ -95,7 +95,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment", 'css' )->send_keys('Selenium test customer company');
         $Selenium->find_element( "#CustomerCompanyZIP",     'css' )->send_keys('0');
-        $Selenium->find_element( "#CustomerID",             'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",                 'css' )->VerifiedClick();
 
         # check overview page
         $Self->True(
@@ -116,12 +116,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "button.CallForAction", 'css' )->VerifiedClick();
         $Selenium->find_element( "#CustomerID",          'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#CustomerCompanyName", 'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#CustomerID",          'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",              'css' )->VerifiedClick();
 
         # test search filter only for test Customer companies
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomerCompany');
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check for another customer company
         $Self->True(
@@ -132,7 +132,7 @@ $Selenium->RunTest(
         # test search filter by test customers $RandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -189,7 +189,7 @@ $Selenium->RunTest(
         # set test customer company to invalid and clear comment
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#CustomerCompanyComment", 'css' )->clear();
-        $Selenium->find_element( "#CustomerID",             'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",                 'css' )->VerifiedClick();
 
         #check is there notification 'Customer company updated!' after customer is updated
         $Notification = 'Customer company updated!';
@@ -201,7 +201,7 @@ $Selenium->RunTest(
         # test search filter
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check class of invalid customer user in the overview table
         $Self->True(

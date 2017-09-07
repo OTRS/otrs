@@ -90,7 +90,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Name", 'css' )->send_keys($AttachmentName);
             $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change')");
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
-            $Selenium->find_element( "#Name",       'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#Submit",     'css' )->VerifiedClick();
 
             # check if standard attachment show on AdminAttachment screen
             $Self->True(
@@ -126,7 +126,7 @@ $Selenium->RunTest(
 
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
             $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test attachment');
-            $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
             # check overview page
             $Self->Is(

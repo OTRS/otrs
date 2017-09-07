@@ -87,7 +87,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -124,7 +124,7 @@ $Selenium->RunTest(
             $Selenium->execute_script("\$('#TypeID').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#AddressID').val('1').trigger('redraw.InputField').trigger('change');");
             $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # check if test auto response show on AdminAutoResponse screen
             $Self->Is(
@@ -169,7 +169,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name", 'css' )->clear();
         $Selenium->find_element( "#Name", 'css' )->send_keys( $AutoResponseNames[0] );
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check if edited auto response show on AdminAutoResponse
         $Self->Is(

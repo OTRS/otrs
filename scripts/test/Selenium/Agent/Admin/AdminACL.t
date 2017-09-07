@@ -86,7 +86,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -110,7 +110,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#StopAfterMatch", 'css' )->VerifiedClick();
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check breadcrumb on Edit screen
         $Count = 1;
