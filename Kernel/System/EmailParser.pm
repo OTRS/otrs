@@ -769,8 +769,13 @@ sub PartsAttachments {
     # For multipart/mixed emails, we check for all text/plain or text/html MIME parts which are
     #   body elements, and concatenate them into the first relevant attachment, to stay in line
     #   with OTRS file-1 and file-2 attachment handling.
+    #
     # HTML parts will just be concatenated, so that the attachment has two complete HTML documents
     #   inside. Browsers tolerate this.
+    #
+    # The first found body part determines the content type to be used. So if it is text/plain, subsequent
+    #   text/html body parts will be converted to plain text, and vice versa. In case of multipart/alternative,
+    #   a text/plain and a text/html body attachment can coexist.
     if (
         $ContentMixed
         && ( !$PartData{Disposition} || $PartData{Disposition} eq 'inline' )
@@ -779,7 +784,21 @@ sub PartsAttachments {
     {
         # Is it a plain or HTML body?
         my $MimeType = $PartData{ContentType} =~ /text\/html/i ? 'text/html' : 'text/plain';
-        my $AttachmentKey = 'AttachmentFor_' . $MimeType;
+        my $TargetMimeType = $MimeType;
+
+        my $BodyAttachmentKey = "MultipartMixedBodyAttachment$MimeType";
+
+        if (!$Self->{FirstBodyAttachmentKey}) {
+            # Remember the first found attachment.
+            $Self->{FirstBodyAttachmentKey}      = $BodyAttachmentKey;
+            $Self->{FirstBodyAttachmentMimeType} = $MimeType;
+        }
+        elsif (!$ContentAlternative) {
+            # For multipart/alternative, we allow both text/plain and text/html. Otherwise, concatenate
+            #   all subsequent elements to the first found body element.
+            $BodyAttachmentKey = $Self->{FirstBodyAttachmentKey};
+            $TargetMimeType    = $Self->{FirstBodyAttachmentMimeType};
+        }
 
         # For concatenating multipart/mixed text parts, we have to convert all of them to utf-8 to be sure that
         #   the contents fit together and that all characters can be displayed.
@@ -799,18 +818,37 @@ sub PartsAttachments {
 
         $PartData{Filesize} = bytes::length( $PartData{Content} );
 
-        # Is it the first body element found? Then remember it.
-        if ( !$Self->{$AttachmentKey} ) {
-            $Self->{$AttachmentKey} = \%PartData;
+        # Is it a subsequent body element? Then concatenate it to the first one and skip it as attachment.
+        if ( $Self->{$BodyAttachmentKey} ) {
+
+            # This concatenation only works if all parts have the utf-8 flag on (from Convert2CharsetInternal).
+            if ( $MimeType ne $TargetMimeType ) {
+                my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+                if ( $TargetMimeType eq 'text/html' ) {
+                    my $HTMLContent = $HTMLUtilsObject->ToHTML(
+                        String => $PartData{Content},
+                    );
+                    $PartData{Content} = $HTMLUtilsObject->DocumentComplete(
+                        String  => $HTMLContent,
+                        Charset => 'utf-8',
+                    )
+                }
+                else {
+                    $PartData{Content} = $HTMLUtilsObject->ToAscii(
+                        String => $PartData{Content},
+                    );
+                }
+                $PartData{Filesize} = bytes::length( $PartData{Content} );
+            }
+            $Self->{$BodyAttachmentKey}->{Content} .= $PartData{Content};
+            $Self->{$BodyAttachmentKey}->{Filesize} += $PartData{Filesize};
+
+            # Don't create an attachment for this part, as it was concatenated to the first body element.
+            return 1;
         }
 
-        # Is it a subsequent body element? Then concatenate it to the first one and skip it as attachment.
-        else {
-            # This concatenation only works if all parts have the utf-8 flag on (from Convert2CharsetInternal).
-            $Self->{$AttachmentKey}->{Content} .= $PartData{Content};
-            $Self->{$AttachmentKey}->{Filesize} += $PartData{Filesize};
-            return 1;    # Don't create an attachment for this part.
-        }
+        # Remember the first found body element for possible later concatenation.
+        $Self->{$BodyAttachmentKey} = \%PartData;
     }
 
     push @{ $Self->{Attachments} }, \%PartData;

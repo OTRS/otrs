@@ -1,4 +1,5 @@
 #6.0.0.beta2 2017-??-??
+ - 2017-09-07 Fixed bug#[7307](https://bugs.otrs.org/show_bug.cgi?id=7307) - mixed html/plain e-mail.
  - 2017-09-06 Fixed bug#[13056](https://bugs.otrs.org/show_bug.cgi?id=13071) - Sending form by pressing RETURN key.
  - 2017-09-06 Fixed bug#[13049](https://bugs.otrs.org/show_bug.cgi?id=13049) - System Configuration setting value is not valid! - can not be enabled again.
  - 2017-09-05 Fixed bug#[12843](https://bugs.otrs.org/show_bug.cgi?id=12843) - Ticket Notifications over 4.000 characters are being removed from db.
