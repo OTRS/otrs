@@ -227,9 +227,13 @@ sub StatsParamsWidget {
 
         # load static module
         my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams( StatID => $StatID );
+
+        return if !$Params;
+
         $LayoutObject->Block(
             Name => 'Static',
         );
+
         PARAMITEM:
         for my $ParamItem ( @{$Params} ) {
             $LayoutObject->Block(
