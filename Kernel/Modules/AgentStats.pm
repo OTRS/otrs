@@ -131,7 +131,7 @@ sub Run {
             );
 
             # get the object name
-            if ( $Stat->{StatType} eq 'static' ) {
+            if ( $Stat->{StatType} && $Stat->{StatType} eq 'static' ) {
                 $Stat->{ObjectName} = $Stat->{File};
             }
 
@@ -852,18 +852,10 @@ sub Run {
             }
         }
 
-        if ( $Param{StatID} eq 'new' ) {
-
-            # call the StatsAddfunction and get the new StatID
-            $Param{StatID} = $Self->{StatsObject}->StatsAdd();
-            if ( !$Param{StatID} ) {
-                return $Self->{LayoutObject}->ErrorScreen( Message => 'Add: Get no StatID!' );
-            }
-        }
-
         # get save data
         my %Data;
         my $Subaction = '';
+        my @Notify;
 
         # save EditSpecification
         if ( $Param{Home} eq 'EditSpecification' ) {
@@ -908,9 +900,10 @@ sub Run {
             }
 
             # CompletenessCheck and set next subaction
-            my @Notify = $Self->{StatsObject}->CompletenessCheck(
+            @Notify = $Self->{StatsObject}->CompletenessCheck(
                 StatData => \%Data,
-                Section  => 'Specification'
+                Section  => 'Specification',
+                StatNew  => $Param{StatID} eq 'new' ? 1 : 0,
             );
             if (@Notify) {
                 $Subaction = 'EditSpecification';
@@ -921,7 +914,6 @@ sub Run {
             else {
                 $Subaction = 'EditXaxis';
             }
-
         }
 
         # save EditXaxis
@@ -1012,7 +1004,7 @@ sub Run {
             }
 
             # CompletenessCheck and set next subaction
-            my @Notify = $Self->{StatsObject}->CompletenessCheck(
+            @Notify = $Self->{StatsObject}->CompletenessCheck(
                 StatData => \%Data,
                 Section  => 'Xaxis'
             );
@@ -1076,7 +1068,7 @@ sub Run {
             $Data{UseAsValueSeries} ||= [];
 
             # CompletenessCheck and set next subaction
-            my @Notify = $Self->{StatsObject}->CompletenessCheck(
+            @Notify = $Self->{StatsObject}->CompletenessCheck(
                 StatData => \%Data,
                 Section  => 'ValueSeries'
             );
@@ -1178,7 +1170,7 @@ sub Run {
             $Data{UseAsRestriction} ||= [];
 
             # CompletenessCheck and set next subaction
-            my @Notify = $Self->{StatsObject}->CompletenessCheck(
+            @Notify = $Self->{StatsObject}->CompletenessCheck(
                 StatData => \%Data,
                 Section  => 'Restrictions'
             );
@@ -1198,11 +1190,23 @@ sub Run {
             );
         }
 
-        # save xmlhash in db
-        $Self->{StatsObject}->StatsUpdate(
-            StatID => $Param{StatID},
-            Hash   => \%Data,
-        );
+        if (!@Notify) {
+
+            if ( $Param{StatID} eq 'new' ) {
+
+                # call the StatsAddfunction and get the new StatID
+                $Param{StatID} = $Self->{StatsObject}->StatsAdd();
+                if ( !$Param{StatID} ) {
+                    return $Self->{LayoutObject}->ErrorScreen( Message => 'Add: Get no StatID!' );
+                }
+            }
+
+            # save xmlhash in db
+            $Self->{StatsObject}->StatsUpdate(
+                StatID => $Param{StatID},
+                Hash   => \%Data,
+            );
+        }
 
         # redirect
         return $Self->{LayoutObject}->Redirect(

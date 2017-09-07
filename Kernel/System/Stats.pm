@@ -1141,6 +1141,19 @@ sub CompletenessCheck {
         }
     }
 
+    if ( $Param{Section} eq 'Specification' ) {
+
+        my $ObjectModuleCheck = $Self->ObjectModuleCheck(
+            StatType                     => $StatData{StatType},
+            ObjectModule                 => $StatData{ObjectModule},
+            CheckAlreadyUsedStaticObject => $Param{StatNew},
+        );
+
+        if (!$ObjectModuleCheck) {
+            push @IndexArray, 2;
+        }
+    }
+
     # for form calls
     if ( $StatData{StatType} && $StatData{StatType} eq 'dynamic' ) {
         if (
@@ -1388,6 +1401,7 @@ sub GetStatsObjectAttributes {
     return if !$Self->{MainObject}->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
     return if !$StatObject;
+    return if !$StatObject->can('GetObjectAttributes');
 
     # load attributes
     my @ObjectAttributesRaw = $StatObject->GetObjectAttributes();
@@ -1519,6 +1533,8 @@ sub GetObjectName {
     # get name
     my $StatObject = $Module->new( %{$Self} );
     return if !$StatObject;
+    return if !$StatObject->can('GetObjectName');
+
     my $Name = $StatObject->GetObjectName();
 
     # cache the result
@@ -1559,8 +1575,8 @@ sub GetObjectBehaviours {
 
     my $StatObject = $Module->new( %{$Self} );
     return if !$StatObject;
-
     return if !$StatObject->can('GetObjectBehaviours');
+
     my %ObjectBehaviours = $StatObject->GetObjectBehaviours();
 
     # cache the result
@@ -1598,6 +1614,95 @@ sub ObjectFileCheck {
     return;
 }
 
+=item ObjectModuleCheck()
+
+Check the object module.
+
+    my $ObjectModuleCheck = $StatsObject->ObjectModuleCheck(
+        StatType                     => 'static',
+        ObjectModule                 => 'Kernel::System::Stats::Static::StateAction',
+        CheckAlreadyUsedStaticObject => 1,
+    );
+
+Returns true on success and false on error.
+
+=cut
+
+sub ObjectModuleCheck {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{StatType} || !$Param{ObjectModule};
+    return if $Param{StatType} ne 'static' && $Param{StatType} ne 'dynamic';
+
+    my $CheckFileLocation = 'Kernel::System::Stats::' . ucfirst $Param{StatType};
+    return if $Param{ObjectModule} !~ m{ \A $CheckFileLocation }xms;
+
+    my $ObjectName = [ split( m{::}, $Param{ObjectModule} ) ]->[-1];
+    return if !$ObjectName;
+    return if $ObjectName !~ m{[A-Z_a-z][0-9A-Z_a-z]*}xms;
+
+    my @RequiredObjectFunctions;
+
+    if ( $Param{StatType} eq 'static' ) {
+
+        @RequiredObjectFunctions = (
+            'GetObjectBehaviours',
+            'Param',
+            'Run',
+        );
+
+        my $StaticFiles = $Self->GetStaticFiles(
+            OnlyUnusedFiles => $Param{CheckAlreadyUsedStaticObject},
+            UserID          => 1,
+        );
+
+        if ( $ObjectName && !$StaticFiles->{$ObjectName} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Static object $ObjectName doesn't exist or static object already in use!",
+            );
+            return;
+        }
+    }
+    else {
+
+        @RequiredObjectFunctions = (
+            'GetObjectName',
+            'GetObjectBehaviours',
+            'GetObjectAttributes',
+        );
+
+        # Check if the given Object exists in the statistic object registartion.
+        my $DynamicFiles = $Self->GetDynamicFiles();
+
+        if ( !$DynamicFiles->{$ObjectName} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Object $ObjectName doesn't exist!"
+            );
+            return;
+        }
+    }
+
+    my $ObjectModule = $Param{ObjectModule};
+    return if !$Self->{MainObject}->Require($ObjectModule);
+
+    my $StatObject = $ObjectModule->new( %{$Self} );
+    return if !$StatObject;
+
+    # Check for the required object functions.
+    for my $RequiredObjectFunction (@RequiredObjectFunctions) {
+        return if !$StatObject->can($RequiredObjectFunction);
+    }
+
+    # Special check for some fucntions in the dynamic statistic object.
+    if ( $Param{StatType} eq 'dynamic' ) {
+        return if !$StatObject->can('GetStatTable') && !$StatObject->can('GetStatElement');
+    }
+
+    return 1;
+}
+
 =item Export()
 
 get content from stats for export
@@ -1622,9 +1727,7 @@ sub Export {
 
     my @XMLHash = $Self->{XMLObject}->XMLHashGet(
         Type => 'Stats',
-
-        #Cache => 0,
-        Key => $Param{StatID}
+        Key  => $Param{StatID},
     );
     my $StatsXML = $XMLHash[0]->{otrs_stats}->[1];
 
@@ -1634,36 +1737,7 @@ sub Export {
     );
     $File{Filename} .= '.xml';
 
-    # settings for static files
-    if (
-        $StatsXML->{StatType}->[1]->{Content}
-        && $StatsXML->{StatType}->[1]->{Content} eq 'static'
-        )
-    {
-        my $FileLocation = $StatsXML->{ObjectModule}->[1]->{Content};
-        $FileLocation =~ s{::}{\/}xg;
-        $FileLocation .= '.pm';
-        my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
-        my $FileContent = '';
-
-        open my $Filehandle, '<', $File || die "Can't open: $File: $!";    ## no critic
-
-        # set bin mode
-        binmode $Filehandle;
-        while (<$Filehandle>) {
-            $FileContent .= $_;
-        }
-        close $Filehandle;
-
-        $Self->{EncodeObject}->EncodeInput( \$FileContent );
-        $StatsXML->{File}->[1]->{File}       = $StatsXML->{File}->[1]->{Content};
-        $StatsXML->{File}->[1]->{Content}    = encode_base64( $FileContent, '' );
-        $StatsXML->{File}->[1]->{Location}   = $FileLocation;
-        $StatsXML->{File}->[1]->{Permission} = '644';
-        $StatsXML->{File}->[1]->{Encode}     = 'Base64';
-    }
-
-    # delete create and change data
+    # Delete not needed and useful keys from the stats xml.
     for my $Key (qw(Changed ChangedBy Created CreatedBy StatID)) {
         delete $StatsXML->{$Key};
     }
@@ -1689,10 +1763,11 @@ sub Export {
         my $StatObject = $ObjectModule->new( %{$Self} );
         return if !$StatObject;
 
-        # load attributes
-        $StatsXML = $StatObject->ExportWrapper(
-            %{$StatsXML},
-        );
+        if ( $StatObject->can('ExportWrapper') ) {
+            $StatsXML = $StatObject->ExportWrapper(
+                %{$StatsXML},
+            );
+        }
     }
 
     # convert hash to string
@@ -1753,6 +1828,28 @@ sub Import {
             );
             return;
         }
+    }
+
+    my $ObjectModuleCheck = $Self->ObjectModuleCheck(
+        StatType                     => $StatsXML->{StatType}->[1]->{Content},
+        ObjectModule                 => $StatsXML->{ObjectModule}->[1]->{Content},
+        CheckAlreadyUsedStaticObject => 1,
+    );
+
+    return if !$ObjectModuleCheck;
+
+    my $ObjectModule = $StatsXML->{ObjectModule}->[1]->{Content};
+    return if !$Self->{MainObject}->Require($ObjectModule);
+
+    my $StatObject = $ObjectModule->new( %{$Self} );
+    return if !$StatObject;
+
+    my $ObjectName = [ split( m{::}, $StatsXML->{ObjectModule}->[1]->{Content} ) ]->[-1];
+    if ( $StatsXML->{StatType}->[1]->{Content} eq 'static' ) {
+        $StatsXML->{File}->[1]->{Content} = $ObjectName;
+    }
+    else {
+        $StatsXML->{Object}->[1]->{Content} = $ObjectName;
     }
 
     # if-clause if a stat-xml includes a StatNumber
@@ -1897,15 +1994,7 @@ sub Import {
     }
 
     # wrap object dependend ids
-    if ( $StatsXML->{Object}->[1]->{Content} ) {
-
-        # load module
-        my $ObjectModule = $StatsXML->{ObjectModule}->[1]->{Content};
-        return if !$Self->{MainObject}->Require($ObjectModule);
-        my $StatObject = $ObjectModule->new( %{$Self} );
-        return if !$StatObject;
-
-        # load attributes
+    if ( $StatObject->can('ImportWrapper') ) {
         $StatsXML = $StatObject->ImportWrapper( %{$StatsXML} );
     }
 
@@ -1961,10 +2050,12 @@ sub GetParams {
         return if !$Self->{MainObject}->Require($ObjectModule);
         my $StatObject = $ObjectModule->new( %{$Self} );
         return if !$StatObject;
+        return if !$StatObject->can('Param');
 
         # get params
         @Params = $StatObject->Param();
     }
+
     return \@Params;
 }
 
@@ -2680,6 +2771,7 @@ sub _GenerateStaticStats {
     return if !$Self->{MainObject}->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
     return if !$StatObject;
+    return if !$StatObject->can('Run');
 
     my @Result;
     my %GetParam = %{ $Param{GetParam} };
@@ -2776,6 +2868,7 @@ sub _GenerateDynamicStats {
     return if !$Self->{MainObject}->Require($ObjectModule);
     my $StatObject = $ObjectModule->new( %{$Self} );
     return if !$StatObject;
+    return if !$StatObject->can('GetStatTable') && !$StatObject->can('GetStatElement');
 
     # get the selected values
     # perhaps i can split the StatGet function to make this needless
