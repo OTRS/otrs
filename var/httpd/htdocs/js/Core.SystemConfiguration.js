@@ -1553,6 +1553,8 @@ var Core = Core || {};
             Action = "AgentPreferences";
         }
 
+        window.history.pushState(null, null, URL);
+
         Data = {
             Action     : Action,
             Subaction  : 'SettingList',
