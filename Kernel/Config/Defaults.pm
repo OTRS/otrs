@@ -1169,7 +1169,7 @@ sub LoadDefaults {
         'Block'   => 'Input',
         'PreferenceGroup' => 'Miscellaneous',
         'Data'    => '[% Env("UserComment") %]',
-        'Desc'    => 'This is a Description for comment on Framework.',
+        'Desc'    => 'This is a Description for Comment on Framework.',
         'Key'     => 'Comment',
         'Label'   => 'Comment',
         'Module'  => 'Kernel::Output::HTML::Preferences::Generic',
