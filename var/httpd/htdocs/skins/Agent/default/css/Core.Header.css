@@ -513,6 +513,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     display: block;
     z-index: 99;
     background: #333;
+    min-width: 100%;
 }
 
 .RTL #Navigation > .Active > ul {
