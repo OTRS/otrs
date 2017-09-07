@@ -118,6 +118,115 @@ second part äöø',
             }
         ],
     },
+    {
+        Name     => "mixed email with plain and HTML part",
+        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedPlainHTML.eml",
+        Body     => 'Hello,
+
+This is the forwarded message...
+
+--
+Met vriendelijke groeten,
+Erik Thijs
+
+    Hi,
+ 
+This mail is composed in html format.
+ 
+Cheers,
+Erik
+',
+        Attachments => [
+            {
+                'Charset' => 'utf-8',
+                'Content' => 'Hello,
+
+This is the forwarded message...
+
+--
+Met vriendelijke groeten,
+Erik Thijs
+
+    Hi,
+ 
+This mail is composed in html format.
+ 
+Cheers,
+Erik
+',
+                'ContentID'       => undef,
+                'ContentLocation' => undef,
+                'ContentType'     => 'text/plain; charset=utf-8',
+                'Disposition'     => 'inline',
+                'Filename'        => 'file-1',
+                'Filesize'        => 148,
+                'MimeType'        => 'text/plain'
+            },
+        ],
+    },
+    {
+        Name     => "mixed email with HTML and plain part",
+        RawEmail => "$Home/scripts/test/sample/EmailParser/MultipartMixedHTMLPlain.eml",
+        Body     => '    Hi,
+ 
+This mail is composed in html format.
+ 
+Cheers,
+Erik
+ Hello,
+
+This is the forwarded message...
+
+--
+Met vriendelijke groeten,
+Erik Thijs
+
+',
+        Attachments => [
+            {
+                'Charset' => 'utf-8',
+                'Content' => '<html>
+<head>
+<style><!--
+.hmmessage P
+{
+margin:0px;
+padding:0px
+}
+body.hmmessage
+{
+font-size: 10pt;
+font-family:Tahoma
+}
+--></style>
+</head>
+<body class=\'hmmessage\'>
+Hi,<BR>
+&nbsp;<BR>
+This <FONT color=#ff0000>mail </FONT>is <FONT color=#00b050>composed </FONT>in <FONT color=#0070c0>html </FONT>format.<BR>
+
+&nbsp;<BR>
+Cheers,<BR>
+<FONT style="BACKGROUND-COLOR: #ffff00">Erik</FONT><BR></body></html>
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">Hello,<br/>
+<br/>
+This is the forwarded message...<br/>
+<br/>
+--<br/>
+Met vriendelijke groeten,<br/>
+Erik Thijs<br/>
+<br/>
+</body></html>',
+                'ContentID'       => undef,
+                'ContentLocation' => undef,
+                'ContentType'     => 'text/html; charset=utf-8',
+                'Disposition'     => 'inline',
+                'Filename'        => 'file-1.html',
+                'Filesize'        => 720,
+                'MimeType'        => 'text/html'
+            },
+        ],
+    },
 );
 
 for my $Test (@Tests) {
