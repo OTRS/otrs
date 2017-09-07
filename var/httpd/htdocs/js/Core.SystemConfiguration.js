@@ -261,7 +261,7 @@ var Core = Core || {};
                 );
 
                 if (SelectedNode) {
-                    $('#ConfigTree').jstree(true)._open_to(SelectedNode);
+                    $('#ConfigTree').jstree('select_node', SelectedNode);
                 }
 
                 $("#ConfigTreeSearch").on('keyup keydown', function() {
