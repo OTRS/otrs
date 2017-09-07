@@ -1,4 +1,5 @@
 #5.0.23 2017-??-??
+ - 2017-09-07 Fixed bug#[7307](https://bugs.otrs.org/show_bug.cgi?id=7307) - mixed html/plain e-mail.
  - 2017-09-06 Fixed bug#[12569](https://bugs.otrs.org/show_bug.cgi?id=12569) - Missing explanation users (with visual impairments) in the 'Preferences' page.
  - 2017-09-05 Fixed bug#[12843](https://bugs.otrs.org/show_bug.cgi?id=12843) - Ticket Notifications over 4.000 characters are being removed from db.
  - 2017-09-05 Fixed bug#[13019](https://bugs.otrs.org/show_bug.cgi?id=13019) - Service translated in AdminSLA overview screen.
