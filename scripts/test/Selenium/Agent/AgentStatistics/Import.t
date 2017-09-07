@@ -123,7 +123,27 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
         # import test selenium statistic
-        my $Location = $ConfigObject->Get('Home')
+        my $LocationNotExistingObject = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/Stats/Stats.Static.NotExisting.xml";
+        $Selenium->find_element( "#File", 'css' )->send_keys($LocationNotExistingObject);
+
+        $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->VerifiedClick();
+
+        # Confirm JS error.
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+        # Verify error class.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('#File').hasClass('Error')"
+            ),
+            '1',
+            'Import file field has class error',
+        );
+
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
+
+        # import test selenium statistic
+        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($Location);
 

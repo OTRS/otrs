@@ -443,6 +443,32 @@ $Self->Is(
     "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset utf-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n",
 );
 
+# Import a static statistic with not exsting object module
+
+# load example file
+my $PathNotExistingStatistic = $ConfigObject->Get('Home') . '/scripts/test/sample/Stats/Stats.Static.NotExisting.xml';
+my $FilehandleNotExistingStatistic;
+if ( !open $FilehandleNotExistingStatistic, '<', $PathNotExistingStatistic ) {    ## no critic
+    $Self->True(
+        0,
+        'Get the file which should be imported',
+    );
+}
+
+@Lines = <$FilehandleNotExistingStatistic>;
+my $ImportContentNotExistingStatistic = join '', @Lines;
+
+close $Filehandle;
+
+my $NotExistingStatID = $StatsObject->Import(
+    Content => $ImportContentNotExistingStatistic,
+    UserID  => 1,
+);
+$Self->False(
+    $NotExistingStatID,
+    'Import() statistic with not existing object module must fail',
+);
+
 # try to use otrs.Console.pl Maint::Stats::Generate
 
 # check the imported stat

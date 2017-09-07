@@ -244,15 +244,17 @@ sub ImportAction {
                 UserID  => $Self->{UserID},
             );
 
-            if ($StatID) {
+            if ( !$StatID ) {
                 $Errors{FileServerError}        = 'ServerError';
                 $Errors{FileServerErrorMessage} = Translatable("Statistic could not be imported.");
             }
+            else {
 
-            # redirect to configure
-            return $LayoutObject->Redirect(
-                OP => "Action=AgentStatistics;Subaction=Edit;StatID=$StatID"
-            );
+                # Redirect to statistic edit page.
+                return $LayoutObject->Redirect(
+                    OP => "Action=AgentStatistics;Subaction=Edit;StatID=$StatID"
+                );
+            }
         }
         else {
             $Errors{FileServerError}        = 'ServerError';
@@ -860,6 +862,17 @@ sub AddAction {
         $Data{Object} = $Object;
     }
 
+    my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
+
+    my $ObjectModuleCheck = $StatsObject->ObjectModuleCheck(
+        StatType     => $Data{StatType},
+        ObjectModule => $Data{ObjectModule},
+    );
+
+    if (!$ObjectModuleCheck) {
+        $Errors{ObjectModuleServerError} = 'ServerError';
+    }
+
     for my $Key (qw(SumRow SumCol Cache ShowAsDashboardWidget)) {
         $Data{$Key} = $ParamObject->GetParam( Param => $Key ) // '';
     }
@@ -885,7 +898,7 @@ sub AddAction {
         );
     }
 
-    $Param{StatID} = $Kernel::OM->Get('Kernel::System::Stats')->StatsAdd(
+    $Param{StatID} = $StatsObject->StatsAdd(
         UserID => $Self->{UserID},
     );
     if ( !$Param{StatID} ) {
@@ -893,7 +906,7 @@ sub AddAction {
             Message => Translatable('Could not create statistic.'),
         );
     }
-    $Kernel::OM->Get('Kernel::System::Stats')->StatsUpdate(
+    $StatsObject->StatsUpdate(
         StatID => $Param{StatID},
         Hash   => \%Data,
         UserID => $Self->{UserID},
