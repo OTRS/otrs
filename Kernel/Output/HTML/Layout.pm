@@ -5453,7 +5453,10 @@ sub _BuildSelectionDataRefCreate {
             # already done before the translation
         }
         else {
-            @SortKeys = sort { lc $DataLocal->{$a} cmp lc $DataLocal->{$b} } ( keys %{$DataLocal} );
+            @SortKeys = sort {
+                lc( $DataLocal->{$a} // '' )
+                    cmp lc( $DataLocal->{$b} // '' )
+            } ( keys %{$DataLocal} );
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
 
