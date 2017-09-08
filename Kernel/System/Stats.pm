@@ -3761,6 +3761,10 @@ sub _MonthArray {
 sub _AutomaticSampleImport {
     my ( $Self, %Param ) = @_;
 
+    # Prevent deep recursions.
+    local $Self->{InAutomaticSampleImport} = $Self->{InAutomaticSampleImport};
+    return if $Self->{InAutomaticSampleImport}++;
+
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
