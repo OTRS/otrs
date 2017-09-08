@@ -151,7 +151,7 @@ $Selenium->RunTest(
             );
 
             # check, if reload notification is shown
-            my $NotificationTranslation = $LanguageObject->Translate("Please note that some of the preferences you have changed require a page reload to become effective.");
+            my $NotificationTranslation = $LanguageObject->Translate("Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.");
 
             $Selenium->WaitFor(
                 JavaScript =>
