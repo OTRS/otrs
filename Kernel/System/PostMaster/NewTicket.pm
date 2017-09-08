@@ -142,6 +142,8 @@ sub Run {
         );
     }
 
+    $GetParam{SenderEmailAddress} //= '';
+
     # get customer id (sender email) if there is no customer id given
     if ( !$GetParam{'X-OTRS-CustomerNo'} && $GetParam{'X-OTRS-CustomerUser'} ) {
 
