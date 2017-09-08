@@ -145,13 +145,21 @@ $Selenium->RunTest(
                 "#UserLanguage updated value",
             );
 
-            # reload the screen
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
-
             # create language object
             my $LanguageObject = Kernel::Language->new(
                 UserLanguage => "$Language",
             );
+
+            # check, if reload notification is shown
+            my $NotificationTranslation = $LanguageObject->Translate("Please note that some of the preferences you have changed require a page reload to become effective.");
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return \$('div.MessageBox.Notice:contains(\"" . $NotificationTranslation . "\")').length"
+            );
+
+            # reload the screen
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
             # check for correct translation
             for my $String ( 'Change password', 'Language', 'Out Of Office Time' ) {
@@ -404,6 +412,18 @@ JAVASCRIPT
         $Selenium->WaitFor(
             JavaScript =>
                 "return !\$('#UserSkin').closest('.WidgetSimple').hasClass('HasOverlay')"
+        );
+
+        # check, if reload notification is shown
+        $LanguageObject = Kernel::Language->new(
+            UserLanguage => "en",
+        );
+
+        my $NotificationTranslation = $LanguageObject->Translate("Please note that some of the preferences you have changed require a page reload to become effective.");
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('div.MessageBox.Notice:contains(\"" . $NotificationTranslation . "\")').length"
         );
 
         # reload the screen

@@ -89,8 +89,9 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        my $Message  = '';
-        my $Priority = '';
+        my $Message           = '';
+        my $Priority          = '';
+        my $ConfigNeedsReload = 0;
 
         # check group param
         my @Groups = $ParamObject->GetArray( Param => 'Group' );
@@ -146,6 +147,9 @@ sub Run {
                 )
             {
                 $Message .= $Object->Message();
+                if ( $Preferences{$Group}->{NeedsReload} == 1 ) {
+                    $ConfigNeedsReload = 1;
+                }
             }
             else {
                 $Priority .= 'Error';
@@ -155,9 +159,10 @@ sub Run {
 
         my $JSON = $LayoutObject->JSONEncode(
             Data => {
-                'Message'  => $Message,
-                'Priority' => $Priority
-                }
+                'Message'     => $Message,
+                'Priority'    => $Priority,
+                'NeedsReload' => $ConfigNeedsReload
+            }
         );
 
         return $LayoutObject->Attachment(

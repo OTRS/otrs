@@ -8024,6 +8024,7 @@ You can log in via the following URL:
                 <Item Key="Desc" Translatable="1">Select the main interface language.</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserLanguage</Item>
+                <Item Key="NeedsReload">1</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Active">1</Item>
             </Hash>
@@ -8041,6 +8042,7 @@ You can log in via the following URL:
                 <Item Key="Desc" Translatable="1">Select your preferred layout for the software.</Item>
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserSkin</Item>
+                <Item Key="NeedsReload">1</Item>
                 <Item Key="Prio">100</Item>
                 <Item Key="Active">1</Item>
             </Hash>
