@@ -1149,7 +1149,7 @@ sub CompletenessCheck {
             CheckAlreadyUsedStaticObject => $Param{StatNew},
         );
 
-        if (!$ObjectModuleCheck) {
+        if ( !$ObjectModuleCheck ) {
             push @IndexArray, 2;
         }
     }
@@ -3942,6 +3942,10 @@ sub _MonthArray {
 
 sub _AutomaticSampleImport {
     my ( $Self, %Param ) = @_;
+
+    # Prevent deep recursions.
+    local $Self->{InAutomaticSampleImport} = $Self->{InAutomaticSampleImport};
+    return if $Self->{InAutomaticSampleImport}++;
 
     my $Language  = $Self->{ConfigObject}->Get('DefaultLanguage');
     my $Directory = $Self->{StatsTempDir};
