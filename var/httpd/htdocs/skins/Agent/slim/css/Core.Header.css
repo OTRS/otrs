@@ -22,6 +22,10 @@
     background-position: bottom;
 }
 
+#Logo {
+    opacity: 0.3;
+}
+
 /**
  * @subsection  Toolbar
  */

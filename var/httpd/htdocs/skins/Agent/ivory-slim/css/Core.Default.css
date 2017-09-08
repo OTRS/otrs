@@ -21,6 +21,10 @@ span.Pagination a:hover {
     color: #69BFCC;
 }
 
+#Logo {
+    opacity: 0.3;
+}
+
 .Admin .Size1of2 h4 {
     color: #69BFCC !important;
 }
