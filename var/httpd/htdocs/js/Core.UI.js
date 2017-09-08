@@ -779,10 +779,14 @@ Core.UI = (function (TargetNS) {
             return;
         }
 
+        if ($Element.hasClass('IsSticky')) {
+            return;
+        }
+
         function RepositionElement($Element, Width) {
             if ($(window).scrollTop() > Position.top) {
 
-                if ($Element.css('position') === 'fixed') {
+                if ($Element.hasClass('IsSticky')) {
                     return false;
                 }
 
@@ -790,10 +794,10 @@ Core.UI = (function (TargetNS) {
                     'position' : 'fixed',
                     'top'      : '9px',
                     'width'    : Width
-                });
+                }).addClass('IsSticky');
             }
             else {
-                $Element.css('position', 'static');
+                $Element.css('position', 'static').removeClass('IsSticky');
             }
         }
 

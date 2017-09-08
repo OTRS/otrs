@@ -1,4 +1,5 @@
 #6.0.0.beta2 2017-??-??
+ - 2017-09-08 Fixed bug#[13046](https://bugs.otrs.org/show_bug.cgi?id=13046) - System Configuration scrolling issue.
  - 2017-09-08 Fixed bug#[13121](https://bugs.otrs.org/show_bug.cgi?id=13121) - Use of undefined variables.
  - 2017-09-07 Improved validation in statistic import and export.
  - 2017-09-07 Fixed bug#[7307](https://bugs.otrs.org/show_bug.cgi?id=7307) - mixed html/plain e-mail.
