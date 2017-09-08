@@ -42,7 +42,7 @@
 }
 
 .Cluster > ul li:hover {
-    z-index: 5500;
+    z-index: 3500;
 }
 
 .Cluster ul li:hover ul,
