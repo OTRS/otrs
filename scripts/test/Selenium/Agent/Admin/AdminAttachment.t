@@ -47,7 +47,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # create test standard attachments
-        for my $File (qw(xls txt doc png pdf)) {
+        for my $File (qw(xls )) {
 
             # click 'add new attachment' link
             $Selenium->find_element("//a[contains(\@href, \'Action=AdminAttachment;Subaction=Add' )]")->VerifiedClick();
@@ -117,7 +117,8 @@ $Selenium->RunTest(
             # Accept delete confirmation dialog
             $Selenium->accept_alert();
 
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($RandomID)').length === 0;" );
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($RandomID)').length === 0;" );
 
             # check overview page
             $Self->True(
