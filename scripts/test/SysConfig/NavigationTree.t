@@ -34,7 +34,11 @@ my @Tests = (
         Config      => {
             'Tree' => {
                 'Core' => {
-                    'Core::CustomerUser' => {},
+                    'Subitems' => {
+                        'Core::CustomerUser' => {
+                            'Subitems' => {},
+                        },
+                    },
                 },
             },
         },
@@ -59,13 +63,21 @@ my @Tests = (
             ],
             'Tree' => {
                 'Core' => {
-                    'Core::CustomerUser' => {},
+                    'Subitems' => {
+                        'Core::CustomerUser' => {
+                            'Subitems' => {},
+                        },
+                    },
                 },
             },
         },
         ExpectedResult => {
             'Core' => {
-                'Core::CustomerUser' => {},
+                'Subitems' => {
+                    'Core::CustomerUser' => {
+                        'Subitems' => {},
+                    },
+                },
             },
         },
     },
@@ -79,14 +91,24 @@ my @Tests = (
             ],
             'Tree' => {
                 'Core' => {
-                    'Core::CustomerUser' => {},
+                    'Subitems' => {
+                        'Core::CustomerUser' => {
+                            'Subitems' => {},
+                        },
+                    },
                 },
             },
         },
         ExpectedResult => {
             'Core' => {
-                'Core::CustomerUser' => {
-                    'Core::CustomerUser::CustomerUserßšđč' => {},
+                'Subitems' => {
+                    'Core::CustomerUser' => {
+                        'Subitems' => {
+                            'Core::CustomerUser::CustomerUserßšđč' => {
+                                'Subitems' => {},
+                            },
+                        },
+                    },
                 },
             },
         },
@@ -99,13 +121,18 @@ my @Tests = (
                 'Core::CustomerUser',
                 'Core::CustomerUser::CustomerUserßšđč',
             ],
-            'Tree' => {
-            },
+            'Tree' => {},
         },
         ExpectedResult => {
             'Core' => {
-                'Core::CustomerUser' => {
-                    'Core::CustomerUser::CustomerUserßšđč' => {},
+                'Subitems' => {
+                    'Core::CustomerUser' => {
+                        'Subitems' => {
+                            'Core::CustomerUser::CustomerUserßšđč' => {
+                                'Subitems' => {},
+                            },
+                        },
+                    },
                 },
             },
         },
@@ -116,13 +143,21 @@ my @Tests = (
             'Array' => [],
             'Tree'  => {
                 'Core' => {
-                    'Core::CustomerUser' => {},
+                    'Subitems' => {
+                        'Core::CustomerUser' => {
+                            'Subitems' => {},
+                        },
+                    },
                 },
             },
         },
         ExpectedResult => {
             'Core' => {
-                'Core::CustomerUser' => {},
+                'Subitems' => {
+                    'Core::CustomerUser' => {
+                        'Subitems' => {},
+                    },
+                },
             },
         },
     },
@@ -135,17 +170,29 @@ my @Tests = (
             ],
             'Tree' => {
                 'Ticket' => {
-                    'Ticket::States' => {},
+                    'Subitems' => {
+                        'Ticket::States' => {
+                            'Subitems' => {},
+                        },
+                    },
                 },
             },
         },
         ExpectedResult => {
             'Core' => {
-                'Core::CustomerUser' => {}
+                'Subitems' => {
+                    'Core::CustomerUser' => {
+                        'Subitems' => {},
+                    },
+                },
             },
             'Ticket' => {
-                'Ticket::States' => {}
-                }
+                'Subitems' => {
+                    'Ticket::States' => {
+                        'Subitems' => {},
+                    },
+                },
+            },
         },
     },
 );
@@ -157,9 +204,10 @@ for my $Test (@Tests) {
         $Self->True(
             !%Result,
             $Test->{Description} . ': _NavigationTree(): Result must be undef.',
-            )
+        );
     }
     else {
+
         $Self->IsDeeply(
             \%Result,
             $Test->{ExpectedResult},

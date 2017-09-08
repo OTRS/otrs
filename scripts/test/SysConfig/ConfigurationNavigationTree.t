@@ -75,21 +75,57 @@ my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
             },
             ExpectedResult => {
                 'Core' => {
-                    'Core::CustomerUser' => {},
-                    'Core::Ticket'       => {},
-                },
-                'Frontend' => {
-                    'Frontend::Agent' => {
-                        'Frontend::Agent::Dashboard'          => {},
-                        'Frontend::Agent::ModuleRegistration' => {},
-                        'Frontend::Agent::Ticket'             => {
-                            'Frontend::Agent::Ticket::ViewPriority'    => {},
-                            'Frontend::Agent::Ticket::ViewResponsible' => {},
+                    'Count'    => 0,
+                    'Subitems' => {
+                        'Core::CustomerUser' => {
+                            'Subitems' => {},
+                            'Count'    => 4,
+                        },
+                        'Core::Ticket' => {
+                            'Subitems' => {},
+                            'Count'    => 3,
                         },
                     },
-                    'Frontend::Agentß∂čćžšđ' => {
-                        'Frontend::Agentß∂čćžšđ::ModuleRegistration' => {},
-                        }
+                },
+                'Frontend' => {
+                    'Count'    => 0,
+                    'Subitems' => {
+                        'Frontend::Agent' => {
+                            'Count'    => 0,
+                            'Subitems' => {
+                                'Frontend::Agent::Dashboard' => {
+                                    'Subitems' => {},
+                                    'Count'    => 1,
+                                },
+                                'Frontend::Agent::ModuleRegistration' => {
+                                    'Subitems' => {},
+                                    'Count'    => 2,
+                                },
+                                'Frontend::Agent::Ticket' => {
+                                    'Count'    => 0,
+                                    'Subitems' => {
+                                        'Frontend::Agent::Ticket::ViewPriority' => {
+                                            'Subitems' => {},
+                                            'Count'    => 3,
+                                        },
+                                        'Frontend::Agent::Ticket::ViewResponsible' => {
+                                            'Subitems' => {},
+                                            'Count'    => 1,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        'Frontend::Agentß∂čćžšđ' => {
+                            'Count'    => 0,
+                            'Subitems' => {
+                                'Frontend::Agentß∂čćžšđ::ModuleRegistration' => {
+                                    'Subitems' => {},
+                                    'Count'    => 1,
+                                },
+                            },
+                        },
+                    },
                 },
             },
         },
@@ -100,11 +136,26 @@ my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
                 RootNavigation => 'Frontend::Agent',
             },
             ExpectedResult => {
-                'Frontend::Agent::Dashboard'          => {},
-                'Frontend::Agent::ModuleRegistration' => {},
-                'Frontend::Agent::Ticket'             => {
-                    'Frontend::Agent::Ticket::ViewPriority'    => {},
-                    'Frontend::Agent::Ticket::ViewResponsible' => {},
+                'Frontend::Agent::Dashboard' => {
+                    'Subitems' => {},
+                    'Count'    => 1,
+                },
+                'Frontend::Agent::ModuleRegistration' => {
+                    'Subitems' => {},
+                    'Count'    => 2,
+                },
+                'Frontend::Agent::Ticket' => {
+                    'Count'    => 0,
+                    'Subitems' => {
+                        'Frontend::Agent::Ticket::ViewPriority' => {
+                            'Subitems' => {},
+                            'Count'    => 3,
+                        },
+                        'Frontend::Agent::Ticket::ViewResponsible' => {
+                            'Subitems' => {},
+                            'Count'    => 1,
+                        },
+                    },
                 },
             },
         },
@@ -115,7 +166,10 @@ my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
                 RootNavigation => 'Frontend::Agentß∂čćžšđ',
             },
             ExpectedResult => {
-                'Frontend::Agentß∂čćžšđ::ModuleRegistration' => {},
+                'Frontend::Agentß∂čćžšđ::ModuleRegistration' => {
+                    'Subitems' => {},
+                    'Count'    => 1,
+                },
             },
         },
     );
@@ -182,8 +236,17 @@ my @Tests = (
         },
         ExpectedResult => {
             'Core' => {
-                'Core::TestPackage' => {
-                    'Core::TestPackage::Other' => {},
+                'Count'    => 0,
+                'Subitems' => {
+                    'Core::TestPackage' => {
+                        'Count'    => 1,
+                        'Subitems' => {
+                            'Core::TestPackage::Other' => {
+                                'Subitems' => {},
+                                'Count'    => 2,
+                            },
+                        },
+                    },
                 },
             },
         },
@@ -196,8 +259,17 @@ my @Tests = (
         },
         ExpectedResult => {
             'Core' => {
-                'Core::TestPackage' => {
-                    'Core::TestPackage::Other' => {},
+                'Count'    => 0,
+                'Subitems' => {
+                    'Core::TestPackage' => {
+                        'Count'    => 0,
+                        'Subitems' => {
+                            'Core::TestPackage::Other' => {
+                                'Subitems' => {},
+                                'Count'    => 1,
+                            },
+                        },
+                    },
                 },
             },
         },

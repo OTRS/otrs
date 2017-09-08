@@ -10,10 +10,10 @@
 <ul style="display: none;">
     [% FOREACH Item IN RecursionData.keys.sort %]
         [% Matches = Item.match('[:]*(\w+)$'); %]
-        <li id="[% Item | html %]">
-            [% Matches.0 | html %]
+        <li id="[% Item | html %]" [% IF RecursionData.$Item.Count == 0 %]data-jstree='{"disabled":true}'[% END %]>
+            [% Matches.0 | html %][% IF RecursionData.$Item.Count != 0 %] ([% RecursionData.$Item.Count | html %])[% END %]
             [% IF RecursionData.$Item.size %]
-                [% INCLUDE Recurse RecursionData = RecursionData.$Item %]
+                [% INCLUDE Recurse RecursionData = RecursionData.$Item.Subitems %]
             [% END %]
         </li>
     [% END %]

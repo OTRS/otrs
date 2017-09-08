@@ -2760,6 +2760,14 @@ sub ConfigurationNavigationTree {
         );
     }
 
+ # Until now we have strucure of the Navigation tree without sub-node count. We need this number to disable
+ # click on empty nodes. We could implement that in the _NavigationTree, but it's not efficient(loop of 1800+ settings).
+ # Instead, we extend result in the _NavigationTreeNodeCount.
+    %Result = $Self->_NavigationTreeNodeCount(
+        Tree     => \%Result,
+        Settings => \@Settings,
+    );
+
     # Cache the results.
     $CacheObject->Set(
         Type  => $CacheType,
@@ -4708,20 +4716,60 @@ sub _NavigationTree {
 
     # Check if first item exists.
     if ( !defined $Result{ $Param{Array}->[0] } ) {
-        $Result{ $Param{Array}->[0] } = {};
+        $Result{ $Param{Array}->[0] } = {
+            Subitems => {},
+        };
     }
 
     # Check if it's deeper tree.
     if ( scalar @{ $Param{Array} } > 1 ) {
         my @SubArray = splice( @{ $Param{Array} }, 1 );
         my %Hash = $Self->_NavigationTree(
-            Tree  => $Result{ $Param{Array}->[0] },
+            Tree  => $Result{ $Param{Array}->[0] }->{Subitems},
             Array => \@SubArray,
         );
 
         if (%Hash) {
-            $Result{ $Param{Array}->[0] } = \%Hash;
+            $Result{ $Param{Array}->[0] } = {
+                Subitems => \%Hash,
+            };
         }
+    }
+
+    return %Result;
+}
+
+sub _NavigationTreeNodeCount {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(Settings)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my %Result = %{ $Param{Tree} // {} };
+
+    NODE_NAME:
+    for my $NodeName ( sort keys %Result ) {
+
+        my @Matches = grep { $_->{Navigation} eq $NodeName } @{ $Param{Settings} };
+        $Result{$NodeName}->{Count} = scalar @Matches;
+
+        my %SubResult = $Self->_NavigationTreeNodeCount(
+            Tree     => $Result{$NodeName}->{Subitems},
+            Settings => $Param{Settings},
+        );
+
+        $Result{$NodeName}->{Subitems} = {
+            %{ $Result{$NodeName}->{Subitems} },
+            %SubResult,
+        };
     }
 
     return %Result;
