@@ -153,6 +153,12 @@ sub Send {
         return;
     }
 
+    # exchanging original reference prevent it to grow up
+    if ( ref $Param{Attachment} && ref $Param{Attachment} eq 'ARRAY' ) {
+        my @LocalAttachment = @{ $Param{Attachment} };
+        $Param{Attachment} = \@LocalAttachment;
+    }
+
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
