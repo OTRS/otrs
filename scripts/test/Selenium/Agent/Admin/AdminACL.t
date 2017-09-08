@@ -31,20 +31,6 @@ $Selenium->RunTest(
             RestoreSystemConfiguration => 0,
         );
 
-        my $CheckAlertJS = <<"JAVASCRIPT";
-(function () {
-    var lastAlert = undefined;
-    window.alert = function (message) {
-        lastAlert = message;
-    };
-    window.getLastAlert = function () {
-        var result = lastAlert;
-        lastAlert = undefined;
-        return result;
-    };
-}());
-JAVASCRIPT
-
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => ['admin'],
             Language => 'de',
@@ -76,7 +62,7 @@ JAVASCRIPT
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -95,9 +81,7 @@ JAVASCRIPT
         $Selenium->find_element( "#Description",               'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#StopAfterMatch",            'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
-
-        # send form
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",                    'css' )->VerifiedClick();
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
@@ -144,9 +128,25 @@ JAVASCRIPT
             'Check for .ItemAdd element',
         );
 
+        my $CheckAlertJS = <<"JAVASCRIPT";
+(function () {
+    var lastAlert = undefined;
+    window.alert = function (message) {
+        lastAlert = message;
+    };
+    window.getLastAlert = function () {
+        var result = lastAlert;
+        lastAlert = undefined;
+        return result;
+    };
+}());
+JAVASCRIPT
+
         # now we should not be able to add the same element again, an alert box should appear
         $Selenium->execute_script($CheckAlertJS);
         $Selenium->find_element( ".ItemAddLevel1 option[value='Properties']", 'css' )->click();
+        $Selenium->find_element( ".ItemAddLevel1 option[value='Properties']", 'css' )->click();
+
         my $LanguageObject = Kernel::Language->new(
             UserLanguage => 'de',
         );
