@@ -1186,6 +1186,7 @@ sub LoadDefaults {
         'Module'  => 'Kernel::Output::HTML::Preferences::Language',
         'PrefKey' => 'UserLanguage',
         'Prio'    => '1000',
+        'NeedsReload' => 1,
     };
     $Self->{PreferencesGroups}->{Theme} = {
         'Active'  => '1',
