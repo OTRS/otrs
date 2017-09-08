@@ -162,7 +162,7 @@ sub Run {
                 'Message'     => $Message,
                 'Priority'    => $Priority,
                 'NeedsReload' => $ConfigNeedsReload
-            }
+            },
         );
 
         return $LayoutObject->Attachment(
@@ -456,7 +456,8 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AgentPreferences/SettingsList',
             Data         => {
-                SettingList => \@SettingList,
+                RootNavigation => $RootNavigation,
+                SettingList    => \@SettingList,
             },
         );
         $Output .= "</ul>\n";

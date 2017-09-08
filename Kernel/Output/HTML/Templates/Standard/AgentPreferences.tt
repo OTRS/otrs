@@ -219,13 +219,24 @@
             [% END %]
         </ul>
 
-    [% IF !global.ClassicPreferenceCounter && !Data.SettingList.size() %]
+        [% IF !global.ClassicPreferenceCounter && !Data.SettingList.size() %]
         <div class="WidgetSimple">
             <div class="Content">
+            [% IF !Data.RootNavigation %]
+                <ul class="GettingStarted LittlePadding">
+                    <li>
+                        <i class="fa fa-code-fork"></i>
+                        <p>
+                            [% Translate("Navigate through the available settings by using the tree in the navigation box on the left side.") | html %]
+                        </p>
+                    </li>
+                </ul>
+            [% ELSE %]
                 <p class="Center">[% Translate("This group doesn't contain any settings. Please try navigating to one of its sub groups.") | html %]</p>
+            [% END %]
             </div>
         </div>
-    [% END %]
+        [% END %]
 
     </div>
 </div>

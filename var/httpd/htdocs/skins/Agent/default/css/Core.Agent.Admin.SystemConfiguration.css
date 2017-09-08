@@ -25,6 +25,10 @@ textarea:focus, input:focus{
     padding: 40px 0px 5px 0px;
 }
 
+.GettingStarted.LittlePadding {
+    padding-top: 15px;
+}
+
 .GettingStarted li {
     display: inline-block;
     width: 220px;
