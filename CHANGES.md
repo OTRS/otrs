@@ -1,4 +1,6 @@
-#5.0.23 2017-??-??
+#5.0.24 2017-??-??
+
+#5.0.23 2017-09-19
  - 2017-09-11 Updated translations, thanks to all translators.
  - 2017-09-07 Improved validation in statistic import and export.
  - 2017-09-07 Fixed bug#[7307](https://bugs.otrs.org/show_bug.cgi?id=7307) - mixed html/plain e-mail.
