@@ -457,7 +457,7 @@ $Selenium->RunTest(
         # Try to add the same customer user, expecting server error for duplicated entry, see bug #9731.
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//li[text()='$AutoCompleteString']")->click();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
 
         $Self->Is(

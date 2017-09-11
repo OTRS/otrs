@@ -154,7 +154,7 @@ $Selenium->RunTest(
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                 );
-                $Selenium->find_element("//li[contains(text(), '$TestUser')]")->click();
+                $Selenium->execute_script("\$('li.ui-menu-item:contains($TestUser)').click()");
             }
 
             $Selenium->WaitFor(

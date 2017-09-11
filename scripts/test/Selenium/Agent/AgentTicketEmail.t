@@ -190,12 +190,11 @@ $Selenium->RunTest(
         );
 
         # Select customer user.
-        my $AutoCompleteString
-            = "\"$TestData[0]->{UserFirstName} $TestData[0]->{UserLastName}\" <$TestData[0]->{UserLogin}\@localhost.com> ($TestData[0]->{UserLogin})";
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($RandomID);
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestData[0]->{UserFirstName})').click()");
+
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         $SignatureText = "Customer First Name: $TestData[0]->{UserFirstName}";
@@ -231,12 +230,10 @@ $Selenium->RunTest(
         );
 
         # Add new customer in 'To'.
-        $AutoCompleteString
-            = "\"$TestData[1]->{UserFirstName} $TestData[1]->{UserLastName}\" <$TestData[1]->{UserLogin}\@localhost.com> ($TestData[1]->{UserLogin})";
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys( $TestData[1]->{UserLogin} );
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestData[1]->{UserFirstName})').click()");
 
         # Change selected customer, trigger replacement tag in signature.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerSelected_2").length' );
@@ -324,12 +321,11 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         # Select the first customer user.
-        $AutoCompleteString
-            = "\"$TestData[0]->{UserFirstName} $TestData[0]->{UserLastName}\" <$TestData[0]->{UserLogin}\@localhost.com> ($TestData[0]->{UserLogin})";
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($RandomID);
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestData[0]->{UserFirstName})').click()");
+
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         $SignatureText = "Customer First Name: $TestData[0]->{UserFirstName}";
