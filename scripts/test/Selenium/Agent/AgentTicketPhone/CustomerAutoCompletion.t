@@ -161,7 +161,8 @@ $Selenium->RunTest(
 
                 # wait for autocomplete to load
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('li.ui-menu-item:visible').length === $AutoCompleteExpected{$AutocompleteInput}->{Expected}"
                 );
             }
 
