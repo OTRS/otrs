@@ -1436,7 +1436,7 @@ sub CustomerUserDataGet {
             if ( $Field =~ /^targetaddress$/i ) {
                 $Value =~ s/SMTP:(.*)/$1/;
             }
-            push @UserMailStringParts, $Data{$Field};
+            push @UserMailStringParts, $Value;
         }
     }
     $UserMailString = join ' ', @UserMailStringParts;
@@ -1461,7 +1461,7 @@ sub CustomerUserDataGet {
             },
         );
 
-        $Preferences{UserLastLoginTimestamp} = $DateTimeObject->toString();
+        $Preferences{UserLastLoginTimestamp} = $DateTimeObject->ToString();
 
     }
 
