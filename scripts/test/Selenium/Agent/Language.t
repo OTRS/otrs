@@ -53,7 +53,7 @@ $Selenium->RunTest(
             # select the current language & submit
             $Element = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
             $Element->click();
-            $Element->VerifiedSubmit();
+            $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(

@@ -105,7 +105,8 @@ $Selenium->RunTest(
             "//input[\@name='CustomerFrontend::Module###CustomerTicketOverview#NavBar3#Group[]']"
         );
         $ConfigGroupElement->send_keys($GroupName);
-        $ConfigGroupElement->VerifiedSubmit();
+
+        $Selenium->find_element( 'button.CallForAction', 'css' )->VerifiedClick();
 
         $Selenium->Login(
             Type     => 'Customer',

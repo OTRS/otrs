@@ -63,7 +63,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         #$Element->click("button#Submit");
         $Self->Is(
@@ -77,17 +77,15 @@ $Selenium->RunTest(
         # create a real test queue
         my $RandomID = $Helper->GetRandomID();
 
-        $Selenium->find_element( "#Name",                         'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#GroupID option[value='1']",    'css' )->click();
-        $Selenium->find_element( "#FollowUpID option[value='1']", 'css' )->click();
-
-        #$Selenium->find_element("#FollowUpLock[value='']", 'css')->click();
-        $Selenium->find_element( "#SalutationID option[value='1']",    'css' )->click();
-        $Selenium->find_element( "#SystemAddressID option[value='1']", 'css' )->click();
-        $Selenium->find_element( "#SignatureID option[value='1']",     'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']",         'css' )->click();
-        $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
-        $Selenium->find_element( "#Name",                              'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
+        $Selenium->execute_script("\$('#GroupID').val('1').change();");
+        $Selenium->execute_script("\$('#FollowUpID').val('1').change();");
+        $Selenium->execute_script("\$('#SalutationID').val('1').change();");
+        $Selenium->execute_script("\$('#SystemAddressID').val('1').change();");
+        $Selenium->execute_script("\$('#SignatureID').val('1').change();");
+        $Selenium->execute_script("\$('#ValidID').val('1').change();");
+        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test queue');
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # check Queue - Responses page
         $Self->True(
@@ -149,10 +147,10 @@ $Selenium->RunTest(
         );
 
         # set test queue to invalid
-        $Selenium->find_element( "#GroupID option[value='2']", 'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Comment",                   'css' )->VerifiedSubmit();
+        $Selenium->execute_script("\$('#GroupID').val('2').change();");
+        $Selenium->execute_script("\$('#ValidID').val('2').change();");
+        $Selenium->find_element( "#Comment", 'css' )->clear();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # check overview page
         $Self->True(

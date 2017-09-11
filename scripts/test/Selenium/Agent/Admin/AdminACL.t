@@ -76,12 +76,12 @@ $Selenium->RunTest(
         my $RandomID = 'ACL' . $Helper->GetRandomID() . ' $ @';
 
         # fill in test data
-        $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium Test ACL');
-        $Selenium->find_element( "#Description",               'css' )->send_keys('Selenium Test ACL');
-        $Selenium->find_element( "#StopAfterMatch",            'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
-        $Selenium->find_element( "#Submit",                    'css' )->VerifiedClick();
+        $Selenium->find_element( "#Name",           'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Comment",        'css' )->send_keys('Selenium Test ACL');
+        $Selenium->find_element( "#Description",    'css' )->send_keys('Selenium Test ACL');
+        $Selenium->find_element( "#StopAfterMatch", 'css' )->click();
+        $Selenium->execute_script("\$('#ValidID').val('1').change();");
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
