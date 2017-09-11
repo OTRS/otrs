@@ -235,7 +235,13 @@ var Core = Core || {};
                     })
                     .on('dehover_node.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
                         $('#ConfigTree #' + Core.App.EscapeSelector(Selected.node.id)).find('.OpenNodeInNewWindow').remove();
-                    })
+                    });
+
+                if (SelectedNode) {
+                    $('#ConfigTree').jstree('select_node', SelectedNode);
+                }
+
+                $('#ConfigTree')
                     .on('select_node.jstree', function (Node, Selected, Event) {  //eslint-disable-line no-unused-vars
 
                         $('.ContentColumn').html(Core.Template.Render("Agent/WidgetLoading"));
@@ -259,10 +265,6 @@ var Core = Core || {};
                         return false;
                     }
                 );
-
-                if (SelectedNode) {
-                    $('#ConfigTree').jstree('select_node', SelectedNode);
-                }
 
                 $("#ConfigTreeSearch").on('keyup keydown', function() {
                     $('#ConfigTree').jstree('search', $(this).val());

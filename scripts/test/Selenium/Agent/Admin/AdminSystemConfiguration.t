@@ -3208,15 +3208,6 @@ $Selenium->RunTest(
 
         my $SelectedItem;
 
-        my $SettingsLoaded = $Selenium->WaitFor(
-            JavaScript => 'return $(".SettingsList li:nth-of-type(1) .WidgetSimple").length',
-        );
-
-        $Self->True(
-            $SettingsLoaded,
-            'Settings are present on the page.'
-        );
-
         for my $Test (@Tests) {
 
             my $Prefix = ".SettingsList li:nth-of-type($Test->{Index}) .WidgetSimple";
