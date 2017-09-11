@@ -140,12 +140,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
         # create test phone ticket
-        my $AutoCompleteString = "\"$TestCustomer $TestCustomer\" <$TestCustomer\@localhost.com> ($TestCustomer)";
-        my $TicketSubject      = "Selenium Ticket";
-        my $TicketBody         = "Selenium body test";
+        my $TicketSubject = "Selenium Ticket";
+        my $TicketBody    = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
+
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('change');");
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
@@ -189,7 +189,7 @@ $Selenium->RunTest(
         # add customer again
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
 
         # Make sure that Customer email is not a link.
         $LinkVisible = $Selenium->execute_script("return \$('.SidebarColumn fieldset a.AsPopup').length;");

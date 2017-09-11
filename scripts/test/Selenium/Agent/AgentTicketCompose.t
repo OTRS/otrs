@@ -448,8 +448,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-
-        $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
 
         # Verify that error occurs.
         $Self->Is(

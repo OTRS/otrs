@@ -114,7 +114,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#AgentCustomerInformationCenterSearchCustomerID", 'css' )
             ->send_keys($TestCustomerUserLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
-        $Selenium->find_element("//*[text()='$TestCustomerUserLogin']")->VerifiedClick();
+        $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomerUserLogin)').click()");
 
         # check customer information center page
         $Self->True(
