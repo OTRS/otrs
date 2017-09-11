@@ -1,4 +1,6 @@
-#3.3.18 ????-??-??
+#3.3.19 ????-??-??
+
+#3.3.18 2017-09-19
  - 2017-09-07 Improved validation in statistic import and export.
  - 2017-08-03 Updated CPAN module URI to version 1.72.
 
