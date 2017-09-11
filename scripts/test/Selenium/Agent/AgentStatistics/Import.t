@@ -120,7 +120,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
         # import test selenium statistic
-        my $LocationNotExistingObject = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/Stats/Stats.Static.NotExisting.xml";
+        my $LocationNotExistingObject = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+            . "/scripts/test/sample/Stats/Stats.Static.NotExisting.xml";
         $Selenium->find_element( "#File", 'css' )->send_keys($LocationNotExistingObject);
 
         $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->VerifiedClick();

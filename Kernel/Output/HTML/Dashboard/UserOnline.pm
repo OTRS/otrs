@@ -134,7 +134,7 @@ sub Run {
     # get current time-stamp
     my $Time = $TimeObject->SystemTime();
 
-    my $Online    = {
+    my $Online = {
         User => {
             Agent    => {},
             Customer => {},

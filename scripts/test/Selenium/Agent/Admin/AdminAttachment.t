@@ -118,7 +118,8 @@ $Selenium->RunTest(
             $Selenium->accept_alert();
 
             $Selenium->WaitFor(
-                JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($RandomID)').length === 0;" );
+                JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($RandomID)').length === 0;"
+            );
 
             # check overview page
             $Self->True(
