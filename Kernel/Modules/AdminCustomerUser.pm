@@ -330,6 +330,23 @@ sub Run {
             $Errors{ErrorType}        = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
         }
 
+        # Get the current user data for some checks.
+        my %CurrentUserData = $CustomerUserObject->CustomerUserDataGet(
+            User => $GetParam{ID},
+        );
+
+        # Check CustomerID, if CustomerCompanySupport is enabled and the UserCustomerID was changed.
+        if ( $ConfigObject->Get($Source)->{CustomerCompanySupport} && $GetParam{UserCustomerID} && $CurrentUserData{UserCustomerID} ne $GetParam{UserCustomerID} ) {
+
+            my %Company = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
+                CustomerID => $GetParam{UserCustomerID},
+            );
+
+            if ( !%Company ) {
+                $Errors{UserCustomerIDInvalid} = 'ServerError';
+            }
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -563,6 +580,18 @@ sub Run {
         {
             $Errors{UserEmailInvalid} = 'ServerError';
             $Errors{ErrorType}        = $CheckItemObject->CheckErrorType() . 'ServerErrorMsg';
+        }
+
+        # Check CustomerID, if CustomerCompanySupport is enabled.
+        if ( $ConfigObject->Get($Source)->{CustomerCompanySupport} && $GetParam{UserCustomerID} ) {
+
+            my %Company = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
+                CustomerID => $GetParam{UserCustomerID},
+            );
+
+            if ( !%Company ) {
+                $Errors{UserCustomerIDInvalid} = 'ServerError';
+            }
         }
 
         # if no errors occurred
@@ -1190,7 +1219,7 @@ sub _Edit {
 
                 my $Value = $Param{ $Entry->[0] } || $Param{CustomerID};
                 $Param{Option} = '<input type="text" id="UserCustomerID" name="UserCustomerID" value="' . $Value . '"
-                    class="W50pc CustomerAutoCompleteSimple" data-customer-search-type="CustomerID" />';
+                    class="W50pc CustomerAutoCompleteSimple ' . $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' } . '" data-customer-search-type="CustomerID" />';
             }
             else {
                 $Param{Option} = $LayoutObject->BuildSelection(
