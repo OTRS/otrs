@@ -53,7 +53,14 @@ $Selenium->RunTest(
         # click 'add new state' link
         $Selenium->find_element( "a.Plus", 'css' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $("#Name").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check add page
         my $Element = $Selenium->find_element( "#Name", 'css' );
@@ -63,10 +70,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID", 'css' );
 
         # check client side validation
-        $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name",   'css' )->clear();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('#Name').hasClass('Error')") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         $Self->Is(
             $Selenium->execute_script(
@@ -79,13 +93,20 @@ $Selenium->RunTest(
         # create a real test state
         my $RandomID = $Helper->GetRandomID();
 
-        $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#TypeID option[value='1']",  'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
-        $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test state');
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
+        $Selenium->execute_script("\$('#TypeID').val('1').change();");
+        $Selenium->execute_script("\$('#ValidID').val('1').change();");
+        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test state');
+        $Selenium->find_element( "#Submit",  'css' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $(".CallForAction.Plus").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check overview page
         $Self->True(
@@ -105,7 +126,14 @@ $Selenium->RunTest(
         # go to new state again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $("#Name").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check new state values
         $Self->Is(
@@ -130,12 +158,19 @@ $Selenium->RunTest(
         );
 
         # set test state to invalid
-        $Selenium->find_element( "#TypeID option[value='2']",  'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Name",                      'css' )->submit();
+        $Selenium->execute_script("\$('#TypeID').val('2').change();");
+        $Selenium->execute_script("\$('#ValidID').val('2').change();");
+        $Selenium->find_element( "#Comment", 'css' )->clear();
+        $Selenium->find_element( "#Submit",  'css' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $(".CallForAction.Plus").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check overview page
         $Self->True(
@@ -153,7 +188,14 @@ $Selenium->RunTest(
         # go to new state again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $("#Name").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check new state values
         $Self->Is(

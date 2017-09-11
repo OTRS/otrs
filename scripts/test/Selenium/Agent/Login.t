@@ -57,7 +57,7 @@ $Selenium->RunTest(
         $Element->send_keys($TestUserLogin);
 
         # login
-        $Element->submit();
+        $Selenium->find_element( "#LoginButton", 'css' )->click();
 
         # Wait until form has loaded, if neccessary
         ACTIVESLEEP:

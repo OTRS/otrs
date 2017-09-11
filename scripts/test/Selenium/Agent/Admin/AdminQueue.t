@@ -42,7 +42,14 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $(".CallForAction.Plus").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
@@ -51,7 +58,14 @@ $Selenium->RunTest(
         # click 'add new queue' link
         $Selenium->find_element( "a.Plus", 'css' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $("#Name").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check add page
         for my $ID (
@@ -66,11 +80,17 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->submit();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('#Name').hasClass('Error')") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
-        #$Element->click("button#Submit");
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -81,20 +101,24 @@ $Selenium->RunTest(
 
         # create a real test queue
         my $RandomID = $Helper->GetRandomID();
+        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
+        $Selenium->execute_script("\$('#GroupID').val('1').change();");
+        $Selenium->execute_script("\$('#FollowUpID').val('1').change();");
+        $Selenium->execute_script("\$('#SalutationID').val('1').change();");
+        $Selenium->execute_script("\$('#SystemAddressID').val('1').change();");
+        $Selenium->execute_script("\$('#SignatureID').val('1').change();");
+        $Selenium->execute_script("\$('#ValidID').val('1').change();");
+        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test queue');
+        $Selenium->find_element( "#Submit",  'css' )->click();
 
-        $Selenium->find_element( "#Name",                         'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#GroupID option[value='1']",    'css' )->click();
-        $Selenium->find_element( "#FollowUpID option[value='1']", 'css' )->click();
-
-        #$Selenium->find_element("#FollowUpLock[value='']", 'css')->click();
-        $Selenium->find_element( "#SalutationID option[value='1']",    'css' )->click();
-        $Selenium->find_element( "#SystemAddressID option[value='1']", 'css' )->click();
-        $Selenium->find_element( "#SignatureID option[value='1']",     'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='1']",         'css' )->click();
-        $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
-        $Selenium->find_element( "#Name",                              'css' )->submit();
-
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $(".CallForAction.Plus").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check Queue - Responses page
         $Self->True(
@@ -108,7 +132,14 @@ $Selenium->RunTest(
         # go to new queue again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $("#Name").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check new queue values
         $Self->Is(
@@ -158,12 +189,19 @@ $Selenium->RunTest(
         );
 
         # set test queue to invalid
-        $Selenium->find_element( "#GroupID option[value='2']", 'css' )->click();
-        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
-        $Selenium->find_element( "#Comment",                   'css' )->clear();
-        $Selenium->find_element( "#Comment",                   'css' )->submit();
+        $Selenium->execute_script("\$('#GroupID').val('2').change();");
+        $Selenium->execute_script("\$('#ValidID').val('2').change();");
+        $Selenium->find_element( "#Comment", 'css' )->clear();
+        $Selenium->find_element( "#Submit",  'css' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $(".CallForAction.Plus").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check overview page
         $Self->True(
@@ -177,7 +215,14 @@ $Selenium->RunTest(
         # go to new state again
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
-        sleep 5;
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script('return typeof($) === "function" && $("#Name").length') ) {
+                last ACTIVESLEEP;
+            }
+            sleep 0.5;
+        }
 
         # check new queue values
         $Self->Is(
