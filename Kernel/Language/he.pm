@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.356205852674067;
+    $Self->{Completeness}        = 0.355130784708249;
 
     # csv separator
     $Self->{Separator} = '';
@@ -146,7 +146,7 @@ sub Data {
         'Username' => 'שם משתמש',
         'Language' => 'שפה',
         'Languages' => 'שפות',
-        'Password' => 'סיסמא',
+        'Password' => 'סיסמה',
         'Preferences' => 'העדפות',
         'Salutation' => 'כינוי כבוד',
         'Salutations' => 'כינויי כבוד',
@@ -230,7 +230,7 @@ sub Data {
         'You have %s new message(s)!' => 'יש לך %s הודעות חדשות!',
         'You have %s reminder ticket(s)!' => 'יש לך %s תזכורות!',
         'The recommended charset for your language is %s!' => 'קידוד התווים המומלץ לשפה שלך הוא %s!',
-        'Change your password.' => 'שנה את הסיסמא שלך.',
+        'Change your password.' => 'שנה את הסיסמה שלך.',
         'Please activate %s first!' => 'אנא הפעל %s קודם לכן!',
         'No suggestions' => 'אין הצעות',
         'Word' => 'מילה',
@@ -238,7 +238,7 @@ sub Data {
         'replace with' => 'החלף ב',
         'There is no account with that login name.' => 'אין חשבון עם שם משתמש זה.',
         'Login failed! Your user name or password was entered incorrectly.' =>
-            'ההתחברות נכשלה! שם המשתמש או הסיסמא שלך לא הוקלדו נכון.',
+            'ההתחברות נכשלה! שם המשתמש או הסיסמה שלך לא הוקלדו נכון.',
         'There is no acount with that user name.' => 'אין חשבון עם שם משתמש זה.',
         'Please contact your administrator' => 'אנא צרו קשר עם מנהל המערכת',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
@@ -260,15 +260,15 @@ sub Data {
         'Database' => 'בסיס נתונים',
         'Configure Mail' => 'הגדר דואר אלקטרוני',
         'Database deleted.' => 'בסיס הנתונים נמחק.',
-        'Enter the password for the administrative database user.' => 'הקלידו את הסיסמא למשתמש מנהל בסיס הנתונים',
-        'Enter the password for the database user.' => 'הקלידו את הסיסמא למשתמש בסיס הנתונים',
+        'Enter the password for the administrative database user.' => 'נא להקליד את הסיסמה למשתמש מנהל בסיס הנתונים',
+        'Enter the password for the database user.' => 'הקלידו את הסיסמה למשתמש בסיס הנתונים',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
             'אם קבעתם סיסמת root לבסיס הנתונים שלכם, יש להקלידה כאן. אם לא, השאירו את השדה ריק',
         'Database already contains data - it should be empty!' => 'בסיס הנתונים כבר מכיל מידע - עליו להיות ריק!',
         'Login is needed!' => 'נדרשת התחברות!',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             '',
-        'Password is needed!' => 'נדרשת סיסמא!',
+        'Password is needed!' => 'נדרשת סיסמה!',
         'Take this Customer' => 'קבל לקוח זה',
         'Take this User' => 'קבל משתמש זה',
         'possible' => 'אפשרי',
@@ -371,8 +371,8 @@ sub Data {
         'New account created. Sent login information to %s. Please check your email.' =>
             'חשבון חדש נוצר. פרטי התחברות נשלחו אל %s. אנא בדקו את הדוא"ל שלכם',
         'Please press Back and try again.' => 'אנא לחצו על חזור ונסו שנית.',
-        'Sent password reset instructions. Please check your email.' => 'נשלחו הנחיות לאיפוס סיסמא. אנא בדקו את הדוא"K שלכם.',
-        'Sent new password to %s. Please check your email.' => 'סיסמא חדשה נשלחה אל %s. אנא בדקו את הדוא"ל שלכם',
+        'Sent password reset instructions. Please check your email.' => 'נשלחו הנחיות לאיפוס סיסמה. נא לבדוק את הדוא"ל שלך.',
+        'Sent new password to %s. Please check your email.' => 'סיסמה חדשה נשלחה אל %s. נא לבדוק את הדוא"ל שלך.',
         'Upcoming Events' => 'אירועים קרובים',
         'Event' => 'אירוע',
         'Events' => 'אירועים',
@@ -420,7 +420,7 @@ sub Data {
         'No content received from registration server. Please try again later.' =>
             '',
         'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => 'שם משתמש וסיסמא אינם תואמים. אנא נסו שנית.',
+        'Username and password do not match. Please try again.' => 'שם משתמש וסיסמה אינם תואמים. נא לנסות שוב.',
         'The selected process is invalid!' => 'התהליך שנבחר אינו תקין!',
         'Upgrade to %s now!' => 'שדרג ל- s% עכשיו!',
         '%s Go to the upgrade center %s' => '',
@@ -484,26 +484,26 @@ sub Data {
         'Email Settings' => 'הגדרות דוא"ל',
         'Other Settings' => 'הגדרות אחרות',
         'Notification Settings' => '',
-        'Change Password' => 'שנה סיסמא',
-        'Current password' => 'סיסמא נוכחית',
-        'New password' => 'סיסמא חדשה',
-        'Verify password' => 'אמת סיסמא',
+        'Change Password' => 'שנה סיסמה',
+        'Current password' => 'סיסמה נוכחית',
+        'New password' => 'סיסמה חדשה',
+        'Verify password' => 'אמת סיסמה',
         'Spelling Dictionary' => 'מילון איות',
         'Default spelling dictionary' => 'מילון איות רגיל',
         'Max. shown Tickets a page in Overview.' => 'מספר הפניות המירבי המוצג בעמוד מבט על.',
-        'The current password is not correct. Please try again!' => 'הסיסמא הנוכחית אינה נכונה. אנא נסה שנית!',
+        'The current password is not correct. Please try again!' => 'הסיסמה הנוכחית אינה נכונה. אנא נסה שנית!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
-            'לא ניתן לעדכן סיסמא. הסיסמאות החדשות שלכם אינן תואמות. אנא נסו שנית!',
-        'Can\'t update password, it contains invalid characters!' => 'לא ניתן לעדכן סיסמא. היא כוללת תווים אסורים!',
+            'לא ניתן לעדכן סיסמה. הסיסמאות החדשות שלכם אינן תואמות. אנא נסו שנית!',
+        'Can\'t update password, it contains invalid characters!' => 'לא ניתן לעדכן סיסמה. היא כוללת תווים אסורים!',
         'Can\'t update password, it must be at least %s characters long!' =>
-            'לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות  %s  תווים!',
+            'לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות  %s  תווים!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            'לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות 2 אותיות קטנות ו- 2 גדולות!.',
-        'Can\'t update password, it must contain at least 1 digit!' => 'לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות מספר אחד!',
+            'לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות 2 אותיות קטנות ו- 2 גדולות!.',
+        'Can\'t update password, it must contain at least 1 digit!' => 'לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות מספר אחד!',
         'Can\'t update password, it must contain at least 2 characters!' =>
-            'לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות 2 תווים!',
+            'לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות 2 תווים!',
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
-            'לא ניתן לעדכן סיסמא. כבר השתמשתם בסיסמא זו. אנא בחרו סיסמא חדשה!',
+            'לא ניתן לעדכן סיסמה. כבר השתמשתם בסיסמה זו. אנא בחרו סיסמה חדשה!',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             '',
         'CSV Separator' => 'מפריד CSV',
@@ -1598,6 +1598,8 @@ sub Data {
             '',
         'Remove Notification Language' => '',
         'Message body' => '',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
         'Tag Reference' => 'סמן הפנייה',
@@ -2155,7 +2157,7 @@ sub Data {
         'OTRS-ID' => 'OTRS-ID',
         'You don\'t have an OTRS-ID yet?' => '',
         'Sign up now' => 'הירשמו עכשיו',
-        'Forgot your password?' => 'שכחתם סיסמא?',
+        'Forgot your password?' => 'שכחתם סיסמה?',
         'Retrieve a new one' => 'קבלו חדשה',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
             '',
@@ -2947,6 +2949,12 @@ sub Data {
         'You can' => 'אתם יכולים',
         'go back to the previous page' => 'לחזור לעמוד הקודם',
 
+        # Template: CustomerAccept
+        'Information' => 'מידע',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => '',
         'Error Details' => 'פרטי השגיאה',
@@ -3000,15 +3008,15 @@ sub Data {
         'Login' => 'התחבר',
         'User name' => 'שם משתמש',
         'Your user name' => 'שם המשתמש שלך',
-        'Your password' => 'הסיסמא שלך',
-        'Forgot password?' => 'שכחת סיסמא?',
+        'Your password' => 'הסיסמה שלך',
+        'Forgot password?' => 'שכחת סיסמה?',
         '2 Factor Token' => '',
         'Your 2 Factor Token' => '',
         'Log In' => 'התחבר',
         'Not yet registered?' => 'עדיין לא נרשמת?',
-        'Request new password' => 'בקש סיסמא חדשה',
+        'Request new password' => 'בקש סיסמה חדשה',
         'Your User Name' => 'שם המשתמש שלך',
-        'A new password will be sent to your email address.' => 'סיסמא חדשה תישלח לכובת הדוא"ל שלך.',
+        'A new password will be sent to your email address.' => 'סיסמה חדשה תישלח לכתובת הדוא"ל שלך.',
         'Create Account' => 'צור חשבון',
         'Please fill out this form to receive login credentials.' => 'אנא מלאו את הטופס על מנת לקבל פרטי התחברות.',
         'How we should address you' => 'כיצד עלינו לפנות אליכם?',
@@ -3064,7 +3072,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => '',
         'Expand article' => 'הרחב מאמר',
-        'Information' => 'מידע',
         'Next Steps' => 'השלבים הבאים',
         'Reply' => 'השב',
         'Chat Protocol' => '',
@@ -3167,8 +3174,8 @@ sub Data {
         'Inbound mail host.' => 'מארח דואר נכנס.',
         'Inbound mail user' => 'משתמש עבור דואר יוצא',
         'User for inbound mail.' => 'משתמש עבור דואר נכנס.',
-        'Inbound mail password' => 'סיסמא עבור דואר יוצא',
-        'Password for inbound mail.' => 'סיסמא עבור דואר נכנס.',
+        'Inbound mail password' => 'סיסמה עבור דואר יוצא',
+        'Password for inbound mail.' => 'סיסמה עבור דואר נכנס.',
         'Result of mail configuration check' => 'תוצאות בדיקת הגדרות דוא"ל',
         'Check mail configuration' => 'בדוק הדגרות דוא"ל',
         'Skip this step' => 'דלג על שלב זה',
@@ -3190,8 +3197,8 @@ sub Data {
         'New' => 'חדש',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
-        'Repeat Password' => 'חזרו על סיסמא',
-        'Generated password' => 'ייצר סיסמא',
+        'Repeat Password' => 'חזרו על סיסמה',
+        'Generated password' => 'סיסמה מחוללת',
 
         # Template: InstallerDBmysql
         'Passwords do not match' => 'הסיסמאות לא תואמות',
@@ -3238,8 +3245,8 @@ sub Data {
         'Delete links' => 'מחק קישורים',
 
         # Template: Login
-        'Lost your password?' => 'שכחתם סיסמא?',
-        'Request New Password' => 'בקש סיסמא חדשה',
+        'Lost your password?' => 'שכחתם סיסמה?',
+        'Request New Password' => 'בקש סיסמה חדשה',
         'Back to login' => 'חזרה להתחברות',
 
         # Template: MetaFloater
@@ -3502,6 +3509,8 @@ sub Data {
             '',
         'Web service "%s" deleted!' => '',
         'New Web service' => '',
+        'Operations' => '',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
@@ -3656,6 +3665,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => '',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => '',
+        'Test' => '',
+        'Training' => '',
+        'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4125,6 +4140,8 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4647,6 +4664,8 @@ Thanks for your help!
             '',
         'Activates time accounting.' => '',
         'ActivityID' => '',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => '',
         'Add an outbound phone call to this ticket' => '',
         'Added email. %s' => 'דוא"ל נוסף. %s',
@@ -4797,7 +4816,7 @@ Thanks for your help!
             '',
         'Cache time in seconds for the web service config backend.' => '',
         'Catalan' => '',
-        'Change password' => 'שנה סיסמא',
+        'Change password' => 'שנה סיסמה',
         'Change queue!' => 'שנה תור',
         'Change the customer for this ticket' => 'שנה את הלקוח של פניה זו',
         'Change the free fields for this ticket' => 'שנה את השדות החופשיים לפניה זו',
@@ -5649,7 +5668,6 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5994,6 +6012,8 @@ Thanks for your help!
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
             '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
@@ -6406,6 +6426,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -6968,6 +6989,7 @@ Thanks for your help!
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',

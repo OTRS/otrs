@@ -3,6 +3,7 @@
 # Christian Mikschik, 2017
 # Christian Widauer <christian.widauer@fh-rosenheim.de>, 2017
 # christopher.kuhn <christopher.kuhn@otrs.com>, 2016
+# Christoph Keßler, 2017
 # Daniel Schliemann <daniel.schliemann@googlemail.com>, 2016
 # Dominik <dominik@reichardt-online.it>, 2015
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2017
@@ -39,13 +40,14 @@
 # ru_otrs <robert.ullrich@otrs.com>, 2014
 # Sebastian Hellwig <sebastian@furufuru.cc>, 2017
 # Simone Niederle <sniederle@starface.de>, 2017
+# Stefan Bedorf <stefan.bedorf@otrs.com>, 2017
 # Stefan Simmerstatter <stefan.simmerstatter@gmx.net>, 2015
 # Tobias Krumholz <krumholt@fh-trier.de>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -5631,6 +5633,10 @@ msgid "Message body"
 msgstr "Nachrichteninhalt"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "Neue Sprache für Benachrichtigungen hinzufügen"
 
@@ -5797,7 +5803,7 @@ msgstr "%s erneut installieren"
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "Your %s is not correctly installed, and there is also an update available."
-msgstr "Ihre %s ist nicht korrekt installiert, außerdem ist ein Update verfügbar."
+msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -7037,7 +7043,7 @@ msgstr "Feld entfernen"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr "Und können nicht innerhalb derselben Abfrage verwendet werden."
+msgstr "Und darf sich nicht innerhalb derselben Bedingung wiederholen."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
@@ -8322,7 +8328,7 @@ msgstr "System-E-Mail-Adresse bearbeiten"
 
 #. Template: AdminSystemAddress
 msgid "This email address is already used as system email address."
-msgstr ""
+msgstr "Diese E-Mail-Adresse wird bereits als System-Adresse verwendet."
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
@@ -9818,6 +9824,22 @@ msgstr "Sie können"
 msgid "go back to the previous page"
 msgstr "zurück zur vorhergehenden Seite"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "Information"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "Ein Fehler ist aufgetreten"
@@ -10186,10 +10208,6 @@ msgstr "Von diesem Ticket aus einen Chat starten"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "Artikel aufklappen"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "Information"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11413,6 +11431,14 @@ msgstr "Web Service \"%s\" gelöscht!"
 msgid "New Web service"
 msgstr "Neuer Web Service"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr "Operationen"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "Keine WebserviceHistoryID empfangen!"
@@ -11853,6 +11879,22 @@ msgstr "Gehen Sie zurück, um Änderungen vorzunehmen."
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "Queues (ohne automatische Antworten)"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "Produktiv"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "Training"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr "Entwicklung"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13121,6 +13163,10 @@ msgid ""
 "valid."
 msgstr "Die Benachrichtigungs-Konfigurationsdatei konnte nicht gelesen werden. Bitte prüfen Sie, dass es sich um eine gültige Datei handelt."
 
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr "nicht installiert"
@@ -14140,7 +14186,7 @@ msgstr "Abmeldung erfolgreich."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "Fehler: Ungültige Session."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
@@ -14590,6 +14636,14 @@ msgstr "Aktiviert die Zeitabrechnung."
 #. SysConfig
 msgid "ActivityID"
 msgstr "ActivityID"
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
+msgstr ""
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -17886,10 +17940,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr "Entwicklung"
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18855,7 +18905,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule ausgewählt ist, können Sie hier angeben, ob führende Teile von Benutzernamen (z.B. zur Umwandlung von Domänen wie \"example_domain\\user\" zu \"user\")."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19043,6 +19093,13 @@ msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
 msgstr "Aktivieren um die Standard-Ausgabe des Daemons in eine Log-Datei umzuleiten."
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19555,7 +19612,7 @@ msgstr "Maximale Zeichenanzahl für die Tabelle mit Kundeninformationen in der T
 
 #. SysConfig
 msgid "Merge this ticket and all articles into another ticket"
-msgstr ""
+msgstr "Dieses Ticket und alle Artikel in ein anderes Ticket zusammenfassen."
 
 #. SysConfig
 msgid "Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>."
@@ -20471,6 +20528,10 @@ msgstr "Wählen Sie Ihr bevorzugtes Oberflächenlayout für OTRS."
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
 msgstr "Wählen Sie Ihr bevorzugtes Design für OTRS."
+
+#. SysConfig
+msgid "Select your time zone."
+msgstr ""
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -22290,6 +22351,10 @@ msgstr "Der Text am Anfang des Betreffs, wenn eine E-Mail weitergeleitet wird, z
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig

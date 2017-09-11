@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998183652875883;
+    $Self->{Completeness}        = 0.998189134808853;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1599,6 +1599,8 @@ sub Data {
             '系统中没有或者没有启用这个语言，不需要时可以将通知内容删除。',
         'Remove Notification Language' => '删除通知语言',
         'Message body' => '消息正文',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => '添加通知语言',
         'Do you really want to delete this notification language?' => '您真的要删除这个通知语言吗？',
         'Tag Reference' => '标签参考',
@@ -2948,6 +2950,12 @@ sub Data {
         'You can' => '你可以',
         'go back to the previous page' => '返回上一页',
 
+        # Template: CustomerAccept
+        'Information' => '信息',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => '发生了一个错误',
         'Error Details' => '详细错误信息',
@@ -3065,7 +3073,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => '从这个工单开始一次聊天',
         'Expand article' => '展开信件',
-        'Information' => '信息',
         'Next Steps' => '下一步',
         'Reply' => '回复',
         'Chat Protocol' => '聊天协议',
@@ -3503,6 +3510,8 @@ sub Data {
             '导入的文件没有有效的YAML内容！请检查OTRS日志以获取详细信息',
         'Web service "%s" deleted!' => 'Web服务“%s”已经删除！',
         'New Web service' => '新的WEB服务',
+        'Operations' => '操作',
+        'Invokers' => '调用程序',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '没有 WebserviceHistoryID ！',
@@ -3657,6 +3666,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => '没有自动响应的队列',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => '生产',
+        'Test' => '测试',
+        'Training' => '培训',
+        'Development' => '开发',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4127,6 +4142,8 @@ sub Data {
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             '无法读取通知配置文件。 请确保该文件有效。',
+        'Imported notification has body text with more than 4000 characters.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '没有安装',
@@ -4499,10 +4516,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
-            '',
+            '认证成功，但在数据库中没有找到用户数据记录，请联系系统管理员。',
         'Can`t remove SessionID.' => '不能移除会话ID。',
         'Logout successful.' => '成功注销。',
-        'Error: invalid session.' => '',
+        'Error: invalid session.' => '错误：无效会话。',
         'No Permission to use this frontend module!' => '没有权限使用这个前端界面模块！',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
@@ -4657,6 +4674,8 @@ Thanks for your help!
             '激活工单归档系统，将一些工单移出日常范围以便拥有更快速的系统响应。要搜索这些工单，需要在工单搜索时启用“归档搜索”。',
         'Activates time accounting.' => '激活工时管理。',
         'ActivityID' => '活动ID',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => '为本工单添加电话接入',
         'Add an outbound phone call to this ticket' => '为本工单添加拨出电话',
         'Added email. %s' => '添加电子邮件：%s',
@@ -4945,7 +4964,7 @@ Thanks for your help!
             '全文索引可定制的停用词，这些词将从搜索索引中移除。',
         'Czech' => '捷克语',
         'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            '',
+            '已弃用：该配置设置将在后期版本的OTRS中被删除。设置一个用户被标记为活动的时间（单位：秒）（最小活动时间是300秒）。',
         'Danish' => '丹麦语',
         'Data used to export the search result in CSV format.' => '用于将搜索结果输出为CSV格式的数据。',
         'Date / Time' => '日期 / 时间',
@@ -5659,7 +5678,6 @@ Thanks for your help!
             '确定服务人员界面收件人（电话工单）和发件人（邮件工单）哪些选项有效。',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '确定客户界面哪些队列可以作为工单的有效收件人。',
-        'Development' => '开发',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '禁用HHTP头"Content-Security-Policy"以便允许载入扩展的脚本内容。禁用这个HTTP头可能引起安全问题！仅在您知道您在干什么时才禁用它！',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6005,6 +6023,8 @@ Thanks for your help!
             '如果启用了此选项，守护进程的标准错误流将重定向到一个日志文件。',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             '如果启用了此选项，守护进程的标准输出流将重定向到一个日志文件。',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '如果启用，守护程序将使用此目录创建其PID文件。 注意：请在任何更改之前停止守护程序，并且只有在不使用<$OTRSHome>/var/run/时才使用此设置。',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '如果启用了此选项，OTRS将用压缩格式传送所有的CSS文件。警告：如果您关闭了此选项，在IE7中使用OTRS可能会有问题，因为IE7不能载入超过32个CSS文件。',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6110,7 +6130,7 @@ Thanks for your help!
         'Locked Tickets.' => '锁定的工单。',
         'Locked ticket.' => '锁定的工单。',
         'Log file for the ticket counter.' => '工单计数器的日志文件。',
-        'Logged-In Users' => '',
+        'Logged-In Users' => '登录用户',
         'Logout of customer panel.' => '退出客户面板。',
         'Loop-Protection! No auto-response sent to "%s".' => '邮件循环保护! 没有自动响应发送给“%s”.',
         'Mail Accounts' => '邮件帐户',
@@ -6416,6 +6436,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '选择默认的拼写检查字典。',
         'Select your preferred layout for OTRS.' => '选择你喜欢的OTRS布局。',
         'Select your preferred theme for OTRS.' => '选择你喜欢的OTRS界面主题。',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => '选择使用的缓存后端。',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '选择处理WEB界面上传文件的模块。“数据库”存储所有上传文件到数据库中，“文件系统”存储所有上传文件到文件系统中。',
@@ -6533,15 +6554,15 @@ Thanks for your help!
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             '设置一个会话被终止且用户登出前的非活动时间（单位：秒）。',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            '设置在SessionMaxIdleTime中定义的时间范围内最大的活动服务人员数，之后才能对登录的服务人员显示先前的警告。',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            '设置SessionMaxIdleTime中定义的时间范围内最大的活动服务人员数。',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            '设置SessionMaxIdleTime中定义的时间范围内的最大的活动客户数。',
         'Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            '设置SessionMaxIdleTime中定义的时间范围内每个服务人员最大的活动会话数。',
         'Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime.' =>
-            '',
+            '设置SessionMaxIdleTime中定义的时间范围内每个客户最大的活动会话数。',
         'Sets the minimal ticket counter size if "AutoIncrement" was selected as TicketNumberGenerator. Default is 5, this means the counter starts from 10000.' =>
             '设置最小的工单计数器大小（如果工单编号生成器选用“自动增量”）。默认是5（位数），意味着计数器从10000开始。',
         'Sets the minutes a notification is shown for notice about upcoming system maintenance period.' =>
@@ -6978,6 +6999,7 @@ Thanks for your help!
             '转发邮件中加在主题前的文字，如FW、Fwd或WG。',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '这个事件模块存储客户联系人的属性为工单动态字段，如何配置这个映射请查看上面的设置。',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             '这是客户界面默认的橙色-黑色皮肤。',
         'This is the default orange - black skin.' => '这是默认的橙色-黑色皮肤。',

@@ -16,6 +16,7 @@
 # Felipe Rozelio <feliperozelio@gmail.com>, 2016
 # Gilberto José Souza Coutinho <gilberto.jsc@gmail.com>, 2017
 # Glauber Caires <glaubercaires@gmail.com>, 2016
+# Jefferson Campos <foguinho.peruca@gmail.com>, 2017
 # João Paulo Avelar de Araújo Pontes <meunomejoaopaulo@gmail.com>, 2016
 # José Ribeiro <joserribeiro26@gmail.com>, 2014-2015
 # José Ribeiro <joserribeiro26@gmail.com>, 2016
@@ -33,8 +34,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -5620,6 +5621,10 @@ msgid "Message body"
 msgstr "Corpo da mensagem"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "Adicionar novo idioma notificação"
 
@@ -9807,6 +9812,22 @@ msgstr "Você pode"
 msgid "go back to the previous page"
 msgstr "retornar à página anterior"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "Informação"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "Ocorreu um erro."
@@ -10175,10 +10196,6 @@ msgstr "Iniciar um bate-papo desse chamado"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "Expandir artigo"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "Informação"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11402,6 +11419,14 @@ msgstr "Web service \"%s\" excluído!"
 msgid "New Web service"
 msgstr "Novo web service"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr "Operações"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "Não há WebserviceHistoryID!"
@@ -11842,6 +11867,22 @@ msgstr "Clique voltar para mudá-lo!"
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "Filas (sem auto respostas)"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "Produção"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr "Teste"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "Treinamento"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr "Desenvolvimento"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13060,7 +13101,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
-msgstr ""
+msgstr "Por favor note que o limite da sessão está quase alcançado."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid ""
@@ -13070,7 +13111,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
-msgstr ""
+msgstr "Limite de sessão por usuário atingido!"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "Configuration Options Reference"
@@ -13078,15 +13119,15 @@ msgstr "Referência de opções de configuração"
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be changed."
-msgstr ""
+msgstr "Esta configuração não pode ser alterada."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not active by default."
-msgstr ""
+msgstr "Esta configuração não está ativa por padrão."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can not be deactivated."
-msgstr ""
+msgstr "Esta configuração não pode ser desativada."
 
 #. Perl Module: Kernel/System/CustomerUser.pm
 msgid "Customer user \"%s\" already exists."
@@ -13098,11 +13139,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
-msgstr ""
+msgstr "ex.: Text ou Te*t"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
-msgstr ""
+msgstr "Ignore este campo."
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid ""
@@ -13110,21 +13151,25 @@ msgid ""
 "valid."
 msgstr ""
 
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
-msgstr ""
+msgstr "não instalado"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
-msgstr ""
+msgstr "Arquivo não instalado!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is different!"
-msgstr ""
+msgstr "Arquivo é diferente!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
-msgstr ""
+msgstr "Não pode ler o arquivo!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -13140,7 +13185,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
-msgstr ""
+msgstr "Não foi possível obter o Token do servidor"
 
 #. Perl Module: Kernel/System/Stats.pm
 msgid "Sum"
@@ -13256,7 +13301,7 @@ msgstr "Número de Artigos"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "unlimited"
-msgstr ""
+msgstr "ilimitado"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "ascending"
@@ -13703,7 +13748,7 @@ msgstr "Chamados por Mês (méd.)"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
 msgid "Default SOAP Username And Password"
-msgstr ""
+msgstr "Usuário e Senha SOAP padrão"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
@@ -13732,11 +13777,11 @@ msgstr "Existem erros informados no log do sistema."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "FQDN (domain name)"
-msgstr ""
+msgstr "FQDN (nome do domínio)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Please configure your FQDN setting."
-msgstr ""
+msgstr "Por favor configure o seu FQDN."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
 msgid "Domain Name"
@@ -13764,7 +13809,7 @@ msgstr "Estado da Instalação do Pacote"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Some packages have locally modified files."
-msgstr ""
+msgstr "Alguns pacotes possuem arquivos modificados localmente."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -13774,7 +13819,7 @@ msgstr "Alguns pacotes não foram instalados corretamente."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
 msgid "Package Verification Status"
-msgstr ""
+msgstr "Status da verificação do pacote."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
@@ -13897,11 +13942,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Time Settings"
-msgstr ""
+msgstr "Configurações de tempo"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Server time zone"
-msgstr ""
+msgstr "Servidor de time zone"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Computed server time offset"
@@ -14096,7 +14141,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "PGP and SMIME not enabled."
-msgstr ""
+msgstr "PGP e SMIME não habilitados."
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
@@ -14106,12 +14151,12 @@ msgstr ""
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "Send unsigned notification"
-msgstr ""
+msgstr "Enviar notificação não-assinada"
 
 #. Perl Module:
 #. Kernel/System/Ticket/Event/NotificationEvent/Transport/Email.pm
 msgid "Send unencrypted notification"
-msgstr ""
+msgstr "Enviar notificação não-encriptada"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid ""
@@ -14125,11 +14170,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Logout com sucesso."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "Erro: sessão inválida."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
@@ -14151,11 +14196,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
-msgstr ""
+msgstr "Usuário cliente não pode ser adicionado@"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
-msgstr ""
+msgstr "Não foi possível enviar informações da conta!"
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -14167,7 +14212,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group of all administrators."
-msgstr ""
+msgstr "Grupo de todos os administradores."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Group for statistics access."
@@ -14275,7 +14320,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Postmaster queue."
-msgstr ""
+msgstr "Fila postmaster."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "All default incoming tickets."
@@ -14488,15 +14533,15 @@ msgstr ""
 
 #. SysConfig
 msgid "100 (Expert)"
-msgstr ""
+msgstr "100 (Especialista)"
 
 #. SysConfig
 msgid "200 (Advanced)"
-msgstr ""
+msgstr "200 (Avançado)"
 
 #. SysConfig
 msgid "300 (Beginner)"
-msgstr ""
+msgstr "300 (Iniciante)"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
@@ -14581,6 +14626,14 @@ msgid "ActivityID"
 msgstr ""
 
 #. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
+msgstr ""
+
+#. SysConfig
 msgid "Add an inbound phone call to this ticket"
 msgstr "Adicionar uma nota de chamada telefônica recebida a este chamado"
 
@@ -14647,7 +14700,7 @@ msgstr "Adiciona os dias de vacância permanente. Por favor, utilize o padrão d
 
 #. SysConfig
 msgid "Admin Area."
-msgstr ""
+msgstr "Área Admin."
 
 #. SysConfig
 msgid "After"
@@ -14655,7 +14708,7 @@ msgstr "Depois"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "Nome do Agente"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
@@ -14663,7 +14716,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent Preferences."
-msgstr ""
+msgstr "Preferências do Agente."
 
 #. SysConfig
 msgid "Agent called customer."
@@ -14930,7 +14983,7 @@ msgstr "Sempre exibir RichText se disponível"
 
 #. SysConfig
 msgid "Arabic (Saudi Arabia)"
-msgstr ""
+msgstr "Arábico (Arábia Saudita)"
 
 #. SysConfig
 msgid "Archive state changed: \"%s\""
@@ -15000,7 +15053,7 @@ msgstr "Pele branca balanceada por Felix Niklas."
 
 #. SysConfig
 msgid "Based on global RichText setting"
-msgstr ""
+msgstr "Baseado na configuração global RichText"
 
 #. SysConfig
 msgid ""
@@ -15065,7 +15118,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Catalan"
-msgstr ""
+msgstr "Catalão"
 
 #. SysConfig
 msgid "Change password"
@@ -15127,11 +15180,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Chinês (Simplificado)"
 
 #. SysConfig
 msgid "Chinese (Traditional)"
-msgstr ""
+msgstr "Chinês (Tradicional)"
 
 #. SysConfig
 msgid ""
@@ -15264,7 +15317,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Complex"
-msgstr ""
+msgstr "Complexo"
 
 #. SysConfig
 msgid "Configure Processes."
@@ -15456,7 +15509,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Croatian"
-msgstr ""
+msgstr "Croata"
 
 #. SysConfig
 msgid "Custom RSS Feed"
@@ -15577,7 +15630,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Danish"
-msgstr ""
+msgstr "Dinamarquês"
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
@@ -15601,11 +15654,11 @@ msgstr "Depura a tradução definida. Se isso for ajustado para \"Sim\" todas as
 
 #. SysConfig
 msgid "Default"
-msgstr ""
+msgstr "Padrão"
 
 #. SysConfig
 msgid "Default (Slim)"
-msgstr ""
+msgstr "Padrão (fino)"
 
 #. SysConfig
 msgid "Default ACL values for ticket actions."
@@ -17875,10 +17928,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr "Desenvolvimento"
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18275,7 +18324,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables spell checker support."
-msgstr ""
+msgstr "Habilita suporte do corretor ortográfico."
 
 #. SysConfig
 msgid ""
@@ -18304,15 +18353,15 @@ msgstr ""
 
 #. SysConfig
 msgid "English (Canada)"
-msgstr ""
+msgstr "Inglês (Canadá)"
 
 #. SysConfig
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Inglês (Reino Unido)"
 
 #. SysConfig
 msgid "English (United States)"
-msgstr ""
+msgstr "Inglês (Estados Unidos)"
 
 #. SysConfig
 msgid ""
@@ -18374,7 +18423,7 @@ msgstr "Horário de Escalação"
 
 #. SysConfig
 msgid "Estonian"
-msgstr ""
+msgstr "Estoniano"
 
 #. SysConfig
 msgid ""
@@ -18503,7 +18552,7 @@ msgstr "Filtrar e-mails de entrada."
 
 #. SysConfig
 msgid "Finnish"
-msgstr ""
+msgstr "Filândes"
 
 #. SysConfig
 msgid "First Queue"
@@ -18559,11 +18608,11 @@ msgstr "Encaminhado para \"%s\"."
 
 #. SysConfig
 msgid "French"
-msgstr ""
+msgstr "Frnacês"
 
 #. SysConfig
 msgid "French (Canada)"
-msgstr ""
+msgstr "Francês (Canadá)"
 
 #. SysConfig
 msgid ""
@@ -18617,7 +18666,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Full value"
-msgstr ""
+msgstr "Valor total"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
@@ -18629,7 +18678,7 @@ msgstr "Busca em todo o texto"
 
 #. SysConfig
 msgid "Galician"
-msgstr ""
+msgstr "Galega"
 
 #. SysConfig
 msgid ""
@@ -18644,7 +18693,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Generic Info module."
-msgstr ""
+msgstr "Módulo de informação genérica."
 
 #. SysConfig
 msgid "GenericAgent"
@@ -18700,7 +18749,7 @@ msgstr ""
 
 #. SysConfig
 msgid "German"
-msgstr ""
+msgstr "Alemão"
 
 #. SysConfig
 msgid ""
@@ -18740,19 +18789,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Greek"
-msgstr ""
+msgstr "Grego"
 
 #. SysConfig
 msgid "HTML Reference"
-msgstr ""
+msgstr "Referência HTML"
 
 #. SysConfig
 msgid "HTML Reference."
-msgstr ""
+msgstr "Referência HTML."
 
 #. SysConfig
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreu"
 
 #. SysConfig
 msgid ""
@@ -18766,11 +18815,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Hindi"
-msgstr ""
+msgstr "Hindu"
 
 #. SysConfig
 msgid "Hungarian"
-msgstr ""
+msgstr "Húngaro"
 
 #. SysConfig
 msgid ""
@@ -19035,6 +19084,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If enabled, OTRS will deliver all CSS files in minified form. WARNING: If "
 "you turn this off, there will likely be problems in IE 7, because it cannot "
 "load more than 32 CSS files."
@@ -19163,11 +19219,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonésio"
 
 #. SysConfig
 msgid "Input"
-msgstr ""
+msgstr "Entrada"
 
 #. SysConfig
 msgid ""
@@ -19212,7 +19268,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Italian"
-msgstr ""
+msgstr "Italiano"
 
 #. SysConfig
 msgid ""
@@ -19222,15 +19278,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Ivory"
-msgstr ""
+msgstr "Marfim"
 
 #. SysConfig
 msgid "Ivory (Slim)"
-msgstr ""
+msgstr "Marfim (fino)"
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "Japonês"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -19258,7 +19314,7 @@ msgstr "Sobrenome, Nome (Login)"
 
 #. SysConfig
 msgid "Latvian"
-msgstr ""
+msgstr "Letão"
 
 #. SysConfig
 msgid "Left"
@@ -19378,7 +19434,7 @@ msgstr "Visão de lista"
 
 #. SysConfig
 msgid "Lithuanian"
-msgstr ""
+msgstr "Lituano"
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
@@ -19398,11 +19454,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Usuário logados"
 
 #. SysConfig
 msgid "Logout of customer panel."
-msgstr ""
+msgstr "Logout do painel de clientes."
 
 #. SysConfig
 msgid "Loop-Protection! No auto-response sent to \"%s\"."
@@ -19435,7 +19491,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Malay"
-msgstr ""
+msgstr "Malásio"
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
@@ -19703,7 +19759,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Nederlands"
-msgstr ""
+msgstr "Holandês"
 
 #. SysConfig
 msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
@@ -19743,7 +19799,7 @@ msgstr "Nenhum"
 
 #. SysConfig
 msgid "Norwegian"
-msgstr ""
+msgstr "Norueguês"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -19792,7 +19848,7 @@ msgstr "Chamados abertos (cliente)"
 
 #. SysConfig
 msgid "Option"
-msgstr ""
+msgstr "Opção"
 
 #. SysConfig
 msgid ""
@@ -19854,7 +19910,7 @@ msgstr "Revisão de chamados de clientes."
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr ""
+msgstr "Gerenciamento de chaves PGP"
 
 #. SysConfig
 msgid "Package event module file a scheduler task for update registration."
@@ -20083,7 +20139,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Persian"
-msgstr ""
+msgstr "Persa"
 
 #. SysConfig
 msgid "Phone Call."
@@ -20103,7 +20159,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Polish"
-msgstr ""
+msgstr "Polonês"
 
 #. SysConfig
 msgid "Portuguese"
@@ -20372,15 +20428,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Russian"
-msgstr ""
+msgstr "Russo"
 
 #. SysConfig
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #. SysConfig
 msgid "SMS (Short Message Service)"
-msgstr ""
+msgstr "SMS (Serviço de Mensagens Curtas)"
 
 #. SysConfig
 msgid "Sample command output"
@@ -20459,6 +20515,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your time zone."
 msgstr ""
 
 #. SysConfig
@@ -21831,7 +21891,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Simple"
-msgstr ""
+msgstr "Simples"
 
 #. SysConfig
 msgid "Skin"
@@ -21847,7 +21907,7 @@ msgstr "Esloveno"
 
 #. SysConfig
 msgid "Software Package Manager."
-msgstr ""
+msgstr "Gerenciado de pacote de software."
 
 #. SysConfig
 msgid "SolutionDiffInMin"
@@ -21883,7 +21943,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Spam"
-msgstr ""
+msgstr "Spam"
 
 #. SysConfig
 msgid ""
@@ -22067,7 +22127,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Stable"
-msgstr ""
+msgstr "Estável"
 
 #. SysConfig
 msgid ""
@@ -22132,7 +22192,7 @@ msgstr "Requisição de sistema (%s)."
 
 #. SysConfig
 msgid "Target"
-msgstr ""
+msgstr "Alvo"
 
 #. SysConfig
 msgid "Templates <-> Queues"
@@ -22144,7 +22204,7 @@ msgstr "Área de texto"
 
 #. SysConfig
 msgid "Thai"
-msgstr ""
+msgstr "Thailandês"
 
 #. SysConfig
 msgid ""
@@ -22279,6 +22339,10 @@ msgstr ""
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig
@@ -22592,11 +22656,11 @@ msgstr "Atualizar o indexador Acelerador de Chamados."
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Envie a sua chave PGP."
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "Envie o seu certificado S/MME."
 
 #. SysConfig
 msgid ""

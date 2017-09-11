@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998183652875883;
+    $Self->{Completeness}        = 0.995774647887324;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1593,6 +1593,8 @@ sub Data {
             'Овај језик није присутан или укључен на систему. Ово обавештење може бити избрисано уколико више није неопходно.',
         'Remove Notification Language' => 'Уклони језик обавештења',
         'Message body' => 'Садржај поруке',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Уклони нови језик обавештења',
         'Do you really want to delete this notification language?' => 'Да ли заиста желите да избришете овај језик за обавештења?',
         'Tag Reference' => 'Референца ознаке',
@@ -2942,6 +2944,12 @@ sub Data {
         'You can' => 'Ви можете',
         'go back to the previous page' => 'иди на претходну страну',
 
+        # Template: CustomerAccept
+        'Information' => 'Информација',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Догодила се грешка',
         'Error Details' => 'Детаљи грешке',
@@ -3059,7 +3067,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Почни ћаскање из овог тикета',
         'Expand article' => 'Рашири чланак',
-        'Information' => 'Информација',
         'Next Steps' => 'Следећи кораци',
         'Reply' => 'Одговори',
         'Chat Protocol' => 'Протокол ћаскања',
@@ -3498,6 +3505,8 @@ sub Data {
             'Увезена датотека нема исправан „YAML” садржај! Молимо проверите „OTRS” дневник за детаље',
         'Web service "%s" deleted!' => 'Веб сервис „%s” је обрисан!',
         'New Web service' => 'Нови веб сервис',
+        'Operations' => 'Операције',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Нема WebserviceHistoryID!',
@@ -3652,6 +3661,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Редови (без аутоматских одговора)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Продукција',
+        'Test' => '',
+        'Training' => 'Тренинг',
+        'Development' => 'Развој',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4122,6 +4137,8 @@ sub Data {
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Учитавање конфигурације обавештења није било могуће. Молимо проверите да ли је фајл исправан.',
+        'Imported notification has body text with more than 4000 characters.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'није инсталирано',
@@ -4654,6 +4671,8 @@ Thanks for your help!
             'Активира архивски систем ради убрзања рада, тако што ћете неке тикете уклонити ван дневног праћења. Да бисте пронашли ове тикете, маркер архиве мора бити омогућен за претрагу тикета.',
         'Activates time accounting.' => 'Активира мерење времена.',
         'ActivityID' => 'ИД активности',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Додај долазни телефонски позив овом тикету.',
         'Add an outbound phone call to this ticket' => 'Додај одлазни телефонски позив овом тикету.',
         'Added email. %s' => 'Додат имејл. %s',
@@ -5656,7 +5675,6 @@ Thanks for your help!
             'Одређује које опције ће бити важеће за примаоца (телефонски тикет) и пошиљаоца (имејл тикет) у интерфејсу оператера.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Одређује који ће редови бити важећи за тикете примаоца у интерфејсу клијента.',
-        'Development' => 'Развој',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Онемогућава HTTP заглавље „Content-Security-Policy” ради учитавања екстерних скриптова. Онемогућавање овог HTTP заглавља сноси сигурносни ризик! Искључите га само ако знате шта радите!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5943,7 +5961,7 @@ Thanks for your help!
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify (by using a RegExp) to strip parts of REMOTE_USER (e. g. for to remove trailing domains). RegExp-Note, $1 will be the new Login.' =>
             'Уколико је подешен HTTPBasicAuth за Customer::AuthModule, можете подесити (путем RegExp) уклањање делова REMOTE_USER вредности (нпр. ради уклањања додатних домена). Напомена: $1 ће бити нови Login.',
         'If "HTTPBasicAuth" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\user to user).' =>
-            'Уколико је „HTTPBasicAuth„ изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као example_domain\\user у user).',
+            'Уколико је „HTTPBasicAuth„ изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као example_domain\user у user).',
         'If "LDAP" was selected for Customer::AuthModule and if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your LDAP directory exists user@domain.' =>
             'Уколико је подешен LDAP за Customer::AuthModule и желите да додате суфикс сваком корисничком имену, дефинишите га овде, нпр. желите само user за корисничко име, али у вашем LDAP директоријуму постоји user@domain.',
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
@@ -6002,6 +6020,8 @@ Thanks for your help!
             'Ако је активирано сервис ће преусмерити стандардни ток грешке у датотеку дневника.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Ако је активирано сервис ће преусмерити стандардни излазни ток у датотеку дневника.',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Ако је активирано, „OTRS” ће испоручити све CSS датотеке у смањеној форми. УПОЗОРЕЊЕ: Уколико искључите ову опцију, највероватније ћете имати проблеме у IE 7, зато што није у стању да учита више од 32 CSS датотеке.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6413,6 +6433,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => 'Изаберите ваш подразумевани правописни речник.',
         'Select your preferred layout for OTRS.' => 'Изаберите ваш подразумевани изглед OTRS.',
         'Select your preferred theme for OTRS.' => 'Изаберите вашу подразумевану тему за OTRS.',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Избор кеша који ће користити систем у позадини.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Бира модул за руковање пренешеним датотекама преко веб интерфејса. „DB” складишти све пренешене датотеке у базу података, „FS” користи систем датотека.',
@@ -6975,6 +6996,7 @@ Thanks for your help!
             'Текст на почетку предмета када се имејл прослеђује, нпр „FW”, „Fwd”, или „Про”.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Овај модул догађаја чува атрибуте корисника као динамичка поља тикета. Погледајте опцију изнад за подешавање мапирања.',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'Ово је подразумевани наранџасто-црни изглед клијентског интерфејса.',
         'This is the default orange - black skin.' => 'Ово је подразумевани наранџасто-црни изглед.',

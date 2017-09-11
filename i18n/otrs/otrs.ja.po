@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/otrs/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -5600,6 +5600,10 @@ msgid "Message body"
 msgstr "メッセージボディー"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "新規通知言語を追加"
 
@@ -9515,7 +9519,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "添付ファイル名"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
@@ -9753,7 +9757,7 @@ msgstr "by"
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr ""
+msgstr "次の記事でリンクを開くには、CtrlキーまたはCmdキーまたはShiftキーを押しながらリンクをクリックする必要があります（ブラウザとOSによって異なります）。"
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
@@ -9786,6 +9790,22 @@ msgstr "次のことができます: "
 #. Template: CloudServicesDisabled
 msgid "go back to the previous page"
 msgstr "直前のページに戻る"
+
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "情報"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -10155,10 +10175,6 @@ msgstr "このチケットからチャットを開始する。"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "記事を展開"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "情報"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11382,6 +11398,14 @@ msgstr "Webサービス \"%s\" を削除しました。"
 msgid "New Web service"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr "オペレーション"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr ""
@@ -11822,6 +11846,22 @@ msgstr "クリックして変更してください！"
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "自動応答が設定されていないキュー"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "生産"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "トレーニング"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13088,6 +13128,10 @@ msgstr ""
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -14558,6 +14602,14 @@ msgstr "タイム・アカウンティングを有効にします。"
 
 #. SysConfig
 msgid "ActivityID"
+msgstr ""
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
 msgstr ""
 
 #. SysConfig
@@ -17855,10 +17907,6 @@ msgid ""
 msgstr "顧客インタフェースで、チケットの受信者としてどのキューを有効とするかを定義します。"
 
 #. SysConfig
-msgid "Development"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18824,7 +18872,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19011,6 +19059,13 @@ msgstr ""
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
 msgstr ""
 
 #. SysConfig
@@ -20439,6 +20494,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your time zone."
 msgstr ""
 
 #. SysConfig
@@ -22259,6 +22318,10 @@ msgstr "Eメールが転送された際の、件名の最初のテキストで�
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig

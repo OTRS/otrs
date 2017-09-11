@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Amir Aharoni <amir.aharoni@mail.huji.ac.il>, 2017
 # Idan Cohen <idan2cohen@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:37+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/otrs/OTRS/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -452,7 +453,7 @@ msgstr "שפות"
 
 #. Template: AAABase
 msgid "Password"
-msgstr "סיסמא"
+msgstr "סיסמה"
 
 #. Template: AAABase
 msgid "Preferences"
@@ -784,7 +785,7 @@ msgstr "קידוד התווים המומלץ לשפה שלך הוא %s!"
 
 #. Template: AAABase
 msgid "Change your password."
-msgstr "שנה את הסיסמא שלך."
+msgstr "שנה את הסיסמה שלך."
 
 #. Template: AAABase
 msgid "Please activate %s first!"
@@ -812,7 +813,7 @@ msgstr "אין חשבון עם שם משתמש זה."
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "ההתחברות נכשלה! שם המשתמש או הסיסמא שלך לא הוקלדו נכון."
+msgstr "ההתחברות נכשלה! שם המשתמש או הסיסמה שלך לא הוקלדו נכון."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
@@ -895,11 +896,11 @@ msgstr "בסיס הנתונים נמחק."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr "הקלידו את הסיסמא למשתמש מנהל בסיס הנתונים"
+msgstr "נא להקליד את הסיסמה למשתמש מנהל בסיס הנתונים"
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr "הקלידו את הסיסמא למשתמש בסיס הנתונים"
+msgstr "הקלידו את הסיסמה למשתמש בסיס הנתונים"
 
 #. Template: AAABase
 msgid ""
@@ -922,7 +923,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Password is needed!"
-msgstr "נדרשת סיסמא!"
+msgstr "נדרשת סיסמה!"
 
 #. Template: AAABase
 msgid "Take this Customer"
@@ -1308,11 +1309,11 @@ msgstr "אנא לחצו על חזור ונסו שנית."
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
-msgstr "נשלחו הנחיות לאיפוס סיסמא. אנא בדקו את הדוא\"K שלכם."
+msgstr "נשלחו הנחיות לאיפוס סיסמה. נא לבדוק את הדוא\"ל שלך."
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr "סיסמא חדשה נשלחה אל %s. אנא בדקו את הדוא\"ל שלכם"
+msgstr "סיסמה חדשה נשלחה אל %s. נא לבדוק את הדוא\"ל שלך."
 
 #. Template: AAABase
 msgid "Upcoming Events"
@@ -1497,7 +1498,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr "שם משתמש וסיסמא אינם תואמים. אנא נסו שנית."
+msgstr "שם משתמש וסיסמה אינם תואמים. נא לנסות שוב."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
@@ -1717,19 +1718,19 @@ msgstr ""
 
 #. Template: AAAPreferences
 msgid "Change Password"
-msgstr "שנה סיסמא"
+msgstr "שנה סיסמה"
 
 #. Template: AAAPreferences
 msgid "Current password"
-msgstr "סיסמא נוכחית"
+msgstr "סיסמה נוכחית"
 
 #. Template: AAAPreferences
 msgid "New password"
-msgstr "סיסמא חדשה"
+msgstr "סיסמה חדשה"
 
 #. Template: AAAPreferences
 msgid "Verify password"
-msgstr "אמת סיסמא"
+msgstr "אמת סיסמה"
 
 #. Template: AAAPreferences
 msgid "Spelling Dictionary"
@@ -1745,40 +1746,40 @@ msgstr "מספר הפניות המירבי המוצג בעמוד מבט על."
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
-msgstr "הסיסמא הנוכחית אינה נכונה. אנא נסה שנית!"
+msgstr "הסיסמה הנוכחית אינה נכונה. אנא נסה שנית!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "לא ניתן לעדכן סיסמא. הסיסמאות החדשות שלכם אינן תואמות. אנא נסו שנית!"
+msgstr "לא ניתן לעדכן סיסמה. הסיסמאות החדשות שלכם אינן תואמות. אנא נסו שנית!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
-msgstr "לא ניתן לעדכן סיסמא. היא כוללת תווים אסורים!"
+msgstr "לא ניתן לעדכן סיסמה. היא כוללת תווים אסורים!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות  %s  תווים!"
+msgstr "לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות  %s  תווים!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "characters!"
-msgstr "לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות 2 אותיות קטנות ו- 2 גדולות!."
+msgstr "לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות 2 אותיות קטנות ו- 2 גדולות!."
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות מספר אחד!"
+msgstr "לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות מספר אחד!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 2 characters!"
-msgstr "לא ניתן לעדכן סיסמא. היא חייבת להכיל לפחות 2 תווים!"
+msgstr "לא ניתן לעדכן סיסמה. היא חייבת להכיל לפחות 2 תווים!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, this password has already been used. Please choose a "
 "new one!"
-msgstr "לא ניתן לעדכן סיסמא. כבר השתמשתם בסיסמא זו. אנא בחרו סיסמא חדשה!"
+msgstr "לא ניתן לעדכן סיסמה. כבר השתמשתם בסיסמה זו. אנא בחרו סיסמה חדשה!"
 
 #. Template: AAAPreferences
 msgid ""
@@ -5591,6 +5592,10 @@ msgid "Message body"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr ""
 
@@ -7400,7 +7405,7 @@ msgstr "הירשמו עכשיו"
 
 #. Template: AdminRegistration
 msgid "Forgot your password?"
-msgstr "שכחתם סיסמא?"
+msgstr "שכחתם סיסמה?"
 
 #. Template: AdminRegistration
 msgid "Retrieve a new one"
@@ -9778,6 +9783,22 @@ msgstr "אתם יכולים"
 msgid "go back to the previous page"
 msgstr "לחזור לעמוד הקודם"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "מידע"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr ""
@@ -9949,11 +9970,11 @@ msgstr "שם המשתמש שלך"
 
 #. Template: CustomerLogin
 msgid "Your password"
-msgstr "הסיסמא שלך"
+msgstr "הסיסמה שלך"
 
 #. Template: CustomerLogin
 msgid "Forgot password?"
-msgstr "שכחת סיסמא?"
+msgstr "שכחת סיסמה?"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
@@ -9973,7 +9994,7 @@ msgstr "עדיין לא נרשמת?"
 
 #. Template: CustomerLogin
 msgid "Request new password"
-msgstr "בקש סיסמא חדשה"
+msgstr "בקש סיסמה חדשה"
 
 #. Template: CustomerLogin
 msgid "Your User Name"
@@ -9981,7 +10002,7 @@ msgstr "שם המשתמש שלך"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr "סיסמא חדשה תישלח לכובת הדוא\"ל שלך."
+msgstr "סיסמה חדשה תישלח לכתובת הדוא\"ל שלך."
 
 #. Template: CustomerLogin
 msgid "Create Account"
@@ -10146,10 +10167,6 @@ msgstr ""
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "הרחב מאמר"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "מידע"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -10488,11 +10505,11 @@ msgstr "משתמש עבור דואר נכנס."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr "סיסמא עבור דואר יוצא"
+msgstr "סיסמה עבור דואר יוצא"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
-msgstr "סיסמא עבור דואר נכנס."
+msgstr "סיסמה עבור דואר נכנס."
 
 #. Template: InstallerConfigureMail
 msgid "Result of mail configuration check"
@@ -10554,11 +10571,11 @@ msgstr ""
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
-msgstr "חזרו על סיסמא"
+msgstr "חזרו על סיסמה"
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
-msgstr "ייצר סיסמא"
+msgstr "סיסמה מחוללת"
 
 #. Template: InstallerDBmysql
 msgid "Passwords do not match"
@@ -10685,11 +10702,11 @@ msgstr "מחק קישורים"
 
 #. Template: Login
 msgid "Lost your password?"
-msgstr "שכחתם סיסמא?"
+msgstr "שכחתם סיסמה?"
 
 #. Template: Login
 msgid "Request New Password"
-msgstr "בקש סיסמא חדשה"
+msgstr "בקש סיסמה חדשה"
 
 #. Template: Login
 msgid "Back to login"
@@ -11373,6 +11390,14 @@ msgstr ""
 msgid "New Web service"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr ""
@@ -11812,6 +11837,22 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -13079,6 +13120,10 @@ msgstr ""
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -14552,6 +14597,14 @@ msgid "ActivityID"
 msgstr ""
 
 #. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
+msgstr ""
+
+#. SysConfig
 msgid "Add an inbound phone call to this ticket"
 msgstr ""
 
@@ -15040,7 +15093,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change password"
-msgstr "שנה סיסמא"
+msgstr "שנה סיסמה"
 
 #. SysConfig
 msgid "Change queue!"
@@ -17846,10 +17899,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -19002,6 +19051,13 @@ msgstr ""
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
 msgstr ""
 
 #. SysConfig
@@ -20430,6 +20486,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your time zone."
 msgstr ""
 
 #. SysConfig
@@ -22250,6 +22310,10 @@ msgstr ""
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig

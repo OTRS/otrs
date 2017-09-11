@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D-%M-%Y';
     $Self->{DateInputFormat}     = '%D-%M-%Y';
     $Self->{DateInputFormatLong} = '%D-%M-%Y - %T';
-    $Self->{Completeness}        = 0.646014127144299;
+    $Self->{Completeness}        = 0.644466800804829;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1599,6 +1599,8 @@ sub Data {
             'Deze taal is niet aanwezig of ingeschakeld in het systeem. Deze notificatie tekst kan verwijderd worden wanneer deze niet meer nodig is.',
         'Remove Notification Language' => 'Verwijder Notificatie Taal',
         'Message body' => 'Berichttekst',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Voeg nieuwe notificatie taal toe',
         'Do you really want to delete this notification language?' => 'Weet uzeker dat udeze notificatietaal wilt verwijderen?',
         'Tag Reference' => 'Tag verwijzing',
@@ -2948,6 +2950,12 @@ sub Data {
         'You can' => 'U kunt',
         'go back to the previous page' => 'terug naar de vorige pagina',
 
+        # Template: CustomerAccept
+        'Information' => 'Informatie',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => '',
         'Error Details' => 'Error gegevens',
@@ -3065,7 +3073,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Begin een chat vanuit dit ticket',
         'Expand article' => 'Toon interactie',
-        'Information' => 'Informatie',
         'Next Steps' => 'Volgende stappen',
         'Reply' => 'Beantwoord',
         'Chat Protocol' => 'Chat Protocol',
@@ -3503,6 +3510,8 @@ sub Data {
             'Het geïmporteerde bestand is geen geldig YAML bestand! Kijk in het logbestand voor details',
         'Web service "%s" deleted!' => 'Webservice "%s" verwijderd!',
         'New Web service' => '',
+        'Operations' => '',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Heb geen WebserviceHistoryID!',
@@ -3657,6 +3666,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Wachtrijen (zonder automatische antwoorden)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Produktie',
+        'Test' => '',
+        'Training' => 'Training',
+        'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4126,6 +4141,8 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4659,6 +4676,8 @@ Het Helpdesk Team
             'Activeert het ticket archief systeem, tickets worden uit de dagelijkse scope gehouden wat het systeem versnelt. Om te zoeken op deze ticket moet dit specifiek worden aangegeven in het zoekscherm.',
         'Activates time accounting.' => 'Activeert tijd registratie.',
         'ActivityID' => 'ActivityID',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Voeg een binnenkomend telefoongesprek toe aan dit ticket.',
         'Add an outbound phone call to this ticket' => 'Voeg een uitgaand telefoongesprek toe aan dit ticket.',
         'Added email. %s' => 'E-mail toegevoegd. %s',
@@ -5661,7 +5680,6 @@ Het Helpdesk Team
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6006,6 +6024,8 @@ Het Helpdesk Team
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
             '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
@@ -6418,6 +6438,7 @@ Het Helpdesk Team
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -6980,6 +7001,7 @@ Het Helpdesk Team
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',

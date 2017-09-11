@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.744904137235116;
+    $Self->{Completeness}        = 0.743058350100604;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1593,6 +1593,8 @@ sub Data {
             '',
         'Remove Notification Language' => 'Retirar o idioma da notificación',
         'Message body' => 'Corpo da mensaxe',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Engadir un idioma de notificación novo',
         'Do you really want to delete this notification language?' => 'Confirma que desexa eliminar este idioma de notificación?',
         'Tag Reference' => 'Referencia de Etiqueta',
@@ -2942,6 +2944,12 @@ sub Data {
         'You can' => 'Vostede pode',
         'go back to the previous page' => 'volte a páxina anterior',
 
+        # Template: CustomerAccept
+        'Information' => 'Información',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => '',
         'Error Details' => 'Detalles do erro',
@@ -3059,7 +3067,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Comence un chat dende este ticket',
         'Expand article' => 'Expanda artigo',
-        'Information' => 'Información',
         'Next Steps' => 'Pasos seguintes',
         'Reply' => 'Responder',
         'Chat Protocol' => 'Protocolo Chat',
@@ -3497,6 +3504,8 @@ sub Data {
             '',
         'Web service "%s" deleted!' => 'Servizo web "%s" eliminado!',
         'New Web service' => '',
+        'Operations' => '',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
@@ -3651,6 +3660,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => '',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Produción',
+        'Test' => '',
+        'Training' => 'Formación',
+        'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4120,6 +4135,8 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4642,6 +4659,8 @@ Thanks for your help!
             'Activa o sistema de arquivo de ticket para ter un sistema máis rápido movendo algúns tickets fóra do alcance diario. Para buscar estes tickets, a bandeira de arquivo ten que estar permitida na busca de ticket.',
         'Activates time accounting.' => 'Activa contador de tempo.',
         'ActivityID' => 'ActividadeID',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => '',
         'Add an outbound phone call to this ticket' => '',
         'Added email. %s' => 'Engadiuse o correo electrónico. %s',
@@ -5644,7 +5663,6 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Determina cales colas van ser validas para receptores de tickets na interface de cliente.',
-        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5989,6 +6007,8 @@ Thanks for your help!
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
             '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Se habilitado, OTRS proporcionará tódolos arquivos de CSS en forma minimizada. ALERTA: Se vostede apaga isto, probablemente haberá problemas en IE 7, porque non pode cargar máis de 32 arquivos de CSS.',
@@ -6401,6 +6421,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Seleccione o cache backend a usar.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Selecciona el módulo para manexar cargas vía a interface web. "BD" garda tódalas cargas na base de datos, "FS" emprega o arquivo de sistema.',
@@ -6963,6 +6984,7 @@ Thanks for your help!
             'O texto ao principio do asunto cando se encamiña unha mensaxe de correo, p.ex. Re ou FW.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Este módulo de evento garda atributos de ClienteUsuario coma tickets CamposDinamicos. Por favor vexa o axuste arriba sobre como configurar o mapeado.',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',

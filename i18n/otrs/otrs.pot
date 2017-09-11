@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-08-16 14:39+0000\n"
+"POT-Creation-Date: 2017-09-11 17:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5351,6 +5351,10 @@ msgid "Message body"
 msgstr ""
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr ""
 
@@ -9322,6 +9326,22 @@ msgstr ""
 msgid "go back to the previous page"
 msgstr ""
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr ""
@@ -9672,10 +9692,6 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
-msgstr ""
-
-#. Template: CustomerTicketZoom
-msgid "Information"
 msgstr ""
 
 #. Template: CustomerTicketZoom
@@ -12502,6 +12518,10 @@ msgstr ""
 msgid "Couldn't read Notification configuration file. Please make sure the file is valid."
 msgstr ""
 
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr ""
@@ -13783,6 +13803,14 @@ msgstr ""
 
 #. SysConfig
 msgid "ActivityID"
+msgstr ""
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
 msgstr ""
 
 #. SysConfig
@@ -16934,7 +16962,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -18183,6 +18211,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your time zone."
 msgstr ""
 
 #. SysConfig
@@ -19435,6 +19467,10 @@ msgstr ""
 
 #. SysConfig
 msgid "This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig

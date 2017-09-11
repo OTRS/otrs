@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998183652875883;
+    $Self->{Completeness}        = 0.995774647887324;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1599,6 +1599,8 @@ sub Data {
             'Ovaj jezik nije prisutan ili uključen na sistemu. Ovo obaveštenje može biti izbrisano ukoliko više nije neophodno.',
         'Remove Notification Language' => 'Ukloni jezik obaveštenja',
         'Message body' => 'Sadržaj poruke',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Ukloni novi jezik obaveštenja',
         'Do you really want to delete this notification language?' => 'Da li zaista želite da izbrišete ovaj jezik za obaveštenja?',
         'Tag Reference' => 'Referenca oznake',
@@ -2948,6 +2950,12 @@ sub Data {
         'You can' => 'Vi možete',
         'go back to the previous page' => 'idi na prethodnu stranu',
 
+        # Template: CustomerAccept
+        'Information' => 'Informacija',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Dogodila se greška',
         'Error Details' => 'Detalji greške',
@@ -3065,7 +3073,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Počni ćaskanje iz ovog tiketa',
         'Expand article' => 'Raširi članak',
-        'Information' => 'Informacija',
         'Next Steps' => 'Sledeći koraci',
         'Reply' => 'Odgovori',
         'Chat Protocol' => 'Protokol ćaskanja',
@@ -3504,6 +3511,8 @@ sub Data {
             'Uvezena datoteka nema ispravan „YAML” sadržaj! Molimo proverite „OTRS” dnevnik za detalje',
         'Web service "%s" deleted!' => 'Veb servis „%s” je obrisan!',
         'New Web service' => 'Novi veb servis',
+        'Operations' => 'Operacije',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Nema WebserviceHistoryID!',
@@ -3658,6 +3667,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Redovi (bez automatskih odgovora)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Produkcija',
+        'Test' => '',
+        'Training' => 'Trening',
+        'Development' => 'Razvoj',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4128,6 +4143,8 @@ sub Data {
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Učitavanje konfiguracije obaveštenja nije bilo moguće. Molimo proverite da li je fajl ispravan.',
+        'Imported notification has body text with more than 4000 characters.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nije instalirano',
@@ -4660,6 +4677,8 @@ Vaša tehnička podrška
             'Aktivira arhivski sistem radi ubrzanja rada, tako što ćete neke tikete ukloniti van dnevnog praćenja. Da biste pronašli ove tikete, marker arhive mora biti omogućen za pretragu tiketa.',
         'Activates time accounting.' => 'Aktivira merenje vremena.',
         'ActivityID' => 'ID aktivnosti',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Dodaj dolazni telefonski poziv ovom tiketu.',
         'Add an outbound phone call to this ticket' => 'Dodaj odlazni telefonski poziv ovom tiketu.',
         'Added email. %s' => 'Dodat imejl. %s',
@@ -5662,7 +5681,6 @@ Vaša tehnička podrška
             'Određuje koje opcije će biti važeće za primaoca (telefonski tiket) i pošiljaoca (imejl tiket) u interfejsu operatera.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Određuje koji će redovi biti važeći za tikete primaoca u interfejsu klijenta.',
-        'Development' => 'Razvoj',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Onemogućava HTTP zaglavlje „Content-Security-Policy” radi učitavanja eksternih skriptova. Onemogućavanje ovog HTTP zaglavlja snosi sigurnosni rizik! Isključite ga samo ako znate šta radite!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6008,6 +6026,8 @@ Vaša tehnička podrška
             'Ako je aktivirano servis će preusmeriti standardni tok greške u datoteku dnevnika.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Ako je aktivirano servis će preusmeriti standardni izlazni tok u datoteku dnevnika.',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Ako je aktivirano, „OTRS” će isporučiti sve CSS datoteke u smanjenoj formi. UPOZORENJE: Ukoliko isključite ovu opciju, najverovatnije ćete imati probleme u IE 7, zato što nije u stanju da učita više od 32 CSS datoteke.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6419,6 +6439,7 @@ Vaša tehnička podrška
         'Select your default spelling dictionary.' => 'Izaberite vaš podrazumevani pravopisni rečnik.',
         'Select your preferred layout for OTRS.' => 'Izaberite vaš podrazumevani izgled OTRS.',
         'Select your preferred theme for OTRS.' => 'Izaberite vašu podrazumevanu temu za OTRS.',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Izbor keša koji će koristiti sistem u pozadini.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Bira modul za rukovanje prenešenim datotekama preko veb interfejsa. „DB” skladišti sve prenešene datoteke u bazu podataka, „FS” koristi sistem datoteka.',
@@ -6981,6 +7002,7 @@ Vaša tehnička podrška
             'Tekst na početku predmeta kada se imejl prosleđuje, npr „FW”, „Fwd”, ili „Pro”.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Ovaj modul događaja čuva atribute korisnika kao dinamička polja tiketa. Pogledajte opciju iznad za podešavanje mapiranja.',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'Ovo je podrazumevani narandžasto-crni izgled klijentskog interfejsa.',
         'This is the default orange - black skin.' => 'Ovo je podrazumevani narandžasto-crni izgled.',

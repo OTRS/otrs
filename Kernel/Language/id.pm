@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.95095862764884;
+    $Self->{Completeness}        = 0.948490945674044;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1593,6 +1593,8 @@ sub Data {
             'Bahasa tidak ditemukan atau diaktifkan pada sistem. Teks pemberitahuan ini dapat dihapus jika tidak diperlukan lagi.',
         'Remove Notification Language' => 'Hapuskan pemberitahuan bahasa`',
         'Message body' => 'Badan Pesan',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Tambahkan pemberitahuan bahasa baru',
         'Do you really want to delete this notification language?' => 'Apakah anda ingin menghapus pemberitahuan bahasa?',
         'Tag Reference' => 'Tandakan referensi',
@@ -2944,6 +2946,12 @@ bin/otrs.Daemon.pl status\').',
         'You can' => 'Anda bisa',
         'go back to the previous page' => 'Kembali ke halaman sebelumnya',
 
+        # Template: CustomerAccept
+        'Information' => 'Informasi',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Terjadi kesalahan',
         'Error Details' => 'Rincian eror',
@@ -3061,7 +3069,6 @@ bin/otrs.Daemon.pl status\').',
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Mulai obrolan dari tiket ini',
         'Expand article' => 'Memperluas artikel',
-        'Information' => 'Informasi',
         'Next Steps' => 'Langkah selanjutnya',
         'Reply' => 'Balas',
         'Chat Protocol' => 'Protokol obrolan',
@@ -3499,6 +3506,8 @@ bin/otrs.Daemon.pl status\').',
             'file yang diimpor memiliki konten YAML tidak valid! Silakan periksa rincian log OTRS ',
         'Web service "%s" deleted!' => 'layanan web "menghapus!',
         'New Web service' => '',
+        'Operations' => '',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Tidak dapat WebserviceHistoryID!',
@@ -3653,6 +3662,12 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Antrian (tanpa respon auto)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Produksi',
+        'Test' => '',
+        'Training' => 'Latihan',
+        'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4122,6 +4137,8 @@ bin/otrs.Daemon.pl status\').',
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4656,6 +4673,8 @@ Helpdesk Team Anda
             'Mengaktifkan sistem arsip tiket untuk memiliki sistem yang lebih cepat dengan memindahkan beberapa tiket keluar dari ruang lingkup sehari-hari. Untuk mencari tiket ini, bendera arsip harus diaktifkan dalam pencarian tiket.',
         'Activates time accounting.' => 'Mengaktifkan akuntansi waktu.',
         'ActivityID' => 'ActivityID',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Tambahkan panggilan telepon masuk ke tiket ini',
         'Add an outbound phone call to this ticket' => 'Tambahkan panggilan telepon keluar untuk tiket ini',
         'Added email. %s' => 'Tambahkan email. %s',
@@ -5659,7 +5678,6 @@ Helpdesk Team Anda
             'Menentukan opsi yang akan berlaku jika penerima (tiket ponsel) dan pengirim (tiket email) dalam antarmuka agen.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Menentukan antrian yang akan berlaku untuk tiket penerima di antarmuka pelanggan.',
-        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6005,6 +6023,8 @@ Helpdesk Team Anda
             'Jika diaktifkan daemon akan mengarahkan aliran standard error ke file log.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Jika diaktifkan daemon akan mengarahkan output stream standar untuk file log.',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Jika diaktifkan, OTRS akan memberikan semua file CSS dalam bentuk diminimalkan. PERINGATAN: Jika Anda mematikan ini, ada kemungkinan akan masalah di IE 7, karena tidak dapat memuat lebih dari 32 file CSS.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6416,6 +6436,7 @@ Helpdesk Team Anda
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Memilih backend cache untuk digunakan.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Memilih modul untuk menangani upload melalui antarmuka web. "DB" toko semua upload dalam database, "FS" menggunakan sistem file.',
@@ -6978,6 +6999,7 @@ Helpdesk Team Anda
             'Teks pada awal subjek ketika email diteruskan, misalnya FW, Fwd, atau WG.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Ini toko modul acara atribut dari Pengguna Khusus sebagai tiket Dinamis Fields. Silakan lihat pengaturan di atas untuk cara mengkonfigurasi pemetaan.',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'Ini adalah oranye standar - kulit hitam untuk antarmuka pelanggan.',
         'This is the default orange - black skin.' => 'Ini adalah oranye standar - kulit hitam.',

@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -5600,6 +5600,10 @@ msgid "Message body"
 msgstr "Berichttekst"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "Voeg nieuwe notificatie taal toe"
 
@@ -9787,6 +9791,22 @@ msgstr "U kunt"
 msgid "go back to the previous page"
 msgstr "terug naar de vorige pagina"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "Informatie"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr ""
@@ -10155,10 +10175,6 @@ msgstr "Begin een chat vanuit dit ticket"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "Toon interactie"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "Informatie"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11382,6 +11398,14 @@ msgstr "Webservice \"%s\" verwijderd!"
 msgid "New Web service"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "Heb geen WebserviceHistoryID!"
@@ -11822,6 +11846,22 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "Wachtrijen (zonder automatische antwoorden)"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "Produktie"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "Training"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13088,6 +13128,10 @@ msgstr ""
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -14559,6 +14603,14 @@ msgstr "Activeert tijd registratie."
 #. SysConfig
 msgid "ActivityID"
 msgstr "ActivityID"
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
+msgstr ""
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -17855,10 +17907,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18824,7 +18872,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Als \"HTTPBasicAuth\" is geselecteerd voor Customer::AuthModule, kun je hier aangeve welke voorafgaande gedeelten van gebruikersnamen moeten worden verwijderd (voor gebruikernamen in de vorm voorbeeld_domein\\gebruiker)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19011,6 +19059,13 @@ msgstr ""
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
 msgstr ""
 
 #. SysConfig
@@ -20439,6 +20494,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your time zone."
 msgstr ""
 
 #. SysConfig
@@ -22259,6 +22318,10 @@ msgstr ""
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig

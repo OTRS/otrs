@@ -2,7 +2,7 @@
 # Translators:
 # Alvaro Gajardo, 2016
 # Alvaro Gajardo, 2016
-# Anatoli F. Peña Castillo <anatoli1993@yahoo.com>, 2017
+# Anatoli F. Peña Castillo <djanatoli@gmail.com>, 2017
 # Антон Протченко :3 <a_protchenko@hotmail.com>, 2017
 # Arturo Mondelo <arturo.mondelo@hotmail.es>, 2015
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
@@ -16,6 +16,7 @@
 # Galo Izquierdo <gizquier@hotmail.com>, 2015
 # Gonzalo Moreu, 2016
 # Gonzalo Moreu, 2016
+# Iñaki Martínez, 2017
 # Juan Clavero <juanm.clavero@ibsalut.es>, 2016
 # juanman <juanma@gnutn.org.ar>, 2015
 # juanman <juanma@gnutn.org.ar>, 2015
@@ -29,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -5616,6 +5617,10 @@ msgid "Message body"
 msgstr "Cuerpo del Mensaje"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "Agregar un nuevo idioma de notificación"
 
@@ -5739,7 +5744,7 @@ msgstr "Administrar %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Go to the OTRS customer portal"
-msgstr ""
+msgstr "Ir al portal del cliente OTRS"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
@@ -5808,15 +5813,15 @@ msgstr "%s Actualización Disponible"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "La instalación del paquete requiere la actualización del nivél de OTRS."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "Favor, visite nuestro portal del cliente y deje su solicitud."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Everything else will be done as part of your contract."
-msgstr ""
+msgstr "Todo el resto se cumplirá cómo el parte de su contrato."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
@@ -5826,29 +5831,29 @@ msgstr "Su versión de OTRS instalada es %s."
 msgid ""
 "To install the current version of OTRS Business Solution™, you need to "
 "update to OTRS %s or higher."
-msgstr ""
+msgstr "Para instalar la versión actual de OTRS Business Solution™, necesita actualizar a OTRS %s o superior."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
 "To install the current version of OTRS Business Solution™, the Maximum OTRS "
 "Version is %s."
-msgstr ""
+msgstr "Para instalar la versión actual de OTRS Business Solution™, la versión máxima de OTRS es %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
-msgstr ""
+msgstr "Para instalar éste paquete, se requiere la versión %s del Framework."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Why should I keep OTRS up to date?"
-msgstr ""
+msgstr "¿Porqué debo mantener OTRS actualizado?"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates about relevant security issues."
-msgstr ""
+msgstr "Recibirás las actualizaciones acerca de los casos relevantes de la seguridad."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates for all other relevant OTRS issues"
-msgstr ""
+msgstr "Recibirás las actualizaciones sobre todos los casos OTRS relevantes."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
@@ -5889,11 +5894,11 @@ msgstr "Conexión a cloud.otrs.com a través de HTTPS no se pudo establecer . Po
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
+msgstr "Para instalar éste paquete necesitas actualizar a %sde OTRS o más."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr ""
+msgstr "Para instalar este paquete, la Máxima versión de OTRS es %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -6068,19 +6073,19 @@ msgstr "¿Realmente desea reinstalar este paquete? Se perderá cualquier cambio 
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
+msgstr "Ir a las instrucciones de actualización."
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "información del paquete"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
-msgstr ""
+msgstr "Instalación del paquete requiere un parche de actualización de OTRS. "
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
-msgstr ""
+msgstr "La actualización del paquete requiere un parche de actualización de OTRS."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -9803,6 +9808,22 @@ msgstr "Puede"
 msgid "go back to the previous page"
 msgstr "retroceder a la página anterior"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "Información"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "Ha ocurrido un error"
@@ -10171,10 +10192,6 @@ msgstr "Inicie un chat desde este ticket"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "Expandir el artículo"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "Información"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11398,6 +11415,14 @@ msgstr "Servicio web \"%s\" borrado!"
 msgid "New Web service"
 msgstr "Nuevo servicio de Web"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "No tiene Historia de ID de Servicio Web!"
@@ -11838,6 +11863,22 @@ msgstr "Pulse atrás y cámbiala!"
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "Colas (sin respuestas automáticas)"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "Producción"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "Entrenamiento"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr "Desarrollo"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13104,6 +13145,10 @@ msgstr "Ignorar éste campo."
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -14575,6 +14620,14 @@ msgstr "Activa la contabilidad del tiempo."
 #. SysConfig
 msgid "ActivityID"
 msgstr "IDActividad"
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
+msgstr ""
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -17871,10 +17924,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr "Desarrollo"
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -19027,6 +19076,13 @@ msgstr ""
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
 msgstr ""
 
 #. SysConfig
@@ -20456,6 +20512,10 @@ msgstr ""
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
 msgstr "Seleccione su tema preferido para OTRS."
+
+#. SysConfig
+msgid "Select your time zone."
+msgstr ""
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -22275,6 +22335,10 @@ msgstr ""
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig

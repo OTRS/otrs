@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.965287588294652;
+    $Self->{Completeness}        = 0.962977867203219;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1604,6 +1604,8 @@ sub Data {
             'Этот язык отсутствует или не включен для использования в системе. Этот текст уведомления будет удален, если он больше не нужен.',
         'Remove Notification Language' => 'Удалить язык уведомлений',
         'Message body' => 'Содержание уведомления',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Добавить дополнительный язык для уведомлений',
         'Do you really want to delete this notification language?' => 'Вы действительно желаете удалить этот язык для Уведомлений?',
         'Tag Reference' => 'Справка по тэгам',
@@ -2953,6 +2955,12 @@ sub Data {
         'You can' => 'Вы можете',
         'go back to the previous page' => 'перейти на предыдущую страницу',
 
+        # Template: CustomerAccept
+        'Information' => 'Сведения',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Произошла ошибка',
         'Error Details' => 'Детали ошибки',
@@ -3070,7 +3078,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Начать чат из этой заявки',
         'Expand article' => 'Развернуть сообщение',
-        'Information' => 'Сведения',
         'Next Steps' => 'Далее',
         'Reply' => 'Ответить',
         'Chat Protocol' => 'Протокол чата',
@@ -3508,6 +3515,8 @@ sub Data {
             'импортированный файл имеет недопустимое для YAML содержимое! Пожалуйста, проверьте логи OTRS для подробностей',
         'Web service "%s" deleted!' => 'Web-сервис "%s" удален!',
         'New Web service' => 'Новый Веб-сервис',
+        'Operations' => 'Операции',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Не получен WebserviceHistoryID!',
@@ -3662,6 +3671,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Очереди (без автоответов)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Производство',
+        'Test' => '',
+        'Training' => 'Обучение',
+        'Development' => 'Разработка',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4131,6 +4146,8 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4664,6 +4681,8 @@ Thanks for your help!
             'Включить функцию архивирования заявок для ускорения работы, путем перемещения некоторых заявок из ежедневного объема. Для поиска таких заявок необходимо включить архивный флажок при создании поискового запроса',
         'Activates time accounting.' => 'Включить учет времени выполнения',
         'ActivityID' => 'ActivityID',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Добавить входящий звонок клиента к этой заявке',
         'Add an outbound phone call to this ticket' => 'Добавить исходящий звонок клиенту к этой заявке',
         'Added email. %s' => 'Получено письмо от %s.',
@@ -5666,7 +5685,6 @@ Thanks for your help!
             'Задает какие варианты будут доступны для поля Получатель (в телефонной) или Отправитель (в почтовой заявке) в интерфейсе агента.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Задает список доступных очередей для новой заяаки в интерфейсе клиента.',
-        'Development' => 'Разработка',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Отключите HTTP заголовок "Content-Security-Policy", чтобы разрешить загрузку содержимого внешних скриптов. Отключение этого HTTP заголовка снижает уровень безопасности! Отключайте только, если вы точно знаете, что делаете!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6012,6 +6030,8 @@ Thanks for your help!
             'Если включено, демон перенаправит стандартный поток сообщений об ошибках в лог-файл.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Если включено, демон перенаправит стандартный вывод в лог-файл.',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Если включено, OTRSбудет использовать все CSS файлы в уменьшенном виде. ВНИМАНИЕ: если выключить, вы можете столкнуться с проблемами при использовании IE7, т.к. он не может загружать более 32 CSS файлов.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6423,6 +6443,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Выберите бэкэнд под кэш.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Выбирает способ управления загрузкой через веб-интерфейс. "DB" - сохраняет загружаемые файлы в БД, "FS" использует файловую систему.',
@@ -6985,6 +7006,7 @@ Thanks for your help!
             'Текст, предшествующий теме при пересылке письма, например, FW, Fwd, или WG.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Модуль, который сохраняет атрибуты клиента в динамических полях заявки. Смотрите в параметрах выше как настроить соответствие.',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'Это стандартная оранжево-черная тема для интерфейса клиента.',
         'This is the default orange - black skin.' => 'Это стандартная оранжево-черная тема.',

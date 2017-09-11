@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.966902119071645;
+    $Self->{Completeness}        = 0.965191146881288;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1593,6 +1593,8 @@ sub Data {
             'Diese Sprache ist im System nicht verfügbar. Der Benachrichtigungstext kann gelöscht werden, falls er nicht mehr benötigt wird.',
         'Remove Notification Language' => 'Benachrichtigungssprache entfernen',
         'Message body' => 'Nachrichteninhalt',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Neue Sprache für Benachrichtigungen hinzufügen',
         'Do you really want to delete this notification language?' => 'Möchten Sie diese Benachrichtigungssprache wirklich löschen?',
         'Tag Reference' => 'Tag-Referenz',
@@ -2029,7 +2031,7 @@ sub Data {
         'Type of Linking' => 'Typ der Verknüpfung',
         'Add a new Field' => 'Neues Feld hinzufügen',
         'Remove this Field' => 'Feld entfernen',
-        'And can\'t be repeated on the same condition.' => 'Und können nicht innerhalb derselben Abfrage verwendet werden.',
+        'And can\'t be repeated on the same condition.' => 'Und darf sich nicht innerhalb derselben Bedingung wiederholen.',
         'Add New Condition' => 'Neue Bedingung hinzufügen',
 
         # Template: AdminProcessManagementTransitionAction
@@ -2425,7 +2427,7 @@ sub Data {
         'Display name' => 'Anzeigename',
         'Add System Email Address' => 'System-E-Mail-Adresse hinzufügen',
         'Edit System Email Address' => 'System-E-Mail-Adresse bearbeiten',
-        'This email address is already used as system email address.' => '',
+        'This email address is already used as system email address.' => 'Diese E-Mail-Adresse wird bereits als System-Adresse verwendet.',
         'The display name and email address will be shown on mail you send.' =>
             'Der Anzeigename und die E-Mail-Adresse werden für die gesendeten Mail verwendet.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
@@ -2942,6 +2944,12 @@ sub Data {
         'You can' => 'Sie können',
         'go back to the previous page' => 'zurück zur vorhergehenden Seite',
 
+        # Template: CustomerAccept
+        'Information' => 'Information',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Ein Fehler ist aufgetreten',
         'Error Details' => 'Fehlerdetails',
@@ -3059,7 +3067,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Von diesem Ticket aus einen Chat starten',
         'Expand article' => 'Artikel aufklappen',
-        'Information' => 'Information',
         'Next Steps' => 'Nächste Schritte',
         'Reply' => 'Antworten',
         'Chat Protocol' => 'Chatprotokoll',
@@ -3497,6 +3504,8 @@ sub Data {
             'Die importierte Datei enthält ungültigen YAML-Inhalt. Bitte prüfen Sie das OTRS-Log für mehr Informationen.',
         'Web service "%s" deleted!' => 'Web Service "%s" gelöscht!',
         'New Web service' => 'Neuer Web Service',
+        'Operations' => 'Operationen',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Keine WebserviceHistoryID empfangen!',
@@ -3651,6 +3660,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Queues (ohne automatische Antworten)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Produktiv',
+        'Test' => '',
+        'Training' => 'Training',
+        'Development' => 'Entwicklung',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4121,6 +4136,8 @@ sub Data {
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Die Benachrichtigungs-Konfigurationsdatei konnte nicht gelesen werden. Bitte prüfen Sie, dass es sich um eine gültige Datei handelt.',
+        'Imported notification has body text with more than 4000 characters.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nicht installiert',
@@ -4496,7 +4513,7 @@ sub Data {
             '',
         'Can`t remove SessionID.' => 'Kann SessionID nicht enfernen',
         'Logout successful.' => 'Abmeldung erfolgreich.',
-        'Error: invalid session.' => '',
+        'Error: invalid session.' => 'Fehler: Ungültige Session.',
         'No Permission to use this frontend module!' => 'Sie haben keine Berechtigung, dieses Modul zu nutzen!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
@@ -4652,6 +4669,8 @@ Ihr Helpdesk-Team
             'Aktiviert das Ticket Archivsystem, um ein schnelleres System zu haben, indem einige Tickets aus dem täglichen Anwendungsbereich verschoben werden. Um diese Tickets in der Suche zu finden, muss das Archiv-Flag in der Ticketsuche aktiviert werden.',
         'Activates time accounting.' => 'Aktiviert die Zeitabrechnung.',
         'ActivityID' => 'ActivityID',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Fügen Sie einen eingehenden Anruf zu diesem Ticket hinzu.',
         'Add an outbound phone call to this ticket' => 'Fügen Sie einen ausgehenden Anruf zu diesem Ticket hinzu.',
         'Added email. %s' => 'E-Mail hinzugefügt. %s',
@@ -5658,7 +5677,6 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => 'Entwicklung',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'Wenn HTTP-Header "Content-Security-Policy" ausgeschaltet ist, können externe Scripts geladen werden. Dies stellt eine Sicherheitslücke dar! Daher sollte diese Einstellung nur deaktivieren werden, wenn Sie sich über die Konsequenzen im Klaren sind. ',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6004,6 +6022,8 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Aktivieren um die Fehler-Ausgabe des Daemons in eine Log-Datei umzuleiten.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Aktivieren um die Standard-Ausgabe des Daemons in eine Log-Datei umzuleiten.',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Wenn akiviert, liefert OTRS alle CSS-Dateien in minifizierter Form aus. WARNUNG: Das Abschalten dieser Einstellung wird im IE 7 wahrscheinlich Probleme verursachen, weil dieser Browser nicht mehr als 32 CSS-Dateien für eine Seite laden kann.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6154,7 +6174,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Maximale Anzahl von Tickets, die als Ergebnis dieser Aktion angezeigt werden sollen. ',
         'Maximum size (in characters) of the customer information table in the ticket zoom view.' =>
             'Maximale Zeichenanzahl für die Tabelle mit Kundeninformationen in der TicketZoom-Ansicht.',
-        'Merge this ticket and all articles into another ticket' => '',
+        'Merge this ticket and all articles into another ticket' => 'Dieses Ticket und alle Artikel in ein anderes Ticket zusammenfassen.',
         'Merged Ticket <OTRS_TICKET> to <OTRS_MERGE_TO_TICKET>.' => 'Ticket <OTRS_TICKET> wurde mit <OTRS_MERGE_TO_TICKET> zusammengefasst.',
         'Miscellaneous' => 'Verschiedenes',
         'Module for To-selection in new ticket screen in the customer interface.' =>
@@ -6415,6 +6435,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Select your default spelling dictionary.' => 'Wählen Sie Ihr Standardwörterbuch.',
         'Select your preferred layout for OTRS.' => 'Wählen Sie Ihr bevorzugtes Oberflächenlayout für OTRS.',
         'Select your preferred theme for OTRS.' => 'Wählen Sie Ihr bevorzugtes Design für OTRS.',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Gibt das zu verwendende Cache Backend an.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Auswahl wie Uploads über die Web-Oberfläche gehandhabt werden sollen. "DB" speichert alle Uploads in der Datenbank, "FS" nutzt das Dateisystem.',
@@ -6977,6 +6998,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
             'Der Text am Anfang des Betreffs, wenn eine E-Mail weitergeleitet wird, z.B. FW, Fwd oder WG.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => 'Dies ist die Standard orange-schwarze Farbgebung.  ',

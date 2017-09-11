@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.977598385469223;
+    $Self->{Completeness}        = 0.975050301810865;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1598,6 +1598,8 @@ sub Data {
             'از این زبان در حال حاضر و یا فعال در سیستم نیست. این متن اطلاع رسانی می تواند حذف اگر آن مورد نیاز نیست.',
         'Remove Notification Language' => 'حذف هشدار از طریق زبان',
         'Message body' => 'پیام بدن',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'اضافه کردن زبان اطلاع رسانی جدید',
         'Do you really want to delete this notification language?' => 'آیا شما واقعا حذف این زبان اطلاع رسانی را میخواهید؟',
         'Tag Reference' => 'مرجع برچسب',
@@ -2947,6 +2949,12 @@ sub Data {
         'You can' => 'شما می‌توانید',
         'go back to the previous page' => 'به صفحه قبل برگرد',
 
+        # Template: CustomerAccept
+        'Information' => 'اطلاعات',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'خطا',
         'Error Details' => 'جزئیات خطا',
@@ -3064,7 +3072,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'آغاز گپ این درخواست از',
         'Expand article' => 'گسترش مطلب',
-        'Information' => 'اطلاعات',
         'Next Steps' => 'گام های بعدی',
         'Reply' => 'پاسخ',
         'Chat Protocol' => 'پروتکل چت',
@@ -3502,6 +3509,8 @@ sub Data {
             'فایل وارد شده است محتوای YAML معتبر نیست! لطفا وارد سیستم شوید OTRS برای جزئیات بیشتر',
         'Web service "%s" deleted!' => 'وب سرویس \ " %s " حذف!',
         'New Web service' => '',
+        'Operations' => '',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'کردم هیچ WebserviceHistoryID!',
@@ -3656,6 +3665,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'صف (بدون پاسخ خودکار)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'در حال تولید',
+        'Test' => '',
+        'Training' => 'آموزشی',
+        'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4125,6 +4140,8 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4658,6 +4675,8 @@ Thanks for your help!
             'سیستم آرشیو درخواست را با انتقال برخی درخواست‌ها به خارج از ناحیه روزانه به منظور داشتن سیستمی سریع‌تر، فعال می‌کند. برای جستجوی این درخواست‌ها باید چک آرشیو در جستجوی درخواست انتخاب شده باشد.',
         'Activates time accounting.' => 'محاسبه زمان را فعال می‌کند.',
         'ActivityID' => 'ActivityID',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'اضافه کردن یک تماس تلفنی بین المللی به درون این درخواست',
         'Add an outbound phone call to this ticket' => 'اضافه کردن یک تماس تلفنی به این درخواست',
         'Added email. %s' => 'اضافه شده ایمیل. %s',
@@ -5660,7 +5679,6 @@ Thanks for your help!
             'مشخص است که گزینه های گیرنده (درخواست تلفن) و فرستنده (درخواست ایمیل) در رابط عامل معتبر خواهد بود.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'مشخص می کند که صف برای گیرنده های نامه درخواست در رابط مشتری معتبر خواهد بود.',
-        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'غیر فعال کردن HTTP هدر "Content-Security-Policy" اجازه می دهد تا بارگذاری محتویات اسکریپت های خارجی. غیر فعال کردن این هدر HTTP می تواند یک مسئله امنیتی! فقط آن را غیر فعال کنید، اگر شما می دانید آنچه شما انجام می دهند!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6006,6 +6024,8 @@ Thanks for your help!
             'اگر فعال شبح را به جریان خطای استاندارد را به یک فایل ورود به سیستم تغییر مسیر.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'اگر فعال شبح را به خروجی استاندارد را به یک فایل ورود به سیستم تغییر مسیر.',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'اگر فعال باشد، OTRS تمام فایل های CSS در قالب minified شده ارائه کرده است. هشدار: اگر شما این خاموش، احتمال مشکلات در اینترنت اکسپلورر 7، به دلیل آن می تواند بیش از 32 فایل های CSS بار نیست.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6417,6 +6437,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'باطن کش استفاده انتخاب می کند.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'ماژول که مسئولیت رسیدگی به ارسال از طریق رابط وب انتخاب می کند. \ "DB " فروشگاه های ارسال همه در پایگاه داده، \ "FS " با استفاده از سیستم فایل.',
@@ -6979,6 +7000,7 @@ Thanks for your help!
             'متن در آغاز موضوع هنگامی که یک ایمیل فرستاده است، به عنوان مثال FW، FWD، یا WG.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'این رویداد های ماژول ویژگی هایی از CustomerUser به عنوان بلیط DynamicFields. لطفا تنظیمات بالا برای نحوه پیکربندی نقشه برداری.',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'پوست سیاه و سفید برای رابط مشتری - این به طور پیش فرض نارنجی است.',
         'This is the default orange - black skin.' => 'پوست سیاه و سفید - این به طور پیش فرض نارنجی است.',

@@ -14,14 +14,14 @@
 # Stang . <Cosine02@outlook.com>, 2016
 # 文浩坚 <never.min@gmail.com>, 2015-2016
 # 汇民 王 <whuim@163.com>, 2016-2017
-# 汇民 王 <whuim@qq.com>, 2016
+# 汇民 王 <whuim@qq.com>, 2016-2017
 # 洋 王 <fkaxc2002@gmail.com>, 2017
 # 陈德文 <sggggy@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -5607,6 +5607,10 @@ msgid "Message body"
 msgstr "消息正文"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "添加通知语言"
 
@@ -9794,6 +9798,22 @@ msgstr "你可以"
 msgid "go back to the previous page"
 msgstr "返回上一页"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "信息"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "发生了一个错误"
@@ -10162,10 +10182,6 @@ msgstr "从这个工单开始一次聊天"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "展开信件"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "信息"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11389,6 +11405,14 @@ msgstr "Web服务“%s”已经删除！"
 msgid "New Web service"
 msgstr "新的WEB服务"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr "操作"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr "调用程序"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "没有 WebserviceHistoryID ！"
@@ -11829,6 +11853,22 @@ msgstr "点击返回并修改它！"
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "没有自动响应的队列"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "生产"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr "测试"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "培训"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr "开发"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13097,6 +13137,10 @@ msgid ""
 "valid."
 msgstr "无法读取通知配置文件。 请确保该文件有效。"
 
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr "没有安装"
@@ -14104,7 +14148,7 @@ msgstr "发送未加密的通知"
 msgid ""
 "Authentication succeeded, but no user data record is found in the database. "
 "Please contact the administrator."
-msgstr ""
+msgstr "认证成功，但在数据库中没有找到用户数据记录，请联系系统管理员。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
@@ -14116,7 +14160,7 @@ msgstr "成功注销。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "错误：无效会话。"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
@@ -14566,6 +14610,14 @@ msgstr "激活工时管理。"
 #. SysConfig
 msgid "ActivityID"
 msgstr "活动ID"
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
+msgstr ""
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -15560,7 +15612,7 @@ msgid ""
 "DEPRECATED: This config setting will be removed in further versions of OTRS."
 " Sets the time (in seconds) a user is marked as active (minimum active time "
 "is 300 seconds)."
-msgstr ""
+msgstr "已弃用：该配置设置将在后期版本的OTRS中被删除。设置一个用户被标记为活动的时间（单位：秒）（最小活动时间是300秒）。"
 
 #. SysConfig
 msgid "Danish"
@@ -17862,10 +17914,6 @@ msgid ""
 msgstr "确定客户界面哪些队列可以作为工单的有效收件人。"
 
 #. SysConfig
-msgid "Development"
-msgstr "开发"
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18831,7 +18879,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19019,6 +19067,13 @@ msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
 msgstr "如果启用了此选项，守护进程的标准输出流将重定向到一个日志文件。"
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
+msgstr "如果启用，守护程序将使用此目录创建其PID文件。 注意：请在任何更改之前停止守护程序，并且只有在不使用<$OTRSHome>/var/run/时才使用此设置。"
 
 #. SysConfig
 msgid ""
@@ -19385,7 +19440,7 @@ msgstr "工单计数器的日志文件。"
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "登录用户"
 
 #. SysConfig
 msgid "Logout of customer panel."
@@ -20449,6 +20504,10 @@ msgid "Select your preferred theme for OTRS."
 msgstr "选择你喜欢的OTRS界面主题。"
 
 #. SysConfig
+msgid "Select your time zone."
+msgstr ""
+
+#. SysConfig
 msgid "Selects the cache backend to use."
 msgstr "选择使用的缓存后端。"
 
@@ -20814,31 +20873,31 @@ msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
-msgstr ""
+msgstr "设置在SessionMaxIdleTime中定义的时间范围内最大的活动服务人员数，之后才能对登录的服务人员显示先前的警告。"
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionMaxIdleTime."
-msgstr ""
+msgstr "设置SessionMaxIdleTime中定义的时间范围内最大的活动服务人员数。"
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
 "SessionMaxIdleTime."
-msgstr ""
+msgstr "设置SessionMaxIdleTime中定义的时间范围内的最大的活动客户数。"
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
 "defined in SessionMaxIdleTime."
-msgstr ""
+msgstr "设置SessionMaxIdleTime中定义的时间范围内每个服务人员最大的活动会话数。"
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
 " defined in SessionMaxIdleTime."
-msgstr ""
+msgstr "设置SessionMaxIdleTime中定义的时间范围内每个客户最大的活动会话数。"
 
 #. SysConfig
 msgid ""
@@ -22267,6 +22326,10 @@ msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
 msgstr "这个事件模块存储客户联系人的属性为工单动态字段，如何配置这个映射请查看上面的设置。"
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
+msgstr ""
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."

@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Alexis Prodhomme <ap@gen-ip.fr>, 2017
 # andre1217 <andre.pache@otrs.com>, 2014
 # andre1217 <andre.pache@otrs.com>, 2014
 # Arnaud BECKER <arnobeck.sdv@gmail.com>, 2017
@@ -29,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -693,7 +694,7 @@ msgstr "Élément"
 
 #. Template: AAABase
 msgid "Delete"
-msgstr "Effacer"
+msgstr "Supprimer"
 
 #. Template: AAABase
 msgid "Edit"
@@ -1410,11 +1411,11 @@ msgstr "<br>Si vous continuez l'installation de ce paquet, les erreurs suivantes
 
 #. Template: AAABase
 msgid "Mark"
-msgstr "Sélectionner"
+msgstr "Marquer comme important"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr "Déselectionner"
+msgstr "Ne pas marquer comme important"
 
 #. Template: AAABase
 msgid "Bold"
@@ -1766,7 +1767,7 @@ msgstr "Dictionnaire d'orthographe par défaut."
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
-msgstr "Nombre maximum de tickets affichés sur la page d'aperçu des tickets"
+msgstr "Nombre max. de tickets par page dans la vue d'ensemble des tickets."
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
@@ -1818,7 +1819,7 @@ msgstr "Séparateur CSV"
 
 #. Template: AAATicket
 msgid "Status View"
-msgstr "Vue des statuts"
+msgstr "Vue par statut"
 
 #. Template: AAATicket
 msgid "Service View"
@@ -1854,7 +1855,7 @@ msgstr "Renvoyer"
 
 #. Template: AAATicket
 msgid "Forward"
-msgstr "Transmettre"
+msgstr "Transférer"
 
 #. Template: AAATicket
 msgid "From"
@@ -1950,7 +1951,7 @@ msgstr "Statut"
 
 #. Template: AAATicket
 msgid "Statuses"
-msgstr "Status"
+msgstr "Statuts"
 
 #. Template: AAATicket
 msgid "Ticket Type"
@@ -2014,7 +2015,7 @@ msgstr "e-mail"
 
 #. Template: AAATicket
 msgid "Close"
-msgstr "Fermer"
+msgstr "Clôturer"
 
 #. Template: AAATicket
 msgid "Action"
@@ -2058,7 +2059,7 @@ msgstr "Fusionner"
 
 #. Template: AAATicket
 msgid "merged"
-msgstr "Fusionné"
+msgstr "fusionné"
 
 #. Template: AAATicket
 msgid "closed successful"
@@ -2074,19 +2075,19 @@ msgstr "Total des tickets verrouillés"
 
 #. Template: AAATicket
 msgid "Locked Tickets Reminder Reached"
-msgstr "Tickets verrouillés ayant atteint le rappel"
+msgstr "Tickets verrouillés dont la date de rappel a été atteinte"
 
 #. Template: AAATicket
 msgid "Locked Tickets New"
-msgstr "Nouveaux Tickets Verrouillés"
+msgstr "Nouveaux tickets verrouillés"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Total"
-msgstr "Total des tickets du responsable"
+msgstr "Total des tickets dont vous êtes responsable"
 
 #. Template: AAATicket
 msgid "Responsible Tickets New"
-msgstr "Nouveaux tickets du responsable"
+msgstr "Nouveaux tickets dont vous êtes responsable"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
@@ -2094,19 +2095,19 @@ msgstr "Responsables du ticket atteint"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
-msgstr "Total Tickets vus"
+msgstr "Total des tickets suivis"
 
 #. Template: AAATicket
 msgid "Watched Tickets New"
-msgstr "Total Nouveaux Tickets"
+msgstr "Nouveaux tickets que vous suivez"
 
 #. Template: AAATicket
 msgid "Watched Tickets Reminder Reached"
-msgstr "Rappel atteint des Tickets vus"
+msgstr "Tickets suivis dont la date de rappel a été atteinte"
 
 #. Template: AAATicket
 msgid "All tickets"
-msgstr "Tous les Tickets"
+msgstr "Tous les tickets"
 
 #. Template: AAATicket
 msgid "Available tickets"
@@ -2186,19 +2187,19 @@ msgstr "supprimé"
 
 #. Template: AAATicket
 msgid "pending reminder"
-msgstr "Attente du rappel"
+msgstr "Attente de rappel"
 
 #. Template: AAATicket
 msgid "pending auto"
-msgstr "En attente auto"
+msgstr "en attente auto"
 
 #. Template: AAATicket
 msgid "pending auto close+"
-msgstr "En attente de la fermeture automatique(+)"
+msgstr "en attente de fermeture automatique (+)"
 
 #. Template: AAATicket
 msgid "pending auto close-"
-msgstr "En attente de la fermeture automatique(-)"
+msgstr "en attente de fermeture automatique (-)"
 
 #. Template: AAATicket
 msgid "email-external"
@@ -2234,11 +2235,11 @@ msgstr "Requête par le web"
 
 #. Template: AAATicket
 msgid "lock"
-msgstr "verrouillé."
+msgstr "verrouiller"
 
 #. Template: AAATicket
 msgid "unlock"
-msgstr "déverrouillé"
+msgstr "déverrouiller"
 
 #. Template: AAATicket
 msgid "very low"
@@ -2438,7 +2439,7 @@ msgstr "Client ajouté automatiquement en Cc."
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
-msgstr "Aperçu de tous les Tickets ouverts"
+msgstr "Vue d'ensemble des tickets ouverts"
 
 #. Template: AAATicket
 msgid "Locked Tickets"
@@ -2454,7 +2455,7 @@ msgstr "Mes tickets surveillés"
 
 #. Template: AAATicket
 msgid "My Responsible Tickets"
-msgstr "Mes tickets en responsabilité"
+msgstr "Tickets dont je suis responsable"
 
 #. Template: AAATicket
 msgid "Watched Tickets"
@@ -2466,11 +2467,11 @@ msgstr "Surveillé"
 
 #. Template: AAATicket
 msgid "Watch"
-msgstr "Surveiller"
+msgstr "Suivre"
 
 #. Template: AAATicket
 msgid "Unwatch"
-msgstr "Arrêter le suivi"
+msgstr "Ne plus suivre"
 
 #. Template: AAATicket
 msgid "Lock it to work on it"
@@ -2478,7 +2479,7 @@ msgstr "Le verrouiller afin de travailler dessus"
 
 #. Template: AAATicket
 msgid "Unlock to give it back to the queue"
-msgstr "Le dévérouiller afin de le remettre dans sa file"
+msgstr "Déverrouiller et le remettre dans la file"
 
 #. Template: AAATicket
 msgid "Show the ticket history"
@@ -2538,7 +2539,7 @@ msgstr "Mettre ce ticket en attente"
 
 #. Template: AAATicket
 msgid "Close this ticket"
-msgstr "Fermer ce ticket"
+msgstr "Clôturer ce ticket"
 
 #. Template: AAATicket
 msgid "Look into a ticket!"
@@ -2668,7 +2669,7 @@ msgstr "Faites la sélection de vos files préférées. Vous recevrez des notifi
 
 #. Template: AAATicket
 msgid "Custom Queue"
-msgstr "File d'attente personnalisée"
+msgstr "File personnalisée"
 
 #. Template: AAATicket
 msgid "QueueView refresh time"
@@ -2764,15 +2765,15 @@ msgstr "Appel téléphonique"
 
 #. Template: AAATicket
 msgid "Phone Call Outbound"
-msgstr "Appel vers Client"
+msgstr "Appel téléph. sortant"
 
 #. Template: AAATicket
 msgid "Phone Call Inbound"
-msgstr "Appel vers Opérateur"
+msgstr "Appel téléph. entrant"
 
 #. Template: AAATicket
 msgid "Reminder Reached"
-msgstr "Rappel atteint"
+msgstr "Rappel"
 
 #. Template: AAATicket
 msgid "Reminder Tickets"
@@ -2798,7 +2799,7 @@ msgstr "Les tickets ouverts; ces ticket ont été traités mais nécessitent une
 
 #. Template: AAATicket
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr "Les nouveaux tickets; ces tickets n'ont pas été traités."
+msgstr "Les nouveaux tickets; ces tickets n'ont pas encore été traités."
 
 #. Template: AAATicket
 msgid "All escalated tickets"
@@ -2807,7 +2808,7 @@ msgstr "Tous les tickets escaladés"
 #. Template: AAATicket
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Tout les tickets dont la date de rappel à été atteinte."
+msgstr "Tous les tickets dont la date de rappel à été atteinte"
 
 #. Template: AAATicket
 msgid "Archived tickets"
@@ -2965,7 +2966,7 @@ msgstr "Aller à la vue d'ensemble"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr "Effacer ACL"
+msgstr "Supprimer ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
@@ -3299,7 +3300,7 @@ msgstr "Liste (seulement %s affichés - plus disponible)"
 
 #. Template: AdminCustomerCompany
 msgid "List (%s total)"
-msgstr "Liste (%s du total)"
+msgstr "Liste (%s au total)"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
@@ -3545,17 +3546,17 @@ msgstr "Objet"
 
 #. Template: AdminDynamicField
 msgid "Delete this field"
-msgstr "Effacer ce champs"
+msgstr "Supprimer ce champ"
 
 #. Template: AdminDynamicField
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr "Voulez-vous vraiment effacer ce champ dynamique? Toute donnée associée sera PERDUE!"
+msgstr "Voulez-vous vraiment supprimer ce champ dynamique ? Toutes les données associées seront PERDUES !"
 
 #. Template: AdminDynamicField
 msgid "Delete field"
-msgstr "Effacer ce champ"
+msgstr "Supprimer le champ"
 
 #. Template: AdminDynamicField
 msgid "Deleting the field and its data. This may take a while..."
@@ -4184,7 +4185,7 @@ msgstr "Définir un nouvel état"
 
 #. Template: AdminGenericAgent
 msgid "Pending date"
-msgstr "Délais d'attente"
+msgstr "Date de sortie d'attente"
 
 #. Template: AdminGenericAgent
 msgid "Set new agent"
@@ -4260,7 +4261,7 @@ msgstr "Supprimer les tickets"
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
-msgstr "Attention: Tous les tickets impactés seront supprimés de la base de donnée et ne pourront être restaurés!"
+msgstr "Attention : Tous les tickets impactés seront supprimés de la base de données et ne pourront pas être restaurés !"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -4288,7 +4289,7 @@ msgstr "%s Tickets impactés! Que voulez vous faire?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "Attention: Vous allez utiliser l'option supprimer. Tous les tickets supprimés seront perdus!"
+msgstr "Attention : Vous avez utilisé l'option SUPPRIMER. Tous les tickets supprimés seront perdus !"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4738,7 +4739,7 @@ msgstr "Hôte"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "URL de destination pour les requêtes REST"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
@@ -4807,11 +4808,11 @@ msgstr "Fichier de certificat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
-msgstr ""
+msgstr "Le chemin complet et le nom du fichier du certificat SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
-msgstr ""
+msgstr "par ex. /opt/otrs/var/certificates/REST/ssl.crt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate Password File"
@@ -4823,7 +4824,7 @@ msgstr "Le chemin complet et le nom du fichier de la clé SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
-msgstr ""
+msgstr "par ex. /opt/otrs/var/certificates/REST/ssl.key"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) File"
@@ -4833,11 +4834,11 @@ msgstr "Fichier de l'autorité de certification (AC)"
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates the SSL certificate."
-msgstr ""
+msgstr "Le chemin complet et le nom du fichier de l'autorité de certification qui valide le certificat SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/CA/ca.file"
-msgstr ""
+msgstr "par ex. /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "GenericInterface Transport HTTP::SOAP for Web Service %s"
@@ -5393,7 +5394,7 @@ msgstr "Configuration des Files"
 
 #. Template: AdminNavigationBar
 msgid "Ticket Settings"
-msgstr "Configuration des Tickets"
+msgstr "Paramètres du ticket"
 
 #. Template: AdminNavigationBar
 msgid "System Administration"
@@ -5444,7 +5445,7 @@ msgstr "Supprimer cette notification"
 
 #. Template: AdminNotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr "Voulez-vous vraiment effacer cette notification?"
+msgstr "Voulez-vous vraiment supprimer cette notification ?"
 
 #. Template: AdminNotificationEvent
 msgid "Add Notification"
@@ -5614,6 +5615,10 @@ msgstr ""
 #. Template: AdminNotificationEvent
 msgid "Message body"
 msgstr "Corps du message"
+
+#. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -6090,7 +6095,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr ""
+msgstr "Veuillez noter que la version OTRS installée est la %s"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -8377,7 +8382,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Notify message"
-msgstr ""
+msgstr "Message de notification"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Manage Sessions"
@@ -8419,7 +8424,7 @@ msgstr "N'oubliez pas d'ajouter les nouveaux modèles à une file"
 
 #. Template: AdminTemplate
 msgid "Do you really want to delete this template?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer ce modèle ?"
 
 #. Template: AdminTemplate
 msgid "Add Template"
@@ -8491,7 +8496,7 @@ msgstr "Editer Type"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "Un type avec le même nom existe déjà !"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
@@ -8810,7 +8815,7 @@ msgstr "Tickets dans mes Files"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr "Tickets dans mes Services"
+msgstr "Tickets dans mes services"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -8888,7 +8893,7 @@ msgstr "Editer vos préférences"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
-msgstr ""
+msgstr "Le saviez-vous ? Vous pouvez aider à traduire OTRS sur %s"
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -9129,7 +9134,7 @@ msgstr "Modèle de texte"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr "Choisir un modèle va effacer tout le texte ou les pièces jointes"
+msgstr "Spécifier un modèle va remplacer tout texte ou pièce jointe."
 
 #. Template: AgentTicketActionCommon
 msgid "Note type"
@@ -9663,7 +9668,7 @@ msgstr "Objets liés"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
-msgstr "Modifier file"
+msgstr "Modifier la file"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
@@ -9679,7 +9684,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
-msgstr "Aperçu des articles"
+msgstr "Vue d'ensemble des articles"
 
 #. Template: AgentTicketZoom
 msgid "Article(s)"
@@ -9802,6 +9807,22 @@ msgstr "Vous pouvez"
 #. Template: CloudServicesDisabled
 msgid "go back to the previous page"
 msgstr "Revenir à la page précédente"
+
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "Information"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -10038,7 +10059,7 @@ msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
-msgstr "Éditer les préférences"
+msgstr "Modifier vos préférences"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
@@ -10171,10 +10192,6 @@ msgstr ""
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "Déplier l'article"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "Information"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -10813,7 +10830,7 @@ msgstr ""
 msgid ""
 "Please note that you can't completely disable notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Veuillez noter que vous ne pouvez pas désactiver les notifications notées comme obligatoires."
 
 #. Template: PreferencesNotificationEvent
 msgid ""
@@ -11398,6 +11415,14 @@ msgstr ""
 msgid "New Web service"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr ""
@@ -11837,6 +11862,22 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "Production"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "Formation"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -12319,7 +12360,7 @@ msgstr "En attendant la date"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "for pending* states"
-msgstr "pour tous les états de mise en attente"
+msgstr "pour les états en attente*"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
@@ -13104,6 +13145,10 @@ msgstr ""
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
+msgstr ""
+
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
 msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
@@ -14559,7 +14604,7 @@ msgstr "Active les thèmes disponibles sur le système. La valeur 1 le rend acti
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
-msgstr ""
+msgstr "Activer le système d'archive de tickets dans l'interface client."
 
 #. SysConfig
 msgid ""
@@ -14577,12 +14622,20 @@ msgid "ActivityID"
 msgstr ""
 
 #. SysConfig
-msgid "Add an inbound phone call to this ticket"
+msgid "Add a comment."
 msgstr ""
 
 #. SysConfig
-msgid "Add an outbound phone call to this ticket"
+msgid "Add a default name for Dynamic Field."
 msgstr ""
+
+#. SysConfig
+msgid "Add an inbound phone call to this ticket"
+msgstr "Ajouter un appel téléphonique entrant à ce ticket"
+
+#. SysConfig
+msgid "Add an outbound phone call to this ticket"
+msgstr "Ajouter un appel téléphonique sortant à ce ticket"
 
 #. SysConfig
 msgid "Added email. %s"
@@ -14647,7 +14700,7 @@ msgstr ""
 
 #. SysConfig
 msgid "After"
-msgstr ""
+msgstr "Après"
 
 #. SysConfig
 msgid "Agent Name"
@@ -15020,7 +15073,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Bulgarian"
-msgstr ""
+msgstr "Bulgare"
 
 #. SysConfig
 msgid ""
@@ -15085,7 +15138,7 @@ msgstr "Changer la priorité de ce ticket"
 
 #. SysConfig
 msgid "Change the responsible for this ticket"
-msgstr ""
+msgstr "Changer le responsable de ce ticket"
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
@@ -15123,11 +15176,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Chinois (simplifié)"
 
 #. SysConfig
 msgid "Chinese (Traditional)"
-msgstr ""
+msgstr "Chinois (traditionnel)"
 
 #. SysConfig
 msgid ""
@@ -15136,7 +15189,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr "Tickets fermés (utilisateur client)"
+msgstr "Tickets clôturés (utilisateur client)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
@@ -15424,7 +15477,7 @@ msgstr "Créer et gérer les services web."
 
 #. SysConfig
 msgid "Create new Ticket."
-msgstr ""
+msgstr "Créer un nouveau ticket."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
@@ -15448,7 +15501,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create tickets."
-msgstr ""
+msgstr "Créer un ticket."
 
 #. SysConfig
 msgid "Croatian"
@@ -15456,7 +15509,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "Flux RSS personnalisé"
 
 #. SysConfig
 msgid ""
@@ -15647,15 +15700,15 @@ msgstr "ID de file par défaut utilisée par le système dans l'interface opéra
 
 #. SysConfig
 msgid "Default skin for the agent interface (slim version)."
-msgstr ""
+msgstr "Thème par défaut pour l'interface opérateur (version slim)."
 
 #. SysConfig
 msgid "Default skin for the agent interface."
-msgstr ""
+msgstr "Thème par défaut pour l'interface opérateur."
 
 #. SysConfig
 msgid "Default skin for the customer interface."
-msgstr ""
+msgstr "Thème par défaut pour l'interface client."
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the agent interface."
@@ -17871,10 +17924,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -19031,6 +19080,13 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If enabled, OTRS will deliver all CSS files in minified form. WARNING: If "
 "you turn this off, there will likely be problems in IE 7, because it cannot "
 "load more than 32 CSS files."
@@ -19838,7 +19894,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr "Aperçu de tous les tickets ouverts"
+msgstr "Vue d'ensemble des tickets ouverts"
 
 #. SysConfig
 msgid "Overview of all open tickets."
@@ -20165,7 +20221,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Queue view"
-msgstr "Vue Files"
+msgstr "Vue par files"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -20368,11 +20424,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Russian"
-msgstr ""
+msgstr "Russe"
 
 #. SysConfig
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #. SysConfig
 msgid "SMS (Short Message Service)"
@@ -20414,7 +20470,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Search User"
-msgstr ""
+msgstr "Rechercher un utilisateur"
 
 #. SysConfig
 msgid "Search backend default router."
@@ -20426,7 +20482,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Search."
-msgstr ""
+msgstr "Rechercher."
 
 #. SysConfig
 msgid "Second Queue"
@@ -20443,7 +20499,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Sélectionnez la langue de l'interface principale."
 
 #. SysConfig
 msgid "Select your default spelling dictionary."
@@ -20451,10 +20507,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
-msgstr ""
+msgstr "Sélectionnez votre thème préféré pour OTRS."
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
+msgstr "Sélectionnez votre thème préféré pour OTRS."
+
+#. SysConfig
+msgid "Select your time zone."
 msgstr ""
 
 #. SysConfig
@@ -20484,7 +20544,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Send new outgoing mail from this ticket"
-msgstr ""
+msgstr "Envoyer un mail à partir de ce ticket"
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -20544,7 +20604,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Set a new password by filling in your current password and a new one."
-msgstr ""
+msgstr "Définissez un nouveau mot de passe en renseignant votre mot de passe actuel et le nouveau."
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -22092,7 +22152,7 @@ msgstr "Stat#"
 
 #. SysConfig
 msgid "Status view"
-msgstr "Vue par état"
+msgstr "Vue par statut"
 
 #. SysConfig
 msgid "Stores cookies after the browser has been closed."
@@ -22278,6 +22338,10 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "This is a description for TimeZone on Customer side."
+msgstr ""
+
+#. SysConfig
 msgid "This is the default orange - black skin for the customer interface."
 msgstr ""
 
@@ -22339,11 +22403,11 @@ msgstr ""
 
 #. SysConfig
 msgid "This will allow the system to send text messages via SMS."
-msgstr ""
+msgstr "Cela va autoriser le système à envoyer des messages par SMS."
 
 #. SysConfig
 msgid "Ticket Close."
-msgstr ""
+msgstr "Ticket fermé."
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
@@ -22371,7 +22435,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr ""
+msgstr "Ticket verrouillé."
 
 #. SysConfig
 msgid "Ticket Merge."
@@ -22399,7 +22463,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Pending."
-msgstr ""
+msgstr "Ticket en attente."
 
 #. SysConfig
 msgid "Ticket Print."
@@ -22407,7 +22471,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Priority."
-msgstr ""
+msgstr "Priorité du ticket."
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -22451,7 +22515,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "Titre du ticket"
 
 #. SysConfig
 msgid "Ticket zoom view."
@@ -22463,7 +22527,7 @@ msgstr "NuméroTicket"
 
 #. SysConfig
 msgid "Tickets."
-msgstr ""
+msgstr "Tickets."
 
 #. SysConfig
 msgid ""
@@ -22481,7 +22545,7 @@ msgstr ""
 
 #. SysConfig
 msgid "To download attachments."
-msgstr ""
+msgstr "Pour télécharger les pièces jointes."
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
@@ -22640,7 +22704,7 @@ msgstr "Voir les résultats du benchmark de performance."
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr "Surveiller ce ticket."
+msgstr "Suivre ce ticket"
 
 #. SysConfig
 msgid "Watched Tickets."
@@ -22693,7 +22757,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
-msgstr ""
+msgstr "Oui mais masquer les tickets archivés"
 
 #. SysConfig
 msgid ""
@@ -22715,7 +22779,7 @@ msgstr ""
 
 #. SysConfig
 msgid "attachment"
-msgstr ""
+msgstr "pièce jointe"
 
 #. SysConfig
 msgid "bounce"
@@ -22731,15 +22795,15 @@ msgstr ""
 
 #. SysConfig
 msgid "error"
-msgstr ""
+msgstr "erreur"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "transférer"
 
 #. SysConfig
 msgid "info"
-msgstr ""
+msgstr "information"
 
 #. SysConfig
 msgid "inline"
@@ -22751,7 +22815,7 @@ msgstr ""
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "en attente"
 
 #. SysConfig
 msgid "responsible"
@@ -22759,4 +22823,4 @@ msgstr ""
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "statistiques"

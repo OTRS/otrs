@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.999596367305752;
+    $Self->{Completeness}        = 0.998189134808853;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -853,7 +853,7 @@ sub Data {
         'Edit Attachment' => 'Melléklet szerkesztése',
 
         # Template: AdminAutoResponse
-        'Auto Response Management' => 'Automatikus válaszkezelés',
+        'Auto Response Management' => 'Automatikus válasz kezelés',
         'Add auto response' => 'Automatikus válasz hozzáadása',
         'Add Auto Response' => 'Automatikus válasz hozzáadása',
         'Edit Auto Response' => 'Automatikus válasz szerkesztése',
@@ -1598,6 +1598,8 @@ sub Data {
             'Ez a nyelv nincs jelen vagy nincs engedélyezve a rendszeren. Ez az értesítési szöveg törölhető, ha többé nincs rá szükség.',
         'Remove Notification Language' => 'Értesítési nyelv eltávolítása',
         'Message body' => 'Üzenettörzs',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Új értesítési nyelv hozzáadása',
         'Do you really want to delete this notification language?' => 'Valóban törölni szeretné ezt az értesítési nyelvet?',
         'Tag Reference' => 'Címke hivatkozás',
@@ -1823,7 +1825,7 @@ sub Data {
         'Average' => 'Átlag',
 
         # Template: AdminPostMasterFilter
-        'PostMaster Filter Management' => 'Levelezési szűrőkezelés',
+        'PostMaster Filter Management' => 'Levelezési szűrő kezelés',
         'Add filter' => 'Szűrő hozzáadása',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Az e-mail fejléceken alapuló bejövő e-mailek kézbesítéséhez vagy szűréséhez. A reguláris kifejezések használatával való illesztés szintén lehetséges.',
@@ -2947,6 +2949,12 @@ sub Data {
         'You can' => 'Lehetőségei',
         'go back to the previous page' => 'visszatérés az előző oldalra',
 
+        # Template: CustomerAccept
+        'Information' => 'Információ',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Hiba történt',
         'Error Details' => 'Hiba részletei',
@@ -3064,7 +3072,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Csevegés indítása ebből a jegyből',
         'Expand article' => 'Bejegyzés kinyitása',
-        'Information' => 'Információ',
         'Next Steps' => 'Következő lépések',
         'Reply' => 'Válasz',
         'Chat Protocol' => 'Csevegés protokoll',
@@ -3502,6 +3509,8 @@ sub Data {
             'Az importált fájl nem rendelkezik érvényes YAML tartalommal! A részletekért nézze meg az OTRS naplóját.',
         'Web service "%s" deleted!' => 'A(z) „%s” webszolgáltatás törölve!',
         'New Web service' => 'Új webszolgáltatás',
+        'Operations' => 'Műveletek',
+        'Invokers' => 'Meghívók',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Nem kaptam webszolgáltatás előzmény-azonosítót!',
@@ -3656,6 +3665,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Várólisták (automatikus válaszok nélkül)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Produktív',
+        'Test' => 'Teszt',
+        'Training' => 'Oktatási',
+        'Development' => 'Fejlesztői',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4126,6 +4141,8 @@ sub Data {
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Nem sikerült beolvasni az értesítés beállítófájlját. Győződjön meg arról, hogy a fájl érvényes-e.',
+        'Imported notification has body text with more than 4000 characters.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nincs telepítve',
@@ -4498,10 +4515,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
-            '',
+            'A hitelesítés sikerült, de nem található felhasználói adatrekord az adatbázisban. Vegye fel a kapcsolatot a rendszergazdával.',
         'Can`t remove SessionID.' => 'Nem lehet eltávolítani a munkamenet-azonosítót.',
         'Logout successful.' => 'Sikeres kilépés.',
-        'Error: invalid session.' => '',
+        'Error: invalid session.' => 'Hiba: érvénytelen munkamenet.',
         'No Permission to use this frontend module!' => 'Nincs jogosultsága ezen előtétprogram-modul használatához!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
@@ -4658,6 +4675,8 @@ Az Ön segélyszolgálat csapata
             'A jegyarchiváló rendszert aktiválja, hogy felgyorsítsa a rendszert néhány jegy áthelyezésével a napi áttekintőből.',
         'Activates time accounting.' => 'Az időelszámolást aktiválja.',
         'ActivityID' => 'Tevékenység-azonosító',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Bejövő telefonhívás hozzáadása ehhez a jegyhez',
         'Add an outbound phone call to this ticket' => 'Kimenő telefonhívás hozzáadása ehhez a jegyhez',
         'Added email. %s' => 'E-mail hozzáadva. %s',
@@ -5660,7 +5679,6 @@ Az Ön segélyszolgálat csapata
             'Meghatározza, hogy mely lehetőségek lesznek érvényesek a címzettnél (telefonos jegy) és a küldőnél (e-mail jegy) az ügyintézői felületen.',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             'Meghatározza, hogy mely várólisták lesznek érvényesek a jegy címzettjeinél az ügyfélfelületen.',
-        'Development' => 'Fejlesztői',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             'A „Content-Security-Policy” HTTP-fejléc letiltása a külső parancsfájltartalmak betöltésének engedélyezéséhez. Ezen HTTP-fejléc letiltása biztonsági probléma lehet! Csak akkor tiltsa le, ha tudja, hogy mit csinál!',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6006,6 +6024,8 @@ Az Ön segélyszolgálat csapata
             'Ha engedélyezve van, akkor a démon át fogja irányítani a szabványos hibafolyamot egy naplófájlba.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Ha engedélyezve van, akkor a démon át fogja irányítani a szabványos kimenetfolyamot egy naplófájlba.',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            'Ha engedélyezve van, akkor a démon ezt a könyvtárat fogja használni a PID-fájljai létrehozásához. Megjegyzés: állítsa le a démont, mielőtt bármit megváltoztatna, és csak akkor használja ezt a beállítást, ha az <$OTRSHome>/var/run/ nem használható.',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Ha engedélyezve van, akkor az OTRS minden CSS fájlt minimalizált formában fog kiszolgálni. FIGYELEM: Ha ezt kikapcsolja, akkor valószínűleg problémái lesznek IE7 alatt, mert az nem tud 32 CSS fájlnál többet betölteni.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6109,7 +6129,7 @@ Az Ön segélyszolgálat csapata
         'Lithuanian' => 'Litván',
         'Lock / unlock this ticket' => 'Jegy zárolása vagy feloldása',
         'Locked Tickets.' => 'Zárolt jegyek.',
-        'Locked ticket.' => 'Zárolt jegy.',
+        'Locked ticket.' => 'Jegy zárolva.',
         'Log file for the ticket counter.' => 'Naplófájl a jegyszámlálóhoz.',
         'Logged-In Users' => 'Bejelentkezett felhasználók',
         'Logout of customer panel.' => 'Az ügyfélpanel kijelentkezése.',
@@ -6417,6 +6437,7 @@ Az Ön segélyszolgálat csapata
         'Select your default spelling dictionary.' => 'Alapértelmezett helyesírás-ellenőrző szótár kiválasztása.',
         'Select your preferred layout for OTRS.' => 'Az előnyben részesített elrendezés kiválasztása az OTRS-hez.',
         'Select your preferred theme for OTRS.' => 'Az előnyben részesített téma kiválasztása az OTRS-hez.',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Kiválasztja a használandó gyorsítótár háttérprogramot.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Kiválasztja a modult a webes felületen keresztüli feltöltések kezeléséhez. A „DB” minden feltöltést adatbázisban tárol, az „FS” a fájlrendszert használja.',
@@ -6979,6 +7000,7 @@ Az Ön segélyszolgálat csapata
             'A tárgy elején lévő szöveg egy e-mail továbbításakor, például FW, Fwd vagy WG.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Ez az eseménymodul az ügyfél-felhasználó jellemzőit tárolja jegy típusú dinamikus mezőkként. Nézze meg a fenti beállítást ahhoz, hogy hogyan kell beállítani a leképezést.',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'Ez az alapértelmezett narancssárga-fekete felszín az ügyfélfelülethez.',
         'This is the default orange - black skin.' => 'Ez az alapértelmezett narancssárga-fekete felszín.',
@@ -7055,7 +7077,7 @@ Az Ön segélyszolgálat csapata
         'Unlock tickets that are past their unlock timeout.' => 'Jegyek feloldása, amelyek átlépték a feloldási időkorlátjukat.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
             'Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos házon kívül van.',
-        'Unlocked ticket.' => 'Feloldott jegy.',
+        'Unlocked ticket.' => 'Jegy feloldva.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             'A jegy „Megtekintett” jelzőjének frissítése, ha minden bejegyzést megtekintettek, vagy egy új bejegyzést hoztak létre.',
         'Updated SLA to %s (ID=%s).' => 'SLA frissítve erre: %s (ID=%s).',

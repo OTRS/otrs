@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.740867810292634;
+    $Self->{Completeness}        = 0.739637826961771;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1597,6 +1597,8 @@ sub Data {
             'この言語は存在しないか有効化されていません。必要が無いのであればこの通知文を削除できます。',
         'Remove Notification Language' => '通知する言語の削除',
         'Message body' => 'メッセージボディー',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => '新規通知言語を追加',
         'Do you really want to delete this notification language?' => 'この言語での通知を本当に削除しますか？',
         'Tag Reference' => 'タグリファレンス',
@@ -2866,7 +2868,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Customer User Login (complex search)' => '',
         '(e. g. U51*)' => '',
         'Customer User Login (exact match)' => '',
-        'Attachment Name' => '',
+        'Attachment Name' => '添付ファイル名',
         '(e. g. m*file or myfi*)' => '',
         'Created in Queue' => 'キューで作成された',
         'Lock state' => 'ロックの状態',
@@ -2930,7 +2932,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'by' => 'by',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            '',
+            '次の記事でリンクを開くには、CtrlキーまたはCmdキーまたはShiftキーを押しながらリンクをクリックする必要があります（ブラウザとOSによって異なります）。',
         'Close this message' => 'このメッセージを閉じる',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -2946,6 +2948,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'This feature requires cloud services.' => '',
         'You can' => '次のことができます: ',
         'go back to the previous page' => '直前のページに戻る',
+
+        # Template: CustomerAccept
+        'Information' => '情報',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
 
         # Template: CustomerError
         'An Error Occurred' => '',
@@ -3064,7 +3072,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'このチケットからチャットを開始する。',
         'Expand article' => '記事を展開',
-        'Information' => '情報',
         'Next Steps' => '次のステップ',
         'Reply' => '返信',
         'Chat Protocol' => 'チャットプロトコル',
@@ -3503,6 +3510,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Web service "%s" deleted!' => 'Webサービス "%s" を削除しました。',
         'New Web service' => '',
+        'Operations' => 'オペレーション',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => '',
@@ -3657,6 +3666,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => '自動応答が設定されていないキュー',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => '生産',
+        'Test' => '',
+        'Training' => 'トレーニング',
+        'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4126,6 +4141,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4657,6 +4674,8 @@ Thanks for your help!
             'チケット・アーカイブ・システムを有効にすることで、チケットの一部をデイリーの範囲から外し、システムのスピードを速くします。これらのチケットを検索する際には、チケット検索においてアーカイブ・フラッグを有効にする必要があります。',
         'Activates time accounting.' => 'タイム・アカウンティングを有効にします。',
         'ActivityID' => '',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => '受電の記録を追加します。',
         'Add an outbound phone call to this ticket' => '架電の記録を追加します。',
         'Added email. %s' => 'Added email. %s',
@@ -5676,7 +5695,6 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '顧客インタフェースで、チケットの受信者としてどのキューを有効とするかを定義します。',
-        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6024,6 +6042,8 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
             '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '有効にすると、OTRSは全CSSファイルを縮小した形で配信します。もし、これをオフにすると、IE7においては32CSSファイル以上をロードできないため、問題が発生する可能性が高いです。',
@@ -6437,6 +6457,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'ウェブ・インタフェースを通じてアップロードを取り扱うための、モジュールを選択します。"DB"は全てのアップロードをデータベースに格納し、"FS"はファイル・システムを使用します。',
@@ -6999,6 +7020,7 @@ Contentはダイナミック・フィールドの形式によって設定内容�
             'Eメールが転送された際の、件名の最初のテキストです。例：FW, Fwd, WG。',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'これは、デフォルトの黒地と橙色をモチーフにした、顧客インタフェース向けのスキンです。',
         'This is the default orange - black skin.' => 'これは、デフォルトの黒地と橙色をモチーフにしたスキンです。',

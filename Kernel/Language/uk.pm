@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.657921291624622;
+    $Self->{Completeness}        = 0.656740442655936;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -1593,6 +1593,8 @@ sub Data {
             'Цієї мови немає або вона не доступна в системі. Цей текст сповіщення може бути вилучений якщо він більше не потрібний.',
         'Remove Notification Language' => 'Видалити мову сповіщення',
         'Message body' => 'Тіло повідомлення',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Додати нову мову сповіщення',
         'Do you really want to delete this notification language?' => 'Ви дійсно хочете вилучити цю мову сповіщення?',
         'Tag Reference' => 'Тег посилання',
@@ -2942,6 +2944,12 @@ sub Data {
         'You can' => 'Ви можете',
         'go back to the previous page' => 'повернутися до попередньої сторінки',
 
+        # Template: CustomerAccept
+        'Information' => 'Інформація',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Виникла Помилка',
         'Error Details' => 'Деталі помилки',
@@ -3059,7 +3067,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Почати чат з цього квитка',
         'Expand article' => 'Розгорнути статтю',
-        'Information' => 'Інформація',
         'Next Steps' => 'Наступний крок',
         'Reply' => 'Відповісти',
         'Chat Protocol' => 'Протокол Чату',
@@ -3497,6 +3504,8 @@ sub Data {
             'Файл, що імпортується, не має правильного YAML вмісту! Будь ласка, перегляньте OTRS журнал для отримання детальної інформації.',
         'Web service "%s" deleted!' => 'Веб-службу "%s" вилучено!',
         'New Web service' => 'Нова Веб-служба',
+        'Operations' => '',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'WebserviceHistoryID не отримано!',
@@ -3651,6 +3660,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Черги (без автовідповідей)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => '',
+        'Test' => '',
+        'Training' => '',
+        'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4121,6 +4136,8 @@ sub Data {
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Не можу прочитати файл налаштування Сповіщень. Будь ласка, переконайтесь у чинності файлу.',
+        'Imported notification has body text with more than 4000 characters.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'не встановлено',
@@ -4246,13 +4263,13 @@ sub Data {
             'Пункт max_allowed_packet має бути більше 20 МБ.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
-        'Query Cache Size' => '',
+        'Query Cache Size' => 'Розмір кешу запиту',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
-            '',
+            'Параметр \'query_cache_size\' повинен використовуватися (вище 10 МБ, але не більше 512 МБ).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
-        'Default Storage Engine' => '',
-        'Table Storage Engine' => '',
+        'Default Storage Engine' => 'Типове знаряддя зберігання даних',
+        'Table Storage Engine' => 'Знараддя для зберігання таблиць',
         'Tables with a different storage engine than the default engine were found.' =>
             '',
 
@@ -4642,6 +4659,8 @@ Thanks for your help!
             '',
         'Activates time accounting.' => '',
         'ActivityID' => '',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => '',
         'Add an outbound phone call to this ticket' => '',
         'Added email. %s' => '',
@@ -5644,7 +5663,6 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => '',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5989,6 +6007,8 @@ Thanks for your help!
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
             '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
@@ -6401,6 +6421,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -6963,6 +6984,7 @@ Thanks for your help!
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',

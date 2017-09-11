@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.752169525731584;
+    $Self->{Completeness}        = 0.769014084507042;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1598,6 +1598,8 @@ sub Data {
             'Esta linguagem não está presente ou habilitada no sistema. Este texto de notificação pode ser excluído se não for mais necessário.',
         'Remove Notification Language' => 'Remover notificação de idioma',
         'Message body' => 'Corpo da mensagem',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Adicionar novo idioma notificação',
         'Do you really want to delete this notification language?' => 'Você realmente quer apagar este idioma notificação?',
         'Tag Reference' => 'Referência de Tag',
@@ -2947,6 +2949,12 @@ sub Data {
         'You can' => 'Você pode',
         'go back to the previous page' => 'retornar à página anterior',
 
+        # Template: CustomerAccept
+        'Information' => 'Informação',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Ocorreu um erro.',
         'Error Details' => 'Detalhes do Erro',
@@ -3064,7 +3072,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Iniciar um bate-papo desse chamado',
         'Expand article' => 'Expandir artigo',
-        'Information' => 'Informação',
         'Next Steps' => 'Pŕoximos Passos',
         'Reply' => 'Responder',
         'Chat Protocol' => 'Protocolo de bate-papo',
@@ -3502,6 +3509,8 @@ sub Data {
             'O arquivo importado tem conteúdo YAML inválido! Por favor, verifique o log do OTRS para obter mais detalhes',
         'Web service "%s" deleted!' => 'Web service "%s" excluído!',
         'New Web service' => 'Novo web service',
+        'Operations' => 'Operações',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Não há WebserviceHistoryID!',
@@ -3656,6 +3665,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Filas (sem auto respostas)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Produção',
+        'Test' => 'Teste',
+        'Training' => 'Treinamento',
+        'Development' => 'Desenvolvimento',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4099,16 +4114,16 @@ sub Data {
         # Perl Module: Kernel/System/AuthSession.pm
         'You have exceeded the number of concurrent agents - contact sales@otrs.com.' =>
             '',
-        'Please note that the session limit is almost reached.' => '',
+        'Please note that the session limit is almost reached.' => 'Por favor note que o limite da sessão está quase alcançado.',
         'Login rejected! You have exceeded the maximum number of concurrent Agents! Contact sales@otrs.com immediately!' =>
             '',
-        'Session per user limit reached!' => '',
+        'Session per user limit reached!' => 'Limite de sessão por usuário atingido!',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
         'Configuration Options Reference' => 'Referência de opções de configuração',
-        'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
-        'This setting can not be deactivated.' => '',
+        'This setting can not be changed.' => 'Esta configuração não pode ser alterada.',
+        'This setting is not active by default.' => 'Esta configuração não está ativa por padrão.',
+        'This setting can not be deactivated.' => 'Esta configuração não pode ser desativada.',
 
         # Perl Module: Kernel/System/CustomerUser.pm
         'Customer user "%s" already exists.' => '',
@@ -4118,20 +4133,22 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
-        'e.g. Text or Te*t' => '',
+        'e.g. Text or Te*t' => 'ex.: Text ou Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
-        'Ignore this field.' => '',
+        'Ignore this field.' => 'Ignore este campo.',
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             '',
+        'Imported notification has body text with more than 4000 characters.' =>
+            '',
 
         # Perl Module: Kernel/System/Package.pm
-        'not installed' => '',
-        'File is not installed!' => '',
-        'File is different!' => '',
-        'Can\'t read file!' => '',
+        'not installed' => 'não instalado',
+        'File is not installed!' => 'Arquivo não instalado!',
+        'File is different!' => 'Arquivo é diferente!',
+        'Can\'t read file!' => 'Não pode ler o arquivo!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4142,7 +4159,7 @@ sub Data {
         'FadeAway' => '',
 
         # Perl Module: Kernel/System/Registration.pm
-        'Can\'t get Token from sever' => '',
+        'Can\'t get Token from sever' => 'Não foi possível obter o Token do servidor',
 
         # Perl Module: Kernel/System/Stats.pm
         'Sum' => 'Soma',
@@ -4179,7 +4196,7 @@ sub Data {
         'Number of Articles' => 'Número de Artigos',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '',
+        'unlimited' => 'ilimitado',
         'ascending' => 'ascendente',
         'descending' => 'descendente',
         'Attributes to be printed' => 'Atributos a serem impressos',
@@ -4344,7 +4361,7 @@ sub Data {
         'Tickets Per Month (avg)' => 'Chamados por Mês (méd.)',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
-        'Default SOAP Username And Password' => '',
+        'Default SOAP Username And Password' => 'Usuário e Senha SOAP padrão',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
             'Risco de segurança: você usou uma configuração padrão para SOAP::User e SOAP::Password. Por favor altere-a.',
 
@@ -4358,8 +4375,8 @@ sub Data {
         'There are error reports in your system log.' => 'Existem erros informados no log do sistema.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
-        'FQDN (domain name)' => '',
-        'Please configure your FQDN setting.' => '',
+        'FQDN (domain name)' => 'FQDN (nome do domínio)',
+        'Please configure your FQDN setting.' => 'Por favor configure o seu FQDN.',
         'Domain Name' => 'Nome de Domínio',
         'Your FQDN setting is invalid.' => 'Suas configurações de FQDN estão inválidas.',
 
@@ -4369,9 +4386,9 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/PackageDeployment.pm
         'Package Installation Status' => 'Estado da Instalação do Pacote',
-        'Some packages have locally modified files.' => '',
+        'Some packages have locally modified files.' => 'Alguns pacotes possuem arquivos modificados localmente.',
         'Some packages are not correctly installed.' => 'Alguns pacotes não foram instalados corretamente.',
-        'Package Verification Status' => '',
+        'Package Verification Status' => 'Status da verificação do pacote.',
         'Some packages are not verified by the OTRS Group! It is recommended not to use this packages.' =>
             '',
         'Package Framework Version Status' => '',
@@ -4425,8 +4442,8 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
-        'Time Settings' => '',
-        'Server time zone' => '',
+        'Time Settings' => 'Configurações de tempo',
+        'Server time zone' => 'Servidor de time zone',
         'Computed server time offset' => '',
         'OTRS TimeZone setting (global time offset)' => '',
         'TimeZone may only be activated for systems running in UTC.' => '',
@@ -4491,17 +4508,17 @@ sub Data {
         'SMIME sign only' => '',
         'SMIME encrypt only' => '',
         'SMIME sign and encrypt' => '',
-        'PGP and SMIME not enabled.' => '',
+        'PGP and SMIME not enabled.' => 'PGP e SMIME não habilitados.',
         'Skip notification delivery' => '',
-        'Send unsigned notification' => '',
-        'Send unencrypted notification' => '',
+        'Send unsigned notification' => 'Enviar notificação não-assinada',
+        'Send unencrypted notification' => 'Enviar notificação não-encriptada',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             '',
         'Can`t remove SessionID.' => '',
-        'Logout successful.' => '',
-        'Error: invalid session.' => '',
+        'Logout successful.' => 'Logout com sucesso.',
+        'Error: invalid session.' => 'Erro: sessão inválida.',
         'No Permission to use this frontend module!' => '',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
@@ -4510,15 +4527,15 @@ sub Data {
         'Reset password unsuccessful. Please contact the administrator.' =>
             '',
         'Added via Customer Panel (%s)' => '',
-        'Customer user can\'t be added!' => '',
-        'Can\'t send account info!' => '',
+        'Customer user can\'t be added!' => 'Usuário cliente não pode ser adicionado@',
+        'Can\'t send account info!' => 'Não foi possível enviar informações da conta!',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'Action "%s" not found!' => '',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
         'Group for default access.' => '',
-        'Group of all administrators.' => '',
+        'Group of all administrators.' => 'Grupo de todos os administradores.',
         'Group for statistics access.' => '',
         'All new state types (default: viewable).' => 'Todos os tipos de estado (padrão: visível).',
         'All open state types (default: viewable).' => 'Todos os tipos de estado aberto (padrão: visível).',
@@ -4547,7 +4564,7 @@ sub Data {
         'new ticket' => 'novo chamado',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
             '',
-        'Postmaster queue.' => '',
+        'Postmaster queue.' => 'Fila postmaster.',
         'All default incoming tickets.' => '',
         'All junk tickets.' => '',
         'All misc tickets.' => '',
@@ -4619,9 +4636,9 @@ Thanks for your help!
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '(Login) Sobrenome, Nome',
         '*** out of office until %s (%s d left) ***' => '',
-        '100 (Expert)' => '',
-        '200 (Advanced)' => '',
-        '300 (Beginner)' => '',
+        '100 (Expert)' => '100 (Especialista)',
+        '200 (Advanced)' => '200 (Avançado)',
+        '300 (Beginner)' => '300 (Iniciante)',
         'A TicketWatcher Module.' => '',
         'A Website' => 'Um website',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
@@ -4647,6 +4664,8 @@ Thanks for your help!
             'Ativa o sistema de arquivamento de chamados para ter um sistema mais rápido, movendo alguns chamados para fora do escopo diário. Para procurar por estes chamados, o marcador arquivado tem que ser habilitado na busca de chamado.',
         'Activates time accounting.' => 'Ativa a contabilização de tempo.',
         'ActivityID' => '',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Adicionar uma nota de chamada telefônica recebida a este chamado',
         'Add an outbound phone call to this ticket' => 'Adicionar uma nota de chamada telefônica realizada a este chamado',
         'Added email. %s' => 'E-mail adicionado (%s).',
@@ -4666,11 +4685,11 @@ Thanks for your help!
             '',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Adiciona os dias de vacância permanente. Por favor, utilize o padrão de um só dígito para números de 1 a 9 (em vez de 01..09).',
-        'Admin Area.' => '',
+        'Admin Area.' => 'Área Admin.',
         'After' => 'Depois',
-        'Agent Name' => '',
+        'Agent Name' => 'Nome do Agente',
         'Agent Name + FromSeparator + System Address Display Name' => '',
-        'Agent Preferences.' => '',
+        'Agent Preferences.' => 'Preferências do Agente.',
         'Agent called customer.' => 'Atendente telefonou para cliente.',
         'Agent interface article notification module to check PGP.' => 'Módulo de notificação de artigo da interface de atendente para validar o PGP.',
         'Agent interface article notification module to check S/MIME.' =>
@@ -4755,7 +4774,7 @@ Thanks for your help!
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Permite definir um novo estado de chamado na tela de movimentação de chamado da interface de atendente.',
         'Always show RichText if available' => 'Sempre exibir RichText se disponível',
-        'Arabic (Saudi Arabia)' => '',
+        'Arabic (Saudi Arabia)' => 'Arábico (Arábia Saudita)',
         'Archive state changed: "%s"' => 'Estado de arquivamento alterado: "%s".',
         'ArticleTree' => 'Árvore de Artigo',
         'Attachments <-> Templates' => 'Anexos <-> Modelos',
@@ -4775,7 +4794,7 @@ Thanks for your help!
             'Automaticamente ajustar o responsável de um chamado (caso não esteja definido ainda) após a primeira atualização de proprietário.',
         'Balanced white skin by Felix Niklas (slim version).' => '',
         'Balanced white skin by Felix Niklas.' => 'Pele branca balanceada por Felix Niklas.',
-        'Based on global RichText setting' => '',
+        'Based on global RichText setting' => 'Baseado na configuração global RichText',
         'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
             '',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
@@ -4796,7 +4815,7 @@ Thanks for your help!
         'Cache time in seconds for the ticket process navigation bar output module.' =>
             '',
         'Cache time in seconds for the web service config backend.' => '',
-        'Catalan' => '',
+        'Catalan' => 'Catalão',
         'Change password' => 'Alterar senha',
         'Change queue!' => 'Alterar fila!',
         'Change the customer for this ticket' => 'Alterar o Cliente deste Chamado',
@@ -4814,8 +4833,8 @@ Thanks for your help!
         'Checks the availability of OTRS Business Solution™ for this system.' =>
             '',
         'Checks the entitlement status of OTRS Business Solution™.' => '',
-        'Chinese (Simplified)' => '',
-        'Chinese (Traditional)' => '',
+        'Chinese (Simplified)' => 'Chinês (Simplificado)',
+        'Chinese (Traditional)' => 'Chinês (Tradicional)',
         'Choose for which kind of ticket changes you want to receive notifications.' =>
             'Escolha para quais tipos de alterações em chamados você gostaria de receber notificações.',
         'Closed tickets (customer user)' => 'Chamados fechados (usuário cliente)',
@@ -4849,7 +4868,7 @@ Thanks for your help!
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
-        'Complex' => '',
+        'Complex' => 'Complexo',
         'Configure Processes.' => 'Configurar Processos.',
         'Configure and manage ACLs.' => 'Configurar e gerenciar ACLs.',
         'Configure any additional readonly mirror databases that you want to use.' =>
@@ -4904,7 +4923,7 @@ Thanks for your help!
         'Create new phone ticket.' => '',
         'Create new process ticket.' => '',
         'Create tickets.' => '',
-        'Croatian' => '',
+        'Croatian' => 'Croata',
         'Custom RSS Feed' => 'RSS Feed customizado',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
@@ -4936,14 +4955,14 @@ Thanks for your help!
         'Czech' => '',
         'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
             '',
-        'Danish' => '',
+        'Danish' => 'Dinamarquês',
         'Data used to export the search result in CSV format.' => 'Os dados utilizados para exportar o resultado da pesquisa no formato CSV.',
         'Date / Time' => 'Data / Hora',
         'Debug' => '',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             'Depura a tradução definida. Se isso for ajustado para "Sim" todas as cadeias (texto), sem traduções são escritas no stderr. Isso pode ser útil quando você está criando um novo arquivo de tradução. Caso contrário, essa opção deve permanecer definida para "Não ".',
-        'Default' => '',
-        'Default (Slim)' => '',
+        'Default' => 'Padrão',
+        'Default (Slim)' => 'Padrão (fino)',
         'Default ACL values for ticket actions.' => 'Valores padrão de ACL para as ações de chamado.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             '',
@@ -5649,7 +5668,6 @@ Thanks for your help!
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => 'Desenvolvimento',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -5766,7 +5784,7 @@ Thanks for your help!
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
             '',
-        'Enables spell checker support.' => '',
+        'Enables spell checker support.' => 'Habilita suporte do corretor ortográfico.',
         'Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).' =>
             '',
         'Enables ticket bulk action feature for the agent frontend to work on more than one ticket at a time.' =>
@@ -5776,9 +5794,9 @@ Thanks for your help!
         'Enables ticket responsible feature, to keep track of a specific ticket.' =>
             '',
         'Enables ticket watcher feature only for the listed groups.' => '',
-        'English (Canada)' => '',
-        'English (United Kingdom)' => '',
-        'English (United States)' => '',
+        'English (Canada)' => 'Inglês (Canadá)',
+        'English (United Kingdom)' => 'Inglês (Reino Unido)',
+        'English (United States)' => 'Inglês (Estados Unidos)',
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Enroll process for this ticket' => '',
@@ -5795,7 +5813,7 @@ Thanks for your help!
         'Escalation update time in effect' => 'Escalação - Prazo de atualização em vigor.',
         'Escalation view' => 'Visão de Escalação',
         'EscalationTime' => 'Horário de Escalação',
-        'Estonian' => '',
+        'Estonian' => 'Estoniano',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -5838,7 +5856,7 @@ Thanks for your help!
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Filtrar e-mails de entrada.',
-        'Finnish' => '',
+        'Finnish' => 'Filândes',
         'First Queue' => 'Primeira Fila',
         'FirstLock' => 'Primeiro Bloqueio',
         'FirstResponse' => 'Primeira Resposta',
@@ -5854,8 +5872,8 @@ Thanks for your help!
         'Forces to unlock tickets after being moved to another queue.' =>
             'Força o desbloqueio de chamados após serem movidos para outra fila.',
         'Forwarded to "%s".' => 'Encaminhado para "%s".',
-        'French' => '',
-        'French (Canada)' => '',
+        'French' => 'Frnacês',
+        'French (Canada)' => 'Francês (Canadá)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Frontend' => '',
@@ -5871,14 +5889,14 @@ Thanks for your help!
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Tema da interface',
         'Frontend theme.' => '',
-        'Full value' => '',
+        'Full value' => 'Valor total',
         'Fulltext index regex filters to remove parts of the text.' => '',
         'Fulltext search' => 'Busca em todo o texto',
-        'Galician' => '',
+        'Galician' => 'Galega',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'Generate dashboard statistics.' => '',
-        'Generic Info module.' => '',
+        'Generic Info module.' => 'Módulo de informação genérica.',
         'GenericAgent' => 'Atendente Genérico',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface Invoker GUI' => '',
@@ -5894,7 +5912,7 @@ Thanks for your help!
             '',
         'GenericInterface module registration for the transport layer.' =>
             '',
-        'German' => '',
+        'German' => 'Alemão',
         'German stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
@@ -5905,14 +5923,14 @@ Thanks for your help!
         'Graph: Bar Chart' => '',
         'Graph: Line Chart' => '',
         'Graph: Stacked Area Chart' => '',
-        'Greek' => '',
-        'HTML Reference' => '',
-        'HTML Reference.' => '',
-        'Hebrew' => '',
+        'Greek' => 'Grego',
+        'HTML Reference' => 'Referência HTML',
+        'HTML Reference.' => 'Referência HTML.',
+        'Hebrew' => 'Hebreu',
         'Helps to extend your articles full-text search (From, To, Cc, Subject and Body search). Runtime will do full-text searches on live data (it works fine for up to 50.000 tickets). StaticDB will strip all articles and will build an index after article creation, increasing fulltext searches about 50%. To create an initial index use "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild".' =>
             '',
-        'Hindi' => '',
-        'Hungarian' => '',
+        'Hindi' => 'Hindu',
+        'Hungarian' => 'Húngaro',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
@@ -5995,6 +6013,8 @@ Thanks for your help!
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
+            '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6035,8 +6055,8 @@ Thanks for your help!
         'Incoming Phone Call.' => 'Telefonema Recebido.',
         'IndexAccelerator: to choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table (no performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in the system). "StaticDB" is the most powerful module, it uses an extra ticket-index table that works like a view (recommended if more than 80.000 and 6.000 open tickets are stored in the system). Use the command "bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild" for initial index creation.' =>
             '',
-        'Indonesian' => '',
-        'Input' => '',
+        'Indonesian' => 'Indonésio',
+        'Input' => 'Entrada',
         'Install ispell or aspell on the system, if you want to use a spell checker. Please specify the path to the aspell or ispell binary on your operating system.' =>
             '',
         'Interface language' => 'Linguagem da Interface',
@@ -6046,19 +6066,19 @@ Thanks for your help!
             '',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '',
-        'Italian' => '',
+        'Italian' => 'Italiano',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
-        'Ivory' => '',
-        'Ivory (Slim)' => '',
-        'Japanese' => '',
+        'Ivory' => 'Marfim',
+        'Ivory (Slim)' => 'Marfim (fino)',
+        'Japanese' => 'Japonês',
         'JavaScript function for the search frontend.' => '',
         'Last customer subject' => '',
         'Lastname Firstname' => '',
         'Lastname Firstname (UserLogin)' => '',
         'Lastname, Firstname' => 'Sobrenome, Nome',
         'Lastname, Firstname (UserLogin)' => 'Sobrenome, Nome (Login)',
-        'Latvian' => '',
+        'Latvian' => 'Letão',
         'Left' => 'Esquerda',
         'Link Object' => 'Associar Objeto',
         'Link Object.' => '',
@@ -6095,13 +6115,13 @@ Thanks for your help!
         'List of responsive CSS files to always be loaded for the customer interface.' =>
             '',
         'List view' => 'Visão de lista',
-        'Lithuanian' => '',
+        'Lithuanian' => 'Lituano',
         'Lock / unlock this ticket' => 'Bloquear / desbloquear este chamado',
         'Locked Tickets.' => 'Chamados Bloqueados.',
         'Locked ticket.' => 'Chamado bloqueado.',
         'Log file for the ticket counter.' => '',
-        'Logged-In Users' => '',
-        'Logout of customer panel.' => '',
+        'Logged-In Users' => 'Usuário logados',
+        'Logout of customer panel.' => 'Logout do painel de clientes.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Proteção de loop! Autorresposta enviada para "%s".',
         'Mail Accounts' => 'Contas de E-mail',
         'Main menu registration.' => '',
@@ -6110,7 +6130,7 @@ Thanks for your help!
         'Makes the application check the syntax of email addresses.' => '',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
-        'Malay' => '',
+        'Malay' => 'Malásio',
         'Manage OTRS Group cloud services.' => 'Gerenciar serviços de nuvem OTRS Group.',
         'Manage PGP keys for email encryption.' => 'Gerenciar chaves PGP para encriptação de e-mail.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Gerenciar contas POP3 e IMAP para buscar e-mails.',
@@ -6195,7 +6215,7 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'Nederlands' => '',
+        'Nederlands' => 'Holandês',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Novo chamado [%s] foi criado (F=%s;P=%s;E=%s).',
         'New Window' => 'Nova Janela',
         'New owner is "%s" (ID=%s).' => 'Novo proprietário é "%s" (ID=%s).',
@@ -6206,7 +6226,7 @@ Thanks for your help!
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'None' => 'Nenhum',
-        'Norwegian' => '',
+        'Norwegian' => 'Norueguês',
         'Notification sent to "%s".' => 'Notificação enviada para "%s".',
         'Number of displayed tickets' => 'Número de Chamados Exibidos',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
@@ -6220,7 +6240,7 @@ Thanks for your help!
         'Old: "%s" New: "%s"' => 'Ant.: "%s" Novo: "%s".',
         'Open tickets (customer user)' => 'Chamados abertos (usuário cliente)',
         'Open tickets (customer)' => 'Chamados abertos (cliente)',
-        'Option' => '',
+        'Option' => 'Opção',
         'Optional queue limitation for the CreatorCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Optional queue limitation for the InvolvedCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
@@ -6238,7 +6258,7 @@ Thanks for your help!
         'Overview of all open Tickets.' => 'Visão Geral de Todos os Chamados Abertos',
         'Overview of all open tickets.' => 'Revisão de todos os chamados abertos.',
         'Overview of customer tickets.' => 'Revisão de chamados de clientes.',
-        'PGP Key Management' => '',
+        'PGP Key Management' => 'Gerenciamento de chaves PGP',
         'Package event module file a scheduler task for update registration.' =>
             '',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
@@ -6294,12 +6314,12 @@ Thanks for your help!
             '',
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
-        'Persian' => '',
+        'Persian' => 'Persa',
         'Phone Call.' => 'Telefonema.',
         'Picture Upload' => '',
         'Picture upload module.' => '',
         'Picture-Upload' => '',
-        'Polish' => '',
+        'Polish' => 'Polonês',
         'Portuguese' => 'Português',
         'Portuguese (Brasil)' => 'Português (Brasil)',
         'PostMaster Filters' => 'Filtros PostMaster',
@@ -6382,9 +6402,9 @@ Thanks for your help!
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
-        'Russian' => '',
-        'SMS' => '',
-        'SMS (Short Message Service)' => '',
+        'Russian' => 'Russo',
+        'SMS' => 'SMS',
+        'SMS (Short Message Service)' => 'SMS (Serviço de Mensagens Curtas)',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
@@ -6406,6 +6426,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => '',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -6827,11 +6848,11 @@ Thanks for your help!
             '',
         'Shows time use complete description (days, hours, minutes), if set to "Yes"; or just first letter (d, h, m), if set to "No".' =>
             '',
-        'Simple' => '',
+        'Simple' => 'Simples',
         'Skin' => 'Tema',
         'Slovak' => 'Eslovaco',
         'Slovenian' => 'Esloveno',
-        'Software Package Manager.' => '',
+        'Software Package Manager.' => 'Gerenciado de pacote de software.',
         'SolutionDiffInMin' => 'Delta de tempo de solução em minutos',
         'SolutionInMin' => 'Tempo de solução em minutos',
         'Some description!' => 'Uma descrição!',
@@ -6840,7 +6861,7 @@ Thanks for your help!
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
             '',
-        'Spam' => '',
+        'Spam' => 'Spam',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
             '',
         'Spam Assassin example setup. Moves marked mails to spam queue.' =>
@@ -6900,7 +6921,7 @@ Thanks for your help!
         'Specify the username to authenticate for the first mirror database.' =>
             '',
         'Spell checker.' => '',
-        'Stable' => '',
+        'Stable' => 'Estável',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Define as permissões padrão disponíveis para atendentes dentro da aplicação. Se mais permissões são necessárias, elas podem ser adicionadas aqui. Permissões devem ser definidas para serem efetivas. Algumas outras permissões úteis foram definidas internamente: nota, fechar, lembrete de pendente, cliente, campos livres, mover, compor chamado, responsável, encaminhar e devolver. Assegure-se que a permissão "rw" é a última permissão registrada.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -6918,10 +6939,10 @@ Thanks for your help!
         'System Address Display Name' => '',
         'System Maintenance' => 'Manutenção do Sistema',
         'System Request (%s).' => 'Requisição de sistema (%s).',
-        'Target' => '',
+        'Target' => 'Alvo',
         'Templates <-> Queues' => 'Modelos <-> Filas',
         'Textarea' => 'Área de texto',
-        'Thai' => '',
+        'Thai' => 'Thailandês',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
             '',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
@@ -6968,6 +6989,7 @@ Thanks for your help!
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             '',
         'This is the default orange - black skin.' => '',
@@ -7055,8 +7077,8 @@ Thanks for your help!
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'Atualiza o índice da escalação de chamado depois que um atributo do chamado foi atualizado.',
         'Updates the ticket index accelerator.' => 'Atualizar o indexador Acelerador de Chamados.',
-        'Upload your PGP key.' => '',
-        'Upload your S/MIME certificate.' => '',
+        'Upload your PGP key.' => 'Envie a sua chave PGP.',
+        'Upload your S/MIME certificate.' => 'Envie o seu certificado S/MME.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Usa novos tipos de campos de seleção e com autocompletar na interface de agente (atendente) quando aplicável (InputFields).',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>

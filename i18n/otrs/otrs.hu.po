@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -3082,7 +3082,7 @@ msgstr "Melléklet szerkesztése"
 
 #. Template: AdminAutoResponse
 msgid "Auto Response Management"
-msgstr "Automatikus válaszkezelés"
+msgstr "Automatikus válasz kezelés"
 
 #. Template: AdminAutoResponse
 msgid "Add auto response"
@@ -5600,6 +5600,10 @@ msgid "Message body"
 msgstr "Üzenettörzs"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "Új értesítési nyelv hozzáadása"
 
@@ -6315,7 +6319,7 @@ msgstr "Átlag"
 
 #. Template: AdminPostMasterFilter
 msgid "PostMaster Filter Management"
-msgstr "Levelezési szűrőkezelés"
+msgstr "Levelezési szűrő kezelés"
 
 #. Template: AdminPostMasterFilter
 msgid "Add filter"
@@ -9787,6 +9791,22 @@ msgstr "Lehetőségei"
 msgid "go back to the previous page"
 msgstr "visszatérés az előző oldalra"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "Információ"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "Hiba történt"
@@ -10155,10 +10175,6 @@ msgstr "Csevegés indítása ebből a jegyből"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "Bejegyzés kinyitása"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "Információ"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11382,6 +11398,14 @@ msgstr "A(z) „%s” webszolgáltatás törölve!"
 msgid "New Web service"
 msgstr "Új webszolgáltatás"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr "Műveletek"
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr "Meghívók"
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "Nem kaptam webszolgáltatás előzmény-azonosítót!"
@@ -11822,6 +11846,22 @@ msgstr "Kattintson vissza, és változtassa meg!"
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "Várólisták (automatikus válaszok nélkül)"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr "Produktív"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr "Teszt"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr "Oktatási"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr "Fejlesztői"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13090,6 +13130,10 @@ msgid ""
 "valid."
 msgstr "Nem sikerült beolvasni az értesítés beállítófájlját. Győződjön meg arról, hogy a fájl érvényes-e."
 
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr "nincs telepítve"
@@ -14097,7 +14141,7 @@ msgstr "Titkosítatlan értesítés küldése"
 msgid ""
 "Authentication succeeded, but no user data record is found in the database. "
 "Please contact the administrator."
-msgstr ""
+msgstr "A hitelesítés sikerült, de nem található felhasználói adatrekord az adatbázisban. Vegye fel a kapcsolatot a rendszergazdával."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
@@ -14109,7 +14153,7 @@ msgstr "Sikeres kilépés."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "Hiba: érvénytelen munkamenet."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
@@ -14559,6 +14603,14 @@ msgstr "Az időelszámolást aktiválja."
 #. SysConfig
 msgid "ActivityID"
 msgstr "Tevékenység-azonosító"
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
+msgstr ""
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -17855,10 +17907,6 @@ msgid ""
 msgstr "Meghatározza, hogy mely várólisták lesznek érvényesek a jegy címzettjeinél az ügyfélfelületen."
 
 #. SysConfig
-msgid "Development"
-msgstr "Fejlesztői"
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -18824,7 +18872,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -19012,6 +19060,13 @@ msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
 msgstr "Ha engedélyezve van, akkor a démon át fogja irányítani a szabványos kimenetfolyamot egy naplófájlba."
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
+msgstr "Ha engedélyezve van, akkor a démon ezt a könyvtárat fogja használni a PID-fájljai létrehozásához. Megjegyzés: állítsa le a démont, mielőtt bármit megváltoztatna, és csak akkor használja ezt a beállítást, ha az <$OTRSHome>/var/run/ nem használható."
 
 #. SysConfig
 msgid ""
@@ -19370,7 +19425,7 @@ msgstr "Zárolt jegyek."
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "Zárolt jegy."
+msgstr "Jegy zárolva."
 
 #. SysConfig
 msgid "Log file for the ticket counter."
@@ -20440,6 +20495,10 @@ msgstr "Az előnyben részesített elrendezés kiválasztása az OTRS-hez."
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
 msgstr "Az előnyben részesített téma kiválasztása az OTRS-hez."
+
+#. SysConfig
+msgid "Select your time zone."
+msgstr ""
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -22262,6 +22321,10 @@ msgid ""
 msgstr "Ez az eseménymodul az ügyfél-felhasználó jellemzőit tárolja jegy típusú dinamikus mezőkként. Nézze meg a fenti beállítást ahhoz, hogy hogyan kell beállítani a leképezést."
 
 #. SysConfig
+msgid "This is a description for TimeZone on Customer side."
+msgstr ""
+
+#. SysConfig
 msgid "This is the default orange - black skin for the customer interface."
 msgstr "Ez az alapértelmezett narancssárga-fekete felszín az ügyfélfelülethez."
 
@@ -22533,7 +22596,7 @@ msgstr "Jegyek feloldása, amikor egy jegyzetet adnak hozzá és a tulajdonos h�
 
 #. SysConfig
 msgid "Unlocked ticket."
-msgstr "Feloldott jegy."
+msgstr "Jegy feloldva."
 
 #. SysConfig
 msgid ""

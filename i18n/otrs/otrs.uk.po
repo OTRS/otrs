@@ -6,11 +6,12 @@
 # Vira Motorko <ato4ka@i.ua>, 2015,2017
 # Vladimir Shlimovich <vladimir@shlimovich.info>, 2016
 # Олексій Ворошило <john.silver.heart@gmail.com>, 2017
+# Роман Свистун <svystun09@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-07-27 11:44+0000\n"
-"PO-Revision-Date: 2017-07-27 16:46+0000\n"
+"POT-Creation-Date: 2017-09-11 17:35+0000\n"
+"PO-Revision-Date: 2017-09-11 22:38+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otrs/OTRS/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -5596,6 +5597,10 @@ msgid "Message body"
 msgstr "Тіло повідомлення"
 
 #. Template: AdminNotificationEvent
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminNotificationEvent
 msgid "Add new notification language"
 msgstr "Додати нову мову сповіщення"
 
@@ -9783,6 +9788,22 @@ msgstr "Ви можете"
 msgid "go back to the previous page"
 msgstr "повернутися до попередньої сторінки"
 
+#. Template: CustomerAccept
+msgid "Information"
+msgstr "Інформація"
+
+#. Template: CustomerAccept
+msgid "Dear Customer,"
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "thank you for using our services."
+msgstr ""
+
+#. Template: CustomerAccept
+msgid "Yes, I accepted your license."
+msgstr ""
+
 #. Template: CustomerError
 msgid "An Error Occurred"
 msgstr "Виникла Помилка"
@@ -10151,10 +10172,6 @@ msgstr "Почати чат з цього квитка"
 #. Template: CustomerTicketZoom
 msgid "Expand article"
 msgstr "Розгорнути статтю"
-
-#. Template: CustomerTicketZoom
-msgid "Information"
-msgstr "Інформація"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -11378,6 +11395,14 @@ msgstr "Веб-службу \"%s\" вилучено!"
 msgid "New Web service"
 msgstr "Нова Веб-служба"
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Operations"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
+msgid "Invokers"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
 msgstr "WebserviceHistoryID не отримано!"
@@ -11818,6 +11843,22 @@ msgstr "Натисніть назад та змініть це!"
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
 msgstr "Черги (без автовідповідей)"
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Production"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Test"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Training"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRegistration.pm
+msgid "Development"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13086,6 +13127,10 @@ msgid ""
 "valid."
 msgstr "Не можу прочитати файл налаштування Сповіщень. Будь ласка, переконайтесь у чинності файлу."
 
+#. Perl Module: Kernel/System/NotificationEvent.pm
+msgid "Imported notification has body text with more than 4000 characters."
+msgstr ""
+
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
 msgstr "не встановлено"
@@ -13429,24 +13474,24 @@ msgstr "Пункт max_allowed_packet має бути більше 20 МБ."
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Розмір кешу запиту"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
-msgstr ""
+msgstr "Параметр 'query_cache_size' повинен використовуватися (вище 10 МБ, але не більше 512 МБ)."
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
-msgstr ""
+msgstr "Типове знаряддя зберігання даних"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Table Storage Engine"
-msgstr ""
+msgstr "Знараддя для зберігання таблиць"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
@@ -14554,6 +14599,14 @@ msgstr ""
 
 #. SysConfig
 msgid "ActivityID"
+msgstr ""
+
+#. SysConfig
+msgid "Add a comment."
+msgstr ""
+
+#. SysConfig
+msgid "Add a default name for Dynamic Field."
 msgstr ""
 
 #. SysConfig
@@ -17851,10 +17904,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Development"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
@@ -19007,6 +19056,13 @@ msgstr ""
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log "
 "file."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"If enabled the daemon will use this directory to create its PID files. Note:"
+" Please stop the daemon before any change and use this setting only if "
+"<$OTRSHome>/var/run/ can not be used."
 msgstr ""
 
 #. SysConfig
@@ -20435,6 +20491,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
+msgstr ""
+
+#. SysConfig
+msgid "Select your time zone."
 msgstr ""
 
 #. SysConfig
@@ -22255,6 +22315,10 @@ msgstr ""
 msgid ""
 "This event module stores attributes from CustomerUser as DynamicFields "
 "tickets. Please see the setting above for how to configure the mapping."
+msgstr ""
+
+#. SysConfig
+msgid "This is a description for TimeZone on Customer side."
 msgstr ""
 
 #. SysConfig

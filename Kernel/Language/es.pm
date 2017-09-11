@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.802018163471241;
+    $Self->{Completeness}        = 0.803219315895372;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1598,6 +1598,8 @@ sub Data {
             'Este idioma no está presente o activado en el sistema. Esta notificación puede eliminarse si ya no es necesaria.',
         'Remove Notification Language' => 'Quitar el Idioma de la Notificación',
         'Message body' => 'Cuerpo del Mensaje',
+        'This field is required and must have less than 4000 characters.' =>
+            '',
         'Add new notification language' => 'Agregar un nuevo idioma de notificación',
         'Do you really want to delete this notification language?' => '¿Realmente desear eliminar este idioma de notificación?',
         'Tag Reference' => 'Etiqueta de Referencia',
@@ -1639,7 +1641,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Administrar %s',
-        'Go to the OTRS customer portal' => '',
+        'Go to the OTRS customer portal' => 'Ir al portal del cliente OTRS',
         'Downgrade to OTRS Free' => 'Degradar a OTRS Gratis',
         'Read documentation' => 'Leer documentación',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1659,19 +1661,19 @@ sub Data {
         '%s Not Yet Available' => '%s No Está Aún Dsiponible',
         '%s will be available soon.' => '%s estará disponible pronto.',
         '%s Update Available' => '%s Actualización Disponible',
-        'Package installation requires patch level update of OTRS.' => '',
-        'Please visit our customer portal and file a request.' => '',
-        'Everything else will be done as part of your contract.' => '',
+        'Package installation requires patch level update of OTRS.' => 'La instalación del paquete requiere la actualización del nivél de OTRS.',
+        'Please visit our customer portal and file a request.' => 'Favor, visite nuestro portal del cliente y deje su solicitud.',
+        'Everything else will be done as part of your contract.' => 'Todo el resto se cumplirá cómo el parte de su contrato.',
         'Your installed OTRS version is %s.' => 'Su versión de OTRS instalada es %s.',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
-            '',
+            'Para instalar la versión actual de OTRS Business Solution™, necesita actualizar a OTRS %s o superior.',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
-            '',
+            'Para instalar la versión actual de OTRS Business Solution™, la versión máxima de OTRS es %s.',
         'To install this package, the required Framework version is %s.' =>
-            '',
-        'Why should I keep OTRS up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTRS issues' => '',
+            'Para instalar éste paquete, se requiere la versión %s del Framework.',
+        'Why should I keep OTRS up to date?' => '¿Porqué debo mantener OTRS actualizado?',
+        'You will receive updates about relevant security issues.' => 'Recibirás las actualizaciones acerca de los casos relevantes de la seguridad.',
+        'You will receive updates for all other relevant OTRS issues' => 'Recibirás las actualizaciones sobre todos los casos OTRS relevantes.',
         'An update for your %s is available! Please update at your earliest!' =>
             'Una actualización para tu %s está disponible! Por favor actualice cuanto antes!',
         '%s Correctly Deployed' => '%s Desplegado correctamente',
@@ -1689,8 +1691,8 @@ sub Data {
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Conexión a cloud.otrs.com a través de HTTPS no se pudo establecer . Por favor, asegúrese de que su OTRS puede conectarse a través del puerto 443 cloud.otrs.com.',
         'To install this package, you need to update to OTRS %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTRS Version is %s.' => '',
+            'Para instalar éste paquete necesitas actualizar a %sde OTRS o más.',
+        'To install this package, the Maximum OTRS Version is %s.' => 'Para instalar este paquete, la Máxima versión de OTRS es %s.',
         'With your existing contract you can only use a small part of the %s.' =>
             'Con su contrato existente sólo se puede utilizar una pequeña parte de la %s.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
@@ -1745,10 +1747,10 @@ sub Data {
         'Reinstall package' => 'Reinstalar paquete',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             '¿Realmente desea reinstalar este paquete? Se perderá cualquier cambio manual.',
-        'Go to upgrading instructions' => '',
-        'package information' => '',
-        'Package installation requires a patch level update of OTRS.' => '',
-        'Package update requires a patch level update of OTRS.' => '',
+        'Go to upgrading instructions' => 'Ir a las instrucciones de actualización.',
+        'package information' => 'información del paquete',
+        'Package installation requires a patch level update of OTRS.' => 'Instalación del paquete requiere un parche de actualización de OTRS. ',
+        'Package update requires a patch level update of OTRS.' => 'La actualización del paquete requiere un parche de actualización de OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             '',
         'Please note that your installed OTRS version is %s.' => '',
@@ -2947,6 +2949,12 @@ sub Data {
         'You can' => 'Puede',
         'go back to the previous page' => 'retroceder a la página anterior',
 
+        # Template: CustomerAccept
+        'Information' => 'Información',
+        'Dear Customer,' => '',
+        'thank you for using our services.' => '',
+        'Yes, I accepted your license.' => '',
+
         # Template: CustomerError
         'An Error Occurred' => 'Ha ocurrido un error',
         'Error Details' => 'Detalles del error',
@@ -3064,7 +3072,6 @@ sub Data {
         # Template: CustomerTicketZoom
         'Start a chat from this ticket' => 'Inicie un chat desde este ticket',
         'Expand article' => 'Expandir el artículo',
-        'Information' => 'Información',
         'Next Steps' => 'Siguientes pasos',
         'Reply' => 'Contestar',
         'Chat Protocol' => 'Protocolo de Chat',
@@ -3502,6 +3509,8 @@ sub Data {
             '¡El archivo importado no funciona con el contenido YAML!  Por favor, compruebe los registros de OTRS para más información',
         'Web service "%s" deleted!' => 'Servicio web "%s" borrado!',
         'New Web service' => 'Nuevo servicio de Web',
+        'Operations' => '',
+        'Invokers' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'No tiene Historia de ID de Servicio Web!',
@@ -3656,6 +3665,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
         'Queues ( without auto responses )' => 'Colas (sin respuestas automáticas)',
+
+        # Perl Module: Kernel/Modules/AdminRegistration.pm
+        'Production' => 'Producción',
+        'Test' => '',
+        'Training' => 'Entrenamiento',
+        'Development' => 'Desarrollo',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4126,6 +4141,8 @@ sub Data {
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
+            '',
+        'Imported notification has body text with more than 4000 characters.' =>
             '',
 
         # Perl Module: Kernel/System/Package.pm
@@ -4659,6 +4676,8 @@ Tu Equipo de Soporte
             'Activa el sistema de archivo de ticket para tener un sistema más rápido, moviendo algunos tickets fuera del ámbito cotidiano. Para buscar estos tickets, la bandera de archivo tiene que estar activada en la búsqueda de tickets .',
         'Activates time accounting.' => 'Activa la contabilidad del tiempo.',
         'ActivityID' => 'IDActividad',
+        'Add a comment.' => '',
+        'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Añadir una llamada telefónica entrante a este ticket ',
         'Add an outbound phone call to this ticket' => 'Añadir una llamada telefónica saliente a este ticket',
         'Added email. %s' => 'Correo añadido. %s',
@@ -5667,7 +5686,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Determines which queues will be valid for ticket\'s recepients in the customer interface.' =>
             '',
-        'Development' => 'Desarrollo',
         'Disable HTTP header "Content-Security-Policy" to allow loading of external script contents. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
             '',
         'Disable HTTP header "X-Frame-Options: SAMEORIGIN" to allow OTRS to be included as an IFrame in other websites. Disabling this HTTP header can be a security issue! Only disable it, if you know what you are doing!' =>
@@ -6012,6 +6030,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
+            '',
+        'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
             '',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             '',
@@ -6424,6 +6444,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Select your default spelling dictionary.' => '',
         'Select your preferred layout for OTRS.' => '',
         'Select your preferred theme for OTRS.' => 'Seleccione su tema preferido para OTRS.',
+        'Select your time zone.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '',
@@ -6986,6 +7007,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
+        'This is a description for TimeZone on Customer side.' => '',
         'This is the default orange - black skin for the customer interface.' =>
             'Este es el aspecto predeterminado naranja - negro para la interfaz del cliente.',
         'This is the default orange - black skin.' => 'Este es el aspecto predeterminado naranja - negro.',
