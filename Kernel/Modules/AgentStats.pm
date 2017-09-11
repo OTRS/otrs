@@ -1190,7 +1190,7 @@ sub Run {
             );
         }
 
-        if (!@Notify) {
+        if ( !@Notify ) {
 
             if ( $Param{StatID} eq 'new' ) {
 

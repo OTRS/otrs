@@ -424,7 +424,8 @@ $Self->Is(
 # Import a static statistic with not exsting object module
 
 # load example file
-my $PathNotExistingStatistic = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.Static.NotExisting.xml';
+my $PathNotExistingStatistic
+    = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.Static.NotExisting.xml';
 my $FilehandleNotExistingStatistic;
 if ( !open $FilehandleNotExistingStatistic, '<', $PathNotExistingStatistic ) {    ## no critic
     $Self->True(
