@@ -134,91 +134,70 @@ sub Run {
     # get current time-stamp
     my $Time = $TimeObject->SystemTime();
 
-    # get cache object
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    my $Online    = {
+        User => {
+            Agent    => {},
+            Customer => {},
+        },
+        UserCount => {
+            Agent    => 0,
+            Customer => 0,
+        },
+        UserData => {
+            Agent    => {},
+            Customer => {},
+        },
+    };
 
-    my $Online;
+    # get database object
+    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    # get session info
-    my $CacheUsed = 1;
-    if ( !$Online ) {
+    # get session ids
+    my @Sessions = $SessionObject->GetAllSessionIDs();
 
-        $CacheUsed = 0;
-        $Online    = {
-            User => {
-                Agent    => {},
-                Customer => {},
-            },
-            UserCount => {
-                Agent    => 0,
-                Customer => 0,
-            },
-            UserData => {
-                Agent    => {},
-                Customer => {},
-            },
-        };
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-        # get database object
-        my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+    SESSIONID:
+    for my $SessionID (@Sessions) {
 
-        # get session ids
-        my @Sessions = $SessionObject->GetAllSessionIDs();
+        next SESSIONID if !$SessionID;
 
-        # get user object
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+        # get session data
+        my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
-        SESSIONID:
-        for my $SessionID (@Sessions) {
+        next SESSIONID if !%Data;
+        next SESSIONID if !$Data{UserID};
 
-            next SESSIONID if !$SessionID;
+        # use agent instead of user
+        my %AgentData;
+        if ( $Data{UserType} eq 'User' ) {
+            $Data{UserType} = 'Agent';
 
-            # get session data
-            my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
-
-            next SESSIONID if !%Data;
-            next SESSIONID if !$Data{UserID};
-
-            # use agent instead of user
-            my %AgentData;
-            if ( $Data{UserType} eq 'User' ) {
-                $Data{UserType} = 'Agent';
-
-                # get user data
-                %AgentData = $UserObject->GetUserData(
-                    UserID        => $Data{UserID},
-                    NoOutOfOffice => 1,
-                );
-            }
-            else {
-                $Data{UserFullname}
-                    ||= $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
-                    UserLogin => $Data{UserLogin},
-                    );
-            }
-
-            # only show if not already shown
-            next SESSIONID if $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} };
-
-            # check last request time / idle time out
-            next SESSIONID if !$Data{UserLastRequest};
-            next SESSIONID if $Data{UserLastRequest} + $SessionMaxIdleTime < $Time;
-
-            # remember user and data
-            $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
-            $Online->{UserCount}->{ $Data{UserType} }++;
-            $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} } = { %Data, %AgentData };
+            # get user data
+            %AgentData = $UserObject->GetUserData(
+                UserID        => $Data{UserID},
+                NoOutOfOffice => 1,
+            );
         }
-    }
+        else {
+            $Data{UserFullname}
+                ||= $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
+                UserLogin => $Data{UserLogin},
+                );
+        }
 
-    # set cache
-    if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
-        $CacheObject->Set(
-            Type  => 'Dashboard',
-            Key   => $Self->{CacheKey},
-            Value => $Online,
-            TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
-        );
+        # only show if not already shown
+        next SESSIONID if $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} };
+
+        # check last request time / idle time out
+        next SESSIONID if !$Data{UserLastRequest};
+        next SESSIONID if $Data{UserLastRequest} + $SessionMaxIdleTime < $Time;
+
+        # remember user and data
+        $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
+        $Online->{UserCount}->{ $Data{UserType} }++;
+        $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} } = { %Data, %AgentData };
     }
 
     # set css class
