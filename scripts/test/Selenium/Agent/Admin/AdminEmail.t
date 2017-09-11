@@ -75,7 +75,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Subject", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -93,9 +93,9 @@ $Selenium->RunTest(
         );
 
         $Selenium->execute_script("\$('#UserIDs').val('$UserID').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($Text);
-        $Selenium->find_element( "#Subject",  'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Subject",        'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#RichText",       'css' )->send_keys($Text);
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # check if test admin notification is success
         my $LanguageObject = Kernel::Language->new(

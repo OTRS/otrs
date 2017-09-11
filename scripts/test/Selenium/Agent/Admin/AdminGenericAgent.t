@@ -170,7 +170,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#DynamicField_${CheckboxDynamicFieldName}Used1", 'css' )->VerifiedClick();
 
         # save job
-        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check if test job show on AdminGenericAgent
         $Self->True(
@@ -184,7 +184,7 @@ $Selenium->RunTest(
         # toggle Execute Ticket Commands widget
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # run test job
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
@@ -257,7 +257,7 @@ $Selenium->RunTest(
             "$CheckboxDynamicFieldName Used1 is selected",
         );
 
-        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check class of invalid generic job in the overview table
         $Self->True(
@@ -272,6 +272,10 @@ $Selenium->RunTest(
 
         # Accept delete confirmation dialog
         $Selenium->accept_alert();
+
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($GenericAgentJob)').length === 0;"
+        );
 
         # check overview page
         $Self->True(

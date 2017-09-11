@@ -79,7 +79,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ArticleSubjectMatch", 'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#en_Subject",          'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#en_Body",             'css' )->send_keys($NotifEventText);
-        $Selenium->find_element( "#Name",                'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check if test NotificationEvent show on AdminNotificationEvent screen
         $Self->True(
@@ -135,7 +135,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ArticleSubjectMatch", 'css' )->clear();
         $Selenium->find_element( "#ArticleBodyMatch",    'css' )->send_keys($EditNotifEventText);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check edited NotifcationEvent values
         $Selenium->find_element( $NotifEventRandomID, 'link_text' )->VerifiedClick();

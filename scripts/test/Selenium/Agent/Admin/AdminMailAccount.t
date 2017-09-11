@@ -63,8 +63,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#HostAdd",     'css' )->send_keys("pop3.example.com");
         $Selenium->execute_script("\$('#Trusted').val('0').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#DispatchingBy').val('Queue').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",  'css' )->send_keys("Selenium test AdminMailAccount");
-        $Selenium->find_element( "#LoginAdd", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Comment", 'css' )->send_keys("Selenium test AdminMailAccount");
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check if test mail account is present
         my $TestMailHost = "pop3.example.com / $RandomID";
@@ -104,7 +104,7 @@ $Selenium->RunTest(
         );
 
         # Save current screen and verify that the password is not changed even though it was not sent to the user.
-        $Selenium->find_element( "#LoginEdit", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminMailAccount;Subaction=Update;ID=$MailAccountID");
         %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
@@ -117,7 +117,7 @@ $Selenium->RunTest(
         # Update password and verify that it is changed in DB.
         $Selenium->find_element( "#PasswordEdit", 'css' )->clear();
         $Selenium->find_element( "#PasswordEdit", 'css' )->send_keys("SomePassword2");
-        $Selenium->find_element( "#LoginEdit",    'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet( ID => $MailAccountID );
         $Self->Is(
@@ -131,7 +131,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#HostEdit", 'css' )->clear();
         $Selenium->find_element( "#HostEdit", 'css' )->send_keys("pop3edit.example.com");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#LoginEdit", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check class of invalid EmailAccount in the overview table
         $Self->True(

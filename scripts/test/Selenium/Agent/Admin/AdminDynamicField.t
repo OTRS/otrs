@@ -101,7 +101,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
                 $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
                 $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-                $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+                $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
                 # Check if test DynamicField show on AdminDynamicField screen.
                 $Self->True(
@@ -114,7 +114,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#Label",  'css' )->clear();
                 $Selenium->find_element( "#Label",  'css' )->send_keys( $RandomID . "-update" );
                 $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-                $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+                $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
                 # Check class of invalid DynamicField in the overview table.
                 $Self->True(

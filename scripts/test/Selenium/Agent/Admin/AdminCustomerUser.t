@@ -108,7 +108,8 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#UserFirstname", 'css' )->clear();
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#UserFirstname').hasClass('Error')"
@@ -131,7 +132,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check overview page
         $Self->True(
@@ -149,12 +150,12 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID2').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # test search filter only for test Customer users
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomer');
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check for another customer user
         $Self->True(
@@ -165,7 +166,7 @@ $Selenium->RunTest(
         # test search filter by customer user $RandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -208,12 +209,12 @@ $Selenium->RunTest(
 
         # set test customer user to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # test search filter
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check class of invalid customer user in the overview table
         $Self->True(
