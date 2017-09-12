@@ -232,7 +232,13 @@
                         <div class="Field">
                             [% Data.Option %]
                             <div id="[% Data.Name | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="[% Data.Name | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="[% Data.Name | html %]ServerError" class="TooltipErrorMessage">
+                            [% IF Data.Name  == 'UserCustomerID' %]
+                                <p>[% Translate("This CustomerID is invalid.") | html %]</p>
+                            [% ELSE %]
+                                <p>[% Translate("This field is required.") | html %]</p>
+                            [% END %]
+                            </div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("PreferencesGenericOption") %]

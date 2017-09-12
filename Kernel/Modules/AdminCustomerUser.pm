@@ -336,11 +336,9 @@ sub Run {
         );
 
         # Check CustomerID, if CustomerCompanySupport is enabled and the UserCustomerID was changed.
-        if (
-            $ConfigObject->Get($Source)->{CustomerCompanySupport}
+        if (   $ConfigObject->Get($Source)->{CustomerCompanySupport}
             && $GetParam{UserCustomerID}
-            && $CurrentUserData{UserCustomerID} ne $GetParam{UserCustomerID}
-            )
+            && $CurrentUserData{UserCustomerID} ne $GetParam{UserCustomerID} )
         {
 
             my %Company = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
