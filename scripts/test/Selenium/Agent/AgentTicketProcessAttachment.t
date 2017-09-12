@@ -75,7 +75,7 @@ $Selenium->RunTest(
         my $Location;
 
         # Import test process if does not exist in the system.
-        if (!$TestProcessExists) {
+        if ( !$TestProcessExists ) {
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
             $Location = $ConfigObject->Get('Home')
                 . "/scripts/test/sample/ProcessManagement/TestProcess.yml";

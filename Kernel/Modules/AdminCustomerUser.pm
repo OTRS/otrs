@@ -336,7 +336,12 @@ sub Run {
         );
 
         # Check CustomerID, if CustomerCompanySupport is enabled and the UserCustomerID was changed.
-        if ( $ConfigObject->Get($Source)->{CustomerCompanySupport} && $GetParam{UserCustomerID} && $CurrentUserData{UserCustomerID} ne $GetParam{UserCustomerID} ) {
+        if (
+            $ConfigObject->Get($Source)->{CustomerCompanySupport}
+            && $GetParam{UserCustomerID}
+            && $CurrentUserData{UserCustomerID} ne $GetParam{UserCustomerID}
+            )
+        {
 
             my %Company = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
                 CustomerID => $GetParam{UserCustomerID},
@@ -1219,7 +1224,10 @@ sub _Edit {
 
                 my $Value = $Param{ $Entry->[0] } || $Param{CustomerID};
                 $Param{Option} = '<input type="text" id="UserCustomerID" name="UserCustomerID" value="' . $Value . '"
-                    class="W50pc CustomerAutoCompleteSimple ' . $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' } . '" data-customer-search-type="CustomerID" />';
+                    class="W50pc CustomerAutoCompleteSimple '
+                    . $Param{RequiredClass} . ' '
+                    . $Param{Errors}->{ $Entry->[0] . 'Invalid' }
+                    . '" data-customer-search-type="CustomerID" />';
             }
             else {
                 $Param{Option} = $LayoutObject->BuildSelection(

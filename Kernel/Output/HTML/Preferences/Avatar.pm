@@ -39,7 +39,7 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     my $AvatarEngine = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::AvatarEngine');
-    my $Return = {
+    my $Return       = {
         AvatarEngine => $AvatarEngine,
     };
 

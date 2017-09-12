@@ -127,7 +127,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#UserFirstname", 'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#UserFirstname').hasClass('Error')"
@@ -191,8 +191,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID2 . "\@localhost.com" );
 
         # Try to add a not existing CustomerID
-        $Selenium->find_element( "#UserCustomerID", 'css' )->send_keys($RandomID2 . '-wrong');
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#UserCustomerID", 'css' )->send_keys( $RandomID2 . '-wrong' );
+        $Selenium->find_element( "#Submit",         'css' )->VerifiedClick();
 
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
@@ -211,8 +211,8 @@ $Selenium->RunTest(
         );
 
         # test search filter only for test Customer users
-        $Selenium->find_element( "#Search", 'css' )->clear();
-        $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomer');
+        $Selenium->find_element( "#Search",           'css' )->clear();
+        $Selenium->find_element( "#Search",           'css' )->send_keys('TestCustomer');
         $Selenium->find_element( ".SearchBox button", 'css' )->VerifiedClick();
 
         # check for another customer user
@@ -222,8 +222,8 @@ $Selenium->RunTest(
         );
 
         # test search filter by customer user $RandomID
-        $Selenium->find_element( "#Search", 'css' )->clear();
-        $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Search",           'css' )->clear();
+        $Selenium->find_element( "#Search",           'css' )->send_keys($RandomID);
         $Selenium->find_element( ".SearchBox button", 'css' )->VerifiedClick();
 
         $Self->True(
@@ -294,8 +294,8 @@ $Selenium->RunTest(
         );
 
         # test search filter
-        $Selenium->find_element( "#Search", 'css' )->clear();
-        $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Search",           'css' )->clear();
+        $Selenium->find_element( "#Search",           'css' )->send_keys($RandomID);
         $Selenium->find_element( ".SearchBox button", 'css' )->VerifiedClick();
 
         # check class of invalid customer user in the overview table
@@ -367,12 +367,12 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys('-edit');
-        $Selenium->find_element( "#UserLastname", 'css' )->send_keys('-edit');
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#UserLastname",  'css' )->send_keys('-edit');
+        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
         # test search filter only for test Customer users
-        $Selenium->find_element( "#Search", 'css' )->clear();
-        $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID2);
+        $Selenium->find_element( "#Search",           'css' )->clear();
+        $Selenium->find_element( "#Search",           'css' )->send_keys($RandomID2);
         $Selenium->find_element( ".SearchBox button", 'css' )->VerifiedClick();
 
         # check for another customer user

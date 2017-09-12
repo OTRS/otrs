@@ -151,7 +151,9 @@ $Selenium->RunTest(
             );
 
             # check, if reload notification is shown
-            my $NotificationTranslation = $LanguageObject->Translate("Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.");
+            my $NotificationTranslation = $LanguageObject->Translate(
+                "Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen."
+            );
 
             $Selenium->WaitFor(
                 JavaScript =>
@@ -214,7 +216,10 @@ $Selenium->RunTest(
         );
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
         $Self->True(
-            index( $Selenium->get_page_source(), "Avatars have been disabled by the system administrator. You'll see your initials instead." ) > -1,
+            index(
+                $Selenium->get_page_source(),
+                "Avatars have been disabled by the system administrator. You'll see your initials instead."
+                ) > -1,
             "Avatars disabled message found"
         );
 
@@ -226,7 +231,10 @@ $Selenium->RunTest(
         );
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
         $Self->True(
-            index( $Selenium->get_page_source(), "You can change your avatar image by registering with your email address" ) > -1,
+            index(
+                $Selenium->get_page_source(),
+                "You can change your avatar image by registering with your email address"
+                ) > -1,
             "Gravatar message found"
         );
 
@@ -419,7 +427,9 @@ JAVASCRIPT
             UserLanguage => "en",
         );
 
-        my $NotificationTranslation = $LanguageObject->Translate("Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.");
+        my $NotificationTranslation = $LanguageObject->Translate(
+            "Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen."
+        );
 
         $Selenium->WaitFor(
             JavaScript =>

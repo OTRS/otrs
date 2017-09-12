@@ -788,12 +788,14 @@ sub PartsAttachments {
 
         my $BodyAttachmentKey = "MultipartMixedBodyAttachment$MimeType";
 
-        if (!$Self->{FirstBodyAttachmentKey}) {
+        if ( !$Self->{FirstBodyAttachmentKey} ) {
+
             # Remember the first found attachment.
             $Self->{FirstBodyAttachmentKey}      = $BodyAttachmentKey;
             $Self->{FirstBodyAttachmentMimeType} = $MimeType;
         }
-        elsif (!$ContentAlternative) {
+        elsif ( !$ContentAlternative ) {
+
             # For multipart/alternative, we allow both text/plain and text/html. Otherwise, concatenate
             #   all subsequent elements to the first found body element.
             $BodyAttachmentKey = $Self->{FirstBodyAttachmentKey};
@@ -831,7 +833,7 @@ sub PartsAttachments {
                     $PartData{Content} = $HTMLUtilsObject->DocumentComplete(
                         String  => $HTMLContent,
                         Charset => 'utf-8',
-                    )
+                        )
                 }
                 else {
                     $PartData{Content} = $HTMLUtilsObject->ToAscii(

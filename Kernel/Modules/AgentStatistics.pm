@@ -870,7 +870,7 @@ sub AddAction {
         CheckAlreadyUsedStaticObject => 1,
     );
 
-    if (!$ObjectModuleCheck) {
+    if ( !$ObjectModuleCheck ) {
         $Errors{ObjectModuleServerError} = 'ServerError';
     }
 
