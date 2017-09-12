@@ -38,6 +38,8 @@ sub Run {
         Ticket::StorageModule
         SendmailModule
         Frontend::RichText
+        Loader::Agent::DefaultSelectedSkin
+        Loader::Customer::SelectedSkin
     );
 
     # get config object
