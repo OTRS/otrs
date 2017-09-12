@@ -149,7 +149,7 @@ $Selenium->RunTest(
         # Click on Forward and switch window.
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID' )]"
-        )->VerifiedClick();
+        )->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
@@ -294,7 +294,7 @@ $Selenium->RunTest(
         # Click on test created FormDraft and switch window.
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
-        )->VerifiedClick();
+        )->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -384,7 +384,7 @@ $Selenium->RunTest(
         # Click on test created FormDraft and switch window.
         $Selenium->find_element(
             "//a[contains(\@href, \'Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID;LoadFormDraft=1' )]"
-        )->VerifiedClick();
+        )->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
