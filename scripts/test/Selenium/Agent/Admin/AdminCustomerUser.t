@@ -398,28 +398,28 @@ $Selenium->RunTest(
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # delete created test customer user and customer company
-        for my $CustomerID ( $RandomID, $RandomID2, $RandomID3 ) {
+        for my $ID ( $RandomID, $RandomID2, $RandomID3 ) {
             my $Success = $DBObject->Do(
-                SQL  => "DELETE FROM customer_user WHERE customer_id = ?",
-                Bind => [ \$CustomerID ],
+                SQL  => "DELETE FROM customer_user WHERE login = ?",
+                Bind => [ \$ID ],
             );
             $Self->True(
                 $Success,
-                "Deleted Customers - $CustomerID",
+                "Deleted Customers - $ID",
             );
 
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
-                Bind => [ \$CustomerID ],
+                Bind => [ \$ID ],
             );
             $Self->True(
                 $Success,
-                "Deleted CustomerUser - $CustomerID",
+                "Deleted CustomerUser - $ID",
             );
         }
 
         # make sure the cache is correct
-        for my $Cache (qw(CustomerCompany CustomerUser)) {
+        for my $Cache (qw(CustomerCompany CustomerUser CustomerUser_CustomerSearch)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                 Type => $Cache,
             );
