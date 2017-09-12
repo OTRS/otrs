@@ -40,6 +40,9 @@ sub Run {
         'Ticket::Article::Backend::MIMEBase::ArticleStorage',
         'SendmailModule',
         'Frontend::RichText',
+        'Frontend::AvatarEngine',
+        'Loader::Agent::DefaultSelectedSkin',
+        'Loader::Customer::SelectedSkin',
     );
 
     # get config object
