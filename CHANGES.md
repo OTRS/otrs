@@ -1,4 +1,6 @@
-#6.0.0.beta2 2017-??-??
+#6.0.0.beta3 2017-??-??
+
+#6.0.0.beta2 2017-09-19
  - 2017-09-11 Fixed bug#[13133](https://bugs.otrs.org/show_bug.cgi?id=13133) - AdminCustomerUser - missing check for mandatory field if autocomplete search is used for customer ID field.
  - 2017-09-11 Fixed bug#[13132](https://bugs.otrs.org/show_bug.cgi?id=13132) - Problems with UserLastLoginTimestampa and UserMailString in customer user LDAP backend.
  - 2017-09-11 Fixed bug#[12963](https://bugs.otrs.org/show_bug.cgi?id=12963) - SysConfig: empty tree items should not be clickable.
