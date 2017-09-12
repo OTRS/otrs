@@ -281,7 +281,7 @@
                             <p class="FieldExplanation">[% Translate("Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'.") | html %]</p>
                             <p class="FieldExplanation">[% Translate("Example 3: Search = '^(?<number>\d+) (?<text>.+?)\$' / Replace = '_\$+{text}_\$+{number}' turns '16 elementname' into '_elementname_16'.") | html %]</p>
                             <p class="FieldExplanation">
-                                [% Translate("For information about regular expressions in perl please see here:") | html %]
+                                [% Translate("For information about regular expressions in Perl please see here:") | html %]
                                 <a href="https://perldoc.perl.org/perlretut.html" target="_blank">[% Translate("Perl regular expressions tutorial") | html %]</a>
                             </p>
                             <p class="FieldExplanation">[% Translate("If modifiers are desired they have to be specified within the regexes themselves.") | html %]</p>
