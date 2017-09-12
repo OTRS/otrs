@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2014-08-08 19:10+0200\n"
+"POT-Creation-Date: 2017-09-12 09:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6143,11 +6143,11 @@ msgid "Required"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "PrimaryKey"
+msgid "Primary Key"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "AutoIncrement"
+msgid "Auto Increment"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6267,7 +6267,7 @@ msgid "Edit PostMaster Filter"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
-msgid "The name is required."
+msgid "A postmaster filter with this name already exists!"
 msgstr ""
 
 #. Template: AdminPostMasterFilter
@@ -7691,6 +7691,10 @@ msgid "Edit Service"
 msgstr ""
 
 #. Template: AdminService
+msgid "Service name maximum length is 200 characters (with Sub-service)."
+msgstr ""
+
+#. Template: AdminService
 msgid "Sub-service of"
 msgstr ""
 
@@ -8099,7 +8103,15 @@ msgid "Edit System Email Address"
 msgstr ""
 
 #. Template: AdminSystemAddress
+msgid "This email address is already used as system email address."
+msgstr ""
+
+#. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
+msgstr ""
+
+#. Template: AdminSystemAddress
+msgid "This system address cannot be set to invalid, because it is used in one or more queue(s)."
 msgstr ""
 
 #. Template: AdminSystemMaintenance
@@ -9270,6 +9282,10 @@ msgstr ""
 msgid "The chat will be appended as a separate article."
 msgstr ""
 
+#. Template: AgentTicketPhoneCommon
+msgid "Undo & close"
+msgstr ""
+
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
 msgstr ""
@@ -9388,6 +9404,10 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Invalid date"
 msgstr ""
 
 #. Template: AgentTicketSearch
@@ -10915,6 +10935,10 @@ msgid "Controls how to display the ticket history entries as readable values."
 msgstr ""
 
 #. SysConfig
+msgid "Controls if CustomerID is editable in the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Controls if CutomerID is editable in the agent interface."
 msgstr ""
 
@@ -11092,6 +11116,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Customers <-> Groups"
+msgstr ""
+
+#. SysConfig
+msgid "DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds)."
 msgstr ""
 
 #. SysConfig
@@ -11460,6 +11488,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed."
 msgstr ""
 
 #. SysConfig
@@ -12415,6 +12447,10 @@ msgid "Defines the time zone of the indicated calendar, which can be assigned la
 msgstr ""
 
 #. SysConfig
+msgid "Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module 'PublicSupportDataCollector' (e.g. used from the OTRS Daemon)."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the title font in graphs (place custom fonts in var/fonts)."
 msgstr ""
 
@@ -13019,7 +13055,7 @@ msgid "Frontend language"
 msgstr ""
 
 #. SysConfig
-msgid "Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used)."
+msgid "Frontend module registration (disable AgentTicketService link if Ticket Service feature is not used)."
 msgstr ""
 
 #. SysConfig
@@ -13251,38 +13287,6 @@ msgid "If \"file\" was selected for LogModule, a logfile must be specified. If t
 msgstr ""
 
 #. SysConfig
-msgid "If a note is added by an agent, sets the state of a ticket in the close ticket screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "If a note is added by an agent, sets the state of a ticket in the ticket bulk screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "If a note is added by an agent, sets the state of a ticket in the ticket free text screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "If a note is added by an agent, sets the state of a ticket in the ticket note screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "If a note is added by an agent, sets the state of a ticket in the ticket responsible screen of the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "If a note is added by an agent, sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface."
-msgstr ""
-
-#. SysConfig
-msgid "If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface."
-msgstr ""
-
-#. SysConfig
 msgid "If active, none of the regular expressions may match the user's email address to allow registration."
 msgstr ""
 
@@ -13327,7 +13331,7 @@ msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
 msgstr ""
 
 #. SysConfig
-msgid "If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails."
+msgid "If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this option, please make sure to delete the cache."
 msgstr ""
 
 #. SysConfig
@@ -13343,7 +13347,11 @@ msgid "If enabled, the first level of the main menu opens on mouse hover (instea
 msgstr ""
 
 #. SysConfig
-msgid "If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty."
+msgid "If no SendmailNotificationEnvelopeFrom is specified, this setting makes it possible to use the email's from address instead of an empty envelope sender (required in certain mail server configurations)."
+msgstr ""
+
+#. SysConfig
+msgid "If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
 
 #. SysConfig
@@ -13351,7 +13359,7 @@ msgid "If set, this address is used as envelope sender in outgoing messages (not
 msgstr ""
 
 #. SysConfig
-msgid "If this option is enabled, then the decrypted data will be stored in the database if they are displayed in AgentTicketZoom."
+msgid "If this option is disabled, articles will not automatically be decrypted and stored in the database. Please note that this also means no decryption will take place and the articles will be shown in ticket zoom in their original (encrypted) form."
 msgstr ""
 
 #. SysConfig
@@ -13375,7 +13383,7 @@ msgid "If you want to use a mirror database for agent ticket fulltext search or 
 msgstr ""
 
 #. SysConfig
-msgid "Ignore article with system sender type for new article feature (e. g. auto responses or email notifications)."
+msgid "Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as 'Unread Article' in AgentTicketZoom or expanded automatically in Large view screens."
 msgstr ""
 
 #. SysConfig
@@ -13536,6 +13544,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Log file for the ticket counter."
+msgstr ""
+
+#. SysConfig
+msgid "Logged-In Users"
 msgstr ""
 
 #. SysConfig
@@ -13828,10 +13840,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
-msgstr ""
-
-#. SysConfig
-msgid "Online"
 msgstr ""
 
 #. SysConfig
@@ -14499,23 +14507,23 @@ msgid "Sets the inactivity time (in seconds) to pass before a session is killed 
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents."
+msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active customers within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active sessions per agent within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active sessions per agent within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
-msgid "Sets the maximum number of active sessions per customers within the timespan defined in SessionActiveTime."
+msgid "Sets the maximum number of active sessions per customers within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
 #. SysConfig
@@ -14643,6 +14651,38 @@ msgid "Sets the size of the statistic graph."
 msgstr ""
 
 #. SysConfig
+msgid "Sets the state of a ticket in the close ticket screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the state of a ticket in the ticket bulk screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the state of a ticket in the ticket free text screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the state of a ticket in the ticket note screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the state of a ticket in the ticket responsible screen of the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the stats hook."
 msgstr ""
 
@@ -14712,10 +14752,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket responsible screen of the agent interface (Ticket::Type needs to be activated)."
-msgstr ""
-
-#. SysConfig
-msgid "Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds)."
 msgstr ""
 
 #. SysConfig
