@@ -88,13 +88,13 @@ $Selenium->RunTest(
         # test search filter for CustomerUser
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($CustomerUserName);
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), $CustomerUserName ) > -1,
             "CustomerUser $CustomerUserName found on page",
         );
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         # filter for service. It is auto complete, submit is not necessary
         $Selenium->find_element( "#FilterServices", 'css' )->send_keys($ServiceName);

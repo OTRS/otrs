@@ -62,7 +62,7 @@ $Selenium->RunTest(
 
         # Check client side validation.
         $Selenium->find_element( "#EditName", 'css' )->clear();
-        $Selenium->find_element( "#EditName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#EditName').hasClass('Error')"
@@ -125,7 +125,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
-        $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",    'css' )->VerifiedClick();
 
         # Check for created first test PostMasterFilter on screen.
         $Self->True(
@@ -187,7 +187,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#MatchNot1", 'css' )->VerifiedClick();
         $Selenium->find_element( "#SetValue1", 'css' )->clear();
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($EditPostMasterPriority);
-        $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",    'css' )->VerifiedClick();
 
         # Check edited test PostMasterFilter values.
         $Selenium->find_element( $PostMasterName, 'link_text' )->VerifiedClick();
@@ -213,7 +213,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#MatchValue1", 'css' )->send_keys('0');
         $Selenium->find_element( "#SetValue1",   'css' )->clear();
         $Selenium->find_element( "#SetValue1",   'css' )->send_keys('0');
-        $Selenium->find_element( "#EditName",    'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # Go back to AdminPostMasterFilter screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
@@ -229,7 +229,7 @@ $Selenium->RunTest(
             "\$('#SetHeader1').val('X-OTRS-Priority').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( "#SetValue1", 'css' )->send_keys($PostMasterPriority);
-        $Selenium->find_element( "#EditName",  'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",    'css' )->VerifiedClick();
 
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
@@ -247,7 +247,7 @@ $Selenium->RunTest(
         my $PostMasterName2 = $PostMasterName . '2';
         $Selenium->find_element( "#EditName", 'css' )->clear();
         $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterName2);
-        $Selenium->find_element( "#EditName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
 
         # Verify second PostMasterFilter is created.
         $Self->True(
@@ -261,7 +261,7 @@ $Selenium->RunTest(
         # Try to change name as first PostMasterFilter, verify duplication error.
         $Selenium->find_element( "#EditName", 'css' )->clear();
         $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterName);
-        $Selenium->find_element( "#EditName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
 
         # Confirm JS error.
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
@@ -280,7 +280,7 @@ $Selenium->RunTest(
         my $PostMasterName3 = $PostMasterName . '3';
         $Selenium->find_element( "#EditName", 'css' )->clear();
         $Selenium->find_element( "#EditName", 'css' )->send_keys($PostMasterName3);
-        $Selenium->find_element( "#EditName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), $PostMasterName2 ) == -1,

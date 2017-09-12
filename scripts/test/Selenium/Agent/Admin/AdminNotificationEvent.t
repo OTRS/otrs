@@ -107,7 +107,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#MIMEBase_Subject', 'css' )->send_keys($NotifEventText);
         $Selenium->find_element( '#en_Subject',       'css' )->send_keys($NotifEventText);
         $Selenium->find_element( '#en_Body',          'css' )->send_keys($NotifEventText);
-        $Selenium->find_element( '#Name',             'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",           'css' )->VerifiedClick();
 
         # check if test NotificationEvent show on AdminNotificationEvent screen
         $Self->True(
@@ -194,7 +194,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#MIMEBase_Subject", 'css' )->clear();
         $Selenium->find_element( "#MIMEBase_Body",    'css' )->send_keys($EditNotifEventText);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check is there notification 'Notification updated!' after notification is added
         $Notification = 'Notification updated!';

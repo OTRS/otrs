@@ -105,7 +105,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -119,7 +119,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test role');
-        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
@@ -175,7 +175,7 @@ $Selenium->RunTest(
         # set test role to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check overview page
         $Self->True(

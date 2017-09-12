@@ -82,8 +82,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#HostAdd",     'css' )->send_keys("pop3.example.com");
         $Selenium->execute_script("\$('#Trusted').val('0').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#DispatchingBy').val('Queue').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",  'css' )->send_keys("Selenium test AdminMailAccount");
-        $Selenium->find_element( "#LoginAdd", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Comment", 'css' )->send_keys("Selenium test AdminMailAccount");
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # check if test mail account is present
         my $TestMailHost = "pop3.example.com / $RandomID";
@@ -139,7 +139,7 @@ $Selenium->RunTest(
         );
 
         # Save current screen.
-        $Selenium->find_element( "#LoginEdit", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Discard the instance of cache object, because of in-memory cache.
         $Kernel::OM->ObjectsDiscard(
@@ -158,7 +158,7 @@ $Selenium->RunTest(
         # Update password and verify that it is changed in DB.
         $Selenium->find_element( "#PasswordEdit", 'css' )->clear();
         $Selenium->find_element( "#PasswordEdit", 'css' )->send_keys("SomePassword2");
-        $Selenium->find_element( "#LoginEdit",    'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
 
         # Discard the instance of cache object, because of in-memory cache.
         $Kernel::OM->ObjectsDiscard(
@@ -178,7 +178,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#HostEdit", 'css' )->clear();
         $Selenium->find_element( "#HostEdit", 'css' )->send_keys("pop3edit.example.com");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#LoginEdit", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check class of invalid EmailAccount in the overview table
         $Self->True(

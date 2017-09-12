@@ -78,7 +78,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#GroupName", 'css' )->clear();
-        $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",    'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#GroupName').hasClass('Error')"
@@ -91,8 +91,8 @@ $Selenium->RunTest(
         my $GroupName = 'TestGroup' . $Helper->GetRandomID();
         $Selenium->find_element( "#GroupName", 'css' )->send_keys($GroupName);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",   'css' )->send_keys('Selenium test group');
-        $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test group');
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # after add group followed screen is AddUserGroup(Subaction=Group),
         # there is posible to set permission for added group
@@ -150,7 +150,7 @@ $Selenium->RunTest(
         # try to change the name of the admin group and see if validation kicks in
         $Selenium->find_element( 'admin',      'link_text' )->VerifiedClick();
         $Selenium->find_element( "#GroupName", 'css' )->send_keys('some_other_name');
-        $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",    'css' )->VerifiedClick();
 
         # we should now see a dialog telling us changing the admin group name has some implications
         $Selenium->WaitFor(
@@ -195,8 +195,8 @@ $Selenium->RunTest(
 
         # set test group to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment",   'css' )->clear();
-        $Selenium->find_element( "#GroupName", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Comment", 'css' )->clear();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         #check is there notification after group is updated
         my $Notification = 'Group updated!';

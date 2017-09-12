@@ -63,7 +63,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -90,7 +90,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name",    'css' )->send_keys($SLARandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SLAComment);
-        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check if test SLA show on AdminSLA screen
         $Self->True(
@@ -132,7 +132,7 @@ $Selenium->RunTest(
         # remove test SLA comment and set it to invalid
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check class of invalid SLA in the overview table
         $Self->True(

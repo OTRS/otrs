@@ -80,7 +80,7 @@ $Selenium->RunTest(
             # set field values and submit
             $Selenium->execute_script("\$('#OTRSID').val('$Test->{Value}')");
             $Selenium->execute_script("\$('#Password').val('$Test->{Value}')");
-            $Selenium->find_element( "#OTRSID", 'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             if ( $Test->{Name} ne 'Wrong email address' ) {
                 $Self->Is(

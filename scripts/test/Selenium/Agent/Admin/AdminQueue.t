@@ -77,7 +77,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         #$Element->VerifiedClick("button#Submit");
         $Self->Is(
@@ -105,7 +105,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#SignatureID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test queue');
-        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # navigate to AdminQueue screen again
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminQueue");
@@ -186,7 +186,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#FollowUpLock').val('1').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         #check is there notification after queue is updated
         my $Notification = 'Queue updated!';

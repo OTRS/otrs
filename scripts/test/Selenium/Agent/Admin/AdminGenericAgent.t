@@ -280,7 +280,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#DynamicField_${CheckboxDynamicFieldName}Used1", 'css' )->VerifiedClick();
 
         # save job
-        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check if test job show on AdminGenericAgent
         $Self->True(
@@ -344,7 +344,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->execute_script("\$('#NewDelete').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # run test job
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Run;Profile=$GenericAgentJob' )]")->VerifiedClick();
@@ -421,7 +421,7 @@ $Selenium->RunTest(
         $Selenium->find_element( $GenericAgentJob, 'link_text' )->VerifiedClick();
 
         $Selenium->execute_script("\$('#Valid').val('0').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Profile", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check class of invalid generic job in the overview table
         $Self->True(

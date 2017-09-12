@@ -86,7 +86,7 @@ $Selenium->RunTest(
         # test search filter for CustomerUser
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($CustomerUserName);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), $CustomerUserName ) > -1,
             "CustomerUser $CustomerUserName found on page",
@@ -95,14 +95,14 @@ $Selenium->RunTest(
         # test search filter for Customer
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($CustomerName);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), $CustomerName ) > -1,
             "Customer $CustomerName found on page",
         );
 
         $Selenium->find_element( "#Search", 'css' )->clear();
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         # assign test customer to test customer user
         $Selenium->find_element("//a[contains(\@href, \'ID=$CustomerUserID' )]")->VerifiedClick();
