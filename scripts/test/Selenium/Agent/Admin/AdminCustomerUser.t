@@ -343,8 +343,10 @@ $Selenium->RunTest(
         #     $RandomID,
         #     "Test customer user $RandomID3 is successfully created from AgentTicketPhone screen"
         # );
+        sleep 2;
 
-        my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my %User               = $CustomerUserObject->CustomerUserDataGet(
             User => $RandomID3,
         );
         $Self->Is(
@@ -355,13 +357,11 @@ $Selenium->RunTest(
 
         # Change the CustomerID for one CustomerUser directly to non existing CustomerID,
         #   to check if the CustomerUser can be changed.
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
         my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
             User => $RandomID2,
         );
 
-        $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
+        $CustomerUserObject->CustomerUserUpdate(
             %CustomerUserData,
             UserCustomerID => $RandomID2 . '-not-existing',
             ID             => $RandomID2,
