@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-09-13 Fixed bug#[13088](https://bugs.otrs.org/show_bug.cgi?id=13088) - EscalationTime shows in seconds in CSV export.
  - 2017-09-13 Fixed bug#[13035](https://bugs.otrs.org/show_bug.cgi?id=13035) - OTRS notification option for OTRS Business Solution™ Feature are shown in the free.
 
 #5.0.23 2017-09-19
