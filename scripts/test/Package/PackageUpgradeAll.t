@@ -20,6 +20,17 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $Cleanup = $Kernel::OM->Get('Kernel::System::DB')->Do(
+    SQL => 'DELETE from package_repository',
+);
+
+$Self->True(
+    $Cleanup,
+    "Removed possibly pre-existing packages from the database (transaction)."
+);
+
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
@@ -211,7 +222,7 @@ for my $Test (@Tests) {
         }
         $Self->True(
             $FileString,
-            "FieRead() - for package $PackageName",
+            "FileRead() - for package $PackageName",
         );
 
         my $Success = $PackageObject->PackageInstall(
