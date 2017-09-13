@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-13 Fixed bug#[13045](https://bugs.otrs.org/show_bug.cgi?id=13045) - Usability / visibilty of error handling screens.
  - 2017-09-13 Added new command Admin::Package::UpgradeAll, which allows updating all installed packages at once. This can also be triggered from the package manager screen.
  - 2017-09-12 Follow-up fix for bug#[13133](https://bugs.otrs.org/show_bug.cgi?id=13133) - AdminCustomerUser - missing check for mandatory field if autocomplete search is used for customer ID field.
 

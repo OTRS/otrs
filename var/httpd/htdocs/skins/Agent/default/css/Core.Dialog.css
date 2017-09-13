@@ -247,4 +247,25 @@
     margin-left: 8px;
 }
 
+/* Error screens in overlays */
+
+.Dialog.Modal #AppWrapper > #Header,
+.Dialog.Modal .ErrorScreen ~ #Footer {
+    display: none;
+}
+
+.Dialog.Modal .ErrorScreen {
+    margin-top: 0px !important;
+}
+
+.Dialog.Modal .ErrorScreen .CenterBox {
+    width: auto !important;
+}
+
+.Dialog.Modal .ErrorScreen .WidgetSimple .Content {
+    max-height: 200px;
+    overflow: auto;
+}
+
+
 } /* end @media */
