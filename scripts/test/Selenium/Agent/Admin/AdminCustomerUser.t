@@ -333,31 +333,21 @@ $Selenium->RunTest(
 
         # TODO FIX IT: switch_to_window makes some problem in new release of FF
         # return focus back on AgentTicketPhone window
-        # my $Handles = $Selenium->get_window_handles();
-        # $Selenium->switch_to_window( $Handles->[0] );
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[0] );
 
-        # # verify created customer user is added directly in AgentTicketPhone form
-        # $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
-        # $Self->Is(
-        #     $Selenium->find_element( "#CustomerID", 'css' )->get_value(),
-        #     $RandomID,
-        #     "Test customer user $RandomID3 is successfully created from AgentTicketPhone screen"
-        # );
-        sleep 2;
-
-        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        my %User               = $CustomerUserObject->CustomerUserDataGet(
-            User => $RandomID3,
-        );
+        # verify created customer user is added directly in AgentTicketPhone form
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
         $Self->Is(
-            $User{UserLogin},
-            $RandomID3,
+            $Selenium->find_element( "#CustomerID", 'css' )->get_value(),
+            $RandomID,
             "Test customer user $RandomID3 is successfully created from AgentTicketPhone screen"
         );
 
         # Change the CustomerID for one CustomerUser directly to non existing CustomerID,
         #   to check if the CustomerUser can be changed.
-        my %CustomerUserData = $CustomerUserObject->CustomerUserDataGet(
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+        my %CustomerUserData   = $CustomerUserObject->CustomerUserDataGet(
             User => $RandomID2,
         );
 
