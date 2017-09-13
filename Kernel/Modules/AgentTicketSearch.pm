@@ -732,6 +732,17 @@ sub Run {
                         $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $TicketID ),
                 );
 
+                # Transform EscalationTime and EscalationTimeWorkingTime to a human readable format.
+                # See bug#13088 (https://bugs.otrs.org/show_bug.cgi?id=13088).
+                $Info{EscalationTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age   => $Info{EscalationTime},
+                    Space => ' ',
+                );
+                $Info{EscalationTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age   => $Info{EscalationTimeWorkingTime},
+                    Space => ' ',
+                );
+
                 my @Data;
                 for my $Header (@TmpCSVHead) {
 

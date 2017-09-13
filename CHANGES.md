@@ -1,4 +1,5 @@
 #4.0.26 2017-??-??
+ - 2017-09-13 Fixed bug#[13088](https://bugs.otrs.org/show_bug.cgi?id=13088) - EscalationTime shows in seconds in CSV export.
 
 #4.0.25 2017-09-19
  - 2017-09-07 Improved validation in statistic import and export.
