@@ -10123,6 +10123,10 @@ via the Preferences button after logging in.
                     <IconBig>fa-plug</IconBig>
                     <Prio>1000</Prio>
                 </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.PackageManager.css</CSS>
+                    <JavaScript>Core.Agent.Admin.PackageManager.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

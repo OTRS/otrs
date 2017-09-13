@@ -130,6 +130,38 @@ sub FutureTaskList {
     return @List;
 }
 
+=head2 TaskList()
+
+get the list of scheduler tasks
+
+    my @List = $SchedulerObject->TaskList(
+        Type => 'some type',  # optional
+    );
+
+Returns:
+
+    @List = (
+        {
+            TaskID => 123,
+            Name   => 'any name',
+            Type   => 'GenericInterface',
+        },
+        {
+            TaskID => 456,
+            Name   => 'any other name',
+            Type   => 'GenericInterface',
+        },
+        # ...
+    );
+
+=cut
+
+sub TaskList {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB')->TaskList(%Param);
+}
+
 =head2 FutureTaskDelete()
 
 delete a task from scheduler future task list

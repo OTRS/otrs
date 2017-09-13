@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.1">
+    <Name>TestITSMCore</Name>
+    <Version>6.0.20</Version>
+    <Vendor>OTRS AG</Vendor>
+    <URL>http://otrs.org/</URL>
+    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <Framework>6.0.x</Framework>
+    <PackageRequired Version="6.0.20">TestGeneralCatalog</PackageRequired>
+</otrs_package>

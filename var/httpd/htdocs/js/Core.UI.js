@@ -331,11 +331,13 @@ Core.UI = (function (TargetNS) {
      * @param {String} Type Error|Notice (default)
      * @param {String} Link the (internal) URL to which the notification text should point
      * @param {Function} Callback function which should be executed once the notification was hidden
+     * @param {String} ID The id for the newly created notification (default: no ID)
+     * @param {String} Icon Class of a fontawesome icon which will be added before the text (optional)
      * @returns {Boolean} true or false depending on if the notification could be shown or not
      * @description
      *      Displays a notification on top of the page.
      */
-    TargetNS.ShowNotification = function (Text, Type, Link, Callback) {
+    TargetNS.ShowNotification = function (Text, Type, Link, Callback, ID, Icon) {
 
         var $ExistingNotifications,
             $NotificationObj;
@@ -373,6 +375,8 @@ Core.UI = (function (TargetNS) {
             Core.Template.Render("Agent/Notification", {
                 Class: Type,
                 URL: Link,
+                ID: ID,
+                Icon: Icon,
                 Text: Core.Language.Translate(Text)
             })
         );

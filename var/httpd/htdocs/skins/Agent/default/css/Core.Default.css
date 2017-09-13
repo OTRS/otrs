@@ -874,23 +874,15 @@ table.AttachmentList.DataTable thead th {
     background: #b8384e;
 }
 
-.MessageBox.Error p,
-.MessageBox.Error a {
-    color: rgba(255, 255, 255, 0.8);
-}
-
 .MessageBox.Confirmation {
-    border-color: #049E35;
-    background: #1AEE47;
+    background: #049E35;
 }
 
-.MessageBox.Confirmation p {
-    border-color: #36F374;
-}
-
+.MessageBox.Error p,
+.MessageBox.Error a,
 .MessageBox.Confirmation p,
 .MessageBox.Confirmation a {
-    color: #044016;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .MessageBox p a:after {

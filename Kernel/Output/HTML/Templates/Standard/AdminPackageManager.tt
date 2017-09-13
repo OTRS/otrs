@@ -344,7 +344,7 @@
                                     [% Translate("Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.", Data.MaxAllowedPacketRecommended, Data.MaxAllowedPacket) | html %]
                                 </p>
 [% RenderBlockEnd("DatabasePackageSizeWarning") %]
-                                <button class="Fullsize Center CallForAction LittleSpacingTop" type="submit" value="[% Translate("Install") | html %]">
+                                <button class="Fullsize Center CallForAction LittleSpacingTop PackageAction" type="submit" value="[% Translate("Install") | html %]">
                                     <span><i class="fa fa-upload"></i> [% Translate("Install Package") | html %]</span>
                                 </button>
                             </form>
@@ -380,7 +380,11 @@
                             </form>
                         </li>
 [% RenderBlockEnd("CloudServicesWarning") %]
-
+                        [% IF Data.InstalledPackages %]
+                        <li>
+                            <a href="#" class="CallForAction Fullsize Center UpgradeAll PackageAction"><span><i class="fa fa-arrow-circle-o-up"></i>[% Translate("Upgrade all installed packages") | html %]</span></a>
+                        </li>
+                        [% END %]
                     </ul>
                 </div>
             </div>
@@ -427,10 +431,10 @@
                                 <td title="[% Data.Description | html %]">[% Data.Description | truncate(55) | html %]</td>
                                 <td>
 [% RenderBlockStart("ShowRemotePackageInstall") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Install") | html %]</a>
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Install") | html %]</a>
 [% RenderBlockEnd("ShowRemotePackageInstall") %]
 [% RenderBlockStart("ShowRemotePackageUpgrade") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpgradeRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Upgrade") | html %]</a>
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpgradeRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Upgrade") | html %]</a>
 [% RenderBlockEnd("ShowRemotePackageUpgrade") %]
                                 </td>
                             </tr>
@@ -487,15 +491,15 @@
                                 <td>[% Translate(Data.Status) | html %]</td>
                                 <td>
 [% RenderBlockStart("ShowLocalPackageInstall") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Install;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Install") | html %]</a>
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Install;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Install") | html %]</a>
                                     <br/><br/>
 [% RenderBlockEnd("ShowLocalPackageInstall") %]
 [% RenderBlockStart("ShowLocalPackageUninstall") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Uninstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Uninstall") | html %]</a>
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Uninstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Uninstall") | html %]</a>
                                     <br/>
 [% RenderBlockEnd("ShowLocalPackageUninstall") %]
 [% RenderBlockStart("ShowLocalPackageReinstall") %]
-                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Package not correctly deployed! Please reinstall the package.") | html %]">[% Translate("Reinstall") | html %]</a>
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Package not correctly deployed! Please reinstall the package.") | html %]">[% Translate("Reinstall") | html %]</a>
                                     <br/>
 [% RenderBlockEnd("ShowLocalPackageReinstall") %]
                                 </td>
@@ -591,14 +595,14 @@
 [% RenderBlockEnd("PackageDownloadRemote") %]
 [% RenderBlockStart("PackageRebuild") %]
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=RebuildPackage;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" class="CallForAction Fullsize Center">
+                            <a class="CallForAction Fullsize Center PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=RebuildPackage;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">
                                 <span><i class="fa fa-retweet"></i>[% Translate("Rebuild package") | html %]</span>
                             </a>
                         </li>
 [% RenderBlockEnd("PackageRebuild") %]
 [% RenderBlockStart("PackageReinstall") %]
                         <li>
-                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]" class="CallForAction Fullsize Center">
+                            <a class="CallForAction Fullsize Center PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Reinstall;Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">
                                 <span><i class="fa fa-refresh"></i>[% Translate("Reinstall package") | html %]</span>
                             </a>
                         </li>

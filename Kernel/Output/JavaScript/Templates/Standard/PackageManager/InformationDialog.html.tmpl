@@ -1,0 +1,47 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="InnerContent UpgradeAllDialog">
+    <h2 class="Center">{{ 'Process state' | Translate }}:
+{% if UpgradeStatus === 'Running'%}
+        <span class="Warning">
+            {{ 'Running' | Translate }}
+{% elseif UpgradeStatus === 'Finished' %}
+    {% if UpgradeSuccess %}
+        <span class="Success">
+    {% else %}
+        <span class="Fail">
+    {% endif %}
+            {{ 'Finished' | Translate }}
+{% else %}
+        <span class="Warning">
+            {{ 'Unknown' | Translate }}
+{% endif %}
+        </span>
+    </h2>
+{% if PackageList.length %}
+    <table class="DataTable SpacingTop" id="PackageList" summary="List of packages been upgraded">
+        <thead>
+            <tr>
+                <th>{{ 'Name' | Translate }}</th>
+                <th class="W33pc Center">{{ 'Status' | Translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for item in PackageList %}
+            <tr>
+                <td>{{ item.Name }}</td>
+                <td class="{{item.Class}} Center" title="{{item.StatusMessage}}">{{item.StatusDisplay}}</td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="Center">{{ 'No package information available.' | Translate }}</p>
+{% endif %}
+</div>

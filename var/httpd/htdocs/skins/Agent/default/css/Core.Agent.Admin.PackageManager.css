@@ -1,0 +1,40 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+
+/**
+ * @subsection      Upgrade all
+ */
+
+.Dialog > .Content .InnerContent.UpgradeAllDialog {
+    width: 400px;
+    padding: 10px;
+}
+
+.UpgradeAllDialog i.Success,
+.UpgradeAllDialog td.Success,
+.UpgradeAllDialog span.Success {
+    color: green;
+}
+.UpgradeAllDialog td.Warning,
+.UpgradeAllDialog span.Warning {
+    color: #F7AE40;
+}
+.UpgradeAllDialog td.Fail,
+.UpgradeAllDialog span.Fail {
+    color: #E95F53;
+}
+
+
+} /* end @media */

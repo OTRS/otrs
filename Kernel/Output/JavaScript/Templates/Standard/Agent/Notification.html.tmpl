@@ -6,10 +6,10 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="MessageBox {{ Class }}">
+<div class="MessageBox {{ Class }}"{% if ID %} id="{{ ID }}"{% endif %}>
     <p>
         <a href="{{ URL|safe }}">
-            {{ Text }}
+            {% if Icon %}<i class="fa {{ Icon }}"></i> &nbsp;{% endif %}{{ Text }}
         </a>
     </p>
 </div>
