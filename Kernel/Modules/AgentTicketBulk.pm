@@ -563,6 +563,13 @@ sub Run {
                 # challenge token check for write action
                 $LayoutObject->ChallengeTokenCheck();
 
+                # Clean up 'TicketSearch' cache type if Bulk screen is reached from ticket search.
+                if ( $Self->{LastScreenOverview} =~ /Action=AgentTicketSearch/ ) {
+                    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                        Type => 'TicketSearch',
+                    );
+                }
+
                 # set queue
                 if ( $GetParam{'QueueID'} || $GetParam{'Queue'} ) {
                     $TicketObject->TicketQueueSet(

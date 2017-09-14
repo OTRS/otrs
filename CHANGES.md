@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-14 Fixed bug#[12991](https://bugs.otrs.org/show_bug.cgi?id=12991) - Search with additional filters returns previous results after bulk change unless exit and re-run search.
  - 2017-09-14 Added new support data plugins for additional UI stats.
  - 2017-09-13 Fixed bug#[13045](https://bugs.otrs.org/show_bug.cgi?id=13045) - Usability / visibilty of error handling screens.
  - 2017-09-13 Added new command Admin::Package::UpgradeAll, which allows updating all installed packages at once. This can also be triggered from the package manager screen.
