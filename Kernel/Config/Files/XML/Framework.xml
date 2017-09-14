@@ -7661,10 +7661,10 @@ You can log in via the following URL:
         <Value>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Theme</Item>
-                <Item Key="PreferenceGroup">UserProfile</Item>
+                <Item Key="PreferenceGroup">Miscellaneous</Item>
                 <Item Key="Label" Translatable="1">Theme</Item>
                 <Item Key="Desc" Translatable="1">Select your preferred theme for OTRS.</Item>
-                <Item Key="Key" Translatable="1">Frontend theme</Item>
+                <Item Key="Key" Translatable="1"></Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">3000</Item>
                 <Item Key="Active">1</Item>
