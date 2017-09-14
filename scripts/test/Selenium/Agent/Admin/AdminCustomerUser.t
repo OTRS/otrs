@@ -309,15 +309,13 @@ $Selenium->RunTest(
 
         # click on '[ Customer User ]' to test customer user creation from iframe
         $Selenium->find_element( "#OptionCustomer", 'css' )->click();
-
-        sleep 1;
-
         $Selenium->switch_to_frame( $Selenium->find_element( '.TextOption', 'css' ) );
 
         # click to 'Add customer user'
-        $Selenium->find_element("//button[\@class='CallForAction Fullsize Center']")->VerifiedClick();
-
-        sleep 1;
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".CallForAction.Fullsize.Center").length' );
+        $Selenium->find_element("//button[\@class='CallForAction Fullsize Center']")->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
 
         # create new test customer user
         my $RandomID3 = 'TestCustomer' . $Helper->GetRandomID();
@@ -329,12 +327,18 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserCustomerID').val('$RandomID').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( '#Submit', 'css' )->click();
+        $Selenium->execute_script("\$('#Submit').click();");
 
-        # TODO FIX IT: switch_to_window makes some problem in new release of FF
         # return focus back on AgentTicketPhone window
-        my $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->switch_to_frame();
+
+        # verify created customer user is added directly in AgentTicketPhone form
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
+        $Self->Is(
+            $Selenium->find_element( "#CustomerID", 'css' )->get_value(),
+            $RandomID,
+            "Test customer user $RandomID3 is successfully created from AgentTicketPhone screen"
+        );
 
         # verify created customer user is added directly in AgentTicketPhone form
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
