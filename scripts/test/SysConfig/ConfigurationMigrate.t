@@ -152,11 +152,8 @@ else {
 # RebuildConfig
 my $Rebuild = $SysConfigObject->ConfigurationDeploy(
     Comments => "UnitTest Configuration Rebuild",
-
-    # AllSettings  => 1,
-    # Force        => 1,
-    # NoValidation => 1,
-    UserID => 1,
+    Force    => 1,
+    UserID   => 1,
 );
 
 $Self->True(

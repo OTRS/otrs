@@ -1372,6 +1372,10 @@ sub DefaultSettingLock {
     $CacheObject->CleanUp(
         Type => 'SysConfigDefaultListGet',
     );
+    $CacheObject->Delete(
+        Type => 'SysConfigDefaultList',
+        Key  => 'DefaultSettingList',
+    );
 
     return $ExclusiveLockGUID;
 }
@@ -1628,6 +1632,10 @@ sub DefaultSettingUnlock {
     $CacheObject->CleanUp(
         Type => 'SysConfigDefaultListGet',
     );
+    $CacheObject->Delete(
+        Type => 'SysConfigDefaultList',
+        Key  => 'DefaultSettingList',
+    );
 
     return 1;
 }
@@ -1680,8 +1688,9 @@ sub DefaultSettingDirtyCleanUp {
     $CacheObject->CleanUp(
         Type => 'SysConfigDefaultListGet',
     );
-    $CacheObject->CleanUp(
+    $CacheObject->Delete(
         Type => 'SysConfigDefaultList',
+        Key  => 'DefaultSettingList',
     );
     $CacheObject->CleanUp(
         Type => 'SysConfigIsDirty',
@@ -4470,12 +4479,13 @@ sub DeploymentLock {
                 },
             );
 
-            my $Locked = $LockedDateTimeObject > $CurrentDateTimeObject ? 1 : 0;
+            my $IsLocked = $LockedDateTimeObject > $CurrentDateTimeObject ? 1 : 0;
 
-            if ($Locked) {
+            if ($IsLocked) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "It's not possible to lock a deployment if a setting is currently locked.",
+                    Message =>
+                        "It's not possible to lock a deployment if a setting is currently locked($Locked->{Name}.",
                 );
                 return;
             }

@@ -118,7 +118,7 @@ my @Tests = (
             UserID => 1,
         },
         Success => 1,
-        Unlock  => 1
+        Unlock  => 1,
     },
     {
         Name  => 'Already Locked',
@@ -134,7 +134,7 @@ my @Tests = (
             ExclusiveLockGUID => '',
         },
         Success => 0,
-        Unlock  => 1
+        Unlock  => 1,
     },
     {
         Name  => 'Correct Invalid GUID (0)',
@@ -143,7 +143,7 @@ my @Tests = (
             ExclusiveLockGUID => 0,
         },
         Success => 0,
-        Unlock  => 1
+        Unlock  => 1,
     },
     {
         Name  => 'Correct Invalid GUID (a)',
@@ -152,7 +152,7 @@ my @Tests = (
             ExclusiveLockGUID => 'a',
         },
         Success => 0,
-        Unlock  => 1
+        Unlock  => 1,
     },
     {
         Name  => 'Correct Invalid GUID (a) x 31',
@@ -161,7 +161,7 @@ my @Tests = (
             ExclusiveLockGUID => 'a' x 31,
         },
         Success => 0,
-        Unlock  => 1
+        Unlock  => 1,
     },
     {
         Name  => 'Correct Valid GUID (a) x 32',
@@ -170,7 +170,7 @@ my @Tests = (
             ExclusiveLockGUID => 'a' x 32,
         },
         Success => 1,
-        Unlock  => 1
+        Unlock  => 1,
     },
     {
         Name  => 'Correct Valid GUID (a) x 33',
@@ -179,14 +179,14 @@ my @Tests = (
             ExclusiveLockGUID => 'a' x 33,
         },
         Success => 0,
-        Unlock  => 1
+        Unlock  => 1,
     },
     {
         Name  => 'Lock default setting (with force).',
         Param => {
             UserID            => 1,
             ExclusiveLockGUID => 'a' x 32,
-            Force             => 1
+            Force             => 1,
         },
         Success     => 1,
         Unlock      => 1,
@@ -222,6 +222,7 @@ TEST:
 for my $Test (@Tests) {
 
     if ( $Test->{Unlock} ) {
+
         my $Success = $SysConfigDBObject->DeploymentUnlock(
             All => 1,
         );
