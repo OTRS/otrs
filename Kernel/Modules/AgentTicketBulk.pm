@@ -453,6 +453,16 @@ sub Run {
             # challenge token check for write action
             $Self->{LayoutObject}->ChallengeTokenCheck();
 
+            # set queue
+            if ( $GetParam{'QueueID'} || $GetParam{'Queue'} ) {
+                $Self->{TicketObject}->TicketQueueSet(
+                    QueueID  => $GetParam{'QueueID'},
+                    Queue    => $GetParam{'Queue'},
+                    TicketID => $TicketID,
+                    UserID   => $Self->{UserID},
+                );
+            }
+
             # set owner
             if ( $Self->{Config}->{Owner} && ( $GetParam{'OwnerID'} || $GetParam{'Owner'} ) ) {
                 $Self->{TicketObject}->TicketOwnerSet(
@@ -508,16 +518,6 @@ sub Run {
                         UserID   => $Self->{UserID},
                     );
                 }
-            }
-
-            # set queue
-            if ( $GetParam{'QueueID'} || $GetParam{'Queue'} ) {
-                $Self->{TicketObject}->TicketQueueSet(
-                    QueueID  => $GetParam{'QueueID'},
-                    Queue    => $GetParam{'Queue'},
-                    TicketID => $TicketID,
-                    UserID   => $Self->{UserID},
-                );
             }
 
             # send email
