@@ -1190,13 +1190,14 @@ sub LoadDefaults {
     };
     $Self->{PreferencesGroups}->{Theme} = {
         'Active'  => '1',
-        'PreferenceGroup'  => 'UserProfile',
-        'Key'     => 'Frontend theme',
+        'PreferenceGroup'  => 'Miscellaneous',
+        'Key'     => '',
         'Label'   => 'Theme',
         'Desc'    => 'Select your preferred theme for OTRS.',
         'Module'  => 'Kernel::Output::HTML::Preferences::Theme',
         'PrefKey' => 'UserTheme',
         'Prio'    => '3000',
+        'NeedsReload' => 1,
     };
 
     # --------------------------------------------------- #
