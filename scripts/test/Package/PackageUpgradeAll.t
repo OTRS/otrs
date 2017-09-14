@@ -80,11 +80,11 @@ my @Tests = (
         },
         PackageOnlineList => 'PackageOnlineListITSM620.asc',
         ExpectedResult    => {
-            Success   => 1,
+            Success        => 1,
             AlreadyUpdated => {},
-            Failed    => {},
-            Installed => {},
-            Updated   => {
+            Failed         => {},
+            Installed      => {},
+            Updated        => {
                 TestGeneralCatalog                => 1,
                 TestImportExport                  => 1,
                 TestITSMCore                      => 1,
@@ -122,10 +122,10 @@ my @Tests = (
         },
         PackageOnlineList => 'PackageOnlineListITSM620.asc',
         ExpectedResult    => {
-            Success   => 1,
+            Success        => 1,
             AlreadyUpdated => {},
-            Failed    => {},
-            Installed => {
+            Failed         => {},
+            Installed      => {
                 TestGeneralCatalog => 1,
                 TestITSMCore       => 1,
             },
@@ -169,9 +169,9 @@ my @Tests = (
         },
         PackageOnlineList => 'PackageOnlineListITSM620MissingITSMCore.asc',
         ExpectedResult    => {
-            Success => 0,
+            Success        => 0,
             AlreadyUpdated => {},
-            Failed  => {
+            Failed         => {
                 NotFound => {
                     TestITSMCore => 1,
                 },

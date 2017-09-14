@@ -313,8 +313,8 @@ $Selenium->RunTest(
 
         # click to 'Add customer user'
         $Selenium->WaitFor(
-                JavaScript =>
-                   'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
         $Selenium->find_element("//button[\@class='CallForAction Fullsize Center']")->VerifiedClick();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#UserFirstname").length' );
