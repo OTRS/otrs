@@ -414,7 +414,7 @@ sub TransportSettingsDisplayGet {
         Data        => \%Templates,
         Name        => 'TransportEmailTemplate',
         Translation => 0,
-        SelectedID  => $Param{Data}->{TransportEmailTemplate},
+        SelectedID  => $Param{Data}->{TransportEmailTemplate} || 'Default',
         Class       => 'Modernize W50pc',
     );
 
