@@ -1233,8 +1233,8 @@ sub _Edit {
                 Value => Translatable('No'),
             },
             {
-                Key      => '1',
-                Value    => Translatable('Yes'),
+                Key   => '1',
+                Value => Translatable('Yes'),
             },
             {
                 Key      => '2',
