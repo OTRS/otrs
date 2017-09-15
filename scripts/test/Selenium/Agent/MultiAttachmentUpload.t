@@ -180,10 +180,10 @@ $Selenium->RunTest(
                 );
 
                 # Confirm dialog action.
-                $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+                $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
                 # Check max size.
-                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/EmailParser/PostMaster-Test9.box";
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/EmailParser/PostMaster-Test13.box";
                 $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
                 $Selenium->WaitFor(
@@ -191,14 +191,14 @@ $Selenium->RunTest(
                 );
 
                 # Verify dialog message.
-                my $UploadMaxMessage = "No space left for the following files: PostMaster-Test9.box";
+                my $UploadMaxMessage = "No space left for the following files: PostMaster-Test13.box";
                 $Self->True(
                     index( $Selenium->get_page_source(), $UploadMaxMessage ) > -1,
                     "$Action - UploadMaxMessage message is found",
                 );
 
                 # Confirm dialog action.
-                $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+                $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
                 # Submit and check later if files still there.
                 $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
@@ -271,8 +271,7 @@ $Selenium->RunTest(
                     );
                 }
 
-                $Selenium->find_element("//a[contains(\@href, \'Action=$Action;TicketID=$TicketID' )]")
-                    ->VerifiedClick();
+                $Selenium->find_element("//a[contains(\@href, \'Action=$Action;TicketID=$TicketID' )]")->click();
 
                 $Selenium->WaitFor( WindowCount => 2 );
                 my $Handles = $Selenium->get_window_handles();
@@ -328,10 +327,10 @@ $Selenium->RunTest(
                 );
 
                 # Confirm dialog action.
-                $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+                $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
                 # Check max size.
-                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/EmailParser/PostMaster-Test9.box";
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/EmailParser/PostMaster-Test13.box";
                 $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
                 $Selenium->WaitFor(
@@ -339,14 +338,14 @@ $Selenium->RunTest(
                 );
 
                 # Verify dialog message.
-                my $UploadMaxMessage = "No space left for the following files: PostMaster-Test9.box";
+                my $UploadMaxMessage = "No space left for the following files: PostMaster-Test13.box";
                 $Self->True(
                     index( $Selenium->get_page_source(), $UploadMaxMessage ) > -1,
                     "$Action - UploadMaxMessage message is found",
                 );
 
                 # Confirm dialog action.
-                $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
+                $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
                 # Submit to check if files still there.
                 $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
