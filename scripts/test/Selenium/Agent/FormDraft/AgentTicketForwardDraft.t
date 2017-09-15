@@ -147,9 +147,7 @@ $Selenium->RunTest(
         };
 
         # Click on Forward and switch window.
-        $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentTicket$FormDraftCase->{Module};TicketID=$TicketID' )]"
-        )->click();
+        $Selenium->find_element( "Forward", 'link_text' )->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
