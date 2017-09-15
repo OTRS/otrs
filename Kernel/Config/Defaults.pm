@@ -196,7 +196,7 @@ sub LoadDefaults {
         'lt'      => 'Lithuanian',
         'lv'      => 'Latvian',
         'ms'      => 'Malay',
-        'nl'      => 'Nederlands',
+        'nl'      => 'Dutch',
         'nb_NO'   => 'Norwegian',
         'pt_BR'   => 'Portuguese (Brasil)',
         'pt'      => 'Portuguese',
