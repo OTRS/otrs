@@ -2000,7 +2000,9 @@ sub NavigationLookupGet {
         'SystemMaintenance'                                   => 'Core::SystemMaintenance',
 
         # Packages
-        'OutputFilter' => 'Frontend::Base::OutputFilter',
+        'OutputFilter'                       => 'Frontend::Base::OutputFilter',
+        'Frontend::Customer::ModuleMetaHead' => 'Frontend::Customer',
+        'Frontend::Public::ModuleMetaHead'   => 'Frontend::Public',
 
         # OTRSBusiness
         'Core::NotificationEvent'               => 'Frontend::Agent::View::NotificationView',
