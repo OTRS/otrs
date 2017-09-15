@@ -79,10 +79,10 @@ $Selenium->RunTest(
 
         # edit checked stored values
         $Selenium->execute_script("\$('#UserRefreshTime').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserRefreshTime", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( '#UserRefreshTimeUpdate', 'css' )->VerifiedClick();
 
         $Selenium->execute_script("\$('#UserShowTickets').val('20').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserShowTickets", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( '#UserShowTicketsUpdate', 'css' )->VerifiedClick();
 
         # check edited values
         $Self->Is(
@@ -105,7 +105,7 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->VerifiedSubmit();
+            $Selenium->find_element( '#UserLanguageUpdate', 'css' )->VerifiedClick();
 
             # check edited language value
             $Self->Is(
@@ -135,16 +135,16 @@ $Selenium->RunTest(
         }
 
         # try updating the UserGoogleAuthenticatorSecret (which has a regex validation configured)
-        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->send_keys('Invalid Key');
-        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey",       'css' )->send_keys('Invalid Key');
+        $Selenium->find_element( '#UserGoogleAuthenticatorSecretKeyUpdate', 'css' )->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), $SharedSecretConfig->{'ValidateRegexMessage'} ) > -1,
             "Error message for invalid shared secret found on screen"
         );
 
         # now use a valid secret
-        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->send_keys('ABCABCABCABCABC2');
-        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey",       'css' )->send_keys('ABCABCABCABCABC2');
+        $Selenium->find_element( '#UserGoogleAuthenticatorSecretKeyUpdate', 'css' )->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), 'Preferences updated successfully!' ) > -1,
             "Success message found on screen"
@@ -160,7 +160,8 @@ $Selenium->RunTest(
                 })
             ).val('$MaliciousCode').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( '#UserLanguage', 'css' )->VerifiedSubmit();
+        $Selenium->find_element( '#UserLanguage',       'css' )->VerifiedSubmit();
+        $Selenium->find_element( '#UserLanguageUpdate', 'css' )->VerifiedClick();
 
         # Check if malicious code was sanitized.
         $Self->True(

@@ -156,7 +156,7 @@ $Selenium->RunTest(
 
         $Selenium->execute_script("\$('#ComposeStateID').val('4').trigger('redraw.InputField').trigger('change');");
 
-        $Selenium->find_element( "#ToCustomer", 'css' )->submit();
+        $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # return back to AgentTicketZoom
         $Selenium->WaitFor( WindowCount => 1 );

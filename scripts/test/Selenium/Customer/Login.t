@@ -71,7 +71,7 @@ $Selenium->RunTest(
         $Element->send_keys($TestCustomerUserLogin);
 
         # login
-        $Element->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         # check if login is successful
         $Element = $Selenium->find_element( 'a#LogoutButton', 'css' );

@@ -89,7 +89,7 @@ $Selenium->RunTest(
         $Element->send_keys( $TestUserLogins[0] );
 
         # login
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
         # try to expand the user profile sub menu by clicking the avatar
         $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();
@@ -158,7 +158,7 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->send_keys( $TestUserLogins[0] );
 
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), 'Please note that the session limit is almost reached.' ) > -1,
@@ -186,7 +186,7 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->send_keys( $TestUserLogins[2] );
 
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), 'Session per user limit reached!' ) > -1,
@@ -208,7 +208,7 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->send_keys( $TestUserLogins[0] );
 
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), 'Session limit reached! Please try again later.' ) > -1,
@@ -231,7 +231,7 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->send_keys( $TestUserLogins[0] );
 
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( '#LoginButton', 'css' )->VerifiedClick();
 
         # try to expand the user profile sub menu by clicking the avatar
         $Selenium->find_element( '.UserAvatar > a', 'css' )->VerifiedClick();

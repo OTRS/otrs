@@ -125,7 +125,7 @@ $Selenium->RunTest(
                 JavaScript => 'return typeof($) === "function" && $(".SidebarColumn fieldset .Value").length'
             );
 
-            $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
             my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
