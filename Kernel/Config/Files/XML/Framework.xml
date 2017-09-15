@@ -299,7 +299,7 @@
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
                 <Item Key="StyleTop">10px</Item>
-                <Item Key="StyleRight">5px</Item>
+                <Item Key="StyleRight">45px</Item>
                 <Item Key="StyleHeight">45px</Item>
                 <Item Key="StyleWidth">220px</Item>
             </Hash>
@@ -325,7 +325,7 @@
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
                 <Item Key="StyleTop">10px</Item>
-                <Item Key="StyleRight">5px</Item>
+                <Item Key="StyleRight">45px</Item>
                 <Item Key="StyleHeight">45px</Item>
                 <Item Key="StyleWidth">220px</Item>
             </Hash>
