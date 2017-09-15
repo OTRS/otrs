@@ -62,8 +62,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID", 'css' );
 
         # check client side validation
-        $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Name",   'css' )->clear();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -95,7 +95,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($TypeRandomID);
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), $TypeRandomID ) > -1,
@@ -155,7 +155,7 @@ $Selenium->RunTest(
 
         # try to set test type to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # default ticket type cannot be set to invalid
         $Self->True(
@@ -180,7 +180,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name", 'css' )->clear();
         $Selenium->find_element( "#Name", 'css' )->send_keys($TypeRandomID);
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check class of invalid Type in the overview table
         $Self->True(

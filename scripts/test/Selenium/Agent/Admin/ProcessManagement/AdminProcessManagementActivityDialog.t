@@ -52,7 +52,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
-        $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # click on ActivityDialog dropdown
         $Selenium->find_element( "Activity Dialogs", 'link_text' )->VerifiedClick();
@@ -82,8 +82,8 @@ $Selenium->RunTest(
         }
 
         # check client side validation
-        $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Name",   'css' )->clear();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -99,7 +99,7 @@ $Selenium->RunTest(
             "\$('#Interface').val('BothInterfaces').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->execute_script("\$('#Permission').val('rw').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -171,7 +171,7 @@ $Selenium->RunTest(
             "\$('#Interface').val('AgentInterface').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->execute_script("\$('#Permission').val('ro').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # Return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );

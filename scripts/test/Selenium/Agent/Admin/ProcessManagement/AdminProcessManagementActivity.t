@@ -51,7 +51,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
-        $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # create new test Activity
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityNew' )]")->VerifiedClick();
@@ -74,8 +74,8 @@ $Selenium->RunTest(
         }
 
         # check client side validation
-        $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Name",   'css' )->clear();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -85,8 +85,8 @@ $Selenium->RunTest(
         );
 
         # input name field and submit
-        $Selenium->find_element( "#Name", 'css' )->send_keys($ActivityRandom);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name",   'css' )->send_keys($ActivityRandom);
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -133,8 +133,8 @@ $Selenium->RunTest(
             "#Name stored value",
         );
 
-        $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name",   'css' )->send_keys("edit");
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # return to main window after the popup is closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );

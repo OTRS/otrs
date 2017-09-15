@@ -51,7 +51,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
-        $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # click on Transition Actions dropdown
         $Selenium->find_element( "Transition Actions", 'link_text' )->VerifiedClick();
@@ -91,7 +91,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKey);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValue);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -129,7 +129,7 @@ $Selenium->RunTest(
 
         # go to edit test TransitionAction screen
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
-            ->VerifiedClick();
+            ->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -162,6 +162,7 @@ $Selenium->RunTest(
 
         # try to remove only possible Config Parameters
         $Selenium->find_element( ".RemoveButton", 'css' )->click();
+
         $Self->True(
             $Selenium->accept_alert(),
             "Unable to remove only field - JS is success"
@@ -179,12 +180,13 @@ $Selenium->RunTest(
             $Selenium->find_element(".//*[\@id='ConfigValue[2]']"),
             "New Config value field is added - JS is success"
         );
+        $Selenium->execute_script("\$('.RemoveButton:eq(1)').click()");
+
+        sleep 1;
 
         # remove new Config key and value fields
         $Self->True(
-            $Selenium->execute_script(
-                "return \$(\$('#ConfigParams').find('fieldset')[1]).find('.RemoveButton').click()"
-            ),
+            $Selenium->execute_script('return typeof($) === "function" && $(".RemoveButton:visible").length === 1'),
             "New Config key and value fields are removed - JS is success"
         );
 
@@ -196,7 +198,7 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKeyEdit);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->clear();
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValueEdit);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );

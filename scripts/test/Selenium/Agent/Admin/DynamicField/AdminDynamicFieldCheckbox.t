@@ -75,7 +75,7 @@ $Selenium->RunTest(
             # check client side validation
             my $Element2 = $Selenium->find_element( "#Name", 'css' );
             $Element2->send_keys("");
-            $Element2->VerifiedSubmit();
+            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             $Self->Is(
                 $Selenium->execute_script(
@@ -88,9 +88,9 @@ $Selenium->RunTest(
             # create real text DynamicFieldCheckbox
             my $RandomID = $Helper->GetRandomID();
 
-            $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#Name",  'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#Name",   'css' )->send_keys($RandomID);
+            $Selenium->find_element( "#Label",  'css' )->send_keys($RandomID);
+            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # check for test DynamicFieldCheckbox on AdminDynamicField screen
             $Self->True(
@@ -116,7 +116,7 @@ $Selenium->RunTest(
             );
 
             # submit form
-            $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # check new and edited DynamicFieldCheckbox values
             $Selenium->find_element( $EditName, 'link_text' )->VerifiedClick();

@@ -63,7 +63,7 @@ $Selenium->RunTest(
 
         # check search field
         $Selenium->find_element( "#Search", 'css' )->send_keys($TestUserLogin);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), $TestUserLogin ) > -1,
             "$TestUserLogin found on page",
@@ -96,7 +96,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#UserFirstname", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -115,13 +115,13 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $UserRandomID . '@localhost.com' );
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
         # test search filter by agent $UserRandomID
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($UserRandomID);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         # edit real test agent values
         my $EditRandomID = 'EditedTestAgent' . $Helper->GetRandomID();
@@ -144,7 +144,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($EditRandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->clear();
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($EditRandomID);
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
         #check is there notification after agent is updated
         my $Notification = 'Agent updated!';
@@ -156,7 +156,7 @@ $Selenium->RunTest(
         # test search filter by agent $EditRandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($EditRandomID);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         #check new agent values
         $Selenium->find_element( $UserRandomID, 'link_text' )->VerifiedClick();
@@ -183,12 +183,12 @@ $Selenium->RunTest(
 
         # set added test agent to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserFirstname", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # test search filter by agent $UserRandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($UserRandomID);
-        $Selenium->find_element( "#Search", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Search'][\@type='submit']")->VerifiedClick();
 
         # check class of invalid Agent in the overview table
         $Self->True(

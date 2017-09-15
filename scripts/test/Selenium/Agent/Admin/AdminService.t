@@ -53,8 +53,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
 
         # check client side validation
-        $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Name",   'css' )->clear();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -97,7 +97,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name",    'css' )->send_keys($ServiceRandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
-        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # create second test Service
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
@@ -106,7 +106,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Name",    'css' )->send_keys($ServiceRandomID2);
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
-        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # check for created test Services on AdminService screen
         $Self->True(
@@ -167,7 +167,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ParentID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check class of invalid Service in the overview table
         $Self->True(
@@ -197,7 +197,7 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
         $Selenium->execute_script("\$('#ParentID').val('').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # create third test Service
         $Selenium->find_element("//a[contains(\@href, \'ServiceEdit;ServiceID=NEW' )]")->VerifiedClick();
@@ -210,7 +210,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('#ParentID').val('$ServiceID2').trigger('redraw.InputField').trigger('change');");
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
-        $Selenium->find_element( "#Name",    'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
 
         # Check for created test Services on AdminService screen.
         $Self->False(
