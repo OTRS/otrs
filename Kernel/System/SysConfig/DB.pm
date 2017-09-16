@@ -2981,6 +2981,9 @@ sub ModifiedSettingUpdate {
         }
     }
 
+    # Set is dirty to 1 if not defined.
+    $Param{IsDirty} //= 1;
+
     # Get modified setting.
     my %ModifiedSetting = $Self->ModifiedSettingGet(
         ModifiedID => $Param{ModifiedID},
@@ -2996,6 +2999,10 @@ sub ModifiedSettingUpdate {
         if ($DataIsDifferent) {
             $IsDifferent = 1;
         }
+    }
+
+    if ( $ModifiedSetting{IsDirty} != $Param{IsDirty} ) {
+        $IsDifferent = 1;
     }
 
     return 1 if !$IsDifferent;
@@ -3051,9 +3058,6 @@ sub ModifiedSettingUpdate {
     $Param{EffectiveValue} = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
         Data => $Param{EffectiveValue},
     );
-
-    # Set is dirty to 1 if not defined.
-    $Param{IsDirty} //= 1;
 
     $Param{ResetToDefault} = $Param{ResetToDefault} ? 1 : 0;
 
@@ -3841,11 +3845,11 @@ sub ConfigurationIsDirty {
             LEFT OUTER JOIN sysconfig_modified sm ON sm.name = sd.name
         WHERE ';
 
-    my $SQLWhere = 'sd.is_dirty = 1 OR sm.is_dirty = 1';
+    my $SQLWhere = 'sd.is_dirty = 1 OR (sm.user_id IS NULL AND sm.is_dirty = 1)';
 
     my @Bind;
     if ( $Param{UserID} ) {
-        $SQLWhere = 'sd.is_dirty = 1 OR ( sm.is_dirty = 1 and sm.change_by = ? )';
+        $SQLWhere = 'sd.is_dirty = 1 OR (sm.user_id IS NULL AND sm.is_dirty = 1 AND sm.change_by = ? )';
         push @Bind, \$Param{UserID};
     }
 

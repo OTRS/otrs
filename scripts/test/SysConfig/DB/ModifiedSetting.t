@@ -169,6 +169,34 @@ my @Tests = (
         },
     },
     {
+        Description => 'Update only IsDirty flag',
+        Config      => {
+            ModifiedSettingAdd => {
+                Data => {
+                    DefaultID      => $DefaultSettingID,
+                    Name           => $SettingName,
+                    TargetUserID   => 1,
+                    IsValid        => 1,
+                    EffectiveValue => 'öäüßüüäöäüß1öää?ÖÄPÜ',
+                    UserID         => 1,
+                },
+                ExpectedResult => 1,
+            },
+            ModifiedSettingUpdate => {
+                Data => {
+                    DefaultID      => $DefaultSettingID,
+                    Name           => $SettingName,
+                    TargetUserID   => 1,
+                    IsValid        => 1,
+                    IsDirty        => 0,
+                    EffectiveValue => 'öäüßüüäöäüß1öää?ÖÄPÜ',
+                    UserID         => 1,
+                },
+                ExpectedResult => 1,
+            },
+        },
+    },
+    {
         Description => 'Missing DefaultID',
         Config      => {
             ModifiedSettingAdd => {
