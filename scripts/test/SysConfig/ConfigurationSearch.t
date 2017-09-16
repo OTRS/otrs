@@ -135,12 +135,16 @@ for my $Test (@Tests) {
         );
         next TEST;
     }
-    $Self->IsDeeply(
-        \@Result,
-        $Test->{ExpectedResult},
-        "$Test->{Name} correct",
-    );
 
+    my %LookupResult = map { $_ => 1 } @Result;
+
+    for my $ExpectedItem ( @{ $Test->{ExpectedResult} } ) {
+
+        $Self->True(
+            $LookupResult{$ExpectedItem},
+            "$Test->{Name} correct - Found '$ExpectedItem'",
+        );
+    }
 }
 
 1;
