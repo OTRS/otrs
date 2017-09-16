@@ -486,8 +486,6 @@ for my $Test (@Tests) {
         delete $Setting{ChangeTime};
         delete $Setting{CreateTime};
         delete $Setting{SettingUID};
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Dumper( 'N', $Test->{Name}, 'is', \%Setting, 'should', $Test->{ExpectedValue} );
     }
 
     if ( !$Test->{Success} ) {
