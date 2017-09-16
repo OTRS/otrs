@@ -1173,12 +1173,7 @@ sub SendEmail {
         ATTACHMENT:
         for my $Attachment (@AttachmentData) {
             my $ContentID = $Attachment->{ContentID};
-            if (
-                $ContentID
-                && ( $Attachment->{ContentType} =~ /image/i )
-                && ( $Attachment->{Disposition} eq 'inline' )
-                )
-            {
+            if ( $ContentID && ( $Attachment->{ContentType} =~ /image/i ) ) {
                 my $ContentIDHTMLQuote = $LayoutObject->Ascii2Html(
                     Text => $ContentID,
                 );
@@ -1187,8 +1182,15 @@ sub SendEmail {
                 my $ContentIDLinkEncode = $LayoutObject->LinkEncode($ContentID);
                 $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
-                # ignore attachment if not linked in body
-                next ATTACHMENT if $GetParam{Body} !~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i;
+                # IF the image is referenced in the body set it as inline.
+                if ( $GetParam{Body} =~ /(\Q$ContentIDHTMLQuote\E|\Q$ContentID\E)/i ) {
+                    $Attachment->{Disposition} = 'inline';
+                }
+                elsif ( $Attachment->{Disposition} eq 'inline' ) {
+
+                    # Ignore attachment if not linked in body.
+                    next ATTACHMENT;
+                }
             }
 
             # remember inline images and normal attachments
@@ -1853,10 +1855,12 @@ sub _Mask {
             $Attachment->{ContentID}
             && $LayoutObject->{BrowserRichText}
             && ( $Attachment->{ContentType} =~ /image/i )
-            && ( $Attachment->{Disposition} eq 'inline' )
             )
         {
-            next ATTACHMENT;
+            my $ContentIDLinkEncode = $LayoutObject->LinkEncode( $Attachment->{ContentID} );
+            if ( $Param{Body} =~ /ContentID=\Q$ContentIDLinkEncode\E/i ) {
+                next ATTACHMENT;
+            }
         }
 
         push @{ $Param{AttachmentList} }, $Attachment;

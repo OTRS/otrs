@@ -93,6 +93,15 @@ sub ArticleRender {
         || $LayoutObject->{BrowserRichText}
         || 0;
 
+    # Show HTML if RichText is enabled and HTML attachment isn't missing.
+    my $ShowHTML         = $RichTextEnabled;
+    my $HTMLBodyAttachID = $Kernel::OM->Get('Kernel::Output::HTML::Article::MIMEBase')->HTMLBodyAttachmentIDGet(
+        %Param,
+    );
+    if ( $ShowHTML && !$HTMLBodyAttachID ) {
+        $ShowHTML = 0;
+    }
+
     # Get attachment index (excluding body attachments).
     my %AtmIndex = $ArticleBackendObject->ArticleAttachmentIndex(
         ArticleID        => $Param{ArticleID},
@@ -101,11 +110,35 @@ sub ArticleRender {
         ExcludeInline    => $RichTextEnabled,
     );
 
+    # Skip the images that are referenced in the body (bug #12987).
+    if ( $ShowHTML && %AtmIndex ) {
+        my %BodyAttachment = $ArticleBackendObject->ArticleAttachment(
+            ArticleID => $Param{ArticleID},
+            FileID    => $HTMLBodyAttachID,
+        );
+
+        my $Body = $BodyAttachment{Content};
+
+        ATTACHMENT:
+        for my $FileID ( sort keys %AtmIndex ) {
+            my %File = %{ $AtmIndex{$FileID} };
+
+            next ATTACHMENT if $File{ContentType} !~ m/image/i;
+            next ATTACHMENT if !$File{ContentID};
+
+            my ($ImageID) = ( $File{ContentID} =~ m/^<(.*)>$/i );
+
+            # Search in the article body if there is any reference to it.
+            if ( $Body =~ m/<img.+src="cid:$ImageID".*>/is ) {
+                delete $AtmIndex{$FileID};
+            }
+        }
+    }
+
     my @ArticleAttachments;
 
     # Add block for attachments.
     if (%AtmIndex) {
-
         my $Config = $ConfigObject->Get('Ticket::Frontend::ArticleAttachmentModule');
 
         ATTACHMENT:
@@ -168,16 +201,6 @@ sub ArticleRender {
             }
             push @ArticleAttachments, $Attachment;
         }
-    }
-
-    # Check if HTML should be displayed.
-    my $ShowHTML = $ConfigObject->Get('Ticket::Frontend::ZoomRichTextForce')
-        || $LayoutObject->{BrowserRichText}
-        || 0;
-
-    # Check if HTML attachment is missing.
-    if ( $ShowHTML && !$Kernel::OM->Get('Kernel::Output::HTML::Article::MIMEBase')->HTMLBodyAttachmentIDGet(%Param) ) {
-        $ShowHTML = 0;
     }
 
     my $ArticleContent;

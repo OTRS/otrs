@@ -1,0 +1,50 @@
+From: test <test@test.com>
+Subject: test
+To: test1 <test1@test.com>
+Message-ID: <test104@test.com>
+Date: Fri, 28 Jul 2017 12:25:43 +0200
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="------------09D1E0375BAA13EBAAD61733"
+Content-Language: pl
+
+This is a multi-part message in MIME format.
+--------------09D1E0375BAA13EBAAD61733
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+test img:
+
+
+--------------09D1E0375BAA13EBAAD61733
+Content-Type: multipart/related;
+ boundary="------------040237935DECF5A5EBB29292"
+
+
+--------------040237935DECF5A5EBB29292
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><font size="-1"><font face="Verdana">test img: <img
+            src="cid:image1@test.com" alt="" class=""></font></font></p>
+  </body>
+</html>
+
+--------------040237935DECF5A5EBB29292
+Content-Type: image/png;
+ name="test.png"
+Content-Transfer-Encoding: base64
+Content-ID: <image1@test.com>
+Content-Disposition: attachment;
+ filename="test.png"
+
+iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeAQMAAAAB/jzhAAAAA1BMVEVV5ytwjk3qAAAADElE
+QVQI12NgGIwAAACWAAFiFg3SAAAAAElFTkSuQmCC
+--------------040237935DECF5A5EBB29292--
+
+--------------09D1E0375BAA13EBAAD61733--

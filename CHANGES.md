@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-16 Fixed bug#[12987](https://bugs.otrs.org/show_bug.cgi?id=12987) - Handling inline attachments with Content-Disposition set to "attachment".
  - 2017-09-14 Fixed bug#[12968](https://bugs.otrs.org/show_bug.cgi?id=12968) - RebuildConfig error message.
  - 2017-09-14 Fixed bug#[13148](https://bugs.otrs.org/show_bug.cgi?id=13148) - Emal Template "Alert" is always preselected.
  - 2017-09-14 Fixed bug#[12991](https://bugs.otrs.org/show_bug.cgi?id=12991) - Search with additional filters returns previous results after bulk change unless exit and re-run search.
