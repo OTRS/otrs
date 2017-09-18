@@ -85,7 +85,7 @@ $Selenium->RunTest(
 
         # set included queue attribute Comment2
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('QueuePreferences Comment2');
-        $Selenium->find_element( "#Name",     'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
 
         # check if test queue is created
         $Self->True(
@@ -110,7 +110,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",     'css' )->send_keys($UpdatedName);
         $Selenium->find_element( "#Comment2", 'css' )->clear();
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($UpdatedComment);
-        $Selenium->find_element( "#Comment2", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
 
         # check updated values
         $Selenium->find_element( $UpdatedName, 'link_text' )->VerifiedClick();

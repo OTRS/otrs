@@ -59,8 +59,11 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+        my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+        my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Internal' );
+
+        my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
@@ -75,20 +78,53 @@ $Selenium->RunTest(
             UserID        => 1,
             ResponsibleID => $TestUserID,
         );
-
         $Self->True(
             $TicketID,
             "Ticket is created - $TicketID"
         );
 
+        my $Subject   = "Selenium test ticket $RandomID";
+        my $ArticleID = $ArticleBackendObject->ArticleCreate(
+            TicketID             => $TicketID,
+            SenderType           => 'agent',
+            IsVisibleForCustomer => 1,
+            From                 => "Some Agent $RandomID <email\@example.com>",
+            To                   => "Some Customer $RandomID <customer\@example.com>",
+            Subject              => $Subject,
+            Body                 => "the message text",
+            ContentType          => 'text/plain; charset=ISO-8859-15',
+            HistoryType          => 'OwnerUpdate',
+            HistoryComment       => "Some free text $RandomID!",
+            UserID               => 1,
+            NoAgentNotify        => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "Article is created - $ArticleID",
+        );
+
+        my $IndexBuiltSuccess = $ArticleObject->ArticleSearchIndexBuild(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+            UserID    => 1,
+        );
+        $Self->True(
+            $IndexBuiltSuccess,
+            "Search index was created."
+        );
+
         # input test user in search fulltext
-        $Selenium->find_element( "#Fulltext", 'css' )->send_keys("Selenium test ticket");
-        $Selenium->find_element( "#Fulltext", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $Subject, "\N{U+E007}" );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('tbody tr:contains($Subject)').length;"
+        );
 
         # verify search
         $Self->True(
-            index( $Selenium->get_page_source(), $TestUserLogin ) > -1,
-            "Ticket is found by Subject - \'Selenium test ticket\'",
+            index( $Selenium->get_page_source(), $Subject ) > -1,
+            "Ticket is found by Subject - $Subject",
         );
 
         # delete test ticket

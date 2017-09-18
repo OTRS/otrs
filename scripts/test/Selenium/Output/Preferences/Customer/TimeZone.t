@@ -42,7 +42,7 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#UserTimeZone').val('Europe/Berlin').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( "#UserTimeZone", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#UserTimeZoneUpdate", 'css' )->VerifiedClick();
 
         # check for update preference message on screen
         my $UpdateMessage = "Time zone updated successfully!";
