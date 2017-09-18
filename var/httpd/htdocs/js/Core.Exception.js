@@ -50,7 +50,7 @@ Core.Exception = (function (TargetNS) {
     TargetNS.ApplicationError = function (ErrorMessage, ErrorType) {
         var Type = ErrorType,
             Message = ErrorMessage,
-            Types = ['Error', 'InternalError', 'TypeError', 'CommunicationError'],
+            Types = ['Error', 'InternalError', 'TypeError', 'CommunicationError', 'ConnectionError'],
             DefaultType = 'Error';
 
         if (!$.inArray(Type, Types)) {
@@ -131,6 +131,9 @@ Core.Exception = (function (TargetNS) {
 
             if (ErrorType === 'ConnectionError') {
                 Core.App.Publish('Core.App.AjaxError');
+            }
+            else if(ErrorType === 'CommunicationError') {
+                Core.App.Publish('Core.App.AjaxCommunicationError');
             }
             else {
                 TargetNS.ShowError(ErrorObject.GetMessage(), ErrorType, Trace);

@@ -118,6 +118,7 @@ Core.App.Ready(function () {
         OTRSDaemonDialogTitleMsg: [% Translate('Information about the OTRS Daemon') | JSON %],
         TextNone: [% Translate('none') | JSON %],
         ConnectionErrorTitle: [% Translate('Connection error') | JSON %],
+        CommunicationErrorTitle: [% Translate('Communication error') | JSON %],
         ConnectionErrorReloadButton: [% Translate('Reload page') | JSON %],
     });
 
@@ -194,6 +195,14 @@ Core.App.Ready(function () {
             </span>
             <p>
                 [% Translate("Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.") %]
+            </p>
+        </div>
+        <div class="CommunicationError" style="display:none;">
+            <span class="Icon">
+                <i class="fa fa-times"></i>
+            </span>
+            <p>
+                [% Translate("There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.") %]
             </p>
         </div>
         <div class="ConnectionReEstablished" style="display:none;">

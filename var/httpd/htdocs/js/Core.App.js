@@ -211,8 +211,7 @@ Core.App = (function (TargetNS) {
             $('body').removeClass('ConnectionErrorDetected');
 
             // if there is already a dialog, we just exchange the content
-            if ($('#AjaxErrorDialogInner').is(':visible')) {
-
+            if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                 $('#AjaxErrorDialogInner').find('.NoConnection').hide();
                 $('#AjaxErrorDialogInner').find('.ConnectionReEstablished').show().delay(1000).find('.Icon').addClass('Green');
             }
@@ -255,7 +254,7 @@ Core.App = (function (TargetNS) {
             }
         });
 
-        // check for ajax errors and show overlay in case there is one
+        // Check for AJAX connection errors and show overlay in case there is one.
         TargetNS.Subscribe('Core.App.AjaxError', function() {
 
             var $DialogObj = $('#AjaxErrorDialog');
@@ -268,8 +267,9 @@ Core.App = (function (TargetNS) {
                 return false;
             }
 
-            // only show one dialog at a time
-            if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
+            // Only show one dialog at a time. Do not show the dialog if communication error dialog was displayed
+            //   previously, leave it open since it might point to a more serious issue.
+            if ($('#AjaxErrorDialogInner').find('.NoConnection,.CommunicationError').is(':visible')) {
                 return false;
             }
 
@@ -282,15 +282,16 @@ Core.App = (function (TargetNS) {
                 }, 5000);
             }
 
-            // if a connection warning dialog is open but shows the "connection re-established"
-            // notice, show the warning again. This could happen if the connection had been lost
-            // but also re-established and the dialog informing about it is still there
-            if ($('#AjaxErrorDialogInner').find('.ConnectionReEstablished').is(':visible')) {
-                $('#AjaxErrorDialogInner').find('.ConnectionReEstablished').hide().prev('.NoConnection').show();
+            // If a connection warning dialog is open but shows the "Connection re-established" or "Communication error"
+            //   notice, show the warning again. This could happen if the connection had been lost but also
+            //   re-established in the meantime, or there were some communication errors encountered.
+            if ($('#AjaxErrorDialogInner').find('.ConnectionReEstablished,.CommunicationError').is(':visible')) {
+                $('#AjaxErrorDialogInner').find('.ConnectionReEstablished,.CommunicationError').hide().prev('.NoConnection').show();
                 return false;
             }
 
             // Show 'No Connection' dialog content.
+            $DialogObj.find('.ConnectionReEstablished,.CommunicationError').hide();
             $DialogObj.find('.NoConnection').show();
 
             Core.UI.Dialog.ShowDialog({
@@ -315,6 +316,61 @@ Core.App = (function (TargetNS) {
                             if ($('#AjaxErrorDialogInner').find('.NoConnection').is(':visible')) {
                                 $('body').addClass('ConnectionErrorDialogClosed');
                             }
+                            Core.UI.Dialog.CloseDialog($('#AjaxErrorDialogInner'));
+                        }
+                    }
+                ],
+                AllowAutoGrow: true
+            });
+
+            // the only possibility to close the dialog should be the button
+            $('#AjaxErrorDialogInner').closest('.Dialog').find('.Close').remove();
+        });
+
+        // Check for AJAX communication errors and show overlay in case there is one.
+        TargetNS.Subscribe('Core.App.AjaxCommunicationError', function() {
+
+            var $DialogObj = $('#AjaxErrorDialog');
+
+            // Set a body class to remember that we detected the error.
+            $('body').addClass('CommunicationErrorDetected');
+
+            // Only show one dialog at a time.
+            if ($('#AjaxErrorDialogInner').find('.CommunicationError').is(':visible')) {
+                return false;
+            }
+
+            // If a connection warning dialog is open but shows the "No connection" or "Connection re-established"
+            //   notice, show the warning nevertheless. Communication error is of a higher order and should always be
+            //   displayed.
+            if ($('#AjaxErrorDialogInner').find('.NoConnection,.ConnectionReEstablished').is(':visible')) {
+                $('#AjaxErrorDialogInner').find('.NoConnection,.ConnectionReEstablished').hide().prev('.CommunicationError').show();
+                return false;
+            }
+
+            // Show 'Communication error' dialog content.
+            $DialogObj.find('.NoConnection,.ConnectionReEstablished').hide();
+            $DialogObj.find('.CommunicationError').show();
+
+            Core.UI.Dialog.ShowDialog({
+                HTML : $DialogObj,
+                Title : Core.Config.Get('CommunicationErrorTitle'),
+                Modal : true,
+                CloseOnClickOutside : false,
+                CloseOnEscape : false,
+                PositionTop: '100px',
+                PositionLeft: 'Center',
+                Buttons: [
+                    {
+                        Label: Core.Config.Get('ConnectionErrorReloadButton'),
+                        Class: 'Primary',
+                        Function: function () {
+                            location.reload();
+                        }
+                    },
+                    {
+                        Label: Core.Config.Get('DialogCloseMsg'),
+                        Function: function () {
                             Core.UI.Dialog.CloseDialog($('#AjaxErrorDialogInner'));
                         }
                     }
