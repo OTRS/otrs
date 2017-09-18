@@ -69,7 +69,7 @@ $Selenium->RunTest(
 
         # check client side validation
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Comment').hasClass('Error')"
@@ -98,7 +98,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",  'css' )->VerifiedClick();
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']", 'css' )->VerifiedClick();
 
-        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->True(
             index( $Selenium->get_page_source(), "Start date shouldn\'t be defined after Stop date!" ) > -1,
             "Error message correctly displayed",
@@ -226,8 +226,7 @@ $Selenium->RunTest(
         $Selenium->accept_alert();
 
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+            JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($SysMainComment)').length === 0;"
         );
 
         $Self->True(

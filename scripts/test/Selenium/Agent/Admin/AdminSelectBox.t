@@ -40,7 +40,7 @@ $Selenium->RunTest(
 
         # empty SQL statement, check client side validation
         $Selenium->find_element( "#SQL", 'css' )->clear();
-        $Selenium->find_element( "#SQL", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Run", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#SQL').hasClass('Error')"
@@ -52,7 +52,7 @@ $Selenium->RunTest(
         # wrong SQL statement, check server side validation
         $Selenium->find_element( "#SQL", 'css' )->clear();
         $Selenium->find_element( "#SQL", 'css' )->send_keys("SELECT * FROM");
-        $Selenium->find_element( "#SQL", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Run", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#SQL').hasClass('ServerError')"
@@ -61,10 +61,12 @@ $Selenium->RunTest(
             'Server side validation correctly detected missing input value for #SQL',
         );
 
+        $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
         # correct SQL statement
         $Selenium->find_element( "#SQL", 'css' )->clear();
         $Selenium->find_element( "#SQL", 'css' )->send_keys("SELECT * FROM valid");
-        $Selenium->find_element( "#SQL", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Run", 'css' )->VerifiedClick();
 
         # verify results
         my @Elements = $Selenium->find_elements( 'table thead tr', 'css' );
