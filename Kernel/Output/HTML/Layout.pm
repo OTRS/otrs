@@ -1468,6 +1468,10 @@ sub Header {
         }
     }
 
+    if ( $ConfigObject->Get('SecureMode') ) {
+        $Param{OTRSBusinessIsInstalled} = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+    }
+
     # create & return output
     $Output .= $Self->Output(
         TemplateFile => "Header$Type",

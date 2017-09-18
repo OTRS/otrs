@@ -145,7 +145,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
 
 #ToolBar li.UserAvatar div {
     display: none;
-    width: 180px;
+    min-width: 180px;
     background: #555;
     z-index: 999;
     position: absolute;
@@ -177,6 +177,7 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
     color: #fff;
     display: block;
     padding: 5px 10px;
+    white-space: nowrap;
 }
 
 body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {

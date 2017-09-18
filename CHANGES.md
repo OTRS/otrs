@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-18 Added a link to the notification web view to the new personal flyout for agents.
  - 2017-09-18 Fixed bug#[13164](https://bugs.otrs.org/show_bug.cgi?id=13164) - Certain AJAX Error Types are still unprocessed.
  - 2017-09-16 Fixed bug#[12955](https://bugs.otrs.org/show_bug.cgi?id=12955) - System Configuration is detected dirty when a User Specific Setting is still dirty.
  - 2017-09-16 Fixed bug#[12987](https://bugs.otrs.org/show_bug.cgi?id=12987) - Handling inline attachments with Content-Disposition set to "attachment".

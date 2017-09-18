@@ -28,6 +28,15 @@
                 </a>
                 <div>
                     <span>[% Env("UserFullname") | html %]</span>
+                [% IF Data.OTRSBusinessIsInstalled %]
+                    <a href="[% Env("Baselink") %]Action=AgentNotificationView" title="[% Translate("View notifications") | html %]">
+                        <i class="fa fa-flag-o"></i><strong>[% Translate("Notifications") | html %]</strong>
+                    </a>
+                [% ELSE %]
+                    <a href="#" class="OTRSBusinessRequired" title="[% Translate("Notifications (OTRS Business Solution™)") | html %]">
+                        <i class="fa fa-flag-o"></i><strong>[% Translate("Notifications (OTRS Business Solution™)") | html %]</strong>
+                    </a>
+                [% END %]
                 [% RenderBlockStart("Login") %]
                     <a href="[% Env("Baselink") %]Action=AgentPreferences" title="[% Translate("Edit personal preferences") | html %]">
                         <i class="fa fa-cog"></i><strong>[% Translate("Personal preferences") | html %]</strong>
