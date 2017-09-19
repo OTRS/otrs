@@ -60,7 +60,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # click "Create New Transition Action"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionNew' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionNew' )]")->click();
 
         # switch to pop up window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -91,7 +91,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKey);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValue);
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -129,7 +129,7 @@ $Selenium->RunTest(
 
         # go to edit test TransitionAction screen
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
-            ->VerifiedClick();
+            ->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -168,7 +168,7 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKeyEdit);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->clear();
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValueEdit);
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );
@@ -193,7 +193,7 @@ $Selenium->RunTest(
 
         # go to edit test TransitionAction screen again
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
-            ->VerifiedClick();
+            ->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();

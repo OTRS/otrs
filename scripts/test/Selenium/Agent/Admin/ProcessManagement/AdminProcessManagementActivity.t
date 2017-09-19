@@ -54,7 +54,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # create new test Activity
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityNew' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityNew' )]")->click();
 
         # switch to pop up window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -120,7 +120,7 @@ $Selenium->RunTest(
         }
 
         # check for stored value and edit test Activity
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityEdit;ID=$ActivityID' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityEdit;ID=$ActivityID' )]")->click();
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );

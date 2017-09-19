@@ -61,7 +61,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # click "Create New Activity Dialog"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogNew' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogNew' )]")->click();
 
         # switch to pop up window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -135,7 +135,7 @@ $Selenium->RunTest(
 
         # go to edit test ActivityDialog screen
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
-            ->VerifiedClick();
+            ->click();
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
@@ -198,7 +198,7 @@ $Selenium->RunTest(
 
         # go to edit test ActivityDialog screen again
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogEdit;ID=$ActivityDialogID' )]")
-            ->VerifiedClick();
+            ->click();
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
