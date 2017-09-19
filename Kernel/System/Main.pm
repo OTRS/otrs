@@ -282,17 +282,6 @@ sub FileRead {
 
     }
 
-    # check if file exists
-    if ( !-e $Param{Location} ) {
-        if ( !$Param{DisableWarnings} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "File '$Param{Location}' doesn't exist!"
-            );
-        }
-        return;
-    }
-
     # set open mode
     my $Mode = '<';
     if ( $Param{Mode} && $Param{Mode} =~ m{ \A utf-?8 \z }xmsi ) {
@@ -301,11 +290,23 @@ sub FileRead {
 
     # return if file can not open
     if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic
+        my $Error = $!;
+
         if ( !$Param{DisableWarnings} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't open '$Param{Location}': $!",
-            );
+
+            # Check if file exists only if system was not able to open it (to get better error message).
+            if ( !-e $Param{Location} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "File '$Param{Location}' doesn't exist!",
+                );
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't open '$Param{Location}': $Error",
+                );
+            }
         }
         return;
     }
@@ -508,25 +509,27 @@ sub FileDelete {
         );
     }
 
-    # check if file exists
-    if ( !-e $Param{Location} ) {
-        if ( !$Param{DisableWarnings} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "File '$Param{Location}' doesn't exist!"
-            );
-        }
-        return;
-    }
-
-    # delete file
+    # try to delete file
     if ( !unlink( $Param{Location} ) ) {
+        my $Error = $!;
+
         if ( !$Param{DisableWarnings} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't delete '$Param{Location}': $!",
-            );
+
+            # Check if file exists only in case that delete failed.
+            if ( !-e $Param{Location} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "File '$Param{Location}' doesn't exist!",
+                );
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't delete '$Param{Location}': $Error",
+                );
+            }
         }
+
         return;
     }
 
@@ -572,25 +575,28 @@ sub FileGetMTime {
 
     }
 
-    # check if file exists
-    if ( !-e $Param{Location} ) {
-        if ( !$Param{DisableWarnings} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "File '$Param{Location}' doesn't exist!"
-            );
-        }
-        return;
-    }
-
     # get file metadata
     my $Stat = stat( $Param{Location} );
 
     if ( !$Stat ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Cannot stat file '$Param{Location}': $!"
-        );
+        my $Error = $!;
+
+        if ( !$Param{DisableWarnings} ) {
+
+            # Check if file exists only if system was not able to open it (to get better error message).
+            if ( !-e $Param{Location} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "File '$Param{Location}' doesn't exist!"
+                );
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Cannot stat file '$Param{Location}': $Error",
+                );
+            }
+        }
         return;
     }
 
@@ -627,25 +633,27 @@ sub MD5sum {
         return;
     }
 
-    # check if file exists
-    if ( $Param{Filename} && !-e $Param{Filename} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "File '$Param{Filename}' doesn't exist!",
-        );
-        return;
-    }
-
     # md5sum file
     if ( $Param{Filename} ) {
 
         # open file
         my $FH;
         if ( !open $FH, '<', $Param{Filename} ) {    ## no critic
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't read '$Param{Filename}': $!",
-            );
+            my $Error = $!;
+
+            # Check if file exists only if system was not able to open it (to get better error message).
+            if ( !-e $Param{Filename} ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "File '$Param{Filename}' doesn't exist!",
+                );
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't read '$Param{Filename}': $Error",
+                );
+            }
             return;
         }
 
