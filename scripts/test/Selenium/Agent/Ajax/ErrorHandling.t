@@ -50,16 +50,17 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor( JavaScript => "return \$('.CommunicationError:visible').length" );
-        $Selenium->find_element( '#DialogButton2', 'css' )->VerifiedClick();
 
         # Another alert dialog opens with the detail message.
         $Self->Is(
-            substr( $Selenium->get_alert_text(), 0, 64 ),
-            'Error during AJAX communication. Status: error, Error: Not Found',
+            substr(
+                $Selenium->execute_script("return \$('#AjaxErrorDialogInner .CommunicationError p').text().trim()"),
+                0, 52
+            ),
+            'There was an error in communication with the server.',
             'Check for opened alert text',
         );
-
-        $Selenium->accept_alert();
+        $Selenium->find_element( '#DialogButton2', 'css' )->VerifiedClick();
 
         # Wait until all AJAX calls finished.
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -240,6 +241,7 @@ JAVASCRIPT
             1,
             "ConnectionReEstablished dialog visible"
         );
+        $Selenium->close();
 
         # Delete created test tickets.
         my $Success = $TicketObject->TicketDelete(
