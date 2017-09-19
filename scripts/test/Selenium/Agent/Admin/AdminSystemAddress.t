@@ -87,8 +87,9 @@ $Selenium->RunTest(
         }
 
         # check client side validation
-        $Selenium->find_element( "#Name",   'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Name", 'css' )->clear();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -105,7 +106,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Realname", 'css' )->send_keys($SysAddRandom);
         $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
-        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check for created test SystemAddress
         $Self->True(
@@ -120,7 +121,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Realname", 'css' )->send_keys($SysAddRandom);
         $Selenium->execute_script("\$('#QueueID').val('$QueueID').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysAddComment);
-        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # wait until page has finished loading
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length' );
@@ -235,7 +236,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Realname", 'css' )->send_keys(" Edited");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->find_element( "#Comment", 'css' )->clear();
-        $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check class of invalid SystemAddress in the overview table
         $Self->True(

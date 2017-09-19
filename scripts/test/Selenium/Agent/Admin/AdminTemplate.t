@@ -57,8 +57,9 @@ $Selenium->RunTest(
         }
 
         # check client side validation
-        $Selenium->find_element( "#Name",   'css' )->clear();
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#Name", 'css' )->clear();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
@@ -72,7 +73,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",    'css' )->send_keys($TemplateRandomID);
         $Selenium->find_element( "#Comment", 'css' )->send_keys("Selenium template test");
         $Selenium->execute_script("\$('#ValidID').val('1').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check overview screen for test template
         $Self->True(
@@ -120,7 +121,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->clear();
         $Selenium->execute_script("\$('#TemplateType').val('Create').trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # test search filter
         $Selenium->find_element( "#Filter", 'css' )->clear();
@@ -166,6 +167,11 @@ $Selenium->RunTest(
 
         # Accept delete confirmation dialog
         $Selenium->accept_alert();
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' &&  \$('tbody tr:contains($TemplateRandomID)').length === 0;"
+        );
 
         # check overview page
         $Self->True(

@@ -78,7 +78,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#UserFirstname", 'css' );
         $Element->send_keys("");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -97,7 +97,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($UserRandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $UserRandomID . '@localhost.com' );
-        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # test search filter by agent $UserRandomID
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
@@ -112,7 +112,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($EditRandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->clear();
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($EditRandomID);
-        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # test search filter by agent $EditRandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
@@ -144,7 +144,7 @@ $Selenium->RunTest(
 
         # set added test agent to invalid
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # test search filter by agent $UserRandomID
         $Selenium->find_element( "#Search", 'css' )->clear();

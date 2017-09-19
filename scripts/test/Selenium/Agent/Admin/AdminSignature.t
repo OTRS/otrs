@@ -62,7 +62,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#Name", 'css' );
         $Element->send_keys("");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -82,7 +82,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",     'css' )->send_keys($SignatureRandomID);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($SignatureRichText);
         $Selenium->find_element( "#Comment",  'css' )->send_keys($SignatureComment);
-        $Selenium->find_element( "#Submit",   'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check if test Signature show on AdminSignature screen
         $Self->True(
@@ -122,7 +122,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($EditSignatureRichText);
         $Selenium->find_element( "#Comment",  'css' )->clear();
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check class of invalid Signature in the overview table
         $Self->True(

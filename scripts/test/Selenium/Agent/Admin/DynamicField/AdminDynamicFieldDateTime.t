@@ -76,7 +76,7 @@ $Selenium->RunTest(
             # check client side validation
             my $Element = $Selenium->find_element( "#Name", 'css' );
             $Element->send_keys("");
-            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
             $Self->Is(
                 $Selenium->execute_script(
@@ -108,9 +108,13 @@ $Selenium->RunTest(
             # create real text DynamicFieldDate
             my $RandomID = $Helper->GetRandomID();
 
-            $Selenium->find_element( "#Name",   'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#Label",  'css' )->send_keys($RandomID);
-            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#Name",  'css' )->send_keys($RandomID);
+            $Selenium->find_element( "#Label", 'css' )->send_keys($RandomID);
+            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($RandomID)').length;"
+            );
 
             # check for test DynamicFieldCheckbox on AdminDynamicField screen
             $Self->True(
@@ -128,7 +132,11 @@ $Selenium->RunTest(
             $Selenium->find_element( "#YearsInFuture", 'css' )->clear();
             $Selenium->find_element( "#YearsInFuture", 'css' )->send_keys("8");
             $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' &&  \$('tbody tr:contains($RandomID)').length;"
+            );
 
             # check new and edited DynamicFieldDateTime values
             $Selenium->find_element( $RandomID, 'link_text' )->VerifiedClick();
