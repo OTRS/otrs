@@ -123,6 +123,10 @@ strong {
     vertical-align: middle;
 }
 
+#AjaxErrorDialogInner .CommunicationError .Icon {
+    background: #b8384e;
+}
+
 #AjaxErrorDialogInner .Icon.Green {
     background: green;
 }

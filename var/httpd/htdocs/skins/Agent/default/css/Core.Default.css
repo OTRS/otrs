@@ -52,6 +52,7 @@ body {
     background: #f92;
     color: #fff;
     transition: background 2s ease;
+    float: none;
 }
 
 #AjaxErrorDialogInner .Icon + p {
