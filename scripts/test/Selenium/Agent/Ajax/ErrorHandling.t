@@ -49,10 +49,8 @@ $Selenium->RunTest(
             "Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle') + ':12345', null, function () {});"
         );
 
-        $Selenium->WaitFor( AlertPresent => 1 );
-
-        # Accept main alert.
-        $Selenium->accept_alert();
+        $Selenium->WaitFor( JavaScript => "return \$('.CommunicationError:visible').length" );
+        $Selenium->find_element( '#DialogButton2', 'css' )->VerifiedClick();
 
         # Another alert dialog opens with the detail message.
         $Self->Is(
