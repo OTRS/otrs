@@ -41,12 +41,12 @@ $Selenium->RunTest(
         my @Tests = (
             {
                 Name  => 'Ticket Overview',
-                ID    => 'UserRefreshTime',
+                ID    => 'UserRefreshTimeUpdate',
                 Value => '5',
             },
             {
                 Name  => 'Number of displayed tickets',
-                ID    => 'UserShowTickets',
+                ID    => 'UserShowTicketsUpdate',
                 Value => '30',
             },
         );
@@ -59,7 +59,7 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#$Test->{ID}').val('$Test->{Value}').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "#$Test->{ID} option[value='$Test->{Value}']", 'css' )->VerifiedSubmit();
+            $Selenium->find_element( "#$Test->{ID}", 'css' )->VerifiedClick();
 
             $Self->True(
                 index( $Selenium->get_page_source(), $UpdateMessage ) > -1,

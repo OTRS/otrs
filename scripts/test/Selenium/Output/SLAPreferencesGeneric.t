@@ -87,7 +87,7 @@ $Selenium->RunTest(
 
         # set included SLA attribute Comment2
         $Selenium->find_element( "#Comment2", 'css' )->send_keys('SLAPreferences Comment2');
-        $Selenium->find_element( "#Name",     'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check if test SLA is created
         $Self->True(
@@ -116,7 +116,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment2", 'css' )->clear();
         $Selenium->find_element( "#Comment2", 'css' )->send_keys($UpdatedComment);
-        $Selenium->find_element( "#Comment2", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # check updated values
         $Selenium->find_element( $RandomSLAName, 'link_text' )->VerifiedClick();

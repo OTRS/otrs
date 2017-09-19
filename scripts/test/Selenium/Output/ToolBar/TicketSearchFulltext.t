@@ -59,12 +59,11 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create test ticket
         my $TicketID = $TicketObject->TicketCreate(
-            Title         => 'Selenium test ticket',
+            Title         => "ticket",
             Queue         => 'Raw',
             Lock          => 'unlock',
             Priority      => '3 normal',
@@ -75,20 +74,44 @@ $Selenium->RunTest(
             UserID        => 1,
             ResponsibleID => $TestUserID,
         );
-
         $Self->True(
             $TicketID,
             "Ticket is created - $TicketID"
         );
 
+        my $RandomID  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomID();
+        my $Subject   = "Test subject $RandomID";
+        my $ArticleID = $TicketObject->ArticleCreate(
+            TicketID       => $TicketID,
+            ArticleType    => 'email-internal',
+            SenderType     => 'agent',
+            From           => 'Some Agent <otrs@example.com>',
+            To             => 'Suplier<suplier@example.com>',
+            Subject        => $Subject,
+            Body           => 'the message text',
+            Charset        => 'utf8',
+            MimeType       => 'text/plain',
+            HistoryType    => 'OwnerUpdate',
+            HistoryComment => 'Some free text!',
+            UserID         => 1,
+        );
+        $Self->True(
+            $ArticleID,
+            "Article is created - $ArticleID"
+        );
+
         # input test user in search fulltext
-        $Selenium->find_element( "#Fulltext", 'css' )->send_keys("Selenium test ticket");
-        $Selenium->find_element( "#Fulltext", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Fulltext", 'css' )->send_keys( $Subject, "\N{U+E007}" );
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('tbody tr:contains($Subject)').length;"
+        );
 
         # verify search
         $Self->True(
-            index( $Selenium->get_page_source(), $TestUserLogin ) > -1,
-            "Ticket is found by Subject - \'Selenium test ticket\'",
+            index( $Selenium->get_page_source(), $Subject ) > -1,
+            "Ticket is found by Subject - $Subject",
         );
 
         # delete test ticket

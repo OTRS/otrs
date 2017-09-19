@@ -61,8 +61,8 @@ $Selenium->RunTest(
         # change customer PGP key preference
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Crypt/PGPPrivateKey-1.asc";
-        $Selenium->find_element( "#UserPGPKey", 'css' )->send_keys($Location);
-        $Selenium->find_element( "#UserPGPKey", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#UserPGPKey",       'css' )->send_keys($Location);
+        $Selenium->find_element( "#UserPGPKeyUpdate", 'css' )->VerifiedClick();
 
         # check for update PGP preference key on screen
         $Self->True(
