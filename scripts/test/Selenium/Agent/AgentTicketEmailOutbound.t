@@ -121,8 +121,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
-        $Selenium->find_element( "#Subject",    'css' )->send_keys("TestSubject");
-        $Selenium->find_element( "#ToCustomer", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Subject",        'css' )->send_keys("TestSubject");
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         # navigate to AgentTicketHistory of created test ticket
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");

@@ -69,8 +69,8 @@ $Selenium->RunTest(
         }
 
         # check client side validation
-        $Selenium->find_element( "#Subject", 'css' )->clear();
-        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Subject",        'css' )->clear();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Subject').hasClass('Error')"

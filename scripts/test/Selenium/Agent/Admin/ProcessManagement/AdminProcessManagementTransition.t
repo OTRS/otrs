@@ -51,7 +51,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
-        $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # click on Transitions dropdown
         $Selenium->find_element( "Transitions", 'link_text' )->VerifiedClick();
@@ -91,8 +91,8 @@ $Selenium->RunTest(
         }
 
         # check client side validation
-        $Selenium->find_element( "#Name", 'css' )->clear();
-        $Selenium->find_element( "#Name", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Name",   'css' )->clear();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
