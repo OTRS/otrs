@@ -181,7 +181,9 @@ JAVASCRIPT
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->VerifiedSubmit();
+            sleep 3;
+            $Selenium->execute_script('$("#UserLanguageUpdate").click()');
+            sleep 2;
 
             # check edited language value
             $Self->Is(
@@ -196,7 +198,6 @@ JAVASCRIPT
             );
 
             # check for correct translation
-
             for my $String ( 'User Profile', 'Notification Settings', 'Other Settings' ) {
                 my $Translation = $LanguageObject->Translate($String);
                 $Self->True(
@@ -216,7 +217,7 @@ JAVASCRIPT
                 })
             ).val('$MaliciousCode').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( '#UserLanguage', 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->VerifiedClick();
 
         # Check if malicious code was sanitized.
         $Self->True(

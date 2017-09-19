@@ -191,7 +191,7 @@ $Selenium->RunTest(
             "Customer email is not a link with class AsPopup."
         );
 
-        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 

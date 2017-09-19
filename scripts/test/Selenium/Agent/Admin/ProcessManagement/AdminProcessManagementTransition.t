@@ -116,7 +116,7 @@ $Selenium->RunTest(
             "\$('#ConditionLinking[_INDEX_]').val('String').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][1]']")->send_keys($TransitionValueName);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -208,7 +208,7 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][$TransitionFieldName]']")->clear();
         $Selenium->find_element(".//*[\@id='ConditionFieldValue[1][$TransitionFieldName]']")
             ->send_keys($TransitionValueNameEdit);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->click();
 
         # return to main window
         $Selenium->WaitFor( WindowCount => 1 );

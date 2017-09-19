@@ -51,7 +51,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessNew' )]")->VerifiedClick();
         $Selenium->find_element( "#Name",        'css' )->send_keys($ProcessRandom);
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
-        $Selenium->find_element( "#Name",        'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # click on Transition Actions dropdown
         $Selenium->find_element( "Transition Actions", 'link_text' )->VerifiedClick();
@@ -91,7 +91,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKey);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValue);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # switch back to main window
         $Selenium->WaitFor( WindowCount => 1 );
@@ -168,7 +168,7 @@ $Selenium->RunTest(
         $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKeyEdit);
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->clear();
         $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValueEdit);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # return to main window after the popup closed, as the popup sends commands to the main window.
         $Selenium->WaitFor( WindowCount => 1 );
