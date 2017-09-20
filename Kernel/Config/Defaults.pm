@@ -1442,7 +1442,7 @@ via the Preferences button after logging in.
     # CustomerUser
     # (customer user database backend and settings)
     $Self->{CustomerUser} = {
-        Name   => 'Database Backend',
+        Name   => Translatable('Database Backend'),
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
 
@@ -1624,7 +1624,7 @@ via the Preferences button after logging in.
 #    };
 
     $Self->{CustomerCompany} = {
-        Name   => 'Database Backend',
+        Name   => Translatable('Database Backend'),
         Module => 'Kernel::System::CustomerCompany::DB',
         Params => {
             # if you want to use an external database, add the
