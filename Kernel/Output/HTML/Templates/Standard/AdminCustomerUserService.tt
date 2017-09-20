@@ -9,11 +9,11 @@
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
 
-    <h1 class="InvisibleText">[% Translate("Manage Customer-Services Relations") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Manage Customer User-Services Relations") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Manage Customer-Services Relations'),
+                Name => Translate('Manage Customer User-Services Relations'),
                 Link => Data.OverviewLink,
             },
         ]
@@ -22,7 +22,7 @@
     [% IF Data.Type %]
             [% USE EditTitle = String(Translate(Data.BreadcrumbTitle)) %]
             [% IF Data.Name %]
-                [% BreadcrumbPath.push({ Name => EditTitle.append(" '", Data.Name , "'") }) %]
+                [% BreadcrumbPath.push({ Name => EditTitle.append(" '", Data.Name, "'") }) %]
             [% ELSE %]
                 [% BreadcrumbPath.push({ Name => EditTitle.append("") }) %]
             [% END %]
@@ -103,7 +103,7 @@
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Customers">
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
-                        <li class="Header">[% Translate("Customers") | html %]
+                        <li class="Header">[% Translate("Customer Users") | html %]
 [% RenderBlockStart("ResultCustomerUserCount") %]
                             ([% Data.CustomerUserCount | html %])
 [% RenderBlockEnd("ResultCustomerUserCount") %]

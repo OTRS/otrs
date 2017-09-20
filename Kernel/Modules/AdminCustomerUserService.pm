@@ -11,6 +11,8 @@ package Kernel::Modules::AdminCustomerUserService;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -363,10 +365,10 @@ sub _Change {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( $VisibleType{$NeType} eq 'Customer' ) {
-        $Param{BreadcrumbTitle} = "Allocate Customers to Service";
+        $Param{BreadcrumbTitle} = Translatable('Allocate Customer Users to Service');
     }
     else {
-        $Param{BreadcrumbTitle} = "Allocate Services to Customer";
+        $Param{BreadcrumbTitle} = Translatable('Allocate Services to Customer User');
     }
 
     # overview
