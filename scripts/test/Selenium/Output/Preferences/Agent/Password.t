@@ -43,15 +43,18 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#CurPw",  'css' )->VerifiedSubmit();
 
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->execute_script("\$('button[type=submit]:eq(0)').click();");
 
         # check for incorrect password update preferences message on screen
         my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' &&  \$('.MessageBox p').text().trim().includes('$IncorrectUpdateMessage');"
+        );
         $Self->True(
-            index( $Selenium->get_page_source(), $IncorrectUpdateMessage ) > -1,
+            index( $Selenium->execute_script("return \$('.MessageBox p').text().trim()"), $IncorrectUpdateMessage )
+                > -1,
             'Agent incorrect preferences password - update'
         );
 
@@ -59,15 +62,16 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#CurPw",  'css' )->VerifiedSubmit();
-
-        # wait until form has loaded, if neccessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
+        $Selenium->execute_script("\$('button[type=submit]:eq(0)').click();");
 
         # check for correct password update preferences message on screen
         my $UpdateMessage = "Preferences updated successfully!";
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' &&  \$('.MessageBox p').text().trim().includes('$UpdateMessage');"
+        );
         $Self->True(
-            index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
+            index( $Selenium->execute_script("return \$('.MessageBox p').text().trim()"), $UpdateMessage ) > -1,
             'Agent preference password - updated'
         );
     }

@@ -327,6 +327,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
         $Selenium->execute_script("\$('#QueueID').val('2').trigger('redraw.InputField').trigger('change');");
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->execute_script(
+            "\$('#TypeID').val('$Types[1]->{ID}').trigger('redraw.InputField').trigger('change');"
+        );
 
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($AttachmentLocation);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("[id^=\'AttachmentDelete\']").length' );
@@ -344,7 +347,7 @@ $Selenium->RunTest(
             "$FooterMessage found in footer on page (after attachment upload)",
         );
 
-        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # Check for inputed values for first step in test Process ticket.
         $Self->True(
@@ -375,7 +378,7 @@ $Selenium->RunTest(
 
         # For test scenario to complete, in next step we set ticket priority to 5 very high.
         $Selenium->execute_script("\$('#PriorityID').val('5').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        $Selenium->execute_script('$("button[type=submit]").click();');
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );

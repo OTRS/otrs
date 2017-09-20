@@ -47,11 +47,15 @@ $Selenium->RunTest(
         Language:
         for my $Language (@Languages) {
 
-            # check for the language selection box
+            # change AgentPreference language
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
-            $Selenium->find_element( "select#UserLanguage", 'css' )->VerifiedSubmit();
+
+            # TODO; It should be improved. There is a problem with redraw InputField
+            sleep 3;
+            $Selenium->execute_script('$("#UserLanguageUpdate").click()');
+            sleep 2;
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(

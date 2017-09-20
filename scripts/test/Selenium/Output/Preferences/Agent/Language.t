@@ -38,9 +38,15 @@ $Selenium->RunTest(
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );
 
-        # change test user language preference to Deutsch
-        $Selenium->execute_script("\$('#UserLanguage').val('de').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
+        # change test user language preference to German
+        $Selenium->execute_script(
+            "\$('#UserLanguage').val('de').trigger('redraw.InputField').trigger('change');"
+        );
+
+        # TODO; It should be improved. There is a problem with redraw InputField
+        sleep 3;
+        $Selenium->execute_script('$("#UserLanguageUpdate").click()');
+        sleep 2;
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );

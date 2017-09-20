@@ -56,7 +56,7 @@ $Selenium->RunTest(
 
         # change test user time zone preference to +6 hours
         $Selenium->execute_script("\$('#UserTimeZone').val('+6').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#UserTimeZone", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#UserTimeZoneUpdate", 'css' )->VerifiedClick();
 
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("body").length' );

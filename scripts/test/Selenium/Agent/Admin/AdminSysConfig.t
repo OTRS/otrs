@@ -49,11 +49,14 @@ $Selenium->RunTest(
             "\$('#SysConfigGroup').val('Ticket').trigger('redraw.InputField').trigger('change');"
         );
 
-        sleep 1;    # Wait for reload to kick in
+        sleep 1;
+
+        # Wait for reload to kick in
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Remove").length' );
 
         # remove selected Ticket sysconfig group
         $Selenium->find_element( ".Remove", 'css' )->VerifiedClick();
+        sleep 1;
 
         # verify no result are found on after removing sysconfig group
         $Self->Is(
@@ -68,7 +71,7 @@ $Selenium->RunTest(
         # test search AdminSysConfig and check for some of the results
         # e.g Core::PerformanceLog and Core::Ticket
         $Selenium->find_element( "#SysConfigSearch", 'css' )->send_keys("admin");
-        $Selenium->find_element( "#SysConfigSearch", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
         for my $SysConfSearch (qw(PerformanceLog Ticket)) {
             $Self->True(
@@ -78,32 +81,39 @@ $Selenium->RunTest(
             );
         }
 
+        my $CustomQueue   = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::CustomQueue');
+        my $CustomService = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::CustomService');
+        my $NewArticleIgnoreSystemSender
+            = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::NewArticleIgnoreSystemSender');
+
         # check for some of Core::Ticket default values
         $Selenium->find_element("//a[contains(\@href, \'SysConfigSubGroup=Core%3A%3ATicket')]")->VerifiedClick();
 
         $Self->Is(
             $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->get_value(),
-            "My Queues",
+            $CustomQueue,
             "CustomQueue default value",
         );
         $Self->Is(
             $Selenium->find_element("//input[\@name='Ticket::CustomService']")->get_value(),
-            "My Services",
+            $CustomService,
             "CustomerService default value",
         );
         $Self->Is(
             $Selenium->find_element("//select[\@name='Ticket::NewArticleIgnoreSystemSender']")->get_value(),
-            0,
+            $NewArticleIgnoreSystemSender,
             "NewArticleIgnoreSystemSender default value is no",
         );
 
         # edit those values
-        $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->send_keys("edit");
-        $Selenium->find_element("//input[\@name='Ticket::CustomService']")->send_keys("edit");
+        $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->clear();
+        $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->send_keys("My Queuesedit");
+        $Selenium->find_element("//input[\@name='Ticket::CustomService']")->clear();
+        $Selenium->find_element("//input[\@name='Ticket::CustomService']")->send_keys("My Servicesedit");
         $Selenium->execute_script(
             "\$('select[name=\"Ticket\\:\\:NewArticleIgnoreSystemSender\"]').val('1').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element("//input[\@name='Ticket::CustomQueue']")->VerifiedSubmit();
+        $Selenium->execute_script("\$('button[value=Update').click();");
 
         # check for edited values
         $Self->Is(
@@ -124,8 +134,8 @@ $Selenium->RunTest(
 
         # restore edited values back to default
         for my $ResetDefault (qw(CustomQueue CustomService NewArticleIgnoreSystemSender)) {
-            $Selenium->find_element("//button[\@value='Reset this setting'][\@name='ResetTicket::$ResetDefault']")
-                ->VerifiedClick();
+            $Selenium->execute_script("\$('button[name=$ResetDefault]').click();");
+            sleep 1;
         }
     }
 );

@@ -181,6 +181,8 @@ JAVASCRIPT
             $Selenium->execute_script(
                 "\$('#UserLanguage').val('$Language').trigger('redraw.InputField').trigger('change');"
             );
+
+            # TODO; It should be improved. There is a problem with redraw InputField
             sleep 3;
             $Selenium->execute_script('$("#UserLanguageUpdate").click()');
             sleep 2;
