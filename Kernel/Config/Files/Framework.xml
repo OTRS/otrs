@@ -11241,7 +11241,7 @@ via the Preferences button after logging in.
     <ConfigItem Name="FirstnameLastnameOrder" Required="1" Valid="1">
         <Description Translatable="1">Specifies the order in which the firstname and the lastname of agents will be displayed.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Base</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0" Translatable="1">Firstname Lastname</Item>

@@ -12126,7 +12126,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="FirstnameLastnameOrder" Required="1" Valid="1">
         <Description Translatable="1">Specifies the order in which the firstname and the lastname of agents will be displayed.</Description>
-        <Navigation>Frontend::Agent</Navigation>
+        <Navigation>Frontend::Base</Navigation>
         <Value>
             <Item ValueType="Select" SelectedID="0">
                 <Item ValueType="Option" Value="0" Translatable="1">Firstname Lastname</Item>
