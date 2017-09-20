@@ -11,6 +11,8 @@ package Kernel::Modules::AdminRoleUser;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -214,8 +216,8 @@ sub _Change {
     my $NeType = $Type eq 'Role' ? 'User' : 'Role';
 
     my %VisibleType = (
-        Role => 'Role',
-        User => 'Agent'
+        Role => Translatable('Role'),
+        User => Translatable('Agent'),
     );
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
