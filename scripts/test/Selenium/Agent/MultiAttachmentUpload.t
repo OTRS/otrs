@@ -146,6 +146,161 @@ $Selenium->RunTest(
                     "\$('#FileUpload').css('display', 'block')"
                 );
 
+                # limit the allowed file types
+                $Selenium->execute_script(
+                    "\$('#FileUpload').data('file-types', 'myext')"
+                );
+
+                my $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Cache/Test1.png";
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+                );
+
+                # Verify dialog message.
+                $Self->True(
+                    index( $Selenium->get_page_source(), "The following files are not allowed to be uploaded: Test1.png" ) > -1,
+                    "$Action - File type not allowed message is found",
+                );
+
+                # Confirm dialog action.
+                $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+                # limit the max amount of files
+                $Selenium->execute_script(
+                    "\$('#FileUpload').removeData('file-types')"
+                );
+                $Selenium->execute_script(
+                    "\$('#FileUpload').data('max-files', 2)"
+                );
+
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Cache/Test1.png";
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Cache/Test1.doc";
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Cache/Test1.pdf";
+
+                my $CheckAlertJS = <<"JAVASCRIPT";
+(function () {
+    var lastAlert = undefined;
+    window.alert = function (message) {
+        lastAlert = message;
+    };
+    window.getLastAlert = function () {
+        var result = lastAlert;
+        lastAlert = undefined;
+        return result;
+    };
+}());
+JAVASCRIPT
+
+                $Selenium->execute_script($CheckAlertJS);
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+
+                $Self->Is(
+                    $Selenium->execute_script("return window.getLastAlert()"),
+                    'Sorry, you can only upload 2 files.',
+                    "$Action - alert for max files shown correctly",
+                );
+
+                # remove the existing files
+                for my $DeleteExtension (qw(doc png)) {
+
+                    $Self->Is(
+                        $Selenium->execute_script(
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Test1.$DeleteExtension)').length"
+                        ),
+                        1,
+                        "$Action - Uploaded '$DeleteExtension' file still there"
+                    );
+
+                    # Delete Attachment.
+                    $Selenium->execute_script(
+                        "\$('.AttachmentList tbody tr:contains(Test1.$DeleteExtension)').find('a.AttachmentDelete').trigger('click')"
+                    );
+
+                    # Wait until attachment is deleted.
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $(".fa.fa-spinner.fa-spin:visible").length === 0;'
+                    );
+
+                    # Check if deleted.
+                    $Self->Is(
+                        $Selenium->execute_script(
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Test1.$DeleteExtension)').length"
+                        ),
+                        0,
+                        "$Action - Upload '$DeleteExtension' file deleted"
+                    );
+                }
+
+                # limit the max size per file (to 6 KB)
+                $Selenium->execute_script(
+                    "\$('#FileUpload').removeData('max-files')"
+                );
+                $Selenium->execute_script(
+                    "\$('#FileUpload').data('max-size-per-file', 6000)"
+                );
+                $Selenium->execute_script(
+                    "\$('#FileUpload').data('max-size-per-file-hr', '6 KB')"
+                );
+
+                # now try to upload two files of which one exceeds the max size (.pdf should work (5KB), .png shouldn't (20KB))
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Cache/Test1.pdf";
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Cache/Test1.png";
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length === 1;'
+                );
+
+                # Verify dialog message.
+                $Self->True(
+                    index( $Selenium->get_page_source(), "The following files exceed the maximum allowed size per file of 6 KB and were not uploaded: Test1.png" ) > -1,
+                    "$Action - File size limit exceeded message is found",
+                );
+
+                # Confirm dialog action.
+                $Selenium->find_element( "#DialogButton1", 'css' )->click();
+
+                # remove the limitations again
+                $Selenium->execute_script(
+                    "\$('#FileUpload').removeData('max-size-per-file')"
+                );
+
+                # delete the remaining file
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Test1.pdf)').length"
+                    ),
+                    1,
+                    "$Action - Uploaded 'pdf' file still there"
+                );
+
+                # Delete Attachment.
+                $Selenium->execute_script(
+                    "\$('.AttachmentList tbody tr:contains(Test1.pdf)').find('a.AttachmentDelete').trigger('click')"
+                );
+
+                # Wait until attachment is deleted.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $(".fa.fa-spinner.fa-spin:visible").length === 0;'
+                );
+
+                # Check if deleted.
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Test1.pdf)').length"
+                    ),
+                    0,
+                    "$Action - Upload 'pdf' file deleted"
+                );
+
                 # Upload files.
                 for my $UploadExtension (qw(doc pdf png txt xls)) {
 
@@ -156,7 +311,7 @@ $Selenium->RunTest(
                     # Check if uploaded.
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$UploadExtension)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.$UploadExtension)').length"
                         ),
                         1,
                         "$Action - Upload '$UploadExtension' file correct"
@@ -164,7 +319,7 @@ $Selenium->RunTest(
                 }
 
                 # Upload file again.
-                my $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.txt";
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.txt";
                 $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
                 $Selenium->WaitFor(
@@ -208,7 +363,7 @@ $Selenium->RunTest(
 
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         1,
                         "$Action - Uploaded '$DeleteExtension' file still there"
@@ -216,7 +371,7 @@ $Selenium->RunTest(
 
                     # Delete Attachment.
                     $Selenium->execute_script(
-                        "\$('#AttachmentList tbody tr:contains(Main-Test1.$DeleteExtension)').find('a.AttachmentDelete').trigger('click')"
+                        "\$('.AttachmentList tbody tr:contains(Main-Test1.$DeleteExtension)').find('a.AttachmentDelete').trigger('click')"
                     );
 
                     # Wait until attachment is deleted.
@@ -228,7 +383,7 @@ $Selenium->RunTest(
                     # Check if deleted.
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         0,
                         "$Action - Upload '$DeleteExtension' file deleted"
@@ -303,7 +458,7 @@ $Selenium->RunTest(
                     # Check if uploaded.
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$UploadExtension)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.$UploadExtension)').length"
                         ),
                         1,
                         "$Action - Upload '$UploadExtension' file correct"
@@ -356,7 +511,7 @@ $Selenium->RunTest(
                     # Check if files still there.
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         1,
                         "$Action - Uploaded '$DeleteExtension' file still there"
@@ -364,7 +519,7 @@ $Selenium->RunTest(
 
                     # Delete Attachment.
                     $Selenium->execute_script(
-                        "\$('#AttachmentList tbody tr:contains(Main-Test1.$DeleteExtension)').find('a.AttachmentDelete').trigger('click')"
+                        "\$('.AttachmentList tbody tr:contains(Main-Test1.$DeleteExtension)').find('a.AttachmentDelete').trigger('click')"
                     );
 
                     # Wait until attachment is deleted.
@@ -376,7 +531,7 @@ $Selenium->RunTest(
                     # Check if deleted.
                     $Self->Is(
                         $Selenium->execute_script(
-                            "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
+                            "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.$DeleteExtension)').length"
                         ),
                         0,
                         "$Action - Upload '$DeleteExtension' file deleted"

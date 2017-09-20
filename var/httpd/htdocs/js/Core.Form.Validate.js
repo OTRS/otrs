@@ -281,11 +281,32 @@ Core.Form.Validate = (function (TargetNS) {
         return $.trim(Value).length > 0;
     }
 
+    /**
+     * @private
+     * @name ValidatorMethodDnDUpload
+     * @memberof Core.Form.Validate
+     * @function
+     * @returns {Boolean} True if a DnDUpload field has at least one uploaded attachment, false otherwise
+     * @param {String} Value
+     * @param {DOMObject} Element
+     * @description
+     *      Validator method for checking if a value is present for
+     *      different types of elements.
+     */
+    function ValidatorMethodDnDUpload(Value, Element) {
+
+        var $AttachmentList = $(Element).prev('.AttachmentListContainer'),
+            AttachmentCount = $AttachmentList.find('table tbody tr').length;
+
+        return AttachmentCount;
+    }
+
     /*
      * Definitions of all OTRS specific rules and rule methods
      */
     $.validator.addMethod("Validate_Required", ValidatorMethodRequired, "");
     $.validator.addMethod("Validate_Number", $.validator.methods.digits, "");
+    $.validator.addMethod("Validate_DnDUpload", ValidatorMethodDnDUpload, "");
 
     // There is a configuration option in OTRS that controls if email addresses
     // should be validated or not.
@@ -597,6 +618,10 @@ Core.Form.Validate = (function (TargetNS) {
     /*eslint-disable camelcase */
     $.validator.addClassRules("Validate_Required", {
         Validate_Required: true
+    });
+
+    $.validator.addClassRules("Validate_DnDUpload", {
+        Validate_DnDUpload: true
     });
 
     $.validator.addClassRules("Validate_Number", {

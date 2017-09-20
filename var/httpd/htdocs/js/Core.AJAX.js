@@ -209,7 +209,7 @@ Core.AJAX = (function (TargetNS) {
     function UpdateTicketAttachments(Attachments) {
 
         // delete existing attachments
-        $('#AttachmentList tbody').empty();
+        $('.AttachmentList tbody').empty();
 
         // go through all attachments and append them to the attachment table
         $(Attachments).each(function() {
@@ -221,16 +221,16 @@ Core.AJAX = (function (TargetNS) {
                 'FileID'   : this.FileID,
             });
 
-            $(AttachmentItem).prependTo($('#AttachmentList tbody')).fadeIn();
+            $(AttachmentItem).prependTo($('.AttachmentList tbody')).fadeIn();
         });
 
         // make sure to display the attachment table only if any attachments
         // are actually in it.
-        if ($('#AttachmentList tbody tr').length) {
-            $('#AttachmentList').show();
+        if ($('.AttachmentList tbody tr').length) {
+            $('.AttachmentList').show();
         }
         else {
-            $('#AttachmentList').hide();
+            $('.AttachmentList').hide();
         }
     }
 

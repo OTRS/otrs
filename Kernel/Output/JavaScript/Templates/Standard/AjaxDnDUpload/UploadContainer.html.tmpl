@@ -9,6 +9,13 @@
 <div class="DnDUpload">
     <i class="fa fa-spinner fa-spin"></i>
     <i class="fa fa-download"></i>
-    <span class="ReadyForUpload">{{ 'Click to select files or just drop them here.' | Translate }}</span>
+    <span class="ReadyForUpload">
+    {% if IsMultiple %}
+        {{ 'Click to select files or just drop them here.' | Translate }}
+    {% else %}
+        {{ 'Click to select a file or just drop it here.' | Translate }}
+    {% endif %}
+    </span>
+
     <span class="UploadRunning">{{ 'Uploading...' | Translate }}</span>
 </div>

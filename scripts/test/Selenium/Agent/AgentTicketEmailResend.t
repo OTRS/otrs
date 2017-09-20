@@ -175,7 +175,7 @@ $Selenium->RunTest(
             if ( $Field eq 'FileUpload' ) {
                 $Selenium->WaitFor(
                     JavaScript =>
-                        "return \$('#AttachmentList tbody tr td.Filename:contains($ComposeData{$Field})').length;"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains($ComposeData{$Field})').length;"
                 );
             }
             else {
@@ -315,7 +315,7 @@ $Selenium->RunTest(
             elsif ( $Field eq 'FileUpload' ) {
                 $Self->True(
                     $Selenium->execute_script(
-                        "return \$('#AttachmentList tbody tr td.Filename:contains($ComposeData{$Field})').length;"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains($ComposeData{$Field})').length;"
                     ),
                     "Value for '$Field'"
                 );

@@ -382,6 +382,11 @@ div.DnDUpload {
     box-sizing: border-box;
 }
 
+input.AjaxDnDUpload.Error + div.DnDUpload {
+    color: #ff505e;
+    border-color: #ff505e;
+}
+
 div.DnDUpload.DragOver {
     border-style: dashed;
     background: #eee;
@@ -421,12 +426,12 @@ div.DnDUpload.Uploading .UploadRunning {
     display: block;
 }
 
-#AttachmentListContainer {
+.AttachmentListContainer {
     position: relative;
     max-width: 622px;
 }
 
-#AttachmentListContainer .Busy {
+.AttachmentListContainer .Busy {
     position: absolute;
     left: 0px;
     width: 100%;
@@ -438,7 +443,7 @@ div.DnDUpload.Uploading .UploadRunning {
     display: none;
 }
 
-#AttachmentListContainer .Busy i {
+.AttachmentListContainer .Busy i {
     vertical-align: middle;
     line-height: 100%;
     position: absolute;

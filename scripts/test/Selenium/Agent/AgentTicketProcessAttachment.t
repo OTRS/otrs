@@ -129,36 +129,21 @@ $Selenium->RunTest(
         # Wait until attachment is uploaded - until appears in the attachment list table.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#AttachmentListContainer tbody tr").length'
+                'return typeof($) === "function" && $(".AttachmentListContainer tbody tr").length'
         );
 
         # Check if uploaded.
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.txt)').length"
+                "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.txt)').length;"
             ),
             1,
             "'Main-Test1.txt' - uploaded"
         );
 
-        # Submit.
-        $Selenium->find_element("//button[\@type='submit']")->click();
-
-        # Wait until 'Error' class appears in Subject element.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#Subject.Error").length;'
-        );
-
-        # Check if validation error is on the screen.
-        $Self->True(
-            $Selenium->execute_script("return \$('#Subject.Error').length"),
-            "Validation is executed",
-        );
-
         # Delete the attachment.
         $Selenium->execute_script(
-            "\$('#AttachmentList tbody tr:contains(Main-Test1.txt)').find('a.AttachmentDelete').trigger('click')"
+            "\$('.AttachmentList tbody tr:contains(Main-Test1.txt)').find('a.AttachmentDelete').trigger('click')"
         );
 
         # Wait until attachment is deleted.

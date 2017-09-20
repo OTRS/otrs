@@ -189,7 +189,7 @@ $Selenium->RunTest(
                 # Check if uploaded.
                 $Self->Is(
                     $Selenium->execute_script(
-                        "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
                     ),
                     1,
                     "Uploaded file correctly"
@@ -347,14 +347,14 @@ $Selenium->RunTest(
                 # there should be only one file with a certain name
                 $Self->Is(
                     $Selenium->execute_script(
-                        "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length"
                     ),
                     1,
                     "Uploaded file correctly"
                 );
                 $Self->Is(
                     $Selenium->execute_script(
-                        "return \$('#AttachmentList tbody tr td.Filename').length"
+                        "return \$('.AttachmentList tbody tr td.Filename').length"
                     ),
                     1,
                     "Only one file present"
@@ -372,7 +372,7 @@ $Selenium->RunTest(
                 # Check if uploaded.
                 $Self->Is(
                     $Selenium->execute_script(
-                        "return \$('#AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length"
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length"
                     ),
                     1,
                     "Uploaded file correctly"
@@ -418,7 +418,7 @@ $Selenium->RunTest(
                 # there should be two files now
                 $Self->Is(
                     $Selenium->execute_script(
-                        "return \$('#AttachmentList tbody tr td.Filename').length"
+                        "return \$('.AttachmentList tbody tr td.Filename').length"
                     ),
                     2,
                     "Uploaded file correctly"
