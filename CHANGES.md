@@ -1,4 +1,5 @@
 #3.3.19 ????-??-??
+ - 2017-09-20 Fixed bug#[13173](https://bugs.otrs.org/show_bug.cgi?id=13173) - Not needed mandatory stats object module function in 'ObjectModuleCheck'.
 
 #3.3.18 2017-09-19
  - 2017-09-07 Improved validation in statistic import and export.
