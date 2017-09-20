@@ -227,7 +227,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
         DialogHTML = '<div class="Dialog">';
         if (!Params.HideHeader) {
-            DialogHTML += '<div class="Header"><a class="Close" title="' + Core.Language.Translate('Close') + '" href="#"><i class="fa fa-times"></i></a></div>';
+            DialogHTML += '<div class="Header"><a class="Close" title="' + Core.Language.Translate('Close this dialog') + '" href="#"><i class="fa fa-times"></i></a></div>';
         }
         DialogHTML += '<div class="Content"></div>';
         if (!Params.HideFooter) {
@@ -391,7 +391,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 Type: 'Close',
                 Function: Params.OnClose
             }];
-            $Content.append('<div class="Center Spacing"><button type="button" id="DialogButton1" class="CallForAction Close"><span>OK</span></button></div>');
+            $Content.append('<div class="Center Spacing"><button type="button" id="DialogButton1" class="CallForAction Close"><span>' + Core.Language.Translate('OK') + '</span></button></div>');
         }
         // Define different other types here...
         else if (Params.Type === 'Search') {

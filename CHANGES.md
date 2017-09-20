@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-20 Improved accessbility of dialog buttons, thanks to Balazs Ur (PR#1842).
  - 2017-09-19 Fixed bug#[13076](https://bugs.otrs.org/show_bug.cgi?id=13076) - Multi-upload should also support cases where just one file can be added.
  - 2017-09-18 Added a link to the notification web view to the new personal flyout for agents.
  - 2017-09-18 Fixed bug#[13164](https://bugs.otrs.org/show_bug.cgi?id=13164) - Certain AJAX Error Types are still unprocessed.
