@@ -33,7 +33,7 @@ while ( my @Row = $DBObject->FetchrowArray() ) {
 
 my $CacheType = 'UnitTestTicketCounter';
 
-my $ChildCount = 5;
+my $ChildCount = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::TicketCreateNumber::ChildCount') || 5;
 
 for my $TicketNumberBackend (qw (AutoIncrement Date DateChecksum)) {
     for my $ChildIndex ( 1 .. $ChildCount ) {
