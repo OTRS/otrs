@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-09-20 Fixed translatable strings, thanks to Balazs Ur (PR#1834).
  - 2017-09-20 Fixed bug#[13173](https://bugs.otrs.org/show_bug.cgi?id=13173) - Not needed mandatory stats object module function in 'ObjectModuleCheck'.
  - 2017-09-20 Follow-up for bug#[13083](https://bugs.otrs.org/show_bug.cgi?id=13083) - OTRS Business Solution Logout Logo is OTRSFree.
  - 2017-09-19 Fixed bug#[13151](https://bugs.otrs.org/show_bug.cgi?id=13151) - Can't switch between mobil and desktop mode when Secure::DisableBanner.
