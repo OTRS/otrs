@@ -730,9 +730,15 @@ sub Login {
         my %AgentLogo = %{ $ConfigObject->Get('AgentLogo') };
         my %Data;
 
-        # If OTRSBusines is installed, use business logo on Login screen.
+        # check if we need to display a custom logo for the selected skin
         my $AgentLogoCustom = $ConfigObject->Get('AgentLogoCustom');
-        if ($AgentLogoCustom) {
+        if (
+            $Self->{SkinSelected}
+            && $AgentLogoCustom
+            && IsHashRefWithData($AgentLogoCustom)
+            && $AgentLogoCustom->{ $Self->{SkinSelected} }
+            )
+        {
             %AgentLogo = %{ $AgentLogoCustom->{ $Self->{SkinSelected} } };
         }
 
