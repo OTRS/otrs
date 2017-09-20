@@ -291,7 +291,7 @@
                                 <tr>
                                     <th>[% Translate("Group") | html %]</th>
 [% RenderBlockStart("HeaderGroupPermissionType") %]
-                                    <th class="Center">[% Data.Type | html %]</th>
+                                    <th class="Center">[% Translate(Data.Type) | html %]</th>
 [% RenderBlockEnd("HeaderGroupPermissionType") %]
                                 </tr>
                             </thead>
