@@ -128,8 +128,7 @@ sub Run {
             Value            => $List,
             Invalid          => $InvalidMessage,
             FieldExplanation => Translatable(
-                'Keys/certificates will only be shown for recipients with more than one key/certificate.'
-                    . ' The first found key/certificate will be pre-selected. Please make sure to select the correct one.'
+                'Keys/certificates will only be shown for recipients with more than one key/certificate. The first found key/certificate will be pre-selected. Please make sure to select the correct one.'
             ),
         },
     );
