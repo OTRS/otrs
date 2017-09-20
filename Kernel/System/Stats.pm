@@ -1210,7 +1210,6 @@ sub ObjectModuleCheck {
     if ( $Param{StatType} eq 'static' ) {
 
         @RequiredObjectFunctions = (
-            'GetObjectBehaviours',
             'Param',
             'Run',
         );
@@ -1232,7 +1231,6 @@ sub ObjectModuleCheck {
 
         @RequiredObjectFunctions = (
             'GetObjectName',
-            'GetObjectBehaviours',
             'GetObjectAttributes',
         );
 
