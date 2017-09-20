@@ -1,4 +1,5 @@
 #4.0.26 2017-??-??
+ - 2017-09-20 Fixed bug#[13173](https://bugs.otrs.org/show_bug.cgi?id=13173) - Not needed mandatory stats object module function in 'ObjectModuleCheck'.
  - 2017-09-20 Follow-up for bug#[13083](https://bugs.otrs.org/show_bug.cgi?id=13083) - OTRS Business Solution Logout Logo is OTRSFree.
  - 2017-09-14 Fixed bug#[13086](https://bugs.otrs.org/show_bug.cgi?id=13086) - Owner is resetted in AgentTicketFreeText if moved to another queue.
  - 2017-09-13 Fixed bug#[13088](https://bugs.otrs.org/show_bug.cgi?id=13088) - EscalationTime shows in seconds in CSV export.
