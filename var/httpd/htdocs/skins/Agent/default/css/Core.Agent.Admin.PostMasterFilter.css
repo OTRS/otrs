@@ -19,12 +19,17 @@
 label.Negate {
 	background: #eee;
 	display: inline-block;
-	margin: 0px 10px;
+	margin: 0px 10px 0px 5px;
 	padding: 0px 2px 0px 7px;
 }
 
+label:nth-of-type(2) {
+	margin-left: 7px;
+}
+
 label.Negate.Checked {
-	background: #ccc;
+	background: #777;
+	color: #fff;
 }
 
 label.Negate input {
@@ -42,7 +47,7 @@ label.Negate input {
 }
 
 div.InputField_InputContainer .InputField_Search {
-	max-width: 200px !important;
+	max-width: 400px !important;
 }
 
 

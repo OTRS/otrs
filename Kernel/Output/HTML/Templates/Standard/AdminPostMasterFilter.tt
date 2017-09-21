@@ -62,6 +62,7 @@
         </div>
 [% RenderBlockEnd("Filter") %]
 
+[% IF Env("Subaction") == 'Update' || Env("Subaction") == "AddAction" %]
         <div class="WidgetSimple">
             <div class="Header">
                 <h2>[% Translate("Hint") | html %]</h2>
@@ -81,6 +82,7 @@
                 </p>
             </div>
         </div>
+[% END %]
 
     </div>
 
@@ -181,24 +183,24 @@
                 <div class="Content">
                 [% FOREACH [ 1 .. Config("PostmasterHeaderFieldCount") ]  %]
                     <div class="Field Center SpacingTopSmall">
-                        <label for="MatchHeader[% loop.count %]">[% Translate("Check email header") | html %]:</label>
+                        <label for="MatchHeader[% loop.count %]">[% Translate("Search header field") | html %]:</label>
                         [% Data.item( "MatchHeader$loop.count")  %]
                         <div id="MatchHeader[% loop.count %]ServerError" class="TooltipErrorMessage">
                             <p>[% Translate("This field is required.") | html %]</p>
                         </div>
 
-                        <label class="Negate" for="MatchNot[% loop.count %]">
-                            [% Translate("Negate") | html %]: <input type="checkbox" name="MatchNot[% loop.count %]" id="MatchNot[% loop.count %]" value="1" [% Data.item( "MatchNot$loop.count") | html %] />
-                        </label>
-
-                        <label for="MatchValue[% loop.count %]">[% Translate("Look for value") | html %]:</label>
+                        <label for="MatchValue[% loop.count %]">[% Translate("for value") | html %]:</label>
                         <input type="text" name="MatchValue[% loop.count %]" id="MatchValue[% loop.count %]" value="[% Data.item("MatchValue$loop.count") | html %]" class="W33pc [% Data.item('MatchValue' _ loop.count  _ 'Invalid') | html %]" maxlength="100"/>
                         <div id="MatchValue[% loop.count %]ServerError" class="TooltipErrorMessage">
                             <p>[% Translate("The field needs to be a valid regular expression or a literal word.") | html %]</p>
                         </div>
+
+                        <label class="Negate" for="MatchNot[% loop.count %]">
+                            [% Translate("Negate") | html %]: <input type="checkbox" name="MatchNot[% loop.count %]" id="MatchNot[% loop.count %]" value="1" [% Data.item( "MatchNot$loop.count") | html %] />
+                        </label>
                     </div>
                     <div class="Clear"></div>
-               [% END %]
+                [% END %]
                 </div>
             </div>
 
@@ -219,7 +221,7 @@
                             <p>[% Translate("This field is required.") | html %]</p>
                         </div>
 
-                        <label class="RightLabel" for="SetValue[% loop.count %]">[% Translate("Set value") | html %]:</label>
+                        <label class="RightLabel" for="SetValue[% loop.count %]">[% Translate("with value") | html %]:</label>
                         <input type="text" name="SetValue[% loop.count %]" id="SetValue[% loop.count %]" value="[% Data.item("SetValue$loop.count") | html %]" class="W33pc [% Data.item('SetValue' _ loop.count _ 'Invalid') | html %]" maxlength="100"/>
                         <div id="SetValue[% loop.count %]ServerError" class="TooltipErrorMessage">
                             <p>[% Translate("The field needs to be a literal word.") | html %]</p>
