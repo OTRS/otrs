@@ -131,7 +131,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#StopDateMinute option[value='" . int($MinEnd) . "']", 'css' )->VerifiedClick();
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys($SysMainLogin);
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys($SysMainNotify);
-        $Selenium->find_element( "#Comment",       'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",        'css' )->VerifiedClick();
 
         # return to overview AdminSystemMaintenance
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->VerifiedClick();
@@ -182,7 +182,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#LoginMessage",  'css' )->send_keys("-update");
         $Selenium->find_element( "#NotifyMessage", 'css' )->send_keys("-update");
         $Selenium->execute_script("\$('#ValidID').val('2').trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#Comment", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->VerifiedClick();
 

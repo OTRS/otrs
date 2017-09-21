@@ -129,14 +129,11 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        # wait for displaying submenu items for 'People' ticket menu item
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#nav-People ul").css({ "height": "auto", "opacity": "100" });'
-        );
+        # force sub menus to be visible in order to be able to click one of the links
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # go to AgentTicketCustomer, it causes open popup screen, wait will be done by WaitFor
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->click();
 
         # switch to another window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -145,11 +142,14 @@ $Selenium->RunTest(
 
         # set size for small screens, because of sidebar with customer info overflow form for customer data
         $Selenium->set_window_size( 1000, 700 );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#CustomerInfo a.AsPopup").attr("target") === "_blank"'
+        );
 
         # Check if user email is a link in the Customer Information widget and has target property.
-        my $LinkTarget = $Selenium->execute_script("return \$('#CustomerInfo a.AsPopup').attr('target');");
         $Self->Is(
-            $LinkTarget,
+            $Selenium->execute_script("return \$('#CustomerInfo a.AsPopup').attr('target');"),
             '_blank',
             "Check if user email is a link in the Customer Information widget and has target property."
         );
@@ -173,7 +173,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length' );
 
         # submit customer data, it causes close popup screen, wait will be done by WaitFor
-        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
+        $Selenium->execute_script("\$('#submitRichText').click();");
+        $Selenium->close();
 
         # wait for update
         $Selenium->WaitFor( WindowCount => 1 );
@@ -188,6 +189,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'CustomerUpdate' ) > -1,
             "Action AgentTicketCustomer executed correctly",
         );
+        $Selenium->close();
 
         # delete created test ticket
         my $Success = $TicketObject->TicketDelete(

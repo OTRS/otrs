@@ -72,8 +72,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
         # switch to merge window
         $Selenium->WaitFor( WindowCount => 2 );
@@ -96,7 +95,7 @@ $Selenium->RunTest(
         # check client side validation
         my $Element = $Selenium->find_element( "#MainTicketNumber", 'css' );
         $Element->send_keys("");
-        $Element->VerifiedSubmit();
+        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
 
         $Self->Is(
             $Selenium->execute_script(
@@ -130,8 +129,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
         # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")
-            ->VerifiedClick();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -145,7 +143,8 @@ $Selenium->RunTest(
 
         # merge with second test ticket
         $Selenium->find_element( "#MainTicketNumber", 'css' )->send_keys( $TicketNumbers[1] );
-        $Selenium->find_element( "#submitRichText",   'css' )->click();
+        $Selenium->execute_script("\$('#submitRichText').click();");
+        $Selenium->close();
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->WaitFor( WindowCount => 1 );
@@ -161,7 +160,7 @@ $Selenium->RunTest(
         # force sub menus to be visible in order to be able to click one of the links
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
 
-        $Selenium->find_element("//*[text()='History']")->VerifiedClick();
+        $Selenium->find_element("//*[text()='History']")->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -176,6 +175,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $MergeMsg ) > -1,
             "Merge action completed",
         );
+        $Selenium->close();
 
         # delete created test tickets
         for my $Ticket (@TicketIDs) {

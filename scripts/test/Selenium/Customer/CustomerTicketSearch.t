@@ -119,7 +119,7 @@ $Selenium->RunTest(
 
         # input ticket number as search parameter
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys( $Ticket{TicketNumber} );
-        $Selenium->find_element( "#TicketNumber", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
 
         # check for expected result
         $Self->True(
@@ -135,7 +135,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys("123456789012345");
         $Selenium->execute_script("\$('#StateIDs').val([1, 4]).trigger('redraw.InputField').trigger('change');");
         $Selenium->execute_script("\$('#PriorityIDs').val([2, 3]).trigger('redraw.InputField').trigger('change');");
-        $Selenium->find_element( "#TicketNumber", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # check for expected result
         $Self->True(
@@ -175,7 +175,7 @@ $Selenium->RunTest(
 
         # input ticket number as search parameter
         $Selenium->find_element( "#TicketNumber", 'css' )->send_keys( $Ticket{TicketNumber} );
-        $Selenium->find_element( "#TicketNumber", 'css' )->VerifiedSubmit();
+        $Selenium->find_element( "#Submit",       'css' )->VerifiedClick();
 
         # check for expected result
         $Self->True(
