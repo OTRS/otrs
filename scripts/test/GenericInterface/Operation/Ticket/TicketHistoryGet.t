@@ -54,12 +54,22 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => 'Raw' );
 my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateLookup( State => 'new' );
-my $TypeID = $Kernel::OM->Get('Kernel::System::Type')->TypeLookup( Type => 'undefined' );
+
+# Disable service and type
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Ticket::Service',
+    Value => 0,
+);
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'Ticket::Type',
+    Value => 0,
+);
 
 # create ticket
 my $TicketID1 = $TicketObject->TicketCreate(
     Title        => 'Ticket One Title',
-    TypeID       => $TypeID,
     QueueID      => $QueueID,
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -79,7 +89,6 @@ $Self->True(
 # create ticket
 my $TicketID2 = $TicketObject->TicketCreate(
     Title        => 'Ticket One Title',
-    TypeID       => $TypeID,
     QueueID      => $QueueID,
     Lock         => 'unlock',
     Priority     => '3 normal',
