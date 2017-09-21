@@ -111,8 +111,8 @@ $Selenium->RunTest(
         my $Count = 1;
         my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
-            'Manage Customer-Services Relations',
-            'Allocate Services to Customer \''
+            'Manage Customer User-Services Relations',
+            'Allocate Services to Customer User \''
             . $CustomerUserName . ' '
             . $CustomerUserName . ' ('
             . $CustomerUserName . ')\''
