@@ -119,7 +119,7 @@ if ( ref $Success eq 'HASH' ) {
         {
             Name        => 'AllSettingsCount',
             IsValue     => $AllSettingsCount,
-            ShouldValue => 42,
+            ShouldValue => 46,
         },
         {
             Name        => 'MissingSettings',
@@ -175,6 +175,15 @@ my @Tests = (
         OldName  => 'Frontend::NotifyModule###800-Daemon-Check',
         NewName  => 'Frontend::NotifyModule###8000-Daemon-Check',
     },
+    {
+        TestType => 'Renaming',
+        Name     => 'Renamed Setting 3',
+        OldName  => 'CustomerCompany::EventModulePost###110-UpdateTickets',
+        NewName  => 'CustomerCompany::EventModulePost###2300-UpdateTickets',
+    },
+
+    # There are other renamed settings, this are included AllSetings,
+    #   and should not add any results in the MissingSettings above.
     {
         TestType      => 'PreChanged',
         Name          => 'Was changed before 1',

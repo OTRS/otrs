@@ -586,6 +586,197 @@ $Self->{'TimeVacationDays::Calendar9'} =  {
 $Self->{'CalendarWeekDayStart::Calendar9'} =  '1';
 $Self->{'TimeZone::Calendar9'} =  '0';
 $Self->{'TimeZone::Calendar9Name'} =  'Calendar Name 9';
+$Self->{'CustomerCompany::EventModulePost'}->{'100-UpdateCustomerUsers'} =  {
+  'Event' => 'CustomerCompanyUpdate',
+  'Module' => 'Kernel::System::CustomerCompany::Event::CustomerUserUpdate',
+  'Transaction' => '0'
+};
+$Self->{'CustomerCompany::EventModulePost'}->{'110-UpdateTickets'} =  {
+  'Event' => 'CustomerCompanyUpdate',
+  'Module' => 'Kernel::System::CustomerCompany::Event::TicketUpdate',
+  'Transaction' => '0'
+};
+$Self->{'CustomerCompany::EventModulePost'}->{'1000-GenericInterface'} =  {
+  'Event' => '',
+  'Module' => 'Kernel::GenericInterface::Event::Handler',
+  'Transaction' => '1'
+};
+$Self->{'CustomerUser::EventModulePost'}->{'100-UpdateSearchProfiles'} =  {
+  'Event' => 'CustomerUserUpdate',
+  'Module' => 'Kernel::System::CustomerUser::Event::SearchProfileUpdate',
+  'Transaction' => '0'
+};
+$Self->{'CustomerUser::EventModulePost'}->{'100-UpdateServiceMembership'} =  {
+  'Event' => 'CustomerUserUpdate',
+  'Module' => 'Kernel::System::CustomerUser::Event::ServiceMemberUpdate',
+  'Transaction' => '0'
+};
+$Self->{'CustomerUser::EventModulePost'}->{'1000-GenericInterface'} =  {
+  'Event' => '',
+  'Module' => 'Kernel::GenericInterface::Event::Handler',
+  'Transaction' => '1'
+};
+$Self->{'Frontend::NotifyModule'}->{'100-CloudServicesDisabled'} =  {
+  'Group' => 'admin',
+  'Module' => 'Kernel::Output::HTML::Notification::AgentCloudServicesDisabled'
+};
+$Self->{'Frontend::NotifyModule'}->{'100-OTRSBusiness'} =  {
+  'Group' => 'admin',
+  'Module' => 'Kernel::Output::HTML::Notification::AgentOTRSBusiness'
+};
+$Self->{'Frontend::NotifyModule'}->{'200-UID-Check'} =  {
+  'Module' => 'Kernel::Output::HTML::Notification::UIDCheck'
+};
+$Self->{'Frontend::NotifyModule'}->{'250-AgentSessionLimit'} =  {
+  'Module' => 'Kernel::Output::HTML::Notification::AgentSessionLimit'
+};
+$Self->{'Frontend::NotifyModule'}->{'500-OutofOffice-Check'} =  {
+  'Module' => 'Kernel::Output::HTML::Notification::OutofOfficeCheck'
+};
+$Self->{'Frontend::NotifyModule'}->{'600-SystemMaintenance-Check'} =  {
+  'Module' => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck'
+};
+$Self->{'Ticket::EventModulePost'}->{'900-GenericAgent'} =  {
+  'Event' => '',
+  'Module' => 'Kernel::System::Ticket::Event::GenericAgent',
+  'Transaction' => '1'
+};
+$Self->{'Frontend::ToolBarModule'}->{'1-Ticket::AgentTicketQueue'} =  {
+  'AccessKey' => 'q',
+  'Action' => 'AgentTicketQueue',
+  'CssClass' => 'QueueView',
+  'Icon' => 'fa fa-folder',
+  'Link' => 'Action=AgentTicketQueue',
+  'Module' => 'Kernel::Output::HTML::ToolBar::Link',
+  'Name' => 'Queue view',
+  'Priority' => '1010010'
+};
+$Self->{'Frontend::ToolBarModule'}->{'2-Ticket::AgentTicketStatus'} =  {
+  'AccessKey' => 'o',
+  'Action' => 'AgentTicketStatusView',
+  'CssClass' => 'StatusView',
+  'Icon' => 'fa fa-list-ol',
+  'Link' => 'Action=AgentTicketStatusView',
+  'Module' => 'Kernel::Output::HTML::ToolBar::Link',
+  'Name' => 'Status view',
+  'Priority' => '1010020'
+};
+$Self->{'Frontend::ToolBarModule'}->{'3-Ticket::AgentTicketEscalation'} =  {
+  'AccessKey' => 'w',
+  'Action' => 'AgentTicketEscalationView',
+  'CssClass' => 'EscalationView',
+  'Icon' => 'fa fa-exclamation',
+  'Link' => 'Action=AgentTicketEscalationView',
+  'Module' => 'Kernel::Output::HTML::ToolBar::Link',
+  'Name' => 'Escalation view',
+  'Priority' => '1010030'
+};
+$Self->{'Frontend::ToolBarModule'}->{'4-Ticket::AgentTicketPhone'} =  {
+  'AccessKey' => '',
+  'Action' => 'AgentTicketPhone',
+  'CssClass' => 'PhoneTicket',
+  'Icon' => 'fa fa-phone',
+  'Link' => 'Action=AgentTicketPhone',
+  'Module' => 'Kernel::Output::HTML::ToolBar::Link',
+  'Name' => 'New phone ticket',
+  'Priority' => '1020010'
+};
+$Self->{'Frontend::ToolBarModule'}->{'5-Ticket::AgentTicketEmail'} =  {
+  'AccessKey' => 'l',
+  'Action' => 'AgentTicketEmail',
+  'CssClass' => 'EmailTicket',
+  'Icon' => 'fa fa-envelope',
+  'Link' => 'Action=AgentTicketEmail',
+  'Module' => 'Kernel::Output::HTML::ToolBar::Link',
+  'Name' => 'New email ticket',
+  'Priority' => '1020020'
+};
+$Self->{'Frontend::ToolBarModule'}->{'6-Ticket::AgentTicketProcess'} =  {
+  'AccessKey' => '',
+  'Action' => 'AgentTicketProcess',
+  'CssClass' => 'ProcessTicket',
+  'Icon' => 'fa fa-th-large',
+  'Link' => 'Action=AgentTicketProcess',
+  'Module' => 'Kernel::Output::HTML::ToolBar::Link',
+  'Name' => 'New process ticket',
+  'Priority' => '1020030'
+};
+$Self->{'Frontend::ToolBarModule'}->{'7-Ticket::TicketResponsible'} =  {
+  'AccessKey' => 'r',
+  'AccessKeyNew' => '',
+  'AccessKeyReached' => '',
+  'CssClass' => 'Responsible',
+  'CssClassNew' => 'Responsible New',
+  'CssClassReached' => 'Responsible Reached',
+  'Icon' => 'fa fa-user',
+  'IconNew' => 'fa fa-user',
+  'IconReached' => 'fa fa-user',
+  'Module' => 'Kernel::Output::HTML::ToolBar::TicketResponsible',
+  'Priority' => '1030010'
+};
+$Self->{'Frontend::ToolBarModule'}->{'8-Ticket::TicketWatcher'} =  {
+  'AccessKey' => '',
+  'AccessKeyNew' => '',
+  'AccessKeyReached' => '',
+  'CssClass' => 'Watcher',
+  'CssClassNew' => 'Watcher New',
+  'CssClassReached' => 'Watcher Reached',
+  'Icon' => 'fa fa-eye',
+  'IconNew' => 'fa fa-eye',
+  'IconReached' => 'fa fa-eye',
+  'Module' => 'Kernel::Output::HTML::ToolBar::TicketWatcher',
+  'Priority' => '1030020'
+};
+$Self->{'Frontend::ToolBarModule'}->{'9-Ticket::TicketLocked'} =  {
+  'AccessKey' => 'k',
+  'AccessKeyNew' => '',
+  'AccessKeyReached' => '',
+  'CssClass' => 'Locked',
+  'CssClassNew' => 'Locked New',
+  'CssClassReached' => 'Locked Reached',
+  'Icon' => 'fa fa-lock',
+  'IconNew' => 'fa fa-lock',
+  'IconReached' => 'fa fa-lock',
+  'Module' => 'Kernel::Output::HTML::ToolBar::TicketLocked',
+  'Priority' => '1030030'
+};
+$Self->{'Frontend::ToolBarModule'}->{'10-Ticket::AgentTicketService'} =  {
+  'CssClass' => 'ServiceView',
+  'Icon' => 'fa fa-wrench',
+  'Module' => 'Kernel::Output::HTML::ToolBar::TicketService',
+  'Priority' => '1030035'
+};
+$Self->{'Frontend::ToolBarModule'}->{'11-Ticket::TicketSearchProfile'} =  {
+  'Module' => 'Kernel::Output::HTML::ToolBar::TicketSearchProfile',
+  'Name' => 'Search template',
+  'MaxWidth' =>40,
+  'Priority' => '1990010'
+};
+$Self->{'Frontend::ToolBarModule'}->{'12-Ticket::TicketSearchFulltext'} =  {
+  'Module' => 'Kernel::Output::HTML::ToolBar::Generic',
+  'Name' => 'Fulltext search',
+  'Block'=> 'ToolBarSearchFulltext',
+  'Size' => 10,
+  'CSS' =>'Core.Agent.Toolbar.FulltextSearch.css',
+  'Priority' => '1990010'
+};
+$Self->{'Frontend::ToolBarModule'}->{'13-CICSearchCustomerID'} =  {
+  'Module' => 'Kernel::Output::HTML::ToolBar::Generic',
+  'Name' => 'CustomerID search',
+  'Block'=> 'ToolBarCICSearchCustomerID',
+  'Size' => 10,
+  'CSS' =>'Core.Agent.Toolbar.CICSearch.css',
+  'Priority' => '1990030'
+};
+$Self->{'Frontend::ToolBarModule'}->{'14-CICSearchCustomerUser'} =  {
+  'Module' => 'Kernel::Output::HTML::ToolBar::Generic',
+  'Name' => 'Customer user search',
+  'Block'=> 'ToolBarCICSearchCustomerUser',
+  'Size' => 10,
+  'CSS' =>'Core.Agent.Toolbar.CICSearch.css',
+  'Priority' => '1990040'
+};
+$Self->{'Ticket::Frontend::OverviewSmall'}->{'ColumnHeader'} =  'LastCustomerSubject';
 ##+;
 
 }

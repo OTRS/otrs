@@ -1602,6 +1602,11 @@ sub MigrateConfigEffectiveValues {
                     # build the new setting key
                     my $NewSettingKey = $SettingName . '###' . $SettingKeyFirstLevel;
 
+                    # Skip not longer existing settings.
+                    if ( $NewSettingKey eq 'Ticket::Frontend::OverviewSmall###ColumnHeader' ) {
+                        next SETTINGKEYFIRSTLEVEL;
+                    }
+
                     # check and convert config name if it has been renamed in OTRS 6
                     # otherwise it will use the given old name
                     $NewSettingKey = _LookupNewConfigName(
@@ -2048,11 +2053,14 @@ sub _LookupNewConfigName {
         'CustomerCompany::EventModulePost###100-UpdateCustomerUsers' =>
             'CustomerCompany::EventModulePost###2000-UpdateCustomerUsers',
 
+        'CustomerCompany::EventModulePost###110-UpdateTickets' =>
+            'CustomerCompany::EventModulePost###2300-UpdateTickets',
+
         'CustomerCompany::EventModulePost###1000-GenericInterface' =>
             'CustomerCompany::EventModulePost###9900-GenericInterface',
 
-        'CustomerCompany::EventModulePost###110-UpdateTickets' =>
-            'CustomerCompany::EventModulePost###2300-UpdateTickets',
+        'CustomerUser::EventModulePost###100-UpdateDynamicFieldObjectName' =>
+            'CustomerUser::EventModulePost###2000-UpdateDynamicFieldObjectName',
 
         'CustomerUser::EventModulePost###100-UpdateSearchProfiles' =>
             'CustomerUser::EventModulePost###2100-UpdateSearchProfiles',
@@ -2069,6 +2077,9 @@ sub _LookupNewConfigName {
         'DynamicField::EventModulePost###1000-GenericInterface' =>
             'DynamicField::EventModulePost###9900-GenericInterface',
 
+        'Frontend::NotifyModule###5-Ticket::TicketEscalation' =>
+            'Frontend::NotifyModule###5000-Ticket::TicketEscalation',
+
         'Frontend::NotifyModule###100-CloudServicesDisabled' =>
             'Frontend::NotifyModule###1000-CloudServicesDisabled',
 
@@ -2081,14 +2092,44 @@ sub _LookupNewConfigName {
         'Frontend::NotifyModule###250-AgentSessionLimit' =>
             'Frontend::NotifyModule###2500-AgentSessionLimit',
 
+        'Frontend::NotifyModule###300-ShowAgentOnline' =>
+            'Frontend::NotifyModule###3000-ShowAgentOnline',
+
+        'Frontend::NotifyModule###400-ShowCustomerOnline' =>
+            'Frontend::NotifyModule###4000-ShowCustomerOnline',
+
         'Frontend::NotifyModule###500-OutofOffice-Check' =>
             'Frontend::NotifyModule###5500-OutofOffice-Check',
 
         'Frontend::NotifyModule###600-SystemMaintenance-Check' =>
             'Frontend::NotifyModule###6000-SystemMaintenance-Check',
 
+        'Frontend::NotifyModule###700-AgentTimeZone-Check' =>
+            'Frontend::NotifyModule###7000-AgentTimeZone-Check',
+
         'Frontend::NotifyModule###800-Daemon-Check' =>
             'Frontend::NotifyModule###8000-Daemon-Check',
+
+        'Frontend::NotifyModule###900-Generic' =>
+            'Frontend::NotifyModule###9000-Generic',
+
+        'Frontend::ToolBarModule###1-Ticket::AgentTicketQueue' =>
+            'Frontend::ToolBarModule###110-Ticket::AgentTicketQueue',
+
+        'Frontend::ToolBarModule###2-Ticket::AgentTicketStatus' =>
+            'Frontend::ToolBarModule###120-Ticket::AgentTicketStatus',
+
+        'Frontend::ToolBarModule###3-Ticket::AgentTicketEscalation' =>
+            'Frontend::ToolBarModule###130-Ticket::AgentTicketEscalation',
+
+        'Frontend::ToolBarModule###4-Ticket::AgentTicketPhone' =>
+            'Frontend::ToolBarModule###140-Ticket::AgentTicketPhone',
+
+        'Frontend::ToolBarModule###5-Ticket::AgentTicketEmail' =>
+            'Frontend::ToolBarModule###150-Ticket::AgentTicketEmail',
+
+        'Frontend::ToolBarModule###6-Ticket::AgentTicketProcess' =>
+            'Frontend::ToolBarModule###160-Ticket::AgentTicketProcess',
 
         'Frontend::ToolBarModule###7-Ticket::TicketResponsible' =>
             'Frontend::ToolBarModule###170-Ticket::TicketResponsible',
@@ -2098,6 +2139,21 @@ sub _LookupNewConfigName {
 
         'Frontend::ToolBarModule###9-Ticket::TicketLocked' =>
             'Frontend::ToolBarModule###190-Ticket::TicketLocked',
+
+        'Frontend::ToolBarModule###10-Ticket::AgentTicketService' =>
+            'Frontend::ToolBarModule###200-Ticket::AgentTicketService',
+
+        'Frontend::ToolBarModule###11-Ticket::TicketSearchProfile' =>
+            'Frontend::ToolBarModule###210-Ticket::TicketSearchProfile',
+
+        'Frontend::ToolBarModule###12-Ticket::TicketSearchFulltext' =>,
+        'Frontend::ToolBarModule###220-Ticket::TicketSearchFulltext',
+
+        'Frontend::ToolBarModule###13-CICSearchCustomerID' =>
+            'Frontend::ToolBarModule###230-CICSearchCustomerID',
+
+        'Frontend::ToolBarModule###14-CICSearchCustomerUser' =>
+            'Frontend::ToolBarModule###240-CICSearchCustomerUser',
 
         'Package::EventModulePost###1000-GenericInterface' =>
             'Package::EventModulePost###9900-GenericInterface',
