@@ -200,39 +200,39 @@ for my $Item ( 1 .. 5 ) {
 my @Tests = (
     {
         KindsOfReporting => 'SolutionAverageAllOver',
-        ExpectedResult   => '0h 9m',
+        ExpectedResult   => '9m',
     },
     {
         KindsOfReporting => 'SolutionMinTimeAllOver',
-        ExpectedResult   => '0h 3m',
+        ExpectedResult   => '3m',
     },
     {
         KindsOfReporting => 'SolutionMaxTimeAllOver',
-        ExpectedResult   => '0h 15m',
+        ExpectedResult   => '15m',
     },
     {
         KindsOfReporting => 'SolutionAverage',
-        ExpectedResult   => '0h 9m',
+        ExpectedResult   => '9m',
     },
     {
         KindsOfReporting => 'SolutionMinTime',
-        ExpectedResult   => '0h 3m',
+        ExpectedResult   => '3m',
     },
     {
         KindsOfReporting => 'SolutionMaxTime',
-        ExpectedResult   => '0h 15m',
+        ExpectedResult   => '15m',
     },
     {
         KindsOfReporting => 'SolutionWorkingTimeAverage',
-        ExpectedResult   => '0h 9m',
+        ExpectedResult   => '9m',
     },
     {
         KindsOfReporting => 'SolutionMinWorkingTime',
-        ExpectedResult   => '0h 3m',
+        ExpectedResult   => '3m',
     },
     {
         KindsOfReporting => 'SolutionMaxWorkingTime',
-        ExpectedResult   => '0h 15m',
+        ExpectedResult   => '15m',
     },
     {
         KindsOfReporting => 'NumberOfTickets',
@@ -240,23 +240,23 @@ my @Tests = (
     },
     {
         KindsOfReporting => 'ResponseAverage',
-        ExpectedResult   => '0h 6m',
+        ExpectedResult   => '6m',
     },
     {
         KindsOfReporting => 'ResponseMinTime',
-        ExpectedResult   => '0h 2m',
+        ExpectedResult   => '2m',
     },
     {
         KindsOfReporting => 'ResponseWorkingTimeAverage',
-        ExpectedResult   => '0h 6m',
+        ExpectedResult   => '6m',
     },
     {
         KindsOfReporting => 'ResponseMinWorkingTime',
-        ExpectedResult   => '0h 2m',
+        ExpectedResult   => '2m',
     },
     {
         KindsOfReporting => 'ResponseMaxWorkingTime',
-        ExpectedResult   => '0h 10m',
+        ExpectedResult   => '10m',
     },
 );
 
