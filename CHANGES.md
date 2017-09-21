@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-05-15 Fixed bug#[9716](https://bugs.otrs.org/show_bug.cgi?id=9716) - Report on solution times gives very large negative times.
  - 2017-09-21 Fixed bug#[13051](https://bugs.otrs.org/show_bug.cgi?id=13051) - Postmaster Filter named captures.
  - 2017-09-20 Fixed translatable strings, thanks to Balazs Ur (PR#1833, PR#1834).
  - 2017-09-20 Fixed bug#[13173](https://bugs.otrs.org/show_bug.cgi?id=13173) - Not needed mandatory stats object module function in 'ObjectModuleCheck'.

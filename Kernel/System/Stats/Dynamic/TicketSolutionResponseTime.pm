@@ -27,6 +27,7 @@ our @ObjectDependencies = (
     'Kernel::System::Service',
     'Kernel::System::SLA',
     'Kernel::System::State',
+    'Kernel::System::Stats',
     'Kernel::System::Ticket',
     'Kernel::System::DateTime',
     'Kernel::System::Type',
@@ -1042,9 +1043,9 @@ sub GetStatElement {
 
     # Convert min in hh:mm.
     if ( $SelectedKindOfReporting ne 'NumberOfTickets' && $SelectedKindOfReporting ne 'NumberOfTicketsAllOver' ) {
-        my $Hours   = int( $Reporting / 60 );
-        my $Minutes = int( $Reporting % 60 );
-        $Reporting = $Hours . 'h ' . $Minutes . 'm';
+        $Reporting = $Kernel::OM->Get('Kernel::System::Stats')->_HumanReadableAgeGet(
+            Age => $Reporting * 60,
+        );
     }
 
     return $Reporting;
