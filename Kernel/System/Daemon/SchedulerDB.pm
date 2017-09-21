@@ -12,6 +12,7 @@ use strict;
 use warnings;
 
 use MIME::Base64;
+use Time::HiRes;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -23,6 +24,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::GenericAgent',
+    'Kernel::System::Main',
     'Kernel::System::Log',
     'Kernel::System::Storable',
 );
@@ -132,7 +134,7 @@ sub TaskAdd {
     for my $Try ( 1 .. 10 ) {
 
         # calculate a task identifier
-        $Identifier = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch() . int rand 1000000;
+        $Identifier = $Self->_GetIdentifier();
 
         # insert the task (initially locked with lock_key = 1 so it will not be taken by any worker
         #   at this moment)
@@ -957,7 +959,7 @@ sub FutureTaskAdd {
     for my $Try ( 1 .. 10 ) {
 
         # calculate a task identifier
-        $Identifier = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch() . int rand 1000000;
+        $Identifier = $Self->_GetIdentifier();
 
         # insert the future task (initially locked with lock_key = 1 so it will not be taken by any
         #    moved into worker task list at this moment)
@@ -2434,6 +2436,52 @@ sub RecurrentTaskUnlockExpired {
     return 1;
 }
 
+=head1 PRIVATE INTERFACE
+
+=head2 _Seconds2String()
+
+convert an amount of seconds to a more human readable format, e.g. < 1 Second, 5 Minutes
+
+    my $String = $SchedulerDBObject->_Seconds2String(.2);
+
+returns
+
+    $String = '< 1 Second';
+
+or
+
+    my $String = $SchedulerDBObject->_Seconds2String(8);
+
+returns
+
+    $String = '8 Second(s)';
+
+or
+
+    my $String = $SchedulerDBObject->_Seconds2String(62);
+
+returns
+
+    $String = '1 Minute(s)';
+
+or
+
+    my $String = $SchedulerDBObject->_Seconds2String(3610);
+
+returns
+
+    $String = '1 Hour(s)';
+
+or
+
+    my $String = $SchedulerDBObject->_Seconds2String(86_640);
+
+returns
+
+    $String = '1 Day(s)';
+
+=cut
+
 sub _Seconds2String {
     my ( $Self, $Seconds ) = @_;
 
@@ -2451,6 +2499,36 @@ sub _Seconds2String {
     else {
         return sprintf '%.1f Second(s)', $Seconds;
     }
+}
+
+=head2 _GetIdentifier()
+
+calculate a task identifier.
+
+    my $Identifier = $SchedulerDBObject->_GetIdentifier();
+
+returns
+
+    $Identifier = 1234456789;
+
+=cut
+
+sub _GetIdentifier {
+    my ( $Self, %Param ) = @_;
+
+    my ( $Seconds, $Microseconds ) = Time::HiRes::gettimeofday();
+    my $ProcessID = $$;
+
+    my $Identifier = $ProcessID . $Microseconds;
+
+    my $RandomString = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
+        Length     => 18 - length $Identifier,
+        Dictionary => [ 0 .. 9 ],                # numeric
+    );
+
+    $Identifier .= $RandomString;
+
+    return $Identifier;
 }
 
 1;
