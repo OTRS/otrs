@@ -144,7 +144,6 @@ $Selenium->RunTest(
         # merge with second test ticket
         $Selenium->find_element( "#MainTicketNumber", 'css' )->send_keys( $TicketNumbers[1] );
         $Selenium->execute_script("\$('#submitRichText').click();");
-        $Selenium->close();
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->WaitFor( WindowCount => 1 );
