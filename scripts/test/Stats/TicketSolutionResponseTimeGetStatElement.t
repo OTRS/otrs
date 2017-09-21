@@ -200,39 +200,39 @@ for my $Item ( 1 .. 5 ) {
 my @Tests = (
     {
         KindsOfReporting => 'SolutionAverageAllOver',
-        ExpectedResult   => '9m',
+        ExpectedResult   => '9 m',
     },
     {
         KindsOfReporting => 'SolutionMinTimeAllOver',
-        ExpectedResult   => '3m',
+        ExpectedResult   => '3 m',
     },
     {
         KindsOfReporting => 'SolutionMaxTimeAllOver',
-        ExpectedResult   => '15m',
+        ExpectedResult   => '15 m',
     },
     {
         KindsOfReporting => 'SolutionAverage',
-        ExpectedResult   => '9m',
+        ExpectedResult   => '9 m',
     },
     {
         KindsOfReporting => 'SolutionMinTime',
-        ExpectedResult   => '3m',
+        ExpectedResult   => '3 m',
     },
     {
         KindsOfReporting => 'SolutionMaxTime',
-        ExpectedResult   => '15m',
+        ExpectedResult   => '15 m',
     },
     {
         KindsOfReporting => 'SolutionWorkingTimeAverage',
-        ExpectedResult   => '9m',
+        ExpectedResult   => '9 m',
     },
     {
         KindsOfReporting => 'SolutionMinWorkingTime',
-        ExpectedResult   => '3m',
+        ExpectedResult   => '3 m',
     },
     {
         KindsOfReporting => 'SolutionMaxWorkingTime',
-        ExpectedResult   => '15m',
+        ExpectedResult   => '15 m',
     },
     {
         KindsOfReporting => 'NumberOfTickets',
@@ -240,23 +240,23 @@ my @Tests = (
     },
     {
         KindsOfReporting => 'ResponseAverage',
-        ExpectedResult   => '6m',
+        ExpectedResult   => '6 m',
     },
     {
         KindsOfReporting => 'ResponseMinTime',
-        ExpectedResult   => '2m',
+        ExpectedResult   => '2 m',
     },
     {
         KindsOfReporting => 'ResponseWorkingTimeAverage',
-        ExpectedResult   => '6m',
+        ExpectedResult   => '6 m',
     },
     {
         KindsOfReporting => 'ResponseMinWorkingTime',
-        ExpectedResult   => '2m',
+        ExpectedResult   => '2 m',
     },
     {
         KindsOfReporting => 'ResponseMaxWorkingTime',
-        ExpectedResult   => '10m',
+        ExpectedResult   => '10 m',
     },
 );
 
