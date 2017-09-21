@@ -77,7 +77,7 @@
                     [% Translate("If you use Regular Expressions, you also can use the matched value in () as [***] in the 'Set' action.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    [% Translate("You can also use 'named captures' ((?<name>)) and use the names in the 'Set' action ([**\name**]). (e.g. Regexp: Server: (?<server>\w+), Set action [**\server**]). A matched EMAILADDRESS has the name 'email'.") | html %]
+                    [% Translate("You can also use named captures %s and use the names in the 'Set' action %s (e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name '%s'.", "(?<name>)", "[**\\" _ "name**]", "(?<server>\\w+)", "[**\\server**]", "email") | html %]
                 </p>
             </div>
         </div>
