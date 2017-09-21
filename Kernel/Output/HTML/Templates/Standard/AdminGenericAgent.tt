@@ -276,17 +276,17 @@
                         <label class="HideOnChange" for="EventType">[% Translate("Add Event Trigger") | html %]:</label>
                         <div class="Field HideOnChange">
 [% RenderBlockStart("EventTypeStrg") %]
-                            [% Data.EventTypeStrg %]
+                            <span>
+                                [% Data.EventTypeStrg %]
+                            </span>
 [% RenderBlockEnd("EventTypeStrg") %]
 [% RenderBlockStart("EventAdd") %]
-                            [% Data.EventStrg %]
+                            <span class="EventTypeName">
+                                [% Data.EventStrg %]
+                            </span>
 [% RenderBlockEnd("EventAdd") %]
-                            <a href="#" id="AddEvent" class="AddEvent">
-                                <i class="fa fa-plus-square-o"></i>
-                                <span class="InvisibleText">[% Translate("Add Event") | html %]</span>
-                            </a>
                             <p class="FieldExplanation">
-                                [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].
+                                [% Translate("To add a new event select the event object and event name") | html %].
                             </p>
                         </div>
                         <div class="Clear"></div>

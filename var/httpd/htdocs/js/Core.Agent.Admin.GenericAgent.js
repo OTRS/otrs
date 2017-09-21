@@ -99,13 +99,6 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             return false;
         });
 
-        $('#AddEvent').on('click', function (){
-            if ($('#EventType').val() !== null) {
-                TargetNS.AddEvent($('#EventType').val());
-                return;
-            }
-        });
-
         $('#TicketEvent').on('change', function (){
             if ($('#EventType').val() !== null) {
                 TargetNS.AddEvent($('#EventType').val());
@@ -120,7 +113,9 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
 
         $('#EventType').on('change', function (){
             TargetNS.ToggleEventSelect($(this).val());
+            Core.UI.InputFields.Activate($('.EventTypeName'));
         });
+        TargetNS.ToggleEventSelect($('#EventType').val());
 
         Core.UI.Table.InitTableFilter($("#FilterGenericAgentJobs"), $("#GenericAgentJobs"));
 
@@ -137,8 +132,8 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
      *      Toggles the event selection.
      */
     TargetNS.ToggleEventSelect = function (SelectedEventType) {
-        $('.EventList').addClass('Hidden');
-        $('#' + SelectedEventType + 'Event').removeClass('Hidden');
+        $('.EventList').parent().hide();
+        $('#' + SelectedEventType + 'Event').parent().show();
     };
 
 

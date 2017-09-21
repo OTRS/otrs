@@ -38,12 +38,6 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # disable modernize fields
-        $Helper->ConfigSettingChange(
-            Key   => 'ModernizeFormFields',
-            Value => 0,
-        );
-
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
@@ -181,8 +175,10 @@ $Selenium->RunTest(
         # Toggle widgets
         $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
 
-        # test AddEvent() JS function
-        $Selenium->find_element( "#AddEvent", 'css' )->click();
+        # Add test event.
+        $Selenium->execute_script(
+            "return \$('#TicketEvent').val('EscalationResponseTimeStart').trigger('redraw.InputField').trigger('change');"
+        );
 
         $Self->Is(
             $Selenium->execute_script(
@@ -192,8 +188,12 @@ $Selenium->RunTest(
             'JS function AddEvent() is success',
         );
 
-        # try to add same event, test ShowDuplicatedDialog() JS function
-        $Selenium->find_element( "#AddEvent", 'css' )->click();
+        # Try to add same event, it should result in an error.
+        for my $Event (qw(EscalationResponseTimeNotifyBefore EscalationResponseTimeStart)) {
+            $Selenium->execute_script(
+                "return \$('#TicketEvent').val('$Event').trigger('redraw.InputField').trigger('change');"
+            );
+        }
 
         # wait for dialog to show up, if necessary
         $Selenium->WaitFor(
@@ -218,7 +218,7 @@ $Selenium->RunTest(
         );
 
         # click to delete added event, confirmation dialog will appear
-        $Selenium->execute_script("\$('#EventsTable tbody tr:eq(1) #DeleteEvent').click();");
+        $Selenium->execute_script("\$('#EventsTable tbody tr:eq(2) #DeleteEvent').click();");
 
         # wait for dialog to show up, if necessary
         $Selenium->WaitFor(
@@ -242,11 +242,23 @@ $Selenium->RunTest(
         # verify delete action event
         $Self->Is(
             $Selenium->execute_script(
-                "return \$('#EventsTable tbody tr:eq(1)').length"
+                "return \$('#EventsTable tbody tr:eq(2)').length"
             ),
             '0',
             'Added event is deleted',
         );
+
+        # Disable modernize fields to check buttons for clearing selections.
+        $Helper->ConfigSettingChange(
+            Key   => 'ModernizeFormFields',
+            Value => 0,
+        );
+
+        # Refresh the page.
+        $Selenium->VerifiedRefresh();
+
+        # Toggle all widgets.
+        $Selenium->execute_script('$(".WidgetSimple.Collapsed .WidgetAction.Toggle a").click();');
 
         # check AddSelectClearButton() JS function
         $Selenium->find_element( "#PriorityIDs option[value='1']", 'css' )->click();
