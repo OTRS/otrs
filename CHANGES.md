@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-22 Fixed bug#[12915](https://bugs.otrs.org/show_bug.cgi?id=12915) - OTRS 6 uses modifiers for sysconfig values.
  - 2017-09-21 Fixed bug#[13105](https://bugs.otrs.org/show_bug.cgi?id=13105) - Dropdown fields in GenericAgent not modernized.
  - 2017-09-21 Fixed bug#[13106](https://bugs.otrs.org/show_bug.cgi?id=13106) - Upgrading to 6.0.0.beta1 missing system configuration settings.
  - 2017-09-21 Fixed bug#[9716](https://bugs.otrs.org/show_bug.cgi?id=9716) - Report on solution times gives very large negative times.
