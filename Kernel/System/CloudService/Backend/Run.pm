@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::JSON',
     'Kernel::System::Log',
+    'Kernel::System::OTRSBusiness',
     'Kernel::System::SystemData',
     'Kernel::System::WebUserAgent',
 );
@@ -185,10 +186,14 @@ sub Request {
     # create config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # check if cloud services are disabled
-    my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled');
+    # If OTRSSTORM package is installed, system is able to do a Cloud request even if CloudService is disabled.
+    if ( !$Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSSTORMIsInstalled() ) {
 
-    return if $CloudServicesDisabled;
+        # check if cloud services are disabled
+        my $CloudServicesDisabled = $ConfigObject->Get('CloudServices::Disabled');
+
+        return if $CloudServicesDisabled;
+    }
 
     # check needed stuff
     if ( !defined $Param{RequestData} ) {

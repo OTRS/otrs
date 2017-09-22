@@ -8,6 +8,8 @@
 
 package Kernel::Output::HTML::Notification::AgentCloudServicesDisabled;
 
+use parent 'Kernel::Output::HTML::Base';
+
 use strict;
 use warnings;
 use utf8;
@@ -17,16 +19,6 @@ our @ObjectDependencies = (
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Group',
 );
-
-sub new {
-    my ( $Type, %Param ) = @_;
-
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
-}
 
 sub Run {
     my ( $Self, %Param ) = @_;

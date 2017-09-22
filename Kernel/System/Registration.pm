@@ -20,6 +20,7 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Environment',
     'Kernel::System::Log',
+    'Kernel::System::OTRSBusiness',
     'Kernel::System::SupportDataCollector',
     'Kernel::System::SystemData',
     'Kernel::System::DateTime',
@@ -584,7 +585,12 @@ or
 sub RegistrationUpdateSend {
     my ( $Self, %Param ) = @_;
 
-    if ( $Self->{CloudServicesDisabled} ) {
+    # If OTRSSTORM package is installed, system is able to do a Cloud request even if CloudService is disabled.
+    if (
+        !$Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSSTORMIsInstalled()
+        && $Self->{CloudServicesDisabled}
+        )
+    {
         return (
             Success => 0,
             Reason  => 'Cloud services are disabled!',

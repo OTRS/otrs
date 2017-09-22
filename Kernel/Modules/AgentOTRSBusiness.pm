@@ -49,6 +49,9 @@ sub BlockScreen {
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentOTRSBusinessBlockScreen',
+        Data         => {
+            OTRSSTORMIsInstalled => $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSSTORMIsInstalled(),
+        },
     );
     $Output .= $LayoutObject->Footer();
 

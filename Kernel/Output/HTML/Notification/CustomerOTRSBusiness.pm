@@ -38,7 +38,10 @@ sub Run {
 
     if ( $EntitlementStatus eq 'warning-error' || $EntitlementStatus eq 'forbidden' ) {
 
-        my $OTRSBusinessLabel = '<b>OTRS Business Solution</b>™';
+        my $OTRSBusinessLabel = $OTRSBusinessObject->OTRSSTORMIsInstalled()
+            ?
+            '<b>STORM powered by OTRS</b>™'
+            : '<b>OTRS Business Solution</b>™';
 
         # get layout object
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');

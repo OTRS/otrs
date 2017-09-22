@@ -314,6 +314,18 @@ var/webservices/examples/OTRSConnector.yml
 var/webservices/examples/OTRSConnector_post.pm
 var/webservices/examples/OTRSConnector_pre.pm
 
+# STORM
+Kernel/Config/Files/XML/OTRSStorm.xml
+Kernel/Modules/AdminSTORM.pm
+Kernel/Output/HTML/Templates/Standard/AdminSTORM.tt
+Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-Amber.tt
+Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-Green.tt
+Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-Red.tt
+Kernel/Output/HTML/Templates/Standard/NotificationEvent/Email/TLP-White.tt
+var/httpd/htdocs/skins/Agent/storm/*
+var/packagesetup/OTRSSTORM.pm
+OTRSSTORM.sopm
+
 # OTRSContinuousIntegrationProvisioner (vagrant VMs)
 .cache
 .ssh

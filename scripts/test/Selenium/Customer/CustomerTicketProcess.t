@@ -361,7 +361,20 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->is_displayed();
 
-        my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
+        my $OTRSBusinessIsInstalled = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled();
+        my $OTRSSTORMIsInstalled    = $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSSTORMIsInstalled();
+
+        my $FooterMessage;
+        if ($OTRSSTORMIsInstalled) {
+            $FooterMessage = 'STORM powered by OTRS';
+        }
+        elsif ($OTRSBusinessIsInstalled) {
+            $FooterMessage = 'Powered by OTRS Business Solution';
+        }
+        else {
+            $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
+        }
+
         $Self->True(
             index( $Selenium->get_page_source(), $FooterMessage ) > -1,
             "$FooterMessage found in footer on page (after attachment upload)",

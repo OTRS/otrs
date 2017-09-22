@@ -10,7 +10,13 @@
 [% IF !Config("Secure::DisableBanner") %]
     <a href="[% IF !Data.IsLoginPage %]https://www.otrs.com[% ELSE %]https://www.otrs.com/otrs-business-solution-managed/[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
         <span></span>
-        [% Translate("Powered by") | html %] [% IF Data.OTRSBusinessIsInstalled %]OTRS Business Solution™[% ELSE %]OTRS[% END %]
+        [% IF Data.OTRSSTORMIsInstalled %]
+            [% Translate("%s powered by %s™", "STORM", "OTRS") | html %]
+        [% ELSIF Data.OTRSBusinessIsInstalled %]
+            [% Translate("Powered by %s™", "OTRS Business Solution") | html %]
+        [% ELSE %]
+            [% Translate("Powered by %s™", "OTRS") | html %]
+        [% END %]
     </a>
     <div class="Clear"></div>
 [% END %]

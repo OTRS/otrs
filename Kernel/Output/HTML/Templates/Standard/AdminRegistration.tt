@@ -6,7 +6,11 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+[% IF Data.OTRSSTORMIsInstalled %]
+    [% SET OTRSBusinessLabel = '<strong>STORM powered by OTRS</strong>™' %]
+[% ELSE %]
+    [% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+[% END %]
 
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">

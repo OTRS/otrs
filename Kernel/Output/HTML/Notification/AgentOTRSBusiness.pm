@@ -15,6 +15,7 @@ use warnings;
 use utf8;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Group',
     'Kernel::System::OTRSBusiness',
@@ -31,7 +32,10 @@ sub Run {
     # get config options
     my $Group             = $Param{Config}->{Group} || 'admin';
     my $IsInstalled       = $OTRSBusinessObject->OTRSBusinessIsInstalled();
-    my $OTRSBusinessLabel = '<b>OTRS Business Solution</b>™';
+    my $OTRSBusinessLabel = $OTRSBusinessObject->OTRSSTORMIsInstalled()
+        ?
+        '<b>STORM powered by OTRS</b>™'
+        : '<b>OTRS Business Solution</b>™';
 
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -92,7 +96,10 @@ if (!window.location.search.match(/^[?]Action=(AgentOTRSBusiness|Admin.*)/)) {
     elsif ( $EntitlementStatus eq 'warning' ) {
 
         $Output .= $LayoutObject->Notify(
-            Info =>
+            Info => $OTRSBusinessObject->OTRSSTORMIsInstalled()
+            ?
+                "Please verify your license data!"
+            :
                 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.",
             Priority => 'Error',
         );
