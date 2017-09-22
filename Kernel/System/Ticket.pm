@@ -2100,7 +2100,7 @@ sub TicketServiceList {
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserID, CustomerUserID or UserID and CustomerUserID is needed!',
+            Message  => 'UserID or CustomerUserID is needed!',
         );
         return;
     }
@@ -2109,7 +2109,7 @@ sub TicketServiceList {
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need QueueID or TicketID!',
+            Message  => 'QueueID or TicketID is needed!',
         );
         return;
     }
