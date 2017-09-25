@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-09-25 Fixed bug#[13152](https://bugs.otrs.org/show_bug.cgi?id=13152) - TicketCreate log entry if Service is used for unknown customer.
  - 2017-09-24 Updated translations, thanks to all translators.
  - 2017-09-21 Fixed bug#[12858](https://bugs.otrs.org/show_bug.cgi?id=12858) - Daemon duplicate task identifiers.
  - 2017-09-20 Fixed translatable strings, thanks to Balazs Ur (PR#1834).
