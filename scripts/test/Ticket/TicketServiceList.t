@@ -50,6 +50,10 @@ my $ServiceID1 = $ServiceObject->ServiceAdd(
     Name    => 'TestService1' . $Random,
     ValidID => 1,
     UserID  => 1,
+
+    # Parameters needed if ITSM is installed.
+    TypeID      => 2,
+    Criticality => '3 normal',
 );
 $Self->True(
     $ServiceID1,
@@ -59,6 +63,10 @@ my $ServiceID2 = $ServiceObject->ServiceAdd(
     Name    => 'TestService2' . $Random,
     ValidID => 1,
     UserID  => 1,
+
+    # Parameters needed if ITSM is installed.
+    TypeID      => 2,
+    Criticality => '3 normal',
 );
 $Self->True(
     $ServiceID2,
