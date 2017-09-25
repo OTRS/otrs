@@ -18,7 +18,7 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $HelperObject          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 
 my $Success = $CommunicationDBObject->CommunicationDelete();
@@ -36,8 +36,6 @@ my $CommunicationLogObject = $Kernel::OM->Create(
         Direction => 'Incoming',
     },
 );
-
-my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 
 # Remember the start result count to prevent wrong list count values.
 my $StartResult      = $CommunicationDBObject->ObjectLogList();
