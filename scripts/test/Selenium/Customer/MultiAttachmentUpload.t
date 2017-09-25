@@ -113,7 +113,8 @@ $Selenium->RunTest(
 
             # Verify dialog message.
             $Self->True(
-                index( $Selenium->get_page_source(), "The following files are not allowed to be uploaded: Test1.png" ) > -1,
+                index( $Selenium->get_page_source(), "The following files are not allowed to be uploaded: Test1.png" )
+                    > -1,
                 "$Action - File type not allowed message is found",
             );
 
@@ -200,7 +201,7 @@ JAVASCRIPT
                 "\$('#FileUpload').data('max-size-per-file-hr', '6 KB')"
             );
 
-            # now try to upload two files of which one exceeds the max size (.pdf should work (5KB), .png shouldn't (20KB))
+         # now try to upload two files of which one exceeds the max size (.pdf should work (5KB), .png shouldn't (20KB))
             $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Cache/Test1.pdf";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
@@ -213,7 +214,10 @@ JAVASCRIPT
 
             # Verify dialog message.
             $Self->True(
-                index( $Selenium->get_page_source(), "The following files exceed the maximum allowed size per file of 6 KB and were not uploaded: Test1.png" ) > -1,
+                index(
+                    $Selenium->get_page_source(),
+                    "The following files exceed the maximum allowed size per file of 6 KB and were not uploaded: Test1.png"
+                    ) > -1,
                 "$Action - File size limit exceeded message is found",
             );
 
