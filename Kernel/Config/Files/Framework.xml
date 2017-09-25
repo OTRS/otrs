@@ -890,6 +890,14 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Gravatar::DefaultImage" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check http://gravatar.com/site/implement/images/ for further information.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+           <String Regex="">mm</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="LoginURL" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines an alternate URL, where the login link refers to.</Description>
         <Group>Framework</Group>
