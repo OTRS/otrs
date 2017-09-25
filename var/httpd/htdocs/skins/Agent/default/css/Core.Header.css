@@ -257,7 +257,10 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 #ToolBar .Extended.SearchProfile {
     position: relative;
     padding-left: 10px;
-    overflow: hidden;
+    margin-right: 0px;
+}
+
+#ToolBar .Extended.SearchProfile input[type=text] {
     margin-right: 0px;
 }
 
