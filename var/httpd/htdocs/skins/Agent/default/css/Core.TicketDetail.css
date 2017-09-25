@@ -116,6 +116,20 @@ div.Headline .Flag {
     border: 1px solid #ccc;
 }
 
+#ArticleTableBody .Scroller::-webkit-scrollbar-track {
+	background-color: #F5F5F5;
+    border-left: 1px solid #ccc;
+}
+
+#ArticleTableBody .Scroller::-webkit-scrollbar {
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+#ArticleTableBody .Scroller::-webkit-scrollbar-thumb {
+	background-color: #bbb;
+}
+
 #ArticleTableBody .Scroller .DataTable {
     border: 0px;
 }
@@ -127,7 +141,7 @@ div.Headline .Flag {
 
 .Outgoing .ArticleMailHeader fieldset.TableLike.FixedLabelSmall > label,
 .Outgoing .ArticleMailHeader fieldset.TableLike.FixedLabelSmall > .Row > label {
-    width: 135px;
+    width: 105px;
     float: left;
 }
 
@@ -137,10 +151,22 @@ div.Headline .Flag {
     margin-right: 105px;
     margin-right: 115px;
     min-height: 28px;
+    position: relative;
+    top: -4px;
+}
+
+#ArticleItems .ItemActions li .InputField_Container {
+    margin-left: 3px;
+    opacity: 0;
+    transition: opacity ease 0.3s;
+}
+
+#ArticleItems > div:hover .ItemActions li .InputField_Container {
+    opacity: 1;
 }
 
 #ArticleItems .Outgoing .ItemActions {
-    margin-left: 105px;
+    margin-left: 75px;
     margin-right: 0px;
 }
 
@@ -153,7 +179,7 @@ div.Headline .Flag {
 }
 
 #ArticleItems .ArticleMailHeader p.Value {
-    width: calc(100% - 140px);
+    width: calc(100% - 112px);
     float: right;
 }
 
@@ -162,7 +188,7 @@ div.Headline .Flag {
 }
 
 .ArticleMailContent {
-    padding: 3px 12px 11px 12px;
+    padding: 3px 12px;
     line-height: 1.3;
     position: relative;
 }
@@ -172,7 +198,7 @@ div.Headline .Flag {
     padding: 12px 12px 4px 12px;
     text-align: right;
     box-sizing: border-box;
-    margin-left: 105px;
+    margin-left: 75px;
     margin-top: -9px;
     border-top: 1px solid #ddd !important;
     position: relative;
@@ -181,7 +207,7 @@ div.Headline .Flag {
 
 .Incoming .ArticleMailContent .ArticleMeta {
     margin-left: 0px;
-    margin-right: 105px;
+    margin-right: 75px;
 }
 
 .ArticleMailContent .ArticleMeta h2 {
@@ -215,18 +241,8 @@ div.Headline .Flag {
     top: 30px;
     background: #fff;
     padding: 5px;
-    width: 70px;
-    height: 70px;
-}
-
-.Avatar i.ArticleSenderChannelIcon {
-    font-size: 15px;
-    position: absolute;
-    left: 5px;
-    bottom: 5px;
-    color: #444;
-    background: #fff;
-    padding: 4px;
+    width: 50px;
+    height: 50px;
 }
 
 .Avatar img {
@@ -234,28 +250,19 @@ div.Headline .Flag {
     height: 100%;
 }
 
-.Avatar i.InvalidChannelIcon {
-    font-size: 64px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -32px;
-    margin-top: -32px;
-}
-
 .Outgoing .Avatar {
-    left: 10px;
+    left: 7px;
 }
 
 .Incoming .Avatar {
-    right: 10px;
+    right: 6px;
 }
 
 #ArticleItems .ArticleMailContentHTMLWrapper,
 #ArticleItems .ArticleHTML,
 #ArticleItems .ArticleBody {
     -webkit-overflow-scrolling: touch;
-   margin-left: 105px;
+   margin-left: 75px;
    position: relative;
 }
 
@@ -263,7 +270,42 @@ div.Headline .Flag {
 #ArticleItems .Incoming .ArticleHTML,
 #ArticleItems .Incoming .ArticleBody {
     margin-left: 0px;
-    margin-right: 105px;
+    margin-right: 75px;
+}
+
+.Outgoing .ArticleMailContentHTMLWrapper:before,
+.Incoming .ArticleMailContentHTMLWrapper:before,
+.Outgoing .ArticleHTML:before,
+.Incoming .ArticleHTML:before,
+.Outgoing .ArticleBody:before,
+.Incoming .ArticleBody:before,
+.Outgoing .ArticleMailContentHTMLWrapper:after,
+.Incoming .ArticleMailContentHTMLWrapper:after,
+.Outgoing .ArticleHTML:after,
+.Incoming .ArticleHTML:after,
+.Outgoing .ArticleBody:after,
+.Incoming .ArticleBody:after {
+    border-color: rgba(255, 255, 255, 0);
+    top: 24px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.Outgoing .ArticleMailContentHTMLWrapper:before,
+.Incoming .ArticleMailContentHTMLWrapper:before,
+.Outgoing .ArticleHTML:before,
+.Incoming .ArticleHTML:before,
+.Outgoing .ArticleBody:before,
+.Incoming .ArticleBody:before {
+    border-right-color: #fff;
+	border-width: 10px;
+    margin-top: -10px;
+    z-index: 2;
+    left: -18px;
 }
 
 .Outgoing .ArticleMailContentHTMLWrapper:after,
@@ -272,30 +314,41 @@ div.Headline .Flag {
 .Incoming .ArticleHTML:after,
 .Outgoing .ArticleBody:after,
 .Incoming .ArticleBody:after {
-	border-color: rgba(255, 255, 255, 0);
-	top: 38px;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-width: 15px;
-	margin-top: -15px;
+	border-width: 13px;
+	margin-top: -13px;
+    z-index: 1;
+    left: -24px;
 }
 
 .Outgoing .ArticleMailContentHTMLWrapper:after,
 .Outgoing .ArticleHTML:after,
 .Outgoing .ArticleBody:after {
-    right: 100%;
-	border-right-color: #fff;
+	border-right-color: #eee;
 }
 
 .Incoming .ArticleMailContentHTMLWrapper:after,
 .Incoming .ArticleHTML:after,
 .Incoming .ArticleBody:after {
-	left: 100%;
+	left: auto;
+    right: -24px;
+	border-left-color: #eee;
+}
+
+.Incoming .ArticleBody:after {
+    right: -26px;
+}
+
+.Incoming .ArticleMailContentHTMLWrapper:before,
+.Incoming .ArticleHTML:before,
+.Incoming .ArticleBody:before {
+	left: auto;
+    right: -18px;
 	border-left-color: #fff;
+    border-right-color: transparent;
+}
+
+.Incoming .ArticleBody:before {
+    right: -20px;
 }
 
 .Incoming.NotVisibleForCustomer .ArticleMailContentHTMLWrapper:after,
@@ -322,8 +375,9 @@ div.Headline .Flag {
 
 .ArticleMailContent iframe {
     background: #fff;
-    padding: 10px;
+    padding: 5px;
     box-sizing: border-box;
+    height: 60px;
 }
 
 .DataTable tbody td a.Attachment {
@@ -516,38 +570,66 @@ div.Headline .Flag {
  * @note        article colors
  */
 
-/*.UseArticleColors tr.Incoming > td {
-    background: #d4defc;
+#ArticleTable.DataTable tbody td {
+    border-right-style: dashed;
 }
 
-.UseArticleColors tr.Outgoing > td {
-    background: #d3e5b5;
-}*/
+#ArticleTable.DataTable tbody td:last-child {
+    border-right: 0px;
+}
 
+.UseArticleColors td,
 .UseArticleColors tr:nth-child(even) td {
+    transition: background ease 0.3s;
     background: #fff;
+    border-color: #ccc;
+    border-bottom: 1px solid #eee;
+}
+
+.UseArticleColors tr.Active > td,
+.UseArticleColors tr:hover > td {
+    background-color: #f2f2f2 !important;
+    border-color: #f2f2f2;
+    border-right-color: #ccc !important;
 }
 
 .UseArticleColors tr.NotVisibleForCustomer > td {
     background: #FFCCCC !important;
+    border-bottom-color: #e7abab;
+    border-color: #e7abab;
 }
 
-.UseArticleColors tr.Active td {
-    background-color: #e5e5e5 !important;
+.UseArticleColors tr.NotVisibleForCustomer.Active > td,
+.UseArticleColors tr.NotVisibleForCustomer:hover > td {
+    background-color: #e7abab !important;
+    border-color: #e7abab;
+}
+
+.UseArticleColors tr.system > td {
+    background: #fff7be !important;
+    border-bottom-color: #ffef80;
+    border-color: #ffef80;
+}
+
+.UseArticleColors tr.system.Active > td,
+.UseArticleColors tr.system:hover > td {
+    background-color: #ffef80 !important;
+    border-color: #ffef80;
 }
 
 .ArticleMailContent iframe,
 .ArticleMailContent .ArticleBody,
 .ArticleMailContent .ArticleHTML,
-.NotVisibleForCustomer .ArticleMailContent .ArticleMeta {
-    border: 5px solid #fff;
+.ArticleMailContent .ArticleMeta {
+    border: 2px solid #eee;
+    border-radius: 3px;
 }
 
 .UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent iframe,
 .UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent .ArticleBody,
 .UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent .ArticleHTML,
-.NotVisibleForCustomer .ArticleMailContent .ArticleMeta {
-    border: 5px solid #FFCCCC;
+.UseArticleColors #ArticleItems .NotVisibleForCustomer .ArticleMailContent .ArticleMeta {
+    border: 2px solid #FFCCCC;
 }
 
 .UseArticleColors .Incoming.NotVisibleForCustomer .ArticleMailContentHTMLWrapper:after,
@@ -562,8 +644,31 @@ div.Headline .Flag {
     border-right-color: #ffcccc;
 }
 
+.UseArticleColors #ArticleItems .system .ArticleMailContent iframe,
+.UseArticleColors #ArticleItems .system .ArticleMailContent .ArticleBody,
+.UseArticleColors #ArticleItems .system .ArticleMailContent .ArticleHTML,
+.UseArticleColors #ArticleItems .system .ArticleMailContent .ArticleMeta {
+    border: 2px solid #ffef80;
+}
+
+.UseArticleColors .Incoming.system .ArticleMailContentHTMLWrapper:after,
+.UseArticleColors .Incoming.system .ArticleHTML:after,
+.UseArticleColors .Incoming.system .ArticleBody:after {
+    border-left-color: #ffef80;
+}
+
+.UseArticleColors .Outgoing.system .ArticleMailContentHTMLWrapper:after,
+.UseArticleColors .Outgoing.system .ArticleHTML:after,
+.UseArticleColors .Outgoing.system .ArticleBody:after {
+    border-right-color: #ffef80;
+}
+
 .UseArticleColors #ArticleTable a {
     color: #000;
+}
+
+.UseArticleColors #ArticleTable i.fa-spin {
+    color: #333;
 }
 
 /*
@@ -1148,27 +1253,31 @@ div.Headline .Flag {
 
 .ArticleAttachments {
     clear: both;
-    margin: 10px 0px -15px 105px;
+    margin: 10px 0px -10px 75px;
     overflow: hidden;
 }
 
 .Incoming .ArticleAttachments {
-    margin: 10px 105px 0px 0px;
+    margin: 10px 105px -10px 0px;
 }
 
 .ArticleAttachments li {
     float: left;
     margin: 0px 10px 10px 0px;
     background: #e8e8e8;
-    padding: 10px 45px 10px 15px;
+    padding: 8px 45px 8px 12px;
     font-size: 11px;
     color: #777;
     position: relative;
 }
 
 .ArticleAttachments li h5 {
-    font-size: 13px;
+    font-size: 12px;
     color: #000;
+    margin-bottom: 1px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .ArticleAttachments li div {
@@ -1193,7 +1302,7 @@ div.Headline .Flag {
 
 .ArticleAttachments li div a:first-child:last-child {
     height: 100%;
-    line-height: 500%;
+    line-height: 450%;
 }
 
 .ArticleAttachments li div a:hover {
@@ -1210,7 +1319,10 @@ div.Headline .Flag {
     .Avatar,
     .ArticleMailContentHTMLWrapper:after,
     .ArticleHTML:after,
-    .ArticleBody:after {
+    .ArticleBody:after,
+    .ArticleMailContentHTMLWrapper:before,
+    .ArticleHTML:before,
+    .ArticleBody:before {
         display: none;
     }
 
@@ -1243,6 +1355,10 @@ div.Headline .Flag {
         width: auto;
         float: none;
         display: inline;
+    }
+
+    #ArticleItems .ItemActions li .InputField_Container {
+        opacity: 1;
     }
 
 }

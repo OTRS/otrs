@@ -272,7 +272,7 @@ ul.ContextFunctions li:last-child:hover > a {
     padding: 5px 2px 0;
     color: #000;
     display: inline-block;
-    border-bottom: 2px solid transparent;
+    border-bottom: 1px solid transparent;
 }
 
 .Actions li a:hover,

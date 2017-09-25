@@ -1619,13 +1619,6 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::UseArticleColors" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
-        <Description Translatable="1">Shows colors for different article types in the article table.</Description>
-        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::TicketArticleFilter" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="1" Valid="1">
         <Description Translatable="1">Activates the article filter in the zoom view to specify which articles should be shown.</Description>
         <Navigation>Frontend::Agent::View::TicketZoom</Navigation>

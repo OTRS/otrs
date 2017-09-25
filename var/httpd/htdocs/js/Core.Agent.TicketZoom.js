@@ -137,8 +137,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             NewHeight = parseInt(NewHeight, 10) + 25;
 
             // make sure the minimum height is in line with the avatar images
-            if (NewHeight < 50) {
-                NewHeight = 50;
+            if (NewHeight < 46) {
+                NewHeight = 46;
             }
 
             $Iframe.height(NewHeight + 'px');
@@ -194,6 +194,8 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
             // Add event bindings to new widget.
             ArticleDetailsEvents();
+
+            Core.UI.InitWidgetActionToggle();
 
             // Add hash to the URL to provide direct URLs and history back/forward functionality
             // If new ArticleID is again the InitialArticleID than remove hash from URL

@@ -11,6 +11,9 @@
     <a name="Article[% Data.ArticleID | html %]"></a>
     <div class="WidgetSimple Expanded [% Data.SenderType | html %] [% IF Data.SenderType == 'customer' %]Incoming[% ELSE %]Outgoing[% END %] [% IF Data.IsVisibleForCustomer %]VisibleForCustomer[% ELSE %]NotVisibleForCustomer[% END %]">
         <div class="Header">
+            <div class="WidgetAction Toggle">
+                <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+            </div>
             <h2>
                 [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %]
                 &ndash; <span class="[% Data.ArticleFields.Sender.ValueHidden | html %]">[% Data.ArticleFields.Sender.Value | html %]</span> <span class="[% Data.ArticleFields.Sender.RealnameHidden | html %]">[% Data.ArticleFields.Sender.Realname | html %]</span>
@@ -120,12 +123,10 @@
 [% IF Config("Frontend::AvatarEngine") == 'Gravatar' && Data.SenderImage %]
                     <div class="ArticleSenderImage">
                         <img src="[% Data.SenderImage | url %]" title="[% Data.From | html %]" />
-                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>
                     </div>
 [% ELSE %]
                     <div class="ArticleSenderInitials">
                         <span>[% Data.SenderInitials | html %]</span>
-                        <i class="ArticleSenderChannelIcon fa [% Data.ChannelIcon | url %]"></i>
                     </div>
 [% END %]
                 </div>
@@ -184,8 +185,8 @@ function CheckIFrameHeight(IFrameID) {
 [% IF Data.Attachments && Data.Attachments.size() %]
                 <ul class="ArticleAttachments">
                 [% FOREACH Attachment IN Data.Attachments %]
-                    <li>
-                        <h5>[% Attachment.Filename | truncate(20) | html %]</h5>
+                    <li title="[% Attachment.Filename | html %]">
+                        <h5>[% Attachment.Filename | html %]</h5>
                         [% IF Attachment.ContentType.match('image') %]
                             [% Translate("Image") | html %]
                         [% ELSIF Attachment.ContentType == "application/pdf" %]

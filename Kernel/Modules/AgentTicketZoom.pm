@@ -1200,10 +1200,6 @@ sub MaskAgentZoom {
     # number of articles
     $Param{ArticleCount} = scalar @ArticleBox;
 
-    if ( $ConfigObject->Get('Ticket::UseArticleColors') ) {
-        $Param{UseArticleColors} = 1;
-    }
-
     $LayoutObject->Block(
         Name => 'Header',
         Data => { %Param, %Ticket, %AclAction },
