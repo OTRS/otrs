@@ -189,7 +189,7 @@ else
     echo "No md5sum found in \$PATH!"
 fi
 echo "--------------------------------------------------------------------------";
-echo "Note: You may have to tag your git tree: git tag rel-3_x_x -a -m \"3.x.x\"";
+echo "Note: You may have to tag your git tree: git tag rel-5_x_x -a -m \"5.x.x\"";
 echo "--------------------------------------------------------------------------";
 
 # --
