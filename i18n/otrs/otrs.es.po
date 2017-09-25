@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 16:57+0000\n"
-"PO-Revision-Date: 2017-09-25 16:59+0000\n"
+"POT-Creation-Date: 2017-09-25 20:27+0000\n"
+"PO-Revision-Date: 2017-09-25 20:29+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -506,11 +506,11 @@ msgstr "Exportar Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filtrar por Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filtrar por notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -771,7 +771,7 @@ msgstr "Direcciones adicionales del destinatario de correo electrónico."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Artículo visible por cliente"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -822,7 +822,7 @@ msgstr "Filtro para Archivos adjuntos"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filtrar por atajos"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -862,7 +862,7 @@ msgstr "Filtrar por Auto Respuestas"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filtrar por Respuestas Automáticas"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -1023,7 +1023,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Time range"
-msgstr ""
+msgstr "Período de tiempo"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -4091,7 +4091,7 @@ msgstr "Filtro"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritos"
 
 #. Template: AdminNavigationBar
 msgid ""
@@ -4598,7 +4598,7 @@ msgstr "La actualización del paquete requiere un parche de actualización de OT
 msgid ""
 "If you are a OTRS Business Solution™ customer, please visit our customer "
 "portal and file a request."
-msgstr ""
+msgstr "Sí eres el cliente de OTRS Business Solution™, favor visite nuestro portal de clientes y deje su solicitud."
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
@@ -13687,7 +13687,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "in over %s years"
-msgstr ""
+msgstr "en más de %s años"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"
@@ -14453,6 +14453,10 @@ msgstr "Estado Tipo Histórico"
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
 msgstr "Rango Tiempo Histórico"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Number"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"

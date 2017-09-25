@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 16:57+0000\n"
-"PO-Revision-Date: 2017-09-25 16:59+0000\n"
+"POT-Creation-Date: 2017-09-25 20:27+0000\n"
+"PO-Revision-Date: 2017-09-25 20:29+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -14436,6 +14436,10 @@ msgstr "Historische status type"
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
 msgstr "Historische tijdsvenster"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Number"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"

@@ -49,9 +49,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 16:57+0000\n"
-"PO-Revision-Date: 2017-09-25 16:59+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"POT-Creation-Date: 2017-09-25 20:27+0000\n"
+"PO-Revision-Date: 2017-09-25 20:30+0000\n"
+"Last-Translator: sb_otrs <stefan.bedorf@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2605,18 +2605,18 @@ msgstr "Ausschließlich Anfragen welche allen konfigurierten Filtern entsprechen
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
-msgstr ""
+msgstr "Operation-Filter"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
-msgstr ""
+msgstr "Ausführung des Fehlerbehandlungs-Moduls nur für die ausgewählten Operations."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Note: Operation is undetermined for errors occuring while receiving incoming"
 " request data. Filters involving this error stage should not use operation "
 "filter."
-msgstr ""
+msgstr "Hinweis: Für Fehler, welche beim Empfangen der eingehenden Anfragedaten auftreten ist die Operation unbestimmt. Filter für diese Verarbeitungsphase sollten keinen Operation-Filter nutzen."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
@@ -2800,7 +2800,7 @@ msgstr "Maximale Anzahl an Wiederholungen"
 msgid ""
 "Maximum number of retries before a failing request is discarded, not "
 "counting the initial request."
-msgstr ""
+msgstr "Maximale Anzahl an Wiederholungen bevor eine fehlerhafte Anfrage verworfen wird (die initiale Anfrage wird nicht mitgezählt)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2828,7 +2828,7 @@ msgid ""
 "Maximum period of time for retries of failing requests before they are "
 "discarded (based on the error handling module execution time for the initial"
 " request)."
-msgstr ""
+msgstr "Maximaler Zeitraum für Wiederholungen von fehlschlagenden Anfragen bevor diese verworfen werden (basierend auf der Ausführungszeit des Fehlerbehandlungs-Moduls für die initiale Anfrage)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2849,7 +2849,7 @@ msgstr "Beispiel: Wenn eine Anfrage initial um 10:00 Uhr mit dem initialen Absta
 msgid ""
 "Note: Maximum retry period might not be reached if a maximum retry count is "
 "configured as well and reached earlier."
-msgstr ""
+msgstr "Hinweis: Der maximale Zeitraum für Wiederholungen könnte nicht erreicht werden, sofern auch eine maximale Anzahl an Wiederholungen konfiguriert wurde und diese früher erreicht wird."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
@@ -3162,13 +3162,13 @@ msgstr ""
 msgid ""
 "Select one or more sets of data that were created at earlier "
 "request/response stages to be included in mappable data."
-msgstr ""
+msgstr "Wählen Sie einen oder mehrere Datensätze welche in vorhergehenden Anfrage-/Antwortphasen erstellt wurden, um diese im Mapping zur Verfügung zu stellen."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "These sets will appear in the data structure at '/DataInclude/<DataSetName>'"
 " (see debugger output of actual requests for details)."
-msgstr ""
+msgstr "Diese Datensätze werden in die Datenstuktur unter '/DataInclude/<DatensatzName>' dargestellt (in der Ausgabe des Debugger sehen Sie Details der tatsächlichen Struktur)."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (before mapping)"
@@ -11000,15 +11000,15 @@ msgstr "Konnte benötigte Bibliothek %s nicht finden"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before processing"
-msgstr ""
+msgstr "Ausgehende Anfragedaten vor der Verarbeitung"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before mapping"
-msgstr ""
+msgstr "Ausgehende Anfragedaten vor dem Mapping"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data after mapping"
-msgstr ""
+msgstr "Ausgehende Anfragedaten nach dem Mapping"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming response data before mapping"
@@ -11020,11 +11020,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data before mapping"
-msgstr ""
+msgstr "Eingehende Anfragedaten vor dem Mapping"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data after mapping"
-msgstr ""
+msgstr "Eingehende Anfragedaten nach dem Mapping"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping"
@@ -14473,6 +14473,10 @@ msgstr "Statustypchronik"
 msgid "Historic Time Range"
 msgstr "Historischer Zeitbereich"
 
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Number"
+msgstr "Nummer"
+
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
 msgstr "Durchschnittliche Lösungszeit"
@@ -16013,7 +16017,7 @@ msgstr "Debug-Log leeren"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
 msgid "Delete error handling module"
-msgstr ""
+msgstr "Fehlerbehandlungs-Modul entfernen."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
@@ -21688,7 +21692,7 @@ msgstr ""
 
 #. SysConfig
 msgid "GenericInterface module registration for an error handling module."
-msgstr ""
+msgstr "Modulregistrierung für ein Fehlerbehandlungs-Modul des GenericInterface."
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."

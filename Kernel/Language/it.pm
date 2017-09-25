@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.471314325452017;
+    $Self->{Completeness}        = 0.478359116982444;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -74,7 +74,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'Modifica l\'ACL %s',
-        'Edit ACL' => '',
+        'Edit ACL' => 'Modifica ACL',
         'Go to overview' => 'Vai al riepilogo',
         'Delete ACL' => 'Elimina ACL',
         'Delete Invalid ACL' => 'Elimina ACL non valida',
@@ -87,10 +87,10 @@ sub Data {
         'Check the official' => 'Controlla la versione ufficiale',
         'documentation' => 'documentazione',
         'Show or hide the content' => 'Mostra o nascondi contenuto',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Modifica informazioni ACL',
         'Name' => 'Nome',
         'Stop after match' => 'Ferma dopo trovato',
-        'Edit ACL Structure' => '',
+        'Edit ACL Structure' => 'Modifica struttura ACL',
         'Save settings' => 'Salva impostazioni',
         'Save ACL' => 'Salva ACL',
         'Save' => 'Salva',
@@ -195,11 +195,11 @@ sub Data {
         'Event' => 'Evento',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
             '',
-        'Appointment Filter' => '',
+        'Appointment Filter' => 'Filtro appuntamenti',
         'Type' => 'Tipo',
         'Title' => 'Titolo',
         'Location' => 'Sede',
-        'Team' => '',
+        'Team' => 'Squadra',
         'Resource' => 'Seguenti appuntamenti sono iniziati',
         'Recipients' => 'Destinatari',
         'Send to' => 'Invia a',
@@ -234,7 +234,7 @@ sub Data {
         'Message body' => 'Corpo del messaggio',
         'Add new notification language' => 'Aggiungi nuova lingua delle notifiche',
         'Save Changes' => 'Salva cambiamenti',
-        'Tag Reference' => '',
+        'Tag Reference' => 'Riferimento tag',
         'Notifications are sent to an agent.' => '',
         'You can use the following tags' => 'Puoi usare i seguenti tag',
         'To get the first 20 character of the appointment title.' => '',
@@ -247,7 +247,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Indirizzi email di destinazione aggiuntivi',
-        'Article visible for customer' => '',
+        'Article visible for customer' => 'Articolo visibile al cliente',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
         'Email template' => 'Modello di email',
@@ -263,7 +263,7 @@ sub Data {
         'Add Attachment' => 'Aggiungi allegato',
         'Edit Attachment' => 'Modifica allegato',
         'Filter for Attachments' => 'Filtro per gli allegati',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Filtro per allegati',
         'Filename' => 'Nome file',
         'Download file' => 'Scarica file',
         'Delete this attachment' => 'Elimina questo allegato',
@@ -324,8 +324,8 @@ sub Data {
         'Available Cloud Services' => 'Servizi Cloud disponibili',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time range' => '',
+        'Communication Log' => 'Log di comunicazione',
+        'Time range' => 'Intervallo temporale',
         'Show only communication logs created in specific time range.' =>
             '',
         'Filter for communications' => '',
@@ -335,7 +335,7 @@ sub Data {
             '',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
             '',
-        'Status for: %s' => '',
+        'Status for: %s' => 'Stato per: %s',
         'Failing accounts' => '',
         'Some account problems' => '',
         'No account problems' => '',
@@ -344,30 +344,30 @@ sub Data {
         'Number of accounts with warnings: %s' => '',
         'Failing communications' => '',
         'No communication problems' => '',
-        'No communication logs' => '',
+        'No communication logs' => 'Nessun log delle comunicazioni',
         'Number of reported problems: %s' => '',
         'Open communications' => '',
-        'No active communications' => '',
+        'No active communications' => 'Nessuna comunicazione attiva',
         'Number of open communications: %s' => '',
         'Average processing time' => '',
         'List of communications (%s)' => '',
         'Settings' => 'Impostazioni',
         'Entries per page' => '',
         'No communications found.' => '',
-        '%s s' => '',
+        '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
         'Account Status' => '',
         'Back' => 'Precedente',
-        'Filter for accounts' => '',
+        'Filter for accounts' => 'Filtro per gli account',
         'Filter for log entries' => '',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             '',
-        'Account status for: %s' => '',
+        'Account status for: %s' => 'Stato account per: %s',
         'Status' => 'Stato',
-        'Account' => '',
+        'Account' => 'Account',
         'Edit' => 'Modifica',
-        'No accounts found.' => '',
+        'No accounts found.' => 'Nessun account trovato.',
         'Communication Log Details (%s)' => '',
         'Direction' => 'Direzione',
         'Start Time' => 'Istante di Inizio',
@@ -375,10 +375,10 @@ sub Data {
         'No communication log entries found.' => '',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Durata',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Priorità',
         'Module' => 'Modulo',
         'Information' => 'Informazione',
@@ -386,7 +386,7 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
+        'Detail View' => 'Vista dettagliata',
         'Show only entries with specific priority and higher:' => '',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
@@ -466,7 +466,7 @@ sub Data {
         'This customer user has no group permissions.' => '',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
             '',
-        'Customer Access' => '',
+        'Customer Access' => 'Accesso cliente',
         'Customer' => 'Cliente',
         'This customer user has no customer access.' => '',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
@@ -513,7 +513,7 @@ sub Data {
         'Database' => 'Database',
         'Use external databases as configurable data sources for this dynamic field.' =>
             '',
-        'Web service' => '',
+        'Web service' => 'Servizio web',
         'External web services can be configured as data sources for this dynamic field.' =>
             '',
         'Contact with data' => '',
@@ -777,14 +777,14 @@ sub Data {
         'Edit ErrorHandling' => '',
         'Do you really want to delete this error handling module?' => '',
         'All configuration data will be lost.' => 'Tutti i dati di configurazione saranno persi.',
-        'General options' => '',
+        'General options' => 'Opzioni generali',
         'The name can be used to distinguish different error handling configurations.' =>
             '',
         'Please provide a unique name for this web service.' => 'Indica un nome univoco per questo web service',
         'Error handling module backend' => '',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
             '',
-        'Processing options' => '',
+        'Processing options' => 'Opzioni di elaborazione',
         'Configure filters to control error handling module execution.' =>
             '',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
@@ -807,11 +807,11 @@ sub Data {
             '',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
             '',
-        'Error code' => '',
+        'Error code' => 'Codice di errore',
         'An error identifier for this error handling module.' => '',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
-        'Error message' => '',
+        'Error message' => 'Messaggio di errore',
         'An error explanation for this error handling module.' => '',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
@@ -961,10 +961,10 @@ sub Data {
             '',
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
-        'Regular expressions' => '',
-        'Replace' => '',
-        'Remove regex' => '',
-        'Add regex' => '',
+        'Regular expressions' => 'Espressioni regolari',
+        'Replace' => 'Sostituisci',
+        'Remove regex' => 'Rimuovi espressione regolare',
+        'Add regex' => 'Aggiungi espressione regolare',
         'These filters can be used to transform keys using regular expressions.' =>
             '',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
@@ -1404,13 +1404,13 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Gestione Pacchetti',
-        'Uninstall Package' => '',
+        'Uninstall Package' => 'Disinstalla pacchetto',
         'Uninstall package' => 'Disinstalla pacchetto',
         'Do you really want to uninstall this package?' => 'Vuoi davvero disinstallare questo pacchetto?',
         'Reinstall package' => 'Reinstalla pacchetto',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Vuoi davvero reinstallare questo pacchetto? Ogni modifica manuale sarà persa.',
-        'Go to upgrading instructions' => '',
+        'Go to upgrading instructions' => 'Vai alle istruzioni di aggiornamento',
         'package information' => '',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
@@ -1466,7 +1466,7 @@ sub Data {
         'Download file from package!' => 'Scarica file dal pacchetto!',
         'Required' => 'Richiesto',
         'Size' => 'Dimensione',
-        'Primary Key' => '',
+        'Primary Key' => 'Chiave primaria',
         'Auto Increment' => '',
         'SQL' => 'Limite',
         'File Differences for File %s' => '',
@@ -1669,7 +1669,7 @@ sub Data {
             'In questa schermata puoi creare un nuovo processo. Per rendere il nuovo processo disponibile agli utenti, occorre mettere lo stato in \'Attivo\' ed effettuare la sincronizzazione al termine del lavoro.',
 
         # Template: AdminProcessManagementProcessPrint
-        'cancel & close' => '',
+        'cancel & close' => 'annulla e chiudi',
         'Start Activity' => 'Avvia attività',
         'Contains %s dialog(s)' => 'Contiene %s finestra(e)',
         'Assigned dialogs' => 'Finestre assegnate',
@@ -1702,7 +1702,7 @@ sub Data {
         'Add Queue' => 'Aggiungi coda',
         'Edit Queue' => 'Modifica coda',
         'Filter for Queues' => 'Filtri per le code',
-        'Filter for queues' => '',
+        'Filter for queues' => 'Filtro per le code',
         'A queue with this name already exists!' => 'Una coda con questo nome esiste già!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             '',
@@ -1742,7 +1742,7 @@ sub Data {
         'This filter allow you to show queues without auto responses' => 'Questo filtro ti consente di mostrare le code senza risposte automatiche',
         'Queues without Auto Responses' => '',
         'This filter allow you to show all queues' => 'Questo filtro ti consente di mostrare tutte le code',
-        'Show All Queues' => '',
+        'Show All Queues' => 'Mostra tutte le code',
         'Auto Responses' => 'Risposte Automatiche',
 
         # Template: AdminQueueTemplates
@@ -1895,7 +1895,7 @@ sub Data {
         'Check SMIME configuration' => 'Controllo configurazione SMIME',
         'Add certificate' => 'Aggiungi certificato',
         'Add private key' => 'Aggiungi chiave privata',
-        'Filter for Certificates' => '',
+        'Filter for Certificates' => 'Filtro per certificati',
         'Filter for S/MIME certs' => 'Filtro per i certificati S/MIME',
         'To show certificate details click on a certificate icon.' => 'Per mostrare i dettagli del certificato, fai clic sull\'icona del certificato.',
         'To manage private certificate relations click on a private key icon.' =>
@@ -1919,8 +1919,8 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'Certificato S/MIME',
-        'Close dialog' => '',
-        'Certificate Details' => '',
+        'Close dialog' => 'Chiudi finestra',
+        'Certificate Details' => 'Dettagli certificato',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Gestione saluti',
@@ -1941,7 +1941,7 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'script SQL ',
-        'Filter for Results' => '',
+        'Filter for Results' => 'Filtro per risultati',
         'Filter for results' => '',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
@@ -4802,6 +4802,7 @@ sub Data {
         'State Historic' => '',
         'State Type Historic' => '',
         'Historic Time Range' => '',
+        'Number' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',

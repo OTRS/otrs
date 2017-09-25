@@ -9,15 +9,15 @@
 # Luca Maranzano <liuk@linux.it>, 2014
 # Marthe Ngo Temb <ngotemb@gmail.com>, 2015
 # Paolo Cravero, 2017
-# Ricardo Marinucci <marinucci.ricardo@gmail.com>, 2015
+# ricardo marinucci <marinucci.ricardo@gmail.com>, 2015
 # Stefano Finetti <sfinetti@lynx-international.com>, 2016
 # Vincenzo Reale <smart2128@baslug.org>, 2015
 # Vincenzo Reale <vinx.reale@gmail.com>, 2015-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 16:57+0000\n"
-"PO-Revision-Date: 2017-09-25 16:59+0000\n"
+"POT-Creation-Date: 2017-09-25 20:27+0000\n"
+"PO-Revision-Date: 2017-09-25 20:29+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Italian (http://www.transifex.com/otrs/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,7 @@ msgstr "Modifica l'ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Modifica ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -191,7 +191,7 @@ msgstr "Mostra o nascondi contenuto"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Modifica informazioni ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -203,7 +203,7 @@ msgstr "Ferma dopo trovato"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Modifica struttura ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -564,7 +564,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "Filtro appuntamenti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
@@ -580,7 +580,7 @@ msgstr "Sede"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Squadra"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
@@ -713,7 +713,7 @@ msgstr "Salva cambiamenti"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Riferimento tag"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
@@ -757,7 +757,7 @@ msgstr "Indirizzi email di destinazione aggiuntivi"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Articolo visibile al cliente"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -808,7 +808,7 @@ msgstr "Filtro per gli allegati"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filtro per allegati"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -1005,11 +1005,11 @@ msgstr "Servizi Cloud disponibili"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Log di comunicazione"
 
 #. Template: AdminCommunicationLog
 msgid "Time range"
-msgstr ""
+msgstr "Intervallo temporale"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1039,7 +1039,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Stato per: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
@@ -1075,7 +1075,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "Nessun log delle comunicazioni"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
@@ -1087,7 +1087,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "Nessuna comunicazione attiva"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
@@ -1115,7 +1115,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
@@ -1127,7 +1127,7 @@ msgstr "Precedente"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Filtro per gli account"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for log entries"
@@ -1141,7 +1141,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Stato account per: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1149,7 +1149,7 @@ msgstr "Stato"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Account"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1157,7 +1157,7 @@ msgstr "Modifica"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Nessun account trovato."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
@@ -1181,11 +1181,11 @@ msgstr ""
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Durata"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1209,7 +1209,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail View"
-msgstr ""
+msgstr "Vista dettagliata"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
@@ -1478,7 +1478,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Accesso cliente"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1619,7 +1619,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Servizio web"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -2535,7 +2535,7 @@ msgstr "Tutti i dati di configurazione saranno persi."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Opzioni generali"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2558,7 +2558,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Opzioni di elaborazione"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
@@ -2633,7 +2633,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Codice di errore"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
@@ -2647,7 +2647,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Messaggio di errore"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -3147,19 +3147,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
-msgstr ""
+msgstr "Espressioni regolari"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Sostituisci"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "Rimuovi espressione regolare"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "Aggiungi espressione regolare"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
@@ -4544,7 +4544,7 @@ msgstr "Gestione Pacchetti"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr ""
+msgstr "Disinstalla pacchetto"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -4566,7 +4566,7 @@ msgstr "Vuoi davvero reinstallare questo pacchetto? Ogni modifica manuale sarà 
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
+msgstr "Vai alle istruzioni di aggiornamento"
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -4757,7 +4757,7 @@ msgstr "Dimensione"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "Chiave primaria"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
@@ -5422,7 +5422,7 @@ msgstr "In questa schermata puoi creare un nuovo processo. Per rendere il nuovo 
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "annulla e chiudi"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
@@ -5526,7 +5526,7 @@ msgstr "Filtri per le code"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "Filtro per le code"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -5667,7 +5667,7 @@ msgstr "Questo filtro ti consente di mostrare tutte le code"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Mostra tutte le code"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -6159,7 +6159,7 @@ msgstr "Aggiungi chiave privata"
 
 #. Template: AdminSMIME
 msgid "Filter for Certificates"
-msgstr ""
+msgstr "Filtro per certificati"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
@@ -6240,11 +6240,11 @@ msgstr "Certificato S/MIME"
 
 #. Template: AdminSMIMECertRead
 msgid "Close dialog"
-msgstr ""
+msgstr "Chiudi finestra"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
-msgstr ""
+msgstr "Dettagli certificato"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
@@ -6300,7 +6300,7 @@ msgstr "script SQL "
 
 #. Template: AdminSelectBox
 msgid "Filter for Results"
-msgstr ""
+msgstr "Filtro per risultati"
 
 #. Template: AdminSelectBox
 msgid "Filter for results"
@@ -14438,6 +14438,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
+msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Number"
 msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm

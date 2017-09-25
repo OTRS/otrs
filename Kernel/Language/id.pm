@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.718358831710709;
+    $Self->{Completeness}        = 0.718233964887885;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4796,6 +4796,7 @@ bin/otrs.Daemon.pl status\').',
         'State Historic' => 'State Histori',
         'State Type Historic' => 'Jenis sejarah state',
         'Historic Time Range' => 'Sejarah Rentang Waktu',
+        'Number' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Rata-rata solusi',

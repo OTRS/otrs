@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.287030598052851;
+    $Self->{Completeness}        = 0.287502172779419;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4684,9 +4684,9 @@ sub Data {
         'Send unencrypted notification' => 'Enviar notificação não encriptada',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
+        'Configuration Options Reference' => 'Referência de Opções de Configuração',
         'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
+        'This setting is not active by default.' => 'Esta configuração não está ativa por padrão.',
         'This setting can not be deactivated.' => '',
         'This setting is not visible.' => '',
         'This setting can be overridden in the user preferences.' => '',
@@ -4795,6 +4795,7 @@ sub Data {
         'State Historic' => 'Histórico de estados',
         'State Type Historic' => 'Histórico de tipos de estado',
         'Historic Time Range' => 'Intervalo temporal',
+        'Number' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',
@@ -6933,7 +6934,7 @@ Thanks for your help!
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the communication between this system and OTRS Group servers that provides cloud services. If active, some functionality will be lost such as system registration, support data sending, upgrading to and use of OTRS Business Solution™, OTRS Verify™, OTRS News and product News dashboard widgets, among others.' =>
-            '',
+            'Inativar comunicação entre o sistema e os servidores do Group OTRS que fornecem serviços na cloud. Se estiver ativo, algumas funcionalidades seram perdidas como exemplo resgisto de sistema, suporte de envio de dados, atualização e utilização de OTRS Business Solution™, OTRS Verify™, Noticias de OTRS e notícias de produtos, dispositivos de painel, entre outros.',
         'Disables the redirection to the last screen overview / dashboard after a ticket is created.' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>

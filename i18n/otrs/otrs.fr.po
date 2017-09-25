@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 16:57+0000\n"
-"PO-Revision-Date: 2017-09-25 16:59+0000\n"
+"POT-Creation-Date: 2017-09-25 20:27+0000\n"
+"PO-Revision-Date: 2017-09-25 20:30+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgstr "Editer %s de ACL"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Modifier ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -259,11 +259,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Ajouter un calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Modifier un calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
@@ -271,11 +271,11 @@ msgstr "Retour"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "Aperçu d'un calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Ajouter un nouveau calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
@@ -283,7 +283,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Importer un calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -302,7 +302,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Importer un calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -350,7 +350,7 @@ msgstr "Téléchargement"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
@@ -378,7 +378,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Couleur"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
@@ -390,7 +390,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
-msgstr ""
+msgstr "Règle"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove this entry"
@@ -594,7 +594,7 @@ msgstr "Plan"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Equipe"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
@@ -1163,7 +1163,7 @@ msgstr "Statut"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Compte"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1171,7 +1171,7 @@ msgstr "Éditer"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Aucun compte trouvé."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
@@ -1195,7 +1195,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Durée"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
@@ -2549,7 +2549,7 @@ msgstr "Tous les paramètres seront perdus."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Options générales"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2647,7 +2647,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Code d'erreur"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
@@ -2661,7 +2661,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Message d'erreur"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -2943,7 +2943,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Configuration générale"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
@@ -3165,7 +3165,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Remplacer"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
@@ -3452,7 +3452,7 @@ msgstr "Afficher ou cacher les options SSL pour se connecter au système distant
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Certificat client"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3466,7 +3466,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Clé du certificat client"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4029,7 +4029,7 @@ msgstr ""
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
-msgstr ""
+msgstr "Configuration système"
 
 #. Template: AdminMailAccount
 msgid "Host"
@@ -14453,6 +14453,10 @@ msgstr ""
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
 msgstr ""
+
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Number"
+msgstr "Nombre"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"

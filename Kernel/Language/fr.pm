@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.348226703755216;
+    $Self->{Completeness}        = 0.352164088301756;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -74,7 +74,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'Editer %s de ACL',
-        'Edit ACL' => '',
+        'Edit ACL' => 'Modifier ACL',
         'Go to overview' => 'Aller à la vue d\'ensemble',
         'Delete ACL' => 'Supprimer ACL',
         'Delete Invalid ACL' => 'Supprimer les ACL non valides',
@@ -105,18 +105,18 @@ sub Data {
 
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => '',
-        'Add Calendar' => '',
-        'Edit Calendar' => '',
+        'Add Calendar' => 'Ajouter un calendrier',
+        'Edit Calendar' => 'Modifier un calendrier',
         'Go back' => 'Retour',
-        'Calendar Overview' => '',
-        'Add new Calendar' => '',
+        'Calendar Overview' => 'Aperçu d\'un calendrier',
+        'Add new Calendar' => 'Ajouter un nouveau calendrier',
         'Import Appointments' => '',
-        'Calendar Import' => '',
+        'Calendar Import' => 'Importer un calendrier',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             '',
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => '',
-        'Import Calendar' => '',
+        'Import Calendar' => 'Importer un calendrier',
         'Filter for calendars' => '',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -131,17 +131,17 @@ sub Data {
         'Changed' => 'Changé',
         'Created' => 'Créé',
         'Download' => 'Téléchargement',
-        'URL' => '',
+        'URL' => 'URL',
         'Export calendar' => '',
         'Download calendar' => '',
         'Copy public calendar URL' => '',
         'Calendar' => 'Calendrier',
         'Calendar name' => '',
         'Calendar with same name already exists.' => '',
-        'Color' => '',
+        'Color' => 'Couleur',
         'Permission group' => '',
         'Ticket Appointments' => '',
-        'Rule' => '',
+        'Rule' => 'Règle',
         'Remove this entry' => 'Supprimer cette entrée',
         'Remove' => 'Supprimer',
         'Start date' => '',
@@ -199,7 +199,7 @@ sub Data {
         'Type' => 'Type',
         'Title' => 'Titre',
         'Location' => 'Plan',
-        'Team' => '',
+        'Team' => 'Equipe',
         'Resource' => '',
         'Recipients' => 'Destinataires',
         'Send to' => 'Envoyer à',
@@ -365,9 +365,9 @@ sub Data {
             '',
         'Account status for: %s' => '',
         'Status' => 'Statut',
-        'Account' => '',
+        'Account' => 'Compte',
         'Edit' => 'Éditer',
-        'No accounts found.' => '',
+        'No accounts found.' => 'Aucun compte trouvé.',
         'Communication Log Details (%s)' => '',
         'Direction' => 'Direction',
         'Start Time' => '',
@@ -375,7 +375,7 @@ sub Data {
         'No communication log entries found.' => '',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Durée',
 
         # Template: AdminCommunicationLogObjectLog
         '#' => '',
@@ -777,7 +777,7 @@ sub Data {
         'Edit ErrorHandling' => '',
         'Do you really want to delete this error handling module?' => '',
         'All configuration data will be lost.' => 'Tous les paramètres seront perdus.',
-        'General options' => '',
+        'General options' => 'Options générales',
         'The name can be used to distinguish different error handling configurations.' =>
             '',
         'Please provide a unique name for this web service.' => 'Veuillez fournir un nom unique pour ce service Web.',
@@ -807,11 +807,11 @@ sub Data {
             '',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
             '',
-        'Error code' => '',
+        'Error code' => 'Code d\'erreur',
         'An error identifier for this error handling module.' => '',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
-        'Error message' => '',
+        'Error message' => 'Message d\'erreur',
         'An error explanation for this error handling module.' => '',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
@@ -901,7 +901,7 @@ sub Data {
         'Delete all conditions' => '',
         'Do you really want to delete all the conditions for this event?' =>
             '',
-        'General Settings' => '',
+        'General Settings' => 'Configuration générale',
         'Event type' => '',
         'Conditions' => 'Conditions',
         'Conditions can only operate on non-empty fields.' => '',
@@ -962,7 +962,7 @@ sub Data {
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
         'Regular expressions' => '',
-        'Replace' => '',
+        'Replace' => 'Remplacer',
         'Remove regex' => '',
         'Add regex' => '',
         'These filters can be used to transform keys using regular expressions.' =>
@@ -1052,11 +1052,11 @@ sub Data {
         'Skip proxy servers that might be configured globally?' => '',
         'Use SSL Options' => 'Utiliser les options du protocole SSL',
         'Show or hide SSL options to connect to the remote system.' => 'Afficher ou cacher les options SSL pour se connecter au système distant',
-        'Client Certificate' => '',
+        'Client Certificate' => 'Certificat client',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
-        'Client Certificate Key' => '',
+        'Client Certificate Key' => 'Clé du certificat client',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
@@ -1233,7 +1233,7 @@ sub Data {
             '',
         'Outgoing email can be configured via the Sendmail* settings in %s.' =>
             '',
-        'System Configuration' => '',
+        'System Configuration' => 'Configuration système',
         'Host' => 'Hôte',
         'Delete account' => 'Supprimer le compte',
         'Fetch mail' => 'Parcourir mail',
@@ -4802,6 +4802,7 @@ sub Data {
         'State Historic' => '',
         'State Type Historic' => '',
         'Historic Time Range' => '',
+        'Number' => 'Nombre',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',

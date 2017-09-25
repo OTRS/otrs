@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 16:57+0000\n"
-"PO-Revision-Date: 2017-09-25 16:59+0000\n"
+"POT-Creation-Date: 2017-09-25 20:27+0000\n"
+"PO-Revision-Date: 2017-09-25 20:29+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgstr "Редактировать ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Изменить ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -205,7 +205,7 @@ msgstr "Отобразить или скрыть содержимое"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Изменить информацию о ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -217,7 +217,7 @@ msgstr "Прекратить проверку после совпадения"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Изменить структуру ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -506,11 +506,11 @@ msgstr "Экспорт уведомлений"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Фильтр для Уведомлений"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Фильтр для уведомлений"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -1023,7 +1023,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Time range"
-msgstr ""
+msgstr "Временной интервал"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1163,7 +1163,7 @@ msgstr "Статус"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Аккаунт"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1171,7 +1171,7 @@ msgstr "Редактировать"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Аккаунты не найдены"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
@@ -1476,7 +1476,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
-msgstr ""
+msgstr "Права доступа группы"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
@@ -1492,7 +1492,7 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Доступ Клиента"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -3436,7 +3436,7 @@ msgstr "Пароль пользователя прокси"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip Proxy"
-msgstr ""
+msgstr "Пропустить Прокси"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip proxy servers that might be configured globally?"
@@ -3452,7 +3452,7 @@ msgstr "Показать или скрыть параметры SSL для по�
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Сертификат Клиента"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4117,7 +4117,7 @@ msgstr ""
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
-msgstr ""
+msgstr "Назначить избранным"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
@@ -4642,7 +4642,7 @@ msgstr "Установить пакет"
 
 #. Template: AdminPackageManager
 msgid "Upgrade Package"
-msgstr ""
+msgstr "Обновить пакет"
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -4677,7 +4677,7 @@ msgstr "Включить облачный сервис"
 
 #. Template: AdminPackageManager
 msgid "Upgrade all installed packages"
-msgstr ""
+msgstr "Обновить все установленные пакеты"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
@@ -4727,7 +4727,7 @@ msgstr "С %s, вы получите следующие дополнительн
 
 #. Template: AdminPackageManager
 msgid "Package Information"
-msgstr ""
+msgstr "Информация о пакете"
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -6665,7 +6665,7 @@ msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "System configuration"
-msgstr ""
+msgstr "Системная конфигурация"
 
 #. Template: AdminSystemConfiguration
 msgid ""
@@ -6685,7 +6685,7 @@ msgstr ""
 
 #. Template: AdminSystemConfiguration
 msgid "Search in all settings..."
-msgstr ""
+msgstr "Искать среди всех настроек..."
 
 #. Template: AdminSystemConfiguration
 msgid ""
@@ -6699,7 +6699,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -7758,7 +7758,7 @@ msgstr ""
 
 #. Template: AgentLinkObject
 msgid "Start search"
-msgstr ""
+msgstr "Начать поиск"
 
 #. Template: AgentLinkObject
 msgid ""
@@ -7782,7 +7782,7 @@ msgstr "Измените ваши личные настройки"
 
 #. Template: AgentPreferences
 msgid "Personal preferences"
-msgstr ""
+msgstr "Персональные настройки"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -7856,7 +7856,7 @@ msgstr ""
 
 #. Template: AgentPreferences
 msgid "Save this setting"
-msgstr ""
+msgstr "Сохранить эту настройку"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTRS at %s."
@@ -7864,7 +7864,7 @@ msgstr "А вы знаете? Вы можете помочь в локализа
 
 #. Template: SettingsList
 msgid "Reset to default"
-msgstr ""
+msgstr "Сброс по умолчанию"
 
 #. Template: AgentPreferencesOverview
 msgid "Personal Preferences"
@@ -8775,7 +8775,7 @@ msgstr "Закрыть это сообщение"
 
 #. Template: MIMEBase
 msgid "Image"
-msgstr ""
+msgstr "Изображение"
 
 #. Template: MIMEBase
 msgid "PDF"
@@ -8846,7 +8846,7 @@ msgstr "Загрузить заблокированное содержимое."
 
 #. Template: Breadcrumb
 msgid "Back to Dashboard"
-msgstr ""
+msgstr "Назад в Дайджест"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
@@ -8854,7 +8854,7 @@ msgstr ""
 
 #. Template: CloudServicesDisabled
 msgid "This Feature Requires Cloud Services"
-msgstr ""
+msgstr "Эта функция требует Облачные Сервисы"
 
 #. Template: CloudServicesDisabled
 msgid "You can"
@@ -8866,7 +8866,7 @@ msgstr "перейти на предыдущую страницу"
 
 #. Template: CustomerAccept
 msgid "Dear Customer,"
-msgstr ""
+msgstr "Уважаемый Клиент, "
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
@@ -9226,11 +9226,11 @@ msgstr "Развернуть"
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "Обновить черновик"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "Сохранить как новый черновик"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
@@ -10116,15 +10116,15 @@ msgstr ""
 
 #. Template: Help
 msgid "Save current setting."
-msgstr ""
+msgstr "Сохранить текущие настройки."
 
 #. Template: Help
 msgid "Cancel editing current setting."
-msgstr ""
+msgstr "Отменить правку текущих настроек."
 
 #. Template: Navigation
 msgid "Navigation"
-msgstr ""
+msgstr "Навигация"
 
 #. Template: OTRSBusinessTeaser
 msgid ""
@@ -10779,7 +10779,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
-msgstr ""
+msgstr "Процесс удален"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker deleted"
@@ -10848,72 +10848,72 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "1 час"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "2 часа"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 часа"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 часа"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 часов"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 часов"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 часов"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 часов"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "1 день"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "2 дня"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 дня"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 дня"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 дней"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 неделя"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need InvokerType"
@@ -11260,7 +11260,7 @@ msgstr "Пакет не верифицирован OTRS Group! Его испол
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
-msgstr ""
+msgstr "Обновлено"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Already up-to-date"
@@ -11268,15 +11268,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Installed"
-msgstr ""
+msgstr "Установлено"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
-msgstr ""
+msgstr "Приложение обновлено корректно"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package was already updated"
-msgstr ""
+msgstr "Приложение уже обновлено"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
@@ -13575,19 +13575,19 @@ msgstr "Нет разрешения"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "just now"
-msgstr ""
+msgstr "только что"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "less than a minute ago"
-msgstr ""
+msgstr "меньше чем минуту назад"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "in less than a minute"
-msgstr ""
+msgstr "меньше минуты"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "a minute ago"
-msgstr ""
+msgstr "минуту назад"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "in a minute"
@@ -13881,7 +13881,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
-msgstr ""
+msgstr "Временная зона обновлена успешно"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "invalid"
@@ -13984,11 +13984,11 @@ msgstr "Удалите, пожалуйста, следующие слова, т�
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Cancel editing and unlock this setting"
-msgstr ""
+msgstr "Отменить правку и разблокировать эту настройку"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Reset this setting to its default value."
-msgstr ""
+msgstr "Сбросить эту настройку на значение по умолчанию"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
@@ -13996,7 +13996,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Add key"
-msgstr ""
+msgstr "Добавить ключ"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
@@ -14453,6 +14453,10 @@ msgstr "Тип состояния истории"
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
 msgstr "Период истории"
+
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Number"
+msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
@@ -16611,7 +16615,7 @@ msgstr "Ошибка в настройках почты. Пожалуйста, �
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
-msgstr ""
+msgstr "Открыть эту заметку в новом окне"
 
 #. JS File: Core.SystemConfiguration
 msgid "Please add values for all keys before saving the setting."
@@ -16619,7 +16623,7 @@ msgstr ""
 
 #. JS File: Core.SystemConfiguration
 msgid "The key must not be empty."
-msgstr ""
+msgstr "Этот ключ не может быть пустым."
 
 #. JS File: Core.SystemConfiguration
 msgid "A key with this name ('%s') already exists."
@@ -26231,7 +26235,7 @@ msgstr "Загрузите ваш PGP-ключ"
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "Загрузить Ваш S/MIME сертификат."
 
 #. SysConfig
 msgid ""
@@ -26259,7 +26263,7 @@ msgstr "Фамилия"
 
 #. SysConfig
 msgid "Users, Groups & Roles"
-msgstr ""
+msgstr "Пользователи, Группы и Роли"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
@@ -26277,7 +26281,7 @@ msgstr "Вьетнамский"
 
 #. SysConfig
 msgid "View all attachments of the current ticket"
-msgstr ""
+msgstr "Просмотреть все вложения текущей заявки"
 
 #. SysConfig
 msgid "View performance benchmark results."

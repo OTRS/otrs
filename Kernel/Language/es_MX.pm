@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.51721140472879;
+    $Self->{Completeness}        = 0.517295324178689;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4794,6 +4794,7 @@ sub Data {
         'State Historic' => 'Historial del Estado',
         'State Type Historic' => 'Historial del Tipo de Estado',
         'Historic Time Range' => 'Rango Tiempo Histórico',
+        'Number' => 'Número',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',

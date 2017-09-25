@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 16:57+0000\n"
-"PO-Revision-Date: 2017-09-25 16:59+0000\n"
+"POT-Creation-Date: 2017-09-25 20:27+0000\n"
+"PO-Revision-Date: 2017-09-25 20:30+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -224,7 +224,7 @@ msgstr "Откажи"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr "Да ли заиста желите да обришете ову ACL листу?"
+msgstr "Да ли стварно желите да обришете ову ACL листу?"
 
 #. Template: AdminACLNew
 msgid ""
@@ -2821,7 +2821,7 @@ msgstr "Уреди позиваоца"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
-msgstr "Да ли заиста желите да избришете овог позиваоца?"
+msgstr "Да ли стварно желите да избришете овог позиваоца?"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker Details"
@@ -3570,19 +3570,19 @@ msgstr "Сепаратор SOAP акције"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP operation."
-msgstr ""
+msgstr "Знак који ће се користити као сепаратор између заглавља и SOAP методе."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services use \"/\" as separator."
-msgstr ""
+msgstr ".Net веб сервиси обично користе \"/\" као сепаратор."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction free text"
-msgstr ""
+msgstr "SOAPAction слободан текст"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as SOAPAction."
-msgstr ""
+msgstr "Текст који ће се користити као SOAPAction."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
@@ -3678,15 +3678,15 @@ msgstr "Одлазни редослед сортирања за XML поља (с
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Додај веб сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Уреди веб сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Клонирај веб сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -3698,7 +3698,7 @@ msgstr "Клонирај"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Извези веб сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -3716,7 +3716,7 @@ msgstr "Датотека мора да буде важећа YAML конфигу
 msgid ""
 "Here you can specify a name for the webservice. If this field is empty, the "
 "name of the configuration file is used as name."
-msgstr ""
+msgstr "Овде можете дефинисати назив веб сервиса. Уколико је ово поље празно, биће коришћен назив конфигурационе датотеке."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -3724,7 +3724,7 @@ msgstr "Увези"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "Историјат конфигурације"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -3808,22 +3808,22 @@ msgstr "Мрежни транспорт"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error Handling Modules"
-msgstr ""
+msgstr "Модули за обраду грешке"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Error handling modules are used to react in case of errors during the "
 "communication. Those modules are executed in a specific order, which can be "
 "changed by drag and drop."
-msgstr ""
+msgstr "Модули за обраду грешке се користе за реакцију у случуја грешака у току комуникације. Ови модули се извршавају у одговарајућем редоследу, који може бити измењен превлачењем."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
-msgstr ""
+msgstr "Позадински приказ"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "Додај модул за обраду грешке"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3943,7 +3943,7 @@ msgstr "Системски лог"
 
 #. Template: AdminLog
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Филтер за лог ставке"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -3975,36 +3975,36 @@ msgstr "Додај имејл налог"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account for host"
-msgstr ""
+msgstr "Уреди имејл налог за сервер"
 
 #. Template: AdminMailAccount
 msgid "and user account"
-msgstr ""
+msgstr "и кориснички налог"
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
-msgstr ""
+msgstr "Филтер за имејл налоге"
 
 #. Template: AdminMailAccount
 msgid "Filter for mail accounts"
-msgstr ""
+msgstr "Филтер за имејл налоге"
 
 #. Template: AdminMailAccount
 msgid ""
 "All incoming emails with one account will be dispatched in the selected "
 "queue."
-msgstr ""
+msgstr "Све долазне поруке са једног имејл налога ће бити усмерене у изабрани ред."
 
 #. Template: AdminMailAccount
 msgid ""
 "If your account is marked as trusted, the X-OTRS headers already existing at"
 " arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
-msgstr ""
+msgstr "Ако је ваш налог од поверења, постојећа X-OTRS заглавља у тренутку пријема (за приоритет, итд.) ће бити сачувана коришћена, нпр. у PostMaster филтерима."
 
 #. Template: AdminMailAccount
 msgid "Outgoing email can be configured via the Sendmail* settings in %s."
-msgstr ""
+msgstr "Подешавања одлазећих имејл порука могу бити конфигурисана путем Sendmail* опција у %s."
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
@@ -4024,7 +4024,7 @@ msgstr "Преузми пошту"
 
 #. Template: AdminMailAccount
 msgid "Do you really want to delete this mail account?"
-msgstr ""
+msgstr "Да ли стварно желите да обришете овај имејл налог?"
 
 #. Template: AdminMailAccount
 msgid "Password"
@@ -4058,11 +4058,11 @@ msgstr "Уреди имејл налог"
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
-msgstr ""
+msgstr "Административни преглед"
 
 #. Template: AdminNavigationBar
 msgid "Filter for Items"
-msgstr ""
+msgstr "Филтер за ставке"
 
 #. Template: AdminNavigationBar
 msgid "Filter"
@@ -4070,21 +4070,21 @@ msgstr "Филтер"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Омиљене"
 
 #. Template: AdminNavigationBar
 msgid ""
 "You can add favorites by moving your cursor over items on the right side and"
 " clicking the star icon."
-msgstr ""
+msgstr "Можете додати омиљене превлачењем курсора преко ставке са десне стране и кликом на иконицу звезде."
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "Везе"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual on Github"
-msgstr ""
+msgstr "Прегледајте упутство за администраторе на Github"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
@@ -5376,35 +5376,35 @@ msgstr "Сачувај активости, дијалоге активности
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Process?"
-msgstr "Да ли заиста желите да обришете овај процес?"
+msgstr "Да ли стварно желите да обришете овај процес?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity?"
-msgstr "Да ли заиста желите да обришете ову активност?"
+msgstr "Да ли стварно желите да обришете ову активност?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity Dialog?"
-msgstr "Да ли заиста желите да обришете овај дијалог активности?"
+msgstr "Да ли стварно желите да обришете овај дијалог активности?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition?"
-msgstr "Да ли заиста желите да обришете ову транзицију?"
+msgstr "Да ли стварно желите да обришете ову транзицију?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition Action?"
-msgstr "Да ли заиста желите да обришете ову транзициону активност?"
+msgstr "Да ли стварно желите да обришете ову транзициону активност?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this activity from the canvas? This can only be"
 " undone by leaving this screen without saving."
-msgstr "Да ли заиста желите да уклоните ову активност са површине? Ово једино може да се опозове уколико напустите екран, а да претходно не сачувате измене."
+msgstr "Да ли стварно желите да уклоните ову активност са површине? Ово једино може да се опозове уколико напустите екран, а да претходно не сачувате измене."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this transition from the canvas? This can only "
 "be undone by leaving this screen without saving."
-msgstr "Да ли заиста желите да уклоните ову транзицију са површине? Ово једино може да се опозове уколико напустите екран, а да претходно не сачувате измене."
+msgstr "Да ли стварно желите да уклоните ову транзицију са површине? Ово једино може да се опозове уколико напустите екран, а да претходно не сачувате измене."
 
 #. Template: AdminProcessManagementProcessNew
 msgid ""
@@ -14433,6 +14433,10 @@ msgstr "Историјат типа статуса"
 msgid "Historic Time Range"
 msgstr "Временски опсег историјата"
 
+#. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
+msgid "Number"
+msgstr "Број"
+
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
 msgstr "Просечно време решења"
@@ -15925,7 +15929,7 @@ msgstr ""
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr "Да ли заиста желите да обришете ово динамичко поље? Сви повезани подаци ће бити ИЗГУБЉЕНИ!"
+msgstr "Да ли стварно желите да обришете ово динамичко поље? Сви повезани подаци ће бити ИЗГУБЉЕНИ!"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Delete field"
@@ -16037,7 +16041,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr "Да ли заиста желите да избришете овај језик за обавештења?"
+msgstr "Да ли стварно желите да избришете овај језик за обавештења?"
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification?"
@@ -16488,7 +16492,7 @@ msgstr ""
 
 #. JS File: Core.Agent.TicketAction
 msgid "Do you really want to continue?"
-msgstr "Да ли заиста желите да наставите?"
+msgstr "Да ли стварно желите да наставите?"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...and %s more"
@@ -18536,7 +18540,7 @@ msgid ""
 "element Image allows two input kinds. At once the name of an image (e.g. "
 "faq.png). In this case the OTRS image path will be used. The second "
 "possiblity is to insert the link to the image."
-msgstr "Дефинише филтер за HTML излаз да би сте додали везе иза „bugtraq” бројева. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење путање до слике."
+msgstr "Дефинише филтер за HTML излаз да би сте додали везе иза bugtraq бројева. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење путање до слике."
 
 #. SysConfig
 msgid ""
@@ -19936,7 +19940,7 @@ msgid ""
 "Warning: Setting this option to a value which is too low could cause many "
 "masks in your OTRS instance to stop working (probably any mask which takes "
 "input from the user)."
-msgstr "Дефинише максималну величину (у бајтовима) за слање датотеке преко претраживача. Упозорење: Подешавање ове опције на сувише малу вредност може узроковати да многе маске у вашој „OTRS” инстанци престану са радом (вероватно свака маска која има улаз од корисника)."
+msgstr "Дефинише максималну величину (у бајтовима) за слање датотеке преко претраживача. Упозорење: Подешавање ове опције на сувише малу вредност може узроковати да многе маске у вашој OTRS инстанци престану са радом (вероватно свака маска која има улаз од корисника)."
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -19973,7 +19977,7 @@ msgid ""
 "Defines the module that shows a generic notification in the agent interface."
 " Either \"Text\" - if configured - or the contents of \"File\" will be "
 "displayed."
-msgstr "Дефинише модул који приказује генеричку напомену у интерфејсу оператера. Биће приказан или „Text” (ако је конфигурисан) или садржај „File”."
+msgstr "Дефинише модул који приказује генеричку напомену у интерфејсу оператера. Биће приказан или \"Text\" (ако је конфигурисан) или садржај \"File\"."
 
 #. SysConfig
 msgid ""
@@ -20018,7 +20022,7 @@ msgstr "Одређује модул за приказ обавештења у р
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "OTRS Daemon is not running."
-msgstr "Одређује модул за приказ обавештења у интерфејсу оператера ако „OTRS” системски процес не ради."
+msgstr "Одређује модул за приказ обавештења у интерфејсу оператера ако OTRS системски сервис не ради."
 
 #. SysConfig
 msgid ""
@@ -20036,7 +20040,7 @@ msgstr ""
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having out-of-office active."
-msgstr "Дефинише модул за приказивање обавештења у интерфејсу оператера ако је оператер пријављен на систем док је опција „ван канцеларије” активна."
+msgstr "Дефинише модул за приказивање обавештења у интерфејсу оператера ако је оператер пријављен на систем док је опција ван канцеларије активна."
 
 #. SysConfig
 msgid ""
@@ -20090,13 +20094,13 @@ msgid ""
 "binary of your operating system. Any of the \"SMTP\" mechanisms use a "
 "specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and "
 "it is useful for test systems."
-msgstr "Дефинише модуле за слање имејл порука. „Sendmail” директно користи апликацију вашег оперативног система за слање имејла. Сваки од „SMTP” механизама користи специфичан (екстерни) имејл сервер. „DoNotSendEmail” не шаље имејлове и то је корисно при тестирању система."
+msgstr "Дефинише модуле за слање имејл порука. \"Sendmail\" директно користи апликацију вашег оперативног система за слање имејла. Сваки од \"SMTP\" механизама користи специфичан (екстерни) имејл сервер. \"DoNotSendEmail\" не шаље имејлове и то је корисно при тестирању система."
 
 #. SysConfig
 msgid ""
 "Defines the module used to store the session data. With \"DB\" the frontend "
 "server can be splitted from the db server. \"FS\" is faster."
-msgstr "Дефинише модул који се користи за складиштење података сесије. Са „DB” приступни сервер може бити одвојен од сервера базе података. „FS” је бржи."
+msgstr "Дефинише модул који се користи за складиштење података сесије. Са \"DB\" приступни сервер може бити одвојен од сервера базе података. \"FS\" је бржи."
 
 #. SysConfig
 msgid ""
@@ -20125,7 +20129,7 @@ msgstr "Одређује назив кључа за клијентске сес�
 
 #. SysConfig
 msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
-msgstr "Дефинише назив кључа сесије. Нпр. Сесија, Сесија ИД или „OTRS”."
+msgstr "Дефинише назив кључа сесије. Нпр. Session, SessionID или OTRS”"
 
 #. SysConfig
 msgid "Defines the name of the table where the user preferences are stored."
@@ -20219,7 +20223,7 @@ msgstr "Дефинише следећи статус тикета након ш�
 msgid ""
 "Defines the number of character per line used in case an HTML article "
 "preview replacement on TemplateGenerator for EventNotifications."
-msgstr "Одређује број знакова по линији који се користе у случају замене за преглед „HTML” чланка у генератору шаблона за обавештења о догађајима."
+msgstr "Одређује број знакова по линији који се користе у случају замене за преглед HTML чланка у генератору шаблона за обавештења о догађајима."
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
@@ -20356,7 +20360,7 @@ msgstr "Дефинише путању приказаног инфо фајла �
 
 #. SysConfig
 msgid "Defines the path to PGP binary."
-msgstr "Одређује путању до „PGP binary”."
+msgstr "Одређује путању до PGP апликације."
 
 #. SysConfig
 msgid ""
@@ -20390,14 +20394,14 @@ msgid ""
 "Defines the recipient target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr "Одређује циљног примаоца телефонског тикета и пошиљаоца имејл тикета („Queue” приказује све редове, „System address” приказује све системске адресе) у интерфејсу оператера."
+msgstr "Одређује циљног примаоца телефонског тикета и пошиљаоца имејл тикета (\"Ред\" приказује све редове, \"Системска адреса\" приказује све системске адресе) у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Defines the recipient target of the tickets (\"Queue\" shows all queues, "
 "\"SystemAddress\" shows only the queues which are assigned to system "
 "addresses) in the customer interface."
-msgstr "Одређује циљног примаоца тикета („Ред” приказује све редове, „Системска Адреса” приказује само редове који су додењени системским адресама) у интерфејсу клијента."
+msgstr "Одређује циљног примаоца тикета (\"Ред\" приказује све редове, \"Системска адреса\" приказује само редове који су додељени системским адресама) у интерфејсу клијента."
 
 #. SysConfig
 msgid ""
@@ -20439,7 +20443,7 @@ msgid ""
 "Permissions must be hard coded to be effective. Please ensure, when adding "
 "any of the afore mentioned permissions, that the \"rw\" permission remains "
 "the last entry."
-msgstr "Одређује стандардне дозволе расположиве за кориснике у апликацији. Уколико је потребно више дозвола, можете их унети овде. Да би биле ефективне, дозволе морају бити непроменљиве. Молимо проверите када додајете било коју од горе наведених дозвола, да „rw” дозвола остане последња."
+msgstr "Одређује стандардне дозволе расположиве за кориснике у апликацији. Уколико је потребно више дозвола, можете их унети овде. Да би биле ефективне, дозволе морају бити непроменљиве. Молимо проверите када додајете било коју од горе наведених дозвола, да \"rw\" дозвола остане последња."
 
 #. SysConfig
 msgid "Defines the standard size of PDF pages."
@@ -20505,7 +20509,7 @@ msgid ""
 "contains this ID. This ensures that only tickets which belong to your system"
 " will be processed as follow-ups (useful when communicating between two "
 "instances of OTRS)."
-msgstr "Дефинише идентификатор система. Сваки број тикета и низ знакова http сесије садрши овај ИД. Ово осигурава да ће само тикети који припадају вашем систему бити обрађени као операције праћења (корисно када се одвија комуникација између две „OTRS” инстанце)."
+msgstr "Дефинише идентификатор система. Сваки број тикета и идентификатор  сесије садржи овај ID. Ово осигурава да ће само тикети који припадају вашем систему бити обрађени као операције праћења (корисно када се одвија комуникација између две OTRS инстанце)."
 
 #. SysConfig
 msgid ""
@@ -20539,7 +20543,7 @@ msgid ""
 "Defines the ticket fields that are going to be displayed calendar events. "
 "The \"Key\" defines the field or ticket attribute and the \"Content\" "
 "defines the display name."
-msgstr "Дефинише поља тикета која ће бити приказана у календару догађаја. „Key” дефинише поље или атрибут тикета, а „Content” дефинише приказано име."
+msgstr "Дефинише поља тикета која ће бити приказана у календару догађаја. \"Кључ\" дефинише поље или атрибут тикета, а \"Садржај\" дефинише приказано име."
 
 #. SysConfig
 msgid "Defines the ticket plugin for calendar appointments."
@@ -20605,7 +20609,7 @@ msgstr "Дефинише важеће типове статуса за тике�
 msgid ""
 "Defines the valid states for unlocked tickets. To unlock tickets the script "
 "\"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
-msgstr "Одређује важеће статусе за откључане тикете. За откључавање тикета може се користити скрипт „bin/otrs.Console.pl Maint::Ticket::UnlockTimeout”."
+msgstr "Одређује важеће статусе за откључане тикете. За откључавање тикета може се користити скрипт \"bin/otrs.Console.pl Maint::Ticket::UnlockTimeout\"."
 
 #. SysConfig
 msgid ""
@@ -20695,7 +20699,7 @@ msgstr "Обришите овај тикет"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "Веза на „%s” обрисана."
+msgstr "Веза на тикет \"%s\" је обрисана."
 
 #. SysConfig
 msgid ""
@@ -20732,7 +20736,7 @@ msgid ""
 "Determines if the list of possible queues to move to ticket into should be "
 "displayed in a dropdown list or in a new window in the agent interface. If "
 "\"New Window\" is set you can add a move note to the ticket."
-msgstr "Одређује да ли листа могућих редова за премештање у тикет треба да буде приказана у падајућој листи или у новом прозору у интерфејсу оператера. Ако је подешен „Нови прозор” можете додавати напомене о премештању у тикет."
+msgstr "Одређује да ли листа могућих редова за премештање у тикет треба да буде приказана у падајућој листи или у новом прозору у интерфејсу оператера. Ако је подешен \"Нови прозор\" можете додавати напомене о премештању у тикет."
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
@@ -20794,7 +20798,7 @@ msgid ""
 " Queue as NewQueueSelectionType \"<Queue>\" shows the names of the queues "
 "and for SystemAddress \"<Realname> <<Email>>\" shows the name and email of "
 "the recipient."
-msgstr "Одређује фразу које ће бити приказана као прималац (За:) телефонског тикета и као пошиљалац (Од:) имејл тикета у интерфејсу оператера. За Ред као „NewQueueSelectionType” „<Queue>” приказује називе редова, а за Системску адресу „<Realname> <<Email>>” приказује име и имејл примаоца."
+msgstr "Одређује фразу које ће бити приказана као прималац (То:) телефонског тикета и као пошиљалац (From:) имејл тикета у интерфејсу оператера. За ред као NewQueueSelectionType \"<Queue>\" приказује називе редова, а за системску адресу \"<Realname> <<Email>>\" приказује име и имејл примаоца."
 
 #. SysConfig
 msgid ""
@@ -20802,7 +20806,7 @@ msgid ""
 "in the customer interface. For Queue as CustomerPanelSelectionType, "
 "\"<Queue>\" shows the names of the queues, and for SystemAddress, "
 "\"<Realname> <<Email>>\" shows the name and email of the recipient."
-msgstr "Одређује фразу која ће бити приказана као прималац (За:) тикет у интерфејсу клијента. За Ред као „CustomerPanelSelectionType” „<Queue>” приказује имена редова и за Системску адресу „<Realname> <<Email>>” приказује име и имејл примаоца."
+msgstr "Одређује фразу која ће бити приказана као прималац (To:) тикет у интерфејсу клијента. За ред као CustomerPanelSelectionType \"<Queue>\" приказује имена редова и за системску адресу \"<Realname> <<Email>>\" приказује име и имејл примаоца."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -20825,14 +20829,14 @@ msgid ""
 "Disable HTTP header \"Content-Security-Policy\" to allow loading of external"
 " script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
-msgstr "Онемогућава HTTP заглавље „Content-Security-Policy” ради учитавања екстерних скриптова. Онемогућавање овог HTTP заглавља сноси сигурносни ризик! Искључите га само ако знате шта радите!"
+msgstr "Онемогућава HTTP заглавље \"Content-Security-Policy\" ради учитавања екстерних скриптова. Онемогућавање овог HTTP заглавља сноси сигурносни ризик! Искључите га само ако знате шта радите!"
 
 #. SysConfig
 msgid ""
 "Disable HTTP header \"X-Frame-Options: SAMEORIGIN\" to allow OTRS to be "
 "included as an IFrame in other websites. Disabling this HTTP header can be a"
 " security issue! Only disable it, if you know what you are doing!"
-msgstr "Онемогућава HTTP заглавље „X-Frame-Options: SAMEORIGIN” ради учитавања OTRS у оквиру IFRAME на другим странама. Онемогућавање овог HTTP заглавља сноси сигурносни ризик! Искључите га само ако знате шта радите!"
+msgstr "Онемогућава HTTP заглавље \"X-Frame-Options: SAMEORIGIN\" ради учитавања OTRS у оквиру IFRAME на другим странама. Онемогућавање овог HTTP заглавља сноси сигурносни ризик! Искључите га само ако знате шта радите!"
 
 #. SysConfig
 msgid ""
@@ -20862,7 +20866,7 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
-msgstr "Онемогућује веб инсталационом програму (http://yourhost.example.com/otrs/installer.pl) да заштити систем од недозвољеног преузимања. Ако подесите на „Не”, систем може бити поново инсталиран и тренутна основна конфигурација ће бити коришћена да унапред попуни питања унутар инсталационе скрипте. Уколико није активно, такође се онемогућују GenericAgent, PackageManager и SQL Box."
+msgstr "Онемогућује веб инсталациони програм (http://yourhost.example.com/otrs/installer.pl), штити систем од недозвољеног преузимања. Ако подесите на \"Не\", систем може бити поново инсталиран и тренутна основна конфигурација ће бити коришћена да унапред попуни питања унутар инсталационе скрипте. Уколико није активно, такође се онемогућују GenericAgent, PackageManager и SQL Box."
 
 #. SysConfig
 msgid ""
@@ -21160,7 +21164,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
-msgstr "Омогући заглавље за одржање активне конекције за „SOAP” одговоре."
+msgstr "Омогући заглавље за одржање активне конекције за SOAP одговоре."
 
 #. SysConfig
 msgid "Enabled filters."
@@ -21172,7 +21176,7 @@ msgid ""
 "mail, it is HIGHLY recommended that the web server runs as the OTRS user. "
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
-msgstr "Обезбеђује „PGP” подршку. Када је „PGP” подршка омогућена за потписивање и енкрипровање мејла, строго се препоручује да веб сервер ради као „OTRS” корисник. У супротном, биће проблема са привилегијама приликом приступа .gnupg фолдеру."
+msgstr "Омогућује PGP подршку. Када је PGP подршка омогућена за потписивање и шифровање имејлова, строго се препоручује да веб сервер ради под OTRS корисником. У супротном, биће проблема са привилегијама приликом приступа .gnupg фолдеру."
 
 #. SysConfig
 msgid "Enables S/MIME support."
@@ -21218,7 +21222,7 @@ msgstr "Омогућује логовање перформанси (време �
 msgid ""
 "Enables the minimal ticket counter size (if \"Date\" was selected as "
 "TicketNumberGenerator)."
-msgstr "Активира минималну величину бројача тикета (ако је изабран „датум” као генератор броја тикета)."
+msgstr "Активира минималну величину бројача тикета (ако је изабран \"Датум\" као генератор броја тикета)."
 
 #. SysConfig
 msgid ""
@@ -21412,7 +21416,7 @@ msgstr "Преузимање "
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
-msgstr "Преузима пакете преко proxy сервера. Преиначује опцију „WebUserAgent::Proxy”."
+msgstr "Преузима пакете преко proxy сервера. Преиначује опцију \"WebUserAgent::Proxy\"."
 
 #. SysConfig
 msgid ""
@@ -21424,7 +21428,7 @@ msgstr "Датотека за приказ у модулу Kernel::Modules::Agen
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>."
-msgstr "Филтер за отклањање грешака у „ACL” листама. Напомена: атрибути тикета могу бити додати у формату <OTRS_TICKET_Attribute> нпр. <OTRS_TICKET_Priority>."
+msgstr "Филтер за отклањање грешака у ACL листама. Напомена: атрибути тикета могу бити додати у формату <OTRS_TICKET_Attribute> нпр. <OTRS_TICKET_Priority>."
 
 #. SysConfig
 msgid ""
@@ -21506,7 +21510,7 @@ msgstr "Принудно откључава тикете после премеш
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr "Прослеђено „%s”."
+msgstr "Прослеђено \"%s\"."
 
 #. SysConfig
 msgid "Free Fields"
@@ -21534,13 +21538,13 @@ msgstr "Интерфејс"
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Service feature is not used)."
-msgstr "Регистрација модула приступа (онемогућите везу „AgentTicketService” ако се не користи Тикет сервис)."
+msgstr "Регистрација модула приступа (онемогућује везу AgentTicketService ако се не користи тикет сервис)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable company link if no company feature is "
 "used)."
-msgstr "Регистрација модула приступа (онемогућите везу „предузеће” ако се не користи својство предузеће)."
+msgstr "Регистрација модула приступа (онемогућује везу клијент ако се не користи својство клијената)."
 
 #. SysConfig
 msgid ""
@@ -21718,11 +21722,11 @@ msgstr "Грчки"
 
 #. SysConfig
 msgid "HTML Reference"
-msgstr "„HTML” Референца"
+msgstr "HTML референца"
 
 #. SysConfig
 msgid "HTML Reference."
-msgstr "„HTML” Референца."
+msgstr "HTML референца."
 
 #. SysConfig
 msgid "Hebrew"
@@ -21736,7 +21740,7 @@ msgid ""
 "an index after article creation, increasing fulltext searches about 50%. To "
 "create an initial index use \"bin/otrs.Console.pl "
 "Maint::Ticket::FulltextIndexRebuild\"."
-msgstr "Омогућује проширену текстуалну претрагу ваших чланака (претрага по пољима Од, За, Cc, Предмет и Садржај). RuntimeDB ће вршити претрагу постојећих података (даје добре перформансе за до 50.000 тикета). StaticDB ће игнорисати све чланке и направиће индекс претраге по креирању чланка, убрзавајући текстуалну претрагу за око 50%. За креирање почетног индекса користите „bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild”."
+msgstr "Омогућује проширену текстуалну претрагу ваших чланака (претрага по пољима From, To, Cc, Subject и Body). Runtime ће вршити претрагу постојећих података (даје добре перформансе за до 50.000 тикета). StaticDB ће игнорисати све чланке и направиће индекс претраге по креирању чланка, убрзавајући текстуалну претрагу за око 50%. За креирање почетног индекса користите \"bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild\"."
 
 #. SysConfig
 msgid "High Contrast"
@@ -21758,31 +21762,31 @@ msgstr "Мађарски"
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a database driver (normally"
 " autodetection is used) can be specified."
-msgstr "Уколико је изабрано „DB” за Customer::AuthModule, могуће је подесити драјвер базе података (обично се користи аутоматско препознавање)."
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, могуће је подесити драјвер базе података (обично се користи аутоматско препознавање)."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a password to connect to "
 "the customer table can be specified."
-msgstr "Уколико је изабрано „DB” за Customer::AuthModule, могуће је подесити лозинку за табелу корисника."
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, могуће је подесити лозинку за табелу корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, a username to connect to "
 "the customer table can be specified."
-msgstr "Уколико је изабрано „DB” за Customer::AuthModule, могуће је подесити корисничко име за табелу корисника."
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, могуће је подесити корисничко име за табелу корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the DSN for the connection "
 "to the customer table must be specified."
-msgstr "Уколико је изабрано „DB” за Customer::AuthModule, неопходно је подесити DSN за конекцију ка табели корисника."
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити DSN за конекцију ка табели корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the column name for the "
 "CustomerPassword in the customer table must be specified."
-msgstr "Уколико је изабрано „DB” за Customer::AuthModule, неопходно је подесити назив колоне за CustomerPassword у табели корисника."
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити назив колоне за CustomerPassword у табели корисника."
 
 #. SysConfig
 msgid ""
@@ -21794,25 +21798,25 @@ msgstr ""
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the column for "
 "the CustomerKey in the customer table must be specified."
-msgstr "Уколико је изабрано „DB” за Customer::AuthModule, неопходно је подесити назив колоне за CustomerKey у табели корисника."
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити назив колоне за CustomerKey у табели корисника."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the name of the table where"
 " your customer data should be stored must be specified."
-msgstr "Уколико је изабрано „DB” за Customer::AuthModule, неопходно је подесити назив табеле где се чувају кориснички подаци."
+msgstr "Уколико је изабрано \"DB\" за Customer::AuthModule, неопходно је подесити назив табеле где се чувају кориснички подаци."
 
 #. SysConfig
 msgid ""
 "If \"DB\" was selected for SessionModule, a table in database where session "
 "data will be stored must be specified."
-msgstr "Уколико је изабрано „DB” за SessionModule, неопходно је подесити назив табеле где ће се чувати подаци сесија."
+msgstr "Уколико је изабрано \"DB\" за SessionModule, неопходно је подесити назив табеле где ће се чувати подаци сесија."
 
 #. SysConfig
 msgid ""
 "If \"FS\" was selected for SessionModule, a directory where the session data"
 " will be stored must be specified."
-msgstr "Уколико је изабрано „FS” за SessionModule, неопходно је подесити назив директоријума где ће се чувати подаци сесија."
+msgstr "Уколико је изабрано \"FS\" за SessionModule, неопходно је подесити назив директоријума где ће се чувати подаци сесија."
 
 #. SysConfig
 msgid ""
@@ -21826,7 +21830,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr "Уколико је „HTTPBasicAuth„ изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као example_domain\\\\user у user)."
+msgstr "Уколико је \"HTTPBasicAuth\" изабран за Customer::AuthModule, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као example_domain\\\\user у user)."
 
 #. SysConfig
 msgid ""
@@ -21840,7 +21844,7 @@ msgid ""
 "If \"LDAP\" was selected for Customer::AuthModule and special paramaters are"
 " needed for the Net::LDAP perl module, you can specify them here. See "
 "\"perldoc Net::LDAP\" for more information about the parameters."
-msgstr "Уколико је подешен LDAP за Customer::AuthModule и неопходни су специјални параметри за Net::LDAP perl модул, можете их подесити овде. Погледајте „perldoc Net::LDAP” за више информација о параметрима."
+msgstr "Уколико је подешен \"LDAP\" за Customer::AuthModule и неопходни су специјални параметри за Net::LDAP perl модул, можете их подесити овде. Погледајте \"perldoc Net::LDAP\" за више информација о параметрима."
 
 #. SysConfig
 msgid ""
@@ -21975,26 +21979,26 @@ msgstr "Ако је активно, један регуларни израз se 
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, a password must be specified."
-msgstr "Ако је као модул за слање имејла изабран било који од „SMTP” механизама, а неопходна је аутентификација на имејл сервер, лозинка мора да буде наведена."
+msgstr "Ако је као модул за слање имејла изабран било који од \"SMTP\" механизама, а неопходна је аутентификација на имејл сервер, лозинка мора да буде наведена."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, and "
 "authentication to the mail server is needed, an username must be specified."
-msgstr "Ако је као модул за слање имејла изабран било који од „SMTP” механизама, а неопходна је аутентификација на имејл сервер, корисничко име мора да буде наведено."
+msgstr "Ако је као модул за слање имејла изабран било који од \"SMTP\" механизама, а неопходна је аутентификација на имејл сервер, корисничко име мора да буде наведено."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the "
 "mailhost that sends out the mails must be specified."
-msgstr "Ако је као модул за слање имејла изабран било који од „SMTP” механизама, уређај који  шаље имејлове мора да буде наведен."
+msgstr "Ако је као модул за слање имејла изабран било који од \"SMTP\" механизама, уређај који  шаље имејлове мора да буде наведен."
 
 #. SysConfig
 msgid ""
 "If any of the \"SMTP\" mechanisms was selected as SendmailModule, the port "
 "where your mailserver is listening for incoming connections must be "
 "specified."
-msgstr "Ако је као „SendmailModule” модул изабран било који од „SMTP” механизама, порт на ком ваш имеј сервер слуша мора да буде наведен."
+msgstr "Ако је као модул за слање имејла изабран било који од \"SMTP\" механизама, порт на ком ваш имеј сервер слуша мора да буде наведен."
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
@@ -22028,7 +22032,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, OTRS will deliver all JavaScript files in minified form."
-msgstr "Ако је активирано, „OTRS” ће испоручити све јаваскрипт датотеке у смањеној форми."
+msgstr "Ако је активирано, OTRS ће испоручити све JavaScript датотеке у смањеној форми."
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
@@ -22039,7 +22043,7 @@ msgid ""
 "If enabled, the OTRS version tag will be removed from the Webinterface, the "
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
-msgstr "Ако је активирано, ознака „OTRS” верзије ће бити уклоњена из веб интерфејса, HTTP заглавља и „X-Headers” у одлазним имејл порукама. НАПОМЕНА: ако мењате ову опцију, молимо да осигурате брисање кеша."
+msgstr "Ако је активирано, ознака OTRS верзије ће бити уклоњена из веб интерфејса, HTTP заглавља и X-Headers у одлазним имејл порукама. НАПОМЕНА: ако мењате ову опцију, молимо да осигурате брисање кеша."
 
 #. SysConfig
 msgid ""
@@ -22072,14 +22076,14 @@ msgid ""
 "If no SendmailNotificationEnvelopeFrom is specified, this setting makes it "
 "possible to use the email's from address instead of an empty envelope sender"
 " (required in certain mail server configurations)."
-msgstr "Ако „SendmailNotificationEnvelopeFrom” није наведен, ова поставка омогућава коришћење адересе пошињаоца имејлова  уместо празног оквира заглавља (обавезно у поставкама неких имејл сервера)."
+msgstr "Ако SendmailNotificationEnvelopeFrom није наведен, ова поставка омогућава коришћење адересе пошињаоца имејлова  уместо празног оквира заглавља (обавезно у поставкама неких имејл сервера)."
 
 #. SysConfig
 msgid ""
 "If set, this address is used as envelope sender header in outgoing "
 "notifications. If no address is specified, the envelope sender header is "
 "empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
-msgstr "Ако је подешено ова адреса се користи као оквир заглавља пошиљаоца у одлазним обавештењима. Ако адреса није унета, оквир заглавља пошиљаоца је празан (осим ако је „SendmailNotificationEnvelopeFrom::FallbackToEmailFrom” подешен)."
+msgstr "Ако је подешено ова адреса се користи као оквир заглавља пошиљаоца у одлазним обавештењима. Ако адреса није унета, оквир заглавља пошиљаоца је празан (осим ако је SendmailNotificationEnvelopeFrom::FallbackToEmailFrom подешен)."
 
 #. SysConfig
 msgid ""
@@ -22093,7 +22097,7 @@ msgid ""
 "If this option is set to 'Yes', tickets created via the web interface, via "
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is set to 'No', no autoresponses will be sent."
-msgstr "Ако је ова опција подешена као „Да”, тикети креирани преко веб интерфејса од стране клијената или оператера, ће ако је подешен добити аутоматски одговор. Ако је ова опција подешена као „Не”, аутоматски одговори неће бити слани."
+msgstr "Ако је ова опција подешена као 'Да', тикети креирани преко веб интерфејса од стране клијената или оператера, ће ако је подешен добити аутоматски одговор. Ако је ова опција подешена као 'Не', аутоматски одговори неће бити слати."
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -22149,7 +22153,7 @@ msgid ""
 "80.000 and 6.000 open tickets are stored in the system). Use the command "
 "\"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
-msgstr "Убрзивач индексирања: за одабир TicketViewAccelerator позадинског модула. RuntimeDB генерише сваки преглед реда у ходу из табеле тикета (нема утицаја на перформансе до око 60.000 тикета укупно и 6.000 отворених тикета у систему). StaticDB је најмоћнији модул, користи додатну тикет индекс табелу која ради као преглед (препоручује се за више од 80.000 и 6.000 отворених тикета у систему). Коришћењем команде „bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild” можете креирати почетни индекс."
+msgstr "Убрзивач индексирања: за одабир TicketViewAccelerator позадинског модула. \"RuntimeDB\" генерише сваки преглед реда у ходу из табеле тикета (нема утицаја на перформансе до око 60.000 тикета укупно и 6.000 отворених тикета у систему). \"StaticDB\" је најмоћнији модул, користи додатну тикет индекс табелу која ради као преглед (препоручује се за више од 80.000 и 6.000 отворених тикета у систему). Коришћењем команде \"bin/otrs.Console.pl Maint::Ticket::QueueIndexRebuild\" можете креирати почетни индекс."
 
 #. SysConfig
 msgid ""
@@ -22330,11 +22334,11 @@ msgstr "Увежи овај тикет са другим објектом"
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
-msgstr "Повежи 2 тикета типом везе „Normal”."
+msgstr "Повезује 2 тикета типом везе \"Normal\"."
 
 #. SysConfig
 msgid "Links 2 tickets with a \"ParentChild\" type link."
-msgstr "Повежи 2 тикета типом везе „ParentChild”."
+msgstr "Повезује 2 тикета типом везе \"ParentChild\"."
 
 #. SysConfig
 msgid "Links appointments and tickets with a \"Normal\" type link."
@@ -22502,11 +22506,11 @@ msgstr "Малајски"
 
 #. SysConfig
 msgid "Manage OTRS Group cloud services."
-msgstr "Управљај услугама у облаку „OTRS” Групе."
+msgstr "Управља услугама у облаку OTRS групе."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
-msgstr "Управљај „PGP” кључевима за имејл енкрипцију."
+msgstr "Управља PGP кључевима за имејл шифровање."
 
 #. SysConfig
 msgid "Manage POP3 or IMAP accounts to fetch email from."
@@ -22546,7 +22550,7 @@ msgstr "Означи као Спам!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
-msgstr "Означи овај тикет као бесмислен „junk”!"
+msgstr "Означи овај тикет као бесмислен junk!"
 
 #. SysConfig
 msgid "Marks articles for index rebuild right after the article's update."
@@ -22586,7 +22590,7 @@ msgstr ""
 msgid ""
 "Maximal size in KBytes for mails that can be fetched via "
 "POP3/POP3S/IMAP/IMAPS (KBytes)."
-msgstr "Максимална величина у килобајтима за имејлове који могу бити преузети преко „POP3/POP3S/IMAP/IMAPS (KBytes)”."
+msgstr "Максимална величина у килобајтима за имејлове који могу бити преузети преко POP3/POP3S/IMAP/IMAPS (KBytes)."
 
 #. SysConfig
 msgid "Maximum Number of a calendar shown in a dropdown."
@@ -22684,7 +22688,7 @@ msgstr "Модул за проверу групних дозвола за при
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
-msgstr "Модул за израду потписане поруке („PGP” или „S/MIME”)."
+msgstr "Модул за израду потписане поруке (PGP или S/MIME)."
 
 #. SysConfig
 msgid "Module to define the email security options to use (PGP or S/MIME)."
@@ -22703,7 +22707,7 @@ msgstr "Модул за извлачење корисничких SMIME серт
 msgid ""
 "Module to filter and manipulate incoming messages. Block/ignore all spam "
 "email with From: noreply@ address."
-msgstr "Модул за филтрирање и руковање долазним порукама. Блокирање/игнорисање свих непожељних имејлова Од: „noreply@” адресе"
+msgstr "Модул за филтрирање и руковање долазним порукама. Блокирање/игнорисање свих непожељних имејлова са From: noreply@ адресе."
 
 #. SysConfig
 msgid ""
@@ -22724,13 +22728,13 @@ msgstr "Модул за генерисање статистике обрачун
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "agent interface."
-msgstr "Модул за генерисање „HTML OpenSearch” профила за кратку претрагу тикета у профилу оператера."
+msgstr "Модул за генерисање HTML OpenSearch профила за кратку претрагу тикета у профилу оператера."
 
 #. SysConfig
 msgid ""
 "Module to generate html OpenSearch profile for short ticket search in the "
 "customer interface."
-msgstr "Модул за генерисање „HTML OpenSearch” профила за кратку претрагу тикета у профилу клијента."
+msgstr "Модул за генерисање HTML OpenSearch профила за кратку претрагу тикета у профилу клијента."
 
 #. SysConfig
 msgid "Module to generate ticket solution and response time statistics."
@@ -22857,7 +22861,7 @@ msgstr "Нови тикет процеса"
 
 #. SysConfig
 msgid "News about OTRS releases!"
-msgstr "Вести о „OTRS” издањима!"
+msgstr "Вести о OTRS издањима!"
 
 #. SysConfig
 msgid ""
@@ -22923,7 +22927,7 @@ msgstr ""
 
 #. SysConfig
 msgid "OTRS News"
-msgstr "„OTRS” новости"
+msgstr "OTRS новости"
 
 #. SysConfig
 msgid ""
@@ -23032,15 +23036,15 @@ msgstr "Преглед клијентских тикета."
 
 #. SysConfig
 msgid "PGP Key"
-msgstr "„PGP” кључ"
+msgstr "PGP кључ"
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr "Управљање „PGP” кључем"
+msgstr "Управљање PGP кључем"
 
 #. SysConfig
 msgid "PGP Keys"
-msgstr "„PGP” кључеви"
+msgstr "PGP кључеви"
 
 #. SysConfig
 msgid "Package event module file a scheduler task for update registration."
@@ -23072,7 +23076,7 @@ msgstr "Параметри за RefreshTime објекат у приказу п�
 
 #. SysConfig
 msgid "Parameters for the column filters of the small ticket overview."
-msgstr "Параметри за филтер колона у прегледу тикета „мало”."
+msgstr "Параметри за филтер колона у прегледу тикета \"мало\"."
 
 #. SysConfig
 msgid ""
@@ -23081,7 +23085,7 @@ msgid ""
 "(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
 " enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "Параметри за позадински приказ контролне табле фирме клијента у интефејсу оператера. „Group” се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). „Default” одређује да ли је подразумевано активиран или да је потребно да га корисник мануелно активира. „CacheTTLLocal” је време у минутима за кеш додатка. "
+msgstr "Параметри за позадински приказ контролне табле фирме клијента у интефејсу оператера. \"Group\" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). \"Default\" одређује да ли је подразумевано активиран или да је потребно да га корисник мануелно активира. \"CacheTTLLocal\" је време у минутима за кеш додатка. "
 
 #. SysConfig
 msgid ""
@@ -23100,7 +23104,7 @@ msgid ""
 "(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
 " enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr "Параметри за позадински приказ контролне табле ИД клијента у интерфејсу оператера. „Group” се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). „Default” одређује да ли је подразумевано активиран или да је потребно да га корисник мануелно активира. „CacheTTLLocal” је време у минутима за кеш додатка."
+msgstr "Параметри за позадински приказ контролне табле ИД клијента у интерфејсу оператера. \"Group\" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). \"Default\" одређује да ли је подразумевано активиран или да је потребно да га корисник мануелно активира. \"CacheTTLLocal\" је време у минутима за кеш додатка."
 
 #. SysConfig
 msgid ""
@@ -23119,7 +23123,7 @@ msgid ""
 "admin;group1;group2;). \"Default\" determines if the plugin is enabled by "
 "default or if the user needs to enable it manually. \"CacheTTLLocal\" is the"
 " cache time in minutes for the plugin."
-msgstr "Параметри за позадински приказ контролне табле листе корисника у интерфејсу оператера. „Group” се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). „Default” одређује да ли је подразумевано активиран или да је потребно да га корисник мануелно активира. „CacheTTLLocal” је време у минутима за кеш додатка."
+msgstr "Параметри за позадински приказ контролне табле листе корисника у интерфејсу оператера. \"Group\" се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). \"Default\" одређује да ли је подразумевано активиран или да је потребно да га корисник мануелно активира. \"CacheTTLLocal\" је време у минутима за кеш додатка."
 
 #. SysConfig
 msgid ""
@@ -23367,7 +23371,7 @@ msgstr "Параметри страница (на којима су тикети
 
 #. SysConfig
 msgid "Parameters of the example SLA attribute Comment2."
-msgstr "Параметри за пример атрибута „SLA” коментара 2."
+msgstr "Параметри за пример атрибута SLA коментара 2."
 
 #. SysConfig
 msgid "Parameters of the example queue attribute Comment2."
@@ -23389,7 +23393,7 @@ msgstr "ParentChild"
 msgid ""
 "Path for the log file (it only applies if \"FS\" was selected for "
 "LoopProtectionModule and it is mandatory)."
-msgstr "Путања до датотеке дневника (важи једино ако је за „LoopProtectionModule” изабрано „FS” и постављено као обавезно)."
+msgstr "Путања до датотеке дневника (важи једино ако је за LoopProtectionModule изабрано \"FS\" и постављено као обавезно)."
 
 #. SysConfig
 msgid "Pending time"
@@ -23584,7 +23588,7 @@ msgstr "Тикети подсетника"
 
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
-msgstr "Претплата за корисника „%s” искључена."
+msgstr "Претплата за корисника \"%s\" je искључена."
 
 #. SysConfig
 msgid "Removes old system configuration deployments (Sunday mornings)."
@@ -23766,7 +23770,7 @@ msgstr ""
 msgid ""
 "Run file based generic agent jobs (Note: module name needs to be specified "
 "in -configuration-module param e.g. \"Kernel::System::GenericAgent\")."
-msgstr "Покреће послове генеричког оператера базиране на датотекама (Напомена: назив модула мора бити дефинисан у конфигурацији параметара модула, нпр. „Kernel::System::GenericAgent”)."
+msgstr "Покреће послове генеричког оператера базиране на датотекама (Напомена: назив модула мора бити дефинисан у конфигурацији параметара модула, нпр. \"Kernel::System::GenericAgent\")."
 
 #. SysConfig
 msgid "Running Process Tickets"
@@ -23790,7 +23794,7 @@ msgid ""
 "preferences, such as selection of language and theme via the agent web "
 "interface. These changes are only valid for the current session. It will not"
 " be possible for agents to change their passwords."
-msgstr "Покреће систем у „Demo” моду. Уколико је подешено на „Да”, оператери могу променити своја подешавања као што су избор језика и теме у интерфејсу оператера. Ове промене ће важити само за тренутну сесију. Оператерима неће бити омогућено да промене своје лозинке."
+msgstr "Покреће систем у демо моду. Уколико је подешено на \"Да\", оператери могу променити своја подешавања као што су избор језика и теме у интерфејсу оператера. Ове промене ће важити само за тренутну сесију. Оператерима неће бити омогућено да промене своје лозинке."
 
 #. SysConfig
 msgid "Russian"
@@ -23806,7 +23810,7 @@ msgstr "СМС"
 
 #. SysConfig
 msgid "SMS (Short Message Service)"
-msgstr "„SMS” (Сервис кратких порука)"
+msgstr "SMS (сервис кратких порука)"
 
 #. SysConfig
 msgid "Salutations"
@@ -23824,7 +23828,7 @@ msgid ""
 "user. You can switch between the modules even on a system that is already in"
 " production without any loss of data. Note: Searching for attachment names "
 "is not supported when \"FS\" is used."
-msgstr "Чува прилоге у чланцима. „DB” снима све прилоге у бази података (непрепоручљиво за чување великих прилога). „FS” снима прилоге у систему датотека; ово је бржа опција, али веб сервер мора бити покренут под OTRS системским корисником. Дозвољена је промена модуле чак и на продукцијским системима без било каквог губитка података. Напомена: претрага прилога по називу није могућа када је „FS” у функцији."
+msgstr "Чува прилоге у чланцима. \"DB\" снима све прилоге у бази података (непрепоручљиво за чување великих прилога). \"FS\" снима прилоге у систему датотека; ово је бржа опција, али веб сервер мора бити покренут под OTRS системским корисником. Дозвољена је промена модуле чак и на продукцијским системима без било каквог губитка података. Напомена: претрага прилога по називу није могућа када је \"FS\" у функцији."
 
 #. SysConfig
 msgid "Schedule a maintenance period."
@@ -23916,7 +23920,7 @@ msgstr "Избор кеша који ће користити систем у п�
 msgid ""
 "Selects the module to handle uploads via the web interface. \"DB\" stores "
 "all uploads in the database, \"FS\" uses the file system."
-msgstr "Бира модул за руковање пренешеним датотекама преко веб интерфејса. „DB” складишти све пренешене датотеке у базу података, „FS” користи систем датотека."
+msgstr "Бира модул за руковање пренешеним датотекама преко веб интерфејса. \"DB\" складишти све пренешене датотеке у базу података, \"FS\" користи систем датотека."
 
 #. SysConfig
 msgid ""
@@ -23954,7 +23958,7 @@ msgstr "Шаље обавештење о наставку само операт�
 msgid ""
 "Sends all outgoing email via bcc to the specified address. Please use this "
 "only for backup reasons."
-msgstr "Шаље све одлазне имејлове као невидљиве копије („bcc”) на одређену адресу. Молимо да ово користите само за резервне копије."
+msgstr "Шаље све одлазне имејлове као невидљиве копије (bcc) на одређену адресу. Молимо да ово користите само за резервне копије."
 
 #. SysConfig
 msgid "Sends customer notifications just to the mapped customer."
@@ -23962,7 +23966,7 @@ msgstr "Шаље клијентска обавештења само мапира
 
 #. SysConfig
 msgid "Sends registration information to OTRS group."
-msgstr "Шаље регистрационе информације „OTRS” Групацији."
+msgstr "Шаље регистрационе информације OTRS групи."
 
 #. SysConfig
 msgid ""
@@ -23974,7 +23978,7 @@ msgstr "Шаље обавештење за потсећање о откључа�
 msgid ""
 "Sends the notifications which are configured in the admin interface under "
 "\"Notfication (Event)\"."
-msgstr "Шаље обавештења која су у административном интерфејсу конфигурисана под „Обавештење (догађај)”."
+msgstr "Шаље обавештења која су у административном интерфејсу конфигурисана под \"Обавештења о тикетима\"."
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
@@ -24073,7 +24077,7 @@ msgstr "Подешава ако SLA мора бити изабран од стр
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the customer."
-msgstr "Подешава ако „SLA” мора бити изабран од стране клијента."
+msgstr "Подешава ако SLA мора бити изабран од стране клијента."
 
 #. SysConfig
 msgid ""
@@ -24232,7 +24236,7 @@ msgstr "Одређује подразумевани следећи статус 
 msgid ""
 "Sets the default note text for new telephone tickets. E.g 'New ticket via "
 "call' in the agent interface."
-msgstr "Поставља подразумевани текст напомене за нове телефонске тикете. Нпр „Нови тикет из позива” у интерфејсу оператера."
+msgstr "Поставља подразумевани текст напомене за нове телефонске тикете. Нпр. 'Нови тикет путем позива' у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
@@ -24258,13 +24262,13 @@ msgstr "Поставља подразумевани тип пошиљаоца з
 msgid ""
 "Sets the default subject for new email tickets (e.g. 'email Outbound') in "
 "the agent interface."
-msgstr "Одређује подразумевани предмет за нове имејл тикете (нпр „одлазни имејл”) у интерфејсу оператера."
+msgstr "Одређује подразумевани предмет за нове имејл тикете (нпр. 'одлазни имејл') у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for new phone tickets (e.g. 'Phone call') in the "
 "agent interface."
-msgstr "Одређује подразумевани предмет за нове телефонске тикете (нпр „телефонски позив”) у интерфејсу оператера."
+msgstr "Одређује подразумевани предмет за нове телефонске тикете (нпр. 'телефонски позив') у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
@@ -24323,31 +24327,31 @@ msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionMaxIdleTime before a prior warning will be visible for the logged in "
 "agents."
-msgstr "Поставља максимални број активних оператера у временском распону дефинисаном у „SessionMaxIdleTime” пре него што обавештење буде видљиво за пријављене оператере."
+msgstr "Поставља максимални број активних оператера у временском распону дефинисаном у SessionMaxIdleTime пре него што обавештење буде видљиво за пријављене оператере."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active agents within the timespan defined in "
 "SessionMaxIdleTime."
-msgstr "Поставља максимални број активних оператера у временском распону дефинисаном у „SessionMaxIdleTime”."
+msgstr "Поставља максимални број активних оператера у временском распону дефинисаном у SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active customers within the timespan defined in "
 "SessionMaxIdleTime."
-msgstr "Поставља максимални број активних клијента у временском распону дефинисаном у „SessionMaxIdleTime”."
+msgstr "Поставља максимални број активних клијента у временском распону дефинисаном у SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per agent within the timespan "
 "defined in SessionMaxIdleTime."
-msgstr "Поставља максимални број активних сесија по оператеру у временском распону дефинисаном у „SessionMaxIdleTime”."
+msgstr "Поставља максимални број активних сесија по оператеру у временском распону дефинисаном у SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
 "Sets the maximum number of active sessions per customers within the timespan"
 " defined in SessionMaxIdleTime."
-msgstr "Поставља максимални број активних сесија по кориснику у временском распону дефинисаном у „SessionMaxIdleTime”."
+msgstr "Поставља максимални број активних сесија по кориснику у временском распону дефинисаном у SessionMaxIdleTime."
 
 #. SysConfig
 msgid ""
@@ -24360,7 +24364,7 @@ msgid ""
 "Sets the minimal ticket counter size if \"AutoIncrement\" was selected as "
 "TicketNumberGenerator. Default is 5, this means the counter starts from "
 "10000."
-msgstr "Дефинише минималну величину бројача тикета уколико је изабран „AutoIncrement” као TicketNumberGenerator. Подразумевано је 5, што значи да бројач почиње од 10000."
+msgstr "Дефинише минималну величину бројача тикета уколико је изабран \"AutoIncrement\" као TicketNumberGenerator. Подразумевано је 5, што значи да бројач почиње од 10000."
 
 #. SysConfig
 msgid ""
@@ -24376,11 +24380,11 @@ msgstr "Подешава број линија приказаних у текс�
 
 #. SysConfig
 msgid "Sets the options for PGP binary."
-msgstr "Одређује опције за „PGP binary”."
+msgstr "Одређује опције за PGP апликацију."
 
 #. SysConfig
 msgid "Sets the password for private PGP key."
-msgstr "Подеси лозинку за приватни „PGP” кључ."
+msgstr "Подеси лозинку за приватни PGP кључ."
 
 #. SysConfig
 msgid "Sets the prefered time units (e.g. work units, hours, minutes)."
@@ -24687,13 +24691,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the timeout (in seconds) for http/ftp downloads."
-msgstr "Поставља временско одлагање (у секундама) за „http/ftp” преузимања."
+msgstr "Поставља временско одлагање (у секундама) за http/ftp преузимања."
 
 #. SysConfig
 msgid ""
 "Sets the timeout (in seconds) for package downloads. Overwrites "
 "\"WebUserAgent::Timeout\"."
-msgstr "Дефинише истицање (у секундама) за функцију преузимања пакета. Преиначује опцију „WebUserAgent::Timeout”."
+msgstr "Дефинише истицање (у секундама) за функцију преузимања пакета. Преиначује опцију \"WebUserAgent::Timeout\"."
 
 #. SysConfig
 msgid "Shared Secret"
@@ -24762,7 +24766,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за пријаву / одјаву на тикет у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за пријаву / одјаву на тикет у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24773,7 +24777,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију која омогућава повезивање тикета са другим објектом у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију која омогућава повезивање тикета са другим објектом у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24784,7 +24788,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију која омогућава спајање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију која омогућава спајање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24795,7 +24799,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за приступ историјату тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за приступ историјату тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24806,7 +24810,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за додавање поља слободног текста у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за додавање поља слободног текста у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24816,7 +24820,7 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "Приказује везу у менију за додавање напомене у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за додавање напомене у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24839,7 +24843,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за затварање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за затварање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24847,7 +24851,7 @@ msgid ""
 "agent interface. Additional access control to show or not show this link can"
 " be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "Приказује везу у менију за брисање тикета у свим прегледима у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”."
+msgstr "Приказује везу у менију за брисање тикета у свим прегледима у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -24858,7 +24862,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за брисање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за брисање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24874,7 +24878,7 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "Приказује везу у менију за повратак у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за повратак у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24891,7 +24895,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за закључавање/откључавање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за закључавање/откључавање тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24908,7 +24912,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за штампу тикета или чланка у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за штампу тикета или чланка у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24919,7 +24923,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за контролу корисника на кога се води тикет у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за контролу корисника на кога се води тикет у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24936,7 +24940,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за контролу власника тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за контролу власника тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24947,7 +24951,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за контролу приоритета тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за контролу приоритета тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24958,7 +24962,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за контролу одговорног тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за контролу одговорног тикета у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24969,7 +24973,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за слање одлазне имејл поруке у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за слање одлазне имејл поруке у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -24977,7 +24981,7 @@ msgid ""
 " the agent interface. Additional access control to show or not show this "
 "link can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "Приказује везу у менију за означавање тикета као бесмисленог брисање „junk” у свим прегледима у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”."
+msgstr "Приказује везу у менију за означавање тикета као бесмисленог junk у свим прегледима у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -24988,7 +24992,7 @@ msgid ""
 "\"ClusterName\" and for the Content any name you want to see in the UI. Use "
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
-msgstr "Приказује везу у менију за постављање тикета у чекање у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за постављање тикета у чекање у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -25006,7 +25010,7 @@ msgstr "У менију приказује везу за детаљни прик
 msgid ""
 "Shows a link to access article attachments via a html online viewer in the "
 "zoom view of the article in the agent interface."
-msgstr "У менију приказује везу за приступ прилозима чланка преко „html” прегледа у детаљном прегледу чланка у интерфејсу оператера."
+msgstr "У менију приказује везу за приступ прилозима чланка преко html прегледа у детаљном прегледу чланка у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
@@ -25026,7 +25030,7 @@ msgid ""
 " To cluster menu items use for Key \"ClusterName\" and for the Content any "
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
-msgstr "Приказује везу у менију за означавање тикета као бесмисленог „junk” у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”. За здруживање веза у менију подесите кључ „ClusterName” са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ „ClusterPriority” за измену редоследа група у менију."
+msgstr "Приказује везу у менију за означавање тикета као бесмисленог „junk” у детаљном прегледу у интерфејсу оператера. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\". За здруживање веза у менију подесите кључ \"ClusterName\" са садржајем који ће бити назив који желите да видите у интерфејсу. Користите кључ \"ClusterPriority\" за измену редоследа група у менију."
 
 #. SysConfig
 msgid ""
@@ -25141,7 +25145,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows all both ro and rw queues in the queue view."
-msgstr "Приказује све, и „ro” и „rw” редове на прегледу редова."
+msgstr "Приказује све, и ro и rw редове на прегледу редова."
 
 #. SysConfig
 msgid "Shows all both ro and rw tickets in the service view."
@@ -25204,7 +25208,7 @@ msgstr "Приказује постојеће листе редова надре
 
 #. SysConfig
 msgid "Shows information on how to start OTRS Daemon"
-msgstr "Приказује информације како покренути „OTRS” сервис"
+msgstr "Приказује информације како покренути OTRS системски сервис"
 
 #. SysConfig
 msgid ""
@@ -25348,7 +25352,7 @@ msgstr "Приказује насловна поља на приказу екр�
 msgid ""
 "Shows time in long format (days, hours, minutes), if set to \"Yes\"; or in "
 "short format (days, hours), if set to \"No\"."
-msgstr "Приказује време у дужем формату (дани, сати, минути), опција „Да”; или у краћем формату (дани, сати), опција „Не”."
+msgstr "Приказује време у дужем формату (дани, сати, минути), опција \"Да\"; или у краћем формату (дани, сати), опција \"Не\"."
 
 #. SysConfig
 msgid ""
@@ -25422,7 +25426,7 @@ msgstr "Сортирање тикета (узлазно или силазно) �
 
 #. SysConfig
 msgid "Spam"
-msgstr "„Spam”"
+msgstr "Spam"
 
 #. SysConfig
 msgid ""
@@ -25490,7 +25494,7 @@ msgstr "Одреди имејл адресу која ће добијати по
 msgid ""
 "Specifies the group where the user needs rw permissions so that he can "
 "access the \"SwitchToCustomer\" feature."
-msgstr "Одређује групу где су клијентима потребне „rw” дозволе како би могли приступити својству „SwitchToCustomer”."
+msgstr "Одређује групу где су кориснику потребне rw дозволе како би могли приступити својству \"SwitchToCustomer\"."
 
 #. SysConfig
 msgid ""
@@ -25603,7 +25607,7 @@ msgid ""
 " built-in: note, close, pending, customer, freetext, move, compose, "
 "responsible, forward, and bounce. Make sure that \"rw\" is always the last "
 "registered permission."
-msgstr "Стандардне расположиве дозволе за оператере унутар апликације. Уколико је потребно више дозвола они могу унети овде. Дозволе морају бити дефинисане да буду ефективне. Неке друге дозволе су такође обезбеђене уграђивањем у: напомену, затвори, на чекању, клијент, слободан текст, помери, отвори, одговоран, проследи и поврати. Обезбеди да „rw” увек буде последња регистрована дозвола."
+msgstr "Стандардне расположиве дозволе за оператере унутар апликације. Уколико је потребно више дозвола они могу унети овде. Дозволе морају бити дефинисане да буду ефективне. Неке друге дозволе су такође обезбеђене уграђивањем у: напомену, затвори, на чекању, клијент, слободан текст, помери, отвори, одговоран, проследи и поврати. Обезбедите да \"rw\" увек буде последња регистрована дозвола."
 
 #. SysConfig
 msgid ""
@@ -25736,7 +25740,7 @@ msgstr ""
 
 #. SysConfig
 msgid "The divider between TicketHook and ticket number. E.g ': '."
-msgstr "Делилац између прикључка и броја тикета, нпр „: ”."
+msgstr "Делилац између прикључка и броја тикета, нпр. ': '."
 
 #. SysConfig
 msgid ""
@@ -25767,7 +25771,7 @@ msgstr "Идентификатор тикета, нпр Тикет#, Позив#
 msgid ""
 "The logo shown in the header of the agent interface for the skin "
 "\"default\". See \"AgentLogo\" for further description."
-msgstr "Лого приказан у заглављу интерфејса оператера за изглед „подразумевано”. Погледајте „AgentLogo” за детаљнији опис."
+msgstr "Лого приказан у заглављу интерфејса оператера за изглед \"подразумевани\". Погледајте \"AgentLogo\" за детаљнији опис."
 
 #. SysConfig
 msgid ""
@@ -25785,7 +25789,7 @@ msgstr "Лого приказан у заглављу интерфејса оп�
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"slim\". "
 "See \"AgentLogo\" for further description."
-msgstr "Лого приказан у заглављу интерфејса оператера за „упрошћени” изглед. Погледајте „AgentLogo” за детаљнији опис."
+msgstr "Лого приказан у заглављу интерфејса оператера за \"упрошћени\" изглед. Погледајте \"AgentLogo\" за детаљнији опис."
 
 #. SysConfig
 msgid ""
@@ -25833,13 +25837,13 @@ msgstr ""
 msgid ""
 "The text at the beginning of the subject in an email reply, e.g. RE, AW, or "
 "AS."
-msgstr "Текст на почетку предмета у одговору на имејл, нпр „RE”, „AW”, или „ОД”."
+msgstr "Текст на почетку предмета у одговору на имејл, нпр. RE, AW или AS."
 
 #. SysConfig
 msgid ""
 "The text at the beginning of the subject when an email is forwarded, e.g. "
 "FW, Fwd, or WG."
-msgstr "Текст на почетку предмета када се имејл прослеђује, нпр „FW”, „Fwd”, или „Про”."
+msgstr "Текст на почетку предмета када се имејл прослеђује, нпр. FW, Fwd, или WG."
 
 #. SysConfig
 msgid "Theme"
@@ -25876,7 +25880,7 @@ msgstr "Уколико је укључен, овај модул и његова 
 
 #. SysConfig
 msgid "This module is part of the admin area of OTRS."
-msgstr "Овај модул је део „OTRS” административног простора."
+msgstr "Овај модул је део OTRS административног простора."
 
 #. SysConfig
 msgid ""
@@ -25981,15 +25985,15 @@ msgstr "Слање одлазне имејл поруке у тикету."
 
 #. SysConfig
 msgid "Ticket Overview \"Medium\" Limit"
-msgstr "Ограничење прегледа тикета „средње”"
+msgstr "Ограничење прегледа тикета \"средње\""
 
 #. SysConfig
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr "Ограничење прегледа тикета „Приказ”"
+msgstr "Ограничење прегледа тикета \"приказ\""
 
 #. SysConfig
 msgid "Ticket Overview \"Small\" Limit"
-msgstr "Ограничење прегледа тикета „мало”"
+msgstr "Ограничење прегледа тикета \"мало\""
 
 #. SysConfig
 msgid "Ticket Owner."
@@ -26033,15 +26037,15 @@ msgstr "Модул догађаја тикета који окида догађ�
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\""
-msgstr "Ограничење тикета по страни за преглед „средње”"
+msgstr "Ограничење тикета по страни за преглед \"средње\""
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Ограничење тикета по страни за преглед „Приказ”"
+msgstr "Ограничење тикета по страни за преглед \"приказ\""
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\""
-msgstr "Ограничење тикета по страни за преглед „мало”"
+msgstr "Ограничење тикета по страни за преглед \"мало\""
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -26079,7 +26083,7 @@ msgstr "Тикети."
 msgid ""
 "Time in seconds that gets added to the actual time if setting a pending-"
 "state (default: 86400 = 1 day)."
-msgstr "Време у секундама које се додаје на тренутно време ако се поставља статус „на чекању” (подразумевано: 86400 = 1 дан)."
+msgstr "Време у секундама које се додаје на тренутно време ако се поставља статус на чекању (подразумевано: 86400 = 1 дан)."
 
 #. SysConfig
 msgid "To accept login information, such as an EULA or license."
@@ -26102,7 +26106,7 @@ msgid ""
 "Toolbar Item for a shortcut. Additional access control to show or not show "
 "this link can be done by using Key \"Group\" and Content like "
 "\"rw:group1;move_into:group2\"."
-msgstr "Ставка алатне линије за пречицу. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”."
+msgstr "Ставка алатне линије за пречицу. Додатна контрола приказа ове везе може се постићи коришћењем кључа \"Group\" са садржајем \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid "Transport selection for appointment notifications."
@@ -26146,7 +26150,7 @@ msgid ""
 "Turns on the remote ip address check. It should be set to \"No\" if the "
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
-msgstr "Укључивање провере удаљене IP адресе. Треба бити подешено на „Не” ако се апликација користи, на пример преко прокси фарме или телефонске конекције, зато што је удаљена IP адреса углавном другачија за захтеве."
+msgstr "Укључивање провере удаљене IP адресе. Треба бити подешено на \"Не\" ако се апликација користи, на пример преко прокси фарме или телефонске конекције, зато што је удаљена IP адреса углавном другачија за захтеве."
 
 #. SysConfig
 msgid "Tweak the system as you wish."
@@ -26242,7 +26246,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr "Користи „richtext” формат за преглед и уређивање тикетских обавештења."
+msgstr "Користи richtext формат за преглед и уређивање обавештења о тикетима."
 
 #. SysConfig
 msgid ""
@@ -26321,7 +26325,7 @@ msgid ""
 "When tickets are merged, the customer can be informed per email by setting "
 "the check box \"Inform Sender\". In this text area, you can define a pre-"
 "formatted text which can later be modified by the agents."
-msgstr "Када су тикети спојени, клијент може бити информисан имејлом постављањем поља за потврду „Обавести пошиљаоца”. У простору за текст, можете дефинисати унапред форматирани текст који касније бити модификован од стране оператера."
+msgstr "Када су тикети спојени, клијент може бити информисан имејлом постављањем поља за потврду \"Обавести пошиљаоца\". У простору за текст, можете дефинисати унапред форматирани текст који касније бити модификован од стране оператера."
 
 #. SysConfig
 msgid ""
@@ -26344,13 +26348,13 @@ msgstr "Да, али склони архивиране тикете"
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is bounced to "
 "\"<OTRS_BOUNCE_TO>\". Contact this address for further information."
-msgstr "Ваш имејл са бројем тикета „<OTRS_TICKET>” је преусмерен на тикет „<OTRS_BOUNCE_TO>”!"
+msgstr "Ваш имејл са бројем тикета \"<OTRS_TICKET>\" је преусмерен на тикет \"<OTRS_BOUNCE_TO>\"!"
 
 #. SysConfig
 msgid ""
 "Your email with ticket number \"<OTRS_TICKET>\" is merged to "
 "\"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Ваш имејл са бројем тикета „<OTRS_TICKET>” је припојен тикету „<OTRS_MERGE_TO_TICKET>”!"
+msgstr "Ваш имејл са бројем тикета \"<OTRS_TICKET>\" је припојен тикету \"<OTRS_MERGE_TO_TICKET>\"!"
 
 #. SysConfig
 msgid ""

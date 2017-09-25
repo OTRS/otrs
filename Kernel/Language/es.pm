@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.637517385257302;
+    $Self->{Completeness}        = 0.638970971666956;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -173,8 +173,8 @@ sub Data {
         'Edit Notification' => 'Editar Notificación',
         'Add notification' => 'Agregar notificación',
         'Export Notifications' => 'Exportar Notificaciones',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Filtrar por Notificaciones',
+        'Filter for notifications' => 'Filtrar por notificaciones',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             'Aquí es posible cargar un archivo de configuración para importar las notificaciones de las citas a su sistema. El archivo necesita estar en el formato .yml como los exportados por el módulo de notificaciones de citas.',
         'Overwrite existing notifications?' => 'Sobrescribir notificaciones existentes?',
@@ -244,7 +244,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Direcciones adicionales del destinatario de correo electrónico.',
-        'Article visible for customer' => '',
+        'Article visible for customer' => 'Artículo visible por cliente',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un artículo será creado si la notificación es enviada al cliente o a una dirección de correo adicional.',
         'Email template' => 'Plantilla de correo',
@@ -260,7 +260,7 @@ sub Data {
         'Add Attachment' => 'Añadir un adjunto',
         'Edit Attachment' => 'Editar adjunto',
         'Filter for Attachments' => 'Filtro para Archivos adjuntos',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Filtrar por atajos',
         'Filename' => 'Nombre del archivo',
         'Download file' => 'Descargar el archivo',
         'Delete this attachment' => 'Borrar este adjunto',
@@ -272,7 +272,7 @@ sub Data {
         'Add Auto Response' => 'Añadir respuesta automática',
         'Edit Auto Response' => 'Editar respuesta automática',
         'Filter for Auto Responses' => 'Filtrar por Auto Respuestas',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Filtrar por Respuestas Automáticas',
         'Response' => 'Respuesta',
         'Auto response from' => 'Respuesta automática de',
         'Reference' => 'Referencia',
@@ -322,7 +322,7 @@ sub Data {
 
         # Template: AdminCommunicationLog
         'Communication Log' => '',
-        'Time range' => '',
+        'Time range' => 'Período de tiempo',
         'Show only communication logs created in specific time range.' =>
             '',
         'Filter for communications' => '',
@@ -1248,7 +1248,7 @@ sub Data {
         'Administration Overview' => '',
         'Filter for Items' => '',
         'Filter' => 'Filtro',
-        'Favorites' => '',
+        'Favorites' => 'Favoritos',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
@@ -1412,7 +1412,7 @@ sub Data {
         'Package installation requires a patch level update of OTRS.' => 'Instalación del paquete requiere un parche de actualización de OTRS. ',
         'Package update requires a patch level update of OTRS.' => 'La actualización del paquete requiere un parche de actualización de OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
-            '',
+            'Sí eres el cliente de OTRS Business Solution™, favor visite nuestro portal de clientes y deje su solicitud.',
         'Please note that your installed OTRS version is %s.' => '',
         'To install this package, you need to update OTRS to version %s or newer.' =>
             '',
@@ -4480,7 +4480,7 @@ sub Data {
         'in over a year' => '',
         'in almost %s years' => '',
         'in %s years' => '',
-        'in over %s years' => '',
+        'in over %s years' => 'en más de %s años',
         'Show Tree Selection' => 'Mostrar selección en árbol',
         'Split Quote' => 'Dividir Cita',
         'Remove Quote' => 'Eliminar Cita',
@@ -4800,6 +4800,7 @@ sub Data {
         'State Historic' => 'Histórico de Estado',
         'State Type Historic' => 'Estado Tipo Histórico',
         'Historic Time Range' => 'Rango Tiempo Histórico',
+        'Number' => '',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Promedio de la solución',

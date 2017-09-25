@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.575278164116829;
+    $Self->{Completeness}        = 0.575351990265948;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4799,6 +4799,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'State Historic' => '',
         'State Type Historic' => '',
         'Historic Time Range' => '',
+        'Number' => '番号',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',

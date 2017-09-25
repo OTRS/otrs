@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.998783031988873;
+    $Self->{Completeness}        = 0.998783243525117;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4799,6 +4799,7 @@ sub Data {
         'State Historic' => 'Történelmi állapot',
         'State Type Historic' => 'Történelmi állapottípus',
         'Historic Time Range' => 'Történelmi időtartomány',
+        'Number' => 'Szám',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Megoldás átlaga',
