@@ -15,7 +15,7 @@
 
     [% BreadcrumbPath = [
             {
-                Name => Translate('Personal Preferences'),
+                Name => Translate('Personal preferences'),
                 Link => Env("Action") _ ";EditUserID=" _ Data.CurrentUserID,
             },
             {
