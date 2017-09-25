@@ -84,12 +84,16 @@ for my $Settings ( @{$PreModifiedSettings} ) {
         NoValidation      => 1,
         UserID            => 1,
     );
+
+    $Self->True(
+        $Result{Success},
+        "Setting $Settings->{Name} was updated successfully.",
+    );
     $SysConfigObject->SettingUnlock(
         Name => $Settings->{Name},
     );
     my %Setting = $SysConfigObject->SettingGet(
-        Name    => $Settings->{Name},
-        Default => 0,
+        Name => $Settings->{Name},
     );
     $Self->Is(
         $Setting{EffectiveValue},

@@ -1234,7 +1234,7 @@ Lock Default setting(s) to the particular user.
                                             #    or
         LockAll   => 1,                     # system locks all settings.
         Force     => 1,                     # (optional) Force locking (do not check if it's already locked by another user). Default: 0.
-        UserID    => 1,
+        UserID    => 1,                     # (required)
     );
 
 Returns:
@@ -4488,8 +4488,7 @@ sub DeploymentLock {
             if ($IsLocked) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
-                        "It's not possible to lock a deployment if a setting is currently locked($Locked->{Name}.",
+                    Message  => "It's not possible to lock a deployment if a setting is currently locked ($Locked->{Name}).",
                 );
                 return;
             }

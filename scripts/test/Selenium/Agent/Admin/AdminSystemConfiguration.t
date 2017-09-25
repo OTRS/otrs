@@ -3302,7 +3302,7 @@ $Selenium->RunTest(
                     $Self->Is(
                         $Value,
                         $Selenium->get_alert_text(),
-                        "Check alert text - $Value",
+                        "$Test->{Name} - Check alert text - $Value",
                     );
 
                     # accept alert
@@ -3317,7 +3317,7 @@ $Selenium->RunTest(
                     $Self->Is(
                         $SelectedItem->get_value(),
                         $Value,
-                        "Check if element value is OK.",
+                        "$Test->{Name} - Check if element value is OK.",
                     );
                 }
                 elsif ( $CommandType eq 'ElementMissing' ) {

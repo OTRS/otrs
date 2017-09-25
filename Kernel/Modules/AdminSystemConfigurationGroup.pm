@@ -42,7 +42,8 @@ sub Run {
         my $SettingName = $ParamObject->GetParam( Param => 'SettingName' ) || '';
 
         my %Setting = $SysConfigObject->SettingGet(
-            Name => $SettingName,
+            Name           => $SettingName,
+            OverriddenInXML => 1,
         );
 
         my %Result;
@@ -117,7 +118,8 @@ sub Run {
         my %Result;
 
         my %Setting = $SysConfigObject->SettingGet(
-            Name => $SettingName,
+            Name           => $SettingName,
+            OverriddenInXML => 1,
         );
 
         my %LockStatus = $SysConfigObject->SettingLockCheck(
@@ -268,7 +270,8 @@ sub Run {
         }
 
         %Setting = $SysConfigObject->SettingGet(
-            Name => $SettingName,
+            Name           => $SettingName,
+            OverriddenInXML => 1,
         );
 
         # Send only useful setting attributes to reduce amount of data transfered in the AJAX call.
@@ -392,7 +395,8 @@ sub Run {
         }
 
         my %UpdatedSetting = $SysConfigObject->SettingGet(
-            Name => $SettingName,
+            Name           => $SettingName,
+            OverriddenInXML => 1,
         );
 
         $Result{Data}->{HTMLStrg} = $SysConfigObject->SettingRender(
@@ -425,9 +429,10 @@ sub Run {
 
         # Get all settings by navigation group
         my @SettingList = $SysConfigObject->ConfigurationListGet(
-            Navigation => $RootNavigation,
-            Translate  => 0,
-            Category   => $Category,
+            Navigation     => $RootNavigation,
+            Translate      => 0,
+            Category       => $Category,
+            OverriddenInXML => 1,
         );
 
         # get favorites from user preferences
@@ -618,7 +623,8 @@ sub Run {
         for my $Setting (@UpdatedSettingsList) {
 
             my %UpdatedSetting = $SysConfigObject->SettingGet(
-                Name => $Setting->{SettingName},
+                Name           => $Setting->{SettingName},
+                OverriddenInXML => 1,
             );
 
             my %Item;
@@ -664,9 +670,10 @@ sub Run {
 
     # Get all settings by navigation group
     my @SettingList = $SysConfigObject->ConfigurationListGet(
-        Navigation => $RootNavigation,
-        Translate  => 0,
-        Category   => $Category,
+        Navigation     => $RootNavigation,
+        Translate      => 0,
+        Category       => $Category,
+        OverriddenInXML => 1,
     );
 
     # get favorites from user preferences

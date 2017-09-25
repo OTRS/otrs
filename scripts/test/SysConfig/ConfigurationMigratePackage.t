@@ -217,7 +217,7 @@ for my $Test (@Tests) {
         $Self->Is(
             $OTRS6Setting{EffectiveValue},
             $Test->{EffectiveValue},
-            "Check migrated setting for config settting '$Test->{Name}'",
+            "Check migrated setting for config setting '$Test->{Name}'",
         );
     }
 
@@ -228,7 +228,7 @@ for my $Test (@Tests) {
         $Self->IsDeeply(
             $OTRS6Setting{EffectiveValue},
             $Test->{EffectiveValue},
-            "Check migrated setting for config settting '$Test->{Name}'",
+            "Check migrated setting for config setting '$Test->{Name}'",
         );
     }
 }
