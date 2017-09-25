@@ -204,13 +204,18 @@ my $CheckTicketReplyOrForward = sub {
     $Selenium->switch_to_window( $Handles->[1] );
 
     # Wait without jQuery because it might not be loaded yet.
-    $Selenium->WaitFor( JavaScript => 'return document.getElementById("ToCustomer");' );
+    $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length;' );
 
     if ( $Action eq 'Forward' ) {
         my $TestCustomer = $Param{TestCustomer};
 
         # Input required field and select customer.
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
+
+        # Autocomplete results are not shown sometimes, so add a space to trigger event one times more.
+        sleep 1;
+        $Selenium->find_element( "#ToCustomer", 'css' )->send_keys(" ");
+
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
     }
@@ -225,6 +230,7 @@ my $CheckTicketReplyOrForward = sub {
 
     # Input required fields and submit compose.
     $Selenium->find_element( "#submitRichText", 'css' )->click();
+    $Selenium->close();
 
     $Selenium->WaitFor( WindowCount => 1 );
     $Selenium->switch_to_window( $Handles->[0] );
