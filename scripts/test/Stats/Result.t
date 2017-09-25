@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::Language qw(Translatable);
+
 use Kernel::System::VariableCheck qw(:all);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -3484,7 +3486,7 @@ my @Tests = (
                 'Title for result tests 2015-08-08 00:00:00-2015-08-14 23:59:59',
             ],
             [
-                'Number',    # TODO ad the moment Number is not translatable
+                'Nummer',
                 'Ticket#',
                 'Titel',
                 'Erstellt',
