@@ -19,8 +19,9 @@ $Kernel::OM->ObjectParamAdd(
 );
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
 
-my $Success = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB')->CommunicationDelete();
+my $Success = $CommunicationDBObject->CommunicationDelete();
 
 $Self->True(
     $Success,
@@ -64,8 +65,6 @@ $CommunicationLogObject->CommunicationStop(
 my $Result;
 
 # Get the Objects list.
-my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
-
 $Result = $CommunicationDBObject->ObjectLogList();
 $Self->True(
     $Result && scalar @{$Result} == 2,
