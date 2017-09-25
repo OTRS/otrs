@@ -37,6 +37,12 @@ my $CommunicationLogObject = $Kernel::OM->Create(
     },
 );
 
+my $CommunicationDBObject = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
+
+# Remember the start result count to prevent wrong list count values.
+my $StartResult      = $CommunicationDBObject->ObjectLogList();
+my $StartResultCount = scalar @{$StartResult};
+
 # Create some logging for 'Connection' and 'Message'
 for my $ObjectLogType (qw( Connection Message )) {
     my $ObjectLogID = $CommunicationLogObject->ObjectLogStart(
@@ -67,7 +73,7 @@ my $Result;
 # Get the Objects list.
 $Result = $CommunicationDBObject->ObjectLogList();
 $Self->True(
-    $Result && scalar @{$Result} == 2,
+    $Result && scalar @{$Result} == ( $StartResultCount + 2 ),
     'Communication objects list.'
 );
 
@@ -75,14 +81,14 @@ $Self->True(
 $Result = $CommunicationDBObject->ObjectLogList( ObjectLogStatus => 'Failed' );
 
 $Self->True(
-    $Result && scalar @{$Result} == 1,
+    $Result && scalar @{$Result} == ( $StartResultCount + 1 ),
     'Communication objects list by status "Failed".'
 );
 
 # Filter by ObjectLogType
 $Result = $CommunicationDBObject->ObjectLogList( ObjectLogType => 'Message' );
 $Self->True(
-    $Result && scalar @{$Result} == 1,
+    $Result && scalar @{$Result} == ( $StartResultCount + 1 ),
     'Communication objects list by object-type "Message".'
 );
 
@@ -92,7 +98,7 @@ $Result = $CommunicationDBObject->ObjectLogList(
     ObjectLogStatus => 'Successful'
 );
 $Self->True(
-    $Result && scalar @{$Result} == 0,
+    $Result && scalar @{$Result} == $StartResultCount,
     'Communication objects list by object-type "Message" and Status "Successful".'
 );
 
@@ -103,7 +109,7 @@ $CurSysDateTimeObject->Subtract(
 );
 $Result = $CommunicationDBObject->ObjectLogList( ObjectLogStartTime => $CurSysDateTimeObject->ToString() );
 $Self->True(
-    $Result && scalar @{$Result} == 0,
+    $Result && scalar @{$Result} == $StartResultCount,
     sprintf( 'Communication objects list by start-time "%s".', $CurSysDateTimeObject->ToString(), ),
 );
 
