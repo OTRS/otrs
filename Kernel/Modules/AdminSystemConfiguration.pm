@@ -136,7 +136,7 @@ sub Run {
         # Check if setting is fixed but not yet deployed.
         for my $SettingName (@SettingNames) {
             my %Setting = $SysConfigObject->SettingGet(
-                Name           => $SettingName,
+                Name            => $SettingName,
                 OverriddenInXML => 1,
             );
 
@@ -272,7 +272,7 @@ sub Run {
                 for my $SettingName ( sort @Result ) {
 
                     my %Setting = $SysConfigObject->SettingGet(
-                        Name           => $SettingName,
+                        Name            => $SettingName,
                         OverriddenInXML => 1,
                     );
 
@@ -347,7 +347,7 @@ sub Run {
             for my $SettingName ( sort @{$Favourites} ) {
 
                 my %Setting = $SysConfigObject->SettingGet(
-                    Name           => $SettingName,
+                    Name            => $SettingName,
                     OverriddenInXML => 1,
                 );
 
@@ -393,7 +393,7 @@ sub Run {
             my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
             my %Setting = $SysConfigObject->SettingGet(
-                Name           => $View,
+                Name            => $View,
                 OverriddenInXML => 1,
             );
 
@@ -437,7 +437,7 @@ sub Run {
             for my $Name ( sort @Names ) {
 
                 my %Setting = $SysConfigObject->SettingGet(
-                    Name           => $Name,
+                    Name            => $Name,
                     OverriddenInXML => 1,
                 );
 
@@ -496,7 +496,7 @@ sub Run {
             for my $SettingName ( sort @Result ) {
 
                 my %Setting = $SysConfigObject->SettingGet(
-                    Name           => $SettingName,
+                    Name            => $SettingName,
                     OverriddenInXML => 1,
                 );
 

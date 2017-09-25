@@ -42,7 +42,7 @@ sub Run {
         my $SettingName = $ParamObject->GetParam( Param => 'SettingName' ) || '';
 
         my %Setting = $SysConfigObject->SettingGet(
-            Name           => $SettingName,
+            Name            => $SettingName,
             OverriddenInXML => 1,
         );
 
@@ -118,7 +118,7 @@ sub Run {
         my %Result;
 
         my %Setting = $SysConfigObject->SettingGet(
-            Name           => $SettingName,
+            Name            => $SettingName,
             OverriddenInXML => 1,
         );
 
@@ -270,7 +270,7 @@ sub Run {
         }
 
         %Setting = $SysConfigObject->SettingGet(
-            Name           => $SettingName,
+            Name            => $SettingName,
             OverriddenInXML => 1,
         );
 
@@ -395,7 +395,7 @@ sub Run {
         }
 
         my %UpdatedSetting = $SysConfigObject->SettingGet(
-            Name           => $SettingName,
+            Name            => $SettingName,
             OverriddenInXML => 1,
         );
 
@@ -429,9 +429,9 @@ sub Run {
 
         # Get all settings by navigation group
         my @SettingList = $SysConfigObject->ConfigurationListGet(
-            Navigation     => $RootNavigation,
-            Translate      => 0,
-            Category       => $Category,
+            Navigation      => $RootNavigation,
+            Translate       => 0,
+            Category        => $Category,
             OverriddenInXML => 1,
         );
 
@@ -623,7 +623,7 @@ sub Run {
         for my $Setting (@UpdatedSettingsList) {
 
             my %UpdatedSetting = $SysConfigObject->SettingGet(
-                Name           => $Setting->{SettingName},
+                Name            => $Setting->{SettingName},
                 OverriddenInXML => 1,
             );
 
@@ -670,9 +670,9 @@ sub Run {
 
     # Get all settings by navigation group
     my @SettingList = $SysConfigObject->ConfigurationListGet(
-        Navigation     => $RootNavigation,
-        Translate      => 0,
-        Category       => $Category,
+        Navigation      => $RootNavigation,
+        Translate       => 0,
+        Category        => $Category,
         OverriddenInXML => 1,
     );
 

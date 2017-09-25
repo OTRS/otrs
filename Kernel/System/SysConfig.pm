@@ -2970,9 +2970,9 @@ sub ConfigurationListGet {
         }
 
         my %ModifiedSetting = $Self->SettingGet(
-            Name           => $Setting->{Name},
-            TargetUserID   => $Param{TargetUserID} // undef,
-            Translate      => $Param{Translate},
+            Name            => $Setting->{Name},
+            TargetUserID    => $Param{TargetUserID} // undef,
+            Translate       => $Param{Translate},
             OverriddenInXML => $Param{OverriddenInXML}
         );
 

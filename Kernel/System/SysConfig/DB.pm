@@ -4488,7 +4488,8 @@ sub DeploymentLock {
             if ($IsLocked) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "It's not possible to lock a deployment if a setting is currently locked ($Locked->{Name}).",
+                    Message =>
+                        "It's not possible to lock a deployment if a setting is currently locked ($Locked->{Name}).",
                 );
                 return;
             }
