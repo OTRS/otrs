@@ -1,4 +1,6 @@
-#6.0.0.beta3 2017-??-??
+#6.0.0.beta4 2017-??-??
+
+#6.0.0.beta3 2017-10-03
  - 2017-09-25 Updated translations, thanks to all translators.
  - 2017-09-25 Fixed bug#[13160](https://bugs.otrs.org/show_bug.cgi?id=13160) - Customer User Address Book visibility issues.
  - 2017-09-25 Fixed bug#[13010](https://bugs.otrs.org/show_bug.cgi?id=13010) - ACL does not trigger on a change of a dynamic field checkbox.
