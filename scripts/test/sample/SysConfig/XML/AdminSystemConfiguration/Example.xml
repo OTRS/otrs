@@ -538,4 +538,11 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="ZZZExampleStringDisabled" Required="0" Valid="0">
+        <Description Translatable="1">String item.</Description>
+        <Navigation>Sample</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">Ticket#</Item>
+        </Value>
+    </Setting>
 </otrs_config>

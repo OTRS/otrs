@@ -566,11 +566,16 @@ h2.SearchResults {
 
 .WidgetSimple.IsLockedByAnotherUser .SettingEdit,
 .WidgetSimple.IsLockedByMe .SettingEdit,
+.WidgetSimple.IsDisabled .SettingEdit,
+.WidgetSimple.IsDisabled .EditAlias,
+.WidgetSimple.IsDisabled .UserModificationNotActive,
+.WidgetSimple.IsDisabled .UserModificationActive,
 .WidgetSimple.Setting.HasOverlay .SettingEdit {
     display: none !important;
 }
 
-.WidgetSimple.Setting .SettingEdit {
+.WidgetSimple.Setting .SettingEdit,
+.WidgetSimple.Setting .SettingEnable {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -591,8 +596,14 @@ h2.SearchResults {
     transition: all ease 0.2s;
 }
 
+.WidgetSimple.Setting:not(.IsDisabled) .SettingEnable {
+    display: none;
+}
+
 .WidgetSimple.Setting > .Content:hover .SettingEdit,
-.WidgetSimple.Setting .SettingEdit:focus {
+.WidgetSimple.Setting .SettingEdit:focus,
+.WidgetSimple.Setting > .Content:hover .SettingEnable,
+.WidgetSimple.Setting .SettingEnable:focus {
     opacity: 1;
 }
 
@@ -610,15 +621,18 @@ h2.SearchResults {
     opacity: 0.3;
 }
 
-.WidgetSimple.Setting .SettingEdit button {
+.WidgetSimple.Setting .SettingEdit button,
+.WidgetSimple.Setting .SettingEnable button {
     top: 50%;
+    left: 49%;
     height: 26px;
     margin-top: -13px;
     position: absolute;
-    margin-left: -20px;
+    margin-left: -30px;
 }
 
 .WidgetSimple.Setting.IsReadonly .SettingEdit,
+.WidgetSimple.Setting.IsReadonly .SettingEnable,
 .WidgetSimple.Setting.IsReadonly .EditAlias,
 .WidgetSimple.Setting.IsReadonly .SettingEnabled,
 .WidgetSimple.Setting.IsReadonly .SettingDisabled,

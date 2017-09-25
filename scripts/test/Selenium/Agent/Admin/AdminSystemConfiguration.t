@@ -3132,6 +3132,53 @@ my @Tests = (
             ],
         },
     },
+    {
+        # This test checks if disabled settings work properly.
+        Name     => 'ZZZExampleStringDisabled',
+        Index    => 53,
+        Commands => [
+            {
+                # Edit button is not visible.
+                ElementMissing => '.SettingEdit:visible',
+            },
+            {
+                # Expand setting bar.
+                Click => '.Header',
+            },
+            {
+                # Edit alias button is not visible.
+                ElementMissing => '.EditAlias:visible',
+            },
+            {
+                # Enable setting.
+                Click => '.SettingDisabled',
+            },
+            {
+                # wait and edit
+                Click => '.EditAlias',
+            },
+            {
+                Select => 'input#ZZZExampleStringDisabled',
+            },
+            {
+                Clear => 1,
+            },
+            {
+                Write => 'abc',
+            },
+            {
+                Click => '.SaveAlias',
+            },
+            {
+                ElementMissing => '.SaveAlias:visible',
+            },
+            {
+                # Disable the setting.
+                Click => '.SettingEnabled',
+            },
+        ],
+        ExpectedResult => 'abc',
+    },
 );
 
 $Selenium->RunTest(

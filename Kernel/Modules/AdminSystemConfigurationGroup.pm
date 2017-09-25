@@ -55,11 +55,19 @@ sub Run {
 
         my $Guid;
         if ( !$LockStatus{Locked} ) {
-            $Guid = $SysConfigObject->SettingLock(
-                UserID    => $Self->{UserID},
-                DefaultID => $Setting{DefaultID},
-            );
-
+            if ( $Setting{IsValid} ) {
+                $Guid = $SysConfigObject->SettingLock(
+                    UserID    => $Self->{UserID},
+                    DefaultID => $Setting{DefaultID},
+                );
+            }
+            else {
+                # Setting can't be locked if it's disabled.
+                $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                    "You need to enable the setting before locking!"
+                );
+                return $Self->_ReturnJSON( Response => \%Result );
+            }
             $Setting{Locked} = $Guid ? 2 : 0;
         }
         elsif ( $LockStatus{Locked} == 1 ) {

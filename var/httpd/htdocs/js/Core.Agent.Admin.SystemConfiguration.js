@@ -528,17 +528,11 @@ Core.Agent.Admin = Core.Agent.Admin || {};
         }
 
         // Init setting toggle
-        $(".SettingDisabled, .SettingEnabled").on('click', function () {
+        $(".SettingDisabled, .SettingEnabled, .SettingEnable").on('click', function () {
             EnableModification($(this));
             Core.SystemConfiguration.Update($(this), 1, 0);
             return false;
         });
-
-
-
-
-
-
 
         if (parseInt(Core.Config.Get('OTRSBusinessIsInstalled'), 10) == "1") {
             $(".UserModificationActive, .UserModificationNotActive").on('click', function () {
@@ -955,7 +949,6 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             function(Response) {
 
                 if (Response.Error != null) {
-                    // TODO: Display user name
                     alert(Response.Error);
                     // hide loader
                     Core.UI.WidgetOverlayHide($Widget);

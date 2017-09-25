@@ -432,7 +432,7 @@ var Core = Core || {};
 
         if (ToggleValid) {
             IsValid = 0;
-            if ($Widget.find(".SettingDisabled:visible").length) {
+            if ($Widget.find(".SettingDisabled:visible").length || $Widget.find(".SettingEnable:visible").length) {
                 IsValid = 1;
             }
 
@@ -1195,6 +1195,7 @@ var Core = Core || {};
 
             $Widget.find(".SettingDisabled").addClass("Hidden");
             $Widget.find(".SettingEnabled").removeClass("Hidden");
+            $Widget.removeClass("IsDisabled");
         }
         else {
             $Widget.find(".Header .Icon i")
@@ -1202,6 +1203,7 @@ var Core = Core || {};
 
             $Widget.find(".SettingDisabled").removeClass("Hidden");
             $Widget.find(".SettingEnabled").addClass("Hidden");
+            $Widget.addClass("IsDisabled");
         }
 
         if (Response.Data.SettingData.UserModificationActive == '1') {

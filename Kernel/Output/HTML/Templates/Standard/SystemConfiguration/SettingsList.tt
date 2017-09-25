@@ -10,7 +10,15 @@
 <ul class="SettingsList">
 [% FOREACH Setting IN Data.SettingList %]
     <li>
-        <div class="WidgetSimple Expanded Setting [% IF Setting.IsReadonly %]IsReadonly[% END %] [% IF Setting.IsModified %]IsModified[% END %] [% IF Setting.IsDirty %]IsDirty[% END %] [% IF Setting.Locked == 1 %]IsLockedByAnotherUser[% END %] [% IF Setting.ExclusiveLockUserID == Env('UserID') %]IsLockedByMe[% END %]" id="Setting[% Setting.DefaultID %]">
+        <div class="WidgetSimple Expanded Setting
+            [% IF Setting.IsReadonly %]IsReadonly[% END %]
+            [% IF !Setting.IsValid %]IsDisabled[% END %]
+            [% IF Setting.IsModified %]IsModified[% END %]
+            [% IF Setting.IsDirty %]IsDirty[% END %]
+            [% IF Setting.Locked == 1 %]IsLockedByAnotherUser[% END %]
+            [% IF Setting.ExclusiveLockUserID == Env('UserID') %]IsLockedByMe[% END %]"
+            id="Setting[% Setting.DefaultID %]">
+
             <div class="Header">
                 <h2>
                     <div class="Icon">
@@ -96,6 +104,10 @@
 
                 <a href="#" title="[% Translate("Edit this setting") | html %]" class="SettingEdit" data-name="[% Setting.Name | html %]" data-id="[% Setting.DefaultID | html %]">
                     <button class="CallForAction" aria-controls="fieldset[% Setting.DefaultID | html %]"><span><i class="fa fa-pencil-square-o"></i> [% Translate("Edit this setting") | html %]</span></button>
+                </a>
+
+                <a href="#" title="[% Translate("Enable this setting") | html %]" class="SettingEnable">
+                    <button class="CallForAction" aria-controls="fieldset[% Setting.DefaultID | html %]"><span><i class="fa fa-check"></i> [% Translate("Enable this setting") | html %]</span></button>
                 </a>
 
                 <div class="SettingWrapper">
