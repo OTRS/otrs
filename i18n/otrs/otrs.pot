@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-09-25 05:02+0000\n"
+"POT-Creation-Date: 2017-09-25 17:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7199,7 +7199,7 @@ msgid "Edit your preferences"
 msgstr ""
 
 #. Template: AgentPreferences
-msgid "Personal Preferences"
+msgid "Personal preferences"
 msgstr ""
 
 #. Template: AgentPreferences
@@ -7272,6 +7272,10 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Reset to default"
+msgstr ""
+
+#. Template: AgentPreferencesOverview
+msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferencesOverview
@@ -8627,10 +8631,6 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr ""
 
 #. Template: Header
-msgid "Personal preferences"
-msgstr ""
-
-#. Template: Header
 msgid "Logout"
 msgstr ""
 
@@ -9259,6 +9259,10 @@ msgid "This setting is fixed but not deployed yet!"
 msgstr ""
 
 #. Template: SettingsList
+msgid "This setting is currently being overridden in %s and can't thus be changed here!"
+msgstr ""
+
+#. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
 msgstr ""
 
@@ -9348,6 +9352,10 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Edit this setting"
+msgstr ""
+
+#. Template: SettingsList
+msgid "Enable this setting"
 msgstr ""
 
 #. Template: SettingsList
@@ -11036,6 +11044,10 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
 msgid "Some imported settings are not present in the current state of the configuration or it was not possible to update them. Please check the OTRS log for more information."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+msgid "You need to enable the setting before locking!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm

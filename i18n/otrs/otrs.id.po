@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 04:52+0000\n"
-"PO-Revision-Date: 2017-09-25 04:56+0000\n"
+"POT-Creation-Date: 2017-09-25 16:57+0000\n"
+"PO-Revision-Date: 2017-09-25 16:59+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otrs/OTRS/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -7761,7 +7761,7 @@ msgid "Edit your preferences"
 msgstr "Mengedit preferensi anda"
 
 #. Template: AgentPreferences
-msgid "Personal Preferences"
+msgid "Personal preferences"
 msgstr ""
 
 #. Template: AgentPreferences
@@ -7844,6 +7844,10 @@ msgstr "Tahukah kamu? Anda dapat membantu menerjemahkan OTRS di%s."
 
 #. Template: SettingsList
 msgid "Reset to default"
+msgstr ""
+
+#. Template: AgentPreferencesOverview
+msgid "Personal Preferences"
 msgstr ""
 
 #. Template: AgentPreferencesOverview
@@ -9239,10 +9243,6 @@ msgid "Notifications (OTRS Business Solution™)"
 msgstr ""
 
 #. Template: Header
-msgid "Personal preferences"
-msgstr ""
-
-#. Template: Header
 msgid "Logout"
 msgstr "logout"
 
@@ -9906,6 +9906,12 @@ msgid "This setting is fixed but not deployed yet!"
 msgstr ""
 
 #. Template: SettingsList
+msgid ""
+"This setting is currently being overridden in %s and can't thus be changed "
+"here!"
+msgstr ""
+
+#. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
 msgstr ""
 
@@ -9998,6 +10004,10 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Edit this setting"
+msgstr ""
+
+#. Template: SettingsList
+msgid "Enable this setting"
 msgstr ""
 
 #. Template: SettingsList
@@ -11757,6 +11767,10 @@ msgid ""
 "Some imported settings are not present in the current state of the "
 "configuration or it was not possible to update them. Please check the OTRS "
 "log for more information."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+msgid "You need to enable the setting before locking!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm

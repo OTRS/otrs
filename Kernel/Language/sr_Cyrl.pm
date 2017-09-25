@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.789528613671943;
+    $Self->{Completeness}        = 0.829798331015299;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -34,29 +34,29 @@ sub Data {
     $Self->{Translation} = {
 
         # Template: AdminACL
-        'ACL Management' => 'Управљање „ACL”',
+        'ACL Management' => 'Управљање ACL',
         'Actions' => 'Акције',
-        'Create New ACL' => 'Креирај нову „ACL”',
-        'Deploy ACLs' => 'Употреби „ACL” листе',
-        'Export ACLs' => 'Извези „ACL” листе',
+        'Create New ACL' => 'Креирај нову ACL листу',
+        'Deploy ACLs' => 'Распореди ACL листе',
+        'Export ACLs' => 'Извези ACL листе',
         'Filter for ACLs' => 'Филтер за ACL',
         'Just start typing to filter...' => 'Почните са куцањем за филтер...',
         'Configuration Import' => 'Увоз конфигурације',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            'Овде можете послати конфигурациону датотеку за увоз „ACL” листа у ваш систем. Датотека мора бити у „.yml” формату ако се извози од стране „ACL” едитор модула.',
+            'Овде можете послати конфигурациону датотеку за увоз ACL листа у ваш систем. Датотека мора бити у .yml формату ако се извози од стране ACL едитор модула.',
         'This field is required.' => 'Ово поље је обавезно.',
-        'Overwrite existing ACLs?' => 'Напиши преко постојећих „ACL” листа?',
-        'Upload ACL configuration' => 'Отпреми „ACL” конфигурацију',
-        'Import ACL configuration(s)' => 'Увези „ACL” конфигурацију(е)',
+        'Overwrite existing ACLs?' => 'Препиши преко постојећих ACL листа?',
+        'Upload ACL configuration' => 'Отпреми ACL конфигурацију',
+        'Import ACL configuration(s)' => 'Увези ACL конфигурацију',
         'Description' => 'Опис',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            'Да бисте креирали нову „ACL” можете или увести „ACL” листе које су извезене из другог система или направити комплетно нову.',
+            'Да бисте креирали нову ACL можете или увести ACL листе које су извезене из другог система или направити комплетно нову.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            'Промене на „ACL” листама овде само утичу на понашање система, уколико накнадно употребите све „ACL” податке.',
-        'ACLs' => '„ACL” листе',
+            'Промене на ACL листама овде само утичу на понашање система, уколико накнадно употребите све ACL податке.',
+        'ACLs' => 'ACL листе',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            'Напомена: Ова табела представља редослед извршавања у „ACL” листама. Ако је потребно да промените редослед којим се извршавају „ACL” листе, молимо промените имена тих „ACL” листа.',
-        'ACL name' => 'Назив „ACL”',
+            'Напомена: Ова табела представља редослед извршавања у ACL листама. Ако је потребно да промените редослед којим се извршавају ACL листе, молимо промените имена тих ACL листа.',
+        'ACL name' => 'Назив ACL',
         'Comment' => 'Коментар',
         'Validity' => 'Важност',
         'Export' => 'Извоз',
@@ -65,35 +65,35 @@ sub Data {
         'No matches found.' => 'Ништа није пронађено.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => 'Уреди „ACL” %s',
-        'Edit ACL' => '',
+        'Edit ACL %s' => 'Уреди ACL %s',
+        'Edit ACL' => 'Уреди ACL',
         'Go to overview' => 'Иди на преглед',
-        'Delete ACL' => 'Обриши „ACL”',
-        'Delete Invalid ACL' => 'Обриши неважећу „ACL”',
+        'Delete ACL' => 'Обриши ACL',
+        'Delete Invalid ACL' => 'Обриши неважећу ACL',
         'Match settings' => 'Усклади подешавања',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
-            'Подесите усклађене критеријуме за ову „ACL” листу. Користите \'Properties\' тако да одговара постојећем приказу екрана или \'PropertiesDatabase\' да би одговарао атрибутима постојећег тикета који су у бази података.',
+            'Подесите усклађене критеријуме за ову ACL листу. Користите Properties тако да одговара постојећем приказу екрана или PropertiesDatabase да би одговарао атрибутима постојећег тикета који су у бази података.',
         'Change settings' => 'Промени подешавања',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Подесите оно што желите да мењате ако се критеријуми слажу. Имајте на уму да је \'Possible\' бела листа, \'PossibleNot\' црна листа.',
         'Check the official' => 'Проверите званично',
         'documentation' => 'документација',
         'Show or hide the content' => 'Покажи или сакриј садржај',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Уреди информације о ACL',
         'Name' => 'Име',
         'Stop after match' => 'Заустави после поклапања',
-        'Edit ACL Structure' => '',
+        'Edit ACL Structure' => 'Уреди структуру ACL',
         'Save settings' => 'Сачувај подешавања',
-        'Save ACL' => 'Сачувај „ACL”',
+        'Save ACL' => 'Сачувај ACL',
         'Save' => 'Сачувај',
         'or' => 'или',
         'Save and finish' => 'Сачувај и заврши',
         'Cancel' => 'Откажи',
-        'Do you really want to delete this ACL?' => 'Да ли заиста желите да обришете ову „ACL” листу?',
+        'Do you really want to delete this ACL?' => 'Да ли заиста желите да обришете ову ACL листу?',
 
         # Template: AdminACLNew
         'Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode.' =>
-            'Креирајте нову „ACL” листу подношењем обрасца са подацима. Након креирања „ACL” листе, бићете у могућности да додате конфигурационе ставке у моду измене.',
+            'Креирајте нову ACL листу подношењем обрасца са подацима. Након креирања ACL листе, бићете у могућности да додате конфигурационе ставке у моду измене.',
 
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => 'Управљање календарима',
@@ -168,8 +168,8 @@ sub Data {
         'Edit Notification' => 'Уреди обавештење',
         'Add notification' => 'Додај обавештење',
         'Export Notifications' => 'Обавештења о извозу',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Филтер за обавештења',
+        'Filter for notifications' => 'Филтер за обавештења',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             'Овде можете послати конфигурациону датотеку за увоз обавештења о термину у ваш систем. Датотека мора бити у истом .yml формату који је могуће добити извозом у екрану управљања обавештењима о терминима.',
         'Overwrite existing notifications?' => 'Препиши преко постојећих обавештења?',
@@ -214,7 +214,7 @@ sub Data {
             'Ово је подразумевана вредност за придружене оператере примаоце који за ово обавештење у својим поставкама нису још направили избор. Ако је бокс активиран, обавештење ће бити послато таквим оператерима.',
         'This feature is currently not available.' => 'Ово својство тренутно није доступно.',
         'Upgrade to %s' => 'Унапреди на %s',
-        'Please activate this transport in order to use it.' => '',
+        'Please activate this transport in order to use it.' => 'Молимо активирајте овај транспорт пре коришћења.',
         'No data found' => 'Ништа није пронађено',
         'No notification method found.' => 'Није пронађена метода обавештавања.',
         'Notification Text' => 'Текст обавештења',
@@ -239,12 +239,12 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Имејл адреса додатног примаоца',
-        'Article visible for customer' => '',
+        'Article visible for customer' => 'Чланак видљив клијентима',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Чланак је креиран и обавештење послато клијенту или на другу имејл адресу.',
         'Email template' => 'Имејл шаблон',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            'Употребите овај шаблон за генерисање комплетног имејла (само за „HTML” имејлове).',
+            'Употребите овај шаблон за генерисање комплетног имејла (само за HTML имејлове).',
         'Enable email security' => 'Активирајте безбедност имејла',
         'Email security level' => 'Ниво безбедности имејла',
         'If signing key/certificate is missing' => 'Ако потписивање кључа/сертификата недостаје',
@@ -255,7 +255,7 @@ sub Data {
         'Add Attachment' => 'Додај прилог',
         'Edit Attachment' => 'Уреди прилог',
         'Filter for Attachments' => 'Филтер за прилоге',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Филтер за прилоге',
         'Filename' => 'Назив датотеке',
         'Download file' => 'Преузми датотеку',
         'Delete this attachment' => 'Обриши овај прилог',
@@ -267,7 +267,7 @@ sub Data {
         'Add Auto Response' => 'Додај Аутоматски Одговор',
         'Edit Auto Response' => 'Уреди Аутоматски Одговор',
         'Filter for Auto Responses' => 'Филтер за Аутоматске одговоре',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Филтер за аутоматске одговоре',
         'Response' => 'Одговор',
         'Auto response from' => 'Аутоматски одговор од',
         'Reference' => 'Референца',
@@ -292,98 +292,98 @@ sub Data {
         'Hint' => 'Савет',
         'Currently support data is only shown in this system.' => 'Актуелни подаци подршке се приказују само на овом систему.',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
-            'Препоручује се да ове податке пошаљете „OTRS” Групи да би сте добили бољу подршку.',
+            'Препоручује се да ове податке пошаљете OTRS групи да би сте добили бољу подршку.',
         'Configuration' => 'Конфигурација',
         'Send support data' => 'Пошаљи податке за подршку',
         'This will allow the system to send additional support data information to OTRS Group.' =>
-            'Ово ће омогућити систему да пошаље додатне информације о подацима подршке  „OTRS” Групацији.',
+            'Ово ће омогућити систему да пошаље додатне информације о подацима подршке OTRS групи.',
         'Update' => 'Ажурирање',
         'System Registration' => 'Регистрација система',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Да би сте омогућили слање података, молимо вас да региструјете ваш систем у „OTRS” Групи или да ажурирате информације системске регистрације (будите сигурни да сте активирали опцију „send support data”.).',
+            'Да би сте омогућили слање података, молимо вас да региструјете ваш систем у OTRS групи или да ажурирате информације системске регистрације (будите сигурни да сте активирали опцију "Пошаљи податке за подршку").',
         'Register this System' => 'Региструј овај систем',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'Системска регистрације је деактивирана за ваш систем. Молимо да проверите вашу конфигурацију.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
-            'Регистрација система је услуга „OTRS” Групе, која обезбеђује многе предности!',
+            'Регистрација система је услуга OTRS групе, која обезбеђује многе предности!',
         'Please note that the use of OTRS cloud services requires the system to be registered.' =>
-            'Напомињемо да коришћење „OTRS” сервиса у облаку захтевају да систем буде регистрован.',
+            'Напомињемо да коришћење OTRS сервиса у облаку захтевају да систем буде регистрован.',
         'Register this system' => 'Региструј овај систем',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Овде можете подесити да доступни сервиси у облаку користе сигурну комуникацију преко %s.',
         'Available Cloud Services' => 'Расположиви сервиси у облаку',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time range' => '',
+        'Communication Log' => 'Комуникациони лог',
+        'Time range' => 'Временски опсег',
         'Show only communication logs created in specific time range.' =>
-            '',
-        'Filter for communications' => '',
+            'Прикажи само комуникационе логове креиране у одређеном временском периоду.',
+        'Filter for communications' => 'Филтер за комуникације',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
-            '',
+            'У овом екрану можете прегледати све долазне и одлазне комуникације.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            '',
+            'Можете изменити редослед сортирања колона кликом на наслове колона.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
-        'Status for: %s' => '',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
-        'Number of accounts with warnings: %s' => '',
-        'Failing communications' => '',
-        'No communication problems' => '',
-        'No communication logs' => '',
-        'Number of reported problems: %s' => '',
-        'Open communications' => '',
-        'No active communications' => '',
-        'Number of open communications: %s' => '',
-        'Average processing time' => '',
-        'List of communications (%s)' => '',
+            'Уколико кликнете на појединачне ставке, бићете редиректовани на екран детаља у вези поруке.',
+        'Status for: %s' => 'Статус за: %s',
+        'Failing accounts' => 'Налози са грешкама',
+        'Some account problems' => 'Пар проблема са налозима',
+        'No account problems' => 'Без проблема са налозима',
+        'No account activity' => 'Без активности налога',
+        'Number of accounts with problems: %s' => 'Број налога са проблемима: %s',
+        'Number of accounts with warnings: %s' => 'Број налога са упозорењима: %s',
+        'Failing communications' => 'Комуникације са грешкама',
+        'No communication problems' => 'Без проблема са комуникацијама',
+        'No communication logs' => 'Без комуникационих логова',
+        'Number of reported problems: %s' => 'Број пријављених проблема: %s',
+        'Open communications' => 'Отворене комуникације',
+        'No active communications' => 'Без активних комуникација',
+        'Number of open communications: %s' => 'Број отворених комуникација: %s',
+        'Average processing time' => 'Просечно време обраде',
+        'List of communications (%s)' => 'Листа комуникација (%s)',
         'Settings' => 'Подешавања',
-        'Entries per page' => '',
-        'No communications found.' => '',
-        '%s s' => '',
+        'Entries per page' => 'Уноса по страни',
+        'No communications found.' => 'Нису пронађене комуникације.',
+        '%s s' => '%s с',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
+        'Account Status' => 'Статус налога',
         'Back' => 'Назад',
-        'Filter for accounts' => '',
-        'Filter for log entries' => '',
+        'Filter for accounts' => 'Филтер за налоге',
+        'Filter for log entries' => 'Филтер за лог ставке',
         'You can change the sort and order of those columns by clicking on the column header.' =>
-            '',
-        'Account status for: %s' => '',
+            'Можете изменити редослед сортирања колона кликом на наслове колона.',
+        'Account status for: %s' => 'Статус налога за: %s',
         'Status' => 'Статус',
-        'Account' => '',
+        'Account' => 'Налог',
         'Edit' => 'Уредити',
-        'No accounts found.' => '',
-        'Communication Log Details (%s)' => '',
+        'No accounts found.' => 'Нису пронађени налози.',
+        'Communication Log Details (%s)' => 'Детаљи комуникационог лога (%s)',
         'Direction' => 'Смер',
         'Start Time' => 'Време почетка',
         'End Time' => 'Време завршетка',
-        'No communication log entries found.' => '',
+        'No communication log entries found.' => 'Нису пронађене ставке комуникационог лога.',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Трајање',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Приоритет',
         'Module' => 'Модул',
         'Information' => 'Информација',
-        'No log entries found.' => '',
+        'No log entries found.' => 'Нису пронађене ставке лога.',
 
         # Template: AdminCommunicationLogZoom
-        'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
-        'Show only entries with specific priority and higher:' => '',
-        'Communication Log Overview (%s)' => '',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Detail view for %s communication started at %s' => 'Детаљни приказ за комуникацију %s започету у %s',
+        'Detail View' => 'Детаљни приказ',
+        'Show only entries with specific priority and higher:' => 'Прикажи само ставке са одговарајућим приоритетом и више:',
+        'Communication Log Overview (%s)' => 'Преглед комуникационих логова (%s)',
+        'No communication objects found.' => 'Нису пронађени комуникациони објекти.',
+        'Communication Log Details' => 'Детаљи комуникационог лога',
+        'Please select an entry from the list.' => 'Молимо изаберите ставку из листе.',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Управљање клијентима',
@@ -397,7 +397,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Молимо унесите појам претраге за проналажење клијената.',
         'Customer ID' => 'ИД клијента',
         'Please note' => 'Напомињемо',
-        'This customer backend is read only!' => '',
+        'This customer backend is read only!' => 'Овај позадински приказ клијента се може само прегледати.',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Управљање релацијама Клијент-Група',
@@ -409,9 +409,9 @@ sub Data {
         'Edit Customer Default Groups' => 'Уреди подразумеване групе за клијента',
         'These groups are automatically assigned to all customers.' => 'Ове групе су аутоматски додељене свим клијентима.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '',
+            'Можете управљати овим групама преко конфигурационог подешавања CustomerGroupCompanyAlwaysGroups.',
         'Filter for Groups' => 'Филтер за групе',
-        'Select the customer:group permissions.' => 'Изабери „customer:group” дозволе.',
+        'Select the customer:group permissions.' => 'Изабери клијент:група дозволе.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Ако ништа није изабрано, онда нема дозвола у овој групи (тикети неће бити доступни клијенту).',
         'Search Results' => 'Резултат претраге',
@@ -423,9 +423,9 @@ sub Data {
         'Toggle %s permission for %s' => 'Промени %s дозволе за %s',
         'Customer Default Groups:' => 'Подразумеване групе за клијента:',
         'No changes can be made to these groups.' => 'На овим групама промене нису могуће.',
-        'ro' => '„ro”',
+        'ro' => 'ro',
         'Read only access to the ticket in this group/queue.' => 'Приступ ограничен само на читање за тикете у овим групама/редовима.',
-        'rw' => '„rw”',
+        'rw' => 'rw',
         'Full read and write access to the tickets in this group/queue.' =>
             'Приступ без ограничења за тикете у овим групама/редовима.',
 
@@ -443,53 +443,53 @@ sub Data {
         'Login as' => 'Пријави се као',
         'Switch to customer' => 'Пређи на клијента',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
-            '',
+            'Овај позадински приказ клијента се може само прегледати, али клијентска подешавања се могу изменити!',
         'This field is required and needs to be a valid email address.' =>
             'Ово је обавезно поље и мора да буде исправна имејл адреса.',
         'This email address is not allowed due to the system configuration.' =>
             'Ова имејл адреса није дозвољена због системске конфигурације.',
-        'This email address failed MX check.' => 'Ова имејл адреса не задовољава „MX” проверу.',
+        'This email address failed MX check.' => 'Ова имејл адреса не задовољава MX проверу.',
         'DNS problem, please check your configuration and the error log.' =>
-            '„DNS” проблем, молимо проверите конфигурацију и грешаке у логу',
+            'DNS проблем, молимо проверите конфигурацију и грешке у логу.',
         'The syntax of this email address is incorrect.' => 'Синтакса ове имејл адресе је неисправна.',
-        'This CustomerID is invalid.' => '',
-        'Effective Permissions for Customer User' => '',
-        'Group Permissions' => '',
-        'This customer user has no group permissions.' => '',
+        'This CustomerID is invalid.' => 'Овај ИД клијента је неисправан.',
+        'Effective Permissions for Customer User' => 'Ефективне дозволе за клијент корисника',
+        'Group Permissions' => 'Дозволе за групу',
+        'This customer user has no group permissions.' => 'Овај клијент корисник нема дозволе за групе.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
-        'Customer Access' => '',
+            'Табела изнад приказује ефективне дозволе за групе клијент корисника. Матрица узима у обзир све наслеђене дозволе (нпр. путем клијент група). Напомена: табела не узима у обзир измене на овој форми без слања исте.',
+        'Customer Access' => 'Приступ клијенту',
         'Customer' => 'Клијент',
-        'This customer user has no customer access.' => '',
+        'This customer user has no customer access.' => 'Овај клијент корисник нема приступ клијенту.',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'Табела изнад приказује додељени приступ клијенту за клијент корисника према контексту дозволе. Матрица узима у обзир сав наслеђени приступ (нпр. путем клијент група). Напомена: табела не узима у обзир измене на овој форми без слања исте.',
 
         # Template: AdminCustomerUserCustomer
-        'Manage Customer User-Customer Relations' => '',
-        'Select the customer user:customer relations.' => '',
+        'Manage Customer User-Customer Relations' => 'Управљање релацијама клијент корисник-клијент',
+        'Select the customer user:customer relations.' => 'Одаберите клијент корисник:клијент релације.',
         'Customer Users' => 'Клијенти корисници',
-        'Change Customer Relations for Customer User' => '',
-        'Change Customer User Relations for Customer' => '',
+        'Change Customer Relations for Customer User' => 'Промени релације са клијентима за клијент корисника',
+        'Change Customer User Relations for Customer' => 'Промени релазије са клијент корисницима за клијента',
         'Toggle active state for all' => 'Промени активно стање за све',
         'Active' => 'Активно',
         'Toggle active state for %s' => 'Промени активно стање за %s',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer User-Group Relations' => '',
+        'Manage Customer User-Group Relations' => 'Управљање релацијама клијент корисник-група',
         'Just use this feature if you want to define group permissions for customer users.' =>
-            '',
-        'Edit Customer User Default Groups' => '',
+            'Употребите ову функцију ако желите да дефинишете групне дозволе за клијент кориснике.',
+        'Edit Customer User Default Groups' => 'Уреди подразумеване групе за клијент кориснике',
         'These groups are automatically assigned to all customer users.' =>
-            '',
+            'Ове групе су аутоматски додељене свим клијент корисницима.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
-            'Можете управљати овим групама преко конфигурационих подешавања „CustomerGroupAlwaysGroups”.',
-        'Select the customer user - group permissions.' => '',
+            'Можете управљати овим групама преко конфигурационих подешавања CustomerGroupAlwaysGroups.',
+        'Select the customer user - group permissions.' => 'Изабери клијент корисник:група дозволе.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
-            '',
-        'Customer User Default Groups:' => '',
+            'Ако ништа није изабрано, онда нема дозвола у овој групи (тикети неће бити доступни клијент кориснику).',
+        'Customer User Default Groups:' => 'Подразумеване групе за клијент корисника:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Services Relations' => 'Управљање релацијама клијент корисници:сервиси',
         'Edit default services' => 'Уреди подразумеване услуге',
         'Filter for Services' => 'Филтер за сервисе',
         'Services' => 'Услуге',
@@ -497,20 +497,20 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Управљање динамичким пољима',
         'Add new field for object' => 'Додај ново поље објекту',
-        'Filter for Dynamic Fields' => '',
-        'Filter for dynamic fields' => '',
-        'More Business Fields' => '',
+        'Filter for Dynamic Fields' => 'Филтер за динамичка поља',
+        'Filter for dynamic fields' => 'Филтер за динамичка поља',
+        'More Business Fields' => 'Више пословних поља',
         'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
-            '',
+            'Да ли желите могућност додатних пословних динамичких поља? Унапредите на %s за приступ следећим врстама поља:',
         'Database' => 'База података',
         'Use external databases as configurable data sources for this dynamic field.' =>
-            '',
-        'Web service' => '',
+            'Користите екстерне базе података као извор података за ово динамичко поље.',
+        'Web service' => 'Веб сервис',
         'External web services can be configured as data sources for this dynamic field.' =>
-            '',
+            'Екстерни веб сервиси се могу конфигурисати као извор података за ово динамичко поље.',
         'Contact with data' => 'Контакт са подацима',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
-            '',
+            'Ова функција вам омогућава да додате (вишеструке) контакте са подацима тикетима.',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             'За додавање новог поља изаберите тип поља из једне од листа објеката. Објект дефинише границе поља и после креирања поља се не може мењати.',
         'Dynamic Fields List' => 'Листа динамичких поља',
@@ -537,13 +537,13 @@ sub Data {
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Ово је редослед по ком ће поља бити приказана на екранима где су активна.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
-            '',
+            'Није могуће обележити ову ставку као неважећу, сва подешавања морају бити прво измењена.',
         'Field type' => 'Тип поља',
         'Object type' => 'Тип објекта',
         'Internal field' => 'Интерно поље',
         'This field is protected and can\'t be deleted.' => 'Ово поље је заштићено и не може бити обрисано.',
         'This dynamic field is used in the following config settings:' =>
-            '',
+            'Ово динамичко поље је употребљено у следећим поставкама:',
         'Field Settings' => 'Подешавање поља',
         'Default value' => 'Подразумевана вредност',
         'This is the default value for this field.' => 'Ово је подразумевана вредност за ово поље.',
@@ -566,7 +566,7 @@ sub Data {
         'Example' => 'Пример',
         'Link for preview' => 'Веза за преглед',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            'Ако је попуњено, овај „URL” ће се користити за преглед који се приказује када је показивач изнад везе у детаљима тикета. Узмите у обзир, да би ово радило, нормално „URL” поље изнад, мора такође да буде попуњено.',
+            'Ако је попуњено, овај URL ће се користити за преглед који се приказује када је показивач изнад везе у детаљима тикета. Узмите у обзир, да би ово радило, нормално URL поље изнад, мора такође да буде попуњено.',
         'Restrict entering of dates' => 'Ограничи унос датума',
         'Here you can restrict the entering of dates of tickets.' => 'Овде можете ограничити унос датума за тикете.',
 
@@ -595,16 +595,16 @@ sub Data {
         'Number of cols' => 'Број колона',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Унеси ширину (у знаковима) за ово поље у моду уређивања.',
-        'Check RegEx' => 'Провери „RegEx”',
+        'Check RegEx' => 'Провери регуларне изразе',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             'Овде можете да дефинишете регуларни израз за проверу вредности. Израз ће бити извршен са модификаторима за xms.',
-        'RegEx' => '„RegEx”',
-        'Invalid RegEx' => 'Неважећи „RegEx”',
+        'RegEx' => 'Регуларни израз',
+        'Invalid RegEx' => 'Неважећи регуларни израз',
         'Error Message' => 'Порука о грешци',
-        'Add RegEx' => 'Додај „RegEx”',
+        'Add RegEx' => 'Додај регуларни израз',
 
         # Template: AdminEmail
-        'Admin Message' => '',
+        'Admin Message' => 'Административна порука',
         'With this module, administrators can send messages to agents, group or role members.' =>
             'Са овим модулом, администратори могу слати поруке оператерима, групама или припадницима улоге.',
         'Create Administrative Message' => 'Креирај административну поруку',
@@ -623,8 +623,8 @@ sub Data {
         'Edit job' => 'Уреди посао',
         'Add job' => 'Додај посао',
         'Run job' => 'Покрени посао',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Filter for Generic Agent Jobs' => 'Филтер за задатке генеричког агента',
+        'Filter for generic agent jobs' => 'Филтер за задатке генеричког агента',
         'Last run' => 'Последње покретање',
         'Run Now!' => 'Покрени сад!',
         'Delete this task' => 'Обриши овај задатак',
@@ -632,7 +632,7 @@ sub Data {
         'Job Settings' => 'Подешавање посла',
         'Job name' => 'Назив посла',
         'The name you entered already exists.' => 'Име које сте унели већ постоји.',
-        'Automatic Execution (Multiple Tickets)' => '',
+        'Automatic Execution (Multiple Tickets)' => 'Аутоматско извршење (вишеструки тикети)',
         'Execution Schedule' => 'Распоред извршења',
         'Schedule minutes' => 'Планирано минута',
         'Schedule hours' => 'Планирано сати',
@@ -641,7 +641,7 @@ sub Data {
             'Тренутно овај генерички агентски задатак неће радити аутоматски.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Да бисте омогућили аутоматско извршавање изаберите бар једну вредност од минута, сати и дана!',
-        'Event Based Execution (Single Ticket)' => '',
+        'Event Based Execution (Single Ticket)' => 'Извршење засновано на догађају (појединачни тикет)',
         'Event Triggers' => 'Окидачи догађаја',
         'List of all configured events' => 'Листа свих конфигурисаних догађаја',
         'Delete this event' => 'Обриши овај догађај',
@@ -651,13 +651,13 @@ sub Data {
             'Уколико је догађај тикета отказао, биће примењен тикет филтер да потврди да ли тикет одговара. Само тада ће се посао на тикету покренути.',
         'Do you really want to delete this event trigger?' => 'Да ли стварно желите да обришете овај окидач догађаја?',
         'Add Event Trigger' => 'Додај окидач догађаја',
-        'To add a new event select the event object and event name' => '',
+        'To add a new event select the event object and event name' => 'За додавање новог догађаја изаберите објект догађаја и име догађаја',
         'Select Tickets' => 'Изабери тикете',
         '(e. g. 10*5155 or 105658*)' => 'нпр. 10*5144 или 105658*',
         '(e. g. 234321)' => 'нпр. 234321',
-        'Customer user ID' => '',
+        'Customer user ID' => 'ИД клијента корисника',
         '(e. g. U5150)' => '(нпр. U5150)',
-        'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Потпуна текстуална претрага у чланку (нпр. „Mar*in” или „Baue*”)',
+        'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Текстуална претрага у чланку (нпр. "Mar*in" или "Baue*")',
         'To' => 'За',
         'Cc' => 'Cc',
         'Service' => 'Услуга',
@@ -714,14 +714,14 @@ sub Data {
         'new owner' => 'нови власник',
         'new responsible' => 'нови одговорни',
         'Set new ticket lock' => 'Постави ново закључавање тикета',
-        'New customer user ID' => '',
+        'New customer user ID' => 'Нови ИД клијент корисника',
         'New customer ID' => 'Нови ИД клијента',
         'New title' => 'Нови наслов',
         'New type' => 'Нови тип',
         'New Dynamic Field Values' => 'Нове вредности динамичких поља',
         'Archive selected tickets' => 'Архивирај изабране тикете',
         'Add Note' => 'Додај напомену',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Видљиво клијенту',
         'Time units' => 'Временске јединице',
         'Execute Ticket Commands' => 'Изврши команде тикета',
         'Send agent/customer notifications on changes' => 'Пошаљи обавештења оператеру/клијенту при променама',
@@ -745,7 +745,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'Управљање оштим интерфејсом веб сервиса',
-        'Web Service Management' => '',
+        'Web Service Management' => 'Управљање веб сервисима',
         'Debugger' => 'Програм за отклањање грешака',
         'Go back to web service' => 'Иди назад на веб сервис',
         'Clear' => 'Очисти',
@@ -753,114 +753,114 @@ sub Data {
             'Да ли стварно желите да очистите отклањање грешака у логу овог веб сервиса?',
         'Request List' => 'Листа захтева',
         'Time' => 'Време',
-        'Communication ID' => '',
-        'Remote IP' => 'Удаљена „IP” адреса',
+        'Communication ID' => 'ИД Комуникације',
+        'Remote IP' => 'Удаљена IP адреса',
         'Loading' => 'Учитавам...',
         'Select a single request to see its details.' => 'Изаберите један захтев да би видели његове детаље.',
         'Filter by type' => 'Филтер по типу',
         'Filter from' => 'Филтер од',
         'Filter to' => 'Филтер до',
-        'Filter by remote IP' => 'Филтер по удаљеној „IP” адреси',
+        'Filter by remote IP' => 'Филтер по удаљеној IP адреси',
         'Limit' => 'Ограничење',
         'Refresh' => 'Освежавање',
 
         # Template: AdminGenericInterfaceErrorHandlingDefault
-        'Add ErrorHandling' => '',
-        'Edit ErrorHandling' => '',
-        'Do you really want to delete this error handling module?' => '',
+        'Add ErrorHandling' => 'Додај обраду грешке',
+        'Edit ErrorHandling' => 'Уреди обраду грешке',
+        'Do you really want to delete this error handling module?' => 'Да ли стварно желите да обришете овај модул за обраду грешке?',
         'All configuration data will be lost.' => 'Сви конфигурациони подаци ће бити изгубљени.',
-        'General options' => '',
+        'General options' => 'Општа подешавања',
         'The name can be used to distinguish different error handling configurations.' =>
-            '',
+            'Назив се може користити за прављење разлике између појединачних конфигурација за обраду грешке.',
         'Please provide a unique name for this web service.' => 'Молимо да обезбедите јединствено име за овај веб сервис.',
-        'Error handling module backend' => '',
+        'Error handling module backend' => 'Позадински приказ за обраду грешке',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
-            '',
-        'Processing options' => '',
+            'Овај модул OTRS позадинског приказа грешака ће бити позван интерно да обради грешку.',
+        'Processing options' => 'Подешавања обраде',
         'Configure filters to control error handling module execution.' =>
-            '',
+            'Конфигуришите филтере за контролу модула за обраду грешке.',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
-            '',
-        'Operation filter' => '',
-        'Only execute error handling module for selected operations.' => '',
+            'Само захтеви који одговарају подешеним филтерима (уколико их има) ће резултирати у позивању модула.',
+        'Operation filter' => 'Филтер операције',
+        'Only execute error handling module for selected operations.' => 'Изврши модул за обраду грешке само за одговарајуће операције.',
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
-            '',
-        'Invoker filter' => '',
-        'Only execute error handling module for selected invokers.' => '',
-        'Error message content filter' => '',
+            'Напомена: операција за грешке приликом пријема захтева није дефинисана. Филтери за овај ниво обраде не би требало да користе филтер операције.',
+        'Invoker filter' => 'Филтер позиваоца',
+        'Only execute error handling module for selected invokers.' => 'Изврши модул за обраду грешке само за одговарајуће позиваоце.',
+        'Error message content filter' => 'Филтер садржаја поруке о грешци',
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
-            '',
+            'Унесите регуларни израз за ограничење које поруке о грешци ће резултирати у позивању модула.',
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
-            '',
+            'Наслов и садржај поруке о грешци (како су приказани у програму за отклањање грешака) који ће бити сматрани као задовољен услов.',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
-            '',
-        'Error stage filter' => '',
+            'Пример: унесите \'^.*401 Unauthorized.*\$\' за обраду грешака само приликом аутентификације.',
+        'Error stage filter' => 'Филтер грешке у одговарућој фази',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
-            '',
+            'Изврши модул за обраду грешке само уколико се догоде током одговарајуће фазе у току захтева.',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
-            '',
-        'Error code' => '',
-        'An error identifier for this error handling module.' => '',
+            'Пример: обради само грешке када није могуће било мапирати одлазне податке.',
+        'Error code' => 'Код грешке',
+        'An error identifier for this error handling module.' => 'Идентификатор овог модула за обраду грешака.',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
-        'Error message' => '',
-        'An error explanation for this error handling module.' => '',
+            'Овај идентификатор ће бити доступан у XSLT мапирању и приказан у програму за отклањање грешака.',
+        'Error message' => 'Порука о грешци',
+        'An error explanation for this error handling module.' => 'Објашњење овог модула за обраду грешака.',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
+            'Ова порука ће бити доступна у XSLT мапирању и приказана у програму за отклањање грешака.',
         'Define if processing should be stopped after module was executed, skipping all remaining modules or only those of the same backend.' =>
-            '',
-        'Default behavior is to resume, processing the next module.' => '',
+            'Дефинише да ли процесирање треба да буде заустављено након што је модул извршен, приликом тока прескачући све остале модуле или само оне из истог позадинског приказа.',
+        'Default behavior is to resume, processing the next module.' => 'Подразумевано понашање је да се настави процесирање следећег модула.',
 
         # Template: AdminGenericInterfaceErrorHandlingRequestRetry
         'This module allows to configure scheduled retries for failed requests.' =>
-            '',
+            'Овај модул омогућава конфигурацију планираних поновних покушаја за неуспеле захтеве.',
         'Default behavior of GenericInterface web services is to send each request exactly once and not to reschedule after errors.' =>
-            '',
+            'Подразумевано понашање веб сервиса је да пошаље сваки захтев само једанпут и да не планира поновно извршавање у случају грешке.',
         'If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.' =>
-            '',
-        'Request retry options' => '',
+            'Уколико је више од једног модула способно да поново изврши појединачни захтев, само последњи модул ће бити узет у обзир и одредиће да ли ће бити поновног покушаја.',
+        'Request retry options' => 'Подешавања поновних покушаја',
         'Retry options are applied when requests cause error handling module execution (based on processing options).' =>
-            '',
-        'Schedule retry' => '',
+            'Поновни покушаји ће бити планирани када се изврши модул за обраду грешке (на основу подешавања истих).',
+        'Schedule retry' => 'Поновни покушај',
         'Should requests causing an error be triggered again at a later time?' =>
-            '',
-        'Initial retry interval' => '',
-        'Interval after which to trigger the first retry.' => '',
+            'Да ли захтеви који резултују у грешкама треба да буду поново извршени?',
+        'Initial retry interval' => 'Почетни интервал поновних покушаја',
+        'Interval after which to trigger the first retry.' => 'Временски интервал након кога ће бити извршен први поновни покушај.',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
-            '',
-        'Factor for further retries' => '',
+            'Напомена: овај и сви наредни интервали поновних покушаја су засновани на времену извршавања модула за обраду грешке почетног захтева.',
+        'Factor for further retries' => 'Фактор интервала поновних покушаја',
         'If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.' =>
-            '',
+            'Уколико захтев резултира грешком и после првог поновног покушаја, дефинише да ли су следећи покушаји извршени у истом или увећавајућем интервалу.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\' and retry factor at \'2\', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...' =>
-            '',
-        'Maximum retry interval' => '',
+            'Пример: уколико је захтев покренут у 10:00 са почетним интервалом од једног минута и фактором интервала 2, поновни покушаји ће бити извршени у 10:01 (1 минут), 10:03 (2*1=2 минута), 10:07 (2*2=4 минута), 10:15 (2*4=8 минута), ...',
+        'Maximum retry interval' => 'Максимални интервал поновних покушаја',
         'If a retry interval factor of \'1.5\' or \'2\' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.' =>
-            '',
+            'Уколико је одабран фактор интервала поновних покушаја од 1.5 или 2, могуће је спречити исувише дуге интервале дефинисањем максимално дозвољеног интервала.',
         'Intervals calculated to exceed the maximum retry interval will then automatically be shortened accordingly.' =>
-            '',
+            'Интервал који прелази максимално дозвољени интервал ће аутоматски бити скраћен.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum interval at \'5 minutes\', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...' =>
-            '',
-        'Maximum retry count' => '',
+            'Пример: уколико је захтев покренут у 10:00 са почетним интервалом од једног минута, фактором интервала 2 и максималним интервалом од 5 минута, поновни покушаји ће бити извршени у 10:01 (1 минут), 10:03 (2*1=2 минута), 10:07 (2*2=4 минута), 10:12 (8=> 5 минута), 10:17, ... ',
+        'Maximum retry count' => 'Максимални број поновних покушаја',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
-            '',
+            'Максимални дозвољени број поновних покушаја пре него што је неуспели захтево одбачен, не рачунајући почетни захтев.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
-            '',
+            'Пример: уколико је захтев покренут у 10:00 са почетним интервалом од једног минута, фактором интервала 2 и максималним бројем поновних покушаја 2, поновни покушаји ће бити извршени само у 10:01 и 10:03.',
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
-            '',
-        'This field must be empty or contain a positive number.' => '',
-        'Maximum retry period' => '',
+            'Напомена: максимални дозвољених број поновних покушаја не мора бити достигнут уколико је подешен максимални период поновних покушаја и достигнут раније.',
+        'This field must be empty or contain a positive number.' => 'Ово поље мора да буде празно или позитиван број.',
+        'Maximum retry period' => 'Максимални период поновних покушаја',
         'Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).' =>
-            '',
+            'Максимални дозвољени временски период понових покушаја пре него што је неуспели захтев одбачен (заснован на времену извршавања модула за обраду грешке почетног захтева).',
         'Retries that would normally be triggered after maximum period is elapsed (according to retry interval calculation) will automatically be triggered at maximum period exactly.' =>
-            '',
+            'Поновни покушаји који би стандардно били извршени после максималног временског периода (на основу израчунатог интервала) ће аутоматски бити извршени тачно у максималном периоду.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry period at \'30 minutes\', retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at 10:31=>10:30.' =>
-            '',
+            'Пример: уколико је захтев покренут у 10:00 са почетним интервалом од једног минута, фактором интервала 2 и максималним периодом од 30 минута, поновни покушаји ће бити извршени у 10:01, 10:03, 10:07, 10:15 и коначно у 10:31=>10:30.',
         'Note: Maximum retry period might not be reached if a maximum retry count is configured as well and reached earlier.' =>
-            '',
+            'Напомена: максимални дозвољени период не мора бити достигнут уколико је подешен максимални број поновних покушаја и достигнут раније.',
 
         # Template: AdminGenericInterfaceInvokerDefault
-        'Add Invoker' => '',
-        'Edit Invoker' => '',
+        'Add Invoker' => 'Додај позиваоца',
+        'Edit Invoker' => 'Уреди позиваоца',
         'Do you really want to delete this invoker?' => 'Да ли заиста желите да избришете овог позиваоца?',
         'Invoker Details' => 'Детаљи позиваоца',
         'The name is typically used to call up an operation of a remote web service.' =>
@@ -868,33 +868,33 @@ sub Data {
         'Please provide a unique name for this web service invoker.' => 'Молимо употребите јединствено име за овог позиваоца веб сервиса.',
         'Invoker backend' => 'Позадински приказ позиваоца',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
-            'Овај модул позадинског приказа „OTRS” позиваоца биће позван да припреми податке за слање на удаљени систем и да обради податке његовог одговора.',
+            'Овај модул позадинског приказа OTRS позиваоца биће позван да припреми податке за слање на удаљени систем и да обради податке његовог одговора.',
         'Mapping for outgoing request data' => 'Мапирање за излазне податке захтева',
         'Configure' => 'Подеси',
         'The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
-            'Подаци из „OTRS” позиваоца биће обрађени овим мапирањем, да би их трансформисали у типове података које удаљени систем очекује.',
+            'Подаци из OTRS позиваоца биће обрађени овим мапирањем, да би их трансформисали у типове података које удаљени систем очекује.',
         'Mapping for incoming response data' => 'Мапирање за улазне податке одговора',
         'The response data will be processed by this mapping, to transform it to the kind of data the invoker of OTRS expects.' =>
-            'Подаци одговора из „OTRS” позиваоца биће обрађени овим мапирањем, да би их трансформисали у типове података које удаљени систем очекује..',
+            'Подаци одговора из OTRS позиваоца биће обрађени овим мапирањем, да би их трансформисали у типове података које удаљени систем очекује..',
         'Asynchronous' => 'Асинхрони',
         'Condition' => 'Услов',
-        'Edit this event' => '',
+        'Edit this event' => 'Уреди овај догађај',
         'This invoker will be triggered by the configured events.' => 'Овај позиваоц ће бити активиран преко подешених догађаја.',
         'To add a new event select the event object and event name and click on the "+" button' =>
-            'За додавање новог догађаја изаберите објект догађаја и име догађаја па кликните на „+” дугме',
+            'За додавање новог догађаја изаберите објект догађаја и име догађаја па кликните на "+" дугме',
         'Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).' =>
-            'Асинхроним окидачима догађаја управља „OTRS” Планер системски процес у позадини (препоручено).',
+            'Асинхроним окидачима догађаја управља планер OTRS системског сервиса у позадини (препоручено).',
         'Synchronous event triggers would be processed directly during the web request.' =>
             'Синхрони окидачи догађаја биће обрађени директно током веб захтева.',
 
         # Template: AdminGenericInterfaceInvokerEvent
-        'GenericInterface Invoker Event Settings for Web Service %s' => '',
+        'GenericInterface Invoker Event Settings for Web Service %s' => 'Подешавања позиваоца догађаја у општем интерфејсу за веб сервис %s',
         'Go back to' => 'Иди назад на',
-        'Delete all conditions' => '',
+        'Delete all conditions' => 'Избриши све услове',
         'Do you really want to delete all the conditions for this event?' =>
-            '',
-        'General Settings' => '',
-        'Event type' => '',
+            'Да ли стварно желите да обришете све услове овог догађаја?',
+        'General Settings' => 'Општа подешавања',
+        'Event type' => 'Тип догађаја',
         'Conditions' => 'Услови',
         'Conditions can only operate on non-empty fields.' => 'Услови могу да се примене само са поља која нису празна.',
         'Type of Linking between Conditions' => 'Тип везе између услова',
@@ -903,7 +903,7 @@ sub Data {
         'Fields' => 'Поља',
         'Add a new Field' => 'Додај ново поље',
         'Remove this Field' => 'Уклони ово поље',
-        'And can\'t be repeated on the same condition.' => '„И” се не може поновити у истом услову.',
+        'And can\'t be repeated on the same condition.' => 'И се не може поновити у истом услову.',
         'Add New Condition' => 'Додај нови услов',
 
         # Template: AdminGenericInterfaceMappingSimple
@@ -929,75 +929,75 @@ sub Data {
         'Do you really want to delete this key mapping?' => 'Да ли стварно желите да обришете ово мапирање кључа?',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'General Shortcuts' => '',
-        'MacOS Shortcuts' => '',
-        'Comment code' => '',
-        'Uncomment code' => '',
-        'Auto format code' => '',
-        'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
-        'XSLT Mapping' => '',
-        'XSLT stylesheet' => '',
-        'The entered data is not a valid XSLT style sheet.' => '',
-        'Here you can add or modify your XSLT mapping code.' => '',
+        'General Shortcuts' => 'Опште пречице',
+        'MacOS Shortcuts' => 'MacOS пречице',
+        'Comment code' => 'Додај коментар кода',
+        'Uncomment code' => 'Уклони коментар кода',
+        'Auto format code' => 'Форматирај код аутоматски',
+        'Expand/Collapse code block' => 'Прошири/смањи блок кода',
+        'Find' => 'Пронађи',
+        'Find next' => 'Пронађи следеће',
+        'Find previous' => 'Пронађи претходно',
+        'Find and replace' => 'Пронађи и замени',
+        'Find and replace all' => 'Пронађи и замени све',
+        'XSLT Mapping' => 'XSLT мапирање',
+        'XSLT stylesheet' => 'XSLT опис стилова',
+        'The entered data is not a valid XSLT style sheet.' => 'Унети подаци нису исправан XSLT опис стилова.',
+        'Here you can add or modify your XSLT mapping code.' => 'Овде може додати и изменити код XSLT мапирања.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
-            '',
-        'Data includes' => '',
+            'Поље за уређивање вам омогућава да користите функције као што су аутоматско форматирање, промена величине прозора и аутоматско допуњавање команди и заграда.',
+        'Data includes' => 'Подаци укључују',
         'Select one or more sets of data that were created at earlier request/response stages to be included in mappable data.' =>
-            '',
+            'Одаберите један или више скупова података који су креирани у ранијој фази захтева/одговора за укључивање у податке за мапирање.',
         'These sets will appear in the data structure at \'/DataInclude/<DataSetName>\' (see debugger output of actual requests for details).' =>
-            '',
-        'Data key regex filters (before mapping)' => '',
-        'Data key regex filters (after mapping)' => '',
-        'Regular expressions' => '',
-        'Replace' => '',
-        'Remove regex' => '',
-        'Add regex' => '',
+            'Ови скупови ће бити укључени у структуру на путањи \'/DataInclude/<DataSetName>\' (видите програм за отклањање грешака за детаље).',
+        'Data key regex filters (before mapping)' => 'Филтери регуларних израза (пре мапирања)',
+        'Data key regex filters (after mapping)' => 'Филтери регуларних израза (после мапирања)',
+        'Regular expressions' => 'Регуларни изрази',
+        'Replace' => 'Замени',
+        'Remove regex' => 'Уклони регуларни израз',
+        'Add regex' => 'Додај регуларни израз',
         'These filters can be used to transform keys using regular expressions.' =>
-            '',
+            'Ови филтери се могу користи за трансформацију кључева коришћењем регуларних израза.',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
-            '',
+            'Структура података ће бити процесирана рекурзивно и сви подешени регуларни изрази ће бити примењени на све кључеве.',
         'Use cases are e.g. removing key prefixes that are undesired or correcting keys that are invalid as XML element names.' =>
-            '',
+            'Примери коришћења су нпр. уклањањен непожељних префикса из кључева или исправљање кључева који су неисправни као XML називи.',
         'Example 1: Search = \'^jira:\' / Replace = \'\' turns \'jira:element\' into \'element\'.' =>
-            '',
+            'Пример 1: пронађи = \'^jira:\' / замени = \'\' претвара \'jira:element\' у \'element\'.',
         'Example 2: Search = \'^\' / Replace = \'_\' turns \'16x16\' into \'_16x16\'.' =>
-            '',
+            'Пример 2: пронађи = \'^\' / замени = \'_\' претвара \'16x16\' у \'_16x16\'.',
         'Example 3: Search = \'^(?<number>\d+) (?<text>.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' turns \'16 elementname\' into \'_elementname_16\'.' =>
-            '',
+            'Пример 3: пронађи = \'^(?<number>\d+) (?<text>.+?)\$\' / замени = \'_\$+{text}_\$+{number}\' претвара \'16 elementname\' у \'_elementname_16\'.',
         'For information about regular expressions in Perl please see here:' =>
-            '',
-        'Perl regular expressions tutorial' => '',
+            'За информације о Perl регуларним изразима, молимо посетите:',
+        'Perl regular expressions tutorial' => 'Приручних Perl регуларних израза',
         'If modifiers are desired they have to be specified within the regexes themselves.' =>
-            '',
+            'Уколико су вам неопходни модификатори, мораћете да их дефинишете у оквиру самих регуларних израза.',
         'Regular expressions defined here will be applied before the XSLT mapping.' =>
-            '',
+            'Регуларни изрази дефинисани овде биће примењени пре XSLT мапирања.',
         'Regular expressions defined here will be applied after the XSLT mapping.' =>
-            '',
+            'Регуларни изрази дефинисани овде биће примењени после XSLT мапирања.',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add Operation' => '',
-        'Edit Operation' => '',
+        'Add Operation' => 'Додај операцију',
+        'Edit Operation' => 'Уреди операцију',
         'Do you really want to delete this operation?' => 'Да ли стварно желите да обришете ову операцију?',
         'Operation Details' => 'Детаљи операције',
         'The name is typically used to call up this web service operation from a remote system.' =>
             'Назив се обично користи за позивање операције веб сервиса из удаљеног система.',
         'Mapping for incoming request data' => 'Мапирање за долазне податке захтева',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
-            'Подаци захтева ће бити обрађени кроз мапирање, ради трансформације у облик који „OTRS” очекује.',
+            'Подаци захтева ће бити обрађени кроз мапирање, ради трансформације у облик који OTRS очекује.',
         'Operation backend' => 'Оперативни позадински приказ',
         'This OTRS operation backend module will be called internally to process the request, generating data for the response.' =>
-            'Овај модул „OTRS” оперативног позадинског приказа ће бити интерно позван да обради захтев, генерисањем података за одговор.',
+            'Овај модул OTRS оперативног позадинског приказа ће бити интерно позван да обради захтев, генерисањем података за одговор.',
         'Mapping for outgoing response data' => 'Мапирање за излазне податке одговора',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Подаци одговора ће бити обрађени кроз ово мапирање, ради трансформације у облик који удаљени систем очекује.',
-        'Include Ticket Data' => '',
+        'Include Ticket Data' => 'Укључи податке тикета',
         'Include ticket data by response. Only available for TicketCreate and TicketUpdate operations.' =>
-            '',
+            'Укључује податке тикета у одговору. Доступно је само за TicketCreate и TicketUpdate операције.',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'Network Transport' => 'Мрежни транспорт',
@@ -1011,28 +1011,28 @@ sub Data {
         'Maximum message length' => 'Највећа дужина поруке',
         'This field should be an integer number.' => 'Ово поље треба да буде цео број.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
-            'Овде можете унети максималну величину (у бајтима) „REST” порука које ће „OTRS” да обради.',
-        'Send Keep-Alive' => 'Пошаљи „Keep-Alive”',
+            'Овде можете унети максималну величину (у бајтима) REST порука које ће OTRS да обради.',
+        'Send Keep-Alive' => 'Пошаљи Keep-Alive',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             'Конфигурација дефинише да ли долазна конекција треба да се затвори и одржава.',
-        'Additional response headers' => '',
-        'Add response header' => '',
+        'Additional response headers' => 'Додатна заглавља у одговорима',
+        'Add response header' => 'Додај заглавље у одговору',
         'Endpoint' => 'Крајња тачка',
         'URI to indicate specific location for accessing a web service.' =>
-            '',
+            'URI за идентификацију специфичне локације за приступ сервису. ',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            'нпр „https://www.otrs.com:10745/api/v1.0” (без знака \ крају)',
-        'Timeout' => '',
-        'Timeout value for requests.' => '',
+            'нпр. https://www.otrs.com:10745/api/v1.0 (без косе црте на крају)',
+        'Timeout' => 'Временско ограничење',
+        'Timeout value for requests.' => 'Временско ограничење за захтеве.',
         'Authentication' => 'Аутентификација',
         'An optional authentication mechanism to access the remote system.' =>
-            '',
-        'BasicAuth User' => '',
+            'Опциони механизам аутентификације за приступ удаљеном систему.',
+        'BasicAuth User' => 'BasicAuth корисник',
         'The user name to be used to access the remote system.' => 'Корисничко име које ће бити коришћено за приступ удаљеном систему.',
-        'BasicAuth Password' => '',
+        'BasicAuth Password' => 'BasicAuth лозинка',
         'The password for the privileged user.' => 'Лозинка за привилегованог корисника.',
-        'Use Proxy Options' => '',
-        'Show or hide Proxy options to connect to the remote system.' => '',
+        'Use Proxy Options' => 'Користи Proxy подешавања',
+        'Show or hide Proxy options to connect to the remote system.' => 'Прикажи или сакриј Proxy опције за повезивање са удаљеним системом.',
         'Proxy Server' => 'Proxy сервер',
         'URI of a proxy server to be used (if needed).' => 'URI од proxy сервера да буде коришћен (ако је потребно).',
         'e.g. http://proxy_hostname:8080' => 'нпр. http://proxy_hostname:8080',
@@ -1040,22 +1040,22 @@ sub Data {
         'The user name to be used to access the proxy server.' => 'Корисничко име које ће се користити за приступ proxy серверу.',
         'Proxy Password' => 'Proxy лозинка',
         'The password for the proxy user.' => 'Лозинка за proxy корисника',
-        'Skip Proxy' => '',
-        'Skip proxy servers that might be configured globally?' => '',
+        'Skip Proxy' => 'Игнориши Proxy',
+        'Skip proxy servers that might be configured globally?' => 'Да ли желите да игноришете Proxy сервере који су можда подешени глобално?',
         'Use SSL Options' => 'Користи SSL опције',
         'Show or hide SSL options to connect to the remote system.' => 'Прикажи или сакриј SSL опције за повезивање са удаљеним системом.',
-        'Client Certificate' => '',
+        'Client Certificate' => 'Клијентски сертификат',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
-            '',
-        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
-        'Client Certificate Key' => '',
+            'Цела путања и назив за датотеку SSL сертификата (мора бити у PEM, DER или PKCS#12 формату).',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => 'нпр. /opt/otrs/var/certificates/SOAP/certificate.pem',
+        'Client Certificate Key' => 'Кључ клијентског сертификата',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
-            '',
-        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
-        'Client Certificate Key Password' => '',
+            'Цела путања и назив за датотеку кључа SSL сертификата (уколико није укључен у датотеку сертификата).',
+        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'нпр. /opt/otrs/var/certificates/SOAP/key.pem',
+        'Client Certificate Key Password' => 'Лозинка кључа клијентског сертификата',
         'The password to open the SSL certificate if the key is encrypted.' =>
-            '',
-        'Certification Authority (CA) Certificate' => '',
+            'Лозинка за отварање SSL сертификата уколико је кључ шифрован.',
+        'Certification Authority (CA) Certificate' => 'Сертификат сертификационог тела (CA)',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
             'Цела путања и назив сертификационог тела које провера исправност SSL сертификата.',
         'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => 'нпр. /opt/otrs/var/certificates/SOAP/CA/ca.pem',
@@ -1073,18 +1073,18 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'Подразумевена HTTP команда за захтеве.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
-        'Set SOAPAction' => '',
-        'Set to "Yes" in order to send a filled SOAPAction header.' => '',
-        'Set to "No" in order to send an empty SOAPAction header.' => '',
+        'e.g. https://local.otrs.com:8000/Webservice/Example' => 'нпр. https://local.otrs.com:8000/Webservice/Example',
+        'Set SOAPAction' => 'Дефиниши SOAPAction',
+        'Set to "Yes" in order to send a filled SOAPAction header.' => 'Изабери "Да" за слање попуњеног SOAPAction заглавља.',
+        'Set to "No" in order to send an empty SOAPAction header.' => 'Изабери "Не" за слање празног SOAPAction заглавља.',
         'Set to "Yes" in order to check the received SOAPAction header (if not empty).' =>
-            '',
+            'Изабери "Да" за проверу примљеног SOAPAction заглавља (уколико није празно).',
         'Set to "No" in order to ignore the received SOAPAction header.' =>
-            '',
-        'SOAPAction scheme' => '',
-        'Select how SOAPAction should be constructed.' => '',
-        'Some web services require a specific construction.' => '',
-        'Some web services send a specific construction.' => '',
+            'Изабери "Не" за игнорисање примљеног SOAPAction заглавља.',
+        'SOAPAction scheme' => 'SOAPAction шема',
+        'Select how SOAPAction should be constructed.' => 'Изаберите како ће бити конструисан SOAPAction.',
+        'Some web services require a specific construction.' => 'Поједини веб сервиси захтевају специфичну конструкцију.',
+        'Some web services send a specific construction.' => 'Поједини веб сервиси шаљу специфичну конструкцију.',
         'SOAPAction separator' => 'Сепаратор SOAP акције',
         'Character to use as separator between name space and SOAP operation.' =>
             '',
@@ -1097,22 +1097,22 @@ sub Data {
             'нпр. urn:otrs-com:soap:functions или http://www.otrs.com/GenericInterface/actions',
         'Request name scheme' => 'Захтев за шему имена',
         'Select how SOAP request function wrapper should be constructed.' =>
-            'Изаберите како ће бити конструисан омотач функције „SOAP” захтева.',
+            'Изаберите како ће бити конструисан омотач функције SOAP захтева.',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
-            '„НазивФункције” се користи као пример за стварно име позиваоца/операције.',
+            '\'FunctionName\' се користи као пример за стварно име позиваоца/операције.',
         '\'FreeText\' is used as example for actual configured value.' =>
-            '„Слободан текст” се користи као пример за стварну подешену вредност.',
+            '\'FreeText\' се користи као пример за стварну подешену вредност.',
         'Request name free text' => 'Слободан текст имена захтева',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Текст који ће бити кориштен као наставак имена или замена омотача функције.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
-            'Молимо да узмете у обзир „XML” оганичења именовања (нпр немојте користити „<” и „&”).',
+            'Молимо да узмете у обзир XML оганичења именовања (нпр. немојте користити \'<\' и \'&\').',
         'Response name scheme' => 'Шема имена одговора',
         'Select how SOAP response function wrapper should be constructed.' =>
-            'Изаберите како ће бити конструисан омотач функције „SOAP” одговора.',
+            'Изаберите како ће бити конструисан омотач функције SOAP одговора.',
         'Response name free text' => 'Слободан текст имена одговора',
         'Here you can specify the maximum size (in bytes) of SOAP messages that OTRS will process.' =>
-            'Овде можете унети максималну величину (у бајтима) „SOAP” порука које ће „OTRS” да обради.',
+            'Овде можете унети максималну величину (у бајтима) SOAP порука које ће OTRS да обради.',
         'Encoding' => 'Кодни распоред',
         'The character encoding for the SOAP message contents.' => 'Кодни распоред знакова за садржај SOAP поруке.',
         'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'нпр. utf-8, latin1, iso-8859-1, cp1250, ...',
@@ -1120,7 +1120,7 @@ sub Data {
         'Add new first level element' => 'Додај нови елемент првог нивоа',
         'Element' => 'Елемент',
         'Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport.' =>
-            'Одлазни редослед сортирања за XML поља (структура испод назива омотача функције) - погледајте документацију за „SOAP” транспорт.',
+            'Одлазни редослед сортирања за XML поља (структура испод назива омотача функције) - погледајте документацију за SOAP транспорт.',
 
         # Template: AdminGenericInterfaceWebservice
         'Add Web Service' => '',
@@ -1150,16 +1150,16 @@ sub Data {
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Након снимања конфигурације бићете поново преусмерени на приказ екрана за уређивање.',
         'If you want to return to overview please click the "Go to overview" button.' =>
-            'Ако желите да се вратите на преглед, молимо да кликнете на дугме „Иди на преглед”.',
+            'Ако желите да се вратите на преглед, молимо да кликнете на дугме \'Иди на преглед\'.',
         'Web Service List' => 'Листа веб сервиса',
         'Remote system' => 'Удаљени систем',
         'Provider transport' => 'Транспорт провајдера',
         'Requester transport' => 'Транспорт потражиоца',
         'Debug threshold' => 'Праг уклањања грешака',
         'In provider mode, OTRS offers web services which are used by remote systems.' =>
-            'У режиму провајдера, „OTRS” нуди веб сервисе који се користе од стране удаљених система.',
+            'У режиму провајдера, OTRS нуди веб сервисе који се користе од стране удаљених система.',
         'In requester mode, OTRS uses web services of remote systems.' =>
-            'У режиму наручиоца, „OTRS” користи веб сервисе удаљених система.',
+            'У режиму наручиоца, OTRS користи веб сервисе удаљених система.',
         'Network transport' => 'Мрежни транспорт',
         'Error Handling Modules' => '',
         'Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop.' =>
@@ -1198,7 +1198,7 @@ sub Data {
         'Edit Group' => 'Уреди групу',
         'Add group' => 'Додај групу',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
-            '„admin” група служи за приступ администрационом простору, а „stats” група статистикама.',
+            '\'admin\' група служи за приступ администрационом простору, а \'stats\' група статистикама.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             'Направи нове групе за руковање правима приступа разним групама оператера (нпр. одељење набавке, техничка подршка, продаја, ...).',
         'It\'s useful for ASP solutions. ' => 'Корисно ASP решења.',
@@ -1255,12 +1255,12 @@ sub Data {
         # Template: AdminNotificationEvent
         'Ticket Notification Management' => 'Управљање обавештењима о тикетима',
         'Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.' =>
-            'Овде можете послати конфигурациону датотеку за увоз обавештења о тикету у ваш систем. Датотека мора бити у „.yml” формату ако се извози од стране модула за обавештења о тикету.',
+            'Овде можете послати конфигурациону датотеку за увоз обавештења о тикету у ваш систем. Датотека мора бити у .yml формату ако се извози од стране модула за обавештења о тикету.',
         'Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.' =>
             'Овде можете изабрати који догађаји ће покренути обавештавање. Додатни филтер за тикете може бити примењен ради слања само за тикете по одређеном критеријуму.',
         'Ticket Filter' => 'Филтер тикета',
         'Lock' => 'Закључај',
-        'SLA' => '„SLA”',
+        'SLA' => 'SLA',
         'Customer User ID' => 'ИД клијента корисника',
         'Article Filter' => 'Филтер чланка',
         'Only for ArticleCreate and ArticleSend event' => 'Само за догађај креирање чланка и слање чланка',
@@ -1299,10 +1299,10 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Управљај са %s',
-        'Downgrade to OTRS Free' => 'Повратак на бесплатну верзију „OTRS”',
+        'Downgrade to OTRS Free' => 'Повратак на бесплатну верзију OTRS',
         'Read documentation' => 'Прочитај документацију',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '%s редовно се повезује са „cloud.otrs.com” за проверу доступних ажурирања и исправности интерних уговора.',
+            '%s редовно се повезује са cloud.otrs.com за проверу доступних ажурирања и исправности интерних уговора.',
         'Unauthorized Usage Detected' => 'Детектована неовлаштена употреба',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
             'Овај систем користи %s без адекватне лиценце! Молимо да контактирате %s за обнову или активацију вашег уговора!',
@@ -1330,11 +1330,11 @@ sub Data {
             '%s ће бити доступна ускоро. Молимо, проверите поново за неколико дана.',
         'Please have a look at %s for more information.' => 'Молимо да погледате  %s за више информација.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
-            'Ваш „OTRS Free” је основа за све будуће активности. Молимо вас да се региструјете пре него што наставите са процесом ажурирања %s!',
+            'Ваш \'OTRS Free\' је основа за све будуће активности. Молимо вас да се региструјете пре него што наставите са процесом ажурирања %s!',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Пре него вам %s буде користан, молимо да контактирате %s да бисте добили %s уговор.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
-            'Конекција према cloud.otrs.com преко HTTPS није могла бити успостављена. Молимо осигурајте да ваш „OTRS” може да се повеже са cloud.otrs.com преко порта 443.',
+            'Конекција према cloud.otrs.com преко HTTPS није могла бити успостављена. Молимо осигурајте да ваш OTRS може да се повеже са cloud.otrs.com преко порта 443.',
         'Package installation requires patch level update of OTRS.' => 'Инсталација пакета захтева ажурирану верзију OTRS.',
         'Please visit our customer portal and file a request.' => 'Молимо посетите наш кориснички портал и поднесите захтев.',
         'Everything else will be done as part of your contract.' => 'Све остало ће бити урађено под вашим постојећим уговором.',
@@ -1354,45 +1354,45 @@ sub Data {
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => 'Поништи повратак на стару верзију и врати се назад',
-        'Go to OTRS Package Manager' => 'Иди на „OTRS” управљање пакетима',
+        'Go to OTRS Package Manager' => 'Иди на OTRS управљање пакетима',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             'Нажалост, тренутно не можете да се вратите на стару верзију због следећих пакета који зависе од %s:',
         'Vendor' => 'Продавац',
         'Please uninstall the packages first using the package manager and try again.' =>
             'Молимо вас да прво деинсталирате пакете кроз управљач пакетима па да покушате поново. ',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
-            'Вратићете се на стару верзију бесплатног „OTRS” и изгубићете следећа својства и податке повезане са:',
+            'Вратићете се на стару верзију бесплатног OTRS и изгубићете следећа својства и податке повезане са:',
         'Chat' => 'Ћаскање',
         'Report Generator' => 'Генератор извештаја',
         'Timeline view in ticket zoom' => 'Детаљни приказ тикета на временској линији',
-        'DynamicField ContactWithData' => 'Динамичко поље „Контакт са подацима”',
+        'DynamicField ContactWithData' => 'Динамичко поље "Контакт са подацима"',
         'DynamicField Database' => 'База података динамичких поља',
-        'SLA Selection Dialog' => 'Дијалог избора „SLA” ',
+        'SLA Selection Dialog' => 'Дијалог избора SLA',
         'Ticket Attachment View' => 'Преглед прилога уз тикет',
         'The %s skin' => 'Изглед %s',
 
         # Template: AdminPGP
-        'PGP Management' => 'Управљање „PGP” кључевима',
-        'Add PGP Key' => 'Додај „PGP” кључ',
-        'PGP support is disabled' => '„PGP” подршка је онемогућена',
-        'To be able to use PGP in OTRS, you have to enable it first.' => 'Да би могли да користите „PGP” у „OTRS”, морате га прво омогућити.',
-        'Enable PGP support' => 'Омогући „PGP” подршку',
-        'Faulty PGP configuration' => 'Неисправна „PGP” конфигурација',
+        'PGP Management' => 'Управљање PGP кључевима',
+        'Add PGP Key' => 'Додај PGP кључ',
+        'PGP support is disabled' => 'PGP подршка је онемогућена',
+        'To be able to use PGP in OTRS, you have to enable it first.' => 'Да би могли да користите PGP у OTRS, морате га прво омогућити.',
+        'Enable PGP support' => 'Омогући PGP подршку',
+        'Faulty PGP configuration' => 'Неисправна PGP конфигурација',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
-            '„PGP” подршка ја омогућена али релевантна конфигурација садржи грешке. Молимо да проверите конфигурацију притиском на дугме испод.',
+            'PGP подршка ја омогућена али релевантна конфигурација садржи грешке. Молимо да проверите конфигурацију притиском на дугме испод.',
         'Configure it here!' => 'Подесите то овде!',
-        'Check PGP configuration' => 'Провери „PGP” конфигурацију',
-        'Add PGP key' => 'Додај „PGP” кључ',
+        'Check PGP configuration' => 'Провери PGP конфигурацију',
+        'Add PGP key' => 'Додај PGP кључ',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'На овај начин можете директно уређивати комплет кључева подешен у SysConfig (системским конфигурацијама).',
-        'Introduction to PGP' => 'Увод у „PGP”',
+        'Introduction to PGP' => 'Увод у PGP',
         'Result' => 'Резултат',
         'Identifier' => 'Идентификатор',
         'Bit' => 'Бит',
         'Fingerprint' => 'Отисак',
         'Expires' => 'Истиче',
         'Delete this key' => 'Обриши овај кључ',
-        'PGP key' => '„PGP” кључ',
+        'PGP key' => 'PGP кључ',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Управљање пакетима',
@@ -1427,11 +1427,11 @@ sub Data {
         'Upgrade Package' => '',
         'Continue' => 'Настави',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            'Молимо вас да будете сигурни да ваша база података прихвата пакете величине преко %s MB (тренутно прихвата само пакете до %s MB).Молимо прилагодите подешавања „max_allowed_packet” на вашој бази података, да би сте избегли грешке.',
+            'Молимо вас да будете сигурни да ваша база података прихвата пакете величине преко %s MB (тренутно прихвата само пакете до %s MB). Молимо вас да прилагодите подешавања \'max_allowed_packet\' на вашој бази података, да би сте избегли грешке.',
         'Install' => 'Инсталирај',
         'Update repository information' => 'Ажурирај информације о спремишту',
         'Cloud services are currently disabled.' => 'Сервиси у облаку су тренутно деактивирани.',
-        'OTRS Verify™ can not continue!' => '„OTRS Verify™” не може да настави!',
+        'OTRS Verify™ can not continue!' => 'OTRS Verify™ не може да настави!',
         'Enable cloud services' => 'Активирај сервисе у облаку',
         'Upgrade all installed packages' => '',
         'Online Repository' => 'Мрежно спремиште',
@@ -1498,7 +1498,7 @@ sub Data {
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Ради отпреме или филтрирања долазних имејлова на основу заглавља. Поклапање помоћу регуларних израза је такође могуће.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
-            'Уколико желите поклапање само са имејл адресом, користите EMAILADDRESS:info@example.com у „Од”, „За” или „Cc”.',
+            'Уколико желите поклапање само са имејл адресом, користите EMAILADDRESS:info@example.com у From, To или Cc.',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Уколико користите регуларне изразе, такође можете користити и упатеру вредност у () као (***) у \'Set\' action.',
         'You can also use named captures %s and use the names in the \'Set\' action %s (e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name \'%s\'.' =>
@@ -1587,8 +1587,8 @@ sub Data {
         'The selected permission does not exist.' => 'Изабрана овлашћења не постоје.',
         'Required Lock' => 'Обавезно закључај',
         'The selected required lock does not exist.' => 'Одабрано захтевано закључавање не постоји.',
-        'Submit Advice Text' => 'Поднеси „Advice Text”',
-        'Submit Button Text' => 'Поднеси „Button Text”',
+        'Submit Advice Text' => 'Пошаљи текст савета',
+        'Submit Button Text' => 'Пошаљи текст дугмета',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             'Поља можете доделити у овом дијалогу активности превлачењем елемената мишем из леве листе у десну листу.',
         'Filter available fields' => 'Филтрирај расположива поља',
@@ -1753,13 +1753,13 @@ sub Data {
         'Show transmitted data' => 'Покажи послате податке',
         'Deregister system' => 'Одјави систем',
         'Overview of registered systems' => 'Преглед регистрованих система',
-        'This system is registered with OTRS Group.' => 'Овај систем је регистрован у „OTRS” Групи.',
+        'This system is registered with OTRS Group.' => 'Овај систем је регистрован у OTRS групи.',
         'System type' => 'Тип система',
         'Unique ID' => 'Јединствени ИД',
         'Last communication with registration server' => 'Последња комуникација са регистрационим сервером',
         'System Registration not Possible' => '',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
-            'Молимо да обратите пажњу да не можете регистровати ваш систем ако „OTRS” системски процес не ради коректно!',
+            'Молимо да обратите пажњу да не можете регистровати ваш систем ако OTRS системски процес не ради коректно!',
         'Instructions' => 'Инструкције',
         'System Deregistration not Possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
@@ -1778,20 +1778,20 @@ sub Data {
         'This is only the beginning!' => 'Ово је само почетак!',
         'We will inform you about our new services and offerings soon.' =>
             'Информисаћемо вас о нашим новим услугама и понудама ускоро!',
-        'Can I use OTRS without being registered?' => 'Да ли могу да користим „OTRS” уколико нисам регистрован?',
+        'Can I use OTRS without being registered?' => 'Да ли могу да користим OTRS уколико нисам регистрован?',
         'System registration is optional.' => 'Регистрација система је опционална.',
-        'You can download and use OTRS without being registered.' => 'Можете преузети „OTRS” и уколико нисте регистровани.',
+        'You can download and use OTRS without being registered.' => 'Можете преузети OTRS и уколико нисте регистровани.',
         'Is it possible to deregister?' => 'Да ли је могућа одјава?',
         'You can deregister at any time.' => 'Можете се одјавити у било које доба.',
         'Which data is transfered when registering?' => 'Који подаци се преносе приликом регистрације?',
-        'A registered system sends the following data to OTRS Group:' => 'Регистровани систем шаље следеће податке „OTRS” Групи:',
+        'A registered system sends the following data to OTRS Group:' => 'Регистровани систем шаље следеће податке OTRS групи:',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
-            'Пуно квалификовано име домена (FQDN), „OTRS” верзија, база података, оперативни систем и верзија Перла',
+            'Пуно квалификовано име домена (FQDN), OTRS верзија, база података, оперативни систем и Perl верзија.',
         'Why do I have to provide a description for my system?' => 'Зашто морам да проследим опис мог система?',
         'The description of the system is optional.' => 'Опис система је опциони.',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
             'Наведени опис и тип система помажу вам да идентификујете и управљате детаљима регистрованог система.',
-        'How often does my OTRS system send updates?' => 'Колико често ће мој „OTRS” систем слати ажурирања?',
+        'How often does my OTRS system send updates?' => 'Колико често ће мој OTRS систем слати ажурирања?',
         'Your system will send updates to the registration server at regular intervals.' =>
             'Ваш систем ће у редовним временским интервалима слати ажурирања регистрационом серверу.',
         'Typically this would be around once every three days.' => 'Обично је то једном у свака три дана.',
@@ -1806,16 +1806,16 @@ sub Data {
         'Retrieve a new one' => 'Преузми нову',
         'Next' => 'Следеће',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
-            'Ови подаци ће бити пренети у „OTRS” Групу када региструјете овај систем.',
+            'Ови подаци ће бити послати OTRS групи када региструјете овај систем.',
         'Attribute' => 'Атрибут',
         'FQDN' => 'FQDN',
-        'OTRS Version' => '„OTRS” верзија',
+        'OTRS Version' => 'OTRS верзија',
         'Operating System' => 'Оперативни систем',
         'Perl Version' => 'Perl верзија',
         'Optional description of this system.' => 'Опциони опис овог система.',
         'Register' => 'Региструј',
         'Continuing with this step will deregister the system from OTRS Group.' =>
-            'Настављање овог корака ће ођавити систем из „OTRS” Групе.',
+            'Настављање овог корака ће одјавити систем из OTRS групе.',
         'Deregister' => 'Искључи из регистра',
         'You can modify registration settings here.' => 'Овде можете изменити регистрациона подешавања.',
         'Overview of Transmitted Data' => '',
@@ -1823,7 +1823,7 @@ sub Data {
         'The following data is sent at minimum every 3 days from your system to %s.' =>
             'Следећи подаци су слати барем свака 3 дана са вашег система за %s.',
         'The data will be transferred in JSON format via a secure https connection.' =>
-            'Подаци ће бити послати у „JSON” формату преко сигурне „https” везе. ',
+            'Подаци ће бити послати у JSON формату преко сигурне https везе. ',
         'System Registration Data' => 'Подаци о регистрацији система',
         'Support Data' => 'Подаци подршке',
 
@@ -1877,14 +1877,14 @@ sub Data {
         'S/MIME Management' => 'S/MIME управљање',
         'Add Certificate' => 'Додај сертификат',
         'Add Private Key' => 'Додај приватни кључ',
-        'SMIME support is disabled' => '„SMIME” подршка је онемогућена',
+        'SMIME support is disabled' => 'SMIME подршка је онемогућена',
         'To be able to use SMIME in OTRS, you have to enable it first.' =>
-            'Да би могли да користите „SMIME” у „OTRS”, морате је прво омогућити.',
-        'Enable SMIME support' => 'Омогући „SMIME” подршку',
-        'Faulty SMIME configuration' => 'Неисправна „SMIME” конфигурација',
+            'Да би могли да користите SMIME у OTRS, морате је прво омогућити.',
+        'Enable SMIME support' => 'Омогући SMIME подршку',
+        'Faulty SMIME configuration' => 'Неисправна SMIME конфигурација',
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
-            '„SMIME” подршка ја омогућена али релевантна конфигурација садржи грешке. Молимо да проверите конфигурацију притиском на дугме испод.',
-        'Check SMIME configuration' => 'Провери „SMIME” конфигурацију',
+            'SMIME подршка ја омогућена али релевантна конфигурација садржи грешке. Молимо да проверите конфигурацију притиском на дугме испод.',
+        'Check SMIME configuration' => 'Провери SMIME конфигурацију',
         'Add certificate' => 'Додај сертификат',
         'Add private key' => 'Додај приватни кључ',
         'Filter for Certificates' => '',
@@ -1893,7 +1893,7 @@ sub Data {
         'To manage private certificate relations click on a private key icon.' =>
             'За управљање везама приватног сертификата кликните на иконицу приватни кључ.',
         'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
-            'Овде можете додати везе на ваш приватни сертификат, што ће бити уграђено у „S/MIME” потпис сваки пут кад употребите овај сертификат за потпис имејла.',
+            'Овде можете додати везе на ваш приватни сертификат, што ће бити уграђено у S/MIME потпис сваки пут кад употребите овај сертификат за потпис имејла.',
         'See also' => 'Погледај још',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'На овај начин можете директно да уређујете сертификате и приватне кључеве у систему датотека.',
@@ -1940,7 +1940,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database.' =>
             'Овде можете унети SQL команде и послати их директно апликационој бази података.',
         'Options' => 'Опције',
-        'Only select queries are allowed.' => 'Дозвољени су само „select” упити.',
+        'Only select queries are allowed.' => 'Дозвољени су само \'select\' упити.',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Постоји грешка у синтакси вашег SQL упита. Молимо проверите.',
         'There is at least one parameter missing for the binding. Please check it.' =>
@@ -1999,10 +1999,10 @@ sub Data {
         'This state is used in the following config settings:' => '',
 
         # Template: AdminSupportDataCollector
-        'Sending support data to OTRS Group is not possible!' => 'Слање података за подршку за „OTRS” Групи није могуће!',
+        'Sending support data to OTRS Group is not possible!' => 'Слање података за подршку OTRS групи није могуће!',
         'Enable Cloud Services' => 'Активирај сервисе у облаку',
         'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
-            'Ови подаци се шаљу „OTRS” Групи по регуларној основи. Да зауставите слање ових података молимо вас да ажурирате регистрацију.',
+            'Ови подаци се шаљу OTRS групи у регуларном интервалу. Да зауставите слање ових података молимо вас да ажурирате регистрацију.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             'Можете мануелно активирати слање подржаних података притискањем овог дугмета:',
         'Send Update' => 'Пошаљи ажурирање',
@@ -2019,10 +2019,10 @@ sub Data {
             'Имејл адреса овог корисника је неважећа, ова опција је искључена.',
         'Sending' => 'Слање',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
-            'Пакет подршке ће бити аутоматски послат имејлом „OTRS” групи.',
+            'Пакет подршке ће бити аутоматски послат имејлом OTRS групи.',
         'Download File' => 'Преузми датотеку',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
-            'Датотека која садржи пакет за подршку ће бити преузета на локални рачунар. Молимо вас да сачувате датотеку и да нам („OTRS Group”) је пошаљете на неки други начин.',
+            'Датотека која садржи пакет за подршку ће бити преузета на локални рачунар. Молимо вас да сачувате датотеку и да је пошаљете на неки други начин OTRS групи.',
         'Error: Support data could not be collected (%s).' => 'Подржани подаци не могу бити прикупљени (%s).',
         'Details' => 'Детаљи',
 
@@ -2034,7 +2034,7 @@ sub Data {
         'Filter for System Addresses' => '',
         'Filter for system addresses' => '',
         'All incoming email with this address in To or Cc will be dispatched to the selected queue.' =>
-            'Све долазне поруке са овом адресом у пољу „За” или „Cc” биће отпремљене у изабрани ред.',
+            'Све долазне поруке са овом адресом у пољу To или Cc биће отпремљене у изабрани ред.',
         'Email address' => 'Имејл адреса',
         'Display name' => 'Прикажи име',
         'This email address is already used as system email address.' => 'Ова имејл адреса је већ употребљена као системска имејл адреса.',
@@ -2311,16 +2311,16 @@ sub Data {
 
         # Template: AgentDaemonInfo
         'The OTRS Daemon is a daemon process that performs asynchronous tasks, e.g. ticket escalation triggering, email sending, etc.' =>
-            '„OTRS” сервис је системски процес који извршава асинхроне задатке, нпр. окидање ескалација тикета, слање имејлова, итд.',
+            'OTRS сервис је системски процес који извршава асинхроне задатке, нпр. окидање ескалација тикета, слање имејлова, итд.',
         'A running OTRS Daemon is mandatory for correct system operation.' =>
-            'Покренут „OTRS” сервис је неопходан за исправно функционисање система.',
-        'Starting the OTRS Daemon' => 'Покретање „OTRS” сервиса',
+            'Покренут OTRS системски сервис је неопходан за исправно функционисање система.',
+        'Starting the OTRS Daemon' => 'Покретање OTRS системског сервиса',
         'Make sure that the file \'%s\' exists (without .dist extension). This cron job will check every 5 minutes if the OTRS Daemon is running and start it if needed.' =>
-            'Осигурава да датотека „%s” постоји (без „.dist” екстензије). Овај крон посао ће проверавати сваких 5 минута да ли „OTRS” сервис ради и покреће га ако је потребно.',
+            'Осигурава да датотека \'%s\' постоји (без .dist екстензије). Овај крон посао ће проверавати сваких 5 минута да ли OTRS системски сервис ради и покреће га ако је потребно.',
         'Execute \'%s start\' to make sure the cron jobs of the \'otrs\' user are active.' =>
-            'Извршите „%s start” да би били сигурни да су крон послови за „OTRS” корисника увек активни.',
+            'Извршите \'%s start\' да би били сигурни да су крон послови за OTRS корисника увек активни.',
         'After 5 minutes, check that the OTRS Daemon is running in the system (\'bin/otrs.Daemon.pl status\').' =>
-            'После 5 минута, проверава да ли „OTRS” сервис функционише у систему („bin/otrs.Daemon.pl status”).',
+            'После 5 минута, проверава да ли OTRS системски сервис функционише у систему (\'bin/otrs.Daemon.pl status\').',
 
         # Template: AgentDashboard
         'Dashboard' => 'Командна табла',
@@ -2378,11 +2378,11 @@ sub Data {
         # Template: AgentDashboardStats
         'The configuration for this statistic widget contains errors, please review your settings.' =>
             'Конфигурација за овај статистички додатак садржи грешке, моломо проверите ваша подешавања.',
-        'Download as SVG file' => 'Преузми као „SVG” датотеку',
-        'Download as PNG file' => 'Преузми као „PNG” датотеку',
-        'Download as CSV file' => 'Преузми као „CSV” датотеку',
-        'Download as Excel file' => 'Преузми као „Excel” датотеку',
-        'Download as PDF file' => 'Преузми као „PDF” датотеку',
+        'Download as SVG file' => 'Преузми као SVG датотеку',
+        'Download as PNG file' => 'Преузми као PNG датотеку',
+        'Download as CSV file' => 'Преузми као CSV датотеку',
+        'Download as Excel file' => 'Преузми као Excel датотеку',
+        'Download as PDF file' => 'Преузми као PDF датотеку',
         'Please select a valid graph output format in the configuration of this widget.' =>
             'Молимо да у конфигурацији овог додатка изаберете важећи излазни формат графикона.',
         'The content of this statistic is being prepared for you, please be patient.' =>
@@ -2429,11 +2429,11 @@ sub Data {
         # Template: AgentOTRSBusinessBlockScreen
         'Unauthorized usage of %s detected' => 'Детектована неовлаштена употреба %s',
         'If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.' =>
-            'Ако одлучите да се вратите на верзију бесплатног „OTRS”, изгубићете све табеле у бази података и податке повезане са %s.',
+            'Ако одлучите да се вратите на верзију бесплатног OTRS, изгубићете све табеле у бази података и податке повезане са %s.',
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Уреди личне поставке',
-        'Personal Preferences' => '',
+        'Personal preferences' => '',
         'Preferences' => 'Подешавања',
         'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
             '',
@@ -2455,12 +2455,13 @@ sub Data {
         'This setting can currently not be saved.' => '',
         'This setting can currently not be saved' => '',
         'Save this setting' => '',
-        'Did you know? You can help translating OTRS at %s.' => 'Да ли сте знали? Можете да помогнете у превођењу „OTRS” на %s.',
+        'Did you know? You can help translating OTRS at %s.' => 'Да ли сте знали? Можете да помогнете у превођењу OTRS на %s.',
 
         # Template: SettingsList
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
+        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2496,10 +2497,10 @@ sub Data {
         # Template: AgentStatisticsOverview
         'Statistics' => 'Статистике',
         'Run' => 'Покрени',
-        'Edit statistic "%s".' => 'Измени статистику „%s”.',
-        'Export statistic "%s"' => 'Извези статистику „%s”.',
+        'Edit statistic "%s".' => 'Измени статистику "%s".',
+        'Export statistic "%s"' => 'Извези статистику "%s"',
         'Export statistic %s' => 'Измени статистику %s',
-        'Delete statistic "%s"' => 'Обриши статистику „%s”.',
+        'Delete statistic "%s"' => 'Обриши статистику "%s"',
         'Delete statistic %s' => 'Обриши статистику %s',
 
         # Template: AgentStatisticsView
@@ -2759,7 +2760,7 @@ sub Data {
         'This message is being processed. Already tried to send %s time(s). Next try will be %s.' =>
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            'Да отворите везе у овом чланку, можда ћете морати да притиснете „Ctrl” или „Cmd” или „Shift” тастер док кликнете на везу (зависи од вашег прегледача и оперативног система). ',
+            'Да отворите везе у овом чланку, можда ћете морати да притиснете Ctrl или Cmd или Shift тастер док кликнете на везу (зависи од вашег прегледача и оперативног система). ',
         'Close this message' => 'Затвори ову поруку',
         'Image' => '',
         'PDF' => 'PDF',
@@ -2824,7 +2825,7 @@ sub Data {
 
         # Template: CustomerFooterJS
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            'Ваш интернет прегледач није у могућности да коректно комуницира са „OTRS”, па изгледа на нешто није у реду са вашом мрежном везом. Можете да покушате да ручно освежите ову страницу или да сачекате да ваш прегледач сам поново успостави везу.',
+            'Ваш интернет прегледач није у могућности да коректно комуницира са OTRS, изгледа да нешто није у реду са вашом мрежном везом. Можете да покушате да ручно освежите ову страницу или да сачекате да ваш прегледач сам поново успостави везу.',
         'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
@@ -2918,7 +2919,7 @@ sub Data {
 
         # Template: Error
         'Really a bug? 5 out of 10 bug reports result from a wrong or incomplete installation of OTRS.' =>
-            'Стварно грешка? 5 од 10 пријавлјених грешака су последица погрешне или некомплетне „OTRS” инсталације.',
+            'Стварно грешка? 5 од 10 пријављених грешака су последица погрешне или некомплетне OTRS инсталације.',
         'With %s, our experts take care of correct installation and cover your back with support and periodic security updates.' =>
             'Са %s, наши експерти ће се побринути за коректну инсталацију и обезбедити подршку и повремена сигурносна ажурирања.',
         'Contact our service team now.' => 'Контактирајте наш сервисним тим сада.',
@@ -2941,7 +2942,6 @@ sub Data {
         'View notifications' => 'Преглед обавештења',
         'Notifications' => 'Обавештења',
         'Notifications (OTRS Business Solution™)' => '',
-        'Personal preferences' => '',
         'Logout' => 'Одјава',
         'You are logged in as' => 'Пријављени сте као',
 
@@ -2962,14 +2962,14 @@ sub Data {
         'Select outbound mail type.' => 'Изаберите тип одлазне поште',
         'Outbound mail port' => 'Порт за одлазну пошту',
         'Select outbound mail port.' => 'Изаберите порт за одлазну пошту',
-        'SMTP host' => '„SMTP” рачунар',
-        'SMTP host.' => '„SMTP” рачунар.',
-        'SMTP authentication' => '„SMTP” аутентификација',
-        'Does your SMTP host need authentication?' => 'Да ли ваш „SMTP” рачунар ахтева аутентификацију?',
-        'SMTP auth user' => '„SMTP” корисник',
-        'Username for SMTP auth.' => 'Корисничко име за „SMTP” аутентификацију',
-        'SMTP auth password' => 'Лозинка „SMTP” аутентификације',
-        'Password for SMTP auth.' => 'Лозинка за „SMTP” аутентификацију',
+        'SMTP host' => 'SMTP сервер',
+        'SMTP host.' => 'SMTP сервер.',
+        'SMTP authentication' => 'SMTP аутентификација',
+        'Does your SMTP host need authentication?' => 'Да ли ваш SMTP сервер захтева аутентификацију?',
+        'SMTP auth user' => 'SMTP корисник',
+        'Username for SMTP auth.' => 'Корисничко име за SMTP аутентификацију',
+        'SMTP auth password' => 'Лозинка SMTP аутентификације',
+        'Password for SMTP auth.' => 'Лозинка за SMTP аутентификацију',
         'Configure Inbound Mail' => 'Подешавање долазне поште',
         'Inbound mail type' => 'Тип долазне поште',
         'Select inbound mail type.' => 'Изабери тип долазне поште',
@@ -2990,8 +2990,8 @@ sub Data {
 
         # Template: InstallerDBStart
         'Install Type' => 'Инсталирај тип',
-        'Create a new database for OTRS' => 'Креирај нову базу података за „OTRS”',
-        'Use an existing database for OTRS' => 'Користи постојећу базу података за „OTRS”',
+        'Create a new database for OTRS' => 'Креирај нову базу података за OTRS',
+        'Use an existing database for OTRS' => 'Користи постојећу базу података за OTRS',
 
         # Template: InstallerDBmssql
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty.' =>
@@ -3003,7 +3003,7 @@ sub Data {
         'Database User' => 'Корисник базе података',
         'New' => 'Нов',
         'A new database user with limited permissions will be created for this OTRS system.' =>
-            'Нови корисник базе са ограниченим правима ће бити креиран за овај „OTRS” систем.',
+            'Нови корисник базе са ограниченим правима ће бити креиран за овај OTRS систем.',
         'Repeat Password' => 'Понови лозинку',
         'Generated password' => 'Генерисана лозинка',
 
@@ -3016,11 +3016,11 @@ sub Data {
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
-            'Да би сте користили „OTRS” морате унети следеће у командну линију (Terminal/Shell) као „root”.',
+            'Да би сте користили OTRS морате унети следеће у командну линију (Terminal/Shell) као root.',
         'Restart your webserver' => 'Поново покрените ваш веб сервер.',
-        'After doing so your OTRS is up and running.' => 'После овога ваш „OTRS” је укључен и ради.',
+        'After doing so your OTRS is up and running.' => 'После овога ваш OTRS је укључен и ради.',
         'Start page' => 'Početna strana',
-        'Your OTRS Team' => 'Ваш „OTRS” тим',
+        'Your OTRS Team' => 'Ваш OTRS тим',
 
         # Template: InstallerLicense
         'Don\'t accept license' => 'Не прихватај лиценцу',
@@ -3096,7 +3096,7 @@ sub Data {
         # Template: PreferencesNotificationEvent
         'No user configurable notifications found.' => 'Нису пронађена обавештења која корисник може да подеси.',
         'Receive messages for notification \'%s\' by transport method \'%s\'.' =>
-            'Примите поруке за обавештавање „%s” пренете путем „%s”.',
+            'Примите поруке за обавештавање \'%s\' пренете путем \'%s\'.',
 
         # Template: ActivityDialogHeader
         'Process Information' => 'Информације о процесу',
@@ -3108,7 +3108,7 @@ sub Data {
         # Template: PublicDefault
         'Welcome' => 'Добродошли',
         'This is the default public interface of OTRS! There was no action parameter given.' =>
-            'Ово је подразумевани јавни интерфејс за „OTRS”! Нема датих акционих параметара.',
+            'Ово је подразумевани јавни интерфејс за OTRS! Нема датих акционих параметара.',
         'You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface.' =>
             'Можете инсталирати додатни модул (видите управљање пакетима), нпр. FAQ, који има јавни интерфејс.',
 
@@ -3150,7 +3150,7 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            'Молимо да изаберете само један елемент или искључите дугме „фиксирано”!',
+            'Молимо да изаберете само један елемент или искључите дугме \'фиксирано\'!',
         'Absolute period' => 'Апсолутни период',
         'Between %s and %s' => '',
         'Relative period' => 'Релативни период',
@@ -3185,6 +3185,8 @@ sub Data {
         # Template: SettingsList
         'This setting is disabled.' => '',
         'This setting is fixed but not deployed yet!' => '',
+        'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
+            '',
         '%s (%s) is currently working on this setting.' => '',
         'Toggle advanced options for this setting' => '',
         'Disable this setting, so it is no longer effective' => '',
@@ -3210,6 +3212,7 @@ sub Data {
         'Cancel editing this setting' => '',
         'Save changes on this setting' => '',
         'Edit this setting' => '',
+        'Enable this setting' => '',
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups or another group.' =>
             '',
 
@@ -3251,7 +3254,7 @@ sub Data {
             '',
 
         # Template: Test
-        'OTRS Test Page' => '„OTRS” тест страна',
+        'OTRS Test Page' => 'OTRS тест страна',
         'Unlock' => 'Откључај',
         'Welcome %s %s' => 'Добродошли %s %s',
         'Counter' => 'Бројач',
@@ -3277,23 +3280,22 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACL information from database is not in sync with the system configuration, please deploy all ACLs.' =>
-            ' „ACL” информације из базе података нису синхронизоване са системском конфигурацијом, молимо вас да примените све  „ACL” листе.',
+            'ACL информације из базе података нису синхронизоване са системском конфигурацијом, молимо вас да примените све ACL листе.',
         'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '„ACL” листе не могу да се увезу због непознате грешке, молимо да проверите „OTRS” дневнике за више информација',
-        'The following ACLs have been added successfully: %s' => 'Следеће „ACL” листе су успешно додате: %s',
-        'The following ACLs have been updated successfully: %s' => 'Следеће „ACL” листе су успешно ажуриране: %s',
+            'ACL листе не могу да се увезу због непознате грешке, молимо да проверите OTRS логове за више информација',
+        'The following ACLs have been added successfully: %s' => 'Следеће ACL листе су успешно додате: %s',
+        'The following ACLs have been updated successfully: %s' => 'Следеће ACL листе су успешно ажуриране: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
-            'Постоје грешке у додавању/ажурирању следећих „ACL”: %s. Молимо проверите датотеку дневника за више информација.',
+            'Постоје грешке у додавању/ажурирању следећих ACL: %s. Молимо проверите датотеку дневника за више информација.',
         'This field is required' => 'Ово поље је обавезно.',
-        'There was an error creating the ACL' => 'Дошло је до грешке при креирању „ACL”',
-        'Need ACLID!' => 'Потребан ИД „ACL” листе!',
-        'Could not get data for ACLID %s' => 'Не могу прибавити податке за ИД „ACL” листе %s',
-        'There was an error updating the ACL' => 'Дошло је до грешке при ажурирању „ACL”',
+        'There was an error creating the ACL' => 'Дошло је до грешке при креирању ACL',
+        'Need ACLID!' => 'Потребан ИД ACL листе!',
+        'Could not get data for ACLID %s' => 'Не могу прибавити податке за ИД ACL листе %s',
+        'There was an error updating the ACL' => 'Дошло је до грешке при ажурирању ACL',
         'There was an error setting the entity sync status.' => 'Дошло је до грешке приликом подешавања статуса синхронизације ентитета.',
-        'There was an error synchronizing the ACLs.' => 'Дошло је до грешке при синхронизацији „ACLs”',
-        'ACL %s could not be deleted' => '„ACL” листу %s није могуће обрисати',
-        'There was an error getting data for ACL with ID %s' => 'Дошло је до грешке приликом прибављања података за
-„ACL” листу са ИД %s',
+        'There was an error synchronizing the ACLs.' => 'Дошло је до грешке при синхронизацији ACLs',
+        'ACL %s could not be deleted' => 'ACL листу %s није могуће обрисати',
+        'There was an error getting data for ACL with ID %s' => 'Дошло је до грешке приликом прибављања података за ACL листу са ИД %s',
         'Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).' =>
             '',
         'Exact match' => 'Тачно поклапање',
@@ -3334,7 +3336,7 @@ sub Data {
         'Unknown Notification %s!' => 'Непознато обавештење %s!',
         'There was an error creating the Notification' => 'Дошло је до грешке приликом креирања обавештења',
         'Notifications could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            'Обавештења не могу да се увезу због непознате грешке, молимо да проверите „OTRS” дневнике за више информација',
+            'Обавештења не могу да се увезу због непознате грешке, молимо да проверите OTRS логове за више информација',
         'The following Notifications have been added successfully: %s' =>
             'Следећа обавештења су успешно додата: %s',
         'The following Notifications have been updated successfully: %s' =>
@@ -3411,7 +3413,7 @@ sub Data {
         'Web service (%s)' => '',
         'Contact with data (%s)' => '',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
-            'Није могуће поништити редослед динамичких поља, молимо да проверите „OTRS” дневнике за више информација.',
+            'Није могуће поништити редослед динамичких поља, молимо да проверите OTRS логове за више информација.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
         'Undefined subaction.' => 'Недефинисана субакција.',
@@ -3547,17 +3549,17 @@ sub Data {
         'There is another web service with the same name.' => 'Постоји други веб сервис са истим именом.',
         'There was an error updating the web service.' => 'Дошло је до грешке при ажурирању веб сервиса.',
         'There was an error creating the web service.' => 'Дошло је до грешке при креирању веб сервиса.',
-        'Web service "%s" created!' => 'Веб сервис „%s” је креиран!',
+        'Web service "%s" created!' => 'Веб сервис "%s" је креиран!',
         'Need Name!' => 'Потребан назив!',
         'Need ExampleWebService!' => 'Потребан ExampleWebService!',
         'Could not read %s!' => 'Није могуће прочитати %s!',
         'Need a file to import!' => 'Потребна датотека за увоз!',
         'The imported file has not valid YAML content! Please check OTRS log for details' =>
-            'Увезена датотека нема исправан „YAML” садржај! Молимо проверите „OTRS” дневник за детаље',
-        'Web service "%s" deleted!' => 'Веб сервис „%s” је обрисан!',
-        'OTRS as provider' => '„OTRS” као пружаоц услуга',
+            'Увезена датотека нема исправан YAML садржај! Молимо проверите OTRS лог за детаље',
+        'Web service "%s" deleted!' => 'Веб сервис "%s" је обрисан!',
+        'OTRS as provider' => 'OTRS као пружалац услуга',
         'Operations' => 'Операције',
-        'OTRS as requester' => '„OTRS” као наручиоц',
+        'OTRS as requester' => 'OTRS као наручилац',
         'Invokers' => 'Позиваоци',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
@@ -3599,7 +3601,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
-            '„PGP” окружење не функционише. За више информација проверите дневник.',
+            'PGP окружење не функционише. За више информација проверите лог.',
         'Need param Key to delete!' => 'Неопходан параметар Key за брисање!',
         'Key %s deleted!' => 'Кључ %s је обрисан!',
         'Need param Key to download!' => 'Неопходан параметар Key за преузимање!',
@@ -3614,7 +3616,7 @@ sub Data {
         'File is OK' => 'Датотека је у реду',
         'Package has locally modified files.' => 'Пакет садржи локално измењене датотеке.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
-            'Пакет није верификован од стране „OTRS” групе! Препоручује се да не користите овај пакет.',
+            'Пакет није верификован од стране OTRS групе! Препоручује се да не користите овај пакет.',
         'Updated' => '',
         'Already up-to-date' => '',
         'Installed' => '',
@@ -3683,7 +3685,7 @@ sub Data {
             'Дијалог активности је већ додељен активности. Не можете додавати дијалог два пута.',
         'Error while saving the Activity to the database!' => 'Грешка при чувању активности у бази података!',
         'This subaction is not valid' => 'Субакција није валидна',
-        'Edit Activity "%s"' => 'Уреди активност „%s”',
+        'Edit Activity "%s"' => 'Уреди активност "%s"',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
         'There was an error generating a new EntityID for this ActivityDialog' =>
@@ -3694,7 +3696,7 @@ sub Data {
         'Need ActivityDialogID!' => 'Потребан ИД Дијалога активности!',
         'Could not get data for ActivityDialogID %s' => 'Не могу прибавити податке за ИД дијалога активности %s',
         'There was an error updating the ActivityDialog' => 'Дошло је до грешке приликом ажурирања Дијалога ктивности',
-        'Edit Activity Dialog "%s"' => 'Уреди Дијалог активност „%s”',
+        'Edit Activity Dialog "%s"' => 'Уреди дијалог активности "%s"',
         'Agent Interface' => 'Оператерски интерфејс',
         'Customer Interface' => 'Клијентски интерфејс',
         'Agent and Customer Interface' => 'Оператерски и клијентски интерфејс',
@@ -3714,7 +3716,7 @@ sub Data {
         'Need TransitionID!' => 'Потребан ИД транзиције!',
         'Could not get data for TransitionID %s' => 'Не могу прибавити податке за ИД транзиције %s',
         'There was an error updating the Transition' => 'Дошло је до грешке приликом ажурирања Транзиције',
-        'Edit Transition "%s"' => 'Уреди транзицију „%s”',
+        'Edit Transition "%s"' => 'Уреди транзицију "%s"',
         'xor' => 'xor',
         'String' => 'Низ знакова',
         'Transition validation module' => 'Модул валидације транзиције',
@@ -3729,7 +3731,7 @@ sub Data {
         'Need TransitionActionID!' => 'Потребан ИД транзиционе акције!',
         'Could not get data for TransitionActionID %s' => 'Не могу прибавити податке за ИД транзиционе акције %s',
         'There was an error updating the TransitionAction' => 'Дошло је до грешке приликом ажурирања Транзиционе акције',
-        'Edit Transition Action "%s"' => 'Уреди транзициону акцију „%s”',
+        'Edit Transition Action "%s"' => 'Уреди транзициону акцију "%s"',
         'Error: Not all keys seem to have values or vice versa.' => 'Грешка: Сви кључеви немају вредност или обрнуто.',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
@@ -3769,7 +3771,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
-            '„S/MIME” окружење не функционише. За више информација проверите дневник.',
+            'S/MIME окружење не функционише. За више информација проверите лог.',
         'Need param Filename to delete!' => 'Неопходан параметар Filename за брисање!',
         'Need param Filename to download!' => 'Неопходан параметар Filename за преузимање!',
         'Needed CertFingerprint and CAFingerprint!' => 'Неопходан CertFingerprint и CAFingerprint!',
@@ -3811,6 +3813,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',
@@ -3907,14 +3910,14 @@ sub Data {
         'No such config for %s' => 'Нема такве конфигурације за %s',
         'Statistic' => 'Статистика',
         'No preferences for %s!' => 'Нема поставки за %s!',
-        'Can\'t get element data of %s!' => 'Не могу прибавити податке елемента за „%s”!',
-        'Can\'t get filter content data of %s!' => 'Не могу прибавити податке сарджаја филтера за „%s”!',
+        'Can\'t get element data of %s!' => 'Не могу прибавити податке елемента за %s!',
+        'Can\'t get filter content data of %s!' => 'Не могу прибавити податке садржаја филтера за %s!',
         'Customer Name' => 'Назив клијента',
         'Customer User Name' => '',
 
         # Perl Module: Kernel/Modules/AgentLinkObject.pm
         'Need SourceObject and SourceKey!' => 'Неопходан изворни објект и изворни кључ!',
-        'You need ro permission!' => 'Потребна вам је „ro” дозвола!',
+        'You need ro permission!' => 'Потребна вам је ro дозвола!',
         'Can not delete link with %s!' => 'Не може се обрисати веза са %s!',
         '%s Link(s) deleted successfully.' => '',
         'Can not create link with %s! Object already linked as %s.' => 'Не може се креирати веза са %s! Објект је већ повезан као %s.',
@@ -3989,7 +3992,7 @@ sub Data {
         'Customer user automatically added in Cc.' => 'Клијент клијент се аутоматски додаје у Cc.',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'Ticket "%s" created!' => 'Тикет „%s” креиран!',
+        'Ticket "%s" created!' => 'Тикет "%s" је креиран!',
         'No Subaction!' => 'Нема субакције!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
@@ -4049,13 +4052,13 @@ sub Data {
         'Need TicketID!' => 'Потребан ИД Тикета!',
 
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
-        'Couldn\'t get ActivityDialogEntityID "%s"!' => 'Не могу прибавити ActivityDialogEntityID „%s”!',
+        'Couldn\'t get ActivityDialogEntityID "%s"!' => 'Не могу прибавити ActivityDialogEntityID "%s"!',
         'No Process configured!' => 'Нема конфигурисаног процеса!',
         'The selected process is invalid!' => 'Означени процес је неважећи!',
         'Process %s is invalid!' => 'Процес %s је неважећи!',
         'Subaction is invalid!' => 'Субакција је неважећа!',
         'Parameter %s is missing in %s.' => 'Недостаје параметар %s у %s.',
-        'No ActivityDialog configured for %s in _RenderAjax!' => 'Ниједан дијалог активности није конфигурисан за %s у „_RenderAjax”!',
+        'No ActivityDialog configured for %s in _RenderAjax!' => 'Ниједан ActivityDialog није конфигурисан за %s у _RenderAjax!',
         'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!' =>
             'Нема Start ActivityEntityID или Start ActivityDialogEntityID за процес %s у _GetParam!',
         'Couldn\'t get Ticket for TicketID: %s in _GetParam!' => 'Нема тикета за TicketID: %s у _GetParam!',
@@ -4065,30 +4068,30 @@ sub Data {
         'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!' =>
             'Нема ProcessEntityID или TicketID и ActivityDialogEntityID!',
         'Can\'t get StartActivityDialog and StartActivityDialog for the ProcessEntityID "%s"!' =>
-            'Не могу прибавити StartActivityDialog и StartActivityDialog за ProcessEntityID „%s”!',
-        'Can\'t get Ticket "%s"!' => 'Не могу прибавити тикет „%s”!',
+            'Не могу прибавити StartActivityDialog и StartActivityDialog за ProcessEntityID "%s"!',
+        'Can\'t get Ticket "%s"!' => 'Не могу прибавити тикет "%s"!',
         'Can\'t get ProcessEntityID or ActivityEntityID for Ticket "%s"!' =>
-            'Не могу прибавити ProcessEntityID или ActivityEntityID за тикет „%s”!',
+            'Не могу прибавити ProcessEntityID или ActivityEntityID за тикет "%s"!',
         'Can\'t get Activity configuration for ActivityEntityID "%s"!' =>
-            'Не могу прибавити конфигурацију Activity за ActivityEntityID „%s”!',
+            'Не могу прибавити конфигурацију Activity за ActivityEntityID "%s"!',
         'Can\'t get ActivityDialog configuration for ActivityDialogEntityID "%s"!' =>
-            'Не могу прибавити конфигурацију ActivityDialog за ActivityDialogEntityID „%s”!',
-        'Can\'t get data for Field "%s" of ActivityDialog "%s"!' => 'Не могу прибавити податке за поље "%s" дијалога активности „%s”!',
+            'Не могу прибавити конфигурацију ActivityDialog за ActivityDialogEntityID "%s"!',
+        'Can\'t get data for Field "%s" of ActivityDialog "%s"!' => 'Не могу прибавити податке за поље "%s" од ActivityDialog "%s"!',
         'PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!' =>
             'Време чекања тикета може бити коришћено ако су стање или ИД стања подешени за исти дијалог активности. ActivityDialog: %s!',
         'Pending Date' => 'Датум чекања',
         'for pending* states' => 'за стања* чекања',
         'ActivityDialogEntityID missing!' => 'Недостаје ИД ентитета Дијалога активности!',
-        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Не могу прибавити конфигурацију за ActivityDialogEntityID „%s”!',
+        'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => 'Не могу прибавити конфигурацију за ActivityDialogEntityID "%s"!',
         'Couldn\'t use CustomerID as an invisible field.' => 'CustomerID се не може користити као невидљиво поље.',
         'Missing ProcessEntityID, check your ActivityDialogHeader.tt!' =>
             'Нема ProcessEntityID, проверите ваш ActivityDialogHeader.tt!',
         'No StartActivityDialog or StartActivityDialog for Process "%s" configured!' =>
-            'Нема StartActivityDialog или StartActivityDialog за процес „%s”!',
+            'Нема StartActivityDialog или StartActivityDialog за процес "%s"!',
         'Couldn\'t create ticket for Process with ProcessEntityID "%s"!' =>
-            'Не могу креирати тикет за процес са ИД ентитета процеса „%s”!',
-        'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => 'Не могу поставити ProcessEntityID „%s” за ИД тикета „%s”!',
-        'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => 'Не могу поставити ActivityEntityID „%s” за ИД тикета „%s”!',
+            'Не могу креирати тикет за процес са ProcessEntityID "%s"!',
+        'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!' => 'Не могу поставити ProcessEntityID "%s" за TicketID "%s"!',
+        'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!' => 'Не могу поставити ActivityEntityID "%s" за TicketID "%s"!',
         'Could not store ActivityDialog, invalid TicketID: %s!' => 'Не могу снимити дијалог активности, неважећи ИД тикета: %s!',
         'Invalid TicketID: %s!' => 'Неважећи ИД тикета: %s!',
         'Missing ActivityEntityID in Ticket %s!' => 'Недостаје ИД ентитета активности на тикету %s!',
@@ -4096,13 +4099,13 @@ sub Data {
             'Овај корак не припада више тренутној активности процеса за тикет \'%s%s%s\'! Други корисник је у међувремену променио овај тикет. Молимо да затворите овај прозор и поново учитате тикет.',
         'Missing ProcessEntityID in Ticket %s!' => 'Недостаје ИД ентитета процеса на тикету %s!',
         'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            'Не могу поставити вредност динамичког поља за %s за ИД тикета „%s” у дијалогу активности „%s”!',
+            'Не могу поставити вредност динамичког поља за %s за TicketID "%s" у ActivityDialog "%s"!',
         'Could not set PendingTime for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            'Не могу поставити време чекања тикета за ИД тикета „%s” у дијалогу активности „%s”!',
+            'Не могу поставити време чекања тикета за тикет "%s" у ActivityDialog "%s"!',
         'Wrong ActivityDialog Field config: %s can\'t be Display => 1 / Show field (Please change its configuration to be Display => 0 / Do not show field or Display => 2 / Show field as mandatory)!' =>
             'Погрешна конфигурација поља у дијалогу активности: %s не може бити Display => 1 / приказано. (Молимо подесите конфигурацију да буде Display => 0 / није приказано или Display => 2 / прикажи као обавезно)!',
         'Could not set %s for Ticket with ID "%s" in ActivityDialog "%s"!' =>
-            'Не могу поставити %s за ИД тикета „%s” у дијалогу активности „%s”!',
+            'Не могу поставити %s за тикет "%s" у ActivityDialog "%s"!',
         'Default Config for Process::Default%s missing!' => 'Подразумевано подешавање за Process::Default%s недостаје!',
         'Default Config for Process::Default%s invalid!' => 'Подразумевано подешавање за Process::Default%s је неважеће!',
 
@@ -4126,7 +4129,7 @@ sub Data {
         'Invalid Users' => 'Погрешни корисници',
         'Normal' => 'Normal',
         'CSV' => 'CSV',
-        'Excel' => '„Excel”',
+        'Excel' => 'Excel',
         'in more than ...' => 'у више од ...',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
@@ -4184,7 +4187,7 @@ sub Data {
         'Escalation Solution Time Stopped' => 'Време решења ескалације је заустављено',
         'Escalation Response Time In Effect' => 'Актуелно време одговора на ескалацију',
         'Escalation Response Time Stopped' => 'Време одзива ескалације је заустављено',
-        'SLA Updated' => '„SLA” је ажуриран',
+        'SLA Updated' => 'SLA је ажуриран',
         'External Chat' => 'Екстерно ћаскање',
         'Queue Changed' => 'Промењен ред',
         'Notification Was Sent' => 'Обавештење је послато',
@@ -4248,29 +4251,29 @@ sub Data {
         'SecureMode active!' => 'Сигуран режим је активан!',
         'If you want to re-run the Installer, disable the SecureMode in the SysConfig.' =>
             'Уколико желите да поново покренете инсталацију, онемогућите SecureMode у подешавањима.',
-        'Directory "%s" doesn\'t exist!' => 'Директоријум „%s” не постоји!',
-        'Configure "Home" in Kernel/Config.pm first!' => 'Прво подесите „Home” у Kernel/Config.pm!',
-        'File "%s/Kernel/Config.pm" not found!' => 'Датотека „%s/Kernel/Config.pm” није пронађена!',
-        'Directory "%s" not found!' => 'Директоријум „%s” није пронађен!',
-        'Install OTRS' => 'Инсталирај „OTRS”',
+        'Directory "%s" doesn\'t exist!' => 'Директоријум "%s" не постоји!',
+        'Configure "Home" in Kernel/Config.pm first!' => 'Прво подесите "Home" у Kernel/Config.pm!',
+        'File "%s/Kernel/Config.pm" not found!' => 'Датотека "%s/Kernel/Config.pm" није пронађена!',
+        'Directory "%s" not found!' => 'Директоријум "%s" није пронађен!',
+        'Install OTRS' => 'Инсталирај OTRS',
         'Intro' => 'Увод',
-        'Kernel/Config.pm isn\'t writable!' => 'Немогућ упис у „%s/Kernel/Config.pm”!',
+        'Kernel/Config.pm isn\'t writable!' => 'Немогућ упис у %s/Kernel/Config.pm!',
         'If you want to use the installer, set the Kernel/Config.pm writable for the webserver user!' =>
-            'Ако желите да користите инсталациони програм, подесите дозволу писања у „%s/Kernel/Config.pm” за вебсервер корисника!',
+            'Ако желите да користите инсталациони програм, подесите дозволу писања у Kernel/Config.pm за веб сервер корисника!',
         'Database Selection' => 'Селекција базе података',
         'Unknown Check!' => 'Непозната провера!',
-        'The check "%s" doesn\'t exist!' => 'Провера „%s” не постоји!',
+        'The check "%s" doesn\'t exist!' => 'Провера "%s" не постоји!',
         'Enter the password for the database user.' => 'Унеси лозинку за корисника базе података.',
         'Database %s' => 'База података %s',
         'Configure MySQL' => 'Подеси MySQL',
         'Enter the password for the administrative database user.' => 'Унеси лозинку за корисника административне базе података.',
         'Configure PostgreSQL' => 'Подеси PostgreSQL',
         'Configure Oracle' => 'Подеси Oracle',
-        'Unknown database type "%s".' => 'Непознат тип базе података „%s”.',
+        'Unknown database type "%s".' => 'Непознат тип базе података "%s".',
         'Please go back.' => 'Молимо идите назад.',
         'Create Database' => 'Креирај базу података',
-        'Install OTRS - Error' => 'Инсталирање „OTRS” - грешка',
-        'File "%s/%s.xml" not found!' => 'Датотека „%s/%s.xml” није пронађена!',
+        'Install OTRS - Error' => 'Инсталирање OTRS - грешка',
+        'File "%s/%s.xml" not found!' => 'Датотека "%s/%s.xml" није пронађена!',
         'Contact your Admin!' => 'Контактирајте вашег администратора!',
         'System Settings' => 'Системска подешавања',
         'Syslog' => 'Системски лог',
@@ -4283,9 +4286,9 @@ sub Data {
         'Can\'t connect to database, read comment!' => 'Не могу се повезати на базу података, прочитајте коментар!',
         'Database already contains data - it should be empty!' => 'База података већ садржи податке - требало би да буде празна.',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
-            'Грешка: Молимо да проверите да ваша база података прихвата пакете по величини веће од %s MB  (тренутно прихвата пакете величине до %s MB). Молимо да прилагодите параметар „max_allowed_packet setting” у вашој бази података како би избегли грешке.',
+            'Грешка: Молимо да проверите да ваша база података прихвата пакете по величини веће од %s MB  (тренутно прихвата пакете величине до %s MB). Молимо да прилагодите параметар max_allowed_packet подешавање у вашој бази података како би избегли грешке.',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
-            'Грешка: Молимо да подесете вредност за „innodb_log_file_size” у вашој бази података на најмање %s MB (тренутно: %s MB, препоручено: %s MB). За више информација, молимо погледајте на %s.',
+            'Грешка: Молимо да подесете вредност за innodb_log_file_size у вашој бази података на најмање %s MB (тренутно: %s MB, препоручено: %s MB). За више информација, молимо погледајте на %s.',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Без %s!',
@@ -4343,10 +4346,10 @@ sub Data {
         'Crypted' => 'Шифровано',
         'Sent message encrypted to recipient!' => '',
         'Signed' => 'Потписано',
-        '"PGP SIGNED MESSAGE" header found, but invalid!' => '„PGP SIGNED MESSAGE” заглавље пронађено али је неисправно!',
+        '"PGP SIGNED MESSAGE" header found, but invalid!' => '"PGP SIGNED MESSAGE" заглавље пронађено, али је неисправно!',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
-        '"S/MIME SIGNED MESSAGE" header found, but invalid!' => '„S/MIME SIGNED MESSAGE” заглавље пронађено али је неисправно!',
+        '"S/MIME SIGNED MESSAGE" header found, but invalid!' => '"S/MIME SIGNED MESSAGE" заглавље пронађено, али је неисправно!',
         'Ticket decrypted before' => 'Тикет је дешифрован пре',
         'Impossible to decrypt: private key for email was not found!' => 'Немогуће дешифровање: приватни кључ за ову адресу није пронађен!',
         'Successful decryption' => 'Успешно дешифровање',
@@ -4494,7 +4497,7 @@ sub Data {
         'Archive search' => 'Претрага архиве',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentCloudServicesDisabled.pm
-        'Enable cloud services to unleash all OTRS features!' => 'Активирајте сервисе у облаку да би ослободили све „OTRS” могућности!',
+        'Enable cloud services to unleash all OTRS features!' => 'Активирајте сервисе у облаку да би омогућили све OTRS функције!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOTRSBusiness.pm
         '%s Upgrade to %s now! %s' => '%s ажурирајте на %s сада! %s',
@@ -4520,11 +4523,11 @@ sub Data {
         'A system maintenance period will start at: ' => 'Период одржавања система ће отпочети у:',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'OTRS Daemon is not running.' => '„OTRS” сервис не ради.',
+        'OTRS Daemon is not running.' => 'OTRS системски сервис не ради.',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
-            'Активирана је опција „Ван канцеларије”, желите ли да је искључите?',
+            'Активирана је опција ван канцеларије, желите ли да је искључите?',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
@@ -4727,7 +4730,7 @@ sub Data {
         'File is different!' => 'Датотека је различита!',
         'Can\'t read file!' => 'Немогуће читање датотеке!',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '<br>Ако наставите да инсталирате овај пакет, могу се јавити следећи проблеми!<br><br>&nbsp;-Безбедносни проблеми<br>&nbsp;-Проблеми стабилности<br>&nbsp;-Проблеми у перформансама<br><br>Напомињемо да проблеми настали услед рада са овим пакетом нису покривени „OTRS” сервисним уговором!<br><br>',
+            '<br>Ако наставите да инсталирате овај пакет, могу се јавити следећи проблеми!<br><br>&nbsp;- Безбедносни проблеми<br>&nbsp;- Проблеми стабилности<br>&nbsp;- Проблеми у перформансама<br><br>Напомињемо да проблеми настали услед рада са овим пакетом нису покривени OTRS сервисним уговором!<br><br>',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -4852,7 +4855,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
         'InnoDB Log File Size' => 'Величина InnoDB датотеке дневника',
-        'The setting innodb_log_file_size must be at least 256 MB.' => 'Подешавање „innodb_log_file_size” мора бити барем 256 MB.',
+        'The setting innodb_log_file_size must be at least 256 MB.' => 'Подешавање innodb_log_file_size мора бити барем 256 MB.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Максимална величина упита',
@@ -4893,7 +4896,7 @@ sub Data {
         'PostgreSQL 9.2 or higher is required.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTRS.pm
-        'OTRS Disk Partition' => '„OTRS” партиција на диску',
+        'OTRS Disk Partition' => 'OTRS партиција на диску',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
         'Disk Usage' => 'Коришћење диска',
@@ -4928,7 +4931,7 @@ sub Data {
         'There should be no more than 200 MB swap space used.' => 'Не треба да буде више од 200 MB употребљеног Swap простора.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticleSearchIndexStatus.pm
-        'OTRS' => '„OTRS”',
+        'OTRS' => 'OTRS',
         'Article Search Index Status' => '',
         'Indexed Articles' => '',
 
@@ -4973,7 +4976,7 @@ sub Data {
         'Tickets Per Month (avg)' => 'Тикети месечно (просечно)',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/DefaultSOAPUser.pm
-        'Default SOAP Username And Password' => 'Подразумевано „SOAP” корисничко име и лозинка',
+        'Default SOAP Username And Password' => 'Подразумевано SOAP корисничко име и лозинка',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
             'Сигурносни ризик: користите подразумевана подешавања за SOAP::User i SOAP::Password. Молимо промените га.',
 
@@ -4991,14 +4994,14 @@ sub Data {
         'There are error reports in your system log.' => 'Постоје извештаји о грешкама у вашем приступном систему.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FQDN.pm
-        'FQDN (domain name)' => ' „FQDN” (назив домена)',
-        'Please configure your FQDN setting.' => 'Молимо да подесите „FQDN” параметар.',
+        'FQDN (domain name)' => 'FQDN (назив домена)',
+        'Please configure your FQDN setting.' => 'Молимо да конфигуришете FQDN подешавање.',
         'Domain Name' => 'Назив домена',
         'Your FQDN setting is invalid.' => 'Ваша FQDN подешавања су неважећа.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/FileSystemWritable.pm
         'File System Writable' => 'Омогућено писање у систем датотека.',
-        'The file system on your OTRS partition is not writable.' => 'Није могуће писање у систем датотека на вашој „OTRS” партицији.',
+        'The file system on your OTRS partition is not writable.' => 'Није могуће писање у систем датотека на вашој OTRS партицији.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/LegacyConfigBackups.pm
         'Legacy Configuration Backups' => '',
@@ -5056,7 +5059,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => 'Напуштени записи у ticket_lock_index табели',
         'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
-            'Табела „ticket_lock_index” садржи неповезане записе. Молимо да покренете „bin/otrs.Console.pl” „Maint::Ticket::QueueIndexCleanup” да би очистили „StaticDB” индекс.',
+            'Табела ticket_lock_index садржи неповезане записе. Молимо да покренете bin/otrs.Console.pl Maint::Ticket::QueueIndexCleanup да би очистили StaticDB индекс.',
         'Orphaned Records In ticket_index Table' => 'Напуштени записи у ticket_index табели',
         'Table ticket_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.' =>
             'Табела ticket_lindex садржи неповезане записе. Молимо да покренете bin/otrs.Console.pl Maint::Ticket::QueueIndexCleanup да би очистили StaticDB индекс.',
@@ -5084,12 +5087,12 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Веб сервер',
-        'Loaded Apache Modules' => 'Учитани „Apache” модули',
+        'Loaded Apache Modules' => 'Учитани Apache модули',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
         'MPM model' => 'MPM модел',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
-            '„OTRS” захтева да Apache буде покренут са \'prefork\' MPM моделом.',
+            'OTRS захтева да Apache буде покренут са \'prefork\' MPM моделом.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
         'CGI Accelerator Usage' => 'Употреба CGI Accelerator',
@@ -5097,8 +5100,8 @@ sub Data {
             'За повећање перформанси треба да користите FastCGI или mod_perl.',
         'mod_deflate Usage' => 'Употреба mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Молимо инсталирајте mod_deflate да повећате брзину GUI.',
-        'mod_filter Usage' => 'Коришћење „mod_filter”',
-        'Please install mod_filter if mod_deflate is used.' => 'Молимо да инсталирате „mod_filter” ако је „mod_deflate” употребљен.',
+        'mod_filter Usage' => 'Коришћење mod_filter',
+        'Please install mod_filter if mod_deflate is used.' => 'Молимо да инсталирате mod_filter ако је mod_deflate употребљен.',
         'mod_headers Usage' => 'Употреба mod_headers',
         'Please install mod_headers to improve GUI speed.' => 'Молимо инсталирајте mod_headers да повећате брзину GUI',
         'Apache::Reload Usage' => 'Употреба Apache::Reload',
@@ -5193,7 +5196,7 @@ sub Data {
             'Креиран је нови налог. Подаци за пријаву послати %с. Молимо проверите ваш имејл.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
-        'Action "%s" not found!' => 'Акција „%s” није пронађена!',
+        'Action "%s" not found!' => 'Акција "%s" није пронађена!',
 
         # Database XML Definition: scripts/database/otrs-initial_insert.xml
         'invalid-temporarily' => 'неважећи-привремено',
@@ -5207,18 +5210,18 @@ sub Data {
         'closed' => 'затворени',
         'All closed state types (default: not viewable).' => 'Сви затворени типови стања (подразумевано: видљиво).',
         'pending reminder' => 'подсетник чекања',
-        'All \'pending reminder\' state types (default: viewable).' => 'Сви типови стања „подсетник на чекању” (подразумевано: видљиво).',
+        'All \'pending reminder\' state types (default: viewable).' => 'Сви типови стања "подсетник на чекању" (подразумевано: видљиво).',
         'pending auto' => 'аутоматско чекање',
-        'All \'pending auto *\' state types (default: viewable).' => 'Сви типови стања „подсетник аутоматски *” (подразумевано: видљиво).',
+        'All \'pending auto *\' state types (default: viewable).' => 'Сви типови стања "подсетник аутоматски *" (подразумевано: видљиво).',
         'removed' => 'уклоњени',
-        'All \'removed\' state types (default: not viewable).' => 'Сви типови стања „уклоњено” (подразумевано: видљиво).',
+        'All \'removed\' state types (default: not viewable).' => 'Сви типови стања "уклоњено" (подразумевано: видљиво).',
         'merged' => 'спојено',
         'State type for merged tickets (default: not viewable).' => 'Тип стања за спојене тикете (подразумевано: није видљиво).',
         'New ticket created by customer.' => 'Нови тикет који је креирао клијент.',
         'closed successful' => 'затворено успешно',
-        'Ticket is closed successful.' => 'Тикет је затворен „успешно”.',
+        'Ticket is closed successful.' => 'Тикет је затворен успешно.',
         'closed unsuccessful' => 'затворено неуспешно',
-        'Ticket is closed unsuccessful.' => 'Тикет је затворен „неуспешно”.',
+        'Ticket is closed unsuccessful.' => 'Тикет је затворен неуспешно.',
         'Open tickets.' => 'Отворени тикети.',
         'Customer removed ticket.' => 'Клијент је уклонио тикет.',
         'Ticket is pending for agent reminder.' => 'Тикет је на чекању за оператерски подсетник.',
@@ -5240,22 +5243,22 @@ sub Data {
         'new ticket' => 'нови тикет',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
             'Настављање на затворене тикете није могуће. Нови тикет ће бити креиран.',
-        'Postmaster queue.' => '„Postmaster” ред.',
+        'Postmaster queue.' => 'Postmaster ред.',
         'All default incoming tickets.' => ' Сви подразумевани долазни тикети.',
-        'All junk tickets.' => 'Сви бесмислени тикети „junk”.',
+        'All junk tickets.' => 'Сви бесмислени тикети junk.',
         'All misc tickets.' => 'Сви други тикети.',
         'auto reply' => 'аутоматски одговор',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
             'Аутоматски одговор који ће бити послат после креирања новог тикета.',
         'auto reject' => 'аутоматско одбацивање',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
-            'Аутоматска порука која ће бити послата након одбацивања наставка (у случају да је опција наставка за ред постављена на „одбаци”).',
+            'Аутоматска порука која ће бити послата након одбацивања наставка (у случају да је опција наставка за ред постављена на "одбаци").',
         'auto follow up' => 'аутоматско праћење',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
-            'Аутоматска потврда која ће бити послата након примања наставка у тикету (у случају да је опција наставка за ред постављена на „могуће”).',
+            'Аутоматска потврда која ће бити послата након примања наставка у тикету (у случају да је опција наставка за ред постављена на "могуће").',
         'auto reply/new ticket' => 'аутоматски одговор/нови тикет',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
-            'Аутоматски одговор који ће бити послат након одбацивања наставка и креирања новог тикета (у случају да је опција наставка за ред постављена на „нови тикет”).',
+            'Аутоматски одговор који ће бити послат након одбацивања наставка и креирања новог тикета (у случају да је опција наставка за ред постављена на "нови тикет").',
         'auto remove' => 'аутоматско уклањање',
         'Auto remove will be sent out after a customer removed the request.' =>
             'Аутоматско уклањање ће бити послато кад клијент уклони захтев.',
@@ -5279,10 +5282,10 @@ sub Data {
         'customer' => 'клијент',
         'Ticket create notification' => 'Обавештење о креирању тикета',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
-            'Добићете обавештење сваки пут кад се креира нови тикет у једном од ваших „Моји редови” или „Моји сервиси”.',
+            'Добићете обавештење сваки пут кад се креира нови тикет у једном од ваших "Моји редови" или "Моји сервиси".',
         'Ticket follow-up notification (unlocked)' => 'Обавештење о настављању тикета (откључано)',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
-            'Добићете обавештење када корисник пошаље наставак у откључаном тикету који се налази у „Моји редови” или „Моје услуге”.',
+            'Добићете обавештење када корисник пошаље наставак у откључаном тикету који се налази у "Моји редови" или "Моје услуге".',
         'Ticket follow-up notification (locked)' => 'Обавештење о настављању тикета (закључано)',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
             'Добићете обавештење када корисник пошаље наставак у закључаном тикету чији сте власник или одговорни.',
@@ -5294,14 +5297,14 @@ sub Data {
         'Ticket new note notification' => 'Обавештење о новој напомени тикета',
         'Ticket queue update notification' => 'Обавештење о ажурирању реда тикета',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
-            'Добићете обавештење ако се тикет премести у један од ваших „Моји редови”.',
+            'Добићете обавештење ако се тикет премести у један од ваших "Моји редови".',
         'Ticket pending reminder notification (locked)' => 'Обавештење - подсетник тикета на чекању (закључано)',
         'Ticket pending reminder notification (unlocked)' => 'Обавештење - подсетник тикета на чекању (откључано)',
         'Ticket escalation notification' => 'Обавештење о ескалацији тикета',
         'Ticket escalation warning notification' => 'Обавештење о упозорењу на ескалацију тикета',
         'Ticket service update notification' => 'Обавештење о ажурирању услуге тикета',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
-            'Добићете обавештење ако се сервис тикета промени у један од ваших „Моји сервиси”.',
+            'Добићете обавештење ако се сервис тикета промени у један од ваших "Моји сервиси".',
         'Appointment reminder notification' => 'Обавештење подсетника о термину',
         'You will receive a notification each time a reminder time is reached for one of your appointments.' =>
             'Добићете обавештење сваки пут кадa дође до времена подсетника за неки од ваших термина.',
@@ -5376,7 +5379,7 @@ sub Data {
 
         # JS File: Core.Agent.Admin.Group
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            'УПОЗОРЕЊЕ: Ако промените име групе \'admin\' пре адекватног подешавања у системској конфигурацији, изгубићете приступ административном панелу! Уколико се то деси, вратите име групи у „admin” помоћу SQL команде.',
+            'УПОЗОРЕЊЕ: Ако промените име групе \'admin\' пре адекватног подешавања у системској конфигурацији, изгубићете приступ административном панелу! Уколико се то деси, вратите име групи у admin помоћу SQL команде.',
 
         # JS File: Core.Agent.Admin.MailAccount
         'Delete this Mail Account' => '',
@@ -5523,7 +5526,7 @@ sub Data {
             'Молимо унесите барем једну вредност претраге или * да би сте нешто пронашли.',
 
         # JS File: Core.Agent.Daemon
-        'Information about the OTRS Daemon' => 'Информације о „OTRS” сервису',
+        'Information about the OTRS Daemon' => 'Информације о OTRS системском сервису',
 
         # JS File: Core.Agent.Dashboard
         'Please check the fields marked as red for valid inputs.' => 'Молимо проверите поља означена црвеним за важеће уносе.',
@@ -5721,7 +5724,7 @@ Thanks for your help!
         ' 5 minutes' => ' 5 минута',
         ' 7 minutes' => ' 7 минута',
         '"Slim" skin which tries to save screen space for power users.' =>
-            '„Упрошћени” изглед који покушава да уштеди место за напредне кориснике.',
+            '"Упрошћени" изглед који покушава да уштеди место за напредне кориснике.',
         '%s' => '%s',
         '(UserLogin) Firstname Lastname' => '(Пријава корисника) Име Презиме',
         '(UserLogin) Lastname Firstname' => '(Пријава корисника) Презиме Име',
@@ -5747,7 +5750,7 @@ Thanks for your help!
             'Листа динамичких поља која су споајена у главни тикет током операције спајања. Биће подешена само динамичка поља која су празна у главном тикету.',
         'A picture' => 'Слика',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
-            'ACL модул који дозвољава да надређени тикети буду затворени само ако су већ затворени сви подређени тикети („State” показује која стања нису доступна за надређени тикет док се не затворе сви подређени тикети).',
+            'ACL модул који дозвољава да надређени тикети буду затворени само ако су већ затворени сви подређени тикети ("State" показује која стања нису доступна за надређени тикет док се не затворе сви подређени тикети).',
         'Access Control Lists (ACL)' => 'Листе за контролу приступа (ACL)',
         'AccountedTime' => 'Обрачунато време',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
@@ -5772,15 +5775,15 @@ Thanks for your help!
         'Added %s time unit(s), for a total of %s time unit(s).' => '',
         'Added email. %s' => 'Додат имејл. %s',
         'Added follow-up to ticket [%s]. %s' => '',
-        'Added link to ticket "%s".' => 'Веза на „%s” постављена.',
+        'Added link to ticket "%s".' => 'Веза на тикет "%s" је постављена.',
         'Added note (%s).' => '',
         'Added phone call from customer.' => '',
         'Added phone call to customer.' => '',
-        'Added subscription for user "%s".' => 'Претплата за корисника „%s” укључена.',
+        'Added subscription for user "%s".' => 'Претплата за корисника "%s" је укључена.',
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
-            'Додаје текућу годину и месец као суфикс у „OTRS” датотеку дневника. Биће креирана датотека дневника за сваки месец.',
+            'Додаје текућу годину и месец као суфикс у OTRS лог датотеку. Биће креирана лог датотека за сваки месец.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             'Додавање имејл адреса клијената, примаоцима у тикету на приказу екрана за отварање тикета у интерфејсу оператера. Имејл адресе клијената неће бити додате, уколико је тип артикла имејл-интерни.',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -5800,29 +5803,29 @@ Thanks for your help!
         'Agent Customer Search' => '',
         'Agent Customer Search.' => '',
         'Agent Name' => 'Име оператера',
-        'Agent Name + FromSeparator + System Address Display Name' => 'Назив оператера + сепаратор „oд” + системска адреса за приказ',
+        'Agent Name + FromSeparator + System Address Display Name' => 'Назив оператера + сепаратор "oд" + системска адреса за приказ',
         'Agent Preferences.' => 'Оператерска подешавања.',
         'Agent User Search' => '',
         'Agent User Search.' => '',
-        'Agent interface article notification module to check PGP.' => 'Модул интерфејса оператера за обавештавања о чланку за проверу „PGP”.',
+        'Agent interface article notification module to check PGP.' => 'Модул интерфејса оператера за обавештавања о чланку за проверу PGP.',
         'Agent interface article notification module to check S/MIME.' =>
             'Модул интерфејса оператера за обавештавања о чланку, провера S/MIME',
         'Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Модул интерфејса оператера за приступ CIC претрази преко линије за навигацију. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”.',
+            'Модул интерфејса оператера за приступ CIC претрази преко линије за навигацију. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Модул интерфејса оператера за приступ текстуалној претрази преко линије за навигацију. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”.',
+            'Модул интерфејса оператера за приступ текстуалној претрази преко линије за навигацију. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Модул интерфејса оператера за приступ профилима претраживања преко линије за навигацију. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”.',
+            'Модул интерфејса оператера за приступ профилима претраживања преко линије за навигацију. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Модул интерфејса оператера за проверу долазних порука у увећаном прегледу тикета ако S/MIME-кључ постоји и доступан је.',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Модул интерфејса оператера за приказ броја закључаних тикета. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”.',
+            'Модул интерфејса оператера за приказ броја закључаних тикета. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Модул интерфејса оператера за приказ броја тикета за које је оператер одговоран. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”.',
+            'Модул интерфејса оператера за приказ броја тикета за које је оператер одговоран. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Модул интерфејса оператера за приказ броја тикета у Мојим услугама. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”.',
+            'Модул интерфејса оператера за приказ броја тикета у Мојим услугама. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Модул интерфејса оператера за приказ броја праћених тикета. Додатна контрола приказа ове везе може се постићи коришћењем кључа „Group” са садржајем „rw:group1;move_into:group2”.',
+            'Модул интерфејса оператера за приказ броја праћених тикета. Додатна контрола приказа ове везе може се постићи коришћењем кључа "Group" са садржајем "rw:group1;move_into:group2".',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
             '',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
@@ -5842,19 +5845,19 @@ Thanks for your help!
         'All tickets with a reminder set where the reminder date has been reached' =>
             'Сви тикети са подешеним подсетником, а датум подсетника је достигнут',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Дозвољава додавање напомена на екрану затварања тикета интерфејса оператера. „Ticket::Frontend::NeedAccountedTime” је може преписати.',
+            'Дозвољава додавање напомена на екрану затварања тикета интерфејса оператера. Ticket::Frontend::NeedAccountedTime је може преписати.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Дозвољава додавање напомена на екрану слободног текста тикета интерфејса оператера. „Ticket::Frontend::NeedAccountedTime” је може преписати.',
+            'Дозвољава додавање напомена на екрану слободног текста тикета интерфејса оператера. Ticket::Frontend::NeedAccountedTime је може преписати.',
         'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Дозвољава додавање напомена на екрану напомене тикета интерфејса оператера. „Ticket::Frontend::NeedAccountedTime” је може преписати.',
+            'Дозвољава додавање напомена на екрану напомене тикета интерфејса оператера. Ticket::Frontend::NeedAccountedTime је може преписати.',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Дозвољава додавање напомена на екрану власника тикета интерфејса оператера. „Ticket::Frontend::NeedAccountedTime” је може преписати.',
+            'Дозвољава додавање напомена на екрану власника тикета интерфејса оператера. Ticket::Frontend::NeedAccountedTime је може преписати.',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Дозвољава додавање напомена на екрану тикета на чекању интерфејса оператера. „Ticket::Frontend::NeedAccountedTime” је може преписати.',
+            'Дозвољава додавање напомена на екрану тикета на чекању интерфејса оператера. Ticket::Frontend::NeedAccountedTime је може преписати.',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Дозвољава додавање напомена на екрану приоритета детаљног приказа тикета интерфејса оператера. „Ticket::Frontend::NeedAccountedTime” је може преписати.',
+            'Дозвољава додавање напомена на екрану приоритета детаљног приказа тикета интерфејса оператера. Ticket::Frontend::NeedAccountedTime је може преписати.',
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Дозвољава додавање напомена на екрану одговорног за тикет интерфејса оператера. „Ticket::Frontend::NeedAccountedTime” је може преписати.',
+            'Дозвољава додавање напомена на екрану одговорног за тикет интерфејса оператера. Ticket::Frontend::NeedAccountedTime је може преписати.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Дозвољава оператерима да замене осе на статистици ако је генеришу.',
         'Allows agents to generate individual-related stats.' => 'Дозвољава оператерима да генеришу индивидуалну статистику.',
@@ -5869,7 +5872,7 @@ Thanks for your help!
         'Allows customers to set the ticket priority in the customer interface.' =>
             'Дозвољава клијентима да подесе приоритет тикета у клијентском интерфејсу.',
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' =>
-            'Дозвољава клијентима да подесе ред тикета у корисничком интерфејсу. Ако је подешено на „Не”, онда треба подесити QueueDefault.',
+            'Дозвољава клијентима да подесе ред тикета у корисничком интерфејсу. Ако је подешено на \'Не\', онда треба подесити QueueDefault.',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Дозвољава клијентима да подесе услугу за тикет у корисничком интерфејсу.',
         'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
@@ -5883,7 +5886,7 @@ Thanks for your help!
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Омогућава напредне услове претраге тикета у интерфејсу корисника. Са овом опцијом моћете претраживати нпр. наслов тикета са условима као "(*key1*&&*key2*)" или "(*key1*||*key2*)".',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            'Дозвољава проширене услове претраге у претрази тикета на интерфејсу општег оператера. Помоћу ове функције можете вршити претраге нпр. са врстом услова као што су: „(key1&&key2)” или „(key1||key2)”.',
+            'Дозвољава проширене услове претраге у претрази тикета на интерфејсу општег оператера. Помоћу ове функције можете вршити претраге нпр. наслов тикета са врстом услова као што су "(*key1*&&*key2*)" или "(*key1*||*key2*)".',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Дозвољава поседовање средњег формата прегледа тикета ( CustomerInfo => 1 - такође приказује информације о клијенту).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
@@ -5921,7 +5924,7 @@ Thanks for your help!
             '',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             'Дозвољава подешавање статуса новог тикета на приказаном екрану помереног тикета у интерфејсу оператера.',
-        'Always show RichText if available' => 'Увек прикажи „RichText” ако је доступан',
+        'Always show RichText if available' => 'Увек прикажи RichText ако је доступан',
         'Answer' => 'Одговор',
         'Appointment Calendar overview page.' => 'Страница за преглед календара.',
         'Appointment Notifications' => 'Обавештења о термину',
@@ -5948,23 +5951,23 @@ Thanks for your help!
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Аутоматско закључавање и подешавање власника на актуелног оператера после избора масовне акције.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
-            'Аутоматски подешава власника тикета као одговорног за њега (ако је фунција одговорног за тикет активирана). Ово фунционише само у ручним акцијама пријавњеног корисника. не важи за аутоматске акције, нпр општег оператера, „Postmaster” и општег интерфејса.',
+            'Аутоматски подешава власника тикета као одговорног за њега (ако је фунција одговорног за тикет активирана). Ово фунционише само у ручним акцијама пријавњеног корисника. не важи за аутоматске акције, нпр. општег оператера, Postmaster и општег интерфејса.',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Аутоматско подешавање одговорног за тикет (ако није до сада подешено) после првог ажурирања.',
         'Avatar' => '',
         'Balanced white skin by Felix Niklas (slim version).' => 'Избалансирани бели изглед, Феликс Никлас (танка верзија).',
         'Balanced white skin by Felix Niklas.' => 'Избалансирани бели изглед, Феликс Никлас.',
-        'Based on global RichText setting' => 'Базирано на глобалним „RichText” поставкама',
+        'Based on global RichText setting' => 'Базирано на глобалним RichText поставкама',
         'Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.' =>
-            'Основн подешавање индекса целог текста. Изврши „bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild” како би се генерисао нови индекс.',
+            'Основн подешавање индекса целог текста. Изврши "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" како би се генерисао нови индекс.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             'Блокира све долазне емаил-ове који немају исправан број тикета у предмету са Од: @example.com адресе.',
-        'Bounced to "%s".' => 'Одбијено „%s”.',
+        'Bounced to "%s".' => 'Одбијено на "%s".',
         'Bulgarian' => 'Бугарски',
         'Bulk Action' => 'Масовна акција',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             'Пример подешавања CMD. Игнорише имејлове када екстерни CMD врати неке излазе на STDOUT (имејл ће бити каналисан у STDIN од some.bin).',
-        'CSV Separator' => '„CSV” сепаратор',
+        'CSV Separator' => 'CSV сепаратор',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
             'Време кеширања у секундама за аутентификације оператера у генеричком интерфејсу.',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
@@ -5992,7 +5995,7 @@ Thanks for your help!
         'Changed dynamic field %s from "%s" to "%s".' => '',
         'Changed owner to "%s" (%s).' => '',
         'Changed pending time to "%s".' => '',
-        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Ажуриран приоритет са „%s” (%s) на „%s” (%s).',
+        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Ажуриран приоритет са "%s" (%s) на "%s" (%s).',
         'Changed queue to "%s" (%s) from "%s" (%s).' => '',
         'Changed responsible to "%s" (%s).' => '',
         'Changed service to "%s" (%s).' => '',
@@ -6010,10 +6013,10 @@ Thanks for your help!
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
             'Проверава да ли је имејл настављање на постојећи тикета претрагом предмета важећих бројева тикета.',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
-            'Проверавање SystemID у детекцији броја тикета за праћења (користити „Не” уколико је SystemID промењен након коришћења система).',
+            'Проверавање SystemID у детекцији броја тикета за праћења (користити "Не" уколико је SystemID промењен након коришћења система).',
         'Checks the availability of OTRS Business Solution™ for this system.' =>
-            'Проверава доступност „OTRS” Пословног решења за овај систем.',
-        'Checks the entitlement status of OTRS Business Solution™.' => 'Проверава стаус права коришћења „OTRS” Пословног решења.',
+            'Проверава доступност OTRS Business Solution™ за овај систем.',
+        'Checks the entitlement status of OTRS Business Solution™.' => 'Проверава статус права коришћења OTRS Business Solution™.',
         'Child' => 'Child',
         'Chinese (Simplified)' => 'Кинески (упрошћено)',
         'Chinese (Traditional)' => 'Кинески (традиционално)',
@@ -6030,7 +6033,7 @@ Thanks for your help!
         'Cloud service admin module registration for the transport layer.' =>
             'Регистрација админ модула сервиса у облаку за транспортни слој.',
         'Collect support data for asynchronous plug-in modules.' => 'Прикупи податке подршке за асинхдоне прикључне модуле.',
-        'Column ticket filters for Ticket Overviews type "Small".' => 'Филтери колона тикета за прегледе тикета типа „мало”.',
+        'Column ticket filters for Ticket Overviews type "Small".' => 'Филтери колона тикета за прегледе тикета типа "мало".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             '',
         'Columns that can be filtered in the locked view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
@@ -6067,12 +6070,12 @@ Thanks for your help!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'Конфигурише било коју додатну пресликану базу података, коју желите да користите, само за читање.',
         'Configure sending of support data to OTRS Group for improved support.' =>
-            'Подешавање слања података за подршку за „OTRS Group” ради унапређења подршке.',
+            'Подешавање слања података за подршку OTRS групи ради унапређења подршке.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Конфигурише који екран би требало приказати након креирања новог тикета.',
-        'Configure your own log text for PGP.' => 'Конфигуриши сопствени лог текст за „PGP”.',
+        'Configure your own log text for PGP.' => 'Конфигуриши сопствени лог текст за PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
-            'Конфигурише подразумевана подешавања динамичког поља тикета. „Name” дефинише динамичко поље које ће бити коришћено, „Value” је податак који ће бити подешен, а „Event” дефинише окидач догађаја. Молимо консултујте упутство за програмере (http://otrs.github.io/doc/), поглавље "Модул догађаја тикета".',
+            'Конфигурише подразумевана подешавања динамичког поља тикета. "Name" дефинише динамичко поље које ће бити коришћено, "Value" је податак који ће бити подешен, а "Event" дефинише окидач догађаја. Молимо консултујте упутство за програмере (http://otrs.github.io/doc/), поглавље "Модул догађаја тикета".',
         'Controls how to display the ticket history entries as readable values.' =>
             'Контролише начин приказа историјских уноса тикета као читљивих вредности. ',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6163,9 +6166,9 @@ Thanks for your help!
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
             'Подразумевани префикси објекта за управљање процесом за ИЂеве објекта који су аутоматски генерисани.',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
-            'Подразумевани подаци за коришћење на атрибутима за приказ претраге тикета. Пример: „TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;”.',
+            'Подразумевани подаци за коришћење на атрибутима за приказ претраге тикета. Пример: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
-            'Подразумевани подаци за коришћење на атрибутима за приказ претраге тикета. Пример: „TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;”.',
+            'Подразумевани подаци за коришћење на атрибутима за приказ претраге тикета. Пример: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default display type for recipient (To,Cc) names in AgentTicketZoom and CustomerTicketZoom.' =>
             'Подразумевани тип приказа за имена примаоца (To,Cc) на детаљном приказу тикета у интерфејсу оператара и клијента.',
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
@@ -6181,15 +6184,15 @@ Thanks for your help!
             'Подразумевани ИД тикета који користи систем у клијентском интерфејсу.',
         'Default value for NameX' => 'Подразумевана вредност за ИмеХ',
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
-            'Дефинише акције на којима је омогућен приказ дугмета за подешавање у апликативном додатку линкованих објеката (LinkObject::ViewMode = „complex”). Напомињемо да ове акције морају имати регистроване следеће JS и CSS датотеке: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
+            'Дефинише акције на којима је омогућен приказ дугмета за подешавање у апликативном додатку линкованих објеката (LinkObject::ViewMode = "complex"). Напомињемо да ове акције морају имати регистроване следеће JS и CSS датотеке: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            'Дефиниши филтер за html излаз да би додали везе иза дефинисаног низа знакова. Елемент Слика дозвољава два начина улаза. У једном назив слике (нпр. faq.png). У том случају биће коришћена „OTRS” путања слике. Други начин је уношење везе до слике.',
+            'Дефиниши филтер за html излаз да би додали везе иза дефинисаног низа знакова. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). У том случају биће коришћена OTRS путања слике. Други начин је уношење везе до слике.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
             'Дефинисање мапирања између променљивих: података клијента корисника (кључеви) и динамичких поља тикета (вредности). Циљ је да се сачувају подаци клијента корисника у динамичком пољу тикета. Динамичка поља морају бити присутна у систему и треба да буду омогућена за  AgentTicketFreeText, тако да могу да буду мануелно подешена/ажурирана од стране оператера. Она не смеју бити омогућена за AgentTicketPhone, AgentTicketEmail и AgentTicketCustomer. Да су била, она би имала предност над аутоматски постављеним вредностима. За коришћење овог мапирања треба, такође, да активирате следећа подешавања.',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
-            'Дефинишe назив динамичког поља за крајње време. Ово поље мора бити мануелно додато систему као тикет: „Датум / Време” и мора бити активиранo у екранима за креирање тикета и/или у било ком другом екрану са тикет акцијама.',
+            'Дефинишe назив динамичког поља за крајње време. Ово поље мора бити мануелно додато систему као тикет: "Датум / Време" и мора бити активиранo у екранима за креирање тикета и/или у било ком другом екрану са тикет акцијама.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
-            'Дефинише назив динамичког поља за почетно време. Ово поље мора бити мануелно додато систему као тикет: „Датум / Време” и мора бити активирано у екранима за креирање тикета и/или у било ком другом екрану са тикет акцијама.',
+            'Дефинише назив динамичког поља за почетно време. Ово поље мора бити мануелно додато систему као тикет: "Датум / Време" и мора бити активирано у екранима за креирање тикета и/или у било ком другом екрану са тикет акцијама.',
         'Define the max depth of queues.' => 'Дефиниши максималну дубину за редове.',
         'Define the queue comment 2.' => 'Дефинише коментар реда 2.',
         'Define the service comment 2.' => 'Дефинише сервисни коментар 2.',
@@ -6212,13 +6215,13 @@ Thanks for your help!
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             'Дефинише ставку која генерише Google Maps иконицу на крају инфо блока клијента.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            'Дефинише филтер за html излаз да би сте додали везе иза CVE бројева. Елемент Слика дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена „OTRS” путања слике. Други начин је уношење везе до слике.',
+            'Дефинише филтер за html излаз да би сте додали везе иза CVE бројева. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење везе до слике.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            'Дефинише филтер за html излаз да би сте додали везе иза Microsoft знакова за набрајање или бројева Елемент Слика дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена „OTRS” путања слике. Други начин је уношење везе до слике.',
+            'Дефинише филтер за html излаз да би сте додали везе иза MSBulletin бројева. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење везе до слике.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            'Дефинише филтер за html излаз да би сте додали везе иза дефинисаног низа знакова. Елемент Слика дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена „OTRS” путања слике. Други начин је уношење везе до слике.',
+            'Дефинише филтер за html излаз да би сте додали везе иза дефинисаног низа знакова. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење везе до слике.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
-            'Дефинише филтер за HTML излаз да би сте додали везе иза „bugtraq” бројева. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена „OTRS” путања слике. Други начин је уношење путање до слике.',
+            'Дефинише филтер за HTML излаз да би сте додали везе иза „bugtraq” бројева. Елемент Image дозвољава два начина улаза. У једном назив слике (нпр. faq.png). И том случају биће коришћена OTRS путања слике. Други начин је уношење путање до слике.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
             'Дефинише филтер за прикупљање CVE бројева из текста чланка у AgentTicketZoom. Резултати ће бити приказани у прозорчету поред чланка. Подесите URLPreview уколико желите да видите приказ стране приликом преласка курсором преко елемента везе. Ова адреса може бити иста као и за URL, али и другачија. Напомињемо да неке локације одбијају да буду приказане у IFRAME (нпр. Гугл) и зато приказ неће радити.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
@@ -6226,7 +6229,7 @@ Thanks for your help!
         'Defines a permission context for customer to group assignment.' =>
             '',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
-            'Дефинише регуларни израз који искључује неке адресе из провере синтаксе (ако је „CheckEmailAddresses” постављена на „Да”). Молимо вас унесите регуларни израз у ово поље за имејл адресе, који нису синтаксно исправне, али су неопходне за систем (нпр. „root@localhost”).',
+            'Дефинише регуларни израз који искључује неке адресе из провере синтаксе (ако је "CheckEmailAddresses" постављена на "Да"). Молимо вас унесите регуларни израз у ово поље за имејл адресе, који нису синтаксно исправне, али су неопходне за систем (нпр. "root@localhost").',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
             'Definiše regularni izraz koji kiltrira sve email adrese koje ne bi smele da se koriste u aplikaciji.',
         'Defines a sleep time in microseconds between tickets while they are been processed by a job.' =>
@@ -6253,7 +6256,7 @@ Thanks for your help!
         'Defines an alternate login URL for the customer panel..' => 'Одређује алтернативну URL адресу пријављивања за клијентски панел.',
         'Defines an alternate logout URL for the customer panel.' => 'Одређује алтернативну URL адресу одјављивања за клијентски панел.',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
-            'Одређује спољашњу везу за базу података клијента (нпр „http://yourhost/customer.php?CID=[% Data.CustomerID %]” или „”).',
+            'Одређује спољашњу везу за базу података клијента (нпр. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' или \'\').',
         'Defines an icon with link to the google map page of the current location in appointment edit screen.' =>
             'Дефинише икону са линком на Google мапу тренутне локације у екрану за измену термина.',
         'Defines an overview module to show the address book view of a customer user list.' =>
@@ -6346,14 +6349,14 @@ Thanks for your help!
         'Defines if the previously valid token should be accepted for authentication. This is slightly less secure but gives users 30 seconds more time to enter their one-time password.' =>
             'Одређује да ли за аутентификацију треба да буде прихваћен токен који је раније био важећи. Ово је мало мање безбедно али кориснику даје 30 секунди више времена да унесе своју једнократну лозинку.',
         'Defines if the values for filters should be retrieved from all available tickets. If set to "Yes", only values which are actually used in any ticket will be available for filtering. Please note: The list of customers will always be retrieved like this.' =>
-            'Дефинише да ли ће вредности филтера бити прибављене од свих доступних тикета. Уколико је подешено на „Да”, само вредности које се иначе користе у било ком тикету ће бити доступне као филтер. Напомињемо да ће листа корисника увек бити приказана на овај начин.',
+            'Дефинише да ли ће вредности филтера бити прибављене од свих доступних тикета. Уколико је подешено на "Да", само вредности које се иначе користе у било ком тикету ће бити доступне као филтер. Напомињемо да ће листа корисника увек бити приказана на овај начин.',
         'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             'Дефинише да ли је обрачун времена обавезан у интерфејсу оператера. Ако је активирано, за све акције на тикетима се мора унети напомена (без обзира да ли је сама напомена конфигурисана као активна или је у оргиналу обавезна на екрану индивидуалне акције на тикету).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Одређује да ли обрачун времена мора бити подешен на свим тикетима у масовним акцијама.',
         'Defines internal communication channel.' => '',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
-            'Дефинише шаблон поруке „ван канцеларије”. Два параметра знаковних низова (%s) су расположива: датум завршетка и број преосталих дана.',
+            'Дефинише шаблон поруке ван канцеларије. Два параметра знаковних низова (%s) су расположива: датум завршетка и број преосталих дана.',
         'Defines phone communication channel.' => '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             'Дефинише редове које користе тикети за приказивање у виду календарских догађаја.',
@@ -6369,7 +6372,7 @@ Thanks for your help!
         'Defines the URL java script path.' => 'Дефинише URL путању java скриптова.',
         'Defines the URL rich text editor path.' => 'Дефинише URL Reach Text Editor путању.',
         'Defines the address of a dedicated DNS server, if necessary, for the "CheckMXRecord" look-ups.' =>
-            'Дефинише адресе наменског DNS сервера, уколико је потребно, за „CheckMXRecord” претраге.',
+            'Дефинише адресе наменског DNS сервера, уколико је потребно, за "CheckMXRecord" претраге.',
         'Defines the agent preferences key where the shared secret key is stored.' =>
             'Одређује кључ оператерских подешавања где се смешта дељени тајни кључ.',
         'Defines the available steps in time selections. Select "Minute" to be able to select all minutes of one hour from 1-59. Select "30 Minutes" to only make full and half hours available.' =>
@@ -6470,7 +6473,7 @@ Thanks for your help!
         'Defines the default shown ticket search attribute for ticket search screen.' =>
             'Дефинише подразумевани приказ претраге атрибута тикета за приказ екрана претраге тикета.',
         'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
-            'Дефинише подразумевани приказ претраге атрибута тикета за приказ екрана претраге тикета. Пример: „Key” мора имати назив динамичког поља, у овом случају \'X\', „Content” мора имати вредност динамичког поља у зависности од типа динамичког поља, Текст: \'a text\', Падајући: \'1\', Датум/Време: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' и/или \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.',
+            'Дефинише подразумевани приказ претраге атрибута тикета за приказ екрана претраге тикета. Пример: "Key" мора имати назив динамичког поља, у овом случају \'X\', "Content" мора имати вредност динамичког поља у зависности од типа динамичког поља, Текст: \'a text\', Падајући: \'1\', Датум/Време: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' и/или \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
             'Одређује подразумевани критеријум сортирања за све редове приказане у прегледу реда.',
         'Defines the default sort criteria for all services displayed in the service view.' =>
@@ -6633,9 +6636,9 @@ Thanks for your help!
             'Одређује сате и дане у недељи у назначеном календару, ради рачунања радног времена.',
         'Defines the hours and week days to count the working time.' => 'Одређује сате и дане у недељи у назначеном календару, ради рачунања радног времена.',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
-            'Дефинише кључ који треба проверити са модулом „Kernel::Modules::AgentInfo”. Ако је овај кориснички параметар кључа тачан, порука ће бити прихваћена од стране система.',
+            'Дефинише кључ који треба проверити са модулом Kernel::Modules::AgentInfo. Ако је овај кориснички параметар кључа тачан, порука ће бити прихваћена од стране система.',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
-            'Одређује кључ који треба проверити са „CustomerAccept” (прихватање корисника). Ако је овај кориснички параметар кључа тачан, порука ће бити прихваћена од стране система.',
+            'Одређује кључ који треба проверити са CustomerAccept (прихватање корисника). Ако је овај кориснички параметар кључа тачан, порука ће бити прихваћена од стране система.',
         'Defines the link type \'Normal\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
             'Дефинише тип везе \'Normal\'. Ако назив извора и назив циља садрже исте вредности, добијена веза се сматра неусмереном; у супротном се као резултат добија усмерена веза. ',
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
@@ -6643,7 +6646,7 @@ Thanks for your help!
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
             'Дефинише тип везе група. Типови везе исте групе поништавају једни друге. Пример: Ако је тикет А везан преко \'Normal\' везе са тикетом Б, онда ови тикети не могу бити додатно везани везом надређени-подређени.',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
-            'Дефинише листу online спремишта. Још инсталација може да се користи као спремиште, на пример: Key=„http://example.com/otrs/public.pl?Action=PublicRepository;File=” и Content=„Some Name”.',
+            'Дефинише листу online спремишта. Још инсталација може да се користи као спремиште, на пример: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" и Content="Some Name".',
         'Defines the list of params that can be passed to ticket search function.' =>
             'Дефинише листу параметара који могу бити прослеђени функцији претраге тикета.',
         'Defines the list of possible next actions on an error screen, a full path is required, then is possible to add external links if needed.' =>
@@ -6652,7 +6655,7 @@ Thanks for your help!
         'Defines the location to get online repository list for additional packages. The first available result will be used.' =>
             'Дефинише локацију за добијање списка online спремишта за додатне пакете. Први расположиви резултат ће бити коришћен.',
         'Defines the log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.' =>
-            'Дефинише лог модул за систем. „File” пише све поруке у датој лог датотеци, „SysLog” користи системски лог сервис, нпр. syslogd.',
+            'Дефинише лог модул за систем. "File" пише све поруке у датој лог датотеци, "SysLog" користи системски лог сервис, нпр. syslogd.',
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).' =>
             'Дефинише максималну величину (у бајтовима) за слање датотеке преко претраживача. Упозорење: Подешавање ове опције на сувише малу вредност може узроковати да многе маске у вашој „OTRS” инстанци престану са радом (вероватно свака маска која има улаз од корисника).',
         'Defines the maximal valid time (in seconds) for a session id.' =>

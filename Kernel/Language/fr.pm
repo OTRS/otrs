@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.348408418855453;
+    $Self->{Completeness}        = 0.348226703755216;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2441,7 +2441,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Editer vos préférences',
-        'Personal Preferences' => '',
+        'Personal preferences' => '',
         'Preferences' => 'Préférences',
         'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
             '',
@@ -2469,6 +2469,7 @@ sub Data {
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
+        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2949,7 +2950,6 @@ sub Data {
         'View notifications' => '',
         'Notifications' => '',
         'Notifications (OTRS Business Solution™)' => '',
-        'Personal preferences' => '',
         'Logout' => 'Déconnexion',
         'You are logged in as' => 'Vous êtes connecté avec',
 
@@ -3193,6 +3193,8 @@ sub Data {
         # Template: SettingsList
         'This setting is disabled.' => '',
         'This setting is fixed but not deployed yet!' => '',
+        'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
+            '',
         '%s (%s) is currently working on this setting.' => '',
         'Toggle advanced options for this setting' => '',
         'Disable this setting, so it is no longer effective' => '',
@@ -3218,6 +3220,7 @@ sub Data {
         'Cancel editing this setting' => '',
         'Save changes on this setting' => '',
         'Edit this setting' => '',
+        'Enable this setting' => '',
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups or another group.' =>
             '',
 
@@ -3818,6 +3821,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.57540441815968;
+    $Self->{Completeness}        = 0.575278164116829;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2437,7 +2437,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 
         # Template: AgentPreferences
         'Edit your preferences' => '個人設定を編集',
-        'Personal Preferences' => '',
+        'Personal preferences' => '',
         'Preferences' => '個人設定',
         'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
             '',
@@ -2465,6 +2465,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Reset to default' => '',
 
         # Template: AgentPreferencesOverview
+        'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
         'Did you know?' => '',
@@ -2945,7 +2946,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'View notifications' => '通知を見る',
         'Notifications' => '通知',
         'Notifications (OTRS Business Solution™)' => '',
-        'Personal preferences' => '',
         'Logout' => 'ログアウト',
         'You are logged in as' => 'ログイン中: ',
 
@@ -3189,6 +3189,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: SettingsList
         'This setting is disabled.' => '',
         'This setting is fixed but not deployed yet!' => '',
+        'This setting is currently being overridden in %s and can\'t thus be changed here!' =>
+            '',
         '%s (%s) is currently working on this setting.' => '',
         'Toggle advanced options for this setting' => '',
         'Disable this setting, so it is no longer effective' => '',
@@ -3214,6 +3216,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Cancel editing this setting' => '',
         'Save changes on this setting' => '',
         'Edit this setting' => '',
+        'Enable this setting' => '',
         'This group doesn\'t contain any settings. Please try navigating to one of its sub groups or another group.' =>
             '',
 
@@ -3815,6 +3818,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',
@@ -5728,7 +5732,7 @@ Thanks for your help!
         '(UserLogin) Firstname Lastname' => '(ユーザー名) 姓 名 ',
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '(ユーザー名) 名, 姓',
-        '*** out of office until %s (%s d left) ***' => '',
+        '*** out of office until %s (%s d left) ***' => '***％s 日までの休暇中***',
         '0 - Disabled' => '',
         '1 - Available' => '',
         '1 - Enabled' => '',
