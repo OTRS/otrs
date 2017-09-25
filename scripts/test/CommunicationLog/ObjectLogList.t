@@ -20,6 +20,13 @@ $Kernel::OM->ObjectParamAdd(
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $Success = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB')->CommunicationDelete();
+
+$Self->True(
+    $Success,
+    'Communication log cleanup.',
+);
+
 # Start a communication.
 my $CommunicationLogObject = $Kernel::OM->Create(
     'Kernel::System::CommunicationLog',
