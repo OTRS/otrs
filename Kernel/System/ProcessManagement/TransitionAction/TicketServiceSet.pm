@@ -20,6 +20,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Service',
     'Kernel::System::Ticket',
+    'Kernel::Config',
 );
 
 =head1 NAME
@@ -105,7 +106,11 @@ sub Run {
         return;
     }
 
-    if ( !$Param{Ticket}->{CustomerUserID} ) {
+    if (
+        !$Param{Ticket}->{CustomerUserID}
+        && !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer')
+        )
+    {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $CommonMessage . "To set a service the ticket requires a customer!",

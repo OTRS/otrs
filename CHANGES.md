@@ -242,6 +242,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.24 2017-??-??
+ - 2017-09-25 Fixed bug#[13152](https://bugs.otrs.org/show_bug.cgi?id=13152) - TicketCreate log entry if Service is used for unknown customer.
  - 2017-09-25 Fixed bug#[12868](https://bugs.otrs.org/show_bug.cgi?id=12868) - SysConfig does not show overridden settings as readonly.
  - 2017-09-21 Fixed bug#[12858](https://bugs.otrs.org/show_bug.cgi?id=12858) - Daemon duplicate task identifiers.
  - 2017-09-21 Fixed bug#[13033](https://bugs.otrs.org/show_bug.cgi?id=13033) - Postmaster Filter Area - unused space - usability is bad.
