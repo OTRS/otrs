@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.824547283702213;
+    $Self->{Completeness}        = 0.823352090032154;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -2995,6 +2995,8 @@ sub Data {
         'Reload page' => '',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
 
@@ -3134,6 +3136,7 @@ sub Data {
             '',
         'Do you really want to continue?' => 'คุณต้องการที่จะดำเนินการต่อหรือไม่?',
         'Information about the OTRS Daemon' => 'ข้อมูลเกี่ยวกับOTRS Daemon',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'ฟีเจอร์นี้เป็นส่วนหนึ่งของ%s กรุณาติดต่อได้ที่%s สำหรับการอัพเกรด',
         'Find out more about the %s' => 'ค้นหาข้อมูลเพิ่มเติมเกี่ยวกับ %s',
@@ -3387,6 +3390,7 @@ sub Data {
         'Go back to the previous page' => 'กลับไปที่หน้าก่อนหน้านี้',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'ดูข้อความเข้าสู่ระบบ',
         'Update and extend your system with software packages.' => 'ปรับปรุงและขยายระบบของคุณด้วยซอฟแวร์',
 
@@ -3539,7 +3543,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'เอเย่นต์ทั้งหมดถูกจัดไปยังคิวและการบริการของตั๋ว',
         'Customer of the ticket' => 'ลูกค้าของตั๋ว',
-        'Yes, but require at least one active notification method' => 'ใช่ แต่ต้องมีอย่างน้อยหนึ่งวิธีการแจ้งเตือนที่ใช้งาน',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3670,6 +3674,9 @@ sub Data {
         'Test' => '',
         'Training' => 'การฝึกอบรม',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4450,6 +4457,12 @@ sub Data {
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             'TimeZone อาจจะถูกเปิดใช้งานสำหรับระบบที่ใช้ใน UTC ที่ไม่ได้มีกำหนดOTRS TimeZone',
         'OTRS TimeZone setting for calendar ' => 'การตั้งค่า OTRS TimeZone สำหรับปฏิทิน',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Webserver',

@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.742253521126761;
+    $Self->{Completeness}        = 0.752612540192926;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -731,8 +731,8 @@ sub Data {
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
             'Jeżeli ustawisz tu jakąś wartość, widok kolejek zgłoszeń będzie odświeżany w określonym interwale.',
         'Refresh QueueView after' => 'Odświeżaj widok kolejek co',
-        'Screen after new ticket' => 'Ekran po nowym zgłoszeniu',
-        'Show this screen after I created a new ticket' => 'Pokaż następujący widok po utworzeniu nowego zgłoszenia',
+        'Screen after new ticket' => 'Ekran po utworzeniu zgłoszenia',
+        'Show this screen after I created a new ticket' => 'Pokaż następujący ekran po utworzeniu nowego zgłoszenia',
         'Closed Tickets' => 'Zamknięte zgłoszenia',
         'Show closed tickets.' => 'Pokaż zamknięte zgłoszenia.',
         'Max. shown Tickets a page in QueueView.' => 'Limit pokazywanych zgłoszeń na stronie Podglądu Kolejki',
@@ -1597,7 +1597,7 @@ sub Data {
         'Remove Notification Language' => 'Usuń język powiadomienia',
         'Message body' => 'Treść wiadomości',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'To pole jest wymagane i musi być krótsze niż 4000 znaków.',
         'Add new notification language' => 'Dodaj nowy język powiadomienia',
         'Do you really want to delete this notification language?' => 'Czy na pewno chcesz usunąć ten język powiadomienia?',
         'Tag Reference' => 'Opis tag\'u',
@@ -1619,7 +1619,7 @@ sub Data {
         'Attributes of the ticket data' => 'Atrybuty danych zgłoszenia',
         'Ticket dynamic fields internal key values' => 'Wartości wewnętrznych kluczy pól dynamicznych',
         'Ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Wyświetlane wartości pól dynamicznych zgłoszeń, przydatne dla pól list rozwijanych i wielokrotnego wyboru.',
         'Example notification' => 'Przykładowe powiadomienie',
 
         # Template: AdminNotificationEventTransportEmailSettings
@@ -1628,7 +1628,7 @@ sub Data {
             'Aby wstawić wartości z bieżącego zgłoszenia, możesz użyć tagów OTRS takich jak <OTRS_TICKET_DynamicField_...>',
         'Notification article type' => 'Typ powiadomienia',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
+            'Artykuł zostanie utworzony jeżeli zostanie wysłane powiadomienie do klienta lub na adres dodatkowy.',
         'Email template' => 'Formatka email',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Użyj tego szablonu, aby wygenerować kompletną wiadomość email (dotyczy tylko emaili HTML).',
@@ -1659,7 +1659,7 @@ sub Data {
         '%s Not Yet Available' => '%s jeszcze nie jest dostępne',
         '%s will be available soon.' => '%s wkrótce będzie dostępne.',
         '%s Update Available' => '%s dostępna jest aktualizacja',
-        'Package installation requires patch level update of OTRS.' => '',
+        'Package installation requires patch level update of OTRS.' => 'Instalacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS',
         'Please visit our customer portal and file a request.' => '',
         'Everything else will be done as part of your contract.' => '',
         'Your installed OTRS version is %s.' => 'Twoja zainstalowana wersja OTRS to %s',
@@ -1722,8 +1722,8 @@ sub Data {
         'Enable PGP support' => 'Aktywuj wsparcie dla PGP',
         'Faulty PGP configuration' => 'Błędna konfiguracja PGP',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
-            '',
-        'Configure it here!' => '',
+            'Wsparcie dla PGP jest włączone, ale odpowiadająca mu konfiguracja zawiera błędy. Sprawdź proszę konfigurację używając przycisku poniżej.',
+        'Configure it here!' => 'Skonfiguruj to tutaj!',
         'Check PGP configuration' => 'Sprawdź konfigurację PGP',
         'Add PGP key' => 'Dodaj klucz PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
@@ -1745,21 +1745,21 @@ sub Data {
         'Reinstall package' => 'Reinstaluj pakiet',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Czy na pewno chcesz reinstalować ten pakiet? Wszystkie ręczne modyfikacje będą utracone.',
-        'Go to upgrading instructions' => '',
-        'package information' => '',
-        'Package installation requires a patch level update of OTRS.' => '',
-        'Package update requires a patch level update of OTRS.' => '',
+        'Go to upgrading instructions' => 'Idź do instrukcji uaktualniania',
+        'package information' => 'informacja o pakiecie',
+        'Package installation requires a patch level update of OTRS.' => 'Instalacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS',
+        'Package update requires a patch level update of OTRS.' => 'Aktualizacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             '',
-        'Please note that your installed OTRS version is %s.' => '',
+        'Please note that your installed OTRS version is %s.' => 'Zauważ, że twoja zainstalowana wersja OTRS to %s',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            'Aby zainstalować ten pakiet musisz zaktualizować OTRS do wersji%s lub nowszej.',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            'Ten pakiet może być zainstalowany w OTRS jedynie w wersji %s lub starszej.',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            'Ten pakiet może być zainstalowany w OTRS jedynie w wersji %s lub nowszej.',
         'You will receive updates for all other relevant OTRS issues.' =>
-            '',
+            'Będziesz otrzymywał informacje o innych istotnych problemach w OTRS.',
         'How can I do a patch level update if I don’t have a contract?' =>
             '',
         'Please find all relevant information within the upgrading instructions at %s.' =>
@@ -2082,8 +2082,8 @@ sub Data {
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Zarządzaj relacjami kolejka-autoodpowiedź',
         'This filter allow you to show queues without auto responses' => '',
-        'Queues without auto responses' => '',
-        'This filter allow you to show all queues' => '',
+        'Queues without auto responses' => 'Kolejki bez automatycznych odpowiedzi',
+        'This filter allow you to show all queues' => 'Ten filtr pozwala na wyświetlenie wszystkich kolejek',
         'Show all queues' => 'pokaż wszystkie kolejki',
         'Filter for Queues' => 'Filtrowanie kolejek',
         'Filter for Auto Responses' => 'Filtrowanie automatycznych odpowiedzi',
@@ -2101,17 +2101,17 @@ sub Data {
         'System Registration Management' => 'Zarządzanie rejestracją systemu',
         'Edit details' => 'Edytuj detale',
         'Show transmitted data' => 'Pokaż wysłane dane',
-        'Deregister system' => 'Derejestracja systemu',
+        'Deregister system' => 'Wyrejestruj system',
         'Overview of registered systems' => 'Przegląd zarejestrowanych systemów',
         'This system is registered with OTRS Group.' => 'Ten system jest zarejestrowany w grupie OTRS.',
         'System type' => 'Typ systemu',
         'Unique ID' => 'Unikalne ID',
         'Last communication with registration server' => 'Ostatnia komunikacja z serwerem rejestrującym',
-        'System registration not possible' => 'Rejestracja systemu nie możliwa',
+        'System registration not possible' => 'Rejestracja systemu nie jest możliwa',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
-            '',
+            'Zauważ, że nie możesz zarejestrować swojego systemu jeśli Demon OTRS nie jest poprawnie uruchomiony!',
         'Instructions' => 'Instrukcje',
-        'System deregistration not possible' => '',
+        'System deregistration not possible' => 'Wyrejestrowanie systemu nie jest możliwe',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
         'OTRS-ID Login' => 'Login OTRS-ID',
@@ -2949,8 +2949,8 @@ sub Data {
 
         # Template: CustomerAccept
         'Information' => 'Informacje',
-        'Dear Customer,' => '',
-        'thank you for using our services.' => '',
+        'Dear Customer,' => 'Drogi Kliencie,',
+        'thank you for using our services.' => 'dziękujemy za korzystanie z naszych usług.',
         'Yes, I accepted your license.' => '',
 
         # Template: CustomerError
@@ -2993,6 +2993,8 @@ sub Data {
         'Connection error' => 'Błąd połączenia',
         'Reload page' => 'Przeładuj stronę',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
@@ -3133,6 +3135,7 @@ sub Data {
             '',
         'Do you really want to continue?' => 'Czy jesteś pewien, że chcesz kontynuować?',
         'Information about the OTRS Daemon' => 'Informacje o OTRS Daemon',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ta funkcja znajduje się w %s.  Proszę skontaktuj się z nami na %s w celu aktualizacji.',
         'Find out more about the %s' => 'Dowiedz się więcej o %s',
@@ -3386,27 +3389,28 @@ sub Data {
         'Go back to the previous page' => 'Powrót do poprzedniej strony',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Podgląd dziennika zdarzeń systemowych',
         'Update and extend your system with software packages.' => 'Zaktualizuj i rozbuduj swój system przy pomocy pakietów oprogramowania.',
 
         # Perl Module: Kernel/Modules/AdminACL.pm
         'ACLs could not be Imported due to a unknown error, please check OTRS logs for more information' =>
-            '',
-        'The following ACLs have been added successfully: %s' => '',
-        'The following ACLs have been updated successfully: %s' => '',
+            'ACL nie została zaimportowania z powodu nieznanego błędu, więcej informacji znajdziesz w logach OTRS',
+        'The following ACLs have been added successfully: %s' => 'Dodanie następujących ACLi powiodło się: %s',
+        'The following ACLs have been updated successfully: %s' => 'Aktualizacja następujących ACLi powiodła się: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
-            '',
+            'Podczas dodawania/aktualizacji następujących ACLi wystąpiły błędy: %s. Więcej informacji znajdziesz w pliku logu.',
         'This field is required' => 'To pole jest wymagane',
-        'There was an error creating the ACL' => '',
-        'Need ACLID!' => '',
-        'Could not get data for ACLID %s' => '',
-        'There was an error updating the ACL' => '',
-        'There was an error setting the entity sync status.' => '',
-        'There was an error synchronizing the ACLs.' => '',
+        'There was an error creating the ACL' => 'Podczas tworzenia ACLa wystąpił błąd.',
+        'Need ACLID!' => 'Potrzebny ACLID!',
+        'Could not get data for ACLID %s' => 'Nieudane pobranie danych dla ACLID %s',
+        'There was an error updating the ACL' => 'Podczas aktualizacji ACL wystąpił błąd.',
+        'There was an error setting the entity sync status.' => 'Podczas ustawiania statusu synchronizacji encji wystąpił błąd.',
+        'There was an error synchronizing the ACLs.' => 'Wystąpił błąd podczas synchronizacji ACLi.',
         'ACL %s could not be deleted' => 'ACL %s nie mógł zostać usunięty',
         'There was an error getting data for ACL with ID %s' => 'Nastąpił błąd przy pobieraniu danych dla ACL o ID %s',
-        'Exact match' => '',
-        'Negated exact match' => '',
+        'Exact match' => 'Dokładne dopasowanie',
+        'Negated exact match' => 'Zanegowane dokładne dopasowanie',
         'Regular expression' => 'Wyrażenie regularne',
         'Regular expression (ignore case)' => 'Wyrażenie regularne (ignoruj wielkość liter)',
         'Negated regular expression' => 'Zanegowane wyrażenie regularne',
@@ -3420,13 +3424,13 @@ sub Data {
         'New email ticket' => 'Nowe zgłoszenie e-mail',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
-        'Fields configuration is not valid' => '',
-        'Objects configuration is not valid' => '',
+        'Fields configuration is not valid' => 'Konfiguracja pól jest niepoprawna',
+        'Objects configuration is not valid' => 'Konfiguracja obiektów jest niepoprawna',
         'Could not reset Dynamic Field order properly, please check the error log for more details.' =>
-            '',
+            'Nie udało się prawidłowo przywrócić kolejności Pól Dynamicznych, więcej szczegółów znajduje się w pliku logu.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
-        'Undefined subaction.' => '',
+        'Undefined subaction.' => 'Nieokreślone działanie podrzędne.',
         'Need %s' => 'Wymagany %s',
         'The field does not contain only ASCII letters and numbers.' => '',
         'There is another field with the same name.' => '',
@@ -3491,7 +3495,7 @@ sub Data {
         'Could not determine config for operation %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
-        'Need Subaction!' => 'Wymagane działanie dodatkowe!',
+        'Need Subaction!' => 'Wymagane działanie podrzędne!',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
         'There is another web service with the same name.' => '',
@@ -3538,7 +3542,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => 'Klient w tym zgłoszeniu',
-        'Yes, but require at least one active notification method' => 'Tak, ale wymagaj przynajmniej jednej aktywnej metody powiadomienia',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3606,7 +3610,7 @@ sub Data {
         'ActivityDialog already assigned to Activity. You cannot add an ActivityDialog twice!' =>
             '',
         'Error while saving the Activity to the database!' => '',
-        'This subaction is not valid' => '',
+        'This subaction is not valid' => 'Działanie podrzędne jest nieprawidłowe',
         'Edit Activity "%s"' => '',
 
         # Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
@@ -3669,6 +3673,9 @@ sub Data {
         'Test' => '',
         'Training' => 'Trening',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -3739,7 +3746,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentStatistics.pm
         'Parameter %s is missing.' => '',
-        'Invalid Subaction.' => '',
+        'Invalid Subaction.' => 'Nieprawidłowe działanie podrzędne.',
         'Statistic could not be imported.' => '',
         'Please upload a valid statistic file.' => '',
         'Export: Need StatID!' => '',
@@ -3762,7 +3769,7 @@ sub Data {
         'Article does not belong to ticket %s!' => '',
         'Can\'t bounce email!' => 'Nie można odbić email\'a!',
         'Can\'t send email!' => 'Nie można wysłać email\'a!',
-        'Wrong Subaction!' => '',
+        'Wrong Subaction!' => 'Złe działanie podrzędne!',
 
         # Perl Module: Kernel/Modules/AgentTicketBulk.pm
         'Can\'t lock Tickets, no TicketIDs are given!' => 'Nie można zablokować zgłoszeń, nie podano TicketID.',
@@ -3780,7 +3787,7 @@ sub Data {
         'Can not determine the ArticleType!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'No Subaction!' => '',
+        'No Subaction!' => 'Brak działania podrzędnego!',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
         'Got no TicketID!' => '',
@@ -3825,7 +3832,7 @@ sub Data {
         'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
         'No Process configured!' => 'Żaden proces nie został jeszcze skonfigurowany!',
         'Process %s is invalid!' => '',
-        'Subaction is invalid!' => '',
+        'Subaction is invalid!' => 'Działanie podrzędne jest nieprawidłowe!',
         'Parameter %s is missing in %s.' => '',
         'No ActivityDialog configured for %s in _RenderAjax!' => '',
         'Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: %s in _GetParam!' =>
@@ -4000,7 +4007,7 @@ sub Data {
         'Contact your Admin!' => 'Skontaktuj się ze swoim Administratorem',
         'Syslog' => '',
         'Can\'t write Config file!' => '',
-        'Unknown Subaction %s!' => '',
+        'Unknown Subaction %s!' => 'Nieznane działanie podrzędne: %s!',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
@@ -4450,6 +4457,12 @@ sub Data {
             '',
         'OTRS TimeZone setting for calendar ' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Serwer www',
         'Loaded Apache Modules' => 'Załadowane moduły Apache',
@@ -4588,7 +4601,7 @@ sub Data {
         'email-notification-int' => '',
         'Ticket create notification' => 'Powiadomienia o nowym zgłoszeniu',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
-            '',
+            'Otrzymasz powiadomienie, za każdym razem, gdy zgłoszenie zostanie utworzone w jednej z „Twoich Kolejek” lub „Twoich Usług”. ',
         'Ticket follow-up notification (unlocked)' => 'Powiadomienia o nowej wiadomości w zgłoszeniu (odblokowane)',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
             '',
@@ -4607,7 +4620,7 @@ sub Data {
         'Ticket pending reminder notification (unlocked)' => 'Powiadomienia o oczekującym przypomnieniu w zgłoszeniu (odblokowane)',
         'Ticket escalation notification' => '',
         'Ticket escalation warning notification' => '',
-        'Ticket service update notification' => '',
+        'Ticket service update notification' => 'Powiadomienie o zmianie usługi zgłoszenia',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
             '',
 
@@ -4874,7 +4887,7 @@ Thanks for your help!
         'Configure sending of support data to OTRS Group for improved support.' =>
             '',
         'Configure which screen should be shown after a new ticket has been created.' =>
-            '',
+            'Określ, jaki ekran powinien wyświetlić się po utworzeniu nowego zgłoszenia.',
         'Configure your own log text for PGP.' => 'Skonfiguruj swój własny tekst-log dla PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
             '',
@@ -6042,7 +6055,7 @@ Thanks for your help!
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Jeśli będziesz nieobecny, możesz poinformować innych użytkowników o dokładnych datach swojej nieobecności.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Include tickets of subqueues per default when selecting a queue.' =>
@@ -6420,9 +6433,9 @@ Thanks for your help!
             '',
         'Select how many tickets should be shown in overviews by default.' =>
             '',
-        'Select the main interface language.' => '',
+        'Select the main interface language.' => 'Wybierz główny język interfejsu.',
         'Select your default spelling dictionary.' => '',
-        'Select your preferred layout for OTRS.' => '',
+        'Select your preferred layout for OTRS.' => 'Wybierz swoją ulubioną skórkę dla OTRS.',
         'Select your preferred theme for OTRS.' => '',
         'Select your time zone.' => '',
         'Selects the cache backend to use.' => 'Wybiera program cache do użycia',
@@ -7049,7 +7062,7 @@ Thanks for your help!
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Transport selection for ticket notifications.' => '',
-        'Tree view' => '',
+        'Tree view' => 'Widok drzewa',
         'Triggers ticket escalation events and notification events for escalation.' =>
             '',
         'Turkish' => 'turecki',
@@ -7114,17 +7127,17 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => 'załącznik',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'przekaż',
+        'compose' => 'utwórz',
         'debug' => 'debug',
         'error' => 'błąd',
-        'forward' => '',
+        'forward' => 'prześlij',
         'info' => 'informacja',
-        'inline' => '',
+        'inline' => 'w treści',
         'notice' => 'ogłoszenie',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'oczekujący',
+        'responsible' => 'odpowiedzialny',
+        'stats' => 'statystyki',
 
     };
     # $$STOP$$

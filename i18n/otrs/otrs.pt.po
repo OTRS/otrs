@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -9939,6 +9939,13 @@ msgstr "O browser não conseguiu estabelecer comunicação. Parece existir um pr
 
 #. Template: CustomerFooterJS
 msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
 "The connection has been re-established after a temporary connection loss. "
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
@@ -10379,6 +10386,10 @@ msgstr ""
 
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
+msgstr ""
+
+#. Template: FooterJS
+msgid "Communication error"
 msgstr ""
 
 #. Template: FooterJS
@@ -11052,6 +11063,10 @@ msgid "Go back to the previous page"
 msgstr "Voltar à página anterior"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr ""
 
@@ -11486,7 +11501,7 @@ msgid "Customer of the ticket"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
+msgid "Yes, but require at least one active notification method."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
@@ -11860,6 +11875,10 @@ msgstr "Formação"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -13950,6 +13969,16 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
 msgstr ""
 
 #. Perl Module:

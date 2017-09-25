@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.948490945674044;
+    $Self->{Completeness}        = 0.952572347266881;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -843,7 +843,7 @@ sub Data {
         'List' => 'Daftar',
         'Download file' => 'Unduh file',
         'Delete this attachment' => 'Hapus lampiran ini',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Apakah Anda akan menghapus lampiran berikut ini?',
         'Add Attachment' => 'Tambahkan lampira',
         'Edit Attachment' => 'Ubah lampiran',
 
@@ -858,7 +858,7 @@ sub Data {
         'You can use the following tags' => 'Anda dapat menggunakan tag berikut ini',
         'To get the first 20 character of the subject.' => 'Untuk mendapatkan 20 karakter pertama dari subjek',
         'To get the first 5 lines of the email.' => 'untuk mendapatkan 5 baris pertama dari email.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Untuk mendapatkan nama dari tiket pengguna pelanggan (jika diberikan).',
         'To get the article attribute' => 'Untuk mendapatkan atribut artikel',
         ' e. g.' => 'Misalnya',
         'Options of the current customer user data' => 'Pilihan dari data pelanggan pengguna saat ini',
@@ -1090,7 +1090,7 @@ sub Data {
         'Run Now!' => 'Jalankan sekarang!`',
         'Delete this task' => 'Hapus tugas ini',
         'Run this task' => 'Jalankan tugas ini',
-        'Do you really want to delete this task?' => '',
+        'Do you really want to delete this task?' => 'Apakah Anda akan menghapus task berikut ini?',
         'Job Settings' => 'Pengaturan pekerjaan',
         'Job name' => 'Nama pekerjaan',
         'The name you entered already exists.' => 'Nama yang anda masukan sudah terpakai',
@@ -1377,7 +1377,7 @@ sub Data {
             '\'Fungsi Nama\' digunakan sebagai contoh untuk nama Invoker/operasi',
         '\'FreeText\' is used as example for actual configured value.' =>
             '\'Free Text\' digunakan sebagai contoh untuk nilai konfigurasi yang sebenarnya',
-        'Request name free text' => '',
+        'Request name free text' => 'Permintaan nama teks bebas',
         'Text to be used to as function wrapper name suffix or replacement.' =>
             'Teks yang digunakan sebagai nama fungsi akhiran atau penggantian.',
         'Please consider XML element naming restrictions (e.g. don\'t use \'<\' and \'&\').' =>
@@ -1437,12 +1437,12 @@ sub Data {
         'Configuration history' => 'Sejarah konfigurasi',
         'Delete web service' => 'Menghapus layanan web',
         'Do you really want to delete this web service?' => 'Apakah anda ingin menghapus layanan web ini?',
-        'Ready-to-run Web Services' => '',
+        'Ready-to-run Web Services' => 'Layanan Web Siap-pakai',
         'Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.' =>
-            '',
+            'Disini Anda dapat mengaktifkan layanan web siap pakai yang menampilkan praktek terbaik kami yang menjadi bagian dari %s.',
         'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
-            '',
-        'Import ready-to-run web service' => '',
+            'Mohon perhatian bahwa layanan web ini tergantung kepada modul-modul lainnya yang hanya tersedia dengan 1%s level kontrak (akan ada pemberitahuan detail lebih lanjut ketika mengimpor).',
+        'Import ready-to-run web service' => 'Impor layanan web siap pakai',
         'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.' =>
             '',
         'After you save the configuration you will be redirected again to the edit screen.' =>
@@ -1629,10 +1629,10 @@ sub Data {
         'Email template' => 'Template email',
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Gunakan template ini untuk menghasilkan email yang lengkap (hanya untuk email HTML).',
-        'Enable email security' => '',
-        'Email security level' => '',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+        'Enable email security' => 'Jalankan email keamanan',
+        'Email security level' => 'Level keamanan Email',
+        'If signing key/certificate is missing' => 'Jika kunci masuk/sertifikat telah hilang',
+        'If encryption key/certificate is missing' => 'Jika kunci pengacak/sertifikat telah hilang',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Mengatur %s',
@@ -1666,9 +1666,9 @@ sub Data {
             '',
         'To install this package, the required Framework version is %s.' =>
             '',
-        'Why should I keep OTRS up to date?' => '',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTRS issues' => '',
+        'Why should I keep OTRS up to date?' => 'Kenapa Saya harus membuat OTRS selalu terbarukan?',
+        'You will receive updates about relevant security issues.' => 'Anda akan menerima pembaruan terkait isu keamanan yang relevan.',
+        'You will receive updates for all other relevant OTRS issues' => 'Anda akan menerima pembaruan untuk semua isu OTRS yang relevan',
         'An update for your %s is available! Please update at your earliest!' =>
             'Update untuk %s anda tersedia! Silahkan perbarui seperti awal!',
         '%s Correctly Deployed' => '%s Benar Dikerahkan',
@@ -1686,7 +1686,7 @@ sub Data {
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Koneksi ke cloud.otrs.com melalui HTTPS tidak dapat ditentukan. Pastikan bahwa OTRS anda dapat terhubung ke cloud.otrs.com melalui port 443.',
         'To install this package, you need to update to OTRS %s or higher.' =>
-            '',
+            'Untuk menginstall paket ini, Anda harus memperbarui ke oTRS 1%s atau lebih tinggi.',
         'To install this package, the Maximum OTRS Version is %s.' => '',
         'With your existing contract you can only use a small part of the %s.' =>
             'Dengan kontrak yang ada, anda hanya dapat menggunakan sebagian kecil dari %s.',
@@ -1742,8 +1742,8 @@ sub Data {
         'Reinstall package' => 'Instal ulang paket',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Apakah anda ingin menginstal ulang paket ini? Semua perubahan manual akan hilang.',
-        'Go to upgrading instructions' => '',
-        'package information' => '',
+        'Go to upgrading instructions' => 'Pergi ke perintah pembaruan',
+        'package information' => 'informasi paket',
         'Package installation requires a patch level update of OTRS.' => '',
         'Package update requires a patch level update of OTRS.' => '',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
@@ -2993,6 +2993,8 @@ bin/otrs.Daemon.pl status\').',
         'Reload page' => '',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
 
@@ -3132,6 +3134,7 @@ bin/otrs.Daemon.pl status\').',
             '',
         'Do you really want to continue?' => 'Apakah anda ingin meneruskannya?',
         'Information about the OTRS Daemon' => 'Informasi yang mengenai Daemon OTRS',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Fitur ini merupakan salah satu dari %s. Silahkan hubungi kami di %s untuk memperbarui',
         'Find out more about the %s' => 'Lanjutkan pencarian mengenai %s',
@@ -3385,6 +3388,7 @@ bin/otrs.Daemon.pl status\').',
         'Go back to the previous page' => 'Kembali ke halaman sebelumnya',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Melihat pesan log sistem.',
         'Update and extend your system with software packages.' => 'Memperbarui dan memperluas sistem Anda dengan paket perangkat lunak.',
 
@@ -3537,7 +3541,7 @@ bin/otrs.Daemon.pl status\').',
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Semua agen berlangganan di antrian tiket dan layanan',
         'Customer of the ticket' => 'Pelanggan tiket',
-        'Yes, but require at least one active notification method' => 'Ya, tapi membutuhkan setidaknya satu metode pemberitahuan aktif',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3668,6 +3672,9 @@ bin/otrs.Daemon.pl status\').',
         'Test' => '',
         'Training' => 'Latihan',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4448,6 +4455,12 @@ bin/otrs.Daemon.pl status\').',
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             'TimeZone Pengguna hanya dapat diaktifkan untuk sistem berjalan dalam UTC yang tidak memiliki TimeZone set OTRS.',
         'OTRS TimeZone setting for calendar ' => 'OTRS TimeZone untuk kalender',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Webserver',
@@ -6931,7 +6944,7 @@ Helpdesk Team Anda
         'Specify the username to authenticate for the first mirror database.' =>
             'Tentukan username untuk otentikasi untuk database cermin pertama.',
         'Spell checker.' => 'Pemeriksa ejaan.',
-        'Stable' => '',
+        'Stable' => 'Stabil',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'izin tersedia standar untuk agen dalam aplikasi. Jika lebih banyak izin yang diperlukan, mereka dapat dimasukkan di sini. Izin harus didefinisikan untuk menjadi efektif. Beberapa izin yang baik lainnya juga telah tersedia built-in: dicatat, dekat, tertunda, pelanggan, FREETEXT, bergerak, menulis, bertanggung jawab, maju, dan mental. Pastikan bahwa "rw" selalu izin terdaftar terakhir.',
         'Start number for statistics counting. Every new stat increments this number.' =>
@@ -7087,8 +7100,8 @@ Helpdesk Team Anda
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'Update indeks eskalasi tiket setelah atribut tiket harus diperbarui.',
         'Updates the ticket index accelerator.' => 'Updated indeks tiket akselerator.',
-        'Upload your PGP key.' => '',
-        'Upload your S/MIME certificate.' => '',
+        'Upload your PGP key.' => 'Unggah kunci PGP Anda.',
+        'Upload your S/MIME certificate.' => 'Unggah sertifikat S/MIME Anda',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Gunakan jenis baru bidang pilih dan autocomplete di antarmuka agen, di mana berlaku (InputFields).',
         'Use new type of select and autocomplete fields in customer interface, where applicable (InputFields).' =>
@@ -7126,17 +7139,17 @@ Helpdesk Team Anda
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'attachment' => 'Lampiran',
-        'bounce' => '',
-        'compose' => '',
+        'bounce' => 'memantul',
+        'compose' => 'buat',
         'debug' => 'Debug',
         'error' => 'eror',
-        'forward' => '',
+        'forward' => 'lanjut',
         'info' => 'Info',
         'inline' => 'Di barisan',
         'notice' => 'Peringatan',
-        'pending' => '',
-        'responsible' => '',
-        'stats' => '',
+        'pending' => 'ditunda',
+        'responsible' => 'bertanggung jawab',
+        'stats' => 'statistik',
 
     };
     # $$STOP$$

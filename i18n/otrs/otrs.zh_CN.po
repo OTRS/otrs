@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -5608,7 +5608,7 @@ msgstr "消息正文"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "这个字段是必须的，并且不能超过4000个字符。"
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -9804,15 +9804,15 @@ msgstr "信息"
 
 #. Template: CustomerAccept
 msgid "Dear Customer,"
-msgstr ""
+msgstr "尊敬的客户，"
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
-msgstr ""
+msgstr "感谢您使用我们的服务。"
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
-msgstr ""
+msgstr "是，同意许可。"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -9944,6 +9944,13 @@ msgid ""
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
 msgstr "你的浏览器无法与OTRS正常通讯，可能有网络连接问题。你可以手动刷新页面或者等待浏览器自动重连。"
+
+#. Template: CustomerFooterJS
+msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10388,6 +10395,10 @@ msgstr "您真的要继续吗？"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "关于OTRS守护进程的信息"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11060,6 +11071,10 @@ msgid "Go back to the previous page"
 msgstr "返回前一页"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "查看系统日志信息"
 
@@ -11494,8 +11509,8 @@ msgid "Customer of the ticket"
 msgstr "该工单的客户"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "是的，但是需要至少一个激活的通知方法"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11869,6 +11884,10 @@ msgstr "培训"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr "开发"
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13139,7 +13158,7 @@ msgstr "无法读取通知配置文件。 请确保该文件有效。"
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
-msgstr ""
+msgstr "导入的通知包含的正文文本超过4000个字符。"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -13961,6 +13980,16 @@ msgid "OTRS TimeZone setting for calendar "
 msgstr "OTRS时区设置，适用日历"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
 msgstr "WEB服务器"
@@ -14613,11 +14642,11 @@ msgstr "活动ID"
 
 #. SysConfig
 msgid "Add a comment."
-msgstr ""
+msgstr "添加一条注释。"
 
 #. SysConfig
 msgid "Add a default name for Dynamic Field."
-msgstr ""
+msgstr "为动态字段添加一个默认的名称。"
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -18879,7 +18908,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "如果Customer::AuthModule（客户认证模块）选择“HTTPBasicAuth（HTTP基本认证）”，您可以指定剥离用户名的主要部分（如域名，比如将example_domain\\user变为user）。"
 
 #. SysConfig
 msgid ""
@@ -20505,7 +20534,7 @@ msgstr "选择你喜欢的OTRS界面主题。"
 
 #. SysConfig
 msgid "Select your time zone."
-msgstr ""
+msgstr "选择您的时区。"
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -22329,7 +22358,7 @@ msgstr "这个事件模块存储客户联系人的属性为工单动态字段，
 
 #. SysConfig
 msgid "This is a description for TimeZone on Customer side."
-msgstr ""
+msgstr "这是在客户界面上对时区的描述信息。"
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."

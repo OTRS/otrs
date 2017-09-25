@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.975050301810865;
+    $Self->{Completeness}        = 0.973673633440514;
 
     # csv separator
     $Self->{Separator} = '';
@@ -2996,6 +2996,8 @@ sub Data {
         'Reload page' => 'بارگذاری مجدد صفحه',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             'مرورگر خود را قادر به برقراری ارتباط با OTRS به درستی نمی به نظر می رسد، به چیزی اشتباه است با اتصال به شبکه شما وجود دارد. شما می توانید این صفحه بارگذاری دستی امتحان کنید یا صبر کنید تا مرورگر شما دوباره برقرار اتصال در خود را دارد.',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             'اتصال شده است دوباره برقرار پس از از دست دادن اتصال موقت. با توجه به این، از عناصر این صفحه می تواند متوقف کرده اند به درستی کار کند. به منظور قادر به استفاده از تمام عناصر به درستی دوباره، آن است که شدت توصیه می شود به بارگذاری مجدد این صفحه.',
 
@@ -3135,6 +3137,7 @@ sub Data {
             'مرورگر کاربر مورد نظر می کند، ویدیو و تماس های صوتی پشتیبانی نمی کند.',
         'Do you really want to continue?' => 'آیا واقعا میخواهید ادامه دهید؟',
         'Information about the OTRS Daemon' => 'اطلاعات در مورد OTRS دیمون',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'این ویژگی بخشی از است %s . لطفا با ما تماس بگیرید %s برای ارتقاء.',
         'Find out more about the %s' => 'یافتن پست های بیشتر در مورد %s',
@@ -3388,6 +3391,7 @@ sub Data {
         'Go back to the previous page' => 'به صفحه قبل بازگرد',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'نمایش پیغام‌های ثبت وقایع سیستم',
         'Update and extend your system with software packages.' => 'به روزرسانی و گسترش سیستم به کمک بسته‌های نرم‌افزاری',
 
@@ -3540,7 +3544,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'تمام عوامل مشترک به هر دو صف و خدمات درخواست',
         'Customer of the ticket' => 'ضوابط درخواست',
-        'Yes, but require at least one active notification method' => 'بله، اما نیاز به حداقل یک روش اطلاع رسانی فعال هست',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3671,6 +3675,9 @@ sub Data {
         'Test' => '',
         'Training' => 'آموزشی',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4451,6 +4458,12 @@ sub Data {
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             'TimeZoneUser ممکن است تنها برای سیستم های در حال اجرا در UTC که یک تنظیم منطقه زمانی OTRS ندارد فعال شود.',
         'OTRS TimeZone setting for calendar ' => 'OTRS تنظیم منطقه زمانی برای تقویم ',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'وب Server',

@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.995774647887324;
+    $Self->{Completeness}        = 0.998593247588424;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1600,7 +1600,7 @@ sub Data {
         'Remove Notification Language' => 'Ukloni jezik obaveštenja',
         'Message body' => 'Sadržaj poruke',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Ovo polje je obavezno i ne sme biti duže od 4000 karaktera.',
         'Add new notification language' => 'Ukloni novi jezik obaveštenja',
         'Do you really want to delete this notification language?' => 'Da li zaista želite da izbrišete ovaj jezik za obaveštenja?',
         'Tag Reference' => 'Referenca oznake',
@@ -2305,7 +2305,7 @@ sub Data {
         'Add Service' => 'Dodaj uslugu',
         'Edit Service' => 'Uredi uslugu',
         'Service name maximum length is 200 characters (with Sub-service).' =>
-            '',
+            'Maksimalna dužina naziva usluge je 200 karaktera (sa pod-uslugom).',
         'Sub-service of' => 'Pod-usluga od',
 
         # Template: AdminSession
@@ -2952,9 +2952,9 @@ sub Data {
 
         # Template: CustomerAccept
         'Information' => 'Informacija',
-        'Dear Customer,' => '',
-        'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Dear Customer,' => 'Dragi klijente,',
+        'thank you for using our services.' => 'hvala vam na korišćenju naših usluga.',
+        'Yes, I accepted your license.' => 'Da, prihvatam vašu licencu.',
 
         # Template: CustomerError
         'An Error Occurred' => 'Dogodila se greška',
@@ -2997,6 +2997,8 @@ sub Data {
         'Reload page' => 'Osveži stranicu',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             'Vaš internet pregledač nije u mogućnosti da korektno komunicira sa „OTRS”, pa izgleda na nešto nije u redu sa vašom mrežnom vezom. Možete da pokušate da ručno osvežite ovu stranicu ili da sačekate da vaš pregledač sam ponovo uspostavi vezu.',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             'Veza je ponovo uspostavljena nakon privremenog prekida. Zbog toga, elementi na ovoj stranici su mogli da prestanu da korektno funkcionišu. Da bi sve elemente mogli ponovo normalno da koristite, preporučujemo obavezno osvežavanje ove stranice. ',
 
@@ -3136,6 +3138,7 @@ sub Data {
             'Pregledač ciljnog korisnika ne podržava video i audio pozive.',
         'Do you really want to continue?' => 'Da li zaista želite da nastavite?',
         'Information about the OTRS Daemon' => 'Informacije o „OTRS” servisu',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ovo svojstvo je deo %s.  Molimo da na s kontaktirate na %s za ažuriranje.',
         'Find out more about the %s' => 'Pronađi još informacija o %s',
@@ -3389,6 +3392,7 @@ sub Data {
         'Go back to the previous page' => 'Vratite se na prethodnu stranu',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Pregled poruka sistemskog dnevnika.',
         'Update and extend your system with software packages.' => 'Ažuriraj i nadogradi sistem softverskim paketima.',
 
@@ -3512,7 +3516,7 @@ sub Data {
         'Web service "%s" deleted!' => 'Veb servis „%s” je obrisan!',
         'New Web service' => 'Novi veb servis',
         'Operations' => 'Operacije',
-        'Invokers' => '',
+        'Invokers' => 'Pozivaoci',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Nema WebserviceHistoryID!',
@@ -3542,7 +3546,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Svi operateri pretplaćeni i na red i na servis tiketa',
         'Customer of the ticket' => 'Klijent za tiket',
-        'Yes, but require at least one active notification method' => 'Da, ali je neophodan bar jedan aktivni metod obaveštavanja.',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3670,9 +3674,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => 'Produkcija',
-        'Test' => '',
+        'Test' => 'Test',
         'Training' => 'Trening',
         'Development' => 'Razvoj',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4144,7 +4151,7 @@ sub Data {
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Učitavanje konfiguracije obaveštenja nije bilo moguće. Molimo proverite da li je fajl ispravan.',
         'Imported notification has body text with more than 4000 characters.' =>
-            '',
+            'Tekst sadržaja uvezenog obaveštenja ima više od 4000 karaktera.',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nije instalirano',
@@ -4445,7 +4452,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
         'Time Settings' => 'Podešavanja vremena',
-        'Server time zone' => 'Vreneska zona servera',
+        'Server time zone' => 'Vremenska zona servera',
         'Computed server time offset' => 'Izračunati pomak serverskog vremena',
         'OTRS TimeZone setting (global time offset)' => '„OTRS” podešavanje vremenske zone (globalni vremenski pomak)',
         'TimeZone may only be activated for systems running in UTC.' => 'Vremenska zona se može aktivirati samo za sisteme koji rade na UTC.',
@@ -4453,6 +4460,12 @@ sub Data {
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             'Podešavanje TimeZoneUser može biti aktivirano samo za sisteme koji rade pod UTC i koji nemaju podešenu opciju OTRS TimeZone.',
         'OTRS TimeZone setting for calendar ' => '„OTRS” podešavanje vremenske zone za kalendar',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Veb server',
@@ -4517,10 +4530,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
-            '',
+            'Autentifikacija je uspela, ali podaci o klijentu nisu pronađeni u bazi. Molimo kontaktirajte administratora.',
         'Can`t remove SessionID.' => 'SessionID se ne može ukloniti.',
         'Logout successful.' => 'Uspešna odjava.',
-        'Error: invalid session.' => '',
+        'Error: invalid session.' => 'Greška: nevažeća sesija.',
         'No Permission to use this frontend module!' => 'Nemate dozvolu za  upotrebu ovog korisničkog modula!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
@@ -4677,8 +4690,8 @@ Vaša tehnička podrška
             'Aktivira arhivski sistem radi ubrzanja rada, tako što ćete neke tikete ukloniti van dnevnog praćenja. Da biste pronašli ove tikete, marker arhive mora biti omogućen za pretragu tiketa.',
         'Activates time accounting.' => 'Aktivira merenje vremena.',
         'ActivityID' => 'ID aktivnosti',
-        'Add a comment.' => '',
-        'Add a default name for Dynamic Field.' => '',
+        'Add a comment.' => 'Dodaj komentar.',
+        'Add a default name for Dynamic Field.' => 'Dodaj podrazumevani naziv za dinamičko polje.',
         'Add an inbound phone call to this ticket' => 'Dodaj dolazni telefonski poziv ovom tiketu.',
         'Add an outbound phone call to this ticket' => 'Dodaj odlazni telefonski poziv ovom tiketu.',
         'Added email. %s' => 'Dodat imejl. %s',
@@ -4967,7 +4980,7 @@ Vaša tehnička podrška
             'Podesive zaustavne reči za indeks kompletnog teksta. Ove reči će biti uklonjene iz indeksa pretrage.',
         'Czech' => 'Češki',
         'DEPRECATED: This config setting will be removed in further versions of OTRS. Sets the time (in seconds) a user is marked as active (minimum active time is 300 seconds).' =>
-            '',
+            'Ovo podešavanje je prevaziđeno i biće uklonjeno u sledećim verzijama OTRS. Postavlja vreme (u sekundama) za označavanje korisnika kao aktivnog (minimalno aktivno vreme je 300 sekundi).',
         'Danish' => 'Danski',
         'Data used to export the search result in CSV format.' => 'Podaci upotrebljeni za ivoz rezultata pretraživanja u CSV formatu.',
         'Date / Time' => 'Datum / Vreme',
@@ -5608,7 +5621,7 @@ Vaša tehnička podrška
         'Defines the time zone of the indicated calendar, which can be assigned later to a specific queue.' =>
             'Definiše vremensku zonu naznačenog kalendara, koja kasnije može biti dodeljena određenom redu.',
         'Defines the timeout (in seconds, minimum is 20 seconds) for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
-            '',
+            'Definiše predviđeno vreme (u sekundama, minimum je 20 sekundi) za prikupljanje podataka podrške putem modula javog interfejsa \'PublicSupportDataCollector\' (npr. kad se koristi putem OTRS sistemskog servisa).',
         'Defines the two-factor module to authenticate agents.' => 'Određuje dvofaktorski modul za identifikaciju operatera.',
         'Defines the two-factor module to authenticate customers.' => 'Određuje dvofaktorski modul za identifikaciju klijenata.',
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
@@ -5901,7 +5914,7 @@ Vaša tehnička podrška
         'Frontend module registration for the agent interface.' => 'Registracija modula pristupa za interfejs operatera.',
         'Frontend module registration for the customer interface.' => 'Registracija modula pristupa za interfejs klijenta.',
         'Frontend theme' => 'Izgled pristupnog sistema',
-        'Frontend theme.' => '',
+        'Frontend theme.' => 'Izgled pristupnog sistema.',
         'Full value' => 'Cela vrednost',
         'Fulltext index regex filters to remove parts of the text.' => 'Tekst indeks RegEx filteri za uklanjanje delova teksta.',
         'Fulltext search' => 'Tekst za pretragu',
@@ -6027,7 +6040,7 @@ Vaša tehnička podrška
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
             'Ako je aktivirano servis će preusmeriti standardni izlazni tok u datoteku dnevnika.',
         'If enabled the daemon will use this directory to create its PID files. Note: Please stop the daemon before any change and use this setting only if <$OTRSHome>/var/run/ can not be used.' =>
-            '',
+            'Ukoliko je omogućeno, sistemski servis će koristiti ovaj direktorijum za snimanje procesnih (PID) datoteka. Napomena: molimo stopirajte sistemski servis pre izmene ovog podešavanja i koristite ga samo u slučaju kad je <$OTRSHome>/var/run/ nedostupan.',
         'If enabled, OTRS will deliver all CSS files in minified form. WARNING: If you turn this off, there will likely be problems in IE 7, because it cannot load more than 32 CSS files.' =>
             'Ako je aktivirano, „OTRS” će isporučiti sve CSS datoteke u smanjenoj formi. UPOZORENJE: Ukoliko isključite ovu opciju, najverovatnije ćete imati probleme u IE 7, zato što nije u stanju da učita više od 32 CSS datoteke.',
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
@@ -6049,7 +6062,7 @@ Vaša tehnička podrška
         'If set, this address is used as envelope sender in outgoing messages (not notifications - see below). If no address is specified, the envelope sender is equal to queue e-mail address.' =>
             'Ako je podešeno ova adresa se koristi kao okvir zaglavlja pošiljaoca u odlaznim porukama (ne za obaveštenja - vidi niže). Ako adresa nije uneta, okvir zaglavlja pošiljaoca je jednak imejl adresi reda.',
         'If this option is disabled, articles will not automatically be decrypted and stored in the database. Please note that this also means no decryption will take place and the articles will be shown in ticket zoom in their original (encrypted) form.' =>
-            '',
+            'Ukoliko je ova opcija isključena, članci neće biti automatski dešifrovani i snimljeni u bazu. Molimo obratite pažnju da ovo podrazumeva da dešifrovanje članaka neće biti moguće ni u detaljima tiketa i biće prikazani u svom izvornom (šifrovanom) obliku.',
         'If this option is set to \'Yes\', tickets created via the web interface, via Customers or Agents, will receive an autoresponse if configured. If this option is set to \'No\', no autoresponses will be sent.' =>
             'Ako je ova opcija podešena kao „Da”, tiketi kreirani preko veb interfejsa od strane klijenata ili operatera, će ako je podešen dobiti automatski odgovor. Ako je ova opcija podešena kao „Ne”, automatski odgovori neće biti slani.',
         'If this regex matches, no message will be send by the autoresponder.' =>
@@ -6285,7 +6298,7 @@ Vaša tehnička podrška
         'Parameters for the column filters of the small ticket overview.' =>
             'Parametri za filter kolona u pregledu tiketa „malo”.',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
-            '',
+            'Parametri za pozadinski prikaz kontrolne table firme klijenta u intefejsu operatera. „Group” se koristi da ograniči pristup dodatku (npr. Group: admin;group1;group2;). „Default” određuje da li je podrazumevano aktiviran ili da je potrebno da ga korisnik manuelno aktivira. „CacheTTLLocal” je vreme u minutima za keš dodatka. ',
         'Parameters for the dashboard backend of the customer id status widget of the agent interface . "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             'Parametri za pozadinski prikaz kontrolne table ID klijenta u interfejsu operatera. „Group” se koristi da ograniči pristup dodatku (npr. Group: admin;group1;group2;). „Default” određuje da li je podrazumevano aktiviran ili da je potrebno da ga korisnik manuelno aktivira. „CacheTTLLocal” je vreme u minutima za keš dodatka.',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -6439,7 +6452,7 @@ Vaša tehnička podrška
         'Select your default spelling dictionary.' => 'Izaberite vaš podrazumevani pravopisni rečnik.',
         'Select your preferred layout for OTRS.' => 'Izaberite vaš podrazumevani izgled OTRS.',
         'Select your preferred theme for OTRS.' => 'Izaberite vašu podrazumevanu temu za OTRS.',
-        'Select your time zone.' => '',
+        'Select your time zone.' => 'Izaberite svoju vremensku zonu.',
         'Selects the cache backend to use.' => 'Izbor keša koji će koristiti sistem u pozadini.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Bira modul za rukovanje prenešenim datotekama preko veb interfejsa. „DB” skladišti sve prenešene datoteke u bazu podataka, „FS” koristi sistem datoteka.',
@@ -7002,7 +7015,7 @@ Vaša tehnička podrška
             'Tekst na početku predmeta kada se imejl prosleđuje, npr „FW”, „Fwd”, ili „Pro”.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Ovaj modul događaja čuva atribute korisnika kao dinamička polja tiketa. Pogledajte opciju iznad za podešavanje mapiranja.',
-        'This is a description for TimeZone on Customer side.' => '',
+        'This is a description for TimeZone on Customer side.' => 'Ovo je opis za TimeZone u intefejsku klijenta.',
         'This is the default orange - black skin for the customer interface.' =>
             'Ovo je podrazumevani narandžasto-crni izgled klijentskog interfejsa.',
         'This is the default orange - black skin.' => 'Ovo je podrazumevani narandžasto-crni izgled.',
@@ -7090,7 +7103,7 @@ Vaša tehnička podrška
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'Ažuriraj indeks eskalacije tiketa posle ažuriranja atributa tiketa.',
         'Updates the ticket index accelerator.' => 'Ažuriraj akcelerator indeksa tiketa.',
-        'Upload your PGP key.' => '',
+        'Upload your PGP key.' => 'Pošaljite svoj PGP ključ.',
         'Upload your S/MIME certificate.' => 'Pošaljite vaš S/MIME sertifikat.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Koristite novi tip polja za izbor i automatsko dovršavanje u interfejsu operatera gde je to moguće (polja za unos).',

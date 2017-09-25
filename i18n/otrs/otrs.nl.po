@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/otrs/OTRS/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -9940,6 +9940,13 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
 "The connection has been re-established after a temporary connection loss. "
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
@@ -10381,6 +10388,10 @@ msgstr "Weet je zeker dat je door wil gaan?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Informatie over de OTRS Daemon"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11053,6 +11064,10 @@ msgid "Go back to the previous page"
 msgstr "Terug naar de vorige pagina"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Bekijk het OTRS logboek."
 
@@ -11487,8 +11502,8 @@ msgid "Customer of the ticket"
 msgstr "Klant van het ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Ja, maar vereis minimaal één actieve notificatie methode"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11861,6 +11876,10 @@ msgstr "Training"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -13952,6 +13971,16 @@ msgstr "TimeZoneUsers kan alleen geactiveerd worden voor systemen die draaien in
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
 msgstr "OTRS TijdZone instelling voor kalender."
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
@@ -18872,7 +18901,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Als \"HTTPBasicAuth\" is geselecteerd voor Customer::AuthModule, kun je hier aangeve welke voorafgaande gedeelten van gebruikersnamen moeten worden verwijderd (voor gebruikernamen in de vorm voorbeeld_domein\\gebruiker)."
 
 #. SysConfig
 msgid ""

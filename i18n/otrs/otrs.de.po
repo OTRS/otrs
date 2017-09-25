@@ -6,6 +6,7 @@
 # Christoph Keßler, 2017
 # Daniel Schliemann <daniel.schliemann@googlemail.com>, 2016
 # Dominik <dominik@reichardt-online.it>, 2015
+# Dorothea Doerffel <dorothea.doerffel@cape-it.de>, 2017
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2017
 # Felix Schäfer <web.otrs@yorfeix.de>, 2017
 # Florian Edlhuber <florian.edlhuber@otrs.com>, 2015-2016
@@ -31,6 +32,7 @@
 # nilsleideck <nils.leideck@leidex.net>, 2015-2016
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # Patrik Z., 2016
+# Philip Heinrich <philip.heinrich@it-verbund-uelzen.de>, 2017
 # Ralf Hildebrandt (hildeb) <ralf.hildebrandt@gmail.com>, 2016
 # Ricky Kaiser <ricky.kaiser@cape-it.de>, 2017
 # Rik sof <khan.jonas@riksof.com>, 2017
@@ -41,13 +43,13 @@
 # Sebastian Hellwig <sebastian@furufuru.cc>, 2017
 # Simone Niederle <sniederle@starface.de>, 2017
 # Stefan Bedorf <stefan.bedorf@otrs.com>, 2017
-# Stefan Simmerstatter <stefan.simmerstatter@gmx.net>, 2015
+# Stefan Simmerstatter, 2015
 # Tobias Krumholz <krumholt@fh-trier.de>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -5634,7 +5636,7 @@ msgstr "Nachrichteninhalt"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Dieses Feld wird benötigt und darf nicht mehr als 4000 Zeichen enthalten."
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -6097,11 +6099,11 @@ msgstr "Paketinformation"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
-msgstr ""
+msgstr " Paketinstallation benötigt ein Patchlevel-Update von OTRS. "
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
-msgstr ""
+msgstr " Paketupdate benötigt ein Patchlevel-Update von OTRS. "
 
 #. Template: AdminPackageManager
 msgid ""
@@ -9830,7 +9832,7 @@ msgstr "Information"
 
 #. Template: CustomerAccept
 msgid "Dear Customer,"
-msgstr ""
+msgstr "Lieber Kunde,"
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
@@ -9838,7 +9840,7 @@ msgstr ""
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
-msgstr ""
+msgstr "Ja, ich akzeptiere die Lizenz."
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -9970,6 +9972,13 @@ msgid ""
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
 msgstr "Ihr Browser konnte keine Verbindung mit OTRS herstellen, es scheint ein Problem mit Ihrer Netzwerkverbindung vorzuliegen. Sie könnten versuchen die Seite manuell neu zu Laden oder warten bis ihr Browser die Verbindung wieder herstellt."
+
+#. Template: CustomerFooterJS
+msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10414,6 +10423,10 @@ msgstr "Möchten Sie wirklich fortfahren?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Informationen über den OTRS Daemon"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11086,6 +11099,10 @@ msgid "Go back to the previous page"
 msgstr "Zurück zur vorhergehenden Seite"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Systemprotokollnachrichten ansehen."
 
@@ -11520,8 +11537,8 @@ msgid "Customer of the ticket"
 msgstr "Kunde des Tickets"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Ja, aber mindestens eine Benachrichtigungsmethode muss aktiviert sein"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11886,7 +11903,7 @@ msgstr "Produktiv"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
@@ -11895,6 +11912,10 @@ msgstr "Training"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr "Entwicklung"
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13987,6 +14008,16 @@ msgid "OTRS TimeZone setting for calendar "
 msgstr "OTRS-Zeitzoneneinstellung für Kalender"
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
 msgstr "Webserver"
@@ -14639,7 +14670,7 @@ msgstr "ActivityID"
 
 #. SysConfig
 msgid "Add a comment."
-msgstr ""
+msgstr "Hinzufügen eines Kommentars."
 
 #. SysConfig
 msgid "Add a default name for Dynamic Field."
@@ -18674,7 +18705,7 @@ msgstr "Oberflächenachema"
 
 #. SysConfig
 msgid "Frontend theme."
-msgstr ""
+msgstr "Oberflächen-Schema "
 
 #. SysConfig
 msgid "Full value"
@@ -18905,7 +18936,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Wenn \"HTTPBasicAuth\" als Customer::AuthModule ausgewählt ist, können Sie hier angeben, ob führende Teile von Benutzernamen (z.B. zur Umwandlung von Domänen wie \"example_domain\\user\" zu \"user\")."
 
 #. SysConfig
 msgid ""
@@ -19466,7 +19497,7 @@ msgstr "Log-Datei für den Ticket-Counter."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Angemeldete Nutzer"
 
 #. SysConfig
 msgid "Logout of customer panel."
@@ -21139,7 +21170,7 @@ msgstr ""
 msgid ""
 "Sets the state of the ticket in the ticket pending screen of a zoomed ticket"
 " in the agent interface."
-msgstr ""
+msgstr "Setzt den Status im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich."
 
 #. SysConfig
 msgid ""

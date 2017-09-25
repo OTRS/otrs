@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.998189134808853;
+    $Self->{Completeness}        = 0.998593247588424;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1399,7 +1399,7 @@ sub Data {
         'SOAPAction' => 'SOAP művelet',
         'Set to "Yes" to send a filled SOAPAction header.' => 'Állítsa „Igen” értékre egy kitöltött SOAP művelet fejléc küldéséhez.',
         'Set to "No" to send an empty SOAPAction header.' => 'Állítsa „Nem” értékre egy üres SOAP művelet fejléc küldéséhez.',
-        'SOAPAction separator' => 'SOAP művelet elválasztó',
+        'SOAPAction separator' => 'SOAP-művelet elválasztó',
         'Character to use as separator between name space and SOAP method.' =>
             'Az elválasztóként használt karakter a névtér és a SOAP metódus között.',
         'Usually .Net web services uses a "/" as separator.' => 'Általában a .Net webszolgáltatások a „/” karaktert használják elválasztóként.',
@@ -1599,7 +1599,7 @@ sub Data {
         'Remove Notification Language' => 'Értesítési nyelv eltávolítása',
         'Message body' => 'Üzenettörzs',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Ez a mező kötelező, és rövidebbnek kell lennie 4000 karakternél.',
         'Add new notification language' => 'Új értesítési nyelv hozzáadása',
         'Do you really want to delete this notification language?' => 'Valóban törölni szeretné ezt az értesítési nyelvet?',
         'Tag Reference' => 'Címke hivatkozás',
@@ -2951,9 +2951,9 @@ sub Data {
 
         # Template: CustomerAccept
         'Information' => 'Információ',
-        'Dear Customer,' => '',
-        'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Dear Customer,' => 'Kedves Ügyfelünk!',
+        'thank you for using our services.' => 'Köszönjük, hogy a szolgáltatásainkat használta.',
+        'Yes, I accepted your license.' => 'Igen, elfogadtam a licencet.',
 
         # Template: CustomerError
         'An Error Occurred' => 'Hiba történt',
@@ -2996,6 +2996,8 @@ sub Data {
         'Reload page' => 'Oldal újratöltése',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             'A böngészője nem volt képes megfelelően kommunikálni az OTRS-sel, úgy tűnik, hogy valami nincs rendben a hálózati kapcsolattal. Megpróbálhatja újratölteni ezt az oldalt kézzel, vagy megvárhatja, amíg a böngészője saját maga létesíti újra a kapcsolatot.',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             'A kapcsolat ismét kiépítésre került, miután egy átmeneti kapcsolat elveszett. Emiatt az oldalon lévő elemek esetleg nem fognak helyesen működni. Annak érdekében, hogy ismét képes legyen minden elemet helyesen használni, erősen ajánlott az oldal újratöltése.',
 
@@ -3135,6 +3137,7 @@ sub Data {
             'A célfelhasználó böngészője nem támogatja a video- és hanghívást.',
         'Do you really want to continue?' => 'Valóban folytatni akarja?',
         'Information about the OTRS Daemon' => 'Információk az OTRS démonról',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ez a szolgáltatás a(z) %s része. A frissítéshez lépjen velünk kapcsolatba a következő címen: %s.',
         'Find out more about the %s' => 'Tudjon meg többet a következőről: %s',
@@ -3388,6 +3391,7 @@ sub Data {
         'Go back to the previous page' => 'Vissza az előző oldalra',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Rendszernapló üzenetek megtekintése.',
         'Update and extend your system with software packages.' => 'A rendszer frissítése vagy kibővítése szoftvercsomagokkal.',
 
@@ -3540,7 +3544,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'A jegy várólistájára és szolgáltatására is feliratkozott összes ügyintéző',
         'Customer of the ticket' => 'A jegy ügyfele',
-        'Yes, but require at least one active notification method' => 'Igen, de legalább egy aktív értesítési módszert igényel',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3671,6 +3675,9 @@ sub Data {
         'Test' => 'Teszt',
         'Training' => 'Oktatási',
         'Development' => 'Fejlesztői',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4142,7 +4149,7 @@ sub Data {
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             'Nem sikerült beolvasni az értesítés beállítófájlját. Győződjön meg arról, hogy a fájl érvényes-e.',
         'Imported notification has body text with more than 4000 characters.' =>
-            '',
+            'Az importált értesítésnek 4000 karakternél hosszabb törzsszövege van.',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => 'nincs telepítve',
@@ -4452,6 +4459,12 @@ sub Data {
             'A TimeZoneUser csak olyan UTC-ben futó rendszereknél kapcsolható be, amelyeknek nincs OTRS TimeZone beállításuk.',
         'OTRS TimeZone setting for calendar ' => 'OTRS TimeZone beállítás a naptárhoz: ',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Webkiszolgáló',
         'Loaded Apache Modules' => 'Betöltött Apache modulok',
@@ -4675,8 +4688,8 @@ Az Ön segélyszolgálat csapata
             'A jegyarchiváló rendszert aktiválja, hogy felgyorsítsa a rendszert néhány jegy áthelyezésével a napi áttekintőből.',
         'Activates time accounting.' => 'Az időelszámolást aktiválja.',
         'ActivityID' => 'Tevékenység-azonosító',
-        'Add a comment.' => '',
-        'Add a default name for Dynamic Field.' => '',
+        'Add a comment.' => 'Megjegyzés hozzáadása.',
+        'Add a default name for Dynamic Field.' => 'Egy alapértelmezett név hozzáadása a dinamikus mezőhöz.',
         'Add an inbound phone call to this ticket' => 'Bejövő telefonhívás hozzáadása ehhez a jegyhez',
         'Add an outbound phone call to this ticket' => 'Kimenő telefonhívás hozzáadása ehhez a jegyhez',
         'Added email. %s' => 'E-mail hozzáadva. %s',
@@ -4833,7 +4846,7 @@ Az Ön segélyszolgálat csapata
         'Change the free fields for this ticket' => 'A szabad mezők módosítása ennél a jegynél',
         'Change the priority for this ticket' => 'Prioritás módosítása ennél a jegynél',
         'Change the responsible for this ticket' => 'Felelős módosítása ennél a jegynél',
-        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Prioritás módosítva erről: „%s” (%s) erre: „%s” (%s).',
+        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Prioritás megváltoztatva erről: „%s” (%s), erre: „%s” (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             'Megváltoztatja a jegyek tulajdonosát mindenkire (ASP-nél hasznos). Normális esetben csak a jegy várólistájában írási-olvasási jogosultsággal rendelkező ügyintéző kerül megjelenítésre.',
         'Checkbox' => 'Jelölőnégyzet',
@@ -6437,7 +6450,7 @@ Az Ön segélyszolgálat csapata
         'Select your default spelling dictionary.' => 'Alapértelmezett helyesírás-ellenőrző szótár kiválasztása.',
         'Select your preferred layout for OTRS.' => 'Az előnyben részesített elrendezés kiválasztása az OTRS-hez.',
         'Select your preferred theme for OTRS.' => 'Az előnyben részesített téma kiválasztása az OTRS-hez.',
-        'Select your time zone.' => '',
+        'Select your time zone.' => 'Válassza ki az időzónáját.',
         'Selects the cache backend to use.' => 'Kiválasztja a használandó gyorsítótár háttérprogramot.',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             'Kiválasztja a modult a webes felületen keresztüli feltöltések kezeléséhez. A „DB” minden feltöltést adatbázisban tárol, az „FS” a fájlrendszert használja.',
@@ -7000,7 +7013,7 @@ Az Ön segélyszolgálat csapata
             'A tárgy elején lévő szöveg egy e-mail továbbításakor, például FW, Fwd vagy WG.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             'Ez az eseménymodul az ügyfél-felhasználó jellemzőit tárolja jegy típusú dinamikus mezőkként. Nézze meg a fenti beállítást ahhoz, hogy hogyan kell beállítani a leképezést.',
-        'This is a description for TimeZone on Customer side.' => '',
+        'This is a description for TimeZone on Customer side.' => 'Ez egy leírás az ügyféloldalon lévő időzónához.',
         'This is the default orange - black skin for the customer interface.' =>
             'Ez az alapértelmezett narancssárga-fekete felszín az ügyfélfelülethez.',
         'This is the default orange - black skin.' => 'Ez az alapértelmezett narancssárga-fekete felszín.',

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.962977867203219;
+    $Self->{Completeness}        = 0.96322347266881;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1647,7 +1647,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Упровление %s',
-        'Go to the OTRS customer portal' => '',
+        'Go to the OTRS customer portal' => 'Перейти на портал клиентов OTRS',
         'Downgrade to OTRS Free' => 'Возврат к бесплатной версии OTRS ',
         'Read documentation' => 'Читайте документацию',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
@@ -1667,16 +1667,16 @@ sub Data {
         '%s Not Yet Available' => '%s в данный момент еще недоступен',
         '%s will be available soon.' => '%s скоро будет доступен.',
         '%s Update Available' => 'Доступно обновление для %s',
-        'Package installation requires patch level update of OTRS.' => '',
+        'Package installation requires patch level update of OTRS.' => 'Установка пакета требует обновление OTRS уровня патч.',
         'Please visit our customer portal and file a request.' => '',
         'Everything else will be done as part of your contract.' => '',
         'Your installed OTRS version is %s.' => '',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
-            '',
+            'Для установки текущей версии OTRS Business Solution™ Вы должны обновить OTRS до версии %s или выше.',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
             'Чтобы установить текущую версию OTRS Business Solution™, версия OTRS должна быть не выше %s.',
         'To install this package, the required Framework version is %s.' =>
-            '',
+            'Для установки этого пакета требуется Framework версии %s',
         'Why should I keep OTRS up to date?' => 'Почему я должен постоянно обновлять OTRS?',
         'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTRS issues' => '',
@@ -1753,7 +1753,7 @@ sub Data {
         'Reinstall package' => 'Переустановить пакет',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Вы действительно хотите переустановить этот пакет? Все ручные изменения будут потеряны.',
-        'Go to upgrading instructions' => '',
+        'Go to upgrading instructions' => 'Перейти к инструкциям по обновлению',
         'package information' => 'Информация о пакете',
         'Package installation requires a patch level update of OTRS.' => 'Установка пакета требует обновления уровня патчей OTRS.',
         'Package update requires a patch level update of OTRS.' => '',
@@ -2881,7 +2881,7 @@ sub Data {
         'Watcher' => 'Наблюдатель',
         'Article Create Time (before/after)' => 'Время создания сообщения (до/после)',
         'Article Create Time (between)' => 'Время создания сообщения (между)',
-        'Invalid date' => '',
+        'Invalid date' => 'Неверная дата',
         'Ticket Create Time (before/after)' => 'Время создания заявки (до/после)',
         'Ticket Create Time (between)' => 'Время создания заявки (между)',
         'Ticket Change Time (before/after)' => 'Время изменения заявки (до/после)',
@@ -2958,8 +2958,8 @@ sub Data {
         # Template: CustomerAccept
         'Information' => 'Сведения',
         'Dear Customer,' => '',
-        'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'thank you for using our services.' => 'Спасибо за пользование нашими сервисами.',
+        'Yes, I accepted your license.' => 'Да, я согласен с Вашей лицензией.',
 
         # Template: CustomerError
         'An Error Occurred' => 'Произошла ошибка',
@@ -3001,6 +3001,8 @@ sub Data {
         'Connection error' => 'Ошибка соединения',
         'Reload page' => 'Перезагрузить страницу',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
+            '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
             '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
@@ -3141,6 +3143,7 @@ sub Data {
             'Браузер целевого пользователя не поддерживает видео и аудио вызовы.',
         'Do you really want to continue?' => 'Вы действительно желаете продолжить?',
         'Information about the OTRS Daemon' => 'Информация о Планировщике OTRS',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Эта возможность является составной частью %s. Пожалуйста свяжитесь с нами в %s.  для обновления.',
         'Find out more about the %s' => 'Найдите ещё о %s',
@@ -3394,6 +3397,7 @@ sub Data {
         'Go back to the previous page' => 'Перейти на предыдущую страницу',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Просмотр системных сообщений.',
         'Update and extend your system with software packages.' => 'Обновление и расширение системы с помощью программных пакетов.',
 
@@ -3546,7 +3550,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Все агенты подписанные на этот сервис и эту очередь',
         'Customer of the ticket' => 'Клиент заявки',
-        'Yes, but require at least one active notification method' => 'Да, но необходимо указать хотя бы один из способов уведомления',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3677,6 +3681,9 @@ sub Data {
         'Test' => '',
         'Training' => 'Обучение',
         'Development' => 'Разработка',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4457,6 +4464,12 @@ sub Data {
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             'TimeZoneUser может быть включена только для систем работающих в UTC, для которых не включен параметр OTRS TimeZone.',
         'OTRS TimeZone setting for calendar ' => 'Параметр OTRS TimeZone для календаря ',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Веб-сервер',

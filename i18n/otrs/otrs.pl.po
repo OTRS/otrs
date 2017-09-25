@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -2675,11 +2675,11 @@ msgstr "Odświeżaj widok kolejek co"
 
 #. Template: AAATicket
 msgid "Screen after new ticket"
-msgstr "Ekran po nowym zgłoszeniu"
+msgstr "Ekran po utworzeniu zgłoszenia"
 
 #. Template: AAATicket
 msgid "Show this screen after I created a new ticket"
-msgstr "Pokaż następujący widok po utworzeniu nowego zgłoszenia"
+msgstr "Pokaż następujący ekran po utworzeniu nowego zgłoszenia"
 
 #. Template: AAATicket
 msgid "Closed Tickets"
@@ -5606,7 +5606,7 @@ msgstr "Treść wiadomości"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "To pole jest wymagane i musi być krótsze niż 4000 znaków."
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -5675,7 +5675,7 @@ msgstr "Wartości wewnętrznych kluczy pól dynamicznych"
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
-msgstr ""
+msgstr "Wyświetlane wartości pól dynamicznych zgłoszeń, przydatne dla pól list rozwijanych i wielokrotnego wyboru."
 
 #. Template: AdminNotificationEvent
 msgid "Example notification"
@@ -5699,7 +5699,7 @@ msgstr "Typ powiadomienia"
 msgid ""
 "An article will be created if the notification is sent to the customer or an"
 " additional email address."
-msgstr ""
+msgstr "Artykuł zostanie utworzony jeżeli zostanie wysłane powiadomienie do klienta lub na adres dodatkowy."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email template"
@@ -5801,7 +5801,7 @@ msgstr "%s dostępna jest aktualizacja"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "Instalacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
@@ -5983,11 +5983,11 @@ msgstr "Błędna konfiguracja PGP"
 msgid ""
 "PGP support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
-msgstr ""
+msgstr "Wsparcie dla PGP jest włączone, ale odpowiadająca mu konfiguracja zawiera błędy. Sprawdź proszę konfigurację używając przycisku poniżej."
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "Skonfiguruj to tutaj!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
@@ -6061,19 +6061,19 @@ msgstr "Czy na pewno chcesz reinstalować ten pakiet? Wszystkie ręczne modyfika
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
+msgstr "Idź do instrukcji uaktualniania"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "informacja o pakiecie"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
-msgstr ""
+msgstr "Instalacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS"
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
-msgstr ""
+msgstr "Aktualizacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji OTRS"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -6083,24 +6083,24 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr ""
+msgstr "Zauważ, że twoja zainstalowana wersja OTRS to %s"
 
 #. Template: AdminPackageManager
 msgid ""
 "To install this package, you need to update OTRS to version %s or newer."
-msgstr ""
+msgstr "Aby zainstalować ten pakiet musisz zaktualizować OTRS do wersji%s lub nowszej."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or older."
-msgstr ""
+msgstr "Ten pakiet może być zainstalowany w OTRS jedynie w wersji %s lub starszej."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or newer."
-msgstr ""
+msgstr "Ten pakiet może być zainstalowany w OTRS jedynie w wersji %s lub nowszej."
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTRS issues."
-msgstr ""
+msgstr "Będziesz otrzymywał informacje o innych istotnych problemach w OTRS."
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
@@ -7172,11 +7172,11 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without auto responses"
-msgstr ""
+msgstr "Kolejki bez automatycznych odpowiedzi"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "Ten filtr pozwala na wyświetlenie wszystkich kolejek"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show all queues"
@@ -7232,7 +7232,7 @@ msgstr "Pokaż wysłane dane"
 
 #. Template: AdminRegistration
 msgid "Deregister system"
-msgstr "Derejestracja systemu"
+msgstr "Wyrejestruj system"
 
 #. Template: AdminRegistration
 msgid "Overview of registered systems"
@@ -7256,13 +7256,13 @@ msgstr "Ostatnia komunikacja z serwerem rejestrującym"
 
 #. Template: AdminRegistration
 msgid "System registration not possible"
-msgstr "Rejestracja systemu nie możliwa"
+msgstr "Rejestracja systemu nie jest możliwa"
 
 #. Template: AdminRegistration
 msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
-msgstr ""
+msgstr "Zauważ, że nie możesz zarejestrować swojego systemu jeśli Demon OTRS nie jest poprawnie uruchomiony!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -7270,7 +7270,7 @@ msgstr "Instrukcje"
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
-msgstr ""
+msgstr "Wyrejestrowanie systemu nie jest możliwe"
 
 #. Template: AdminRegistration
 msgid ""
@@ -9802,11 +9802,11 @@ msgstr "Informacje"
 
 #. Template: CustomerAccept
 msgid "Dear Customer,"
-msgstr ""
+msgstr "Drogi Kliencie,"
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
-msgstr ""
+msgstr "dziękujemy za korzystanie z naszych usług."
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
@@ -9941,6 +9941,13 @@ msgid ""
 "be something wrong with your network connection. You could either try "
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
 msgstr ""
 
 #. Template: CustomerFooterJS
@@ -10386,6 +10393,10 @@ msgstr "Czy jesteś pewien, że chcesz kontynuować?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Informacje o OTRS Daemon"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11058,6 +11069,10 @@ msgid "Go back to the previous page"
 msgstr "Powrót do poprzedniej strony"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Podgląd dziennika zdarzeń systemowych"
 
@@ -11069,21 +11084,21 @@ msgstr "Zaktualizuj i rozbuduj swój system przy pomocy pakietów oprogramowania
 msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTRS logs "
 "for more information"
-msgstr ""
+msgstr "ACL nie została zaimportowania z powodu nieznanego błędu, więcej informacji znajdziesz w logach OTRS"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
-msgstr ""
+msgstr "Dodanie następujących ACLi powiodło się: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been updated successfully: %s"
-msgstr ""
+msgstr "Aktualizacja następujących ACLi powiodła się: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
-msgstr ""
+msgstr "Podczas dodawania/aktualizacji następujących ACLi wystąpiły błędy: %s. Więcej informacji znajdziesz w pliku logu."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "This field is required"
@@ -11091,27 +11106,27 @@ msgstr "To pole jest wymagane"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr ""
+msgstr "Podczas tworzenia ACLa wystąpił błąd."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
-msgstr ""
+msgstr "Potrzebny ACLID!"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Could not get data for ACLID %s"
-msgstr ""
+msgstr "Nieudane pobranie danych dla ACLID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error updating the ACL"
-msgstr ""
+msgstr "Podczas aktualizacji ACL wystąpił błąd."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
-msgstr ""
+msgstr "Podczas ustawiania statusu synchronizacji encji wystąpił błąd."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr ""
+msgstr "Wystąpił błąd podczas synchronizacji ACLi."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
@@ -11123,11 +11138,11 @@ msgstr "Nastąpił błąd przy pobieraniu danych dla ACL o ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Dokładne dopasowanie"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "Zanegowane dokładne dopasowanie"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
@@ -11159,21 +11174,21 @@ msgstr "Nowe zgłoszenie e-mail"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
-msgstr ""
+msgstr "Konfiguracja pól jest niepoprawna"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Objects configuration is not valid"
-msgstr ""
+msgstr "Konfiguracja obiektów jest niepoprawna"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for"
 " more details."
-msgstr ""
+msgstr "Nie udało się prawidłowo przywrócić kolejności Pól Dynamicznych, więcej szczegółów znajduje się w pliku logu."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
-msgstr ""
+msgstr "Nieokreślone działanie podrzędne."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
@@ -11351,7 +11366,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need Subaction!"
-msgstr "Wymagane działanie dodatkowe!"
+msgstr "Wymagane działanie podrzędne!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
@@ -11492,8 +11507,8 @@ msgid "Customer of the ticket"
 msgstr "Klient w tym zgłoszeniu"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Tak, ale wymagaj przynajmniej jednej aktywnej metody powiadomienia"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11693,7 +11708,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
-msgstr ""
+msgstr "Działanie podrzędne jest nieprawidłowe"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Edit Activity \"%s\""
@@ -11866,6 +11881,10 @@ msgstr "Trening"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -12058,7 +12077,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
-msgstr ""
+msgstr "Nieprawidłowe działanie podrzędne."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Statistic could not be imported."
@@ -12134,7 +12153,7 @@ msgstr "Nie można wysłać email'a!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
-msgstr ""
+msgstr "Złe działanie podrzędne!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
@@ -12178,7 +12197,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
-msgstr ""
+msgstr "Brak działania podrzędnego!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "Got no TicketID!"
@@ -12276,7 +12295,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Subaction is invalid!"
-msgstr ""
+msgstr "Działanie podrzędne jest nieprawidłowe!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Parameter %s is missing in %s."
@@ -12841,7 +12860,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Subaction %s!"
-msgstr ""
+msgstr "Nieznane działanie podrzędne: %s!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, Perl module DBD::%s not installed!"
@@ -13959,6 +13978,16 @@ msgid "OTRS TimeZone setting for calendar "
 msgstr ""
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
 msgstr "Serwer www"
@@ -14388,7 +14417,7 @@ msgstr "Powiadomienia o nowym zgłoszeniu"
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
-msgstr ""
+msgstr "Otrzymasz powiadomienie, za każdym razem, gdy zgłoszenie zostanie utworzone w jednej z „Twoich Kolejek” lub „Twoich Usług”. "
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
@@ -14456,7 +14485,7 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Powiadomienie o zmianie usługi zgłoszenia"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
@@ -15323,7 +15352,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "Określ, jaki ekran powinien wyświetlić się po utworzeniu nowego zgłoszenia."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -19163,7 +19192,7 @@ msgstr ""
 msgid ""
 "If you're going to be out of office, you may wish to let other users know by"
 " setting the exact dates of your absence."
-msgstr ""
+msgstr "Jeśli będziesz nieobecny, możesz poinformować innych użytkowników o dokładnych datach swojej nieobecności."
 
 #. SysConfig
 msgid ""
@@ -20487,7 +20516,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr ""
+msgstr "Wybierz główny język interfejsu."
 
 #. SysConfig
 msgid "Select your default spelling dictionary."
@@ -20495,7 +20524,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Select your preferred layout for OTRS."
-msgstr ""
+msgstr "Wybierz swoją ulubioną skórkę dla OTRS."
 
 #. SysConfig
 msgid "Select your preferred theme for OTRS."
@@ -22552,7 +22581,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Widok drzewa"
 
 #. SysConfig
 msgid ""
@@ -22771,11 +22800,11 @@ msgstr "załącznik"
 
 #. SysConfig
 msgid "bounce"
-msgstr ""
+msgstr "przekaż"
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "utwórz"
 
 #. SysConfig
 msgid "debug"
@@ -22787,7 +22816,7 @@ msgstr "błąd"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "prześlij"
 
 #. SysConfig
 msgid "info"
@@ -22795,7 +22824,7 @@ msgstr "informacja"
 
 #. SysConfig
 msgid "inline"
-msgstr ""
+msgstr "w treści"
 
 #. SysConfig
 msgid "notice"
@@ -22803,12 +22832,12 @@ msgstr "ogłoszenie"
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "oczekujący"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "odpowiedzialny"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "statystyki"

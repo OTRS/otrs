@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -4927,7 +4927,7 @@ msgstr "Állítsa „Nem” értékre egy üres SOAP művelet fejléc küldésé
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
-msgstr "SOAP művelet elválasztó"
+msgstr "SOAP-művelet elválasztó"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP method."
@@ -5601,7 +5601,7 @@ msgstr "Üzenettörzs"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Ez a mező kötelező, és rövidebbnek kell lennie 4000 karakternél."
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -9797,15 +9797,15 @@ msgstr "Információ"
 
 #. Template: CustomerAccept
 msgid "Dear Customer,"
-msgstr ""
+msgstr "Kedves Ügyfelünk!"
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
-msgstr ""
+msgstr "Köszönjük, hogy a szolgáltatásainkat használta."
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
-msgstr ""
+msgstr "Igen, elfogadtam a licencet."
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -9937,6 +9937,13 @@ msgid ""
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
 msgstr "A böngészője nem volt képes megfelelően kommunikálni az OTRS-sel, úgy tűnik, hogy valami nincs rendben a hálózati kapcsolattal. Megpróbálhatja újratölteni ezt az oldalt kézzel, vagy megvárhatja, amíg a böngészője saját maga létesíti újra a kapcsolatot."
+
+#. Template: CustomerFooterJS
+msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10381,6 +10388,10 @@ msgstr "Valóban folytatni akarja?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Információk az OTRS démonról"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11053,6 +11064,10 @@ msgid "Go back to the previous page"
 msgstr "Vissza az előző oldalra"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Rendszernapló üzenetek megtekintése."
 
@@ -11487,8 +11502,8 @@ msgid "Customer of the ticket"
 msgstr "A jegy ügyfele"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Igen, de legalább egy aktív értesítési módszert igényel"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11862,6 +11877,10 @@ msgstr "Oktatási"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr "Fejlesztői"
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13132,7 +13151,7 @@ msgstr "Nem sikerült beolvasni az értesítés beállítófájlját. Győződj�
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
-msgstr ""
+msgstr "Az importált értesítésnek 4000 karakternél hosszabb törzsszövege van."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -13954,6 +13973,16 @@ msgid "OTRS TimeZone setting for calendar "
 msgstr "OTRS TimeZone beállítás a naptárhoz: "
 
 #. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
+
+#. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
 msgstr "Webkiszolgáló"
@@ -14606,11 +14635,11 @@ msgstr "Tevékenység-azonosító"
 
 #. SysConfig
 msgid "Add a comment."
-msgstr ""
+msgstr "Megjegyzés hozzáadása."
 
 #. SysConfig
 msgid "Add a default name for Dynamic Field."
-msgstr ""
+msgstr "Egy alapértelmezett név hozzáadása a dinamikus mezőhöz."
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -15125,7 +15154,7 @@ msgstr "Felelős módosítása ennél a jegynél"
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "Prioritás módosítva erről: „%s” (%s) erre: „%s” (%s)."
+msgstr "Prioritás megváltoztatva erről: „%s” (%s), erre: „%s” (%s)."
 
 #. SysConfig
 msgid ""
@@ -18872,7 +18901,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Ha „HTTPBasicAuth” lett kiválasztva a Customer::AuthModule modulnál, akkor megadhatja a felhasználónevek vezető részeinek levágását (például tartományoknál, úgymint pelda_tartomany\\felhasznalo a felhasználóhoz)."
 
 #. SysConfig
 msgid ""
@@ -20498,7 +20527,7 @@ msgstr "Az előnyben részesített téma kiválasztása az OTRS-hez."
 
 #. SysConfig
 msgid "Select your time zone."
-msgstr ""
+msgstr "Válassza ki az időzónáját."
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -22322,7 +22351,7 @@ msgstr "Ez az eseménymodul az ügyfél-felhasználó jellemzőit tárolja jegy 
 
 #. SysConfig
 msgid "This is a description for TimeZone on Customer side."
-msgstr ""
+msgstr "Ez egy leírás az ügyféloldalon lévő időzónához."
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."

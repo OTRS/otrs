@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.53943661971831;
+    $Self->{Completeness}        = 0.538786173633441;
 
     # csv separator
     $Self->{Separator} = '';
@@ -2993,6 +2993,8 @@ Opdater venligst dit framework først!',
         'Reload page' => '',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
 
@@ -3132,6 +3134,7 @@ Opdater venligst dit framework først!',
             '',
         'Do you really want to continue?' => 'Ønsker du at fortsætte?',
         'Information about the OTRS Daemon' => 'Information om OTRS tjenesten',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
@@ -3385,6 +3388,7 @@ Opdater venligst dit framework først!',
         'Go back to the previous page' => 'Gå tilbage til forrige side',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Se systemets log',
         'Update and extend your system with software packages.' => 'Opdater ',
 
@@ -3537,7 +3541,7 @@ Opdater venligst dit framework først!',
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => 'Sagens kunde',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3668,6 +3672,9 @@ Opdater venligst dit framework først!',
         'Test' => '',
         'Training' => 'Træning',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4448,6 +4455,12 @@ Opdater venligst dit framework først!',
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             '',
         'OTRS TimeZone setting for calendar ' => 'OTRS tidszone indstilling for kalender',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Web-server',

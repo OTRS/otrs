@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.48148893360161;
+    $Self->{Completeness}        = 0.488344051446945;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1587,22 +1587,22 @@ sub Data {
         'Notification Methods' => 'Methodes de notification',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
-        'Enable this notification method' => '',
-        'Transport' => '',
+        'Enable this notification method' => 'Activer cette méthode de notification',
+        'Transport' => 'Transport',
         'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'Active by default in agent preferences' => 'Actif par défaut dans les préférences de l\'opérateur',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => 'Cette fonctionalité n\'est pas disponile pour l\'instant.',
         'No data found' => 'Aucune donnée trouvée',
-        'No notification method found.' => '',
-        'Notification Text' => '',
+        'No notification method found.' => 'Aucune méthode de notification trouvée.',
+        'Notification Text' => 'Message de notification',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             'Cette langue n\'est pas disponible ou activée dans le système. Cette notification peut être supprimée si celle-ci n\'est plus nécessaire.',
         'Remove Notification Language' => '',
         'Message body' => 'Corps du message',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Ce champ est requis et doit contenir moins de 4000 caractères.',
         'Add new notification language' => '',
         'Do you really want to delete this notification language?' => '',
         'Tag Reference' => '',
@@ -1667,14 +1667,14 @@ sub Data {
         'Package installation requires patch level update of OTRS.' => '',
         'Please visit our customer portal and file a request.' => '',
         'Everything else will be done as part of your contract.' => '',
-        'Your installed OTRS version is %s.' => '',
+        'Your installed OTRS version is %s.' => 'La version OTRS installée est la %s.',
         'To install the current version of OTRS Business Solution™, you need to update to OTRS %s or higher.' =>
             '',
         'To install the current version of OTRS Business Solution™, the Maximum OTRS Version is %s.' =>
             '',
         'To install this package, the required Framework version is %s.' =>
             '',
-        'Why should I keep OTRS up to date?' => '',
+        'Why should I keep OTRS up to date?' => 'Pourquoi dois-je garder OTRS à jour ?',
         'You will receive updates about relevant security issues.' => '',
         'You will receive updates for all other relevant OTRS issues' => '',
         'An update for your %s is available! Please update at your earliest!' =>
@@ -1837,7 +1837,7 @@ sub Data {
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             '',
         'Delete this filter' => 'Supprimer ce filtre',
-        'Do you really want to delete this filter?' => '',
+        'Do you really want to delete this filter?' => 'Voulez-vous vraiment supprimer ce filtre ?',
         'Add PostMaster Filter' => 'Ajouter un filtre PostMaster',
         'Edit PostMaster Filter' => 'Editer ce filtre PostMaster',
         'A postmaster filter with this name already exists!' => '',
@@ -1914,7 +1914,7 @@ sub Data {
             '',
         'Activity Dialog' => '',
         'Activity dialog Name' => '',
-        'Available in' => '',
+        'Available in' => 'Disponible dans',
         'Description (short)' => 'Description (courte)',
         'Description (long)' => 'Description (longue)',
         'The selected permission does not exist.' => 'La permission sélectionnée n\'existe pas. ',
@@ -1979,10 +1979,10 @@ sub Data {
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
-        'Edit this Activity' => '',
+        'Edit this Activity' => 'Éditer cette activité',
         'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
+        'Do you really want to delete this Activity?' => 'Voulez-vous vraiment supprimer cette activité ?',
         'Do you really want to delete this Activity Dialog?' => '',
         'Do you really want to delete this Transition?' => '',
         'Do you really want to delete this Transition Action?' => '',
@@ -1996,7 +1996,7 @@ sub Data {
         'This Activity is already used in the Process. You cannot add it twice!' =>
             '',
         'This Activity cannot be deleted because it is the Start Activity.' =>
-            '',
+            'Cette activité ne peut pas être supprimée car c\'est l\'activité initiale.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
             '',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
@@ -2014,18 +2014,18 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessPrint
-        'cancel & close' => '',
-        'Start Activity' => '',
+        'cancel & close' => 'annuler et fermer',
+        'Start Activity' => 'Démarrer l\'activité',
         'Contains %s dialog(s)' => '',
         'Assigned dialogs' => '',
         'Activities are not being used in this process.' => '',
         'Assigned fields' => '',
         'Activity dialogs are not being used in this process.' => '',
         'Condition linking' => '',
-        'Conditions' => '',
-        'Condition' => '',
+        'Conditions' => 'Conditions',
+        'Condition' => 'Condition',
         'Transitions are not being used in this process.' => '',
-        'Module name' => '',
+        'Module name' => 'Nom du module',
         'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
@@ -2037,10 +2037,10 @@ sub Data {
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
-        'Add a new Field' => '',
-        'Remove this Field' => '',
+        'Add a new Field' => 'Ajouter un nouveau champ',
+        'Remove this Field' => 'Supprimer ce champ',
         'And can\'t be repeated on the same condition.' => '',
-        'Add New Condition' => '',
+        'Add New Condition' => 'Ajouter une nouvelle condition',
 
         # Template: AdminProcessManagementTransitionAction
         'Please note that changing this transition action will affect the following processes' =>
@@ -2049,15 +2049,15 @@ sub Data {
         'Transition Action Name' => '',
         'Transition Action Module' => '',
         'Config Parameters' => '',
-        'Add a new Parameter' => '',
-        'Remove this Parameter' => '',
+        'Add a new Parameter' => 'Ajouter un nouveau paramètre',
+        'Remove this Parameter' => 'Supprimer ce paramètre',
 
         # Template: AdminQueue
         'Manage Queues' => 'Gérer les Files',
         'Add queue' => 'Ajouter une file',
         'Add Queue' => 'Ajouter une File',
         'Edit Queue' => 'Editer une File',
-        'A queue with this name already exists!' => '',
+        'A queue with this name already exists!' => 'Une file avec ce nom existe déjà !',
         'Sub-queue of' => 'Sous-file de',
         'Unlock timeout' => 'Délai du déverrouillage',
         '0 = no unlock' => '0 = pas de déverrouillage',
@@ -2087,9 +2087,9 @@ sub Data {
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Gérer les relations entre les files et les réponses automatiques',
         'This filter allow you to show queues without auto responses' => '',
-        'Queues without auto responses' => '',
-        'This filter allow you to show all queues' => '',
-        'Show all queues' => '',
+        'Queues without auto responses' => 'Files sans réponses automatiques',
+        'This filter allow you to show all queues' => 'Ce filtre vous permet d\'afficher toutes les files',
+        'Show all queues' => 'Afficher toutes les files',
         'Filter for Queues' => 'Filtre pour les files',
         'Filter for Auto Responses' => 'Filtre pour les réponses automatiques',
         'Auto Responses' => 'Réponses automatiques',
@@ -2112,9 +2112,9 @@ sub Data {
         'System type' => '',
         'Unique ID' => 'ID unique',
         'Last communication with registration server' => '',
-        'System registration not possible' => '',
+        'System registration not possible' => 'Enregistrement du système impossible',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
-            '',
+            'Veuillez noter que vous ne pouvez pas enregistrer votre système si le démon OTRS ne fonctionne pas correctement !',
         'Instructions' => 'Instructions',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
@@ -2133,9 +2133,9 @@ sub Data {
         'This is only the beginning!' => '',
         'We will inform you about our new services and offerings soon.' =>
             '',
-        'Can I use OTRS without being registered?' => '',
+        'Can I use OTRS without being registered?' => 'Puis-je utiliser OTRS sans être enregistré ?',
         'System registration is optional.' => '',
-        'You can download and use OTRS without being registered.' => '',
+        'You can download and use OTRS without being registered.' => 'Vous pouvez télécharger et utiliser OTRS sans être enregistré.',
         'Is it possible to deregister?' => '',
         'You can deregister at any time.' => '',
         'Which data is transfered when registering?' => '',
@@ -2151,7 +2151,7 @@ sub Data {
             '',
         'Typically this would be around once every three days.' => '',
         'Please visit our' => '',
-        'portal' => '',
+        'portal' => 'portail',
         'and file a request.' => '',
         'If you deregister your system, you will lose these benefits:' =>
             '',
@@ -2160,7 +2160,7 @@ sub Data {
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
         'Sign up now' => 'Enregistrez-vous maintenant',
-        'Forgot your password?' => '',
+        'Forgot your password?' => 'Mot de passe oublié ?',
         'Retrieve a new one' => '',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
             '',
@@ -2170,7 +2170,7 @@ sub Data {
         'Operating System' => 'Système d\'Exploitation',
         'Perl Version' => 'Version de Perl',
         'Optional description of this system.' => '',
-        'Register' => '',
+        'Register' => 'Enregistrement',
         'Deregister System' => '',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
@@ -2237,8 +2237,8 @@ sub Data {
         'S/MIME Management' => 'Gestion S/MIME',
         'SMIME support is disabled' => '',
         'To be able to use SMIME in OTRS, you have to enable it first.' =>
-            '',
-        'Enable SMIME support' => '',
+            'Pour utiliser SMIME dans OTRS, vous devez l\'activer en premier.',
+        'Enable SMIME support' => 'Activer le support SMIME',
         'Faulty SMIME configuration' => '',
         'SMIME support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
@@ -2269,7 +2269,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'Close dialog' => '',
-        'Certificate details' => '',
+        'Certificate details' => 'Détails du certificat',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Gestion des Formules de Politesse',
@@ -2999,6 +2999,8 @@ sub Data {
         'Reload page' => '',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
 
@@ -3138,6 +3140,7 @@ sub Data {
             '',
         'Do you really want to continue?' => '',
         'Information about the OTRS Daemon' => 'Information à propos de la tâche de fond d\'OTRS',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '',
         'Find out more about the %s' => '',
@@ -3391,6 +3394,7 @@ sub Data {
         'Go back to the previous page' => 'Revenir à la page précédente',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Voir les messages du journal système.',
         'Update and extend your system with software packages.' => 'Mettre à jour et améliorer OTRS via des paquets.',
 
@@ -3543,7 +3547,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '',
         'Customer of the ticket' => '',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3674,6 +3678,9 @@ sub Data {
         'Test' => '',
         'Training' => 'Formation',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4454,6 +4461,12 @@ sub Data {
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             '',
         'OTRS TimeZone setting for calendar ' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Serveur Web',

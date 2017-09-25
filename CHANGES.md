@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-09-24- Updated translations, thanks to all translators.
  - 2017-09-21 Fixed bug#[12858](https://bugs.otrs.org/show_bug.cgi?id=12858) - Daemon duplicate task identifiers.
  - 2017-09-20 Fixed translatable strings, thanks to Balazs Ur (PR#1834).
  - 2017-09-20 Fixed bug#[13173](https://bugs.otrs.org/show_bug.cgi?id=13173) - Not needed mandatory stats object module function in 'ObjectModuleCheck'.

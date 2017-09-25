@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -5565,11 +5565,11 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Activer cette méthode de notification"
 
 #. Template: AdminNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "Transport"
 
 #. Template: AdminNotificationEvent
 msgid "At least one method is needed per notification."
@@ -5577,7 +5577,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Actif par défaut dans les préférences de l'opérateur"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5596,11 +5596,11 @@ msgstr "Aucune donnée trouvée"
 
 #. Template: AdminNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "Aucune méthode de notification trouvée."
 
 #. Template: AdminNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Message de notification"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5618,7 +5618,7 @@ msgstr "Corps du message"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Ce champ est requis et doit contenir moins de 4000 caractères."
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -5825,7 +5825,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "La version OTRS installée est la %s."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -5845,7 +5845,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Why should I keep OTRS up to date?"
-msgstr ""
+msgstr "Pourquoi dois-je garder OTRS à jour ?"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates about relevant security issues."
@@ -6366,7 +6366,7 @@ msgstr "Supprimer ce filtre"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this filter?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer ce filtre ?"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
@@ -6613,7 +6613,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available in"
-msgstr ""
+msgstr "Disponible dans"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
@@ -6836,7 +6836,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
-msgstr ""
+msgstr "Éditer cette activité"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -6848,7 +6848,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer cette activité ?"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity Dialog?"
@@ -6892,7 +6892,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr ""
+msgstr "Cette activité ne peut pas être supprimée car c'est l'activité initiale."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -6937,11 +6937,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "annuler et fermer"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
-msgstr ""
+msgstr "Démarrer l'activité"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Contains %s dialog(s)"
@@ -6969,11 +6969,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Conditions"
-msgstr ""
+msgstr "Conditions"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition"
-msgstr ""
+msgstr "Condition"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
@@ -6981,7 +6981,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Module name"
-msgstr ""
+msgstr "Nom du module"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
@@ -7019,11 +7019,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Add a new Field"
-msgstr ""
+msgstr "Ajouter un nouveau champ"
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
-msgstr ""
+msgstr "Supprimer ce champ"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
@@ -7031,7 +7031,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Add New Condition"
-msgstr ""
+msgstr "Ajouter une nouvelle condition"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
@@ -7057,11 +7057,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
-msgstr ""
+msgstr "Ajouter un nouveau paramètre"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Remove this Parameter"
-msgstr ""
+msgstr "Supprimer ce paramètre"
 
 #. Template: AdminQueue
 msgid "Manage Queues"
@@ -7081,7 +7081,7 @@ msgstr "Editer une File"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr ""
+msgstr "Une file avec ce nom existe déjà !"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
@@ -7184,15 +7184,15 @@ msgstr ""
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without auto responses"
-msgstr ""
+msgstr "Files sans réponses automatiques"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "Ce filtre vous permet d'afficher toutes les files"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show all queues"
-msgstr ""
+msgstr "Afficher toutes les files"
 
 #. Template: AdminQueueAutoResponse
 msgid "Filter for Queues"
@@ -7268,13 +7268,13 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "System registration not possible"
-msgstr ""
+msgstr "Enregistrement du système impossible"
 
 #. Template: AdminRegistration
 msgid ""
 "Please note that you can't register your system if OTRS Daemon is not "
 "running correctly!"
-msgstr ""
+msgstr "Veuillez noter que vous ne pouvez pas enregistrer votre système si le démon OTRS ne fonctionne pas correctement !"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -7336,7 +7336,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Can I use OTRS without being registered?"
-msgstr ""
+msgstr "Puis-je utiliser OTRS sans être enregistré ?"
 
 #. Template: AdminRegistration
 msgid "System registration is optional."
@@ -7344,7 +7344,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "You can download and use OTRS without being registered."
-msgstr ""
+msgstr "Vous pouvez télécharger et utiliser OTRS sans être enregistré."
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
@@ -7402,7 +7402,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "portal"
-msgstr ""
+msgstr "portail"
 
 #. Template: AdminRegistration
 msgid "and file a request."
@@ -7430,7 +7430,7 @@ msgstr "Enregistrez-vous maintenant"
 
 #. Template: AdminRegistration
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Mot de passe oublié ?"
 
 #. Template: AdminRegistration
 msgid "Retrieve a new one"
@@ -7468,7 +7468,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Register"
-msgstr ""
+msgstr "Enregistrement"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
@@ -7666,11 +7666,11 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "To be able to use SMIME in OTRS, you have to enable it first."
-msgstr ""
+msgstr "Pour utiliser SMIME dans OTRS, vous devez l'activer en premier."
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
-msgstr ""
+msgstr "Activer le support SMIME"
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
@@ -7777,7 +7777,7 @@ msgstr ""
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate details"
-msgstr ""
+msgstr "Détails du certificat"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
@@ -9957,6 +9957,13 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
 "The connection has been re-established after a temporary connection loss. "
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
@@ -10398,6 +10405,10 @@ msgstr ""
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Information à propos de la tâche de fond d'OTRS"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11070,6 +11081,10 @@ msgid "Go back to the previous page"
 msgstr "Revenir à la page précédente"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Voir les messages du journal système."
 
@@ -11504,7 +11519,7 @@ msgid "Customer of the ticket"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
+msgid "Yes, but require at least one active notification method."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
@@ -11878,6 +11893,10 @@ msgstr "Formation"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -13968,6 +13987,16 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
 msgstr ""
 
 #. Perl Module:

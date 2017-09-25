@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.965191146881288;
+    $Self->{Completeness}        = 0.965836012861736;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -1594,7 +1594,7 @@ sub Data {
         'Remove Notification Language' => 'Benachrichtigungssprache entfernen',
         'Message body' => 'Nachrichteninhalt',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Dieses Feld wird benötigt und darf nicht mehr als 4000 Zeichen enthalten.',
         'Add new notification language' => 'Neue Sprache für Benachrichtigungen hinzufügen',
         'Do you really want to delete this notification language?' => 'Möchten Sie diese Benachrichtigungssprache wirklich löschen?',
         'Tag Reference' => 'Tag-Referenz',
@@ -1744,8 +1744,8 @@ sub Data {
             'Möchten Sie dieses Paket wirklich erneut installieren? Alle manuellen Änderungen gehen verloren.',
         'Go to upgrading instructions' => 'Zur Upgrade-Anleitung gehen',
         'package information' => 'Paketinformation',
-        'Package installation requires a patch level update of OTRS.' => '',
-        'Package update requires a patch level update of OTRS.' => '',
+        'Package installation requires a patch level update of OTRS.' => ' Paketinstallation benötigt ein Patchlevel-Update von OTRS. ',
+        'Package update requires a patch level update of OTRS.' => ' Paketupdate benötigt ein Patchlevel-Update von OTRS. ',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
             'Wenn Sie ein OTRS Business Solution™ Kunde sind, erstellen Sie bitte eine Anfrage in unserem Kundenportal.',
         'Please note that your installed OTRS version is %s.' => 'Bitte beachten Sie, dass Ihre installierte OTRS-Version %s ist.',
@@ -2946,9 +2946,9 @@ sub Data {
 
         # Template: CustomerAccept
         'Information' => 'Information',
-        'Dear Customer,' => '',
+        'Dear Customer,' => 'Lieber Kunde,',
         'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Yes, I accepted your license.' => 'Ja, ich akzeptiere die Lizenz.',
 
         # Template: CustomerError
         'An Error Occurred' => 'Ein Fehler ist aufgetreten',
@@ -2991,6 +2991,8 @@ sub Data {
         'Reload page' => 'Seite aktualisieren',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             'Ihr Browser konnte keine Verbindung mit OTRS herstellen, es scheint ein Problem mit Ihrer Netzwerkverbindung vorzuliegen. Sie könnten versuchen die Seite manuell neu zu Laden oder warten bis ihr Browser die Verbindung wieder herstellt.',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             'Die Verbindungen wurde nach einer kurzen Unterbrechung wiederhergestellt. Aus diesem Grund könnte es sein das einige Elemente der Seite nicht korrekt funktionieren. Um alle Elemente erneut korrekt nutzen zu können sollten Sie ihre Seite neue laden.',
 
@@ -3130,6 +3132,7 @@ sub Data {
             'Der Browser des anderen Benutzers unterstützt keine Video- und Audio-Anrufe.',
         'Do you really want to continue?' => 'Möchten Sie wirklich fortfahren?',
         'Information about the OTRS Daemon' => 'Informationen über den OTRS Daemon',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Diese Funktion ist Teil von %s. Bitte kontaktieren Sie uns unter %s bezüglich eines Upgrades.',
         'Find out more about the %s' => 'Erfahren Sie mehr über die %s',
@@ -3383,6 +3386,7 @@ sub Data {
         'Go back to the previous page' => 'Zurück zur vorhergehenden Seite',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Systemprotokollnachrichten ansehen.',
         'Update and extend your system with software packages.' => 'System mit Softwarepaketen aktualisieren und erweitern.',
 
@@ -3535,7 +3539,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Alle Agenten, die sowohl Queue als auch Service des Tickets abonniert haben',
         'Customer of the ticket' => 'Kunde des Tickets',
-        'Yes, but require at least one active notification method' => 'Ja, aber mindestens eine Benachrichtigungsmethode muss aktiviert sein',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3663,9 +3667,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => 'Produktiv',
-        'Test' => '',
+        'Test' => 'Test',
         'Training' => 'Training',
         'Development' => 'Entwicklung',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4447,6 +4454,12 @@ sub Data {
             'Die TimeZoneUser sollte nur für Systeme aktiviert werden, die auf Basis von UTC laufen und TimeZone nicht aktiviert haben.',
         'OTRS TimeZone setting for calendar ' => 'OTRS-Zeitzoneneinstellung für Kalender',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Webserver',
         'Loaded Apache Modules' => 'Geladene Apache-Module',
@@ -4669,7 +4682,7 @@ Ihr Helpdesk-Team
             'Aktiviert das Ticket Archivsystem, um ein schnelleres System zu haben, indem einige Tickets aus dem täglichen Anwendungsbereich verschoben werden. Um diese Tickets in der Suche zu finden, muss das Archiv-Flag in der Ticketsuche aktiviert werden.',
         'Activates time accounting.' => 'Aktiviert die Zeitabrechnung.',
         'ActivityID' => 'ActivityID',
-        'Add a comment.' => '',
+        'Add a comment.' => 'Hinzufügen eines Kommentars.',
         'Add a default name for Dynamic Field.' => '',
         'Add an inbound phone call to this ticket' => 'Fügen Sie einen eingehenden Anruf zu diesem Ticket hinzu.',
         'Add an outbound phone call to this ticket' => 'Fügen Sie einen ausgehenden Anruf zu diesem Ticket hinzu.',
@@ -5897,7 +5910,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Frontend module registration for the agent interface.' => 'Frontend-Modulregistrierung im Agent-Interface.',
         'Frontend module registration for the customer interface.' => 'Frontend-Modulregistrierung für den Kundenbereich.',
         'Frontend theme' => 'Oberflächenachema',
-        'Frontend theme.' => '',
+        'Frontend theme.' => 'Oberflächen-Schema ',
         'Full value' => 'Vollständiger Wert',
         'Fulltext index regex filters to remove parts of the text.' => 'Volltextindex-Regex-Filter, um Textteile zu entfernen.',
         'Fulltext search' => 'Volltextsuche',
@@ -6129,7 +6142,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Locked Tickets.' => 'Gesperrte Tickets.',
         'Locked ticket.' => 'Ticket gesperrt.',
         'Log file for the ticket counter.' => 'Log-Datei für den Ticket-Counter.',
-        'Logged-In Users' => '',
+        'Logged-In Users' => 'Angemeldete Nutzer',
         'Logout of customer panel.' => 'Abmelden vom Kunden-Bereich',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
         'Mail Accounts' => 'E-Mailkonten',
@@ -6633,7 +6646,7 @@ Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen
         'Sets the state of the ticket in the ticket owner screen of a zoomed ticket in the agent interface.' =>
             '',
         'Sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Setzt den Status im Wartezeit setzen-Bildschirm für Tickets im Agentenbereich.',
         'Sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             '',
         'Sets the stats hook.' => 'Steuert den Hook für Statistiken.',

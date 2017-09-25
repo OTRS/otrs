@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.739637826961771;
+    $Self->{Completeness}        = 0.738745980707395;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2996,6 +2996,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Reload page' => '',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
 
@@ -3135,6 +3137,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Do you really want to continue?' => '本当にこの操作を継続してよろしいですか？',
         'Information about the OTRS Daemon' => 'OTRS デーモンの紹介',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'この機能は %s の一部です。%s の更新についてサポートまでお問い合わせください。',
         'Find out more about the %s' => '',
@@ -3388,6 +3391,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Go back to the previous page' => '前のページへ戻る',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'システム・ログ・メッセージを見る。',
         'Update and extend your system with software packages.' => 'このシステムのソフトウェアパッケージの更新と展開',
 
@@ -3541,7 +3545,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'All agents subscribed to both the ticket\'s queue and service' =>
             'チケットのキュー及びサービスを購読しているすべての担当者',
         'Customer of the ticket' => 'チケットの顧客',
-        'Yes, but require at least one active notification method' => '',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3672,6 +3676,9 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Test' => '',
         'Training' => 'トレーニング',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4452,6 +4459,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             'OTRS TimeZoneが設定されていない場合、TimeZoneUserはシステムがUTCで稼働している場合にのみ有効化できます。',
         'OTRS TimeZone setting for calendar ' => 'カレンダーに対するOTRSタイムゾーン設定',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Webサーバー',

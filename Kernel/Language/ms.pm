@@ -23,7 +23,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.861167002012072;
+    $Self->{Completeness}        = 0.859927652733119;
 
     # csv separator
     $Self->{Separator} = ';';
@@ -2990,6 +2990,8 @@ sub Data {
         'Reload page' => '',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
 
@@ -3129,6 +3131,7 @@ sub Data {
             'Pelayar pengguna sasaran tidak sokong panggilan audio dan video.',
         'Do you really want to continue?' => 'Adakah anda benar-benar ingin meneruskan?',
         'Information about the OTRS Daemon' => 'Informasi mengenai OTRS Daemon',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ciri ini adalah sebahagian daripada %s. Sila hubungi kami di %s untuk naik taraf.',
         'Find out more about the %s' => 'Cari tahu lebih mengenai %s',
@@ -3382,6 +3385,7 @@ sub Data {
         'Go back to the previous page' => 'Kembali ke halaman sebelumnya',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Melihat mesej log sistem.',
         'Update and extend your system with software packages.' => 'Naik taraf dan kembangkan sistem anda dengan pakej perisian.',
 
@@ -3534,7 +3538,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Semua agen yang melanggan perkhidmatan dan barisan tiket',
         'Customer of the ticket' => 'Pelanggan tiket.',
-        'Yes, but require at least one active notification method' => 'Ya, tetapi memerlukan sekurang- kurangnya satu kaedah pemberitahuan aktif',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3665,6 +3669,9 @@ sub Data {
         'Test' => '',
         'Training' => 'Latihan',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4445,6 +4452,12 @@ sub Data {
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             'PenggunaZonMasa akan hanya diaktifkan untuk sistem yang dijalankan dalam UTC yang tidak mempunyai set ZonMasa OTRS.',
         'OTRS TimeZone setting for calendar ' => 'Tetapan ZonMasa OTRS untuk kalendar',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'Pelayan web',

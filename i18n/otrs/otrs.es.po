@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -9957,6 +9957,13 @@ msgstr "Tu navegador no pudo comunicarse con OTRS apropiadamente, parece que tie
 
 #. Template: CustomerFooterJS
 msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
 "The connection has been re-established after a temporary connection loss. "
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
@@ -10398,6 +10405,10 @@ msgstr "¿Realmente desea continuar?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Información acerca del Daemon de OTRS"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11070,6 +11081,10 @@ msgid "Go back to the previous page"
 msgstr "Volver a la página anterior"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Muestra mensajes de log del sistema."
 
@@ -11504,8 +11519,8 @@ msgid "Customer of the ticket"
 msgstr "Cliente del ticket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Si, pero requiere al menos un método de notificación activo"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11879,6 +11894,10 @@ msgstr "Entrenamiento"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr "Desarrollo"
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13969,6 +13988,16 @@ msgstr "El Usuario de la Zona Horaria solo puede ser activado para los sistemas 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
 msgstr "Ajustes OTRS TimeZone para calendario"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm

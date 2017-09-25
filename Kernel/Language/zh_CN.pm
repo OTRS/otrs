@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.998189134808853;
+    $Self->{Completeness}        = 0.998593247588424;
 
     # csv separator
     $Self->{Separator} = '';
@@ -1600,7 +1600,7 @@ sub Data {
         'Remove Notification Language' => '删除通知语言',
         'Message body' => '消息正文',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            '这个字段是必须的，并且不能超过4000个字符。',
         'Add new notification language' => '添加通知语言',
         'Do you really want to delete this notification language?' => '您真的要删除这个通知语言吗？',
         'Tag Reference' => '标签参考',
@@ -2952,9 +2952,9 @@ sub Data {
 
         # Template: CustomerAccept
         'Information' => '信息',
-        'Dear Customer,' => '',
-        'thank you for using our services.' => '',
-        'Yes, I accepted your license.' => '',
+        'Dear Customer,' => '尊敬的客户，',
+        'thank you for using our services.' => '感谢您使用我们的服务。',
+        'Yes, I accepted your license.' => '是，同意许可。',
 
         # Template: CustomerError
         'An Error Occurred' => '发生了一个错误',
@@ -2997,6 +2997,8 @@ sub Data {
         'Reload page' => '刷新页面',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             '你的浏览器无法与OTRS正常通讯，可能有网络连接问题。你可以手动刷新页面或者等待浏览器自动重连。',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '连接在临时中断后已重连，因此本页面上的元素可能已无法正常工作。为了能重新正常使用所有的元素，强烈建议刷新本页面。',
 
@@ -3136,6 +3138,7 @@ sub Data {
             '目标用户的浏览器不支持视频和音频通话。',
         'Do you really want to continue?' => '您真的要继续吗？',
         'Information about the OTRS Daemon' => '关于OTRS守护进程的信息',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             '这个功能需要%s才能使用，请到%s联系我们升级。',
         'Find out more about the %s' => '查找%s的更多信息',
@@ -3389,6 +3392,7 @@ sub Data {
         'Go back to the previous page' => '返回前一页',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => '查看系统日志信息',
         'Update and extend your system with software packages.' => '更新或安装系统的软件包或模块。',
 
@@ -3541,7 +3545,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             '所有关注了工单所在队列和工单所属服务的服务人员',
         'Customer of the ticket' => '该工单的客户',
-        'Yes, but require at least one active notification method' => '是的，但是需要至少一个激活的通知方法',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3672,6 +3676,9 @@ sub Data {
         'Test' => '测试',
         'Training' => '培训',
         'Development' => '开发',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4143,7 +4150,7 @@ sub Data {
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
             '无法读取通知配置文件。 请确保该文件有效。',
         'Imported notification has body text with more than 4000 characters.' =>
-            '',
+            '导入的通知包含的正文文本超过4000个字符。',
 
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '没有安装',
@@ -4453,6 +4460,12 @@ sub Data {
             '用户时区只能在系统运行于UTC时间且没有设置OTRS时区时才能激活。',
         'OTRS TimeZone setting for calendar ' => 'OTRS时区设置，适用日历',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => 'WEB服务器',
         'Loaded Apache Modules' => '已载入的Apache模块',
@@ -4674,8 +4687,8 @@ Thanks for your help!
             '激活工单归档系统，将一些工单移出日常范围以便拥有更快速的系统响应。要搜索这些工单，需要在工单搜索时启用“归档搜索”。',
         'Activates time accounting.' => '激活工时管理。',
         'ActivityID' => '活动ID',
-        'Add a comment.' => '',
-        'Add a default name for Dynamic Field.' => '',
+        'Add a comment.' => '添加一条注释。',
+        'Add a default name for Dynamic Field.' => '为动态字段添加一个默认的名称。',
         'Add an inbound phone call to this ticket' => '为本工单添加电话接入',
         'Add an outbound phone call to this ticket' => '为本工单添加拨出电话',
         'Added email. %s' => '添加电子邮件：%s',
@@ -6436,7 +6449,7 @@ Thanks for your help!
         'Select your default spelling dictionary.' => '选择默认的拼写检查字典。',
         'Select your preferred layout for OTRS.' => '选择你喜欢的OTRS布局。',
         'Select your preferred theme for OTRS.' => '选择你喜欢的OTRS界面主题。',
-        'Select your time zone.' => '',
+        'Select your time zone.' => '选择您的时区。',
         'Selects the cache backend to use.' => '选择使用的缓存后端。',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
             '选择处理WEB界面上传文件的模块。“数据库”存储所有上传文件到数据库中，“文件系统”存储所有上传文件到文件系统中。',
@@ -6999,7 +7012,7 @@ Thanks for your help!
             '转发邮件中加在主题前的文字，如FW、Fwd或WG。',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '这个事件模块存储客户联系人的属性为工单动态字段，如何配置这个映射请查看上面的设置。',
-        'This is a description for TimeZone on Customer side.' => '',
+        'This is a description for TimeZone on Customer side.' => '这是在客户界面上对时区的描述信息。',
         'This is the default orange - black skin for the customer interface.' =>
             '这是客户界面默认的橙色-黑色皮肤。',
         'This is the default orange - black skin.' => '这是默认的橙色-黑色皮肤。',

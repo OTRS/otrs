@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -5597,7 +5597,7 @@ msgstr "Садржај поруке"
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Ово поље је обавезно и не сме бити дуже од 4000 карактера."
 
 #. Template: AdminNotificationEvent
 msgid "Add new notification language"
@@ -7857,7 +7857,7 @@ msgstr "Уреди услугу"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
-msgstr ""
+msgstr "Максимална дужина назива услуге је 200 карактера (са под-услугом)."
 
 #. Template: AdminService
 msgid "Sub-service of"
@@ -9793,15 +9793,15 @@ msgstr "Информација"
 
 #. Template: CustomerAccept
 msgid "Dear Customer,"
-msgstr ""
+msgstr "Драги клијенте,"
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
-msgstr ""
+msgstr "хвала вам на коришћењу наших услуга."
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
-msgstr ""
+msgstr "Да, прихватам вашу лиценцу."
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -9933,6 +9933,13 @@ msgid ""
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
 msgstr "Ваш интернет прегледач није у могућности да коректно комуницира са „OTRS”, па изгледа на нешто није у реду са вашом мрежном везом. Можете да покушате да ручно освежите ову страницу или да сачекате да ваш прегледач сам поново успостави везу."
+
+#. Template: CustomerFooterJS
+msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10377,6 +10384,10 @@ msgstr "Да ли заиста желите да наставите?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Информације о „OTRS” сервису"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11049,6 +11060,10 @@ msgid "Go back to the previous page"
 msgstr "Вратите се на претходну страну"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Преглед порука системског дневника."
 
@@ -11400,7 +11415,7 @@ msgstr "Операције"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
-msgstr ""
+msgstr "Позиваоци"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -11483,8 +11498,8 @@ msgid "Customer of the ticket"
 msgstr "Клијент за тикет"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Да, али је неопходан бар један активни метод обавештавања."
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11849,7 +11864,7 @@ msgstr "Продукција"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "Тест"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
@@ -11858,6 +11873,10 @@ msgstr "Тренинг"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr "Развој"
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13128,7 +13147,7 @@ msgstr "Учитавање конфигурације обавештења ни�
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
-msgstr ""
+msgstr "Текст садржаја увезеног обавештења има више од 4000 карактера."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
@@ -13921,7 +13940,7 @@ msgstr "Подешавања времена"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Server time zone"
-msgstr "Вренеска зона сервера"
+msgstr "Временска зона сервера"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "Computed server time offset"
@@ -13948,6 +13967,16 @@ msgstr "Подешавање TimeZoneUser може бити активирано
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
 msgstr "„OTRS” подешавање временске зоне за календар"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
@@ -14137,7 +14166,7 @@ msgstr "Пошаљи нешифовано обавештење"
 msgid ""
 "Authentication succeeded, but no user data record is found in the database. "
 "Please contact the administrator."
-msgstr ""
+msgstr "Аутентификација је успела, али подаци о клијенту нису пронађени у бази. Молимо контактирајте администратора."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
@@ -14149,7 +14178,7 @@ msgstr "Успешна одјава."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "Грешка: неважећа сесија."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
@@ -14602,11 +14631,11 @@ msgstr "ИД активности"
 
 #. SysConfig
 msgid "Add a comment."
-msgstr ""
+msgstr "Додај коментар."
 
 #. SysConfig
 msgid "Add a default name for Dynamic Field."
-msgstr ""
+msgstr "Додај подразумевани назив за динамичко поље."
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
@@ -15601,7 +15630,7 @@ msgid ""
 "DEPRECATED: This config setting will be removed in further versions of OTRS."
 " Sets the time (in seconds) a user is marked as active (minimum active time "
 "is 300 seconds)."
-msgstr ""
+msgstr "Ово подешавање је превазиђено и биће уклоњено у следећим верзијама OTRS. Поставља време (у секундама) за означавање корисника као активног (минимално активно време је 300 секунди)."
 
 #. SysConfig
 msgid "Danish"
@@ -17668,7 +17697,7 @@ msgid ""
 "Defines the timeout (in seconds, minimum is 20 seconds) for the support data"
 " collection with the public module 'PublicSupportDataCollector' (e.g. used "
 "from the OTRS Daemon)."
-msgstr ""
+msgstr "Дефинише предвиђено време (у секундама, минимум је 20 секунди) за прикупљање података подршке путем модула јавог интерфејса 'PublicSupportDataCollector' (нпр. кад се користи путем OTRS системског сервиса)."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
@@ -18637,7 +18666,7 @@ msgstr "Изглед приступног система"
 
 #. SysConfig
 msgid "Frontend theme."
-msgstr ""
+msgstr "Изглед приступног система."
 
 #. SysConfig
 msgid "Full value"
@@ -18868,7 +18897,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Уколико је „HTTPBasicAuth„ изабран за „Customer::AuthModule”, можете подесити уклањање почетних делова корисничких имена (нпр. за домене као example_domain\\\\user у user)."
 
 #. SysConfig
 msgid ""
@@ -19062,7 +19091,7 @@ msgid ""
 "If enabled the daemon will use this directory to create its PID files. Note:"
 " Please stop the daemon before any change and use this setting only if "
 "<$OTRSHome>/var/run/ can not be used."
-msgstr ""
+msgstr "Уколико је омогућено, системски сервис ће користити овај директоријум за снимање процесних (PID) датотека. Напомена: молимо стопирајте системски сервис пре измене овог подешавања и користите га само у случају кад је <$OTRSHome>/var/run/ недоступан."
 
 #. SysConfig
 msgid ""
@@ -19131,7 +19160,7 @@ msgid ""
 " stored in the database. Please note that this also means no decryption will"
 " take place and the articles will be shown in ticket zoom in their original "
 "(encrypted) form."
-msgstr ""
+msgstr "Уколико је ова опција искључена, чланци неће бити аутоматски дешифровани и снимљени у базу. Молимо обратите пажњу да ово подразумева да дешифровање чланака неће бити могуће ни у детаљима тикета и биће приказани у свом изворном (шифрованом) облику."
 
 #. SysConfig
 msgid ""
@@ -19926,7 +19955,7 @@ msgid ""
 "(e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is"
 " enabled by default or if the user needs to enable it manually. "
 "\"CacheTTLLocal\" is the cache time in minutes for the plugin."
-msgstr ""
+msgstr "Параметри за позадински приказ контролне табле фирме клијента у интефејсу оператера. „Group” се користи да ограничи приступ додатку (нпр. Group: admin;group1;group2;). „Default” одређује да ли је подразумевано активиран или да је потребно да га корисник мануелно активира. „CacheTTLLocal” је време у минутима за кеш додатка. "
 
 #. SysConfig
 msgid ""
@@ -20494,7 +20523,7 @@ msgstr "Изаберите вашу подразумевану тему за OTR
 
 #. SysConfig
 msgid "Select your time zone."
-msgstr ""
+msgstr "Изаберите своју временску зону."
 
 #. SysConfig
 msgid "Selects the cache backend to use."
@@ -22318,7 +22347,7 @@ msgstr "Овај модул догађаја чува атрибуте кори�
 
 #. SysConfig
 msgid "This is a description for TimeZone on Customer side."
-msgstr ""
+msgstr "Ово је опис за TimeZone у интефејску клијента."
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."
@@ -22631,7 +22660,7 @@ msgstr "Ажурирај акцелератор индекса тикета."
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Пошаљите свој PGP кључ."
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."

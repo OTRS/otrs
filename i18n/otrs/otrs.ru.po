@@ -15,6 +15,7 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # Mikhail Papkov <mikhail.papkov@gmail.com>, 2017
 # Nadezhda Zavyalova <nadelorama@gmail.com>, 2015
+# Rasim Kalimullin <neutrino.vm@gmail.com>, 2017
 # Sergey Stepanov <Stepanov.SA@bashkortostan.ru>, 2016
 # Shader <shader@dautkom.lv>, 2016
 # Владислав Тырышкин, 2016
@@ -29,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -5743,7 +5744,7 @@ msgstr "Упровление %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Go to the OTRS customer portal"
-msgstr ""
+msgstr "Перейти на портал клиентов OTRS"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
@@ -5812,7 +5813,7 @@ msgstr "Доступно обновление для %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Package installation requires patch level update of OTRS."
-msgstr ""
+msgstr "Установка пакета требует обновление OTRS уровня патч."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Please visit our customer portal and file a request."
@@ -5830,7 +5831,7 @@ msgstr ""
 msgid ""
 "To install the current version of OTRS Business Solution™, you need to "
 "update to OTRS %s or higher."
-msgstr ""
+msgstr "Для установки текущей версии OTRS Business Solution™ Вы должны обновить OTRS до версии %s или выше."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -5840,7 +5841,7 @@ msgstr "Чтобы установить текущую версию OTRS Busines
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "To install this package, the required Framework version is %s."
-msgstr ""
+msgstr "Для установки этого пакета требуется Framework версии %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Why should I keep OTRS up to date?"
@@ -6072,7 +6073,7 @@ msgstr "Вы действительно хотите переустановит�
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
+msgstr "Перейти к инструкциям по обновлению"
 
 #. Template: AdminPackageManager
 msgid "package information"
@@ -9563,7 +9564,7 @@ msgstr "Время создания сообщения (между)"
 
 #. Template: AgentTicketSearch
 msgid "Invalid date"
-msgstr ""
+msgstr "Неверная дата"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
@@ -9817,11 +9818,11 @@ msgstr ""
 
 #. Template: CustomerAccept
 msgid "thank you for using our services."
-msgstr ""
+msgstr "Спасибо за пользование нашими сервисами."
 
 #. Template: CustomerAccept
 msgid "Yes, I accepted your license."
-msgstr ""
+msgstr "Да, я согласен с Вашей лицензией."
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -9952,6 +9953,13 @@ msgid ""
 "be something wrong with your network connection. You could either try "
 "reloading this page manually or wait until your browser has re-established "
 "the connection on its own."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
 msgstr ""
 
 #. Template: CustomerFooterJS
@@ -10397,6 +10405,10 @@ msgstr "Вы действительно желаете продолжить?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Информация о Планировщике OTRS"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11069,6 +11081,10 @@ msgid "Go back to the previous page"
 msgstr "Перейти на предыдущую страницу"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Просмотр системных сообщений."
 
@@ -11503,8 +11519,8 @@ msgid "Customer of the ticket"
 msgstr "Клиент заявки"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Да, но необходимо указать хотя бы один из способов уведомления"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11878,6 +11894,10 @@ msgstr "Обучение"
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
 msgstr "Разработка"
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13968,6 +13988,16 @@ msgstr "TimeZoneUser может быть включена только для с
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
 msgstr "Параметр OTRS TimeZone для календаря "
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
@@ -18888,7 +18918,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
 
 #. SysConfig
 msgid ""

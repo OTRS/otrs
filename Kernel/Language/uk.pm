@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.656740442655936;
+    $Self->{Completeness}        = 0.655747588424437;
 
     # csv separator
     $Self->{Separator} = ',';
@@ -2991,6 +2991,8 @@ sub Data {
         'Reload page' => 'Перезавантажити сторінку',
         'Your browser was not able to communicate with OTRS properly, there seems to be something wrong with your network connection. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
             'Ваш браузер не може правильно спілкуватись з OTRS, схоже щось не так з мережевим підключенням. Ви можете або вручну перезавантажити цю сторінку, або почекати, поки браузер відновить зв\'язок самостійно.',
+        'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.' =>
+            '',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             'Зв\'язок був відновлений після тимчасової втрати. Через це, деякі елементи на цій сторінці можуть бути зупинені, щоб працювати правильно. Для того, щоб мати змогу використовувати всі елементи правильно знову, настійно рекомендується перезавантажити цю сторінку.',
 
@@ -3130,6 +3132,7 @@ sub Data {
             'Браузер вибраного користувача не підтримує відео та аудіо виклики.',
         'Do you really want to continue?' => 'Ви справді маєте намір продовжити?',
         'Information about the OTRS Daemon' => 'Інформація про демон OTRS',
+        'Communication error' => '',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.' =>
             'Ця функція є частиною %s. Будь ласка, зв\'яжіться з нами за адресою %s для покращення.',
         'Find out more about the %s' => 'Дізнайтесь більше за %s',
@@ -3383,6 +3386,7 @@ sub Data {
         'Go back to the previous page' => 'Повернутись до попередньої сторінки',
 
         # Perl Module: Kernel/Config/Defaults.pm
+        'Database Backend' => '',
         'View system log messages.' => 'Перегляд системних повідомлень.',
         'Update and extend your system with software packages.' => 'Відновлення й розширення системи за допомогою програмних пакетів.',
 
@@ -3535,7 +3539,7 @@ sub Data {
         'All agents subscribed to both the ticket\'s queue and service' =>
             'Всі агенти, що підписалися на чергу та службу квитка',
         'Customer of the ticket' => 'Клієнт, якому належить квиток',
-        'Yes, but require at least one active notification method' => 'Так, але потрібний принаймні один активний метод сповіщення.',
+        'Yes, but require at least one active notification method.' => '',
 
         # Perl Module: Kernel/Modules/AdminPGP.pm
         'PGP environment is not working. Please check log for more info!' =>
@@ -3666,6 +3670,9 @@ sub Data {
         'Test' => '',
         'Training' => '',
         'Development' => '',
+
+        # Perl Module: Kernel/Modules/AdminRoleUser.pm
+        'Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4446,6 +4453,12 @@ sub Data {
         'TimeZoneUser may only be activated for systems running in UTC that don\'t have an OTRS TimeZone set.' =>
             '',
         'OTRS TimeZone setting for calendar ' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+        'UI - Agent Skin Usage' => '',
+
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+        'UI - Agent Theme Usage' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
         'Webserver' => '',

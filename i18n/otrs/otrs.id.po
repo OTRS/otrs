@@ -2,6 +2,7 @@
 # Translators:
 # OTRS SDN BHD <otrssdnbhd@gmail.com>, 2016
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2017
+# Farhan Rinaldi Gunawan <farhan.rg@gmail.com>, 2017
 # OTRS SDN BHD <otrssdnbhd@gmail.com>, 2016
 # Martin Gruner <martin.gruner@otrs.com>, 2016
 # OTRS SDN BHD <otrssdnbhd@gmail.com>, 2016
@@ -9,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-11 17:35+0000\n"
-"PO-Revision-Date: 2017-09-11 22:38+0000\n"
+"POT-Creation-Date: 2017-09-24 23:14+0000\n"
+"PO-Revision-Date: 2017-09-25 04:16+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otrs/OTRS/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -3066,7 +3067,7 @@ msgstr "Hapus lampiran ini"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "Apakah Anda akan menghapus lampiran berikut ini?"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
@@ -3118,7 +3119,7 @@ msgstr "untuk mendapatkan 5 baris pertama dari email."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Untuk mendapatkan nama dari tiket pengguna pelanggan (jika diberikan)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -3860,7 +3861,7 @@ msgstr "Jalankan tugas ini"
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this task?"
-msgstr ""
+msgstr "Apakah Anda akan menghapus task berikut ini?"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
@@ -4867,7 +4868,7 @@ msgstr "'Free Text' digunakan sebagai contoh untuk nilai konfigurasi yang sebena
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "Permintaan nama teks bebas"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
@@ -5070,24 +5071,24 @@ msgstr "Apakah anda ingin menghapus layanan web ini?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready-to-run Web Services"
-msgstr ""
+msgstr "Layanan Web Siap-pakai"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate ready-to-run web services showcasing our best "
 "practices that are a part of %s."
-msgstr ""
+msgstr "Disini Anda dapat mengaktifkan layanan web siap pakai yang menampilkan praktek terbaik kami yang menjadi bagian dari %s."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Please note that these web services may depend on other modules only "
 "available with certain %s contract levels (there will be a notification with"
 " further details when importing)."
-msgstr ""
+msgstr "Mohon perhatian bahwa layanan web ini tergantung kepada modul-modul lainnya yang hanya tersedia dengan 1%s level kontrak (akan ada pemberitahuan detail lebih lanjut ketika mengimpor)."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import ready-to-run web service"
-msgstr ""
+msgstr "Impor layanan web siap pakai"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5703,19 +5704,19 @@ msgstr "Gunakan template ini untuk menghasilkan email yang lengkap (hanya untuk 
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Jalankan email keamanan"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Level keamanan Email"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Jika kunci masuk/sertifikat telah hilang"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Jika kunci pengacak/sertifikat telah hilang"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -5824,15 +5825,15 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Why should I keep OTRS up to date?"
-msgstr ""
+msgstr "Kenapa Saya harus membuat OTRS selalu terbarukan?"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates about relevant security issues."
-msgstr ""
+msgstr "Anda akan menerima pembaruan terkait isu keamanan yang relevan."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "You will receive updates for all other relevant OTRS issues"
-msgstr ""
+msgstr "Anda akan menerima pembaruan untuk semua isu OTRS yang relevan"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
@@ -5873,7 +5874,7 @@ msgstr "Koneksi ke cloud.otrs.com melalui HTTPS tidak dapat ditentukan. Pastikan
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
+msgstr "Untuk menginstall paket ini, Anda harus memperbarui ke oTRS 1%s atau lebih tinggi."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, the Maximum OTRS Version is %s."
@@ -6052,11 +6053,11 @@ msgstr "Apakah anda ingin menginstal ulang paket ini? Semua perubahan manual aka
 
 #. Template: AdminPackageManager
 msgid "Go to upgrading instructions"
-msgstr ""
+msgstr "Pergi ke perintah pembaruan"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "informasi paket"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTRS."
@@ -9936,6 +9937,13 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid ""
+"There was an error in communication with the server. Server might be "
+"experiencing some temporary problems, please reload this page to check if "
+"they have been resolved."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid ""
 "The connection has been re-established after a temporary connection loss. "
 "Due to this, elements on this page could have stopped to work correctly. In "
 "order to be able to use all elements correctly again, it is strongly "
@@ -10377,6 +10385,10 @@ msgstr "Apakah anda ingin meneruskannya?"
 #. Template: FooterJS
 msgid "Information about the OTRS Daemon"
 msgstr "Informasi yang mengenai Daemon OTRS"
+
+#. Template: FooterJS
+msgid "Communication error"
+msgstr ""
 
 #. Template: FooterJS
 msgid ""
@@ -11049,6 +11061,10 @@ msgid "Go back to the previous page"
 msgstr "Kembali ke halaman sebelumnya"
 
 #. Perl Module: Kernel/Config/Defaults.pm
+msgid "Database Backend"
+msgstr ""
+
+#. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
 msgstr "Melihat pesan log sistem."
 
@@ -11483,8 +11499,8 @@ msgid "Customer of the ticket"
 msgstr "Pelanggan tiket"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-msgid "Yes, but require at least one active notification method"
-msgstr "Ya, tapi membutuhkan setidaknya satu metode pemberitahuan aktif"
+msgid "Yes, but require at least one active notification method."
+msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -11857,6 +11873,10 @@ msgstr "Latihan"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminRoleUser.pm
+msgid "Role"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
@@ -13948,6 +13968,16 @@ msgstr "TimeZone Pengguna hanya dapat diaktifkan untuk sistem berjalan dalam UTC
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/TimeSettings.pm
 msgid "OTRS TimeZone setting for calendar "
 msgstr "OTRS TimeZone untuk kalender"
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentSkinUsage.pm
+msgid "UI - Agent Skin Usage"
+msgstr ""
+
+#. Perl Module:
+#. Kernel/System/SupportDataCollector/Plugin/OTRS/UI/AgentThemeUsage.pm
+msgid "UI - Agent Theme Usage"
+msgstr ""
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
@@ -18868,7 +18898,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Jika \"HTTP Basic Auth\" dipilih untuk Pelanggan :: AuthModule, Anda dapat menentukan untuk melucuti bagian terkemuka nama pengguna (e. G. Untuk domain seperti misalnya domain \\ pengguna ke pengguna)."
 
 #. SysConfig
 msgid ""
@@ -22102,7 +22132,7 @@ msgstr "Pemeriksa ejaan."
 
 #. SysConfig
 msgid "Stable"
-msgstr ""
+msgstr "Stabil"
 
 #. SysConfig
 msgid ""
@@ -22631,11 +22661,11 @@ msgstr "Updated indeks tiket akselerator."
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Unggah kunci PGP Anda."
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "Unggah sertifikat S/MIME Anda"
 
 #. SysConfig
 msgid ""
@@ -22762,11 +22792,11 @@ msgstr "Lampiran"
 
 #. SysConfig
 msgid "bounce"
-msgstr ""
+msgstr "memantul"
 
 #. SysConfig
 msgid "compose"
-msgstr ""
+msgstr "buat"
 
 #. SysConfig
 msgid "debug"
@@ -22778,7 +22808,7 @@ msgstr "eror"
 
 #. SysConfig
 msgid "forward"
-msgstr ""
+msgstr "lanjut"
 
 #. SysConfig
 msgid "info"
@@ -22794,12 +22824,12 @@ msgstr "Peringatan"
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "ditunda"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "bertanggung jawab"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "statistik"
