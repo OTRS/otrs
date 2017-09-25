@@ -826,6 +826,7 @@ sub _MaskForm {
         Name       => 'Profile',
         ID         => 'SearchProfile',
         SelectedID => $Self->{Profile},
+        Class      => 'Modernize',
 
         # Do not modernize this field as this causes problems with the automatic focussing of the first element.
     );

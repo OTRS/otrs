@@ -1203,7 +1203,8 @@ iframe.TextOption.Customer {
 
 iframe.TextOption.CustomerUserAddressBook {
     width: 960px;
-    min-height: 600px;
+    min-height: 65vh;
+    max-height: 80vh;
 }
 
 /**
