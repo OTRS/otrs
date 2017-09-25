@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-25 Fixed bug#[13010](https://bugs.otrs.org/show_bug.cgi?id=13010) - ACL does not trigger on a change of a dynamic field checkbox.
  - 2017-09-25 Fixed bug#[13155](https://bugs.otrs.org/show_bug.cgi?id=13155) - Ticket::UseArticleColors shows all articles white, all internal notes are red.
  - 2017-09-25 Fixed bug#[13027](https://bugs.otrs.org/show_bug.cgi?id=13027) - Content of an invalid setting can be changed.
  - 2017-09-25 Fixed bug#[13176](https://bugs.otrs.org/show_bug.cgi?id=13176) - Error message "Size must be integer" in some screens.
