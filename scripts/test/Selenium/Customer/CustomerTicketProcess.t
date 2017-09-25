@@ -380,7 +380,7 @@ $Selenium->RunTest(
             "$FooterMessage found in footer on page (after attachment upload)",
         );
 
-        $Selenium->find_element( "#Subject", 'css' )->VerifiedSubmit();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
         sleep 1;
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("div#MainBox").length;' );

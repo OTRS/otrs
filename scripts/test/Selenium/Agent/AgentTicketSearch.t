@@ -231,10 +231,15 @@ $Selenium->RunTest(
 
         # Input wrong search parameters, result should be 'No ticket data found'.
         $Selenium->find_element( "Fulltext",          'name' )->send_keys('abcdfgh_nonexisting_ticket_text');
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        $Self->True(
-            index( $Selenium->get_page_source(), "No ticket data found." ) > -1,
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#EmptyMessageSmall').text().trim() === 'No ticket data found.'"
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#EmptyMessageSmall').text().trim();"),
+            "No ticket data found.",
             "Ticket is not found on page",
         );
 
@@ -244,8 +249,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
         # Search for $MaxCharString - ticket will not be found.
-        $Selenium->find_element( "Fulltext", 'name' )->send_keys($MaxCharString);
-        $Selenium->find_element( "Fulltext", 'name' )->VerifiedSubmit();
+        $Selenium->find_element( "Fulltext",          'name' )->send_keys($MaxCharString);
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) == -1,
@@ -280,6 +285,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
+        sleep 1;
 
         # Verify the alert message.
         my $ExpectedAlertText = "Fulltext: $MinCharString";
@@ -299,6 +305,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
+        sleep 1;
 
         # Verify the alert message.
         $ExpectedAlertText = "Fulltext: $MaxCharString";
@@ -356,15 +363,20 @@ $Selenium->RunTest(
             "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
         );
         for my $Field (qw(Start Stop)) {
-            $Selenium->find_element( "#TicketCreateTime${Field}Day",   'css' )->send_keys('04');
-            $Selenium->find_element( "#TicketCreateTime${Field}Month", 'css' )->send_keys('05');
-            $Selenium->find_element( "#TicketCreateTime${Field}Year",  'css' )->send_keys('2017');
+            $Selenium->execute_script("\$('#TicketCreateTime${Field}Day:eq(0)').val('4');");
+            $Selenium->execute_script("\$('#TicketCreateTime${Field}Month:eq(0)').val('5');");
+            $Selenium->execute_script("\$('#TicketCreateTime${Field}Year:eq(0)').val('2017');");
         }
-        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        $Self->True(
-            index( $Selenium->get_page_source(), 'No ticket data found.' ) > -1,
-            'Ticket is not found on page'
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#EmptyMessageSmall').text().trim() === 'No ticket data found.'"
+        );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#EmptyMessageSmall').text().trim();"),
+            "No ticket data found.",
+            "Ticket is not found on page",
         );
 
         # Navigate to AgentTicketSearch screen again.
@@ -378,9 +390,9 @@ $Selenium->RunTest(
             "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
         );
         for my $Field (qw(Start Stop)) {
-            $Selenium->find_element( "#TicketCreateTime${Field}Day",   'css' )->send_keys('05');
-            $Selenium->find_element( "#TicketCreateTime${Field}Month", 'css' )->send_keys('05');
-            $Selenium->find_element( "#TicketCreateTime${Field}Year",  'css' )->send_keys('2017');
+            $Selenium->execute_script("\$('#TicketCreateTime${Field}Day:eq(0)').val('5');");
+            $Selenium->execute_script("\$('#TicketCreateTime${Field}Month:eq(0)').val('5');");
+            $Selenium->execute_script("\$('#TicketCreateTime${Field}Year:eq(0)').val('2017');");
         }
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
@@ -400,12 +412,13 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#Attribute').val('TicketCreateTimeSlot').trigger('redraw.InputField').trigger('change');",
         );
-        $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('31');
-        $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('04');
-        $Selenium->find_element( '#TicketCreateTimeStartYear',  'css' )->send_keys('2017');
-        $Selenium->find_element( '#SearchFormSubmit',           'css' )->click();
-
-        sleep 1;
+        $Selenium->execute_script("\$('#TicketCreateTimeStartDay:eq(0)').val('31');");
+        $Selenium->execute_script("\$('#TicketCreateTimeStartMonth:eq(0)').val('4');");
+        $Selenium->execute_script("\$('#TicketCreateTimeStartYear:eq(0)').val('2017');");
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#TicketCreateTimeStartDay.Error').length;"
+        );
 
         $Self->True(
             $Selenium->execute_script(
@@ -415,14 +428,17 @@ $Selenium->RunTest(
         );
 
         # Fix the start date and set the end date to one before the start date.
-        $Selenium->find_element( '#TicketCreateTimeStartDay',   'css' )->send_keys('05');
-        $Selenium->find_element( '#TicketCreateTimeStartMonth', 'css' )->send_keys('05');
-        $Selenium->find_element( '#TicketCreateTimeStopDay',    'css' )->send_keys('04');
-        $Selenium->find_element( '#TicketCreateTimeStopMonth',  'css' )->send_keys('05');
-        $Selenium->find_element( '#TicketCreateTimeStopYear',   'css' )->send_keys('2017');
-        $Selenium->find_element( '#SearchFormSubmit',           'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#TicketCreateTimeStartDay:eq(0)').val('5');");
+        $Selenium->execute_script("\$('#TicketCreateTimeStartMonth:eq(0)').val('5');");
+        $Selenium->execute_script("\$('#TicketCreateTimeStartYear:eq(0)').val('2017');");
 
-        sleep 1;
+        $Selenium->execute_script("\$('#TicketCreateTimeStopDay:eq(0)').val('4');");
+        $Selenium->execute_script("\$('#TicketCreateTimeStopMonth:eq(0)').val('5');");
+        $Selenium->execute_script("\$('#TicketCreateTimeStopYear:eq(0)').val('2017');");
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('#TicketCreateTimeStopDay.Error').length;"
+        );
 
         $Self->True(
             $Selenium->execute_script(
@@ -432,8 +448,8 @@ $Selenium->RunTest(
         );
 
         # Fix the end date, and submit the search again.
-        $Selenium->find_element( '#TicketCreateTimeStopDay', 'css' )->send_keys('05');
-        $Selenium->find_element( '#SearchFormSubmit',        'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#TicketCreateTimeStopDay:eq(0)').val('5');");
+        $Selenium->find_element( '#SearchFormSubmit', 'css' )->VerifiedClick();
 
         # Check for expected result.
         $Self->True(
