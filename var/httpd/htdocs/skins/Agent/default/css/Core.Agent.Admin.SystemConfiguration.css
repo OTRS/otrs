@@ -1151,10 +1151,6 @@ h2.SearchResults {
     padding: 3px;
 }
 
-.IsLockedByMe .HashItem {
-    padding: 7px;
-}
-
 .HashItem .Key {
     float: left;
 }
