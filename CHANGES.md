@@ -1,4 +1,5 @@
 #6.0.0.beta3 2017-??-??
+ - 2017-09-25 Fixed bug#[13176](https://bugs.otrs.org/show_bug.cgi?id=13176) - Error message "Size must be integer" in some screens.
  - 2017-09-24 Updated translations, thanks to all translators.
  - 2017-09-22 Fixed bug#[12915](https://bugs.otrs.org/show_bug.cgi?id=12915) - OTRS 6 uses modifiers for sysconfig values.
  - 2017-09-21 Fixed bug#[13105](https://bugs.otrs.org/show_bug.cgi?id=13105) - Dropdown fields in GenericAgent not modernized.

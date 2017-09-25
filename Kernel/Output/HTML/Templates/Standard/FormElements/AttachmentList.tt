@@ -52,12 +52,12 @@
 <input
     class="AjaxDnDUpload [% IF Mandatory %]Validate_DnDUpload[% END %]"
     [% IF !Single %] multiple="multiple"[% END %]
-    id="[% IF FieldID %][% FieldID %][% ELSE %]FileUpload[% END %]"
-    name="[% IF FieldName %][% FieldName %][% ELSE %]FileUpload[% END %]"
-    data-max-files="[% MaxFiles %]"
-    data-file-types="[% FileTypes %]"
-    data-max-size-per-file="[% MaxSizePerFile %]"
-    data-max-size-per-file-hr="[% MaxSizePerFile | Localize('Filesize') %]"
+    id="[% IF FieldID %][% FieldID | html %][% ELSE %]FileUpload[% END %]"
+    name="[% IF FieldName %][% FieldName | html %][% ELSE %]FileUpload[% END %]"
+    data-max-files="[% MaxFiles | html %]"
+    data-file-types="[% FileTypes | html %]"
+    data-max-size-per-file="[% MaxSizePerFile | html %]"
+    data-max-size-per-file-hr="[% IF MaxSizePerFile %][% MaxSizePerFile | Localize('Filesize') | html %][% END %]"
     type="file"
     size="40"
 />
