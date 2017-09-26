@@ -553,12 +553,9 @@ sub OTRSBusinessEntitlementStatus {
     }
 
     # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
-    my $NoConnectWarningPeriod;
+    my $NoConnectWarningPeriod = 60 * 60 * 24 * 5;    # 5 days
     if ( $Self->OTRSSTORMIsInstalled() ) {
         $NoConnectWarningPeriod = 60 * 60 * 24 * 10;    # 10 days
-    }
-    else {
-        $NoConnectWarningPeriod = 60 * 60 * 24 * 5;     # 5 days
     }
 
     if ( $Delta->{AbsoluteSeconds} > $NoConnectWarningPeriod ) {
