@@ -157,12 +157,18 @@ div.Headline .Flag {
 
 #ArticleItems .ItemActions li .InputField_Container {
     margin-left: 3px;
-    opacity: 0;
-    transition: opacity ease 0.3s;
 }
 
-#ArticleItems > div:hover .ItemActions li .InputField_Container {
-    opacity: 1;
+@media only screen and (min-width: 0px) and (max-width: 1024px) {
+
+    #ArticleItems .ItemActions li .InputField_Container {
+        width: auto;
+    }
+
+}
+
+#ArticleItems .ItemActions li .InputField_Container input[type=text] {
+    padding: 2px;
 }
 
 #ArticleItems .Outgoing .ItemActions {
