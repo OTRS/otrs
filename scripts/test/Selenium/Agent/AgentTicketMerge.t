@@ -181,7 +181,9 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'Can\'t merge ticket with itself!' ) > -1,
             "Successfully can't merge ticket with itself",
         );
-        $Selenium->close();
+        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
+            $Selenium->close();
+        }
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
@@ -233,7 +235,9 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TicketNumbers[1])').click()");
 
         $Selenium->execute_script("\$('#submitRichText').click();");
-        $Selenium->close();
+        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
+            $Selenium->close();
+        }
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->WaitFor( WindowCount => 1 );
@@ -264,7 +268,10 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $MergeMsg ) > -1,
             "Merge action completed",
         );
-        $Selenium->close();
+
+        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
+            $Selenium->close();
+        }
 
         # delete created test tickets
         for my $Ticket (@TicketIDs) {

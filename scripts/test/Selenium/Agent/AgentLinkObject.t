@@ -142,7 +142,9 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->click();
 
         # close link object window and switch back to agent ticket zoom
-        $Selenium->close();
+        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
+            $Selenium->close();
+        }
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Wait for reload to kick in.
@@ -541,7 +543,9 @@ $Selenium->RunTest(
         $Selenium->find_element( ".Tabs div.Active .SelectAll", "css" )->click();
         $Selenium->find_element( "#AddLinks",                   "css" )->VerifiedClick();
         $Selenium->find_element( "#LinkAddCloseLink",           "css" )->click();
-        $Selenium->close();
+        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
+            $Selenium->close();
+        }
 
         # wait till popup is closed
         $Selenium->WaitFor( WindowCount => 1 );
