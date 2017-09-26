@@ -220,26 +220,29 @@ $Selenium->RunTest(
 
         # Add post XSLT regex.
         $Selenium->find_element( '#WidgetRegExFiltersPost', 'css' )->VerifiedClick();
-        $Selenium->find_element( "#PostAddValue",           'css' )->VerifiedClick();
-        $Selenium->find_element( "#PostKey_1",              'css' )->send_keys( $RandomID . 'PostKey_1' );
-        $Selenium->find_element( "#PostValue_1",            'css' )->send_keys( $RandomID . 'PostValue_1' );
+        $Selenium->execute_script("\$('#PostAddValue').click();");
+
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#PostKey_1").length'
+        );
+
+        my $PostKey   = $RandomID . 'PostKey_1';
+        my $PostValue = $RandomID . 'PostValue_1';
+        $Selenium->execute_script("\$('#PostKey_1').val('$PostKey');");
+        $Selenium->execute_script("\$('#PostValue_1').val('$PostValue');");
 
         # Add data include configuration.
         $Selenium->execute_script(
             "\$('#DataInclude').val('ProviderRequestInput').trigger('redraw.InputField').trigger('change');"
         );
 
-        # Click on 'Save'.
-        $Selenium->find_element( "#SubmitAndContinue", 'css' )->VerifiedClick();
-
-        # Verify we are still on same screen.
-        $Self->True(
-            $Selenium->find_element( "#Template", 'css' ),
-            'After click on Save it is the same screen'
-        );
-
         # Click on 'Save and finish' test JS redirection.
-        $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#Submit').click();");
+
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
 
         $Self->True(
             index( $Selenium->get_current_url(), 'AdminGenericInterfaceOperationDefault' ) > -1,
