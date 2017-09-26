@@ -332,6 +332,26 @@ EOF
 EOF
     }
 
+    if ( $Param{AJAXUpdate} ) {
+
+        my $FieldsToUpdate = '';
+        if ( IsArrayRefWithData( $Param{UpdatableFields} ) ) {
+
+            # Remove current field from updatable fields list.
+            my @FieldsToUpdate = grep { $_ ne $FieldName } @{ $Param{UpdatableFields} };
+
+            # Quote all fields, put commas between them.
+            $FieldsToUpdate = join( ', ', map {"'$_'"} @FieldsToUpdate );
+        }
+
+        # Add JS to call FormUpdate() on change event.
+        $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
+\$('#$FieldName').on('change', function () {
+    Core.AJAX.FormUpdate(\$(this).parents('form'), 'AJAXUpdate', '$FieldName', [ $FieldsToUpdate ]);
+});
+EOF
+    }
+
     # call EditLabelRender on the common backend
     my $LabelString = $Self->EditLabelRender(
         %Param,
