@@ -65,19 +65,11 @@ sub new {
     # Check if cloud services are disabled
     $Self->{CloudServicesDisabled} = $ConfigObject->Get('CloudServices::Disabled') || 0;
 
-    # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
-    if ( $Self->OTRSSTORMIsInstalled() ) {
-        $Self->{NoConnectWarningPeriod} = 60 * 60 * 24 * 10;    # 10 days
-    }
-    else {
-        $Self->{NoConnectWarningPeriod} = 60 * 60 * 24 * 5;     # 5 days
-    }
-
     # If we cannot connect to cloud.otrs.com for more than the second period, show an error.
-    $Self->{NoConnectErrorPeriod} = 60 * 60 * 24 * 15;          # 15 days
+    $Self->{NoConnectErrorPeriod} = 60 * 60 * 24 * 15;    # 15 days
 
     # If we cannot connect to cloud.otrs.com for more than the second period, block the system.
-    $Self->{NoConnectBlockPeriod} = 60 * 60 * 24 * 25;          # 25 days
+    $Self->{NoConnectBlockPeriod} = 60 * 60 * 24 * 25;    # 25 days
 
     # If the contract is about to expire in less than this time, show a hint
     $Self->{ContractExpiryWarningPeriod} = 60 * 60 * 24 * 28;    # 28 days
@@ -559,7 +551,17 @@ sub OTRSBusinessEntitlementStatus {
     if ( $Delta->{AbsoluteSeconds} > $Self->{NoConnectErrorPeriod} ) {
         return 'warning-error';
     }
-    if ( $Delta->{AbsoluteSeconds} > $Self->{NoConnectWarningPeriod} ) {
+
+    # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
+    my $NoConnectWarningPeriod;
+    if ( $Self->OTRSSTORMIsInstalled() ) {
+        $NoConnectWarningPeriod = 60 * 60 * 24 * 10;    # 10 days
+    }
+    else {
+        $NoConnectWarningPeriod = 60 * 60 * 24 * 5;     # 5 days
+    }
+
+    if ( $Delta->{AbsoluteSeconds} > $NoConnectWarningPeriod ) {
         return 'warning';
     }
 
