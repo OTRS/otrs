@@ -89,7 +89,7 @@
 
 [% RenderBlockStart("TransmissionStatusMessage") %]
         [% IF Data.Status == 'Failed' || Data.Status == 'Processing' %]
-            <div class="MessageBox SmallBox [% IF Data.Status == 'Failed' %]Error[% ELSIF Data.Status == 'Processing' %]Warning[% END %]">
+            <div class="WidgetMessage Top [% IF Data.Status == 'Failed' %]Error[% ELSIF Data.Status == 'Processing' %]Warning[% END %]">
                 <p>
                 [% IF Data.Status == "Failed" %]
                     [% Translate("Sending of this message has failed.") | html %]

@@ -544,6 +544,10 @@ div.Headline .Flag {
     position: relative;
 }
 
+.WidgetSimple .WidgetMessage.Top {
+    margin-top: -8px !important;
+}
+
 .MessageBrowser p {
      padding: 5px 25px 5px 25px;
      background-color: #DDD;
