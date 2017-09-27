@@ -12,18 +12,18 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-my $ServiceObject      = $Kernel::OM->Get('Kernel::System::Service');
-my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
-my $TypeObject         = $Kernel::OM->Get('Kernel::System::Type');
-my $PriorityObject     = $Kernel::OM->Get('Kernel::System::Priority');
-my $SLAObject          = $Kernel::OM->Get('Kernel::System::SLA');
-my $StateObject        = $Kernel::OM->Get('Kernel::System::State');
-my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $StorableObject     = $Kernel::OM->Get('Kernel::System::Storable');
+my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
+my $UserObject                = $Kernel::OM->Get('Kernel::System::User');
+my $CustomerUserObject        = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $ServiceObject             = $Kernel::OM->Get('Kernel::System::Service');
+my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
+my $TypeObject                = $Kernel::OM->Get('Kernel::System::Type');
+my $PriorityObject            = $Kernel::OM->Get('Kernel::System::Priority');
+my $SLAObject                 = $Kernel::OM->Get('Kernel::System::SLA');
+my $StateObject               = $Kernel::OM->Get('Kernel::System::State');
+my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $StorableObject            = $Kernel::OM->Get('Kernel::System::Storable');
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -252,7 +252,6 @@ $Self->True(
 );
 
 # Create test ticket dynamic fields.
-my @DynamicFieldIDs;
 my @DynamicFieldNames;
 for my $Count ( 1 .. 2 ) {
     my $DynamicFieldName = 'DynamicField' . $Count . $RandomID;
@@ -274,7 +273,6 @@ for my $Count ( 1 .. 2 ) {
         "DynamicFieldAdd() ID ($DynamicFieldID) added successfully"
     );
 
-    push @DynamicFieldIDs,   $DynamicFieldID;
     push @DynamicFieldNames, $DynamicFieldName;
 }
 
@@ -487,21 +485,20 @@ for my $Count ( 0 .. 1 ) {
     elsif ( $Count == 1 ) {
         $Value = '0';
     }
-    my $DynamicFieldValueSetSuccess = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
-        FieldID  => $DynamicFieldIDs[$Count],
-        ObjectID => $TicketID,
-        Value    => [
-            {
-                ValueText => $Value,
-            },
-        ],
-        UserID => $UserID,
+
+    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
+        Name => $DynamicFieldNames[$Count],
+    );
+    my $DynamicFieldValueSetSuccess = $DynamicFieldBackendObject->ValueSet(
+        DynamicFieldConfig => $DynamicFieldConfig,
+        ObjectID           => $TicketID,
+        Value              => $Value,
+        UserID             => $UserID,
     );
 
     $Self->True(
         $DynamicFieldValueSetSuccess,
-        "DynamicField ValueSet() for DynamicField ID ($DynamicFieldIDs[$Count]),"
-            . "Ticket ID ($TicketID) set successfully",
+        "DynamicField ValueSet() for DynamicField ID ($DynamicFieldNames[$Count]), Ticket ID ($TicketID) set successfully",
     );
 }
 
