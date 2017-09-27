@@ -114,8 +114,10 @@ $Selenium->RunTest(
 
         # check breadcrumb on Edit screen
         $Count = 1;
-        for my $BreadcrumbText ( $SecondBreadcrumbText,
-            $LanguageObject->Translate('Edit ACL') . ': ' . $TestACLNames[0] )
+        for my $BreadcrumbText (
+            $SecondBreadcrumbText,
+            $LanguageObject->Translate('Edit ACL') . ': ' . $TestACLNames[0]
+            )
         {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),

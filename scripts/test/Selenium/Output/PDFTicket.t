@@ -121,7 +121,7 @@ $Selenium->RunTest(
 
             # Create test User and login.
             my $TestUserLogin = $Helper->TestUserCreate(
-                Groups => [ 'users' ],
+                Groups => ['users'],
             ) || die "Did not get test user";
 
             # Get user data.
