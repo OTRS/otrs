@@ -201,7 +201,7 @@ $Selenium->RunTest(
         );
 
         # Check if transmission processing message is shown.
-        my $DisplayedTransmissionMessage = $Selenium->find_element( '.MessageBox.SmallBox.Warning', 'css' )->get_text();
+        my $DisplayedTransmissionMessage = $Selenium->find_element( '.WidgetMessage.Top.Warning', 'css' )->get_text();
         $Self->True(
             ( $DisplayedTransmissionMessage =~ /This message has been queued for sending./ ) || 0,
             'Transmission processing message displayed correctly (1)'
@@ -249,7 +249,7 @@ $Selenium->RunTest(
             '1',
             sprintf( $RelativeTime{Message}, $RelativeTime{Value} ),
         );
-        my $DisplayedProcessingMessage = $Selenium->find_element( '.MessageBox.SmallBox.Warning', 'css' )->get_text();
+        my $DisplayedProcessingMessage = $Selenium->find_element( '.WidgetMessage.Top.Warning', 'css' )->get_text();
         $Self->True(
             ( $DisplayedProcessingMessage =~ /\Q$ProcessingMessage\E/ ) || 0,
             'Transmission processing message displayed correctly (2)'
@@ -276,7 +276,7 @@ $Selenium->RunTest(
         );
 
         # Check if transmission error message is shown.
-        my $DisplayedErrorMessage = $Selenium->find_element( '.MessageBox.SmallBox.Error', 'css' )->get_text();
+        my $DisplayedErrorMessage = $Selenium->find_element( '.WidgetMessage.Top.Error', 'css' )->get_text();
         $Self->True(
             ( $DisplayedErrorMessage =~ /Sending of this message has failed./ ) || 0,
             'Transmission error message displayed correctly (1)'
@@ -363,7 +363,7 @@ $Selenium->RunTest(
         );
 
         # Check if transmission processing message is shown.
-        $DisplayedTransmissionMessage = $Selenium->find_element( '.MessageBox.SmallBox.Warning', 'css' )->get_text();
+        $DisplayedTransmissionMessage = $Selenium->find_element( '.WidgetMessage.Top.Warning', 'css' )->get_text();
         $Self->True(
             ( $DisplayedTransmissionMessage =~ /This message has been queued for sending./ ) || 0,
             'Transmission processing message displayed correctly (2)'
