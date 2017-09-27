@@ -313,7 +313,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#DialogButton1").length;' );
 
         # Verify delete dialog message.
-        my $DeleteMessage = "Do you really want to delete this postmaster filter?";
+        my $DeleteMessage = $LanguageObject->Translate("Do you really want to delete this postmaster filter?");
         $Self->True(
             index( $Selenium->get_page_source(), $DeleteMessage ) > -1,
             "Delete message is found",
