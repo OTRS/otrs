@@ -51,11 +51,11 @@
 
 .OverviewLarge > li ul.InlineActions {
     position: absolute;
-    top: -30px;
+    top: -35px;
     right: 0px;
     background-color: #777;
     padding-left: 5px;
-    height: 30px;
+    height: 35px;
     cursor: auto;
     transition: all ease-in 0.2s;
 }

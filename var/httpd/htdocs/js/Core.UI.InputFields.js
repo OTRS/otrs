@@ -341,14 +341,16 @@ Core.UI.InputFields = (function (TargetNS) {
      * @private
      * @name CloseOpenSelections
      * @memberof Core.UI.InputFields
+     * @param {jQueryObject} [$Context] - jQuery object for context (optional)
      * @description
      *      Triggers blur on all modern input fields in order to close them.
      */
-    function CloseOpenSelections() {
-        // step through all select fields on the page.
+    function CloseOpenSelections($Context) {
+
+        // Step through all select fields on the page or only those in supplied context.
         // If the dropdown of the field is opened, close it (by calling blur event)
         // TODO: nicer way to find opened select elements
-        $('select.Modernize').each(function () {
+        $('select.Modernize', $Context).each(function () {
             $('#' + Core.App.EscapeSelector($(this).data('modernized'))).filter('[aria-expanded=true]').trigger('blur');
         });
     }
@@ -1175,6 +1177,13 @@ Core.UI.InputFields = (function (TargetNS) {
                 // Handle article navigation in TicketZoom
                 Core.App.Subscribe('Event.Agent.TicketZoom.ArticleClick', function() {
                     CloseOpenSelections();
+                });
+
+                // Handle hiding of inline actions in ticket overviews.
+                Core.App.Subscribe('Event.Agent.TicketOverview.InlineActions.Hidden', function ($InlineActionsContainer) {
+                    setTimeout(function () {
+                        CloseOpenSelections($InlineActionsContainer);
+                    }, 0);
                 });
 
                 // Register handler for on focus event
