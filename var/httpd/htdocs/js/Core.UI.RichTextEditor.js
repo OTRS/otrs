@@ -99,6 +99,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                 window.clearTimeout(TimeOutRTEOnChange);
                 TimeOutRTEOnChange = window.setTimeout(function () {
                     Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
+                    Core.App.Publish('Event.UI.RichTextEditor.ChangeValidationComplete', [Editor]);
                 }, 250);
             });
 
@@ -273,6 +274,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
                     window.setTimeout(function () {
                         CKEDITOR.instances[EditorID].updateElement();
                         Core.Form.Validate.ValidateElement($EditorArea);
+                        Core.App.Publish('Event.UI.RichTextEditor.FocusValidationComplete', [Editor]);
                     }, 0);
                 }
             });
