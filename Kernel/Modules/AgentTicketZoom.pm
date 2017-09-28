@@ -2677,12 +2677,18 @@ sub _ArticleTree {
             }
         }
 
+        # Get NoTimelineViewAutoArticle config value for usage in JS.
+        $Param{NoTimelineViewAutoArticle} = $ConfigObject->Get('NoTimelineViewAutoArticle') || '0';
+
         # set TicketID for usage in JS
         $Param{TicketID} = $Self->{TicketID};
 
         $LayoutObject->Block(
             Name => 'TimelineView',
-            Data => \%Param,
+            Data => {
+                %Param,
+                ArticleID => $Self->{ArticleID},
+            },
         );
 
         # jump to selected article
