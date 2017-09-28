@@ -2807,6 +2807,12 @@ sub _ArticleTree {
             }
         }
 
+        # Get NoTimelineViewAutoArticle config value for usage in JS.
+        $LayoutObject->AddJSData(
+            Key   => 'NoTimelineViewAutoArticle',
+            Value => $ConfigObject->Get('NoTimelineViewAutoArticle') || '0',
+        );
+
         # Include current article ID only if it's selected.
         $Param{CurrentArticleID} //= $Self->{ArticleID};
 
