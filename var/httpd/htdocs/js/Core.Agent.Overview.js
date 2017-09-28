@@ -38,14 +38,23 @@ Core.Agent.Overview = (function (TargetNS) {
         });
 
         // create open popup event for dropdown actions
-        $('ul.Actions form > select').on("change", function() {
+        $('ul.Actions form > select').off("change").on("change", function() {
             var URL;
-            if ($(this).val() > 0) {
-                URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-                Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+            if ($(this).val() !== '0') {
+                if (Core.Config.Get('Action') === 'AgentTicketQueue' ||
+                    Core.Config.Get('Action') === 'AgentTicketService' ||
+                    Core.Config.Get('Action') === 'AgentTicketStatusView' ||
+                    Core.Config.Get('Action') === 'AgentTicketEscalationView'
+                ) {
+                    $(this).closest('form').submit();
+                }
+                else {
+                    URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+                    Core.UI.Popup.OpenPopup(URL, 'TicketAction');
 
-                // reset the select box so that it can be used again from the same window
-                $(this).val('0');
+                    // reset the select box so that it can be used again from the same window
+                    $(this).val('0');
+                }
             }
         });
 
@@ -289,22 +298,28 @@ Core.Agent.Overview = (function (TargetNS) {
      *      This function initializes the inline actions mini overlay in medium/preview views.
      */
     TargetNS.InitInlineActions = function () {
-        $('.OverviewMedium li, .OverviewLarge li').on('mouseenter', function() {
+        $('.OverviewMedium > li, .OverviewLarge > li').on('mouseenter', function() {
             $(this).find('ul.InlineActions').css('top', '0px');
-        });
-        $('.OverviewMedium li, .OverviewLarge li').on('mouseleave', function(Event) {
 
-            // Workaround for bug#12403: The inlineActions would hide if hovering
-            // over the queue selection due to a bug in IE. As this is working fine
-            // in MS Edge with the former pure css solution, this whole function
-            // TargetNS.InitInlineActions could be dropped as soon as IE11 support is
-            // ceased for OTRS. Remember to re-add the needed css in this case:
-            //      .OverviewLarge > li:hover ul.InlineActions { top: 0px; }    (Core.OverviewLarge.css)
-            //      .OverviewPreview > li:hover ul.InlineActions { top: 0px; }  (Core.OverviewMedium.css)
-            if (Event.target.tagName.toLowerCase() === 'select') {
+            Core.App.Publish('Event.Agent.TicketOverview.InlineActions.Shown');
+        });
+        $('.OverviewMedium > li, .OverviewLarge > li').on('mouseleave', function(Event) {
+
+            // The inline actions would hide if hovering over the queue selection due to a bug in IE.
+            //   See bug#12403 for more information.
+            // The exception has to be added also for modernized dropdowns.
+            //   See bug#13100 for more information.
+            if (
+                Event.target.tagName.toLowerCase() === 'select'
+                || $(Event.target).hasClass('InputField_Search')
+                )
+            {
                 return false;
             }
-            $(this).find('ul.InlineActions').css('top', '-30px');
+
+            $(this).find('ul.InlineActions').css('top', '-35px');
+
+            Core.App.Publish('Event.Agent.TicketOverview.InlineActions.Hidden', [$(this).find('ul.InlineActions')]);
         });
     };
 
