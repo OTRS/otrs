@@ -142,6 +142,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@type='submit'][\@name='AddLinks']")->click();
 
         # close link object window and switch back to agent ticket zoom
+        sleep 1;
         if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
             $Selenium->close();
         }
@@ -543,6 +544,8 @@ $Selenium->RunTest(
         $Selenium->find_element( ".Tabs div.Active .SelectAll", "css" )->click();
         $Selenium->find_element( "#AddLinks",                   "css" )->VerifiedClick();
         $Selenium->find_element( "#LinkAddCloseLink",           "css" )->click();
+
+        sleep 1;
         if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
             $Selenium->close();
         }

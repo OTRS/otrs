@@ -181,6 +181,8 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'Can\'t merge ticket with itself!' ) > -1,
             "Successfully can't merge ticket with itself",
         );
+
+        sleep 1;
         if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
             $Selenium->close();
         }
@@ -235,6 +237,8 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TicketNumbers[1])').click()");
 
         $Selenium->execute_script("\$('#submitRichText').click();");
+
+        sleep 1;
         if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
             $Selenium->close();
         }
@@ -269,6 +273,7 @@ $Selenium->RunTest(
             "Merge action completed",
         );
 
+        sleep 1;
         if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
             $Selenium->close();
         }

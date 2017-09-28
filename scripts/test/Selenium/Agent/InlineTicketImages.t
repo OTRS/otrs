@@ -230,6 +230,8 @@ my $CheckTicketReplyOrForward = sub {
 
     # Input required fields and submit compose.
     $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+    sleep 1;
     if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
         $Selenium->close();
     }
