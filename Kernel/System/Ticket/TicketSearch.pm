@@ -2410,11 +2410,10 @@ sub TicketSearch {
     my %Tickets;
     my @TicketIDs;
     my $Count;
-    return
-        if !$DBObject->Prepare(
+    return if !$DBObject->Prepare(
         SQL   => $SQLSelect . $SQLFrom . $SQLExt,
         Limit => $Limit
-        );
+    );
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
