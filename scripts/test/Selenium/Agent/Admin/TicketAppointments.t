@@ -202,10 +202,6 @@ $Selenium->RunTest(
             );
             $EscalationTimes{ $EscalationType . 'End' } = $EscalationTimeEndObject->ToString();
         }
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $Kernel::OM->Get('Kernel::System::Main')->Dump( \%EscalationTimes ),
-        );
 
         # Set pending time to next day.
         my $DateTimeObject         = $Kernel::OM->Create('Kernel::System::DateTime');
