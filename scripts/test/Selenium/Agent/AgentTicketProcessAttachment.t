@@ -126,10 +126,13 @@ $Selenium->RunTest(
         $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.txt";
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
-        # Wait until attachment is uploaded - until appears in the attachment list table.
+        # Wait until attachment is uploaded, i.e. until it appears in the attachment list table.
+        #   Additional check for opacity makes sure that animation has been completed.
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".AttachmentListContainer tbody tr").length'
+                'return typeof($) === "function" && $(".AttachmentListContainer tbody tr").filter(function() {
+                    return $(this).css("opacity") == 1;
+                }).length;'
         );
 
         # Check if uploaded.
