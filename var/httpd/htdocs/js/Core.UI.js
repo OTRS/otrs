@@ -519,11 +519,10 @@ Core.UI = (function (TargetNS) {
 
         function UploadFiles(SelectedFiles, $DropObj) {
 
-            // get FormID
-            var FormID = $DropObj.closest('form').find('input[name=FormID]').val(),
-                ChallengeToken = $DropObj.closest('form').find('input[name=ChallengeToken]').val(),
-                $ContainerObj = $DropObj.closest('.Field'),
+            var $ContainerObj = $DropObj.closest('.Field'),
                 $FileuploadFieldObj = $ContainerObj.find('.AjaxDnDUpload'),
+                FormID = $FileuploadFieldObj.data('form-id') ? $FileuploadFieldObj.data('form-id') : $DropObj.closest('form').find('input[name=FormID]').val(),
+                ChallengeToken = $DropObj.closest('form').find('input[name=ChallengeToken]').val(),
                 IsMultiple = ($FileuploadFieldObj.attr('multiple') == 'multiple'),
                 MaxFiles = $FileuploadFieldObj.data('max-files'),
                 MaxSizePerFile = $FileuploadFieldObj.data('max-size-per-file'),
@@ -750,11 +749,15 @@ Core.UI = (function (TargetNS) {
 
             var $TriggerObj = $(this),
                 $AttachmentListContainerObj = $TriggerObj.closest('.AttachmentListContainer'),
+                $UploadFieldObj = $AttachmentListContainerObj.next('.AjaxDnDUpload'),
+                FormID = $UploadFieldObj.data('form-id') ? $UploadFieldObj.data('form-id') : $(this).closest('form').find('input[name=FormID]').val(),
                 Data = {
-                    Action: 'AjaxAttachment',
+                    Action: $(this).data('delete-action') ? $(this).data('delete-action') : 'AjaxAttachment',
                     Subaction: 'Delete',
                     FileID: $(this).data('file-id'),
-                    FormID: $(this).closest('form').find('input[name=FormID]').val()
+                    FormID: FormID,
+                    ObjectID: $(this).data('object-id'),
+                    FieldID: $(this).data('field-id'),
                 };
 
             $TriggerObj.closest('.AttachmentListContainer').find('.Busy').fadeIn();
