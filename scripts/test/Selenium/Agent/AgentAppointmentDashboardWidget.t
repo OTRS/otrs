@@ -180,15 +180,10 @@ $Selenium->RunTest(
             $FilterCount{ $Appointment->{Filter} } += 1;
 
             # Switch filter.
-            $Selenium->execute_script(
-                "\$('a#Dashboard${DashboardConfigKey}$Appointment->{Filter}').trigger('click');"
-            );
+            $Selenium->find_element("//a[\@id='Dashboard${DashboardConfigKey}$Appointment->{Filter}']")->click();
 
-            # Wait until appointment is loaded.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#Dashboard$DashboardConfigKey a[href*=\"AppointmentID=$AppointmentID\"]').length === 1;"
-            );
+            # Hard sleep is needed, since we are reloading the table locally.
+            sleep 1;
 
             # Verify appointment is visible.
             $Selenium->find_element("//a[contains(\@href, \'AppointmentID=$Appointment->{AppointmentID}\')]");
