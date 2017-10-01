@@ -5,7 +5,7 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-package Kernel::System::PostMaster::LoopProtection::Common;
+package Kernel::System::PostMaster::LoopProtectionCommon;
 ## nofilter(TidyAll::Plugin::OTRS::Perl::Time)
 
 use strict;

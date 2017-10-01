@@ -15,7 +15,7 @@ package Kernel::System::Ticket::Number::Date;
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::Ticket::Number::Base);
+use parent qw(Kernel::System::Ticket::NumberBase);
 
 our @ObjectDependencies = (
     'Kernel::Config',

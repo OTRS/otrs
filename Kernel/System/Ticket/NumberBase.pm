@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Ticket::Number::Base;
+package Kernel::System::Ticket::NumberBase;
 
 use strict;
 use warnings;
@@ -27,7 +27,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Ticket::Number::Base - Common functions for ticket number generators
+Kernel::System::Ticket::NumberBase - Common functions for ticket number generators
 
 =head1 PUBLIC INTERFACE
 

@@ -23,7 +23,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::Ticket::Number::Base);
+use parent qw(Kernel::System::Ticket::NumberBase);
 
 our @ObjectDependencies = (
     'Kernel::Config',
