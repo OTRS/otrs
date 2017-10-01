@@ -266,6 +266,73 @@ sub HandleLanguage {
             }egx;
         }
 
+        # Add strings from .html.tmpl files (JavaScript templates).
+        my $JSDirectory = $IsSubTranslation
+            ? "$ModuleDirectory/Kernel/Output/JavaScript/Templates/$DefaultTheme"
+            : "$Home/Kernel/Output/JavaScript/Templates/$DefaultTheme";
+
+        my @JSTemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => $JSDirectory,
+            Filter    => '*.html.tmpl',
+            Recursive => 1,
+        );
+
+        my $CustomJSTemplatesDir = "$ModuleDirectory/Custom/Kernel/Output/JavaScript/Templates/$DefaultTheme";
+        if ( $IsSubTranslation && -d $CustomJSTemplatesDir ) {
+            my @CustomJSTemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => $CustomJSTemplatesDir,
+                Filter    => '*.html.tmpl',
+                Recursive => 1,
+            );
+            push @JSTemplateList, @CustomJSTemplateList;
+        }
+
+        for my $File (@JSTemplateList) {
+
+            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => $File,
+                Mode     => 'utf8',
+            );
+
+            if ( !ref $ContentRef ) {
+                die "Can't open $File: $!";
+            }
+
+            my $Content = ${$ContentRef};
+
+            $File =~ s{^.*/(.+?)\.html\.tmpl}{$1}smx;
+
+            # Find strings marked for translation.
+            $Content =~ s{
+                \{\{
+                \s*
+                (["'])(.*?)(?<!\\)\1
+                \s*
+                \|
+                \s*
+                Translate
+            }
+            {
+                my $Word = $2 // '';
+
+                # Unescape any \" or \' signs.
+                $Word =~ s{\\"}{"}smxg;
+                $Word =~ s{\\'}{'}smxg;
+
+                if (!$UsedWords{$Word}++) {
+                    push @OriginalTranslationStrings, {
+                        Location => "JS Template: $File",
+                        Source   => $Word,
+                    };
+                }
+
+                # Also save that this string was used in JS (for later use in Loader).
+                $UsedInJS{$Word} = 1;
+
+                '';
+            }egx;
+        }
+
         # add translatable strings from Perl code
         my @PerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $IsSubTranslation ? "$ModuleDirectory/Kernel" : "$Home/Kernel",
