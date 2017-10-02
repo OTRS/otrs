@@ -271,11 +271,14 @@ sub HandleLanguage {
             ? "$ModuleDirectory/Kernel/Output/JavaScript/Templates/$DefaultTheme"
             : "$Home/Kernel/Output/JavaScript/Templates/$DefaultTheme";
 
-        my @JSTemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $JSDirectory,
-            Filter    => '*.html.tmpl',
-            Recursive => 1,
-        );
+        my @JSTemplateList;
+        if ( -d $JSDirectory ) {
+            @JSTemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                Directory => $JSDirectory,
+                Filter    => '*.html.tmpl',
+                Recursive => 1,
+            );
+        }
 
         my $CustomJSTemplatesDir = "$ModuleDirectory/Custom/Kernel/Output/JavaScript/Templates/$DefaultTheme";
         if ( $IsSubTranslation && -d $CustomJSTemplatesDir ) {
@@ -352,9 +355,10 @@ sub HandleLanguage {
         }
 
         # include var/packagesetup folder for modules
-        if ($IsSubTranslation) {
+        my $PackageSetupDir = "$ModuleDirectory/var/packagesetup";
+        if ( $IsSubTranslation && -d $PackageSetupDir ) {
             my @PackageSetupModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-                Directory => "$ModuleDirectory/var/packagesetup",
+                Directory => $PackageSetupDir,
                 Filter    => '*.pm',
                 Recursive => 1,
             );
