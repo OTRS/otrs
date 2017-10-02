@@ -527,6 +527,10 @@ $Selenium->RunTest(
 
             # Check appointment data.
             for my $Field ( sort keys %{ $Test->{Result} || {} } ) {
+                if ( $Test->{Name} eq 'PendingTime' ) {
+                    $Ticket{$Field} =~ s/.$/0/;
+                    $Test->{Result}->{$Field} =~ s/.$/0/;
+                }
                 $Self->Is(
                     $Appointment->{$Field},
                     $Test->{Result}->{$Field},
