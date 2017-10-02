@@ -70,13 +70,13 @@ sub Configure {
     $Self->AdditionalHelp(<<"EOF");
 The <green>$Name</green> command migrates article data from one storage backend to another on the fly, for example from DB to FS:
 
- <green>otrs.console.pl $Self->{Name} --target ArticleStorageFS</green>
+ <green>otrs.Console.pl $Self->{Name} --target ArticleStorageFS</green>
 
 You can specify limits for the tickets migrated with <yellow>--tickets-closed-before-date</yellow> and <yellow>--tickets-closed-before-days</yellow>.
 
 To reduce load on the database for a running system, you can use the <yellow>--micro-sleep</yellow> parameter. The command will pause for the specified amount of microseconds after each ticket.
 
- <green>otrs.console.pl $Self->{Name} --target ArticleStorageFS --micro-sleep 1000</green>
+ <green>otrs.Console.pl $Self->{Name} --target ArticleStorageFS --micro-sleep 1000</green>
 EOF
     return;
 }
