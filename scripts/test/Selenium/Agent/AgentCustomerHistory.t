@@ -163,13 +163,13 @@ $Selenium->RunTest(
                     "Check search result count",
                 );
 
-                $Self->Is(
-                    $Selenium->execute_script('return $("li.ui-menu-item:nth-child(1) a").html()'),
-                    "\"<strong>$TestUser</strong> $TestUser\" &lt;$TestUser\@example.com&gt; ($TestUser)",
+                $Self->True(
+                    index( $Selenium->execute_script("return \$('li.ui-menu-item:nth-child(1) a').html()"), $TestUser )
+                        > -1,
                     "Check link html.",
                 );
 
-                $Selenium->find_element( "li.ui-menu-item:nth-child(1) a", 'css' )->VerifiedClick();
+                $Selenium->find_element( "li.ui-menu-item:nth-child(1) a", 'css' )->click();
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".OverviewBox").length' );
             }
 
@@ -179,7 +179,7 @@ $Selenium->RunTest(
             );
 
             # Go to 'Large' view because all of events could be checked there.
-            $Selenium->find_element("//a[\@name='OverviewControl'][contains(\@href, \'View=Preview')]")->click();
+            $Selenium->execute_script("\$('.Large').click();");
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TicketOverviewLarge").length' );
 
             # wait for JavaScript to be executed completely (event bindings etc.)
@@ -264,8 +264,19 @@ $Selenium->RunTest(
                 $Selenium->switch_to_window( $Handles->[0] );
             }
 
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('li#TicketID_$Tickets[0]->{TicketID}.MasterAction').length;"
+            );
+
             # Check master action link.
-            $Selenium->find_element( ".MasterAction[id=TicketID_$Tickets[0]->{TicketID}]", 'css' )->VerifiedClick();
+            $Selenium->execute_script("\$('li#TicketID_$Tickets[0]->{TicketID}.MasterAction').click();");
+
+            # Wait until AgentTicketZoom screen is loaded.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#nav-Back').length;"
+            );
 
             $Self->True(
                 index( $Selenium->get_current_url(), 'Action=AgentTicketZoom;TicketID=' . $Tickets[0]->{TicketID} )
