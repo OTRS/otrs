@@ -24,6 +24,8 @@ matrix:
       env: DB=mysql
     - perl: "5.22"
       env: DB=postgresql
+    - perl: "5.24"
+      env: DB=mysql
 
 # Use 12.04 platform. Docker based VMs seem slower, and trusty beta has not enough available VMs.
 # See https://docs.travis-ci.com/user/ci-environment/
