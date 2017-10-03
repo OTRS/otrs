@@ -110,12 +110,12 @@ $Selenium->RunTest(
         for my $Group (qw(Start End)) {
             for my $Field (qw(Hour Minute Day Month Year)) {
                 $Selenium->execute_script(
-                    "return \$('#$Group$Field').val($StartTime{$Field}).trigger('change');"
+                    "\$('#$Group$Field').val($StartTime{$Field});"
                 );
             }
         }
         $Selenium->execute_script(
-            "return \$('#CalendarID').val("
+            "\$('#CalendarID').val("
                 . $Calendars[0]->{CalendarID}
                 . ").trigger('redraw.InputField').trigger('change');"
         );
@@ -139,12 +139,12 @@ $Selenium->RunTest(
         for my $Group (qw(Start End)) {
             for my $Field (qw(Day Month Year)) {
                 $Selenium->execute_script(
-                    "return \$('#$Group$Field').val($StartTime{$Field}).trigger('change');"
+                    "\$('#$Group$Field').val($StartTime{$Field});"
                 );
             }
         }
         $Selenium->execute_script(
-            "return \$('#CalendarID').val("
+            "\$('#CalendarID').val("
                 . $Calendars[1]->{CalendarID}
                 . ").trigger('redraw.InputField').trigger('change');"
         );
@@ -167,20 +167,20 @@ $Selenium->RunTest(
         for my $Group (qw(Start End)) {
             for my $Field (qw(Hour Minute Day Month Year)) {
                 $Selenium->execute_script(
-                    "return \$('#$Group$Field').val($StartTime{$Field}).trigger('change');"
+                    "\$('#$Group$Field').val($StartTime{$Field});"
                 );
             }
         }
         $Selenium->execute_script(
-            "return \$('#CalendarID').val("
+            "\$('#CalendarID').val("
                 . $Calendars[2]->{CalendarID}
                 . ").trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->execute_script(
-            "return \$('#RecurrenceType').val('Daily').trigger('redraw.InputField').trigger('change');"
+            "\$('#RecurrenceType').val('Daily').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->execute_script(
-            "return \$('#RecurrenceLimit').val('2').trigger('redraw.InputField').trigger('change');"
+            "\$('#RecurrenceLimit').val('2').trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
 
