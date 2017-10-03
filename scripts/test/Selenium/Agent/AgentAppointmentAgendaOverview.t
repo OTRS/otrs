@@ -198,7 +198,9 @@ $Selenium->RunTest(
         # Delete third appointment master.
         $Selenium->find_element( $AppointmentNames[2], 'link_text' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
-        $Selenium->find_element( '#EditFormDelete', 'css' )->click();
+
+        $Selenium->execute_script('$("#EditFormDelete").click();');
+
         $Selenium->accept_alert();
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && !\$('.OverviewControl.Loading').length"
