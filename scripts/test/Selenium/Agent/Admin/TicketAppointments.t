@@ -298,7 +298,7 @@ $Selenium->RunTest(
         $Selenium->find_element( '.SidebarColumn ul.ActionList a#Add',   'css' )->VerifiedClick();
         $Selenium->find_element( 'form#CalendarFrom input#CalendarName', 'css' )->send_keys($CalendarName);
         $Selenium->execute_script(
-            "return \$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
+            "\$('#GroupID').val($GroupID).trigger('redraw.InputField').trigger('change');"
         );
 
         $Selenium->find_element( 'form#CalendarFrom button#Submit', 'css' )->VerifiedClick();
@@ -470,21 +470,21 @@ $Selenium->RunTest(
             # Set start date module.
             if ( $Test->{Config}->{StartDate} ) {
                 $Selenium->execute_script(
-                    "return \$('#StartDate_1').val('$Test->{Config}->{StartDate}').trigger('redraw.InputField').trigger('change');"
+                    "\$('#StartDate_1').val('$Test->{Config}->{StartDate}').trigger('redraw.InputField').trigger('change');"
                 );
             }
 
             # Set end date module.
             if ( $Test->{Config}->{EndDate} ) {
                 $Selenium->execute_script(
-                    "return \$('#EndDate_1').val('$Test->{Config}->{EndDate}').trigger('redraw.InputField').trigger('change');"
+                    "\$('#EndDate_1').val('$Test->{Config}->{EndDate}').trigger('redraw.InputField').trigger('change');"
                 );
             }
 
             # Set a queue.
             if ( $Test->{Config}->{QueueID} ) {
                 $Selenium->execute_script(
-                    "return \$('#QueueID_1').val('$Test->{Config}->{QueueID}').trigger('redraw.InputField').trigger('change');"
+                    "\$('#QueueID_1').val('$Test->{Config}->{QueueID}').trigger('redraw.InputField').trigger('change');"
                 );
             }
 
@@ -492,7 +492,7 @@ $Selenium->RunTest(
             if ( $Test->{Config}->{SearchParams} ) {
                 for my $SearchParam ( sort keys %{ $Test->{Config}->{SearchParams} || {} } ) {
                     $Selenium->execute_script(
-                        "return \$('#SearchParams').val('$SearchParam').trigger('redraw.InputField').trigger('change');"
+                        "\$('#SearchParams').val('$SearchParam').trigger('redraw.InputField').trigger('change');"
                     );
                     $Selenium->find_element( '.AddButton',                  'css' )->VerifiedClick();
                     $Selenium->find_element( "#SearchParam_1_$SearchParam", 'css' )
@@ -527,13 +527,9 @@ $Selenium->RunTest(
 
             # Check appointment data.
             for my $Field ( sort keys %{ $Test->{Result} || {} } ) {
-                if ( $Test->{Name} eq 'PendingTime' ) {
-                    $Ticket{$Field} =~ s/.$/0/;
-                    $Test->{Result}->{$Field} =~ s/.$/0/;
-                }
                 $Self->Is(
-                    $Appointment->{$Field},
-                    $Test->{Result}->{$Field},
+                    substr( $Appointment->{$Field},    0, -3 ),
+                    substr( $Test->{Result}->{$Field}, 0, -3 ),
                     "$Test->{Name} - Appointment field $Field"
                 );
             }
