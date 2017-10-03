@@ -224,6 +224,7 @@ scripts/test/Selenium/Agent/Admin/AdminDynamicFieldDatabase.t
 scripts/test/Selenium/Agent/Admin/AdminDynamicFieldWebService.t
 scripts/test/Selenium/Agent/Admin/AdminSMSTemplate.t
 scripts/test/Selenium/Agent/Admin/AdminQueueSMSTemplates.t
+scripts/test/Selenium/Agent/Admin/AdminSystemConfigurationAdvanced.t
 scripts/test/Selenium/Agent/Admin/GenericInterface/AdminGenericInterfaceWebserviceImportExample.t
 scripts/test/Selenium/Agent/AgentAppointmentResourceOverview.t
 scripts/test/Selenium/Agent/AgentContactWithDataSearch.t

@@ -138,6 +138,7 @@ sub Run {
             my %Setting = $SysConfigObject->SettingGet(
                 Name            => $SettingName,
                 OverriddenInXML => 1,
+                UserID          => $Self->{UserID},
             );
 
             my %EffectiveValueCheck = $SysConfigObject->SettingEffectiveValueCheck(
@@ -274,6 +275,7 @@ sub Run {
                     my %Setting = $SysConfigObject->SettingGet(
                         Name            => $SettingName,
                         OverriddenInXML => 1,
+                        UserID          => $Self->{UserID},
                     );
 
                     $Setting{HTMLStrg} = $SysConfigObject->SettingRender(
@@ -349,6 +351,7 @@ sub Run {
                 my %Setting = $SysConfigObject->SettingGet(
                     Name            => $SettingName,
                     OverriddenInXML => 1,
+                    UserID          => $Self->{UserID},
                 );
 
                 $Setting{HTMLStrg} = $SysConfigObject->SettingRender(
@@ -395,6 +398,7 @@ sub Run {
             my %Setting = $SysConfigObject->SettingGet(
                 Name            => $View,
                 OverriddenInXML => 1,
+                UserID          => $Self->{UserID},
             );
 
             if (%Setting) {
@@ -439,6 +443,7 @@ sub Run {
                 my %Setting = $SysConfigObject->SettingGet(
                     Name            => $Name,
                     OverriddenInXML => 1,
+                    UserID          => $Self->{UserID},
                 );
 
                 if (%Setting) {
@@ -498,6 +503,7 @@ sub Run {
                 my %Setting = $SysConfigObject->SettingGet(
                     Name            => $SettingName,
                     OverriddenInXML => 1,
+                    UserID          => $Self->{UserID},
                 );
 
                 $Setting{HTMLStrg} = $SysConfigObject->SettingRender(

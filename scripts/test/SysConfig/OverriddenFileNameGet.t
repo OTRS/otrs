@@ -46,8 +46,16 @@ my @Tests = (
     {
         Name   => 'Missing name',
         Params => {
-
-            EffectiveValue => "Test",
+            EffectiveValue => 'Test',
+            UserID         => 1,
+        },
+        ExpectedResultRegex => undef,
+    },
+    {
+        Name   => 'Missing UserID',
+        Params => {
+            SettingName    => 'Ticket::Hook',
+            EffectiveValue => 'Ticket#',
         },
         ExpectedResultRegex => undef,
     },
@@ -55,7 +63,8 @@ my @Tests = (
         Name   => 'Updated Ticket::Hook',
         Params => {
             SettingName    => 'Ticket::Hook',
-            EffectiveValue => "Ticket#",        # it should be default value from XML
+            EffectiveValue => 'Ticket#',        # it should be default value from XML
+            UserID         => 1,
         },
         ExpectedResultRegex => $ExpectedResultRegex,
     },
@@ -67,6 +76,7 @@ my @Tests = (
                 '7' => 1,
                 '3' => 0,
             },
+            UserID => 1,
         },
         ExpectedResultRegex => $ExpectedResultRegex,
     },
@@ -82,14 +92,14 @@ for my $Test (@Tests) {
         # We can't compare real file name, since HelperObject uses random numbers to generate it.
         $Self->True(
             $Result =~ m{$Test->{ExpectedResultRegex}} // '',
-            "OverriddenFileNameGet() - $Test->{Name} - Check expected result($Test->{ExpectedResultRegex}).",
+            "OverriddenFileNameGet() - $Test->{Name} - Check expected result($Test->{ExpectedResultRegex})."
         );
     }
     else {
         $Self->False(
             $Result // '',
-            "OverriddenFileNameGet() - $Test->{Name} - not found.",
-            )
+            "OverriddenFileNameGet() - $Test->{Name} - not found."
+        );
     }
 }
 

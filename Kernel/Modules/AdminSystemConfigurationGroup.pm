@@ -44,6 +44,7 @@ sub Run {
         my %Setting = $SysConfigObject->SettingGet(
             Name            => $SettingName,
             OverriddenInXML => 1,
+            UserID          => $Self->{UserID},
         );
 
         my %Result;
@@ -120,6 +121,7 @@ sub Run {
         my %Setting = $SysConfigObject->SettingGet(
             Name            => $SettingName,
             OverriddenInXML => 1,
+            UserID          => $Self->{UserID},
         );
 
         my %LockStatus = $SysConfigObject->SettingLockCheck(
@@ -272,6 +274,7 @@ sub Run {
         %Setting = $SysConfigObject->SettingGet(
             Name            => $SettingName,
             OverriddenInXML => 1,
+            UserID          => $Self->{UserID},
         );
 
         # Send only useful setting attributes to reduce amount of data transfered in the AJAX call.
@@ -397,6 +400,7 @@ sub Run {
         my %UpdatedSetting = $SysConfigObject->SettingGet(
             Name            => $SettingName,
             OverriddenInXML => 1,
+            UserID          => $Self->{UserID},
         );
 
         $Result{Data}->{HTMLStrg} = $SysConfigObject->SettingRender(
@@ -433,6 +437,7 @@ sub Run {
             Translate       => 0,
             Category        => $Category,
             OverriddenInXML => 1,
+            UserID          => $Self->{UserID},
         );
 
         # get favorites from user preferences
@@ -625,6 +630,7 @@ sub Run {
             my %UpdatedSetting = $SysConfigObject->SettingGet(
                 Name            => $Setting->{SettingName},
                 OverriddenInXML => 1,
+                UserID          => $Self->{UserID},
             );
 
             my %Item;
@@ -674,6 +680,7 @@ sub Run {
         Translate       => 0,
         Category        => $Category,
         OverriddenInXML => 1,
+        UserID          => $Self->{UserID},
     );
 
     # get favorites from user preferences

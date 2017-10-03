@@ -107,10 +107,11 @@ Get SysConfig setting attributes.
         ModifiedID      => '123',            # (optional) Get setting value for given ModifiedID.
         TargetUserID    => 1,                # (optional) Get setting value for specific user.
         Deployed        => 1,                # (optional) Get deployed setting value. Default 0.
-        OverriddenInXML  => 1,                # (optional) Consider changes made in perl files. Default 0.
+        OverriddenInXML => 1,                # (optional) Consider changes made in perl files. Default 0.
         Translate       => 1,                # (optional) Translate translatable strings in EffectiveValue. Default 0.
         NoLog           => 1,                # (optional) Do not log error if a setting does not exist.
         NoCache         => 1,                # (optional) Do not create cache.
+        UserID          => 1,                # Required only if OverriddenInXML is set.
     );
 
 Returns:
@@ -156,6 +157,14 @@ sub SettingGet {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Name!',
+        );
+        return;
+    }
+
+    if ( $Param{OverriddenInXML} && !$Param{UserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'UserID is needed when OverriddenInXML is set!',
         );
         return;
     }
@@ -346,10 +355,13 @@ sub SettingGet {
             $Setting{OverriddenFileName} = $Self->OverriddenFileNameGet(
                 SettingName    => $Setting{Name},
                 EffectiveValue => $Setting{EffectiveValue},
+                UserID         => $Param{UserID},
             );
 
             # Update EffectiveValue.
-            $Setting{EffectiveValue} = $LoadedEffectiveValue;
+            if ( $Setting{OverriddenFileName} ) {
+                $Setting{EffectiveValue} = $LoadedEffectiveValue;
+            }
         }
     }
 
@@ -2841,7 +2853,8 @@ Returns list of settings that matches provided parameters.
         Invisible            => 0,                      # (optional) Include Invisible settings. By default, not included.
         UserPreferencesGroup => 'Advanced',             # (optional) filter list by group.
         Translate            => 0,                      # (optional) Translate translatable string in EffectiveValue. Default 0.
-        OverriddenInXML       => 1,                      # (optional) Consider changes made in perl files. Default 0. Use it in modules only!
+        OverriddenInXML      => 1,                      # (optional) Consider changes made in Perl files. Default 0. Use it in modules only!
+        UserID               => 1,                      # Required if OverriddenInXML is set.
     );
 
 Returns:
@@ -2889,6 +2902,14 @@ Returns:
 
 sub ConfigurationListGet {
     my ( $Self, %Param ) = @_;
+
+    if ( $Param{OverriddenInXML} && !$Param{UserID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'UserID is needed when OverriddenInXML is set!',
+        );
+        return;
+    }
 
     my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
@@ -2973,7 +2994,8 @@ sub ConfigurationListGet {
             Name            => $Setting->{Name},
             TargetUserID    => $Param{TargetUserID} // undef,
             Translate       => $Param{Translate},
-            OverriddenInXML => $Param{OverriddenInXML}
+            OverriddenInXML => $Param{OverriddenInXML},
+            UserID          => $Param{UserID},
         );
 
         # Skip if setting is invalid.
@@ -4502,6 +4524,7 @@ Returns file name which overrides setting Effective value.
 
     my $FileName = $SysConfigObject->OverriddenFileNameGet(
         SettingName    => 'Setting::Name',  # (required)
+        UserID         => 1,                # (required)
         EffectiveValue => '3',              # (optional)
     );
 
@@ -4515,7 +4538,7 @@ sub OverriddenFileNameGet {
     my ( $Self, %Param ) = @_;
 
     # Check needed stuff.
-    for my $Needed (qw(SettingName)) {
+    for my $Needed (qw(SettingName UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -4525,7 +4548,6 @@ sub OverriddenFileNameGet {
         }
     }
 
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $LoadedEffectiveValue;
@@ -4556,7 +4578,7 @@ sub OverriddenFileNameGet {
     my $Directory = "$Home/Kernel/Config/Files";
 
     # Get all .pm files that start with 'ZZZ'.
-    my @FilesInDirectory = $MainObject->DirectoryRead(
+    my @FilesInDirectory = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
         Filter    => 'ZZZ*.pm',
     );
@@ -4571,46 +4593,11 @@ sub OverriddenFileNameGet {
         # Skip the file that was regulary deployed.
         next FILE if $FileName eq 'ZZZAAuto';
 
-        # Load .pm file, save Overridden settings in $OverriddenSettings.
-        my $Module = "Kernel::Config::Files::$FileName";
-        my $Loaded = $MainObject->Require(
-            $Module,
-        );
-        next FILE if !$Loaded;
-
-        my $OverriddenSettings = {};
-        $Module->Load($OverriddenSettings);
-
-        next FILE if !IsHashRefWithData($OverriddenSettings);
-
-        my $LoadedEffectiveValue;
-
         # Check if this file overrides our setting.
-        my $SettingFound = 0;
-
-        KEY:
-        for my $Key (@SettingStructure) {
-            if ( !defined $LoadedEffectiveValue ) {
-
-                # first iteration
-                $LoadedEffectiveValue = $OverriddenSettings->{$Key};
-                if ( defined $LoadedEffectiveValue ) {
-                    $SettingFound = 1;
-                }
-                else {
-                    last KEY;
-                }
-            }
-            elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
-                $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
-                if ( defined $LoadedEffectiveValue ) {
-                    $SettingFound = 1;
-                }
-                else {
-                    $SettingFound = 0;
-                }
-            }
-        }
+        my $SettingFound = $Self->_IsOverriddenInModule(
+            Module           => "Kernel::Config::Files::$FileName",
+            SettingStructure => \@SettingStructure,
+        );
 
         if ($SettingFound) {
             $Result = $File;
@@ -4621,13 +4608,111 @@ sub OverriddenFileNameGet {
         $Result =~ s/^$Home\/?(.*)$/$1/;
     }
     else {
-        $Result = "Kernel/Config.pm";
+
+        $Result = 'Kernel/Config.pm';
+
+        # Check if there is user specific value for this setting.
+        my $SettingFound = $Self->_IsOverriddenInModule(
+            Module           => "Kernel::Config::Files::User::$Param{UserID}",
+            SettingStructure => \@SettingStructure,
+        );
+
+        if ($SettingFound) {
+
+            # There is user specific value, allow admin modification.
+            $Result = 0;
+        }
     }
 
     return $Result;
 }
 
 =head1 PRIVATE INTERFACE
+
+=head2 _IsOverriddenInModule()
+
+Helper method to check if setting is overridden in specific module.
+
+    my $Overridden = $SysConfigObject->_IsOverriddenInModule(
+        Module               => "Kernel::Config::Files::ZZZAAuto",
+        SettingStructure     => [ 'DashboardBackend', '0000-ProductNotify' ],
+        LoadedEffectiveValue => 'Value',
+    );
+
+=cut
+
+sub _IsOverriddenInModule {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(Module SettingStructure)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    if ( !IsArrayRefWithData( $Param{SettingStructure} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "SettingStructure must be an array!"
+        );
+        return;
+    }
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    my $Result;
+
+    # Check if the setting applies to the current user only.
+    my $Loaded = $MainObject->Require(
+        $Param{Module},
+        Silent => 1,
+    );
+
+    # If module couldn't be loaded, there is no user specific setting.
+    return $Result if !$Loaded;
+
+    # Try to load setting value.
+    my $OverriddenSettings = {};
+    $Param{Module}->Load($OverriddenSettings);
+
+    # Loaded hash is empty, return.
+    return $Result if !IsHashRefWithData($OverriddenSettings);
+
+    # Check if this file overrides our setting.
+    my $SettingFound = 0;
+    my $LoadedEffectiveValue;
+
+    KEY:
+    for my $Key ( @{ $Param{SettingStructure} } ) {
+        if ( !defined $LoadedEffectiveValue ) {
+
+            # First iteration.
+            $LoadedEffectiveValue = $OverriddenSettings->{$Key};
+            if ( defined $LoadedEffectiveValue ) {
+                $SettingFound = 1;
+            }
+            else {
+                last KEY;
+            }
+        }
+        elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
+            $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
+            if ( defined $LoadedEffectiveValue ) {
+                $SettingFound = 1;
+            }
+            else {
+                $SettingFound = 0;
+            }
+        }
+    }
+
+    return $SettingFound;
+}
 
 =head2 _FileWriteAtomic()
 
