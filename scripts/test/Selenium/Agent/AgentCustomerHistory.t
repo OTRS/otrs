@@ -155,12 +155,11 @@ $Selenium->RunTest(
                     JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                 );
 
-                $Self->Is(
+                $Self->True(
                     $Selenium->execute_script(
                         'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                     ),
-                    1,
-                    "Check search result count",
+                    "Check search result",
                 );
 
                 $Self->True(
