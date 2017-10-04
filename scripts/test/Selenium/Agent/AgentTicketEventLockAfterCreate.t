@@ -110,6 +110,8 @@ $Selenium->RunTest(
             # Create test phone ticket.
             my $TicketSubject = "Selenium Ticket";
             my $TicketBody    = "Selenium body test";
+
+            $Selenium->find_element( "#FromCustomer", 'css' )->clear();
             $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
             $Selenium->WaitFor(
                 JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'

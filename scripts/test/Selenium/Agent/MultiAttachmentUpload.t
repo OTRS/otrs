@@ -202,6 +202,7 @@ JAVASCRIPT
 
                 $Selenium->execute_script($CheckAlertJS);
                 $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+                $Selenium->find_element( "#FileUpload", 'css' )->clear();
 
                 # TODO: remove limitation to chrome.
                 if ( $Selenium->{browser_name} eq 'firefox' ) {
