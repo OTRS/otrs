@@ -209,6 +209,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Title",          'css' )->send_keys("$AppointmentName-Edit");
         $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
 
+        # Clean the cache and get the same parent appointment with new children.
+        $CacheObject->CleanUp( Type => 'AppointmentList' . $CalendarID );
+
         # Navigate to AgentTicketZoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
@@ -224,8 +227,6 @@ $Selenium->RunTest(
             );
         }
 
-        # Clean the cache and get the same parent appointment with new children.
-        $CacheObject->CleanUp( Type => 'AppointmentList' . $CalendarID );
         @Appointments = $AppointmentObject->AppointmentList(
             CalendarID => $CalendarID,
         );
