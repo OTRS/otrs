@@ -127,8 +127,8 @@ $Selenium->RunTest(
 
         # Verify the regular appointment is visible.
         $Self->True(
-            index( $Selenium->get_page_source(), $AppointmentNames[0] ) > -1,
-            'First appointment visible',
+            $Selenium->execute_script("return \$('tbody tr:contains($AppointmentNames[0])').length;"),
+            "First appointment '$AppointmentNames[0]' found in the table"
         );
 
         # Create all-day appointment.
@@ -156,9 +156,11 @@ $Selenium->RunTest(
 
         # Verify the all-day appointment is visible.
         $Self->True(
-            index( $Selenium->get_page_source(), $AppointmentNames[1] ) > -1,
-            'Second appointment visible',
+            $Selenium->execute_script("return \$('tbody tr:contains($AppointmentNames[1])').length;"),
+            "Second appointment '$AppointmentNames[1]' found in the table"
         );
+
+        my $RecurrenceCount = 3;
 
         # Create recurring appointment.
         $Selenium->find_element( '#AppointmentCreateButton', 'css' )->click();
@@ -182,34 +184,35 @@ $Selenium->RunTest(
         $Selenium->execute_script(
             "\$('#RecurrenceLimit').val('2').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys('3');
+        $Selenium->find_element( 'RecurrenceCount', 'name' )->send_keys($RecurrenceCount);
 
         # Click on Save.
         $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && !\$('.Dialog.Modal').length" );
         $Selenium->VerifiedRefresh();
 
-        # Verify the first occurrence of the third appointment is visible.
+        # Verify all third appointment occurrences are visible.
         $Self->True(
-            index( $Selenium->get_page_source(), $AppointmentNames[2] ) > -1,
-            'Third appointment visible',
+            $Selenium->execute_script(
+                "return \$('tbody tr:contains($AppointmentNames[2])').length === $RecurrenceCount;"
+            ),
+            "All third appointment occurrences found in the table"
         );
 
         # Delete third appointment master.
         $Selenium->find_element( $AppointmentNames[2], 'link_text' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
-
-        $Selenium->execute_script('$("#EditFormDelete").click();');
-
+        $Selenium->find_element( "#EditFormDelete", 'css' )->click();
         $Selenium->accept_alert();
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && !\$('.OverviewControl.Loading').length"
+            JavaScript =>
+                "return typeof(\$) === 'function' &&  \$('tbody tr:contains($AppointmentNames[2])').length === 0;"
         );
 
         # Verify all third appointment occurences have been removed.
-        $Self->True(
-            index( $Selenium->get_page_source(), $AppointmentNames[2] ) == -1,
-            'All third appointment occurrences removed',
+        $Self->False(
+            $Selenium->execute_script("return \$('tbody tr:contains($AppointmentNames[2])').length;"),
+            "All third appointment occurences deleted"
         );
     },
 );
