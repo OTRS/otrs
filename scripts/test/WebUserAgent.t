@@ -74,58 +74,6 @@ my @Tests = (
         Proxy   => $Proxy,
         Success => '1',
     },
-    {
-        Name    => 'GET - https - Test ' . $TestNumber++,
-        URL     => "https://portal.otrs.com/",
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => '1',
-    },
-    {
-        Name => 'POST - hashref - Test ' . $TestNumber++,
-        URL  => "https://pav.otrs.com/otrs/public.pl",
-        Type => "POST",
-        Data => {
-            'Action'  => 'PublicPackageVerification',
-            'Package' => 'Test::9fa881ef2e2cdafecd06fa689ca2044e',
-        },
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => '1',
-        Content => '{"Test":"not_verified"}',
-    },
-    {
-        Name => 'POST - arrayref - Test ' . $TestNumber++,
-        URL  => "https://pav.otrs.com/otrs/public.pl",
-        Type => "POST",
-        Data => [
-            'Action'  => 'PublicPackageVerification',
-            'Package' => 'Test::9fa881ef2e2cdafecd06fa689ca2044e',
-        ],
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => '1',
-        Content => '{"Test":"not_verified"}',
-    },
-    {
-        Name        => 'POST - data but no arrayref or hashref - Test ' . $TestNumber++,
-        URL         => "https://pav.otrs.com/otrs/public.pl",
-        Type        => "POST",
-        Data        => 'SomeData',
-        Timeout     => $TimeOut,
-        Proxy       => $Proxy,
-        Success     => 0,
-        ErrorNumber => 0,
-    },
-    {
-        Name        => 'POST - no data - Test ' . $TestNumber++,
-        URL         => "https://pav.otrs.com/otrs/public.pl",
-        Type        => "POST",
-        Timeout     => $TimeOut,
-        Proxy       => $Proxy,
-        Success     => 0,
-        ErrorNumber => 0,
-    },
 );
 
 # get repository list
