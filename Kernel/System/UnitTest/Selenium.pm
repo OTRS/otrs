@@ -215,6 +215,28 @@ sub get {    ## no critic
     return;
 }
 
+=head2 get_alert_text()
+
+Override get_alert_text() method of base class to return alert text as string.
+
+    my $AlertText = $SeleniumObject->get_alert_text();
+
+returns
+
+    my $AlertText = 'Some alert text!'
+
+=cut
+
+sub get_alert_text {    ## no critic
+    my ($Self) = @_;
+
+    my $AlertText = $Self->SUPER::get_alert_text();
+
+    return if ref $AlertText eq 'HASH';    # Chrome returns HASH when there is no alert text.
+
+    return $AlertText;
+}
+
 =head2 VerifiedGet()
 
 perform a get() call, but wait for the page to be fully loaded (works only within OTRS).
