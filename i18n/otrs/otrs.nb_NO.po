@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:30+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/otrs/OTRS/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -10133,6 +10133,125 @@ msgstr "Teller"
 msgid "Go back to the previous page"
 msgstr "Tilbake til forrige side"
 
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr "Bekreft"
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Ferdig"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Ny post"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Avslutt sak"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
+
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
 msgstr ""
@@ -11097,10 +11216,6 @@ msgstr "Gruppe oppdatert!"
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
 msgstr "E-postkonto lagt til!"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Ferdig"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -13976,16 +14091,8 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Innhold"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Ny post"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -15902,10 +16009,6 @@ msgid "Less"
 msgstr "Færre"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr "Bekreft"
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr ""
 
@@ -16186,10 +16289,6 @@ msgid "Update Result"
 msgstr "Oppdateringsresultat"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Avslutt sak"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr "Genererer...."
 
@@ -16256,10 +16355,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration

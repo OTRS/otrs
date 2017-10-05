@@ -19,7 +19,7 @@
 # Jefferson Campos <foguinho.peruca@gmail.com>, 2017
 # João Paulo Avelar de Araújo Pontes <meunomejoaopaulo@gmail.com>, 2016
 # José Ribeiro <joserribeiro26@gmail.com>, 2014-2015
-# José Ribeiro <joserribeiro26@gmail.com>, 2016
+# José Ribeiro <joserribeiro26@gmail.com>, 2016-2017
 # José Tempesta <zetempesta@gmail.com>, 2016
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2015
 # Leandro “Lê Corſetti van Utrecht” Guimarães Faria Corcete DUTRA <l@dutras.org>, 2016
@@ -28,14 +28,15 @@
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2016
 # Rangel Perez Sardinha <rangel@hsg.com.br>, 2016
+# Ricardo von Staa <ricardo.von.staa@otrs.com>, 2017
 # Ronaldo Richieri <ronaldo@complemento.net.br>, 2015,2017
 # Samuel Diniz Casimiro <nedmaj@yahoo.com>, 2015-2017
 # Thales Horta <tph@otrs.com.br>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:30+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otrs/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +161,7 @@ msgstr "Editar ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Editar ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -209,7 +210,7 @@ msgstr "Mostrar ou esconder o conteúdo"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Editar informações da ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -221,7 +222,7 @@ msgstr "Parar Após Encontrar"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Editar estrutura da ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -2553,7 +2554,7 @@ msgstr "Todos os dados de configuração serão perdidos."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Opções gerais"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2576,7 +2577,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Processando opções"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
@@ -2651,7 +2652,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Código de erro"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
@@ -2665,7 +2666,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Mensagem de erro"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
@@ -3099,23 +3100,23 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "Localizar"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "Localizar próximo"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "Localizar anterior"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "Localizar e substituir"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "Localizar e substituir todos"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
@@ -3169,7 +3170,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Substituir"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
@@ -3719,11 +3720,11 @@ msgstr "O nome deve ser único"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
-msgstr "Copiar"
+msgstr "Clonar"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Exportar Web Service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -4095,7 +4096,7 @@ msgstr "Filtro"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Favoritos"
 
 #. Template: AdminNavigationBar
 msgid ""
@@ -4731,7 +4732,7 @@ msgstr "Com %s, você pode beneficiar os seguintes recursos opcionais. Por favor
 
 #. Template: AdminPackageManager
 msgid "Package Information"
-msgstr ""
+msgstr "Informação de Pacote"
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -5685,7 +5686,7 @@ msgstr "Este filtro permite que você mostre todas as filas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Mostrar Todas as Filas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -5717,7 +5718,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Register System"
-msgstr ""
+msgstr "Registrar o Sistema"
 
 #. Template: AdminRegistration
 msgid "Validate OTRS-ID"
@@ -5761,7 +5762,7 @@ msgstr "Última comunicação com o servidor de registro"
 
 #. Template: AdminRegistration
 msgid "System Registration not Possible"
-msgstr ""
+msgstr "Não é possível registrar o sistema"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6011,7 +6012,7 @@ msgstr "Filtrar por Papéis"
 
 #. Template: AdminRole
 msgid "Filter for roles"
-msgstr ""
+msgstr "Filtrar por Papéis"
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
@@ -6123,7 +6124,7 @@ msgstr "Adicionar SLA"
 
 #. Template: AdminSLA
 msgid "Filter for SLAs"
-msgstr ""
+msgstr "Filtrar por SLA"
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
@@ -6177,7 +6178,7 @@ msgstr "Adicionar Chave Privada"
 
 #. Template: AdminSMIME
 msgid "Filter for Certificates"
-msgstr ""
+msgstr "Filtrar por Certificado"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
@@ -6262,7 +6263,7 @@ msgstr "Fechar diálogo"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
-msgstr ""
+msgstr "Detalhes do certificado"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
@@ -6282,11 +6283,11 @@ msgstr "Adicionar Saudação"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
-msgstr ""
+msgstr "Filtrar por Saudação"
 
 #. Template: AdminSalutation
 msgid "Filter for salutations"
-msgstr ""
+msgstr "Filtrar por Saudação"
 
 #. Template: AdminSalutation
 msgid "e. g."
@@ -6383,7 +6384,7 @@ msgstr "Adicionar Serviço"
 
 #. Template: AdminService
 msgid "Filter for services"
-msgstr ""
+msgstr "Filtrar por Serviço"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
@@ -6471,11 +6472,11 @@ msgstr "Adicionar Assinatura"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
-msgstr ""
+msgstr "Filtrar por Assinatura"
 
 #. Template: AdminSignature
 msgid "Filter for signatures"
-msgstr ""
+msgstr "Filtrar por Assinatura"
 
 #. Template: AdminSignature
 msgid "Example signature"
@@ -6495,11 +6496,11 @@ msgstr "Alterar Estado"
 
 #. Template: AdminState
 msgid "Filter for States"
-msgstr ""
+msgstr "Filtrar por Estado"
 
 #. Template: AdminState
 msgid "Filter for states"
-msgstr ""
+msgstr "Filtrar por Estado"
 
 #. Template: AdminState
 msgid "Attention"
@@ -6703,7 +6704,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
@@ -7011,11 +7012,11 @@ msgstr "Adicionar Tipo de Chamado"
 
 #. Template: AdminType
 msgid "Filter for Types"
-msgstr ""
+msgstr "Filtrar por Tipo"
 
 #. Template: AdminType
 msgid "Filter for types"
-msgstr ""
+msgstr "Filtrar por Tipo"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
@@ -7786,7 +7787,7 @@ msgstr "Alterar Suas Preferências"
 
 #. Template: AgentPreferences
 msgid "Personal preferences"
-msgstr ""
+msgstr "Preferências Pessoais"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -7955,7 +7956,7 @@ msgstr "Pré-visualização da Estatística "
 
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
-msgstr ""
+msgstr "Salvar Estatística"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8068,7 +8069,7 @@ msgstr "Serviço inválido."
 
 #. Template: AgentTicketActionCommon
 msgid "SLA invalid."
-msgstr ""
+msgstr "SLA inválido."
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -8076,11 +8077,11 @@ msgstr "Novo Proprietário"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr "Por favor, configure um novo proprietário!"
+msgstr "Por favor, defina um novo proprietário!"
 
 #. Template: AgentTicketActionCommon
 msgid "Owner invalid."
-msgstr ""
+msgstr "Proprietário inválido."
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
@@ -8088,11 +8089,11 @@ msgstr "Novo Responsável"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new responsible!"
-msgstr ""
+msgstr "Por favor, defina um novo responsável!"
 
 #. Template: AgentTicketActionCommon
 msgid "Responsible invalid."
-msgstr ""
+msgstr "Responsável inválido."
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -8100,7 +8101,7 @@ msgstr "Próximo estado"
 
 #. Template: AgentTicketActionCommon
 msgid "State invalid."
-msgstr ""
+msgstr "Estado inválido."
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
@@ -8643,7 +8644,7 @@ msgstr "Salvar como padrão"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "Rascunhos"
 
 #. Template: AgentTicketZoom
 msgid "by"
@@ -8779,7 +8780,7 @@ msgstr "Fechar esta mensagem"
 
 #. Template: MIMEBase
 msgid "Image"
-msgstr ""
+msgstr "Imagem"
 
 #. Template: MIMEBase
 msgid "PDF"
@@ -9664,7 +9665,7 @@ msgstr "Voltar para a página anterior"
 
 #. Template: Alert
 msgid "Alert"
-msgstr ""
+msgstr "Alerta"
 
 #. Template: Alert
 msgid "Powered by"
@@ -9949,7 +9950,7 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Disable"
-msgstr ""
+msgstr "Desabilitar"
 
 #. Template: SettingsList
 msgid "Enable this setting, so it becomes effective"
@@ -9957,7 +9958,7 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Enable"
-msgstr ""
+msgstr "Habilitar"
 
 #. Template: SettingsList
 msgid "Reset this setting to its default state"
@@ -10155,6 +10156,125 @@ msgstr "Contador"
 #. Template: Warning
 msgid "Go back to the previous page"
 msgstr "Voltar para a página anterior"
+
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Finalizado"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Adicionar nova entrada"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr "Adicionar chave"
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Fechar"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -10463,7 +10583,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Processing"
-msgstr ""
+msgstr "Processando"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Failed"
@@ -10475,7 +10595,7 @@ msgstr "Filtro Inválido: %s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Less than a second"
-msgstr ""
+msgstr "Menos de um segundo"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted descending"
@@ -10495,7 +10615,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
-msgstr ""
+msgstr "Alertar"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "days"
@@ -10571,11 +10691,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Direct"
-msgstr ""
+msgstr "Direto"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Indirect"
-msgstr ""
+msgstr "Indireto"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Customer User Relations for Group"
@@ -10792,47 +10912,47 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "0 seconds"
-msgstr ""
+msgstr "0 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "15 seconds"
-msgstr ""
+msgstr "15 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 seconds"
-msgstr ""
+msgstr "30 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "45 seconds"
-msgstr ""
+msgstr "45 segundos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 minute"
-msgstr ""
+msgstr "1 minuto"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
-msgstr ""
+msgstr "2 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr ""
+msgstr "3 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
-msgstr ""
+msgstr "4 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 minutes"
-msgstr ""
+msgstr "5 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -10847,7 +10967,7 @@ msgstr "15 minutos"
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minutos"
 
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
@@ -10917,7 +11037,7 @@ msgstr ""
 #. Perl Module:
 #. Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "1 semana"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need InvokerType"
@@ -11122,10 +11242,6 @@ msgid "Mail account added!"
 msgstr "Conta de e-mail adicionada!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Finalizado"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Distribuição por e-mail por campo: \"Para:\""
 
@@ -11264,27 +11380,27 @@ msgstr "O pacote não foi verificado pelo Grupo OTRS! O seu uso não é recomend
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
-msgstr ""
+msgstr "Atualizado"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Already up-to-date"
-msgstr ""
+msgstr "Atual"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Installed"
-msgstr ""
+msgstr "Instalado"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
-msgstr ""
+msgstr "Pacote atualizado corretamente"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package was already updated"
-msgstr ""
+msgstr "Pacote já foi atualizado"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
-msgstr ""
+msgstr "Dependência instalada corretamente"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
@@ -11676,7 +11792,7 @@ msgstr "Alterar Relações de Papel Para Grupo"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
-msgstr ""
+msgstr "Papel"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Role Relations for Agent"
@@ -13295,11 +13411,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
-msgstr ""
+msgstr "Reinstalar Pacote"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
-msgstr ""
+msgstr "Reinstalar"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Crypted"
@@ -13999,16 +14115,8 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Conteúdo"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Adicionar nova entrada"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -15925,10 +16033,6 @@ msgid "Less"
 msgstr "Menos"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr "Confirmar"
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr ""
 
@@ -16209,10 +16313,6 @@ msgid "Update Result"
 msgstr "Resultado da Atualização"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Fechar"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr "Gerando..."
 
@@ -16279,10 +16379,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
@@ -16868,15 +16964,15 @@ msgstr ""
 
 #. SysConfig
 msgid "0 - Disabled"
-msgstr ""
+msgstr "0 - Desabilitado"
 
 #. SysConfig
 msgid "1 - Available"
-msgstr ""
+msgstr "1 - Disponível"
 
 #. SysConfig
 msgid "1 - Enabled"
-msgstr ""
+msgstr "1 - Habilitado"
 
 #. SysConfig
 msgid "10 Minutes"
@@ -18109,7 +18205,7 @@ msgstr "Criar e gerenciar anexos."
 
 #. SysConfig
 msgid "Create and manage calendars."
-msgstr ""
+msgstr "Criar e gerenciar calendários."
 
 #. SysConfig
 msgid "Create and manage customer users."
@@ -22311,7 +22407,7 @@ msgstr "Associar Objeto"
 
 #. SysConfig
 msgid "Link Object."
-msgstr ""
+msgstr "Associar Objeto."
 
 #. SysConfig
 msgid "Link agents to groups."
@@ -26455,4 +26551,4 @@ msgstr "reverso"
 
 #. SysConfig
 msgid "stats"
-msgstr "status"
+msgstr "estatísticas"

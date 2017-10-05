@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.771597427429167;
+    $Self->{Completeness}        = 0.794840720221607;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -225,7 +225,7 @@ sub Data {
             'Это умалчиваемое значение назначаемое агентам получателям, которые не имеют возможности сделать выбор для этого уведомления в своих настройках. Если включено, уведомление будет отправляться таким агентам.',
         'This feature is currently not available.' => 'Эта функция в данный момент не доступна',
         'Upgrade to %s' => 'Обновление до %s',
-        'Please activate this transport in order to use it.' => '',
+        'Please activate this transport in order to use it.' => 'Включите этот способ передачи для его использования.',
         'No data found' => 'Данные не найдены',
         'No notification method found.' => 'Не задан метод уведомлений.',
         'Notification Text' => 'Текст уведомления',
@@ -250,7 +250,7 @@ sub Data {
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Дополнительный адрес получателя',
-        'Article visible for customer' => '',
+        'Article visible for customer' => 'Сообщение видно клиенту ',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Сообщение/Заметка будет создана, если уведомление отправляется клиенту или на дополнительный адрес почты.',
         'Email template' => 'Шаблон письма',
@@ -266,7 +266,7 @@ sub Data {
         'Add Attachment' => 'Добавить вложение',
         'Edit Attachment' => 'Редактировать вложение',
         'Filter for Attachments' => 'Фильтр для вложений',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Фильтр вложений',
         'Filename' => 'Имя файла',
         'Download file' => 'Скачать файл',
         'Delete this attachment' => 'Удалить это вложение',
@@ -278,13 +278,13 @@ sub Data {
         'Add Auto Response' => 'Добавить автоответ',
         'Edit Auto Response' => 'Изменить автоответ',
         'Filter for Auto Responses' => 'Фильтр для Автоответов',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Фильтр автоматических ответов',
         'Response' => 'Ответ',
         'Auto response from' => 'Автоответ от',
         'Reference' => 'Ссылка',
         'To get the first 20 character of the subject.' => 'Чтобы получить первые 20 символов темы',
         'To get the first 5 lines of the email.' => 'Чтобы получить первые 5 строк email',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'Получить имя клиента заявки (если указано)',
         'To get the article attribute' => 'Чтобы получить атрибут сообщения',
         'Options of the current customer user data' => 'Атрибуты данных о пользователе текущего клиента',
         'Ticket owner options' => 'Атрибуты владельца заявки',
@@ -327,74 +327,74 @@ sub Data {
         'Available Cloud Services' => 'Доступные облачные сервисы',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
+        'Communication Log' => 'Журнал сеансов связи',
         'Time range' => 'Временной интервал',
         'Show only communication logs created in specific time range.' =>
-            '',
-        'Filter for communications' => '',
+            'Показать записи журнала связи созданные в определенном промежутке времени.',
+        'Filter for communications' => 'Фильтр для сеансов',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
-            '',
+            'На этом экране вы можете видеть обзор входящих и исходящих сеансах связи.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            '',
+            'Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. ',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
-        'Status for: %s' => '',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
-        'Number of accounts with warnings: %s' => '',
-        'Failing communications' => '',
-        'No communication problems' => '',
-        'No communication logs' => '',
-        'Number of reported problems: %s' => '',
-        'Open communications' => '',
-        'No active communications' => '',
-        'Number of open communications: %s' => '',
-        'Average processing time' => '',
-        'List of communications (%s)' => '',
+            'Кликая по различным записям, вы будете перенаправляться на экран подробного просмотра о сообщении.',
+        'Status for: %s' => 'Состояние: %s',
+        'Failing accounts' => 'Неверные учетные записи',
+        'Some account problems' => 'Есть проблемы с учетными записями',
+        'No account problems' => 'Нет проблем с учетными записями',
+        'No account activity' => 'Нет активных учетных записей',
+        'Number of accounts with problems: %s' => 'Количество учетных записей с проблемами:%s',
+        'Number of accounts with warnings: %s' => 'Количество учетных записей с предупреждениями: %s',
+        'Failing communications' => 'Неудачные сеансы связи',
+        'No communication problems' => 'Нет проблем с сеансами связи',
+        'No communication logs' => 'Нет записей журнала сеансов связи',
+        'Number of reported problems: %s' => 'Количество обнаруженных проблем:%s',
+        'Open communications' => 'Открытые сеансы связи',
+        'No active communications' => 'Нет активных сеансов связи',
+        'Number of open communications: %s' => 'Количество открытых сеансов связи:%s',
+        'Average processing time' => 'Среднее время сеанса',
+        'List of communications (%s)' => 'Список сеансов связи (%s)',
         'Settings' => 'Параметры',
-        'Entries per page' => '',
-        'No communications found.' => '',
-        '%s s' => '',
+        'Entries per page' => 'Записей на странице',
+        'No communications found.' => 'Нет сеансов связи.',
+        '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
+        'Account Status' => 'Статус учетной записи',
         'Back' => 'Назад',
-        'Filter for accounts' => '',
-        'Filter for log entries' => '',
+        'Filter for accounts' => 'Фильтр для учетных записей',
+        'Filter for log entries' => 'Фильтр для записей журнала',
         'You can change the sort and order of those columns by clicking on the column header.' =>
-            '',
-        'Account status for: %s' => '',
+            'Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. ',
+        'Account status for: %s' => 'Статус учетной записи для: %s',
         'Status' => 'Статус',
         'Account' => 'Аккаунт',
         'Edit' => 'Редактировать',
         'No accounts found.' => 'Аккаунты не найдены',
-        'Communication Log Details (%s)' => '',
+        'Communication Log Details (%s)' => 'Подробный просмотр записи журнала сеансов связи для:  (%s)',
         'Direction' => 'Направление',
         'Start Time' => 'Время начала',
         'End Time' => 'Время окончания',
-        'No communication log entries found.' => '',
+        'No communication log entries found.' => 'Нет записей журнала сеансов связи.',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Продолжительность',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Приоритет',
         'Module' => 'Модуль',
         'Information' => 'Сведения',
-        'No log entries found.' => '',
+        'No log entries found.' => 'Нет записей в журнале.',
 
         # Template: AdminCommunicationLogZoom
-        'Detail view for %s communication started at %s' => '',
-        'Detail View' => '',
-        'Show only entries with specific priority and higher:' => '',
-        'Communication Log Overview (%s)' => '',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Detail view for %s communication started at %s' => 'Подробный просмотр для %s сеанс начат в %s',
+        'Detail View' => 'Подробный просмотр',
+        'Show only entries with specific priority and higher:' => 'Показывать записи только с указанным приоритетом и выше:',
+        'Communication Log Overview (%s)' => 'Просмотр журнала сеансов связи для:  (%s)',
+        'No communication objects found.' => 'Нет объектов сеансов связи.',
+        'Communication Log Details' => 'Подробный просмотр журнала сеансов связи',
+        'Please select an entry from the list.' => 'Выберите запись из списка.',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Управление клиентами',
@@ -408,7 +408,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Введите запрос для поиска компании.',
         'Customer ID' => 'ID клиента',
         'Please note' => 'Помните',
-        'This customer backend is read only!' => '',
+        'This customer backend is read only!' => 'Этот клиентский бэкенд - только для чтения',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Связь Клиентов с Группами',
@@ -420,7 +420,7 @@ sub Data {
         'Edit Customer Default Groups' => 'Редактировать группы клиента по-умолчанию ',
         'These groups are automatically assigned to all customers.' => 'Эти группы автоматически назначаются всем клиентам.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '',
+            'Этими группами можно управлять в настройке конфигурации "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Фильтры для Групп',
         'Select the customer:group permissions.' => 'Выберите разрешения клиент:группа.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -454,7 +454,7 @@ sub Data {
         'Login as' => 'Зайти данным пользователем',
         'Switch to customer' => 'Переключиться на клиента',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
-            '',
+            'Этот клиентский бэкенд - только для чтения, но личные настройки клиента можно менять!',
         'This field is required and needs to be a valid email address.' =>
             'Это поле обязательно, и должно быть корректным адресом электронной почты.',
         'This email address is not allowed due to the system configuration.' =>
@@ -463,44 +463,44 @@ sub Data {
         'DNS problem, please check your configuration and the error log.' =>
             'Проблема с DNS, проверьте вашу конфигурацию и лог ошибок.',
         'The syntax of this email address is incorrect.' => 'Синтаксис этого адреса электронной почты некорректен.',
-        'This CustomerID is invalid.' => '',
-        'Effective Permissions for Customer User' => '',
+        'This CustomerID is invalid.' => 'Этот CustomerID недействительный.',
+        'Effective Permissions for Customer User' => 'Действующие права для Customer User',
         'Group Permissions' => 'Права доступа группы',
-        'This customer user has no group permissions.' => '',
+        'This customer user has no group permissions.' => 'Этот customer user не имеет прав в группах.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'Таблица выше показывает действующие права клиентов в группах. Матрица учитывает все унаследованные разрешения (например, через группы клиентов). Примечание. В таблице не рассматриваются изменения, внесенные в эту форму, без ее отправки.',
         'Customer Access' => 'Доступ Клиента',
         'Customer' => 'Клиент',
-        'This customer user has no customer access.' => '',
+        'This customer user has no customer access.' => 'Этот клиент не имеет клиентского доступа.',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'Таблица выше показывает действующие права клиента. Матрица учитывает все унаследованные разрешения (например, через группы клиентов). Примечание. В таблице не рассматриваются изменения, внесенные в эту форму, без ее отправки.',
 
         # Template: AdminCustomerUserCustomer
-        'Manage Customer User-Customer Relations' => '',
-        'Select the customer user:customer relations.' => '',
+        'Manage Customer User-Customer Relations' => 'Управление связями Клиенты - Компании клиентов',
+        'Select the customer user:customer relations.' => 'Выберите клиента: принадлежность к компании.',
         'Customer Users' => 'Клиенты',
-        'Change Customer Relations for Customer User' => '',
-        'Change Customer User Relations for Customer' => '',
+        'Change Customer Relations for Customer User' => 'Изменить связь Компании с Клиентом',
+        'Change Customer User Relations for Customer' => 'Изменить связь Клиента с Компанией',
         'Toggle active state for all' => 'Сделать активным для всех',
         'Active' => 'Активный',
         'Toggle active state for %s' => 'Сделать активным для %s',
 
         # Template: AdminCustomerUserGroup
-        'Manage Customer User-Group Relations' => '',
+        'Manage Customer User-Group Relations' => 'Управление связями Клиенты - Компании клиентов',
         'Just use this feature if you want to define group permissions for customer users.' =>
-            '',
-        'Edit Customer User Default Groups' => '',
+            'Просто используйте эту возможность, если хотите определить групповые права для клиентов.',
+        'Edit Customer User Default Groups' => 'Изменить клиентские группы по-умолчанию',
         'These groups are automatically assigned to all customer users.' =>
-            '',
+            'Эти группы автоматически назначаются всем клиентам.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Этими группами можно управлять в настройке конфигурации "CustomerGroupAlwaysGroups".',
-        'Select the customer user - group permissions.' => '',
+        'Select the customer user - group permissions.' => 'Выберите разрешения клиент - группа.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
-            '',
-        'Customer User Default Groups:' => '',
+            'Если ничего не выбрано, тогда у клиентов в этой группе не будет прав (заявки будут недоступны клиенту).',
+        'Customer User Default Groups:' => 'Клиентские группы по-умолчанию:',
 
         # Template: AdminCustomerUserService
-        'Manage Customer User-Services Relations' => '',
+        'Manage Customer User-Services Relations' => 'Связь Клиентов с Сервисами',
         'Edit default services' => 'Редактировать сервисы по-умолчанию',
         'Filter for Services' => 'Фильтр для Сервисов',
         'Services' => 'Сервисы',
@@ -508,20 +508,20 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Управление динамическими полями',
         'Add new field for object' => 'Добавить новое поле для объекта',
-        'Filter for Dynamic Fields' => '',
-        'Filter for dynamic fields' => '',
-        'More Business Fields' => '',
+        'Filter for Dynamic Fields' => 'Фильтр для динамических полей',
+        'Filter for dynamic fields' => 'Фильтр для динамических полей',
+        'More Business Fields' => 'Больше Business Fields',
         'Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:' =>
-            '',
+            'Желаете получить больше выгоды от динамических полей для бизнеса? Обновите систему до %sдля доступа к следующим дополнительным типам полей:',
         'Database' => 'База данных',
         'Use external databases as configurable data sources for this dynamic field.' =>
-            '',
-        'Web service' => '',
+            'Используйте внешние БД как конфигурируемые источники данных для этих динамических полей',
+        'Web service' => 'Веб-сервисы',
         'External web services can be configured as data sources for this dynamic field.' =>
-            '',
-        'Contact with data' => '',
+            'Внешние веб-сервисы могут быть настроены как источники данных для этих динамических полей.',
+        'Contact with data' => 'Contact with data',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
-            '',
+            'Эта возможность позволяет добавить (несколько) контакты с данными к заявкам.',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             'Чтобы добавить новое поле, выберите один из типов из появившегося списка, тип определяет границы использования для поля и он не может быть изменен после создания поля.',
         'Dynamic Fields List' => 'Список динамических полей',
@@ -548,13 +548,13 @@ sub Data {
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Это порядок, в котором поле будет показываться среди других полей на тех экранах, где оно активно.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
-            '',
+            'Невозможно аннулировать эту запись, все настройки конфигурации должны быть изменены заранее.',
         'Field type' => 'Тип поля',
         'Object type' => 'Тип объекта',
         'Internal field' => 'Внутреннее поле',
         'This field is protected and can\'t be deleted.' => 'Это поле защищено и не может быть удалено.',
         'This dynamic field is used in the following config settings:' =>
-            '',
+            'Это динамическое поле используется в следующих параметрах конфигурации:',
         'Field Settings' => ' - настройки поля',
         'Default value' => 'Значение по умолчанию',
         'This is the default value for this field.' => 'Это значение по умолчанию для данного поля.',
@@ -615,7 +615,7 @@ sub Data {
         'Add RegEx' => 'Добавить регулярное выражение',
 
         # Template: AdminEmail
-        'Admin Message' => '',
+        'Admin Message' => 'Сообщение администратора',
         'With this module, administrators can send messages to agents, group or role members.' =>
             'С помощью этого модуля администраторы могут отправлять сообщения агентам, являющимся членом группы или роли.',
         'Create Administrative Message' => 'Создать сообщение администратора',
@@ -634,8 +634,8 @@ sub Data {
         'Edit job' => 'Редактировать задание',
         'Add job' => 'Добавить задание',
         'Run job' => 'Запустить задание',
-        'Filter for Generic Agent Jobs' => '',
-        'Filter for generic agent jobs' => '',
+        'Filter for Generic Agent Jobs' => 'Фильтр для заданий Планировщика',
+        'Filter for generic agent jobs' => 'Фильтр для заданий Планировщика',
         'Last run' => 'Дата последнего запуска',
         'Run Now!' => 'Выполнить сейчас!',
         'Delete this task' => 'Удалить задачу',
@@ -643,7 +643,7 @@ sub Data {
         'Job Settings' => 'Настройки задания',
         'Job name' => 'Имя задания',
         'The name you entered already exists.' => 'Введенное вами имя уже существует.',
-        'Automatic Execution (Multiple Tickets)' => '',
+        'Automatic Execution (Multiple Tickets)' => 'Автоматическое выполнение (несколько заявок)',
         'Execution Schedule' => 'Управление запуском',
         'Schedule minutes' => 'Запускать в минуты',
         'Schedule hours' => 'Запускать в часы',
@@ -652,7 +652,7 @@ sub Data {
             'Это задание агента не запускается автоматически',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Для автоматического запуска укажите как минимум одно из значений в минутах, часах или днях!',
-        'Event Based Execution (Single Ticket)' => '',
+        'Event Based Execution (Single Ticket)' => 'Управляемое событием выполнение (одна заявка)',
         'Event Triggers' => 'Триггеры событий',
         'List of all configured events' => 'Список всех настроенных событий',
         'Delete this event' => 'Удалить это событие',
@@ -662,11 +662,11 @@ sub Data {
             'Если событие по заявке наступило, фильтр заявок находит соответствующие заявки. Только после этого стартует задача для этой заявки.',
         'Do you really want to delete this event trigger?' => 'Вы действительно хотите удалить этот триггер события?',
         'Add Event Trigger' => 'Добавить триггер события',
-        'To add a new event select the event object and event name' => '',
+        'To add a new event select the event object and event name' => 'Чтобы добавить новое событие выберите объект и имя события',
         'Select Tickets' => 'Выбрать заявки',
         '(e. g. 10*5155 or 105658*)' => '(например, 10*5155 или 105658*)',
         '(e. g. 234321)' => '(например, 234321)',
-        'Customer user ID' => '',
+        'Customer user ID' => 'Customer user ID',
         '(e. g. U5150)' => '(например, U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Полнотекстовый поиск в сообщении (например, "Mar*in" или "Baue*").',
         'To' => 'Получатель',
@@ -725,14 +725,14 @@ sub Data {
         'new owner' => 'новый владелец',
         'new responsible' => 'новый ответственный',
         'Set new ticket lock' => 'Установить новое состояние блокировки',
-        'New customer user ID' => '',
+        'New customer user ID' => 'Новый customer user ID',
         'New customer ID' => 'ID нового клиента',
         'New title' => 'Новый заголовок',
         'New type' => 'Новый тип',
         'New Dynamic Field Values' => 'Новые значения динамических полей',
         'Archive selected tickets' => 'Архивировать выбранные заявки',
         'Add Note' => 'Добавить заметку/сообщение',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Видно клиенту',
         'Time units' => 'Затраченное время',
         'Execute Ticket Commands' => 'Выполнить действия над заявкой',
         'Send agent/customer notifications on changes' => 'Отправить уведомление агенту/клиенту при изменениях',
@@ -756,7 +756,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Web Service Management' => 'Управление  GenericInterface Web Service',
-        'Web Service Management' => '',
+        'Web Service Management' => 'Управление веб-сервисами',
         'Debugger' => 'Отладчик',
         'Go back to web service' => 'Перейти назад к веб-сервису',
         'Clear' => 'Очистить',
@@ -764,7 +764,7 @@ sub Data {
             'Вы действительно хотите очистить отладочный журнал для этого веб-сервиса',
         'Request List' => 'Список запросов',
         'Time' => 'Время',
-        'Communication ID' => '',
+        'Communication ID' => 'Communication ID',
         'Remote IP' => 'Удаленный IP-адрес',
         'Loading' => 'Загрузка',
         'Select a single request to see its details.' => 'Выберите одиночный запрос для просмотра деталей.',
@@ -776,24 +776,24 @@ sub Data {
         'Refresh' => 'Обновить',
 
         # Template: AdminGenericInterfaceErrorHandlingDefault
-        'Add ErrorHandling' => '',
-        'Edit ErrorHandling' => '',
-        'Do you really want to delete this error handling module?' => '',
+        'Add ErrorHandling' => 'Добавить ErrorHandling',
+        'Edit ErrorHandling' => 'Редактировать ErrorHandling',
+        'Do you really want to delete this error handling module?' => 'Вы действительно желаете удалить этот модуль обработки ошибок?',
         'All configuration data will be lost.' => 'Все данные конфигурации будут потеряны.',
-        'General options' => '',
+        'General options' => 'Общие настройки',
         'The name can be used to distinguish different error handling configurations.' =>
-            '',
+            'Имя может быть использовано для для отличия настроек обработки ошибок.',
         'Please provide a unique name for this web service.' => 'Укажите уникальное имя для этого веб-сервиса.',
-        'Error handling module backend' => '',
+        'Error handling module backend' => 'Error handling module backend',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
-            '',
-        'Processing options' => '',
+            'Этот серверный модуль обработки ошибок OTRS будет вызываться скрыто для обеспечения работы механизма обработки ошибок.',
+        'Processing options' => 'Настройки выполнения',
         'Configure filters to control error handling module execution.' =>
-            '',
+            'Настроить фильтры для управления выполнением модуля обработки ошибок.',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
-            '',
-        'Operation filter' => '',
-        'Only execute error handling module for selected operations.' => '',
+            'Запрос на вызов модуля выполняется только в случае соответствия всем (если есть) настроенным фильтрам.',
+        'Operation filter' => 'Фильтр операций',
+        'Only execute error handling module for selected operations.' => 'Выполнять модуль обработки ошибок только для избранных операций.',
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
             '',
         'Invoker filter' => '',
@@ -804,20 +804,20 @@ sub Data {
         'Error message subject and data (as seen in the debugger error entry) will considered for a match.' =>
             '',
         'Example: Enter \'^.*401 Unauthorized.*\$\' to handle only authentication related errors.' =>
-            '',
+            'Пример: Введите \'^.*401 Unauthorized.*\$\'для обработки ошибок связанных только аутентификацией.',
         'Error stage filter' => '',
         'Only execute error handling module on errors that occur during specific processing stages.' =>
             '',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
             '',
-        'Error code' => '',
-        'An error identifier for this error handling module.' => '',
+        'Error code' => 'Код ошибки',
+        'An error identifier for this error handling module.' => 'Идентификатор ошибки для этого модуля обработки ошибок.',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
-        'Error message' => '',
-        'An error explanation for this error handling module.' => '',
+            'Этот идентификатор будет доступен в XSLT-Mapping и отображается в листинге отладчика.',
+        'Error message' => 'Сообщение об ошибке',
+        'An error explanation for this error handling module.' => 'Пояснение ошибки для этого модуля обработки ошибок.',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
-            '',
+            'Это сообщение будет доступно в XSLT-Mapping и отображается в листинге отладчика.',
         'Define if processing should be stopped after module was executed, skipping all remaining modules or only those of the same backend.' =>
             '',
         'Default behavior is to resume, processing the next module.' => '',
@@ -829,17 +829,17 @@ sub Data {
             '',
         'If more than one module capable of scheduling a retry is executed for an individual request, the module executed last is authoritative and determines if a retry is scheduled.' =>
             '',
-        'Request retry options' => '',
+        'Request retry options' => 'Настройка попыток запроса',
         'Retry options are applied when requests cause error handling module execution (based on processing options).' =>
             '',
         'Schedule retry' => '',
         'Should requests causing an error be triggered again at a later time?' =>
             '',
-        'Initial retry interval' => '',
-        'Interval after which to trigger the first retry.' => '',
+        'Initial retry interval' => 'Начальный интервал попыток',
+        'Interval after which to trigger the first retry.' => 'Интервал, после которого производится первая попытка.',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
-            '',
-        'Factor for further retries' => '',
+            'Внимание: Этот и последующие интервалы между попытками основаны на времени выполнения обработчика ошибок после первого запроса.',
+        'Factor for further retries' => 'Фактор для дальнейших попыток',
         'If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.' =>
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\' and retry factor at \'2\', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...' =>
@@ -851,14 +851,14 @@ sub Data {
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum interval at \'5 minutes\', retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 minutes), 10:12 (8=>5 minutes), 10:17, ...' =>
             '',
-        'Maximum retry count' => '',
+        'Maximum retry count' => 'Максимальное значение счетчика попыток',
         'Maximum number of retries before a failing request is discarded, not counting the initial request.' =>
             '',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\', retry factor at \'2\' and maximum retry count at \'2\', retries would be triggered at 10:01 and 10:02 only.' =>
             '',
         'Note: Maximum retry count might not be reached if a maximum retry period is configured as well and reached earlier.' =>
             '',
-        'This field must be empty or contain a positive number.' => '',
+        'This field must be empty or contain a positive number.' => 'Это поле должно быть пустым или содержать положительное число.',
         'Maximum retry period' => '',
         'Maximum period of time for retries of failing requests before they are discarded (based on the error handling module execution time for the initial request).' =>
             '',
@@ -889,7 +889,7 @@ sub Data {
             'Запрашиваемые данные будут обработаны, преобразованы в формат поддерживаемый OTRS',
         'Asynchronous' => 'Асинхронный',
         'Condition' => 'Условие',
-        'Edit this event' => '',
+        'Edit this event' => 'Редактировать это событие',
         'This invoker will be triggered by the configured events.' => 'Этот invoker будет вызван при наступлении заданных событий.',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Чтобы добавить новое событие выберите объект и имя события и щелкните кнопку "+" ',
@@ -901,11 +901,11 @@ sub Data {
         # Template: AdminGenericInterfaceInvokerEvent
         'GenericInterface Invoker Event Settings for Web Service %s' => '',
         'Go back to' => 'Вернуться к',
-        'Delete all conditions' => '',
+        'Delete all conditions' => 'Удалить все условия',
         'Do you really want to delete all the conditions for this event?' =>
-            '',
-        'General Settings' => '',
-        'Event type' => '',
+            'Вы действительно желаете удалить все условия для этого события?',
+        'General Settings' => 'Общие настройки',
+        'Event type' => 'Тип события',
         'Conditions' => 'Условия',
         'Conditions can only operate on non-empty fields.' => 'Условия могут действовать только на заполненных полях.',
         'Type of Linking between Conditions' => 'Тип связи между Условиями',
@@ -940,21 +940,21 @@ sub Data {
         'Do you really want to delete this key mapping?' => 'Вы действительно хотите удалить это сопоставление ключей?',
 
         # Template: AdminGenericInterfaceMappingXSLT
-        'General Shortcuts' => '',
-        'MacOS Shortcuts' => '',
+        'General Shortcuts' => 'Общие сокращения',
+        'MacOS Shortcuts' => 'Сокращения MacOS ',
         'Comment code' => '',
         'Uncomment code' => '',
         'Auto format code' => '',
         'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
-        'XSLT Mapping' => '',
-        'XSLT stylesheet' => '',
+        'Find' => 'Найти',
+        'Find next' => 'Найти следующее',
+        'Find previous' => 'Найти предыдущее',
+        'Find and replace' => 'Найти и заменить',
+        'Find and replace all' => 'Найти и заменить все',
+        'XSLT Mapping' => 'XSLT Mapping',
+        'XSLT stylesheet' => 'XSLT stylesheet',
         'The entered data is not a valid XSLT style sheet.' => '',
-        'Here you can add or modify your XSLT mapping code.' => '',
+        'Here you can add or modify your XSLT mapping code.' => 'Здесь вы можете добавить или изменить  ваш XSLT mapping code.',
         'The editing field allows you to use different functions like automatic formatting, window resize as well as tag- and bracket-completion.' =>
             '',
         'Data includes' => '',
@@ -964,12 +964,12 @@ sub Data {
             '',
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
-        'Regular expressions' => '',
-        'Replace' => '',
-        'Remove regex' => '',
-        'Add regex' => '',
+        'Regular expressions' => 'Регулярные выражения',
+        'Replace' => 'Заменить',
+        'Remove regex' => 'Удалить регулярное выражение',
+        'Add regex' => 'Добавить регулярное выражение',
         'These filters can be used to transform keys using regular expressions.' =>
-            '',
+            'Эти фильтры могут быть использованы для преобразования ключей с помощью регулярных выражений.',
         'The data structure will be traversed recursively and all configured regexes will be applied to all keys.' =>
             '',
         'Use cases are e.g. removing key prefixes that are undesired or correcting keys that are invalid as XML element names.' =>
@@ -981,18 +981,18 @@ sub Data {
         'Example 3: Search = \'^(?<number>\d+) (?<text>.+?)\$\' / Replace = \'_\$+{text}_\$+{number}\' turns \'16 elementname\' into \'_elementname_16\'.' =>
             '',
         'For information about regular expressions in Perl please see here:' =>
-            '',
-        'Perl regular expressions tutorial' => '',
+            'Для информации о регулярных выражениях в Perl смотрите здесь:',
+        'Perl regular expressions tutorial' => 'Руководство по регулярным выражениям Perl',
         'If modifiers are desired they have to be specified within the regexes themselves.' =>
             '',
         'Regular expressions defined here will be applied before the XSLT mapping.' =>
-            '',
+            'Регулярные выражения заданные здесь будут применены до XSLT mapping.',
         'Regular expressions defined here will be applied after the XSLT mapping.' =>
-            '',
+            'Регулярные выражения заданные здесь будут применены после XSLT mapping.',
 
         # Template: AdminGenericInterfaceOperationDefault
-        'Add Operation' => '',
-        'Edit Operation' => '',
+        'Add Operation' => 'Добавить операцию',
+        'Edit Operation' => 'Редактировать операцию',
         'Do you really want to delete this operation?' => 'Вы действительно желаете удалить эту операцию?',
         'Operation Details' => 'Детали операции',
         'The name is typically used to call up this web service operation from a remote system.' =>
@@ -1006,7 +1006,7 @@ sub Data {
         'Mapping for outgoing response data' => 'Сопоставление данных для исходящего ответа',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             'Данные ответа будут обработаны этим отображением, чтобы преобразовать его к виду данных, которые ожидает удаленная система.',
-        'Include Ticket Data' => '',
+        'Include Ticket Data' => 'Вставить данные заявки',
         'Include ticket data by response. Only available for TicketCreate and TicketUpdate operations.' =>
             '',
 
@@ -1033,17 +1033,17 @@ sub Data {
             '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             'например, https://www.otrs.com:10745/api/v1.0 (без обратных слэшей)',
-        'Timeout' => '',
-        'Timeout value for requests.' => '',
+        'Timeout' => 'Timeout',
+        'Timeout value for requests.' => 'Значение Timeout для запросов.',
         'Authentication' => 'Аутентификация',
         'An optional authentication mechanism to access the remote system.' =>
-            '',
+            'Необязательный механизм аутентификации для доступа к удаленной системе.',
         'BasicAuth User' => '',
         'The user name to be used to access the remote system.' => 'Имя пользователя для доступа к удаленной системе.',
         'BasicAuth Password' => '',
         'The password for the privileged user.' => 'Пароль для привилегированного пользователя',
-        'Use Proxy Options' => '',
-        'Show or hide Proxy options to connect to the remote system.' => '',
+        'Use Proxy Options' => 'Использовать настройки Proxy ',
+        'Show or hide Proxy options to connect to the remote system.' => 'Показать или скрыть параметры Proxy для подключения к удаленной системе.',
         'Proxy Server' => 'Прокси-сервер',
         'URI of a proxy server to be used (if needed).' => 'URI используемого прокси сервера (если требуется).',
         'e.g. http://proxy_hostname:8080' => 'например, http://proxy_hostname:8080',
@@ -1058,11 +1058,11 @@ sub Data {
         'Client Certificate' => 'Сертификат Клиента',
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => 'например /opt/otrs/var/certificates/SOAP/certificate.pem',
         'Client Certificate Key' => '',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'например /opt/otrs/var/certificates/SOAP/key.pem',
         'Client Certificate Key Password' => '',
         'The password to open the SSL certificate if the key is encrypted.' =>
             '',
@@ -1084,7 +1084,7 @@ sub Data {
         'The default HTTP command to use for the requests.' => 'Команда HTTP по умолчанию для использования в запросах.',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
-        'e.g. https://local.otrs.com:8000/Webservice/Example' => '',
+        'e.g. https://local.otrs.com:8000/Webservice/Example' => 'например https://local.otrs.com:8000/Webservice/Example',
         'Set SOAPAction' => '',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '',
         'Set to "No" in order to send an empty SOAPAction header.' => '',
@@ -3273,6 +3273,61 @@ sub Data {
         # Template: Warning
         'Go back to the previous page' => 'Перейти на предыдущую страницу',
 
+        # JS Template: CalendarSettingsDialog
+        'Show' => '',
+
+        # JS Template: FormDraftAddDialog
+        'Draft title' => '',
+
+        # JS Template: ArticleViewSettingsDialog
+        'Article display' => '',
+
+        # JS Template: FormDraftDeleteDialog
+        'Do you really want to delete "%s"?' => '',
+        'Confirm' => 'Подтвердить',
+
+        # JS Template: WidgetLoading
+        'Loading, please wait...' => '',
+
+        # JS Template: UploadContainer
+        'Click to select files or just drop them here.' => '',
+        'Click to select a file or just drop it here.' => '',
+        'Uploading...' => '',
+
+        # JS Template: InformationDialog
+        'Process state' => '',
+        'Running' => '',
+        'Finished' => 'Закончено',
+        'No package information available.' => '',
+
+        # JS Template: AddButton
+        'Add new entry' => 'Добавить новую запись',
+
+        # JS Template: AddHashKey
+        'Add key' => 'Добавить ключ',
+
+        # JS Template: DialogDeployment
+        'Deployment comment...' => '',
+        'Deploying, please wait...' => '',
+        'Preparing to deploy, please wait...' => '',
+        'Deploy now' => '',
+        'Close' => 'Закрыть',
+        'Try again' => '',
+
+        # JS Template: DialogReset
+        'Reset options' => '',
+        'Reset setting on global level.' => '',
+        'Reset globally' => '',
+        'Remove all user changes.' => '',
+        'Reset locally' => '',
+        'user(s) have modified this setting.' => '',
+        'Do you really want to reset this setting to it\'s default value?' =>
+            '',
+
+        # JS Template: HelpDialog
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
+            '',
+
         # Perl Module: Kernel/Config/Defaults.pm
         'Database Backend' => '',
         'CustomerIDs' => 'ID клиентов',
@@ -3582,7 +3637,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Учетная запись почты добавлена!',
-        'Finished' => 'Закончено',
         'Dispatching by email To: field.' => 'Перенаправление по заголовку To: электронного письма',
         'Dispatching by selected Queue.' => 'Перенаправление по выбранной очереди',
 
@@ -4624,9 +4678,7 @@ sub Data {
         'Cancel editing and unlock this setting' => 'Отменить правку и разблокировать эту настройку',
         'Reset this setting to its default value.' => 'Сбросить эту настройку на значение по умолчанию',
         'Unable to load %s!' => '',
-        'Add key' => 'Добавить ключ',
         'Content' => 'Содержание',
-        'Add new entry' => 'Добавить новую запись',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => 'Разблокировать, чтобы вернуть в очередь',
@@ -4805,7 +4857,7 @@ sub Data {
         'State Historic' => 'Состояние истории',
         'State Type Historic' => 'Тип состояния истории',
         'Historic Time Range' => 'Период истории',
-        'Number' => '',
+        'Number' => 'Число',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => 'Среднее время решения заявки',
@@ -5335,7 +5387,6 @@ sub Data {
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => 'Более',
         'Less' => 'Менее',
-        'Confirm' => 'Подтвердить',
         'Press Ctrl+C (Cmd+C) to copy to clipboard' => '',
 
         # JS File: Core.Agent.Admin.Attachment
@@ -5456,7 +5507,6 @@ sub Data {
         'Support Data information was successfully sent.' => 'Анные Support Data были успешно отправлены.',
         'Was not possible to send Support Data information.' => 'Было не возможно отправить Support Data.',
         'Update Result' => 'Результат обновления',
-        'Close' => 'Закрыть',
         'Generating...' => 'Выполняется...',
         'It was not possible to generate the Support Bundle.' => 'Не удалось сгенерировать Пакет поддержки/ Support Bundle.',
         'Generate Result' => 'Результат генерации',
@@ -5479,7 +5529,6 @@ sub Data {
         'Loading...' => 'Загрузка...',
         'Search the System Configuration' => '',
         'Please enter at least one search word to find anything.' => '',
-        'Preparing to deploy, please wait...' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
             '',
         'Deploy' => '',
@@ -8598,9 +8647,15 @@ Thanks for your help!
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.',
+        'Add',
         'Add all',
+        'Add entry',
+        'Add key',
         'Add new draft',
+        'Add new entry',
         'Add to favourites',
+        'Agent',
         'All occurrences',
         'All-day',
         'An error occurred during communication.',
@@ -8616,6 +8671,7 @@ Thanks for your help!
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article display',
         'Article filter',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
@@ -8623,16 +8679,21 @@ Thanks for your help!
         'Attachments',
         'Aug',
         'August',
+        'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
+        'Calendar',
         'Cancel',
         'Cannot proceed',
         'Clear',
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to select a file or just drop it here.',
+        'Click to select files or just drop them here.',
         'Clone web service',
         'Close',
         'Close dialog',
+        'Close preview',
         'Close this dialog',
         'Communication error',
         'Complex %s with %s arguments',
@@ -8643,6 +8704,7 @@ Thanks for your help!
         'Currently not possible',
         'Customer interface does not support articles not visible for customers.',
         'Data Protection',
+        'Date/Time',
         'Day',
         'Dec',
         'December',
@@ -8669,11 +8731,16 @@ Thanks for your help!
         'Deleting the postmaster filter and its data. This may take a while...',
         'Deleting the template and its data. This may take a while...',
         'Deploy',
+        'Deploy now',
+        'Deploying, please wait...',
+        'Deployment comment...',
         'Deployment successful. You\'re being redirected...',
         'Descending sort applied, ',
+        'Description',
         'Dismiss',
         'Do not show this warning again.',
         'Do you really want to continue?',
+        'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this link?',
@@ -8681,13 +8748,16 @@ Thanks for your help!
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',
+        'Do you really want to reset this setting to it\'s default value?',
         'Do you really want to revert this setting to its historical value?',
         'Don\'t save, update manually',
+        'Draft title',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
+        'End date',
         'Error',
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
@@ -8699,6 +8769,7 @@ Thanks for your help!
         'February',
         'Filters',
         'Find out more',
+        'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
         'Fri',
@@ -8727,7 +8798,10 @@ Thanks for your help!
         'June',
         'Just this occurrence',
         'Less',
+        'Link',
+        'Loading, please wait...',
         'Loading...',
+        'Location',
         'Mail check successful.',
         'Mapping for Key',
         'Mapping for Key %s',
@@ -8748,16 +8822,19 @@ Thanks for your help!
         'No data found.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
+        'No package information available.',
         'No sort applied, ',
         'No space left for the following files',
         'Not available',
         'Notice',
+        'Notification',
         'Nov',
         'November',
         'OK',
         'Oct',
         'October',
         'One or more errors occurred!',
+        'Open URL in new tab',
         'Open date selection',
         'Open this node in a new window',
         'Please add values for all keys before saving the setting.',
@@ -8774,27 +8851,42 @@ Thanks for your help!
         'Preparing to deploy, please wait...',
         'Press Ctrl+C (Cmd+C) to copy to clipboard',
         'Previous',
+        'Process state',
+        'Queues',
         'Reload page',
+        'Remove',
         'Remove Entity from canvas',
         'Remove active filters for this widget.',
+        'Remove all user changes.',
         'Remove from favourites',
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this entry',
+        'Repeat',
         'Request Details',
         'Request Details for Communication ID',
         'Reset',
+        'Reset globally',
+        'Reset locally',
         'Reset option is required!',
+        'Reset options',
         'Reset setting',
+        'Reset setting on global level.',
+        'Resource',
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Rule',
+        'Running',
         'Sa',
         'Sat',
         'Saturday',
         'Save',
         'Save and update automatically',
+        'Scale preview content',
         'Search',
+        'Search attributes',
         'Search the System Configuration',
         'Searching for linkable objects. This may take a while...',
         'Select a customer ID to assign to this ticket',
@@ -8805,6 +8897,7 @@ Thanks for your help!
         'September',
         'Setting a template will overwrite any text or attachment.',
         'Settings',
+        'Show',
         'Show EntityIDs',
         'Show current selection',
         'Show or hide the content.',
@@ -8818,6 +8911,8 @@ Thanks for your help!
         'Sorry, you can only upload one file here.',
         'Split',
         'Stacked',
+        'Start date',
+        'Status',
         'Stream',
         'Su',
         'Sun',
@@ -8827,6 +8922,7 @@ Thanks for your help!
         'Switch to desktop mode',
         'Switch to mobile mode',
         'System Registration',
+        'Team',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -8849,6 +8945,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This field is required.',
         'This is %s',
         'This is a repeating appointment',
         'This is currently disabled because of an ongoing package upgrade.',
@@ -8860,18 +8957,23 @@ Thanks for your help!
         'Timeline Day',
         'Timeline Month',
         'Timeline Week',
+        'Title',
         'Today',
         'Too many active calendars',
+        'Try again',
         'Tu',
         'Tue',
         'Tuesday',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.',
+        'Unknown',
         'Unlock setting.',
         'Update Result',
         'Update manually',
         'Upgrade All Packages',
         'Upgrade all packages',
         'Upload information',
+        'Uploading...',
+        'Use options below to narrow down for which tickets appointments will be automatically created.',
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.',
         'Warning',
         'Was not possible to send Support Data information.',
@@ -8880,7 +8982,9 @@ Thanks for your help!
         'Wednesday',
         'Week',
         'Would you like to edit just this occurrence or all occurrences?',
+        'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
@@ -8889,7 +8993,9 @@ Thanks for your help!
         'month',
         'no',
         'none',
+        'or',
         'sorting is disabled',
+        'user(s) have modified this setting.',
         'week',
         'yes',
     ];

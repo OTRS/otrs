@@ -4,7 +4,7 @@
 # Bartosz Huczek <bhuczek@sas24.pl>, 2016
 # Daniel Lisiecki, 2017
 # icetafax <tomasz.matejunas@cortlandplus.pl>, 2015
-# Jerzy Ruszczak <orcio6@o2.pl>, 2015-2016
+# Jerzy Ruszczak <orcio6@o2.pl>, 2015-2017
 # Kamil Zając <kz@itpartners.com.pl>, 2017
 # Mateusz Małek <transifex@mkwm.eu.org>, 2015
 # Michał Kiełkowski <michal.kielkowski@lhsystems.com>, 2015
@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:30+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Polish (http://www.transifex.com/otrs/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr "Edytuj ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Edytuj ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -193,7 +193,7 @@ msgstr "Pokaż lub ukryj treść"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Edytuj informację ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -205,7 +205,7 @@ msgstr "Zatrzymaj po dopasowaniu"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Edytuj strukturę ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -494,11 +494,11 @@ msgstr "Eksportuj powiadomienia"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filtr powiadomień"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filtr powiadomień"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -9708,7 +9708,7 @@ msgstr "Poinformuj agenta"
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr "Wiataj"
+msgstr "Witaj"
 
 #. Template: PublicDefault
 msgid ""
@@ -10139,6 +10139,125 @@ msgstr "Licznik"
 #. Template: Warning
 msgid "Go back to the previous page"
 msgstr "Powrót do poprzedniej strony"
+
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Zakończono"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Dodaj nową pozycję"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Zamknij"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -11104,10 +11223,6 @@ msgstr "Grupa zaktualizowana!"
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
 msgstr "Konto pocztowe dodane!"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Zakończono"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -13983,16 +14098,8 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Zawartość"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Dodaj nową pozycję"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -15909,10 +16016,6 @@ msgid "Less"
 msgstr "Mniej"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr "Potwierdź"
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr ""
 
@@ -16193,10 +16296,6 @@ msgid "Update Result"
 msgstr "Wyślij wynik"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Zamknij"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr "Generowanie..."
 
@@ -16263,10 +16362,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration

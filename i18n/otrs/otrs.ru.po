@@ -18,10 +18,11 @@
 # Rasim Kalimullin <neutrino.vm@gmail.com>, 2017
 # Sergey Stepanov <Stepanov.SA@bashkortostan.ru>, 2016
 # Shader <shader@dautkom.lv>, 2016
+# Shader <shader@dautkom.lv>, 2017
 # Владислав Тырышкин, 2016
 # Vladislav Yaroslavlev <vladon@vladon.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
-# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014-2016
+# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014-2017
 # Владислав Тырышкин, 2016
 # Дмитрий Сериков <dserikov@onlinetours.ru>, 2016
 # Дмитрий Тимофеевич Белетков <beletkov_dt@bdtex.ru>, 2017
@@ -30,8 +31,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:29+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -681,7 +682,7 @@ msgstr "Обновление до %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Включите этот способ передачи для его использования."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -771,7 +772,7 @@ msgstr "Дополнительный адрес получателя"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Сообщение видно клиенту "
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -822,7 +823,7 @@ msgstr "Фильтр для вложений"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Фильтр вложений"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -862,7 +863,7 @@ msgstr "Фильтр для Автоответов"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Фильтр автоматических ответов"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -886,7 +887,7 @@ msgstr "Чтобы получить первые 5 строк email"
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "Получить имя клиента заявки (если указано)"
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -1019,7 +1020,7 @@ msgstr "Доступные облачные сервисы"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Журнал сеансов связи"
 
 #. Template: AdminCommunicationLog
 msgid "Time range"
@@ -1027,93 +1028,93 @@ msgstr "Временной интервал"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "Показать записи журнала связи созданные в определенном промежутке времени."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Фильтр для сеансов"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "In this screen you can see an overview about incoming and outgoing "
 "communications."
-msgstr ""
+msgstr "На этом экране вы можете видеть обзор входящих и исходящих сеансах связи."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
-msgstr ""
+msgstr "Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. "
 
 #. Template: AdminCommunicationLog
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed"
 " screen about the message."
-msgstr ""
+msgstr "Кликая по различным записям, вы будете перенаправляться на экран подробного просмотра о сообщении."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Состояние: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Неверные учетные записи"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Есть проблемы с учетными записями"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Нет проблем с учетными записями"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Нет активных учетных записей"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Количество учетных записей с проблемами:%s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Количество учетных записей с предупреждениями: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Неудачные сеансы связи"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "Нет проблем с сеансами связи"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "Нет записей журнала сеансов связи"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Количество обнаруженных проблем:%s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Открытые сеансы связи"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "Нет активных сеансов связи"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Количество открытых сеансов связи:%s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "Среднее время сеанса"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "Список сеансов связи (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1121,19 +1122,19 @@ msgstr "Параметры"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Записей на странице"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "Нет сеансов связи."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Статус учетной записи"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back"
@@ -1141,21 +1142,21 @@ msgstr "Назад"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Фильтр для учетных записей"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for log entries"
-msgstr ""
+msgstr "Фильтр для записей журнала"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
 "You can change the sort and order of those columns by clicking on the column"
 " header."
-msgstr ""
+msgstr "Вы можете поменять сортировку и порядок колонок, кликнув по заголовку. "
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Статус учетной записи для: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1175,7 +1176,7 @@ msgstr "Аккаунты не найдены"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "Подробный просмотр записи журнала сеансов связи для:  (%s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
@@ -1191,15 +1192,15 @@ msgstr "Время окончания"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr ""
+msgstr "Нет записей журнала сеансов связи."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Продолжительность"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1215,35 +1216,35 @@ msgstr "Сведения"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "Нет записей в журнале."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "Подробный просмотр для %s сеанс начат в %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail View"
-msgstr ""
+msgstr "Подробный просмотр"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Показывать записи только с указанным приоритетом и выше:"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
-msgstr ""
+msgstr "Просмотр журнала сеансов связи для:  (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "Нет объектов сеансов связи."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
-msgstr ""
+msgstr "Подробный просмотр журнала сеансов связи"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Please select an entry from the list."
-msgstr ""
+msgstr "Выберите запись из списка."
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1291,7 +1292,7 @@ msgstr "Помните"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "Этот клиентский бэкенд - только для чтения"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
@@ -1326,7 +1327,7 @@ msgstr "Эти группы автоматически назначаются в
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
-msgstr ""
+msgstr "Этими группами можно управлять в настройке конфигурации \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1444,7 +1445,7 @@ msgstr "Переключиться на клиента"
 msgid ""
 "This customer backend is read only, but the customer user preferences can be"
 " changed!"
-msgstr ""
+msgstr "Этот клиентский бэкенд - только для чтения, но личные настройки клиента можно менять!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -1468,11 +1469,11 @@ msgstr "Синтаксис этого адреса электронной поч
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "Этот CustomerID недействительный."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Действующие права для Customer User"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
@@ -1480,7 +1481,7 @@ msgstr "Права доступа группы"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
-msgstr ""
+msgstr "Этот customer user не имеет прав в группах."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1488,7 +1489,7 @@ msgid ""
 "matrix takes into account all inherited permissions (e.g. via customer "
 "groups). Note: The table does not consider changes made to this form without"
 " submitting it."
-msgstr ""
+msgstr "Таблица выше показывает действующие права клиентов в группах. Матрица учитывает все унаследованные разрешения (например, через группы клиентов). Примечание. В таблице не рассматриваются изменения, внесенные в эту форму, без ее отправки."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
@@ -1500,7 +1501,7 @@ msgstr "Клиент"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Этот клиент не имеет клиентского доступа."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1508,15 +1509,15 @@ msgid ""
 "permission context. The matrix takes into account all inherited access (e.g."
 " via customer groups). Note: The table does not consider changes made to "
 "this form without submitting it."
-msgstr ""
+msgstr "Таблица выше показывает действующие права клиента. Матрица учитывает все унаследованные разрешения (например, через группы клиентов). Примечание. В таблице не рассматриваются изменения, внесенные в эту форму, без ее отправки."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Управление связями Клиенты - Компании клиентов"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "Выберите клиента: принадлежность к компании."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1524,11 +1525,11 @@ msgstr "Клиенты"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Изменить связь Компании с Клиентом"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Изменить связь Клиента с Компанией"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1544,21 +1545,21 @@ msgstr "Сделать активным для %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "Управление связями Клиенты - Компании клиентов"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
-msgstr ""
+msgstr "Просто используйте эту возможность, если хотите определить групповые права для клиентов."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
-msgstr ""
+msgstr "Изменить клиентские группы по-умолчанию"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customer users."
-msgstr ""
+msgstr "Эти группы автоматически назначаются всем клиентам."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -1568,21 +1569,21 @@ msgstr "Этими группами можно управлять в настр�
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Выберите разрешения клиент - группа."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets"
 " will not be available for the customer user)."
-msgstr ""
+msgstr "Если ничего не выбрано, тогда у клиентов в этой группе не будет прав (заявки будут недоступны клиенту)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "Клиентские группы по-умолчанию:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Services Relations"
-msgstr ""
+msgstr "Связь Клиентов с Сервисами"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1606,21 +1607,21 @@ msgstr "Добавить новое поле для объекта"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Фильтр для динамических полей"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Фильтр для динамических полей"
 
 #. Template: AdminDynamicField
 msgid "More Business Fields"
-msgstr ""
+msgstr "Больше Business Fields"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types for "
 "businesses? Upgrade to %s to get access to the following field types:"
-msgstr ""
+msgstr "Желаете получить больше выгоды от динамических полей для бизнеса? Обновите систему до %sдля доступа к следующим дополнительным типам полей:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1629,25 +1630,25 @@ msgstr "База данных"
 #. Template: AdminDynamicField
 msgid ""
 "Use external databases as configurable data sources for this dynamic field."
-msgstr ""
+msgstr "Используйте внешние БД как конфигурируемые источники данных для этих динамических полей"
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Веб-сервисы"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
-msgstr ""
+msgstr "Внешние веб-сервисы могут быть настроены как источники данных для этих динамических полей."
 
 #. Template: AdminDynamicField
 msgid "Contact with data"
-msgstr ""
+msgstr "Contact with data"
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
-msgstr ""
+msgstr "Эта возможность позволяет добавить (несколько) контакты с данными к заявкам."
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1728,7 +1729,7 @@ msgstr "Это порядок, в котором поле будет показ�
 msgid ""
 "Is not possible to invalidate this entry, all config settings have to be "
 "changed beforehand."
-msgstr ""
+msgstr "Невозможно аннулировать эту запись, все настройки конфигурации должны быть изменены заранее."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1748,7 +1749,7 @@ msgstr "Это поле защищено и не может быть удале�
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "Это динамическое поле используется в следующих параметрах конфигурации:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1939,7 +1940,7 @@ msgstr "Добавить регулярное выражение"
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Сообщение администратора"
 
 #. Template: AdminEmail
 msgid ""
@@ -2005,11 +2006,11 @@ msgstr "Запустить задание"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Generic Agent Jobs"
-msgstr ""
+msgstr "Фильтр для заданий Планировщика"
 
 #. Template: AdminGenericAgent
 msgid "Filter for generic agent jobs"
-msgstr ""
+msgstr "Фильтр для заданий Планировщика"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2041,7 +2042,7 @@ msgstr "Введенное вами имя уже существует."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "Автоматическое выполнение (несколько заявок)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
@@ -2071,7 +2072,7 @@ msgstr "Для автоматического запуска укажите ка
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "Управляемое событием выполнение (одна заявка)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -2107,7 +2108,7 @@ msgstr "Добавить триггер события"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
-msgstr ""
+msgstr "Чтобы добавить новое событие выберите объект и имя события"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -2123,7 +2124,7 @@ msgstr "(например, 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr ""
+msgstr "Customer user ID"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -2359,7 +2360,7 @@ msgstr "Установить новое состояние блокировки"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "Новый customer user ID"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -2387,7 +2388,7 @@ msgstr "Добавить заметку/сообщение"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Видно клиенту"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -2465,7 +2466,7 @@ msgstr "Управление  GenericInterface Web Service"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr ""
+msgstr "Управление веб-сервисами"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
@@ -2493,7 +2494,7 @@ msgstr "Время"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
-msgstr ""
+msgstr "Communication ID"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
@@ -2533,15 +2534,15 @@ msgstr "Обновить"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Add ErrorHandling"
-msgstr ""
+msgstr "Добавить ErrorHandling"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Edit ErrorHandling"
-msgstr ""
+msgstr "Редактировать ErrorHandling"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Do you really want to delete this error handling module?"
-msgstr ""
+msgstr "Вы действительно желаете удалить этот модуль обработки ошибок?"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "All configuration data will be lost."
@@ -2549,12 +2550,12 @@ msgstr "Все данные конфигурации будут потеряны
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "Общие настройки"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "The name can be used to distinguish different error handling configurations."
-msgstr ""
+msgstr "Имя может быть использовано для для отличия настроек обработки ошибок."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
@@ -2562,35 +2563,35 @@ msgstr "Укажите уникальное имя для этого веб-се
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
-msgstr ""
+msgstr "Error handling module backend"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This OTRS error handling backend module will be called internally to process"
 " the error handling mechanism."
-msgstr ""
+msgstr "Этот серверный модуль обработки ошибок OTRS будет вызываться скрыто для обеспечения работы механизма обработки ошибок."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "Настройки выполнения"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
-msgstr ""
+msgstr "Настроить фильтры для управления выполнением модуля обработки ошибок."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only requests matching all configured filters (if any) will trigger module "
 "execution."
-msgstr ""
+msgstr "Запрос на вызов модуля выполняется только в случае соответствия всем (если есть) настроенным фильтрам."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
-msgstr ""
+msgstr "Фильтр операций"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
-msgstr ""
+msgstr "Выполнять модуль обработки ошибок только для избранных операций."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2627,7 +2628,7 @@ msgstr ""
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
 "related errors."
-msgstr ""
+msgstr "Пример: Введите '^.*401 Unauthorized.*\\$'для обработки ошибок связанных только аутентификацией."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -2647,30 +2648,30 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "Код ошибки"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
-msgstr ""
+msgstr "Идентификатор ошибки для этого модуля обработки ошибок."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This identifier will be available in XSLT-Mapping and shown in debugger "
 "output."
-msgstr ""
+msgstr "Этот идентификатор будет доступен в XSLT-Mapping и отображается в листинге отладчика."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "Сообщение об ошибке"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
-msgstr ""
+msgstr "Пояснение ошибки для этого модуля обработки ошибок."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This message will be available in XSLT-Mapping and shown in debugger output."
-msgstr ""
+msgstr "Это сообщение будет доступно в XSLT-Mapping и отображается в листинге отладчика."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -2701,7 +2702,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Request retry options"
-msgstr ""
+msgstr "Настройка попыток запроса"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2719,21 +2720,21 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Initial retry interval"
-msgstr ""
+msgstr "Начальный интервал попыток"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Interval after which to trigger the first retry."
-msgstr ""
+msgstr "Интервал, после которого производится первая попытка."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: This and all further retry intervals are based on the error handling "
 "module execution time for the initial request."
-msgstr ""
+msgstr "Внимание: Этот и последующие интервалы между попытками основаны на времени выполнения обработчика ошибок после первого запроса."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Factor for further retries"
-msgstr ""
+msgstr "Фактор для дальнейших попыток"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2775,7 +2776,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
-msgstr ""
+msgstr "Максимальное значение счетчика попыток"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2798,7 +2799,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "Это поле должно быть пустым или содержать положительное число."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
@@ -2901,7 +2902,7 @@ msgstr "Условие"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Редактировать это событие"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -2935,19 +2936,19 @@ msgstr "Вернуться к"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Delete all conditions"
-msgstr ""
+msgstr "Удалить все условия"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
-msgstr ""
+msgstr "Вы действительно желаете удалить все условия для этого события?"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "Общие настройки"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Тип события"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -3071,11 +3072,11 @@ msgstr "Вы действительно хотите удалить это со�
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "General Shortcuts"
-msgstr ""
+msgstr "Общие сокращения"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "Сокращения MacOS "
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
@@ -3095,31 +3096,31 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "Найти"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "Найти следующее"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "Найти предыдущее"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "Найти и заменить"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "Найти и заменить все"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr ""
+msgstr "XSLT Mapping"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
-msgstr ""
+msgstr "XSLT stylesheet"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT style sheet."
@@ -3127,7 +3128,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Here you can add or modify your XSLT mapping code."
-msgstr ""
+msgstr "Здесь вы можете добавить или изменить  ваш XSLT mapping code."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3161,23 +3162,23 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
-msgstr ""
+msgstr "Регулярные выражения"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "Заменить"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "Удалить регулярное выражение"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "Добавить регулярное выражение"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
-msgstr ""
+msgstr "Эти фильтры могут быть использованы для преобразования ключей с помощью регулярных выражений."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3209,11 +3210,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
-msgstr ""
+msgstr "Для информации о регулярных выражениях в Perl смотрите здесь:"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Perl regular expressions tutorial"
-msgstr ""
+msgstr "Руководство по регулярным выражениям Perl"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -3224,20 +3225,20 @@ msgstr ""
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Regular expressions defined here will be applied before the XSLT mapping."
-msgstr ""
+msgstr "Регулярные выражения заданные здесь будут применены до XSLT mapping."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Regular expressions defined here will be applied after the XSLT mapping."
-msgstr ""
+msgstr "Регулярные выражения заданные здесь будут применены после XSLT mapping."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "Добавить операцию"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "Редактировать операцию"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
@@ -3285,7 +3286,7 @@ msgstr "Данные ответа будут обработаны этим от�
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include Ticket Data"
-msgstr ""
+msgstr "Вставить данные заявки"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
@@ -3368,11 +3369,11 @@ msgstr "например, https://www.otrs.com:10745/api/v1.0 (без обрат
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "Timeout"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
-msgstr ""
+msgstr "Значение Timeout для запросов."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
@@ -3380,7 +3381,7 @@ msgstr "Аутентификация"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "An optional authentication mechanism to access the remote system."
-msgstr ""
+msgstr "Необязательный механизм аутентификации для доступа к удаленной системе."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
@@ -3400,11 +3401,11 @@ msgstr "Пароль для привилегированного пользов�
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
-msgstr ""
+msgstr "Использовать настройки Proxy "
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide Proxy options to connect to the remote system."
-msgstr ""
+msgstr "Показать или скрыть параметры Proxy для подключения к удаленной системе."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Server"
@@ -3462,7 +3463,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "например /opt/otrs/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
@@ -3476,7 +3477,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "например /opt/otrs/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
@@ -3545,7 +3546,7 @@ msgstr "Команда HTTP по умолчанию для использова�
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "например https://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
@@ -10152,6 +10153,125 @@ msgstr "Счетчик"
 msgid "Go back to the previous page"
 msgstr "Перейти на предыдущую страницу"
 
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr "Подтвердить"
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Закончено"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Добавить новую запись"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr "Добавить ключ"
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Закрыть"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
+
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
 msgstr ""
@@ -11116,10 +11236,6 @@ msgstr "Группа обновлена!"
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
 msgstr "Учетная запись почты добавлена!"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Закончено"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -13995,16 +14111,8 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr "Добавить ключ"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Содержание"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Добавить новую запись"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -14456,7 +14564,7 @@ msgstr "Период истории"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Number"
-msgstr ""
+msgstr "Число"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
@@ -15921,10 +16029,6 @@ msgid "Less"
 msgstr "Менее"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr "Подтвердить"
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr ""
 
@@ -16205,10 +16309,6 @@ msgid "Update Result"
 msgstr "Результат обновления"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Закрыть"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr "Выполняется..."
 
@@ -16275,10 +16375,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration

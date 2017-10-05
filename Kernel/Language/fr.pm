@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.352164088301756;
+    $Self->{Completeness}        = 0.354051246537396;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -106,12 +106,12 @@ sub Data {
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => '',
         'Add Calendar' => 'Ajouter un calendrier',
-        'Edit Calendar' => 'Modifier un calendrier',
+        'Edit Calendar' => 'Modifier le calendrier',
         'Go back' => 'Retour',
-        'Calendar Overview' => 'Aperçu d\'un calendrier',
+        'Calendar Overview' => 'Vue d\'ensemble calendrier',
         'Add new Calendar' => 'Ajouter un nouveau calendrier',
         'Import Appointments' => '',
-        'Calendar Import' => 'Importer un calendrier',
+        'Calendar Import' => 'Import de calendrier',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
             '',
         'Overwrite existing entities' => '',
@@ -190,7 +190,7 @@ sub Data {
         'Agent preferences tooltip' => '',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             '',
-        'Toggle this widget' => 'Activer/Désactiver le widget',
+        'Toggle this widget' => 'Afficher ou cacher ce cadre',
         'Events' => 'Évènements',
         'Event' => 'Évènement',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
@@ -199,14 +199,14 @@ sub Data {
         'Type' => 'Type',
         'Title' => 'Titre',
         'Location' => 'Plan',
-        'Team' => 'Equipe',
+        'Team' => 'Équipe',
         'Resource' => '',
         'Recipients' => 'Destinataires',
         'Send to' => 'Envoyer à',
         'Send to these agents' => 'Envoyer aux agents',
         'Send to all group members' => 'Envoyer à tous les membres du groupe',
         'Send to all role members' => 'Envoyer à tous les membres du rôle',
-        'Send on out of office' => 'Envoyer une absence du bureau',
+        'Send on out of office' => 'Envoyer lorsqu\'absent du bureau',
         'Also send if the user is currently out of office.' => '',
         'Once per day' => 'Un par jour',
         'Notify user just once per day about a single appointment using a selected transport.' =>
@@ -570,7 +570,7 @@ sub Data {
         'Years in the future to display (default: 5 years).' => 'Années futures à afficher (par défaut, 5 années)',
         'Show link' => 'Montrer le lien',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'Ici vous pouvez spécifier un lien HTTP optionnel pour la valeur des champs dans les écrans Aperçu et Zoom.',
+            'Ici vous pouvez spécifier un lien HTTP optionnel pour la valeur des champs dans les écrans de type Vue d\'ensemble et Zoom.',
         'Example' => 'Exemple',
         'Link for preview' => 'Lien vers l\'aperçu',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
@@ -901,7 +901,7 @@ sub Data {
         'Delete all conditions' => '',
         'Do you really want to delete all the conditions for this event?' =>
             '',
-        'General Settings' => 'Configuration générale',
+        'General Settings' => 'Paramètres généraux',
         'Event type' => '',
         'Conditions' => 'Conditions',
         'Conditions can only operate on non-empty fields.' => '',
@@ -1484,7 +1484,7 @@ sub Data {
         'Logfile too large!' => 'Fichier de log trop grand !',
         'The logfile is too large, you need to reset it' => 'Le fichier de log est trop grand, vous devez le réinitialiser',
         'Reset' => 'Remise à zéro',
-        'Overview' => 'Aperçu',
+        'Overview' => 'Vue d\'ensemble',
         'Interface' => 'Interface',
         'Requests' => 'Requêtes',
         'Min Response' => 'Temps de réponse minimum',
@@ -1563,7 +1563,7 @@ sub Data {
         'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close' => '',
+        'Cancel & close' => 'Annuler & fermer',
         'Go Back' => 'Retour',
         'Please note, that changing this activity will affect the following processes' =>
             '',
@@ -2338,7 +2338,7 @@ sub Data {
         'Tomorrow' => 'Demain',
         'Soon' => '',
         '5 days' => '',
-        'Start' => 'Démarrer',
+        'Start' => 'Début',
         'none' => 'aucun',
 
         # Template: AgentDashboardCalendarOverview
@@ -2412,7 +2412,7 @@ sub Data {
         'Total' => '',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => 'Absent du Bureau',
+        'out of office' => 'absence du bureau',
 
         # Template: AgentDashboardUserOutOfOffice
         'until' => 'jusqu\'à',
@@ -2472,7 +2472,7 @@ sub Data {
         'Personal Preferences' => '',
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
             '',
-        'Did you know?' => '',
+        'Did you know?' => 'Le saviez-vous ?',
         'You can change your avatar by registering with your email address %s on %s' =>
             '',
 
@@ -2530,7 +2530,7 @@ sub Data {
         'Set Pending Time for %s%s%s' => '',
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
-        'All fields marked with an asterisk (*) are mandatory.' => 'Tous les champs marqués avec un astérisque (*) sont obligatoires.',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Les champs marqués d\'un astérisque (*) sont obligatoires.',
         'Ticket Settings' => 'Paramètres du ticket',
         'Queue invalid.' => '',
         'Service invalid.' => 'Service non valide !',
@@ -2538,18 +2538,18 @@ sub Data {
         'New Owner' => 'Nouveau Propriétaire',
         'Please set a new owner!' => 'Merci de renseigner un propriétaire',
         'Owner invalid.' => '',
-        'New Responsible' => '',
-        'Please set a new responsible!' => '',
+        'New Responsible' => 'Nouveau Responsable',
+        'Please set a new responsible!' => 'Veuillez spécifier un nouveau responsable !',
         'Responsible invalid.' => '',
         'Next state' => 'État suivant',
         'State invalid.' => '',
         'For all pending* states.' => 'Pour tous les états en attente*',
-        'Add Article' => 'Ajout article',
+        'Add Article' => 'Ajout d\'article',
         'Create an Article' => '',
-        'Inform agents' => 'Informer des agents',
-        'Inform involved agents' => '',
+        'Inform agents' => 'Informer des opérateurs',
+        'Inform involved agents' => 'Informer les opérateurs impliqués',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
-            '',
+            'Vous pouvez sélectionner des opérateurs additionnels, qui seront notifiés de l\'ajout de cet article.',
         'Text will also be received by' => '',
         'Text Template' => 'Modèle de texte',
         'Setting a template will overwrite any text or attachment.' => 'Spécifier un modèle va remplacer tout texte ou pièce jointe.',
@@ -2741,7 +2741,7 @@ sub Data {
         'Add Filter' => 'Ajouter filtre',
         'Set' => 'Assigner',
         'Reset Filter' => 'Réinitialiser filtre',
-        'No.' => 'Non.',
+        'No.' => 'N°.',
         'Unread articles' => 'Articles non lus',
         'Via' => '',
         'Important' => 'Important',
@@ -3270,6 +3270,61 @@ sub Data {
         # Template: Warning
         'Go back to the previous page' => 'Revenir à la page précédente',
 
+        # JS Template: CalendarSettingsDialog
+        'Show' => '',
+
+        # JS Template: FormDraftAddDialog
+        'Draft title' => '',
+
+        # JS Template: ArticleViewSettingsDialog
+        'Article display' => '',
+
+        # JS Template: FormDraftDeleteDialog
+        'Do you really want to delete "%s"?' => '',
+        'Confirm' => '',
+
+        # JS Template: WidgetLoading
+        'Loading, please wait...' => '',
+
+        # JS Template: UploadContainer
+        'Click to select files or just drop them here.' => '',
+        'Click to select a file or just drop it here.' => '',
+        'Uploading...' => '',
+
+        # JS Template: InformationDialog
+        'Process state' => '',
+        'Running' => '',
+        'Finished' => 'Fini',
+        'No package information available.' => '',
+
+        # JS Template: AddButton
+        'Add new entry' => 'Ajouter une nouvelle entrée',
+
+        # JS Template: AddHashKey
+        'Add key' => '',
+
+        # JS Template: DialogDeployment
+        'Deployment comment...' => '',
+        'Deploying, please wait...' => '',
+        'Preparing to deploy, please wait...' => '',
+        'Deploy now' => '',
+        'Close' => 'Clôturer',
+        'Try again' => '',
+
+        # JS Template: DialogReset
+        'Reset options' => '',
+        'Reset setting on global level.' => '',
+        'Reset globally' => '',
+        'Remove all user changes.' => '',
+        'Reset locally' => '',
+        'user(s) have modified this setting.' => '',
+        'Do you really want to reset this setting to it\'s default value?' =>
+            '',
+
+        # JS Template: HelpDialog
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
+            '',
+
         # Perl Module: Kernel/Config/Defaults.pm
         'Database Backend' => '',
         'CustomerIDs' => 'Codes client (Groupe)',
@@ -3579,7 +3634,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Compte de messagerie ajouté !',
-        'Finished' => 'Fini',
         'Dispatching by email To: field.' => 'Répartition par le champ \'À:\' de l\'e-mail',
         'Dispatching by selected Queue.' => 'Répartition selon la file sélectionnée',
 
@@ -4183,7 +4237,7 @@ sub Data {
         'Title Updated' => 'Titre mis à jou',
         'Ticket Merged' => '',
         'Outgoing Phone Call' => 'Appel téléphonique sortant',
-        'Forwarded Message' => '',
+        'Forwarded Message' => 'Message transféré',
         'Removed User Subscription' => '',
         'Time Accounted' => '',
         'Incoming Phone Call' => 'Appel téléphonique entrant',
@@ -4207,7 +4261,7 @@ sub Data {
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
-        'Forward article via mail' => 'Transférer Article par mail',
+        'Forward article via mail' => 'Transférer cet article par mail',
         'Forward' => 'Transférer',
         'Fields with no group' => '',
         'Invisible only' => '',
@@ -4621,9 +4675,7 @@ sub Data {
         'Cancel editing and unlock this setting' => '',
         'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
-        'Add key' => '',
         'Content' => 'Contenu',
-        'Add new entry' => 'Ajouter une nouvelle entrée',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => 'Déverrouiller et le remettre dans la file',
@@ -4648,7 +4700,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
         'Responsible Tickets New' => 'Nouveaux tickets dont vous êtes responsable',
-        'Responsible Tickets Reminder Reached' => 'Responsables du ticket atteint',
+        'Responsible Tickets Reminder Reached' => 'Tickets dont vous êtes responsable et dont la date de rappel a été atteinte',
         'Responsible Tickets Total' => 'Total des tickets dont vous êtes responsable',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
@@ -5289,34 +5341,34 @@ sub Data {
         'agent' => 'opérateur',
         'system' => 'système',
         'customer' => 'client',
-        'Ticket create notification' => 'Notification de ticket créé',
+        'Ticket create notification' => 'Notification de création d\'un ticket',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
-            'Vous recevrez une notification à chaque création d\'un nouveau ticket dans un de vos "Mes files" ou "Mes services".',
-        'Ticket follow-up notification (unlocked)' => 'Notification de suivi de ticket (déverrouillé)',
+            'Notification à chaque création d\'un ticket dans "Mes files" ou "Mes services".',
+        'Ticket follow-up notification (unlocked)' => 'Notification de réponse client à un ticket non verrouillé',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
-            'Vous recevrez une notification si un client envoie un suivi vers un ticket déverrouillé qui est situé dans votre "Mes files" ou "Mes services".',
-        'Ticket follow-up notification (locked)' => 'Notification de suivi de ticket (verrouillé)',
+            'Notification lorsqu\'un client envoie un réponse à un ticket déverrouillé dans "Mes files" ou "Mes services".',
+        'Ticket follow-up notification (locked)' => 'Notification de réponse client à un ticket verrouillé',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
-            '',
-        'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
+            'Notification lorsqu\'un client envoie une réponse à un ticket verrouillé dont vous êtes propriétaire ou responsable.',
+        'Ticket lock timeout notification' => 'Notification de déverrouillage automatique',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
-            '',
+            'Notification lorsqu\'un ticket dont vous êtes propriétaire est déverrouillé suite au dépassement du délai.',
         'Ticket owner update notification' => '',
         'Ticket responsible update notification' => '',
         'Ticket new note notification' => '',
-        'Ticket queue update notification' => '',
+        'Ticket queue update notification' => 'Notification de déplacement vers une de vos files',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
-            '',
+            'Notification lorsqu\'un ticket est déplacé vers une de "Mes files"',
         'Ticket pending reminder notification (locked)' => '',
         'Ticket pending reminder notification (unlocked)' => '',
         'Ticket escalation notification' => '',
         'Ticket escalation warning notification' => '',
-        'Ticket service update notification' => '',
+        'Ticket service update notification' => 'Notification de lien à un de vos services',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
-            '',
+            'Notification si le service associé à un ticket est changé à un de "Mes services".',
         'Appointment reminder notification' => '',
         'You will receive a notification each time a reminder time is reached for one of your appointments.' =>
-            '',
+            'Notification lorsque la date de rappel pour un de vos rendez-vous est atteinte.',
         'Ticket email delivery failure notification' => '',
 
         # JS File: Core.AJAX
@@ -5332,7 +5384,6 @@ sub Data {
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '',
         'Less' => '',
-        'Confirm' => '',
         'Press Ctrl+C (Cmd+C) to copy to clipboard' => '',
 
         # JS File: Core.Agent.Admin.Attachment
@@ -5453,7 +5504,6 @@ sub Data {
         'Support Data information was successfully sent.' => '',
         'Was not possible to send Support Data information.' => '',
         'Update Result' => '',
-        'Close' => 'Clôturer',
         'Generating...' => '',
         'It was not possible to generate the Support Bundle.' => '',
         'Generate Result' => '',
@@ -5476,7 +5526,6 @@ sub Data {
         'Loading...' => 'Chargement...',
         'Search the System Configuration' => '',
         'Please enter at least one search word to find anything.' => '',
-        'Preparing to deploy, please wait...' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
             '',
         'Deploy' => '',
@@ -5837,7 +5886,7 @@ Thanks for your help!
         'All escalated tickets' => 'Tous les tickets escaladés',
         'All new tickets, these tickets have not been worked on yet' => 'Les nouveaux tickets; ces tickets n\'ont pas encore été traités.',
         'All open tickets, these tickets have already been worked on, but need a response' =>
-            'Les tickets ouverts; ces ticket ont été traités mais nécessitent une réponse.',
+            'Les tickets ouverts; du travail a déjà été fait sur ces tickets, mais ils nécessitent encore une réponse.',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6021,7 +6070,7 @@ Thanks for your help!
         'Choose for which kind of appointment changes you want to receive notifications.' =>
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
+            'Choisissez les changements à propos desquels vous souhaitez être notifié(e). Notez que vous ne pouvez pas complétement désactiver les notifications marquées comme étant obligatoires.',
         'Choose which notifications would you like to receive.' => '',
         'Christmas Eve' => 'Réveillon de Noël',
         'Close this ticket' => 'Clôturer ce ticket',
@@ -6070,7 +6119,7 @@ Thanks for your help!
         'Configure sending of support data to OTRS Group for improved support.' =>
             '',
         'Configure which screen should be shown after a new ticket has been created.' =>
-            '',
+            'Sélectionnez l\'écran qui doit être affiché après la création d\'un nouveau ticket.',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://otrs.github.io/doc/), chapter "Ticket Event Module".' =>
             '',
@@ -6120,7 +6169,7 @@ Thanks for your help!
         'Create new phone ticket (inbound).' => '',
         'Create new phone ticket.' => '',
         'Create new process ticket.' => '',
-        'Create tickets.' => 'Créer un ticket.',
+        'Create tickets.' => 'Créer des tickets.',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
         'Croatian' => '',
@@ -7314,7 +7363,7 @@ Thanks for your help!
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
-            'Lorsqu\'activé, les différents apperçus (Tableau de bord, Vue Verrouillé, Vue File) seront automatiquement rafraîchis après le temps spécifié.',
+            'Lorsqu\'activé, les différentes vues d\'ensemble (Tableau de bord, Vue file, etc) seront automatiquement rafraîchies après le temps spécifié.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
         'If enabled, users that haven\'t selected a time zone yet will be notified to do so. Note: Notification will not be shown if (1) user has not yet selected a time zone and (2) OTRSTimeZone and UserDefaultTimeZone do match and (3) are not set to UTC.' =>
@@ -7332,7 +7381,7 @@ Thanks for your help!
         'If this setting is active, local modifications will not be highlighted as errors in the package manager and support data collector.' =>
             '',
         'If you\'re going to be out of office, you may wish to let other users know by setting the exact dates of your absence.' =>
-            '',
+            'Si vous prévoyez d\'être absent(e) du bureau, vous pouvez choisir de le faire savoir aux autres utilisateurs en spécifiant les dates de départ et retour.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             '',
         'Import appointments screen.' => '',
@@ -7556,7 +7605,7 @@ Thanks for your help!
             '',
         'None' => '',
         'Norwegian' => '',
-        'Notification Settings' => 'Paramètres des notifications',
+        'Notification Settings' => 'Paramètres de notification',
         'Notified about response time escalation.' => '',
         'Notified about solution time escalation.' => '',
         'Notified about update time escalation.' => '',
@@ -7573,7 +7622,7 @@ Thanks for your help!
             '',
         'OTRS doesn\'t support recurring Appointments without end date or number of iterations. During import process, it might happen that ICS file contains such Appointments. Instead, system creates all Appointments in the past, plus Appointments for the next n months (120 months/10 years by default).' =>
             '',
-        'Open Tickets / Need to be answered' => 'Tickets ouverts en attente de réponse',
+        'Open Tickets / Need to be answered' => 'Tickets ouverts',
         'Open an external link!' => '',
         'Open tickets (customer user)' => 'Ouvrir les tickets (utilisateur client)',
         'Open tickets (customer)' => 'Ouvrir les tickets (client)',
@@ -7587,12 +7636,12 @@ Thanks for your help!
         'Optional queue limitation for the ResponsibleCheck permission module. If set, permission is only granted for tickets in the specified queues.' =>
             '',
         'Other Customers' => '',
-        'Out Of Office' => 'Absent du Bureau',
-        'Out Of Office Time' => 'Absent du Bureau',
+        'Out Of Office' => 'Absence du bureau',
+        'Out Of Office Time' => 'Absence du bureau',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets.' => '',
-        'Overview Refresh Time' => 'Aperçu du temps de rafraichissement',
+        'Overview Refresh Time' => 'Délai de rafraichissement des vues d\'ensembles',
         'Overview of all appointments.' => '',
         'Overview of all escalated tickets.' => '',
         'Overview of all open Tickets.' => 'Vue d\'ensemble des tickets ouverts',
@@ -7724,7 +7773,7 @@ Thanks for your help!
         'Refresh interval' => 'Intervalle d\'actualisation',
         'Registers a log module, that can be used to log communication related information.' =>
             '',
-        'Reminder Tickets' => 'Tickets de rappel',
+        'Reminder Tickets' => 'Tickets avec date de rappel atteinte',
         'Removed subscription for user "%s".' => 'Désabonnement pour l\'utilisateur "%s".',
         'Removes old system configuration deployments (Sunday mornings).' =>
             '',
@@ -7802,7 +7851,7 @@ Thanks for your help!
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => 'Planifier une plage de maintenance.',
-        'Screen after new ticket' => 'Écran après un nouveau ticket',
+        'Screen after new ticket' => 'Écran suivant la création d\'un ticket',
         'Search Customer' => 'Recherche de client',
         'Search Ticket.' => '',
         'Search Tickets.' => '',
@@ -7816,7 +7865,7 @@ Thanks for your help!
             '',
         'Select how many tickets should be shown in overviews by default.' =>
             '',
-        'Select the main interface language.' => 'Sélectionnez la langue de l\'interface principale.',
+        'Select the main interface language.' => 'Sélectionnez la langue principale de l\'interface.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Sélectionner le caractère séparateur pour les fichiers CSV (stats et recherches). Si rien n\'est indiqué ici, le séparateur par défaut pour votre langage est utilisé.',
         'Select your frontend Theme.' => 'Choix du thème de l\'interface',
@@ -8447,7 +8496,7 @@ Thanks for your help!
         'Ticket Merge.' => '',
         'Ticket Move.' => '',
         'Ticket Note.' => '',
-        'Ticket Notifications' => 'Notifications des tickets',
+        'Ticket Notifications' => 'Notifications concernant les tickets',
         'Ticket Outbound Email.' => '',
         'Ticket Overview "Medium" Limit' => 'limite "Moyenne" de Vue Générale des Tickets',
         'Ticket Overview "Preview" Limit' => 'Vue générale "­<petit | moyen | élargi>" - Limite',
@@ -8464,9 +8513,9 @@ Thanks for your help!
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket limit per page for Ticket Overview "Medium"' => 'Limite de ticket par page pour la "Moyenne" limite de Vue Générale des Tickets',
-        'Ticket limit per page for Ticket Overview "Preview"' => 'Limite de ticket par page pour Vue générale de ticket "Aperçu"',
+        'Ticket limit per page for Ticket Overview "Preview"' => 'Nombre maximum de tickets par page pour l\'"Aperçu" de la Vue d\'ensemble des tickets ',
         'Ticket limit per page for Ticket Overview "Small"' => 'Limite de ticket par page pour la "Petite" limite de Vue Générale des Tickets',
-        'Ticket notifications' => 'Notifications des tickets',
+        'Ticket notifications' => 'Notifications concernant les tickets',
         'Ticket overview' => 'Vue d\'ensemble du Ticket',
         'Ticket plain view of an email.' => '',
         'Ticket split dialog.' => '',
@@ -8556,9 +8605,9 @@ Thanks for your help!
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Votre e-mail avec le numéro de ticket "<OTRS_TICKET>" a été fusionné avec le ticket numéro "<OTRS_MERGE_TO_TICKET>".',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Votre sélection de files préférées. Vous serez également notifié(e) par courriel à propos de ces files si les notifications sont activées.',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
-            '',
+            'Votre sélection de services préférés. Vous serez également notifié(e) par courriel à propos de ces services si les notifications sont activées.',
         'Zoom' => 'Détails',
         'attachment' => 'pièce jointe',
         'bounce' => '',
@@ -8584,9 +8633,15 @@ Thanks for your help!
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.',
+        'Add',
         'Add all',
+        'Add entry',
+        'Add key',
         'Add new draft',
+        'Add new entry',
         'Add to favourites',
+        'Agent',
         'All occurrences',
         'All-day',
         'An error occurred during communication.',
@@ -8602,6 +8657,7 @@ Thanks for your help!
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article display',
         'Article filter',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
@@ -8609,16 +8665,21 @@ Thanks for your help!
         'Attachments',
         'Aug',
         'August',
+        'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
+        'Calendar',
         'Cancel',
         'Cannot proceed',
         'Clear',
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to select a file or just drop it here.',
+        'Click to select files or just drop them here.',
         'Clone web service',
         'Close',
         'Close dialog',
+        'Close preview',
         'Close this dialog',
         'Communication error',
         'Complex %s with %s arguments',
@@ -8629,6 +8690,7 @@ Thanks for your help!
         'Currently not possible',
         'Customer interface does not support articles not visible for customers.',
         'Data Protection',
+        'Date/Time',
         'Day',
         'Dec',
         'December',
@@ -8655,11 +8717,16 @@ Thanks for your help!
         'Deleting the postmaster filter and its data. This may take a while...',
         'Deleting the template and its data. This may take a while...',
         'Deploy',
+        'Deploy now',
+        'Deploying, please wait...',
+        'Deployment comment...',
         'Deployment successful. You\'re being redirected...',
         'Descending sort applied, ',
+        'Description',
         'Dismiss',
         'Do not show this warning again.',
         'Do you really want to continue?',
+        'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this link?',
@@ -8667,13 +8734,16 @@ Thanks for your help!
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',
+        'Do you really want to reset this setting to it\'s default value?',
         'Do you really want to revert this setting to its historical value?',
         'Don\'t save, update manually',
+        'Draft title',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
+        'End date',
         'Error',
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
@@ -8685,6 +8755,7 @@ Thanks for your help!
         'February',
         'Filters',
         'Find out more',
+        'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
         'Fri',
@@ -8713,7 +8784,10 @@ Thanks for your help!
         'June',
         'Just this occurrence',
         'Less',
+        'Link',
+        'Loading, please wait...',
         'Loading...',
+        'Location',
         'Mail check successful.',
         'Mapping for Key',
         'Mapping for Key %s',
@@ -8734,16 +8808,19 @@ Thanks for your help!
         'No data found.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
+        'No package information available.',
         'No sort applied, ',
         'No space left for the following files',
         'Not available',
         'Notice',
+        'Notification',
         'Nov',
         'November',
         'OK',
         'Oct',
         'October',
         'One or more errors occurred!',
+        'Open URL in new tab',
         'Open date selection',
         'Open this node in a new window',
         'Please add values for all keys before saving the setting.',
@@ -8760,27 +8837,42 @@ Thanks for your help!
         'Preparing to deploy, please wait...',
         'Press Ctrl+C (Cmd+C) to copy to clipboard',
         'Previous',
+        'Process state',
+        'Queues',
         'Reload page',
+        'Remove',
         'Remove Entity from canvas',
         'Remove active filters for this widget.',
+        'Remove all user changes.',
         'Remove from favourites',
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this entry',
+        'Repeat',
         'Request Details',
         'Request Details for Communication ID',
         'Reset',
+        'Reset globally',
+        'Reset locally',
         'Reset option is required!',
+        'Reset options',
         'Reset setting',
+        'Reset setting on global level.',
+        'Resource',
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Rule',
+        'Running',
         'Sa',
         'Sat',
         'Saturday',
         'Save',
         'Save and update automatically',
+        'Scale preview content',
         'Search',
+        'Search attributes',
         'Search the System Configuration',
         'Searching for linkable objects. This may take a while...',
         'Select a customer ID to assign to this ticket',
@@ -8791,6 +8883,7 @@ Thanks for your help!
         'September',
         'Setting a template will overwrite any text or attachment.',
         'Settings',
+        'Show',
         'Show EntityIDs',
         'Show current selection',
         'Show or hide the content.',
@@ -8804,6 +8897,8 @@ Thanks for your help!
         'Sorry, you can only upload one file here.',
         'Split',
         'Stacked',
+        'Start date',
+        'Status',
         'Stream',
         'Su',
         'Sun',
@@ -8813,6 +8908,7 @@ Thanks for your help!
         'Switch to desktop mode',
         'Switch to mobile mode',
         'System Registration',
+        'Team',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -8835,6 +8931,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This field is required.',
         'This is %s',
         'This is a repeating appointment',
         'This is currently disabled because of an ongoing package upgrade.',
@@ -8846,18 +8943,23 @@ Thanks for your help!
         'Timeline Day',
         'Timeline Month',
         'Timeline Week',
+        'Title',
         'Today',
         'Too many active calendars',
+        'Try again',
         'Tu',
         'Tue',
         'Tuesday',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.',
+        'Unknown',
         'Unlock setting.',
         'Update Result',
         'Update manually',
         'Upgrade All Packages',
         'Upgrade all packages',
         'Upload information',
+        'Uploading...',
+        'Use options below to narrow down for which tickets appointments will be automatically created.',
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.',
         'Warning',
         'Was not possible to send Support Data information.',
@@ -8866,7 +8968,9 @@ Thanks for your help!
         'Wednesday',
         'Week',
         'Would you like to edit just this occurrence or all occurrences?',
+        'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
@@ -8875,7 +8979,9 @@ Thanks for your help!
         'month',
         'no',
         'none',
+        'or',
         'sorting is disabled',
+        'user(s) have modified this setting.',
         'week',
         'yes',
     ];

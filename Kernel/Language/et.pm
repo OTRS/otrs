@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.183034938293064;
+    $Self->{Completeness}        = 0.182479224376731;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3262,6 +3262,61 @@ sub Data {
         # Template: Warning
         'Go back to the previous page' => '',
 
+        # JS Template: CalendarSettingsDialog
+        'Show' => '',
+
+        # JS Template: FormDraftAddDialog
+        'Draft title' => '',
+
+        # JS Template: ArticleViewSettingsDialog
+        'Article display' => '',
+
+        # JS Template: FormDraftDeleteDialog
+        'Do you really want to delete "%s"?' => '',
+        'Confirm' => '',
+
+        # JS Template: WidgetLoading
+        'Loading, please wait...' => '',
+
+        # JS Template: UploadContainer
+        'Click to select files or just drop them here.' => '',
+        'Click to select a file or just drop it here.' => '',
+        'Uploading...' => '',
+
+        # JS Template: InformationDialog
+        'Process state' => '',
+        'Running' => '',
+        'Finished' => 'Valmis',
+        'No package information available.' => '',
+
+        # JS Template: AddButton
+        'Add new entry' => '',
+
+        # JS Template: AddHashKey
+        'Add key' => '',
+
+        # JS Template: DialogDeployment
+        'Deployment comment...' => '',
+        'Deploying, please wait...' => '',
+        'Preparing to deploy, please wait...' => '',
+        'Deploy now' => '',
+        'Close' => 'Sulge',
+        'Try again' => '',
+
+        # JS Template: DialogReset
+        'Reset options' => '',
+        'Reset setting on global level.' => '',
+        'Reset globally' => '',
+        'Remove all user changes.' => '',
+        'Reset locally' => '',
+        'user(s) have modified this setting.' => '',
+        'Do you really want to reset this setting to it\'s default value?' =>
+            '',
+
+        # JS Template: HelpDialog
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
+            '',
+
         # Perl Module: Kernel/Config/Defaults.pm
         'Database Backend' => '',
         'CustomerIDs' => 'Kliendi nr-d',
@@ -3571,7 +3626,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'E-posti konto lisatud!',
-        'Finished' => 'Valmis',
         'Dispatching by email To: field.' => 'Jaotamine To: päiserea järgi.',
         'Dispatching by selected Queue.' => 'Jaotamine valitud järjekorra järgi.',
 
@@ -4613,9 +4667,7 @@ sub Data {
         'Cancel editing and unlock this setting' => '',
         'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
-        'Add key' => '',
         'Content' => 'Sisu',
-        'Add new entry' => '',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => '',
@@ -4794,7 +4846,7 @@ sub Data {
         'State Historic' => '',
         'State Type Historic' => '',
         'Historic Time Range' => '',
-        'Number' => '',
+        'Number' => 'Number',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
         'Solution Average' => '',
@@ -5324,7 +5376,6 @@ sub Data {
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '',
         'Less' => '',
-        'Confirm' => '',
         'Press Ctrl+C (Cmd+C) to copy to clipboard' => '',
 
         # JS File: Core.Agent.Admin.Attachment
@@ -5445,7 +5496,6 @@ sub Data {
         'Support Data information was successfully sent.' => '',
         'Was not possible to send Support Data information.' => '',
         'Update Result' => 'Uuendamise tulemus',
-        'Close' => 'Sulge',
         'Generating...' => '',
         'It was not possible to generate the Support Bundle.' => '',
         'Generate Result' => '',
@@ -5468,7 +5518,6 @@ sub Data {
         'Loading...' => 'Laadimine...',
         'Search the System Configuration' => '',
         'Please enter at least one search word to find anything.' => '',
-        'Preparing to deploy, please wait...' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
             '',
         'Deploy' => '',
@@ -8576,9 +8625,15 @@ Thanks for your help!
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.',
+        'Add',
         'Add all',
+        'Add entry',
+        'Add key',
         'Add new draft',
+        'Add new entry',
         'Add to favourites',
+        'Agent',
         'All occurrences',
         'All-day',
         'An error occurred during communication.',
@@ -8594,6 +8649,7 @@ Thanks for your help!
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article display',
         'Article filter',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
@@ -8601,16 +8657,21 @@ Thanks for your help!
         'Attachments',
         'Aug',
         'August',
+        'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
+        'Calendar',
         'Cancel',
         'Cannot proceed',
         'Clear',
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to select a file or just drop it here.',
+        'Click to select files or just drop them here.',
         'Clone web service',
         'Close',
         'Close dialog',
+        'Close preview',
         'Close this dialog',
         'Communication error',
         'Complex %s with %s arguments',
@@ -8621,6 +8682,7 @@ Thanks for your help!
         'Currently not possible',
         'Customer interface does not support articles not visible for customers.',
         'Data Protection',
+        'Date/Time',
         'Day',
         'Dec',
         'December',
@@ -8647,11 +8709,16 @@ Thanks for your help!
         'Deleting the postmaster filter and its data. This may take a while...',
         'Deleting the template and its data. This may take a while...',
         'Deploy',
+        'Deploy now',
+        'Deploying, please wait...',
+        'Deployment comment...',
         'Deployment successful. You\'re being redirected...',
         'Descending sort applied, ',
+        'Description',
         'Dismiss',
         'Do not show this warning again.',
         'Do you really want to continue?',
+        'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this link?',
@@ -8659,13 +8726,16 @@ Thanks for your help!
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',
+        'Do you really want to reset this setting to it\'s default value?',
         'Do you really want to revert this setting to its historical value?',
         'Don\'t save, update manually',
+        'Draft title',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
+        'End date',
         'Error',
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
@@ -8677,6 +8747,7 @@ Thanks for your help!
         'February',
         'Filters',
         'Find out more',
+        'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
         'Fri',
@@ -8705,7 +8776,10 @@ Thanks for your help!
         'June',
         'Just this occurrence',
         'Less',
+        'Link',
+        'Loading, please wait...',
         'Loading...',
+        'Location',
         'Mail check successful.',
         'Mapping for Key',
         'Mapping for Key %s',
@@ -8726,16 +8800,19 @@ Thanks for your help!
         'No data found.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
+        'No package information available.',
         'No sort applied, ',
         'No space left for the following files',
         'Not available',
         'Notice',
+        'Notification',
         'Nov',
         'November',
         'OK',
         'Oct',
         'October',
         'One or more errors occurred!',
+        'Open URL in new tab',
         'Open date selection',
         'Open this node in a new window',
         'Please add values for all keys before saving the setting.',
@@ -8752,27 +8829,42 @@ Thanks for your help!
         'Preparing to deploy, please wait...',
         'Press Ctrl+C (Cmd+C) to copy to clipboard',
         'Previous',
+        'Process state',
+        'Queues',
         'Reload page',
+        'Remove',
         'Remove Entity from canvas',
         'Remove active filters for this widget.',
+        'Remove all user changes.',
         'Remove from favourites',
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this entry',
+        'Repeat',
         'Request Details',
         'Request Details for Communication ID',
         'Reset',
+        'Reset globally',
+        'Reset locally',
         'Reset option is required!',
+        'Reset options',
         'Reset setting',
+        'Reset setting on global level.',
+        'Resource',
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Rule',
+        'Running',
         'Sa',
         'Sat',
         'Saturday',
         'Save',
         'Save and update automatically',
+        'Scale preview content',
         'Search',
+        'Search attributes',
         'Search the System Configuration',
         'Searching for linkable objects. This may take a while...',
         'Select a customer ID to assign to this ticket',
@@ -8783,6 +8875,7 @@ Thanks for your help!
         'September',
         'Setting a template will overwrite any text or attachment.',
         'Settings',
+        'Show',
         'Show EntityIDs',
         'Show current selection',
         'Show or hide the content.',
@@ -8796,6 +8889,8 @@ Thanks for your help!
         'Sorry, you can only upload one file here.',
         'Split',
         'Stacked',
+        'Start date',
+        'Status',
         'Stream',
         'Su',
         'Sun',
@@ -8805,6 +8900,7 @@ Thanks for your help!
         'Switch to desktop mode',
         'Switch to mobile mode',
         'System Registration',
+        'Team',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -8827,6 +8923,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This field is required.',
         'This is %s',
         'This is a repeating appointment',
         'This is currently disabled because of an ongoing package upgrade.',
@@ -8838,18 +8935,23 @@ Thanks for your help!
         'Timeline Day',
         'Timeline Month',
         'Timeline Week',
+        'Title',
         'Today',
         'Too many active calendars',
+        'Try again',
         'Tu',
         'Tue',
         'Tuesday',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.',
+        'Unknown',
         'Unlock setting.',
         'Update Result',
         'Update manually',
         'Upgrade All Packages',
         'Upgrade all packages',
         'Upload information',
+        'Uploading...',
+        'Use options below to narrow down for which tickets appointments will be automatically created.',
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.',
         'Warning',
         'Was not possible to send Support Data information.',
@@ -8858,7 +8960,9 @@ Thanks for your help!
         'Wednesday',
         'Week',
         'Would you like to edit just this occurrence or all occurrences?',
+        'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
@@ -8867,7 +8971,9 @@ Thanks for your help!
         'month',
         'no',
         'none',
+        'or',
         'sorting is disabled',
+        'user(s) have modified this setting.',
         'week',
         'yes',
     ];

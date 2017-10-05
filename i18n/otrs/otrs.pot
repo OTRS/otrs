@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-09-25 20:32+0000\n"
+"POT-Creation-Date: 2017-10-05 14:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9474,6 +9474,122 @@ msgstr ""
 msgid "Go back to the previous page"
 msgstr ""
 
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr ""
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr ""
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid "You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built."
+msgstr ""
+
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
 msgstr ""
@@ -10392,10 +10508,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
@@ -13171,15 +13283,7 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
@@ -14891,10 +14995,6 @@ msgid "Less"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr ""
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr ""
 
@@ -15155,10 +15255,6 @@ msgid "Update Result"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr ""
 
@@ -15216,10 +15312,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration

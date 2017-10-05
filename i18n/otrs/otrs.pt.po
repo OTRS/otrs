@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:29+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otrs/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Comece a escrever para filtrar ..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "Importar Configuração"
 
 #. Template: AdminACL
 msgid ""
@@ -138,7 +138,7 @@ msgstr "Editar ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Editar ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -187,7 +187,7 @@ msgstr "Mostrar ou esconder o conteúdo"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Editar Informação da ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -199,7 +199,7 @@ msgstr "Parar após encontrar"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Editar Estrutura da ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -241,31 +241,31 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Calendar"
-msgstr ""
+msgstr "Adicionar Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "Editar Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
-msgstr ""
+msgstr "Voltar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr ""
+msgstr "Visão geral do Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
-msgstr ""
+msgstr "Adicionar novo Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Appointments"
-msgstr ""
+msgstr "Importar Eventos"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr ""
+msgstr "Importar Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -280,11 +280,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
-msgstr ""
+msgstr "Importar Configuração de Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Import Calendar"
-msgstr ""
+msgstr "Importar Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -336,11 +336,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
-msgstr ""
+msgstr "Exportar calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Descarregar calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
@@ -352,15 +352,15 @@ msgstr "Calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Nome do calendário"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Já existe um calendário com o mesmo nome."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Cor"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
@@ -384,11 +384,11 @@ msgstr "Apagar"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Data de início"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Data de fim"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -10134,6 +10134,125 @@ msgstr "Contador"
 msgid "Go back to the previous page"
 msgstr "Voltar à página anterior"
 
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr ""
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Terminado"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Adicionar nova entrada"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Fechar"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
+
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
 msgstr ""
@@ -11098,10 +11217,6 @@ msgstr "Grupo atualizado"
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
 msgstr "Conta de Mail adicionada!"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Terminado"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -13977,16 +14092,8 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Conteúdo"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Adicionar nova entrada"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -14438,7 +14545,7 @@ msgstr "Intervalo temporal"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Number"
-msgstr ""
+msgstr "Número"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
@@ -15903,10 +16010,6 @@ msgid "Less"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr ""
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr ""
 
@@ -16187,10 +16290,6 @@ msgid "Update Result"
 msgstr "Atualizar resultado"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Fechar"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr ""
 
@@ -16257,10 +16356,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration

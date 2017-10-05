@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:30+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2440,7 +2440,7 @@ msgstr "Érintett jegyek"
 
 #. Template: AdminGenericAgent
 msgid "Age"
-msgstr "Időtartam"
+msgstr "Életkor"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Web Service Management"
@@ -2610,7 +2610,7 @@ msgstr "A hibaüzenet tárgya és adatai (amint a hibakereső hibabejegyzésébe
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\$' to handle only authentication "
 "related errors."
-msgstr ""
+msgstr "Példa: A „^.*401 Unauthorized.*\\$” megadásával csak a hitelesítéssel kapcsolatos hibák kezelhetők."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -3188,7 +3188,7 @@ msgstr "2. példa: a keresés = „^” és a csere = „_” átalakítja a „
 msgid ""
 "Example 3: Search = '^(?<number>\\d+) (?<text>.+?)\\$' / Replace = "
 "'_\\$+{text}_\\$+{number}' turns '16 elementname' into '_elementname_16'."
-msgstr ""
+msgstr "3. példa: a keresés = „^(?<number>\\d+) (?<text>.+?)\\$” és a csere = „_\\$+{text}_\\$+{number}” átalakítja a „16 elemnév” kulcsot „_elemnév_16” értékűre."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
@@ -8897,11 +8897,11 @@ msgstr "Visszakövetés"
 
 #. Template: CustomerFooter
 msgid "%s powered by %s™"
-msgstr ""
+msgstr "%s gépházában: %s™"
 
 #. Template: CustomerFooter
 msgid "Powered by %s™"
-msgstr ""
+msgstr "A gépházban: %s™"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9912,7 +9912,7 @@ msgstr "Ez a beállítás javítva lett, de még nincs üzembe állítva!"
 msgid ""
 "This setting is currently being overridden in %s and can't thus be changed "
 "here!"
-msgstr ""
+msgstr "Ez a beállítás jelenleg felülírásra kerül ebben: %s, és ezért itt nem változtatható meg!"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
@@ -10011,7 +10011,7 @@ msgstr "A beállítás szerkesztése"
 
 #. Template: SettingsList
 msgid "Enable this setting"
-msgstr ""
+msgstr "A beállítás engedélyezése"
 
 #. Template: SettingsList
 msgid ""
@@ -10134,6 +10134,125 @@ msgstr "Számláló"
 #. Template: Warning
 msgid "Go back to the previous page"
 msgstr "Vissza az előző oldalra"
+
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr "Megerősítés"
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Befejezve"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Új bejegyzés hozzáadása"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr "Kulcs hozzáadása"
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr "Az üzembe állítás előkészítése, kérem várjon…"
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Lezárás"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -11101,10 +11220,6 @@ msgid "Mail account added!"
 msgstr "Levelezőfiók hozzáadva!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Befejezve"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
 msgstr "Szétválogatás az e-mail címzett mezője szerint."
 
@@ -11774,7 +11889,7 @@ msgstr "Néhány importált beállítás nincs jelen a konfiguráció jelenlegi 
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
-msgstr ""
+msgstr "Engedélyeznie kell a beállítást zárolás előtt!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid ""
@@ -13978,16 +14093,8 @@ msgid "Unable to load %s!"
 msgstr "Nem lehet betölteni: %s!"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr "Kulcs hozzáadása"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Tartalom"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Új bejegyzés hozzáadása"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -15904,10 +16011,6 @@ msgid "Less"
 msgstr "Kevesebb"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr "Megerősítés"
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr "Nyomja meg a Ctrl+C (Cmd+C) billentyűket a vágólapra másoláshoz"
 
@@ -16188,10 +16291,6 @@ msgid "Update Result"
 msgstr "Eredmény frissítése"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Lezárás"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr "Előállítás…"
 
@@ -16259,10 +16358,6 @@ msgstr "A rendszerbeállítás keresése"
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
 msgstr "Adjon meg legalább egy keresőszót, ha bármire rá szeretne keresni."
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
-msgstr "Az üzembe állítás előkészítése, kérem várjon…"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""

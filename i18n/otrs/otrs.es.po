@@ -9,7 +9,7 @@
 # David B <link.bigpoint@outlook.com>, 2017
 # David Muñoz <davidkingnt@gmail.com>, 2016
 # Deiry Arias <mailimarias@gmail.com>, 2015
-# Deiver Kiel Retana <deikiel@gmail.com>, 2015
+# Deiver Kiel <deikiel@gmail.com>, 2015,2017
 # Diego Schneider <diegoschneider.96@gmail.com>, 2016
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2015
 # Emmanuel <emmanuel.arias@ya.ru>, 2015
@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:29+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/otrs/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgstr "Editar la ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Editar ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -205,7 +205,7 @@ msgstr "Mostrar u ocultar el contenido"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Editar información de la ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -217,7 +217,7 @@ msgstr "Parar al coincidir"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Editar estructura de la ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -681,7 +681,7 @@ msgstr "Actualizar a %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Por favor active el transporte para poder usarlo"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -1019,7 +1019,7 @@ msgstr "Servicios En La Nube Disponibles"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Registro de comunicación"
 
 #. Template: AdminCommunicationLog
 msgid "Time range"
@@ -1027,93 +1027,93 @@ msgstr "Período de tiempo"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "Muestre solo los registros de comunicación creados en un rango específico de tiempo"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filtro para comunicaciones"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "In this screen you can see an overview about incoming and outgoing "
 "communications."
-msgstr ""
+msgstr "En esta pantalla usted puede ver un resumen acerca de las comunicaciones entrantes y salientes"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
-msgstr ""
+msgstr "Puede cambiar el orden de las columnas haciendo clic en el encabezado de la columna."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed"
 " screen about the message."
-msgstr ""
+msgstr "Si hace clic en las diferentes entradas, se le redirigirá a una pantalla detallada acerca del mensaje."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Estado para: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Cuentas fallidas"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Algunos problemas de cuenta"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "No hay problemas de cuenta"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "No hay actividad en la cuenta"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Cantidadde cuentas con problemas: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Cantidad de cuentas con alertas: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Comunicaciones fallidas"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "No hay problemas de comunicación"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "No hay registros de comunicación"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Número de problemas reportados: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Comunicaciones abiertas"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "No hay comunicaciones activas"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Cantidad de comunicaciones abiertas: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "Tiempo promedio de procesamiento"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "Lista de comunicaciones (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1121,19 +1121,19 @@ msgstr "Ajustes"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Entradas por página"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "No se han encontrado comunicaciones."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Estado de la cuenta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back"
@@ -1141,21 +1141,21 @@ msgstr "Atrás"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Filtrar para cuentas"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for log entries"
-msgstr ""
+msgstr "Filtrar entradas de registro"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
 "You can change the sort and order of those columns by clicking on the column"
 " header."
-msgstr ""
+msgstr "Puede cambiar el orden de esas columnas haciendo clic en el encabezado de columna."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Estado de cuenta de: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1163,7 +1163,7 @@ msgstr "Estado"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Cuenta"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1171,11 +1171,11 @@ msgstr "Editar"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "No se han encontrado cuentas."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "Detalles del registro de comunicaciones (%s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
@@ -1191,15 +1191,15 @@ msgstr "Hora de finalización"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr ""
+msgstr "No se han encontrado entradas de registro de comunicación."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Duración"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1215,11 +1215,11 @@ msgstr "Información"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "No se encontraron entradas de registro."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "Vista detallada de la %s comunicación iniciada en %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail View"
@@ -10152,6 +10152,125 @@ msgstr "Contador"
 msgid "Go back to the previous page"
 msgstr "Volver a la página anterior"
 
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Finalizado"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Añadir nueva entrada"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Cerrar"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
+
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
 msgstr ""
@@ -11116,10 +11235,6 @@ msgstr "¡Grupo actualizado!"
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
 msgstr "¡Cuenta de correo añadida!"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Finalizado"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -13995,16 +14110,8 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Contenido"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Añadir nueva entrada"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -14456,7 +14563,7 @@ msgstr "Rango Tiempo Histórico"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Number"
-msgstr ""
+msgstr "Número"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
@@ -15921,10 +16028,6 @@ msgid "Less"
 msgstr "Menos"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
-msgstr "Confirmar"
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
 msgstr ""
 
@@ -16205,10 +16308,6 @@ msgid "Update Result"
 msgstr "Actualizar Resultado"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Cerrar"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr "Generando..."
 
@@ -16275,10 +16374,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration

@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.610290283330436;
+    $Self->{Completeness}        = 0.621018005540166;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -71,7 +71,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'Editar ACL %s',
-        'Edit ACL' => '',
+        'Edit ACL' => 'Editar ACL',
         'Go to overview' => 'Ir Para Visão Geral',
         'Delete ACL' => 'Excluir ACL',
         'Delete Invalid ACL' => 'Excluir ACL Inválida',
@@ -84,10 +84,10 @@ sub Data {
         'Check the official' => 'Verifique a oficial',
         'documentation' => 'documentação',
         'Show or hide the content' => 'Mostrar ou esconder o conteúdo',
-        'Edit ACL Information' => '',
+        'Edit ACL Information' => 'Editar informações da ACL',
         'Name' => 'Nome',
         'Stop after match' => 'Parar Após Encontrar',
-        'Edit ACL Structure' => '',
+        'Edit ACL Structure' => 'Editar estrutura da ACL',
         'Save settings' => 'Salvar configurações',
         'Save ACL' => 'Salvar ACL',
         'Save' => 'Salvar',
@@ -774,14 +774,14 @@ sub Data {
         'Edit ErrorHandling' => '',
         'Do you really want to delete this error handling module?' => '',
         'All configuration data will be lost.' => 'Todos os dados de configuração serão perdidos.',
-        'General options' => '',
+        'General options' => 'Opções gerais',
         'The name can be used to distinguish different error handling configurations.' =>
             '',
         'Please provide a unique name for this web service.' => 'Por favor, forneça um único nome para este web service.',
         'Error handling module backend' => '',
         'This OTRS error handling backend module will be called internally to process the error handling mechanism.' =>
             '',
-        'Processing options' => '',
+        'Processing options' => 'Processando opções',
         'Configure filters to control error handling module execution.' =>
             '',
         'Only requests matching all configured filters (if any) will trigger module execution.' =>
@@ -804,11 +804,11 @@ sub Data {
             '',
         'Example: Handle only errors where mapping for outgoing data could not be applied.' =>
             '',
-        'Error code' => '',
+        'Error code' => 'Código de erro',
         'An error identifier for this error handling module.' => '',
         'This identifier will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
-        'Error message' => '',
+        'Error message' => 'Mensagem de erro',
         'An error explanation for this error handling module.' => '',
         'This message will be available in XSLT-Mapping and shown in debugger output.' =>
             '',
@@ -940,11 +940,11 @@ sub Data {
         'Uncomment code' => '',
         'Auto format code' => '',
         'Expand/Collapse code block' => '',
-        'Find' => '',
-        'Find next' => '',
-        'Find previous' => '',
-        'Find and replace' => '',
-        'Find and replace all' => '',
+        'Find' => 'Localizar',
+        'Find next' => 'Localizar próximo',
+        'Find previous' => 'Localizar anterior',
+        'Find and replace' => 'Localizar e substituir',
+        'Find and replace all' => 'Localizar e substituir todos',
         'XSLT Mapping' => '',
         'XSLT stylesheet' => '',
         'The entered data is not a valid XSLT style sheet.' => '',
@@ -959,7 +959,7 @@ sub Data {
         'Data key regex filters (before mapping)' => '',
         'Data key regex filters (after mapping)' => '',
         'Regular expressions' => '',
-        'Replace' => '',
+        'Replace' => 'Substituir',
         'Remove regex' => '',
         'Add regex' => '',
         'These filters can be used to transform keys using regular expressions.' =>
@@ -1132,8 +1132,8 @@ sub Data {
         'Edit Web Service' => '',
         'Clone Web Service' => '',
         'The name must be unique.' => 'O nome deve ser único',
-        'Clone' => 'Copiar',
-        'Export Web Service' => '',
+        'Clone' => 'Clonar',
+        'Export Web Service' => 'Exportar Web Service',
         'Import web service' => 'Importar Web Service',
         'Configuration File' => 'Arquivo de Configuração',
         'The file must be a valid web service configuration YAML file.' =>
@@ -1248,7 +1248,7 @@ sub Data {
         'Administration Overview' => '',
         'Filter for Items' => '',
         'Filter' => 'Filtro',
-        'Favorites' => '',
+        'Favorites' => 'Favoritos',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
@@ -1452,7 +1452,7 @@ sub Data {
         'Features for %s customers only' => 'Características %s só para clientes',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             'Com %s, você pode beneficiar os seguintes recursos opcionais. Por favor, faça contato com %s se precisar de mais informações.',
-        'Package Information' => '',
+        'Package Information' => 'Informação de Pacote',
         'Download package' => 'Baixar Pacote',
         'Rebuild package' => 'Reconstruir Pacote',
         'Metadata' => 'Metadados',
@@ -1739,7 +1739,7 @@ sub Data {
         'This filter allow you to show queues without auto responses' => 'Este filtro permite que você visualize filas sem auto respostas',
         'Queues without Auto Responses' => '',
         'This filter allow you to show all queues' => 'Este filtro permite que você mostre todas as filas',
-        'Show All Queues' => '',
+        'Show All Queues' => 'Mostrar Todas as Filas',
         'Auto Responses' => 'Autorrespostas',
 
         # Template: AdminQueueTemplates
@@ -1751,7 +1751,7 @@ sub Data {
         'System Registration Management' => 'Gerenciamento do Registro do Sistema',
         'Edit System Registration' => '',
         'System Registration Overview' => '',
-        'Register System' => '',
+        'Register System' => 'Registrar o Sistema',
         'Validate OTRS-ID' => '',
         'Deregister System' => 'Desregistrar Sistema',
         'Edit details' => 'Editar detalhes',
@@ -1762,7 +1762,7 @@ sub Data {
         'System type' => 'Tipo do sistema',
         'Unique ID' => 'ID Único',
         'Last communication with registration server' => 'Última comunicação com o servidor de registro',
-        'System Registration not Possible' => '',
+        'System Registration not Possible' => 'Não é possível registrar o sistema',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
             'Por favor, note que você não pode registrar o seu sistema se OTRS Daemon não estiver funcionando corretamente!',
         'Instructions' => 'Instruções',
@@ -1837,7 +1837,7 @@ sub Data {
         'Add Role' => 'Adicionar Papel',
         'Edit Role' => 'Alterar Papel',
         'Filter for Roles' => 'Filtrar por Papéis',
-        'Filter for roles' => '',
+        'Filter for roles' => 'Filtrar por Papéis',
         'Create a role and put groups in it. Then add the role to the users.' =>
             'Crie um papel e relacione grupos a ele. Então adicione papéis aos usuários.',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
@@ -1875,7 +1875,7 @@ sub Data {
         'SLA Management' => 'Gerenciamento de SLA',
         'Edit SLA' => 'Alterar SLA',
         'Add SLA' => 'Adicionar SLA',
-        'Filter for SLAs' => '',
+        'Filter for SLAs' => 'Filtrar por SLA',
         'Please write only numbers!' => 'Por favor, escreva apenas números!',
 
         # Template: AdminSMIME
@@ -1892,7 +1892,7 @@ sub Data {
         'Check SMIME configuration' => 'Verificar configuração de SMIME',
         'Add certificate' => 'Adicionar Certificado',
         'Add private key' => 'Adicionar Chave Privada',
-        'Filter for Certificates' => '',
+        'Filter for Certificates' => 'Filtrar por Certificado',
         'Filter for S/MIME certs' => 'Filtrar por certificados S/MIME',
         'To show certificate details click on a certificate icon.' => 'Para mostrar detalhes do certificado clique no ícone do certificado',
         'To manage private certificate relations click on a private key icon.' =>
@@ -1917,15 +1917,15 @@ sub Data {
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'Certificado S/MIME',
         'Close dialog' => 'Fechar diálogo',
-        'Certificate Details' => '',
+        'Certificate Details' => 'Detalhes do certificado',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Gerenciamento de Saudação',
         'Add Salutation' => 'Adicionar Saudação',
         'Edit Salutation' => 'Alterar Saudação',
         'Add salutation' => 'Adicionar Saudação',
-        'Filter for Salutations' => '',
-        'Filter for salutations' => '',
+        'Filter for Salutations' => 'Filtrar por Saudação',
+        'Filter for salutations' => 'Filtrar por Saudação',
         'e. g.' => 'ex.',
         'Example salutation' => 'Saudação de exemplo',
 
@@ -1959,7 +1959,7 @@ sub Data {
         'Add Service' => 'Adicionar Serviço',
         'Edit Service' => 'Alterar Serviço',
         'Add service' => 'Adicionar Serviço',
-        'Filter for services' => '',
+        'Filter for services' => 'Filtrar por Serviço',
         'Service name maximum length is 200 characters (with Sub-service).' =>
             'Tamanho máximo do nome do Serviço é de 200 caracteres (incluindo Sub-Serviços)',
         'Sub-service of' => 'Subserviço de',
@@ -1986,16 +1986,16 @@ sub Data {
         'Add Signature' => 'Adicionar Assinatura',
         'Edit Signature' => 'Alterar Assinatura',
         'Add signature' => 'Adicionar Assinatura',
-        'Filter for Signatures' => '',
-        'Filter for signatures' => '',
+        'Filter for Signatures' => 'Filtrar por Assinatura',
+        'Filter for signatures' => 'Filtrar por Assinatura',
         'Example signature' => 'Assinatura de exemplo',
 
         # Template: AdminState
         'State Management' => 'Gerenciamento de Estado',
         'Add State' => 'Adicionar Estado',
         'Edit State' => 'Alterar Estado',
-        'Filter for States' => '',
-        'Filter for states' => '',
+        'Filter for States' => 'Filtrar por Estado',
+        'Filter for states' => 'Filtrar por Estado',
         'Attention' => 'Atenção',
         'Please also update the states in SysConfig where needed.' => 'Por favor, também atualize os Estados em SysConfig onde necessário.',
         'This state is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
@@ -2063,7 +2063,7 @@ sub Data {
 
         # Template: AdminSystemConfigurationDeployment
         'Changes Deployment' => '',
-        'Help' => '',
+        'Help' => 'Ajuda',
         'A deployment has just been restored, which means that all affected setting have been reverted to the state from the selected deployment.' =>
             '',
         'Please review the changed settings and deploy afterwards.' => '',
@@ -2170,8 +2170,8 @@ sub Data {
         'Add Type' => 'Adicionar Tipo',
         'Edit Type' => 'Alterar Tipo',
         'Add ticket type' => 'Adicionar Tipo de Chamado',
-        'Filter for Types' => '',
-        'Filter for types' => '',
+        'Filter for Types' => 'Filtrar por Tipo',
+        'Filter for types' => 'Filtrar por Tipo',
         'A type with this name already exists!' => 'Um tipo com esse nome já existe!',
         'This type is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
             '',
@@ -2438,7 +2438,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Alterar Suas Preferências',
-        'Personal preferences' => '',
+        'Personal preferences' => 'Preferências Pessoais',
         'Preferences' => 'Preferências',
         'Warning! You\'re currently not editing your own preferences, but those of %s.' =>
             '',
@@ -2494,7 +2494,7 @@ sub Data {
         # Template: AgentStatisticsEdit
         'Run now' => 'Executar agora',
         'Statistics Preview' => 'Pré-visualização da Estatística ',
-        'Save Statistic' => '',
+        'Save Statistic' => 'Salvar Estatística',
 
         # Template: AgentStatisticsImport
         'Import Statistics Configuration' => '',
@@ -2531,15 +2531,15 @@ sub Data {
         'Ticket Settings' => 'Configurações de Chamado',
         'Queue invalid.' => '',
         'Service invalid.' => 'Serviço inválido.',
-        'SLA invalid.' => '',
+        'SLA invalid.' => 'SLA inválido.',
         'New Owner' => 'Novo Proprietário',
-        'Please set a new owner!' => 'Por favor, configure um novo proprietário!',
-        'Owner invalid.' => '',
+        'Please set a new owner!' => 'Por favor, defina um novo proprietário!',
+        'Owner invalid.' => 'Proprietário inválido.',
         'New Responsible' => 'Novo Responsável',
-        'Please set a new responsible!' => '',
-        'Responsible invalid.' => '',
+        'Please set a new responsible!' => 'Por favor, defina um novo responsável!',
+        'Responsible invalid.' => 'Responsável inválido.',
         'Next state' => 'Próximo estado',
-        'State invalid.' => '',
+        'State invalid.' => 'Estado inválido.',
         'For all pending* states.' => 'Para todos os estados *pendente*.',
         'Add Article' => 'Adicionar Artigo',
         'Create an Article' => 'Criar um Artigo',
@@ -2726,7 +2726,7 @@ sub Data {
         'Save filter settings as default' => 'Salvar configurações de filtro como padrão',
         'Event Type' => 'Tipo de Evento',
         'Save as default' => 'Salvar como padrão',
-        'Drafts' => '',
+        'Drafts' => 'Rascunhos',
         'by' => 'por',
         'Change Queue' => 'Alterar Fila',
         'There are no dialogs available at this point in the process.' =>
@@ -2767,7 +2767,7 @@ sub Data {
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             'Para abrir links no artigo seguinte, talvez você precise pressionar Ctrl, Cmd ou Shift enquanto clica no link (dependendo do seu navegador ou sistema operacional).',
         'Close this message' => 'Fechar esta mensagem',
-        'Image' => '',
+        'Image' => 'Imagem',
         'PDF' => 'PDF',
         'Unknown' => 'Desconhecido',
         'View' => 'Ver',
@@ -3083,7 +3083,7 @@ sub Data {
         'Back to the previous page' => 'Voltar para a página anterior',
 
         # Template: Alert
-        'Alert' => '',
+        'Alert' => 'Alerta',
         'Powered by' => 'Desenvolvido por',
 
         # Template: Pagination
@@ -3195,9 +3195,9 @@ sub Data {
         '%s (%s) is currently working on this setting.' => '',
         'Toggle advanced options for this setting' => '',
         'Disable this setting, so it is no longer effective' => '',
-        'Disable' => '',
+        'Disable' => 'Desabilitar',
         'Enable this setting, so it becomes effective' => '',
-        'Enable' => '',
+        'Enable' => 'Habilitar',
         'Reset this setting to its default state' => '',
         'Reset setting' => '',
         'Allow users to adapt this setting from within their personal preferences' =>
@@ -3266,6 +3266,61 @@ sub Data {
 
         # Template: Warning
         'Go back to the previous page' => 'Voltar para a página anterior',
+
+        # JS Template: CalendarSettingsDialog
+        'Show' => '',
+
+        # JS Template: FormDraftAddDialog
+        'Draft title' => '',
+
+        # JS Template: ArticleViewSettingsDialog
+        'Article display' => '',
+
+        # JS Template: FormDraftDeleteDialog
+        'Do you really want to delete "%s"?' => '',
+        'Confirm' => 'Confirmar',
+
+        # JS Template: WidgetLoading
+        'Loading, please wait...' => '',
+
+        # JS Template: UploadContainer
+        'Click to select files or just drop them here.' => '',
+        'Click to select a file or just drop it here.' => '',
+        'Uploading...' => '',
+
+        # JS Template: InformationDialog
+        'Process state' => '',
+        'Running' => '',
+        'Finished' => 'Finalizado',
+        'No package information available.' => '',
+
+        # JS Template: AddButton
+        'Add new entry' => 'Adicionar nova entrada',
+
+        # JS Template: AddHashKey
+        'Add key' => 'Adicionar chave',
+
+        # JS Template: DialogDeployment
+        'Deployment comment...' => '',
+        'Deploying, please wait...' => '',
+        'Preparing to deploy, please wait...' => '',
+        'Deploy now' => '',
+        'Close' => 'Fechar',
+        'Try again' => '',
+
+        # JS Template: DialogReset
+        'Reset options' => '',
+        'Reset setting on global level.' => '',
+        'Reset globally' => '',
+        'Remove all user changes.' => '',
+        'Reset locally' => '',
+        'user(s) have modified this setting.' => '',
+        'Do you really want to reset this setting to it\'s default value?' =>
+            '',
+
+        # JS Template: HelpDialog
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
+            '',
 
         # Perl Module: Kernel/Config/Defaults.pm
         'Database Backend' => '',
@@ -3366,15 +3421,15 @@ sub Data {
         'Invalid CommunicationID ' => '',
         'Invalid StartTime: %s!' => '',
         'Successful' => '',
-        'Processing' => '',
+        'Processing' => 'Processando',
         'Failed' => 'Falhou',
         'Invalid Filter: %s!' => 'Filtro Inválido: %s!',
-        'Less than a second' => '',
+        'Less than a second' => 'Menos de um segundo',
         'sorted descending' => 'Classificar Descendente',
         'sorted ascending' => 'Classificar Ascendente',
         'Trace' => '',
         'Debug' => '',
-        'Warn' => '',
+        'Warn' => 'Alertar',
         'days' => 'dias',
         'day' => 'dia',
         'hour' => 'hora',
@@ -3400,8 +3455,8 @@ sub Data {
         'Customer %s added' => 'Cliente %s adicionado',
         'Customer user updated!' => '',
         'Same Customer' => '',
-        'Direct' => '',
-        'Indirect' => '',
+        'Direct' => 'Direto',
+        'Indirect' => 'Indireto',
 
         # Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
         'Change Customer User Relations for Group' => '',
@@ -3479,18 +3534,18 @@ sub Data {
         'Invoker deleted' => '',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
-        '0 seconds' => '',
-        '15 seconds' => '',
-        '30 seconds' => '',
-        '45 seconds' => '',
-        '1 minute' => '',
-        '2 minutes' => '',
-        '3 minutes' => '',
-        '4 minutes' => '',
-        '5 minutes' => '',
+        '0 seconds' => '0 segundos',
+        '15 seconds' => '15 segundos',
+        '30 seconds' => '30 segundos',
+        '45 seconds' => '45 segundos',
+        '1 minute' => '1 minuto',
+        '2 minutes' => '2 minutos',
+        '3 minutes' => '3 minutos',
+        '4 minutes' => '4 minutos',
+        '5 minutes' => '5 minutos',
         '10 minutes' => '10 minutos',
         '15 minutes' => '15 minutos',
-        '30 minutes' => '',
+        '30 minutes' => '30 minutos',
         '1 hour' => '',
         '2 hours' => '',
         '3 hours' => '',
@@ -3504,7 +3559,7 @@ sub Data {
         '3 days' => '',
         '4 days' => '',
         '6 days' => '',
-        '1 week' => '',
+        '1 week' => '1 semana',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Need InvokerType' => 'Necessário InvokerType',
@@ -3576,7 +3631,6 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
         'Mail account added!' => 'Conta de e-mail adicionada!',
-        'Finished' => 'Finalizado',
         'Dispatching by email To: field.' => 'Distribuição por e-mail por campo: "Para:"',
         'Dispatching by selected Queue.' => 'Distribuição por Fila selecionada',
 
@@ -3622,12 +3676,12 @@ sub Data {
         'Package has locally modified files.' => 'Pacote possui arquivos locais modificados.',
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             'O pacote não foi verificado pelo Grupo OTRS! O seu uso não é recomendado.',
-        'Updated' => '',
-        'Already up-to-date' => '',
-        'Installed' => '',
-        'Package updated correctly' => '',
-        'Package was already updated' => '',
-        'Dependency installed correctly' => '',
+        'Updated' => 'Atualizado',
+        'Already up-to-date' => 'Atual',
+        'Installed' => 'Instalado',
+        'Package updated correctly' => 'Pacote atualizado corretamente',
+        'Package was already updated' => 'Pacote já foi atualizado',
+        'Dependency installed correctly' => 'Dependência instalada corretamente',
         'The package contains cyclic dependencies' => '',
         'Not found in on-line repositories' => '',
         'Required version is higher than available' => '',
@@ -3767,7 +3821,7 @@ sub Data {
         'Change Role Relations for Group' => 'Alterar Relações de Papel Para Grupo',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
-        'Role' => '',
+        'Role' => 'Papel',
         'Change Role Relations for Agent' => 'Alterar Relações de Papel Para Atendente',
         'Change Agent Relations for Role' => 'Alterar Relações de Atendente Para Papel',
 
@@ -4344,8 +4398,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Upgrade to OTRS Business Solution™' => '',
-        'Re-install Package' => '',
-        'Re-install' => '',
+        'Re-install Package' => 'Reinstalar Pacote',
+        'Re-install' => 'Reinstalar',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
         'Crypted' => 'Criptografado',
@@ -4618,9 +4672,7 @@ sub Data {
         'Cancel editing and unlock this setting' => '',
         'Reset this setting to its default value.' => '',
         'Unable to load %s!' => '',
-        'Add key' => '',
         'Content' => 'Conteúdo',
-        'Add new entry' => 'Adicionar nova entrada',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
         'Unlock to give it back to the queue' => 'Desbloquear para devolver à fila',
@@ -5329,7 +5381,6 @@ sub Data {
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => 'Mais',
         'Less' => 'Menos',
-        'Confirm' => 'Confirmar',
         'Press Ctrl+C (Cmd+C) to copy to clipboard' => '',
 
         # JS File: Core.Agent.Admin.Attachment
@@ -5450,7 +5501,6 @@ sub Data {
         'Support Data information was successfully sent.' => 'Informação de Suporte enviada com sucesso.',
         'Was not possible to send Support Data information.' => 'Não foi possível enviar informações dados de suporte.',
         'Update Result' => 'Resultado da Atualização',
-        'Close' => 'Fechar',
         'Generating...' => 'Gerando...',
         'It was not possible to generate the Support Bundle.' => 'Não foi possível gerar o Pacote de Suporte.',
         'Generate Result' => 'Gerar Resultado',
@@ -5473,7 +5523,6 @@ sub Data {
         'Loading...' => 'Carregando...',
         'Search the System Configuration' => '',
         'Please enter at least one search word to find anything.' => '',
-        'Preparing to deploy, please wait...' => '',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
             '',
         'Deploy' => '',
@@ -5725,9 +5774,9 @@ Thanks for your help!
         '(UserLogin) Lastname Firstname' => '',
         '(UserLogin) Lastname, Firstname' => '(Login) Sobrenome, Nome',
         '*** out of office until %s (%s d left) ***' => '',
-        '0 - Disabled' => '',
-        '1 - Available' => '',
-        '1 - Enabled' => '',
+        '0 - Disabled' => '0 - Desabilitado',
+        '1 - Available' => '1 - Disponível',
+        '1 - Enabled' => '1 - Habilitado',
         '10 Minutes' => '',
         '100 (Expert)' => '100 (Especialista)',
         '15 Minutes' => '',
@@ -6093,7 +6142,7 @@ Thanks for your help!
         'Create and manage agents.' => 'Criar e gerenciar atendentes.',
         'Create and manage appointment notifications.' => 'Criar e gerenciar notificações de compromisso.',
         'Create and manage attachments.' => 'Criar e gerenciar anexos.',
-        'Create and manage calendars.' => '',
+        'Create and manage calendars.' => 'Criar e gerenciar calendários.',
         'Create and manage customer users.' => 'Criar e gerenciar usuários clientes.',
         'Create and manage customers.' => 'Criar e gerenciar clientes.',
         'Create and manage dynamic fields.' => 'Criar e gerenciar campos dinâmicos.',
@@ -7373,7 +7422,7 @@ Thanks for your help!
         'Latvian' => 'Letão',
         'Left' => 'Esquerda',
         'Link Object' => 'Associar Objeto',
-        'Link Object.' => '',
+        'Link Object.' => 'Associar Objeto.',
         'Link agents to groups.' => 'Associar atendentes a grupos.',
         'Link agents to roles.' => 'Associar atendentes a papéis.',
         'Link attachments to templates.' => 'Associar anexos a modelos.',
@@ -8571,7 +8620,7 @@ Thanks for your help!
         'phone' => 'Telefone',
         'responsible' => 'responsável',
         'reverse' => 'reverso',
-        'stats' => 'status',
+        'stats' => 'estatísticas',
 
     };
 
@@ -8581,9 +8630,15 @@ Thanks for your help!
         'A key with this name (\'%s\') already exists.',
         'A package upgrade was recently finished. Click here to see the results.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?',
+        'A preview of this website can\'t be provided because it didn\'t allow to be embedded.',
+        'Add',
         'Add all',
+        'Add entry',
+        'Add key',
         'Add new draft',
+        'Add new entry',
         'Add to favourites',
+        'Agent',
         'All occurrences',
         'All-day',
         'An error occurred during communication.',
@@ -8599,6 +8654,7 @@ Thanks for your help!
         'Are you sure you want to delete this appointment? This operation cannot be undone.',
         'Are you sure you want to update all installed packages?',
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.',
+        'Article display',
         'Article filter',
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?',
         'Ascending sort applied, ',
@@ -8606,16 +8662,21 @@ Thanks for your help!
         'Attachments',
         'Aug',
         'August',
+        'Basic information',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?',
+        'Calendar',
         'Cancel',
         'Cannot proceed',
         'Clear',
         'Clear all',
         'Clear debug log',
         'Clear search',
+        'Click to select a file or just drop it here.',
+        'Click to select files or just drop them here.',
         'Clone web service',
         'Close',
         'Close dialog',
+        'Close preview',
         'Close this dialog',
         'Communication error',
         'Complex %s with %s arguments',
@@ -8626,6 +8687,7 @@ Thanks for your help!
         'Currently not possible',
         'Customer interface does not support articles not visible for customers.',
         'Data Protection',
+        'Date/Time',
         'Day',
         'Dec',
         'December',
@@ -8652,11 +8714,16 @@ Thanks for your help!
         'Deleting the postmaster filter and its data. This may take a while...',
         'Deleting the template and its data. This may take a while...',
         'Deploy',
+        'Deploy now',
+        'Deploying, please wait...',
+        'Deployment comment...',
         'Deployment successful. You\'re being redirected...',
         'Descending sort applied, ',
+        'Description',
         'Dismiss',
         'Do not show this warning again.',
         'Do you really want to continue?',
+        'Do you really want to delete "%s"?',
         'Do you really want to delete this certificate?',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this link?',
@@ -8664,13 +8731,16 @@ Thanks for your help!
         'Do you really want to delete this notification?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',
+        'Do you really want to reset this setting to it\'s default value?',
         'Do you really want to revert this setting to its historical value?',
         'Don\'t save, update manually',
+        'Draft title',
         'Duplicate event.',
         'Duplicated entry',
         'Edit Field Details',
         'Edit this setting',
         'Edit this transition',
+        'End date',
         'Error',
         'Error during AJAX communication',
         'Error during AJAX communication. Status: %s, Error: %s',
@@ -8682,6 +8752,7 @@ Thanks for your help!
         'February',
         'Filters',
         'Find out more',
+        'Finished',
         'First select a customer user, then select a customer ID to assign to this ticket.',
         'Fr',
         'Fri',
@@ -8710,7 +8781,10 @@ Thanks for your help!
         'June',
         'Just this occurrence',
         'Less',
+        'Link',
+        'Loading, please wait...',
         'Loading...',
+        'Location',
         'Mail check successful.',
         'Mapping for Key',
         'Mapping for Key %s',
@@ -8731,16 +8805,19 @@ Thanks for your help!
         'No data found.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.',
         'No matches found.',
+        'No package information available.',
         'No sort applied, ',
         'No space left for the following files',
         'Not available',
         'Notice',
+        'Notification',
         'Nov',
         'November',
         'OK',
         'Oct',
         'October',
         'One or more errors occurred!',
+        'Open URL in new tab',
         'Open date selection',
         'Open this node in a new window',
         'Please add values for all keys before saving the setting.',
@@ -8757,27 +8834,42 @@ Thanks for your help!
         'Preparing to deploy, please wait...',
         'Press Ctrl+C (Cmd+C) to copy to clipboard',
         'Previous',
+        'Process state',
+        'Queues',
         'Reload page',
+        'Remove',
         'Remove Entity from canvas',
         'Remove active filters for this widget.',
+        'Remove all user changes.',
         'Remove from favourites',
         'Remove selection',
         'Remove the Transition from this Process',
         'Remove the filter',
+        'Remove this entry',
+        'Repeat',
         'Request Details',
         'Request Details for Communication ID',
         'Reset',
+        'Reset globally',
+        'Reset locally',
         'Reset option is required!',
+        'Reset options',
         'Reset setting',
+        'Reset setting on global level.',
+        'Resource',
         'Resources',
         'Restore default settings',
         'Restore web service configuration',
+        'Rule',
+        'Running',
         'Sa',
         'Sat',
         'Saturday',
         'Save',
         'Save and update automatically',
+        'Scale preview content',
         'Search',
+        'Search attributes',
         'Search the System Configuration',
         'Searching for linkable objects. This may take a while...',
         'Select a customer ID to assign to this ticket',
@@ -8788,6 +8880,7 @@ Thanks for your help!
         'September',
         'Setting a template will overwrite any text or attachment.',
         'Settings',
+        'Show',
         'Show EntityIDs',
         'Show current selection',
         'Show or hide the content.',
@@ -8801,6 +8894,8 @@ Thanks for your help!
         'Sorry, you can only upload one file here.',
         'Split',
         'Stacked',
+        'Start date',
+        'Status',
         'Stream',
         'Su',
         'Sun',
@@ -8810,6 +8905,7 @@ Thanks for your help!
         'Switch to desktop mode',
         'Switch to mobile mode',
         'System Registration',
+        'Team',
         'Th',
         'The browser you are using is too old.',
         'The deployment is already running.',
@@ -8832,6 +8928,7 @@ Thanks for your help!
         'This element has children elements and can currently not be removed.',
         'This event is already attached to the job, Please use a different one.',
         'This feature is part of the %s.  Please contact us at %s for an upgrade.',
+        'This field is required.',
         'This is %s',
         'This is a repeating appointment',
         'This is currently disabled because of an ongoing package upgrade.',
@@ -8843,18 +8940,23 @@ Thanks for your help!
         'Timeline Day',
         'Timeline Month',
         'Timeline Week',
+        'Title',
         'Today',
         'Too many active calendars',
+        'Try again',
         'Tu',
         'Tue',
         'Tuesday',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.',
+        'Unknown',
         'Unlock setting.',
         'Update Result',
         'Update manually',
         'Upgrade All Packages',
         'Upgrade all packages',
         'Upload information',
+        'Uploading...',
+        'Use options below to narrow down for which tickets appointments will be automatically created.',
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.',
         'Warning',
         'Was not possible to send Support Data information.',
@@ -8863,7 +8965,9 @@ Thanks for your help!
         'Wednesday',
         'Week',
         'Would you like to edit just this occurrence or all occurrences?',
+        'Yes',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.',
+        'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.',
         'activate to apply a descending sort',
         'activate to apply an ascending sort',
         'activate to remove the sort',
@@ -8872,7 +8976,9 @@ Thanks for your help!
         'month',
         'no',
         'none',
+        'or',
         'sorting is disabled',
+        'user(s) have modified this setting.',
         'week',
         'yes',
     ];

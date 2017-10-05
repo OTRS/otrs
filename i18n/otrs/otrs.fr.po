@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-09-25 20:27+0000\n"
-"PO-Revision-Date: 2017-09-25 20:30+0000\n"
+"POT-Creation-Date: 2017-10-05 14:30+0000\n"
+"PO-Revision-Date: 2017-10-05 14:32+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/otrs/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -263,7 +263,7 @@ msgstr "Ajouter un calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr "Modifier un calendrier"
+msgstr "Modifier le calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Go back"
@@ -271,7 +271,7 @@ msgstr "Retour"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
-msgstr "Aperçu d'un calendrier"
+msgstr "Vue d'ensemble calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add new Calendar"
@@ -283,7 +283,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Import"
-msgstr "Importer un calendrier"
+msgstr "Import de calendrier"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
@@ -559,7 +559,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
-msgstr "Activer/Désactiver le widget"
+msgstr "Afficher ou cacher ce cadre"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
@@ -594,7 +594,7 @@ msgstr "Plan"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr "Equipe"
+msgstr "Équipe"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
@@ -622,7 +622,7 @@ msgstr "Envoyer à tous les membres du rôle"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr "Envoyer une absence du bureau"
+msgstr "Envoyer lorsqu'absent du bureau"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
@@ -1810,7 +1810,7 @@ msgstr "Montrer le lien"
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
-msgstr "Ici vous pouvez spécifier un lien HTTP optionnel pour la valeur des champs dans les écrans Aperçu et Zoom."
+msgstr "Ici vous pouvez spécifier un lien HTTP optionnel pour la valeur des champs dans les écrans de type Vue d'ensemble et Zoom."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Example"
@@ -2943,7 +2943,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr "Configuration générale"
+msgstr "Paramètres généraux"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
@@ -4831,7 +4831,7 @@ msgstr "Remise à zéro"
 
 #. Template: AdminPerformanceLog
 msgid "Overview"
-msgstr "Aperçu"
+msgstr "Vue d'ensemble"
 
 #. Template: AdminPerformanceLog
 msgid "Interface"
@@ -5093,7 +5093,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "Annuler & fermer"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
@@ -7527,7 +7527,7 @@ msgstr ""
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Start"
-msgstr "Démarrer"
+msgstr "Début"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "none"
@@ -7718,7 +7718,7 @@ msgstr ""
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr "Absent du Bureau"
+msgstr "absence du bureau"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -7878,7 +7878,7 @@ msgstr ""
 
 #. Template: AgentPreferencesOverview
 msgid "Did you know?"
-msgstr ""
+msgstr "Le saviez-vous ?"
 
 #. Template: AgentPreferencesOverview
 msgid ""
@@ -8048,7 +8048,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "All fields marked with an asterisk (*) are mandatory."
-msgstr "Tous les champs marqués avec un astérisque (*) sont obligatoires."
+msgstr "Les champs marqués d'un astérisque (*) sont obligatoires."
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
@@ -8080,11 +8080,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr ""
+msgstr "Nouveau Responsable"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new responsible!"
-msgstr ""
+msgstr "Veuillez spécifier un nouveau responsable !"
 
 #. Template: AgentTicketActionCommon
 msgid "Responsible invalid."
@@ -8104,7 +8104,7 @@ msgstr "Pour tous les états en attente*"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr "Ajout article"
+msgstr "Ajout d'article"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
@@ -8112,17 +8112,17 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Inform agents"
-msgstr "Informer des agents"
+msgstr "Informer des opérateurs"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved agents"
-msgstr ""
+msgstr "Informer les opérateurs impliqués"
 
 #. Template: AgentTicketActionCommon
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr ""
+msgstr "Vous pouvez sélectionner des opérateurs additionnels, qui seront notifiés de l'ajout de cet article."
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
@@ -8683,7 +8683,7 @@ msgstr "Réinitialiser filtre"
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr "Non."
+msgstr "N°."
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -10152,6 +10152,125 @@ msgstr "Compteur"
 msgid "Go back to the previous page"
 msgstr "Revenir à la page précédente"
 
+#. JS Template: CalendarSettingsDialog
+msgid "Show"
+msgstr ""
+
+#. JS Template: FormDraftAddDialog
+msgid "Draft title"
+msgstr ""
+
+#. JS Template: ArticleViewSettingsDialog
+msgid "Article display"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Do you really want to delete \"%s\"?"
+msgstr ""
+
+#. JS Template: FormDraftDeleteDialog
+msgid "Confirm"
+msgstr ""
+
+#. JS Template: WidgetLoading
+msgid "Loading, please wait..."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select files or just drop them here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Click to select a file or just drop it here."
+msgstr ""
+
+#. JS Template: UploadContainer
+msgid "Uploading..."
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Process state"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Running"
+msgstr ""
+
+#. JS Template: InformationDialog
+msgid "Finished"
+msgstr "Fini"
+
+#. JS Template: InformationDialog
+msgid "No package information available."
+msgstr ""
+
+#. JS Template: AddButton
+msgid "Add new entry"
+msgstr "Ajouter une nouvelle entrée"
+
+#. JS Template: AddHashKey
+msgid "Add key"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deployment comment..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploying, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Preparing to deploy, please wait..."
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Deploy now"
+msgstr ""
+
+#. JS Template: DialogDeployment
+msgid "Close"
+msgstr "Clôturer"
+
+#. JS Template: DialogDeployment
+msgid "Try again"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset options"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset setting on global level."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset globally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Remove all user changes."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Reset locally"
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "user(s) have modified this setting."
+msgstr ""
+
+#. JS Template: DialogReset
+msgid "Do you really want to reset this setting to it's default value?"
+msgstr ""
+
+#. JS Template: HelpDialog
+msgid ""
+"You can use the category selection to limit the navigation tree below to "
+"entries from the selected category. As soon as you select the category, the "
+"tree will be re-built."
+msgstr ""
+
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
 msgstr ""
@@ -11116,10 +11235,6 @@ msgstr "Groupe ajouté!"
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
 msgstr "Compte de messagerie ajouté !"
-
-#. Perl Module: Kernel/Modules/AdminMailAccount.pm
-msgid "Finished"
-msgstr "Fini"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -12823,7 +12938,7 @@ msgstr "Appel téléphonique sortant"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forwarded Message"
-msgstr ""
+msgstr "Message transféré"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Removed User Subscription"
@@ -12917,7 +13032,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forward article via mail"
-msgstr "Transférer Article par mail"
+msgstr "Transférer cet article par mail"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forward"
@@ -13995,16 +14110,8 @@ msgid "Unable to load %s!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add key"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
 msgstr "Contenu"
-
-#. Perl Module: Kernel/Output/HTML/SysConfig.pm
-msgid "Add new entry"
-msgstr "Ajouter une nouvelle entrée"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
@@ -14056,7 +14163,7 @@ msgstr "Nouveaux tickets dont vous êtes responsable"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets Reminder Reached"
-msgstr "Responsables du ticket atteint"
+msgstr "Tickets dont vous êtes responsable et dont la date de rappel a été atteinte"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets Total"
@@ -15790,43 +15897,43 @@ msgstr "client"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket create notification"
-msgstr "Notification de ticket créé"
+msgstr "Notification de création d'un ticket"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
-msgstr "Vous recevrez une notification à chaque création d'un nouveau ticket dans un de vos \"Mes files\" ou \"Mes services\"."
+msgstr "Notification à chaque création d'un ticket dans \"Mes files\" ou \"Mes services\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr "Notification de suivi de ticket (déverrouillé)"
+msgstr "Notification de réponse client à un ticket non verrouillé"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
-msgstr "Vous recevrez une notification si un client envoie un suivi vers un ticket déverrouillé qui est situé dans votre \"Mes files\" ou \"Mes services\"."
+msgstr "Notification lorsqu'un client envoie un réponse à un ticket déverrouillé dans \"Mes files\" ou \"Mes services\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr "Notification de suivi de ticket (verrouillé)"
+msgstr "Notification de réponse client à un ticket verrouillé"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
-msgstr ""
+msgstr "Notification lorsqu'un client envoie une réponse à un ticket verrouillé dont vous êtes propriétaire ou responsable."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket lock timeout notification"
-msgstr "Prévenir du dépassement du délai d'un verrou"
+msgstr "Notification de déverrouillage automatique"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
-msgstr ""
+msgstr "Notification lorsqu'un ticket dont vous êtes propriétaire est déverrouillé suite au dépassement du délai."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket owner update notification"
@@ -15842,13 +15949,13 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "Notification de déplacement vers une de vos files"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
-msgstr ""
+msgstr "Notification lorsqu'un ticket est déplacé vers une de \"Mes files\""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
@@ -15868,13 +15975,13 @@ msgstr ""
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Notification de lien à un de vos services"
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
-msgstr ""
+msgstr "Notification si le service associé à un ticket est changé à un de \"Mes services\"."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Appointment reminder notification"
@@ -15884,7 +15991,7 @@ msgstr ""
 msgid ""
 "You will receive a notification each time a reminder time is reached for one"
 " of your appointments."
-msgstr ""
+msgstr "Notification lorsque la date de rappel pour un de vos rendez-vous est atteinte."
 
 #. Database XML Definition: scripts/database/otrs-initial_insert.xml
 msgid "Ticket email delivery failure notification"
@@ -15918,10 +16025,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Less"
-msgstr ""
-
-#. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-msgid "Confirm"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
@@ -16205,10 +16308,6 @@ msgid "Update Result"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
-msgid "Close"
-msgstr "Clôturer"
-
-#. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
 msgstr ""
 
@@ -16275,10 +16374,6 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
-
-#. JS File: Core.Agent.Admin.SystemConfiguration
-msgid "Preparing to deploy, please wait..."
 msgstr ""
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
@@ -17249,7 +17344,7 @@ msgstr "Les nouveaux tickets; ces tickets n'ont pas encore été traités."
 msgid ""
 "All open tickets, these tickets have already been worked on, but need a "
 "response"
-msgstr "Les tickets ouverts; ces ticket ont été traités mais nécessitent une réponse."
+msgstr "Les tickets ouverts; du travail a déjà été fait sur ces tickets, mais ils nécessitent encore une réponse."
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -17847,7 +17942,7 @@ msgid ""
 "Choose for which kind of ticket changes you want to receive notifications. "
 "Please note that you can't completely disable notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "Choisissez les changements à propos desquels vous souhaitez être notifié(e). Notez que vous ne pouvez pas complétement désactiver les notifications marquées comme étant obligatoires."
 
 #. SysConfig
 msgid "Choose which notifications would you like to receive."
@@ -18019,7 +18114,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "Sélectionnez l'écran qui doit être affiché après la création d'un nouveau ticket."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -18201,7 +18296,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Create tickets."
-msgstr "Créer un ticket."
+msgstr "Créer des tickets."
 
 #. SysConfig
 msgid "Created ticket [%s] in \"%s\" with priority \"%s\" and state \"%s\"."
@@ -22076,7 +22171,7 @@ msgstr ""
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
-msgstr "Lorsqu'activé, les différents apperçus (Tableau de bord, Vue Verrouillé, Vue File) seront automatiquement rafraîchis après le temps spécifié."
+msgstr "Lorsqu'activé, les différentes vues d'ensemble (Tableau de bord, Vue file, etc) seront automatiquement rafraîchies après le temps spécifié."
 
 #. SysConfig
 msgid ""
@@ -22134,7 +22229,7 @@ msgstr ""
 msgid ""
 "If you're going to be out of office, you may wish to let other users know by"
 " setting the exact dates of your absence."
-msgstr ""
+msgstr "Si vous prévoyez d'être absent(e) du bureau, vous pouvez choisir de le faire savoir aux autres utilisateurs en spécifiant les dates de départ et retour."
 
 #. SysConfig
 msgid ""
@@ -22906,7 +23001,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Notification Settings"
-msgstr "Paramètres des notifications"
+msgstr "Paramètres de notification"
 
 #. SysConfig
 msgid "Notified about response time escalation."
@@ -22967,7 +23062,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Open Tickets / Need to be answered"
-msgstr "Tickets ouverts en attente de réponse"
+msgstr "Tickets ouverts"
 
 #. SysConfig
 msgid "Open an external link!"
@@ -23015,11 +23110,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr "Absent du Bureau"
+msgstr "Absence du bureau"
 
 #. SysConfig
 msgid "Out Of Office Time"
-msgstr "Absent du Bureau"
+msgstr "Absence du bureau"
 
 #. SysConfig
 msgid ""
@@ -23033,7 +23128,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview Refresh Time"
-msgstr "Aperçu du temps de rafraichissement"
+msgstr "Délai de rafraichissement des vues d'ensembles"
 
 #. SysConfig
 msgid "Overview of all appointments."
@@ -23605,7 +23700,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Reminder Tickets"
-msgstr "Tickets de rappel"
+msgstr "Tickets avec date de rappel atteinte"
 
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
@@ -23857,7 +23952,7 @@ msgstr "Planifier une plage de maintenance."
 
 #. SysConfig
 msgid "Screen after new ticket"
-msgstr "Écran après un nouveau ticket"
+msgstr "Écran suivant la création d'un ticket"
 
 #. SysConfig
 msgid "Search Customer"
@@ -23906,7 +24001,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Select the main interface language."
-msgstr "Sélectionnez la langue de l'interface principale."
+msgstr "Sélectionnez la langue principale de l'interface."
 
 #. SysConfig
 msgid ""
@@ -25998,7 +26093,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr "Notifications des tickets"
+msgstr "Notifications concernant les tickets"
 
 #. SysConfig
 msgid "Ticket Outbound Email."
@@ -26062,7 +26157,7 @@ msgstr "Limite de ticket par page pour la \"Moyenne\" limite de Vue Générale d
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\""
-msgstr "Limite de ticket par page pour Vue générale de ticket \"Aperçu\""
+msgstr "Nombre maximum de tickets par page pour l'\"Aperçu\" de la Vue d'ensemble des tickets "
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\""
@@ -26070,7 +26165,7 @@ msgstr "Limite de ticket par page pour la \"Petite\" limite de Vue Générale de
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr "Notifications des tickets"
+msgstr "Notifications concernant les tickets"
 
 #. SysConfig
 msgid "Ticket overview"
@@ -26381,13 +26476,13 @@ msgstr "Votre e-mail avec le numéro de ticket \"<OTRS_TICKET>\" a été fusionn
 msgid ""
 "Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Votre sélection de files préférées. Vous serez également notifié(e) par courriel à propos de ces files si les notifications sont activées."
 
 #. SysConfig
 msgid ""
 "Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
-msgstr ""
+msgstr "Votre sélection de services préférés. Vous serez également notifié(e) par courriel à propos de ces services si les notifications sont activées."
 
 #. SysConfig
 msgid "Zoom"
