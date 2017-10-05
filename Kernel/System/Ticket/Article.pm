@@ -53,7 +53,7 @@ article back ends.
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Article');
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
 =cut
 
