@@ -26,6 +26,15 @@ my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
     SkipSSLVerify => 1,
+    RestoreSystemConfiguration => 1,
+);
+
+# Disable cloud service calls to avoid test failures due to connection problems etc.
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'CloudServices::Disabled',
+    Value => 1,
 );
 
 my $TestUserLogin = $HelperObject->TestUserCreate(
