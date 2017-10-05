@@ -36,9 +36,6 @@ $Selenium->RunTest(
         # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # Change resolution (desktop mode).
-        $Selenium->set_window_size( 768, 1050 );
-
         # Create test user.
         my $Language      = 'en';
         my $TestUserLogin = $Helper->TestUserCreate(
