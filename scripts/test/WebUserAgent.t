@@ -73,20 +73,6 @@ my @Tests = (
         Success => 1,
     },
     {
-        Name    => 'GET - http - Test ' . $TestNumber++,
-        URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => 1,
-    },
-    {
-        Name    => 'GET - https - Test ' . $TestNumber++,
-        URL     => "https://portal.otrs.com/",
-        Timeout => $TimeOut,
-        Proxy   => $Proxy,
-        Success => 1,
-    },
-    {
         Name    => 'GET - http - Header ' . $TestNumber++,
         URL     => "http://ftp.otrs.org/pub/otrs/packages/otrs.xml",
         Timeout => 100,
@@ -147,7 +133,7 @@ for my $URL ( @{$RepositoryRoot} ) {
     push @Tests, \%NewEntry;
 }
 
-my %Intervall = (
+my %Interval = (
     1 => 3,
     2 => 15,
     3 => 60,
@@ -187,7 +173,7 @@ for my $Test (@Tests) {
 
             if ( $Try < 5 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
 
-                sleep $Intervall{$Try};
+                sleep $Interval{$Try};
 
                 next TRY;
             }
@@ -209,7 +195,7 @@ for my $Test (@Tests) {
 
             if ( $Try < 5 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
 
-                sleep $Intervall{$Try};
+                sleep $Interval{$Try};
 
                 next TRY;
             }
