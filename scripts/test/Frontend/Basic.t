@@ -32,6 +32,13 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+# Disable cloud service calls to avoid test failures due to connection problems etc.
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'CloudServices::Disabled',
+    Value => 1,
+);
+
 my $TestUserLogin = $Helper->TestUserCreate(
     Groups => ['admin'],
 );
