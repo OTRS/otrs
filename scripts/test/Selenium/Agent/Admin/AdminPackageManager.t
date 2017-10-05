@@ -12,6 +12,33 @@ use utf8;
 
 use vars (qw($Self));
 
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $RandomID = $Helper->GetRandomID();
+
+# Override Request() from WebUserAgent to always return some test data without making any
+#   actual web service calls. This should prevent instability in case cloud services are
+#   unavailable at the exact moment of this test run.
+my $CustomCode = <<"EOS";
+sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
+use Kernel::System::WebUserAgent;
+package Kernel::System::WebUserAgent;
+use strict;
+use warnings;
+## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
+{
+    no warnings 'redefine';
+    sub Request {
+        return;
+    }
+}
+1;
+EOS
+$Helper->CustomCodeActivate(
+    Code       => $CustomCode,
+    Identifier => 'AdminPackageManager' . $RandomID,
+);
+
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
