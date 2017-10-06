@@ -54,7 +54,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit",      'css' )->VerifiedClick();
 
         # click on Transitions dropdown
-        $Selenium->find_element( "Transitions", 'link_text' )->VerifiedClick();
+        $Selenium->find_element( "Transitions", 'link_text' )->click();
 
         # wait to toggle element
         sleep 1;
@@ -119,6 +119,9 @@ $Selenium->RunTest(
 
         # try to remove Field, expecting JS error
         $Selenium->find_element("//a[\@title='Remove this Field']")->click();
+        $Selenium->WaitFor(
+            AlertPresent => 1,
+        );
         $Self->True(
             $Selenium->accept_alert(),
             "Unable to remove only field - JS is success"
@@ -148,7 +151,7 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('ul#Transitions li:contains($TransitionRandom)').length"
         );
-        $Selenium->find_element( "Transitions",       'link_text' )->VerifiedClick();
+        $Selenium->find_element( "Transitions",       'link_text' )->click();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
 
         # wait for filter to kick in
@@ -231,7 +234,9 @@ $Selenium->RunTest(
         # remove Conditions, expecting JS error on last Condition removal
         $Selenium->find_element("//a[\@name='ConditionRemove[2]']")->click();
         $Selenium->find_element("//a[\@name='ConditionRemove[1]']")->click();
-
+        $Selenium->WaitFor(
+            AlertPresent => 1,
+        );
         $Self->True(
             $Selenium->accept_alert(),
             "Unable to remove only condition - JS is success"
@@ -249,7 +254,7 @@ $Selenium->RunTest(
         # check for edited test Transition using filter on AdminProcessManagement screen
         my $TransitionRandomEdit = $TransitionRandom . "edit";
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TransitionFilter").length' );
-        $Selenium->find_element( "Transitions",       'link_text' )->VerifiedClick();
+        $Selenium->find_element( "Transitions",       'link_text' )->click();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandomEdit);
 
         # wait for filter to kick in
