@@ -109,9 +109,13 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomerLogin)').click()");
 
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' &&  \$('tbody a:contains($TestCustomerLogin)').length;"
+        );
+
         # verify search
         $Self->True(
-            index( $Selenium->get_page_source(), $TestCustomerLogin ) > -1,
+            $Selenium->execute_script("return \$('tbody a:contains($TestCustomerLogin)').length;"),
             "Search by Customer User success - found $TestCustomerLogin",
         );
 
