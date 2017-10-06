@@ -17,7 +17,7 @@
             <h2>
                 [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Data.ArticleFields.Subject.Value | html %]
                 &ndash; <span class="[% Data.ArticleFields.Sender.ValueHidden | html %]">[% Data.ArticleFields.Sender.Value | html %]</span> <span class="[% Data.ArticleFields.Sender.RealnameHidden | html %]">[% Data.ArticleFields.Sender.Realname | html %]</span>
-                &ndash; <span title="[% Translate("Created") %]: [% Data.CreateTime | Localize("TimeShort") %]">[% Data.CreateTime | Localize("RelativeTime") %]</span> [% Translate("via %s", Translate(Data.CommunicationChannel)) %]
+                &ndash; <span title="[% Translate("Created") %]: [% Data.CreateTime | Localize("TimeShort") %]">[% Data.CreateTime | Localize("TimeShort") %]</span> [% Translate("via %s", Translate(Data.CommunicationChannel)) %]
 [% IF Data.CreateByUser %]
                 [% Translate("by %s", Data.CreateByUser) | html %]
 [% END %]
@@ -96,7 +96,7 @@
                     [[% Data.CreateTime | Localize("TimeShort") %]] [% Data.Message | html %]
                 [% ELSIF Data.Status == "Processing" %]
                     [% IF Data.Attempts && Data.DueTime %]
-                        [% Translate("This message is being processed. Already tried to send %s time(s). Next try will be %s.", Data.Attempts, Localize(Data.DueTime, "RelativeTime")) | html %]
+                        [% Translate("This message is being processed. Already tried to send %s time(s). Next try will be %s.", Data.Attempts, Localize(Data.DueTime, "TimeShort")) | html %]
                     [% ELSE %]
                         [% Translate("This message has been queued for sending.") | html %]
                     [% END %]

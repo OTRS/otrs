@@ -241,15 +241,13 @@ $Selenium->RunTest(
         );
 
         # Check if transmission processing message contains information about temporary error.
-        my %RelativeTime = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FormatRelativeTime(
-            DateTimeObject => $DateTimeObject,
-        );
         my $ProcessingMessage = sprintf(
             'This message is being processed. Already tried to send %s time(s). Next try will be %s.',
             '1',
-            sprintf( $RelativeTime{Message}, $RelativeTime{Value} ),
+            $DateTimeObject->Format('Format' => '%m/%d/%Y %H:%M'),
         );
         my $DisplayedProcessingMessage = $Selenium->find_element( '.WidgetMessage.Top.Warning', 'css' )->get_text();
+
         $Self->True(
             ( $DisplayedProcessingMessage =~ /\Q$ProcessingMessage\E/ ) || 0,
             'Transmission processing message displayed correctly (2)'

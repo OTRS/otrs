@@ -13,9 +13,9 @@
         [% Translate("You have loaded the draft \"%s\".", Data.FormDraftTitle) | html %]
     [% ELSE %]
         [% IF Data.FormDraftMeta.ChangeBy == Env('UserID') %]
-            [% Translate("You have loaded the draft \"%s\". You last changed it %s.", Data.FormDraftTitle, Data.FormDraftMeta.ChangeTimeRelative ) | html %]
+            [% Translate("You have loaded the draft \"%s\". You last changed it %s.", Data.FormDraftTitle, Localize(Data.FormDraftMeta.ChangeTime, 'TimeShort') ) | html %]
         [% ELSE %]
-            [% Translate("You have loaded the draft \"%s\". It was last changed %s by %s.", Data.FormDraftTitle, Data.FormDraftMeta.ChangeTimeRelative.Message, Data.FormDraftMeta.ChangeByName ) | html %]
+            [% Translate("You have loaded the draft \"%s\". It was last changed %s by %s.", Data.FormDraftTitle, Localize(Data.FormDraftMeta.ChangeTime, 'TimeShort'), Data.FormDraftMeta.ChangeByName ) | html %]
         [% END %]
     [% END %]
     </p>

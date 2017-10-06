@@ -31,7 +31,7 @@
 [% RenderBlockEnd("DeleteLinkIcon") %]
 
 [% RenderBlockStart("TimeLong") %]
-<span title="[% Data.Content | Localize("TimeLong") %]">[% Data.Content | Localize("RelativeTime") %]</span>
+<span title="[% Data.Content | Localize("TimeLong") %]">[% Data.Content | Localize("TimeLong") %]</span>
 [% RenderBlockEnd("TimeLong") %]
 
 [% RenderBlockStart("Date") %]

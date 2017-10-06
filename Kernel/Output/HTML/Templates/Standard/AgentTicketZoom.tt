@@ -439,7 +439,7 @@
                                     <input type="hidden" class="SortData" value="[% Data.ArticleFields.Subject.Value | html %]" />
                                 </td>
                                 <td class="Created">
-                                    <div title="[% Data.CreateTime | Localize('TimeShort') %]"><a href="#">[% Data.CreateTime | Localize("RelativeTime") %]</a></div>
+                                    <div title="[% Data.CreateTime | Localize('TimeShort') %]"><a href="#">[% Data.CreateTime | Localize("TimeShort") %]</a></div>
 # Include custom sorting information: date in ISO format.
 # Other date formats cannot be sorted reliably.
                                     <input type="hidden" class="SortData" value="[% Data.CreateTime | html %]" />

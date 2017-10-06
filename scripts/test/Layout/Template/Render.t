@@ -467,16 +467,6 @@ EOF
 ',
         Data => {},
     },
-    {
-        Name     => 'RelativeTime',
-        Template => <<'EOF',
-[% '2017-01-09 00:00:00' | Localize( 'RelativeTime' ) %] [% Localize( '2017-01-11 00:00:00', 'RelativeTime' ) %]
-EOF
-        Result => 'vor einem Tag in einem Tag
-',
-        Data         => {},
-        FixedTimeSet => '2017-01-10 00:00:00',
-    },
 );
 
 for my $Test (@Tests) {
