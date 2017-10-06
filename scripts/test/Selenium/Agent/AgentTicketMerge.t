@@ -12,30 +12,15 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-        # create test user and login
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups => [ 'admin', 'users' ],
-        ) || die "Did not get test user";
-
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-
-        # get ticket object
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        # create test tickets
+        # Create test tickets.
         my @TicketIDs;
         my @TicketNumbers;
         for my $Ticket ( 1 .. 2 ) {
@@ -62,27 +47,42 @@ $Selenium->RunTest(
 
         }
 
-        # get script alias
+        # Create test user and login.
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => [ 'admin', 'users' ],
+        ) || die "Did not get test user";
+
+        $Selenium->Login(
+            Type     => 'Agent',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
+        );
+
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to zoom view of created test ticket
+        # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
-        # force sub menus to be visible in order to be able to click one of the links
+        # Force sub menus to be visible in order to be able to click one of the links.
         $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#nav-Miscellaneous-container').css('opacity') === '1'"
+        );
 
-        # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-        # switch to merge window
+        # Click on 'Merge' and switch to merge window.
+        $Selenium->execute_script("\$('#nav-Merge a').click()");
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#MainTicketNumber").length' );
 
-        # check page
+        # Check page.
         for my $ID (
             qw(MainTicketNumber InformSender To Subject RichText submitRichText)
             )
@@ -92,47 +92,59 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        # check JS functionality
-        # expand the widget if it is collapsed
+        # Expand the widget if it is collapsed.
         my $Expanded = $Selenium->execute_script(
             "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
         );
 
         if ( $Expanded eq 'false' ) {
-            $Selenium->find_element( "#WidgetInformSender a[title=\'Toggle this widget\']", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#WidgetInformSender a[title=\'Toggle this widget\']", 'css' )->click();
 
-            # check if the widget is expanded
-            $Self->Is(
+            # Wait until widget is expanded.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function' && \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded') === 'true'"
+            );
+
+            # Verify the widget is expanded.
+            $Self->True(
                 $Selenium->execute_script(
-                    "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
+                    "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded') === 'true'"
                 ),
-                'true',
                 "The widget 'Inform Sender' is expanded",
             );
         }
 
-        # set checkbox to uncheck
-        $Selenium->execute_script("\$('#InformSender').prop('checked', true)");
-        $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
+        # Set checkbox to uncheck.
+        $Selenium->execute_script("\$('#InformSender').prop('checked', false)");
 
-        # collapse the widget
-        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )
-            ->VerifiedClick();
+        # Collapse the widget.
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->click();
 
-        # check if the widget is collapsed
-        $Self->Is(
+        # Wait until widget is collapsed.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#WidgetInformSender .WidgetAction a[title=\"Toggle this widget\"]').attr('aria-expanded') === 'false'"
+        );
+
+        # Verify the widget is collapsed.
+        $Self->True(
             $Selenium->execute_script(
-                "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
+                "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded') === 'false'"
             ),
-            'false',
             "The widget 'Inform Sender' is collapsed",
         );
 
-        # expand the widget again
-        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )
-            ->VerifiedClick();
+        # Expand the widget again.
+        $Selenium->find_element( "#WidgetInformSender .WidgetAction a[title='Toggle this widget']", 'css' )->click();
 
-        # check if the widget is expanded
+        # Wait until widget is expanded.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#WidgetInformSender .WidgetAction a[title=\"Toggle this widget\"]').attr('aria-expanded') === 'true'"
+        );
+
+        # Verify the widget is expanded.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#WidgetInformSender a[title=\"Toggle this widget\"]').attr('aria-expanded')"
@@ -141,82 +153,79 @@ $Selenium->RunTest(
             "The widget 'Inform Sender' is expanded",
         );
 
-        # check if the checkbox is checked
-        $Self->Is(
-            $Selenium->execute_script("return \$('#InformSender').prop('checked')"),
-            1,
+        # Check if the checkbox is checked.
+        $Self->True(
+            $Selenium->execute_script("return \$('#InformSender').prop('checked') === true"),
             "The checkbox 'Inform sender' is checked",
         );
 
-        # check if fields are mandatory
+        # Check if fields are mandatory.
         for my $Label (qw(To Subject RichText)) {
-            $Self->Is(
+            $Self->True(
                 $Selenium->execute_script("return \$('label[for=$Label]').hasClass('Mandatory')"),
-                1,
                 "Label '$Label' has class 'Mandatory'",
             );
         }
 
-        # set fields to be not mandatory
-        $Selenium->find_element( "#InformSender", 'css' )->VerifiedClick();
+        # Set fields to be not mandatory.
+        $Selenium->execute_script("\$('#InformSender').prop('checked', false)");
 
-        # check client side validation
+        # Check client side validation.
         my $Element = $Selenium->find_element( "#MainTicketNumber", 'css' );
         $Element->send_keys("");
-        $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#submitRichText').click()");
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#MainTicketNumber.Error').length" );
 
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#MainTicketNumber').hasClass('Error')"
-            ),
-            '1',
+        $Self->True(
+            $Selenium->execute_script("return \$('#MainTicketNumber').hasClass('Error')"),
             'Client side validation correctly detected missing input value',
         );
 
-        # expect error when try to merge ticket with itself
+        # Expect error when try to merge ticket with itself.
         $Selenium->find_element( "#MainTicketNumber", 'css' )->send_keys( $TicketNumbers[0] );
-        $Selenium->find_element( "#submitRichText",   'css' )->VerifiedClick();
+        $Selenium->execute_script("\$('#submitRichText').click()");
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('div.Content > p:contains(\"merge ticket with itself!\")').length"
+        );
 
         $Self->True(
-            index( $Selenium->get_page_source(), 'Can\'t merge ticket with itself!' ) > -1,
+            $Selenium->execute_script("return \$('div.Content > p:contains(\"merge ticket with itself!\")').length"),
             "Successfully can't merge ticket with itself",
         );
 
-        sleep 1;
-        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
-            $Selenium->close();
-        }
-
+        # Close popup and switch back to the main window.
+        $Selenium->close();
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Wait for reload to kick in.
-        sleep 1;
+        # Refresh screen and wait until page has loaded, if necessary.
+        $Selenium->VerifiedRefresh();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Cluster ul ul").length' );
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                "return typeof(\$) === 'function' && \$('#nav-Miscellaneous-container').css('opacity') === '1'"
         );
 
-        # force sub menus to be visible in order to be able to click one of the links
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-        # click on merge
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
-
+        # Click on 'Merge' and switch to merge window.
+        $Selenium->execute_script("\$('#nav-Merge a').click()");
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#MainTicketNumber").length' );
 
-        # Go back to merge screen and clear ticket number input.
-        $Selenium->find_element( '#MainTicketNumber', 'css' )->clear();
-
         # Try to merge with second test ticket.
+        $Selenium->find_element( '#MainTicketNumber', 'css' )->clear();
         $Selenium->find_element( '#MainTicketNumber', 'css' )->send_keys( $TicketNumbers[1] );
-
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader").length' );
 
         $Self->False(
             $Selenium->execute_script("return \$('li.ui-menu-item:visible').length;"),
@@ -229,56 +238,51 @@ $Selenium->RunTest(
         # Try again to merge with second test ticket.
         $Selenium->find_element( '#MainTicketNumber', 'css' )->clear();
         $Selenium->find_element( '#MainTicketNumber', 'css' )->send_keys( $TicketNumbers[1] );
-
-        # Wait for autocomplete to load.
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
-        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TicketNumbers[1])').click()");
-
         $Selenium->execute_script("\$('#submitRichText').click();");
 
-        sleep 1;
-        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
-            $Selenium->close();
-        }
-
-        # return back to zoom view and click on history and switch to its view
+        # Return back to zoom view and click on history and switch to its view.
         $Selenium->WaitFor( WindowCount => 1 );
+        $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Wait for reload to kick in.
-        sleep 1;
+        # Refresh screen and wait until page has loaded, if necessary.
+        $Selenium->VerifiedRefresh();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Cluster ul ul").length' );
+
+        # Force sub menus to be visible in order to be able to click one of the links.
+        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+                "return typeof(\$) === 'function' && \$('#nav-Miscellaneous-container').css('opacity') === '1'"
         );
 
-        # force sub menus to be visible in order to be able to click one of the links
-        $Selenium->execute_script("\$('.Cluster ul ul').addClass('ForceVisible');");
+        # Wait until all AJAX calls finished.
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
-        $Selenium->find_element("//*[text()='History']")->click();
+        # Click on 'History'.
+        $Selenium->execute_script("\$('#nav-History a').click()");
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
+        # Wait until page has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length' );
 
-        # confirm merge action
+        # Confirm merge action.
         my $MergeMsg = "Merged Ticket ($TicketNumbers[0]/$TicketIDs[0]) to ($TicketNumbers[1]/$TicketIDs[1])";
         $Self->True(
             index( $Selenium->get_page_source(), $MergeMsg ) > -1,
             "Merge action completed",
         );
 
-        sleep 1;
-        if ( scalar( @{ $Selenium->get_window_handles() } ) == 2 ) {
-            $Selenium->close();
-        }
+        # Close popup.
+        $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+        $Selenium->WaitFor( WindowCount => 1 );
 
-        # delete created test tickets
+        # Delete created test tickets.
         for my $Ticket (@TicketIDs) {
             my $Success = $TicketObject->TicketDelete(
                 TicketID => $Ticket,
@@ -299,7 +303,7 @@ $Selenium->RunTest(
             );
         }
 
-        # make sure the cache is correct
+        # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Ticket',
         );
