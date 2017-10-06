@@ -51,13 +51,17 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => "return \$('.CommunicationError:visible').length" );
 
+        # Get language object.
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+
         # Another alert dialog opens with the detail message.
         $Self->Is(
-            substr(
-                $Selenium->execute_script("return \$('#AjaxErrorDialogInner .CommunicationError p').text().trim()"),
-                0, 52
+            $Selenium->execute_script("return \$('#AjaxErrorDialogInner .CommunicationError p').text().trim()"),
+            $LanguageObject->Translate(
+                'There was an error in communication with the server. Server might be experiencing some temporary problems, please reload this page to check if they have been resolved.'
             ),
-            'There was an error in communication with the server.',
             'Check for opened alert text',
         );
         $Selenium->find_element( '#DialogButton2', 'css' )->VerifiedClick();
