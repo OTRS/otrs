@@ -1927,13 +1927,6 @@ sub _Mask {
 
     if ( IsHashRefWithData($LoadedFormDraft) ) {
 
-        my $DateTimeObject = $Kernel::OM->Create(
-            'Kernel::System::DateTime',
-            ObjectParams => {
-                String => $LoadedFormDraft->{ChangeTime},
-            },
-        );
-
         $LoadedFormDraft->{ChangeByName} = $Kernel::OM->Get('Kernel::System::User')->UserName(
             UserID => $LoadedFormDraft->{ChangeBy},
         );
