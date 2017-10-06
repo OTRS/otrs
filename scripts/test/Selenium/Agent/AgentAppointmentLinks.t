@@ -100,7 +100,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to AgentAppointmentCalendarOverview.
@@ -132,6 +131,7 @@ $Selenium->RunTest(
         $Selenium->execute_script("\$('a.ui-menu-item-wrapper:contains($AutoCompleteString)').click()");
         $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+        $Selenium->VerifiedRefresh();
 
         # Get test appointments.
         my @Appointments = $AppointmentObject->AppointmentList(
@@ -179,6 +179,7 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+        $Selenium->VerifiedRefresh();
 
         # Navigate to AgentTicketZoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
@@ -207,13 +208,24 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
         $Selenium->find_element( "#Title",          'css' )->clear();
         $Selenium->find_element( "#Title",          'css' )->send_keys("$AppointmentName-Edit");
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
+        $Selenium->VerifiedRefresh();
 
         # Clean the cache and get the same parent appointment with new children.
         $CacheObject->CleanUp( Type => 'AppointmentList' . $CalendarID );
 
         # Navigate to AgentTicketZoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # Wait until Appointment table is shown.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Appointment tbody").length' );
+
+        # Verify the table exists on AgentTicketZoom.
+        $Self->True(
+            $Selenium->execute_script("return \$('#Appointment tbody').length"),
+            "Table with appointments on AgentTicketZoom - found",
+        );
 
         # Check if there are no previous child appointments.
         for my $Appointment (@ChildAppointments) {
@@ -246,7 +258,6 @@ $Selenium->RunTest(
             );
         }
 
-        # Cleanup.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # Delete test ticket.
