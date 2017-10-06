@@ -229,7 +229,7 @@ returns
 sub get_alert_text {    ## no critic
     my ($Self) = @_;
 
-    my $AlertText = $Self->SUPER::get_alert_text();
+    my $AlertText = $Self->SUPER::get_alert_text() || die "Alert text not found";
 
     return if ref $AlertText eq 'HASH';    # Chrome returns HASH when there is no alert text.
 
