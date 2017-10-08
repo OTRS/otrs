@@ -25,7 +25,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
 
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    SkipSSLVerify => 1,
+    SkipSSLVerify              => 1,
     RestoreSystemConfiguration => 1,
 );
 
