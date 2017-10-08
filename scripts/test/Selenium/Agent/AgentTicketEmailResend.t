@@ -244,7 +244,7 @@ $Selenium->RunTest(
         my $ProcessingMessage = sprintf(
             'This message is being processed. Already tried to send %s time(s). Next try will be %s.',
             '1',
-            $DateTimeObject->Format('Format' => '%m/%d/%Y %H:%M'),
+            $DateTimeObject->Format( 'Format' => '%m/%d/%Y %H:%M' ),
         );
         my $DisplayedProcessingMessage = $Selenium->find_element( '.WidgetMessage.Top.Warning', 'css' )->get_text();
 
