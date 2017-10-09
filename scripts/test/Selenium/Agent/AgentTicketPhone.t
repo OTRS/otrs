@@ -141,6 +141,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomer)').click()");
         $Selenium->execute_script("\$('#Dest').val('2||Raw').trigger('redraw.InputField').trigger('change');");
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+
         $Selenium->find_element( "#Subject",  'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText", 'css' )->send_keys($TicketBody);
 
@@ -177,7 +179,7 @@ $Selenium->RunTest(
         );
 
         # remove customer
-        $Selenium->find_element( "#TicketCustomerContentFromCustomer a.CustomerTicketRemove", "css" )->VerifiedClick();
+        $Selenium->find_element( "#TicketCustomerContentFromCustomer a.CustomerTicketRemove", "css" )->click();
 
         # add customer again
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
