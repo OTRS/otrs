@@ -37,7 +37,7 @@ sub Run {
         '
             <TableCreate Name="form_draft">
                 <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER" />
-                <Column Name="object_type" Required="true" Size="200" Type="VARCHAR" />
+                <Column Name="object_type" Required="true" Size="100" Type="VARCHAR" />
                 <Column Name="object_id" Required="true" Type="INTEGER" />
                 <Column Name="action" Required="true" Size="200" Type="VARCHAR" />
                 <Column Name="title" Required="false" Size="255" Type="VARCHAR" />

@@ -30,7 +30,7 @@ sub Run {
         '<Table Name="dynamic_field_obj_id_name">
             <Column Name="object_id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
             <Column Name="object_name" Required="true" Size="200" Type="VARCHAR"/>
-            <Column Name="object_type" Required="true" Size="200" Type="VARCHAR"/>
+            <Column Name="object_type" Required="true" Size="100" Type="VARCHAR"/>
             <Unique Name="dynamic_field_object_name">
                 <UniqueColumn Name="object_name"/>
                 <UniqueColumn Name="object_type"/>
@@ -42,6 +42,10 @@ sub Run {
                 <IndexColumn Name="field_id"/>
                 <IndexColumn Name="value_text" Size="150"/>
             </IndexCreate>
+        </TableAlter>',
+
+        '<TableAlter Name="dynamic_field">
+            <ColumnChange NameOld="object_type" NameNew="object_type" Required="true" Type="VARCHAR" Size="100"/>
         </TableAlter>',
     );
 

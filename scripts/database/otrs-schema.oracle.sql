@@ -4066,7 +4066,7 @@ CREATE TABLE dynamic_field (
     label VARCHAR2 (200) NOT NULL,
     field_order NUMBER (12, 0) NOT NULL,
     field_type VARCHAR2 (200) NOT NULL,
-    object_type VARCHAR2 (200) NOT NULL,
+    object_type VARCHAR2 (100) NOT NULL,
     config CLOB NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -4119,7 +4119,7 @@ END;
 CREATE TABLE dynamic_field_obj_id_name (
     object_id NUMBER (12, 0) NOT NULL,
     object_name VARCHAR2 (200) NOT NULL,
-    object_type VARCHAR2 (200) NOT NULL,
+    object_type VARCHAR2 (100) NOT NULL,
     CONSTRAINT dynamic_field_object_name UNIQUE (object_name, object_type)
 );
 ALTER TABLE dynamic_field_obj_id_name ADD CONSTRAINT PK_dynamic_field_obj_id_name PRIMARY KEY (object_id);
@@ -5595,7 +5595,7 @@ END;
 -- ----------------------------------------------------------
 CREATE TABLE form_draft (
     id NUMBER (12, 0) NOT NULL,
-    object_type VARCHAR2 (200) NOT NULL,
+    object_type VARCHAR2 (100) NOT NULL,
     object_id NUMBER (12, 0) NOT NULL,
     action VARCHAR2 (200) NOT NULL,
     title VARCHAR2 (255) NULL,

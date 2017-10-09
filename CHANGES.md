@@ -1,4 +1,5 @@
 #6.0.0.beta4 2017-??-??
+ - 2017-10-09 Fixed bug#[13199](https://bugs.otrs.org/show_bug.cgi?id=13199) - Table dynamic_field_obj_id_name was not created during installation.
  - 2017-10-05 Updated translations, thanks to all translators.
  - 2017-10-03 Fixed bug#[13189](https://bugs.otrs.org/show_bug.cgi?id=13189) - User specific settings incorrectly marked as coming from Kernel/Config.pm.
  - 2017-10-01 Fixed bug#[13023](https://bugs.otrs.org/show_bug.cgi?id=13023) - Base classes displayed as options in SysConfig.
