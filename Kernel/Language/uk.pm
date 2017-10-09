@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.516793628808864;
+    $Self->{Completeness}        = 0.519575430659475;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -3263,7 +3263,7 @@ sub Data {
         'Go back to the previous page' => 'Повернутись до попередньої сторінки',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => 'Показати',
 
         # JS Template: FormDraftAddDialog
         'Draft title' => '',
@@ -4501,35 +4501,6 @@ sub Data {
         '%s B' => '',
         'No Permission!' => 'Немає прав!',
         'No Permission' => 'Немає прав доступу',
-        'just now' => '',
-        'less than a minute ago' => '',
-        'in less than a minute' => '',
-        'a minute ago' => '',
-        'in a minute' => '',
-        '%s minutes ago' => '',
-        'in %s minutes' => '',
-        'about an hour ago' => '',
-        'in an hour' => '',
-        'about %s hours ago' => '',
-        'in %s hours' => '',
-        'a day ago' => '',
-        'in a day' => '',
-        '%s days ago' => '',
-        'in %s days' => '',
-        'about a month ago' => '',
-        'in a month' => '',
-        'about %s months ago' => '',
-        'in %s months' => '',
-        'about a year ago' => '',
-        'over a year ago' => '',
-        'almost %s years ago' => '',
-        'about %s years ago' => '',
-        'over %s years ago' => '',
-        'in a year' => '',
-        'in over a year' => '',
-        'in almost %s years' => '',
-        'in %s years' => '',
-        'in over %s years' => '',
         'Show Tree Selection' => 'Показати дерево вибору',
         'Split Quote' => 'Разділити Цитату',
         'Remove Quote' => 'Вилучити лапки',

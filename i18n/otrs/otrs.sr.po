@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-05 14:30+0000\n"
-"PO-Revision-Date: 2017-10-05 14:32+0000\n"
+"POT-Creation-Date: 2017-10-09 16:06+0000\n"
+"PO-Revision-Date: 2017-10-09 16:24+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/otrs/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -9959,7 +9959,7 @@ msgstr "Онемогући корисницима да мењају ово по�
 
 #. Template: SettingsList
 msgid "Forbid users to update"
-msgstr "Забрани корсницима да мењају"
+msgstr "Забрани корисницима да мењају"
 
 #. Template: SettingsList
 msgid "Show user specific changes for this setting"
@@ -10133,19 +10133,19 @@ msgstr "Вратите се на претходну страну"
 
 #. JS Template: CalendarSettingsDialog
 msgid "Show"
-msgstr ""
+msgstr "Прикажи"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Наслов нацрта"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
-msgstr ""
+msgstr "Приказ чланака"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Do you really want to delete \"%s\"?"
-msgstr ""
+msgstr "Да ли заиста желите да обришете \"%s\"?"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Confirm"
@@ -10153,27 +10153,27 @@ msgstr "Потврди"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
-msgstr ""
+msgstr "Учитавање, молимо сачекајте..."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Кликните да одаберете датотеке или их једноставно превуците овде."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "Кликните да одаберете датотеку или је једноставно превуците овде."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "Отпремање..."
 
 #. JS Template: InformationDialog
 msgid "Process state"
-msgstr ""
+msgstr "Стање процеса"
 
 #. JS Template: InformationDialog
 msgid "Running"
-msgstr ""
+msgstr "У току"
 
 #. JS Template: InformationDialog
 msgid "Finished"
@@ -10181,7 +10181,7 @@ msgstr "Завршено"
 
 #. JS Template: InformationDialog
 msgid "No package information available."
-msgstr ""
+msgstr "Нема информација о пакету."
 
 #. JS Template: AddButton
 msgid "Add new entry"
@@ -10193,11 +10193,11 @@ msgstr "Додај кључ"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "Коментар распоређувања..."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "Распоређивање у току, молимо сачекајте..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
@@ -10205,7 +10205,7 @@ msgstr "Припрема за распоређивање, молимо саче�
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "Распореди сад"
 
 #. JS Template: DialogDeployment
 msgid "Close"
@@ -10213,42 +10213,42 @@ msgstr "Затвори"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
-msgstr ""
+msgstr "Покушајте поново"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "Поништи подешавања"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "Поништи подешавање на глобалном нивоу."
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "Поништи глобално"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "Поништи све корисничке промене."
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "Поништи локално"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "корисник(а) је је променило ово подешавање."
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "Да ли стварно желите да поништите ово подешавање на његову подразумевану вредност?"
 
 #. JS Template: HelpDialog
 msgid ""
 "You can use the category selection to limit the navigation tree below to "
 "entries from the selected category. As soon as you select the category, the "
 "tree will be re-built."
-msgstr ""
+msgstr "Можете одабрати категорију за ограничавање навигационих ставки испод. Чим одаберете категорију, навигација ће бити освежена."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -11023,11 +11023,11 @@ msgstr "Тип позиваоца %s није регистрован"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need InvokerType!"
-msgstr "Неопходан InvokerType!"
+msgstr "Неопходан тип позиваоца!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Need Invoker"
-msgstr "Неопходан Invoker"
+msgstr "Неопходан позивалац"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
@@ -11035,11 +11035,11 @@ msgstr "Није могуће утврдити конфигурацију за �
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
-msgstr "Неопходан Invoker!"
+msgstr "Неопходан позивалац!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Event!"
-msgstr "Неопходан Event!"
+msgstr "Неопходан догађај!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
@@ -13641,7 +13641,7 @@ msgstr "Проверите за активирање овог датума"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s TB"
-msgstr "%s TB "
+msgstr "%s TB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s GB"
@@ -13666,122 +13666,6 @@ msgstr "Немате дозволу!"
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
 msgstr "Нема дозволе"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "just now"
-msgstr "управо сад"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "less than a minute ago"
-msgstr "пре мање од минута"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in less than a minute"
-msgstr "за мање од минута"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a minute ago"
-msgstr "пре једног минута"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a minute"
-msgstr "за један минут"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s minutes ago"
-msgstr "пре %s минут(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s minutes"
-msgstr "за %s минут(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about an hour ago"
-msgstr "пре сат времена"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in an hour"
-msgstr "за сат времена"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s hours ago"
-msgstr "пре %s сата(и)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s hours"
-msgstr "за %s сата(и)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a day ago"
-msgstr "пре једног дана"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a day"
-msgstr "за један дан"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s days ago"
-msgstr "пре %s дан(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s days"
-msgstr "за %s дан(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a month ago"
-msgstr "пре месец дана"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a month"
-msgstr "за месец дана"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s months ago"
-msgstr "пре %s месеца(и)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s months"
-msgstr "за %s месеца(и)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a year ago"
-msgstr "пре годину дана"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over a year ago"
-msgstr "пре више од годину дана"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "almost %s years ago"
-msgstr "пре скоро %s године(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s years ago"
-msgstr "пре %s године(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over %s years ago"
-msgstr "пре више од %s године(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a year"
-msgstr "за годину дана"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over a year"
-msgstr "за више од годину дана"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in almost %s years"
-msgstr "за скоро %s године(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s years"
-msgstr "за %s године(а)"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over %s years"
-msgstr "за више од %s године(а)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"

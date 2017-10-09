@@ -3,7 +3,7 @@
 # Alvaro Molina <AlvaroMolinaCL@gmail.com>, 2016
 # Carlos Javier García Cárdenas <carlos.garcia@otrs.com>, 2014
 # Carlos Javier García Cárdenas <carlos.garcia@otrs.com>, 2014
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014-2015
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014-2015,2017
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014
 # Emmanuel <emmanuel.arias@ya.ru>, 2015
 # FCRUZ <francisco.cruz@otrs.com>, 2014
@@ -17,8 +17,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-05 14:30+0000\n"
-"PO-Revision-Date: 2017-10-05 14:32+0000\n"
+"POT-Creation-Date: 2017-10-09 16:06+0000\n"
+"PO-Revision-Date: 2017-10-09 16:24+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/otrs/OTRS/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -143,7 +143,7 @@ msgstr "Editar ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "Editar ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -192,7 +192,7 @@ msgstr "Mostrar u ocultar el contenido"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "Editar Información de ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -204,7 +204,7 @@ msgstr "Parar al coincidir"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "Editar Estructura de ACL"
 
 #. Template: AdminACLEdit
 msgid "Save settings"
@@ -238,7 +238,7 @@ msgstr "¿Realmente desea eliminar esta ACL?"
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
-msgstr ""
+msgstr "Crear una nueva ALC al ingresar los datos del formulario. Una vez creada la ACL, usted podrá añadir elementos de configuración en modo de edición."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -493,11 +493,11 @@ msgstr "Exportar Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Filtro para Notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Filtro para notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -542,7 +542,7 @@ msgstr "Preferencias de ayuda de agente"
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
-msgstr ""
+msgstr "Este mensaje se mostrará en la pantalla de preferencias del agente como un \"tooltip\" para esta notificación."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
@@ -597,23 +597,23 @@ msgstr "Enviar a"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Enviar a estos agentes."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members"
-msgstr ""
+msgstr "Enviar a todos los miembros del grupo"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "enviar a todos los miembros del rol"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Mandar cuando esta fuera de la oficina"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "Mandar incluso de el usuario de encuentra fuera de la oficina."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
@@ -627,7 +627,7 @@ msgstr "Notificar al usuario solo una vez al día acerca de una sola cita usando
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "Métodos de notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -637,7 +637,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Activar este método de notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
@@ -645,11 +645,11 @@ msgstr "Transporte"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "AL menos un métodos es necesario por cada notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Activo por omisión en las preferencias del agente"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -660,7 +660,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Esta funcionalidad no está disponible por el momento."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
@@ -668,7 +668,7 @@ msgstr "Actualizar a %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Por favor active este transporte para poder usarlo."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -690,7 +690,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Eliminar Lenguaje De Notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Subject"
@@ -702,11 +702,11 @@ msgstr "Texto"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Cuerpo del mensaje"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Añadir nuevo lenguaje de notificaciones"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
@@ -742,7 +742,7 @@ msgstr "Para obtener el atributo del calendario"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Atributos del usuario destino para la notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -750,15 +750,15 @@ msgstr "Opciones de configuración"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Notificación de ejemplo."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Direcciones de correo electrónico adicionales para el destinatario"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Artículo visible para el cliente"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -768,7 +768,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Plantilla de correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -777,19 +777,19 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Activar seguridad de correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Nivel de seguridad de correo electrónico "
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Si la llave o certificado para firmar no se encuentran"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Si la llave o certificado de encriptación no se encuentran"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -809,7 +809,7 @@ msgstr "Filtro para Archivos Adjuntos"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filtro para archivos adjuntos"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -849,7 +849,7 @@ msgstr "Filtro para Auto Respuestas"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filtro para auto respuestas"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -1018,7 +1018,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filtro para comunicaciones"
 
 #. Template: AdminCommunicationLog
 msgid ""
@@ -1048,31 +1048,31 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Algunos problemas con las cuentas"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Ningún problema con las cuentas"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "No hay actividad en las cuentas"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Número de cuentas con problemas: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Número de cuentas con advertencias: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Comunicaciones fallidas"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "Nungún problema con las comunicaciones"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
@@ -1080,19 +1080,19 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Número de problemas reportados: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Comunicaciones abiertas"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "No existen comunicaciones activas"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Número de comunicaciones abiertas: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
@@ -1100,7 +1100,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "Lista de comunicaciones (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1108,7 +1108,7 @@ msgstr "Configuraciones"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Entradas por página"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
@@ -10141,7 +10141,7 @@ msgstr "Regresar a la página anterior"
 
 #. JS Template: CalendarSettingsDialog
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
@@ -13673,122 +13673,6 @@ msgstr "No tiene Permiso."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "just now"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "less than a minute ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in less than a minute"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a minute ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a minute"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s minutes ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s minutes"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about an hour ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in an hour"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s hours ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s hours"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a day ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a day"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s days ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s days"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a month ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a month"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s months ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s months"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a year ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over a year ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "almost %s years ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s years ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over %s years ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a year"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over a year"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in almost %s years"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s years"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over %s years"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm

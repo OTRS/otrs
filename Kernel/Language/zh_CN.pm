@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.996018005540166;
+    $Self->{Completeness}        = 0.996171915782147;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1274,7 +1274,7 @@ sub Data {
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             '如果ArticleCreate或ArticleSend被用作触发事件，你还需要指定信件过滤条件，请至少选择一个信件过滤字段。',
         'Customer visibility' => '客户可见度',
-        'Communication channel' => '通信频道',
+        'Communication channel' => '通信渠道',
         'Include attachments to notification' => '通知包含附件',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             '每个工单的通知使用选择的方式一天只发送一次。',
@@ -1601,7 +1601,7 @@ sub Data {
         'Available Fields' => '可用的字段',
         'Name: %s' => '名称：%s',
         'Assigned Fields' => '分配的字段',
-        'Communication Channel' => '通信频道',
+        'Communication Channel' => '通信渠道',
         'Is visible for customer' => '对客户可见',
         'Display' => '显示',
 
@@ -3269,7 +3269,7 @@ sub Data {
         'Go back to the previous page' => '返回前一页',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => '显示',
 
         # JS Template: FormDraftAddDialog
         'Draft title' => '',
@@ -4507,35 +4507,6 @@ sub Data {
         '%s B' => '%s B',
         'No Permission!' => '无权限!',
         'No Permission' => '没有权限',
-        'just now' => '立即',
-        'less than a minute ago' => '不到 1 分钟前',
-        'in less than a minute' => '不到 1 分钟',
-        'a minute ago' => '1 分钟前',
-        'in a minute' => '在 1 分钟内',
-        '%s minutes ago' => '%s 分钟前',
-        'in %s minutes' => '在 % 分钟内',
-        'about an hour ago' => '约 1 小时前',
-        'in an hour' => ' 1 小时内',
-        'about %s hours ago' => '约%s 小时前',
-        'in %s hours' => '%s 小时内',
-        'a day ago' => '1 天前',
-        'in a day' => '1 天内',
-        '%s days ago' => '%s 天前',
-        'in %s days' => '%s 天内',
-        'about a month ago' => '约 1 月前',
-        'in a month' => '1 月内',
-        'about %s months ago' => '约%s 月前',
-        'in %s months' => '%s 月内',
-        'about a year ago' => '1 年（过3个月内）前',
-        'over a year ago' => '1 年（3-9个月内）前',
-        'almost %s years ago' => '（差3个月以内）%s 年前',
-        'about %s years ago' => '约%s 年（过3个月内）前',
-        'over %s years ago' => '%s年（过3-9个月）前',
-        'in a year' => '1 年内',
-        'in over a year' => '1 年（过3-9个月）内',
-        'in almost %s years' => '（差3个月以内）%s 年内',
-        'in %s years' => '%s 年内',
-        'in over %s years' => '%s 年（3-9个月）内',
         'Show Tree Selection' => '显示树状选项',
         'Split Quote' => '拆分引用',
         'Remove Quote' => '移除引用',
@@ -4995,7 +4966,7 @@ sub Data {
         'Indexed Articles' => '索引过的信件',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/ArticlesPerCommunicationChannel.pm
-        'Articles Per Communication Channel' => '信件/通信通道',
+        'Articles Per Communication Channel' => '信件/通信渠道',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
         'Incoming communications' => '传入的通信',
@@ -5407,7 +5378,7 @@ sub Data {
         # JS File: Core.Agent.Admin.GenericInterfaceDebugger
         'An error occurred during communication.' => '在通信时发生一个错误。',
         'Request Details' => '请求详细信息',
-        'Request Details for Communication ID' => '请求通信ID的详细信息',
+        'Request Details for Communication ID' => '通信ID的请求详细信息',
         'Show or hide the content.' => '显示或隐藏该内容.',
         'Clear debug log' => '清空调试日志',
 
@@ -6058,7 +6029,7 @@ Thanks for your help!
         'Changed type from "%s" (%s) to "%s" (%s).' => '类型已从“%s” (%s)变更到 “%s” (%s)。',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '变更工单所有者为所有人（ASP有用），一般只显示这个工单队列中有读写权限的服务人员。',
-        'Chat communication channel.' => '聊天通信频道。',
+        'Chat communication channel.' => '聊天通信渠道。',
         'Checkbox' => '复选框',
         'Checks for articles that needs to be updated in the article search index.' =>
             '检查信件搜索索引中需要更新的信件。',
@@ -6108,7 +6079,7 @@ Thanks for your help!
         'Comment2' => '注释2',
         'Communication' => '通信',
         'Communication & Notifications' => '通信和通知',
-        'Communication Log GUI' => '通信日志GUI',
+        'Communication Log GUI' => '通信日志图形用户界面',
         'Communication log limit per page for CommunicationLog Overview' =>
             '通信日志概览中每页的日志条目限制',
         'CommunicationLog Overview Limit' => '通信日志概览限制',
@@ -6321,7 +6292,7 @@ Thanks for your help!
         'Defines available article actions for Phone articles.' => '定义电话信件的可用信件操作。',
         'Defines available article actions for invalid articles.' => '定义无效信件的可用信件操作。',
         'Defines available groups for the admin overview screen.' => '为管理员概览屏幕定义可用组。',
-        'Defines chat communication channel.' => '定义聊天通信频道。',
+        'Defines chat communication channel.' => '定义聊天通信渠道。',
         'Defines default headers for outgoing emails.' => '定义外发电子邮件的默认标头。',
         'Defines email communication channel.' => '定义电子邮件通信通道。',
         'Defines from which ticket attributes the agent can select the result order.' =>
@@ -6408,10 +6379,10 @@ Thanks for your help!
             '定义在服务人员界面工时管理是否是强制的。如果激活，所有工单操作必须输入一个备注（不管是否启用了工单备注，也不管个别工单操作界面本来就是强制的）。',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             '定义在批量操作中是否设置所有工单的工时管理。',
-        'Defines internal communication channel.' => '定义内部通信频道。',
+        'Defines internal communication channel.' => '定义内部通信渠道。',
         'Defines out of office message template. Two string parameters (%s) available: end date and number of days left.' =>
             '定义不在办公室的消息模板。有两个字符串参数（%s）：结束日期和剩余天数。',
-        'Defines phone communication channel.' => '定义电话通信频道。',
+        'Defines phone communication channel.' => '定义电话通信渠道。',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
             '定义将工单作为日历事件显示的队列。',
         'Defines the HTTP hostname for the support data collection with the public module \'PublicSupportDataCollector\' (e.g. used from the OTRS Daemon).' =>
@@ -7406,7 +7377,7 @@ Thanks for your help!
         'Inline' => '内联',
         'Input' => '输入',
         'Interface language' => '界面语言',
-        'Internal communication channel.' => '内部通信频道。',
+        'Internal communication channel.' => '内部通信渠道。',
         'International Workers\' Day' => '五一劳动节',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '配置不同皮肤是可能的，例如：区分系统中基于域名的不同服务人员。您可以使用一个正则表达式配置一个键/内容组合来匹配一个域名。“键”应该匹配域名，“值”是一个系统中有效的皮肤。请参照样例条目修改正则表达式的合适格式。',
@@ -7741,7 +7712,7 @@ Thanks for your help!
         'Phone Call Outbound' => '打电话',
         'Phone Call.' => '电话。',
         'Phone call' => '电话',
-        'Phone communication channel.' => '电话通信频道',
+        'Phone communication channel.' => '电话通信渠道',
         'Phone-Ticket' => '电话工单',
         'Picture Upload' => '图片上传',
         'Picture upload module.' => '图片上传模块。',

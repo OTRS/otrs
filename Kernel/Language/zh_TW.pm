@@ -26,7 +26,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.34314404432133;
+    $Self->{Completeness}        = 0.345049591091004;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3265,7 +3265,7 @@ sub Data {
         'Go back to the previous page' => '返回前一頁',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => '顯示',
 
         # JS Template: FormDraftAddDialog
         'Draft title' => '',
@@ -4503,35 +4503,6 @@ sub Data {
         '%s B' => '',
         'No Permission!' => '無權限!',
         'No Permission' => '沒有權限',
-        'just now' => '',
-        'less than a minute ago' => '',
-        'in less than a minute' => '',
-        'a minute ago' => '',
-        'in a minute' => '',
-        '%s minutes ago' => '',
-        'in %s minutes' => '',
-        'about an hour ago' => '',
-        'in an hour' => '',
-        'about %s hours ago' => '',
-        'in %s hours' => '',
-        'a day ago' => '',
-        'in a day' => '',
-        '%s days ago' => '',
-        'in %s days' => '',
-        'about a month ago' => '',
-        'in a month' => '',
-        'about %s months ago' => '',
-        'in %s months' => '',
-        'about a year ago' => '',
-        'over a year ago' => '',
-        'almost %s years ago' => '',
-        'about %s years ago' => '',
-        'over %s years ago' => '',
-        'in a year' => '',
-        'in over a year' => '',
-        'in almost %s years' => '',
-        'in %s years' => '',
-        'in over %s years' => '',
         'Show Tree Selection' => '顯示樹狀選單',
         'Split Quote' => '',
         'Remove Quote' => '移除佇列',

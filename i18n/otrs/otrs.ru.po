@@ -31,8 +31,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-05 14:30+0000\n"
-"PO-Revision-Date: 2017-10-05 14:32+0000\n"
+"POT-Creation-Date: 2017-10-09 16:06+0000\n"
+"PO-Revision-Date: 2017-10-09 16:24+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/otrs/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -2716,7 +2716,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Should requests causing an error be triggered again at a later time?"
-msgstr ""
+msgstr "Должен ли запрос приведший к ошибке повторен позже?"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Initial retry interval"
@@ -2740,7 +2740,7 @@ msgstr "Фактор для дальнейших попыток"
 msgid ""
 "If a request returns an error even after a first retry, define if subsequent"
 " retries are triggered using the same interval or in increasing intervals."
-msgstr ""
+msgstr "Задать, если первый запрос вызвал ошибку, то последующие должны выполняться через такой же или увеличивающийся интервал."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -2752,7 +2752,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
-msgstr ""
+msgstr "Максимальный интервал повторных попыток"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3467,7 +3467,7 @@ msgstr "например /opt/otrs/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Ключ сертификата клиента"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -3481,11 +3481,11 @@ msgstr "например /opt/otrs/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
-msgstr ""
+msgstr "Пароль ключа сертификата клиента"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
-msgstr ""
+msgstr "Пароль для открытия SSL сертификата если ключ зашифрован."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
@@ -3550,7 +3550,7 @@ msgstr "например https://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
-msgstr ""
+msgstr "Установить SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" in order to send a filled SOAPAction header."
@@ -3700,15 +3700,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Добавить Веб-сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Редактировать Веб-сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Клонировать Веб-сервис."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -3720,7 +3720,7 @@ msgstr "Скопировать"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Экспортировать Веб-сервис."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -3738,7 +3738,7 @@ msgstr "Файл должен быть файлом конфигурации в�
 msgid ""
 "Here you can specify a name for the webservice. If this field is empty, the "
 "name of the configuration file is used as name."
-msgstr ""
+msgstr "Здесь вы можете указать имя веб-сервиса. Если оставлено пустым, в качестве имени используется название конфигурационного файла."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -3746,7 +3746,7 @@ msgstr "Импорт"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "История конфигурации."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -3830,14 +3830,14 @@ msgstr "Сетевой транспорт"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error Handling Modules"
-msgstr ""
+msgstr "Модули обработки ошибок"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Error handling modules are used to react in case of errors during the "
 "communication. Those modules are executed in a specific order, which can be "
 "changed by drag and drop."
-msgstr ""
+msgstr "Модули обработки ошибок используются для реагирования в случае ошибок во время связи. Эти модули выполняются в определенном порядке, который можно изменить путем перетаскивания."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
@@ -3845,7 +3845,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "Добавить модуль обработки ошибок "
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -3965,7 +3965,7 @@ msgstr "Системный журнал"
 
 #. Template: AdminLog
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Фильтр для записей журнала"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
@@ -3997,36 +3997,36 @@ msgstr "Добавить почтовую учетную запись"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account for host"
-msgstr ""
+msgstr "Изменить почтовую учетную запись для хоста"
 
 #. Template: AdminMailAccount
 msgid "and user account"
-msgstr ""
+msgstr "add user account???"
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
-msgstr ""
+msgstr "Фильтр для учетных записей"
 
 #. Template: AdminMailAccount
 msgid "Filter for mail accounts"
-msgstr ""
+msgstr "Фильтр для учетных записей"
 
 #. Template: AdminMailAccount
 msgid ""
 "All incoming emails with one account will be dispatched in the selected "
 "queue."
-msgstr ""
+msgstr "Все входящие письма с одной учетной записью будут перенаправлены в выбранную очередь."
 
 #. Template: AdminMailAccount
 msgid ""
 "If your account is marked as trusted, the X-OTRS headers already existing at"
 " arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
-msgstr ""
+msgstr "Если ваша учётная запись помечена как доверенная, все уже существующие в письмах на момент получения заголовки X-OTRS (для выставления приоритета и прочих данных) будут приняты и использованы, например в фильтрах PostMaster."
 
 #. Template: AdminMailAccount
 msgid "Outgoing email can be configured via the Sendmail* settings in %s."
-msgstr ""
+msgstr "Исходящая почта может быть настроена через параметр Sendmail* в %s."
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
@@ -4046,7 +4046,7 @@ msgstr "Забрать почту"
 
 #. Template: AdminMailAccount
 msgid "Do you really want to delete this mail account?"
-msgstr ""
+msgstr "Вы действительно желаете удалить этот почтовый аккаунт?"
 
 #. Template: AdminMailAccount
 msgid "Password"
@@ -4080,11 +4080,11 @@ msgstr "Изменить почтовую учетную запись"
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
-msgstr ""
+msgstr "Панель администратора"
 
 #. Template: AdminNavigationBar
 msgid "Filter for Items"
-msgstr ""
+msgstr "Фильтр для элементов"
 
 #. Template: AdminNavigationBar
 msgid "Filter"
@@ -4092,29 +4092,29 @@ msgstr "Фильтр"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "Избранные"
 
 #. Template: AdminNavigationBar
 msgid ""
 "You can add favorites by moving your cursor over items on the right side and"
 " clicking the star icon."
-msgstr ""
+msgstr "Можно добавить отдельные настройки в Избранные кликнув мышкой по \"звездочке\" справа в списке параметров."
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "Ссылки"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual on Github"
-msgstr ""
+msgstr "Смотрите руководство администратора на Github"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
-msgstr ""
+msgstr "Совпадений не найдено"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
-msgstr ""
+msgstr "К сожалению, поиск не дал результатов."
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
@@ -4152,7 +4152,7 @@ msgstr "Уровень обслуживания"
 
 #. Template: AdminNotificationEvent
 msgid "Customer User ID"
-msgstr ""
+msgstr "Customer User ID"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
@@ -4175,11 +4175,11 @@ msgstr "Если ArticleCreate или ArticleSend используется ка�
 
 #. Template: AdminNotificationEvent
 msgid "Customer visibility"
-msgstr ""
+msgstr "Видимость клиента?"
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
-msgstr ""
+msgstr "Канал связи"
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
@@ -4193,7 +4193,7 @@ msgstr "Уведомить пользователя только раз в де�
 
 #. Template: AdminNotificationEvent
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Данное поле обязательно и должно быть менее 4000 символов."
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
@@ -4252,7 +4252,7 @@ msgstr "Отображаемые значения динамических по�
 msgid ""
 "You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
-msgstr ""
+msgstr "Вы можете использовать OTRS-тэги типа <OTRS_TICKET_DynamicField_...> для вставки значений из текущей заявки."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -4370,23 +4370,23 @@ msgstr "Установка пакета требует обновление OTRS
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "Посетите наш клиентский портал и отправьте запрос."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Everything else will be done as part of your contract."
-msgstr ""
+msgstr "Все остальное будет сделано в рамках вашего контракта."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Your installed OTRS version is %s."
-msgstr ""
+msgstr "Установлена OTRS версии %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, you need to update to OTRS %s or higher."
-msgstr ""
+msgstr "Для установки пакета необходимо обновить OTRS до версии %s или выше."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, the Maximum OTRS Version is %s."
-msgstr ""
+msgstr "Для установки пакета необходима версия OTRS не выше %s."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "To install this package, the required Framework version is %s."
@@ -4398,11 +4398,11 @@ msgstr "Почему я должен постоянно обновлять OTRS?
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "You will receive updates about relevant security issues."
-msgstr ""
+msgstr "Вы получите обновления о соответствующих выпусках безопасности."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "You will receive updates for all other relevant OTRS issues"
-msgstr ""
+msgstr "Вы получите обновления для всех других соответствующих вопросов OTRS"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -4559,7 +4559,7 @@ msgstr "Управление пакетами"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr ""
+msgstr "Деинсталлировать пакет"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
@@ -4593,44 +4593,44 @@ msgstr "Установка пакета требует обновления ур
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTRS."
-msgstr ""
+msgstr "Обновление пакета требует обновления уровня патчей OTRS."
 
 #. Template: AdminPackageManager
 msgid ""
 "If you are a OTRS Business Solution™ customer, please visit our customer "
 "portal and file a request."
-msgstr ""
+msgstr "Если вы являетесь покупателем OTRS Business Solution™ посетите наш клиентский портал и отправьте запрос."
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTRS version is %s."
-msgstr ""
+msgstr "Установлена OTRS версии %s."
 
 #. Template: AdminPackageManager
 msgid ""
 "To install this package, you need to update OTRS to version %s or newer."
-msgstr ""
+msgstr "Для установки пакета необходимо обновить OTRS до версии %s или выше."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or older."
-msgstr ""
+msgstr "Этот пакет может быть установлен для версий OTRS не выше %s."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTRS version %s or newer."
-msgstr ""
+msgstr "Этот пакет может быть установлен на OTRS версии не ниже %s."
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTRS issues."
-msgstr ""
+msgstr "Вы получите обновления для всех других соответствующих вопросов OTRS."
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
-msgstr ""
+msgstr "Как я могу выполнить обновление уровня патч если у меня нет контракта?"
 
 #. Template: AdminPackageManager
 msgid ""
 "Please find all relevant information within the upgrading instructions at "
 "%s."
-msgstr ""
+msgstr "Пожалуйста, найдите всю необходимую информацию в инструкциях по обновлению в %s."
 
 #. Template: AdminPackageManager
 msgid ""
@@ -4784,7 +4784,7 @@ msgstr "SQL"
 
 #. Template: AdminPackageManager
 msgid "File Differences for File %s"
-msgstr ""
+msgstr "Перечень различий для файла %s"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -4892,11 +4892,11 @@ msgstr "Добавить фильтр"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for Postmaster Filters"
-msgstr ""
+msgstr "Фильтр для фильтров PostMaster-а"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for postmaster filters"
-msgstr ""
+msgstr "Фильтр для фильтров PostMaster-а"
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -4928,7 +4928,7 @@ msgstr "Удалить этот фильтр"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this postmaster filter?"
-msgstr ""
+msgstr "Вы действительно желаете удалить этот фильтр?"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
@@ -4944,11 +4944,11 @@ msgstr "Условие \"И\"(AND)"
 
 #. Template: AdminPostMasterFilter
 msgid "Search header field"
-msgstr ""
+msgstr "Найти поле заголовка"
 
 #. Template: AdminPostMasterFilter
 msgid "for value"
-msgstr ""
+msgstr "для значения"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
@@ -4968,7 +4968,7 @@ msgstr "Выставить заголовок письма"
 
 #. Template: AdminPostMasterFilter
 msgid "with value"
-msgstr ""
+msgstr "Со значением"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
@@ -4992,21 +4992,21 @@ msgstr "Изменить приоритет"
 
 #. Template: AdminPriority
 msgid "Filter for Priorities"
-msgstr ""
+msgstr "Фильтр для Приоритетов"
 
 #. Template: AdminPriority
 msgid "Filter for priorities"
-msgstr ""
+msgstr "Фильтр для Приоритетов"
 
 #. Template: AdminPriority
 msgid ""
 "This priority is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new priority is needed!"
-msgstr ""
+msgstr "Это значение приоритета указано в настройках SysConfig, требуется подтверждение для обновления настроек для его использования в системе!"
 
 #. Template: AdminPriority
 msgid "This priority is used in the following config settings:"
-msgstr ""
+msgstr "Этот приоритет используется в следующих параметрах конфигурации:"
 
 #. Template: AdminProcessManagement
 msgid "Process Management"
@@ -5047,13 +5047,13 @@ msgstr "Готовый к запуску процесс"
 msgid ""
 "Here you can activate ready-to-run processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Здесь вы можете включить примеры процессов, основанные на лучших практиках. Пожалуйста, обратите внимание, что могут потребоваться некоторые дополнительные настройки."
 
 #. Template: AdminProcessManagement
 msgid ""
 "Would you like to benefit from processes created by experts? Upgrade to %s "
 "to import some sophisticated ready-to-run processes."
-msgstr ""
+msgstr "Хотели бы вы извлечь выгоду, воспользовавшись процессами, созданными экспертами? Обновитесь до %s, чтобы получить возможность импортировать некоторые примеры сложных процессов."
 
 #. Template: AdminProcessManagement
 msgid "Import ready-to-run process"
@@ -5229,11 +5229,11 @@ msgstr "Назначенные поля"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Communication Channel"
-msgstr ""
+msgstr "Канал связи"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr ""
+msgstr "Виден клиенту"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -5541,7 +5541,7 @@ msgstr "Фильтр для Очередей"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "Фильтр для Очередей"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -5551,7 +5551,7 @@ msgstr "Очередь с таким именем уже существует!"
 msgid ""
 "This queue is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new queue is needed!"
-msgstr ""
+msgstr "Эта очередь указана в настройках SysConfig, требуется подтверждение для обновления настроек для её использования в системе!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
@@ -5658,7 +5658,7 @@ msgstr "Подпись для писем"
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
-msgstr ""
+msgstr "Эта очередь используется в следующих параметрах конфигурации:"
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
@@ -5674,7 +5674,7 @@ msgstr "Этот фильтр позволяет показать очереди
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
-msgstr ""
+msgstr "Очереди без автоответов"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
@@ -5682,7 +5682,7 @@ msgstr "Этот фильтр позволяет показать все оче�
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Показать все очереди"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -5706,11 +5706,11 @@ msgstr "Управление регистрацией"
 
 #. Template: AdminRegistration
 msgid "Edit System Registration"
-msgstr ""
+msgstr "Изменить System Registration"
 
 #. Template: AdminRegistration
 msgid "System Registration Overview"
-msgstr ""
+msgstr "Обзор настроек System Registration"
 
 #. Template: AdminRegistration
 msgid "Register System"
@@ -5718,7 +5718,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Validate OTRS-ID"
-msgstr ""
+msgstr "Подтвердить OTRS-ID"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
@@ -5758,7 +5758,7 @@ msgstr "Последняя связь с регистрационным серв
 
 #. Template: AdminRegistration
 msgid "System Registration not Possible"
-msgstr ""
+msgstr "Регистрация системы/System registration невозможна"
 
 #. Template: AdminRegistration
 msgid ""
@@ -5772,7 +5772,7 @@ msgstr "Инструкции"
 
 #. Template: AdminRegistration
 msgid "System Deregistration not Possible"
-msgstr ""
+msgstr "Разрегистрация/System Deregistration системы невозможна"
 
 #. Template: AdminRegistration
 msgid ""
@@ -5966,7 +5966,7 @@ msgstr "Вы можете изменить параметры регистрац
 
 #. Template: AdminRegistration
 msgid "Overview of Transmitted Data"
-msgstr ""
+msgstr "Обзор переданных данных"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
@@ -6008,7 +6008,7 @@ msgstr "Фильтр для Ролей"
 
 #. Template: AdminRole
 msgid "Filter for roles"
-msgstr ""
+msgstr "Фильтр для Ролей"
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
@@ -6120,7 +6120,7 @@ msgstr "Добавить SLA"
 
 #. Template: AdminSLA
 msgid "Filter for SLAs"
-msgstr ""
+msgstr "Фильтр для SLA"
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
@@ -6174,7 +6174,7 @@ msgstr "Добавить закрытый ключ"
 
 #. Template: AdminSMIME
 msgid "Filter for Certificates"
-msgstr ""
+msgstr "Фильтр для сертификатов"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
@@ -6259,7 +6259,7 @@ msgstr "Закрыть диалог"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
-msgstr ""
+msgstr "Содержание сертификата"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
@@ -6279,11 +6279,11 @@ msgstr "Добавить приветствие"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
-msgstr ""
+msgstr "Фильтр для Приветствий"
 
 #. Template: AdminSalutation
 msgid "Filter for salutations"
-msgstr ""
+msgstr "Фильтр для Приветствий"
 
 #. Template: AdminSalutation
 msgid "e. g."
@@ -6295,7 +6295,7 @@ msgstr "Пример приветствия"
 
 #. Template: AdminSecureMode
 msgid "Secure Mode Needs to be Enabled!"
-msgstr ""
+msgstr "Необходимо включить безопасный режим!"
 
 #. Template: AdminSecureMode
 msgid ""
@@ -6380,11 +6380,11 @@ msgstr "Добавить сервис"
 
 #. Template: AdminService
 msgid "Filter for services"
-msgstr ""
+msgstr "Фильтр для Сервисов"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
-msgstr ""
+msgstr "Максимальная длина названия сервиса 200 символов (с подсервисами)."
 
 #. Template: AdminService
 msgid "Sub-service of"
@@ -6396,7 +6396,7 @@ msgstr "Управление сеансами"
 
 #. Template: AdminSession
 msgid "Detail Session View for"
-msgstr ""
+msgstr "Подробный показ сеансов для"
 
 #. Template: AdminSession
 msgid "All sessions"
@@ -6428,11 +6428,11 @@ msgstr "Завершить сеанс"
 
 #. Template: AdminSession
 msgid "Filter for Sessions"
-msgstr ""
+msgstr "Фильтр для сеансов"
 
 #. Template: AdminSession
 msgid "Filter for sessions"
-msgstr ""
+msgstr "Фильтр для сеансов"
 
 #. Template: AdminSession
 msgid "Session"
@@ -6468,11 +6468,11 @@ msgstr "Добавить подпись"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
-msgstr ""
+msgstr "Фильтр для Подписей"
 
 #. Template: AdminSignature
 msgid "Filter for signatures"
-msgstr ""
+msgstr "Фильтр для Подписей"
 
 #. Template: AdminSignature
 msgid "Example signature"
@@ -6492,11 +6492,11 @@ msgstr "Изменить состояние"
 
 #. Template: AdminState
 msgid "Filter for States"
-msgstr ""
+msgstr "Фильтр для состояний"
 
 #. Template: AdminState
 msgid "Filter for states"
-msgstr ""
+msgstr "Фильтр для состояний"
 
 #. Template: AdminState
 msgid "Attention"
@@ -6510,7 +6510,7 @@ msgstr "Пожалуйста, обновите также состояния и 
 msgid ""
 "This state is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new type is needed!"
-msgstr ""
+msgstr "Это состояние указано в настройках SysConfig, требуется подтверждение для обновления настроек для использования нового типа в системе!"
 
 #. Template: AdminState
 msgid "State type"
@@ -6518,7 +6518,7 @@ msgstr "Тип состояния"
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
-msgstr ""
+msgstr "Это состояние используется в следующих параметрах конфигурации:"
 
 #. Template: AdminSupportDataCollector
 msgid "Sending support data to OTRS Group is not possible!"
@@ -6560,7 +6560,7 @@ msgstr "Сгенерировать пакет поддержки"
 
 #. Template: AdminSupportDataCollector
 msgid "The Support Bundle has been Generated"
-msgstr ""
+msgstr "Пакет поддержки сгенерирован."
 
 #. Template: AdminSupportDataCollector
 msgid "Please choose one of the following options."
@@ -6622,15 +6622,15 @@ msgstr "Редактировать системный адрес электро�
 
 #. Template: AdminSystemAddress
 msgid "Add System Address"
-msgstr ""
+msgstr "Добавить системный адрес"
 
 #. Template: AdminSystemAddress
 msgid "Filter for System Addresses"
-msgstr ""
+msgstr "Фильтр для системных адресов"
 
 #. Template: AdminSystemAddress
 msgid "Filter for system addresses"
-msgstr ""
+msgstr "Фильтр для системных адресов"
 
 #. Template: AdminSystemAddress
 msgid ""
@@ -6648,7 +6648,7 @@ msgstr "Отображаемое имя"
 
 #. Template: AdminSystemAddress
 msgid "This email address is already used as system email address."
-msgstr ""
+msgstr "Этот адрес электронной почты уже используется как системный адрес."
 
 #. Template: AdminSystemAddress
 msgid "The display name and email address will be shown on mail you send."
@@ -6658,11 +6658,11 @@ msgstr "Отображаемое имя и адрес электронной п�
 msgid ""
 "This system address cannot be set to invalid, because it is used in one or "
 "more queue(s)."
-msgstr ""
+msgstr "Этот системный адрес электронной почты не может быть сделан недействительным, так как он используется как минимум в одной очереди."
 
 #. Template: AdminSystemConfiguration
 msgid "online administrator documentation"
-msgstr ""
+msgstr "онлайн-руководство администратора"
 
 #. Template: AdminSystemConfiguration
 msgid "System configuration"
@@ -6672,17 +6672,17 @@ msgstr "Системная конфигурация"
 msgid ""
 "Navigate through the available settings by using the tree in the navigation "
 "box on the left side."
-msgstr ""
+msgstr "Перемещайтесь по доступным настройкам, используя дерево в окне навигации слева."
 
 #. Template: AdminSystemConfiguration
 msgid ""
 "Find certain settings by using the search field below or from search icon "
 "from the top navigation."
-msgstr ""
+msgstr "Найдите нужные настройки, используя поле поиска ниже или значок поиска из верхней панели навигации.  "
 
 #. Template: AdminSystemConfiguration
 msgid "Find out how to use the system configuration by reading the %s."
-msgstr ""
+msgstr "Об использовании системных настроек можно почитать в %s."
 
 #. Template: AdminSystemConfiguration
 msgid "Search in all settings..."
@@ -10155,7 +10155,7 @@ msgstr "Перейти на предыдущую страницу"
 
 #. JS Template: CalendarSettingsDialog
 msgid "Show"
-msgstr ""
+msgstr "Показать"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
@@ -13688,122 +13688,6 @@ msgstr "Нет прав доступа!"
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
 msgstr "Нет разрешения"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "just now"
-msgstr "только что"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "less than a minute ago"
-msgstr "меньше чем минуту назад"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in less than a minute"
-msgstr "меньше минуты"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a minute ago"
-msgstr "минуту назад"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a minute"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s minutes ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s minutes"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about an hour ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in an hour"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s hours ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s hours"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a day ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a day"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s days ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s days"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a month ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a month"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s months ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s months"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a year ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over a year ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "almost %s years ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s years ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over %s years ago"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a year"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over a year"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in almost %s years"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s years"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over %s years"
-msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"

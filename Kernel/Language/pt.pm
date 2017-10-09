@@ -25,7 +25,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.289993074792244;
+    $Self->{Completeness}        = 0.294762484774665;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -142,13 +142,13 @@ sub Data {
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             '',
         'Queues' => 'Filas',
-        'Please select a valid queue.' => '',
+        'Please select a valid queue.' => 'Selecione uma Fila válida.',
         'Search attributes' => '',
         'Add entry' => 'Adicionar entrada',
         'Add' => 'Adicionar',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
             '',
-        'Add Rule' => '',
+        'Add Rule' => 'Adicionar Regra',
         'Submit' => 'Submeter',
 
         # Template: AdminAppointmentImport
@@ -160,7 +160,7 @@ sub Data {
         'Update existing appointments?' => '',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
             '',
-        'Upload calendar' => '',
+        'Upload calendar' => 'Carregar calendário',
         'Import appointments' => '',
 
         # Template: AdminAppointmentNotificationEvent
@@ -168,14 +168,14 @@ sub Data {
         'Add Notification' => 'Adicionar notificação',
         'Edit Notification' => 'Editar notificação',
         'Add notification' => 'Adicionar notificação',
-        'Export Notifications' => '',
+        'Export Notifications' => 'Exportar Notificações',
         'Filter for Notifications' => '',
         'Filter for notifications' => '',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
             '',
-        'Overwrite existing notifications?' => '',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Overwrite existing notifications?' => 'Substituir notificações existentes?',
+        'Upload Notification configuration' => 'Carregar configuração de Notificação',
+        'Import Notification configuration' => 'Importar configuração de Notificação',
         'List' => 'Listar',
         'Delete' => 'Eliminar',
         'Delete this notification' => 'Apagar notificação',
@@ -192,23 +192,23 @@ sub Data {
         'Type' => 'Tipo',
         'Title' => 'Título',
         'Location' => 'Localização',
-        'Team' => '',
-        'Resource' => '',
+        'Team' => 'Equipa',
+        'Resource' => 'Recurso',
         'Recipients' => 'Destinatários',
-        'Send to' => '',
-        'Send to these agents' => '',
-        'Send to all group members' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
-        'Once per day' => '',
+        'Send to' => 'Enviar para',
+        'Send to these agents' => 'Enviar para estes agentes',
+        'Send to all group members' => 'Enviar para todos os membros do grupo',
+        'Send to all role members' => 'Enviar para todos os membros do papel',
+        'Send on out of office' => 'Enviar quando "Fora do Escritório"',
+        'Also send if the user is currently out of office.' => 'Enviar também quando o utilizador está "Fora do Escritório"',
+        'Once per day' => 'Uma vez por dia',
         'Notify user just once per day about a single appointment using a selected transport.' =>
             '',
-        'Notification Methods' => '',
+        'Notification Methods' => 'Métodos de notificação',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
-        'Enable this notification method' => '',
-        'Transport' => '',
+        'Enable this notification method' => 'Activar este método de notificação',
+        'Transport' => 'Transporte',
         'At least one method is needed per notification.' => '',
         'Active by default in agent preferences' => '',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
@@ -4502,35 +4502,6 @@ sub Data {
         '%s B' => '',
         'No Permission!' => 'Sem Permissão!',
         'No Permission' => 'Sem permissão',
-        'just now' => '',
-        'less than a minute ago' => '',
-        'in less than a minute' => '',
-        'a minute ago' => '',
-        'in a minute' => '',
-        '%s minutes ago' => '',
-        'in %s minutes' => '',
-        'about an hour ago' => '',
-        'in an hour' => '',
-        'about %s hours ago' => '',
-        'in %s hours' => '',
-        'a day ago' => '',
-        'in a day' => '',
-        '%s days ago' => '',
-        'in %s days' => '',
-        'about a month ago' => '',
-        'in a month' => '',
-        'about %s months ago' => '',
-        'in %s months' => '',
-        'about a year ago' => '',
-        'over a year ago' => '',
-        'almost %s years ago' => '',
-        'about %s years ago' => '',
-        'over %s years ago' => '',
-        'in a year' => '',
-        'in over a year' => '',
-        'in almost %s years' => '',
-        'in %s years' => '',
-        'in over %s years' => '',
         'Show Tree Selection' => 'Mostre a seleção em árvore',
         'Split Quote' => 'Dividir citação',
         'Remove Quote' => '',

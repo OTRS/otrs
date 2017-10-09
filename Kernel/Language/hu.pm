@@ -29,7 +29,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.996018005540166;
+    $Self->{Completeness}        = 0.996171915782147;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3268,7 +3268,7 @@ sub Data {
         'Go back to the previous page' => 'Vissza az előző oldalra',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => 'Megjelenítés',
 
         # JS Template: FormDraftAddDialog
         'Draft title' => '',
@@ -4506,35 +4506,6 @@ sub Data {
         '%s B' => '%s B',
         'No Permission!' => 'Nincs jogosultság!',
         'No Permission' => 'Nincs jogosultság',
-        'just now' => 'épp most',
-        'less than a minute ago' => 'kevesebb mint egy perccel ezelőtt',
-        'in less than a minute' => 'kevesebb mint egy perc alatt',
-        'a minute ago' => 'egy perccel ezelőtt',
-        'in a minute' => 'egy perc alatt',
-        '%s minutes ago' => '%s perccel ezelőtt',
-        'in %s minutes' => '%s perc alatt',
-        'about an hour ago' => 'körülbelül egy órával ezelőtt',
-        'in an hour' => 'egy óra alatt',
-        'about %s hours ago' => 'körülbelül %s órával ezelőtt',
-        'in %s hours' => '%s óra alatt',
-        'a day ago' => 'egy nappal ezelőtt',
-        'in a day' => 'egy nap alatt',
-        '%s days ago' => '%s nappal ezelőtt',
-        'in %s days' => '%s nap alatt',
-        'about a month ago' => 'körülbelül egy hónappal ezelőtt',
-        'in a month' => 'egy hónap alatt',
-        'about %s months ago' => 'körülbelül %s hónappal ezelőtt',
-        'in %s months' => '%s hónap alatt',
-        'about a year ago' => 'körülbelül egy évvel ezelőtt',
-        'over a year ago' => 'több mint egy évvel ezelőtt',
-        'almost %s years ago' => 'majdnem %s évvel ezelőtt',
-        'about %s years ago' => 'körülbelül %s évvel ezelőtt',
-        'over %s years ago' => 'több mint %s évvel ezelőtt',
-        'in a year' => 'egy év alatt',
-        'in over a year' => 'több mint egy év alatt',
-        'in almost %s years' => 'majdnem %s év alatt',
-        'in %s years' => '%s év alatt',
-        'in over %s years' => 'több mint %s év alatt',
         'Show Tree Selection' => 'Fakijelölés megjelenítése',
         'Split Quote' => 'Idézet felosztása',
         'Remove Quote' => 'Idézés eltávolítása',

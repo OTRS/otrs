@@ -13,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-05 14:30+0000\n"
-"PO-Revision-Date: 2017-10-05 14:32+0000\n"
+"POT-Creation-Date: 2017-10-09 16:06+0000\n"
+"PO-Revision-Date: 2017-10-09 16:24+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/otrs/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -10137,7 +10137,7 @@ msgstr "Vissza az előző oldalra"
 
 #. JS Template: CalendarSettingsDialog
 msgid "Show"
-msgstr ""
+msgstr "Megjelenítés"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
@@ -13670,122 +13670,6 @@ msgstr "Nincs jogosultság!"
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
 msgstr "Nincs jogosultság"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "just now"
-msgstr "épp most"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "less than a minute ago"
-msgstr "kevesebb mint egy perccel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in less than a minute"
-msgstr "kevesebb mint egy perc alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a minute ago"
-msgstr "egy perccel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a minute"
-msgstr "egy perc alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s minutes ago"
-msgstr "%s perccel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s minutes"
-msgstr "%s perc alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about an hour ago"
-msgstr "körülbelül egy órával ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in an hour"
-msgstr "egy óra alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s hours ago"
-msgstr "körülbelül %s órával ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s hours"
-msgstr "%s óra alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a day ago"
-msgstr "egy nappal ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a day"
-msgstr "egy nap alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s days ago"
-msgstr "%s nappal ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s days"
-msgstr "%s nap alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a month ago"
-msgstr "körülbelül egy hónappal ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a month"
-msgstr "egy hónap alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s months ago"
-msgstr "körülbelül %s hónappal ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s months"
-msgstr "%s hónap alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a year ago"
-msgstr "körülbelül egy évvel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over a year ago"
-msgstr "több mint egy évvel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "almost %s years ago"
-msgstr "majdnem %s évvel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s years ago"
-msgstr "körülbelül %s évvel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over %s years ago"
-msgstr "több mint %s évvel ezelőtt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a year"
-msgstr "egy év alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over a year"
-msgstr "több mint egy év alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in almost %s years"
-msgstr "majdnem %s év alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s years"
-msgstr "%s év alatt"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over %s years"
-msgstr "több mint %s év alatt"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"

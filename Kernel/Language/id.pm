@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.715547091412742;
+    $Self->{Completeness}        = 0.719157821472072;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4503,35 +4503,6 @@ bin/otrs.Daemon.pl status\').',
         '%s B' => '',
         'No Permission!' => 'Tidak memiliki izin!',
         'No Permission' => 'Tidak ada izin',
-        'just now' => '',
-        'less than a minute ago' => '',
-        'in less than a minute' => '',
-        'a minute ago' => '',
-        'in a minute' => '',
-        '%s minutes ago' => '',
-        'in %s minutes' => '',
-        'about an hour ago' => '',
-        'in an hour' => '',
-        'about %s hours ago' => '',
-        'in %s hours' => '',
-        'a day ago' => '',
-        'in a day' => '',
-        '%s days ago' => '',
-        'in %s days' => '',
-        'about a month ago' => '',
-        'in a month' => '',
-        'about %s months ago' => '',
-        'in %s months' => '',
-        'about a year ago' => '',
-        'over a year ago' => '',
-        'almost %s years ago' => '',
-        'about %s years ago' => '',
-        'over %s years ago' => '',
-        'in a year' => '',
-        'in over a year' => '',
-        'in almost %s years' => '',
-        'in %s years' => '',
-        'in over %s years' => '',
         'Show Tree Selection' => 'Tunjukan pilihan keturunan',
         'Split Quote' => 'Membagi kutipan',
         'Remove Quote' => 'Hapus kutipan',

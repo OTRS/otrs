@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996018005540166;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3200,7 +3200,7 @@ sub Data {
         'Allow users to update' => 'Дозволи корисницима да мењају',
         'Do not longer allow users to adapt this setting from within their personal preferences' =>
             'Онемогући корисницима да мењају ово подешавање у њиховим личним подешавањима',
-        'Forbid users to update' => 'Забрани корсницима да мењају',
+        'Forbid users to update' => 'Забрани корисницима да мењају',
         'Show user specific changes for this setting' => 'Прикажи корисничке промене за ово подешавање',
         'Show user settings' => 'Прикажи корисничке промене',
         'Copy a direct link to this setting to your clipboard' => 'Копирај директну везу за ово подешавање',
@@ -3263,31 +3263,31 @@ sub Data {
         'Go back to the previous page' => 'Вратите се на претходну страну',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => 'Прикажи',
 
         # JS Template: FormDraftAddDialog
-        'Draft title' => '',
+        'Draft title' => 'Наслов нацрта',
 
         # JS Template: ArticleViewSettingsDialog
-        'Article display' => '',
+        'Article display' => 'Приказ чланака',
 
         # JS Template: FormDraftDeleteDialog
-        'Do you really want to delete "%s"?' => '',
+        'Do you really want to delete "%s"?' => 'Да ли заиста желите да обришете "%s"?',
         'Confirm' => 'Потврди',
 
         # JS Template: WidgetLoading
-        'Loading, please wait...' => '',
+        'Loading, please wait...' => 'Учитавање, молимо сачекајте...',
 
         # JS Template: UploadContainer
-        'Click to select files or just drop them here.' => '',
-        'Click to select a file or just drop it here.' => '',
-        'Uploading...' => '',
+        'Click to select files or just drop them here.' => 'Кликните да одаберете датотеке или их једноставно превуците овде.',
+        'Click to select a file or just drop it here.' => 'Кликните да одаберете датотеку или је једноставно превуците овде.',
+        'Uploading...' => 'Отпремање...',
 
         # JS Template: InformationDialog
-        'Process state' => '',
-        'Running' => '',
+        'Process state' => 'Стање процеса',
+        'Running' => 'У току',
         'Finished' => 'Завршено',
-        'No package information available.' => '',
+        'No package information available.' => 'Нема информација о пакету.',
 
         # JS Template: AddButton
         'Add new entry' => 'Додај нов унос',
@@ -3296,26 +3296,26 @@ sub Data {
         'Add key' => 'Додај кључ',
 
         # JS Template: DialogDeployment
-        'Deployment comment...' => '',
-        'Deploying, please wait...' => '',
+        'Deployment comment...' => 'Коментар распоређувања...',
+        'Deploying, please wait...' => 'Распоређивање у току, молимо сачекајте...',
         'Preparing to deploy, please wait...' => 'Припрема за распоређивање, молимо сачекајте...',
-        'Deploy now' => '',
+        'Deploy now' => 'Распореди сад',
         'Close' => 'Затвори',
-        'Try again' => '',
+        'Try again' => 'Покушајте поново',
 
         # JS Template: DialogReset
-        'Reset options' => '',
-        'Reset setting on global level.' => '',
-        'Reset globally' => '',
-        'Remove all user changes.' => '',
-        'Reset locally' => '',
-        'user(s) have modified this setting.' => '',
+        'Reset options' => 'Поништи подешавања',
+        'Reset setting on global level.' => 'Поништи подешавање на глобалном нивоу.',
+        'Reset globally' => 'Поништи глобално',
+        'Remove all user changes.' => 'Поништи све корисничке промене.',
+        'Reset locally' => 'Поништи локално',
+        'user(s) have modified this setting.' => 'корисник(а) је је променило ово подешавање.',
         'Do you really want to reset this setting to it\'s default value?' =>
-            '',
+            'Да ли стварно желите да поништите ово подешавање на његову подразумевану вредност?',
 
         # JS Template: HelpDialog
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
-            '',
+            'Можете одабрати категорију за ограничавање навигационих ставки испод. Чим одаберете категорију, навигација ће бити освежена.',
 
         # Perl Module: Kernel/Config/Defaults.pm
         'Database Backend' => 'База података',
@@ -3559,13 +3559,13 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Need InvokerType' => 'Неопходан InvokerType',
         'InvokerType %s is not registered' => 'Тип позиваоца %s није регистрован',
-        'Need InvokerType!' => 'Неопходан InvokerType!',
-        'Need Invoker' => 'Неопходан Invoker',
+        'Need InvokerType!' => 'Неопходан тип позиваоца!',
+        'Need Invoker' => 'Неопходан позивалац',
         'Could not determine config for invoker %s' => 'Није могуће утврдити конфигурацију за позиваоца %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
-        'Need Invoker!' => 'Неопходан Invoker!',
-        'Need Event!' => 'Неопходан Event!',
+        'Need Invoker!' => 'Неопходан позивалац!',
+        'Need Event!' => 'Неопходан догађај!',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
         'Could not get registered configuration for action type %s' => 'Не могу прибавити регистровану конфигурацију за тип акције %s',
@@ -4494,42 +4494,13 @@ sub Data {
         'Hours' => 'Сати',
         'Minutes' => 'Минути',
         'Check to activate this date' => 'Проверите за активирање овог датума',
-        '%s TB' => '%s TB ',
+        '%s TB' => '%s TB',
         '%s GB' => '%s GB',
         '%s MB' => '%s MB',
         '%s KB' => '%s KB',
         '%s B' => '%s B',
         'No Permission!' => 'Немате дозволу!',
         'No Permission' => 'Нема дозволе',
-        'just now' => 'управо сад',
-        'less than a minute ago' => 'пре мање од минута',
-        'in less than a minute' => 'за мање од минута',
-        'a minute ago' => 'пре једног минута',
-        'in a minute' => 'за један минут',
-        '%s minutes ago' => 'пре %s минут(а)',
-        'in %s minutes' => 'за %s минут(а)',
-        'about an hour ago' => 'пре сат времена',
-        'in an hour' => 'за сат времена',
-        'about %s hours ago' => 'пре %s сата(и)',
-        'in %s hours' => 'за %s сата(и)',
-        'a day ago' => 'пре једног дана',
-        'in a day' => 'за један дан',
-        '%s days ago' => 'пре %s дан(а)',
-        'in %s days' => 'за %s дан(а)',
-        'about a month ago' => 'пре месец дана',
-        'in a month' => 'за месец дана',
-        'about %s months ago' => 'пре %s месеца(и)',
-        'in %s months' => 'за %s месеца(и)',
-        'about a year ago' => 'пре годину дана',
-        'over a year ago' => 'пре више од годину дана',
-        'almost %s years ago' => 'пре скоро %s године(а)',
-        'about %s years ago' => 'пре %s године(а)',
-        'over %s years ago' => 'пре више од %s године(а)',
-        'in a year' => 'за годину дана',
-        'in over a year' => 'за више од годину дана',
-        'in almost %s years' => 'за скоро %s године(а)',
-        'in %s years' => 'за %s године(а)',
-        'in over %s years' => 'за више од %s године(а)',
         'Show Tree Selection' => 'Прикажи дрво избора',
         'Split Quote' => 'Подели квоту',
         'Remove Quote' => 'Уклони квоту.',

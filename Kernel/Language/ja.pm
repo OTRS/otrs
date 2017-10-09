@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.573060941828255;
+    $Self->{Completeness}        = 0.576126674786845;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3267,7 +3267,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Go back to the previous page' => '前のページへ戻る',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => '表示',
 
         # JS Template: FormDraftAddDialog
         'Draft title' => '',
@@ -4506,35 +4506,6 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         '%s B' => '',
         'No Permission!' => '権限がありません。',
         'No Permission' => '権限がありません',
-        'just now' => '',
-        'less than a minute ago' => '',
-        'in less than a minute' => '',
-        'a minute ago' => '',
-        'in a minute' => '',
-        '%s minutes ago' => '',
-        'in %s minutes' => '',
-        'about an hour ago' => '',
-        'in an hour' => '',
-        'about %s hours ago' => '',
-        'in %s hours' => '',
-        'a day ago' => '',
-        'in a day' => '',
-        '%s days ago' => '',
-        'in %s days' => '',
-        'about a month ago' => '',
-        'in a month' => '',
-        'about %s months ago' => '',
-        'in %s months' => '',
-        'about a year ago' => '',
-        'over a year ago' => '',
-        'almost %s years ago' => '',
-        'about %s years ago' => '',
-        'over %s years ago' => '',
-        'in a year' => '',
-        'in over a year' => '',
-        'in almost %s years' => '',
-        'in %s years' => '',
-        'in over %s years' => '',
         'Show Tree Selection' => 'ツリーセレクターを表示する',
         'Split Quote' => '',
         'Remove Quote' => '',

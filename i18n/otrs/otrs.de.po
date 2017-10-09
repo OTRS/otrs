@@ -51,8 +51,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-05 14:30+0000\n"
-"PO-Revision-Date: 2017-10-05 14:32+0000\n"
+"POT-Creation-Date: 2017-10-09 16:06+0000\n"
+"PO-Revision-Date: 2017-10-09 16:24+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/otrs/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -10175,19 +10175,19 @@ msgstr "Zurück zur vorhergehenden Seite"
 
 #. JS Template: CalendarSettingsDialog
 msgid "Show"
-msgstr ""
+msgstr "Anzeigen"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Draft-Titel"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
-msgstr ""
+msgstr "Artikel-Anzeige"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Do you really want to delete \"%s\"?"
-msgstr ""
+msgstr "Möchten Sie \"%s\" wirklich löschen?"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Confirm"
@@ -10195,27 +10195,27 @@ msgstr "Bestätigen"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
-msgstr ""
+msgstr "Lade, bitte warten..."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Klicken zum Auswählen oder Dateien einfach hier ablegen."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "Klicken zum Auswählen oder Datei einfach hier ablegen."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "Wird hochgeladen..."
 
 #. JS Template: InformationDialog
 msgid "Process state"
-msgstr ""
+msgstr "Prozess-Status"
 
 #. JS Template: InformationDialog
 msgid "Running"
-msgstr ""
+msgstr "Laufend"
 
 #. JS Template: InformationDialog
 msgid "Finished"
@@ -10223,7 +10223,7 @@ msgstr "Fertig"
 
 #. JS Template: InformationDialog
 msgid "No package information available."
-msgstr ""
+msgstr "Keine Paket-Informationen verfügbar."
 
 #. JS Template: AddButton
 msgid "Add new entry"
@@ -10235,11 +10235,11 @@ msgstr "Schlüssel hinzufügen"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "Kommentar zur Inbetriebnahme..."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "Inbetriebnahme läuft, bitte warten..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
@@ -10247,7 +10247,7 @@ msgstr "Inbetriebnahme wird vorbereitet, bitte warten..."
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "Jetzt in Betrieb nehmen"
 
 #. JS Template: DialogDeployment
 msgid "Close"
@@ -10255,42 +10255,42 @@ msgstr "Schließen"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
-msgstr ""
+msgstr "Nochmals versuchen"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "Einstellung zurücksetzen"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "Einstellung global zurücksetzen"
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "Global zurücksetzen"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "Alle Benutzereinstellungen entfernen."
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "Lokal zurücksetzen"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "Benutzer verwenden modifizierte Versionen dieser Einstellung."
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "Möchten Sie diese Einstellung wirklich auf ihren Standardwert zurücksetzen?"
 
 #. JS Template: HelpDialog
 msgid ""
 "You can use the category selection to limit the navigation tree below to "
 "entries from the selected category. As soon as you select the category, the "
 "tree will be re-built."
-msgstr ""
+msgstr "Sie können die Kategorieauswahl nutzen, um den Navigationsbaum auf Einträge aus der gewählten Kategorie einzuschränken. Sobald Sie einen Eintrag wählen, wird der Baum automatisch neu aufgebaut."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
@@ -13708,122 +13708,6 @@ msgstr "Keine Zugriffsrechte!"
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
 msgstr "Keine Berechtigung"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "just now"
-msgstr "gerade eben"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "less than a minute ago"
-msgstr "vor weniger als einer Minute"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in less than a minute"
-msgstr "in weniger als eine Minute"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a minute ago"
-msgstr "vor einer Minute"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a minute"
-msgstr "in einer Minute"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s minutes ago"
-msgstr "vor %s Minuten"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s minutes"
-msgstr "in %s Minuten"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about an hour ago"
-msgstr "vor etwa einer Stunde"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in an hour"
-msgstr "in einer Stunde"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s hours ago"
-msgstr "vor etwa %s Stunden"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s hours"
-msgstr "in %s Stunden"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a day ago"
-msgstr "vor einem Tag"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a day"
-msgstr "in einem Tag"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s days ago"
-msgstr "vor %s Tagen"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s days"
-msgstr "in %s Tagen"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a month ago"
-msgstr "vor etwa einem Monat"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a month"
-msgstr "in einem Monat"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s months ago"
-msgstr "vor etwa %s Monaten"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s months"
-msgstr "in %s Monaten"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a year ago"
-msgstr "vor etwa einem Jahr"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over a year ago"
-msgstr "vor mehr als einem Jahr"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "almost %s years ago"
-msgstr "vor fast %s Jahren"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s years ago"
-msgstr "vor etwa %s Jahren"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over %s years ago"
-msgstr "vor mehr als %s Jahren"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a year"
-msgstr "in einem Jahr"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over a year"
-msgstr "in mehr als einem Jahr"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in almost %s years"
-msgstr "in fast %s Jahren"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s years"
-msgstr "in %s Jahren"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over %s years"
-msgstr "in mehr als %s Jahren"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"

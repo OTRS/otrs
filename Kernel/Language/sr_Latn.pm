@@ -30,7 +30,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996018005540166;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3206,7 +3206,7 @@ sub Data {
         'Allow users to update' => 'Dozvoli korisnicima da menjaju',
         'Do not longer allow users to adapt this setting from within their personal preferences' =>
             'Onemogući korisnicima da menjaju ovo podešavanje u njihovim ličnim podešavanjima',
-        'Forbid users to update' => 'Zabrani korsnicima da menjaju',
+        'Forbid users to update' => 'Zabrani korisnicima da menjaju',
         'Show user specific changes for this setting' => 'Prikaži korisničke promene za ovo podešavanje',
         'Show user settings' => 'Prikaži korisničke promene',
         'Copy a direct link to this setting to your clipboard' => 'Kopiraj direktnu vezu za ovo podešavanje',
@@ -3269,31 +3269,31 @@ sub Data {
         'Go back to the previous page' => 'Vratite se na prethodnu stranu',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => 'Prikaži',
 
         # JS Template: FormDraftAddDialog
-        'Draft title' => '',
+        'Draft title' => 'Naslov nacrta',
 
         # JS Template: ArticleViewSettingsDialog
-        'Article display' => '',
+        'Article display' => 'Prikaz članaka',
 
         # JS Template: FormDraftDeleteDialog
-        'Do you really want to delete "%s"?' => '',
+        'Do you really want to delete "%s"?' => 'Da li zaista želite da obrišete "%s"?',
         'Confirm' => 'Potvrdi',
 
         # JS Template: WidgetLoading
-        'Loading, please wait...' => '',
+        'Loading, please wait...' => 'Učitavanje, molimo sačekajte...',
 
         # JS Template: UploadContainer
-        'Click to select files or just drop them here.' => '',
-        'Click to select a file or just drop it here.' => '',
-        'Uploading...' => '',
+        'Click to select files or just drop them here.' => 'Kliknite da odaberete datoteke ili ih jednostavno prevucite ovde.',
+        'Click to select a file or just drop it here.' => 'Kliknite da odaberete datoteku ili je jednostavno prevucite ovde.',
+        'Uploading...' => 'Otpremanje...',
 
         # JS Template: InformationDialog
-        'Process state' => '',
-        'Running' => '',
+        'Process state' => 'Stanje procesa',
+        'Running' => 'U toku',
         'Finished' => 'Završeno',
-        'No package information available.' => '',
+        'No package information available.' => 'Nema informacija o paketu.',
 
         # JS Template: AddButton
         'Add new entry' => 'Dodaj nov unos',
@@ -3302,26 +3302,26 @@ sub Data {
         'Add key' => 'Dodaj ključ',
 
         # JS Template: DialogDeployment
-        'Deployment comment...' => '',
-        'Deploying, please wait...' => '',
+        'Deployment comment...' => 'Komentar raspoređuvanja...',
+        'Deploying, please wait...' => 'Raspoređivanje u toku, molimo sačekajte...',
         'Preparing to deploy, please wait...' => 'Priprema za raspoređivanje, molimo sačekajte...',
-        'Deploy now' => '',
+        'Deploy now' => 'Rasporedi sad',
         'Close' => 'Zatvori',
-        'Try again' => '',
+        'Try again' => 'Pokušajte ponovo',
 
         # JS Template: DialogReset
-        'Reset options' => '',
-        'Reset setting on global level.' => '',
-        'Reset globally' => '',
-        'Remove all user changes.' => '',
-        'Reset locally' => '',
-        'user(s) have modified this setting.' => '',
+        'Reset options' => 'Poništi podešavanja',
+        'Reset setting on global level.' => 'Poništi podešavanje na globalnom nivou.',
+        'Reset globally' => 'Poništi globalno',
+        'Remove all user changes.' => 'Poništi sve korisničke promene.',
+        'Reset locally' => 'Poništi lokalno',
+        'user(s) have modified this setting.' => 'korisnik(a) je je promenilo ovo podešavanje.',
         'Do you really want to reset this setting to it\'s default value?' =>
-            '',
+            'Da li stvarno želite da poništite ovo podešavanje na njegovu podrazumevanu vrednost?',
 
         # JS Template: HelpDialog
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
-            '',
+            'Možete odabrati kategoriju za ograničavanje navigacionih stavki ispod. Čim odaberete kategoriju, navigacija će biti osvežena.',
 
         # Perl Module: Kernel/Config/Defaults.pm
         'Database Backend' => 'Baza podataka',
@@ -3565,13 +3565,13 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Need InvokerType' => 'Neophodan InvokerType',
         'InvokerType %s is not registered' => 'Tip pozivaoca %s nije registrovan',
-        'Need InvokerType!' => 'Neophodan InvokerType!',
-        'Need Invoker' => 'Neophodan Invoker',
+        'Need InvokerType!' => 'Neophodan tip pozivaoca!',
+        'Need Invoker' => 'Neophodan pozivalac',
         'Could not determine config for invoker %s' => 'Nije moguće utvrditi konfiguraciju za pozivaoca %s',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
-        'Need Invoker!' => 'Neophodan Invoker!',
-        'Need Event!' => 'Neophodan Event!',
+        'Need Invoker!' => 'Neophodan pozivalac!',
+        'Need Event!' => 'Neophodan događaj!',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
         'Could not get registered configuration for action type %s' => 'Ne mogu pribaviti registrovanu konfiguraciju za tip akcije %s',
@@ -4500,42 +4500,13 @@ sub Data {
         'Hours' => 'Sati',
         'Minutes' => 'Minuti',
         'Check to activate this date' => 'Proverite za aktiviranje ovog datuma',
-        '%s TB' => '%s TB ',
+        '%s TB' => '%s TB',
         '%s GB' => '%s GB',
         '%s MB' => '%s MB',
         '%s KB' => '%s KB',
         '%s B' => '%s B',
         'No Permission!' => 'Nemate dozvolu!',
         'No Permission' => 'Nema dozvole',
-        'just now' => 'upravo sad',
-        'less than a minute ago' => 'pre manje od minuta',
-        'in less than a minute' => 'za manje od minuta',
-        'a minute ago' => 'pre jednog minuta',
-        'in a minute' => 'za jedan minut',
-        '%s minutes ago' => 'pre %s minut(a)',
-        'in %s minutes' => 'za %s minut(a)',
-        'about an hour ago' => 'pre sat vremena',
-        'in an hour' => 'za sat vremena',
-        'about %s hours ago' => 'pre %s sata(i)',
-        'in %s hours' => 'za %s sata(i)',
-        'a day ago' => 'pre jednog dana',
-        'in a day' => 'za jedan dan',
-        '%s days ago' => 'pre %s dan(a)',
-        'in %s days' => 'za %s dan(a)',
-        'about a month ago' => 'pre mesec dana',
-        'in a month' => 'za mesec dana',
-        'about %s months ago' => 'pre %s meseca(i)',
-        'in %s months' => 'za %s meseca(i)',
-        'about a year ago' => 'pre godinu dana',
-        'over a year ago' => 'pre više od godinu dana',
-        'almost %s years ago' => 'pre skoro %s godine(a)',
-        'about %s years ago' => 'pre %s godine(a)',
-        'over %s years ago' => 'pre više od %s godine(a)',
-        'in a year' => 'za godinu dana',
-        'in over a year' => 'za više od godinu dana',
-        'in almost %s years' => 'za skoro %s godine(a)',
-        'in %s years' => 'za %s godine(a)',
-        'in over %s years' => 'za više od %s godine(a)',
         'Show Tree Selection' => 'Prikaži drvo izbora',
         'Split Quote' => 'Podeli kvotu',
         'Remove Quote' => 'Ukloni kvotu.',

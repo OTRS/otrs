@@ -27,7 +27,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.585526315789474;
+    $Self->{Completeness}        = 0.588828954236993;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -212,7 +212,7 @@ sub Data {
         'Enable this notification method' => 'Włącz tą metodę powiadomienia',
         'Transport' => 'Transport',
         'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'Active by default in agent preferences' => 'Domyślnie aktywne w ustawieniach agenta',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => 'Ta funkcja jest obecnie niedostępna.',
@@ -3266,7 +3266,7 @@ sub Data {
         'Go back to the previous page' => 'Powrót do poprzedniej strony',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => 'Pokaż',
 
         # JS Template: FormDraftAddDialog
         'Draft title' => '',
@@ -4504,35 +4504,6 @@ sub Data {
         '%s B' => '',
         'No Permission!' => 'Brak uprawnień!',
         'No Permission' => 'Brak uprawnień',
-        'just now' => '',
-        'less than a minute ago' => '',
-        'in less than a minute' => '',
-        'a minute ago' => '',
-        'in a minute' => '',
-        '%s minutes ago' => '',
-        'in %s minutes' => '',
-        'about an hour ago' => '',
-        'in an hour' => '',
-        'about %s hours ago' => '',
-        'in %s hours' => '',
-        'a day ago' => '',
-        'in a day' => '',
-        '%s days ago' => '',
-        'in %s days' => '',
-        'about a month ago' => '',
-        'in a month' => '',
-        'about %s months ago' => '',
-        'in %s months' => '',
-        'about a year ago' => '',
-        'over a year ago' => '',
-        'almost %s years ago' => '',
-        'about %s years ago' => '',
-        'over %s years ago' => '',
-        'in a year' => '',
-        'in over a year' => '',
-        'in almost %s years' => '',
-        'in %s years' => '',
-        'in over %s years' => '',
         'Show Tree Selection' => 'Pokaż wybór drzewa',
         'Split Quote' => 'Podziel cytując',
         'Remove Quote' => '',

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.794840720221607;
+    $Self->{Completeness}        = 0.817295980511571;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -834,17 +834,17 @@ sub Data {
             '',
         'Schedule retry' => '',
         'Should requests causing an error be triggered again at a later time?' =>
-            '',
+            'Должен ли запрос приведший к ошибке повторен позже?',
         'Initial retry interval' => 'Начальный интервал попыток',
         'Interval after which to trigger the first retry.' => 'Интервал, после которого производится первая попытка.',
         'Note: This and all further retry intervals are based on the error handling module execution time for the initial request.' =>
             'Внимание: Этот и последующие интервалы между попытками основаны на времени выполнения обработчика ошибок после первого запроса.',
         'Factor for further retries' => 'Фактор для дальнейших попыток',
         'If a request returns an error even after a first retry, define if subsequent retries are triggered using the same interval or in increasing intervals.' =>
-            '',
+            'Задать, если первый запрос вызвал ошибку, то последующие должны выполняться через такой же или увеличивающийся интервал.',
         'Example: If a request is initially triggered at 10:00 with initial interval at \'1 minute\' and retry factor at \'2\', retries would be triggered at 10:01 (1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 minutes), ...' =>
             '',
-        'Maximum retry interval' => '',
+        'Maximum retry interval' => 'Максимальный интервал повторных попыток',
         'If a retry interval factor of \'1.5\' or \'2\' is selected, undesirably long intervals can be prevented by defining the largest interval allowed.' =>
             '',
         'Intervals calculated to exceed the maximum retry interval will then automatically be shortened accordingly.' =>
@@ -1059,13 +1059,13 @@ sub Data {
         'The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format).' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.pem' => 'например /opt/otrs/var/certificates/SOAP/certificate.pem',
-        'Client Certificate Key' => '',
+        'Client Certificate Key' => 'Ключ сертификата клиента',
         'The full path and name of the SSL client certificate key file (if not already included in certificate file).' =>
             '',
         'e.g. /opt/otrs/var/certificates/SOAP/key.pem' => 'например /opt/otrs/var/certificates/SOAP/key.pem',
-        'Client Certificate Key Password' => '',
+        'Client Certificate Key Password' => 'Пароль ключа сертификата клиента',
         'The password to open the SSL certificate if the key is encrypted.' =>
-            '',
+            'Пароль для открытия SSL сертификата если ключ зашифрован.',
         'Certification Authority (CA) Certificate' => '',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
             'Полный путь и имя файла сертификата для проверки SSL ',
@@ -1085,7 +1085,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'e.g. https://local.otrs.com:8000/Webservice/Example' => 'например https://local.otrs.com:8000/Webservice/Example',
-        'Set SOAPAction' => '',
+        'Set SOAPAction' => 'Установить SOAPAction',
         'Set to "Yes" in order to send a filled SOAPAction header.' => '',
         'Set to "No" in order to send an empty SOAPAction header.' => '',
         'Set to "Yes" in order to check the received SOAPAction header (if not empty).' =>
@@ -1134,20 +1134,20 @@ sub Data {
             '',
 
         # Template: AdminGenericInterfaceWebservice
-        'Add Web Service' => '',
-        'Edit Web Service' => '',
-        'Clone Web Service' => '',
+        'Add Web Service' => 'Добавить Веб-сервис',
+        'Edit Web Service' => 'Редактировать Веб-сервис',
+        'Clone Web Service' => 'Клонировать Веб-сервис.',
         'The name must be unique.' => 'Имя должно быть уникальным',
         'Clone' => 'Скопировать',
-        'Export Web Service' => '',
+        'Export Web Service' => 'Экспортировать Веб-сервис.',
         'Import web service' => 'Импорт Веб-сервиса',
         'Configuration File' => 'Файл конфигурации',
         'The file must be a valid web service configuration YAML file.' =>
             'Файл должен быть файлом конфигурации веб-сервисов формата YAML.',
         'Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name.' =>
-            '',
+            'Здесь вы можете указать имя веб-сервиса. Если оставлено пустым, в качестве имени используется название конфигурационного файла.',
         'Import' => 'Импорт',
-        'Configuration History' => '',
+        'Configuration History' => 'История конфигурации.',
         'Delete web service' => 'Удалить Веб-сервис',
         'Do you really want to delete this web service?' => 'Вы действительно желаете удалить этот веб-сервис',
         'Ready-to-run Web Services' => 'Готовые к работе Веб-сервисы',
@@ -1172,11 +1172,11 @@ sub Data {
         'In requester mode, OTRS uses web services of remote systems.' =>
             'В режиме requester, OTRS использует веб-сервисы удаленной системы.',
         'Network transport' => 'Сетевой транспорт',
-        'Error Handling Modules' => '',
+        'Error Handling Modules' => 'Модули обработки ошибок',
         'Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop.' =>
-            '',
+            'Модули обработки ошибок используются для реагирования в случае ошибок во время связи. Эти модули выполняются в определенном порядке, который можно изменить путем перетаскивания.',
         'Backend' => '',
-        'Add error handling module' => '',
+        'Add error handling module' => 'Добавить модуль обработки ошибок ',
         'Operations are individual system functions which remote systems can request.' =>
             'Операции - это отдельные системные функции которые удаленные системы могут запрашивать.',
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
@@ -1216,7 +1216,7 @@ sub Data {
 
         # Template: AdminLog
         'System Log' => 'Системный журнал',
-        'Filter for Log Entries' => '',
+        'Filter for Log Entries' => 'Фильтр для записей журнала',
         'Here you will find log information about your system.' => 'Здесь вы найдете логи с информацией о вашей системе.',
         'Hide this message' => 'Скрыть это сообщение',
         'Recent Log Entries' => 'Свежие записи в логе',
@@ -1226,21 +1226,21 @@ sub Data {
         # Template: AdminMailAccount
         'Mail Account Management' => 'Управление почтовыми учетными записями',
         'Add Mail Account' => 'Добавить почтовую учетную запись',
-        'Edit Mail Account for host' => '',
-        'and user account' => '',
-        'Filter for Mail Accounts' => '',
-        'Filter for mail accounts' => '',
+        'Edit Mail Account for host' => 'Изменить почтовую учетную запись для хоста',
+        'and user account' => 'add user account???',
+        'Filter for Mail Accounts' => 'Фильтр для учетных записей',
+        'Filter for mail accounts' => 'Фильтр для учетных записей',
         'All incoming emails with one account will be dispatched in the selected queue.' =>
-            '',
+            'Все входящие письма с одной учетной записью будут перенаправлены в выбранную очередь.',
         'If your account is marked as trusted, the X-OTRS headers already existing at arrival time (for priority etc.) will be kept and used, for example in PostMaster filters.' =>
-            '',
+            'Если ваша учётная запись помечена как доверенная, все уже существующие в письмах на момент получения заголовки X-OTRS (для выставления приоритета и прочих данных) будут приняты и использованы, например в фильтрах PostMaster.',
         'Outgoing email can be configured via the Sendmail* settings in %s.' =>
-            '',
+            'Исходящая почта может быть настроена через параметр Sendmail* в %s.',
         'System Configuration' => 'Настройка Системы',
         'Host' => 'Сервер',
         'Delete account' => 'Удалить учетную запись',
         'Fetch mail' => 'Забрать почту',
-        'Do you really want to delete this mail account?' => '',
+        'Do you really want to delete this mail account?' => 'Вы действительно желаете удалить этот почтовый аккаунт?',
         'Password' => 'Пароль',
         'Example: mail.example.com' => 'Пример: mail.example.com',
         'IMAP Folder' => 'Папка IMAP',
@@ -1251,16 +1251,16 @@ sub Data {
         'Edit Mail Account' => 'Изменить почтовую учетную запись',
 
         # Template: AdminNavigationBar
-        'Administration Overview' => '',
-        'Filter for Items' => '',
+        'Administration Overview' => 'Панель администратора',
+        'Filter for Items' => 'Фильтр для элементов',
         'Filter' => 'Фильтр',
-        'Favorites' => '',
+        'Favorites' => 'Избранные',
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
-            '',
-        'Links' => '',
-        'View the admin manual on Github' => '',
-        'No Matches' => '',
-        'Sorry, your search didn\'t match any items.' => '',
+            'Можно добавить отдельные настройки в Избранные кликнув мышкой по "звездочке" справа в списке параметров.',
+        'Links' => 'Ссылки',
+        'View the admin manual on Github' => 'Смотрите руководство администратора на Github',
+        'No Matches' => 'Совпадений не найдено',
+        'Sorry, your search didn\'t match any items.' => 'К сожалению, поиск не дал результатов.',
         'Set as favorite' => 'Назначить избранным',
 
         # Template: AdminNotificationEvent
@@ -1272,19 +1272,19 @@ sub Data {
         'Ticket Filter' => 'Фильтр заявок',
         'Lock' => 'Блокировать',
         'SLA' => 'Уровень обслуживания',
-        'Customer User ID' => '',
+        'Customer User ID' => 'Customer User ID',
         'Article Filter' => 'Фильтр сообщений',
         'Only for ArticleCreate and ArticleSend event' => 'Только для событий ArticleCreate и ArticleSend',
         'Article sender type' => 'Тип отправителя сообщения',
         'If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields.' =>
             'Если ArticleCreate или ArticleSend используется как переключатель события, вы должны задать фильтр для сообщений. Выберите, хотя бы одно из полей фильтра.',
-        'Customer visibility' => '',
-        'Communication channel' => '',
+        'Customer visibility' => 'Видимость клиента?',
+        'Communication channel' => 'Канал связи',
         'Include attachments to notification' => 'Включить вложения в уведомление',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Уведомить пользователя только раз в день для каждой отдельной заявки, используя указанный способ доставки.',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Данное поле обязательно и должно быть менее 4000 символов.',
         'Notifications are sent to an agent or a customer.' => 'Уведомления отправляются агенту или клиенту',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'Первые 20 символов темы из последнего сообщения агента',
@@ -1306,7 +1306,7 @@ sub Data {
 
         # Template: AdminNotificationEventTransportEmailSettings
         'You can use OTRS-tags like <OTRS_TICKET_DynamicField_...> to insert values from the current ticket.' =>
-            '',
+            'Вы можете использовать OTRS-тэги типа <OTRS_TICKET_DynamicField_...> для вставки значений из текущей заявки.',
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => 'Упровление %s',
@@ -1347,17 +1347,17 @@ sub Data {
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Соединение с cloud.otrs.com по HTTPS не может быть установлено. Убедитесь, что ваша система OTRS использует порт 443 для соединения с cloud.otrs.com.',
         'Package installation requires patch level update of OTRS.' => 'Установка пакета требует обновление OTRS уровня патч.',
-        'Please visit our customer portal and file a request.' => '',
-        'Everything else will be done as part of your contract.' => '',
-        'Your installed OTRS version is %s.' => '',
+        'Please visit our customer portal and file a request.' => 'Посетите наш клиентский портал и отправьте запрос.',
+        'Everything else will be done as part of your contract.' => 'Все остальное будет сделано в рамках вашего контракта.',
+        'Your installed OTRS version is %s.' => 'Установлена OTRS версии %s.',
         'To install this package, you need to update to OTRS %s or higher.' =>
-            '',
-        'To install this package, the Maximum OTRS Version is %s.' => '',
+            'Для установки пакета необходимо обновить OTRS до версии %s или выше.',
+        'To install this package, the Maximum OTRS Version is %s.' => 'Для установки пакета необходима версия OTRS не выше %s.',
         'To install this package, the required Framework version is %s.' =>
             'Для установки этого пакета требуется Framework версии %s',
         'Why should I keep OTRS up to date?' => 'Почему я должен постоянно обновлять OTRS?',
-        'You will receive updates about relevant security issues.' => '',
-        'You will receive updates for all other relevant OTRS issues' => '',
+        'You will receive updates about relevant security issues.' => 'Вы получите обновления о соответствующих выпусках безопасности.',
+        'You will receive updates for all other relevant OTRS issues' => 'Вы получите обновления для всех других соответствующих вопросов OTRS',
         'With your existing contract you can only use a small part of the %s.' =>
             'Ваш существующий контракт позволяет использовать лишь малую часть возможностей %s.',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
@@ -1407,7 +1407,7 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Управление пакетами',
-        'Uninstall Package' => '',
+        'Uninstall Package' => 'Деинсталлировать пакет',
         'Uninstall package' => 'Деинсталлировать пакет',
         'Do you really want to uninstall this package?' => 'Удалить этот пакет?',
         'Reinstall package' => 'Переустановить пакет',
@@ -1416,22 +1416,22 @@ sub Data {
         'Go to upgrading instructions' => 'Перейти к инструкциям по обновлению',
         'package information' => 'Информация о пакете',
         'Package installation requires a patch level update of OTRS.' => 'Установка пакета требует обновления уровня патчей OTRS.',
-        'Package update requires a patch level update of OTRS.' => '',
+        'Package update requires a patch level update of OTRS.' => 'Обновление пакета требует обновления уровня патчей OTRS.',
         'If you are a OTRS Business Solution™ customer, please visit our customer portal and file a request.' =>
-            '',
-        'Please note that your installed OTRS version is %s.' => '',
+            'Если вы являетесь покупателем OTRS Business Solution™ посетите наш клиентский портал и отправьте запрос.',
+        'Please note that your installed OTRS version is %s.' => 'Установлена OTRS версии %s.',
         'To install this package, you need to update OTRS to version %s or newer.' =>
-            '',
+            'Для установки пакета необходимо обновить OTRS до версии %s или выше.',
         'This package can only be installed on OTRS version %s or older.' =>
-            '',
+            'Этот пакет может быть установлен для версий OTRS не выше %s.',
         'This package can only be installed on OTRS version %s or newer.' =>
-            '',
+            'Этот пакет может быть установлен на OTRS версии не ниже %s.',
         'You will receive updates for all other relevant OTRS issues.' =>
-            '',
+            'Вы получите обновления для всех других соответствующих вопросов OTRS.',
         'How can I do a patch level update if I don’t have a contract?' =>
-            '',
+            'Как я могу выполнить обновление уровня патч если у меня нет контракта?',
         'Please find all relevant information within the upgrading instructions at %s.' =>
-            '',
+            'Пожалуйста, найдите всю необходимую информацию в инструкциях по обновлению в %s.',
         'In case you would have further questions we would be glad to answer them.' =>
             'В случае, если у Вас возникли вопросы, мы будем рады ответить на них.',
         'Install Package' => 'Установить пакет',
@@ -1472,7 +1472,7 @@ sub Data {
         'Primary Key' => 'Главный ключ',
         'Auto Increment' => 'Авто инкремент',
         'SQL' => 'SQL',
-        'File Differences for File %s' => '',
+        'File Differences for File %s' => 'Перечень различий для файла %s',
         'File differences for file %s' => 'Файл различий для файла %s',
 
         # Template: AdminPerformanceLog
@@ -1504,8 +1504,8 @@ sub Data {
         'Add PostMaster Filter' => 'Добавить фильтр PostMaster-а',
         'Edit PostMaster Filter' => 'Редактировать фильтр PostMaster-а',
         'Add filter' => 'Добавить фильтр',
-        'Filter for Postmaster Filters' => '',
-        'Filter for postmaster filters' => '',
+        'Filter for Postmaster Filters' => 'Фильтр для фильтров PostMaster-а',
+        'Filter for postmaster filters' => 'Фильтр для фильтров PostMaster-а',
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Для распределения или фильтрации входящей электронной почты по заголовкам. Возможна также проверка и с использованием регулярных выражений.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
@@ -1515,18 +1515,18 @@ sub Data {
         'You can also use named captures %s and use the names in the \'Set\' action %s (e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name \'%s\'.' =>
             '',
         'Delete this filter' => 'Удалить этот фильтр',
-        'Do you really want to delete this postmaster filter?' => '',
+        'Do you really want to delete this postmaster filter?' => 'Вы действительно желаете удалить этот фильтр?',
         'A postmaster filter with this name already exists!' => 'Фильтр postmaster с этим имением уже существует!',
         'Filter Condition' => 'Условие фильтра',
         'AND Condition' => 'Условие "И"(AND)',
-        'Search header field' => '',
-        'for value' => '',
+        'Search header field' => 'Найти поле заголовка',
+        'for value' => 'для значения',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Это поле должно быть корректным регулярным выражением либо буквально совпадающей строкой.',
         'Negate' => 'Отрицание ("НЕ")',
         'Set Email Headers' => 'Выставить заголовки письма',
         'Set email header' => 'Выставить заголовок письма',
-        'with value' => '',
+        'with value' => 'Со значением',
         'The field needs to be a literal word.' => 'Значение поля должно быть литералом.',
         'Header' => 'Заголовок',
 
@@ -1534,11 +1534,11 @@ sub Data {
         'Priority Management' => 'Управление приоритетами',
         'Add Priority' => 'Создать приоритет',
         'Edit Priority' => 'Изменить приоритет',
-        'Filter for Priorities' => '',
-        'Filter for priorities' => '',
+        'Filter for Priorities' => 'Фильтр для Приоритетов',
+        'Filter for priorities' => 'Фильтр для Приоритетов',
         'This priority is present in a SysConfig setting, confirmation for updating settings to point to the new priority is needed!' =>
-            '',
-        'This priority is used in the following config settings:' => '',
+            'Это значение приоритета указано в настройках SysConfig, требуется подтверждение для обновления настроек для его использования в системе!',
+        'This priority is used in the following config settings:' => 'Этот приоритет используется в следующих параметрах конфигурации:',
 
         # Template: AdminProcessManagement
         'Process Management' => 'Управление Процессами',
@@ -1551,9 +1551,9 @@ sub Data {
         'Import process configuration' => 'Импортировать конфигурацию Процесса',
         'Ready-to-run Processes' => 'Готовый к запуску процесс',
         'Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.' =>
-            '',
+            'Здесь вы можете включить примеры процессов, основанные на лучших практиках. Пожалуйста, обратите внимание, что могут потребоваться некоторые дополнительные настройки.',
         'Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.' =>
-            '',
+            'Хотели бы вы извлечь выгоду, воспользовавшись процессами, созданными экспертами? Обновитесь до %s, чтобы получить возможность импортировать некоторые примеры сложных процессов.',
         'Import ready-to-run process' => 'Импортировать готовый к запуску процесс',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             'Для создания нового Процесса вы можете импортировать Процесс экспортированный из другой системы или создать полностью новый.',
@@ -1606,8 +1606,8 @@ sub Data {
         'Available Fields' => 'Доступные поля',
         'Name: %s' => 'Имя: %s',
         'Assigned Fields' => 'Назначенные поля',
-        'Communication Channel' => '',
-        'Is visible for customer' => '',
+        'Communication Channel' => 'Канал связи',
+        'Is visible for customer' => 'Виден клиенту',
         'Display' => 'Отобразить',
 
         # Template: AdminProcessManagementPath
@@ -1705,10 +1705,10 @@ sub Data {
         'Add Queue' => 'Добавить Очередь',
         'Edit Queue' => 'Изменить очередь',
         'Filter for Queues' => 'Фильтр для Очередей',
-        'Filter for queues' => '',
+        'Filter for queues' => 'Фильтр для Очередей',
         'A queue with this name already exists!' => 'Очередь с таким именем уже существует!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
-            '',
+            'Эта очередь указана в настройках SysConfig, требуется подтверждение для обновления настроек для её использования в системе!',
         'Sub-queue of' => 'Подочередь для',
         'Unlock timeout' => 'Срок блокировки',
         '0 = no unlock' => '0 = не разблокировать',
@@ -1737,15 +1737,15 @@ sub Data {
         'The salutation for email answers.' => 'Приветствие для писем',
         'Signature' => 'Подпись',
         'The signature for email answers.' => 'Подпись для писем',
-        'This queue is used in the following config settings:' => '',
+        'This queue is used in the following config settings:' => 'Эта очередь используется в следующих параметрах конфигурации:',
 
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Связь Очереди с Автоответами',
         'Change Auto Response Relations for Queue' => 'Изменить Автоответ для Очереди',
         'This filter allow you to show queues without auto responses' => 'Этот фильтр позволяет показать очереди без автоответа',
-        'Queues without Auto Responses' => '',
+        'Queues without Auto Responses' => 'Очереди без автоответов',
         'This filter allow you to show all queues' => 'Этот фильтр позволяет показать все очереди',
-        'Show All Queues' => '',
+        'Show All Queues' => 'Показать все очереди',
         'Auto Responses' => 'Автоответы',
 
         # Template: AdminQueueTemplates
@@ -1755,10 +1755,10 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => 'Управление регистрацией',
-        'Edit System Registration' => '',
-        'System Registration Overview' => '',
+        'Edit System Registration' => 'Изменить System Registration',
+        'System Registration Overview' => 'Обзор настроек System Registration',
         'Register System' => '',
-        'Validate OTRS-ID' => '',
+        'Validate OTRS-ID' => 'Подтвердить OTRS-ID',
         'Deregister System' => 'Удалить зарегистрированиую систему(отрегистрировать)',
         'Edit details' => 'Редактировать информацию',
         'Show transmitted data' => 'Показать переданные данные',
@@ -1768,11 +1768,11 @@ sub Data {
         'System type' => 'Тип системы',
         'Unique ID' => 'Уникальный индентификатор',
         'Last communication with registration server' => 'Последняя связь с регистрационным сервером',
-        'System Registration not Possible' => '',
+        'System Registration not Possible' => 'Регистрация системы/System registration невозможна',
         'Please note that you can\'t register your system if OTRS Daemon is not running correctly!' =>
             'Обратите внимание, что вы не сможете зарегистрировать вашу систему если планировщик работает некорректно!',
         'Instructions' => 'Инструкции',
-        'System Deregistration not Possible' => '',
+        'System Deregistration not Possible' => 'Разрегистрация/System Deregistration системы невозможна',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             'Помните, что вы не можете разрегистрировать свою систему, если используете %s или имеете действующий контракт на поддержку.',
         'OTRS-ID Login' => 'Уч. запись OTRS-ID',
@@ -1829,7 +1829,7 @@ sub Data {
             'Продолжите этот шаг и вы удалите зарегистрированиую ситему из скписка OTRS Group.',
         'Deregister' => 'Удалить регистрацию',
         'You can modify registration settings here.' => 'Вы можете изменить параметры регистрации здесь.',
-        'Overview of Transmitted Data' => '',
+        'Overview of Transmitted Data' => 'Обзор переданных данных',
         'There is no data regularly sent from your system to %s.' => 'Отсутствуют, регулярно пересылаемые, данные от вашей системы в %s.',
         'The following data is sent at minimum every 3 days from your system to %s.' =>
             'Следующие данные отсылаются, как минимум, каждые 3 дня из вашей системы в %s.',
@@ -1843,7 +1843,7 @@ sub Data {
         'Add Role' => 'Добавить роль',
         'Edit Role' => 'Изменить роль',
         'Filter for Roles' => 'Фильтр для Ролей',
-        'Filter for roles' => '',
+        'Filter for roles' => 'Фильтр для Ролей',
         'Create a role and put groups in it. Then add the role to the users.' =>
             'Создайте роль и добавьте в неё группы. Затем распределите роли по пользователям.',
         'There are no roles defined. Please use the \'Add\' button to create a new role.' =>
@@ -1881,7 +1881,7 @@ sub Data {
         'SLA Management' => 'Управление SLA',
         'Edit SLA' => 'Изменить SLA',
         'Add SLA' => 'Добавить SLA',
-        'Filter for SLAs' => '',
+        'Filter for SLAs' => 'Фильтр для SLA',
         'Please write only numbers!' => 'Сюда можно писать только числа!',
 
         # Template: AdminSMIME
@@ -1898,7 +1898,7 @@ sub Data {
         'Check SMIME configuration' => 'Проверить настройки SMIME ',
         'Add certificate' => 'Добавить сертификат',
         'Add private key' => 'Добавить закрытый ключ',
-        'Filter for Certificates' => '',
+        'Filter for Certificates' => 'Фильтр для сертификатов',
         'Filter for S/MIME certs' => 'Фильтр для  S/MIME сертификатов',
         'To show certificate details click on a certificate icon.' => 'Для показа подробностей сертификата нажмите на иконку сертификата.',
         'To manage private certificate relations click on a private key icon.' =>
@@ -1923,20 +1923,20 @@ sub Data {
         # Template: AdminSMIMECertRead
         'S/MIME Certificate' => 'Сертификат S/MIME',
         'Close dialog' => 'Закрыть диалог',
-        'Certificate Details' => '',
+        'Certificate Details' => 'Содержание сертификата',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Управление приветствиями',
         'Add Salutation' => 'Добавить приветствие',
         'Edit Salutation' => 'Редактировать приветствие',
         'Add salutation' => 'Добавить приветствие',
-        'Filter for Salutations' => '',
-        'Filter for salutations' => '',
+        'Filter for Salutations' => 'Фильтр для Приветствий',
+        'Filter for salutations' => 'Фильтр для Приветствий',
         'e. g.' => 'например,',
         'Example salutation' => 'Пример приветствия',
 
         # Template: AdminSecureMode
-        'Secure Mode Needs to be Enabled!' => '',
+        'Secure Mode Needs to be Enabled!' => 'Необходимо включить безопасный режим!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'После установки системы обычно сразу же включают безопасный режим.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
@@ -1965,14 +1965,14 @@ sub Data {
         'Add Service' => 'Добавить Сервис',
         'Edit Service' => 'Изменить Сервис',
         'Add service' => 'Добавить сервис',
-        'Filter for services' => '',
+        'Filter for services' => 'Фильтр для Сервисов',
         'Service name maximum length is 200 characters (with Sub-service).' =>
-            '',
+            'Максимальная длина названия сервиса 200 символов (с подсервисами).',
         'Sub-service of' => 'Подсервис сервиса',
 
         # Template: AdminSession
         'Session Management' => 'Управление сеансами',
-        'Detail Session View for' => '',
+        'Detail Session View for' => 'Подробный показ сеансов для',
         'All sessions' => 'Все сеансы',
         'Agent sessions' => 'Сеансы агента',
         'Customer sessions' => 'Сеансы клиента',
@@ -1980,8 +1980,8 @@ sub Data {
         'Unique customers' => 'Уникальные клиенты',
         'Kill all sessions' => 'Завершить все сеансы',
         'Kill this session' => 'Завершить сеанс',
-        'Filter for Sessions' => '',
-        'Filter for sessions' => '',
+        'Filter for Sessions' => 'Фильтр для сеансов',
+        'Filter for sessions' => 'Фильтр для сеансов',
         'Session' => 'Сеанс',
         'User' => 'Пользователь',
         'Kill' => 'Завершить',
@@ -1992,22 +1992,22 @@ sub Data {
         'Add Signature' => 'Добавить Подпись',
         'Edit Signature' => 'Изменить подпись',
         'Add signature' => 'Добавить подпись',
-        'Filter for Signatures' => '',
-        'Filter for signatures' => '',
+        'Filter for Signatures' => 'Фильтр для Подписей',
+        'Filter for signatures' => 'Фильтр для Подписей',
         'Example signature' => 'Пример подписи',
 
         # Template: AdminState
         'State Management' => 'Управление состояниями',
         'Add State' => 'Добавить состояние',
         'Edit State' => 'Изменить состояние',
-        'Filter for States' => '',
-        'Filter for states' => '',
+        'Filter for States' => 'Фильтр для состояний',
+        'Filter for states' => 'Фильтр для состояний',
         'Attention' => 'Внимание',
         'Please also update the states in SysConfig where needed.' => 'Пожалуйста, обновите также состояния и в Конфигурации Системы (там, где необходимо).',
         'This state is present in a SysConfig setting, confirmation for updating settings to point to the new type is needed!' =>
-            '',
+            'Это состояние указано в настройках SysConfig, требуется подтверждение для обновления настроек для использования нового типа в системе!',
         'State type' => 'Тип состояния',
-        'This state is used in the following config settings:' => '',
+        'This state is used in the following config settings:' => 'Это состояние используется в следующих параметрах конфигурации:',
 
         # Template: AdminSupportDataCollector
         'Sending support data to OTRS Group is not possible!' => 'Отправка необходимых данных в OTRS Group невозможна!',
@@ -2021,7 +2021,7 @@ sub Data {
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Пакет поддержки (включая сведения о регистрации системы, данные поддержки, список установленных пакетов и локально изменённые файлы с исходным кодом) можно сгенерировать нажатием этой кнопки:',
         'Generate Support Bundle' => 'Сгенерировать пакет поддержки',
-        'The Support Bundle has been Generated' => '',
+        'The Support Bundle has been Generated' => 'Пакет поддержки сгенерирован.',
         'Please choose one of the following options.' => 'Пожалуйста, выберите одну из следующих опций.',
         'Send by Email' => 'Отправить электронной почтой',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
@@ -2041,28 +2041,28 @@ sub Data {
         'System Email Addresses Management' => 'Управление системными адресами электронной почты',
         'Add System Email Address' => 'Добавить системный адрес электронной почты',
         'Edit System Email Address' => 'Редактировать системный адрес электронной почты',
-        'Add System Address' => '',
-        'Filter for System Addresses' => '',
-        'Filter for system addresses' => '',
+        'Add System Address' => 'Добавить системный адрес',
+        'Filter for System Addresses' => 'Фильтр для системных адресов',
+        'Filter for system addresses' => 'Фильтр для системных адресов',
         'All incoming email with this address in To or Cc will be dispatched to the selected queue.' =>
             'Вся входящая электронная почта с этим адресом в To или Cc будет направлена в выбранную очередь.',
         'Email address' => 'Адрес электронной почты',
         'Display name' => 'Отображаемое имя',
-        'This email address is already used as system email address.' => '',
+        'This email address is already used as system email address.' => 'Этот адрес электронной почты уже используется как системный адрес.',
         'The display name and email address will be shown on mail you send.' =>
             'Отображаемое имя и адрес электронной почты будут показываться в отправляемой вами почте.',
         'This system address cannot be set to invalid, because it is used in one or more queue(s).' =>
-            '',
+            'Этот системный адрес электронной почты не может быть сделан недействительным, так как он используется как минимум в одной очереди.',
 
         # Template: AdminSystemConfiguration
-        'online administrator documentation' => '',
+        'online administrator documentation' => 'онлайн-руководство администратора',
         'System configuration' => 'Системная конфигурация',
         'Navigate through the available settings by using the tree in the navigation box on the left side.' =>
-            '',
+            'Перемещайтесь по доступным настройкам, используя дерево в окне навигации слева.',
         'Find certain settings by using the search field below or from search icon from the top navigation.' =>
-            '',
+            'Найдите нужные настройки, используя поле поиска ниже или значок поиска из верхней панели навигации.  ',
         'Find out how to use the system configuration by reading the %s.' =>
-            '',
+            'Об использовании системных настроек можно почитать в %s.',
         'Search in all settings...' => 'Искать среди всех настроек...',
         'There are currently no settings available. Please make sure to run \'otrs.Console.pl Maint::Config::Rebuild\' before using the software.' =>
             '',
@@ -3274,7 +3274,7 @@ sub Data {
         'Go back to the previous page' => 'Перейти на предыдущую страницу',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => 'Показать',
 
         # JS Template: FormDraftAddDialog
         'Draft title' => '',
@@ -4512,35 +4512,6 @@ sub Data {
         '%s B' => '',
         'No Permission!' => 'Нет прав доступа!',
         'No Permission' => 'Нет разрешения',
-        'just now' => 'только что',
-        'less than a minute ago' => 'меньше чем минуту назад',
-        'in less than a minute' => 'меньше минуты',
-        'a minute ago' => 'минуту назад',
-        'in a minute' => '',
-        '%s minutes ago' => '',
-        'in %s minutes' => '',
-        'about an hour ago' => '',
-        'in an hour' => '',
-        'about %s hours ago' => '',
-        'in %s hours' => '',
-        'a day ago' => '',
-        'in a day' => '',
-        '%s days ago' => '',
-        'in %s days' => '',
-        'about a month ago' => '',
-        'in a month' => '',
-        'about %s months ago' => '',
-        'in %s months' => '',
-        'about a year ago' => '',
-        'over a year ago' => '',
-        'almost %s years ago' => '',
-        'about %s years ago' => '',
-        'over %s years ago' => '',
-        'in a year' => '',
-        'in over a year' => '',
-        'in almost %s years' => '',
-        'in %s years' => '',
-        'in over %s years' => '',
         'Show Tree Selection' => 'Показать в виде дерева',
         'Split Quote' => 'Разделить очередь',
         'Remove Quote' => 'Удалить очередь',

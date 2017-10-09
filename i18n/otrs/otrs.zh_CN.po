@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
-"POT-Creation-Date: 2017-10-05 14:30+0000\n"
-"PO-Revision-Date: 2017-10-05 14:32+0000\n"
+"POT-Creation-Date: 2017-10-09 16:06+0000\n"
+"PO-Revision-Date: 2017-10-09 16:24+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otrs/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -4168,7 +4168,7 @@ msgstr "客户可见度"
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
-msgstr "通信频道"
+msgstr "通信渠道"
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
@@ -5218,7 +5218,7 @@ msgstr "分配的字段"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Communication Channel"
-msgstr "通信频道"
+msgstr "通信渠道"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
@@ -10144,7 +10144,7 @@ msgstr "返回前一页"
 
 #. JS Template: CalendarSettingsDialog
 msgid "Show"
-msgstr ""
+msgstr "显示"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
@@ -13679,122 +13679,6 @@ msgid "No Permission"
 msgstr "没有权限"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "just now"
-msgstr "立即"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "less than a minute ago"
-msgstr "不到 1 分钟前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in less than a minute"
-msgstr "不到 1 分钟"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a minute ago"
-msgstr "1 分钟前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a minute"
-msgstr "在 1 分钟内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s minutes ago"
-msgstr "%s 分钟前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s minutes"
-msgstr "在 % 分钟内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about an hour ago"
-msgstr "约 1 小时前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in an hour"
-msgstr " 1 小时内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s hours ago"
-msgstr "约%s 小时前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s hours"
-msgstr "%s 小时内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "a day ago"
-msgstr "1 天前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a day"
-msgstr "1 天内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "%s days ago"
-msgstr "%s 天前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s days"
-msgstr "%s 天内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a month ago"
-msgstr "约 1 月前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a month"
-msgstr "1 月内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s months ago"
-msgstr "约%s 月前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s months"
-msgstr "%s 月内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about a year ago"
-msgstr "1 年（过3个月内）前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over a year ago"
-msgstr "1 年（3-9个月内）前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "almost %s years ago"
-msgstr "（差3个月以内）%s 年前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "about %s years ago"
-msgstr "约%s 年（过3个月内）前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "over %s years ago"
-msgstr "%s年（过3-9个月）前"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in a year"
-msgstr "1 年内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over a year"
-msgstr "1 年（过3-9个月）内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in almost %s years"
-msgstr "（差3个月以内）%s 年内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in %s years"
-msgstr "%s 年内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
-msgid "in over %s years"
-msgstr "%s 年（3-9个月）内"
-
-#. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"
 msgstr "显示树状选项"
 
@@ -14903,7 +14787,7 @@ msgstr "索引过的信件"
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/ArticlesPerCommunicationChannel.pm
 msgid "Articles Per Communication Channel"
-msgstr "信件/通信通道"
+msgstr "信件/通信渠道"
 
 #. Perl Module:
 #. Kernel/System/SupportDataCollector/Plugin/OTRS/CommunicationLog.pm
@@ -16079,7 +15963,7 @@ msgstr "请求详细信息"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Request Details for Communication ID"
-msgstr "请求通信ID的详细信息"
+msgstr "通信ID的请求详细信息"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Show or hide the content."
@@ -17870,7 +17754,7 @@ msgstr "变更工单所有者为所有人（ASP有用），一般只显示这个
 
 #. SysConfig
 msgid "Chat communication channel."
-msgstr "聊天通信频道。"
+msgstr "聊天通信渠道。"
 
 #. SysConfig
 msgid "Checkbox"
@@ -18050,7 +17934,7 @@ msgstr "通信和通知"
 
 #. SysConfig
 msgid "Communication Log GUI"
-msgstr "通信日志GUI"
+msgstr "通信日志图形用户界面"
 
 #. SysConfig
 msgid "Communication log limit per page for CommunicationLog Overview"
@@ -18806,7 +18690,7 @@ msgstr "为管理员概览屏幕定义可用组。"
 
 #. SysConfig
 msgid "Defines chat communication channel."
-msgstr "定义聊天通信频道。"
+msgstr "定义聊天通信渠道。"
 
 #. SysConfig
 msgid "Defines default headers for outgoing emails."
@@ -19092,7 +18976,7 @@ msgstr "定义在批量操作中是否设置所有工单的工时管理。"
 
 #. SysConfig
 msgid "Defines internal communication channel."
-msgstr "定义内部通信频道。"
+msgstr "定义内部通信渠道。"
 
 #. SysConfig
 msgid ""
@@ -19102,7 +18986,7 @@ msgstr "定义不在办公室的消息模板。有两个字符串参数（%s）�
 
 #. SysConfig
 msgid "Defines phone communication channel."
-msgstr "定义电话通信频道。"
+msgstr "定义电话通信渠道。"
 
 #. SysConfig
 msgid ""
@@ -22284,7 +22168,7 @@ msgstr "界面语言"
 
 #. SysConfig
 msgid "Internal communication channel."
-msgstr "内部通信频道。"
+msgstr "内部通信渠道。"
 
 #. SysConfig
 msgid "International Workers' Day"
@@ -23545,7 +23429,7 @@ msgstr "电话"
 
 #. SysConfig
 msgid "Phone communication channel."
-msgstr "电话通信频道"
+msgstr "电话通信渠道"
 
 #. SysConfig
 msgid "Phone-Ticket"

@@ -24,7 +24,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.996018005540166;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3263,31 +3263,31 @@ sub Data {
         'Go back to the previous page' => 'Zurück zur vorhergehenden Seite',
 
         # JS Template: CalendarSettingsDialog
-        'Show' => '',
+        'Show' => 'Anzeigen',
 
         # JS Template: FormDraftAddDialog
-        'Draft title' => '',
+        'Draft title' => 'Draft-Titel',
 
         # JS Template: ArticleViewSettingsDialog
-        'Article display' => '',
+        'Article display' => 'Artikel-Anzeige',
 
         # JS Template: FormDraftDeleteDialog
-        'Do you really want to delete "%s"?' => '',
+        'Do you really want to delete "%s"?' => 'Möchten Sie "%s" wirklich löschen?',
         'Confirm' => 'Bestätigen',
 
         # JS Template: WidgetLoading
-        'Loading, please wait...' => '',
+        'Loading, please wait...' => 'Lade, bitte warten...',
 
         # JS Template: UploadContainer
-        'Click to select files or just drop them here.' => '',
-        'Click to select a file or just drop it here.' => '',
-        'Uploading...' => '',
+        'Click to select files or just drop them here.' => 'Klicken zum Auswählen oder Dateien einfach hier ablegen.',
+        'Click to select a file or just drop it here.' => 'Klicken zum Auswählen oder Datei einfach hier ablegen.',
+        'Uploading...' => 'Wird hochgeladen...',
 
         # JS Template: InformationDialog
-        'Process state' => '',
-        'Running' => '',
+        'Process state' => 'Prozess-Status',
+        'Running' => 'Laufend',
         'Finished' => 'Fertig',
-        'No package information available.' => '',
+        'No package information available.' => 'Keine Paket-Informationen verfügbar.',
 
         # JS Template: AddButton
         'Add new entry' => 'Eintrag hinzufügen',
@@ -3296,26 +3296,26 @@ sub Data {
         'Add key' => 'Schlüssel hinzufügen',
 
         # JS Template: DialogDeployment
-        'Deployment comment...' => '',
-        'Deploying, please wait...' => '',
+        'Deployment comment...' => 'Kommentar zur Inbetriebnahme...',
+        'Deploying, please wait...' => 'Inbetriebnahme läuft, bitte warten...',
         'Preparing to deploy, please wait...' => 'Inbetriebnahme wird vorbereitet, bitte warten...',
-        'Deploy now' => '',
+        'Deploy now' => 'Jetzt in Betrieb nehmen',
         'Close' => 'Schließen',
-        'Try again' => '',
+        'Try again' => 'Nochmals versuchen',
 
         # JS Template: DialogReset
-        'Reset options' => '',
-        'Reset setting on global level.' => '',
-        'Reset globally' => '',
-        'Remove all user changes.' => '',
-        'Reset locally' => '',
-        'user(s) have modified this setting.' => '',
+        'Reset options' => 'Einstellung zurücksetzen',
+        'Reset setting on global level.' => 'Einstellung global zurücksetzen',
+        'Reset globally' => 'Global zurücksetzen',
+        'Remove all user changes.' => 'Alle Benutzereinstellungen entfernen.',
+        'Reset locally' => 'Lokal zurücksetzen',
+        'user(s) have modified this setting.' => 'Benutzer verwenden modifizierte Versionen dieser Einstellung.',
         'Do you really want to reset this setting to it\'s default value?' =>
-            '',
+            'Möchten Sie diese Einstellung wirklich auf ihren Standardwert zurücksetzen?',
 
         # JS Template: HelpDialog
         'You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built.' =>
-            '',
+            'Sie können die Kategorieauswahl nutzen, um den Navigationsbaum auf Einträge aus der gewählten Kategorie einzuschränken. Sobald Sie einen Eintrag wählen, wird der Baum automatisch neu aufgebaut.',
 
         # Perl Module: Kernel/Config/Defaults.pm
         'Database Backend' => 'Datenbank-Backend',
@@ -4501,35 +4501,6 @@ sub Data {
         '%s B' => '%s B',
         'No Permission!' => 'Keine Zugriffsrechte!',
         'No Permission' => 'Keine Berechtigung',
-        'just now' => 'gerade eben',
-        'less than a minute ago' => 'vor weniger als einer Minute',
-        'in less than a minute' => 'in weniger als eine Minute',
-        'a minute ago' => 'vor einer Minute',
-        'in a minute' => 'in einer Minute',
-        '%s minutes ago' => 'vor %s Minuten',
-        'in %s minutes' => 'in %s Minuten',
-        'about an hour ago' => 'vor etwa einer Stunde',
-        'in an hour' => 'in einer Stunde',
-        'about %s hours ago' => 'vor etwa %s Stunden',
-        'in %s hours' => 'in %s Stunden',
-        'a day ago' => 'vor einem Tag',
-        'in a day' => 'in einem Tag',
-        '%s days ago' => 'vor %s Tagen',
-        'in %s days' => 'in %s Tagen',
-        'about a month ago' => 'vor etwa einem Monat',
-        'in a month' => 'in einem Monat',
-        'about %s months ago' => 'vor etwa %s Monaten',
-        'in %s months' => 'in %s Monaten',
-        'about a year ago' => 'vor etwa einem Jahr',
-        'over a year ago' => 'vor mehr als einem Jahr',
-        'almost %s years ago' => 'vor fast %s Jahren',
-        'about %s years ago' => 'vor etwa %s Jahren',
-        'over %s years ago' => 'vor mehr als %s Jahren',
-        'in a year' => 'in einem Jahr',
-        'in over a year' => 'in mehr als einem Jahr',
-        'in almost %s years' => 'in fast %s Jahren',
-        'in %s years' => 'in %s Jahren',
-        'in over %s years' => 'in mehr als %s Jahren',
         'Show Tree Selection' => 'Baumauswahl anzeigen',
         'Split Quote' => 'Zitat aufteilen',
         'Remove Quote' => 'Zitat entfernen',
