@@ -28,14 +28,13 @@ my $Running      = $Kernel::OM->Get('Kernel::System::Cache')->Set(
 $Selenium->RunTest(
     sub {
 
-        # get needed objects
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # get needed variables
+        # Get needed variables.
         my $Daemon   = $ConfigObject->Get('Home') . '/bin/otrs.Daemon.pl';
         my $RandomID = $Helper->GetRandomID();
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -46,20 +45,71 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # navigate to AdminRegistration screen
+        # Navigate to AdminRegistration screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminRegistration");
 
-        # check breadcrumb on Overview screen
+        # Check breadcrumb on Overview screen.
         $Self->Is(
             $Selenium->execute_script("return \$('.BreadCrumb li:eq(1)').text().trim()"),
             'System Registration Management',
             "Breadcrumb text 'System Registration Management' is found on screen"
         );
 
-        # create test cases with different field values
+        # Create a fake cloud service response with public feed data.
+        my $CloudServiceResponse = {
+            Success      => '1',
+            ErrorMessage => '',
+            Results      => {
+                SystemRegistration => [
+                    {
+                        Success      => '0',
+                        ErrorMessage => 'Wrong OTRSID or Password',
+                        Operation    => 'TokenGet',
+                        Data         => {
+                            Auth   => 'invalid',
+                            Reason => 'Wrong OTRSID or Password',
+                            }
+                    },
+                ],
+            },
+        };
+        my $CloudServiceResponseJSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
+            Data   => $CloudServiceResponse,
+            Pretty => 1,
+        );
+
+        # Override Request() from WebUserAgent to always return some test data without making any
+        #   actual web service calls. This should prevent instability in case cloud services are
+        #   unavailable at the exact moment of this test run.
+        my $CustomCode = <<"EOS";
+sub Kernel::Config::Files::ZZZZUnitTestAdminRegistration${RandomID}::Load {} # no-op, avoid warning logs
+use Kernel::System::WebUserAgent;
+package Kernel::System::WebUserAgent;
+use strict;
+use warnings;
+## nofilter(TidyAll::Plugin::OTRS::Perl::TestSubs)
+{
+    no warnings 'redefine';
+    sub Request {
+        my \$JSONString = q^
+$CloudServiceResponseJSON
+^;
+
+        return (
+            Content => \\\$JSONString,
+            Status  => '200 OK',
+        );
+    }
+}
+1;
+EOS
+        $Helper->CustomCodeActivate(
+            Code       => $CustomCode,
+            Identifier => 'AdminRegistration' . $RandomID,
+        );
+
         my @Tests = (
             {
                 Name  => 'Empty email address field',
@@ -77,36 +127,36 @@ $Selenium->RunTest(
 
         for my $Test (@Tests) {
 
-            # set field values and submit
-            $Selenium->execute_script("\$('#OTRSID').val('$Test->{Value}')");
-            $Selenium->execute_script("\$('#Password').val('$Test->{Value}')");
-            $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#OTRSID",   'css' )->clear();
+            $Selenium->find_element( "#OTRSID",   'css' )->send_keys( $Test->{Value} );
+            $Selenium->find_element( "#Password", 'css' )->clear();
+            $Selenium->find_element( "#Password", 'css' )->send_keys( $Test->{Value} );
+            $Selenium->find_element( "#Submit",   'css' )->click();
 
             if ( $Test->{Name} ne 'Wrong email address' ) {
-                $Self->Is(
-                    $Selenium->execute_script("return \$('#OTRSID').hasClass('Error')"),
-                    '1',
-                    $Test->{Name},
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("#OTRSID.Error").length',
+                );
+                $Self->True(
+                    $Selenium->execute_script("return \$('#OTRSID.Error').length"),
+                    "$Test->{Name} - class Error found",
                 );
             }
             else {
-
-                # wait for message box to show up with the error message
                 $Selenium->WaitFor(
                     JavaScript =>
-                        'return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null',
+                        'return typeof($) === "function" && $("div.MessageBox.Error p:contains(\'Wrong OTRSID or Password\')").length',
                 );
-
                 $Self->True(
                     $Selenium->execute_script(
-                        'return $("div.MessageBox.Error p").text().match(/Wrong OTRSID or Password/) != null',
+                        'return $("div.MessageBox.Error p:contains(\'Wrong OTRSID or Password\')").length',
                     ),
-                    $Test->{Name},
+                    "$Test->{Name} - error message is correct",
                 );
             }
         }
 
-        # create field ID and modal dialog title pairs for different linked texts
+        # Create field ID and modal dialog title pairs for different linked texts.
         my %Dialogs = (
             RegistrationMoreInfo       => 'System Registration',
             RegistrationDataProtection => 'Data Protection',
@@ -114,18 +164,20 @@ $Selenium->RunTest(
 
         for my $Dialog ( sort keys %Dialogs ) {
 
-            # click on the linked text
-            $Selenium->find_element( "#$Dialog", 'css' )->VerifiedClick();
+            # Click on the linked text.
+            $Selenium->find_element( "#$Dialog", 'css' )->click();
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog.Modal").length' );
 
-            # check up if corresponding modal dialog exists on the page
+            # Check up if corresponding modal dialog exists on the page.
             $Self->Is(
-                $Selenium->execute_script("return \$(\$('.Dialog.Modal h1')[0]).text()"),
+                $Selenium->execute_script("return \$('.Dialog.Modal h1:eq(0)').text()"),
                 $Dialogs{$Dialog},
-                "Modal dialog window with title '$Dialogs{$Dialog}' exists on page",
+                "Modal dialog with title '$Dialogs{$Dialog}' - found",
             );
 
-            # close the modal dialog
-            $Selenium->find_element( ".Dialog.Modal .fa.fa-times", 'css' )->VerifiedClick();
+            # Close the modal dialog.
+            $Selenium->find_element( ".Dialog.Modal .fa.fa-times", 'css' )->click();
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
         }
     }
 );
