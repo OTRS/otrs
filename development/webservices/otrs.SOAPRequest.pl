@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,6 @@ use lib dirname($RealBin);
 use SOAP::Lite;
 use Data::Dumper;
 
-# ---
 # Variables to be defined
 
 # this is the URL for the web service
@@ -67,8 +66,6 @@ my $XMLData = '
     <ContentType>text/plain; charset=utf8</ContentType>
 </Article>
 ';
-
-# ---
 
 # create a SOAP::Lite data structure from the provided XML data structure
 my $SOAPData = SOAP::Data->type( 'xml' => $XMLData );

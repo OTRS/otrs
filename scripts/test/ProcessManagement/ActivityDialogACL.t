@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -303,9 +303,9 @@ for my $DynamicFieldConfig ( sort keys %NewDynamicFields ) {
 # remember added dynamic fields
 my @AddedDynamicFields;
 
-# ----------------------------------------
+#
 # Create the dynamic fields for testing
-# ----------------------------------------
+#
 for my $NewFieldName ( sort keys %NewDynamicFields ) {
 
     my $ID = $DynamicFieldObject->DynamicFieldAdd(
@@ -360,16 +360,14 @@ else {
     }
 }
 
-# ----------------------------------------
-
 # CheckDataWithoutTicket is a hash containing all necessary information
 # ACL's can check on but no TicketID
 # This is used for ACL tests on just values
 my %CheckDataWithoutTicket;
 
-# ----------------------------------------
+#
 # ACL Setup
-# ----------------------------------------
+#
 
 my %TestACLs;
 my $ACLCounter = 1;
@@ -810,11 +808,9 @@ $ConfigObject->Set(
     Value => \%TestACLs,
 );
 
-# ----------------------------------------
-
-# ----------------------------------------
+#
 # Create a test ticket for positive and one for negative testing
-# ----------------------------------------
+#
 for my $Type (qw(Positive Negative)) {
     $UTConfig{$Type}{Ticket}{ID} = $TicketObject->TicketCreate(
 
@@ -890,11 +886,9 @@ for my $Type (qw(Positive Negative)) {
     delete $CheckDataWithoutTicket{$Type}{Type};
 }
 
-# ----------------------------------------
-
-# ----------------------------------------
+#
 # ACL Tests
-# ----------------------------------------
+#
 my %StateResult = $StateObject->StateList(
     UserID => 1,
     Valid  => 1,
@@ -1097,11 +1091,9 @@ $Self->IsDeeply(
     "ActivityDialogs Check() - Acl based reduced possible activity dialogs",
 );
 
-# ----------------------------------------
-
-# ----------------------------------------
+#
 # Destructors to remove our Testitems
-# ----------------------------------------
+#
 
 # SLA
 for my $Type (qw(Positive Negative)) {
@@ -1195,7 +1187,5 @@ for my $ID (@AddedDynamicFields) {
         "DynamicFieldDelete() - Remove DynamicField $ID from the system."
     );
 }
-
-# ----------------------------------------
 
 1;

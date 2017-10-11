@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -107,7 +107,7 @@ sub Run {
     if ( $Opts{h} ) {
         print <<EOF;
 otrs.FillDB.pl - OTRS fill db with data
-Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 
 usage: otrsFillDB.pl -q <QUEUES> -t <TICKETS> -m <MODIFY_TICKETS> -a <ARTICLES> -f <SETSEENFLAG> -u <USERS> -g <GROUPS> -c <CUSTOMERUSERS> -r <REALLYDOTHIS>
 EOF

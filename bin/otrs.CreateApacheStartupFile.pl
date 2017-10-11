@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -43,7 +43,7 @@ sub PrintUsage {
     print <<"EOF";
 
 otrs.CreateApacheStartupFile.pl - update apache startup file for mod_perl
-Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 
 EOF
 }
@@ -79,7 +79,7 @@ EOF
 #!/usr/bin/perl
 # -\-
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # -\-
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by

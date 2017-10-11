@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -35,9 +35,7 @@ use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::SysConfig;
 
-# ---
 # common objects
-# ---
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
@@ -50,11 +48,9 @@ $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 
-# ---
 # rebuild
-# ---
 print "otrs.RebuildConfig.pl - OTRS rebuild default config\n";
-print "Copyright (C) 2001-2016 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
 if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
     print "Done.\n";
     exit;

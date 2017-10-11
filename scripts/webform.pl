@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -27,9 +27,9 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-# --------------------------
+#
 # web form options
-# --------------------------
+#
 my $Ident = 'ahfiw2Fw32r230dddl2foeo3r';
 
 # sendmail location and options
@@ -50,9 +50,9 @@ my %Topics = (
     'Webmaster' => 'webmaster',
 );
 
-# --------------------------
+#
 # html header
-# --------------------------
+#
 
 sub Header {
     my (%Param) = @_;
@@ -77,9 +77,9 @@ EOF
     return $Output;
 }
 
-# -------------------------
+#
 # html footer
-# -------------------------
+#
 
 sub Footer {
     my $Output = <<EOF;
@@ -91,9 +91,9 @@ EOF
     return $Output;
 }
 
-# -------------------------
+#
 # Thanks
-# -------------------------
+#
 
 sub Thanks {
     my (%Param) = @_;
@@ -110,9 +110,9 @@ EOF
     return $Output;
 }
 
-# ----------------------
+#
 # error
-# ----------------------
+#
 
 sub Error {
     my (%Param) = @_;
@@ -128,9 +128,9 @@ EOF
     return $Output;
 }
 
-# ------------------------
+#
 # start the real actions
-# ------------------------
+#
 my $CGI      = new CGI;
 my %GetParam = ();
 for (qw(Action From FromEmail Subject Topic Body)) {
@@ -145,9 +145,9 @@ else {
     WebForm();
 }
 
-# ------------------------
+#
 # web form
-# ------------------------
+#
 sub WebForm {
     print Header( Title => 'Submit Request' );
     print '
@@ -192,9 +192,9 @@ sub WebForm {
     print Footer();
 }
 
-# --------------------------
+#
 # send email
-# --------------------------
+#
 
 sub SendMail {
     my (%Param) = @_;

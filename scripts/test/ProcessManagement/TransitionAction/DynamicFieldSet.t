@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,9 +47,9 @@ my $NumericRandomID = int rand 1000_000;
 my $DFName1         = 'Test1' . $NumericRandomID;
 my $DFName2         = 'Test2' . $NumericRandomID;
 
-# ----------------------------------------
+#
 # Create the dynamic fields for testing
-# ----------------------------------------
+#
 
 my @NewDynamicFieldConfig = (
     {
@@ -99,11 +99,9 @@ for my $DynamicFieldConfig (@NewDynamicFieldConfig) {
     );
 }
 
-# ----------------------------------------
-
-# ----------------------------------------
+#
 # Create a test ticket
-# ----------------------------------------
+#
 my $TicketID = $TicketObject->TicketCreate(
     TN            => undef,
     Title         => 'test',
@@ -136,8 +134,6 @@ $Self->True(
     IsHashRefWithData( \%Ticket ),
     "TicketGet() - Get Ticket with ID $TicketID.",
 );
-
-# ----------------------------------------
 
 # Run() tests
 my @Tests = (
@@ -316,9 +312,9 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
+#
 # Destructors to remove our Testitems
-# ----------------------------------------
+#
 
 # Ticket
 my $Delete = $TicketObject->TicketDelete(
@@ -343,7 +339,5 @@ for my $ID (@AddedDynamicFields) {
         "DynamicFieldDelete() - Remove DynamicField $ID from the system with True"
     );
 }
-
-# ----------------------------------------
 
 1;

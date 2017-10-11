@@ -236,9 +236,7 @@ $Self->True(
     'StatsDelete() delete StatID3',
 );
 
-# ---
 # import a Stat and export it - then check if it is the same string
-# ---
 
 # load example file
 my $Path          = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
@@ -275,9 +273,7 @@ $Self->Is(
     "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset uft-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n",
 );
 
-# ---
 # try to use otrs.GenerateStats.pl
-# ---
 
 # check the imported stat
 my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );

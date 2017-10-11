@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -8,9 +8,7 @@
 
 <h1>$Text{"OTRS Test Page"}</h1>
 <hr/>
-# --
 # translation test
-# --
 <b>translation test</b><br/>
 <table>
     <tr>
@@ -24,9 +22,7 @@
     </tr>
 </table>
 <hr/>
-# --
 # show some config options
-# --
 <b>config options</b><br/>
 <table>
     <tr>
@@ -43,9 +39,7 @@
     </tr>
 </table>
 <hr/>
-# --
 # show some env variables
-# --
 <b>env variables</b><br/>
 <table>
     <tr>
@@ -95,9 +89,7 @@
     </tr>
 </table>
 <hr/>
-# --
 # blocks
-# --
 <b>dtl block</b>
 <br/>
 <!-- dtl:block:Row -->

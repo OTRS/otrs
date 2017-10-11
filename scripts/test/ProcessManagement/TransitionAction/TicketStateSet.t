@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,9 +44,9 @@ my $UserID     = 1;
 my $ModuleName = 'TicketStateSet';
 my $RandomID   = $HelperObject->GetRandomID();
 
-# ----------------------------------------
+#
 # Create a test ticket
-# ----------------------------------------
+#
 my $TicketID = $TicketObject->TicketCreate(
     TN            => undef,
     Title         => 'test',
@@ -79,8 +79,6 @@ $Self->True(
     IsHashRefWithData( \%Ticket ),
     "TicketGet() - Get Ticket with ID $TicketID.",
 );
-
-# ----------------------------------------
 
 # Run() tests
 my @Tests = (
@@ -289,9 +287,9 @@ for my $Test (@Tests) {
     }
 }
 
-#-----------------------------------------
+#
 # Destructors to remove our Testitems
-# ----------------------------------------
+#
 
 # Ticket
 my $Delete = $TicketObject->TicketDelete(
@@ -302,7 +300,5 @@ $Self->True(
     $Delete,
     "TicketDelete() - $TicketID",
 );
-
-# ----------------------------------------
 
 1;
