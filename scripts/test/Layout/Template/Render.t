@@ -461,9 +461,9 @@ EOF
     {
         Name     => 'HumanReadableDataSize',
         Template => <<'EOF',
-[% 123 | Localize( 'Filesize' ) %] [% Localize( 456 * 1024, 'Filesize' ) %]
+[% 123 | Localize( 'Filesize' ) %] [% Localize( 456 * 1024, 'Filesize' ) %] [% Localize( 789.5 * 1024 * 1024, 'Filesize' ) %]
 EOF
-        Result => '123 B 456 KB
+        Result => '123 B 456 KB 789,5 MB
 ',
         Data => {},
     },

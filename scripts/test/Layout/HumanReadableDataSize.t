@@ -16,32 +16,110 @@ my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 my @Tests = (
     {
+        Size   => 'abc',
+        Result => undef,
+    },
+    {
+        Result => undef,
+    },
+    {
         Size   => 13,
         Result => '13 B',
     },
     {
-        Size   => 1836,
+        Size   => 1024,
         Result => '1 KB',
     },
     {
-        Size   => 46626123,
+        Size   => 2500,
+        Result => '2.4 KB',
+    },
+    {
+        Size     => 2500,
+        Result   => '2,4 KB',
+        Language => 'sr_Latn',
+    },
+    {
+        Size     => 2500,
+        Result   => '2.4 KB',
+        Language => 'ar_SA',    # empty decimal separator
+    },
+    {
+        Size   => 46137344,
         Result => '44 MB',
     },
     {
-        Size   => 34508675518,
+        Size   => 58626123,
+        Result => '55.9 MB',
+    },
+    {
+        Size     => 58626123,
+        Result   => '55,9 MB',
+        Language => 'sr_Latn',
+    },
+    {
+        Size     => 58626123,
+        Result   => '55.9 MB',
+        Language => 'ar_SA',     # empty decimal separator
+    },
+    {
+        Size   => 34359738368,
         Result => '32 GB',
     },
     {
-        Size   => 238870572100000,
+        Size   => 64508675518,
+        Result => '60.1 GB',
+    },
+    {
+        Size     => 64508675518,
+        Result   => '60,1 GB',
+        Language => 'sr_Latn',
+    },
+    {
+        Size     => 64508675518,
+        Result   => '60.1 GB',
+        Language => 'ar_SA',       # empty decimal separator
+    },
+    {
+        Size   => 238594023227392,
         Result => '217 TB',
+    },
+    {
+        Size   => 498870572100000,
+        Result => '453.7 TB',
+    },
+    {
+        Size     => 498870572100000,
+        Result   => '453,7 TB',
+        Language => 'sr_Latn',
+    },
+    {
+        Size     => 498870572100000,
+        Result   => '453.7 TB',
+        Language => 'ar_SA',           # empty decimal separator
     },
 );
 
 for my $Test (@Tests) {
+    if ( !$Test->{Language} ) {
+        $Test->{Language} = 'en';
+    }
+    $Kernel::OM->ObjectsDiscard(
+        Objects => ['Kernel::Language'],
+    );
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::Language' => {
+            UserLanguage => $Test->{Language},
+        },
+    );
+
+    my $Result = $LayoutObject->HumanReadableDataSize( Size => $Test->{Size} );
+
+    $Test->{Size} //= 'undef';
     $Self->Is(
-        $LayoutObject->HumanReadableDataSize( Size => $Test->{Size} ),
+        $Result,
         $Test->{Result},
-        'HumanReadableDataSize()',
+        "HumanReadableDataSize( Size => $Test->{Size})",
     );
 }
 

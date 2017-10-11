@@ -3566,12 +3566,39 @@ Produces human readable data size.
 
 Returns
 
-    '123 B'
+    $SizeStr = '123 B';         # example with decimal point: 123.4 MB
 
 =cut
 
 sub HumanReadableDataSize {
     my ( $Self, %Param ) = @_;
+
+    # Use simple string concatenation to format real number. "sprintf" uses dot (.) as decimal separator unless
+    #   locale and POSIX (LC_NUMERIC) is used. Even in this case, you are not allowed to use custom separator
+    #   (as defined in language files).
+
+    my $FormatSize = sub {
+        my ($Number) = @_;
+
+        my $ReadableSize;
+
+        if ( IsInteger($Number) ) {
+            $ReadableSize = $Number;
+        }
+        else {
+
+            # Get integer and decimal parts.
+            my ( $Integer, $Float ) = split( m{\.}, sprintf( "%.1f", $Number ) );
+
+            # Use ObjectManager to get Language object (not object in $Self), because unit test modifies language.
+            my $Separator = $Kernel::OM->Get('Kernel::Language')->{DecimalSeparator} || '.';
+
+            # Format size with provided decimal separator.
+            $ReadableSize = $Integer . $Separator . $Float;
+        }
+
+        return $ReadableSize;
+    };
 
     if ( !defined( $Param{Size} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -3581,7 +3608,7 @@ sub HumanReadableDataSize {
         return;
     }
 
-    if ( $Param{Size} !~ /^\d+$/ ) {
+    if ( !IsPositiveInteger( $Param{Size} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Size must be integer!',
@@ -3589,29 +3616,31 @@ sub HumanReadableDataSize {
         return;
     }
 
-    my $SizeStr        = '';
-    my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
-
     # Use convention described on https://en.wikipedia.org/wiki/File_size
-    #   We cannot use floating point output as OTRS has no locale informatin for the decimal mark.
-    if ( $Param{Size} > ( 1024**4 ) ) {
-        my $ReadableSize = int $Param{Size} / ( 1024**4 );
-        $SizeStr = $LanguageObject->Translate( '%s TB', $ReadableSize );
+    my ( $SizeStr, $ReadableSize );
+
+    if ( $Param{Size} >= ( 1024**4 ) ) {
+
+        $ReadableSize = $FormatSize->( $Param{Size} / ( 1024**4 ) );
+        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s TB', $ReadableSize );
     }
-    elsif ( $Param{Size} > ( 1024**3 ) ) {
-        my $ReadableSize = int $Param{Size} / ( 1024**3 );
-        $SizeStr = $LanguageObject->Translate( '%s GB', $ReadableSize );
+    elsif ( $Param{Size} >= ( 1024**3 ) ) {
+
+        $ReadableSize = $FormatSize->( $Param{Size} / ( 1024**3 ) );
+        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s GB', $ReadableSize );
     }
-    elsif ( $Param{Size} > ( 1024**2 ) ) {
-        my $ReadableSize = int $Param{Size} / ( 1024**2 );
-        $SizeStr = $LanguageObject->Translate( '%s MB', $ReadableSize );
+    elsif ( $Param{Size} >= ( 1024**2 ) ) {
+
+        $ReadableSize = $FormatSize->( $Param{Size} / ( 1024**2 ) );
+        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s MB', $ReadableSize );
     }
-    elsif ( $Param{Size} > 1024 ) {
-        my $ReadableSize = int $Param{Size} / (1024);
-        $SizeStr = $LanguageObject->Translate( '%s KB', $ReadableSize );
+    elsif ( $Param{Size} >= 1024 ) {
+
+        $ReadableSize = $FormatSize->( $Param{Size} / 1024 );
+        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s KB', $ReadableSize );
     }
     else {
-        $SizeStr = $LanguageObject->Translate( '%s B', $Param{Size} );
+        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s B', $Param{Size} );
     }
 
     return $SizeStr;

@@ -1,4 +1,5 @@
 #6.0.0.beta5 2017-??-??
+ - 2017-10-10 Fixed bug#[13208](https://bugs.otrs.org/show_bug.cgi?id=13208) - HumanReadableDataSize in the layout object returns only integer portion.
 
 #6.0.0.beta4 2017-10-17
  - 2017-10-09 Updated translations, thanks to all translators.
