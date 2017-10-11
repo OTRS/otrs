@@ -146,7 +146,8 @@ $Selenium->RunTest(
             'Check second hash item value',
         );
 
-        if ($Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled) {
+        if ( $Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled() ) {
+
             # Navigate to AgentPreferences screen.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");
 
@@ -157,7 +158,8 @@ $Selenium->RunTest(
             $Selenium->find_element( '#ConfigTree li#Frontend > i', 'css' )->VerifiedClick();
 
             $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("#ConfigTree li#Frontend\\\\:\\\\:Agent > i").length;',
+                JavaScript =>
+                    'return typeof($) === "function" && $("#ConfigTree li#Frontend\\\\:\\\\:Agent > i").length;',
             );
             $Selenium->find_element( '#ConfigTree li#Frontend\\:\\:Agent > i', 'css' )->VerifiedClick();
 
@@ -190,7 +192,8 @@ $Selenium->RunTest(
                     .val("Down").trigger("redraw.InputField").trigger("change");'
             );
 
-            $Selenium->find_element( '.SettingsList li:nth-child(1) .SettingUpdateBox .Update', 'css' )->VerifiedClick();
+            $Selenium->find_element( '.SettingsList li:nth-child(1) .SettingUpdateBox .Update', 'css' )
+                ->VerifiedClick();
 
             # Wait for AJAX.
             $Selenium->WaitFor(
