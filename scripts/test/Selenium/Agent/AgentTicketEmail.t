@@ -173,7 +173,7 @@ $Selenium->RunTest(
         # Verify signature tags like <OTRS_CUSTOMER_DATA_*>, please see bug#12853 for more information.
         #   Select first queue.
         $Selenium->execute_script(
-            "\$('#Dest option:contains($QueueNames[0])').attr('selected', 'selected').trigger('redraw.InputField').trigger('change');"
+            "\$('#Dest').val(\$('#Dest option').filter(function () { return \$(this).html() == '$QueueNames[0]'; } ).val() ).trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
@@ -215,7 +215,7 @@ $Selenium->RunTest(
 
         # Change queue, trigger new signature.
         $Selenium->execute_script(
-            "\$('#Dest option:contains($QueueNames[1])').attr('selected', 'selected').trigger('redraw.InputField').trigger('change');"
+            "\$('#Dest').val(\$('#Dest option').filter(function () { return \$(this).html() == '$QueueNames[1]'; } ).val() ).trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
@@ -313,7 +313,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#LoginButton", 'css' )->VerifiedClick();
 
         $Selenium->execute_script(
-            "\$('#Dest option:contains($QueueNames[0])').attr('selected', 'selected').trigger('redraw.InputField').trigger('change');"
+            "\$('#Dest').val(\$('#Dest option').filter(function () { return \$(this).html() == '$QueueNames[0]'; } ).val() ).trigger('redraw.InputField').trigger('change');"
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
