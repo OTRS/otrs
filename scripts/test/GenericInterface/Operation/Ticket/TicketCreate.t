@@ -166,6 +166,21 @@ my $ValidObject = Kernel::System::Valid->new(
     ConfigObject => $ConfigObject,
 );
 
+# Make UserID 1 valid.
+my %RootUser = $UserObject->GetUserData(
+    UserID => 1,
+);
+my $Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ValidID      => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Force root user to be valid",
+);
+
 my $TestOwnerLogin        = $HelperObject->TestUserCreate();
 my $TestResponsibleLogin  = $HelperObject->TestUserCreate();
 my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
@@ -4018,5 +4033,16 @@ $Self->True(
         "DynamicFieldDelete() for DynamicField $DynamicFieldData->{Name}"
     );
 }
+
+# Restore UserID 1 previous validity
+$Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Restored root user validity",
+);
 
 1;
