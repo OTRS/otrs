@@ -316,7 +316,32 @@ sub Send {
         Value         => "Sending message data to server.",
     );
 
-    if ( !$SMTP->( 'data', ${ $Param{Header} }, "\n", ${ $Param{Body} } ) ) {
+    # Send email data by chunks because when in SSL mode, each SSL
+    # frame has a maximum of 16kB (Bug #12957).
+    # We send always the first 4000 characters until '$Data' is empty.
+    # If any error occur while sending data to the smtp server an exception
+    # is thrown and '$DataSent' will be undefined.
+    my $DataSent = eval {
+        my $Data      = ${ $Param{Header} } . "\n" . ${ $Param{Body} };
+        my $ChunkSize = 4000;
+
+        $SMTP->( 'data', ) || die "error starting data sending";
+
+        while ( my $DataLength = length $Data ) {
+            my $TmpChunkSize = ( $ChunkSize > $DataLength ) ? $DataLength : $ChunkSize;
+            my $Chunk = substr $Data, 0, $TmpChunkSize;
+
+            $SMTP->( 'datasend', $Chunk, ) || die "error sending data chunk";
+
+            $Data = substr $Data, $TmpChunkSize;
+        }
+
+        $SMTP->( 'dataend', ) || die "error ending data sending";
+
+        return 1;
+    };
+
+    if ( !$DataSent ) {
         my $FullErrorMessage = sprintf(
             "Could not send message to server: %s, %s!",
             $SMTP->( 'code', ),
