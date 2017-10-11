@@ -12,26 +12,23 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::UnitTest::Selenium;
-
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose => 1,
-);
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # create test user and login
+        my $TestUserLogin = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->TestUserCreate(
+            Groups => ['admin'],
+        ) || die "Did not get test user";
+
         $Selenium->Login(
             Type     => 'Agent',
-            User     => 'root@localhost',
-            Password => 'root',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSelectBox");
 
