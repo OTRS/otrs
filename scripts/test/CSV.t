@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -174,9 +174,9 @@ $Self->Is(
     '#4 CSV2Array() - with dos file',
 );
 
-# -------------------------------------------------
+#
 # tests because of the double "" problem bug# 2263
-# -------------------------------------------------
+#
 my $TextWithNewLine = "Hallo guys,\nhere was a newline. And again.\n";
 my @TableData       = (
     [
