@@ -22,13 +22,20 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $RandomID = $Helper->GetRandomID();
 
+my $TestUserLogin = $Helper->TestUserCreate(
+    Groups => [ 'admin', 'users', ],
+);
+my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+    UserLogin => $TestUserLogin,
+);
+
 my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
 my %Calendar       = $CalendarObject->CalendarCreate(
     CalendarName => 'Meetings' . $RandomID,
     GroupID      => 1,
     Color        => '#FF7700',
-    UserID       => 1,
     ValidID      => 1,
+    UserID       => $UserID,
 );
 $Self->True(
     $Calendar{CalendarID},
@@ -37,7 +44,7 @@ $Self->True(
 
 my %ExpectedDataRaw = $CalendarObject->CalendarGet(
     CalendarID => $Calendar{CalendarID},
-    UserID     => 1,
+    UserID     => $UserID,
 );
 
 my @Tests = (

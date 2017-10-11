@@ -16,14 +16,24 @@ $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,
     },
+);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $TestUserLogin = $Helper->TestUserCreate(
+    Groups => [ 'admin', 'users', ],
+);
+my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+    UserLogin => $TestUserLogin,
+);
+
+$Kernel::OM->ObjectParamAdd(
     'Kernel::Output::HTML::Notification::AgentOTRSBusiness' => {
-        UserID => 1,
+        UserID => $UserID,
     },
     'Kernel::Output::HTML::Notification::CustomerOTRSBusiness' => {
-        UserID => 1,
+        UserID => $UserID,
     },
 );
-my $Helper                     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $AgentNotificationObject    = $Kernel::OM->Get('Kernel::Output::HTML::Notification::AgentOTRSBusiness');
 my $CustomerNotificationObject = $Kernel::OM->Get('Kernel::Output::HTML::Notification::CustomerOTRSBusiness');
 my $SystemDataObject           = $Kernel::OM->Get('Kernel::System::SystemData');
