@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Email.pm,v 1.72.2.8 2012-06-20 12:43:26 alm Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Mail::Address;
 
 use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72.2.8 $) [1];
 
 =head1 NAME
 
@@ -171,12 +165,18 @@ sub Send {
     # check needed stuff
     for (qw(Body Charset)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Param{To} && !$Param{Cc} && !$Param{Bcc} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need To, Cc or Bcc!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need To, Cc or Bcc!'
+        );
         return;
     }
 
@@ -401,7 +401,10 @@ sub Send {
 
                     # add inline images as related
                     if ( $PartType ne 'related' ) {
-                        $Entity->make_multipart( 'related;', Force => 1, );
+                        $Entity->make_multipart(
+                            'related;',
+                            Force => 1,
+                        );
                         $PartType = 'related';
                     }
                 }
@@ -439,7 +442,10 @@ sub Send {
 
             # make multipart mixed
             if ( $PartType ne 'mixed' ) {
-                $Entity->make_multipart( 'mixed;', Force => 1, );
+                $Entity->make_multipart(
+                    'mixed;',
+                    Force => 1,
+                );
                 $PartType = 'mixed';
             }
 
@@ -522,7 +528,10 @@ sub Send {
 
             # make multi part
             my $EntityCopy = $Entity->dup();
-            $EntityCopy->make_multipart( 'mixed;', Force => 1, );
+            $EntityCopy->make_multipart(
+                'mixed;',
+                Force => 1,
+            );
 
             # get header to remember
             my $head = $EntityCopy->head();
@@ -632,7 +641,10 @@ sub Send {
         }
 
         # make_multipart -=> one attachment for encryption
-        $Entity->make_multipart( 'mixed;', Force => 1, );
+        $Entity->make_multipart(
+            'mixed;',
+            Force => 1,
+        );
 
         # get header to remember
         my $head = $Entity->head;
@@ -743,7 +755,10 @@ sub Check {
         return ( Successful => 1 )
     }
     else {
-        return ( Successful => 0, Message => $Check{Message} );
+        return (
+            Successful => 0,
+            Message    => $Check{Message}
+        );
     }
 }
 
@@ -765,7 +780,10 @@ sub Bounce {
     # check needed stuff
     for (qw(From To Email)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -889,9 +907,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.72.2.8 $ $Date: 2012-06-20 12:43:26 $
 
 =cut

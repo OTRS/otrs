@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketWatchView.pm - to view all locked tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketWatchView.pm,v 1.14 2010-11-10 10:29:04 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AgentTicketWatchView;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +62,9 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header(
+        Refresh => $Refresh,
+    );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
@@ -136,7 +132,7 @@ sub Run {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
-                StateType => [ 'pending reminder', 'pending auto' ],
+                StateType    => [ 'pending reminder', 'pending auto' ],
                 WatchUserIDs => [ $Self->{UserID} ],
                 OrderBy      => $OrderBy,
                 SortBy       => $SortByS,

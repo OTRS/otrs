@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketFreeText.pm,v 1.78 2010-06-18 18:15:49 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,8 +9,5 @@
 package Kernel::Modules::AgentTicketFreeText;
 
 use base qw( Kernel::Modules::AgentTicketActionCommon );
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
 
 1;

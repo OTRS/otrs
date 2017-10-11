@@ -1,8 +1,5 @@
 // --
-// Core.Customer.js - provides functions for the customer login
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.Customer.js,v 1.13.2.3 2011-05-10 11:36:32 mg Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

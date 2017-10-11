@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardRSS.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardRSS.pm,v 1.14 2010-04-02 20:13:18 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use XML::FeedPP;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,8 +57,7 @@ sub Run {
     }
 
     # get content
-    my $Feed
-        = eval { XML::FeedPP->new( $Self->{Config}->{URL}, 'xml_deref' => 1, 'utf8_flag' => 1 ) };
+    my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL}, 'xml_deref' => 1, 'utf8_flag' => 1 ) };
 
     if ( !$Feed ) {
         my $Content = "Can't connect to " . $Self->{Config}->{URL};

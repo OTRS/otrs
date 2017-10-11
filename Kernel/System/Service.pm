@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Service.pm,v 1.46 2010-10-26 03:58:49 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -426,7 +422,9 @@ sub ServiceAdd {
 
     # get parent name
     if ( $Param{ParentID} ) {
-        my $ParentName = $Self->ServiceLookup( ServiceID => $Param{ParentID}, );
+        my $ParentName = $Self->ServiceLookup(
+            ServiceID => $Param{ParentID},
+        );
         if ($ParentName) {
             $Param{FullName} = $ParentName . '::' . $Param{Name};
         }
@@ -531,7 +529,9 @@ sub ServiceUpdate {
     }
 
     # get old name of service
-    my $OldServiceName = $Self->ServiceLookup( ServiceID => $Param{ServiceID}, );
+    my $OldServiceName = $Self->ServiceLookup(
+        ServiceID => $Param{ServiceID},
+    );
 
     # reset cache
     delete $Self->{ 'Cache::ServiceLookup::ID::' . $Param{ServiceID} };
@@ -613,7 +613,7 @@ sub ServiceUpdate {
     for my $Child (@Childs) {
         $Child->{Name} =~ s{ \A ( \Q$OldServiceName\E ) :: }{$Param{FullName}::}xms;
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE service SET name = ? WHERE id = ?',
+            SQL  => 'UPDATE service SET name = ? WHERE id = ?',
             Bind => [ \$Child->{Name}, \$Child->{ServiceID} ],
         );
     }
@@ -648,8 +648,7 @@ sub ServiceSearch {
     $Param{Limit} ||= 1000;
 
     # create sql query
-    my $SQL
-        = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    my $SQL = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
     if ( $Param{Name} ) {
 
@@ -869,7 +868,7 @@ sub CustomerUserServiceMemberAdd {
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
+        SQL  => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID} ],
     );
 
@@ -934,9 +933,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.46 $ $Date: 2010-10-26 03:58:49 $
 
 =cut

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketMerge.pm - to merge tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketMerge.pm,v 1.53 2010-07-23 21:22:25 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::SystemAddress;
 use Kernel::System::CheckItem;
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -99,7 +93,10 @@ sub Run {
                 # show lock state
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesLock',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -192,7 +189,7 @@ sub Run {
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
-                Data => { %Param, %GetParam, %Ticket, %Error },
+                Data         => { %Param, %GetParam, %Ticket, %Error },
             );
             $Output .= $Self->{LayoutObject}->Footer(
                 Type => 'Small',
@@ -240,7 +237,7 @@ sub Run {
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
-                Data => { %Param, %Ticket },
+                Data         => { %Param, %Ticket },
             );
             $Output .= $Self->{LayoutObject}->Footer(
                 Type => 'Small',
@@ -347,7 +344,7 @@ sub Run {
         # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
+            Subject      => $Article{Subject} || '',
         );
 
         # prepare from ...
@@ -384,7 +381,7 @@ sub Run {
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketMerge',
-            Data => { %Param, %Ticket, %Article, }
+            Data         => { %Param, %Ticket, %Article, }
         );
         $Output .= $Self->{LayoutObject}->Footer(
             Type => 'Small',

@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/ToolBarTicketWatcher.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: ToolBarTicketWatcher.pm,v 1.9 2010-10-15 13:20:54 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::ToolBarTicketWatcher;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +35,10 @@ sub Run {
     # check needed stuff
     for (qw(Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -97,10 +94,9 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
-    my $Text    = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets Total');
-    my $TextNew = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets New');
-    my $TextReached
-        = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets Reminder Reached');
+    my $Text        = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets Total');
+    my $TextNew     = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets New');
+    my $TextReached = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets Reminder Reached');
 
     my $URL = $Self->{LayoutObject}->{Baselink};
     my %Return;

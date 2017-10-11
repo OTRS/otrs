@@ -1,8 +1,5 @@
 # --
-# Config.t - ConfigObject tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Config.t,v 1.3 2010-10-19 14:59:00 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

@@ -1,8 +1,5 @@
 # --
-# PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: PostMaster.t,v 1.26 2010-12-10 15:15:15 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -434,8 +431,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . ": $Ticket{TicketNumber}";
                     }
@@ -461,8 +457,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . ":$Ticket{TicketNumber}";
                     }
@@ -488,8 +483,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . $Ticket{TicketNumber};
                     }

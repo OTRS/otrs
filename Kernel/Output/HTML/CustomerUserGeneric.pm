@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/CustomerUserGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerUserGeneric.pm,v 1.5 2009-07-01 07:31:38 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::CustomerUserGeneric;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

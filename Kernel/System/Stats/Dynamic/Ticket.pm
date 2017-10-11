@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Ticket.pm,v 1.32.4.1 2012-02-28 09:55:07 jp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::Ticket;
 use Kernel::System::Type;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -510,8 +504,9 @@ sub GetObjectAttributes {
                 UseAsXvalue      => 0,
                 UseAsValueSeries => 0,
                 UseAsRestriction => 1,
-                Element          => 'TicketFreeText' . $FreeKey,,
-                Block            => 'InputField',
+                Element          => 'TicketFreeText' . $FreeKey,
+                ,
+                Block => 'InputField',
             );
 
             push @ObjectAttributes, \%ObjectAttribute;
@@ -645,8 +640,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(

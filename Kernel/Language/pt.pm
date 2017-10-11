@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
-# --
-# $Id: pt.pm,v 1.101.2.4 2012-03-09 07:37:03 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::pt;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

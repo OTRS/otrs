@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketHistory.pm - ticket history
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketHistory.pm,v 1.21 2010-09-29 06:53:20 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AgentTicketHistory;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

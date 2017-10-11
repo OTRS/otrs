@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Notification.pm,v 1.36.2.1 2011-02-28 18:37:40 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Notification;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36.2.1 $) [1];
 
 =head1 NAME
 
@@ -103,7 +97,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
     my ( $Language, $Type );
@@ -265,7 +262,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(Type Charset Language Subject Body ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -309,9 +309,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.36.2.1 $ $Date: 2011-02-28 18:37:40 $
 
 =cut

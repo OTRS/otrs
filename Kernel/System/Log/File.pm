@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Log/File.pm - file log backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: File.pm,v 1.22 2009-04-06 21:01:34 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Log::File;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
 
 umask "002";
 

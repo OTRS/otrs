@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/NotificationCharsetCheck.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: NotificationCharsetCheck.pm,v 1.8 2009-02-16 11:16:22 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::NotificationCharsetCheck;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

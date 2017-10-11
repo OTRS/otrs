@@ -1,8 +1,5 @@
 # --
-# SMIME.t - SMIME tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SMIME.t,v 1.14.2.4 2012-05-08 13:33:00 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -329,10 +326,10 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Verify() - on manipulated text",
     );
 
-   # file checks
-   # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
-   #       to base64 first?
-   #    for my $File (qw(xls txt doc png pdf)) {
+    # file checks
+    # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
+    #       to base64 first?
+    #    for my $File (qw(xls txt doc png pdf)) {
     for my $File (qw(txt)) {
         my $Content = $Self->{MainObject}->FileRead(
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",

@@ -1,8 +1,5 @@
 # --
-# Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: GenericAgent.pm,v 1.70.2.2 2012-02-15 22:45:18 cg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::GenericAgent;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70.2.2 $) [1];
 
 =head1 NAME
 
@@ -203,7 +197,10 @@ sub JobRun {
     # check needed stuff
     for (qw(Job UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -236,7 +233,10 @@ sub JobRun {
         my %DBJobRaw = $Self->JobGet( Name => $Param{Job} );
 
         # updated last run time
-        $Self->_JobUpdateRunTime( Name => $Param{Job}, UserID => $Param{UserID} );
+        $Self->_JobUpdateRunTime(
+            Name   => $Param{Job},
+            UserID => $Param{UserID}
+        );
 
         # rework
         for my $Key ( keys %DBJobRaw ) {
@@ -426,7 +426,10 @@ sub JobList {
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -454,7 +457,10 @@ sub JobGet {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -521,8 +527,7 @@ sub JobGet {
                 && $Data{ $Type . 'TimeStartYear' }
                 )
             {
-                $Data{ $Type . 'TimeNewerDate' }
-                    = $Data{ $Type . 'TimeStartYear' } . '-'
+                $Data{ $Type . 'TimeNewerDate' } = $Data{ $Type . 'TimeStartYear' } . '-'
                     . $Data{ $Type . 'TimeStartMonth' } . '-'
                     . $Data{ $Type . 'TimeStartDay' }
                     . ' 00:00:01';
@@ -533,8 +538,7 @@ sub JobGet {
                 && $Data{ $Type . 'TimeStopYear' }
                 )
             {
-                $Data{ $Type . 'TimeOlderDate' }
-                    = $Data{ $Type . 'TimeStopYear' } . '-'
+                $Data{ $Type . 'TimeOlderDate' } = $Data{ $Type . 'TimeStopYear' } . '-'
                     . $Data{ $Type . 'TimeStopMonth' } . '-'
                     . $Data{ $Type . 'TimeStopDay' }
                     . ' 23:59:59';
@@ -615,7 +619,10 @@ sub JobAdd {
     # check needed stuff
     for (qw(Name Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -674,7 +681,10 @@ sub JobDelete {
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -716,7 +726,10 @@ sub _JobRunTicket {
     # check needed stuff
     for (qw(TicketID TicketNumber Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1054,7 +1067,10 @@ sub _JobRunTicket {
                 }
             };
             if ($@) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => $@
+                );
             }
         }
     }
@@ -1118,7 +1134,10 @@ sub _JobUpdateRunTime {
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1131,7 +1150,11 @@ sub _JobUpdateRunTime {
     my @Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/ ) {
-            push @Data, { Key => $Row[0], Value => $Row[1] };
+            push @Data,
+                {
+                Key   => $Row[0],
+                Value => $Row[1]
+                };
         }
     }
 
@@ -1144,7 +1167,7 @@ sub _JobUpdateRunTime {
     );
     for my $Key ( keys %Insert ) {
         $Self->{DBObject}->Do(
-            SQL => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
+            SQL  => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
             Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
         );
     }
@@ -1175,9 +1198,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.70.2.2 $ $Date: 2012-02-15 22:45:18 $
 
 =cut

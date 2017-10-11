@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerTicketMessage.pm,v 1.83.2.3 2012-02-12 20:16:06 ep Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::SystemAddress;
 use Kernel::System::Queue;
 use Kernel::System::State;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,8 +224,7 @@ sub Run {
 
         # fallback, if no destination is given
         if ( !$NewQueueID ) {
-            my $Queue
-                = $Self->{ParamObject}->GetParam( Param => 'Queue' )
+            my $Queue = $Self->{ParamObject}->GetParam( Param => 'Queue' )
                 || $Self->{Config}->{'QueueDefault'}
                 || '';
             if ($Queue) {
@@ -331,10 +324,9 @@ sub Run {
         my %TicketFreeTime;
         for my $Count ( 1 .. 6 ) {
             for my $Type (qw(Used Year Month Day Hour Minute)) {
-                $TicketFreeTime{ "TicketFreeTime" . $Count . $Type }
-                    = $Self->{ParamObject}->GetParam(
+                $TicketFreeTime{ "TicketFreeTime" . $Count . $Type } = $Self->{ParamObject}->GetParam(
                     Param => "TicketFreeTime" . $Count . $Type,
-                    );
+                );
             }
             $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
                 = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
@@ -647,7 +639,10 @@ sub _MaskNew {
         my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule')
             || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
         if ( $Self->{MainObject}->Require($Module) ) {
-            my $Object = $Module->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Module->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # log loaded module
             if ( $Self->{Debug} > 1 ) {
@@ -859,18 +854,18 @@ sub _MaskNew {
         );
     }
 
-   #    # java script check for required free time fields by form submit
-   #    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
-   #        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
-   #        $Self->{LayoutObject}->Block(
-   #            Name => 'TicketFreeTimeCheckJs',
-   #            Data => {
-   #                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
-   #                TicketFreeTimeField => 'TicketFreeTime' . $Key,
-   #                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
-   #            },
-   #        );
-   #    }
+    #    # java script check for required free time fields by form submit
+    #    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
+    #        next if $Self->{Config}->{TicketFreeTime}->{$Key} != 2;
+    #        $Self->{LayoutObject}->Block(
+    #            Name => 'TicketFreeTimeCheckJs',
+    #            Data => {
+    #                TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+    #                TicketFreeTimeField => 'TicketFreeTime' . $Key,
+    #                TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
+    #            },
+    #        );
+    #    }
 
     # add rich text editor
     if ( $Self->{LayoutObject}->{BrowserRichText} ) {

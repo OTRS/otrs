@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/en.pm - provides en_US languag translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: en.pm,v 1.37.2.1 2011-04-05 09:10:52 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::en;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 sub Data {
     my $Self = shift;

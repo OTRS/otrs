@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Loader.pm - CSS/JavaScript loader backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Loader.pm,v 1.17.2.1 2011-11-15 11:41:39 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17.2.1 $) [1];
 
 use Kernel::System::CacheInternal;
 
@@ -150,7 +146,7 @@ sub MinifyFiles {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }
@@ -290,7 +286,7 @@ sub GetMinifiedFile {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }
@@ -499,9 +495,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.17.2.1 $ $Date: 2011-11-15 11:41:39 $
 
 =cut

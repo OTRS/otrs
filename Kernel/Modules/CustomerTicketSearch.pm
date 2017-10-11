@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerTicketSearch.pm,v 1.65.2.1 2011-08-23 12:45:25 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +18,6 @@ use Kernel::System::State;
 use Kernel::System::Queue;
 use Kernel::System::SearchProfile;
 use Kernel::System::CSV;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,8 +54,7 @@ sub Run {
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
     $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchLimit')
         || 200;
-    $Self->{SearchPageShown}
-        = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
+    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SearchPageShown') || 40;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{ConfigObject}->Get('Ticket::CustomerTicketSearch::SortBy::Default')
         || 'Age';
@@ -268,8 +261,7 @@ sub Run {
         elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
                 if ( $GetParam{"TicketCreateTimeStart$_"} <= 9 ) {
-                    $GetParam{"TicketCreateTimeStart$_"}
-                        = '0' . $GetParam{"TicketCreateTimeStart$_"};
+                    $GetParam{"TicketCreateTimeStart$_"} = '0' . $GetParam{"TicketCreateTimeStart$_"};
                 }
             }
             for (qw(Month Day)) {
@@ -283,8 +275,7 @@ sub Run {
                 && $GetParam{TicketCreateTimeStartYear}
                 )
             {
-                $GetParam{TicketCreateTimeNewerDate}
-                    = $GetParam{TicketCreateTimeStartYear} . '-'
+                $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStartYear} . '-'
                     . $GetParam{TicketCreateTimeStartMonth} . '-'
                     . $GetParam{TicketCreateTimeStartDay}
                     . ' 00:00:01';
@@ -295,8 +286,7 @@ sub Run {
                 && $GetParam{TicketCreateTimeStopYear}
                 )
             {
-                $GetParam{TicketCreateTimeOlderDate}
-                    = $GetParam{TicketCreateTimeStopYear} . '-'
+                $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStopYear} . '-'
                     . $GetParam{TicketCreateTimeStopMonth} . '-'
                     . $GetParam{TicketCreateTimeStopDay}
                     . ' 23:59:59';
@@ -403,7 +393,10 @@ sub Run {
                     Extended => 1,
                 );
 
-                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge(
+                    Age   => $Data{Age},
+                    Space => ' '
+                );
 
                 # get whole article (if configured!)
                 if ( $Self->{Config}->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
@@ -517,10 +510,12 @@ sub Run {
                 # Condense down the subject
                 my $Subject = $Self->{TicketObject}->TicketSubjectClean(
                     TicketNumber => $Article{TicketNumber},
-                    Subject => $Article{Subject} || '',
+                    Subject      => $Article{Subject} || '',
                 );
-                $Article{Age}
-                    = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+                $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+                    Age   => $Article{Age},
+                    Space => ' '
+                );
 
                 # customer info string
                 if ( $Article{CustomerName} ) {
@@ -603,10 +598,12 @@ sub Run {
                     # Condense down the subject
                     my $Subject = $Self->{TicketObject}->TicketSubjectClean(
                         TicketNumber => $Article{TicketNumber},
-                        Subject => $Article{Subject} || '',
+                        Subject      => $Article{Subject} || '',
                     );
-                    $Article{Age}
-                        = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+                    $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+                        Age   => $Article{Age},
+                        Space => ' '
+                    );
 
                     # customer info string
                     if ( $Article{CustomerName} ) {
@@ -863,7 +860,7 @@ sub MaskForm {
             Print  => 'Print',
             CSV    => 'CSV',
         },
-        Name => 'ResultForm',
+        Name       => 'ResultForm',
         SelectedID => $Param{ResultForm} || 'Normal',
     );
     $Param{ProfilesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -981,7 +978,7 @@ sub MaskForm {
             Last   => 'last',
             Before => 'before',
         },
-        Name => 'TicketCreateTimePointStart',
+        Name       => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
@@ -1066,7 +1063,10 @@ sub MaskForm {
 sub MaskCSVResult {
     my ( $Self, %Param ) = @_;
 
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Param{Age},
+        Space => ' '
+    );
 
     # customer info string
     $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
@@ -1081,7 +1081,10 @@ sub MaskCSVResult {
 sub MaskPrintResult {
     my ( $Self, %Param ) = @_;
 
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Param{Age},
+        Space => ' '
+    );
 
     # customer info string
     $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );

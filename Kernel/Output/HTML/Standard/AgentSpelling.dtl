@@ -1,8 +1,5 @@
 # --
-# AgentSpelling.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentSpelling.dtl,v 1.35 2010-10-06 13:54:30 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

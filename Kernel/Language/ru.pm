@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>
@@ -8,8 +7,6 @@
 # Copyright (C) 2010 Andrey A. Fedorov <2af at mail.ru>
 # Copyright (C) 2010-2011 Eugene Kungurov <ekungurov83 at ya.ru>
 # Copyright (C) 2010 Sergey Romanov <romanov_s at mail.ru>
-# --
-# $Id: ru.pm,v 1.114.2.5 2012-03-09 07:37:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,9 +17,6 @@ package Kernel::Language::ru;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.114.2.5 $) [1];
 
 sub Data {
     my $Self = shift;

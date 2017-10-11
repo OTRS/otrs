@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.127.2.7 2012-08-06 14:47:32 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +16,6 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.127.2.7 $) [1];
 
 =head1 NAME
 
@@ -363,7 +359,10 @@ sub Do {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
 
@@ -476,7 +475,10 @@ sub Prepare {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
     if ( defined $Param{Encode} ) {
@@ -937,7 +939,10 @@ sub QueryCondition {
     # check needed stuff
     for (qw(Key Value)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1219,7 +1224,10 @@ sub QueryStringEscape {
     # check needed stuff
     for my $Key (qw(QueryString)) {
         if ( !defined $Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -1343,9 +1351,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.127.2.7 $ $Date: 2012-08-06 14:47:32 $
 
 =cut

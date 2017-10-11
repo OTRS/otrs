@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Auth/LDAP.pm - provides the ldap authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: LDAP.pm,v 1.59 2011-01-27 21:52:28 cg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +11,6 @@ package Kernel::System::Auth::LDAP;
 use strict;
 use warnings;
 use Net::LDAP;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,27 +60,21 @@ sub new {
         );
         return;
     }
-    $Self->{SearchUserDN}
-        = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
-    $Self->{SearchUserPw}
-        = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
-    $Self->{GroupDN} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::GroupDN' . $Param{Count} )
+    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
+    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
+    $Self->{GroupDN}      = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::GroupDN' . $Param{Count} )
         || '';
-    $Self->{AccessAttr}
-        = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::AccessAttr' . $Param{Count} )
+    $Self->{AccessAttr} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::AccessAttr' . $Param{Count} )
         || 'memberUid';
     $Self->{UserAttr} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::UserAttr' . $Param{Count} )
         || 'DN';
-    $Self->{UserSuffix}
-        = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::UserSuffix' . $Param{Count} ) || '';
-    $Self->{UserLowerCase}
-        = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::UserLowerCase' . $Param{Count} ) || 0;
-    $Self->{DestCharset} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::Charset' . $Param{Count} )
+    $Self->{UserSuffix}    = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::UserSuffix' . $Param{Count} )    || '';
+    $Self->{UserLowerCase} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::UserLowerCase' . $Param{Count} ) || 0;
+    $Self->{DestCharset}   = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::Charset' . $Param{Count} )
         || 'utf-8';
 
     # ldap filter always used
-    $Self->{AlwaysFilter}
-        = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
+    $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get( 'AuthModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
 
     # Net::LDAP new params
     if ( $Self->{ConfigObject}->Get( 'AuthModule::LDAP::Params' . $Param{Count} ) ) {
@@ -104,12 +92,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -121,7 +114,10 @@ sub Auth {
     # check needed stuff
     for (qw(User Pw)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -178,7 +174,10 @@ sub Auth {
     }
     my $Result = '';
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-        $Result = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+        $Result = $LDAP->bind(
+            dn       => $Self->{SearchUserDN},
+            password => $Self->{SearchUserPw}
+        );
     }
     else {
         $Result = $LDAP->bind();
@@ -311,7 +310,10 @@ sub Auth {
     }
 
     # bind with user data -> real user auth.
-    $Result = $LDAP->bind( dn => $UserDN, password => $Param{Pw} );
+    $Result = $LDAP->bind(
+        dn       => $UserDN,
+        password => $Param{Pw}
+    );
     if ( $Result->code ) {
 
         # failed login note

@@ -1,8 +1,5 @@
 # --
-# CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: CustomerUser.t,v 1.18 2010-10-29 07:25:52 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -355,7 +352,8 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     # check password support
-    for my $Config qw( md5 crypt plain sha1 sha2 ) {
+    for my $Config (qw( md5 crypt plain sha1 sha2 )) {
+
         $ConfigObject->Set(
             Key   => 'Customer::AuthModule::DB::CryptType',
             Value => $Config,
@@ -365,7 +363,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
             ConfigObject => $ConfigObject,
         );
 
-        for my $Password qw(some_pass someカス someäöü) {
+        for my $Password (qw(some_pass someカス someäöü)) {
             $Self->{EncodeObject}->Encode( \$Password );
             my $Set = $CustomerUserObject->SetPassword(
                 UserLogin => $UserID,
@@ -376,7 +374,10 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
                 "SetPassword() - $Config - $UserID - $Password",
             );
 
-            my $Ok = $CustomerAuth->Auth( User => $UserID, Pw => $Password );
+            my $Ok = $CustomerAuth->Auth(
+                User => $UserID,
+                Pw   => $Password
+            );
             $Self->True(
                 $Ok,
                 "Auth() - $Config - $UserID - $Password",

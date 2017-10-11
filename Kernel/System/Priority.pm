@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Priority.pm - all ticket priority function
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Priority.pm,v 1.32 2010-09-08 16:39:22 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +17,6 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -146,7 +142,10 @@ sub PriorityGet {
     # check needed stuff
     for (qw(PriorityID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -188,7 +187,10 @@ sub PriorityAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -240,7 +242,10 @@ sub PriorityUpdate {
     # check needed stuff
     for (qw(PriorityID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -300,7 +305,10 @@ sub PriorityLookup {
 
     # check needed stuff
     if ( !$Param{Priority} && !$Param{PriorityID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Priority or PriorityID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Priority or PriorityID!'
+        );
         return;
     }
 
@@ -333,14 +341,20 @@ sub PriorityLookup {
         $SQL = 'SELECT name FROM ticket_priority WHERE id = ?';
         push @Bind, \$Param{PriorityID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data = $Row[0];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Data
+    );
 
     # check if data exists
     if ( !defined $Data ) {
@@ -367,9 +381,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.32 $ $Date: 2010-09-08 16:39:22 $
 
 =cut

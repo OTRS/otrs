@@ -1,10 +1,7 @@
 # --
-# Kernel/Language/zh_TW.pm - provides Chinese Traditional language translation
 # Copyright (C) 2009 Bin Du <bindu2008 at gmail.com>
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
-# --
-# $Id: zh_TW.pm,v 1.21.2.4 2012-03-09 07:37:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ package Kernel::Language::zh_TW;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

@@ -1,8 +1,5 @@
 # --
-# scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Stats.t,v 1.27 2010-10-29 22:16:59 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -215,13 +212,10 @@ $Self->True(
     'StatsDelete() delete StatID3',
 );
 
-# ---
 # import a Stat and export it - then check if it is the same string
-# ---
 
 # load example file
-my $Path
-    = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
+my $Path          = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;
@@ -255,9 +249,7 @@ $Self->Is(
     "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset uft-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n",
 );
 
-# ---
 # try to use otrs.GenerateStats.pl
-# ---
 
 # check the imported stat
 my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );

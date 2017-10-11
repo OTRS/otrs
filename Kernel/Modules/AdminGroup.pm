@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminGroup.pm - to add/update/delete groups
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminGroup.pm,v 1.47 2010-11-19 22:28:58 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,8 +38,7 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID
-            = $Self->{ParamObject}->GetParam( Param => 'ID' )
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' )
             || $Self->{ParamObject}->GetParam( Param => 'GroupID' )
             || '';
         my %Data = $Self->{GroupObject}->GroupGet( ID => $ID );
@@ -202,7 +195,9 @@ sub Run {
                         OP => "Action=AdminUserGroup;Subaction=Group;ID=$GroupID",
                     );
                 }
-                return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminGroup', );
+                return $Self->{LayoutObject}->Redirect(
+                    OP => 'Action=AdminGroup',
+                );
             }
             else {
                 $Note = $Self->{LogObject}->GetLogEntry(
@@ -304,13 +299,17 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{GroupObject}->GroupList( ValidID => 0, );
+    my %List = $Self->{GroupObject}->GroupList(
+        ValidID => 0,
+    );
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
     for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        my %Data = $Self->{GroupObject}->GroupGet( ID => $ListKey, );
+        my %Data = $Self->{GroupObject}->GroupGet(
+            ID => $ListKey,
+        );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
             Data => {

@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.AddTicketType.pl - add new Ticket Types
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.AddTicketType.pl,v 1.2 2010-11-11 16:27:18 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -56,11 +53,10 @@ if ( !$opts{n} ) {
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.TicketType' );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TypeObject} = Kernel::System::Type->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.TicketType' );
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TypeObject}   = Kernel::System::Type->new(%CommonObject);
 
 # user id of the person adding the record
 $Param{UserID} = '1';

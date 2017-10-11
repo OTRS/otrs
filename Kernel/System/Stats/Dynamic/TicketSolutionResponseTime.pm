@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketSolutionResponseTime.pm,v 1.5.4.2 2012-02-28 09:55:07 jp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::Ticket;
 use Kernel::System::Type;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5.4.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -511,8 +505,9 @@ sub GetObjectAttributes {
                 UseAsXvalue      => 0,
                 UseAsValueSeries => 0,
                 UseAsRestriction => 1,
-                Element          => 'TicketFreeText' . $FreeKey,,
-                Block            => 'InputField',
+                Element          => 'TicketFreeText' . $FreeKey,
+                ,
+                Block => 'InputField',
             );
 
             push @ObjectAttributes, \%ObjectAttribute;
@@ -678,8 +673,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(
@@ -954,8 +948,7 @@ sub _ReportingValues {
     # min max for solution working time
     if ( $SelectedKindsOfReporting{SolutionMinWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMinWorkingTime}
-                = ( sort { $a <=> $b } values %SolutionWorkingTime )[0];
+            $Reporting{SolutionMinWorkingTime} = ( sort { $a <=> $b } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMinWorkingTime} = 0;
@@ -963,8 +956,7 @@ sub _ReportingValues {
     }
     if ( $SelectedKindsOfReporting{SolutionMaxWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMaxWorkingTime}
-                = ( sort { $b <=> $a } values %SolutionWorkingTime )[0];
+            $Reporting{SolutionMaxWorkingTime} = ( sort { $b <=> $a } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMaxWorkingTime} = 0;
@@ -992,8 +984,7 @@ sub _ReportingValues {
     # min max for response working time
     if ( $SelectedKindsOfReporting{ResponseMinWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMinWorkingTime}
-                = ( sort { $a <=> $b } values %ResponseWorkingTime )[0];
+            $Reporting{ResponseMinWorkingTime} = ( sort { $a <=> $b } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMinWorkingTime} = 0;
@@ -1001,8 +992,7 @@ sub _ReportingValues {
     }
     if ( $SelectedKindsOfReporting{ResponseMaxWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMaxWorkingTime}
-                = ( sort { $b <=> $a } values %ResponseWorkingTime )[0];
+            $Reporting{ResponseMaxWorkingTime} = ( sort { $b <=> $a } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMaxWorkingTime} = 0;

@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/OutputFilterTextURL.pm - auto URL detection filter
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: OutputFilterTextURL.pm,v 1.4.2.1 2011-05-18 18:20:50 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +33,10 @@ sub Pre {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 
@@ -94,7 +93,10 @@ sub Post {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 

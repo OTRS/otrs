@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/ToolBarTicketLocked.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: ToolBarTicketLocked.pm,v 1.7 2011-01-21 18:01:40 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::ToolBarTicketLocked;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +31,10 @@ sub Run {
     # check needed stuff
     for (qw(Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -76,11 +73,10 @@ sub Run {
     my $ClassNew     = $Param{Config}->{CssClassNew};
     my $ClassReached = $Param{Config}->{CssClassReached};
 
-    my $Text    = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Total');
-    my $TextNew = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets New');
-    my $TextReached
-        = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Reminder Reached');
-    my $URL = $Self->{LayoutObject}->{Baselink};
+    my $Text        = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Total');
+    my $TextNew     = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets New');
+    my $TextReached = $Self->{LayoutObject}->{LanguageObject}->Get('Locked Tickets Reminder Reached');
+    my $URL         = $Self->{LayoutObject}->{Baselink};
     my %Return;
     my $Priority = $Param{Config}->{Priority};
     if ($CountNew) {

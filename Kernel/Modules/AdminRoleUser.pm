@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminRoleUser.pm - to add/update/delete roles <-> users
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminRoleUser.pm,v 1.31 2010-11-10 11:04:28 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AdminRoleUser;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,7 +184,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'User';
     my $NeType = $Type eq 'Role' ? 'User' : 'Role';
 
-    my %VisibleType = ( Role => 'Role', User => 'Agent' );
+    my %VisibleType = (
+        Role => 'Role',
+        User => 'Agent'
+    );
 
     $Self->{LayoutObject}->Block(
         Name => 'Change',

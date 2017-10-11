@@ -1,8 +1,5 @@
 // --
-// Core.UI.Table.js - Table specific functions
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.UI.Table.js,v 1.5.2.4 2012-01-17 13:54:09 mab Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

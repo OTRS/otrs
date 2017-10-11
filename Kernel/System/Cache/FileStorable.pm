@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Cache/FileStorable.pm - all cache functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: FileStorable.pm,v 1.8 2010-12-06 14:36:59 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ umask 002;
 use Storable qw();
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +51,10 @@ sub Set {
 
     for (qw(Type Key Value TTL)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -108,7 +107,10 @@ sub Get {
     # check needed stuff
     for (qw(Type Key)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -144,7 +146,10 @@ sub Delete {
     # check needed stuff
     for (qw(Type Key)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

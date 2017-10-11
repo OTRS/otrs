@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerTicketZoom.pm,v 1.75.2.5 2011-11-02 09:19:39 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 use Kernel::System::User;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,7 +127,9 @@ sub Run {
         );
 
         # get lock option (should be the ticket locked - if closed - after the follow up)
-        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption( QueueID => $Ticket{QueueID}, );
+        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
+            QueueID => $Ticket{QueueID},
+        );
 
         # get ticket state details
         my %State = $Self->{StateObject}->StateGet(
@@ -404,8 +400,7 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -719,7 +714,9 @@ sub _Mask {
             my %AtmIndex = %{ $Article{Atms} };
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachment',
-                Data => { Key => 'Attachment', },
+                Data => {
+                    Key => 'Attachment',
+                },
             );
             for my $FileID ( sort keys %AtmIndex ) {
                 my %File = %{ $AtmIndex{$FileID} };
@@ -768,7 +765,9 @@ sub _Mask {
     }
 
     # check follow up permissions
-    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
+    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+        QueueID => $Article{QueueID},
+    );
     my %State = $Self->{StateObject}->StateGet(
         ID => $Article{StateID},
     );

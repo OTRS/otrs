@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/ResponsibleAutoSet.pm - a event module for auto set of responible
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: ResponsibleAutoSet.pm,v 1.4 2010-05-19 07:08:18 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,9 +9,6 @@
 package Kernel::System::Ticket::Event::ResponsibleAutoSet;
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,13 +30,19 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketCompose.pm,v 1.124.2.10 2012-05-24 23:18:03 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +19,6 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::SystemAddress;
 use Kernel::System::TemplateGenerator;
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.124.2.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -314,7 +308,7 @@ sub Run {
         my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
         $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Tn,
-            Subject => $GetParam{Subject} || '',
+            Subject      => $GetParam{Subject} || '',
         );
 
         my %ArticleParam;
@@ -658,7 +652,7 @@ sub Run {
 
         # log use response id and reply article id (useful for response diagnostics)
         $Self->{TicketObject}->HistoryAdd(
-            Name => "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
+            Name         => "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
             HistoryType  => 'Misc',
             TicketID     => $Self->{TicketID},
             CreateUserID => $Self->{UserID},
@@ -691,7 +685,10 @@ sub Run {
                 # load module
                 next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
 
                 # get params
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -1052,7 +1049,7 @@ $QData{"Signature"}
         # build new repsonse format based on template
         $Data{ResponseFormat} = $Self->{LayoutObject}->Output(
             Template => $ResponseFormat,
-            Data => { %Param, %DataHTML },
+            Data     => { %Param, %DataHTML },
         );
 
         # check some values
@@ -1106,8 +1103,7 @@ $QData{"Signature"}
         for my $Count ( 1 .. 6 ) {
             $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
                 = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
-            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
-                = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
 
             if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
                 (
@@ -1117,8 +1113,7 @@ $QData{"Signature"}
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
-                    )
-                    = $Self->{TimeObject}->SystemTime2Date(
+                    ) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                         String => $Ticket{ 'TicketFreeTime' . $Count },
                     ),
@@ -1170,7 +1165,7 @@ $QData{"Signature"}
             }
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-            Config => \%ArticleFreeText,
+            Config  => \%ArticleFreeText,
             Article => { %GetParam, %ArticleFreeDefault, },
         );
 
@@ -1234,8 +1229,7 @@ sub _Mask {
     );
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -1257,12 +1251,12 @@ sub _Mask {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid} || ' ',
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -1292,7 +1286,10 @@ sub _Mask {
             if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for ( sort keys %{ $Param{GetParam} } ) {
@@ -1329,7 +1326,10 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
     for my $Count ( 1 .. 6 ) {
@@ -1344,7 +1344,10 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1361,7 +1364,10 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1447,7 +1453,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCompose', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketCompose',
+        Data         => \%Param
+    );
 }
 
 1;

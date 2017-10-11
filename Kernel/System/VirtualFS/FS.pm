@@ -1,13 +1,12 @@
 # --
-# Kernel/System/VirtualFS/FS.pm - all virtual fs functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: FS.pm,v 1.2.4.1 2012-12-03 13:29:28 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+##nofilter(TidyAll::Plugin::OTRS::Perl::SyntaxCheck)
 
 package Kernel::System::VirtualFS::FS;
 
@@ -18,9 +17,6 @@ use Time::HiRes qw();
 
 # to get it writable for the otrs group (just in case)
 umask 002;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,7 +71,10 @@ sub Read {
     # check needed stuff
     for (qw(BackendKey Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -110,7 +109,10 @@ sub Write {
     # check needed stuff
     for (qw(Content Filename Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -173,7 +175,10 @@ sub Delete {
     # check needed stuff
     for (qw(BackendKey)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -202,7 +207,10 @@ sub _BackendKeyParse {
     # check needed stuff
     for (qw(BackendKey)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -222,7 +230,10 @@ sub _SplitDir {
     # check needed stuff
     for (qw(Filename)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

@@ -1,8 +1,5 @@
 # --
-# Kernel/System/FileTemp.pm - tmp files
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: FileTemp.pm,v 1.16 2010-06-17 21:39:40 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +14,6 @@ use warnings;
 use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
-
-$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -124,9 +119,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.16 $ $Date: 2010-06-17 21:39:40 $
 
 =cut

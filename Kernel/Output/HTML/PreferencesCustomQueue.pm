@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/PreferencesCustomQueue.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: PreferencesCustomQueue.pm,v 1.15.2.1 2011-04-06 16:38:52 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::PreferencesCustomQueue;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +41,7 @@ sub Param {
     if ( $Param{UserData}->{UserID} ) {
         %QueueData = $Self->{QueueObject}->GetAllQueues(
             UserID => $Param{UserData}->{UserID},
-            Type => $Self->{ConfigItem}->{Permission} || 'ro',
+            Type   => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
     if ( $Self->{ParamObject}->GetArray( Param => 'QueueID' ) ) {

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminQueueResponses.pm,v 1.41.2.3 2011-11-14 07:38:26 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::Queue;
 use Kernel::System::StandardResponse;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,8 +44,7 @@ sub Run {
 
         # get response data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID );
 
         # get queues
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
@@ -84,8 +77,7 @@ sub Run {
         my %QueueData = $Self->{QueueObject}->QueueGet( ID => $ID );
 
         # get responses
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
 
         # get assigned responses
         my %Member = $Self->{QueueObject}->GetStandardResponses(
@@ -177,7 +169,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Response';
     my $NeType = $Type eq 'Queue' ? 'Response' : 'Queue';
 
-    my %VisibleType = ( Response => 'Response', Queue => 'Queue', );
+    my %VisibleType = (
+        Response => 'Response',
+        Queue    => 'Queue',
+    );
 
     my $MyType = $VisibleType{$Type};
 

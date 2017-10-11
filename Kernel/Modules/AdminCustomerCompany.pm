@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminCustomerCompany.pm,v 1.22.2.1 2011-04-06 16:37:27 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,7 +44,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $CustomerID, );
+        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+            CustomerID => $CustomerID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -434,8 +430,7 @@ sub _Overview {
         if (%List) {
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-                my %Data
-                    = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
+                my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {

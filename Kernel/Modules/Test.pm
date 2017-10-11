@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/Test.pm - a simple test module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Test.pm,v 1.17 2009-02-16 11:20:53 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::Test;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,7 +104,10 @@ sub Run {
     );
 
     # get test page
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'Test', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'Test',
+        Data         => \%Param
+    );
 
     # get test page footer
     $Output .= $Self->{LayoutObject}->Footer();

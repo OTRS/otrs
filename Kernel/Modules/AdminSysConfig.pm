@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminSysConfig.pm - to change, import, export ConfigParameters
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminSysConfig.pm,v 1.112.2.5 2011-11-23 20:15:42 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::SysConfig;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.112.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,7 +91,9 @@ sub Run {
             Source => 'String',
         );
         if ( !%UploadStuff ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need File!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need File!',
+            );
         }
         elsif ( $Self->{SysConfigObject}->Upload( Content => $UploadStuff{Content} ) ) {
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
@@ -121,7 +117,7 @@ sub Run {
 
         my $SubGroup = $Self->{ParamObject}->GetParam( Param => 'SysConfigSubGroup' );
         my $Group    = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
-        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
+        my @List     = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup,
         );
@@ -362,8 +358,7 @@ sub Run {
 
                 # get Params
                 for (qw(Description Title NavBarName)) {
-                    $Content{$_}
-                        = $Self->{ParamObject}->GetParam( Param => $ElementKey . '#' . $_ );
+                    $Content{$_} = $Self->{ParamObject}->GetParam( Param => $ElementKey . '#' . $_ );
                 }
                 for my $Type (qw(Group GroupRo)) {
                     my @Group = $Self->{ParamObject}->GetArray(
@@ -587,8 +582,7 @@ sub Run {
                     );
                     if ( !$Delete ) {
                         $Content{ $Year[$Index] }->{ int( $Month[$Index] ) }
-                            ->{ int( $Day[$Index] ) }
-                            = $Values[$Index];
+                            ->{ int( $Day[$Index] ) } = $Values[$Index];
                     }
                     else {
                         $Anker = $ItemHash{Name};
@@ -633,8 +627,7 @@ sub Run {
                             . ( $Index + 1 )
                     );
                     if ( !$Delete ) {
-                        $Content{ int( $Month[$Index] ) }->{ int( $Day[$Index] ) }
-                            = $Values[$Index];
+                        $Content{ int( $Month[$Index] ) }->{ int( $Day[$Index] ) } = $Values[$Index];
                     }
                     else {
                         $Anker = $ItemHash{Name};
@@ -671,8 +664,7 @@ sub Run {
                 my %Content;
                 for my $Index ( 1 .. $#{ $ItemHash{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} } )
                 {
-                    my $Weekday
-                        = $ItemHash{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}->[$Index]->{Name};
+                    my $Weekday = $ItemHash{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}->[$Index]->{Name};
                     my @Hours = $Self->{ParamObject}->GetArray( Param => $_ . $Weekday . '[]' );
                     $Content{$Weekday} = \@Hours;
                 }
@@ -705,7 +697,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Edit' ) {
         my $SubGroup = $Self->{ParamObject}->GetParam( Param => 'SysConfigSubGroup' );
         my $Group    = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
-        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
+        my @List     = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
         );
@@ -1124,7 +1116,9 @@ sub ListConfigItem {
     if ( defined $Item->{Hash} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementHash',
-            Data => { ElementKey => $ItemHash{Name}, },
+            Data => {
+                ElementKey => $ItemHash{Name},
+            },
         );
 
         # Hashelements
@@ -1282,7 +1276,9 @@ sub ListConfigItem {
     if ( defined $Item->{Array} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementArray',
-            Data => { ElementKey => $ItemHash{Name}, },
+            Data => {
+                ElementKey => $ItemHash{Name},
+            },
         );
 
         # ArrayElements
@@ -1387,8 +1383,7 @@ sub ListConfigItem {
                 $Data{ 'Key' . $Key }     = $Key;
                 $Data{ 'Content' . $Key } = '';
                 if ( defined $FrontendModuleReg->{NavBar}->[1]->{$Key}->[1]->{Content} ) {
-                    $Data{ 'Content' . $Key }
-                        = $FrontendModuleReg->{NavBar}->[$Index]->{$Key}->[1]->{Content};
+                    $Data{ 'Content' . $Key } = $FrontendModuleReg->{NavBar}->[$Index]->{$Key}->[1]->{Content};
                 }
             }
             $Data{ElementKey} = $ItemHash{Name} . '#NavBar';
@@ -1429,8 +1424,7 @@ sub ListConfigItem {
                     $Data{ 'Key' . $Key }     = $Key;
                     $Data{ 'Content' . $Key } = '';
                     if ( defined $FrontendModuleReg->{NavBarModule}->[1]->{$Key}->[1]->{Content} ) {
-                        $Data{ 'Content' . $Key }
-                            = $FrontendModuleReg->{NavBarModule}->[1]->{$Key}->[1]->{Content};
+                        $Data{ 'Content' . $Key } = $FrontendModuleReg->{NavBarModule}->[1]->{$Key}->[1]->{Content};
                     }
                 }
                 $Data{ElementKey} = $ItemHash{Name} . '#NavBarModule';
@@ -1453,8 +1447,7 @@ sub ListConfigItem {
                 $Data{ 'Key' . $Key }     = $Key;
                 $Data{ 'Content' . $Key } = '';
                 if ( defined $FrontendModuleReg->{NavBarModule}->{$Key}->[1]->{Content} ) {
-                    $Data{ 'Content' . $Key }
-                        = $FrontendModuleReg->{NavBarModule}->{$Key}->[1]->{Content};
+                    $Data{ 'Content' . $Key } = $FrontendModuleReg->{NavBarModule}->{$Key}->[1]->{Content};
                 }
             }
             $Data{ElementKey} = $ItemHash{Name} . '#NavBarModule';
@@ -1487,7 +1480,13 @@ sub ListConfigItem {
             Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement',
         );
         if ($New) {
-            push( @{ $Item->{TimeVacationDaysOneTime}[1]{Item} }, { Key => '', Content => '' } );
+            push(
+                @{ $Item->{TimeVacationDaysOneTime}[1]{Item} },
+                {
+                    Key     => '',
+                    Content => ''
+                }
+            );
         }
 
         # TimeVacationDaysOneTimeElements
@@ -1510,8 +1509,7 @@ sub ListConfigItem {
                 !~ /^\d\d\d\d$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidYear' );
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidYear' );
             }
             if (
                 $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
@@ -1519,8 +1517,7 @@ sub ListConfigItem {
                 !~ /^(1[0-2]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidMonth' );
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidMonth' );
             }
             if (
                 $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
@@ -1528,8 +1525,7 @@ sub ListConfigItem {
                 !~ /^([1-3][0-9]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidDay' );
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementTimeVacationDaysOneTimeContentInvalidDay' );
             }
         }
         return 1;
@@ -1549,7 +1545,13 @@ sub ListConfigItem {
             Param => $ItemHash{Name} . '#NewTimeVacationDaysElement',
         );
         if ($New) {
-            push( @{ $Item->{TimeVacationDays}[1]{Item} }, { Key => '', Content => '' } );
+            push(
+                @{ $Item->{TimeVacationDays}[1]{Item} },
+                {
+                    Key     => '',
+                    Content => ''
+                }
+            );
         }
 
         # TimeVacationDaysElements
@@ -1570,8 +1572,7 @@ sub ListConfigItem {
                 !~ /^(1[0-2]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidMonth' );
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidMonth' );
             }
 
             if (
@@ -1580,8 +1581,7 @@ sub ListConfigItem {
                 !~ /^([1-3][0-9]|[1-9])$/
                 )
             {
-                $Self->{LayoutObject}
-                    ->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidDay' );
+                $Self->{LayoutObject}->Block( Name => 'ConfigElementTimeVacationDaysContentInvalidDay' );
             }
         }
         return 1;
@@ -1612,8 +1612,7 @@ sub ListConfigItem {
         for my $Index ( 1 .. $#{ $Item->{TimeWorkingHours}->[1]->{Day} } ) {
 
             # assign index id to day id for sorting
-            $SortWeekdays{ $WeekdayLookup{ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name} } }
-                = $Index;
+            $SortWeekdays{ $WeekdayLookup{ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name} } } = $Index;
         }
 
         # get output sorted by day id

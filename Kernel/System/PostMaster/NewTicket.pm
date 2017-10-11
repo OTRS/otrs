@@ -1,8 +1,5 @@
 # --
-# Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: NewTicket.pm,v 1.76 2009-10-07 20:41:50 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,7 +39,10 @@ sub Run {
     # check needed stuff
     for (qw(InmailUserID GetParam)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -70,9 +67,13 @@ sub Run {
     }
 
     # get sender email
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        Line => $GetParam{From},
+    );
     for (@EmailAddresses) {
-        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
+        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
+            Email => $_,
+        );
     }
 
     # get customer id (sender email) if there is no customer id given

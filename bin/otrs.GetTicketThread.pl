@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.GetTicketThread.pl - to print the whole ticket thread to STDOUT
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.GetTicketThread.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -56,10 +50,10 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 
 if ( !$ARGV[0] ) {
-    print "$0 <Revision $VERSION>\n";
+    print "$0 \n";
     print "Prints out a ticket with all its articles.\n";
     print "Usage: $0 <TicketID>\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     exit 1;
 }
 

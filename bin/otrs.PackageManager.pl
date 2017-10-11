@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.PackageManager.pl - otrs package manager cmd version
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.PackageManager.pl,v 1.10 2010-10-14 08:54:15 bes Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -41,8 +38,6 @@ use Kernel::System::Time;
 use Kernel::System::Package;
 
 # get file version
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -83,8 +78,8 @@ if ( $Opts{a} && $Opts{a} eq 'index' ) {
 
 # check needed params
 if ( $Opts{h} ) {
-    print "otrs.PackageManager.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "otrs.PackageManager.pl - OTRS Package Manager\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PackageManager.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print
@@ -263,7 +258,9 @@ if ( $Opts{a} eq 'exportfile' ) {
 
 # build
 if ( $Opts{a} eq 'build' ) {
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
         $Structure{Version}->{Content} = $Opts{v}
     }
@@ -308,7 +305,9 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 
     # get package file from db
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroUninstallPre} ) {
@@ -340,7 +339,9 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 elsif ( $Opts{a} eq 'install' ) {
 
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroInstallPre} ) {
@@ -372,7 +373,9 @@ elsif ( $Opts{a} eq 'install' ) {
 elsif ( $Opts{a} eq 'reinstall' ) {
 
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroReinstallPre} ) {
@@ -404,7 +407,9 @@ elsif ( $Opts{a} eq 'reinstall' ) {
 elsif ( $Opts{a} eq 'upgrade' ) {
 
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroUpgradePre} ) {
@@ -435,7 +440,10 @@ elsif ( $Opts{a} eq 'upgrade' ) {
 }
 elsif ( $Opts{a} eq 'list' ) {
     for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
-        my %Data = _MessageGet( Info => $Package->{Description}, Reformat => 'No' );
+        my %Data = _MessageGet(
+            Info     => $Package->{Description},
+            Reformat => 'No'
+        );
         print "+----------------------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
         print "| Version:     $Package->{Version}->{Content}\n";
@@ -515,13 +523,17 @@ elsif ( $Opts{a} eq 'list-repository' ) {
     exit;
 }
 elsif ( $Opts{a} eq 'p' ) {
-    my @Data = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my @Data = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
     for my $Tag (@Data) {
         print STDERR "Tag: $Tag->{Type} $Tag->{Tag} $Tag->{Content}\n";
     }
 }
 elsif ( $Opts{a} eq 'parse' ) {
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
     for my $Key ( sort keys %Structure ) {
         if ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
             for my $Data ( @{ $Structure{$Key} } ) {
@@ -598,8 +610,7 @@ sub BuildPackageIndex {
                     print STDERR "ERROR: Can't open $OrigFile: $!\n";
                     exit 1;
                 }
-                my %Structure
-                    = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
+                my %Structure = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
                 my $XML = $CommonObject{PackageObject}->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;

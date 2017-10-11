@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: LayoutTicket.pm,v 1.123.2.9 2011-12-14 19:02:25 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.123.2.9 $) [1];
 
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
@@ -160,7 +156,10 @@ sub AgentCustomerViewTable {
     # vCard
     # Bugzilla Status
     # create & return output
-    return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'AgentCustomerTableView',
+        Data         => \%Param
+    );
 }
 
 # AgentQueueListOption()
@@ -205,8 +204,7 @@ sub AgentQueueListOption {
             );
             $Self->FatalError();
         }
-        $Param{OnChange}
-            = "Core.AJAX.FormUpdate($('#"
+        $Param{OnChange} = "Core.AJAX.FormUpdate($('#"
             . $Param{Name} . "'), '"
             . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
@@ -231,8 +229,7 @@ sub AgentQueueListOption {
     }
 
     # build tree list
-    $Param{MoveQueuesStrg}
-        = '<select name="'
+    $Param{MoveQueuesStrg} = '<select name="'
         . $Param{Name}
         . '" id="'
         . $Param{Name}
@@ -264,7 +261,10 @@ sub AgentQueueListOption {
         my $UpQueue = $Param{Data}->{$_};
         $UpQueue =~ s/^(.*)::.+?$/$1/g;
         if ( !$Queue[$MaxLevel] && $Queue[-1] ne '' ) {
-            $Queue[-1] = $Self->Ascii2Html( Text => $Queue[-1], Max => 50 - $#Queue );
+            $Queue[-1] = $Self->Ascii2Html(
+                Text => $Queue[-1],
+                Max  => 50 - $#Queue
+            );
             my $Space = '';
             for ( my $i = 0; $i < $#Queue; $i++ ) {
                 $Space .= '&nbsp;&nbsp;';
@@ -383,8 +383,8 @@ sub AgentFreeText {
             }
             elsif ( $Counter > 1 ) {
                 $Data{"TicketFreeKeyField$_"} = $Self->BuildSelection(
-                    Data => { %NullOption, %{ $Config{"TicketFreeKey$_"} }, },
-                    Name => "TicketFreeKey$_",
+                    Data        => { %NullOption, %{ $Config{"TicketFreeKey$_"} }, },
+                    Name        => "TicketFreeKey$_",
                     SelectedID  => $Ticket{"TicketFreeKey$_"},
                     Translation => 0,
                     Class       => 'TicketFreeKey',
@@ -394,8 +394,7 @@ sub AgentFreeText {
             }
             else {
                 if ($LastKey) {
-                    $Data{"TicketFreeKeyField$_"}
-                        = $Config{"TicketFreeKey$_"}->{$LastKey}
+                    $Data{"TicketFreeKeyField$_"} = $Config{"TicketFreeKey$_"}->{$LastKey}
                         . '<input type="hidden" name="TicketFreeKey'
                         . $_
                         . '" value="'
@@ -413,16 +412,14 @@ sub AgentFreeText {
                         $Ticket{"TicketFreeKey$_"} = '';
                     }
                 }
-                $Data{"TicketFreeKeyField$_"}
-                    = '<input type="text" class="TicketFreeKey" name="TicketFreeKey'
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" class="TicketFreeKey" name="TicketFreeKey'
                     . $_
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Ticket{"TicketFreeKey$_"} )
                     . '" />';
             }
             else {
-                $Data{"TicketFreeKeyField$_"}
-                    = '<input type="text" class="TicketFreeKey" name="TicketFreeKey' . $_
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" class="TicketFreeKey" name="TicketFreeKey' . $_
                     . '" value="" />';
             }
         }
@@ -469,8 +466,8 @@ sub AgentFreeText {
         # value
         if ( ref $Config{"TicketFreeText$_"} eq 'HASH' ) {
             $Data{"TicketFreeTextField$_"} = $Self->BuildSelection(
-                Data => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
-                Name => "TicketFreeText$_",
+                Data        => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
+                Name        => "TicketFreeText$_",
                 SelectedID  => $Ticket{"TicketFreeText$_"},
                 Translation => 0,
                 HTMLQuote   => 1,
@@ -491,8 +488,7 @@ sub AgentFreeText {
                         $Ticket{"TicketFreeText$_"} = '';
                     }
                 }
-                $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" class="TicketFreeText '
+                $Data{"TicketFreeTextField$_"} = '<input type="text" class="TicketFreeText '
                     . $ClassParam
                     . '" name="TicketFreeText'
                     . $_
@@ -506,8 +502,7 @@ sub AgentFreeText {
 
             }
             else {
-                $Data{"TicketFreeTextField$_"}
-                    = '<input type="text" class="TicketFreeText ' . $ClassParam
+                $Data{"TicketFreeTextField$_"} = '<input type="text" class="TicketFreeText ' . $ClassParam
                     . '" name="TicketFreeText'
                     . $_
                     . '" id="TicketFreeText'
@@ -555,7 +550,7 @@ sub AgentFreeDate {
             Prefix                              => 'TicketFreeTime' . $Count,
             Format                              => 'DateInputFormatLong',
             'TicketFreeTime' . $Count . 'Class' => $Class,
-            DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
+            DiffTime                            => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
             %TimePeriod,
             Validate => 1,
             Required => $Param{'Ticket'}->{ 'TicketFreeTime' . $Count . 'Required' } ? 1 : 0,
@@ -631,8 +626,8 @@ sub TicketArticleFreeText {
             }
             elsif ( $Counter > 1 ) {
                 $Data{"ArticleFreeKeyField$_"} = $Self->BuildSelection(
-                    Data => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
-                    Name => "ArticleFreeKey$_",
+                    Data          => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
+                    Name          => "ArticleFreeKey$_",
                     SelectedValue => $Article{"ArticleFreeKey$_"},
                     Translation   => 0,
                     Class         => 'ArticleFreeKey',
@@ -642,8 +637,7 @@ sub TicketArticleFreeText {
             }
             else {
                 if ($LastKey) {
-                    $Data{"ArticleFreeKeyField$_"}
-                        = $Config{"ArticleFreeKey$_"}->{$LastKey}
+                    $Data{"ArticleFreeKeyField$_"} = $Config{"ArticleFreeKey$_"}->{$LastKey}
                         . '<input type="hidden" name="ArticleFreeKey'
                         . $_
                         . '" value="'
@@ -661,16 +655,14 @@ sub TicketArticleFreeText {
                         $Article{"ArticleFreeKey$_"} = '';
                     }
                 }
-                $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey'
+                $Data{"ArticleFreeKeyField$_"} = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey'
                     . $_
                     . '" value="'
                     . $Self->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
                     . '" />';
             }
             else {
-                $Data{"ArticleFreeKeyField$_"}
-                    = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey' . $_
+                $Data{"ArticleFreeKeyField$_"} = '<input type="text" class="ArticleFreeKey" name="ArticleFreeKey' . $_
                     . '" value="" />';
             }
         }
@@ -717,8 +709,8 @@ sub TicketArticleFreeText {
         # value
         if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
             $Data{"ArticleFreeTextField$_"} = $Self->BuildSelection(
-                Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
-                Name => "ArticleFreeText$_",
+                Data          => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
+                Name          => "ArticleFreeText$_",
                 SelectedValue => $Article{"ArticleFreeText$_"},
                 Translation   => 0,
                 HTMLQuote     => 1,
@@ -738,8 +730,7 @@ sub TicketArticleFreeText {
                         $Article{"ArticleFreeText$_"} = '';
                     }
                 }
-                $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" class="ArticleFreeText '
+                $Data{"ArticleFreeTextField$_"} = '<input type="text" class="ArticleFreeText '
                     . $ClassParam
                     . '" name="ArticleFreeText'
                     . $_
@@ -752,8 +743,7 @@ sub TicketArticleFreeText {
                 $Data{"ArticleFreeTextField$_"} .= $DataParam;
             }
             else {
-                $Data{"ArticleFreeTextField$_"}
-                    = '<input type="text" class="ArticleFreeText ' . $ClassParam
+                $Data{"ArticleFreeTextField$_"} = '<input type="text" class="ArticleFreeText ' . $ClassParam
                     . '" name="ArticleFreeText'
                     . $_
                     . '" id="ArticleFreeText'
@@ -795,9 +785,9 @@ sub CustomerFreeDate {
             Area => 'Customer',
             %Param,
             %Ticket,
-            Prefix   => 'TicketFreeTime' . $Count,
-            Format   => 'DateInputFormatLong',
-            DiffTime => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
+            Prefix                        => 'TicketFreeTime' . $Count,
+            Format                        => 'DateInputFormatLong',
+            DiffTime                      => $Self->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Count ) || 0,
             "TicketFreeTime${Count}Class" => 'DateSelection',
             %TimePeriod,
             Validate => 1,

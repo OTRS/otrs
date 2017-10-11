@@ -1,8 +1,5 @@
 # --
-# Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SystemAddress.pm,v 1.34 2011-01-31 07:49:47 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -115,7 +109,10 @@ sub SystemAddressAdd {
     # check needed stuff
     for (qw(Name ValidID Realname QueueID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -131,7 +128,7 @@ sub SystemAddressAdd {
         ],
     );
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
+        SQL  => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
         Bind => [ \$Param{Name}, \$Param{Realname}, ],
     );
     my $ID;
@@ -169,7 +166,10 @@ sub SystemAddressGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID!"
+        );
         return;
     }
 
@@ -217,7 +217,10 @@ sub SystemAddressUpdate {
     # check needed stuff
     for (qw(ID Name ValidID Realname QueueID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -287,7 +290,10 @@ sub SystemAddressIsLocalAddress {
     # check needed stuff
     for (qw(Address)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -309,7 +315,10 @@ sub SystemAddressQueueID {
     # check needed stuff
     for (qw(Address)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -345,9 +354,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.34 $ $Date: 2011-01-31 07:49:47 $
 
 =cut

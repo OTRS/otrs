@@ -1,8 +1,5 @@
 // --
-// Core.UI.Accessibility.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-// --
-// $Id: Core.UI.Popup.UnitTest.js,v 1.1 2010-12-20 09:22:03 mg Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

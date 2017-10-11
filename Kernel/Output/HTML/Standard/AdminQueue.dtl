@@ -1,8 +1,5 @@
 # --
-# AdminQueue.dtl - provides HTML form for AdminQueue
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminQueue.dtl,v 1.22.2.1 2011-03-24 14:03:09 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

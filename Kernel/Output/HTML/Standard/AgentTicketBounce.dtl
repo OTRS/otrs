@@ -1,8 +1,5 @@
 # --
-# AgentTicketBounce.dtl - provides HTML form for bounce mask
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketBounce.dtl,v 1.47.2.1 2011-05-26 21:37:48 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

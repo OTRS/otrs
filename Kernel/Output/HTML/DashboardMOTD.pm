@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardMOTD.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardMOTD.pm,v 1.1 2009-09-21 13:15:50 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

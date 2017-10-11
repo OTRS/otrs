@@ -1,8 +1,5 @@
 // --
-// Core.UI.Popup.js - provides functionality to open popup windows
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.UI.Popup.js,v 1.11.2.3 2011-06-30 09:44:36 mn Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

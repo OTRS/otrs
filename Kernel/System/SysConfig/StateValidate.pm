@@ -1,8 +1,5 @@
 # --
-# Kernel/System/SysConfig/StateValidate.pm - all StateValidate functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: StateValidate.pm,v 1.3.2.1 2011-12-06 10:15:17 des Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ use Kernel::Config;
 use Kernel::System::State;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3.2.1 $) [1];
 
 =head1 NAME
 
@@ -354,9 +350,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.3.2.1 $ $Date: 2011-12-06 10:15:17 $
 
 =cut

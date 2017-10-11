@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/ArticleComposeSign.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: ArticleComposeSign.pm,v 1.21.2.1 2012-05-24 23:20:05 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Mail::Address;
 use Kernel::System::Crypt;
 use Kernel::System::Queue;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

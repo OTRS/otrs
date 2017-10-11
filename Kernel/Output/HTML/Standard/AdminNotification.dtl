@@ -1,8 +1,5 @@
 # --
-# AdminNotification.dtl - provides HTML form for AdminNotification
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminNotification.dtl,v 1.26.2.1 2011-05-16 08:35:14 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

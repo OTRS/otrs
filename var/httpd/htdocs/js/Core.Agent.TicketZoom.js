@@ -1,8 +1,5 @@
 // --
-// Core.Agent.TicketZoom.js - provides the special module functions for TicketZoom
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.Agent.TicketZoom.js,v 1.34.2.4 2012-10-23 11:55:15 mn Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

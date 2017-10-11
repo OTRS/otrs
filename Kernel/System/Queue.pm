@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Queue.pm,v 1.129 2011-01-21 14:30:57 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +18,6 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 use Kernel::System::Time;
 use Kernel::System::SysConfig;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.129 $) [1];
 
 =head1 NAME
 
@@ -192,7 +186,10 @@ sub GetSignature {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -245,8 +242,10 @@ sub GetStandardResponses {
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{StandardResponseID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Got no StandardResponseID or QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no StandardResponseID or QueueID!'
+        );
         return;
     }
 
@@ -407,7 +406,10 @@ sub GetAllCustomQueues {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -428,7 +430,10 @@ sub GetAllCustomQueues {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@QueueIDs );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \@QueueIDs
+    );
 
     return @QueueIDs;
 }
@@ -448,7 +453,10 @@ sub QueueLookup {
 
     # check needed stuff
     if ( !$Param{Queue} && !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Queue or QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Queue or QueueID!'
+        );
         return;
     }
 
@@ -499,7 +507,10 @@ sub QueueLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Data
+    );
 
     # return result
     return $Data;
@@ -520,7 +531,10 @@ sub GetFollowUpOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -552,7 +566,10 @@ sub GetFollowUpLockOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -581,7 +598,10 @@ sub GetQueueGroupID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -655,7 +675,10 @@ sub QueueAdd {
 
     for (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID UserID FollowUpID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -683,8 +706,8 @@ sub QueueAdd {
             . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '
             . ' ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
-            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
+            \$Param{Name},     \$Param{GroupID},        \$Param{UnlockTimeout}, \$Param{SystemAddressID},
+            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID},  \$Param{SignatureID},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
             \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
             \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{ValidID},
@@ -764,7 +787,10 @@ sub QueueGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -805,7 +831,10 @@ sub QueueGet {
         $SQL .= 'q.name = ?';
         push @Bind, \$Param{Name};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -853,7 +882,10 @@ sub QueueGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     # return result
     return %Data;
@@ -899,7 +931,10 @@ sub QueueUpdate {
         )
     {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -922,7 +957,10 @@ sub QueueUpdate {
     for my $Time (qw( UnlockTimeout FirstResponseTime UpdateTime SolutionTime )) {
         $Param{$Time} = $Param{$Time} || 0;
         if ( $Param{$Time} !~ m{^\d+$}smx ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$Time is not numeric!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$Time is not numeric!"
+            );
             return;
         }
     }
@@ -1159,9 +1197,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.129 $ $Date: 2011-01-21 14:30:57 $
 
 =cut

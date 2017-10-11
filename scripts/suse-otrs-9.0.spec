@@ -1,8 +1,5 @@
 # --
-# RPM spec file for SUSE Linux 9.0 of the OTRS package
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-# --
-# $Id: suse-otrs-9.0.spec,v 1.15.2.2 2011-09-08 14:29:36 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

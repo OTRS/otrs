@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/PublicDefault.pm - provides a default public module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: PublicDefault.pm,v 1.3 2009-02-16 11:20:53 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::PublicDefault;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

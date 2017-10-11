@@ -1,8 +1,5 @@
 # --
-# Kernel/System/VirtualFS.pm - all virtual fs functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: VirtualFS.pm,v 1.10 2010-11-25 11:19:50 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::VirtualFS;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -134,7 +128,10 @@ sub Read {
     # check needed stuff
     for (qw(Filename Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -208,7 +205,10 @@ sub Write {
     # check needed stuff
     for (qw(Filename Content Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -267,7 +267,7 @@ sub Write {
 
     # update backend key
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
+        SQL  => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
         Bind => [ \$BackendKey, \$FileID ],
     );
 
@@ -293,7 +293,10 @@ sub Delete {
     # check needed stuff
     for (qw(Filename)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -520,9 +523,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.10 $ $Date: 2010-11-25 11:19:50 $
 
 =cut

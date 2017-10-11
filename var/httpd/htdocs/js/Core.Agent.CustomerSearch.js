@@ -1,8 +1,5 @@
 // --
-// Core.Agent.CustomerSearch.js - provides the special module functions for the customer search
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.Agent.CustomerSearch.js,v 1.14.2.10 2012-06-14 12:55:31 mg Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

@@ -1,9 +1,5 @@
 # --
-# Kernel/System/Ticket/Permission/WatcherCheck.pm - the sub module of
-# the global ticket handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: WatcherCheck.pm,v 1.3 2009-02-26 10:27:58 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,7 +34,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

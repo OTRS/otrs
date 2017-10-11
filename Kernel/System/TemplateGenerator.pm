@@ -1,8 +1,5 @@
 # --
-# Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: TemplateGenerator.pm,v 1.53.2.1 2012-06-04 10:20:43 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +20,6 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53.2.1 $) [1];
 
 =head1 NAME
 
@@ -176,7 +172,10 @@ sub Salutation {
     # check needed stuff
     for (qw(TicketID Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -255,14 +254,20 @@ sub Signature {
     # check needed stuff
     for (qw(Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # need ticket id or queue id
     if ( !$Param{TicketID} && !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID or QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID or QueueID!'
+        );
         return;
     }
 
@@ -344,7 +349,10 @@ sub Sender {
     # check needed stuff
     for (qw( UserID QueueID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -423,7 +431,10 @@ sub Response {
     # check needed stuff
     for (qw(TicketID ResponseID Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -501,7 +512,10 @@ sub Attributes {
     # check needed stuff
     for (qw(TicketID Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -560,7 +574,10 @@ sub AutoResponse {
     # check needed stuff
     for (qw(TicketID AutoResponseType OrigHeader UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -725,7 +742,10 @@ sub NotificationAgent {
     # check needed stuff
     for (qw(TicketID Type RecipientID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -819,7 +839,7 @@ sub NotificationAgent {
     # prepare subject (insert old subject)
     $Param{CustomerMessageParams}->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Ticket{TicketNumber},
-        Subject => $Param{CustomerMessageParams}->{Subject} || '',
+        Subject      => $Param{CustomerMessageParams}->{Subject} || '',
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
@@ -889,7 +909,10 @@ sub NotificationCustomer {
     # check needed stuff
     for (qw(TicketID Type UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -948,7 +971,10 @@ sub _Replace {
     # check needed stuff
     for (qw(Text RichText Data UserID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1347,9 +1373,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.53.2.1 $ $Date: 2012-06-04 10:20:43 $
 
 =cut

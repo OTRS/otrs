@@ -1,8 +1,5 @@
 # --
-# Kernel/System/DB/postgresql.pm - postgresql database backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: postgresql.pm,v 1.57.2.3 2011-03-01 19:17:30 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::DB::postgresql;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,15 +54,15 @@ sub LoadPreferences {
     # init sql setting on db connect
     #$Self->{'DB::Connect'} = '';
 
-# Postgres has a setting which determines how strings must be escaped. We cannot rely on the system configuration
-# for that, so we should set it to the recommended value. However, this is not currently possible because this
-# setting is not supported in older postgres versions. This is a problem, because the Postgresql documentation
-# states that in future versions the default configuration setting will change.
-#
-# see http://www.postgresql.org/docs/9.0/static/runtime-config-compatible.html#GUC-STANDARD-CONFORMING-STRINGS
-# and http://www.postgresql.org/docs/9.0/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS
-# $Self->{'DB::QuoteUnderscore'}  = '\\';
-# $Self->{'DB::Connect'} = 'SET standard_conforming_strings TO ON';
+    # Postgres has a setting which determines how strings must be escaped. We cannot rely on the system configuration
+    # for that, so we should set it to the recommended value. However, this is not currently possible because this
+    # setting is not supported in older postgres versions. This is a problem, because the Postgresql documentation
+    # states that in future versions the default configuration setting will change.
+    #
+    # see http://www.postgresql.org/docs/9.0/static/runtime-config-compatible.html#GUC-STANDARD-CONFORMING-STRINGS
+    # and http://www.postgresql.org/docs/9.0/static/sql-syntax-lexical.html#SQL-SYNTAX-CONSTANTS
+    # $Self->{'DB::QuoteUnderscore'}  = '\\';
+    # $Self->{'DB::Connect'} = 'SET standard_conforming_strings TO ON';
 
     return 1;
 }
@@ -107,7 +101,10 @@ sub DatabaseCreate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -120,7 +117,10 @@ sub DatabaseDrop {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -479,7 +479,10 @@ sub IndexCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -508,7 +511,10 @@ sub IndexDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -522,7 +528,10 @@ sub ForeignKeyCreate {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -551,7 +560,10 @@ sub ForeignKeyDrop {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -579,7 +591,10 @@ sub UniqueCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -604,7 +619,10 @@ sub UniqueDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

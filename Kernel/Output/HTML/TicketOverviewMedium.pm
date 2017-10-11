@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/TicketOverviewMedium.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketOverviewMedium.pm,v 1.40.2.1 2011-03-01 18:17:20 cg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -104,7 +98,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -216,7 +213,10 @@ sub _Show {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -240,11 +240,13 @@ sub _Show {
     %Article = ( %UserInfo, %Article );
 
     # create human age
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Article{Age},
+        Space => ' '
+    );
 
     # fetch all std. responses ...
-    my %StandardResponses
-        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
+    my %StandardResponses = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
 
     $Param{StandardResponsesStrg} = $Self->{LayoutObject}->BuildSelection(
         Name => 'ResponseID',
@@ -281,7 +283,10 @@ sub _Show {
             if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
+            my $Object = $Menus{$Menu}->{Module}->new(
+                %{$Self},
+                TicketID => $Param{TicketID},
+            );
 
             # run module
             my $Item = $Object->Run(
@@ -340,7 +345,7 @@ sub _Show {
     # prepare subject
     $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Article{Subject} || '',
     );
 
     $Self->{LayoutObject}->Block(
@@ -438,7 +443,10 @@ sub _Show {
             );
 
             # run module
-            my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
+            my @Data = $Object->Check(
+                Article => \%Article,
+                %Param, Config => $Jobs{$Job}
+            );
 
             for my $DataRef (@Data) {
                 $Self->{LayoutObject}->Block(
@@ -448,7 +456,10 @@ sub _Show {
             }
 
             # filter option
-            $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
+            $Object->Filter(
+                Article => \%Article,
+                %Param, Config => $Jobs{$Job}
+            );
         }
     }
 
@@ -725,7 +736,7 @@ sub _Show {
     # create & return output
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewMedium',
-        Data => { %Param, %Article, %AclAction },
+        Data         => { %Param, %Article, %AclAction },
     );
 
     return \$Output;

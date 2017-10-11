@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.20 2009-10-07 20:41:50 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,14 +28,11 @@ sub new {
     # preferences table data
     $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
         || 'customer_preferences';
-    $Self->{PreferencesTableKey}
-        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
+    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
         || 'preferences_key';
-    $Self->{PreferencesTableValue}
-        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableValue}
+    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableValue}
         || 'preferences_value';
-    $Self->{PreferencesTableUserID}
-        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
+    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
         || 'user_id';
 
     return $Self;

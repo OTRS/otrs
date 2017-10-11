@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminSystemAddress.pm,v 1.42 2010-11-19 22:28:58 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::Queue;
 use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 use Kernel::System::CheckItem;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +47,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{SystemAddressObject}->SystemAddressGet( ID => $ID, );
+        my %Data = $Self->{SystemAddressObject}->SystemAddressGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -271,10 +267,10 @@ sub _Edit {
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
-        Name => 'QueueID',
-        SelectedID     => $Param{QueueID},
-        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Data       => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
+        Name       => 'QueueID',
+        SelectedID => $Param{QueueID},
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
         OnChangeSubmit => 0,
     );
 
@@ -328,7 +324,9 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SystemAddressObject}->SystemAddressList( Valid => 0, );
+    my %List = $Self->{SystemAddressObject}->SystemAddressList(
+        Valid => 0,
+    );
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();

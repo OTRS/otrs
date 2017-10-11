@@ -1,8 +1,5 @@
 # --
-# Kernel/System/SLA.pm - all sla function
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SLA.pm,v 1.37 2010-06-17 21:39:40 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -115,7 +111,10 @@ sub SLAList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -199,7 +198,10 @@ sub SLAGet {
     # check needed stuff
     for my $Argument (qw(SLAID UserID)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Argument!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!"
+            );
             return;
         }
     }
@@ -456,9 +458,9 @@ sub SLAAdd {
             . 'valid_id, comments, create_time, create_by, change_time, change_by) VALUES '
             . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name},                \$Param{Calendar},   \$Param{FirstResponseTime},
-            \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
-            \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{Name},                \$Param{Calendar},       \$Param{FirstResponseTime},
+            \$Param{FirstResponseNotify}, \$Param{UpdateTime},     \$Param{UpdateNotify},
+            \$Param{SolutionTime},        \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -496,7 +498,7 @@ sub SLAAdd {
 
         # add one allocation
         $Self->{DBObject}->Do(
-            SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$SLAID ],
         );
     }
@@ -606,9 +608,9 @@ sub SLAUpdate {
             . 'valid_id = ?, comments = ?, change_time = current_timestamp, change_by = ? '
             . 'WHERE id = ?',
         Bind => [
-            \$Param{Name},                \$Param{Calendar},   \$Param{FirstResponseTime},
-            \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
-            \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{Name},                \$Param{Calendar},       \$Param{FirstResponseTime},
+            \$Param{FirstResponseNotify}, \$Param{UpdateTime},     \$Param{UpdateNotify},
+            \$Param{SolutionTime},        \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{SLAID},
         ],
     );
@@ -624,7 +626,7 @@ sub SLAUpdate {
 
         # add one allocation
         return if !$Self->{DBObject}->Do(
-            SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$Param{SLAID} ],
         );
     }
@@ -681,9 +683,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.37 $ $Date: 2010-06-17 21:39:40 $
 
 =cut

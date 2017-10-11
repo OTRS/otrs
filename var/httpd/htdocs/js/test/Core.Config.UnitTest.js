@@ -1,8 +1,5 @@
 // --
-// Core.Config.UnitTest.js - UnitTests
-// Copyright (C) 2001-2010 OTRS AG, http://otrs.org/\n";
-// --
-// $Id: Core.Config.UnitTest.js,v 1.3 2010-11-24 11:05:24 mn Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

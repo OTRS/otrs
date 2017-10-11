@@ -1,8 +1,5 @@
 # --
-# AdminUser.dtl - provides HTML form for AdminUser
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminUser.dtl,v 1.31.2.4 2011-09-15 00:51:10 sb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

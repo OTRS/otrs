@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentBook.pm - addressbook module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentBook.pm,v 1.18 2010-06-30 08:56:38 mn Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,11 +45,15 @@ sub Run {
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
     my %CustomerUserList;
     if ($Search) {
-        %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch( Search => $Search, );
+        %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Search,
+        );
     }
     my %List;
     for ( keys %CustomerUserList ) {
-        my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_, );
+        my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $_,
+        );
         if ( $CustomerUserData{UserEmail} ) {
             $List{ $CustomerUserData{UserEmail} } = $CustomerUserList{$_};
         }
@@ -82,7 +80,10 @@ sub Run {
 
     # start with page ...
     my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentBook', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentBook',
+        Data         => \%Param
+    );
     $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
 
     return $Output;

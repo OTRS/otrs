@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/PreferencesPassword.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: PreferencesPassword.pm,v 1.27 2010-09-06 07:23:05 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::PreferencesPassword;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,8 +94,7 @@ sub Run {
 
     # compare pws
     if ( $Pw ne $Pw1 ) {
-        $Self->{Error}
-            = 'Can\'t update password, your new passwords do not match. Please try again!';
+        $Self->{Error} = 'Can\'t update password, your new passwords do not match. Please try again!';
         return;
     }
 
@@ -131,8 +124,7 @@ sub Run {
 
     # check min 1 lower and 1 upper char
     if ( $Config->{PasswordMin2Lower2UpperCharacters} && ( $Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/ ) ) {
-        $Self->{Error}
-            = 'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!';
+        $Self->{Error} = 'Can\'t update password, it must contain at least 2 lowercase  and 2 uppercase characters!';
         return;
     }
 
@@ -153,8 +145,7 @@ sub Run {
         String => $Pw,
     );
     if ( $Param{UserData}->{UserLastPw} && ( $MD5Pw eq $Param{UserData}->{UserLastPw} ) ) {
-        $Self->{Error}
-            = "Can\'t update password, this password has already been used. Please choose a new one!";
+        $Self->{Error} = "Can\'t update password, this password has already been used. Please choose a new one!";
         return;
     }
 

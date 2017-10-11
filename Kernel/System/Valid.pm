@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Valid.pm - all valid functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Valid.pm,v 1.22 2010-06-17 21:39:40 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +14,6 @@ use warnings;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -120,7 +116,10 @@ sub ValidList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     return %Data;
 }
@@ -144,7 +143,10 @@ sub ValidLookup {
 
     # check needed stuff
     if ( !$Param{Valid} && !$Param{ValidID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Valid or ValidID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Valid or ValidID!'
+        );
         return;
     }
 
@@ -189,7 +191,10 @@ sub ValidLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Data
+    );
 
     return $Data;
 }
@@ -224,7 +229,10 @@ sub ValidIDsGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@ValidIDs );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \@ValidIDs
+    );
 
     return @ValidIDs;
 }
@@ -242,9 +250,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.22 $ $Date: 2010-06-17 21:39:40 $
 
 =cut

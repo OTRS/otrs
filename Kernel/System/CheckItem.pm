@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CheckItem.pm - the global spelling module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CheckItem.pm,v 1.40.2.1 2011-09-07 21:08:46 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::CheckItem;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40.2.1 $) [1];
 
 =head1 NAME
 
@@ -121,7 +115,10 @@ sub CheckEmail {
 
     # check needed stuff
     if ( !$Param{Address} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Address!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Address!'
+        );
         return;
     }
 
@@ -364,9 +361,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.40.2.1 $ $Date: 2011-09-07 21:08:46 $
 
 =cut

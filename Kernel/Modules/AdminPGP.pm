@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminPGP.pm,v 1.32 2010-11-23 17:49:42 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Crypt;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,7 +81,9 @@ sub Run {
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Key to delete!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Key to delete!',
+            );
         }
         my $Success = '';
         if ( $Type eq 'sec' ) {
@@ -125,7 +121,10 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
 
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPGP',
+            Data         => \%Param
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -232,7 +231,9 @@ sub Run {
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Key to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Key to download!',
+            );
         }
         my $KeyString = '';
         if ( $Type eq 'sec' ) {
@@ -256,7 +257,9 @@ sub Run {
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Key to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Key to download!',
+            );
         }
         my $Download = '';
         if ( $Type eq 'sec' ) {
@@ -317,7 +320,10 @@ sub Run {
                 Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
             );
         }
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPGP',
+            Data         => \%Param
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

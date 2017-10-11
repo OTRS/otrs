@@ -1,8 +1,5 @@
 # --
-# Ticket/Number/Date.pm - a date ticket number generator
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Date.pm,v 1.31 2009-05-15 10:12:02 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ package Kernel::System::Ticket::Number::Date;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;

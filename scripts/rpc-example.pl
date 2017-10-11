@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# scripts/rpc-example.pl - soap example client
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: rpc-example.pl,v 1.7.4.1 2011-10-24 09:22:20 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,7 +25,10 @@ use SOAP::Lite;
 
 my $User = 'some_user';
 my $Pw   = 'some_pass';
-my $RPC = new SOAP::Lite( proxy => 'http://127.0.0.1/otrs/rpc.pl', uri => 'http://localhost/Core' );
+my $RPC  = new SOAP::Lite(
+    proxy => 'http://127.0.0.1/otrs/rpc.pl',
+    uri   => 'http://localhost/Core'
+);
 
 # create a new ticket number
 print "NOTICE: TicketObject->TicketCreateNumber()\n";

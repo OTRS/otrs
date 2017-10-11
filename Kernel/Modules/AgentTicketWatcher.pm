@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketWatcher.pm,v 1.15.2.1 2012-01-20 10:26:39 jh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AgentTicketWatcher;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +35,9 @@ sub Run {
     # check if feature is active
     # ------------------------------------------------------------ #
     if ( !$Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-        return $Self->{LayoutObject}->ErrorScreen( Message => 'Feature is not active', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'Feature is not active',
+        );
     }
 
     # ------------------------------------------------------------ #

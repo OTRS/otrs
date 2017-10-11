@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminEmail.pm - to send a email to all agents
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: AdminEmail.pm,v 1.48 2010-11-23 00:10:35 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Email;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,8 +43,7 @@ sub Run {
     my ( %GetParam, %Errors );
 
     for my $Parameter (qw(From Subject Body Bcc GroupPermission NotifyCustomerUsers)) {
-        $Param{$Parameter}
-            = $Self->{ParamObject}->GetParam( Param => $Parameter )
+        $Param{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter )
             || $Param{$Parameter}
             || '';
     }
@@ -215,28 +208,28 @@ sub Run {
         );
     }
 
-    $Reference = defined( @{ $GetParam{UserIDs} } ) ? \@{ $GetParam{UserIDs} } : '';
+    $Reference = @{ $GetParam{UserIDs} || [] } ? \@{ $GetParam{UserIDs} } : '';
     $Param{UserOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
-        Name => 'UserIDs',
-        Size => 6,
+        Data       => { $Self->{UserObject}->UserList( Valid => 1 ) },
+        Name       => 'UserIDs',
+        Size       => 6,
         Multiple   => 1,
         SelectedID => $Reference,
-        Class      => $Errors{BccInvalid} || '',
+        Class => $Errors{BccInvalid} || '',
     );
 
-    $Reference = defined( @{ $GetParam{GroupIDs} } ) ? \@{ $GetParam{GroupIDs} } : '';
+    $Reference = @{ $GetParam{GroupIDs} || [] } ? \@{ $GetParam{GroupIDs} } : '';
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
-        Size => 6,
-        Name => 'GroupIDs',
+        Data       => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+        Size       => 6,
+        Name       => 'GroupIDs',
         Multiple   => 1,
         SelectedID => $Reference,
-        Class      => $Errors{BccInvalid} || '',
+        Class => $Errors{BccInvalid} || '',
     );
 
     my %RoleList = $Self->{GroupObject}->RoleList( Valid => 1 );
-    $Reference = defined( @{ $GetParam{RoleIDs} } ) ? \@{ $GetParam{RoleIDs} } : '';
+    $Reference = @{ $GetParam{RoleIDs} || [] } ? \@{ $GetParam{RoleIDs} } : '';
     $Param{RoleOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => \%RoleList,
         Size       => 6,

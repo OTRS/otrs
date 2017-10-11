@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerAuth/DB.pm - provides the db authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.32.2.2 2011-04-01 15:25:37 mp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 use Digest::SHA::PurePerl qw(sha1_hex sha256_hex);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,14 +32,11 @@ sub new {
     # config options
     $Self->{Table} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::Table' . $Param{Count} )
         || die "Need CustomerAuthModule::DB::Table$Param{Count} in Kernel/Config.pm!";
-    $Self->{Key}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::CustomerKey' . $Param{Count} )
+    $Self->{Key} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::CustomerKey' . $Param{Count} )
         || die "Need CustomerAuthModule::DB::CustomerKey$Param{Count} in Kernel/Config.pm!";
-    $Self->{Pw}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::CustomerPassword' . $Param{Count} )
+    $Self->{Pw} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::CustomerPassword' . $Param{Count} )
         || die "Need CustomerAuthModule::DB::CustomerPw$Param{Count} in Kernel/Config.pm!";
-    $Self->{CryptType}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::CryptType' . $Param{Count} )
+    $Self->{CryptType} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::CryptType' . $Param{Count} )
         || '';
 
     if ( $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ) ) {
@@ -78,12 +69,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -94,7 +90,10 @@ sub Auth {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need User!"
+        );
         return;
     }
 

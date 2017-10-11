@@ -1,8 +1,5 @@
 # --
-# Ticket.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Ticket.t,v 1.68.2.6 2011-09-06 22:42:31 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -100,7 +97,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectClean()
         $NewSubject = $TicketObject->TicketSubjectClean(
             TicketNumber => '2004040510440485',
-            Subject => 'Re[5]: [' . $TicketHook . ': 2004040510440485] Re: RE: WG: Some Subject',
+            Subject      => 'Re[5]: [' . $TicketHook . ': 2004040510440485] Re: RE: WG: Some Subject',
         );
         if ( $NewSubject !~ /^(Re:|\[$TicketHook)/ ) {
             $Self->True(
@@ -118,7 +115,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectClean()
         $NewSubject = $TicketObject->TicketSubjectClean(
             TicketNumber => '2004040510440485',
-            Subject => 'Re[5]: Re: RE: WG: Some Subject [' . $TicketHook . ': 2004040510440485]',
+            Subject      => 'Re[5]: Re: RE: WG: Some Subject [' . $TicketHook . ': 2004040510440485]',
         );
         if ( $NewSubject !~ /2004040510440485/ ) {
             $Self->True(
@@ -180,7 +177,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectBuild()
         $NewSubject = $TicketObject->TicketSubjectBuild(
             TicketNumber => '2004040510440485',
-            Subject => '[' . $TicketHook . ':2004040510440485] Antwort: Re: Antwort: Some Subject2',
+            Subject      => '[' . $TicketHook . ':2004040510440485] Antwort: Re: Antwort: Some Subject2',
         );
         if ( $TicketSubjectConfig eq 'Left' ) {
             $Self->Is(
@@ -224,7 +221,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectBuild()
         $NewSubject = $TicketObject->TicketSubjectBuild(
             TicketNumber => '2004040510440485',
-            Subject => 'Re: [' . $TicketHook . ': 2004040510440485] Re: Antwort: Some Subject2',
+            Subject      => 'Re: [' . $TicketHook . ': 2004040510440485] Re: Antwort: Some Subject2',
         );
         if ( $TicketSubjectConfig eq 'Left' ) {
             $Self->Is(
@@ -2941,7 +2938,7 @@ If you feel the urge to write Perl modules, perlnewmod will give you good advice
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
 );
 
 $Self->True(
@@ -4260,13 +4257,13 @@ my $TypeObject = Kernel::System::Type->new( %{$Self} );
             },
             {
                 ArticleCreate => {
-                    ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
-                    SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some Agent <email@example.com>',           # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'ISO-8859-15',
+                    ArticleType => 'note-internal',                     # email-external|email-internal|phone|fax|...
+                    SenderType  => 'agent',                             # agent|system|customer
+                    From        => 'Some Agent <email@example.com>',    # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'ISO-8859-15',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
@@ -4278,11 +4275,11 @@ my $TypeObject = Kernel::System::Type->new( %{$Self} );
                 ArticleCreate => {
                     ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
                     SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some other Agent <email2@example.com>',    # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'UTF-8',
+                    From        => 'Some other Agent <email2@example.com>',       # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'UTF-8',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
@@ -5039,7 +5036,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         "Merge tickets",
     );
 
-# verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
+    # verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
     $Self->Is(
         $TicketObject->TicketAccountedTimeGet( TicketID => $TicketIDs[0] ),
         $AccountedTimes[0] + $AccountedTimes[ $ArraySize - 1 ],
@@ -5058,9 +5055,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
     }
 }
 
-# ---
 # avoid StateType and StateTypeID problems in TicketSearch()
-# ---
 
 my %StateTypeList = $StateObject->StateTypeList(
     UserID => 1,
@@ -5359,7 +5354,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
     $Self->True(
         $ArticleID,
@@ -5392,7 +5387,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
     $Self->True(
         $ArticleID,

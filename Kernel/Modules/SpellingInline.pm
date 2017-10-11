@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/SpellingInline.pm - spelling module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SpellingInline.pm,v 1.2.4.1 2012-07-16 09:16:50 mn Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Spelling;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.4.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

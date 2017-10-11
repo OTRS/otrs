@@ -1,8 +1,5 @@
 # --
-# AgentTicketClose.dtl - provides HTML form for close mask
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketClose.dtl,v 1.42 2010-06-18 17:46:20 mp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

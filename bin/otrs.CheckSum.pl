@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.CheckSum.pl - a tool to compare changes in a installation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.CheckSum.pl,v 1.9 2010-10-28 11:13:28 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -30,7 +27,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -44,8 +40,8 @@ my %Compare;
 my %Opts;
 getopt( 'habd', \%Opts );
 if ( exists $Opts{h} || !keys %Opts ) {
-    print "otrs.CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "otrs.CheckSum.pl - OTRS check sum\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;

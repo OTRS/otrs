@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketForward.pm - to forward a message
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketForward.pm,v 1.97.2.12 2012-05-26 01:36:15 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +18,6 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::TemplateGenerator;
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97.2.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -176,7 +170,10 @@ sub Form {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -184,14 +181,19 @@ sub Form {
     else {
         $Self->{LayoutObject}->Block(
             Name => 'TicketBack',
-            Data => { %Param, TicketID => $Self->{TicketID}, },
+            Data => {
+                %Param,
+                TicketID => $Self->{TicketID},
+            },
         );
     }
 
     # get last customer article or selected article
     my %Data;
     if ( $GetParam{ArticleID} ) {
-        %Data = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID}, );
+        %Data = $Self->{TicketObject}->ArticleGet(
+            ArticleID => $GetParam{ArticleID},
+        );
 
         # Check if article is from the same TicketID as we checked permissions for.
         if ( $Data{TicketID} ne $Self->{TicketID} ) {
@@ -201,7 +203,9 @@ sub Form {
         }
     }
     else {
-        %Data = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Self->{TicketID}, );
+        %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+            TicketID => $Self->{TicketID},
+        );
     }
 
     # prepare signature
@@ -261,10 +265,8 @@ sub Form {
             String => $Data{From},
         );
 
-        my $ForwardedMessageFrom
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
-        my $EndForwardedMessage
-            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+        my $ForwardedMessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+        my $EndForwardedMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
 
         $Data{Body} = "<br/>---- $ForwardedMessageFrom $From ---<br/><br/>" . $Data{Body};
         $Data{Body} .= "<br/>---- $EndForwardedMessage ---<br/>";
@@ -295,10 +297,8 @@ sub Form {
             }
         }
 
-        my $ForwardedMessageFrom
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
-        my $EndForwardedMessage
-            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+        my $ForwardedMessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+        my $EndForwardedMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
 
         $Data{Body} = "\n---- $ForwardedMessageFrom $Data{From} ---\n\n" . $Data{Body};
         $Data{Body} .= "\n---- $EndForwardedMessage ---\n";
@@ -336,7 +336,10 @@ sub Form {
             if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for ( $Object->Option( %Data, %GetParam, Config => $Jobs{$Job} ) ) {
@@ -389,8 +392,7 @@ sub Form {
     for my $Count ( 1 .. 6 ) {
         $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
             = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
-        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
-            = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
+        $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
 
         if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
             (
@@ -400,8 +402,7 @@ sub Form {
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
                 $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
-                )
-                = $Self->{TimeObject}->SystemTime2Date(
+                ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                     String => $Ticket{ 'TicketFreeTime' . $Count },
                 ),
@@ -413,7 +414,9 @@ sub Form {
             $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Required' } = 1;
         }
     }
-    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
+    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+        Ticket => \%TicketFreeTime,
+    );
 
     # get article free text default selections
     my %ArticleFreeDefault;
@@ -450,7 +453,7 @@ sub Form {
         }
     }
     my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-        Config => \%ArticleFreeText,
+        Config  => \%ArticleFreeText,
         Article => { %GetParam, %ArticleFreeDefault, },
     );
 
@@ -561,10 +564,8 @@ sub SendEmail {
     # prepare free text
     my %TicketFree;
     for my $Count ( 1 .. 16 ) {
-        $TicketFree{"TicketFreeKey$Count"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$Count" );
-        $TicketFree{"TicketFreeText$Count"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$Count" );
+        $TicketFree{"TicketFreeKey$Count"}  = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$Count" );
+        $TicketFree{"TicketFreeText$Count"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$Count" );
     }
 
     # get free text config options
@@ -652,7 +653,9 @@ sub SendEmail {
         );
     }
 
-    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
+    my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+        Ticket => \%GetParam,
+    );
 
     # get article free text params
     for my $Count ( 1 .. 3 ) {
@@ -727,7 +730,10 @@ sub SendEmail {
             if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -891,7 +897,9 @@ sub SendEmail {
 
     # error page
     if ( !$ArticleID ) {
-        return $Self->{LayoutObject}->ErrorScreen( Comment => 'Please contact the admin.', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Comment => 'Please contact the admin.',
+        );
     }
 
     # time accounting
@@ -1023,7 +1031,10 @@ sub AjaxUpdate {
             # load module
             next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -1114,8 +1125,7 @@ sub _Mask {
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -1137,12 +1147,12 @@ sub _Mask {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        Format           => 'DateInputFormatLong',
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid} || ' ',
-        Validate         => 1,
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        Format               => 'DateInputFormatLong',
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -1159,7 +1169,10 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
     for my $Count ( 1 .. 6 ) {
@@ -1174,7 +1187,10 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1191,7 +1207,10 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1283,7 +1302,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketForward', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketForward',
+        Data         => \%Param
+    );
 }
 
 1;

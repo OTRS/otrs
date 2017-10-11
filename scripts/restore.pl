@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# scripts/restore.pl - the restore script
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: restore.pl,v 1.13.2.1 2011-05-17 14:49:24 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -30,9 +27,6 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13.2.1 $) [1];
-
 use Getopt::Std;
 
 # get options
@@ -41,8 +35,8 @@ my $DB     = '';
 my $DBDump = '';
 getopt( 'hbd', \%Opts );
 if ( exists $Opts{h} ) {
-    print "restore.pl <Revision $VERSION> - restore script\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "restore.pl - restore script\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;
 }

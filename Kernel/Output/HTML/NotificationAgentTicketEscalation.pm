@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.32 2009-02-16 11:16:22 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::Lock;
 use Kernel::System::State;
 use Kernel::System::Cache;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

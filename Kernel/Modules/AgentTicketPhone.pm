@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketPhone.pm,v 1.178.2.7 2012-03-05 09:48:08 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +18,6 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 use Kernel::System::LinkObject;
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.178.2.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -202,7 +196,7 @@ sub Run {
 
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
 
             # fill free text fields
@@ -224,10 +218,9 @@ sub Run {
                     my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
                         String => $Article{ 'TicketFreeTime' . $Count },
                     );
-                    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                        = $Self->{TimeObject}->SystemTime2Date(
+                    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
                         SystemTime => $SystemTime,
-                        );
+                    );
                     $GetParam{ 'TicketFreeTime' . $Count . 'Year' }   = $Year;
                     $GetParam{ 'TicketFreeTime' . $Count . 'Month' }  = $Month;
                     $GetParam{ 'TicketFreeTime' . $Count . 'Day' }    = $Day;
@@ -364,7 +357,7 @@ sub Run {
             }
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-            Config => \%ArticleFreeText,
+            Config  => \%ArticleFreeText,
             Article => { %GetParam, %ArticleFreeDefault, },
         );
 
@@ -599,7 +592,9 @@ sub Run {
         );
 
         # free time
-        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%GetParam,
+        );
 
         # article free text
         my %ArticleFreeText;
@@ -680,7 +675,10 @@ sub Run {
             else {
 
                 # don't check email syntax on multi customer select
-                $Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 0 );
+                $Self->{ConfigObject}->Set(
+                    Key   => 'CheckEmailAddresses',
+                    Value => 0
+                );
                 $CustomerID = '';
 
                 # clear from if there is no customer found
@@ -808,7 +806,10 @@ sub Run {
             $Output .= $Self->_MaskPhoneNew(
                 QueueID => $Self->{QueueID},
                 Users =>
-                    $Self->_GetUsers( QueueID => $NewQueueID, AllUsers => $GetParam{OwnerAll} ),
+                    $Self->_GetUsers(
+                    QueueID  => $NewQueueID,
+                    AllUsers => $GetParam{OwnerAll}
+                    ),
                 UserSelected     => $GetParam{NewUserID},
                 ResponsibleUsers => $Self->_GetUsers(
                     QueueID  => $NewQueueID,
@@ -1489,8 +1490,7 @@ sub _MaskPhoneNew {
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -1562,8 +1562,7 @@ sub _MaskPhoneNew {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -1639,12 +1638,12 @@ sub _MaskPhoneNew {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid},
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid},
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -1688,7 +1687,10 @@ sub _MaskPhoneNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
     for my $Count ( 1 .. 6 ) {
@@ -1703,7 +1705,10 @@ sub _MaskPhoneNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1720,7 +1725,10 @@ sub _MaskPhoneNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1818,7 +1826,10 @@ sub _MaskPhoneNew {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketPhone', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketPhone',
+        Data         => \%Param
+    );
 }
 
 1;

@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerUserGenericTicket.pm,v 1.16.2.2 2012-01-16 12:08:15 jp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::CustomerUserGenericTicket;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,8 +124,7 @@ sub Run {
 
     # note:
     # "special characters" in customer id have to be escaped, so that DB::QueryCondition works
-    my $CustomerIDEscaped
-        = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
+    my $CustomerIDEscaped = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
 
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};

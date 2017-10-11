@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: LDAP.pm,v 1.62 2011-01-27 21:52:28 cg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +16,6 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -129,8 +125,7 @@ sub new {
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{Params}->{AlwaysFilter} || '';
 
-    $Self->{ExcludePrimaryCustomerID}
-        = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
     if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
@@ -209,7 +204,10 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -380,8 +378,7 @@ sub CustomerSearch {
         }
         $CustomerString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
         if ( defined $entry->get_value( $Self->{CustomerKey} ) ) {
-            $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) }
-                = $CustomerString;
+            $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) } = $CustomerString;
         }
     }
 
@@ -468,8 +465,7 @@ sub CustomerUserList {
                 .= $Self->_ConvertFrom( $entry->get_value($Field) )
                 . ' ';
         }
-        $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) }
-            = $CustomerString;
+        $Users{ $Self->_ConvertFrom( $entry->get_value( $Self->{CustomerKey} ) ) } = $CustomerString;
     }
 
     # check if user need to be in a group!
@@ -505,7 +501,10 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -519,7 +518,9 @@ sub CustomerIDs {
     }
 
     # get customer data
-    my %Data = $Self->CustomerUserDataGet( User => $Param{User}, );
+    my %Data = $Self->CustomerUserDataGet(
+        User => $Param{User},
+    );
 
     # there are multi customer ids
     my @CustomerIDs;
@@ -573,7 +574,10 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -661,10 +665,16 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is ro!'
+        );
         return;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'Not supported for this module!'
+    );
     return;
 }
 
@@ -673,10 +683,16 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is ro!'
+        );
         return;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'Not supported for this module!'
+    );
     return;
 }
 
@@ -687,10 +703,16 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is ro!'
+        );
         return;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'Not supported for this module!'
+    );
     return;
 }
 
@@ -702,8 +724,7 @@ sub GenerateRandomPassword {
 
     # The list of characters that can appear in a randomly generated password.
     # Note that users can put any character into a password they choose themselves.
-    my @PwChars
-        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
+    my @PwChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # The number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);
@@ -723,7 +744,10 @@ sub SetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -742,7 +766,10 @@ sub GetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 

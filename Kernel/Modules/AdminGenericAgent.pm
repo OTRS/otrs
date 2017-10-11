@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminGenericAgent.pm,v 1.93.2.3 2011-06-15 09:57:36 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +19,6 @@ use Kernel::System::State;
 use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 use Kernel::System::CheckItem;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,7 +72,9 @@ sub Run {
 
         # redirect
         if ($Run) {
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$Self->{Action}",
+            );
         }
 
         # redirect
@@ -292,8 +288,7 @@ sub Run {
                         && $GetParam{ $Type . 'TimeStartYear' }
                         )
                     {
-                        $GetParam{ $Type . 'TimeNewerDate' }
-                            = $GetParam{ $Type . 'TimeStartYear' } . '-'
+                        $GetParam{ $Type . 'TimeNewerDate' } = $GetParam{ $Type . 'TimeStartYear' } . '-'
                             . $GetParam{ $Type . 'TimeStartMonth' } . '-'
                             . $GetParam{ $Type . 'TimeStartDay' }
                             . ' 00:00:01';
@@ -304,8 +299,7 @@ sub Run {
                         && $GetParam{ $Type . 'TimeStopYear' }
                         )
                     {
-                        $GetParam{ $Type . 'TimeOlderDate' }
-                            = $GetParam{ $Type . 'TimeStopYear' } . '-'
+                        $GetParam{ $Type . 'TimeOlderDate' } = $GetParam{ $Type . 'TimeStopYear' } . '-'
                             . $GetParam{ $Type . 'TimeStopMonth' } . '-'
                             . $GetParam{ $Type . 'TimeStopDay' }
                             . ' 23:59:59';
@@ -388,8 +382,12 @@ sub Run {
                 %GetParam,
             );
 
-            $Self->{LayoutObject}->Block( Name => 'ActionList', );
-            $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+            $Self->{LayoutObject}->Block(
+                Name => 'ActionList',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ActionOverview',
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'Result',
                 Data => {
@@ -407,8 +405,10 @@ sub Run {
                     my %Data = $Self->{TicketObject}->ArticleFirstArticle(
                         TicketID => $TicketID,
                     );
-                    $Data{Age}
-                        = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+                    $Data{Age} = $Self->{LayoutObject}->CustomerAge(
+                        Age   => $Data{Age},
+                        Space => ' '
+                    );
                     $Data{css} = "PriorityID-$Data{PriorityID}";
 
                     # user info
@@ -493,9 +493,15 @@ sub Run {
     # ---------------------------------------------------------- #
     # overview of all generic agent jobs
     # ---------------------------------------------------------- #
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd', );
-    $Self->{LayoutObject}->Block( Name => 'Overview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAdd',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+    );
     my %Jobs = $Self->{GenericAgentObject}->JobList();
 
     # if there are any data, it is shown
@@ -721,7 +727,7 @@ sub _MaskUpdate {
                 Last   => 'last',
                 Before => 'before',
             },
-            Name => $Type . 'TimePointStart',
+            Name       => $Type . 'TimePointStart',
             SelectedID => $JobData{ $Type . 'TimePointStart' } || 'Last',
         );
         $JobData{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->BuildSelection(
@@ -795,11 +801,15 @@ sub _MaskUpdate {
             '1' => 'No',
             '0' => 'Yes'
         },
-        Name => 'NewSendNoNotification',
+        Name       => 'NewSendNoNotification',
         SelectedID => $JobData{NewSendNoNotification} || 0,
     );
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Edit',
         Data => {
@@ -822,7 +832,9 @@ sub _MaskUpdate {
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+        my %Type = $Self->{TypeObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
         $JobData{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Type,
             Name        => 'TypeIDs',
@@ -855,7 +867,9 @@ sub _MaskUpdate {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
         # get list type
-        my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
+        my %Service = $Self->{ServiceObject}->ServiceList(
+            UserID => $Self->{UserID},
+        );
         $JobData{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Service,
             Name        => 'ServiceIDs',
@@ -874,7 +888,9 @@ sub _MaskUpdate {
             Translation => 0,
             Max         => 200,
         );
-        my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
+        my %SLA = $Self->{SLAObject}->SLAList(
+            UserID => $Self->{UserID},
+        );
         $JobData{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%SLA,
             Name        => 'SLAIDs',
@@ -914,7 +930,7 @@ sub _MaskUpdate {
                 NotArchivedTickets => 'Unarchived tickets',
                 AllTickets         => 'All tickets',
             },
-            Name => 'SearchInArchive',
+            Name       => 'SearchInArchive',
             SelectedID => $JobData{SearchInArchive} || 'AllTickets',
         );
 
@@ -956,9 +972,8 @@ sub _MaskUpdate {
             UserID => $Self->{UserID},
         );
 
-        $TicketFreeTextData{ 'TicketFreeKey' . $Count } = $JobData{ 'TicketFreeKey' . $Count };
-        $TicketFreeTextData{ 'TicketFreeText' . $Count }
-            = $JobData{ 'TicketFreeText' . $Count };
+        $TicketFreeTextData{ 'TicketFreeKey' . $Count }  = $JobData{ 'TicketFreeKey' . $Count };
+        $TicketFreeTextData{ 'TicketFreeText' . $Count } = $JobData{ 'TicketFreeText' . $Count };
     }
 
     # generate the free text fields
@@ -999,7 +1014,9 @@ sub _MaskUpdate {
 
             # $Flag to show the hole freefield block
             if ($Flag) {
-                $Self->{LayoutObject}->Block( Name => 'NewTicketFreeField', );
+                $Self->{LayoutObject}->Block(
+                    Name => 'NewTicketFreeField',
+                );
                 $Flag = 0;
             }
 
@@ -1026,8 +1043,7 @@ sub _MaskUpdate {
             my $NewTicketFreeText = '';
             if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) ) {
                 my $Value = $JobData{ 'NewTicketFreeText' . $ID } || '';
-                $NewTicketFreeText
-                    = '<input type="text" name="NewTicketFreeText'
+                $NewTicketFreeText = '<input type="text" name="NewTicketFreeText'
                     . $ID
                     . '" size="30" value="'
                     . $Value . '">';

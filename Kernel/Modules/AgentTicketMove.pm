@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketMove.pm,v 1.78.2.7 2011-12-09 12:49:45 des Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78.2.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +52,9 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(TicketID)) {
         if ( !$Self->{$Needed} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $Needed!", );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $Needed!",
+            );
         }
     }
 
@@ -146,8 +142,7 @@ sub Run {
 
         # get form params
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ $FreeTimePrefix . $Type }
-                = $Self->{ParamObject}->GetParam( Param => $FreeTimePrefix . $Type );
+            $GetParam{ $FreeTimePrefix . $Type } = $Self->{ParamObject}->GetParam( Param => $FreeTimePrefix . $Type );
         }
 
         # set additional params
@@ -184,8 +179,7 @@ sub Run {
         }
 
         # get freetime data from ticket
-        my $TicketFreeTimeString
-            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{$FreeTimePrefix} );
+        my $TicketFreeTimeString = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{$FreeTimePrefix} );
         my ( $Second, $Minute, $Hour, $Day, $Month, $Year )
             = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TicketFreeTimeString );
 
@@ -271,11 +265,11 @@ sub Run {
         );
         my $NextStates = $Self->_GetNextStates(
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
         my $NextPriorities = $Self->_GetPriorities(
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # get free text config options
@@ -552,13 +546,13 @@ sub Run {
         # get next states
         my $NextStates = $Self->_GetNextStates(
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # get next priorities
         my $NextPriorities = $Self->_GetPriorities(
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # get old owners
@@ -957,7 +951,7 @@ sub AgentMove {
 
     # set move queues
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { %MoveQueues, '' => '-' },
+        Data           => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
         Class          => 'Validate_Required' . ' ' . $Param{DestQueueIDInvalid},
@@ -1071,7 +1065,10 @@ sub AgentMove {
         );
     }
 
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketMove',
+        Data         => \%Param
+    );
 }
 
 sub _GetUsers {

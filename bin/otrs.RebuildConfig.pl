@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.RebuildConfig.pl - rebuild config
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.RebuildConfig.pl,v 1.14 2010-08-06 17:49:20 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
-
 use Kernel::Config;
 use Kernel::System::Encode;
 use Kernel::System::Time;
@@ -40,9 +34,7 @@ use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::SysConfig;
 
-# ---
 # common objects
-# ---
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
@@ -55,11 +47,9 @@ $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::SysConfig->new(%CommonObject);
 
-# ---
 # rebuild
-# ---
-print "otrs.RebuildConfig.pl <Revision $VERSION> - OTRS rebuild default config\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "otrs.RebuildConfig.pl - OTRS rebuild default config\n";
+print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
 if ( $CommonObject{SysConfigObject}->WriteDefault() ) {
     exit;
 }

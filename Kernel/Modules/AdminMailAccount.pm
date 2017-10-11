@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminMailAccount.pm,v 1.23.2.1 2012-01-12 15:07:20 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::Queue;
 use Kernel::System::MailAccount;
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,8 +39,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %GetParam = ();
-    my @Params
-        = (qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID Trusted DispatchingBy));
+    my @Params   = (qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID Trusted DispatchingBy));
     for my $Parameter (@Params) {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
     }
@@ -367,11 +360,11 @@ sub _MaskUpdateMailAccount {
     );
 
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
-        Name => 'QueueID',
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
+        Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
@@ -433,8 +426,8 @@ sub _MaskAddMailAccount {
     );
 
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
-        Name => 'QueueID',
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
+        Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
     );

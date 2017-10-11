@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerCompany.pm,v 1.22.2.2 2011-03-15 22:24:05 cg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +14,6 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22.2.2 $) [1];
 
 =head1 NAME
 
@@ -95,24 +91,19 @@ sub new {
     # config options
     $Self->{CustomerCompanyTable} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Table}
         || die "Need CustomerCompany->Params->Table in Kernel/Config.pm!";
-    $Self->{CustomerCompanyKey}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
+    $Self->{CustomerCompanyKey} = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
         || $Self->{ConfigObject}->Get('CustomerCompany')->{Key}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyMap} = $Self->{ConfigObject}->Get('CustomerCompany')->{Map}
         || die "Need CustomerCompany->Map in Kernel/Config.pm!";
-    $Self->{CustomerCompanyValid}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
-    $Self->{SearchListLimit}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
-    $Self->{SearchPrefix}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
+    $Self->{CustomerCompanyValid} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
+    $Self->{SearchListLimit}      = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
+    $Self->{SearchPrefix}         = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
 
     if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';
     }
-    $Self->{SearchSuffix}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
+    $Self->{SearchSuffix} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
     if ( !defined( $Self->{SearchSuffix} ) ) {
         $Self->{SearchSuffix} = '*';
     }
@@ -164,7 +155,10 @@ sub CustomerCompanyAdd {
     # check needed stuff
     for (qw(CustomerID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -236,7 +230,10 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need CustomerID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need CustomerID!"
+        );
         return;
     }
 
@@ -299,7 +296,10 @@ sub CustomerCompanyUpdate {
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
@@ -430,11 +430,13 @@ sub CustomerCompanyList {
     }
 
     # sql
-    my %List = ();
-    my $CompleteSQL
-        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
+    my %List        = ();
+    my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
     $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
-    $Self->{DBObject}->Prepare( SQL => $CompleteSQL, Limit => 50000 );
+    $Self->{DBObject}->Prepare(
+        SQL   => $CompleteSQL,
+        Limit => 50000
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $Value = '';
         for my $Position ( 1 .. 10 ) {
@@ -475,9 +477,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.22.2.2 $ $Date: 2011-03-15 22:24:05 $
 
 =cut

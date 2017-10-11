@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Stats/StateAction.pm - stats module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: StateAction.pm,v 1.3 2010-07-19 12:36:37 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Date::Pcalc qw(Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
-
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $ ';
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,7 +139,10 @@ sub _GetDBDataPerDay {
     my $SQL   = 'SELECT count(*) FROM ticket_history '
         . 'WHERE history_type_id = ? AND create_time >= ? AND create_time <= ?';
 
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{StateID}, \$Start, \$End ] );
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => [ \$Param{StateID}, \$Start, \$End ]
+    );
 
     my $DayData = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {

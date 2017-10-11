@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DBUpdate-to-2.3.pl,v 1.26 2010-06-17 21:11:34 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,8 +42,8 @@ use Kernel::System::Ticket;
 my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{'h'} ) {
-    print STDOUT "DBUpdate-to-2.3.pl <Revision $VERSION> - Database migration script\n";
-    print STDOUT "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print STDOUT "DBUpdate-to-2.3.pl - Database migration script\n";
+    print STDOUT "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     exit 1;
 }
 

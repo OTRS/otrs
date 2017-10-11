@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminSalutation.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminSalutation.pm,v 1.51 2010-11-19 22:28:58 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +14,6 @@ use warnings;
 use Kernel::System::Salutation;
 use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +43,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{SalutationObject}->SalutationGet( ID => $ID, );
+        my %Data = $Self->{SalutationObject}->SalutationGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -324,7 +320,9 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SalutationObject}->SalutationList( Valid => 0, );
+    my %List = $Self->{SalutationObject}->SalutationList(
+        Valid => 0,
+    );
 
     # if there are any results, they are shown
     if (%List) {

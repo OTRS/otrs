@@ -1,8 +1,5 @@
 // --
-// Core.AJAX.js - provides the funcionality for AJAX calls
-// Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.AJAX.js,v 1.20.2.5 2012-01-21 03:14:17 cg Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

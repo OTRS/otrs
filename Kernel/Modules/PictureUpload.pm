@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/PictureUpload.pm - get picture uploads
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: PictureUpload.pm,v 1.10 2010-11-24 16:22:23 mn Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Web::UploadCache;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

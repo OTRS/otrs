@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardTicketGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardTicketGeneric.pm,v 1.38.2.1 2011-07-18 13:47:06 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::DashboardTicketGeneric;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,8 +63,7 @@ sub new {
 
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
-    $Self->{CacheKey}
-        = $Self->{Name} . '-'
+    $Self->{CacheKey} = $Self->{Name} . '-'
         . $Self->{PageShown} . '-'
         . $Self->{StartHit} . '-'
         . $Self->{UserID};

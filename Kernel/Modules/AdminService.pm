@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminService.pm - admin frontend to manage services
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminService.pm,v 1.34 2010-11-19 22:28:58 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::Service;
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,11 +132,15 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, ServiceData => \%ServiceData ) )
+                        if (
+                            !$Object->Run(
+                                GetParam    => \%GetParam,
+                                ServiceData => \%ServiceData
+                            )
+                            )
                         {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
@@ -375,6 +373,9 @@ sub _MaskNew {
     }
 
     # generate output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AdminService', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminService',
+        Data         => \%Param
+    );
 }
 1;

@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.GenerateStats.pl - send stats output via email
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.GenerateStats.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -72,8 +66,8 @@ $CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 my %Opts = ();
 getopt( 'nrsmoplfS', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "otrs.GenerateStats.pl - OTRS cmd stats\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>]\n";
     print
@@ -186,17 +180,23 @@ if ( $Stat->{StatType} eq 'static' ) {
     my $Params = $CommonObject{StatsObject}->GetParams( StatID => $StatID );
     for my $ParamItem ( @{$Params} ) {
         if ( !$ParamItem->{Multiple} ) {
-            my $Value = GetParam( Param => $ParamItem->{Name}, );
+            my $Value = GetParam(
+                Param => $ParamItem->{Name},
+            );
             if ( defined $Value ) {
                 $GetParam{ $ParamItem->{Name} } =
-                    GetParam( Param => $ParamItem->{Name}, );
+                    GetParam(
+                    Param => $ParamItem->{Name},
+                    );
             }
             elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
             }
         }
         else {
-            my @Value = GetArray( Param => $ParamItem->{Name}, );
+            my @Value = GetArray(
+                Param => $ParamItem->{Name},
+            );
             if (@Value) {
                 $GetParam{ $ParamItem->{Name} } = \@Value;
             }
@@ -323,7 +323,8 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
         # if first page
         if ( $Counter eq 1 ) {
             $CommonObject{PDFObject}->PageNew(
-                %PageParam, FooterRight => $Page . ' ' . $Counter,
+                %PageParam,
+                FooterRight => $Page . ' ' . $Counter,
             );
         }
 

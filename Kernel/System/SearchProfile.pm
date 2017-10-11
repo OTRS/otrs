@@ -1,8 +1,5 @@
 # --
-# Kernel/System/SearchProfile.pm - module to manage search profiles
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SearchProfile.pm,v 1.18 2010-10-11 16:00:25 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -104,7 +100,10 @@ sub SearchProfileAdd {
     # check needed stuff
     for (qw(Base Name Key UserLogin)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -155,7 +154,10 @@ sub SearchProfileGet {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -198,7 +200,10 @@ sub SearchProfileDelete {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -229,7 +234,10 @@ sub SearchProfileList {
     # check needed stuff
     for (qw(Base UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -259,9 +267,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.18 $ $Date: 2010-10-11 16:00:25 $
 
 =cut

@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerUser.pm,v 1.61.2.1 2011-03-24 17:39:52 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +14,6 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61.2.1 $) [1];
 
 =head1 NAME
 
@@ -386,7 +382,10 @@ sub CustomerUserUpdate {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "User UserLogin!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "User UserLogin!"
+        );
         return;
     }
 
@@ -430,7 +429,10 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'User UserLogin!'
+        );
         return;
     }
 
@@ -483,7 +485,10 @@ sub SetPreferences {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'User UserID!'
+        );
         return;
     }
 
@@ -521,7 +526,10 @@ sub GetPreferences {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'User UserID!'
+        );
         return;
     }
 
@@ -595,7 +603,10 @@ sub TokenGenerate {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need UserID!"
+        );
         return;
     }
 
@@ -638,7 +649,10 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Token and UserID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Token and UserID!"
+        );
         return;
     }
 
@@ -678,9 +692,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.61.2.1 $ $Date: 2011-03-24 17:39:52 $
 
 =cut

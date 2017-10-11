@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.69.2.3 2011-08-19 18:50:15 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,9 +17,6 @@ use Kernel::System::CheckItem;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,7 +131,10 @@ sub Run {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -272,8 +269,7 @@ sub Run {
         for my $Count ( 1 .. 6 ) {
             $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Optional' }
                 = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $Count ) || 0;
-            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' }
-                = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
+            $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Used' } = $GetParam{ 'TicketFreeTime' . $Count . 'Used' };
 
             if ( $Ticket{ 'TicketFreeTime' . $Count } ) {
                 (
@@ -283,8 +279,7 @@ sub Run {
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Day' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Month' },
                     $TicketFreeTime{ 'TicketFreeTime' . $Count . 'Year' }
-                    )
-                    = $Self->{TimeObject}->SystemTime2Date(
+                    ) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                         String => $Ticket{ 'TicketFreeTime' . $Count },
                     ),
@@ -333,7 +328,7 @@ sub Run {
 
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-            Config => \%ArticleFreeText,
+            Config  => \%ArticleFreeText,
             Article => { %GetParam, %ArticleFreeDefault, },
         );
 
@@ -493,7 +488,9 @@ sub Run {
         );
 
         # free time
-        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%GetParam,
+        );
 
         # article free text
         my %ArticleFreeText;
@@ -641,16 +638,16 @@ sub Run {
             }
 
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID    => $Self->{TicketID},
-                ArticleType => $Self->{Config}->{ArticleType},
-                SenderType  => $Self->{Config}->{SenderType},
-                From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                Subject     => $GetParam{Subject},
-                Body        => $GetParam{Body},
-                MimeType    => $MimeType,
-                Charset     => $Self->{LayoutObject}->{UserCharset},
-                UserID      => $Self->{UserID},
-                HistoryType => $Self->{Config}->{HistoryType},
+                TicketID       => $Self->{TicketID},
+                ArticleType    => $Self->{Config}->{ArticleType},
+                SenderType     => $Self->{Config}->{SenderType},
+                From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                Subject        => $GetParam{Subject},
+                Body           => $GetParam{Body},
+                MimeType       => $MimeType,
+                Charset        => $Self->{LayoutObject}->{UserCharset},
+                UserID         => $Self->{UserID},
+                HistoryType    => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
             );
 
@@ -895,8 +892,7 @@ sub _GetTos {
             $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
             {
-                my %SystemAddressData
-                    = $Self->{SystemAddress}->SystemAddressGet( ID => $NewTos{$KeyNewTo} );
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet( ID => $NewTos{$KeyNewTo} );
                 $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
             }
@@ -946,12 +942,12 @@ sub _MaskPhone {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid},
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid},
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -963,8 +959,7 @@ sub _MaskPhone {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -982,7 +977,10 @@ sub _MaskPhone {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
     for my $Count ( 1 .. 6 ) {
@@ -997,7 +995,10 @@ sub _MaskPhone {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1014,7 +1015,10 @@ sub _MaskPhone {
         );
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 

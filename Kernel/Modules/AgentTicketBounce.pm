@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketBounce.pm,v 1.49.2.4 2012-03-05 09:51:47 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -123,7 +117,10 @@ sub Run {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -131,7 +128,10 @@ sub Run {
     else {
         $Self->{LayoutObject}->Block(
             Name => 'TicketBack',
-            Data => { %Param, TicketID => $Self->{TicketID}, },
+            Data => {
+                %Param,
+                TicketID => $Self->{TicketID},
+            },
         );
     }
 
@@ -146,7 +146,9 @@ sub Run {
         }
 
         # get article data
-        my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID}, );
+        my %Article = $Self->{TicketObject}->ArticleGet(
+            ArticleID => $Self->{ArticleID},
+        );
 
         # Check if article is from the same TicketID as we checked permissions for.
         if ( $Article{TicketID} ne $Self->{TicketID} ) {
@@ -212,7 +214,9 @@ $Param{Signature}";
         }
 
         # prepare sender of bounce email
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID}, );
+        my %Address = $Self->{QueueObject}->GetSystemAddress(
+            QueueID => $Article{QueueID},
+        );
         $Article{From} = "$Address{RealName} <$Address{Email}>";
 
         # get next states

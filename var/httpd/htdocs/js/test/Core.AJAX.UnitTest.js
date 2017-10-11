@@ -1,8 +1,5 @@
 // --
-// Core.AJAX.UnitTest.js - UnitTests
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/\n";
-// --
-// $Id: Core.AJAX.UnitTest.js,v 1.7.2.5 2011-05-10 11:36:32 mg Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

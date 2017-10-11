@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminAutoResponse.pm,v 1.46 2010-11-19 22:28:58 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::AutoResponse;
 use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +45,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+            ID => $ID,
+        );
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -101,8 +97,7 @@ sub Run {
 
             # update group
             if (
-                $Self->{AutoResponseObject}
-                ->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
+                $Self->{AutoResponseObject}->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
                 )
             {
                 $Self->_Overview();
@@ -295,8 +290,8 @@ sub _Edit {
     );
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name => 'AddressID',
+        Data       => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Name       => 'AddressID',
         SelectedID => $Param{AddressID},
         Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
@@ -370,7 +365,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+            my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+                ID => $ID,
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

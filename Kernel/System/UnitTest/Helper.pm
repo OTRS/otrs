@@ -1,8 +1,5 @@
 # --
-# Helper.pm - unit test helper functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Helper.pm,v 1.7.2.4 2011-04-01 10:41:48 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -296,8 +293,7 @@ sub DESTROY {
                 UserID         => 1,
             );
 
-            $Self->{UnitTestObject}
-                ->True( $Success, "Set test customer user $TestCustomerUser to invalid" );
+            $Self->{UnitTestObject}->True( $Success, "Set test customer user $TestCustomerUser to invalid" );
         }
     }
 }
@@ -315,9 +311,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.7.2.4 $ $Date: 2011-04-01 10:41:48 $
 
 =cut

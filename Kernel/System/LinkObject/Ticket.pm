@@ -1,8 +1,5 @@
 # --
-# Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Ticket.pm,v 1.36 2009-10-07 13:19:33 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Ticket;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

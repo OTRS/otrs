@@ -1,8 +1,5 @@
 # --
-# Kernel/System/JSON.pm - Wrapper functions for encoding and decoding JSON
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: JSON.pm,v 1.7 2010-08-31 09:26:00 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +14,6 @@ use warnings;
 use JSON;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -176,9 +172,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.7 $ $Date: 2010-08-31 09:26:00 $
 
 =cut

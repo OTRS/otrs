@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: StaticDB.pm,v 1.76.2.2 2012-08-24 12:24:38 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,16 +11,16 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 use warnings;
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76.2.2 $) [1];
-
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -126,7 +123,10 @@ sub TicketAcceleratorDelete {
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -145,7 +145,10 @@ sub TicketAcceleratorAdd {
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -204,7 +207,10 @@ sub TicketLockAcceleratorDelete {
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -223,7 +229,10 @@ sub TicketLockAcceleratorAdd {
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -243,7 +252,10 @@ sub TicketAcceleratorIndex {
     # check needed stuff
     for (qw(UserID QueueID ShownQueueIDs)) {
         if ( !exists( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -436,7 +448,10 @@ sub GetIndexTicket {
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -466,7 +481,10 @@ sub _GetIndexTicketLock {
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

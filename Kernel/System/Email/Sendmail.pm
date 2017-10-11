@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Email/Sendmail.pm - the global email send module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Sendmail.pm,v 1.32 2009-12-07 16:21:55 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Email::Sendmail;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +35,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -115,10 +112,16 @@ sub Check {
     my $SendmailBinary = $Sendmail;
     $SendmailBinary =~ s/^(.+?)\s.+?$/$1/;
     if ( !-f $SendmailBinary ) {
-        return ( Successful => 0, Message => "No such binary: $SendmailBinary!" );
+        return (
+            Successful => 0,
+            Message    => "No such binary: $SendmailBinary!"
+        );
     }
     else {
-        return ( Successful => 1, Sendmail => $Sendmail );
+        return (
+            Successful => 1,
+            Sendmail   => $Sendmail
+        );
     }
 }
 

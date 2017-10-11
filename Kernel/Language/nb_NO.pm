@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/nb_NO.pm - Norwegian (bokmål) language translation
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh at linpro.no>
 # Copyright (C) 2005 Stefansen Espen <espen.stefansen at imr.no>
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
@@ -7,8 +6,6 @@
 # Copyright (C) 2010-2011 Eirik Wulff <eirik at epledoktor.no>
 # Copyright (C) 2011 Lars Erik Utsi Gullerud <lerik at nolink.net>
 # Copyright (C) 2011 Espen Stefansen <espen.stefansen at imr.no>
-# --
-# $Id: nb_NO.pm,v 1.107.2.5 2012-03-09 07:37:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ package Kernel::Language::nb_NO;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = q$Revision: 1.107.2.5 $;
 
 sub Data {
     my $Self = shift;

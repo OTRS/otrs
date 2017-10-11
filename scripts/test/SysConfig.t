@@ -1,8 +1,5 @@
 # --
-# SysConfig.t - SysConfig tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SysConfig.t,v 1.11 2010-10-29 22:16:59 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -85,7 +82,10 @@ $Self->False(
 );
 
 %Ah = ( 'Test' => 123 );
-%Bh = ( 'Test' => 123, '' => '' );
+%Bh = (
+    'Test' => 123,
+    ''     => ''
+);
 $Diff = $SysConfigObject->_DataDiff(
     Data1 => \%Ah,
     Data2 => \%Bh,
@@ -95,8 +95,14 @@ $Self->True(
     'DataDiff() HASH',
 );
 
-%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ] );
-%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ] );
+%Ah = (
+    'Test' => 123,
+    A      => [ 1, 3, 4 ]
+);
+%Bh = (
+    'Test' => 123,
+    A      => [ 1, 3, 4 ]
+);
 $Diff = $SysConfigObject->_DataDiff(
     Data1 => \%Ah,
     Data2 => \%Bh,
@@ -106,8 +112,14 @@ $Self->False(
     'DataDiff() HASH',
 );
 
-%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ] );
-%Bh = ( 'Test' => 123, A => [ 1, 4, 4 ] );
+%Ah = (
+    'Test' => 123,
+    A      => [ 1, 3, 4 ]
+);
+%Bh = (
+    'Test' => 123,
+    A      => [ 1, 4, 4 ]
+);
 $Diff = $SysConfigObject->_DataDiff(
     Data1 => \%Ah,
     Data2 => \%Bh,
@@ -117,8 +129,16 @@ $Self->True(
     'DataDiff() HASH',
 );
 
-%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
-%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
+%Ah = (
+    'Test' => 123,
+    A      => [ 1, 3, 4 ],
+    B => { a => 1 },
+);
+%Bh = (
+    'Test' => 123,
+    A      => [ 1, 3, 4 ],
+    B => { a => 1 },
+);
 $Diff = $SysConfigObject->_DataDiff(
     Data1 => \%Ah,
     Data2 => \%Bh,
@@ -128,8 +148,19 @@ $Self->False(
     'DataDiff() HASH',
 );
 
-%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
-%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1, '' => undef, }, );
+%Ah = (
+    'Test' => 123,
+    A      => [ 1, 3, 4 ],
+    B => { a => 1 },
+);
+%Bh = (
+    'Test' => 123,
+    A      => [ 1, 3, 4 ],
+    B      => {
+        a  => 1,
+        '' => undef,
+    },
+);
 $Diff = $SysConfigObject->_DataDiff(
     Data1 => \%Ah,
     Data2 => \%Bh,

@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.CryptPassword.pl,v 1.5 2010-08-06 17:49:20 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -52,8 +46,8 @@ $CommonObject{DBObject} = Kernel::System::DB->new( %CommonObject, AutoConnectNo 
 # check args
 my $Password = shift;
 print
-    "bin/otrs.CryptPassword.pl <Revision $VERSION> - to crypt database password for Kernel/Config.pm\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    "bin/otrs.CryptPassword.pl - to crypt database password for Kernel/Config.pm\n";
+print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
 
 if ( !$Password ) {
     print STDERR "Usage: bin/otrs.CryptPassword.pl NEWPW\n";

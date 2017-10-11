@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentDashboard.pm - a global dashbard
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentDashboard.pm,v 1.24.2.1 2011-12-02 15:26:55 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Cache;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,7 +115,11 @@ sub Run {
         }
 
         # deliver new content page
-        my %ElementReload = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
+        my %ElementReload = $Self->_Element(
+            Name    => $Name,
+            Configs => $Config,
+            AJAX    => 1
+        );
         if ( !%ElementReload ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -213,7 +211,11 @@ sub Run {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
 
-        my %Element = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
+        my %Element = $Self->_Element(
+            Name    => $Name,
+            Configs => $Config,
+            AJAX    => 1
+        );
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",

@@ -1,8 +1,5 @@
 # --
-# Kernel/System/GenericAgent/NotifyAgentGroupWithWritePermission.pm - generic agent notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: NotifyAgentGroupWithWritePermission.pm,v 1.12.2.1 2012-09-27 16:21:30 jp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +17,6 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,7 +108,10 @@ sub Run {
 
     # send each agent the escalation notification
     for my $UserID (@UserIDs) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $UserID,
+            Valid  => 1
+        );
         next if !%User || $User{OutOfOffice};
 
         # check if today a reminder is already sent

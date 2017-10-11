@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# scripts/tools/charset-convert.pl - converts a text file from one to an other one charset
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: charset-convert.pl,v 1.9 2009-02-26 11:10:53 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,17 +9,14 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
 
 use strict;
 use warnings;
@@ -35,8 +29,8 @@ getopt( 'sdf', \%Opts );
 
 # usage
 if ( $Opts{h} ) {
-    print "charset-convert.pl <Revision $VERSION> - convert a charset of a file\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "charset-convert.pl - convert a charset of a file\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print "usage: charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> -f <FILE>\n";
     print "       charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> < file\n";
     exit 1;

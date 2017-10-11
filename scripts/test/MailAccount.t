@@ -1,8 +1,5 @@
 # --
-# MailAccount.t - MailAccount tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: MailAccount.t,v 1.5 2010-10-29 05:03:20 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

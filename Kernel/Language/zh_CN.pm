@@ -1,13 +1,10 @@
 # --
-# Kernel/Language/zh_CN.pm -  provides Chinese Simple language translation
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # Copyright (C) 2008-2010 Never Min <never at qnofae.org>
 # Copyright (C) 2009 Bin Du <bindu2008 at gmail.com>,
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
-# --
-# $Id: zh_CN.pm,v 1.88.2.7 2012-03-09 07:37:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ package Kernel::Language::zh_CN;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88.2.7 $) [1];
 
 sub Data {
     my $Self = shift;

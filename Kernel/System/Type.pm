@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Type.pm - All type related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Type.pm,v 1.24 2010-09-28 09:30:43 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -113,7 +109,10 @@ sub TypeAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -238,7 +237,10 @@ sub TypeGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Type );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Type
+    );
 
     # no data found
     if ( !%Type ) {
@@ -271,7 +273,10 @@ sub TypeUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -349,7 +354,10 @@ sub TypeList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%TypeList );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%TypeList
+    );
 
     return %TypeList;
 }
@@ -430,7 +438,10 @@ sub TypeLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Data
+    );
 
     return $Data;
 }
@@ -448,9 +459,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.24 $ $Date: 2010-09-28 09:30:43 $
 
 =cut

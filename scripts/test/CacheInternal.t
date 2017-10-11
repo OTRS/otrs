@@ -1,8 +1,5 @@
 # --
-# CacheInternal.t - CacheInternal tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CacheInternal.t,v 1.3 2010-11-30 13:11:11 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,10 +32,16 @@ my @Tests = (
         Result => 123,
     },
     {
-        Name   => 'Simple',
-        Key    => 'Key2',
-        Input  => { 1 => 'a', 2 => 'b' },
-        Result => { 1 => 'a', 2 => 'b' },
+        Name  => 'Simple',
+        Key   => 'Key2',
+        Input => {
+            1 => 'a',
+            2 => 'b'
+        },
+        Result => {
+            1 => 'a',
+            2 => 'b'
+        },
     }
 );
 

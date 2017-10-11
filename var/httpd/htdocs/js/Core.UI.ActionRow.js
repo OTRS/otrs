@@ -1,8 +1,5 @@
 // --
-// Core.UI.ActionRow.js - provides all functions for the Action row
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.UI.ActionRow.js,v 1.4.2.2 2011-09-13 17:24:03 mp Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

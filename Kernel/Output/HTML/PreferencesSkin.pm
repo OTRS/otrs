@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/PreferencesSkin.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: PreferencesSkin.pm,v 1.4 2010-10-22 12:56:22 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::PreferencesSkin;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,8 +38,10 @@ sub Param {
     # prepare the list of active skins
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
         if (
-            $Self->{LayoutObject}
-            ->SkinValidate( Skin => $PossibleSkin->{InternalName}, SkinType => 'Agent' )
+            $Self->{LayoutObject}->SkinValidate(
+                Skin     => $PossibleSkin->{InternalName},
+                SkinType => 'Agent'
+            )
             )
         {
             $ActiveSkins{ $PossibleSkin->{InternalName} } = $PossibleSkin->{VisibleName};

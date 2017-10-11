@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentSpelling.pm - spelling module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentSpelling.pm,v 1.28 2010-07-01 14:08:53 mn Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Spelling;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -136,7 +130,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentSpelling', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentSpelling',
+        Data         => \%Param
+    );
 }
 
 1;

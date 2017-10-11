@@ -1,8 +1,5 @@
 # --
-# 100-AdminSelectBox.t - frontend tests for AdminSQL
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: 100-AdminSelectBox.t,v 1.4.2.2 2011-02-09 15:45:46 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

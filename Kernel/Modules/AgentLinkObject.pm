@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentLinkObject.pm,v 1.58.2.1 2011-02-14 11:10:06 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::LinkObject;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,7 +68,7 @@ sub Run {
         $TemporarySourceTicketLink = 1;
     }
 
-   # do the permission check only if it is no temporary ticket link used while creating a new ticket
+    # do the permission check only if it is no temporary ticket link used while creating a new ticket
     if ( !$TemporarySourceTicketLink ) {
 
         # permission check
@@ -597,8 +591,7 @@ sub Run {
 
         # add search result to link list
         if ( $SearchList && $SearchList->{ $Form{TargetObject} } ) {
-            $LinkListWithData->{ $Form{TargetObject} }->{NOTLINKED}
-                = $SearchList->{ $Form{TargetObject} }->{NOTLINKED};
+            $LinkListWithData->{ $Form{TargetObject} }->{NOTLINKED} = $SearchList->{ $Form{TargetObject} }->{NOTLINKED};
         }
 
         # get possible types list

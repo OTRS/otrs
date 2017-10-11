@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentPreferences.pm,v 1.50 2010-12-22 09:21:27 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AgentPreferences;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -113,7 +107,13 @@ sub Run {
         }
         my $Message  = '';
         my $Priority = '';
-        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+        if (
+            $Object->Run(
+                GetParam => \%GetParam,
+                UserData => \%UserData
+            )
+            )
+        {
             $Message = $Object->Message();
         }
         else {
@@ -155,7 +155,9 @@ sub Run {
         );
     }
     elsif ($Message) {
-        $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
+        $Output .= $Self->{LayoutObject}->Notify(
+            Info => $Message,
+        );
     }
 
     # get user data

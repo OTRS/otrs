@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketAttachment.pm,v 1.32 2010-08-18 13:36:15 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::FileTemp;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,7 +144,10 @@ sub Run {
     if ( $Self->{Subaction} eq 'HTMLView' ) {
 
         # set download type to inline
-        $Self->{ConfigObject}->Set( Key => 'AttachmentDownloadType', Value => 'inline' );
+        $Self->{ConfigObject}->Set(
+            Key   => 'AttachmentDownloadType',
+            Value => 'inline'
+        );
 
         # just return for non-html attachment (e. g. images)
         if ( $Data{ContentType} !~ /text\/html/i ) {

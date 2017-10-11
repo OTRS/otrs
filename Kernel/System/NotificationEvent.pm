@@ -1,8 +1,5 @@
 # --
-# Kernel/System/NotificationEvent.pm - notification system module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: NotificationEvent.pm,v 1.6 2010-06-17 21:39:40 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -129,7 +123,10 @@ sub NotificationList {
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -156,7 +153,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} && !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name or ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name or ID!'
+        );
         return;
     }
     if ( $Param{Name} ) {
@@ -230,7 +230,10 @@ sub NotificationAdd {
     # check needed stuff
     for (qw(Name Subject Body Type Charset Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -314,7 +317,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(ID Name Subject Body Type Charset Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -371,7 +377,10 @@ sub NotificationDelete {
     # check needed stuff
     for (qw(ID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -397,7 +406,7 @@ sub NotificationDelete {
     );
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message => "NotificationEvent notification '$Check{Name}' deleted (UserID=$Param{UserID}).",
+        Message  => "NotificationEvent notification '$Check{Name}' deleted (UserID=$Param{UserID}).",
     );
     return 1;
 }
@@ -415,7 +424,10 @@ sub NotificationEventCheck {
 
     # check needed stuff
     if ( !$Param{Event} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
     $Self->{DBObject}->Prepare(
@@ -447,9 +459,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.6 $ $Date: 2010-06-17 21:39:40 $
 
 =cut

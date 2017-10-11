@@ -1,8 +1,5 @@
 # --
-# Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: User.pm,v 1.114.2.2 2011-07-01 07:30:48 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +19,6 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.114.2.2 $) [1];
 
 =head1 NAME
 
@@ -147,7 +143,10 @@ sub GetUserData {
 
     # check needed stuff
     if ( !$Param{User} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User or UserID!'
+        );
         return;
     }
 
@@ -167,15 +166,13 @@ sub GetUserData {
 
     my $CacheKey;
     if ( $Param{User} ) {
-        $CacheKey
-            = 'GetUserData::User::'
+        $CacheKey = 'GetUserData::User::'
             . $Param{User} . '::'
             . $Param{Valid} . '::'
             . $Param{NoOutOfOffice};
     }
     else {
-        $CacheKey
-            = 'GetUserData::UserID::'
+        $CacheKey = 'GetUserData::UserID::'
             . $Param{UserID} . '::'
             . $Param{Valid} . '::'
             . $Param{NoOutOfOffice};
@@ -199,7 +196,10 @@ sub GetUserData {
         $SQL .= " $Self->{UserTableUserID} = ?";
         push @Bind, \$Param{UserID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{UserID}        = $Row[0];
@@ -242,7 +242,10 @@ sub GetUserData {
         if ( !$Hit ) {
 
             # set cache
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => {} );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => {}
+            );
             return;
         }
     }
@@ -299,7 +302,10 @@ sub GetUserData {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     # return data
     return %Data;
@@ -327,7 +333,10 @@ sub UserAdd {
     # check needed stuff
     for (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -395,10 +404,17 @@ sub UserAdd {
     );
 
     # set password
-    $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+    $Self->SetPassword(
+        UserLogin => $Param{UserLogin},
+        PW        => $Param{UserPw}
+    );
 
     # set email address
-    $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
+    $Self->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserEmail',
+        Value  => $Param{UserEmail}
+    );
 
     # delete cache
     my @CacheKeys = (
@@ -447,7 +463,10 @@ sub UserUpdate {
     # check needed stuff
     for (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -486,7 +505,10 @@ sub UserUpdate {
 
     # check pw
     if ( $Param{UserPw} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPw}
+        );
     }
 
     # set email address
@@ -589,7 +611,7 @@ sub UserSearch {
 
     # get data
     return if !$Self->{DBObject}->Prepare(
-        SQL => $SQL,
+        SQL   => $SQL,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -620,14 +642,20 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
     # get old user data
     my %User = $Self->GetUserData( User => $Param{UserLogin} );
     if ( !$User{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'No such User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'No such User!'
+        );
         return;
     }
     my $CryptedPw = '';
@@ -684,7 +712,11 @@ sub SetPassword {
     my $MD5Pw = $Self->{MainObject}->MD5sum(
         String => \$Pw,
     );
-    $Self->SetPreferences( UserID => $User{UserID}, Key => 'UserLastPw', Value => $MD5Pw );
+    $Self->SetPreferences(
+        UserID => $User{UserID},
+        Key    => 'UserLastPw',
+        Value  => $MD5Pw
+    );
 
     # update db
     my $UserLogin = lc $Param{UserLogin};
@@ -721,7 +753,10 @@ sub UserLookup {
 
     # check needed stuff
     if ( !$Param{UserLogin} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin or UserID!'
+        );
         return;
     }
     if ( $Param{UserLogin} ) {
@@ -751,7 +786,10 @@ sub UserLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $ID );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $ID
+        );
 
         return $ID;
     }
@@ -781,7 +819,10 @@ sub UserLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Login );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $Login
+        );
 
         return $Login;
     }
@@ -867,7 +908,10 @@ sub UserList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Users );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Users
+    );
 
     return %Users;
 }
@@ -894,8 +938,7 @@ sub GenerateRandomPassword {
 
     # The list of characters that can appear in a randomly generated password.
     # Note that users can put any character into a password they choose themselves.
-    my @PwChars
-        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
+    my @PwChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # The number of characters in the list.
     my $PwCharsLen = scalar @PwChars;
@@ -928,7 +971,10 @@ sub SetPreferences {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1014,7 +1060,10 @@ sub TokenGenerate {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need UserID!"
+        );
         return;
     }
 
@@ -1057,7 +1106,10 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Token and UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Token and UserID!'
+        );
         return;
     }
 
@@ -1097,9 +1149,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.114.2.2 $ $Date: 2011-07-01 07:30:48 $
 
 =cut

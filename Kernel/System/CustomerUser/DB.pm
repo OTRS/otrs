@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.pm,v 1.86.2.1 2012-05-16 09:42:14 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +19,6 @@ use Kernel::System::Valid;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,10 +52,9 @@ sub new {
         || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
         || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
-    $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
-    $Self->{ExcludePrimaryCustomerID}
-        = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
-    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
+    $Self->{ReadOnly}                 = $Self->{CustomerUserMap}->{ReadOnly};
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
+    $Self->{SearchPrefix}             = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
 
     # charset settings
     $Self->{SourceCharset}       = $Self->{CustomerUserMap}->{Params}->{SourceCharset}       || '';
@@ -124,7 +119,10 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -174,7 +172,10 @@ sub CustomerName {
     # get data
     my $Name       = '';
     my $SQLConvert = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert, Limit => 1 );
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQLConvert,
+        Limit => 1
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         for my $Position ( 1 .. 8 ) {
             next if !$Row[$Position];
@@ -380,7 +381,10 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -448,7 +452,10 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -539,7 +546,10 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is ro!'
+        );
         return;
     }
 
@@ -551,12 +561,18 @@ sub CustomerUserAdd {
             # skip UserLogin, will be checked later
             next ENTRY if ( $Entry->[0] eq 'UserLogin' );
 
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -576,7 +592,10 @@ sub CustomerUserAdd {
 
     # check if user login exists
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -614,8 +633,7 @@ sub CustomerUserAdd {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -623,8 +641,7 @@ sub CustomerUserAdd {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
             }
             else {
                 $Value{ $Entry->[0] } = "''";
@@ -658,7 +675,10 @@ sub CustomerUserAdd {
 
     # set password
     if ( $Param{UserPassword} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPassword}
+        );
     }
 
     # cache reset
@@ -677,14 +697,20 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is ro!'
+        );
         return;
     }
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
@@ -711,8 +737,7 @@ sub CustomerUserUpdate {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -720,8 +745,7 @@ sub CustomerUserUpdate {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
             }
             else {
                 $Value{ $Entry->[0] } = "''";
@@ -760,11 +784,9 @@ sub CustomerUserUpdate {
     if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
 
         # preferences table data
-        $Self->{PreferencesTable}
-            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
+        $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
             || 'customer_preferences';
-        $Self->{PreferencesTableUserID}
-            = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
+        $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
             || 'user_id';
 
         # update the preferences
@@ -784,7 +806,10 @@ sub CustomerUserUpdate {
 
     # check pw
     if ( $Param{UserPassword} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPassword}
+        );
     }
 
     # cache reset
@@ -805,13 +830,19 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is ro!'
+        );
         return;
     }
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
     my $CryptedPw = '';
@@ -933,8 +964,7 @@ sub GenerateRandomPassword {
 
     # The list of characters that can appear in a randomly generated password.
     # Note that users can put any character into a password they choose themselves.
-    my @PwChars
-        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
+    my @PwChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # The number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);
@@ -954,7 +984,10 @@ sub SetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -973,7 +1006,10 @@ sub GetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 

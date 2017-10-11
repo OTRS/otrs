@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Email/SMTP.pm - the global email send module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SMTP.pm,v 1.29 2010-01-12 15:55:38 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Net::SMTP;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,7 +72,10 @@ sub Check {
 
     # return if no connect was possible
     if ( !$SMTP ) {
-        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
+        return (
+            Successful => 0,
+            Message    => "Can't connect to $Self->{MailHost}: $!!"
+        );
     }
 
     # use smtp auth if configured
@@ -94,7 +91,10 @@ sub Check {
         }
     }
 
-    return ( Successful => 1, SMTP => $SMTP );
+    return (
+        Successful => 1,
+        SMTP       => $SMTP
+    );
 }
 
 sub Send {
@@ -103,7 +103,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

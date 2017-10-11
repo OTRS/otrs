@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminResponseAttachment.pm,v 1.39 2010-11-10 11:04:28 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::StdAttachment;
 use Kernel::System::StandardResponse;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,8 +82,7 @@ sub Run {
         my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID );
 
         # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
 
         # get role member
         my %Member = $Self->{DBObject}->GetTableData(
@@ -122,8 +115,7 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
         # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
         for my $StandardResponseID ( keys %StandardResponseData ) {
             my $Active = 0;
             for my $StdAttachmentID (@IDs) {
@@ -185,7 +177,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Response';
     my $NeType = $Type eq 'Attachment' ? 'Response' : 'Attachment';
 
-    my %VisibleType = ( Response => 'Response', Attachment => 'Attachment', );
+    my %VisibleType = (
+        Response   => 'Response',
+        Attachment => 'Attachment',
+    );
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );

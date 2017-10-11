@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Auth/HTTPBasicAuth.pm - provides the $ENV authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: HTTPBasicAuth.pm,v 1.16 2009-09-22 15:19:27 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,9 +20,6 @@ package Kernel::System::Auth::HTTPBasicAuth;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,12 +46,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 1, );
+    my %Option = (
+        PreAuth => 1,
+    );
 
     # return option
     return $Option{ $Param{What} };

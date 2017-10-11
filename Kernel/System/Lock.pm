@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Lock.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Lock.pm,v 1.34 2010-10-14 12:05:57 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ use Kernel::System::Valid;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -130,7 +126,10 @@ sub LockViewableLock {
     # check needed stuff
     for (qw(Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -192,7 +191,10 @@ sub LockLookup {
         $Key = 'Lock';
     }
     if ( !$Param{Lock} && !$Param{LockID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Lock or LockID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Lock or LockID!'
+        );
         return;
     }
 
@@ -212,7 +214,10 @@ sub LockLookup {
         $SQL = 'SELECT name FROM ticket_lock_type WHERE id = ?';
         push @Bind, \$Param{LockID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data = $Row[0];
@@ -258,7 +263,10 @@ sub LockList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 
@@ -298,9 +306,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.34 $ $Date: 2010-10-14 12:05:57 $
 
 =cut

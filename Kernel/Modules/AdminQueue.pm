@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminQueue.pm,v 1.77.2.2 2011-04-06 16:37:27 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +16,6 @@ use Kernel::System::Valid;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,20 +65,21 @@ sub Run {
         %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
         my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
         if ($CryptObjectPGP) {
-            my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch( Search => $QueueData{Email}, );
+            my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch(
+                Search => $QueueData{Email},
+            );
             for my $DataRef (@PrivateKeys) {
-                $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                    = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifier}";
-                $KeyList{"PGP::Detached::$DataRef->{Key}"}
-                    = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifier}";
+                $KeyList{"PGP::Inline::$DataRef->{Key}"}   = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifier}";
+                $KeyList{"PGP::Detached::$DataRef->{Key}"} = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifier}";
             }
         }
         my $CryptObjectSMIME = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
         if ($CryptObjectSMIME) {
-            my @PrivateKeys = $CryptObjectSMIME->PrivateSearch( Search => $QueueData{Email}, );
+            my @PrivateKeys = $CryptObjectSMIME->PrivateSearch(
+                Search => $QueueData{Email},
+            );
             for my $DataRef (@PrivateKeys) {
-                $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
-                    = "SMIME-Detached: $DataRef->{Hash} $DataRef->{Email}";
+                $KeyList{"SMIME::Detached::$DataRef->{Hash}"} = "SMIME-Detached: $DataRef->{Hash} $DataRef->{Email}";
             }
         }
     }
@@ -138,8 +133,10 @@ sub Run {
 
         # get long queue name
         if ( $GetParam{ParentQueueID} ) {
-            $GetParam{Name}
-                = $Self->{QueueObject}->QueueLookup( QueueID => $GetParam{ParentQueueID}, ) . '::'
+            $GetParam{Name} = $Self->{QueueObject}->QueueLookup(
+                QueueID => $GetParam{ParentQueueID},
+                )
+                . '::'
                 . $GetParam{Name};
         }
 
@@ -187,11 +184,16 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam  => \%GetParam,
+                                QueueData => \%QueueData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -337,11 +339,16 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam  => \%GetParam,
+                                QueueData => \%QueueData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -448,16 +455,19 @@ sub _Edit {
         }
     }
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { '' => ' -', %CleanHash, },
-        Name => 'ParentQueueID',
+        Data => {
+            '' => ' -',
+            %CleanHash,
+        },
+        Name           => 'ParentQueueID',
         Selected       => $ParentQueue,
         MaxLevel       => 4,
         OnChangeSubmit => 0,
     );
     $Param{QueueLongOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
-        Name => 'QueueID',
-        Size => 15,
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
+        Name           => 'QueueID',
+        Size           => 15,
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
     );
@@ -491,8 +501,8 @@ sub _Edit {
         PossibleNone => 1,
     );
     $Param{SignatureOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
-        Name => 'SignatureID',
+        Data       => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
+        Name       => 'SignatureID',
         SelectedID => $Param{SignatureID},
         Class => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
     );
@@ -503,11 +513,11 @@ sub _Edit {
     );
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name => 'SystemAddressID',
+        Data       => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Name       => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
         Max        => 200,
-        Class      => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
 
     my %DefaultSignKeyList = ();
@@ -524,8 +534,8 @@ sub _Edit {
         SelectedID => $Param{DefaultSignKey},
     );
     $Param{SalutationOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
-        Name => 'SalutationID',
+        Data       => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
+        Name       => 'SalutationID',
         SelectedID => $Param{SalutationID},
         Class => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
     );
@@ -657,7 +667,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $QueueID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{QueueObject}->QueueGet( ID => $QueueID, );
+            my %Data = $Self->{QueueObject}->QueueGet(
+                ID => $QueueID,
+            );
             $Data{GroupName} = $Self->{GroupObject}->GroupLookup( GroupID => $Data{GroupID} );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',

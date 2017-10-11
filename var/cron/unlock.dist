@@ -1,8 +1,6 @@
 # --
 # cron/unlock - unlock old locked ticket of the OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
-# --
-# $Id: unlock.dist,v 1.11 2009-11-04 12:27:57 mn Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

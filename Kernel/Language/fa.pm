@@ -1,10 +1,7 @@
 # --
-# Kernel/Language/fa.pm - provides Persian language translation
 # Copyright (C) 2006-2009 Amir Shams Parsa <a.parsa at gmail.com>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
-# --
-# $Id: fa.pm,v 1.87.2.5 2012-03-09 07:37:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ package Kernel::Language::fa;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87.2.5 $) [1];
 
 sub Data {
     my $Self = shift;

@@ -1,8 +1,5 @@
 # --
-# Kernel/System/CustomerAuth.pm - provides the authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerAuth.pm,v 1.34.2.2 2011-04-01 15:21:01 mp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +13,6 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34.2.2 $) [1];
 
 =head1 NAME
 
@@ -228,9 +224,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.34.2.2 $ $Date: 2011-04-01 15:21:01 $
 
 =cut

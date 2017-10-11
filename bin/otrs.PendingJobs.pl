@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.PendingJobs.pl,v 1.5.2.1 2011-05-24 11:28:55 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5.2.1 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Encode;
@@ -61,8 +55,8 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 
 # check args
 my $Command = shift || '--help';
-print "otrs.PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "otrs.PendingJobs.pl - check pending tickets\n";
+print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
@@ -236,10 +230,9 @@ if (@PendingReminderStateIDs) {
             );
 
             # check if a reminder has already been sent today
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                = $CommonObject{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CommonObject{TimeObject}->SystemTime2Date(
                 SystemTime => $CommonObject{TimeObject}->SystemTime(),
-                );
+            );
 
             # get ticket history
             my @Lines = $CommonObject{TicketObject}->HistoryGet(

@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerPreferences.pm,v 1.31 2010-07-14 22:18:25 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::CustomerPreferences;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,7 +84,13 @@ sub Run {
         }
         my $Message  = '';
         my $Priority = '';
-        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+        if (
+            $Object->Run(
+                GetParam => \%GetParam,
+                UserData => \%UserData
+            )
+            )
+        {
             $Message = $Object->Message();
         }
         else {
@@ -131,7 +131,9 @@ sub Run {
             );
         }
         elsif ($Message) {
-            $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => $Message,
+            );
         }
 
         # get user data
@@ -170,7 +172,9 @@ sub CustomerPreferencesForm {
         }
         $Self->{LayoutObject}->Block(
             Name => 'Head',
-            Data => { Header => $Column, },
+            Data => {
+                Header => $Column,
+            },
         );
 
         # sort

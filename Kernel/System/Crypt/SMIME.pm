@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: SMIME.pm,v 1.43.2.5 2012-05-03 12:34:00 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Crypt::SMIME;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43.2.5 $) [1];
 
 =head1 NAME
 
@@ -118,7 +112,10 @@ sub Crypt {
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -133,11 +130,13 @@ sub Crypt {
     my ( $FHCrypted, $CryptedFile ) = $Self->{FileTempObject}->TempFile();
     close $FHCrypted;
 
-    my $Options
-        = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
+    my $Options    = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't crypt: $LogMessage!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't crypt: $LogMessage!"
+        );
         return;
     }
 
@@ -163,7 +162,10 @@ sub Decrypt {
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -185,8 +187,7 @@ sub Decrypt {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options
-        = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
+    my $Options = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
         . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
@@ -204,7 +205,10 @@ sub Decrypt {
     }
 
     if ($LogMessage) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't decrypt: $LogMessage!"
+        );
         return (
             Successful => 0,
             Message    => $LogMessage,
@@ -244,7 +248,10 @@ sub Sign {
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -266,8 +273,7 @@ sub Sign {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options
-        = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
+    my $Options = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
         . " -text -binary -passin file:$SecretFile";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     unlink $SecretFile;
@@ -306,7 +312,10 @@ sub Verify {
 
     # check needed stuff
     if ( !$Param{Message} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Message!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Message!"
+        );
         return;
     }
 
@@ -325,8 +334,7 @@ sub Verify {
         $CertificateOption = "-CAfile $Param{Certificate}";
     }
 
-    my $Options
-        = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
+    my $Options = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
         . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
@@ -452,7 +460,10 @@ sub CertificateAdd {
 
     # check needed stuff
     if ( !$Param{Certificate} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Certificate!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Certificate!'
+        );
         return;
     }
     my %Attributes = $Self->CertificateAttributes(%Param);
@@ -464,11 +475,17 @@ sub CertificateAdd {
             return 'Certificate uploaded!';
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't write $File: $!!"
+            );
             return;
         }
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid certificate!" );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Can't add invalid certificate!"
+    );
     return;
 }
 
@@ -487,7 +504,10 @@ sub CertificateGet {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Hash!'
+        );
         return;
     }
     my $File = "$Self->{CertPath}/$Param{Hash}.0";
@@ -513,7 +533,10 @@ sub CertificateRemove {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Hash!'
+        );
         return;
     }
     my $Result = unlink "$Self->{CertPath}/$Param{Hash}.0" || return $!;
@@ -559,7 +582,10 @@ sub CertificateAttributes {
 
     my %Attributes;
     if ( !$Param{Certificate} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Certificate!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Certificate!'
+        );
         return;
     }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
@@ -633,14 +659,20 @@ sub PrivateAdd {
 
     # check needed stuff
     if ( !$Param{Private} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Private!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Private!'
+        );
         return;
     }
 
     # get private attributes
     my %Attributes = $Self->PrivateAttributes(%Param);
     if ( !$Attributes{Modulus} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'No Private Key!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'No Private Key!'
+        );
         return;
     }
 
@@ -674,11 +706,17 @@ sub PrivateAdd {
             return 'Private Key uploaded!';
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Can't write $File: $!!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't write $File: $!!"
+            );
             return;
         }
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't add invalid private key!" );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Can't add invalid private key!"
+    );
     return;
 }
 
@@ -697,7 +735,10 @@ sub PrivateGet {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Hash!'
+        );
         return;
     }
     my $File = "$Self->{PrivatePath}/$Param{Hash}.0";
@@ -725,7 +766,10 @@ sub PrivateGet {
         return ( $Private, $Secret );
     }
 
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Can't open $File: $!!" );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => "Can't open $File: $!!"
+    );
     return;
 }
 
@@ -744,7 +788,10 @@ sub PrivateRemove {
 
     # check needed stuff
     if ( !$Param{Hash} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Hash!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Hash!'
+        );
         return;
     }
     my $CertDelete    = unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return;
@@ -798,9 +845,14 @@ sub PrivateAttributes {
     my ( $Self, %Param ) = @_;
 
     my %Attributes;
-    my %Option = ( Modulus => '-modulus', );
+    my %Option = (
+        Modulus => '-modulus',
+    );
     if ( !$Param{Private} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Private!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Private!'
+        );
         return;
     }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
@@ -845,8 +897,7 @@ sub _Init {
     $ENV{RANDFILE} = $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
 
     # prepend RANDFILE declaration to openssl cmd
-    $Self->{Cmd}
-        = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+    $Self->{Cmd} = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
     # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
     $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
@@ -920,7 +971,7 @@ sub _FetchAttributesFromCert {
             if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
                 $AttributesRef->{$Filter} = $1;
 
-          # delete the match key from filter  to don't search again this value and improve the speed
+                # delete the match key from filter  to don't search again this value and improve the speed
                 delete $Filters{$Filter};
                 last;
             }
@@ -939,7 +990,12 @@ sub _FetchAttributesFromCert {
         Apr => '04',
         May => '05',
         Jun => '06',
-        Jul => '07', Aug => '08', Sep => '09', Oct => '10', Nov => '11', Dec => '12',
+        Jul => '07',
+        Aug => '08',
+        Sep => '09',
+        Oct => '10',
+        Nov => '11',
+        Dec => '12',
     );
 
     for my $DateType ( 'StartDate', 'EndDate' ) {
@@ -992,9 +1048,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.43.2.5 $ $Date: 2012-05-03 12:34:00 $
 
 =cut

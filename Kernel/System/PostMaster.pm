@@ -1,8 +1,5 @@
 # --
-# Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: PostMaster.pm,v 1.85 2010-06-17 21:39:40 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,8 +21,6 @@ use Kernel::System::PostMaster::NewTicket;
 use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
-
-$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 NAME
 
@@ -231,9 +226,9 @@ sub Run {
         return (5);
     }
 
-    # ----------------------
+    #
     # ticket section
-    # ----------------------
+    #
 
     # check if follow up (again, with new GetParam)
     ( $Tn, $TicketID ) = $Self->CheckFollowUp( %{$GetParam} );
@@ -269,11 +264,15 @@ sub Run {
             # send mail && create new article
             # get queue if of From: and To:
             if ( !$Param{QueueID} ) {
-                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID( Params => $GetParam, );
+                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(
+                    Params => $GetParam,
+                );
             }
 
             # check if trusted returns a new queue id
-            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
+            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+                Params => $GetParam,
+            );
             if ($TQueueID) {
                 $Param{QueueID} = $TQueueID;
             }
@@ -344,7 +343,9 @@ sub Run {
         }
 
         # check if trusted returns a new queue id
-        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
+        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+            Params => $GetParam,
+        );
         if ($TQueueID) {
             $Param{QueueID} = $TQueueID;
         }
@@ -442,7 +443,9 @@ sub CheckFollowUp {
                 MessageID => "<$Reference>",
             );
             next if !$TicketID;
-            my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID, );
+            my $Tn = $Self->{TicketObject}->TicketNumberLookup(
+                TicketID => $TicketID,
+            );
             if ( $TicketID && $Tn ) {
                 return ( $Tn, $TicketID );
             }
@@ -535,7 +538,7 @@ sub GetEmailParams {
             if ( $Self->{Debug} > 2 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
+                    Message  => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
                 );
             }
             $GetParam{$Param} = $Self->{ParserObject}->GetParam( WHAT => $Param );
@@ -598,7 +601,7 @@ sub GetEmailParams {
         if ( !$Self->{TicketObject}->ArticleTypeLookup( ArticleType => $GetParam{$Key} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
+                Message  => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
             );
             $GetParam{$Key} = 'email-external';
         }
@@ -632,9 +635,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.85 $ $Date: 2010-06-17 21:39:40 $
 
 =cut

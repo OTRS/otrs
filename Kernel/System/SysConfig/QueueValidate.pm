@@ -1,8 +1,5 @@
 # --
-# Kernel/System/SysConfig/QueueValidate.pm - all QueueValidate functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: QueueValidate.pm,v 1.1 2010-07-28 08:49:24 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ use Kernel::Config;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
@@ -203,9 +199,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.1 $ $Date: 2010-07-28 08:49:24 $
 
 =cut

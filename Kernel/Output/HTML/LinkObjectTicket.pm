@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: LinkObjectTicket.pm,v 1.19 2009-11-25 15:49:32 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -293,7 +287,10 @@ sub TableCreateSimple {
 
     # check needed stuff
     if ( !$Param{ObjectLinkListWithData} || ref $Param{ObjectLinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ObjectLinkListWithData!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ObjectLinkListWithData!'
+        );
         return;
     }
 
@@ -356,7 +353,10 @@ sub ContentStringCreate {
 
     # check needed stuff
     if ( !$Param{ContentData} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ContentData!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ContentData!'
+        );
         return;
     }
 
@@ -475,7 +475,7 @@ sub SearchOptionList {
             $Self->{LayoutObject}->Block(
                 Name => 'InputText',
                 Data => {
-                    Key => $Row->{FormKey},
+                    Key   => $Row->{FormKey},
                     Value => $Row->{FormData} || '',
                 },
             );
@@ -526,16 +526,12 @@ sub SearchOptionList {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
-did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.19 $ $Date: 2009-11-25 15:49:32 $
 
 =cut

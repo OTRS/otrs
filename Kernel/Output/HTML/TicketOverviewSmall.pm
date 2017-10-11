@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/TicketOverviewSmall.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketOverviewSmall.pm,v 1.37.2.1 2011-10-28 16:06:06 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,8 +30,7 @@ sub new {
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
-    $Self->{SmallViewColumnHeader}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
+    $Self->{SmallViewColumnHeader} = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
 
     return $Self;
 }
@@ -101,7 +94,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -141,7 +137,7 @@ sub Run {
             # prepare subject
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
 
             # create human age
@@ -172,8 +168,10 @@ sub Run {
                     if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                         return $Self->{LayoutObject}->FatalError();
                     }
-                    my $Object
-                        = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Article{TicketID}, );
+                    my $Object = $Menus{$Menu}->{Module}->new(
+                        %{$Self},
+                        TicketID => $Article{TicketID},
+                    );
 
                     # run module
                     my $Item = $Object->Run(
@@ -270,7 +268,9 @@ sub Run {
             if ( $Item eq 'New Article' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewNavBarPageFlagEmpty',
-                    Data => { Name => $Item, }
+                    Data => {
+                        Name => $Item,
+                        }
                 );
             }
             else {

@@ -1,8 +1,5 @@
 # --
-# Kernel/System/State.pm - All state related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: State.pm,v 1.48.2.1 2011-06-17 10:10:08 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +17,6 @@ use Kernel::System::SysConfig;
 use Kernel::System::CacheInternal;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48.2.1 $) [1];
 
 =head1 NAME
 
@@ -127,7 +123,10 @@ sub StateAdd {
     # check needed stuff
     for (qw(Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -192,7 +191,10 @@ sub StateGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID or Name!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID or Name!"
+        );
         return;
     }
 
@@ -220,7 +222,10 @@ sub StateGet {
         $SQL .= ' ts.id = ?';
         push @Bind, \$Param{ID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -276,7 +281,10 @@ sub StateUpdate {
     # check needed stuff
     for (qw(ID Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -348,12 +356,18 @@ sub StateGetStatesByType {
 
     # check needed stuff
     if ( !$Param{Result} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Result!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Result!'
+        );
         return;
     }
 
     if ( !$Param{Type} && !$Param{StateType} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type or StateType!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Type or StateType!'
+        );
         return;
     }
 
@@ -487,7 +501,10 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
     if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
@@ -526,7 +543,10 @@ sub StateLookup {
 
     # check needed stuff
     if ( !$Param{State} && !$Param{StateID} ) {
-        $Self->{LogObject}->Log( State => 'error', Message => 'Need State or StateID!' );
+        $Self->{LogObject}->Log(
+            State   => 'error',
+            Message => 'Need State or StateID!'
+        );
         return;
     }
 
@@ -559,14 +579,20 @@ sub StateLookup {
         $SQL = 'SELECT name FROM ticket_state WHERE id = ?';
         push @Bind, \$Param{StateID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data = $Row[0];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Data
+    );
 
     # check if data exists
     if ( !defined $Data ) {
@@ -607,7 +633,10 @@ sub StateTypeList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 
@@ -641,8 +670,10 @@ sub StateTypeLookup {
 
     # check needed stuff
     if ( !$Param{StateType} && !$Param{StateTypeID} ) {
-        $Self->{LogObject}
-            ->Log( StateType => 'error', Message => 'Need StateType or StateTypeID!' );
+        $Self->{LogObject}->Log(
+            StateType => 'error',
+            Message   => 'Need StateType or StateTypeID!'
+        );
         return;
     }
 
@@ -675,14 +706,20 @@ sub StateTypeLookup {
         $SQL = 'SELECT name FROM ticket_state_type WHERE id = ?';
         push @Bind, \$Param{StateTypeID};
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data = $Row[0];
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Data
+    );
 
     # check if data exists
     if ( !defined $Data ) {
@@ -709,9 +746,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.48.2.1 $ $Date: 2011-06-17 10:10:08 $
 
 =cut

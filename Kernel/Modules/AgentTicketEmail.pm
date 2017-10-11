@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketEmail.pm,v 1.165.2.5 2011-07-22 12:49:48 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +19,6 @@ use Kernel::System::HTMLUtils;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::State;
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.165.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -259,7 +253,7 @@ sub Run {
                 }
             }
             my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
-                Config => \%ArticleFreeText,
+                Config  => \%ArticleFreeText,
                 Article => { %GetParam, %ArticleFreeDefault, },
             );
 
@@ -269,8 +263,7 @@ sub Run {
                 'HASH'
                 )
             {
-                my %Jobs
-                    = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
+                my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
                 for my $Job ( sort keys %Jobs ) {
 
                     # load module
@@ -278,13 +271,15 @@ sub Run {
                         return $Self->{LayoutObject}->FatalError();
                     }
 
-                    my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        %{$Self},
+                        Debug => $Self->{Debug},
+                    );
 
                     # get params
                     my %GetParam;
                     for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-                        $GetParam{$Parameter}
-                            = $Self->{ParamObject}->GetParam( Param => $Parameter );
+                        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
                     }
 
                     # run module
@@ -379,7 +374,9 @@ sub Run {
         my $NextStateID = $Self->{ParamObject}->GetParam( Param => 'NextStateID' ) || '';
         my %StateData;
         if ($NextStateID) {
-            %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $NextStateID, );
+            %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $NextStateID,
+            );
         }
         my $NextState        = $StateData{Name};
         my $NewResponsibleID = $Self->{ParamObject}->GetParam( Param => 'NewResponsibleID' ) || '';
@@ -503,7 +500,9 @@ sub Run {
         );
 
         # free time
-        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%GetParam,
+        );
 
         # article free text
         my %ArticleFreeText;
@@ -587,7 +586,10 @@ sub Run {
             else {
 
                 # don't check email syntax on multi customer select
-                $Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 0 );
+                $Self->{ConfigObject}->Set(
+                    Key   => 'CheckEmailAddresses',
+                    Value => 0
+                );
                 $CustomerID = '';
 
                 # clear to if there is no customer found
@@ -644,8 +646,7 @@ sub Run {
             next if !$GetParam{$Parameter};
             for my $Email ( Mail::Address->parse( $GetParam{$Parameter} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ $Parameter . 'ErrorType' }
-                        = $Parameter
+                    $Error{ $Parameter . 'ErrorType' } = $Parameter
                         . $Self->{CheckItemObject}->CheckErrorType()
                         . 'ServerErrorMsg';
                     $Error{ $Parameter . 'Invalid' } = 'ServerError';
@@ -719,7 +720,10 @@ sub Run {
                     return $Self->{LayoutObject}->FatalError();
                 }
 
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
 
                 # get params
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -1176,7 +1180,10 @@ sub Run {
                 # load module
                 next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
 
                 # get params
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -1495,8 +1502,7 @@ sub _MaskEmailNew {
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -1567,15 +1573,13 @@ sub _MaskEmailNew {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $ErrorKey ( keys %{ $Param{Errors} } ) {
-            $Param{$ErrorKey}
-                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$ErrorKey} );
+            $Param{$ErrorKey} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$ErrorKey} );
         }
 
         # display server error msg according with the occurred email (cc or bcc) error type
         for my $Parameter (qw(Cc Bcc)) {
             if ( $Param{Errors}->{ $Parameter . 'ErrorType' } ) {
-                $Self->{LayoutObject}
-                    ->Block( Name => $Param{Errors}->{ $Parameter . 'ErrorType' } );
+                $Self->{LayoutObject}->Block( Name => $Param{Errors}->{ $Parameter . 'ErrorType' } );
             }
         }
     }
@@ -1652,12 +1656,12 @@ sub _MaskEmailNew {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid} || ' ',
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -1701,7 +1705,10 @@ sub _MaskEmailNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
     for my $Count ( 1 .. 6 ) {
@@ -1716,7 +1723,10 @@ sub _MaskEmailNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketFreeTime' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1733,7 +1743,10 @@ sub _MaskEmailNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFreeText' . $Count,
-            Data => { %Param, Count => $Count, },
+            Data => {
+                %Param,
+                Count => $Count,
+            },
         );
     }
 
@@ -1857,7 +1870,10 @@ sub _MaskEmailNew {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketEmail', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketEmail',
+        Data         => \%Param
+    );
 }
 
 1;

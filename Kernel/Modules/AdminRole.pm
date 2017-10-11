@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminRole.pm - to add/update/delete roles
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminRole.pm,v 1.31 2010-11-19 22:28:58 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Valid;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,11 +38,12 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID
-            = $Self->{ParamObject}->GetParam( Param => 'ID' )
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' )
             || $Self->{ParamObject}->GetParam( Param => 'RoleID' )
             || '';
-        my %Data = $Self->{GroupObject}->RoleGet( ID => $ID, );
+        my %Data = $Self->{GroupObject}->RoleGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -293,7 +288,9 @@ sub _Overview {
         Data => {},
     );
 
-    my %List = $Self->{GroupObject}->RoleList( ValidID => 0, );
+    my %List = $Self->{GroupObject}->RoleList(
+        ValidID => 0,
+    );
 
     # if there is data available, it is shown
     if (%List) {

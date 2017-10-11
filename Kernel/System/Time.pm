@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Time.pm,v 1.57 2010-12-01 13:41:07 bes Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +14,6 @@ use warnings;
 use Time::Local;
 
 use vars qw(@ISA $VERSION);
-
-$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -126,7 +121,10 @@ sub SystemTime2TimeStamp {
 
     # check needed stuff
     if ( !$Param{SystemTime} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SystemTime!'
+        );
         return;
     }
 
@@ -174,7 +172,10 @@ sub SystemTime2Date {
 
     # check needed stuff
     if ( !$Param{SystemTime} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SystemTime!'
+        );
         return;
     }
 
@@ -208,7 +209,10 @@ sub TimeStamp2SystemTime {
 
     # check needed stuff
     if ( !$Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need String!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need String!'
+        );
         return;
     }
 
@@ -350,7 +354,10 @@ sub Date2SystemTime {
     # check needed stuff
     for (qw(Year Month Day Hour Minute Second)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -456,7 +463,10 @@ sub WorkingTime {
     # check needed stuff
     for (qw(StartTime StopTime)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -465,10 +475,8 @@ sub WorkingTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours        = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays        = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
             $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
@@ -589,7 +597,10 @@ sub DestinationTime {
     # check needed stuff
     for (qw(StartTime Time)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -598,10 +609,8 @@ sub DestinationTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours        = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays        = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
             $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
@@ -741,8 +750,7 @@ sub DestinationTime {
             $CTime = $CTime + ( 60 * 60 * 24 );
 
             # reduce destination time diff between today and tomrrow
-            my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear )
-                = localtime $CTime;
+            my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear ) = localtime $CTime;
             $NextYear  = $NextYear + 1900;
             $NextMonth = $NextMonth + 1;
 
@@ -862,9 +870,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.57 $ $Date: 2010-12-01 13:41:07 $
 
 =cut

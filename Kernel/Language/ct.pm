@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
-# --
-# $Id: ct.pm,v 1.47.2.4 2012-03-09 07:37:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::ct;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

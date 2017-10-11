@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.GenericAgent.pl,v 1.4.2.2 2011-11-17 08:16:56 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -30,7 +27,6 @@ use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.4.2.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,8 +44,8 @@ use Kernel::System::GenericAgent;
 my %Opts = ();
 getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
-    print "otrs.GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "otrs.GenericAgent.pl - OTRS generic agent\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
     print "[-l <limit>] [-f force]\n";
     print "usage: otrs.GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
@@ -84,8 +80,11 @@ $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
 $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new( %CommonObject, Debug => $Opts{d}, );
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(
+    %CommonObject,
+    Debug => $Opts{d},
+);
+$CommonObject{QueueObject}        = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
     %CommonObject,
     Debug        => $Opts{d},
@@ -201,10 +200,9 @@ sub ExecuteDBJobs {
         next if !$DBJobRaw{Valid};
 
         # get time params to check last and current run
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = $CommonObject{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
-            );
+        );
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . '0';
         }

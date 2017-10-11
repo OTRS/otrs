@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminSMIME.pm,v 1.34.2.2 2011-05-09 20:44:32 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Crypt;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,7 +58,9 @@ sub Run {
         my $Hash = $Self->{ParamObject}->GetParam( Param => 'Hash' ) || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Hash ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Hash to delete!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Hash to delete!',
+            );
         }
         my $Message = '';
 
@@ -76,8 +72,9 @@ sub Run {
         # remove certificate and private key if exists
         else {
             my $Certificate = $Self->{CryptObject}->CertificateGet( Hash => $Hash );
-            my %Attributes
-                = $Self->{CryptObject}->CertificateAttributes( Certificate => $Certificate, );
+            my %Attributes = $Self->{CryptObject}->CertificateAttributes(
+                Certificate => $Certificate,
+            );
             $Message = $Self->{CryptObject}->CertificateRemove( Hash => $Hash );
             if ( $Attributes{Private} eq 'Yes' ) {
                 $Message .= $Self->{CryptObject}->PrivateRemove( Hash => $Hash );
@@ -154,8 +151,7 @@ sub Run {
         if ( !%Errors ) {
 
             # add certificate
-            my $NewCertificate
-                = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
+            my $NewCertificate = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
 
             if ($NewCertificate) {
                 my @List = $Self->{CryptObject}->Search();
@@ -304,7 +300,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'DownloadFingerprint' ) {
         my $Hash = $Self->{ParamObject}->GetParam( Param => 'Hash' ) || '';
         if ( !$Hash ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Hash to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Hash to download!',
+            );
         }
         my $Certificate = $Self->{CryptObject}->CertificateGet( Hash => $Hash );
         my %Attributes = $Self->{CryptObject}->CertificateAttributes( Certificate => $Certificate );
@@ -323,7 +321,9 @@ sub Run {
         my $Hash = $Self->{ParamObject}->GetParam( Param => 'Hash' ) || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Hash ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Hash to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Hash to download!',
+            );
         }
         my $Download = '';
 

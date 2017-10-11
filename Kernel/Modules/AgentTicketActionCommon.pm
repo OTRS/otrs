@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketActionCommon.pm - common file for several modules
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketActionCommon.pm,v 1.33.2.6 2012-06-29 21:06:51 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1191,7 +1188,7 @@ sub _Mask {
                     Format           => 'DateInputFormatLong',
                     YearPeriodPast   => 0,
                     YearPeriodFuture => 5,
-                    DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
+                    DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime')
                         || 0,
                     %Param,
                     Class => $Param{DateInvalid} || ' ',
@@ -1284,8 +1281,7 @@ sub _Mask {
 
         # get involved
         if ( $Self->{Config}->{InvolvedAgent} ) {
-            my @UserIDs
-                = $Self->{TicketObject}->TicketInvolvedAgentsList( TicketID => $Self->{TicketID} );
+            my @UserIDs = $Self->{TicketObject}->TicketInvolvedAgentsList( TicketID => $Self->{TicketID} );
             my %UserHash;
             my $Counter = 0;
             for my $User ( reverse @UserIDs ) {
@@ -1295,8 +1291,7 @@ sub _Mask {
                     . "$User->{UserFirstname} ($User->{UserLogin})";
             }
 
-            my $InvolvedAgentSize
-                = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
+            my $InvolvedAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
             $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%UserHash,
                 SelectedID => $Self->{InvolvedUserID},
@@ -1430,7 +1425,10 @@ sub _Mask {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => $Self->{Action}, Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => $Self->{Action},
+        Data         => \%Param
+    );
 }
 
 1;

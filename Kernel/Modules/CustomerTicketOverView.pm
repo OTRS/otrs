@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: CustomerTicketOverView.pm,v 1.67.2.2 2012-05-22 11:46:43 jp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -211,8 +205,7 @@ sub Run {
             Name => 'Empty',
         );
 
-        my $CustomTexts
-            = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
+        my $CustomTexts = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
 
         if ( ref $CustomTexts eq 'HASH' ) {
             $Self->{LayoutObject}->Block(
@@ -414,16 +407,20 @@ sub ShowTicketStatus {
     # condense down the subject
     my $Subject = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Article{Subject} || '',
     );
 
     # return ticket
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ) || 0;
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Article{Age},
+        Space => ' '
+    ) || 0;
 
     # customer info (customer name)
     if ( $Article{CustomerUserID} ) {
-        $Param{CustomerName}
-            = $Self->{CustomerUserObject}->CustomerName( UserLogin => $Article{CustomerUserID}, );
+        $Param{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+            UserLogin => $Article{CustomerUserID},
+        );
         $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
     }
 

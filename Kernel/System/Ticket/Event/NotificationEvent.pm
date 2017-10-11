@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: NotificationEvent.pm,v 1.23.2.3 2011-12-05 11:29:10 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::NotificationEvent;
 use Kernel::System::SystemAddress;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,13 +38,19 @@ sub Run {
     # check needed stuff
     for (qw(Event Data Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }
@@ -221,7 +221,10 @@ sub _SendNotificationToRecipients {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Notification)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -442,8 +445,7 @@ sub _SendNotificationToRecipients {
     for my $Recipient (@Recipients) {
         next
             if (
-            $Self->{SystemAddressObject}
-            ->SystemAddressIsLocalAddress( Address => $Recipient->{Email} )
+            $Self->{SystemAddressObject}->SystemAddressIsLocalAddress( Address => $Recipient->{Email} )
             );
         $Self->_SendNotification(
             TicketID              => $Param{TicketID},
@@ -612,7 +614,7 @@ sub _SendNotification {
             # prepare subject (insert old subject)
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
             for my $Type (qw(Subject Body)) {
                 if ( $Notification{$Type} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {

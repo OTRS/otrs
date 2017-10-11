@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminQueueAutoResponse.pm,v 1.34 2010-11-22 09:32:07 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::AutoResponse;
 use Kernel::System::Queue;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -173,8 +167,7 @@ sub Run {
 
         # Get Auto Response data.
         my @ResponseData;
-        my $SQL
-            = "SELECT ar.name, art.name, ar.id FROM "
+        my $SQL = "SELECT ar.name, art.name, ar.id FROM "
             . " auto_response ar, auto_response_type art, valid "
             . " WHERE ar.type_id = art.id "
             . " AND ar.valid_id = valid.id AND valid.name = 'valid'"

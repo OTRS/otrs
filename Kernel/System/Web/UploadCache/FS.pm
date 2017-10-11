@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: FS.pm,v 1.25 2011-01-14 09:23:44 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Web::UploadCache::FS;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +45,10 @@ sub FormIDRemove {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need FormID!'
+        );
         return;
     }
 
@@ -62,7 +59,9 @@ sub FormIDRemove {
     my $Counter = 0;
     my @Data;
     for my $File (@List) {
-        $Self->{MainObject}->FileDelete( Location => $File, );
+        $Self->{MainObject}->FileDelete(
+            Location => $File,
+        );
     }
     return 1;
 }
@@ -72,7 +71,10 @@ sub FormIDAddFile {
 
     for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -116,7 +118,10 @@ sub FormIDRemoveFile {
 
     for (qw(FormID FileID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -142,7 +147,10 @@ sub FormIDGetAllFilesData {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need FormID!'
+        );
         return;
     }
 
@@ -179,19 +187,19 @@ sub FormIDGetAllFilesData {
         }
         my $Content = $Self->{MainObject}->FileRead(
             Location => $File,
-            Mode     => 'binmode',    # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next if !$Content;
 
         my $ContentType = $Self->{MainObject}->FileRead(
             Location => "$File.ContentType",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next if !$ContentType;
 
         my $ContentID = $Self->{MainObject}->FileRead(
             Location => "$File.ContentID",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next if !$ContentID;
 
@@ -222,7 +230,10 @@ sub FormIDGetAllFilesMeta {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need FormID!'
+        );
         return;
     }
 
@@ -260,13 +271,13 @@ sub FormIDGetAllFilesMeta {
 
         my $ContentType = $Self->{MainObject}->FileRead(
             Location => "$File.ContentType",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next if !$ContentType;
 
         my $ContentID = $Self->{MainObject}->FileRead(
             Location => "$File.ContentID",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next if !$ContentID;
 

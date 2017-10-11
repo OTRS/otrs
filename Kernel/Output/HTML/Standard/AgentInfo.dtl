@@ -1,8 +1,5 @@
 # --
-# AgentInfo.dtl - provides info file
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentInfo.dtl,v 1.9 2010-07-06 21:37:42 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

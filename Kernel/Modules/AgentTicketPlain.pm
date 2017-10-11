@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentTicketPlain.pm - to get a plain view
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentTicketPlain.pm,v 1.17 2010-09-03 13:41:20 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Modules::AgentTicketPlain;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,7 +105,9 @@ sub Run {
             %Article,
             }
     );
-    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
+    $Output .= $Self->{LayoutObject}->Footer(
+        Type => 'Small',
+    );
     return $Output;
 }
 

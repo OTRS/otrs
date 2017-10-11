@@ -1,8 +1,5 @@
 # --
-# DB.t - database tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DB.t,v 1.77.2.7 2012-08-06 14:47:32 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -1225,7 +1222,7 @@ for my $UTF8Test (@UTF8Tests) {
     my %TestData = %{$UTF8Test};
 
     my $Result = $Self->{DBObject}->Do(
-        SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
+        SQL  => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
         Bind => [ \$Counter, \$TestData{InsertData} ],
     );
     $Self->True(
@@ -2736,7 +2733,7 @@ for my $Query (@Queries) {
 # select's
 for my $Query (@Queries) {
     my $Condition = $Self->{DBObject}->QueryCondition(
-        Key => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
+        Key          => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
         Value        => $Query->{Query},
         SearchPrefix => '*',
         SearchSuffix => '*',

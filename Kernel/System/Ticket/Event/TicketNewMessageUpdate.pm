@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Ticket/Event/TicketNewMessageUpdate.pm - update ticket new message flag
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: TicketNewMessageUpdate.pm,v 1.5 2010-11-26 05:43:46 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::Ticket::Event::TicketNewMessageUpdate;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +35,10 @@ sub Run {
     # check needed stuff
     for my $Parameter (qw(Data Event Config)) {
         if ( !$Param{$Parameter} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Parameter!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Parameter!"
+            );
             return;
         }
     }

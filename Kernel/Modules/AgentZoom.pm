@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentZoom.pm - to get a closer view
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AgentZoom.pm,v 1.97 2009-11-25 15:15:28 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,8 +39,7 @@ sub Run {
         $Redirect =~ s/AgentZoom/AgentTicketZoom/;
     }
     else {
-        $Redirect
-            = $Self->{LayoutObject}->{Baselink}
+        $Redirect = $Self->{LayoutObject}->{Baselink}
             . 'Action=AgentTicketZoom;TicketID='
             . $Self->{TicketID};
     }

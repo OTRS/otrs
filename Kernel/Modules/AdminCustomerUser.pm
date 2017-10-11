@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AdminCustomerUser.pm,v 1.89.2.6 2011-04-06 16:37:27 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 use Kernel::System::CheckItem;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89.2.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -205,11 +199,16 @@ sub Run {
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam => \%GetParam,
+                                UserData => \%UserData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -352,16 +351,20 @@ sub Run {
                         UserObject => $Self->{CustomerUserObject},
                         Debug      => $Self->{Debug},
                     );
-                    my @Params
-                        = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
+                    my @Params = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
                     if (@Params) {
                         my %GetParam;
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam => \%GetParam,
+                                UserData => \%UserData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -683,8 +686,7 @@ sub _Edit {
             }
 
             # get the data of the current selection
-            my $SelectionsData
-                = $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] };
+            my $SelectionsData = $Self->{ConfigObject}->Get( $Param{Source} )->{Selections}->{ $Entry->[0] };
 
             # make sure the encoding stamp is set
             for my $Key ( keys %{$SelectionsData} ) {
@@ -696,7 +698,7 @@ sub _Edit {
                 Name        => $Entry->[0],
                 Translation => 0,
                 SelectedID  => $Param{ $Entry->[0] },
-                Class => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' }
+                Class       => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' }
                     || '',
             );
 
@@ -761,7 +763,10 @@ sub _Edit {
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'PreferencesGeneric',
-                Data => { Item => $Entry->[1], %Param },
+                Data => {
+                    Item => $Entry->[1],
+                    %Param
+                },
             );
             $Self->{LayoutObject}->Block(
                 Name => "PreferencesGeneric$Block",

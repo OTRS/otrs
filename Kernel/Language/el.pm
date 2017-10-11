@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/el.pm - provides el language translation
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
-# --
-# $Id: el.pm,v 1.75.2.4 2012-03-09 07:37:02 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +11,6 @@ package Kernel::Language::el;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

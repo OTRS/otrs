@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# DBUpdate-to-3.0.pl - update script to migrate OTRS 2.4.x to 3.0.x
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DBUpdate-to-3.0.pl,v 1.5.2.1 2011-12-05 11:09:17 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5.2.1 $) [1];
 
 use Getopt::Std qw();
 use Kernel::Config;
@@ -54,8 +48,8 @@ use Kernel::System::XML;
     if ( exists $Opts{h} ) {
         print <<"EOF";
 
-DBUpdate-to-3.0.pl <Revision $VERSION> - Database migration script for upgrading OTRS 2.4 to 3.0
-Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+DBUpdate-to-3.0.pl - Database migration script for upgrading OTRS 2.4 to 3.0
+Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 
 EOF
         exit 1;
@@ -229,7 +223,7 @@ sub RemovePendingTime {
 
     my @PendingStateIDs = $StateObject->StateGetStatesByType(
         StateType => [ $PendingReminderStateType, $PendingAutoStateType ],
-        Result => 'ID',
+        Result    => 'ID',
     );
 
     if ( !@PendingStateIDs ) {

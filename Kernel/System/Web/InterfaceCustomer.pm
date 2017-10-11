@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: InterfaceCustomer.pm,v 1.56.2.7 2011-11-21 10:29:00 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.56.2.7 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -200,7 +196,10 @@ sub Run {
         my $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
 
         # check submitted data
-        my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
+        my $User = $AuthObject->Auth(
+            User => $PostUser,
+            Pw   => $PostPw
+        );
 
         # login is vailid
         if ( !$User ) {
@@ -233,7 +232,10 @@ sub Run {
         }
 
         # login is successful
-        my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->CustomerUserDataGet(
+            User  => $User,
+            Valid => 1
+        );
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {
@@ -393,7 +395,9 @@ sub Run {
         }
 
         # get session data
-        my %UserData = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+        my %UserData = $Self->{SessionObject}->GetSessionIDData(
+            SessionID => $Param{SessionID},
+        );
 
         # create new LayoutObject with new '%Param' and '%UserData'
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
@@ -437,7 +441,10 @@ sub Run {
     elsif ( $Param{Action} eq 'CustomerLostPassword' ) {
 
         # new layout object
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            Lang => $Param{Lang},
+        );
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('CustomerPanelLostPassword') ) {
@@ -554,8 +561,10 @@ sub Run {
         $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
 
         # update new password
-        my $Success
-            = $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+        my $Success = $Self->{UserObject}->SetPassword(
+            UserLogin => $User,
+            PW        => $UserData{NewPW}
+        );
 
         if ( !$Success ) {
             $LayoutObject->Print(
@@ -852,7 +861,10 @@ sub Run {
         if ( !$ModuleReg ) {
 
             # new layout object
-            my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+            my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                %{$Self},
+                Lang => $Param{Lang},
+            );
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
@@ -1024,7 +1036,9 @@ sub Run {
     }
 
     # print an error screen
-    my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+    my %Data = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $Param{SessionID},
+    );
     my $LayoutObject = Kernel::Output::HTML::Layout->new(
         %{$Self},
         %Param,
@@ -1061,9 +1075,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.56.2.7 $ $Date: 2011-11-21 10:29:00 $
 
 =cut

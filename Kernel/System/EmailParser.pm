@@ -1,8 +1,5 @@
 # --
-# Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: EmailParser.pm,v 1.104.2.1 2011-07-28 15:09:09 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,9 +19,6 @@ use MIME::QuotedPrint;
 use MIME::Base64;
 use MIME::Words qw(:all);
 use Mail::Address;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104.2.1 $) [1];
 
 =head1 NAME
 
@@ -944,9 +938,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.104.2.1 $ $Date: 2011-07-28 15:09:09 $
 
 =cut

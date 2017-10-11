@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/LayoutLoader.pm - provides generic HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: LayoutLoader.pm,v 1.37 2010-11-22 16:31:52 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,6 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
 
 use Kernel::System::Loader;
 
@@ -51,8 +47,7 @@ sub LoaderCreateAgentCSSCalls {
 
     # get host based default skin configuration
     my $SkinSelectedHostBased;
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
+    my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -327,8 +322,7 @@ sub LoaderCreateCustomerCSSCalls {
         || 'default';
 
     # force a skin based on host name
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin::HostBased');
+    my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -427,8 +421,7 @@ sub LoaderCreateCustomerCSSCalls {
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-    my $FrontendModuleRegistration
-        = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}
+    my $FrontendModuleRegistration = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}
         || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}
         || {};
 
@@ -540,8 +533,7 @@ sub LoaderCreateCustomerJSCalls {
         my $LoaderAction = $Self->{Action} || 'CustomerLogin';
         $LoaderAction = 'CustomerLogin' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList
-            = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
+        my $AppJSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
             ->{JavaScript}
             || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}->{Loader}
             ->{JavaScript}
@@ -693,8 +685,7 @@ sub SkinValidate {
     # prepare the list of active skins
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
         if ( $PossibleSkin->{InternalName} eq $Param{Skin} ) {
-            my $SkinDir
-                = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
+            my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
             if ( -d $SkinDir ) {
                 $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = 1;
                 return 1;
@@ -719,9 +710,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.37 $ $Date: 2010-11-22 16:31:52 $
 
 =cut

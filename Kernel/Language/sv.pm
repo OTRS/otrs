@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats at synergy.se>
 # Copyright (C) 2009 Mikael Mattsson" <Mikael.Mattsson at konsumvarmland.se>
-# --
-# $Id: sv.pm,v 1.91.2.4 2012-03-09 07:37:04 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +11,6 @@ package Kernel::Language::sv;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

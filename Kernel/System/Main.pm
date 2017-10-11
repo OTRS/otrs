@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Main.pm,v 1.58 2011-01-04 17:40:12 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,9 +17,6 @@ use File::stat;
 use Unicode::Normalize;
 
 use Kernel::System::Encode;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -298,7 +292,7 @@ sub FileRead {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -406,7 +400,7 @@ sub FileWrite {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -509,7 +503,7 @@ sub FileDelete {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -572,7 +566,7 @@ sub FileGetMTime {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -721,7 +715,10 @@ sub Dump {
 
     # check needed data
     if ( !defined $Data ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need \$String in Dump()!"
+        );
         return;
     }
 
@@ -730,7 +727,10 @@ sub Dump {
         $Type = 'binary';
     }
     if ( $Type ne 'ascii' && $Type ne 'binary' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid Type '$Type'!"
+        );
         return;
     }
 
@@ -972,9 +972,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.58 $ $Date: 2011-01-04 17:40:12 $
 
 =cut

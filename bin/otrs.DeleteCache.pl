@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.DeleteCache.pl - delete all caches
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: otrs.DeleteCache.pl,v 1.2.2.3 2011-06-14 20:30:50 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -28,9 +25,6 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.2.3 $) [1];
 
 use Getopt::Long;
 use Kernel::Config;
@@ -51,8 +45,8 @@ GetOptions(
 );
 
 if ( $Opts{h} ) {
-    print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "otrs.DeleteCache.pl - delete OTRS cache\n";
+    print "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.DeleteCache.pl [--expired]\n";
     exit 1;
 }
@@ -61,9 +55,7 @@ if ( $Opts{e} ) {
     $Options{Expired} = 1;
 }
 
-# ---
 # common objects
-# ---
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
@@ -76,9 +68,7 @@ $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{CacheObject} = Kernel::System::Cache->new(%CommonObject);
 
-# ---
 # cleanup
-# ---
 if ( !$CommonObject{CacheObject}->CleanUp(%Options) ) {
     exit 1;
 }

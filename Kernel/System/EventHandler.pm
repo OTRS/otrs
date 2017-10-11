@@ -1,8 +1,5 @@
 # --
-# Kernel/System/EventHandler.pm - global object events
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: EventHandler.pm,v 1.7 2010-11-25 13:52:47 bes Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::System::EventHandler;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -186,7 +180,10 @@ sub EventHandler {
     # check needed stuff
     for (qw(Data Event UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -305,9 +302,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.7 $ $Date: 2010-11-25 13:52:47 $
 
 =cut

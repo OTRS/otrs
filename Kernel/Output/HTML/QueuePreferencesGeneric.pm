@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/QueuePreferencesGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: QueuePreferencesGeneric.pm,v 1.4 2009-03-04 10:22:03 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::QueuePreferencesGeneric;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -39,8 +33,7 @@ sub Param {
     my @Params = ();
     my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
     if ( !defined($GetParam) ) {
-        $GetParam
-            = defined( $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} } )
+        $GetParam = defined( $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} } )
             ? $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} }
             : $Self->{ConfigItem}->{DataSelected};
     }

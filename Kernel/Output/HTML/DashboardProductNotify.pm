@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardProductNotify.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardProductNotify.pm,v 1.11 2009-08-27 23:08:28 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,7 +166,10 @@ sub _CheckVersion {
     # check needed stuff
     for (qw(Version1 Version2)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }

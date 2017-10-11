@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Log.pm - log wapper
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Log.pm,v 1.64.2.1 2011-08-15 13:42:19 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Encode;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64.2.1 $) [1];
 
 =head1 NAME
 
@@ -141,8 +135,7 @@ sub Log {
 
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
-        my $Error
-            = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
+        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
             $^V;
         $Error .= " Message: $Message\n\n";
         $Error .= " Traceback ($$): \n";
@@ -305,9 +298,5 @@ This software is part of the OTRS project (L<http://otrs.org/>).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.64.2.1 $ $Date: 2011-08-15 13:42:19 $
 
 =cut

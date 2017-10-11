@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: sync-ldap2db.pl,v 1.10 2009-02-16 12:40:23 tr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use lib dirname($RealBin) . "/../Kernel/cpan-lib";
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
 
 use Net::LDAP;
 use Kernel::Config;
@@ -83,7 +77,13 @@ my $DBTable   = 'customer_user';
 
 # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
 my $LDAP = Net::LDAP->new( $LDAPHost, %LDAPParams ) or die "$@";
-if ( !$LDAP->bind( dn => $LDAPBindDN, password => $LDAPBindPW ) ) {
+if (
+    !$LDAP->bind(
+        dn       => $LDAPBindDN,
+        password => $LDAPBindPW
+    )
+    )
+{
     $CommonObject{LogObject}->Log(
         Priority => 'error',
         Message  => "Bind failed!",
@@ -153,8 +153,7 @@ for (qw(0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z)
             my $SQL = '';
             if ( $Type eq 'UPDATE' ) {
                 print "UPDATE: $UID\n";
-                $SQL
-                    = "UPDATE $DBTable SET $SQLPre, valid_id = 1, change_time = current_timestamp, change_by = 1 ";
+                $SQL = "UPDATE $DBTable SET $SQLPre, valid_id = 1, change_time = current_timestamp, change_by = 1 ";
                 $SQL .= " WHERE $UidDB = '" . $CommonObject{DBObject}->Quote($UID) . "'";
             }
             else {

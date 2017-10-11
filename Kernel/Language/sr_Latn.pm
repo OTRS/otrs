@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/sr_Latn.pm - provides Serbian language Latin translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # Copyright (C) 2010 Milorad Jovanoviæ <j.milorad at gmail.com>
-# --
-# $Id: sr_Latn.pm,v 1.10.2.4 2012-03-09 07:37:05 mg Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::sr_Latn;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

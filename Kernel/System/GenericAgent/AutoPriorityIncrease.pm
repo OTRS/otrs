@@ -1,8 +1,5 @@
 # --
-# Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: AutoPriorityIncrease.pm,v 1.11 2010-06-22 13:01:35 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +14,6 @@ use warnings;
 use Kernel::System::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,8 +65,9 @@ sub Run {
     if ( !$LatestAutoIncrease ) {
         $LatestAutoIncrease = $Ticket{Created};
     }
-    $LatestAutoIncrease
-        = $Self->{TimeObject}->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
+    $LatestAutoIncrease = $Self->{TimeObject}->TimeStamp2SystemTime(
+        String => $LatestAutoIncrease,
+    );
     if (
         ( $Self->{TimeObject}->SystemTime() - $LatestAutoIncrease )
         > $Param{New}->{TimeInterval}
@@ -94,8 +91,7 @@ sub Run {
     }
 
     # increase priority
-    my $Priority
-        = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
+    my $Priority = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
 
     # do nothing if already highest priority
     if ( !$Priority ) {

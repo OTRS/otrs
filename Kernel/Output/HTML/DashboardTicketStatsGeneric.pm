@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.18 2010-11-01 15:41:28 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::DashboardTicketStatsGeneric;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,10 +72,9 @@ sub Run {
         if ($Key) {
             $TimeNow = $TimeNow - ( 60 * 60 * 24 * $Key );
         }
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-            = $Self->{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $TimeNow,
-            );
+        );
 
         unshift(
             @TicketWeekdays,

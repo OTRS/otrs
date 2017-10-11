@@ -1,8 +1,5 @@
 # --
-# Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Language.pm,v 1.77.2.1 2011-04-14 12:20:54 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,8 +14,6 @@ use warnings;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-
-$VERSION = qw($Revision: 1.77.2.1 $) [1];
 
 =head1 NAME
 
@@ -358,7 +353,9 @@ sub FormatTimeString {
 
         # add user time zone diff
         if ( $Self->{TimeZone} ) {
-            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
+            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => "$Y-$M-$D $T",
+            );
             $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
             my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $TimeStamp,
@@ -461,7 +458,10 @@ sub Time {
     # check needed stuff
     for (qw(Action Format)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -529,9 +529,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.77.2.1 $ $Date: 2011-04-14 12:20:54 $
 
 =cut

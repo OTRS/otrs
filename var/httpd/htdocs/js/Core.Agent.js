@@ -1,8 +1,5 @@
 // --
-// Core.Agent.js - provides the application functions
-// Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-// --
-// $Id: Core.Agent.js,v 1.16.2.2 2011-05-10 11:36:32 mg Exp $
+// Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you

@@ -1,8 +1,5 @@
 # --
-# Ticket/Number/Random.pm - a ticket number random generator
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: Random.pm,v 1.23 2009-05-15 10:12:02 martin Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +15,6 @@ package Kernel::System::Ticket::Number::Random;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
 
 sub TicketCreateNumber {
     my $Self = shift;

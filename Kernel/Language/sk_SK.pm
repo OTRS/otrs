@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/sk_SK.pm - provides Slovak language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
-# --
-# $Id: sk_SK.pm,v 1.74.2.4 2012-03-09 07:37:02 mg Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::sk_SK;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74.2.4 $) [1];
 
 sub Data {
     my $Self = shift;

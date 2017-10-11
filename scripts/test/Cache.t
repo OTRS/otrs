@@ -1,8 +1,5 @@
 # --
-# Cache.t - Cache tests
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: Cache.t,v 1.18 2010-10-29 16:54:02 en Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +12,8 @@ use vars (qw($Self));
 use utf8;
 use Kernel::System::Cache;
 
-for my $Module qw(FileStorable FileRaw) {
+for my $Module (qw(FileStorable FileRaw)) {
+
     $Self->{ConfigObject}->Set(
         Key   => 'Cache::Module',
         Value => "Kernel::System::Cache::$Module"
