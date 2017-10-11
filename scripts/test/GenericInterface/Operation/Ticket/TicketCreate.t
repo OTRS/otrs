@@ -1,5 +1,5 @@
 # --
-# Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -156,6 +156,21 @@ my $UserObject = Kernel::System::User->new(
 my $ValidObject = Kernel::System::Valid->new(
     %{$Self},
     ConfigObject => $ConfigObject,
+);
+
+# Make UserID valid.
+my %RootUser = $UserObject->GetUserData(
+    UserID => 1,
+);
+my $Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ValidID      => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Force root user to be valid",
 );
 
 my $TestOwnerLogin        = $HelperObject->TestUserCreate();
@@ -4001,5 +4016,16 @@ $Self->True(
         "DynamicFieldDelete() for DynamicField $DynamicFieldData->{Name}"
     );
 }
+
+# Restore UserID 1 previous validity
+$Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Restored root user validity",
+);
 
 1;
