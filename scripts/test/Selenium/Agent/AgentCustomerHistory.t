@@ -12,7 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -67,11 +66,11 @@ $Selenium->RunTest(
         );
 
         # Create test tickets.
-        my $NumberOfTickets = 3;
         my @Tickets;
-        for my $Count ( 1 .. $NumberOfTickets ) {
+        for my $Count ( 1 .. 3 ) {
+            my $Title    = $Count . '-SeleniumTicket-' . $RandomNumber;
             my $TicketID = $TicketObject->TicketCreate(
-                Title        => $Count . '-SeleniumTicket-' . $RandomNumber,
+                Title        => $Title,
                 Queue        => 'Raw',
                 Lock         => 'unlock',
                 Priority     => '3 normal',
@@ -85,11 +84,7 @@ $Selenium->RunTest(
                 $TicketID,
                 "TicketID $TicketID is created",
             );
-            my %Ticket = $TicketObject->TicketGet(
-                TicketID => $TicketID,
-            );
 
-            # Create test email article.
             my $ArticleID = $ArticleBackendObject->ArticleCreate(
                 TicketID             => $TicketID,
                 IsVisibleForCustomer => 1,
@@ -108,7 +103,8 @@ $Selenium->RunTest(
             );
 
             push @Tickets, {
-                %Ticket,
+                Title     => $Title,
+                TicketID  => $TicketID,
                 ArticleID => $ArticleID,
             };
         }
@@ -124,7 +120,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         my @Tests = (
@@ -142,11 +137,15 @@ $Selenium->RunTest(
             },
         );
 
-        my $TicketsLastIndex = scalar @Tickets - 1;
         for my $Test (@Tests) {
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Test->{Screen}");
 
             if ( $Test->{FieldID} ne 'CustomerAutoComplete' ) {
+
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $("#' . $Test->{FieldID} . '").length'
+                );
 
                 # Choose customer user and wait until customer history table appears.
                 $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->clear();
@@ -154,22 +153,7 @@ $Selenium->RunTest(
                 $Selenium->WaitFor(
                     JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                 );
-
-                $Self->True(
-                    $Selenium->execute_script(
-                        'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
-                    ),
-                    "Check search result",
-                );
-
-                $Self->True(
-                    index( $Selenium->execute_script("return \$('li.ui-menu-item:nth-child(1) a').html()"), $TestUser )
-                        > -1,
-                    "Check link html.",
-                );
-
-                $Selenium->find_element( "li.ui-menu-item:nth-child(1) a", 'css' )->click();
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".OverviewBox").length' );
+                $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUserLogin)').click()");
             }
 
             $Selenium->WaitFor(
@@ -178,69 +162,64 @@ $Selenium->RunTest(
             );
 
             # Go to 'Large' view because all of events could be checked there.
-            $Selenium->execute_script("\$('.Large').click();");
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TicketOverviewLarge").length' );
-
-            # wait for JavaScript to be executed completely (event bindings etc.)
-            sleep 1;
-
-            # Check sorting by title, ascending.
-            $Selenium->execute_script("\$('#SortBy').val('Title|Up').trigger('change');");
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#SortBy").val() === "Title|Up"' );
-
-            # Get first and last ticket ID.
-            my $FirstTicketID = $Tickets[0]->{TicketID};
-            my $LastTicketID  = $Tickets[ $NumberOfTickets - 1 ]->{TicketID};
-
-            # Wait until sorting is finished.
+            $Selenium->find_element( ".Large", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#TicketOverviewLarge > li:eq(0)').attr('id') === 'TicketID_$FirstTicketID'"
+                    'return typeof($) === "function" && $("#TicketOverviewLarge").length && $("#SortBy").length'
             );
 
-            # wait for JavaScript to be executed completely (event bindings etc.)
-            sleep 1;
+            # Set sorting by title, ascending.
+            $Selenium->execute_script("\$('#SortBy').val('Title|Up').trigger('change');");
+
+            # Wait until sorting in the table is finished.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    "return typeof(\$) === 'function'" .
+                    " && \$('#TicketOverviewLarge > li:eq(0)').attr('id') === 'TicketID_$Tickets[0]->{TicketID}'" .
+                    " && \$('#TicketOverviewLarge > li:eq(1)').attr('id') === 'TicketID_$Tickets[1]->{TicketID}'" .
+                    " && \$('#TicketOverviewLarge > li:eq(2)').attr('id') === 'TicketID_$Tickets[2]->{TicketID}'"
+            );
 
             my $Count = 0;
             for my $Ticket (@Tickets) {
                 my $TicketID = $Ticket->{TicketID};
+                my $Row      = $Count + 1;
                 $Self->Is(
                     $Selenium->execute_script("return \$('#TicketOverviewLarge > li:eq($Count)').attr('id');"),
                     "TicketID_$TicketID",
-                    "$Test->{Screen} - TicketID $TicketID is found in expected row",
+                    "$Test->{Screen} - TicketID $TicketID is found in row $Row",
                 );
                 $Count++;
             }
 
             # Check sorting by title, descending and Reply action.
-            $Selenium->execute_script(
-                "\$('#SortBy').val('Title|Down').trigger('change');"
-            );
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("#SortBy").val() === "Title|Down"'
-            );
+            $Selenium->execute_script("\$('#SortBy').val('Title|Down').trigger('change');");
 
-            # Wait until sorting is finished.
+            # Wait until sorting in the table is finished.
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#TicketOverviewLarge > li:eq(0)').attr('id') === 'TicketID_$LastTicketID'"
+                    "return typeof(\$) === 'function'" .
+                    " && \$('#TicketOverviewLarge > li:eq(0)').attr('id') === 'TicketID_$Tickets[2]->{TicketID}'" .
+                    " && \$('#TicketOverviewLarge > li:eq(1)').attr('id') === 'TicketID_$Tickets[1]->{TicketID}'" .
+                    " && \$('#TicketOverviewLarge > li:eq(2)').attr('id') === 'TicketID_$Tickets[0]->{TicketID}'"
             );
 
-            $Count = $TicketsLastIndex;
+            $Count = scalar @Tickets - 1;
             for my $Ticket (@Tickets) {
                 my $TicketID  = $Ticket->{TicketID};
                 my $ArticleID = $Ticket->{ArticleID};
+                my $Row       = $Count + 1;
 
                 $Self->Is(
                     $Selenium->execute_script("return \$('#TicketOverviewLarge > li:eq($Count)').attr('id');"),
                     "TicketID_$TicketID",
-                    "$Test->{Screen} - TicketID $TicketID is found in expected row",
+                    "$Test->{Screen} - TicketID $TicketID is found in row $Row",
                 );
                 $Count--;
 
                 # Reply action.
                 $Selenium->execute_script(
-                    "\$('#Reply$ArticleID #ResponseID$ArticleID').val('1').trigger('redraw.InputField').trigger('change');"
+                    "\$('#ResponseID$ArticleID').val('1').trigger('redraw.InputField').trigger('change');"
                 );
 
                 # Switch to compose window.
@@ -249,12 +228,13 @@ $Selenium->RunTest(
                 $Selenium->switch_to_window( $Handles->[1] );
 
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $("div.Header p.AsteriskExplanation").length'
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('h1:contains(\"$Ticket->{Title}\")').length"
                 );
 
                 $Self->True(
                     $Selenium->execute_script("return \$('h1:contains(\"$Ticket->{Title}\")').length;"),
-                    "$Test->{Screen} - Ticket title is correct",
+                    "$Test->{Screen} - Ticket title is correct - $Ticket->{Title}",
                 );
 
                 # Close popup.
