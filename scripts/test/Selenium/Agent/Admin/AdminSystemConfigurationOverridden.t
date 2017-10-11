@@ -145,6 +145,87 @@ $Selenium->RunTest(
             '2',
             'Check second hash item value',
         );
+
+        if ($Kernel::OM->Get('Kernel::System::OTRSBusiness')->OTRSBusinessIsInstalled) {
+            # Navigate to AgentPreferences screen.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Advanced");
+
+            # Expand navigation.
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $("#ConfigTree li#Frontend > i").length;',
+            );
+            $Selenium->find_element( '#ConfigTree li#Frontend > i', 'css' )->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && $("#ConfigTree li#Frontend\\\\:\\\\:Agent > i").length;',
+            );
+            $Selenium->find_element( '#ConfigTree li#Frontend\\:\\:Agent > i', 'css' )->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("#ConfigTree li#Frontend\\\\:\\\\:Agent\\\\:\\\\:View > i").length;',
+            );
+            $Selenium->find_element( '#ConfigTree li#Frontend\\:\\:Agent\\:\\:View > i', 'css' )->VerifiedClick();
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("a#Frontend\\\\:\\\\:Agent\\\\:\\\\:View\\\\:\\\\:TicketEscalation_anchor").length;',
+            );
+            $Selenium->find_element( 'a#Frontend\\:\\:Agent\\:\\:View\\:\\:TicketEscalation_anchor', 'css' )
+                ->VerifiedClick();
+
+            # Wait for AJAX.
+            $Selenium->WaitFor(
+                JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length',
+            );
+
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $("#Ticket\\\\:\\\\:Frontend\\\\:\\\\:AgentTicketEscalationView\\\\#\\\\#\\\\#Order\\\\:\\\\:Default").length',
+            );
+
+            # Update setting and save.
+            $Selenium->execute_script(
+                '$("#Ticket\\\\:\\\\:Frontend\\\\:\\\\:AgentTicketEscalationView\\\\#\\\\#\\\\#Order\\\\:\\\\:Default")
+                    .val("Down").trigger("redraw.InputField").trigger("change");'
+            );
+
+            $Selenium->find_element( '.SettingsList li:nth-child(1) .SettingUpdateBox .Update', 'css' )->VerifiedClick();
+
+            # Wait for AJAX.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $(".SettingsList li:nth-child(1) .SettingUpdateBox .Update").length',
+            );
+
+            # Search for setting in the System Configuration.
+            $Selenium->VerifiedGet(
+                "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=Search;;Category=All;Search=Ticket::Frontend::AgentTicketEscalationView%23%23%23Order::Default"
+            );
+
+            my $ModificationAllowed = $Selenium->execute_script(
+                'return $(".fa-exclamation-triangle").length === 0',
+            );
+
+            $Self->True(
+                $ModificationAllowed,
+                'Make sure modification is still possible.'
+            );
+
+            # Search for overridden setting in the System Configuration.
+            $Selenium->VerifiedGet(
+                "${ScriptAlias}index.pl?Action=AdminSystemConfiguration;Subaction=Search;;Category=All;Search=Ticket::Frontend::AgentTicketQueue%23%23%23QueueSort"
+            );
+
+            my $ModificationNotAllowed = $Selenium->execute_script(
+                'return $(".fa-exclamation-triangle").length === 1',
+            );
+
+            $Self->True(
+                $ModificationNotAllowed,
+                'Make sure modification is not possible.'
+            );
+        }
     }
 );
 
