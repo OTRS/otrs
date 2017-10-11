@@ -119,8 +119,21 @@ my $TestOwnerLogin        = $HelperObject->TestUserCreate();
 my $TestResponsibleLogin  = $HelperObject->TestUserCreate();
 my $TestCustomerUserLogin = $HelperObject->TestCustomerUserCreate();
 
-# create user object
+# Make UserID 1 valid.
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+my %RootUser   = $UserObject->GetUserData(
+    UserID => 1,
+);
+my $Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ValidID      => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Force root user to be valid",
+);
 
 my $OwnerID = $UserObject->UserLookup(
     UserLogin => $TestOwnerLogin,
@@ -4514,6 +4527,17 @@ for my $DynamicFieldID ( sort keys %{$DeleteFieldList} ) {
         "DynamicFieldDelete() for $DeleteFieldList->{$DynamicFieldID} with true",
     );
 }
+
+# Restore UserID 1 previous validity.
+$Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Restored root user validity",
+);
 
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();

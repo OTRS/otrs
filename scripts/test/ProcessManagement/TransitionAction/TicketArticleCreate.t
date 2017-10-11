@@ -19,8 +19,23 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate');
+
+# Make UserID 1 valid.
+my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+my %RootUser   = $UserObject->GetUserData(
+    UserID => 1,
+);
+my $Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ValidID      => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Force root user to be valid",
+);
 
 # define variables
 my $UserID     = 1;
@@ -143,7 +158,7 @@ my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
     Name => $TextFieldName,
 );
 
-my $Success = $DynamicFieldBackendObject->ValueSet(
+$Success = $DynamicFieldBackendObject->ValueSet(
     DynamicFieldConfig => $DynamicFieldConfig,
     ObjectID           => $TicketID,
     Value              => 'a value',
@@ -692,6 +707,17 @@ my $Delete = $TicketObject->TicketDelete(
 $Self->True(
     $Delete,
     "TicketDelete() - $TicketID",
+);
+
+# Restore UserID 1 previous validity.
+$Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Restored root user validity",
 );
 
 1;

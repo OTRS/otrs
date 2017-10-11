@@ -23,8 +23,23 @@ my $TicketObject            = $Kernel::OM->Get('Kernel::System::Ticket');
 my $LinkObject              = $Kernel::OM->Get('Kernel::System::LinkObject');
 my $StateObject             = $Kernel::OM->Get('Kernel::System::State');
 my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
-my $UserObject              = $Kernel::OM->Get('Kernel::System::User');
 my $ModuleObject            = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketCreate');
+
+# Make UserID 1 valid.
+my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+my %RootUser   = $UserObject->GetUserData(
+    UserID => 1,
+);
+my $Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ValidID      => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Force root user to be valid",
+);
 
 # define variables
 my $UserID     = 1;
@@ -1125,5 +1140,16 @@ for my $TicketID (@AddedTickets) {
         "TicketDelete() - $TicketID",
     );
 }
+
+# Restore UserID 1 previous validity.
+$Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Restored root user validity",
+);
 
 1;
