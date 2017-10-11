@@ -3590,8 +3590,7 @@ sub HumanReadableDataSize {
             # Get integer and decimal parts.
             my ( $Integer, $Float ) = split( m{\.}, sprintf( "%.1f", $Number ) );
 
-            # Use ObjectManager to get Language object (not object in $Self), because unit test modifies language.
-            my $Separator = $Kernel::OM->Get('Kernel::Language')->{DecimalSeparator} || '.';
+            my $Separator = $Self->{LanguageObject}->{DecimalSeparator} || '.';
 
             # Format size with provided decimal separator.
             $ReadableSize = $Integer . $Separator . $Float;
@@ -3622,25 +3621,25 @@ sub HumanReadableDataSize {
     if ( $Param{Size} >= ( 1024**4 ) ) {
 
         $ReadableSize = $FormatSize->( $Param{Size} / ( 1024**4 ) );
-        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s TB', $ReadableSize );
+        $SizeStr = $Self->{LanguageObject}->Translate( '%s TB', $ReadableSize );
     }
     elsif ( $Param{Size} >= ( 1024**3 ) ) {
 
         $ReadableSize = $FormatSize->( $Param{Size} / ( 1024**3 ) );
-        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s GB', $ReadableSize );
+        $SizeStr = $Self->{LanguageObject}->Translate( '%s GB', $ReadableSize );
     }
     elsif ( $Param{Size} >= ( 1024**2 ) ) {
 
         $ReadableSize = $FormatSize->( $Param{Size} / ( 1024**2 ) );
-        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s MB', $ReadableSize );
+        $SizeStr = $Self->{LanguageObject}->Translate( '%s MB', $ReadableSize );
     }
     elsif ( $Param{Size} >= 1024 ) {
 
         $ReadableSize = $FormatSize->( $Param{Size} / 1024 );
-        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s KB', $ReadableSize );
+        $SizeStr = $Self->{LanguageObject}->Translate( '%s KB', $ReadableSize );
     }
     else {
-        $SizeStr = $Kernel::OM->Get('Kernel::Language')->Translate( '%s B', $Param{Size} );
+        $SizeStr = $Self->{LanguageObject}->Translate( '%s B', $Param{Size} );
     }
 
     return $SizeStr;

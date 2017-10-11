@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
 my @Tests = (
     {
         Size   => 'abc',
@@ -105,15 +103,20 @@ for my $Test (@Tests) {
         $Test->{Language} = 'en';
     }
     $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::Language'],
+        Objects => [
+            'Kernel::Output::HTML::Layout',
+            'Kernel::Language',
+        ],
     );
     $Kernel::OM->ObjectParamAdd(
-        'Kernel::Language' => {
-            UserLanguage => $Test->{Language},
+        'Kernel::Output::HTML::Layout' => {
+            Lang => $Test->{Language},
         },
     );
 
-    my $Result = $LayoutObject->HumanReadableDataSize( Size => $Test->{Size} );
+    my $Result = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->HumanReadableDataSize(
+        Size => $Test->{Size},
+    );
 
     $Test->{Size} //= 'undef';
     $Self->Is(
