@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::Output::HTML::Layout;
+
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
@@ -28,9 +30,17 @@ $Selenium->RunTest(
             Value => '68000'
         );
 
+        my $Language = 'en';
+
         # Create test customer user and login.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
+            Language => $Language,
         ) || die "Did not get test customer user";
+
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            Lang         => $Language,
+            UserTimeZone => 'UTC',
+        );
 
         # Create test ticket.
         my $TicketNumber = $TicketObject->TicketCreateNumber();
@@ -296,12 +306,15 @@ $Selenium->RunTest(
             # Check max size.
             my $CheckMaxSizeFilename = 'PostMaster-Test13.box';
             $Location = "$Home/scripts/test/sample/EmailParser/$CheckMaxSizeFilename";
+            my $CheckMaxSizeFileSize = $LayoutObject->HumanReadableDataSize(
+                Size => -s $Location,
+            );
             $Selenium->find_element( "#FileUpload", 'css' )->clear();
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length' );
 
             # Verify dialog message.
-            my $UploadMaxMessage = "No space left for the following files: $CheckMaxSizeFilename";
+            my $UploadMaxMessage = "No space left for the following files: $CheckMaxSizeFilename ($CheckMaxSizeFileSize)";
             $Self->True(
                 $Selenium->execute_script(
                     "return \$('.Dialog.Modal .InnerContent:contains(\"$UploadMaxMessage\")').length"

@@ -577,7 +577,11 @@ Core.UI = (function (TargetNS) {
 
             // collect size of already uploaded files
             $.each($FileuploadFieldObj.closest('.Field').find('.AttachmentList tbody tr td.Filesize'), function() {
-                UsedSpace += parseFloat($(this).attr('data-file-size'));
+                var FileSize = parseFloat($(this).attr('data-file-size'));
+
+                if (FileSize) {
+                    UsedSpace += FileSize;
+                }
             });
 
             $.each(SelectedFiles, function(index, File) {
@@ -591,7 +595,9 @@ Core.UI = (function (TargetNS) {
 
                 // check uploaded file size
                 if (File.size > (WebMaxFileUpload - UsedSpace)) {
-                    NoSpaceLeft.push(File.name);
+                    NoSpaceLeft.push(
+                        File.name + ' (' + Core.App.HumanReadableDataSize(File.size) + ')'
+                    );
                     return true;
                 }
                 UsedSpace += File.size;
@@ -720,19 +726,42 @@ Core.UI = (function (TargetNS) {
                 NoSpaceLeftText = '';
 
                 if (FileTypeNotAllowed.length) {
-                    FileTypeNotAllowedText = Core.Language.Translate('The following files are not allowed to be uploaded') + ": " + FileTypeNotAllowed.join(', ') + "<br><br>";
+                    FileTypeNotAllowedText =
+                        Core.Language.Translate(
+                            'The following files are not allowed to be uploaded: %s',
+                            '<br>' + FileTypeNotAllowed.join(',<br>') + '<br><br>'
+                        );
                 }
 
                 if (FilesTooBig.length) {
-                    FilesTooBigText = Core.Language.Translate('The following files exceed the maximum allowed size per file of %s and were not uploaded', [ MaxSizePerFileHR ]) + ": " + FilesTooBig.join(', ') + "<br><br>";
+                    FilesTooBigText =
+                        Core.Language.Translate(
+                            'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s',
+                            MaxSizePerFileHR,
+                            '<br>' + FilesTooBig.join(',<br>') + '<br><br>'
+                        );
                 }
 
                 if (AttemptedToUploadAgain.length) {
-                    AttemptedToUploadAgainText = Core.Language.Translate('The following files were already uploaded and have not been uploaded again') + ": " + AttemptedToUploadAgain.join(', ') + "<br><br>";
+                    AttemptedToUploadAgainText =
+                        Core.Language.Translate(
+                            'The following files were already uploaded and have not been uploaded again: %s',
+                            '<br>' + AttemptedToUploadAgain.join(',<br>') + '<br><br>'
+                        );
                 }
 
                 if (NoSpaceLeft.length) {
-                    NoSpaceLeftText = Core.Language.Translate('No space left for the following files') + ": " + NoSpaceLeft.join(', ');
+                    NoSpaceLeftText =
+                        Core.Language.Translate(
+                            'No space left for the following files: %s',
+                            '<br>' + NoSpaceLeft.join(',<br>')
+                        )
+                        + '<br><br>'
+                        + Core.Language.Translate(
+                            'Available space %s of %s.',
+                            Core.App.HumanReadableDataSize(WebMaxFileUpload - UsedSpace),
+                            Core.App.HumanReadableDataSize(WebMaxFileUpload)
+                        );
                 }
                 Core.UI.Dialog.ShowAlert(Core.Language.Translate('Upload information'), FileTypeNotAllowedText + FilesTooBigText + AttemptedToUploadAgainText + NoSpaceLeftText);
             }

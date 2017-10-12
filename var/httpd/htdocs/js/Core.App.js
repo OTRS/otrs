@@ -444,6 +444,72 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @name HumanReadableDataSize
+     * @memberof Core.App
+     * @function
+     * @returns {String} Result string.
+     * @param {Number} Size - Bytes which needs to be formatted
+     * @description
+     *      Formats bytes as human readable text (like 45.6 MB).
+     */
+    TargetNS.HumanReadableDataSize = function (Size) {
+
+        var SizeStr,
+            ReadableSize;
+
+        var FormatSize = function(Size) {
+            var ReadableSize,
+                Integer,
+                Float,
+                Separator;
+
+            if (Number.isInteger(Size)) {
+                ReadableSize = Size.toString();
+            }
+            else {
+
+                // Get integer and decimal parts.
+                Integer = Math.floor(Size);
+                Float   = Math.round((Size - Integer) * 10);
+
+                Separator = Core.Language.DecimalSeparatorGet() || '.';
+
+                // Format size with provided decimal separator.
+                ReadableSize = Integer.toString() + Separator.toString() + Float.toString();
+            }
+
+            return ReadableSize;
+        }
+
+        // Use convention described on https://en.wikipedia.org/wiki/File_size
+        if (Size >= Math.pow(1024, 4)) {
+
+            ReadableSize = FormatSize(Size / Math.pow(1024, 4));
+            SizeStr = Core.Language.Translate('%s TB', ReadableSize);
+        }
+        else if (Size >= Math.pow(1024, 3)) {
+
+            ReadableSize = FormatSize(Size / Math.pow(1024, 3));
+            SizeStr = Core.Language.Translate('%s GB', ReadableSize);
+        }
+        else if (Size >= Math.pow(1024, 2)) {
+
+            ReadableSize = FormatSize(Size / Math.pow(1024, 2));
+            SizeStr = Core.Language.Translate('%s MB', ReadableSize);
+        }
+        else if (Size >= 1024) {
+
+            ReadableSize = FormatSize(Size / 1024);
+            SizeStr = Core.Language.Translate('%s KB', ReadableSize);
+        }
+        else {
+            SizeStr = Core.Language.Translate('%s B', Size);
+        }
+
+        return SizeStr;
+    }
+
+    /**
      * @name Publish
      * @memberof Core.App
      * @function

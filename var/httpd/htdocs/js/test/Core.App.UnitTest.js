@@ -158,6 +158,43 @@ Core.App = (function (Namespace) {
             Core.Init.ExecuteInit('APP_LATE_INIT');
             Assert.equal(Core.App.Teststring, "12345");
         });
+
+        QUnit.test('Core.App.HumanReadableDataSize()', function(Assert){
+            var LanguageMetaData;
+
+            Assert.expect(18);
+
+            // Test case: DecimalSeparator is '.'.
+            LanguageMetaData = {
+                'DecimalSeparator': '.'
+            };
+
+            Core.Language.Load(LanguageMetaData, {});
+            Assert.equal(Core.App.HumanReadableDataSize(13), '13 B');
+            Assert.equal(Core.App.HumanReadableDataSize(1024), '1 KB');
+            Assert.equal(Core.App.HumanReadableDataSize(2500), '2.4 KB');
+            Assert.equal(Core.App.HumanReadableDataSize(46137344), '44 MB');
+            Assert.equal(Core.App.HumanReadableDataSize(58626123), '55.9 MB');
+            Assert.equal(Core.App.HumanReadableDataSize(34359738368), '32 GB');
+            Assert.equal(Core.App.HumanReadableDataSize(64508675518), '60.1 GB');
+            Assert.equal(Core.App.HumanReadableDataSize(238594023227392), '217 TB');
+            Assert.equal(Core.App.HumanReadableDataSize(498870572100000), '453.7 TB');
+
+            // Test case: DecimalSeparator is ','.
+            LanguageMetaData = {
+                'DecimalSeparator': ','
+            };
+            Core.Language.Load(LanguageMetaData, {});
+            Assert.equal(Core.App.HumanReadableDataSize(13), '13 B');
+            Assert.equal(Core.App.HumanReadableDataSize(1024), '1 KB');
+            Assert.equal(Core.App.HumanReadableDataSize(2500), '2,4 KB');
+            Assert.equal(Core.App.HumanReadableDataSize(46137344), '44 MB');
+            Assert.equal(Core.App.HumanReadableDataSize(58626123), '55,9 MB');
+            Assert.equal(Core.App.HumanReadableDataSize(34359738368), '32 GB');
+            Assert.equal(Core.App.HumanReadableDataSize(64508675518), '60,1 GB');
+            Assert.equal(Core.App.HumanReadableDataSize(238594023227392), '217 TB');
+            Assert.equal(Core.App.HumanReadableDataSize(498870572100000), '453,7 TB');
+        });
     };
 
     return Namespace;

@@ -80,5 +80,17 @@ Core.Language = (function (TargetNS) {
         return Translated;
     };
 
+    /**
+     * @name DecimalSeparatorGet
+     * @memberof Core.Language
+     * @function
+     * @return {String} Decimal separator for current language
+     * @description
+     *      Returns decimal separator for selected language.
+     */
+    TargetNS.DecimalSeparatorGet = function () {
+        return MetaData.DecimalSeparator;
+    };
+
     return TargetNS;
 }(Core.Language || {}));
