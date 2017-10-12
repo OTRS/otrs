@@ -7,8 +7,6 @@
 # --
 [% RenderBlockStart("rw:Article") %]
 
-<div class="FieldSeparator"></div>
-
 [% RenderBlockStart("rw:Article:InformAgent") %]
 <label for="InformUserID">[% Translate("Inform Agent") | html %]:</label>
 <div class="Field">
@@ -75,5 +73,4 @@
 </div>
 <div class="Clear"></div>
 [% RenderBlockEnd("TimeUnits") %]
-<div class="FieldSeparator"></div>
 [% RenderBlockEnd("rw:Article") %]
