@@ -1396,6 +1396,9 @@ sub PackageOnlineList {
         # get list from cloud
         my $ListResult = $Self->CloudFileGet(
             Operation => $Operation,
+            Data      => {
+                Language => $Param{Lang},
+            },
         );
 
         # check result structure
