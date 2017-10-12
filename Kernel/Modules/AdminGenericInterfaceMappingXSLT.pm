@@ -405,7 +405,6 @@ sub _GetParams {
     };
     if ( !$StyleDoc ) {
         $GetParam->{Error}->{Template} = 'ServerError';
-        return $GetParam;
     }
     eval {
         my $LibXSLT = XML::LibXSLT->new();
@@ -413,7 +412,6 @@ sub _GetParams {
     };
     if ( !$StyleSheet ) {
         $GetParam->{Error}->{Template} = 'ServerError';
-        return $GetParam;
     }
 
     # Get RegEx params.
