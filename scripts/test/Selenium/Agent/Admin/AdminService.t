@@ -207,7 +207,7 @@ $Selenium->RunTest(
             .= $ServiceRandomID3 . $ServiceRandomID3 . $ServiceRandomID3 . $ServiceRandomID3 . $ServiceRandomID3;
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($ServiceRandomID3);
-        $Selenium->execute_script("\$('#ParentID').val('$ServiceID2').trigger('redraw.InputField').trigger('change');");
+        $Selenium->execute_script("\$('#ParentID').val('$ServiceID').trigger('redraw.InputField').trigger('change');");
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($ServiceComment);
         $Selenium->find_element( "#Submit",  'css' )->VerifiedClick();
