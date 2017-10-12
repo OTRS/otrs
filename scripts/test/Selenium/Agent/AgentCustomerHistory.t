@@ -166,10 +166,12 @@ $Selenium->RunTest(
             $Selenium->find_element( ".Large", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("#TicketOverviewLarge").length && $("#SortBy").length' .
+                    'return typeof($) === "function" && $("#TicketOverviewLarge > li").length === 3 && $("#SortBy").length'
+                    .
                     ' && $("#SortBy option[value=\'Title|Up\']").length' .
                     ' && $("#SortBy option[value=\'Title|Down\']").length'
             );
+            sleep 2;
 
             # Set sorting by title - Up.
             $Selenium->execute_script("\$('#SortBy').val('Title|Up').trigger('change');");
