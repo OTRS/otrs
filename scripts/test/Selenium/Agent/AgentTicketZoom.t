@@ -212,7 +212,7 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".SidebarColumn div:nth-of-type(2) a.AsPopup").length'
         );
-        $Selenium->find_element( ".SidebarColumn div:nth-of-type(2) a.AsPopup", "css" )->VerifiedClick();
+        $Selenium->find_element( ".SidebarColumn div:nth-of-type(2) a.AsPopup", "css" )->click();
 
         # Wait for popup and switch.
         $Selenium->WaitFor( WindowCount => 2 );
