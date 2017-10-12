@@ -158,17 +158,19 @@ $Selenium->RunTest(
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("a[name=OverviewControl][href*=\'View=Preview\']:visible").length'
+                    'return typeof($) === "function" && $("a[name=OverviewControl][href*=\'View=Preview\']:visible").length && $(".Large").length === 1'
             );
 
             # Go to 'Large' view because all of events could be checked there.
             $Selenium->find_element( ".Large", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("#TicketOverviewLarge").length && $("#SortBy").length'
+                    'return typeof($) === "function" && $("#TicketOverviewLarge").length && $("#SortBy").length' .
+                    ' && $("#SortBy option[value=\'Title|Up\']").length' .
+                    ' && $("#SortBy option[value=\'Title|Down\']").length'
             );
 
-            # Set sorting by title, ascending.
+            # Set sorting by title - Up.
             $Selenium->execute_script("\$('#SortBy').val('Title|Up').trigger('change');");
 
             # Wait until sorting in the table is finished.
@@ -192,7 +194,7 @@ $Selenium->RunTest(
                 $Count++;
             }
 
-            # Check sorting by title, descending and Reply action.
+            # Check sorting by title - Down and Reply action.
             $Selenium->execute_script("\$('#SortBy').val('Title|Down').trigger('change');");
 
             # Wait until sorting in the table is finished.
