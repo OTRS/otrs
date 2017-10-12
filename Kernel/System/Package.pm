@@ -1476,6 +1476,7 @@ sub PackageOnlineList {
         my $ListResult = $Self->CloudFileGet(
             Operation => $Operation,
             Data      => {
+                Language        => $Param{Lang},
                 PackageRequired => 1,
             },
         );
