@@ -91,28 +91,19 @@ $Self->Is(
 my $TestOwnerLogin        = $Helper->TestUserCreate();
 my $TestResponsibleLogin  = $Helper->TestUserCreate();
 my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate();
-
-# Make UserID 1 valid.
+my $TestUserLogin         = $Helper->TestUserCreate(
+    Groups => [ 'admin', 'users', ],
+);
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-my %RootUser   = $UserObject->GetUserData(
-    UserID => 1,
-);
-my $Success = $UserObject->UserUpdate(
-    %RootUser,
-    UserID       => 1,
-    ValidID      => 1,
-    ChangeUserID => 1,
-);
-$Self->True(
-    $Success,
-    "Force root user to be valid",
-);
 
 my $OwnerID = $UserObject->UserLookup(
     UserLogin => $TestOwnerLogin,
 );
 my $ResponsibleID = $UserObject->UserLookup(
     UserLogin => $TestResponsibleLogin,
+);
+my $UserID = $UserObject->UserLookup(
+    UserLogin => $TestUserLogin,
 );
 
 my $InvalidID = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( Valid => 'invalid' );
@@ -563,9 +554,9 @@ my @Tests        = (
                 HistoryType                     => 'NewTicket',
                 HistoryComment                  => '% % ',
                 TimeUnit                        => 25,
-                ForceNotificationToUserID       => [1],
-                ExcludeNotificationToUserID     => [1],
-                ExcludeMuteNotificationToUserID => [1],
+                ForceNotificationToUserID       => [$UserID],
+                ExcludeNotificationToUserID     => [$UserID],
+                ExcludeMuteNotificationToUserID => [$UserID],
             },
             DynamicField => [
                 {
@@ -878,6 +869,8 @@ $Self->True(
 # get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+my $Success;
+
 # delete queues
 for my $QueueData (@Queues) {
     $Success = $DBObject->Do(
@@ -967,17 +960,6 @@ $Success = $DBObject->Do(
 $Self->True(
     $Success,
     "Dynamic fields with ID $DynamicFieldID and $DynamicFieldID2 are deleted!",
-);
-
-# Restore UserID 1 previous validity.
-$Success = $UserObject->UserUpdate(
-    %RootUser,
-    UserID       => 1,
-    ChangeUserID => 1,
-);
-$Self->True(
-    $Success,
-    "Restored root user validity",
 );
 
 # cleanup cache
