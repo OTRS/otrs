@@ -324,8 +324,9 @@ sub _MaskNew {
 
     # generate ParentOptionStrg
     my %ServiceList = $ServiceObject->ServiceList(
-        Valid  => 0,
-        UserID => $Self->{UserID},
+        Valid        => 1,
+        KeepChildren => $ConfigObject->Get('Ticket::Service::KeepChildren') // 0,
+        UserID       => $Self->{UserID},
     );
     $ServiceData{ParentOptionStrg} = $LayoutObject->BuildSelection(
         Data           => \%ServiceList,

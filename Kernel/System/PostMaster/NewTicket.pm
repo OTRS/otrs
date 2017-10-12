@@ -26,6 +26,7 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::Type',
     'Kernel::System::User',
+    'Kernel::System::Service',
 );
 
 sub new {
@@ -268,6 +269,34 @@ sub Run {
         Key           => 'Kernel::System::PostMaster::NewTicket',
         Value         => "Going to create new ticket.",
     );
+
+    if ( $GetParam{'X-OTRS-Service'} ) {
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+
+        # Check if service exists.
+        my %ServiceData = $ServiceObject->ServiceGet(
+            Name   => $GetParam{'X-OTRS-Service'},
+            UserID => $Param{InmailUserID},
+        );
+
+        # Get all service list filtering by KeepChildren SysConfig if available.
+        my %ServiceList = $ServiceObject->ServiceList(
+            Valid        => 1,
+            KeepChildren => $ConfigObject->Get('Ticket::Service::KeepChildren') // 0,
+            UserID       => $Param{InmailUserID},
+        );
+
+        if ( $ServiceData{ServiceID} ne '' && !$ServiceList{ $ServiceData{ServiceID} } ) {
+            $Self->{CommunicationLogObject}->ObjectLog(
+                ObjectLogType => 'Message',
+                Priority      => 'Debug',
+                Key           => 'Kernel::System::PostMaster::NewTicket',
+                Value =>
+                    "Service $GetParam{'X-OTRS-Service'} does not exists or is invalid or is a child of invalid service.",
+            );
+            $GetParam{'X-OTRS-Service'} = '';
+        }
+    }
 
     # create new ticket
     my $NewTn    = $TicketObject->TicketCreateNumber();

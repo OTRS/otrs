@@ -2114,23 +2114,32 @@ sub TicketServiceList {
         return;
     }
 
-    # get service object
     my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
+    # Return all Services, filtering by KeepChildren config.
+    my %AllServices = $ServiceObject->ServiceList(
+        UserID => 1,
+        KeepChildren =>
+            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::KeepChildren'),
+    );
+
     my %Services;
-    if ( !$Param{CustomerUserID} ) {
-        %Services = $ServiceObject->ServiceList(
-            UserID => 1,
-            KeepChildren =>
-                $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::KeepChildren'),
-        );
-    }
-    else {
-        %Services = $ServiceObject->CustomerUserServiceMemberList(
+    if ( $Param{CustomerUserID} ) {
+
+        # Return all Services in relation with CustomerUser.
+        my %CustomerServices = $ServiceObject->CustomerUserServiceMemberList(
             Result            => 'HASH',
             CustomerUserLogin => $Param{CustomerUserID},
             UserID            => 1,
         );
+
+        # Filter Services based on relation with CustomerUser and KeepChildren config.
+        for my $ServiceID ( sort keys %AllServices ) {
+            $Services{$ServiceID} = $CustomerServices{$ServiceID};
+        }
+    }
+    else {
+        %Services = %AllServices;
     }
 
     # workflow
