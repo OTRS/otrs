@@ -219,8 +219,10 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("a.UndoClosePopup").length' );
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
 
         # close note pop-up window
         $Selenium->close();
