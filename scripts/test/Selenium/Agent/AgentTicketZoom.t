@@ -142,7 +142,7 @@ $Selenium->RunTest(
         }
 
         # Try to click on the email (link) that should open a popup window.
-        $Selenium->find_element( ".SidebarColumn .WidgetSimple:nth-of-type(2) a.AsPopup", "css" )->VerifiedClick();
+        $Selenium->find_element( ".SidebarColumn .WidgetSimple:nth-of-type(2) a.AsPopup", "css" )->click();
 
         # Wait for popup and switch.
         $Selenium->WaitFor( WindowCount => 2 );
