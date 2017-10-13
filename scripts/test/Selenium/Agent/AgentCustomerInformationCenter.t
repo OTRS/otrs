@@ -147,7 +147,7 @@ $Selenium->RunTest(
 
             # click on link
             $Selenium->find_element(
-                "//a[contains(\@href, \'Subaction=Search;StateType=$TicketData{$TestLinks}->{TicketLink};CustomerID=$TestCustomerUserLogin' )]"
+                "//a[contains(\@href, \'Subaction=Search;StateType=$TicketData{$TestLinks}->{TicketLink};CustomerIDRaw=$TestCustomerUserLogin' )]"
             )->click();
 
             # wait until page has loaded, if necessary

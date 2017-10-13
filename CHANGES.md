@@ -1,4 +1,5 @@
 #4.0.26 2017-??-??
+ - 2017-10-13 Fixed bug#[13214](https://bugs.otrs.org/show_bug.cgi?id=13214) - AgentTicketSearch Parentheses in CustomerID are not escaped.
  - 2017-10-12 Fixed bug#[13178](https://bugs.otrs.org/show_bug.cgi?id=13178) - Freely selectable feature package list does not honor user language.
  - 2017-10-09 Fixed bug#[13205](https://bugs.otrs.org/show_bug.cgi?id=13205)(PR#1849) - No TreeView Queue selection in AgentTicketActionCommon after AjaxUpdate, thanks to Thorsten Eckel.
  - 2017-09-26 Fixed bug#[13010](https://bugs.otrs.org/show_bug.cgi?id=13010) - ACL does not trigger on a change of a dynamic field checkbox.
