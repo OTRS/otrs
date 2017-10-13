@@ -576,6 +576,38 @@ Core.Agent.TicketZoom = (function (TargetNS) {
     }
 
     /**
+     * @name InitWidgets
+     * @memberof Core.Agent.TicketZoom
+     * @function
+     * @param {Object} AsyncWidgetActions - list of widgets to initialize
+     * @description
+     *      This function initializes configured asynchronous widgets.
+     */
+    function InitWidgets(AsyncWidgetActions) {
+        $.each(AsyncWidgetActions, function (ElementID, URLPart) {
+            Core.AJAX.ContentUpdate($('#' + ElementID), Core.Config.Get('Baselink') + URLPart, function() {
+
+                // wait for content update
+                $('#' + ElementID).find("a.AsPopup").on('click', function () {
+                    var Matches,
+                        PopupType = 'TicketAction';
+
+                    Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+                    if (Matches) {
+                        PopupType = Matches[1];
+                    }
+
+                    Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+                    return false;
+                });
+
+                $('#' + ElementID).find('.WidgetSimple').hide().fadeIn();
+                Core.UI.InitWidgetActionToggle();
+            });
+        });
+    }
+
+    /**
      * @name Init
      * @memberof Core.Agent.TicketZoom
      * @function
@@ -594,8 +626,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             ArticleFilterDialog = parseInt(Core.Config.Get('ArticleFilterDialog'), 10),
             AsyncWidgetActions = Core.Config.Get('AsyncWidgetActions') || {},
             TimelineView = Core.Config.Get('TimelineView'),
-            ProcessWidget = Core.Config.Get('ProcessWidget'),
-            ElementID;
+            ProcessWidget = Core.Config.Get('ProcessWidget');
 
         // create open popup event for dropdown elements
         if (MenuItems.length > 0) {
@@ -671,27 +702,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
         // Start asynchronous loading of widgets
-        for (ElementID in AsyncWidgetActions) {
-            if (AsyncWidgetActions.hasOwnProperty(ElementID)) {
-                Core.AJAX.ContentUpdate($('#' + ElementID), Core.Config.Get('Baselink') + AsyncWidgetActions[ElementID], function() {
-                    $('#' + ElementID).find("a.AsPopup").on('click', function () {
-                        var Matches,
-                            PopupType = 'TicketAction';
-
-                        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
-                        if (Matches) {
-                            PopupType = Matches[1];
-                        }
-
-                        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-                        return false;
-                    });
-
-                    $('#' + ElementID).find('.WidgetSimple').hide().fadeIn();
-                    Core.UI.InitWidgetActionToggle();
-                });
-            }
-        }
+        InitWidgets(AsyncWidgetActions);
 
         // loading new articles
         $('#ArticleTable tbody tr').on('click', function () {
