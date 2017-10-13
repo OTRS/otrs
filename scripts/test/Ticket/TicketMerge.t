@@ -301,6 +301,121 @@ for my $TicketID (@MergeLinkObjectTicketIDs) {
     );
 }
 
-# cleanup is done by RestoreDatabase.
+# Test change time and user ID of main ticket on merge action.
+#   See bug#13092 for more information.
+$Helper->FixedTimeSet(
+    $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => '2017-09-27 10:00:00' ),
+);
+
+# Create two more tickets.
+undef @TicketIDs;
+for my $IDCount ( 1 .. 2 ) {
+    my $TicketID = $TicketObject->TicketCreate(
+        Title        => 'Ticket_' . $IDCount,
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Priority     => '3 normal',
+        CustomerNo   => '123456',
+        CustomerUser => 'customer@example.com',
+        State        => 'new',
+        OwnerID      => 1,
+        UserID       => 1,
+    );
+    $Self->True(
+        $TicketID,
+        "TicketID $TicketID is created"
+    );
+    push @TicketIDs, $TicketID;
+}
+
+# Verify MainTicket and MergeTicket ChangeTime and ChangeBy on creation.
+my %MainTicket = $TicketObject->TicketGet(
+    TicketID => $TicketIDs[0],
+    UserID   => 1,
+);
+$Self->Is(
+    $MainTicket{Changed},
+    '2017-09-27 10:00:00',
+    'On creation MainTicket ChangeTime correct'
+);
+$Self->Is(
+    $MainTicket{ChangeBy},
+    1,
+    'On creation MainTicket ChangeBy correct'
+);
+
+my %MergeTicket = $TicketObject->TicketGet(
+    TicketID => $TicketIDs[1],
+    UserID   => 1,
+);
+$Self->Is(
+    $MergeTicket{Changed},
+    '2017-09-27 10:00:00',
+    'On creation MergeTicket ChangeTime correct'
+);
+$Self->Is(
+    $MergeTicket{ChangeBy},
+    1,
+    'On creation MergeTicket ChangeBy correct'
+);
+
+# Add 5 minutes to fixed time.
+$Helper->FixedTimeAddSeconds(300);
+
+# Create user who will perform merge action.
+my $TestUserLogin = $Helper->TestUserCreate(
+    Groups => ['users'],
+);
+my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+    UserLogin => $TestUserLogin,
+);
+$Self->True(
+    $UserID,
+    "Test user is created - $TestUserLogin ($UserID)"
+);
+
+# Merge two tickets.
+$MergeSuccess = $TicketObject->TicketMerge(
+    MainTicketID  => $TicketIDs[0],
+    MergeTicketID => $TicketIDs[1],
+    UserID        => $UserID,
+);
+$Self->True(
+    $MergeSuccess,
+    "Successful merge from TicketID $TicketIDs[1] into TicketID $TicketIDs[0]"
+);
+
+# Verify main ticket and merge ticket change time and user ID after merge action.
+%MainTicket = $TicketObject->TicketGet(
+    TicketID => $TicketIDs[0],
+    UserID   => 1,
+);
+$Self->Is(
+    $MainTicket{Changed},
+    '2017-09-27 10:05:00',
+    'After merge MainTicket ChangeTime correct'
+);
+$Self->Is(
+    $MainTicket{ChangeBy},
+    $UserID,
+    'After merge MainTicket ChangeBy correct'
+);
+
+%MergeTicket = $TicketObject->TicketGet(
+    TicketID => $TicketIDs[1],
+    UserID   => 1,
+);
+$Self->Is(
+    $MergeTicket{Changed},
+    '2017-09-27 10:05:00',
+    'After merge MergeTicket ChangeTime correct'
+);
+$Self->Is(
+    $MergeTicket{ChangeBy},
+    $UserID,
+    'After merge MergeTicket ChangeBy correct'
+);
+
+# Cleanup is done by RestoreDatabase.
 
 1;
