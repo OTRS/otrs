@@ -22,10 +22,20 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new(
 $Selenium->RunTest(
     sub {
 
+        my $Helper = Kernel::System::UnitTest::Helper->new(
+            UnitTestObject => $Self,
+            %{$Self},
+            RestoreSystemConfiguration => 0,
+        );
+
+        my $TestUserLogin = $Helper->TestUserCreate(
+            Groups => ['admin'],
+        ) || die "Did not get test user";
+
         $Selenium->Login(
             Type     => 'Agent',
-            User     => 'root@localhost',
-            Password => 'root',
+            User     => $TestUserLogin,
+            Password => $TestUserLogin,
         );
 
         my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
