@@ -1,4 +1,5 @@
 #4.0.26 2017-??-??
+ - 2017-10-13 Fixed bug#[13092](https://bugs.otrs.org/show_bug.cgi?id=13092) - ChangeTime of target ticket not updated on ticket merge.
  - 2017-10-13 Fixed bug#[13204](https://bugs.otrs.org/show_bug.cgi?id=13204) - Error when copying ACL.
  - 2017-10-13 Fixed bug#[13214](https://bugs.otrs.org/show_bug.cgi?id=13214) - AgentTicketSearch Parentheses in CustomerID are not escaped.
  - 2017-10-12 Fixed bug#[13178](https://bugs.otrs.org/show_bug.cgi?id=13178) - Freely selectable feature package list does not honor user language.
