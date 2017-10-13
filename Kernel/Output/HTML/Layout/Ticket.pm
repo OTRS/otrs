@@ -154,6 +154,9 @@ sub AgentCustomerViewTable {
 
                     next VALUE if !IsHashRefWithData($RenderedValue) || !defined $RenderedValue->{Value};
 
+                    # If there is configured show link in DF, save as map value.
+                    $Field->[6] = $RenderedValue->{Link} ? $RenderedValue->{Link} : $Field->[6];
+
                     push @RenderedValues, $RenderedValue->{Value};
                 }
 

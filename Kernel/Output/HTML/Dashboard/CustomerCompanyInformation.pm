@@ -150,6 +150,9 @@ sub Run {
 
                 next VALUE if !IsHashRefWithData($RenderedValue) || !defined $RenderedValue->{Value};
 
+                # If there is configured show link in DF, save as map value.
+                $Entry->[6] = $RenderedValue->{Link} ? $RenderedValue->{Link} : $Entry->[6];
+
                 push @RenderedValues, $RenderedValue->{Value};
             }
 
