@@ -6036,6 +6036,13 @@ sub TicketMerge {
         UserID       => $Param{UserID},
     );
 
+    # Update change time and user ID for main ticket.
+    #   See bug#13092 for more information.
+    return if !$DBObject->Do(
+        SQL  => 'UPDATE ticket SET change_time = current_timestamp, change_by = ? WHERE id = ?',
+        Bind => [ \$Param{UserID}, \$Param{MainTicketID} ],
+    );
+
     # get the list of all merged states
     my @MergeStateList = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         StateType => ['merged'],

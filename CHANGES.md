@@ -264,6 +264,7 @@
  - 2015-11-27 Improved command Maint::Ticket::InvalidUserCleanup. It can now now both unlock tickets of invalid users and also (optionally) change their state to make sure they will not be overlooked. Thanks to Moritz Lenz @ noris networks.
 
 #5.0.24 2017-??-??
+ - 2017-10-13 Fixed bug#[13092](https://bugs.otrs.org/show_bug.cgi?id=13092) - ChangeTime of target ticket not updated on ticket merge.
  - 2017-10-13 Fixed bug#[13204](https://bugs.otrs.org/show_bug.cgi?id=13204) - Error when copying ACL.
  - 2017-10-11 Fixed bug#[12957](https://bugs.otrs.org/show_bug.cgi?id=12957) - SMTPS and SMTPTLS sending mail doesn't work on Ubuntu Server 16.04.2 LTS.
  - 2017-10-09 Fixed bug#[13205](https://bugs.otrs.org/show_bug.cgi?id=13205)(PR#1849) - No TreeView Queue selection in AgentTicketActionCommon after AjaxUpdate, thanks to Thorsten Eckel.
