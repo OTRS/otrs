@@ -244,25 +244,46 @@ JAVASCRIPT
             "There is a class 'Invalid' for test ACL",
         );
 
-        # delete test ACL from the database
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
-        my $UserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
-        );
-        my $ACLID = $ACLObject->ACLGet(
+        my $ACLID     = $ACLObject->ACLGet(
             Name   => $RandomID,
-            UserID => $UserID,
+            UserID => 1,
         )->{ID};
 
-        my $Success = $ACLObject->ACLDelete(
-            ID     => $ACLID,
-            UserID => $UserID,
-        );
+        # Create a copy of an ACL.
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")
+            ->VerifiedClick();
+
+        # Create another copy of the same ACL, see bug#13204 (https://bugs.otrs.org/show_bug.cgi?id=13204).
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")
+            ->VerifiedClick();
+
+        # Verify there are both copied ACL's.
+        my $Copy         = $LanguageObject->Translate('Copy');
+        my $ACLCopyName1 = "$RandomID ($Copy) 1";
+        my $ACLCopyName2 = "$RandomID ($Copy) 2";
 
         $Self->True(
-            $Success,
-            "Deleted $RandomID ACL",
+            index( $Selenium->get_page_source(), $ACLCopyName1 ) > -1,
+            "First copied ACL '$ACLCopyName1' found on screen",
         );
+        $Self->True(
+            index( $Selenium->get_page_source(), $ACLCopyName2 ) > -1,
+            "Second copied ACL '$ACLCopyName2' found on screen",
+        );
+
+        # Delete created test ACL's from the database.
+        for my $Count ( 1 .. 3 ) {
+            my $Success = $ACLObject->ACLDelete(
+                ID     => $ACLID,
+                UserID => 1,
+            );
+            $Self->True(
+                $Success,
+                "Deleted ACL ID $ACLID",
+            );
+            $ACLID++;
+        }
 
         # sync ACL information from database with the system configuration
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->VerifiedClick();
