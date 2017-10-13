@@ -335,22 +335,46 @@ JAVASCRIPT
             "ACL $TestACLNames[1] is found",
         );
 
-        # delete test ACLs from the database
+        # Refresh screen.
+        $Selenium->VerifiedRefresh();
+
+        # Create copy of the first ACL.
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
-        my $UserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
+        my $ACLID     = $ACLObject->ACLGet(
+            Name   => $TestACLNames[0],
+            UserID => 1,
+        )->{ID};
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")
+            ->VerifiedClick();
+
+        # Create another copy of the same ACL, see bug#13204 (https://bugs.otrs.org/show_bug.cgi?id=13204).
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLCopy;ID=$ACLID;' )]")
+            ->VerifiedClick();
+
+        # Verify there are both copied ACL's.
+        my $Copy = $LanguageObject->Translate('Copy');
+        push @TestACLNames, "$TestACLNames[0] ($Copy) 1", "$TestACLNames[0] ($Copy) 2";
+
+        $Self->True(
+            index( $Selenium->get_page_source(), $TestACLNames[2] ) > -1,
+            "First copied ACL '$TestACLNames[2]' found on screen",
+        );
+        $Self->True(
+            index( $Selenium->get_page_source(), $TestACLNames[3] ) > -1,
+            "Second copied ACL '$TestACLNames[3]' found on screen",
         );
 
+        # delete test ACLs from the database
         for my $TestACLName (@TestACLNames) {
 
-            my $ACLID = $ACLObject->ACLGet(
+            $ACLID = $ACLObject->ACLGet(
                 Name   => $TestACLName,
-                UserID => $UserID,
+                UserID => 1,
             )->{ID};
 
             my $Success = $ACLObject->ACLDelete(
                 ID     => $ACLID,
-                UserID => $UserID,
+                UserID => 1,
             );
             $Self->True(
                 $Success,

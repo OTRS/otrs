@@ -510,12 +510,20 @@ sub Run {
             );
         }
 
-        # create new ACL name
-        my $ACLName =
-            $ACLData->{Name}
-            . ' ('
-            . $LayoutObject->{LanguageObject}->Translate('Copy')
-            . ')';
+        # Create new ACL name.
+        my $Count   = 1;
+        my $ACLName = "$ACLData->{Name} (" . $LayoutObject->{LanguageObject}->Translate('Copy') . ") $Count";
+        while (
+            $ACLObject->ACLGet(
+                Name   => $ACLName,
+                UserID => $Self->{UserID}
+            )
+            && $Count < 100
+            )
+        {
+            $ACLName =~ s/\d+$/$Count/;
+            $Count++;
+        }
 
         # otherwise save configuration and return to overview screen
         my $ACLID = $ACLObject->ACLAdd(
@@ -525,7 +533,7 @@ sub Run {
             ConfigMatch    => $ACLData->{ConfigMatch} || '',
             ConfigChange   => $ACLData->{ConfigChange} || '',
             StopAfterMatch => $ACLData->{StopAfterMatch} || 0,
-            ValidID        => '1',
+            ValidID        => $ACLData->{ValidID},
             UserID         => $Self->{UserID},
         );
 
