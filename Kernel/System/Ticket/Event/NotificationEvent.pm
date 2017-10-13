@@ -462,6 +462,7 @@ sub _SendNotificationToRecipients {
 
                         # join Recipient data with CustomerUser data
                         %Recipient = ( %Recipient, %CustomerUser );
+                        $Recipient{Email} ||= $CustomerUser{UserEmail};
                     }
 
                     # get user language
