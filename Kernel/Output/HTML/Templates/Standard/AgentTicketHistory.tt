@@ -67,7 +67,7 @@
                             [% END %]
                             </td>
                             <td title="[% Data.HistoryType | html %]">
-                                [% Data.Name | html %]
+                                [% Data.Name | html %] ([% Data.HistoryType | html %])
                             </td>
                             <td class="Center">
                             [% IF Data.ArticleID != '0' %]
