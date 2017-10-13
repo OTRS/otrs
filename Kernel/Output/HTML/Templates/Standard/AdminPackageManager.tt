@@ -248,7 +248,7 @@
             [% USE UninstallTitle = String(Translate("Uninstall Package")) %]
             [% BreadcrumbPath.push({ Name => UninstallTitle.append( ': ', Data.Name ) }) %]
         [% CASE 'UpgradeRemote' %]
-            [% USE UpgradeRemoteTitle = String(Translate("Upgrade Package")) %]
+            [% USE UpgradeRemoteTitle = String(Translate("Update Package")) %]
             [% BreadcrumbPath.push({ Name => UpgradeRemoteTitle.append( ': ', Data.Name ) }) %]
         [% CASE 'InstallUpload' %]
             [% USE InstallUploadTitle = String(Translate("Install Package")) %]
@@ -382,7 +382,7 @@
 [% RenderBlockEnd("CloudServicesWarning") %]
                         [% IF Data.InstalledPackages %]
                         <li>
-                            <a href="#" class="CallForAction Fullsize Center UpgradeAll PackageAction"><span><i class="fa fa-arrow-circle-o-up"></i>[% Translate("Upgrade all installed packages") | html %]</span></a>
+                            <a href="#" class="CallForAction Fullsize Center UpgradeAll PackageAction"><span><i class="fa fa-arrow-circle-o-up"></i>[% Translate("Update all installed packages") | html %]</span></a>
                         </li>
                         [% END %]
                     </ul>
@@ -434,7 +434,7 @@
                                     <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Install") | html %]</a>
 [% RenderBlockEnd("ShowRemotePackageInstall") %]
 [% RenderBlockStart("ShowRemotePackageUpgrade") %]
-                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpgradeRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Upgrade") | html %]</a>
+                                    <a class="PackageAction" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpgradeRemote;Source=[% Data.Source | uri %];File=[% Data.File | uri %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];[% Env("ChallengeTokenParam") | html %]">[% Translate("Update") | html %]</a>
 [% RenderBlockEnd("ShowRemotePackageUpgrade") %]
                                 </td>
                             </tr>
