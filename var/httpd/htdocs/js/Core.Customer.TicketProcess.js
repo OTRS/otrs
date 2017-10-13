@@ -154,6 +154,8 @@ Core.Customer.TicketProcess = (function (TargetNS) {
 
                         Core.TicketProcess.Init();
 
+                        // Publish event on first activity dialog load, so other code can know to execute again.
+                        Core.App.Publish('TicketProcess.Init.FirstActivityDialog.Load', [$ElementToUpdate]);
                     }
                     else {
 
