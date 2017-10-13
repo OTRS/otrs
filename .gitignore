@@ -155,6 +155,7 @@ Kernel/Output/HTML/Templates/Standard/AgentNotificationViewSmall.tt
 Kernel/Output/HTML/Templates/Standard/AgentTicketAttachmentView.tt
 Kernel/Output/HTML/Templates/Standard/AgentTicketSMS.tt
 Kernel/Output/HTML/Templates/Standard/AgentTicketSMSOutbound.tt
+Kernel/Output/HTML/Templates/Standard/AgentTicketZoom/ContactWithData.tt
 Kernel/Output/HTML/Templates/Standard/AgentTicketZoom/ArticleRender/SMS.tt
 Kernel/Output/HTML/Templates/Standard/ArticleContent/SMS.tt
 Kernel/Output/HTML/Templates/Standard/CustomerTicketZoom/ArticleRender/SMS.tt
@@ -170,6 +171,7 @@ Kernel/Output/HTML/Templates/Standard/SystemConfiguration/SettingHistoryListComp
 Kernel/Output/HTML/Templates/Standard/TimelineView/*
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/TicketMenu/SMS.pm
+Kernel/Output/HTML/TicketZoom/ContactWithData.pm
 Kernel/Output/HTML/TicketZoom/Agent/SMS.pm
 Kernel/Output/HTML/TicketZoom/Customer/SMS.pm
 Kernel/Output/HTML/TimelineView/*
@@ -243,6 +245,7 @@ scripts/test/Selenium/Customer/CustomerDynamicFieldDatabase.t
 scripts/test/Selenium/Customer/CustomerDynamicFieldWebService.t
 scripts/test/Selenium/Customer/VideoChat.t
 scripts/test/Selenium/Output/FilterElementPost/SLASelectionDialog.t
+scripts/test/Selenium/Output/TicketZoom/ContactWithData.t
 scripts/test/Selenium/Public/Chat.t
 scripts/test/SMSTemplate.t
 scripts/test/StatsReport.t
