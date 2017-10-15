@@ -314,7 +314,8 @@ $Selenium->RunTest(
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".Dialog:visible").length' );
 
             # Verify dialog message.
-            my $UploadMaxMessage = "No space left for the following files: $CheckMaxSizeFilename ($CheckMaxSizeFileSize)";
+            my $UploadMaxMessage
+                = "No space left for the following files: $CheckMaxSizeFilename ($CheckMaxSizeFileSize)";
             $Self->True(
                 $Selenium->execute_script(
                     "return \$('.Dialog.Modal .InnerContent:contains(\"$UploadMaxMessage\")').length"
