@@ -36,5 +36,29 @@
     color: #E95F53;
 }
 
+.IntroInstall {
+    background: #eee;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    line-height: 150%;
+}
+
+.IntroInstall h3 {
+    display: inline-block;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.IntroInstall ul {
+    list-style-type: square;
+    margin: 10px 0px;
+    padding-left: 15px;
+}
+
+.IntroInstall ul li {
+    margin-bottom: 5px;
+}
+
 
 } /* end @media */

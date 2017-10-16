@@ -1850,7 +1850,7 @@ sub PackageVerify {
     my $PackageVerifyInfo = {
         Description =>
             Translatable(
-            "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"
+            "<p>If you continue to install this package, the following issues may occur:</p><ul><li>Security problems</li><li>Stability problems</li><li>Performance problems</li></ul><p>Please note that issues that are caused by working with this package are not covered by OTRS service contracts.</p>"
             ),
         Title =>
             Translatable('Package not verified by the OTRS Group! It is recommended not to use this package.'),

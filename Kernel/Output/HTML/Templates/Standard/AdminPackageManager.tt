@@ -85,7 +85,7 @@
 [% RenderBlockEnd("Uninstall") %]
 [% RenderBlockStart("Reinstall") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Package Manager") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
@@ -160,7 +160,7 @@
 [% RenderBlockEnd("Reinstall") %]
 [% RenderBlockStart("IncompatibleInfo") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Package Manager") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">
@@ -230,7 +230,7 @@
 [% RenderBlockEnd("IncompatibleInfo") %]
 [% RenderBlockStart("Intro") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Package Manager") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
@@ -281,10 +281,10 @@
 [% RenderBlockStart("OTRSVerifyLogo") %]
                     <img src="[% Config("Frontend::ImagePath") %]/otrs-verify.png" class="OTRSVerifyLogoBig" />
 [% RenderBlockEnd("OTRSVerifyLogo") %]
-                    <h3>[% Data.Name | html %] [% Data.Version | html %]</h3>
-                    <p class="IntroInstall">
+                    <div class="IntroInstall">
+                        <h3>[% Data.Name | html %] [% Data.Version | html %]</h3>
                         [% Data.Description %]
-                    </p>
+                    </div>
                     <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
@@ -311,7 +311,7 @@
 
 [% RenderBlockStart("Overview") %]
     <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-        <h1>[% Translate("Package Manager") | html %]</h1>
+        <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
@@ -552,7 +552,7 @@
 
 [% RenderBlockStart("Package") %]
     <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-        <h1>[% Translate("Package Manager") | html %]</h1>
+        <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
@@ -770,7 +770,7 @@
 [% RenderBlockEnd("Package") %]
 [% RenderBlockStart("FileDiff") %]
     <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-        <h1>[% Translate("Package Manager") | html %]</h1>
+        <h1 class="InvisibleText">[% Translate("Package Manager") | html %]</h1>
 
     [% BreadcrumbPath = [
             {
