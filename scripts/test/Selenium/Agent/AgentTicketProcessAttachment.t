@@ -170,7 +170,7 @@ $Selenium->RunTest(
 
         # Check if ticket is created (sent to AgentTicketZoom screen).
         $Self->True(
-            $Url =~ /Action=AgentTicketZoom;TicketID=/,
+            index( $Url, 'Action=AgentTicketZoom;TicketID=' ) > -1,
             "Current URL is correct - AgentTicketZoom",
         );
 
