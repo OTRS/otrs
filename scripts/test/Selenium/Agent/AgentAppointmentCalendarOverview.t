@@ -17,7 +17,7 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 my $ElementReadOnly = sub {
     my (%Param) = @_;
 
-    # Value is optional parameter
+    # Value is optional parameter.
     for my $Needed (qw(UnitTestObject Element)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -40,7 +40,7 @@ my $ElementReadOnly = sub {
 my $ElementExists = sub {
     my (%Param) = @_;
 
-    # Value is optional parameter
+    # Value is optional parameter.
     for my $Needed (qw(UnitTestObject Element)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -85,7 +85,7 @@ $Selenium->RunTest(
 
         my $RandomID = $Helper->GetRandomID();
 
-        # create test group
+        # Create test group.
         my $GroupName = "test-calendar-group-$RandomID";
         my $GroupID   = $GroupObject->GroupAdd(
             Name    => $GroupName,
@@ -93,7 +93,7 @@ $Selenium->RunTest(
             UserID  => 1,
         );
 
-        # create test group
+        # Create test group.
         my $GroupName2 = "test-calendar-group2-$RandomID";
         my $GroupID2   = $GroupObject->GroupAdd(
             Name    => $GroupName2,
@@ -101,7 +101,7 @@ $Selenium->RunTest(
             UserID  => 1,
         );
 
-        # add root to the created group
+        # Add root to the created group.
         $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID2,
             UID        => 1,
@@ -116,36 +116,34 @@ $Selenium->RunTest(
             UserID => 1,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # change resolution (desktop mode)
+        # Change resolution (desktop mode).
         $Selenium->set_window_size( 768, 1050 );
 
-        # create test user
+        # Create test user.
         my $Language      = 'en';
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups   => [ 'users', $GroupName ],
             Language => $Language,
         ) || die 'Did not get test user';
 
-        # get UserID
+        # Get UserID.
         my $UserID = $UserObject->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # create test customer user
+        # Create test customer user.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate()
             || die 'Did not get test customer user';
 
-        # start test
         $Selenium->Login(
             Type     => 'Agent',
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
 
-        # create a few test calendars
+        # Create a few test calendars.
         my %Calendar1 = $CalendarObject->CalendarCreate(
             CalendarName => "Calendar1 $RandomID",
             Color        => '#3A87AD',
@@ -175,7 +173,7 @@ $Selenium->RunTest(
             ValidID      => 1,
         );
 
-        # create a test ticket
+        # Create a test ticket.
         my $TicketID = $TicketObject->TicketCreate(
             Title        => "Link Ticket $RandomID",
             Queue        => 'Raw',
@@ -200,19 +198,15 @@ $Selenium->RunTest(
             "TicketNumberLookup() - $TicketNumber",
         );
 
-        # go to calendar overview page
+        # Go to calendar overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
-
-        # wait for AJAX to finish
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # go to previous week
-        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->VerifiedClick();
-
-        # wait for AJAX to finish
+        # Go to previous week.
+        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # verify all three calendars are visible
+        # Verify all three calendars are visible.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.CalendarSwitch:visible').length;"
@@ -237,14 +231,11 @@ $Selenium->RunTest(
             'CopyToClipboard URL does not contain forbidden characters'
         );
 
-        # click on the timeline view for an appointment dialog
-        $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
-            ->VerifiedClick();
-
-        # Wait until form and overlay has loaded, if necessary.
+        # Click on the timeline view for an appointment dialog.
+        $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # elements that are not allowed in dialog
+        # Elements that are not allowed in dialog.
         for my $Element (qw(EditFormDelete EditFormCopy)) {
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -253,28 +244,20 @@ $Selenium->RunTest(
             );
         }
 
-        # enter some data
-        $Selenium->find_element( 'Title',    'name' )->send_keys('Appointment 1');
-        $Selenium->find_element( 'Location', 'name' )->send_keys('Straubing');
+        # Enter some data.
+        $Selenium->find_element( "#Title",    'css' )->send_keys('Appointment 1');
+        $Selenium->find_element( "#Location", 'css' )->send_keys('Straubing');
         $Selenium->execute_script(
-            "return \$('#CalendarID').val("
+            "\$('#CalendarID').val("
                 . $Calendar1{CalendarID}
                 . ").trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( 'EndHour',      'name' )->send_keys('18');
+        $Selenium->find_element( '#EndHour',     'css' )->send_keys('18');
         $Selenium->find_element( '.PluginField', 'css' )->send_keys($TicketNumber);
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );
+        $Selenium->execute_script("\$('li.ui-menu-item').click();");
 
-        # wait for autocomplete to load
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
-        );
-
-        # link the ticket
-        $Selenium->execute_script(
-            "return \$('li.ui-menu-item').click();"
-        );
-
-        # verify correct ticket is listed
+        # Verify correct ticket is listed.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.PluginContainer div a[target=\"_blank\"]').text();"
@@ -283,23 +266,21 @@ $Selenium->RunTest(
             'Link ticket visible',
         );
 
-        # check location link contains correct value
+        # Check location link contains correct value.
         my $LocationLinkURL = $Selenium->find_element( '.LocationLink', 'css' )->get_attribute('href');
         $Self->True(
             $LocationLinkURL =~ /Straubing$/,
             'Location link contains correct value',
         );
 
-        # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
-
-        # wait for dialog to close and AJAX to finish
+        # Click on Save.
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
         );
 
-        # verify first appointment is visible
+        # Verify first appointment is visible.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fc-title').text();"
@@ -308,7 +289,7 @@ $Selenium->RunTest(
             'First appointment visible',
         );
 
-        # go to the ticket zoom screen
+        # Go to the ticket zoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=${TicketID}");
 
         # Find link to the appointment on page.
@@ -316,11 +297,8 @@ $Selenium->RunTest(
             "//a[contains(\@href, \'Action=AgentAppointmentCalendarOverview;AppointmentID=' )]"
         );
         $Selenium->VerifiedGet( $LinkedAppointment->get_attribute('href') );
-
-        # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # check data
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('#Title').val();"
@@ -343,51 +321,55 @@ $Selenium->RunTest(
             'Link ticket matches',
         );
 
-        # check location link contains correct value
+        # Check location link contains correct value.
         $LocationLinkURL = $Selenium->find_element( '.LocationLink', 'css' )->get_attribute('href');
         $Self->True(
             $LocationLinkURL =~ /Straubing$/,
             'Location link contains correct value',
         );
 
-        # cancel the dialog
-        $Selenium->find_element( '#EditFormCancel', 'css' )->VerifiedClick();
+        # Cancel the dialog.
+        $Selenium->find_element( '#EditFormCancel', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+        );
 
-        # go to previous week
-        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->VerifiedClick();
-
-        # wait for AJAX to finish
+        # Go to previous week.
+        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # click on the timeline view for another appointment dialog
-        $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
-            ->VerifiedClick();
-
-        # Wait until form and overlay has loaded, if necessary.
+        # Click on the timeline view for another appointment dialog.
+        $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # enter some data
+        # Enter some data.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Appointment 2');
         $Selenium->execute_script(
             "return \$('#CalendarID').val("
                 . $Calendar2{CalendarID}
                 . ").trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( 'AllDay', 'name' )->VerifiedClick();
 
-        # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
+        $Selenium->find_element( '#AllDay', 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#AllDay").prop("checked") === true' );
 
-        # wait for dialog to close and AJAX to finish
+        # Click on Save.
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
         );
 
-        # hide the first calendar from view
-        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->VerifiedClick();
+        # Hide the first calendar from view.
+        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Calendar'
+                . $Calendar1{CalendarID}
+                . '").prop("checked") === false'
+        );
 
-        # verify second appointment is visible
+        # Verify second appointment is visible.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fc-title').text();"
@@ -396,7 +378,7 @@ $Selenium->RunTest(
             'Second appointment visible',
         );
 
-        # verify second appointment is an all day appointment
+        # Verify second appointment is an all day appointment.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fa-sun-o').length;"
@@ -405,14 +387,11 @@ $Selenium->RunTest(
             'Second appointment in an all day appointment',
         );
 
-        # click again on the timeline view for an appointment dialog
-        $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )
-            ->VerifiedClick();
-
-        # Wait until form and overlay has loaded, if necessary.
+        # Click again on the timeline view for an appointment dialog.
+        $Selenium->find_element( '.fc-timelineWeek-view .fc-slats td.fc-widget-content:nth-child(5)', 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # enter some data
+        # Enter some data.
         $Selenium->find_element( 'Title', 'name' )->send_keys('Appointment 3');
         $Selenium->execute_script(
             "return \$('#CalendarID').val("
@@ -424,19 +403,22 @@ $Selenium->RunTest(
             "return \$('#RecurrenceType').val('Daily').trigger('redraw.InputField').trigger('change');"
         );
 
-        # click on Save
-        $Selenium->find_element( '#EditFormSubmit', 'css' )->VerifiedClick();
-
-        # wait for dialog to close and AJAX to finish
+        # Click on Save.
+        $Selenium->find_element( '#EditFormSubmit', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
         );
 
-        # hide the second calendar from view
-        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->VerifiedClick();
+        # Hide the second calendar from view.
+        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Calendar'
+                . $Calendar2{CalendarID}
+                . '").prop("checked") === false'
+        );
 
-        # verify all third appointment occurences are visible
+        # Verify all third appointment occurences are visible.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fc-title').length;"
@@ -445,25 +427,23 @@ $Selenium->RunTest(
             'All third appointment occurrences visible',
         );
 
-        # click on an appointment
-        $Selenium->find_element( '.fc-timeline-event', 'css' )->VerifiedClick();
-
-        # Wait until form and overlay has loaded, if necessary.
+        # Click on an appointment.
+        $Selenium->find_element( '.fc-timeline-event', 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # click on Delete
+        # Click on Delete.
         $Selenium->find_element( '#EditFormDelete', 'css' )->click();
 
-        # confirm
+        # Accept alert.
         $Selenium->accept_alert();
 
-        # wait for dialog to close and AJAX to finish
+        # Wait for dialog to close and AJAX to finish.
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
         );
 
-        # verify all third appointment occurences have been removed
+        # Verify all third appointment occurences have been removed.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fc-title').length;"
@@ -472,18 +452,13 @@ $Selenium->RunTest(
             'All third appointment occurrences removed',
         );
 
-        # show all three calendars
-        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->VerifiedClick();
-
-        # wait for AJAX to finish
+        # Show all three calendars.
+        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
+        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->VerifiedClick();
-
-        # wait for AJAX to finish
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
-
-        # verify only two appointments are visible
+        # Verify only two appointments are visible.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fc-title').length;"
@@ -492,13 +467,11 @@ $Selenium->RunTest(
             'First and second appointment visible',
         );
 
-        # open datepicker
-        $Selenium->find_element( '.fc-toolbar .fc-jump-button', 'css' )->VerifiedClick();
+        # Open datepicker.
+        $Selenium->find_element( '.fc-toolbar .fc-jump-button', 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Datepicker").length' );
 
-        # wait for AJAX to finish
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoading").length' );
-
-        # verify exactly one day with appointments is highlighted
+        # Verify exactly one day with appointments is highlighted.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.ui-datepicker .ui-datepicker-calendar .Highlight').length;"
@@ -507,16 +480,17 @@ $Selenium->RunTest(
             'Datepicker properly highlighted',
         );
 
-        # close datepicker
-        $Selenium->find_element( 'div#DatepickerOverlay', 'css' )->VerifiedClick();
+        # Close datepicker.
+        $Selenium->find_element( 'div#DatepickerOverlay', 'css' )->click();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$("#DatepickerOverlay").length' );
 
-        # filter just third calendar
+        # Filter just third calendar.
         $Selenium->find_element( 'input#FilterCalendars', 'css' )->send_keys('Calendar3');
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $(".CalendarSwitch:visible").length === 1'
+        );
 
-        # wait for filter to finish
-        sleep 1;
-
-        # verify only one calendar is shown in the list
+        # Verify only one calendar is shown in the list.
         $Self->Is(
             $Selenium->execute_script(
                 "return \$('.CalendarSwitch:visible').length;"
@@ -535,7 +509,8 @@ $Selenium->RunTest(
             Hours => 2,
         );
 
-        my $AppointmentID = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentCreate(
+        my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
+        my $AppointmentID     = $AppointmentObject->AppointmentCreate(
             CalendarID  => $Calendar4{CalendarID},
             Title       => 'Permissions check appointment',
             Description => 'How to use Process tickets...',
@@ -551,7 +526,7 @@ $Selenium->RunTest(
             'Permission Appointment created.',
         );
 
-        # add ro permissions to the user
+        # Add ro permissions to the user.
         $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID2,
             UID        => $UserID,
@@ -561,34 +536,51 @@ $Selenium->RunTest(
             UserID => 1,
         );
 
-        # reload page
+        # Reload page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
-
-        # wait for AJAX to finish
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # show the fourth calendar and hide all others
-        $Selenium->find_element( 'Calendar' . $Calendar4{CalendarID}, 'id' )->VerifiedClick();
-        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->VerifiedClick();
-        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->VerifiedClick();
-        $Selenium->find_element( 'Calendar' . $Calendar3{CalendarID}, 'id' )->VerifiedClick();
+        # Show the fourth calendar and hide all others.
+        $Selenium->find_element( 'Calendar' . $Calendar4{CalendarID}, 'id' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Calendar'
+                . $Calendar4{CalendarID}
+                . '").prop("checked") === true'
+        );
+        $Selenium->find_element( 'Calendar' . $Calendar1{CalendarID}, 'id' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Calendar'
+                . $Calendar1{CalendarID}
+                . '").prop("checked") === false'
+        );
+        $Selenium->find_element( 'Calendar' . $Calendar2{CalendarID}, 'id' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Calendar'
+                . $Calendar2{CalendarID}
+                . '").prop("checked") === false'
+        );
+        $Selenium->find_element( 'Calendar' . $Calendar3{CalendarID}, 'id' )->click();
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("#Calendar'
+                . $Calendar3{CalendarID}
+                . '").prop("checked") === false'
+        );
 
-        # go to previous week
-        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->VerifiedClick();
-
-        # wait for AJAX to finish
+        # Go to previous week.
+        $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".CalendarWidget.Loading").length' );
 
-        # find the appointment link
+        # Find the appointment link.
         my $AppointmentLink = $Selenium->find_element( '.fc-event-container a', 'css' );
 
-        # click on appointment
-        $AppointmentLink->VerifiedClick();
-
-        # wait for appointment
+        # Click on appointment.
+        $AppointmentLink->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # check if fields are disabled
+        my $TeamObjectRegistered
+            = $Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 );
+
+        # Check if fields are disabled.
         ELEMENT:
         for my $Element (
             qw(Title Description Location CalendarID TeamID ResourceID StartDay EndDay AllDay
@@ -596,8 +588,8 @@ $Selenium->RunTest(
             )
             )
         {
-            # check if team object is registered
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 ) ) {
+            # Check if team object is registered.
+            if ( !$TeamObjectRegistered ) {
                 next ELEMENT if $Element eq 'TeamID' || $Element eq 'ResourceID';
             }
 
@@ -608,7 +600,7 @@ $Selenium->RunTest(
             );
         }
 
-        # elements that are not allowed on page
+        # Elements that are not allowed on page.
         for my $Element (qw(EditFormSubmit EditFormDelete EditFormCopy)) {
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -617,7 +609,7 @@ $Selenium->RunTest(
             );
         }
 
-        # elements that should be on page
+        # Elements that should be on page.
         for my $Element (qw(EditFormCancel)) {
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -626,10 +618,14 @@ $Selenium->RunTest(
             );
         }
 
-        # click on cancel
-        $Selenium->find_element( '#EditFormCancel', 'css' )->VerifiedClick();
+        # Click on cancel.
+        $Selenium->find_element( '#EditFormCancel', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+        );
 
-        # add move_into permissions to the user
+        # Add move_into permissions to the user.
         $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID2,
             UID        => $UserID,
@@ -640,13 +636,11 @@ $Selenium->RunTest(
             UserID => 1,
         );
 
-        # click on appointment
-        $AppointmentLink->VerifiedClick();
-
-        # wait for appointment
+        # Click on appointment.
+        $AppointmentLink->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # check if fields are disabled
+        # Check if fields are disabled.
         for my $Element (qw( CalendarID )) {
             $ElementReadOnly->(
                 UnitTestObject => $Self,
@@ -655,14 +649,14 @@ $Selenium->RunTest(
             );
         }
 
-        # check if fields are enabled
+        # Check if fields are enabled.
         ELEMENT:
         for my $Element (
             qw(Title Description Location TeamID ResourceID StartDay EndDay AllDay RecurrenceType)
             )
         {
-            # check if team object is registered
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 ) ) {
+            # Check if team object is registered.
+            if ( !$TeamObjectRegistered ) {
                 next ELEMENT if $Element eq 'TeamID' || $Element eq 'ResourceID';
             }
 
@@ -673,7 +667,7 @@ $Selenium->RunTest(
             );
         }
 
-        # elements that are not allowed on page
+        # Elements that are not allowed on page.
         for my $Element (qw(EditFormDelete EditFormCopy)) {
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -682,7 +676,7 @@ $Selenium->RunTest(
             );
         }
 
-        # elements that should be on page
+        # Elements that should be on page.
         for my $Element (qw(EditFormSubmit EditFormCancel)) {
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -691,10 +685,14 @@ $Selenium->RunTest(
             );
         }
 
-        # click on cancel
-        $Selenium->find_element( '#EditFormCancel', 'css' )->VerifiedClick();
+        # Click on cancel.
+        $Selenium->find_element( '#EditFormCancel', 'css' )->click();
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && !$(".Dialog:visible").length && !$(".CalendarWidget.Loading").length'
+        );
 
-        # add create permissions to the user
+        # Add create permissions to the user.
         $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID2,
             UID        => $UserID,
@@ -706,13 +704,11 @@ $Selenium->RunTest(
             UserID => 1,
         );
 
-        # click on appointment
-        $AppointmentLink->VerifiedClick();
-
-        # wait for appointment
+        # Click on appointment.
+        $AppointmentLink->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Title').length" );
 
-        # check if fields are enabled
+        # Check if fields are enabled.
         ELEMENT:
         for my $Element (
             qw(Title Description Location CalendarID TeamID ResourceID StartDay EndDay AllDay
@@ -720,8 +716,8 @@ $Selenium->RunTest(
             )
             )
         {
-            # check if team object is registered
-            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 ) ) {
+            # Check if team object is registered.
+            if ( !$TeamObjectRegistered ) {
                 next ELEMENT if $Element eq 'TeamID' || $Element eq 'ResourceID';
             }
 
@@ -732,7 +728,7 @@ $Selenium->RunTest(
             );
         }
 
-        # elements that should be on page
+        # Elements that should be on page.
         for my $Element (qw(EditFormCopy EditFormSubmit EditFormDelete EditFormCancel)) {
             $ElementExists->(
                 UnitTestObject => $Self,
@@ -746,7 +742,6 @@ $Selenium->RunTest(
         #
 
         my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
-        my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
         my $DBObject          = $Kernel::OM->Get('Kernel::System::DB');
 
         # Delete appointments and calendars.
@@ -754,7 +749,7 @@ $Selenium->RunTest(
             $Calendar1{CalendarID},
             $Calendar2{CalendarID},
             $Calendar3{CalendarID},
-            $Calendar4{CalendarID}
+            $Calendar4{CalendarID},
             )
         {
             my @Appointments = $AppointmentObject->AppointmentList(
@@ -788,6 +783,26 @@ $Selenium->RunTest(
             "Deleted test ticket - $TicketID",
         );
 
+        # Remove scheduled asynchronous tasks from DB, as they may interfere with tests run later.
+        my @TaskIDs;
+        my @AllTasks = $SchedulerDBObject->TaskList(
+            Type => 'AsynchronousExecutor',
+        );
+        for my $Task (@AllTasks) {
+            if ( $Task->{Name} eq 'Kernel::System::Calendar-TicketAppointmentProcessTicket()' ) {
+                push @TaskIDs, $Task->{TaskID};
+            }
+        }
+        for my $TaskID (@TaskIDs) {
+            my $Success = $SchedulerDBObject->TaskDelete(
+                TaskID => $TaskID,
+            );
+            $Self->True(
+                $Success,
+                "TaskDelete - Removed scheduled asynchronous task $TaskID",
+            );
+        }
+
         # Delete group-user relations.
         $Success = $DBObject->Do(
             SQL => "DELETE FROM group_user WHERE group_id = $GroupID OR group_id = $GroupID2",
@@ -808,9 +823,11 @@ $Selenium->RunTest(
             "GroupDelete - $RandomID",
         );
 
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
         # Make sure cache is correct.
         for my $Cache (qw(Appointment Calendar Group Ticket)) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
+            $CacheObject->CleanUp( Type => $Cache );
         }
     },
 );
