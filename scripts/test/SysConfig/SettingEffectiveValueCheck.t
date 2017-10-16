@@ -26,6 +26,8 @@ my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
+$HelperObject->FixedTimeSet();
+
 my @Tests = (
     {
         Description => 'Required String - pass',
@@ -4246,6 +4248,8 @@ for my $Test (@Tests) {
         UserID => 1,
     );
 
+    delete $Result{ExpireTime};
+
     $Self->IsDeeply(
         \%Result,
         $Test->{ExpectedResult},
@@ -4274,9 +4278,11 @@ for my $Setting (@SettingList) {
         SettingUID       => $Setting->{SettingUID},
         XMLContentParsed => $Setting->{XMLContentParsed},
         EffectiveValue   => $Setting->{EffectiveValue},
-        UseCache         => 1,
+        StoreCache       => 1,
         UserID           => 1,
     );
+
+    delete $Result{ExpireTime};
 
     $Self->IsDeeply(
         \%Result,
@@ -4287,6 +4293,37 @@ for my $Setting (@SettingList) {
         "Check EffectiveValue for $Setting->{Name}."
     );
 }
+
+$HelperObject->FixedTimeAddSeconds( 60 * 60 * 24 * 35 );    # Add 35 days, it should be enough to make results obsolete.
+
+# Make sure to reset delete cache flag.
+$SysConfigObject->{EffectiveValueCheckCacheDeleted} = 0;
+
+# Make sure that expired parts of the cache are deleted.
+my ($HookSetting) = grep { $_->{Name} eq 'Ticket::Hook' } @SettingList;
+
+# Check if value is ok - it also clears expired parts.
+my %HookCheck = $SysConfigObject->SettingEffectiveValueCheck(
+    %{$HookSetting},
+    EffectiveValue => 'NewEffectiveValue',
+    StoreCache     => 1,
+    UserID         => 1,
+);
+
+# Get cache value directly.
+my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    Type => 'SysConfigPersistent',
+    Key  => "EffectiveValueCheck::0",
+);
+
+# Delete our latest check result.
+delete $Cached->{ $HookSetting->{SettingUID} . '::NewEffectiveValue' };
+
+$Self->IsDeeply(
+    $Cached,
+    {},
+    'Make sure that all other parts of cache are deleted (they are expired).'
+);
 
 # Cache tests
 @Tests = (
@@ -4307,7 +4344,7 @@ for my $Setting (@SettingList) {
             },
             EffectiveValue => 'another string',
             SettingUID     => 'Test007',
-            UseCache       => 1,
+            StoreCache     => 1,
             UserID         => 1,
         },
         Success => 1,
@@ -4331,7 +4368,7 @@ for my $Setting (@SettingList) {
             },
             EffectiveValue => '2 low',
             SettingUID     => 'Test123',
-            UseCache       => 1,
+            StoreCache     => 1,
             UserID         => 1,
         },
         EffectiveValueWrong => 'any string',
@@ -4356,7 +4393,7 @@ for my $Setting (@SettingList) {
             },
             EffectiveValue => 'another string',
             SettingUID     => 'Test007',
-            UseCache       => 1,
+            StoreCache     => 1,
             UserID         => 1,
         },
         Success => 1,
@@ -4380,7 +4417,7 @@ for my $Setting (@SettingList) {
             },
             EffectiveValue => 'another string',
             SettingUID     => 'Test456',
-            UseCache       => 1,
+            StoreCache     => 1,
             UserID         => 1,
         },
         Success => 0,
@@ -4405,7 +4442,7 @@ for my $Setting (@SettingList) {
             },
             EffectiveValue => '2 low',
             SettingUID     => 'Test456',
-            UseCache       => 1,
+            StoreCache     => 1,
             UserID         => 1,
         },
         Success => 1,
@@ -4428,7 +4465,7 @@ for my $Setting (@SettingList) {
             },
             EffectiveValue => 'another string',
             SettingUID     => 'Test456',
-            UseCache       => 1,
+            StoreCache     => 1,
             UserID         => 1,
         },
         Success => 0,
@@ -4437,6 +4474,7 @@ for my $Setting (@SettingList) {
 
 for my $Test (@Tests) {
     my %Result = $SysConfigObject->SettingEffectiveValueCheck( %{ $Test->{Config} } );
+    delete $Result{ExpireTime};
 
     $Self->Is(
         $Result{Success},
@@ -4445,6 +4483,7 @@ for my $Test (@Tests) {
     );
 
     my %ResultCached = $SysConfigObject->SettingEffectiveValueCheck( %{ $Test->{Config} } );
+    delete $ResultCached{ExpireTime};
 
     $Self->IsDeeply(
         \%ResultCached,
@@ -4457,6 +4496,7 @@ for my $Test (@Tests) {
             %{ $Test->{Config} },
             EffectiveValue => $Test->{EffectiveValueWrong}
         );
+        delete $Result{ExpireTime};
 
         $Self->Is(
             $Result{Success},

@@ -1,4 +1,5 @@
 #6.0.0.beta5 2017-??-??
+ - 2017-10-16 Fixed bug#[12823](https://bugs.otrs.org/show_bug.cgi?id=12823) - SysConfig slow.
  - 2017-10-13 Fixed bug#[13154](https://bugs.otrs.org/show_bug.cgi?id=13154) - The New Dynamic Field for CustomerUsers does not support links.
  - 2017-10-13 Fixed bug#[13146](https://bugs.otrs.org/show_bug.cgi?id=13146) - DynamicField Database does not work in process dialogue.
  - 2017-10-13 Fixed bug#[13156](https://bugs.otrs.org/show_bug.cgi?id=13156) - TicketHistory hides mandatory column Ticket Actions.

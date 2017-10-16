@@ -1349,10 +1349,12 @@ Check if provided EffectiveValue matches structure defined in DefaultSetting. Al
                 },
             ],
         },
-        UseCache              => 1,
-        SettingUID            => 'Default1234'  # (required if UseCache)
-        NoValidation          => 1,             # (optional) no value type validation.
-        UserID                => 1,             # (required) UserID
+        StoreCache            => 1,               # (optional) Store result in the Cache. Default 0.
+        SettingUID            => 'Default1234'    # (required if StoreCache)
+        NoValidation          => 1,               # (optional) no value type validation.
+        CurrentSystemTime     => 1507894796935,   # (optional) Use provided 1507894796935, otherwise calculate
+        ExpireTime            => 1507894896935,   # (optional) Use provided ExpireTime for cache, otherwise calculate
+        UserID                => 1,               # (required) UserID
     );
 
 Returns:
@@ -1381,20 +1383,51 @@ sub SettingEffectiveValueCheck {
     $Param{EffectiveValue} //= '';
     $Param{NoValidation}   //= 0;
 
+    my $StoreCache = $Param{StoreCache};
+
+    if ( $Param{StoreCache} && !$Param{SettingUID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "SettingEffectiveValueCheck() called with StoreCache but without SettingUID parameter!"
+        );
+        $StoreCache = 0;    # Fallback, do not use cache.
+    }
+
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     my $CacheType = 'SysConfigPersistent';
-    my $CacheKey  = 'EffectiveValueCheck';
+    my $CacheKey  = "EffectiveValueCheck::$Param{NoValidation}";
+    my $SettingKey;
 
-    if ( $Param{UseCache} ) {
+    my $Cache;
 
-        if ( !$Param{SettingUID} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need SettingUID!"
-            );
-            return;
+    my $DateTimeObject;
+
+    my $CurrentSystemTime = $Param{CurrentSystemTime};
+
+    # Get current system time, if not provided.
+    if ( !$CurrentSystemTime ) {
+        $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
+        $CurrentSystemTime = $DateTimeObject->ToEpoch();
+    }
+
+    my $ExpireTime = $Param{ExpireTime};
+
+    # Get cache expire time, if not provided.
+    if ( !$ExpireTime ) {
+        if ( !$DateTimeObject ) {
+            $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         }
+
+        # Set expire date.
+        $DateTimeObject->Add(
+            Months => 1,
+        );
+
+        $ExpireTime = $DateTimeObject->ToEpoch();
+    }
+
+    if ( $Param{SettingUID} ) {
 
         my $MainObject     = $Kernel::OM->Get('Kernel::System::Main');
         my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
@@ -1409,14 +1442,41 @@ sub SettingEffectiveValueCheck {
             );
         }
 
-        $CacheKey .= "$Param{SettingUID}::${ValueString}::$Param{NoValidation}";
+        $SettingKey = "$Param{SettingUID}::${ValueString}";
 
-        my $Cache = $CacheObject->Get(
+        $Cache = $CacheObject->Get(
             Type => $CacheType,
             Key  => $CacheKey,
         );
 
-        return %{$Cache} if ref $Cache eq 'HASH';
+        if ( $Cache && !$Self->{EffectiveValueCheckCacheDeleted} ) {
+
+            # Delete all expired keys.
+            my @ExpiredKeys = grep { $CurrentSystemTime > ( $Cache->{$_}->{ExpireTime} || 0 ) } keys %{$Cache};
+            delete @{$Cache}{@ExpiredKeys};
+
+            if (@ExpiredKeys) {
+
+                # Update cache.
+                $CacheObject->Set(
+                    Type  => $CacheType,
+                    Key   => $CacheKey,
+                    Value => $Cache,
+                    TTL   => 20 * 24 * 60 * 60,
+                );
+            }
+
+            # Remember delete in this round
+            $Self->{EffectiveValueCheckCacheDeleted} = 1;
+        }
+
+        if (
+            ref $Cache eq 'HASH'
+            && $Cache->{$SettingKey}
+            )
+        {
+            return %{ $Cache->{$SettingKey} };
+        }
     }
 
     my %Result = (
@@ -1588,9 +1648,11 @@ sub SettingEffectiveValueCheck {
                             XMLContentParsed => {
                                 Value => $DefaultItem,
                             },
-                            EffectiveValue => $Param{EffectiveValue}->{$Key},
-                            NoValidation   => $Param{NoValidation},
-                            UserID         => $Param{UserID},
+                            EffectiveValue    => $Param{EffectiveValue}->{$Key},
+                            NoValidation      => $Param{NoValidation},
+                            CurrentSystemTime => $Param{CurrentSystemTime},
+                            ExpireTime        => $Param{ExpireTime},
+                            UserID            => $Param{UserID},
                         );
                         $Param{EffectiveValue}->{$Key} = $SubResult{EffectiveValue} if $SubResult{Success};
 
@@ -1622,9 +1684,11 @@ sub SettingEffectiveValueCheck {
                             XMLContentParsed => {
                                 Value => $DefaultItem,
                             },
-                            EffectiveValue => $Param{EffectiveValue}->{$Key},
-                            NoValidation   => $Param{NoValidation},
-                            UserID         => $Param{UserID},
+                            EffectiveValue    => $Param{EffectiveValue}->{$Key},
+                            NoValidation      => $Param{NoValidation},
+                            CurrentSystemTime => $Param{CurrentSystemTime},
+                            ExpireTime        => $Param{ExpireTime},
+                            UserID            => $Param{UserID},
                         );
                         $Param{EffectiveValue}->{$Key} = $SubResult{EffectiveValue} if $SubResult{Success};
 
@@ -1655,9 +1719,11 @@ sub SettingEffectiveValueCheck {
                                     },
                                 ],
                             },
-                            EffectiveValue => $Param{EffectiveValue}->{$Key},
-                            NoValidation   => $Param{NoValidation},
-                            UserID         => $Param{UserID},
+                            EffectiveValue    => $Param{EffectiveValue}->{$Key},
+                            NoValidation      => $Param{NoValidation},
+                            CurrentSystemTime => $Param{CurrentSystemTime},
+                            ExpireTime        => $Param{ExpireTime},
+                            UserID            => $Param{UserID},
                         );
 
                         if ( $SubResult{Error} ) {
@@ -1795,9 +1861,11 @@ sub SettingEffectiveValueCheck {
                                     },
                                 ],
                             },
-                            EffectiveValue => $Param{EffectiveValue}->[$Index],
-                            NoValidation   => $Param{NoValidation},
-                            UserID         => $Param{UserID},
+                            EffectiveValue    => $Param{EffectiveValue}->[$Index],
+                            NoValidation      => $Param{NoValidation},
+                            CurrentSystemTime => $Param{CurrentSystemTime},
+                            ExpireTime        => $Param{ExpireTime},
+                            UserID            => $Param{UserID},
                         );
                         $Param{EffectiveValue}->[$Index] = $SubResult{EffectiveValue} if $SubResult{Success};
 
@@ -1829,9 +1897,11 @@ sub SettingEffectiveValueCheck {
                             XMLContentParsed => {
                                 Value => $DefaultItem,
                             },
-                            EffectiveValue => $Param{EffectiveValue}->[$Index],
-                            NoValidation   => $Param{NoValidation},
-                            UserID         => $Param{UserID},
+                            EffectiveValue    => $Param{EffectiveValue}->[$Index],
+                            NoValidation      => $Param{NoValidation},
+                            CurrentSystemTime => $Param{CurrentSystemTime},
+                            ExpireTime        => $Param{ExpireTime},
+                            UserID            => $Param{UserID},
                         );
                         $Param{EffectiveValue}->[$Index] = $SubResult{EffectiveValue} if $SubResult{Success};
 
@@ -1866,9 +1936,11 @@ sub SettingEffectiveValueCheck {
                                     },
                                 ],
                             },
-                            EffectiveValue => $Param{EffectiveValue}->[$Index],
-                            NoValidation   => $Param{NoValidation},
-                            UserID         => $Param{UserID},
+                            EffectiveValue    => $Param{EffectiveValue}->[$Index],
+                            NoValidation      => $Param{NoValidation},
+                            CurrentSystemTime => $Param{CurrentSystemTime},
+                            ExpireTime        => $Param{ExpireTime},
+                            UserID            => $Param{UserID},
                         );
                         $Param{EffectiveValue}->[$Index] = $SubResult{EffectiveValue} if $SubResult{Success};
 
@@ -1899,12 +1971,16 @@ sub SettingEffectiveValueCheck {
         $Result{EffectiveValue} = $Param{EffectiveValue};
     }
 
-    if ( $Param{UseCache} ) {
+    $Result{ExpireTime} = $ExpireTime;
+
+    if ($StoreCache) {
+
+        $Cache->{$SettingKey} = \%Result;
 
         $CacheObject->Set(
             Type  => $CacheType,
             Key   => $CacheKey,
-            Value => \%Result,
+            Value => $Cache,
             TTL   => 20 * 24 * 60 * 60,
         );
     }
@@ -2514,19 +2590,18 @@ sub ConfigurationXML2DB {
         return;
     }
 
+    my @SettingList = $Self->ConfigurationList();
+
     # Create/Update settings in DB.
     SETTING:
     for my $SettingName ( sort keys %Settings ) {
 
-        # Check if exists.
-        my %SettingData = $SysConfigDBObject->DefaultSettingGet(
-            Name => $SettingName,
-        );
+        my @DefaultSetting = grep { $_->{Name} eq $SettingName } @SettingList;
 
-        if (%SettingData) {
+        if ( @DefaultSetting && IsHashRefWithData( $DefaultSetting[0] ) ) {
 
             # Compare new Setting XML with the old one (skip if there is no difference).
-            my $Updated = $Settings{$SettingName}->{XMLContentRaw} eq $SettingData{XMLContentRaw} ? 0 : 1;
+            my $Updated = $Settings{$SettingName}->{XMLContentRaw} eq $DefaultSetting[0]->{XMLContentRaw} ? 0 : 1;
             next SETTING if !$Updated;
 
             # Create a local clone of the value to prevent any modification.
@@ -2540,7 +2615,7 @@ sub ConfigurationXML2DB {
 
             # Update default setting.
             my $Success = $SysConfigDBObject->DefaultSettingUpdate(
-                DefaultID      => $SettingData{DefaultID},
+                DefaultID      => $DefaultSetting[0]->{DefaultID},
                 Name           => $Settings{$SettingName}->{XMLContentParsed}->{Name},
                 Description    => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
                 Navigation     => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
@@ -2580,7 +2655,7 @@ sub ConfigurationXML2DB {
                     EffectiveValue   => $ModifiedSetting->{EffectiveValue},
                     XMLContentParsed => $Settings{$SettingName}->{XMLContentParsed},
                     SettingUID       => $ModifiedSetting->{SettingUID},
-                    UseCache         => 1,
+                    StoreCache       => 1,
                     UserID           => $Param{UserID},
                 );
 
@@ -3120,6 +3195,14 @@ sub ConfigurationInvalidList {
 
     my @InvalidSettings;
 
+    my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CurrentSystemTime = $DateTimeObject->ToEpoch();
+
+    $DateTimeObject->Add(
+        Months => 1,
+    );
+    my $ExpireTime = $DateTimeObject->ToEpoch();
+
     for my $Setting (@SettingsEnabled) {
         my %SettingDeployed = $Self->SettingGet(
             Name     => $Setting->{Name},
@@ -3127,9 +3210,11 @@ sub ConfigurationInvalidList {
         );
 
         my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
-            EffectiveValue   => $SettingDeployed{EffectiveValue},
-            XMLContentParsed => $Setting->{XMLContentParsed},
-            UserID           => 1,
+            EffectiveValue    => $SettingDeployed{EffectiveValue},
+            XMLContentParsed  => $Setting->{XMLContentParsed},
+            CurrentSystemTime => $CurrentSystemTime,
+            ExpireTime        => $ExpireTime,
+            UserID            => 1,
         );
 
         if ( $EffectiveValueCheck{Error} ) {
@@ -3197,6 +3282,8 @@ sub ConfigurationDeploy {
         $Param{AllSettings}   = 0;
         $Param{DirtySettings} = undef;
     }
+
+    $Param{NoValidation} //= 0;
 
     my $BasePath = 'Kernel/Config/Files/';
 
@@ -3282,18 +3369,46 @@ sub ConfigurationDeploy {
         NoCache => %LastDeployment ? 0 : 1,    # do not cache only during initial rebuild config
     );
 
+    my %EffectiveValueCheckResult;
+
+    my $MainObject     = $Kernel::OM->Get('Kernel::System::Main');
+    my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+
+    my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CurrentSystemTime = $DateTimeObject->ToEpoch();
+
+    $DateTimeObject->Add(
+        Months => 1,
+    );
+    my $ExpireTime = $DateTimeObject->ToEpoch();
+
     SETTING:
     for my $CurrentSetting (@Settings) {
         next SETTING if !$CurrentSetting->{IsValid};
 
         my %EffectiveValueCheck = $Self->SettingEffectiveValueCheck(
-            XMLContentParsed => $CurrentSetting->{XMLContentParsed},
-            EffectiveValue   => $CurrentSetting->{EffectiveValue},
-            NoValidation     => $Param{NoValidation} //= 0,
-            UseCache         => 1,
-            SettingUID       => $CurrentSetting->{SettingUID},
-            UserID           => $Param{UserID},
+            XMLContentParsed  => $CurrentSetting->{XMLContentParsed},
+            EffectiveValue    => $CurrentSetting->{EffectiveValue},
+            NoValidation      => $Param{NoValidation},
+            SettingUID        => $CurrentSetting->{SettingUID},
+            CurrentSystemTime => $CurrentSystemTime,
+            ExpireTime        => $ExpireTime,
+            UserID            => $Param{UserID},
         );
+
+        # Instead of caching for each setting(1800+), skip caching, but remember results and cache only once.
+        my $ValueString = $Param{EffectiveValue} // '';
+        if ( ref $ValueString ) {
+            my $String = $StorableObject->Serialize(
+                Data => $Param{EffectiveValue},
+            );
+            $ValueString = $MainObject->MD5sum(
+                String => \$String,
+            );
+        }
+
+        my $SettingKey = "$CurrentSetting->{SettingUID}::${ValueString}";
+        $EffectiveValueCheckResult{$SettingKey} = \%EffectiveValueCheck;
 
         next SETTING if $EffectiveValueCheck{Success};
 
@@ -3303,6 +3418,12 @@ sub ConfigurationDeploy {
         );
         return;
     }
+
+    # Set cache for SettingEffectiveValueCheck().
+    $Self->_SettingEffectiveValueCheckCacheSet(
+        Value        => \%EffectiveValueCheckResult,
+        NoValidation => $Param{NoValidation},
+    );
 
     # Combine settings effective values into a perl string
     if ( IsArrayRefWithData( \@Settings ) ) {
@@ -5201,6 +5322,31 @@ sub _EffectiveValues2PerlFile {
     my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
     my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
 
+    my $CacheType = 'SysConfigPersistent';
+    my $CacheKey  = 'EffectiveValues2PerlFile';
+
+    my $Cache = $CacheObject->Get(
+        Type => $CacheType,
+        Key  => $CacheKey,
+    ) // {};
+
+    my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $CurrentSystemTime = $DateTimeObject->ToEpoch();
+
+    $DateTimeObject->Add(
+        Months => 1,
+    );
+    my $ExpireTime = $DateTimeObject->ToEpoch();
+
+    my $CacheDifferent;
+
+    # Delete all expired keys.
+    my @ExpiredKeys = grep { $CurrentSystemTime > $Cache->{$_}->{ExpireTime} } keys %{$Cache};
+    delete @{$Cache}{@ExpiredKeys};
+
+    # If there are expired keys, cache needs to be set to a new value.
+    $CacheDifferent = scalar @ExpiredKeys ? 1 : 0;
+
     # Convert all settings from DB format to perl file.
     for my $Setting ( @{ $Param{Settings} } ) {
 
@@ -5223,25 +5369,23 @@ sub _EffectiveValues2PerlFile {
                 );
             }
 
-            my $CacheType = 'SysConfigPersistent';
-            my $CacheKey  = "EffectiveValues2PerlFile::$ValueString";
-
-            my $Cache = $CacheObject->Get(
-                Type => $CacheType,
-                Key  => $CacheKey,
-            );
-            if ( ref $Cache eq 'SCALAR' ) {
-                $EffectiveValue = ${$Cache};
+            if (
+                $Cache->{$ValueString}
+                && $Cache->{$ValueString}->{Value}
+                )
+            {
+                $EffectiveValue = $Cache->{$ValueString}->{Value};
             }
             else {
                 $EffectiveValue = $MainObject->Dump( $Setting->{EffectiveValue} );
 
-                $CacheObject->Set(
-                    Type  => $CacheType,
-                    Key   => $CacheKey,
-                    Value => \$EffectiveValue,
-                    TTL   => 20 * 24 * 60 * 60,
-                );
+                $Cache->{$ValueString} = {
+                    Value      => $EffectiveValue,
+                    ExpireTime => $ExpireTime,
+                };
+
+                # Cache has been changed, it needs to be set.
+                $CacheDifferent = 1;
             }
 
             $EffectiveValue =~ s/\$VAR1 =//;
@@ -5250,6 +5394,16 @@ sub _EffectiveValues2PerlFile {
         elsif ( eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) ) {
             $PerlHashStrg .= "delete \$Self->{'$Name'};\n";
         }
+    }
+
+    if ($CacheDifferent) {
+
+        $CacheObject->Set(
+            Type  => $CacheType,
+            Key   => $CacheKey,
+            Value => $Cache,
+            TTL   => 20 * 24 * 60 * 60,
+        );
     }
 
     chomp $PerlHashStrg;
@@ -5303,8 +5457,10 @@ Recursive helper for SettingEffectiveValueCheck().
                 },
             ],
         },
-        NoValidation    => $Param{NoValidation},            # (optional), skip validation
-        UserID          => 1,                               # (required) UserID
+        NoValidation        => $Param{NoValidation},        # (optional), skip validation
+        CurrentSystemTime   => 1507894796935,               # (optional) Use provided 1507894796935, otherwise calculate
+        ExpireTime          => 1507894896935,               # (optional) Use provided ExpireTime for cache, otherwise calculate
+        UserID              => 1,                           # (required) UserID
     );
 
 Returns:
@@ -5347,10 +5503,52 @@ sub _SettingEffectiveValueCheck {
     }
 
     return $Self->SettingEffectiveValueCheck(
-        XMLContentParsed => $Default,
-        EffectiveValue   => $EffectiveValue,
-        NoValidation     => $Param{NoValidation},
-        UserID           => $Param{UserID},
+        XMLContentParsed  => $Default,
+        EffectiveValue    => $EffectiveValue,
+        NoValidation      => $Param{NoValidation},
+        CurrentSystemTime => $Param{CurrentSystemTime},
+        ExpireTime        => $Param{ExpireTime},
+        UserID            => $Param{UserID},
+    );
+}
+
+=head2 _SettingEffectiveValueCheckCacheSet()
+Sets cache for EffectiveValueCheck to the provided value.
+
+    $SysConfigObject->_SettingEffectiveValueCheckCacheSet(
+        Value => {                              (required)
+            Default180920170714165331 => {
+                Success => 1,
+            },
+            ...
+        },
+        NoValidation => 0,                      (optional)
+    );
+
+=cut
+
+sub _SettingEffectiveValueCheckCacheSet {
+    my ( $Self, %Param ) = @_;
+
+    # Check needed stuff.
+    for my $Needed (qw(Value)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    my $CacheType = 'SysConfigPersistent';
+    my $CacheKey  = "EffectiveValueCheck::$Param{NoValidation}";
+
+    return $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $CacheType,
+        Key   => $CacheKey,
+        Value => $Param{Value},
+        TTL   => 20 * 24 * 60 * 60,
     );
 }
 
