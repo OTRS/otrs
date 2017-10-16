@@ -363,7 +363,16 @@ Core.Agent.Search = (function (TargetNS) {
                     return;
                 }
 
-                Core.UI.Dialog.ShowContentDialog(HTML, Core.Language.Translate('Search'), '10px', 'Center', true, undefined, true);
+                Core.UI.Dialog.ShowDialog({
+                    HTML: HTML,
+                    Title: Core.Language.Translate('Search'),
+                    Modal: true,
+                    CloseOnClickOutside: false,
+                    CloseOnEscape: true,
+                    PositionTop: '10px',
+                    PositionLeft: 'Center',
+                    AllowAutoGrow: true
+                });
 
                 // hide add template block
                 $('#SearchProfileAddBlock').hide();
