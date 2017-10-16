@@ -318,7 +318,8 @@ $Selenium->RunTest(
                         );
                     }
 
-                    $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )
+                    $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
+                    $Selenium->find_element( "#SelectionCustomerIDAll",    'css' )
                         ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
 
                     # Wait for autocomplete to load.
