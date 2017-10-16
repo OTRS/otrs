@@ -147,7 +147,7 @@ sub Run {
                 )
             {
                 $Message .= $Object->Message();
-                if ( $Preferences{$Group}->{NeedsReload} == 1 ) {
+                if ( $Preferences{$Group}->{NeedsReload} ) {
                     $ConfigNeedsReload = 1;
                 }
             }
