@@ -5,15 +5,21 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use vars (qw($Self));
 
 use utf8;
 
-# get needed objects
+# Get needed objects.
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Module       = 'StaticDB';
+
+my $Module = 'StaticDB';
 
 $ConfigObject->Set(
     Key   => 'Ticket::ArchiveSystem',
@@ -31,10 +37,77 @@ $Self->True(
     "TicketObject loaded the correct backend",
 );
 
-my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
-my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
+# Make UserID 1 valid.
+my %RootUser = $UserObject->GetUserData(
+    UserID => 1,
+);
+my $Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ValidID      => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Force root user to be valid",
+);
 
-# test scenarios for Tickets
+my $QueueBefore = 'Unittest-' . $HelperObject->GetRandomID();
+my %Queue = $QueueObject->QueueGet( Name => $QueueBefore );
+
+# Create test queue if raw queue does not exist.
+my $QueueID;
+if ( !%Queue ) {
+
+    $QueueID = $QueueObject->QueueAdd(
+        Name            => $QueueBefore,
+        GroupID         => 1,
+        ValidID         => 1,
+        SystemAddressID => 1,
+        SalutationID    => 1,
+        SignatureID     => 1,
+        Comment         => 'Unittest queue',
+        UserID          => 1,
+    );
+
+    $Self->True(
+        $QueueID,
+        "Queue:\'$QueueBefore\' is created new for testing.",
+    );
+
+    %Queue = $QueueObject->QueueGet( Name => $QueueBefore );
+    $QueueID = $Queue{QueueID};
+}
+
+# Reactivate queue if it is disabled.
+else {
+
+    my $Updated = $QueueObject->QueueUpdate(
+        %Queue,
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    $Self->True(
+        $Updated,
+        "Queue:\'$QueueBefore\' is prepared for testing.",
+    );
+}
+
+my $QueueAfter;
+TRY:
+for my $Try ( 1 .. 20 ) {
+
+    $QueueAfter = 'Unittest-' . $HelperObject->GetRandomID();
+
+    my %Queue2 = $QueueObject->QueueGet(
+        Name => $QueueAfter,
+    );
+
+    last TRY if !%Queue2;
+}
+
+# Test scenarios for Tickets.
 my @Tests = (
     {
         Name => 'Ticket 1',
@@ -45,10 +118,6 @@ my @Tests = (
         },
     },
 );
-
-my $QueueBefore = 'Raw';
-my %Queue       = $QueueObject->QueueGet( Name => $QueueBefore );
-my $QueueID     = $Queue{QueueID};
 
 my @TicketIDs;
 for my $Test (@Tests) {
@@ -70,7 +139,7 @@ for my $Test (@Tests) {
     );
 }
 
-#loop for each created Queues, updating Queue , and checking ticket index before and after UpdateQueue()
+# Loop for each created Queues, updating Queue , and checking ticket index before and after UpdateQueue().
 my %IndexBefore = $TicketObject->TicketAcceleratorIndex(
     UserID        => 1,
     QueueID       => $QueueID,
@@ -79,18 +148,18 @@ my %IndexBefore = $TicketObject->TicketAcceleratorIndex(
 
 my $Updated = $QueueObject->QueueUpdate(
     %Queue,
-    Name   => "Raw2",
+    Name   => $QueueAfter,
     UserID => 1,
 );
 $Self->True(
     $Updated,
     "Queue:\'$QueueBefore\' is updated",
 );
-my $QueueAfter = $QueueObject->QueueLookup( QueueID => $QueueID );
+my $QueueAfterName = $QueueObject->QueueLookup( QueueID => $QueueID );
 $Self->IsNot(
-    $QueueAfter,
+    $QueueAfterName,
     $QueueBefore,
-    "Compare Queue name - Before:\'$QueueBefore\' => After: \'$QueueAfter\'",
+    "Compare Queue name - Before:\'$QueueBefore\' => After: \'$QueueAfterName\'",
 );
 my %IndexAfter = $TicketObject->TicketAcceleratorIndex(
     UserID        => 1,
@@ -103,18 +172,18 @@ $Self->Is(
     "$Module TicketAcceleratorIndex() - AllTickets",
 );
 
-my ($ItemBefore) = grep { $_->{Queue} eq 'Raw' } @{ $IndexBefore{Queues} };
-my ($ItemAfter)  = grep { $_->{Queue} eq 'Raw2' } @{ $IndexAfter{Queues} };
+my ($ItemBefore) = grep { $_->{Queue} eq $QueueBefore } @{ $IndexBefore{Queues} };
+my ($ItemAfter)  = grep { $_->{Queue} eq $QueueAfter } @{ $IndexAfter{Queues} };
 
 $Self->Is(
     $ItemBefore->{Count} // 0,
     $ItemAfter->{Count}  // 1,
-    "$Module TicketAcceleratorIndex() for Queue: $ItemAfter->{Queue} - Count",
+    "$Module TicketAcceleratorIndex() for Queue: $QueueAfter - Count",
 );
 
 my $Restored = $QueueObject->QueueUpdate(
     %Queue,
-    Name   => "Raw",
+    Name   => $QueueBefore,
     UserID => 1,
 );
 $Self->True(
@@ -132,5 +201,16 @@ for my $TicketID (@TicketIDs) {
         "$Module TicketDelete() - $TicketID",
     );
 }
+
+# Restore UserID 1 previous validity.
+$Success = $UserObject->UserUpdate(
+    %RootUser,
+    UserID       => 1,
+    ChangeUserID => 1,
+);
+$Self->True(
+    $Success,
+    "Restored root user validity",
+);
 
 1;
