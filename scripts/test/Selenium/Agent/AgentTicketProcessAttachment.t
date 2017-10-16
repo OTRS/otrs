@@ -166,14 +166,16 @@ $Selenium->RunTest(
         # Submit.
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
 
+        my $Url = $Selenium->get_current_url();
+
         # Check if ticket is created (sent to AgentTicketZoom screen).
         $Self->True(
-            $Selenium->get_current_url() =~ /Action=AgentTicketZoom;TicketID=/,
+            $Url =~ /Action=AgentTicketZoom;TicketID=/,
             "Current URL is correct - AgentTicketZoom",
         );
 
         # Get test ticket ID.
-        my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Selenium->get_current_url() );
+        my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
         my $TicketID = $TicketZoomUrl[1];
 
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
