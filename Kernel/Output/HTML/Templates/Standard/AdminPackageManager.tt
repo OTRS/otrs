@@ -190,9 +190,11 @@
                         </li>
                     </ul>
                     <h2 class="SpacingTop">[% Translate("How can I do a patch level update if I don’t have a contract?") | html %]</h2>
-                    <p>[% Translate("Please find all relevant information within the upgrading instructions at %s.",
-                        '<a href="http://otrs.github.io/doc/manual/admin/stable/en/html/upgrading.html" target="_blank">otrs.github.io</<a>'
-                        ) | html %]
+                    <p>
+# Quote only translated string, since the replacement string contains actual HTML code that we want to display.
+#   See bug#13200 for more information.
+                        [% Translate("Please find all relevant information within the upgrading instructions at %s.") | html
+                        | replace("%s", '<a href="http://otrs.github.io/doc/manual/admin/stable/en/html/upgrading.html" target="_blank">otrs.github.io</a>') %]
                     </p>
                     <p>[% Translate("In case you would have further questions we would be glad to answer them.") | html %] <br />[% Translate("Please visit our customer portal and file a request.") | html %]</p>
                 </div>
