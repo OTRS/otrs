@@ -50,9 +50,31 @@ my @Tests = (
     },
 );
 
-my $QueueBefore = 'Raw';
-my %Queue       = $QueueObject->QueueGet( Name => $QueueBefore );
-my $QueueID     = $Queue{QueueID};
+my $QueueBefore = 'Unittest-' . $Helper->GetRandomID();
+
+my $QueueIDExist = $QueueObject->QueueLookup( Queue => $QueueBefore );
+
+if ( !$QueueIDExist ) {
+
+    my $QueueID = $QueueObject->QueueAdd(
+        Name            => $QueueBefore,
+        GroupID         => 1,
+        ValidID         => 1,
+        SystemAddressID => 1,
+        SalutationID    => 1,
+        SignatureID     => 1,
+        Comment         => 'Unittest queue',
+        UserID          => 1,
+    );
+
+    $Self->True(
+        $QueueID,
+        "Queue:\'$QueueBefore\' is created new for testing.",
+    );
+}
+
+my %Queue = $QueueObject->QueueGet( Name => $QueueBefore );
+my $QueueID = $Queue{QueueID};
 
 my @TicketIDs;
 for my $Test (@Tests) {
@@ -81,20 +103,22 @@ my %IndexBefore = $TicketObject->TicketAcceleratorIndex(
     ShownQueueIDs => [$QueueID],
 );
 
+my $QueueAfterName = 'Unittest-' . $Helper->GetRandomID();
+
 my $Updated = $QueueObject->QueueUpdate(
     %Queue,
-    Name   => "Raw2",
+    Name   => $QueueAfterName,
     UserID => 1,
 );
 $Self->True(
     $Updated,
     "Queue:\'$QueueBefore\' is updated",
 );
-my $QueueAfter = $QueueObject->QueueLookup( QueueID => $QueueID );
+$QueueAfterName = $QueueObject->QueueLookup( QueueID => $QueueID );
 $Self->IsNot(
-    $QueueAfter,
+    $QueueAfterName,
     $QueueBefore,
-    "Compare Queue name - Before:\'$QueueBefore\' => After: \'$QueueAfter\'",
+    "Compare Queue name - Before:\'$QueueBefore\' => After: \'$QueueAfterName\'",
 );
 my %IndexAfter = $TicketObject->TicketAcceleratorIndex(
     UserID        => 1,
@@ -107,18 +131,18 @@ $Self->Is(
     "$Module TicketAcceleratorIndex() - AllTickets",
 );
 
-my ($ItemBefore) = grep { $_->{Queue} eq 'Raw' } @{ $IndexBefore{Queues} };
-my ($ItemAfter)  = grep { $_->{Queue} eq 'Raw2' } @{ $IndexAfter{Queues} };
+my ($ItemBefore) = grep { $_->{Queue} eq 'CustomQueue' } @{ $IndexBefore{Queues} };
+my ($ItemAfter)  = grep { $_->{Queue} eq 'CustomQueue' } @{ $IndexAfter{Queues} };
 
 $Self->Is(
     $ItemBefore->{Count} // 0,
     $ItemAfter->{Count}  // 1,
-    "$Module TicketAcceleratorIndex() for Queue: $ItemAfter->{Queue} - Count",
+    "$Module TicketAcceleratorIndex() for Queue: $QueueAfterName - Count",
 );
 
 my $Restored = $QueueObject->QueueUpdate(
     %Queue,
-    Name   => "Raw",
+    Name   => $QueueBefore,
     UserID => 1,
 );
 $Self->True(
