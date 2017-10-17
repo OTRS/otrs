@@ -48,7 +48,7 @@
                 <p class="FieldExplanation">
                     [% SET GravatarLink = '<a href="https://www.gravatar.com" target="_blank"><i class="fa fa-external-link"></i> gravatar.com</a>'; %]
                     <p class="FieldExplanation">
-                        <strong>[% Translate("Did you know?") | html %]</strong> [% Translate("You can change your avatar by registering with your email address %s on %s", Env("UserEmail"), GravatarLink) %]
+                        <strong>[% Translate("Did you know?") | html %]</strong> [% Translate("You can change your avatar by registering with your email address %s on %s") | html | ReplacePlaceholders(Env("UserEmail"), GravatarLink) %]
                     </p>
                 </p>
             </div>

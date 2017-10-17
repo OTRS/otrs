@@ -84,7 +84,7 @@
                                 [% Translate(Data.CloudService.Description) | html %]
                                 [% IF Data.CloudService.IsOTRSBusiness && !Data.OTRSBusinessIsInstalled %]
                                 <span class="Recomendation">
-                                    <a class="MasterActionLink Button" href="[% Env("Baselink") %]Action=AdminOTRSBusiness"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</a>
+                                    <a class="MasterActionLink Button" href="[% Env("Baselink") %]Action=AdminOTRSBusiness"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</a>
                                 </span>
                                 [% END %]
                             </td>

@@ -467,6 +467,23 @@ EOF
 ',
         Data => {},
     },
+    {
+        Name     => 'Replace',
+        Template => <<'EOF',
+[% "This is %s" | ReplacePlaceholders("<strong>bold text</strong>") %]
+[% ReplacePlaceholders("This is %s", "<em>italic text</em>") %]
+[% "This string has %s and %s placeholder" | ReplacePlaceholders("<strong>first</strong>", "<em>second</em>") %]
+[% ReplacePlaceholders("This string has neither %s or %s text", "bold", "italic") %]
+[% "This is an <unsafe> string with %s placeholder" | html | ReplacePlaceholders("<strong>safe</strong>") %]
+EOF
+        Result => 'This is <strong>bold text</strong>
+This is <em>italic text</em>
+This string has <strong>first</strong> and <em>second</em> placeholder
+This string has neither bold or italic text
+This is an &lt;unsafe&gt; string with <strong>safe</strong> placeholder
+',
+        Data => {},
+    },
 );
 
 for my $Test (@Tests) {

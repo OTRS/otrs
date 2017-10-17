@@ -195,7 +195,7 @@
                     <div class="Field">
                         <div>
                             <input type="radio" name="MergeToSelection" id="OptionMergeTo" value="OptionMergeTo" [% Data.MergeToChecked %]/>
-                            <label for="MergeTo">[% Translate("Merge to") | html %] [% Config("Ticket::Hook") %]:</label>
+                            <label for="MergeTo">[% Translate("Merge to") | html %] [% Config("Ticket::Hook") | html %]:</label>
                             <input type="text" class="[% Data.MergeToInvalid | html %] W50pc" id="MergeTo" name="MergeTo" value="[% Data.MergeTo | html %]"/>
                             <div id="MergeToServerError" class="TooltipErrorMessage"><p>[% Translate("Invalid ticket identifier!") | html %]</p></div>
                         </div>

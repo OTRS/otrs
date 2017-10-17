@@ -22,12 +22,12 @@
             <div class="Header">
                 <h2>
                     <div class="Icon">
-                        <i class="fa fa-ban [% IF Setting.IsValid %]Hidden[% END %]" title="[% Translate("This setting is disabled.") %]"></i>
+                        <i class="fa fa-ban [% IF Setting.IsValid %]Hidden[% END %]" title="[% Translate("This setting is disabled.") | html %]"></i>
                     </div>
 
                     [% IF Env("Subaction") == 'Invalid' %]
                     <div class="Icon">
-                        <i class="fa fa-check-circle-o [% IF Setting.Invalid %]Hidden[% END %]" title="[% Translate("This setting is fixed but not deployed yet!") %]"></i>
+                        <i class="fa fa-check-circle-o [% IF Setting.Invalid %]Hidden[% END %]" title="[% Translate("This setting is fixed but not deployed yet!") | html %]"></i>
                     </div>
                     [% END %]
 
@@ -50,56 +50,56 @@
                 </p>
                 <div class="ActionMenu Visible">
                     <div class="WidgetAction Expand">
-                        <a href="#" title="[% Translate("Toggle advanced options for this setting") %]"><i class="fa fa-bars"></i></a>
+                        <a href="#" title="[% Translate("Toggle advanced options for this setting") | html %]"><i class="fa fa-bars"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="WidgetMenu">
                 [% IF !Setting.IsRequired %]
-                <a href="#" class="Button SettingEnabled [% IF Setting.IsValid == 0 %]Hidden[% END %]" title="[% Translate("Disable this setting, so it is no longer effective") %]"><i class="fa fa-times"></i> [% Translate("Disable") %]</a>
-                <a href="#" class="Button SettingDisabled [% IF Setting.IsValid == 1 %]Hidden[% END %]" title="[% Translate("Enable this setting, so it becomes effective") %]"><i class="fa fa-check"></i> [% Translate("Enable") %]</a>
+                <a href="#" class="Button SettingEnabled [% IF Setting.IsValid == 0 %]Hidden[% END %]" title="[% Translate("Disable this setting, so it is no longer effective") | html %]"><i class="fa fa-times"></i> [% Translate("Disable") | html %]</a>
+                <a href="#" class="Button SettingDisabled [% IF Setting.IsValid == 1 %]Hidden[% END %]" title="[% Translate("Enable this setting, so it becomes effective") | html %]"><i class="fa fa-check"></i> [% Translate("Enable") | html %]</a>
                 [% END %]
 
-                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationSettingHistory;Subaction=ShowSettingHistory;SettingName=[% Setting.Name | uri %]" class="OTRSBusinessRequired SettingHistory Button"><i class="fa fa-clock-o"></i> [% Translate("History") %][% IF !Data.OTRSBusinessIsInstalled %] (OTRS Business Solution™)[% END %]</a>
-                <a href="#" class="ResetSetting Button" data-user-modification="[% Setting.UserModificationPossible %]" title="[% Translate("Reset this setting to its default state") %]">
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationSettingHistory;Subaction=ShowSettingHistory;SettingName=[% Setting.Name | uri %]" class="OTRSBusinessRequired SettingHistory Button"><i class="fa fa-clock-o"></i> [% Translate("History") | html %][% IF !Data.OTRSBusinessIsInstalled %] (OTRS Business Solution™)[% END %]</a>
+                <a href="#" class="ResetSetting Button" data-user-modification="[% Setting.UserModificationPossible %]" title="[% Translate("Reset this setting to its default state") | html %]">
                     <i class="fa fa-undo"></i>
-                    [% Translate("Reset setting") %]
+                    [% Translate("Reset setting") | html %]
                 </a>
 
                 [% IF Setting.UserModificationPossible && Data.OTRSBusinessIsInstalled %]
                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UserModified;SettingName=[% Setting.Name | uri %]"
-                    class="UserModificationNotActive Button [% IF Setting.UserModificationActive %]Hidden[% END %]" title="[% Translate("Allow users to adapt this setting from within their personal preferences") %]">
+                    class="UserModificationNotActive Button [% IF Setting.UserModificationActive %]Hidden[% END %]" title="[% Translate("Allow users to adapt this setting from within their personal preferences") | html %]">
 
                     <i class="fa fa-users"></i>
-                    [% Translate("Allow users to update") %]
+                    [% Translate("Allow users to update") | html %]
                 </a>
                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UserModified;SettingName=[% Setting.Name | uri %]"
-                    class="UserModificationActive Button [% IF !Setting.UserModificationActive %]Hidden[% END %]" title="[% Translate("Do not longer allow users to adapt this setting from within their personal preferences") %]">
+                    class="UserModificationActive Button [% IF !Setting.UserModificationActive %]Hidden[% END %]" title="[% Translate("Do not longer allow users to adapt this setting from within their personal preferences") | html %]">
 
                     <i class="fa fa-users"></i>
-                    [% Translate("Forbid users to update") %]
+                    [% Translate("Forbid users to update") | html %]
                 </a>
                 [% END %]
 
                 [% IF Setting.UserModificationActive %]
-                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationUser;Subaction=ShowUsersSettingValue;SettingName=[% Setting.Name | uri %]" class="UserSettings Button" title="[% Translate("Show user specific changes for this setting") %]">
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationUser;Subaction=ShowUsersSettingValue;SettingName=[% Setting.Name | uri %]" class="UserSettings Button" title="[% Translate("Show user specific changes for this setting") | html %]">
                     <i class="fa fa-user"></i>
-                    [% Translate("Show user settings") %]
+                    [% Translate("Show user settings") | html %]
                 </a>
                 [% END %]
 
-                <span href="#" class="Button CopyToClipboard" data-clipboard-text="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.Name | uri %]" title="[% Translate("Copy a direct link to this setting to your clipboard") %]"><i class="fa fa-link"></i> [% Translate("Copy direct link") %]</span>
+                <span href="#" class="Button CopyToClipboard" data-clipboard-text="[% Config("HttpType") | html %]://[% Config("FQDN") | html %][% Env("Baselink") | html %]Action=AdminSystemConfiguration;Subaction=View;Setting=[% Setting.Name | uri %]" title="[% Translate("Copy a direct link to this setting to your clipboard") | html %]"><i class="fa fa-link"></i> [% Translate("Copy direct link") | html %]</span>
 
             [% IF Setting.IsFavourite %]
-                <a href="#" class="Button RemoveFromFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Remove this setting from your favorites setting") %]"><i class="fa fa-star"></i> <span>[% Translate("Remove from favourites") %]</span></a>
+                <a href="#" class="Button RemoveFromFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Remove this setting from your favorites setting") | html %]"><i class="fa fa-star"></i> <span>[% Translate("Remove from favourites") | html %]</span></a>
             [% ELSE %]
-                <a href="#" class="Button AddToFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Add this setting to your favorites") %]"><i class="fa fa-star-o"></i> <span>[% Translate("Add to favourites") %]</span></a>
+                <a href="#" class="Button AddToFavourites" data-setting-name="[% Setting.Name | html %]" title="[% Translate("Add this setting to your favorites") | html %]"><i class="fa fa-star-o"></i> <span>[% Translate("Add to favourites") | html %]</span></a>
             [% END %]
 
-                <a href="#" class="Button Right CancelAlias" title="[% Translate("Cancel editing this setting") %]"><i class="fa fa-times"></i> [% Translate("Cancel") %]</a>
-                <a href="#" class="Button Right SaveAlias" title="[% Translate("Save changes on this setting") %]"><i class="fa fa-check"></i> [% Translate("Save") %]</a>
-                <a href="#" class="Button Right EditAlias" title="[% Translate("Edit this setting") %]"><i class="fa fa-pencil-square-o"></i> [% Translate("Edit this setting") %]</a>
+                <a href="#" class="Button Right CancelAlias" title="[% Translate("Cancel editing this setting") | html %]"><i class="fa fa-times"></i> [% Translate("Cancel") | html %]</a>
+                <a href="#" class="Button Right SaveAlias" title="[% Translate("Save changes on this setting") | html %]"><i class="fa fa-check"></i> [% Translate("Save") | html %]</a>
+                <a href="#" class="Button Right EditAlias" title="[% Translate("Edit this setting") | html %]"><i class="fa fa-pencil-square-o"></i> [% Translate("Edit this setting") | html %]</a>
 
             </div>
 

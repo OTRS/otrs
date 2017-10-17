@@ -183,7 +183,7 @@
                                                                 <tr>
                                                                     <td colspan="2" valign="middle">
                                                                         <div style="color: #999; font-size: 11px; text-align: center;">
-                                                                            [% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]
+                                                                            [% Translate("Powered by") | html %] [% Config("Product") | html %] [% Config("Version").remove('\.0\..*') | html %]
                                                                         </div>
                                                                     </td>
                                                                 </tr>

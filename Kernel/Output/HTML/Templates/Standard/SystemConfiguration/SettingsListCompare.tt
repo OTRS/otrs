@@ -20,8 +20,8 @@
                     </div>
                     <div class="Content">
                         <div class="WidgetMessage Top">
-                            <p class="UserModification">[% Translate("User modification") %]: <strong>[% IF Setting.PreviousUserModificationActive %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
-                            <p class="SettingState">[% Translate("Setting state") %]: <strong>[% IF Setting.PreviousIsValid %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
+                            <p class="UserModification">[% Translate("User modification") | html %]: <strong>[% IF Setting.PreviousUserModificationActive %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
+                            <p class="SettingState">[% Translate("Setting state") | html %]: <strong>[% IF Setting.PreviousIsValid %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
                         </div>
                         <div class="SettingWrapper">
                             <div class="SettingContainer">
@@ -50,8 +50,8 @@
                     </div>
                     <div class="Content">
                         <div class="WidgetMessage Top">
-                            <p class="UserModification">[% Translate("User modification") %]: <strong>[% IF Setting.CurrentUserModificationActive %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
-                            <p class="SettingState">[% Translate("Setting state") %]: <strong>[% IF Setting.CurrentIsValid %][% Translate("enabled") %][% ELSE %][% Translate("disabled") %][% END %]</strong></p>
+                            <p class="UserModification">[% Translate("User modification") | html %]: <strong>[% IF Setting.CurrentUserModificationActive %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
+                            <p class="SettingState">[% Translate("Setting state") | html %]: <strong>[% IF Setting.CurrentIsValid %][% Translate("enabled") | html %][% ELSE %][% Translate("disabled") | html %][% END %]</strong></p>
                         </div>
                         <div class="SettingWrapper">
                             <div class="SettingContainer">

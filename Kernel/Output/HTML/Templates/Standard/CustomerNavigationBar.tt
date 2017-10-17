@@ -28,7 +28,7 @@
     <ul class="Individual">
 [% RenderBlockStart("ChatRequests") %]
         <li class="ChatRequests [% Data.Class | html %]">
-            <a href="[% Env("Baselink") %]Action=CustomerChat;Subaction=ChatOverview;Filter=IncomingChatRequests;" title="[% Translate("Incoming Chat Requests") %]"><i class="fa fa-comments-o"></i> (<span class="Counter">[% Data.Count | html %]</span>)</a>
+            <a href="[% Env("Baselink") %]Action=CustomerChat;Subaction=ChatOverview;Filter=IncomingChatRequests;" title="[% Translate("Incoming Chat Requests") | html %]"><i class="fa fa-comments-o"></i> (<span class="Counter">[% Data.Count | html %]</span>)</a>
         </li>
 [% RenderBlockEnd("ChatRequests") %]
 [% RenderBlockStart("Preferences") %]

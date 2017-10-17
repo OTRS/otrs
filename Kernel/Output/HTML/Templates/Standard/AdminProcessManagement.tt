@@ -84,11 +84,11 @@ SET OTRSBusinessLinkLabel = '<strong><a href="#" class="OTRSBusinessRequired">OT
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required." ) %]
+                    [% Translate("Here you can activate ready-to-run processes showcasing our best practices. Please note that some additional configuration may be required.") | html %]
                 </p>
             [% IF !Data.OTRSBusinessIsInstalled %]
                 <p class="FieldExplanation">
-                    [% Translate("Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.", OTRSBusinessLinkLabel) %]
+                    [% Translate("Would you like to benefit from processes created by experts? Upgrade to %s to import some sophisticated ready-to-run processes.") | html | ReplacePlaceholders(OTRSBusinessLinkLabel) %]
                 </p>
             [% END %]
                 <ul class="ActionList SpacingTop">

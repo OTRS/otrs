@@ -326,7 +326,7 @@
 [% RenderBlockEnd("InvolvedAgent") %]
                             <div class="Field">
                                 <p class="FieldExplanation">
-                                    [% Translate("Here you can select additional agents which should receive a notification regarding the new article.") %]
+                                    [% Translate("Here you can select additional agents which should receive a notification regarding the new article.") | html %]
                                 </p>
                             </div>
                         </fieldset>
@@ -374,7 +374,7 @@
                             <label for="StandardTemplateID">[% Translate("Text Template") | html %]:</label>
                             <div class="Field">
                                 [% Data.StandardTemplateStrg %]
-                                <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") %]</p>
+                                <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") | html %]</p>
                             </div>
                             <div class="Clear"></div>
 [% RenderBlockEnd("StandardTemplate") %]

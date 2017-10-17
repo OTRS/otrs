@@ -90,7 +90,7 @@
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Queues">
-                        <li class="Header">[% Translate(Data.QueueHeader) %]</li>
+                        <li class="Header">[% Translate(Data.QueueHeader) | html %]</li>
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
 [% RenderBlockStart("NoQueuesFoundMsg") %]
                         <li>[% Translate("No data found.") | html %]</li>

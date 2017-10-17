@@ -28,7 +28,7 @@
 
 [% RenderBlockStart("Steps") %]
     <div class="Center">
-        <ul id="ProgressBar" class="ProgressBarElements[% Data.Steps | html %]" SpacingTop SpacingBottom">
+        <ul id="ProgressBar" class="ProgressBarElements[% Data.Steps | html %] SpacingTop SpacingBottom">
 [% RenderBlockStart("StepLicense") %]
             <li class="First [% Data.Highlight | html %] [% Data.Active | html %]">
                 <span>

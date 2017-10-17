@@ -19,7 +19,7 @@
     <br />
 [% IF !Config("Secure::DisableBanner") %]
     <hr>
-    [% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]
+    [% Translate("Powered by") | html %] [% Config("Product") | html %] [% Config("Version").remove('\.0\..*') | html %]
 [% END %]
     <br /><br />
 </body>

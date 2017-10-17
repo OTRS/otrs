@@ -191,7 +191,7 @@
                                 <table class="DataTable SupportDataTable">
                                     <thead>
                                     [% FOR Label IN Data.Labels %]
-                                        <th>[% Translate(Label) %]</th>
+                                        <th>[% Translate(Label) | html %]</th>
                                     [% END %]
                                     </thead>
                                     <tbody>

@@ -29,7 +29,7 @@
 [% RenderBlockStart("BodyTransportColumn") %]
             <td class="Center">
 [% RenderBlockStart("BodyTransportColumnEnabled") %]
-                <input autocomplete="off" type="checkbox" class="NotificationEvent" id="[% Data.Identifier | html %]-checkbox" name="[% Data.Identifier | html %]-checkbox" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName) ) %]" value="1" [% Data.Checked | html %] />
+                <input autocomplete="off" type="checkbox" class="NotificationEvent" id="[% Data.Identifier | html %]-checkbox" name="[% Data.Identifier | html %]-checkbox" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName)) | html %]" value="1" [% Data.Checked | html %] />
                 <input autocomplete="off" type="hidden" name="[% Data.Identifier | html %]" value="[% Data.HiddenValue | html %]"/>
 [% RenderBlockEnd("BodyTransportColumnEnabled") %]
             </td>

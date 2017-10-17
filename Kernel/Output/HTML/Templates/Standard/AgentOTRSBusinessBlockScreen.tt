@@ -13,7 +13,7 @@
 [% END %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Unauthorized usage of %s detected", OTRSBusinessLabel) %]</h1>
+    <h1>[% Translate("Unauthorized usage of %s detected") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h1>
 
     <div class="SidebarColumn">
         <div class="WidgetSimple">
@@ -43,10 +43,10 @@
                     <i class="fa fa-times-circle"></i>
                 </div>
                 <p class="Center">
-                    [% Translate('This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!', OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
+                    [% Translate('This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!') | html | ReplacePlaceholders(OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
                 </p>
                 <p class="Center SpacingTop">
-                    [% Translate('If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.', OTRSBusinessLabel) %]
+                    [% Translate('If you decide to downgrade to OTRS Free, you will lose all database tables and data related to %s.') | html | ReplacePlaceholders(OTRSBusinessLabel) %]
                 </p>
             </div>
             <div class="Clear"></div>

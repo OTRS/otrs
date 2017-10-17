@@ -390,14 +390,14 @@
                     <label for="StandardTemplateID">[% Translate("Text Template") | html %]:</label>
                     <div class="Field">
                         [% Data.StandardTemplateStrg %]
-                        <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") %]</p>
+                        <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") | html %]</p>
                     </div>
                     <div class="Clear"></div>
 [% RenderBlockEnd("StandardTemplate") %]
 
                     <label class="Mandatory" for="RichText"><span class="Marker">*</span> [% Translate("Text") | html %]:</label>
                     <div id="RichTextField" class="RichTextField">
-                        <textarea id="RichText" class="RichText Validate_Required [% Data.BodyInvalid | html %]" name="Body" title="[% Translate("Message body") | html %]" rows="15" cols="[% Config("Ticket::Frontend::TextAreaEmail") %]">[% Data.Body | html %]</textarea>
+                        <textarea id="RichText" class="RichText Validate_Required [% Data.BodyInvalid | html %]" name="Body" title="[% Translate("Message body") | html %]" rows="15" cols="[% Config("Ticket::Frontend::TextAreaEmail") | html %]">[% Data.Body | html %]</textarea>
                         <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                         <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                     </div>

@@ -179,8 +179,8 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
             <div class="Content">
             [% IF Data.ExampleWebServiceList %]
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.", OTRSBusinessLabel) %]
-                    [% Translate("Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).", OTRSBusinessLabel) %]
+                    [% Translate("Here you can activate ready-to-run web services showcasing our best practices that are a part of %s.") | html | ReplacePlaceholders(OTRSBusinessLabel) %]
+                    [% Translate("Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).") | html | ReplacePlaceholders(OTRSBusinessLabel) %]
                 </p>
                 <ul class="ActionList SpacingTop">
                     <li>
@@ -199,7 +199,7 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
                 </ul>
             [% ELSE %]
                 <p class="FieldExplanation">
-                    [% Translate("Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.", OTRSBusinessLinkLabelWithContractLevel) %]
+                    [% Translate("Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated ready-to-run web services.") | html | ReplacePlaceholders(OTRSBusinessLinkLabelWithContractLevel) %]
                 </p>
             [% END %]
             </div>
@@ -327,7 +327,7 @@ SET OTRSBusinessLinkLabelWithContractLevel = '<strong><a href="#" class="OTRSBus
             <div class="WidgetSimple Expanded">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
-                        <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
                     <h3>[% Translate(Data.Title) | html %]</h3>
                 </div>

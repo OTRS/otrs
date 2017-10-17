@@ -11,7 +11,7 @@
 <div class="MainBox AriaRoleMain">
     <h1 class="Center SpacingBottom">
         [% Config("Stats::StatsHook") | html %][% Data.StatNumber | html %]
-        [% IF Data.TimeZone %] ([% Translate("Time Zone") | html %] [% Data.TimeZone %])[% END %]
+        [% IF Data.TimeZone %] ([% Translate("Time Zone") | html %] [% Data.TimeZone | html %])[% END %]
         — [% Data.Title | html %]
     </h1>
 

@@ -246,7 +246,7 @@
                     <div class="Clear"></div>
 
                     <div class="Field SpacingTop">
-                        <button class="Primary CallForAction" type="submit" value="[% Translate("Add")%]"><span>[% Translate("Add") | html %]</span></button>
+                        <button class="Primary CallForAction" type="submit" value="[% Translate("Add") | html %]"><span>[% Translate("Add") | html %]</span></button>
                         [% Translate("or") | html %]
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                     </div>

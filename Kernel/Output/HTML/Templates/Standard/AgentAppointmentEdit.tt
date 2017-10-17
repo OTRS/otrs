@@ -112,7 +112,7 @@
                 </p>
             </div>
             <div class="Field Info">
-                <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</a>
+                <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</a>
             </div>
 [% END %]
         </fieldset>
@@ -292,7 +292,7 @@
                             <tr>
                                 <td class="fc">
                                     <button class="fc-button fc-state-default" type="button" title="[% Translate("January") | html %]" value="1" >
-                                        [% Translate("Jan")| html %]
+                                        [% Translate("Jan") | html %]
                                     </button>
                                 </td>
                                 <td class="fc">

@@ -12,7 +12,7 @@
         <div class="Header">
             <h2>
                 [% Translate("#%s", Data.ArticleNumber) | html %] &ndash; [% Translate("Missing channel") | html %]
-                &ndash; <span title="[% Translate("Created") %]: [% Data.CreateTime | Localize("TimeShort") %]">[% Data.CreateTime | Localize("TimeShort") %]</span> [% Translate("via %s", Translate(Data.CommunicationChannel)) %]
+                &ndash; <span title="[% Translate("Created") | html %]: [% Data.CreateTime | Localize("TimeShort") %]">[% Data.CreateTime | Localize("TimeShort") %]</span> [% Translate("via %s", Translate(Data.CommunicationChannel)) | html %]
 [% IF Data.CreateByUser %]
                 [% Translate("by %s", Data.CreateByUser) | html %]
 [% END %]

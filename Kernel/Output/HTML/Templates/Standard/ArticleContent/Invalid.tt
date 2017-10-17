@@ -9,7 +9,7 @@
 [% Translate("Preview of this article is not possible because %s channel is missing in the system.", Data.ChannelName) | html %]
 <br>
 [% IF Data.PackageName == 'OTRSBusiness' %]
-[% Translate('This feature is part of the %s. Please contact us at %s for an upgrade.', '<strong>OTRS Business Solution</strong>™', 'sales@otrs.com') %]
+[% Translate('This feature is part of the %s. Please contact us at %s for an upgrade.') | html | ReplacePlaceholders('<strong>OTRS Business Solution</strong>™', 'sales@otrs.com') %]
 [% ELSE %]
 [% Translate("Please re-install %s package in order to display this article.", Data.PackageName) | html %]
 [% END %]

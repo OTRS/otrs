@@ -12,7 +12,7 @@
     <div class="Content">
         [% SET OTRSBusinessLabel = '<strong><a href="#" class="OTRSBusinessRequired">OTRS Business Solution</a></strong>™'; %]
         <p class="FieldExplanation">
-            [% Translate("With %s, System Configuration supports versioning, rollback and user-specific configuration settings.", OTRSBusinessLabel) %]
+            [% Translate("With %s, System Configuration supports versioning, rollback and user-specific configuration settings.") | html | ReplacePlaceholders(OTRSBusinessLabel) %]
         </p>
     </div>
 </div>

@@ -147,7 +147,7 @@
                 <div class="Content">
                 [% IF Config(Data.Source).ReadOnly == 1 %]
                     <div class="WidgetMessage Top Warning">
-                        <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
+                        <p><strong>[% Translate("Please note") | html %]</strong>: [% Translate("This customer backend is read only!") | html %]</p>
                     </div>
                 [% END %]
                     <form action="[% Env("CGIHandle") %]" id="edit" class="Validate" method="post">

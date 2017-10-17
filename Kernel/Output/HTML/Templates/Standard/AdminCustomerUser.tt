@@ -170,7 +170,7 @@
             <div class="Content">
 [% IF Config(Data.Source).ReadOnly == 1 || Config(Data.Source).Module.match('LDAP') %]
                 <div class="WidgetMessage Top Warning">
-                    <p><strong>[% Translate("Please note") %]</strong>: [% Translate("This customer backend is read only, but the customer user preferences can be changed!") | html %]</p>
+                    <p><strong>[% Translate("Please note") | html %]</strong>: [% Translate("This customer backend is read only, but the customer user preferences can be changed!") | html %]</p>
                 </div>
 [% END %]
                 <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" name="compose" class="Validate PreventMultipleSubmits">

@@ -93,7 +93,7 @@
 [% RenderBlockStart("NotRegistered") %]
         <div class="WidgetSimple">
             <div class="Header Center">
-                <h2>[% Translate("System Registration") %]</h2>
+                <h2>[% Translate("System Registration") | html %]</h2>
             </div>
             <div class="Content">
                 <p class="Center">
@@ -112,7 +112,7 @@
                 [% ELSE %]
                 <div class="Center SpacingTop">
                     <p>
-                        [% Translate("System Registration is disabled for your system. Please check your configuration.") %]
+                        [% Translate("System Registration is disabled for your system. Please check your configuration.") | html %]
                     </p>
                 </div>
                 [% END %]

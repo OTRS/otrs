@@ -177,7 +177,7 @@
 [% RenderBlockEnd("TicketMenuPhoneAsDropdown") %]
 [% RenderBlockStart("MoveLink") %]
                             <li class="[% Data.Class | html %]">
-                                <form title="[% Translate("Move ticket to a different queue") | html %]" action="[% Env("CGIHandle") %]" method="post">
+                                <form title="[% Translate("Move ticket to a different queue") | html %]" action="[% Env("CGIHandle") | html %]" method="post">
                                     <input type="hidden" name="Action" value="AgentTicketMove"/>
                                     <input type="hidden" name="QueueID" value="[% Data.QueueID | html %]"/>
                                     <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
@@ -316,7 +316,7 @@
 [% RenderBlockStart("ArticlePages") %]
             <div class="ArticlePages Icons">
         [% FOREACH page IN [1 .. Data.Pages]; %]
-                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticlePage=[% page %]" title="[% Translate('Page %s', page) %]" data-page="[% page %]" [% IF page == Data.CurrentPage %]class="Active"[% END %]>[% page %]</a>
+                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticlePage=[% page %]" title="[% Translate('Page %s', page) | html %]" data-page="[% page %]" [% IF page == Data.CurrentPage %]class="Active"[% END %]>[% page %]</a>
         [% END; %]
             </div>
 [% RenderBlockEnd("ArticlePages") %]

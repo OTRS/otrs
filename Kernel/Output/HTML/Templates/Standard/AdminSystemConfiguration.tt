@@ -62,7 +62,7 @@
                     <li>
                         <i class="fa fa-lightbulb-o"></i>
                         <p>
-                            [% Translate("Find out how to use the system configuration by reading the %s.", DocumentationLink) %]
+                            [% Translate("Find out how to use the system configuration by reading the %s.") | html | ReplacePlaceholders(DocumentationLink) %]
                         </p>
                     </li>
                 </ul>

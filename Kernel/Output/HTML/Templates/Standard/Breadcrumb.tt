@@ -8,14 +8,14 @@
 
 <ul class="BreadCrumb">
 [% IF Type == 'Agent' %]
-    <li><a href="[% Env('Baselink') %]Action=AgentDashboard" title="[% Translate("Back to Dashboard") %]"><i class="fa fa-home"></i></a></li>
+    <li><a href="[% Env('Baselink') %]Action=AgentDashboard" title="[% Translate("Back to Dashboard") | html %]"><i class="fa fa-home"></i></a></li>
 [% ELSE %]
-    <li><a href="[% Env('Baselink') %]Action=Admin" title="[% Translate("Back to admin overview") %]"><i class="fa fa-home"></i></a></li>
+    <li><a href="[% Env('Baselink') %]Action=Admin" title="[% Translate("Back to admin overview") | html %]"><i class="fa fa-home"></i></a></li>
 [% END %]
     [% FOREACH Item IN Path %]
         <li>
             [% IF Item.Link && Path.size() > 0 %]
-                <a href="[% Env('Baselink') %]Action=[% Item.Link %]" title="[% Item.Name | html %]">[% Item.Name | html %]</a>
+                <a href="[% Env('Baselink') %]Action=[% Item.Link | uri %]" title="[% Item.Name | html %]">[% Item.Name | html %]</a>
             [% ELSE %]
                 <span title="[% Item.Name | html %]">[% Item.Name | html %]</span>
             [% END %]

@@ -62,17 +62,17 @@ SET OTRSBusinessLabel     = '<strong><a href="#" class="OTRSBusinessRequired">OT
             <div class="Content">
                 <div class="FieldExplanation">
                     <p>
-                        [% Translate("Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:", OTRSBusinessLabel) %]
+                        [% Translate("Would you like to benefit from additional dynamic field types for businesses? Upgrade to %s to get access to the following field types:") | html | ReplacePlaceholders(OTRSBusinessLabel) %]
                     </p>
                     <dl>
-                        <dt>[% Translate('Database') %]</dt>
-                        <dd>[% Translate('Use external databases as configurable data sources for this dynamic field.') %]</dd>
+                        <dt>[% Translate('Database') | html %]</dt>
+                        <dd>[% Translate('Use external databases as configurable data sources for this dynamic field.') | html %]</dd>
 
-                        <dt>[% Translate('Web service') %]</dt>
-                        <dd>[% Translate('External web services can be configured as data sources for this dynamic field.') %]</dd>
+                        <dt>[% Translate('Web service') | html %]</dt>
+                        <dd>[% Translate('External web services can be configured as data sources for this dynamic field.') | html %]</dd>
 
-                        <dt>[% Translate('Contact with data') %]</dt>
-                        <dd>[% Translate('This feature allows to add (multiple) contacts with data to tickets.') %]</dd>
+                        <dt>[% Translate('Contact with data') | html %]</dt>
+                        <dd>[% Translate('This feature allows to add (multiple) contacts with data to tickets.') | html %]</dd>
                     </dl>
                 </div>
             </div>

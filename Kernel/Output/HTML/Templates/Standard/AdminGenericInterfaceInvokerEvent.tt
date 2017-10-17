@@ -103,7 +103,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate( Data.EventType ) %] [% Translate("Event") %] [% Translate("Conditions") | html %]</h2>
+                    <h2>[% Translate(Data.EventType) | html %] [% Translate("Event") | html %] [% Translate("Conditions") | html %]</h2>
                 </div>
                 <div class="Content LayoutGrid">
                     <fieldset class="TableLike FixedLabel" id="PresentConditionsContainer">

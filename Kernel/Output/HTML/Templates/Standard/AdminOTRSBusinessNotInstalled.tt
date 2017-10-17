@@ -12,7 +12,7 @@
 %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h1>
+    <h1>[% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h1>
 
     [% BreadcrumbPath = [
             {
@@ -49,7 +49,7 @@
             </div>
             <div class="Content">
                 <p>
-                    [% Translate("%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.", OTRSBusinessLabel) %]
+                    [% Translate("%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.") | html | ReplacePlaceholders(OTRSBusinessLabel) %]
                 </p>
             </div>
             <div class="Clear"></div>
@@ -59,14 +59,14 @@
 [% RenderBlockStart("NotAvailable") %]
         <div class="WidgetSimple">
             <div class="Header Center">
-                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+                <h2>[% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
                 <p class="Center">
-                    [% Translate("%s will be available soon. Please check again in a few days.", OTRSBusinessLabel) %]
+                    [% Translate("%s will be available soon. Please check again in a few days.") | html | ReplacePlaceholders(OTRSBusinessLabel) %]
                 </p>
                 <p class="Center">
-                    [% Translate("Please have a look at %s for more information.", '<a href="http://www.otrs-business-solution.com" target="_blank">otrs-business-solution.com</a>') %]
+                    [% Translate("Please have a look at %s for more information.") | html | ReplacePlaceholders('<a href="http://www.otrs-business-solution.com" target="_blank">otrs-business-solution.com</a>') %]
                 </p>
             </div>
             <div class="Clear"></div>
@@ -75,11 +75,11 @@
 [% RenderBlockStart("NotRegistered") %]
         <div class="WidgetSimple">
             <div class="Header Center">
-                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+                <h2>[% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
                 <p class="Center">
-                    [% Translate("Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!", OTRSBusinessLabel) %]
+                    [% Translate("Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!") | html | ReplacePlaceholders(OTRSBusinessLabel) %]
                 </p>
                 [%  IF Config("Frontend::Module").AdminRegistration %]
                 <div class="Center SpacingTop">
@@ -90,7 +90,7 @@
                 [% ELSE %]
                 <div class="Center SpacingTop">
                     <p>
-                        [% Translate("System Registration is disabled for your system. Please check your configuration.") %]
+                        [% Translate("System Registration is disabled for your system. Please check your configuration.") | html %]
                     </p>
                 </div>
                 [% END %]
@@ -101,11 +101,11 @@
 [% RenderBlockStart("NotEntitled") %]
         <div class="WidgetSimple">
             <div class="Header Center">
-                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+                <h2>[% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
                 <p class="Center">
-                    [% Translate('Before you can benefit from %s, please contact %s to get your %s contract.', OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>', OTRSBusinessLabel) %]
+                    [% Translate("Before you can benefit from %s, please contact %s to get your %s contract.") | html | ReplacePlaceholders(OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>', OTRSBusinessLabel) %]
                 </p>
             </div>
             <div class="Clear"></div>
@@ -114,7 +114,7 @@
 [% RenderBlockStart("EntitlementStatusUnclear") %]
         <div class="WidgetSimple">
             <div class="Header Center">
-                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+                <h2>[% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
                 <p class="Center">
@@ -127,7 +127,7 @@
 [% RenderBlockStart("Install") %]
         <div class="WidgetSimple">
             <div class="Header Center">
-                <h2[% IF Data.ShowBlock == "IncompatibleInfo" %] class="Left"[% END %]>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+                <h2[% IF Data.ShowBlock == "IncompatibleInfo" %] class="Left"[% END %]>[% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
                [% IF Data.ShowBlock == "IncompatibleInfo" %]
@@ -155,12 +155,12 @@
                     </ul>
                 [% ELSE %]
                 <p class="Center">
-                    [% Translate("With your existing contract you can only use a small part of the %s.", OTRSBusinessLabel ) %]
+                    [% Translate("With your existing contract you can only use a small part of the %s.") | html | ReplacePlaceholders(OTRSBusinessLabel ) %]
                     <br/>
-                    [% Translate("If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.", OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
+                    [% Translate("If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.") | html | ReplacePlaceholders(OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
                 </p>
                 <div class="Center SpacingTop">
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</span></a>
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTRSBusinessLabel) %]</span></a>
                 </div>
                 [% END %]
             </div>
