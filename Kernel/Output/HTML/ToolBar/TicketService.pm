@@ -40,6 +40,8 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     return if !$ConfigObject->Get('Ticket::Service');
 
+    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketService};
+
     # Get viewable locks.
     my @ViewableLockIDs = $Kernel::OM->Get('Kernel::System::Lock')->LockViewableLock( Type => 'ID' );
 

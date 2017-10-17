@@ -41,6 +41,7 @@ sub Run {
     # get all Frontend::Module
     my %NavBarModule;
 
+    my $Config           = $ConfigObject->Get('Frontend::Module')           || {};
     my $NavigationModule = $ConfigObject->Get('Frontend::NavigationModule') || {};
 
     MODULE:
@@ -48,6 +49,7 @@ sub Run {
         my %Hash = %{ $NavigationModule->{$Module} };
 
         next MODULE if !$Hash{Name};
+        next MODULE if !$Config->{$Module};    # If module is not registered, skip it.
 
         if ( $Hash{Module} eq 'Kernel::Output::HTML::NavBar::ModuleAdmin' ) {
 
