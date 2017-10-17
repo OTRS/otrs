@@ -108,6 +108,11 @@ $ConfigObject->Set(
 );
 
 # enable customer groups support
+$SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'CustomerGroupSupport',
+    Value => '1',
+);
 $ConfigObject->Set(
     Key   => 'CustomerGroupSupport',
     Value => 1,
