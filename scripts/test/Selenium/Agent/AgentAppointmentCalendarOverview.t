@@ -469,7 +469,10 @@ $Selenium->RunTest(
 
         # Open datepicker.
         $Selenium->find_element( '.fc-toolbar .fc-jump-button', 'css' )->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Datepicker").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#Datepicker .ui-datepicker-calendar .Highlight").length === 1'
+        );
 
         # Verify exactly one day with appointments is highlighted.
         $Self->Is(
