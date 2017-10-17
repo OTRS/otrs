@@ -318,11 +318,13 @@ $Selenium->RunTest(
                         );
                     }
 
-                    $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
-                    $Selenium->find_element( "#SelectionCustomerIDAll",    'css' )
+                    $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )->clear();
+                    $Selenium->find_element( "#SelectionCustomerIDAll", 'css' )
                         ->send_keys( $AutoCompleteExpected{$AutocompleteInput}->{SelectAllCustomerID} );
 
                     # Wait for autocomplete to load.
+                    $Selenium->WaitFor(
+                        JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
                     $Selenium->WaitFor(
                         JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                     );
