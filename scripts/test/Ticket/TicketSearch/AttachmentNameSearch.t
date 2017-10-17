@@ -334,7 +334,9 @@ for my $Test (@Tests) {
             Limit => 2,
         );
 
-        @FoundTicketIDs = sort @FoundTicketIDs;
+        @FoundTicketIDs = sort { $a <=> $b } @FoundTicketIDs;
+        @{ $Test->{"ExpectedResults$StorageBackend"} }
+            = sort { $a <=> $b } @{ $Test->{"ExpectedResults$StorageBackend"} };
 
         $Self->IsDeeply(
             \@FoundTicketIDs,
