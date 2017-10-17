@@ -243,7 +243,8 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
             %{ $Test->{Config} },
         );
 
-        @FoundTicketIDs = sort @FoundTicketIDs;
+        @FoundTicketIDs = sort { $a <=> $b } @FoundTicketIDs;
+        @{ $Test->{ExpectedResults} } = sort { $a <=> $b } @{ $Test->{ExpectedResults} };
 
         $Self->IsDeeply(
             \@FoundTicketIDs,

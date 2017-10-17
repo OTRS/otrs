@@ -349,7 +349,8 @@ for my $Test (@Tests) {
             %{ $Test->{Config} },
         );
 
-        @FoundTicketIDs = sort @FoundTicketIDs;
+        @FoundTicketIDs = sort { $a <=> $b } @FoundTicketIDs;
+        @{ $Test->{ExpectedResults} } = sort { $a <=> $b } @{ $Test->{ExpectedResults} };
 
         if ( $StorageBackend eq 'ArticleStorageDB' || $Test->{ForBothStorages} ) {
             $Self->IsDeeply(
