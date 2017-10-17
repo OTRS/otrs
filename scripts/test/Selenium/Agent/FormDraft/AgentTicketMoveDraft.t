@@ -12,13 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-# Get selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Disable check email addresses.
         $Helper->ConfigSettingChange(
@@ -46,9 +46,6 @@ $Selenium->RunTest(
             Key   => "Ticket::Frontend::AgentTicketMove###FormDraft",
             Value => 1
         );
-
-        # Get ticket object.
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Create test ticket.
         my $TicketID = $TicketObject->TicketCreate(
@@ -81,7 +78,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         # Navigate to zoom view of created test ticket.
@@ -128,10 +124,10 @@ $Selenium->RunTest(
         }
 
         # Create FormDraft and submit.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#FormDraftTitle").length;'
+                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length'
         );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -145,7 +141,7 @@ $Selenium->RunTest(
 
         # Verify FormDraft is created in zoom screen.
         $Self->True(
-            index( $Selenium->get_page_source(), $Title ) > -1,
+            $Selenium->execute_script("return \$('.DraftName:contains($Title)').length === 1"),
             "FormDraft for $FormDraftCase->{Module} $Title is found",
         );
 
@@ -167,14 +163,13 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('#$FormDraftCase->{Fields}->{$Field}->{ID}').val('$FormDraftCase->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
             );
-
         }
 
         # Try to create FormDraft with same name, expecting error.
-        $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#FormDraftSave", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $("#FormDraftTitle").length;'
+                'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length'
         );
         $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
         $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -183,9 +178,8 @@ $Selenium->RunTest(
         $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert not found';
 
         # Check alert dialog message.
-        my $ExpectedAlertText = "FormDraft name $Title is already in use!";
         $Self->True(
-            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
+            index( $Selenium->get_alert_text(), "FormDraft name $Title is already in use!" ) > -1,
             "Check alert message text.",
         );
 
@@ -194,12 +188,9 @@ $Selenium->RunTest(
 
         # Close screen and switch back window.
         $Selenium->close();
-
-        # Switch back window.
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Get article object.
         my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
@@ -239,9 +230,9 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#submitRichText").length;'
         );
 
-        # Make sure that outdated notification is present.
+        # Make sure that draft loaded notification is present.
         $Self->True(
-            index( $Selenium->get_page_source(), "You have loaded the draft \"$Title\"" ) > 0,
+            index( $Selenium->get_page_source(), "You have loaded the draft \"$Title\"" ) > -1,
             'Draft loaded notification is present',
         );
 
@@ -250,7 +241,7 @@ $Selenium->RunTest(
             index(
                 $Selenium->get_page_source(),
                 "Please note that this draft is outdated because the ticket was modified since this draft was created."
-                ) > 0,
+                ) > -1,
             'Outdated notification is present',
         );
 
@@ -291,7 +282,7 @@ $Selenium->RunTest(
             # Wait until input field has loaded, if necessary.
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$(\'#$FormDraftCase->{Fields}->{$FieldValue}->{ID}\').length;"
+                    "return typeof(\$) === 'function' && \$(\'#$FormDraftCase->{Fields}->{$FieldValue}->{ID}\').length && \$(\'#$FormDraftCase->{Fields}->{$FieldValue}->{ID}\').val() == $FormDraftCase->{Fields}->{$FieldValue}->{Update};"
             );
 
             $Self->Is(
@@ -301,9 +292,8 @@ $Selenium->RunTest(
             );
         }
 
+        # Close and switch back to main window.
         $Selenium->close();
-
-        # switch back window
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
@@ -311,16 +301,16 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Delete draft
-        $Selenium->find_element( ".FormDraftDelete", 'css' )->VerifiedClick();
+        $Selenium->find_element( ".FormDraftDelete", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof($) === "function" && $("#DeleteConfirm").length;'
         );
-        $Selenium->find_element( "#DeleteConfirm", 'css' )->VerifiedClick();
+        $Selenium->find_element( "#DeleteConfirm", 'css' )->click();
 
         $Selenium->WaitFor(
             JavaScript =>
-                'return typeof($) === "function" && $(".FormDraftDelete").length==0;'
+                'return typeof($) === "function" && $(".FormDraftDelete").length == 0;'
         ) || die 'FormDraft was not deleted!';
 
         # Delete created test ticket.
