@@ -171,11 +171,9 @@ sub Run {
         );
     }
 
-    $LayoutObject->ErrorScreen(
+    return $LayoutObject->ErrorScreen(
         Message => Translatable('Invalid Subaction.'),
     );
-
-    return;
 }
 
 1;
