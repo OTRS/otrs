@@ -96,11 +96,6 @@ my @ProtectedFiles = (
 my $ExitStatus = 0;
 
 sub Run {
-    if ( !@ARGV ) {
-        PrintUsage();
-        exit 0;
-    }
-
     Getopt::Long::GetOptions(
         'help'             => \$Help,
         'otrs-user=s'      => \$OtrsUser,
