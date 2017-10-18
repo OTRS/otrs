@@ -3758,13 +3758,20 @@ for my $Test (@Tests) {
     if ( $Test->{Language} ) {
 
         $Kernel::OM->ObjectsDiscard(
-            Objects => ['Kernel::Language'],
+            Objects => [ 'Kernel::Language' ],
         );
 
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Language' => {
                 UserLanguage => $Test->{Language},
             },
+        );
+
+        my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+        $Self->True(
+            1,
+            "Test $TestCount: Set the language to '$Test->{Language}'.",
         );
     }
 
