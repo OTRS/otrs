@@ -357,7 +357,7 @@ my %LookupStateList = map { $StateList{$_} => $_ } sort keys %StateList;
 
 # set the language to 'en' before the StatsRun
 $Kernel::OM->ObjectsDiscard(
-    Objects => [ 'Kernel::Language' ],
+    Objects => ['Kernel::Language'],
 );
 
 $Kernel::OM->ObjectParamAdd(
@@ -3876,7 +3876,7 @@ for my $Test (@Tests) {
     if ( $Test->{Language} ) {
 
         $Kernel::OM->ObjectsDiscard(
-            Objects => [ 'Kernel::Language' ],
+            Objects => ['Kernel::Language'],
         );
 
         $Kernel::OM->ObjectParamAdd(

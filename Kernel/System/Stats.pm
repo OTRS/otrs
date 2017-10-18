@@ -3395,7 +3395,7 @@ sub _GenerateDynamicStats {
         TimeZone => $Param{TimeZone},
     );
 
-    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+    my $DateTimeObject      = $Kernel::OM->Create('Kernel::System::DateTime');
     my $CheckTimeStopObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {

@@ -324,7 +324,8 @@ $Selenium->RunTest(
 
                     # Wait for autocomplete to load.
                     $Selenium->WaitFor(
-                        JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+                        JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length'
+                    );
                     $Selenium->WaitFor(
                         JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
                     );
