@@ -193,6 +193,11 @@ $Helper->ConfigSettingChange(
     Key   => 'SessionMaxIdleTime',
     Value => 5,
 );
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'SessionModule',
+    Value => 'Kernel::System::AuthSession::DB',
+);
 
 my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
