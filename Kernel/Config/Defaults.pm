@@ -1652,7 +1652,8 @@ Your OTRS Notification Master
         },
     };
     # --------------------------------------------------- #
-    return;
+
+    return 1;
 }
 
 sub Get {
