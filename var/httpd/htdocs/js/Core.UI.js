@@ -355,7 +355,7 @@ Core.UI = (function (TargetNS) {
         $ExistingNotifications = $('.MessageBox').filter(
             function() {
                 var Match = 0;
-                if ($(this).find('a').text().indexOf(Core.Language.Translate(Text)) > 0 && $(this).hasClass(Type)) {
+                if ($(this).find('a').text().indexOf(Text) > 0 && $(this).hasClass(Type)) {
                     Match = 1;
                 }
                 return Match;
@@ -377,7 +377,7 @@ Core.UI = (function (TargetNS) {
                 URL: Link,
                 ID: ID,
                 Icon: Icon,
-                Text: Core.Language.Translate(Text)
+                Text: Text
             })
         );
 
@@ -422,7 +422,7 @@ Core.UI = (function (TargetNS) {
 
         $('.MessageBox').filter(
             function() {
-                if ($(this).find('a').text().indexOf(Core.Language.Translate(Text)) > 0 && $(this).hasClass(Type)) {
+                if ($(this).find('a').text().indexOf(Text) > 0 && $(this).hasClass(Type)) {
                     $(this).slideUp(function() {
                         $(this).remove();
                         if ($.isFunction(Callback)) {

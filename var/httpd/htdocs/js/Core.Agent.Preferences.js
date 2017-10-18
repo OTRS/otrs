@@ -122,7 +122,7 @@ Core.Agent.Preferences = (function (TargetNS) {
 
                             // if settings need a reload, show a notification
                             if (typeof Response.NeedsReload !== 'undefined' && parseInt(Response.NeedsReload, 10) > 0) {
-                                Core.UI.ShowNotification('Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.');
+                                Core.UI.ShowNotification(Core.Language.Translate('Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.'));
                             }
                         }
                     }

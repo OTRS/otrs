@@ -458,7 +458,7 @@ var Core = Core || {};
 
                 if (Response.Data.SettingData.IsDirty) {
                     Core.UI.ShowNotification(
-                        'You have undeployed settings, would you like to deploy them?',
+                        Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                         'Notice',
                         'Action=AdminSystemConfigurationDeployment;Subaction=Deployment',
                         function() {
@@ -468,7 +468,7 @@ var Core = Core || {};
                 }
                 else if (Response.Data.DeploymentNeeded == 0) {
                     Core.UI.HideNotification(
-                        'You have undeployed settings, would you like to deploy them?',
+                        Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                         'Notice',
                         function() {
                             Core.UI.InitStickyElement();
@@ -1054,7 +1054,7 @@ var Core = Core || {};
 
                         // hide the "deployment" notification
                         Core.UI.HideNotification(
-                            'You have undeployed settings, would you like to deploy them?',
+                            Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                             'Notice',
                             function() {
                                 Core.UI.InitStickyElement();
@@ -1063,7 +1063,7 @@ var Core = Core || {};
                     }
                     else {
                         Core.UI.ShowNotification(
-                            'You have undeployed settings, would you like to deploy them?',
+                            Core.Language.Translate('You have undeployed settings, would you like to deploy them?'),
                             'Notice',
                             'Action=AdminSystemConfigurationDeployment;Subaction=Deployment',
                             function() {

@@ -1,4 +1,5 @@
 #6.0.0.beta5 2017-??-??
+ - 2017-10-18 Fixed bug#[13227](https://bugs.otrs.org/show_bug.cgi?id=13227) - Some notifications are untranslatable.
  - 2017-10-17 Fixed bug#[13201](https://bugs.otrs.org/show_bug.cgi?id=13201) - Sanitize output of all translations in templates.
  - 2017-10-17 Fixed bug#[13044](https://bugs.otrs.org/show_bug.cgi?id=13044) - Fatal errors in the frontend if Modules are disabled in System Configuration.
  - 2017-10-16 Fixed bug#[13177](https://bugs.otrs.org/show_bug.cgi?id=13177) - Changing the TimeZone in the AgentPreferences shows an error in the log.

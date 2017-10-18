@@ -571,10 +571,8 @@ sub _ShowOverview {
         # show error notfy, don't work with user id 1
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
-            Data =>
-                Translatable(
-                "Please note that ACL restrictions will be ignored for the Superuser account (UserID 1)."
-                ),
+            Info =>
+                Translatable('Please note that ACL restrictions will be ignored for the Superuser account (UserID 1).'),
         );
     }
 
