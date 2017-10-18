@@ -87,6 +87,8 @@ $Selenium->RunTest(
             "Ticket is created - $TicketID"
         );
 
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#GlobalSearchNav").length' );
+
         # click on search
         $Selenium->find_element( "#GlobalSearchNav", 'css' )->VerifiedClick();
 
