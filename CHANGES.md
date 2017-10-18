@@ -1,4 +1,5 @@
 #6.0.0.beta5 2017-??-??
+ - 2017-10-18 Fixed bug#[13221](https://bugs.otrs.org/show_bug.cgi?id=13221) - Update errors when updating to OTRS 6.
  - 2017-10-18 Fixed bug#[13236](https://bugs.otrs.org/show_bug.cgi?id=13236) - Cannot invoke otrs.SetPermissions.pl without arguments.
  - 2017-10-18 Fixed bug#[13227](https://bugs.otrs.org/show_bug.cgi?id=13227) - Some notifications are untranslatable.
  - 2017-10-17 Fixed bug#[13201](https://bugs.otrs.org/show_bug.cgi?id=13201) - Sanitize output of all translations in templates.

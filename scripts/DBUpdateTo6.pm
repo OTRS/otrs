@@ -198,8 +198,12 @@ sub _TasksGet {
             Module  => 'PerlVersionCheck',
         },
         {
-            Message => 'Check required database version.',
+            Message => 'Check required database version',
             Module  => 'DatabaseVersionCheck',
+        },
+        {
+            Message => 'Check database charset',
+            Module  => 'DatabaseCharsetCheck',
         },
         {
             Message => 'Check required Perl modules',

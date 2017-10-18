@@ -1,0 +1,132 @@
+# --
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+package scripts::DBUpdateTo6::DatabaseCharsetCheck;    ## no critic
+
+use strict;
+use warnings;
+
+use parent qw(scripts::DBUpdateTo6::Base);
+
+use version;
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::DB',
+);
+
+=head1 NAME
+
+scripts::DBUpdateTo6::DatabaseCharsetCheck - Checks if MySQL database is using correct charset.
+
+=cut
+
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    return 1;
+}
+
+=head2 CheckPreviousRequirement()
+
+Check for initial conditions for running this migration step.
+
+Returns 1 on success:
+
+    my $Result = $DBUpdateObject->CheckPreviousRequirement();
+
+=cut
+
+sub CheckPreviousRequirement {
+    my ( $Self, %Param ) = @_;
+
+    my $Verbose = $Param{CommandlineOptions}->{Verbose} || 0;
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # This check makes sense only for MySQL, so skip it in case of other backends.
+    if ( $DBObject->GetDatabaseFunction('Type') ne 'mysql' ) {
+        if ($Verbose) {
+            print "    Database backend is not MySQL, skipping...\n";
+        }
+        return 1;
+    }
+
+    my $ClientIsUTF8       = 0;
+    my $ClientCharacterSet = "";
+
+    # Check client character set.
+    $DBObject->Prepare( SQL => "show variables like 'character_set_client'" );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $ClientCharacterSet = $Row[1];
+        if ( $ClientCharacterSet =~ /utf8/i ) {
+            $ClientIsUTF8 = 1;
+        }
+    }
+
+    if ( !$ClientIsUTF8 ) {
+        print "    Error: Setting character_set_client needs to be utf8.\n";
+        return;
+    }
+    elsif ($Verbose) {
+        print "    Setting character_set_client is: $ClientCharacterSet. ";
+    }
+
+    my $DatabaseIsUTF8       = 0;
+    my $DatabaseCharacterSet = "";
+
+    # Check database character set.
+    $DBObject->Prepare( SQL => "show variables like 'character_set_database'" );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $DatabaseCharacterSet = $Row[1];
+        if ( $DatabaseCharacterSet =~ /utf8/i ) {
+            $DatabaseIsUTF8 = 1;
+        }
+    }
+
+    if ( !$DatabaseIsUTF8 ) {
+        print "\n    Error: Setting character_set_database needs to be UNICODE or UTF8.\n";
+        return;
+    }
+    elsif ($Verbose) {
+        print "Setting character_set_database is: $DatabaseCharacterSet. ";
+    }
+
+    my @TablesWithInvalidCharset;
+
+    # Check for tables with invalid character set. Views have engine == null, ignore those.
+    $DBObject->Prepare( SQL => 'show table status where engine is not null' );
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        if ( $Row[14] !~ /^utf8/i ) {
+            push @TablesWithInvalidCharset, $Row[0];
+        }
+    }
+
+    if (@TablesWithInvalidCharset) {
+        print "\n    Error: There were tables found which do not have utf8 as charset.\n";
+        print "    " . join( ', ', @TablesWithInvalidCharset ) . "\n";
+        return;
+    }
+    elsif ($Verbose) {
+        print "No tables found with invalid charset.\n";
+    }
+
+    return 1;
+}
+
+1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (L<http://otrs.org/>).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=cut
