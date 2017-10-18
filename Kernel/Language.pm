@@ -228,7 +228,7 @@ sub Translate {
 
     for ( 0 .. $#Parameters ) {
         return $Text if !defined $Parameters[$_];
-        $Text =~ s/%s/$Parameters[$_]/;
+        $Text =~ s/\%(s|d)/$Parameters[$_]/;
     }
 
     return $Text;
