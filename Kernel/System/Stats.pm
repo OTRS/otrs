@@ -3396,8 +3396,12 @@ sub _GenerateDynamicStats {
     );
 
     my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-
-    my $CheckTimeStopObject = $DateTimeObject->Clone()->Set( String => $CheckTimeStop );
+    my $CheckTimeStopObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $CheckTimeStop,
+        },
+    );
 
     if ( $CheckTimeStopObject > $DateTimeObject ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

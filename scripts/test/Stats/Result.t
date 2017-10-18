@@ -12,8 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Language qw(Translatable);
-
 use Kernel::System::VariableCheck qw(:all);
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -358,6 +356,10 @@ my %StateList = $Kernel::OM->Get('Kernel::System::State')->StateList(
 my %LookupStateList = map { $StateList{$_} => $_ } sort keys %StateList;
 
 # set the language to 'en' before the StatsRun
+$Kernel::OM->ObjectsDiscard(
+    Objects => [ 'Kernel::Language' ],
+);
+
 $Kernel::OM->ObjectParamAdd(
     'Kernel::Language' => {
         UserLanguage => 'en',
@@ -3874,13 +3876,20 @@ for my $Test (@Tests) {
     if ( $Test->{Language} ) {
 
         $Kernel::OM->ObjectsDiscard(
-            Objects => ['Kernel::Language'],
+            Objects => [ 'Kernel::Language' ],
         );
 
         $Kernel::OM->ObjectParamAdd(
             'Kernel::Language' => {
                 UserLanguage => $Test->{Language},
             },
+        );
+
+        my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
+
+        $Self->True(
+            1,
+            "Test $TestCount: Set the language to '$Test->{Language}'.",
         );
     }
 
