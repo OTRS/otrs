@@ -1708,7 +1708,7 @@ via the Preferences button after logging in.
         },
     };
 
-    return;
+    return 1;
 }
 
 sub Get {
