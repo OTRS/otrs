@@ -131,7 +131,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Email</SubGroup>
         <Setting>
-            <String Regex="">admin@example.com</String>
+            <String Regex="">support@&lt;OTRS_CONFIG_FQDN&gt;</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">

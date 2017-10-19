@@ -96,7 +96,7 @@ sub LoadDefaults {
 
     # AdminEmail
     # (Email of the system admin.)
-    $Self->{AdminEmail} = 'admin@example.com';
+    $Self->{AdminEmail} = 'support@<OTRS_CONFIG_FQDN>';
 
     # Organization
     # (If this is anything other than '', then the email will have an

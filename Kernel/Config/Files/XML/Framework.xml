@@ -102,7 +102,7 @@
         <Description Translatable="1">Defines the system administrator's email address. It will be displayed in the error screens of the application.</Description>
         <Navigation>Core::Email</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">admin@example.com</Item>
+            <Item ValueType="String" ValueRegex="">support@&lt;OTRS_CONFIG_FQDN&gt;</Item>
         </Value>
     </Setting>
     <Setting Name="Organization" Required="1" Valid="1">
