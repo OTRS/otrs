@@ -331,6 +331,12 @@ $Selenium->RunTest(
             $Success,
             "Ticket ID $TicketID is deleted"
         );
+
+        # Make sure the cache is correct.
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        for my $Cache (qw(Ticket Article)) {
+            $CacheObject->CleanUp( Type => $Cache );
+        }
     }
 );
 
