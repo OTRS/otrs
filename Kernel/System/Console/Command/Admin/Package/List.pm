@@ -9,6 +9,7 @@
 package Kernel::System::Console::Command::Admin::Package::List;
 
 use strict;
+use utf8;
 use warnings;
 
 use base qw(Kernel::System::Console::BaseCommand);
