@@ -12,13 +12,11 @@ use utf8;
 
 use vars (qw($Self));
 
-# Get selenium object.
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # Get helper object.
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Hide Fred.
@@ -56,7 +54,6 @@ $Selenium->RunTest(
             Value => 1
         );
 
-        # Get ticket object.
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Create test ticket.
@@ -90,9 +87,8 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # Get script alias.
-        my $ScriptAlias  = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $ScriptAlias  = $ConfigObject->Get('ScriptAlias');
 
         # Navigate to zoom view of created test ticket.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
@@ -126,6 +122,7 @@ $Selenium->RunTest(
                     },
                 },
             },
+
             {
                 Module => 'Note',
                 Fields => {
@@ -306,6 +303,11 @@ $Selenium->RunTest(
             for my $Field ( sort keys %{ $Test->{Fields} } ) {
 
                 if ( $Test->{Fields}->{$Field}->{Type} eq 'DropDown' ) {
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('#$Test->{Fields}->{$Field}->{ID}').length"
+                    );
+
                     $Selenium->execute_script(
                         "\$('#$Test->{Fields}->{$Field}->{ID}').val('$Test->{Fields}->{$Field}->{Value}').trigger('redraw.InputField').trigger('change');"
                     );
@@ -320,6 +322,11 @@ $Selenium->RunTest(
                     # upload a file
                     $Selenium->find_element( "#FileUpload", 'css' )
                         ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.pdf" );
+
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.pdf)').length === 1"
+                    );
 
                     # Check if uploaded.
                     $Self->Is(
@@ -347,6 +354,11 @@ $Selenium->RunTest(
                     );
                 }
                 else {
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('#$Test->{Fields}->{$Field}->{ID}').length"
+                    );
+
                     $Selenium->find_element( "#$Test->{Fields}->{$Field}->{ID}", 'css' )->clear();
                     $Selenium->find_element( "#$Test->{Fields}->{$Field}->{ID}", 'css' )
                         ->send_keys( $Test->{Fields}->{$Field}->{Value} );
@@ -354,10 +366,10 @@ $Selenium->RunTest(
             }
 
             # Create Draft and submit.
-            $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#FormDraftSave", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("#FormDraftTitle").length;'
+                    'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
             );
             $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
             $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -375,7 +387,6 @@ $Selenium->RunTest(
                 "Draft for $Test->{Module} $Title is found",
             );
 
-            # Get article object.
             my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
             my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
 
@@ -436,14 +447,22 @@ $Selenium->RunTest(
             for my $FieldValue ( sort keys %{ $Test->{Fields} } ) {
 
                 if ( $Test->{Fields}->{$FieldValue}->{Type} eq 'DropDown' ) {
+                    my $ID    = $Test->{Fields}->{$FieldValue}->{ID};
+                    my $Value = $Test->{Fields}->{$FieldValue}->{Value};
+
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value'"
+                    );
+
                     $Self->Is(
-                        $Selenium->execute_script("return \$('#$Test->{Fields}->{$FieldValue}->{ID}').val()"),
-                        $Test->{Fields}->{$FieldValue}->{Value},
-                        "Initial Draft value for $Test->{Module} field $FieldValue is correct"
+                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $Value,
+                        "Initial Draft value for $Test->{Module} field $FieldValue is correct - $Value"
                     );
 
                     $Selenium->execute_script(
-                        "\$('#$Test->{Fields}->{$FieldValue}->{ID}').val('$Test->{Fields}->{$FieldValue}->{Update}').trigger('redraw.InputField').trigger('change');"
+                        "\$('#$ID').val('$Test->{Fields}->{$FieldValue}->{Update}').trigger('redraw.InputField').trigger('change');"
                     );
                 }
                 elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
@@ -472,6 +491,11 @@ $Selenium->RunTest(
                     # upload a file
                     $Selenium->find_element( "#FileUpload", 'css' )
                         ->send_keys( $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.doc" );
+
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.doc)').length === 1"
+                    );
 
                     # Check if uploaded.
                     $Self->Is(
@@ -505,23 +529,30 @@ $Selenium->RunTest(
                     );
                 }
                 else {
-                    $Self->Is(
-                        $Selenium->find_element( "#$Test->{Fields}->{$FieldValue}->{ID}", 'css' )->get_value(),
-                        $Test->{Fields}->{$FieldValue}->{Value},
-                        "Initial Draft value for $Test->{Module} field $FieldValue is correct"
+                    my $ID    = $Test->{Fields}->{$FieldValue}->{ID};
+                    my $Value = $Test->{Fields}->{$FieldValue}->{Value};
+
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$Value'"
                     );
 
-                    $Selenium->find_element( "#$Test->{Fields}->{$FieldValue}->{ID}", 'css' )->clear();
-                    $Selenium->find_element( "#$Test->{Fields}->{$FieldValue}->{ID}", 'css' )
-                        ->send_keys( $Test->{Fields}->{$FieldValue}->{Update} );
+                    $Self->Is(
+                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $Value,
+                        "Initial Draft value for $Test->{Module} field $FieldValue is correct - $Value"
+                    );
+
+                    $Selenium->find_element( "#$ID", 'css' )->clear();
+                    $Selenium->find_element( "#$ID", 'css' )->send_keys( $Test->{Fields}->{$FieldValue}->{Update} );
                 }
             }
 
             # Try to add draft with same name.
-            $Selenium->find_element( "#FormDraftSave", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#FormDraftSave", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("#FormDraftTitle").length;'
+                    'return typeof($) === "function" && $("#FormDraftTitle").length && $("#SaveFormDraft").length;'
             );
             $Selenium->find_element( "#FormDraftTitle", 'css' )->send_keys($Title);
             $Selenium->find_element( "#SaveFormDraft",  'css' )->click();
@@ -537,7 +568,10 @@ $Selenium->RunTest(
 
             # Accept the alert to continue with the tests.
             $Selenium->accept_alert();
-            $Selenium->find_element( ".CloseDialog",     'css' )->VerifiedClick();
+
+            $Selenium->find_element( ".CloseDialog", 'css' )->click();
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
+
             $Selenium->find_element( "#FormDraftUpdate", 'css' )->click();
 
             # Switch back window.
@@ -572,13 +606,26 @@ $Selenium->RunTest(
             for my $FieldValue ( sort keys %{ $Test->{Fields} } ) {
 
                 if ( $Test->{Fields}->{$FieldValue}->{Type} eq 'DropDown' ) {
+                    my $ID           = $Test->{Fields}->{$FieldValue}->{ID};
+                    my $UpdatedValue = $Test->{Fields}->{$FieldValue}->{Update};
+
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue'"
+                    );
+
                     $Self->Is(
-                        $Selenium->execute_script("return \$('#$Test->{Fields}->{$FieldValue}->{ID}').val()"),
-                        $Test->{Fields}->{$FieldValue}->{Update},
-                        "Updated Draft value for $Test->{Module} field $FieldValue is correct"
+                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $UpdatedValue,
+                        "Updated Draft value for $Test->{Module} field $FieldValue is correct - $UpdatedValue"
                     );
                 }
                 elsif ( $Test->{Fields}->{$FieldValue}->{Type} eq 'Attachment' ) {
+
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('.AttachmentList tbody tr td.Filename').length === 2"
+                    );
 
                     # there should be two files now
                     $Self->Is(
@@ -604,10 +651,18 @@ $Selenium->RunTest(
                     );
                 }
                 else {
+                    my $ID           = $Test->{Fields}->{$FieldValue}->{ID};
+                    my $UpdatedValue = $Test->{Fields}->{$FieldValue}->{Update};
+
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue'"
+                    );
+
                     $Self->Is(
-                        $Selenium->find_element( "#$Test->{Fields}->{$FieldValue}->{ID}", 'css' )->get_value(),
-                        $Test->{Fields}->{$FieldValue}->{Update},
-                        "Updated Draft value for $Test->{Module} field $FieldValue is correct"
+                        $Selenium->execute_script("return \$('#$ID').val()"),
+                        $UpdatedValue,
+                        "Updated Draft value for $Test->{Module} field $FieldValue is correct - $UpdatedValue"
                     );
                 }
             }
@@ -619,16 +674,16 @@ $Selenium->RunTest(
             $Selenium->switch_to_window( $Handles->[0] );
 
             # Delete draft
-            $Selenium->find_element( ".FormDraftDelete", 'css' )->VerifiedClick();
+            $Selenium->find_element( ".FormDraftDelete", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
                     'return typeof($) === "function" && $("#DeleteConfirm").length;'
             );
-            $Selenium->find_element( "#DeleteConfirm", 'css' )->VerifiedClick();
+            $Selenium->find_element( "#DeleteConfirm", 'css' )->click();
 
             my $Deleted = $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $(".FormDraftDelete").length==0;'
+                    'return typeof($) === "function" && $(".FormDraftDelete").length == 0;'
             );
 
             $Self->True(
@@ -655,6 +710,12 @@ $Selenium->RunTest(
             $Success,
             "Ticket ID $TicketID is deleted"
         );
+
+        # Make sure the cache is correct.
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        for my $Cache (qw(Ticket Article)) {
+            $CacheObject->CleanUp( Type => $Cache );
+        }
     }
 
 );
