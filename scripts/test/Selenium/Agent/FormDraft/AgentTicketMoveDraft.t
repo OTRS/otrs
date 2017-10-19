@@ -247,14 +247,18 @@ $Selenium->RunTest(
 
         # Verify FormDraft values.
         for my $FieldValue ( sort keys %{ $FormDraftCase->{Fields} } ) {
+
+            my $ID    = $FormDraftCase->{Fields}->{$FieldValue}->{ID};
+            my $Value = $FormDraftCase->{Fields}->{$FieldValue}->{Value};
+
             $Self->Is(
-                $Selenium->execute_script("return \$('#$FormDraftCase->{Fields}->{$FieldValue}->{ID}').val()"),
-                $FormDraftCase->{Fields}->{$FieldValue}->{Value},
-                "Initial FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct"
+                $Selenium->execute_script("return \$('#$ID').val()"),
+                $Value,
+                "Initial FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct - $Value"
             );
 
             $Selenium->execute_script(
-                "\$('#$FormDraftCase->{Fields}->{$FieldValue}->{ID}').val('$FormDraftCase->{Fields}->{$FieldValue}->{Update}').trigger('redraw.InputField').trigger('change');"
+                "\$('#$ID').val('$FormDraftCase->{Fields}->{$FieldValue}->{Update}').trigger('redraw.InputField').trigger('change');"
             );
         }
 
@@ -279,16 +283,19 @@ $Selenium->RunTest(
         # Verify updated FormDraft values.
         for my $FieldValue ( sort keys %{ $FormDraftCase->{Fields} } ) {
 
+            my $ID           = $FormDraftCase->{Fields}->{$FieldValue}->{ID};
+            my $UpdatedValue = $FormDraftCase->{Fields}->{$FieldValue}->{Update};
+
             # Wait until input field has loaded, if necessary.
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$(\'#$FormDraftCase->{Fields}->{$FieldValue}->{ID}\').length && \$(\'#$FormDraftCase->{Fields}->{$FieldValue}->{ID}\').val() == $FormDraftCase->{Fields}->{$FieldValue}->{Update};"
+                    "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue'"
             );
 
             $Self->Is(
-                $Selenium->execute_script("return \$('#$FormDraftCase->{Fields}->{$FieldValue}->{ID}').val()"),
-                $FormDraftCase->{Fields}->{$FieldValue}->{Update},
-                "Updated FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct"
+                $Selenium->execute_script("return \$('#$ID').val()"),
+                $UpdatedValue,
+                "Updated FormDraft value for $FormDraftCase->{Module} field $FieldValue is correct - $UpdatedValue"
             );
         }
 
