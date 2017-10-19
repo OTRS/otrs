@@ -112,6 +112,7 @@ my $TestSearch = sub {
         {
             Name     => 'Communication log lookup search by TargetObjectType',
             SearchBy => {
+                CommunicationID  => $CommunicationLogObject->CommunicationIDGet(),
                 TargetObjectType => 'Test',
             },
             Expected => [ sort { $a->{TargetObjectID} <=> $b->{TargetObjectID} } values %ComLogLookupInfo ],
@@ -119,20 +120,23 @@ my $TestSearch = sub {
         {
             Name     => 'Communication log lookup search by TargetObjectID',
             SearchBy => {
-                TargetObjectID => $ComLogLookupInfo{2}->{TargetObjectID},
+                CommunicationID => $CommunicationLogObject->CommunicationIDGet(),
+                TargetObjectID  => $ComLogLookupInfo{2}->{TargetObjectID},
             },
             Expected => [ $ComLogLookupInfo{2} ],
         },
         {
             Name     => 'Communication log lookup search by ObjectLogType',
             SearchBy => {
-                ObjectLogType => 'Message',
+                CommunicationID => $CommunicationLogObject->CommunicationIDGet(),
+                ObjectLogType   => 'Message',
             },
             Expected => [ sort { $a->{TargetObjectID} <=> $b->{TargetObjectID} } values %ComLogLookupInfo ],
         },
         {
             Name     => 'Communication log lookup search by TargetObjectType and TargtObjectID',
             SearchBy => {
+                CommunicationID  => $CommunicationLogObject->CommunicationIDGet(),
                 TargetObjectType => $ComLogLookupInfo{3}->{TargetObjectType},
                 TargetObjectID   => $ComLogLookupInfo{3}->{TargetObjectID},
             },
