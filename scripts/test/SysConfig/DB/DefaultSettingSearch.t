@@ -310,7 +310,7 @@ my @Tests = (
         Success                => 1,
     },
     {
-        Name   => 'Search XXMLContent AdminEmail in Framework.xml ',
+        Name   => 'Search XMLContent AdminEmail in Framework.xml ',
         Config => {
             Search        => "AdminEmail",
             SearchType    => 'XMLContent',
@@ -320,7 +320,7 @@ my @Tests = (
         Success                => 1,
     },
     {
-        Name   => 'Search XXMLContent Ticket::Hook in Ticket.xml ',
+        Name   => 'Search XMLContent Ticket::Hook in Ticket.xml ',
         Config => {
             Search        => "Ticket::Hook",
             SearchType    => 'XMLContent',
@@ -330,7 +330,7 @@ my @Tests = (
         Success                => 1,
     },
     {
-        Name   => 'Search XXMLContent Ticket::Hook in Framework.xml ',
+        Name   => 'Search XMLContent Ticket::Hook in Framework.xml ',
         Config => {
             Search        => "Ticket::Hook",
             SearchType    => 'XMLContent',
