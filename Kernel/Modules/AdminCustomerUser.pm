@@ -375,7 +375,12 @@ sub Run {
                     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
 
                     if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-                        $Note .= $LayoutObject->Notify( Info => "DynamicField $Entry->[2] not found!" );
+                        $Note .= $LayoutObject->Notify(
+                            Info => $LayoutObject->{LanguageObject}->Translate(
+                                'Dynamic field %s not found!',
+                                $Entry->[2],
+                            ),
+                        );
                         next ENTRY;
                     }
 
@@ -388,7 +393,10 @@ sub Run {
 
                     if ( !$ValueSet ) {
                         $Note .= $LayoutObject->Notify(
-                            Info => "Unable to set value for dynamic field $Entry->[2]!"
+                            Info => $LayoutObject->{LanguageObject}->Translate(
+                                'Unable to set value for dynamic field %s!',
+                                $Entry->[2],
+                            ),
                         );
                         next ENTRY;
                     }
@@ -620,7 +628,12 @@ sub Run {
                     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };
 
                     if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-                        $Note .= $LayoutObject->Notify( Info => "DynamicField $Entry->[2] not found!" );
+                        $Note .= $LayoutObject->Notify(
+                            Info => $LayoutObject->{LanguageObject}->Translate(
+                                'Dynamic field %s not found!',
+                                $Entry->[2],
+                            ),
+                        );
                         next ENTRY;
                     }
 
@@ -632,7 +645,12 @@ sub Run {
                     );
 
                     if ( !$ValueSet ) {
-                        $Note .= $LayoutObject->Notify( Info => "Unable to set value for dynamic field $Entry->[2]!" );
+                        $Note .= $LayoutObject->Notify(
+                            Info => $LayoutObject->{LanguageObject}->Translate(
+                                'Unable to set value for dynamic field %s!',
+                                $Entry->[2],
+                            ),
+                        );
                         next ENTRY;
                     }
                 }

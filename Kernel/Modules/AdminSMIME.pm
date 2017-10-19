@@ -65,7 +65,7 @@ sub Run {
 
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
-            Data     => Translatable("S/MIME environment is not working. Please check log for more info!"),
+            Info     => Translatable("S/MIME environment is not working. Please check log for more info!"),
             Link     => $LayoutObject->{Baselink} . 'Action=AdminLog',
         );
 
@@ -796,7 +796,7 @@ sub _SignerCertificateOverview {
         TemplateFile => 'AdminSMIME',
         Data         => {
             %Param,
-            Subtitle => 'Handle Private Certificate Relations',
+            Subtitle => Translatable('Handle Private Certificate Relations'),
         },
     );
     $Output .= $LayoutObject->Footer();

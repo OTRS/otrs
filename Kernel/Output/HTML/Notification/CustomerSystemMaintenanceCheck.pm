@@ -13,6 +13,8 @@ use parent 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::SystemMaintenance',
@@ -40,7 +42,7 @@ sub Run {
         my $NotifyMessage =
             $SystemMaintenanceData->{NotifyMessage}
             || $Kernel::OM->Get('Kernel::Config')->Get('SystemMaintenance::IsActiveDefaultNotification')
-            || "System maintenance is active!";
+            || Translatable('System maintenance is active!');
 
         return $LayoutObject->Notify(
             Priority => 'Notice',

@@ -317,7 +317,7 @@ sub Run {
             if ( $UpdatedSetting{IsDirty} ) {
                 my $DeploySuccess = $SysConfigObject->UserConfigurationDeploy(
                     TargetUserID => $Self->{CurrentUserID},
-                    Comments     => "Updated user preferences",
+                    Comments     => Translatable('Updated user preferences'),
                 );
 
                 if ( !$DeploySuccess ) {
@@ -375,7 +375,7 @@ sub Run {
         );
 
         if ( !%Setting ) {
-            $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate("Setting not found!");
+            $Result{Error} = $LayoutObject->{LanguageObject}->Translate("Setting not found!");
         }
         elsif ( !$SysConfigObject->can('UserSettingValueDelete') ) {    # OTRS Business Solution™
             $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
@@ -411,7 +411,7 @@ sub Run {
                 $Result{Data}->{SettingData}->{IsLockedByMe} = 1;
             }
             else {
-                $Result{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                $Result{Error} = $LayoutObject->{LanguageObject}->Translate(
                     "System was unable to reset the setting!",
                 );
             }

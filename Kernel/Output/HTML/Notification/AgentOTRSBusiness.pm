@@ -14,6 +14,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Kernel::Language qw(Translatable);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
@@ -98,9 +100,11 @@ if (!window.location.search.match(/^[?]Action=(AgentOTRSBusiness|Admin.*)/)) {
         $Output .= $LayoutObject->Notify(
             Info => $OTRSBusinessObject->OTRSSTORMIsInstalled()
             ?
-                "Please verify your license data!"
+                Translatable('Please verify your license data!')
             :
-                "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.",
+                Translatable(
+                'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.'
+                ),
             Priority => 'Error',
         );
     }

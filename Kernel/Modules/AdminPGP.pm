@@ -64,7 +64,7 @@ sub Run {
 
         $Output .= $LayoutObject->Notify(
             Priority => 'Error',
-            Data     => Translatable("PGP environment is not working. Please check log for more info!"),
+            Info     => Translatable('PGP environment is not working. Please check log for more info!'),
             Link     => $LayoutObject->{Baselink} . 'Action=AdminLog',
         );
 
