@@ -147,118 +147,45 @@ $Selenium->RunTest(
                         'return typeof($) === "function" && $("#' . $Test->{FieldID} . '").length'
                 );
 
-                # Choose customer user and wait until customer history table appears.
                 $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->clear();
                 $Selenium->find_element( "#" . $Test->{FieldID}, 'css' )->send_keys($CustomerUserLogin);
                 $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length'
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('li.ui-menu-item:contains($CustomerUserLogin):visible').length"
                 );
                 $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUserLogin)').click()");
             }
 
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("a[name=OverviewControl][href*=\'View=Preview\']:visible").length && $(".Large").length === 1'
+                    'return typeof($) === "function" && $("a.Large").length'
             );
 
             # Go to 'Large' view because all of events could be checked there.
             $Selenium->find_element( ".Large", 'css' )->click();
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof($) === "function" && $("#TicketOverviewLarge > li").length === 3 && $("#SortBy").length'
-                    .
-                    ' && $("#SortBy option[value=\'Title|Up\']").length' .
-                    ' && $("#SortBy option[value=\'Title|Down\']").length'
+                    'return typeof($) === "function" && $("#TicketOverviewLarge > li").length === 3'
             );
             sleep 2;
 
-            # Set sorting by title - Up.
-            $Selenium->execute_script("\$('#SortBy').val('Title|Up').trigger('change');");
-
-            # Wait until sorting in the table is finished.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function'" .
-                    " && \$('#TicketOverviewLarge > li:eq(0)').attr('id') === 'TicketID_$Tickets[0]->{TicketID}'" .
-                    " && \$('#TicketOverviewLarge > li:eq(1)').attr('id') === 'TicketID_$Tickets[1]->{TicketID}'" .
-                    " && \$('#TicketOverviewLarge > li:eq(2)').attr('id') === 'TicketID_$Tickets[2]->{TicketID}'"
-            );
-
-            my $Count = 0;
             for my $Ticket (@Tickets) {
                 my $TicketID = $Ticket->{TicketID};
-                my $Row      = $Count + 1;
-                $Self->Is(
-                    $Selenium->execute_script("return \$('#TicketOverviewLarge > li:eq($Count)').attr('id');"),
-                    "TicketID_$TicketID",
-                    "$Test->{Screen} - TicketID $TicketID is found in row $Row",
-                );
-                $Count++;
-            }
-
-            # Check sorting by title - Down and Reply action.
-            $Selenium->execute_script("\$('#SortBy').val('Title|Down').trigger('change');");
-
-            # Wait until sorting in the table is finished.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function'" .
-                    " && \$('#TicketOverviewLarge > li:eq(0)').attr('id') === 'TicketID_$Tickets[2]->{TicketID}'" .
-                    " && \$('#TicketOverviewLarge > li:eq(1)').attr('id') === 'TicketID_$Tickets[1]->{TicketID}'" .
-                    " && \$('#TicketOverviewLarge > li:eq(2)').attr('id') === 'TicketID_$Tickets[0]->{TicketID}'"
-            );
-
-            $Count = scalar @Tickets - 1;
-            for my $Ticket (@Tickets) {
-                my $TicketID  = $Ticket->{TicketID};
-                my $ArticleID = $Ticket->{ArticleID};
-                my $Row       = $Count + 1;
-
-                $Self->Is(
-                    $Selenium->execute_script("return \$('#TicketOverviewLarge > li:eq($Count)').attr('id');"),
-                    "TicketID_$TicketID",
-                    "$Test->{Screen} - TicketID $TicketID is found in row $Row",
-                );
-                $Count--;
-
-                # Reply action.
-                $Selenium->execute_script(
-                    "\$('#ResponseID$ArticleID').val('1').trigger('redraw.InputField').trigger('change');"
-                );
-
-                # Switch to compose window.
-                $Selenium->WaitFor( WindowCount => 2 );
-                my $Handles = $Selenium->get_window_handles();
-                $Selenium->switch_to_window( $Handles->[1] );
-
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        "return typeof(\$) === 'function' && \$('h1:contains(\"$Ticket->{Title}\")').length"
-                );
-
                 $Self->True(
-                    $Selenium->execute_script("return \$('h1:contains(\"$Ticket->{Title}\")').length;"),
-                    "$Test->{Screen} - Ticket title is correct - $Ticket->{Title}",
+                    $Selenium->execute_script(
+                        "return \$('#TicketOverviewLarge > li[id=\"TicketID_$TicketID\"]').length === 1"
+                    ),
+                    "$Test->{Screen} - TicketID $TicketID is found in the table",
                 );
-
-                # Close popup.
-                $Selenium->close();
-                $Selenium->WaitFor( WindowCount => 1 );
-                $Selenium->switch_to_window( $Handles->[0] );
             }
-
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('li#TicketID_$Tickets[0]->{TicketID}.MasterAction').length;"
-            );
 
             # Check master action link.
-            $Selenium->execute_script("\$('li#TicketID_$Tickets[0]->{TicketID}.MasterAction').click();");
-
-            # Wait until AgentTicketZoom screen is loaded.
+            $Selenium->execute_script(
+                "\$('.MasterAction[id=TicketID_$Tickets[0]->{TicketID}]').trigger('click');"
+            );
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#nav-Back').length;"
+                    'return typeof($) === "function" && $(".Cluster").length'
             );
 
             $Self->True(
