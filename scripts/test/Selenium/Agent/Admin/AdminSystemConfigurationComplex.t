@@ -1414,10 +1414,14 @@ $Selenium->RunTest(
                     );
 
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
-                    $Selenium->find_element( "$Prefix $Value", "css" )->VerifiedClick();
+                    $Selenium->find_element( "$Prefix $Value", "css" )->click();
+
+                    $Selenium->WaitFor(
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                    );
 
                     # TODO: Review - VerifiedClick doesn't work with overlay loader
                 }
@@ -1437,7 +1441,7 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . "$Prefix $Value" . ':visible").length',
                     );
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
                 }
                 elsif ( $CommandType eq 'Alert' ) {
@@ -1476,7 +1480,7 @@ $Selenium->RunTest(
                 elsif ( $CommandType eq 'Select' ) {
 
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
                     $Selenium->WaitFor(
@@ -1490,12 +1494,13 @@ $Selenium->RunTest(
                     # wait for any tasks to complete
 
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
                     $Selenium->execute_script(
                         $Command->{JS},
                     );
+                    sleep 1;
                 }
             }
 
