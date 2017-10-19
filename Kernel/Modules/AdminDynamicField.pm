@@ -189,13 +189,6 @@ sub _ShowOverview {
 
         my @FieldList = map { { Key => $_, Value => $FieldTypes{$_} } } sort keys %FieldTypes;
 
-        for my $Field (@FieldList) {
-
-            if ( !$ConfigObject->Get("Frontend::Module")->{ $FieldDialogs{ $Field->{Key} } } ) {
-                $Field->{Disabled} = 1;
-            }
-        }
-
         # Add disabled teaser options for OTRSBusiness dynamic fields.
         if ( !$OTRSBusinessIsInstalled ) {
             push @FieldList, {

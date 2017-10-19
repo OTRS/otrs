@@ -16,10 +16,9 @@ use warnings;
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::Output::HTML::Layout',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
+    'Kernel::Output::HTML::Layout',
 );
 
 sub Run {
@@ -35,8 +34,6 @@ sub Run {
             return;
         }
     }
-
-    return if !$Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{AgentTicketLockedView};
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');

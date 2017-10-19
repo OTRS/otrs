@@ -43,8 +43,6 @@ sub Run {
         }
     }
 
-    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketWatchView};
-
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 

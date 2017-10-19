@@ -17,18 +17,16 @@ use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::Output::HTML::Layout',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
+    'Kernel::Output::HTML::Layout',
 );
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # check responsible feature
-    return if !$ConfigObject->Get('Ticket::Responsible');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Responsible');
 
     # check needed stuff
     for (qw(Config)) {
@@ -40,8 +38,6 @@ sub Run {
             return;
         }
     }
-
-    return if !$ConfigObject->Get('Frontend::Module')->{AgentTicketResponsibleView};
 
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');

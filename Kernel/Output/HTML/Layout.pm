@@ -3030,33 +3030,11 @@ sub NavigationBar {
         Value => $NavbarOrderItems,
     );
 
-    my $FrontendSearch = $ConfigObject->Get('Frontend::Search') || {};
-
     # show search icon if any search router is configured
-    if ( IsHashRefWithData($FrontendSearch) ) {
-
-        KEY:
-        for my $Key ( sort keys %{$FrontendSearch} ) {
-            next KEY if !IsHashRefWithData( $FrontendSearch->{$Key} );
-
-            my $Regex = ( keys %{ $FrontendSearch->{$Key} } )[0];
-            next KEY if !$Regex;
-
-            # Check if regex matches current action.
-            if ( $Self->{Action} =~ m{$Regex} ) {
-
-                # Extract Action from the configuration.
-                my ($Action) = $FrontendSearch->{$Key}->{$Regex} =~ m{Action=(.*?)(;.*)?$};
-
-                # Do not show Search icon if action is not registered.
-                next KEY if !$Config->{$Action};
-
-                $Self->Block(
-                    Name => 'SearchIcon',
-                );
-                last KEY;
-            }
-        }
+    if ( IsHashRefWithData( $ConfigObject->Get('Frontend::Search') ) ) {
+        $Self->Block(
+            Name => 'SearchIcon',
+        );
     }
 
     # create & return output
