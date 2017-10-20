@@ -13,7 +13,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 my @Tests = (
@@ -3184,7 +3183,6 @@ my @Tests = (
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -3192,7 +3190,7 @@ $Selenium->RunTest(
         my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild');
         my $ExitCode      = $CommandObject->Execute('--cleanup');
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -3231,7 +3229,6 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfiguration");
@@ -3272,12 +3269,14 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . "$Prefix $Value" . '").length',
                     );
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
-                    $Selenium->find_element( "$Prefix $Value", "css" )->VerifiedClick();
+                    $Selenium->find_element( "$Prefix $Value", "css" )->click();
 
-                    # TODO: Review - VerifiedClick doesn't work with overlay loader
+                    $Selenium->WaitFor(
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
+                    );
                 }
                 elsif ( $CommandType eq 'Clear' ) {
                     $SelectedItem->clear();
@@ -3290,7 +3289,7 @@ $Selenium->RunTest(
                         JavaScript => 'return $("' . "$Prefix $Value" . ':visible").length',
                     );
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
                 }
                 elsif ( $CommandType eq 'Alert' ) {
@@ -3298,14 +3297,14 @@ $Selenium->RunTest(
                         AlertPresent => 1,
                     );
 
-                    # verify alert message
+                    # Verify alert message.
                     $Self->Is(
                         $Value,
                         $Selenium->get_alert_text(),
                         "$Test->{Name} - Check alert text - $Value",
                     );
 
-                    # accept alert
+                    # Accept alert.
                     $Selenium->accept_alert();
                 }
                 elsif ( $CommandType eq 'Write' ) {
@@ -3329,7 +3328,7 @@ $Selenium->RunTest(
                 elsif ( $CommandType eq 'Select' ) {
 
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
                     $Selenium->WaitFor(
@@ -3342,16 +3341,17 @@ $Selenium->RunTest(
 
                     # Wait for any tasks to complete.
                     $Selenium->WaitFor(
-                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay")==0',
+                        JavaScript => 'return $("' . $Prefix . '").hasClass("HasOverlay") == 0',
                     );
 
                     $Selenium->execute_script(
                         $Command->{JS},
                     );
+                    sleep 1;
                 }
             }
 
-            # compare results
+            # Compare results.
             my %Setting = $SysConfigObject->SettingGet(
                 Name => $Test->{Name},
             );
@@ -3365,10 +3365,10 @@ $Selenium->RunTest(
             }
         }
 
-        # reload page
+        # Reload page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminSystemConfigurationGroup;RootNavigation=Sample;");
 
-        # check if there is notification
+        # Check if there is notification.
         $Self->True(
             index( $Selenium->get_page_source(), 'You have undeployed settings, would you like to deploy them?' ) > -1,
             "Notification shown for undeployed settings."
@@ -3378,7 +3378,7 @@ $Selenium->RunTest(
             JavaScript => 'return $("#CloudService:visible").length',
         );
 
-        $Selenium->find_element( 'li#CloudService i', 'css' )->VerifiedClick();
+        $Selenium->find_element( 'li#CloudService i', 'css' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return $("#ConfigTree ul > li:first > ul > li:first:visible").length',
         );
@@ -3396,7 +3396,7 @@ $Selenium->RunTest(
         # Enable this block if you want to test it multiple times.
         my @TestNames;
 
-        # Reset settings to Default
+        # Reset settings to Default.
         for my $Test (@Tests) {
             if ( !grep { $_ eq $Test->{Name} } @TestNames ) {
                 my %Setting = $SysConfigObject->SettingGet(
