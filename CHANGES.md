@@ -1,4 +1,5 @@
 #6.0.0.beta5 2017-??-??
+ - 2017-10-20 Fixed bug#[13213](https://bugs.otrs.org/show_bug.cgi?id=13213) - Disabled Customer information widget is broken in agent ticket zoom.
  - 2017-10-20 Fixed bug#[13226](https://bugs.otrs.org/show_bug.cgi?id=13226) - TicketAcceleratorRebuild has mismatch in number of fields vs parameters.
  - 2017-10-20 Fixed bug#[13079](https://bugs.otrs.org/show_bug.cgi?id=13079) - Upgrade fails on foreign key constraints.
  - 2017-10-20 Fixed bug#[13193](https://bugs.otrs.org/show_bug.cgi?id=13193) - Ticket::SearchIndex::FilterStopWords should be optimized.

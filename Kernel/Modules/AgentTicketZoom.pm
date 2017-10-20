@@ -454,9 +454,10 @@ sub Run {
                 AclAction => \%AclAction,
                 Config    => $Config,
             );
+
             return $LayoutObject->Attachment(
                 ContentType => 'text/html',
-                Content     => $WidgetOutput->{Output},
+                Content     => $WidgetOutput->{Output} // ' ',
                 Type        => 'inline',
                 NoCache     => 1,
             );
@@ -1839,27 +1840,6 @@ sub MaskAgentZoom {
                 );
             }
         }
-    }
-
-    # customer info string
-    if ( $ConfigObject->Get('Ticket::Frontend::CustomerInfoZoom') ) {
-
-        # customer info
-        my %CustomerData;
-        if ( $Ticket{CustomerUserID} ) {
-            %CustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                User => $Ticket{CustomerUserID},
-            );
-        }
-        $Param{CustomerTable} = $LayoutObject->AgentCustomerViewTable(
-            Data   => \%CustomerData,
-            Ticket => \%Ticket,
-            Max    => $ConfigObject->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
-        );
-        $LayoutObject->Block(
-            Name => 'CustomerTable',
-            Data => \%Param,
-        );
     }
 
     # article filter is activated in sysconfig

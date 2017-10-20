@@ -326,6 +326,7 @@ ul.Tablelike li.Header + li {
     font-size: 14px;
     color: #777;
     border: 1px dotted #bbb;
+    margin-bottom: 15px;
 }
 
 /**

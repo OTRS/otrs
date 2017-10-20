@@ -18,9 +18,6 @@ our $ObjectManagerDisabled = 1;
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    return if !$ConfigObject->Get('Ticket::Frontend::CustomerInfoZoom');
-
     my %CustomerData;
     if ( $Param{Ticket}->{CustomerUserID} ) {
         %CustomerData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
@@ -31,7 +28,7 @@ sub Run {
     my $CustomerTable = $LayoutObject->AgentCustomerViewTable(
         Data   => \%CustomerData,
         Ticket => $Param{Ticket},
-        Max    => $ConfigObject->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
+        Max    => $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
     );
     my $Output = $LayoutObject->Output(
         TemplateFile => 'AgentTicketZoom/CustomerInformation',

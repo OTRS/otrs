@@ -1760,13 +1760,6 @@
             <Item ValueType="String" ValueRegex="^[0-9]{1,3}$">22</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::CustomerInfoZoom" Required="1" Valid="1">
-        <Description Translatable="1">Shows the customer user's info in the ticket zoom view.</Description>
-        <Navigation>Frontend::Agent</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::Frontend::CustomerInfoZoomMaxSize" Required="1" Valid="1">
         <Description Translatable="1">Maximum size (in characters) of the customer information table in the ticket zoom view.</Description>
         <Navigation>Frontend::Agent</Navigation>

@@ -234,6 +234,10 @@ sub _TasksGet {
             Module  => 'MigrateArticleSearchIndex',
         },
         {
+            Message => 'Migrating ticket zoom customer information widget configuration',
+            Module  => 'MigrateTicketFrontendCustomerInfoZoom',
+        },
+        {
             Message => 'Drop deprecated table gi_object_lock_state',
             Module  => 'DropObjectLockState',
         },

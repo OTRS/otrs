@@ -1937,17 +1937,6 @@
             <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerInfoZoom" Required="1" Valid="1">
-        <Description Translatable="1">Shows the customer user's info in the ticket zoom view.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0" Translatable="1">No</Item>
-                <Item Key="1" Translatable="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoZoomMaxSize" Required="1" Valid="1">
         <Description Translatable="1">Maximum size (in characters) of the customer information table in the ticket zoom view.</Description>
         <Group>Ticket</Group>
