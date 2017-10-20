@@ -27,32 +27,22 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    my $Module = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndexModule');
+    my $ForceUnfilteredStorage = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::ForceUnfilteredStorage');
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    my $ArticleCount;
-    $DBObject->Prepare( SQL => 'SELECT count(*) FROM article' );
-
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $ArticleCount = $Row[0];
-    }
-
-    if ( $ArticleCount > 50_000 && $Module =~ /RuntimeDB/ ) {
+    if ($ForceUnfilteredStorage) {
         $Self->AddResultWarning(
             Label => Translatable('Ticket Search Index Module'),
-            Value => $Module,
+            Value => 'Ticket::SearchIndex::ForceUnfilteredStorage',
             Message =>
                 Translatable(
-                'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.'
+                'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.'
                 ),
         );
     }
     else {
         $Self->AddResultOk(
             Label => Translatable('Ticket Search Index Module'),
-            Value => $Module,
+            Value => 'Ticket::SearchIndex::ForceUnfilteredStorage',
         );
     }
 
