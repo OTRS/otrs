@@ -54,13 +54,27 @@ sub Run {
         # from initial OTRS table; this can happen when MySQL is upgraded from
         # 5.1 > 5.5.
         if ( $DBObject->{'DB::Type'} eq 'mysql' ) {
+
+         # Default storage engine variable has changed its name in MySQL 5.5.3, we need to support both of them for now.
+         #   <= 5.5.2 storage_engine
+         #   >= 5.5.3 default_storage_engine
+            my $StorageEngine;
             $DBObject->Prepare(
                 SQL => "SHOW VARIABLES WHERE variable_name = 'storage_engine'",
             );
-            my $StorageEngine;
             while ( my @Row = $DBObject->FetchrowArray() ) {
                 $StorageEngine = $Row[1];
             }
+
+            if ( !$StorageEngine ) {
+                $DBObject->Prepare(
+                    SQL => "SHOW VARIABLES WHERE variable_name = 'default_storage_engine'",
+                );
+                while ( my @Row = $DBObject->FetchrowArray() ) {
+                    $StorageEngine = $Row[1];
+                }
+            }
+
             $DBObject->Prepare(
                 SQL  => "SHOW TABLE STATUS WHERE engine != ?",
                 Bind => [ \$StorageEngine ],

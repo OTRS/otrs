@@ -1,4 +1,5 @@
 #5.0.24 2017-??-??
+ - 2017-10-20 Fixed bug#[11208](https://bugs.otrs.org/show_bug.cgi?id=11208) - OTRS installer.pl does not allow installing on MyISAM MySQL.
  - 2017-10-17 Fixed bug#[13200](https://bugs.otrs.org/show_bug.cgi?id=13200) - URL is incorrectly quoted in package manager message.
  - 2017-10-16 Fixed bug#[13032](https://bugs.otrs.org/show_bug.cgi?id=13032) - Search window closes on outside click.
  - 2017-10-13 Fixed bug#[13092](https://bugs.otrs.org/show_bug.cgi?id=13092) - ChangeTime of target ticket not updated on ticket merge.
