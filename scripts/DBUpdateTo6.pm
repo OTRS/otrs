@@ -210,6 +210,10 @@ sub _TasksGet {
             Module  => 'PerlModulesCheck',
         },
         {
+            Message => 'Check if database has been backed up',
+            Module  => 'DatabaseBackupCheck',
+        },
+        {
             Message => 'Upgrade database structure',
             Module  => 'UpgradeDatabaseStructure',
         },
