@@ -40,10 +40,10 @@ for my $Module (qw(DB)) {
         Value => 'Kernel::System::Ticket::ArticleSearchIndex::' . $Module,
     );
 
-    # Make sure stop words are filtered on start.
+    # Make sure indexed text is filtered on start.
     $ConfigObject->Set(
-        Key   => 'Ticket::SearchIndex::FilterStopWords',
-        Value => 1,
+        Key   => 'Ticket::SearchIndex::ForceUnfilteredStorage',
+        Value => 0,
     );
 
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -192,10 +192,10 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'TicketSearch() (HASH:MIMEBase_Body)'
     );
 
-    # Turn off filtering of stop words during article search index creation.
+    # Force unfiltered indexing
     $ConfigObject->Set(
-        Key   => 'Ticket::SearchIndex::FilterStopWords',
-        Value => 0,
+        Key   => 'Ticket::SearchIndex::ForceUnfilteredStorage',
+        Value => 1,
     );
 
     # Since article search indexing is now run as an async call, make sure to call the index build method directly.
@@ -218,10 +218,10 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         'TicketSearch() (HASH:MIMEBase_Body)'
     );
 
-    # Turn back on filtering of stop words.
+    # Turn back on filtering of indexed text.
     $ConfigObject->Set(
-        Key   => 'Ticket::SearchIndex::FilterStopWords',
-        Value => 1,
+        Key   => 'Ticket::SearchIndex::ForceUnfilteredStorage',
+        Value => 0,
     );
 
     # use full text search on ticket with Cyrillic characters

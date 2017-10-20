@@ -1,5 +1,6 @@
 #6.0.0.beta5 2017-??-??
  - 2017-10-20 Fixed bug#[13079](https://bugs.otrs.org/show_bug.cgi?id=13079) - Upgrade fails on foreign key constraints.
+ - 2017-10-20 Fixed bug#[13193](https://bugs.otrs.org/show_bug.cgi?id=13193) - Ticket::SearchIndex::FilterStopWords should be optimized.
  - 2017-10-18 Fixed bug#[13221](https://bugs.otrs.org/show_bug.cgi?id=13221) - Update errors when updating to OTRS 6.
  - 2017-10-18 Fixed bug#[13236](https://bugs.otrs.org/show_bug.cgi?id=13236) - Cannot invoke otrs.SetPermissions.pl without arguments.
  - 2017-10-18 Fixed bug#[13227](https://bugs.otrs.org/show_bug.cgi?id=13227) - Some notifications are untranslatable.

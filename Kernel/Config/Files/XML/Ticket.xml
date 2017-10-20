@@ -431,11 +431,11 @@
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::SearchIndex::FilterStopWords" Required="1" Valid="1">
-        <Description Translatable="1">Filter stop words from article search index, turned on by default. If turned off, search index will store unfiltered text.</Description>
+    <Setting Name="Ticket::SearchIndex::ForceUnfilteredStorage" Required="1" Valid="1">
+        <Description Translatable="1">Force the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow donwn fulltext searches.</Description>
         <Navigation>Core::Ticket::FulltextSearch</Navigation>
         <Value>
-            <Item ValueType="Checkbox">1</Item>
+            <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
     <Setting Name="Ticket::SearchIndex::WarnOnStopWordUsage" Required="1" Valid="1">

@@ -69,21 +69,21 @@ sub Run {
         #   this will mimic old search behavior.
         if ( $OTRS5Config{'Ticket::SearchIndexModule'} eq 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB' ) {
             my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-                Name   => 'Ticket::SearchIndex::FilterStopWords',
+                Name   => 'Ticket::SearchIndex::ForceUnfilteredStorage',
                 Force  => 1,
                 UserID => 1,
             );
 
             my %Result = $SysConfigObject->SettingUpdate(
-                Name              => 'Ticket::SearchIndex::FilterStopWords',
+                Name              => 'Ticket::SearchIndex::ForceUnfilteredStorage',
                 IsValid           => 1,
-                EffectiveValue    => 0,
+                EffectiveValue    => 1,
                 ExclusiveLockGUID => $ExclusiveLockGUID,
                 UserID            => 1,
             );
 
             if ( !$Result{Success} ) {
-                print "\n    Error: Unable to migrate Ticket::SearchIndex::FilterStopWords.\n\n";
+                print "\n    Error: Unable to migrate Ticket::SearchIndex::ForceUnfilteredStorage.\n\n";
                 return;
             }
         }

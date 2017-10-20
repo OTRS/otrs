@@ -80,7 +80,8 @@ sub ArticleSearchIndexBuild {
         return;
     }
 
-    my $FilterStopWords = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::FilterStopWords') // 1;
+    my $ForceUnfilteredStorage = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::ForceUnfilteredStorage')
+        // 0;
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -115,7 +116,7 @@ sub ArticleSearchIndexBuild {
     for my $FieldKey ( sort keys %ArticleSearchableContent ) {
 
         if (
-            $FilterStopWords
+            !$ForceUnfilteredStorage
             && $ArticleSearchableContent{$FieldKey}->{Filterable}
             )
         {
