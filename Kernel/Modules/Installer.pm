@@ -1063,11 +1063,11 @@ sub ReConfigure {
                 #   same goes for database hosts which can be like 'myserver\instance name' for MS SQL.
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $NewConfig =~
-                        s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
+                        s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
                 }
                 else {
                     $NewConfig =~
-                        s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
+                        s/(\$Self->\{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}";/g;
                 }
             }
             $Config .= $NewConfig;
@@ -1228,18 +1228,29 @@ sub CheckDBRequirements {
         my $MySQLInnoDBLogFileSizeMinimum     = 256;
         my $MySQLInnoDBLogFileSizeRecommended = 512;
 
-        my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'innodb_log_file_size'");
-        $MySQLInnoDBLogFileSize = $Data->[0]->[1] / 1024 / 1024;
+        # Default storage engine variable has changed its name in MySQL 5.5.3, we need to support both of them for now.
+        #   <= 5.5.2 storage_engine
+        #   >= 5.5.3 default_storage_engine
+        my $DataOld = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'storage_engine'");
+        my $DataNew = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'default_storage_engine'");
+        my $DefaultStorageEngine = ( $DataOld->[0] && $DataOld->[0]->[1] ? $DataOld->[0]->[1] : undef )
+            // ( $DataNew->[0] && $DataNew->[0]->[1] ? $DataNew->[0]->[1] : '' );
 
-        if ( $MySQLInnoDBLogFileSize < $MySQLInnoDBLogFileSizeMinimum ) {
-            $Result{Successful} = 0;
-            $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
-                "Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.",
-                $MySQLInnoDBLogFileSizeMinimum,
-                $MySQLInnoDBLogFileSize,
-                $MySQLInnoDBLogFileSizeRecommended,
-                'http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html',
-            );
+        if ( lc $DefaultStorageEngine eq 'innodb' ) {
+
+            my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'innodb_log_file_size'");
+            $MySQLInnoDBLogFileSize = $Data->[0]->[1] / 1024 / 1024;
+
+            if ( $MySQLInnoDBLogFileSize < $MySQLInnoDBLogFileSizeMinimum ) {
+                $Result{Successful} = 0;
+                $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
+                    "Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.",
+                    $MySQLInnoDBLogFileSizeMinimum,
+                    $MySQLInnoDBLogFileSize,
+                    $MySQLInnoDBLogFileSizeRecommended,
+                    'http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html',
+                );
+            }
         }
     }
 
