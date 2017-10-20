@@ -59,6 +59,7 @@ sub Run {
     my $Success = $Kernel::OM->Get('Kernel::System::SysConfig::Migration')->MigrateConfigEffectiveValues(
         FileClass => $FileClass,
         FilePath  => $FilePath,
+        NoOutput  => !$Verbose,
     );
 
     return $Success;
