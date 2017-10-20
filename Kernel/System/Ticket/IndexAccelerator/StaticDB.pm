@@ -561,7 +561,7 @@ sub TicketAcceleratorRebuild {
             SQL => '
                 INSERT INTO ticket_index
                     (ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                    VALUES (?, ?, ?, ?, ?, ?, ?)',
             Bind => [
                 \$Data{TicketID}, \$Data{QueueID}, \$Data{Queue}, \$Data{GroupID},
                 \$Data{Lock}, \$Data{State}, \$Data{CreateTime},
