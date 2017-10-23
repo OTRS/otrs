@@ -280,17 +280,23 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # Wait until page has completely loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
+
+        # Wait until input field object has completely loaded, if necessary.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.UI) == "object" && Core.UI.InputFields'
+        );
+
         # Verify updated FormDraft values.
         for my $FieldValue ( sort keys %{ $FormDraftCase->{Fields} } ) {
 
             my $ID           = $FormDraftCase->{Fields}->{$FieldValue}->{ID};
             my $UpdatedValue = $FormDraftCase->{Fields}->{$FieldValue}->{Update};
-
-            # Wait until input field has loaded, if necessary.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#$ID').length && \$('#$ID').val() == '$UpdatedValue'"
-            );
 
             $Self->Is(
                 $Selenium->execute_script("return \$('#$ID').val()"),
@@ -307,7 +313,7 @@ $Selenium->RunTest(
         # Refresh screen.
         $Selenium->VerifiedRefresh();
 
-        # Delete draft
+        # Delete draft.
         $Selenium->find_element( ".FormDraftDelete", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript =>
