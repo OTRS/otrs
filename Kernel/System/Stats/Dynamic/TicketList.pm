@@ -1649,7 +1649,7 @@ sub _TicketAttributes {
 
         #PriorityID     => 'PriorityID',
         CustomerID => 'Customer ID',
-        Changed    => 'Last Changed',
+        Changed    => Translatable('Last Changed'),
         Created    => 'Created',
 
         CustomerUserID => 'Customer User',
