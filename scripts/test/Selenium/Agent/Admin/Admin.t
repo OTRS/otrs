@@ -150,8 +150,10 @@ $Selenium->RunTest(
         );
 
         # Wait until AdminACL gets class IsFavourite.
-        $Selenium->WaitFor( JavaScript =>
-                "return typeof(\$) === 'function' && \$('li[data-module=\"AdminACL\"]').hasClass('IsFavourite');" );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('li[data-module=\"AdminACL\"]').hasClass('IsFavourite');"
+        );
 
         # Remove AdminACL from favourites.
         $Selenium->execute_script(
@@ -167,7 +169,8 @@ $Selenium->RunTest(
         );
 
         $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.RemoveFromFavourites').length === 1;" );
+            JavaScript => "return typeof(\$) === 'function' && \$('.RemoveFromFavourites').length === 1;"
+        );
 
         # Removes AdminACL from favourites.
         $Selenium->execute_script(
@@ -175,8 +178,10 @@ $Selenium->RunTest(
         );
 
         # Wait until IsFavourite class is removed from AdminACL row.
-        $Selenium->WaitFor( JavaScript =>
-                "return typeof(\$) === 'function' && !\$('tr[data-module=\"AdminACL\"]').hasClass('IsFavourite');" );
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && !\$('tr[data-module=\"AdminACL\"]').hasClass('IsFavourite');"
+        );
 
         # Check if AddAsFavourite on list view has IsFavourite class, false is expected.
         $Self->True(
