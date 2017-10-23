@@ -25,7 +25,7 @@
                     <input type="text" id="FilterHistory" placeholder="[% Translate("Just start typing to filter...") | html %]" name="FilterHistory" value="" title="[% Translate("Filter for history items") | html %]">
                 </span>
                 <span class="FloatRight">
-                    <a href="" class="CallForAction" id="ExpandCollapseAll"><span><i class="fa fa-bars"></i> Expand/collapse all</span></a>
+                    <a href="" class="CallForAction" id="ExpandCollapseAll"><span><i class="fa fa-bars"></i>[% Translate("Expand/collapse all") | html %]</span></a>
                 </span>
             </div>
         </div>
