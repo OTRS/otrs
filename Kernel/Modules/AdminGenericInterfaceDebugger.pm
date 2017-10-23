@@ -232,7 +232,15 @@ sub _GetCommunicationDetails {
 
         INDEX:
         for my $Index ( 0 .. scalar( @{ $LogData->{Data} } ) + 1 ) {
+
             my $Data = $LogData->{Data}->[$Index]->{Data};
+
+            # remove entries with empty data hashes before JSON encoding
+            if ( !IsHashRefWithData( $LogData->{Data}->[$Index] ) ) {
+                delete $LogData->{Data}->[$Index];
+                next INDEX;
+            }
+
             next INDEX if !IsStringWithData($Data);
             next INDEX if substr( $Data, 0, 5 ) ne '<?xml';
 
@@ -241,13 +249,15 @@ sub _GetCommunicationDetails {
             eval {
                 $LintedXML = $XML->parse_string($Data)->serialize(1);
             };
+
             next INDEX if !$LintedXML;
 
             # Prevent double encoding of utf8 data.
             utf8::decode($LintedXML);
 
-            # If formatted xml differs from original version, add it to data.
             next INDEX if $LintedXML eq $Data;
+
+            # If formatted xml differs from original version, add it to data.
             splice @{ $LogData->{Data} }, $Index + 1, 0, {
                 Created    => $LogData->{Data}->[$Index]->{Created},
                 Data       => $LintedXML,
